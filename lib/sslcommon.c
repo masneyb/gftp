@@ -38,6 +38,9 @@ static gftp_config_vars config_vars[] =
    gftp_option_type_int, GINT_TO_POINTER(1024), NULL, 0, 
    N_("The maximum number of bytes to seed the SSL engine with"), 
    GFTP_PORT_ALL, 0},
+  {"verify_ssl_peer", N_("Verify SSL Peer"),
+  gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   N_("Verify SSL Peer"), GFTP_PORT_ALL, NULL},
 
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };  
@@ -270,8 +273,8 @@ _gftp_ssl_thread_setup (void)
 int
 gftp_ssl_startup (gftp_request * request)
 {
+  intptr_t entropy_len, verify_ssl_peer;
   char *entropy_source;
-  intptr_t entropy_len;
 
   if (gftp_ssl_initialized)
     return (0);
@@ -290,6 +293,7 @@ gftp_ssl_startup (gftp_request * request)
 
   SSL_load_error_strings (); 
 
+  gftp_lookup_request_option (request, "verify_ssl_peer", &verify_ssl_peer);
   gftp_lookup_request_option (request, "entropy_source", &entropy_source);
   gftp_lookup_request_option (request, "entropy_len", &entropy_len);
   RAND_load_file (entropy_source, entropy_len);
@@ -303,8 +307,12 @@ gftp_ssl_startup (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
-  SSL_CTX_set_verify (ctx, SSL_VERIFY_PEER, gftp_ssl_verify_callback);
-  SSL_CTX_set_verify_depth (ctx, 9);
+  if (verify_ssl_peer)
+    {
+      SSL_CTX_set_verify (ctx, SSL_VERIFY_PEER, gftp_ssl_verify_callback);
+      SSL_CTX_set_verify_depth (ctx, 9);
+    }
+
   SSL_CTX_set_options (ctx, SSL_OP_ALL|SSL_OP_NO_SSLv2);
 
   if (SSL_CTX_set_cipher_list (ctx, "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH") != 1)
@@ -321,6 +329,7 @@ gftp_ssl_startup (gftp_request * request)
 int
 gftp_ssl_session_setup (gftp_request * request)
 {
+  intptr_t verify_ssl_peer;
   BIO * bio;
   long ret;
 
@@ -370,7 +379,10 @@ gftp_ssl_session_setup (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
-  if ((ret = gftp_ssl_post_connection_check (request)) != X509_V_OK)
+  gftp_lookup_request_option (request, "verify_ssl_peer", &verify_ssl_peer);
+
+  if (verify_ssl_peer && 
+      (ret = gftp_ssl_post_connection_check (request)) != X509_V_OK)
     {
       if (ret != X509_V_ERR_APPLICATION_VERIFICATION)
         request->logging_function (gftp_logging_error, request,
