@@ -1293,7 +1293,7 @@ update_file_status (gftp_transfer * tdata)
 {
   char totstr[100], dlstr[100], gotstr[50], ofstr[50];
   int hours, mins, secs, pcent, st;
-  off_t remaining_secs;
+  unsigned long remaining_secs, lkbs;
   gftp_file * tempfle;
   struct timeval tv;
 
@@ -1303,8 +1303,10 @@ update_file_status (gftp_transfer * tdata)
   gettimeofday (&tv, NULL);
 
   remaining_secs = (tdata->total_bytes - tdata->trans_bytes - tdata->resumed_bytes) / 1024;
-  if (tdata->kbs > 0)
-    remaining_secs /= (off_t) tdata->kbs;
+
+  lkbs = (unsigned long) tdata->kbs;
+  if (lkbs > 0)
+    remaining_secs /= lkbs;
 
   hours = remaining_secs / 3600;
   remaining_secs -= hours * 3600;
@@ -1318,8 +1320,9 @@ update_file_status (gftp_transfer * tdata)
       return;
     }
 
-  pcent = (int) ((double) (tdata->trans_bytes + tdata->resumed_bytes) / (double) tdata->total_bytes * 100.0);
-  if (pcent < 0 || pcent > 100)
+  if ((double) tdata->total_bytes > 0)
+    pcent = (int) ((double) (tdata->trans_bytes + tdata->resumed_bytes) / (double) tdata->total_bytes * 100.0);
+  else
     pcent = 0;
 
   g_snprintf (totstr, sizeof (totstr),
@@ -1338,8 +1341,10 @@ update_file_status (gftp_transfer * tdata)
           if (tdata->curfle->next != NULL)
             {
               remaining_secs = (tempfle->size - tdata->curtrans - tdata->curresumed) / 1024;
-              if (tdata->kbs > 0)
-                remaining_secs /= (off_t) tdata->kbs;
+
+              lkbs = (unsigned long) tdata->kbs;
+              if (lkbs > 0)
+                remaining_secs /= lkbs;
 
               hours = remaining_secs / 3600;
               remaining_secs -= hours * 3600;
