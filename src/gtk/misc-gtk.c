@@ -1229,6 +1229,8 @@ signal_handler (int signo)
 
   if (use_jmp_environment)
     siglongjmp (jmp_environment, signo == SIGINT ? 1 : 2);
+  else if (signo == SIGINT)
+    exit (1);
 }
 
 

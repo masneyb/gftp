@@ -205,7 +205,7 @@ getdir_thread (void * data)
 
   request->user_data = NULL;
   if (request->use_threads)
-    use_jmp_environment = 1;
+    use_jmp_environment = 0;
 
   request->stopable = 0;
   if (request->wakeup_main_thread[1] > 0)

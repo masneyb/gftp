@@ -1,3 +1,9 @@
+2002-10-30 Brian Masney <masneyb@gftp.org>
+	* src/gtk/transfer.c (getdir_thread) - set use_jmp_environment to 0		instead of 1
+
+	* src/gtk/misc-gtk.c (signal_handler) - if use_jmp_environment is 0,
+	and SIGINT is received, terminate the program
+
 2002-10-29 Brian Masney <masneyb@gftp.org>
 	* src/gtk/chmod_dialog.c src/gtk/delete_dialog.c src/gtk/gftp-gtk.c 
 	src/gtk/gftp-gtk.h src/gtk/menu-items.c src/gtk/misc-gtk.c 
