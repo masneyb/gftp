@@ -28,6 +28,26 @@ volatile sig_atomic_t gftpui_common_child_process_done = 0;
 gftp_logging_func gftpui_common_logfunc;
 
 
+static int
+_gftpui_cb_connect (gftpui_callback_data * cdata)
+{
+  if (cdata->connect_function != NULL)
+    return (cdata->connect_function (cdata));
+  else
+    return (gftp_connect (cdata->request));
+}
+
+
+static void
+_gftpui_cb_disconnect (gftpui_callback_data * cdata)
+{
+  if (cdata->connect_function != NULL)
+    cdata->disconnect_function (cdata);
+  else
+    gftp_disconnect (cdata->request);
+}
+
+
 static void *
 _gftpui_common_thread_callback (void * data)
 { 
@@ -58,7 +78,7 @@ _gftpui_common_thread_callback (void * data)
           if (success == GFTP_ETIMEDOUT && num_timeouts == 0)
             {
               num_timeouts++;
-              if (gftp_connect (cdata->request) == 0)
+              if (_gftpui_cb_connect (cdata) == 0)
                 continue;
             }
 
@@ -75,6 +95,7 @@ _gftpui_common_thread_callback (void * data)
     }
   else
     {
+      _gftpui_cb_disconnect (cdata);
       gftp_disconnect (cdata->request);
       cdata->request->logging_function (gftp_logging_error, cdata->request,
                                         _("Operation canceled\n"));

@@ -1,4 +1,10 @@
 2004-7-24 Brian Masney <masneyb@gftp.org>
+	* src/uicommon/gftpui.c src/uicommon/gftpui.h - added support for
+	a custom connect and disconnect function in the thread callback
+
+	* lib/local.c (local_connect) - don't step on request->directory if
+	it is already set to the current working directory
+
 	* lib/protocols.c (gftp_get_all_subdirs) - if there is an error in the
 	protocol function, make sure the error code is returned as is. This is
 	so that timeouts can be detected properly

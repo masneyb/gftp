@@ -59,8 +59,12 @@ local_connect (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
 
-  if (request->directory)
+  if (request->directory != NULL)
     {
+      if (getcwd (tempstr, sizeof (tempstr)) != NULL &&
+          strcmp (tempstr, request->directory) == 0)
+        return (0);
+
       if (chdir (request->directory) != 0)
         {
           request->logging_function (gftp_logging_error, request,
