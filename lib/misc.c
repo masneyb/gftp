@@ -22,7 +22,33 @@ static const char cvsid[] = "$Id$";
 #include "gftp.h"
 #include "options.h"
 
-/* FIXME - this isn't right for all locales. Use glib's printf instead */
+#ifdef _GNU_SOURCE
+
+char *
+insert_commas (off_t number, char *dest_str, size_t dest_len)
+{
+  if (dest_str != NULL)
+    {
+#if defined (_LARGEFILE_SOURCE)
+      g_snprintf (dest_str, dest_len, "%'lld", number);
+#else
+      g_snprintf (dest_str, dest_len, "%'ld", number);
+#endif
+    }
+  else
+    {
+#if defined (_LARGEFILE_SOURCE)
+      dest_str = g_strdup_printf ("%'lld", number);
+#else
+      dest_str = g_strdup_printf ("%'ld", number);
+#endif
+    }
+
+  return (dest_str);
+}
+
+#else
+
 char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
@@ -92,6 +118,7 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   return (dest);
 }
 
+#endif
 
 char *
 alltrim (char *str)
@@ -355,6 +382,10 @@ gftp_info (void)
   int i;
 
   printf ("%s\n", gftp_version);
+
+#ifdef _GNU_SOURCE
+  printf ("#define _GNU_SOURCE\n");
+#endif
 
 #ifdef _LARGEFILE_SOURCE
   printf ("#define _LARGEFILE_SOURCE\n");

@@ -1,4 +1,9 @@
 2003-10-17 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (insert_commas) - if _GNU_SOURCE is defined, instead of
+	using my builtin function for formatting numbers, use glibc's %'ld
+	(or %'lld) format to print the numbers out. This is more portable for
+	other locales.
+
 	* lib/rfc959.c (rfc959_ipv[46]_data_connection_new) - when there is an
 	error establishing a connection to the remote server, make sure that
 	GFTP_ERETRYABLE is returned.
