@@ -50,10 +50,10 @@ typedef struct _gftpui_common_methods
 {
   char *command;
   int minlen;
-  int (*func)(void *uidata, gftp_request * request, char *command);
+  int (*func)(void *uidata, gftp_request * request, const char *command);
   gftpui_common_request_type reqtype;
   char *cmd_description;
-  int (*subhelp_func) (char *topic);
+  int (*subhelp_func) (const char *topic);
 } gftpui_common_methods;
 
 typedef struct _gftpui_common_curtrans_data
@@ -80,27 +80,29 @@ extern sigjmp_buf gftpui_common_jmp_environment;
 extern volatile int gftpui_common_use_jmp_environment;
 extern gftpui_common_methods gftpui_common_commands[];
 extern GStaticMutex gftpui_common_transfer_mutex;
+extern volatile sig_atomic_t gftpui_common_child_process_done;
 
 /* gftpui.c */
 int gftpui_run_callback_function	( gftpui_callback_data * cdata );
 
 int gftpui_common_run_callback_function ( gftpui_callback_data * cdata );
 
-RETSIGTYPE gftpui_common_signal_handler ( int signo );
+void gftpui_common_init 		( int *argc,
+					  char ***argv,
+					  gftp_logging_func logfunc );
 
 void gftpui_common_about 		( gftp_logging_func logging_function,
 					  gpointer logdata );
 
-int gftpui_common_init			( void *locui,
+int gftpui_common_process_command 	( void *locui,
 					  gftp_request * locreq,
 					  void *remui,
-					  gftp_request * remreq );
-
-int gftpui_common_process_command 	( const char *command );
+					  gftp_request * remreq,
+					  const char *command );
 
 int gftpui_common_cmd_open 		( void *uidata,
 					  gftp_request * request,
-					  char *command );
+					  const char *command );
 
 gftp_transfer * gftpui_common_add_file_transfer ( gftp_request * fromreq,
 						  gftp_request * toreq,

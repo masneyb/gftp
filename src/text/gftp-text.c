@@ -39,12 +39,6 @@ gftp_text_get_win_size (void)
 
 
 void
-sig_child (int signo)
-{
-}
-
-
-void
 gftp_text_log (gftp_logging_level level, gftp_request * request, 
                const char *string, ...)
 {
@@ -191,15 +185,7 @@ main (int argc, char **argv)
   char tempstr[512];
 #endif
 
-  gftp_locale_init ();
-
-  signal (SIGCHLD, sig_child);
-  signal (SIGPIPE, SIG_IGN); 
-
-  gftp_read_config_file (SHARE_DIR);
-
-  if (gftp_parse_command_line (&argc, &argv) != 0)
-    exit (0);
+  gftpui_common_init (&argc, &argv, gftp_text_log);
 
   /* SSH doesn't support reading the password with askpass via the command 
      line */
@@ -248,14 +234,12 @@ main (int argc, char **argv)
     gftp_text_open (gftp_text_remreq, argv[1], NULL);
 */
 
-  gftpui_common_init (NULL, gftp_text_locreq,
-                      NULL, gftp_text_remreq);
-
 #if HAVE_LIBREADLINE
   g_snprintf (prompt, sizeof (prompt), "%sftp%s> ", GFTPUI_COMMON_COLOR_BLUE, GFTPUI_COMMON_COLOR_DEFAULT);
   while ((tempstr = readline (prompt)))
     {
-      if (gftpui_common_process_command (tempstr) == 0)
+      if (gftpui_common_process_command (NULL, gftp_text_locreq,
+                                         NULL, gftp_text_remreq, tempstr) == 0)
         break;
    
       add_history (tempstr);

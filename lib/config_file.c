@@ -1249,7 +1249,7 @@ gftp_option_type_var gftp_option_types[] = {
 
 
 void
-gftp_lookup_global_option (char * key, void *value)
+gftp_lookup_global_option (const char * key, void *value)
 {
   gftp_config_list_vars * tmplistvar;
   gftp_config_vars * tmpconfigvar;
@@ -1270,7 +1270,8 @@ gftp_lookup_global_option (char * key, void *value)
 
 
 void
-gftp_lookup_request_option (gftp_request * request, char * key, void *value)
+gftp_lookup_request_option (gftp_request * request, const char * key,
+                            void *value)
 {
   gftp_config_vars * tmpconfigvar;
 
@@ -1284,7 +1285,8 @@ gftp_lookup_request_option (gftp_request * request, char * key, void *value)
 
 
 void
-gftp_lookup_bookmark_option (gftp_bookmarks_var * bm, char * key, void *value)
+gftp_lookup_bookmark_option (gftp_bookmarks_var * bm, const char * key,
+                             void *value)
 {
   gftp_config_vars * tmpconfigvar;
 
@@ -1298,7 +1300,7 @@ gftp_lookup_bookmark_option (gftp_bookmarks_var * bm, char * key, void *value)
 
 
 void
-gftp_set_global_option (char * key, const void *value)
+gftp_set_global_option (const char * key, const void *value)
 {
   gftp_config_vars * tmpconfigvar, newconfigvar;
   void *nc_ptr;
@@ -1348,7 +1350,8 @@ _gftp_set_option_value (gftp_config_vars * cv, const void * newval)
 
 
 void
-gftp_set_request_option (gftp_request * request, char * key, const void *value)
+gftp_set_request_option (gftp_request * request, const char * key,
+                         const void *value)
 {
   gftp_config_vars * tmpconfigvar;
 
@@ -1382,7 +1385,8 @@ gftp_set_request_option (gftp_request * request, char * key, const void *value)
 
 
 void
-gftp_set_bookmark_option (gftp_bookmarks_var * bm, char * key, const void *value)
+gftp_set_bookmark_option (gftp_bookmarks_var * bm, const char * key,
+                          const void *value)
 {
   gftp_config_vars * tmpconfigvar, newconfigvar;
   int ret;

@@ -124,18 +124,86 @@ destroy (GtkWidget * widget, gpointer data)
 }
 
 
-static RETSIGTYPE
-sig_child (int signo)
-{
-  viewedit_process_done = 1;
-}
-
-
 static void
 menu_exit (GtkWidget * widget, gpointer data)
 {
   if (!delete_event (widget, NULL, data))
     doexit (widget, data);
+}
+
+
+static void
+change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
+{
+  switch (menuitem)
+    {
+    case 1:
+      gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(1));
+      break;
+    case 2:
+      gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(0));
+      break;
+    case 3:
+      current_wdata = &window1;
+      other_wdata = &window2;
+      if (wdata->request)
+        update_window_info ();
+      break;
+    case 4:
+      current_wdata = &window2;
+      other_wdata = &window1;
+      if (wdata->request)
+        update_window_info ();
+      break;
+    }
+}
+
+
+static void
+_gftpui_gtk_do_openurl (gftp_window_data * wdata, gftp_dialog_data * ddata)
+{
+  const char *str;
+
+  str = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
+  if (str != NULL && *str != '\0')
+    gftpui_common_cmd_open (wdata, wdata->request, str);
+}
+
+
+static void
+openurl_dialog (gpointer data)
+{
+  gftp_window_data * wdata;
+
+  wdata = data;
+  MakeEditDialog (_("Connect via URL"), _("Enter a URL to connect to"),
+                  NULL, 1, NULL, gftp_dialog_button_connect,
+                  _gftpui_gtk_do_openurl, wdata,
+                  NULL, NULL);
+}
+
+
+static void
+tb_openurl_dialog (gpointer data)
+{
+  const char *edttxt;
+
+  if (current_wdata->request->stopable)
+    {
+      ftp_log (gftp_logging_misc, NULL,
+               _("%s: Please hit the stop button first to do anything else\n"),
+               _("OpenURL"));
+      return;
+    }
+
+  edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry));
+
+  if (GFTP_IS_CONNECTED (current_wdata->request))
+    disconnect (current_wdata);
+  else if (edttxt != NULL && *edttxt != '\0')
+    toolbar_hostedit (NULL, NULL);
+  else
+    openurl_dialog (current_wdata);
 }
 
 
@@ -1137,28 +1205,21 @@ main (int argc, char **argv)
   char *startup_directory;
   GtkWidget *window, *ui;
 
-  gftp_locale_init ();
+  gftpui_common_init (&argc, &argv, ftp_log);
+
   g_thread_init (NULL);
   main_thread_id = pthread_self ();
   gtk_set_locale ();
   gtk_init (&argc, &argv);
 
-  signal (SIGCHLD, sig_child);
-  signal (SIGPIPE, SIG_IGN);
-  signal (SIGALRM, gftpui_common_signal_handler);
-  signal (SIGINT, gftpui_common_signal_handler);
-
-  graphic_hash_table = g_hash_table_new (string_hash_function, string_hash_compare);
+  graphic_hash_table = g_hash_table_new (string_hash_function,
+                                         string_hash_compare);
  
   /* We override the read color functions because we are using a GdkColor 
      structures to store the color. If I put this in lib/config_file.c, then 
      the core library would be dependant on Gtk+ being present */
   gftp_option_types[gftp_option_type_color].read_function = gftp_gtk_config_file_read_color;
   gftp_option_types[gftp_option_type_color].write_function = gftp_gtk_config_file_write_color;
-
-  gftp_read_config_file (SHARE_DIR);
-  if (gftp_parse_command_line (&argc, &argv) != 0)
-    exit (0);
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_signal_connect (GTK_OBJECT (window), "delete_event",
@@ -1204,15 +1265,14 @@ main (int argc, char **argv)
   sortrows (GTK_CLIST (window2.listbox), -1, &window2);
 
   init_gftp (argc, argv, window);
-  gftpui_common_init (&window1, window1.request,
-                      &window2, window2.request);
-
 
   GDK_THREADS_ENTER ();
   gtk_main ();
   GDK_THREADS_LEAVE ();
+
   return (0);
 }
+
 
 void
 gftpui_show_or_hide_command (void)

@@ -36,7 +36,8 @@ gftpui_run_command (GtkWidget * widget, gpointer data)
   const char *txt;
 
   txt = gtk_entry_get_text (GTK_ENTRY (gftpui_command_widget));
-  gftpui_common_process_command (txt);
+  gftpui_common_process_command (&window1, window1.request,
+                                 &window2, window2.request, txt);
   gtk_entry_set_text (GTK_ENTRY (gftpui_command_widget), "");
 }
 
@@ -245,33 +246,6 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
     disconnect (wdata);
 
   return (ret);
-}
-
-
-void
-gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
-                             char *filepos)
-{
-  gftpui_common_curtrans_data * transdata;
-  gftp_file * fle;
-  char *text[2];
-
-  fle = curfle->data;
-  text[0] = filepos;
-  if (fle->transfer_action == GFTP_TRANS_ACTION_SKIP)
-    text[1] = _("Skipped");
-  else
-    text[1] = _("Waiting...");
-
-  fle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),
-                                          tdata->user_data, NULL, text, 5,
-                                          NULL, NULL, NULL, NULL,
-                                          FALSE, FALSE);
-  transdata = g_malloc (sizeof (*transdata));
-  transdata->transfer = tdata;
-  transdata->curfle = curfle;
-
-  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), fle->user_data, transdata);
 }
 
 

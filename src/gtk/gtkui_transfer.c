@@ -20,8 +20,36 @@
 #include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
+
+void
+gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
+                             char *filepos)
+{
+  gftpui_common_curtrans_data * transdata;
+  gftp_file * fle;
+  char *text[2];
+
+  fle = curfle->data;
+  text[0] = filepos;
+  if (fle->transfer_action == GFTP_TRANS_ACTION_SKIP)
+    text[1] = _("Skipped");
+  else
+    text[1] = _("Waiting...");
+
+  fle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),
+                                          tdata->user_data, NULL, text, 5,
+                                          NULL, NULL, NULL, NULL,
+                                          FALSE, FALSE);
+  transdata = g_malloc (sizeof (*transdata));
+  transdata->transfer = tdata;
+  transdata->curfle = curfle;
+
+  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), fle->user_data, transdata);
+}
+
+
 static void
-trans_selectall (GtkWidget * widget, gpointer data)
+gftpui_gtk_trans_selectall (GtkWidget * widget, gpointer data)
 {
   gftp_transfer * tdata;
   tdata = data;
@@ -31,7 +59,7 @@ trans_selectall (GtkWidget * widget, gpointer data)
 
 
 static void
-trans_unselectall (GtkWidget * widget, gpointer data)
+gftpui_gtk_trans_unselectall (GtkWidget * widget, gpointer data)
 {
   gftp_transfer * tdata;
   tdata = data;
@@ -41,14 +69,15 @@ trans_unselectall (GtkWidget * widget, gpointer data)
 
 
 static void
-overwrite (GtkWidget * widget, gpointer data)
+gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
+                       int transfer_action)
 {
   GList * templist, * filelist;
-  gftp_transfer * tdata;
   gftp_file * tempfle;
   int curpos;
 
-  tdata = data;
+  g_static_mutex_lock (&tdata->structmutex);
+
   curpos = 0;
   filelist = tdata->files;
   templist = GTK_CLIST (tdata->clist)->selection;
@@ -56,58 +85,37 @@ overwrite (GtkWidget * widget, gpointer data)
     {
       templist = get_next_selection (templist, &filelist, &curpos);
       tempfle = filelist->data;
-      tempfle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
-      gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, _("Overwrite"));
+      tempfle->transfer_action = transfer_action;
+      gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, transfer_str);
     }
+
+  g_static_mutex_unlock (&tdata->structmutex);
 }
 
 
 static void
-resume (GtkWidget * widget, gpointer data)
+gftpui_gtk_overwrite (GtkWidget * widget, gpointer data)
 {
-  GList * templist, * filelist;
-  gftp_transfer * tdata;
-  gftp_file * tempfle;
-  int curpos;
-
-  tdata = data;
-  curpos = 0;
-  filelist = tdata->files;
-  templist = GTK_CLIST (tdata->clist)->selection;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &curpos);
-      tempfle = filelist->data;
-      tempfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
-      gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, _("Resume"));
-    }
+  gftpui_gtk_set_action (data, _("Overwrite"), GFTP_TRANS_ACTION_OVERWRITE);
 }
 
 
 static void
-skip (GtkWidget * widget, gpointer data)
+gftpui_gtk_resume (GtkWidget * widget, gpointer data)
 {
-  GList * templist, * filelist;
-  gftp_transfer * tdata;
-  gftp_file * tempfle;
-  int curpos;
-
-  tdata = data;
-  curpos = 0;
-  filelist = tdata->files;
-  templist = GTK_CLIST (tdata->clist)->selection;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &curpos);
-      tempfle = filelist->data;
-      tempfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-      gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, _("Skip"));
-    }
+  gftpui_gtk_set_action (data, _("Resume"), GFTP_TRANS_ACTION_RESUME);
 }
 
 
 static void
-ok (GtkWidget * widget, gpointer data)
+gftpui_gtk_skip (GtkWidget * widget, gpointer data)
+{
+  gftpui_gtk_set_action (data, _("Skip"), GFTP_TRANS_ACTION_SKIP);
+}
+
+
+static void
+gftpui_gtk_ok (GtkWidget * widget, gpointer data)
 {
   gftp_transfer * tdata;
   gftp_file * tempfle;
@@ -122,19 +130,21 @@ ok (GtkWidget * widget, gpointer data)
         break;
     }
 
+  tdata->ready = 1;
   if (templist == NULL)
     {
       tdata->show = 0; 
-      tdata->ready = tdata->done = 1;
+      tdata->done = 1;
     }
   else
-    tdata->show = tdata->ready = 1;
+    tdata->show = 1;
+
   g_static_mutex_unlock (&tdata->structmutex);
 }
 
 
 static void
-cancel (GtkWidget * widget, gpointer data)
+gftpui_gtk_cancel (GtkWidget * widget, gpointer data)
 {
   gftp_transfer * tdata;
 
@@ -148,16 +158,17 @@ cancel (GtkWidget * widget, gpointer data)
 
 #if GTK_MAJOR_VERSION > 1
 static void
-transfer_action (GtkWidget * widget, gint response, gpointer user_data)
+gftpui_gtk_transfer_action (GtkWidget * widget, gint response,
+                            gpointer user_data)
 {
   switch (response)
     {
       case GTK_RESPONSE_OK:
-        ok (widget, user_data);
+        gftpui_gtk_ok (widget, user_data);
         gtk_widget_destroy (widget);
         break;
       case GTK_RESPONSE_CANCEL:
-        cancel (widget, user_data);
+        gftpui_gtk_cancel (widget, user_data);
         /* no break */
       default:
         gtk_widget_destroy (widget);
@@ -298,19 +309,19 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   tempwid = gtk_button_new_with_label (_("Overwrite"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (overwrite), (gpointer) tdata);
+		      GTK_SIGNAL_FUNC (gftpui_gtk_overwrite), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Resume"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (resume), (gpointer) tdata);
+		      GTK_SIGNAL_FUNC (gftpui_gtk_resume), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Skip File"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked", GTK_SIGNAL_FUNC (skip),
-		      (gpointer) tdata);
+  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
+                      GTK_SIGNAL_FUNC (gftpui_gtk_skip), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
   hbox = gtk_hbox_new (TRUE, 20);
@@ -320,13 +331,13 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   tempwid = gtk_button_new_with_label (_("Select All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (trans_selectall), (gpointer) tdata);
+		      GTK_SIGNAL_FUNC (gftpui_gtk_trans_selectall), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Deselect All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (trans_unselectall), (gpointer) tdata);
+		      GTK_SIGNAL_FUNC (gftpui_gtk_trans_unselectall), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
 #if GTK_MAJOR_VERSION == 1
@@ -334,8 +345,8 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked", GTK_SIGNAL_FUNC (ok),
-		      (gpointer) tdata);
+  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
+                      GTK_SIGNAL_FUNC (gftpui_gtk_ok), (gpointer) tdata);
   gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     GTK_OBJECT (dialog));
@@ -347,14 +358,14 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (cancel), (gpointer) tdata);
+		      GTK_SIGNAL_FUNC (gftpui_gtk_cancel), (gpointer) tdata);
   gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     GTK_OBJECT (dialog));
   gtk_widget_show (tempwid);
 #else
   g_signal_connect (GTK_OBJECT (dialog), "response",
-                    G_CALLBACK (transfer_action), (gpointer) tdata);
+                    G_CALLBACK (gftpui_gtk_transfer_action),(gpointer) tdata);
 #endif
 
   gtk_widget_show (dialog);

@@ -1,3 +1,31 @@
+2003-1-21 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/gftp.h - set the character string arguments to
+	const for the following functions: gftp_lookup_global_option(),
+	gftp_lookup_request_option(), gftp_lookup_bookmark_option(),
+	gftp_set_global_option(), gftp_set_request_option(),
+	gftp_set_bookmark_option()
+
+	* lib/misc.c lib/gftp.h - set the character string arguments to const
+	for the function gftp_match_filespec()
+
+	* src/gtk/gftp-gtk.c src/gtk/menu-items.c src/uicommon/gftpui.c - moved
+	more UI independant parts to the uicommon directory. Moved some GUI
+	specific functionality into gftp-gtk.c 
+
+	* src/text/gftp-text.c src/gtk/gftp-gtk.c src/uicommon/gftpui.c - pass
+	the local/remote uidata/request structures to process_command(). Removed
+	old function gftpui_common_init(). Added new gftpui_common_init() that
+	sets up common functionality for a port.
+
+	* src/gtk/gtkui.c src/gtk/gtkui_transfer.c - moved
+	gftpui_add_file_to_transfer() to gtkui_transfer.c 
+
+	* src/gtk/gtkui_transfer.c - cleaned up these functions some and made
+	them more modular
+
+	* src/uicommon/gftpui.c src/uicommon/gftpui.h - for all of the command
+	line functions, make the command argument a constant
+
 2003-1-18 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c lib/protocols.c lib/rfc2068.c lib/rfc959.c - if
 	_LARGEFILE_SOURCE is defined, explicitly cast the file sizes to

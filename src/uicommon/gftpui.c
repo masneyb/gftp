@@ -23,20 +23,9 @@ static const char cvsid[] = "$Id$";
 sigjmp_buf gftpui_common_jmp_environment;
 volatile int gftpui_common_use_jmp_environment = 0;
 
-static void *gftpui_common_local_uidata, *gftpui_common_remote_uidata;
-static gftp_request * gftpui_common_local_request,
-                    * gftpui_common_remote_request;
 GStaticMutex gftpui_common_transfer_mutex = G_STATIC_MUTEX_INIT;
-
-
-static gftp_logging_func
-_gftpui_common_log (gftp_request * request)
-{
-  if (request == NULL)
-    return (gftpui_common_local_request->logging_function);
-  else
-    return (request->logging_function);
-}
+volatile sig_atomic_t gftpui_common_child_process_done = 0;
+gftp_logging_func gftpui_common_logfunc;
 
 
 static void *
@@ -110,7 +99,7 @@ gftpui_common_run_callback_function (gftpui_callback_data * cdata)
 }
 
 
-RETSIGTYPE
+static RETSIGTYPE
 gftpui_common_signal_handler (int signo)
 {
   signal (signo, gftpui_common_signal_handler);
@@ -119,6 +108,31 @@ gftpui_common_signal_handler (int signo)
     siglongjmp (gftpui_common_jmp_environment, signo == SIGINT ? 1 : 2);
   else if (signo == SIGINT)
     exit (1);
+}
+
+
+static RETSIGTYPE
+gftpui_common_sig_child (int signo)
+{
+  gftpui_common_child_process_done = 1;
+}
+
+
+void
+gftpui_common_init (int *argc, char ***argv, gftp_logging_func logfunc)
+{
+  gftp_locale_init ();
+
+  signal (SIGCHLD, gftpui_common_sig_child);
+  signal (SIGPIPE, SIG_IGN);
+  signal (SIGALRM, gftpui_common_signal_handler);
+  signal (SIGINT, gftpui_common_signal_handler);
+
+  gftp_read_config_file (SHARE_DIR);
+  if (gftp_parse_command_line (argc, argv) != 0)
+    exit (0);
+
+  gftpui_common_logfunc = logfunc;
 }
 
 
@@ -139,16 +153,17 @@ gftpui_common_about (gftp_logging_func logging_function, gpointer logdata)
 
 
 static int
-gftpui_common_cmd_about (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_about (void *uidata, gftp_request * request,
+                         const char *command)
 {
-  gftpui_common_about (_gftpui_common_log (request),
-                       gftpui_common_local_request);
+  gftpui_common_about (gftpui_common_logfunc, NULL);
   return (1);
 }
 
 
 static int
-gftpui_common_cmd_ascii (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_ascii (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(1));
   return (1);
@@ -156,7 +171,8 @@ gftpui_common_cmd_ascii (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_binary (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_binary (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(0));
   return (1);
@@ -164,7 +180,8 @@ gftpui_common_cmd_binary (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_chmod (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_chmod (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftpui_callback_data * cdata;
   char *pos;
@@ -190,7 +207,7 @@ gftpui_common_cmd_chmod (void *uidata, gftp_request * request, char *command)
       cdata = g_malloc0 (sizeof (*cdata));
       cdata->request = request;
       cdata->uidata = uidata;
-      cdata->input_string = command;
+      cdata->input_string = (char *) command;
       cdata->source_string = pos;
       cdata->run_function = gftpui_common_run_chmod;
 
@@ -204,7 +221,8 @@ gftpui_common_cmd_chmod (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_rename (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_rename (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftpui_callback_data * cdata;
   char *pos;
@@ -229,7 +247,7 @@ gftpui_common_cmd_rename (void *uidata, gftp_request * request, char *command)
       cdata = g_malloc0 (sizeof (*cdata));
       cdata->request = request;
       cdata->uidata = uidata;
-      cdata->source_string = command;
+      cdata->source_string = (char *) command;
       cdata->input_string = pos;
       cdata->run_function = gftpui_common_run_rename;
 
@@ -243,7 +261,8 @@ gftpui_common_cmd_rename (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_delete (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_delete (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftpui_callback_data * cdata;
 
@@ -263,7 +282,7 @@ gftpui_common_cmd_delete (void *uidata, gftp_request * request, char *command)
       cdata = g_malloc0 (sizeof (*cdata));
       cdata->request = request;
       cdata->uidata = uidata;
-      cdata->input_string = command;
+      cdata->input_string = (char *) command;
       cdata->run_function = gftpui_common_run_delete;
 
       gftpui_common_run_callback_function (cdata);
@@ -276,7 +295,8 @@ gftpui_common_cmd_delete (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_rmdir (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_rmdir (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftpui_callback_data * cdata;
 
@@ -296,7 +316,7 @@ gftpui_common_cmd_rmdir (void *uidata, gftp_request * request, char *command)
       cdata = g_malloc0 (sizeof (*cdata));
       cdata->request = request;
       cdata->uidata = uidata;
-      cdata->input_string = command;
+      cdata->input_string = (char *) command;
       cdata->run_function = gftpui_common_run_rmdir;
 
       gftpui_common_run_callback_function (cdata);
@@ -309,7 +329,8 @@ gftpui_common_cmd_rmdir (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_site (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_site (void *uidata, gftp_request * request,
+                        const char *command)
 {
   gftpui_callback_data * cdata;
 
@@ -329,7 +350,7 @@ gftpui_common_cmd_site (void *uidata, gftp_request * request, char *command)
       cdata = g_malloc0 (sizeof (*cdata));
       cdata->request = request;
       cdata->uidata = uidata;
-      cdata->input_string = command;
+      cdata->input_string = (char *) command;
       cdata->run_function = gftpui_common_run_site;
 
       gftpui_common_run_callback_function (cdata);
@@ -342,7 +363,8 @@ gftpui_common_cmd_site (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_mkdir (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_mkdir (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftpui_callback_data * cdata;
 
@@ -362,7 +384,7 @@ gftpui_common_cmd_mkdir (void *uidata, gftp_request * request, char *command)
       cdata = g_malloc0 (sizeof (*cdata));
       cdata->request = request;
       cdata->uidata = uidata;
-      cdata->input_string = command;
+      cdata->input_string = (char *) command;
       cdata->run_function = gftpui_common_run_mkdir;
 
       gftpui_common_run_callback_function (cdata);
@@ -375,7 +397,8 @@ gftpui_common_cmd_mkdir (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_chdir (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_chdir (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftpui_callback_data * cdata;
   char *tempstr, *newdir = NULL;
@@ -414,7 +437,7 @@ gftpui_common_cmd_chdir (void *uidata, gftp_request * request, char *command)
   cdata = g_malloc0 (sizeof (*cdata));
   cdata->request = request;
   cdata->uidata = uidata;
-  cdata->input_string = newdir != NULL ? newdir : command;
+  cdata->input_string = newdir != NULL ? newdir : (char *) command;
   cdata->run_function = gftpui_common_run_chdir;
 
   gftpui_common_run_callback_function (cdata);
@@ -429,7 +452,8 @@ gftpui_common_cmd_chdir (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_close (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_close (void *uidata, gftp_request * request,
+                         const char *command)
 {
   gftp_disconnect (request);
   return (1);
@@ -437,7 +461,8 @@ gftpui_common_cmd_close (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_pwd (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_pwd (void *uidata, gftp_request * request,
+                       const char *command)
 {
   if (!GFTP_IS_CONNECTED (request))
     {
@@ -454,7 +479,8 @@ gftpui_common_cmd_pwd (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_quit (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_quit (void *uidata, gftp_request * request,
+                        const char *command)
 {
   gftp_shutdown();
 
@@ -463,16 +489,15 @@ gftpui_common_cmd_quit (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_clear (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_clear (void *uidata, gftp_request * request,
+                         const char *command)
 {
-  gftp_logging_func logfunc;
-
   if (strcasecmp (command, "cache") == 0)
     gftp_clear_cache_files ();
   else
     {
-      logfunc = _gftpui_common_log (request);
-      logfunc (gftp_logging_error, request, _("Invalid argument\n"));
+      gftpui_common_logfunc (gftp_logging_error, request,
+                             _("Invalid argument\n"));
     }
 
   return (1);
@@ -480,14 +505,12 @@ gftpui_common_cmd_clear (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_clear_show_subhelp (char *topic)
+gftpui_common_clear_show_subhelp (const char *topic)
 {
-  gftp_logging_func logfunc;
-
-  logfunc = gftpui_common_local_request->logging_function;
   if (strcmp (topic, "cache") == 0)
     {
-      logfunc (gftp_logging_misc, NULL, _("Clear the directory cache\n"));
+      gftpui_common_logfunc (gftp_logging_misc, NULL,
+                             _("Clear the directory cache\n"));
       return (1);
     }
 
@@ -496,15 +519,13 @@ gftpui_common_clear_show_subhelp (char *topic)
 
 
 static int
-gftpui_common_set_show_subhelp (char *topic)
+gftpui_common_set_show_subhelp (const char *topic)
 { 
-  gftp_logging_func logfunc;
   gftp_config_vars * cv;
     
-  logfunc = gftpui_common_local_request->logging_function;
   if ((cv = g_hash_table_lookup (gftp_global_options_htable, topic)) != NULL)
     {
-      logfunc (gftp_logging_misc, NULL, "%s\n", cv->comment);
+      gftpui_common_logfunc (gftp_logging_misc, NULL, "%s\n", cv->comment);
       return (1);
     }
 
@@ -513,7 +534,8 @@ gftpui_common_set_show_subhelp (char *topic)
 
 
 static int
-gftpui_common_cmd_ls (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_ls (void *uidata, gftp_request * request,
+                      const char *command)
 {
   char *startcolor, *endcolor, *tempstr;
   gftpui_callback_data * cdata;
@@ -530,7 +552,7 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request, char *command)
   cdata = g_malloc0 (sizeof (*cdata));
   cdata->request = request;
   cdata->uidata = uidata;
-  cdata->source_string = *command != '\0' ? command : NULL;
+  cdata->source_string = *command != '\0' ? (char *) command : NULL;
   cdata->run_function = gftpui_common_run_ls;
 
   gftpui_common_run_callback_function (cdata);
@@ -561,7 +583,8 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request, char *command)
 
 
 int
-gftpui_common_cmd_open (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_open (void *uidata, gftp_request * request,
+                        const char *command)
 {
   gftpui_callback_data * cdata;
   intptr_t retries;
@@ -626,16 +649,14 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_set (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_set (void *uidata, gftp_request * request,
+                       const char *command)
 {
   gftp_config_vars * cv, newcv;
-  gftp_logging_func logfunc;
   char *pos, *backpos;
   GList * templist;
   int i;
   
-  logfunc = _gftpui_common_log (request);
-
   if (command == NULL || *command == '\0')
     {
       for (templist = gftp_options_list;
@@ -663,8 +684,8 @@ gftpui_common_cmd_set (void *uidata, gftp_request * request, char *command)
     {
       if ((pos = strchr (command, '=')) == NULL)
         {
-          logfunc (gftp_logging_error, request,
-                   _("usage: set [variable = value]\n"));
+          gftpui_common_logfunc (gftp_logging_error, request,
+                                 _("usage: set [variable = value]\n"));
           return (1);
         }
       *pos = '\0';
@@ -677,15 +698,15 @@ gftpui_common_cmd_set (void *uidata, gftp_request * request, char *command)
 
       if ((cv = g_hash_table_lookup (gftp_global_options_htable, command)) == NULL)
         {
-          logfunc (gftp_logging_error, request,
-                   _("Error: Variable %s is not a valid configuration variable.\n"), command);
+          gftpui_common_logfunc (gftp_logging_error, request,
+                                 _("Error: Variable %s is not a valid configuration variable.\n"), command);
           return (1);
         }
 
       if (!(cv->ports_shown & GFTP_PORT_TEXT))
         {
-          logfunc (gftp_logging_error, request,
-                   _("Error: Variable %s is not available in the text port of gFTP\n"), command);
+          gftpui_common_logfunc (gftp_logging_error, request,
+                                 _("Error: Variable %s is not available in the text port of gFTP\n"), command);
           return (1);
         }
 
@@ -708,10 +729,12 @@ gftpui_common_cmd_set (void *uidata, gftp_request * request, char *command)
 
 
 static int
-gftpui_common_cmd_help (void *uidata, gftp_request * request, char *command)
+gftpui_common_cmd_help (void *uidata, gftp_request * request,
+                        const char *command)
 {
-  int i, j, ele, numrows, numcols = 6, handled, number_commands;
-  char *pos;
+  int i, j, ele, numrows, numcols = 6, handled, number_commands, cmdlen,
+      found;
+  const char *pos;
 
   for (number_commands=0;
        gftpui_common_commands[number_commands].command != NULL;
@@ -720,25 +743,21 @@ gftpui_common_cmd_help (void *uidata, gftp_request * request, char *command)
   if (command != NULL && *command != '\0')
     {
       for (pos = command; *pos != ' ' && *pos != '\0'; pos++);
-      if (*pos == ' ')
-        {
-          *pos++ = '\0';
-          if (*pos == '\0')
-            pos = NULL;
-        }
-      else
-        pos = NULL;
+      cmdlen = pos - command;
 
       for (i=0; gftpui_common_commands[i].command != NULL; i++)
         {
-          if (strcmp (gftpui_common_commands[i].command, command) == 0)
+          if (strncmp (gftpui_common_commands[i].command, command, cmdlen) == 0)
             break;
         }
 
       if (gftpui_common_commands[i].cmd_description != NULL)
         {
-          if (pos != NULL && gftpui_common_commands[i].subhelp_func != NULL)
-            handled = gftpui_common_commands[i].subhelp_func (pos);
+          found = 1;
+
+          if (*pos != '\0' && *(pos + 1) != '\0' &&
+              gftpui_common_commands[i].subhelp_func != NULL)
+            handled = gftpui_common_commands[i].subhelp_func (pos + 1);
           else
             handled = 0;
 
@@ -746,10 +765,12 @@ gftpui_common_cmd_help (void *uidata, gftp_request * request, char *command)
             printf ("%s\n", _(gftpui_common_commands[i].cmd_description));
         }
       else
-        *command = '\0';
+        found = 0;
     }
+  else
+    found = 0;
   
-  if (command == NULL || *command == '\0')
+  if (!found)
     {
       numrows = number_commands / numcols;
       if (number_commands % numcols != 0)
@@ -853,25 +874,13 @@ gftpui_common_methods gftpui_common_commands[] = {
 
 
 int
-gftpui_common_init (void *locui, gftp_request * locreq,
-                    void *remui, gftp_request * remreq)
+gftpui_common_process_command (void *locui, gftp_request * locreq,
+                               void *remui, gftp_request * remreq,
+                               const char *command)
 {
-  gftpui_common_local_uidata = locui;
-  gftpui_common_local_request = locreq;
-
-  gftpui_common_remote_uidata = remui;
-  gftpui_common_remote_request = remreq;
-
-  return (0);
-}
-
-
-int
-gftpui_common_process_command (const char *command)
-{
+  gftp_request * request;
   const char *stpos;
   char *pos, *newstr;
-  gftp_request * request;
   size_t cmdlen;
   void *uidata;
   int ret, i;
@@ -916,31 +925,30 @@ gftpui_common_process_command (const char *command)
   else
     pos = "";
   
+  if (gftpui_common_commands[i].reqtype == gftpui_common_request_local)
+    {
+      request = locreq;
+      uidata = locui;
+    }
+  else if (gftpui_common_commands[i].reqtype == gftpui_common_request_remote)
+    {
+      request = remreq;
+      uidata = remui;
+    }
+  else
+    {
+      request = NULL;
+      uidata = NULL;
+    }
+ 
   if (gftpui_common_commands[i].command != NULL)
     {
-      if (gftpui_common_commands[i].reqtype == gftpui_common_request_local)
-        {
-          request = gftpui_common_local_request;
-          uidata = gftpui_common_local_uidata;
-        }
-      else if (gftpui_common_commands[i].reqtype == gftpui_common_request_remote)
-        {
-          request = gftpui_common_remote_request;
-          uidata = gftpui_common_remote_uidata;
-        }
-      else
-        {
-          request = NULL;
-          uidata = NULL;
-        }
-     
       ret = gftpui_common_commands[i].func (uidata, request, pos);
     }
   else
     {
-      gftpui_common_local_request->logging_function (gftp_logging_error,
-                                       gftpui_common_local_request,
-                                       _("Error: Command not recognized\n"));
+      gftpui_common_logfunc (gftp_logging_error, request,
+                             _("Error: Command not recognized\n"));
       ret = 1;
     }
 

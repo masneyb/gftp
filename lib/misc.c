@@ -262,9 +262,10 @@ make_nonnull (char **str)
 
 /* FIXME - is there a replacement for this */
 int
-gftp_match_filespec (char *filename, char *filespec)
+gftp_match_filespec (const char *filename, const char *filespec)
 {
-  char *filepos, *wcpos, *pos, *newpos, search_str[20];
+  const char *filepos, *wcpos, *pos;
+  char search_str[20], *newpos;
   size_t len, curlen;
   
   if (filename == NULL || *filename == '\0' || 

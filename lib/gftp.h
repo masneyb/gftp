@@ -629,26 +629,26 @@ GHashTable * build_bookmarks_hash_table	( gftp_bookmarks_var * entry );
 
 void print_bookmarks 			( gftp_bookmarks_var * bookmarks );
 
-void gftp_lookup_global_option 		( char * key, 
+void gftp_lookup_global_option 		( const char * key, 
 					  void *value );
 
 void gftp_lookup_request_option 	( gftp_request * request, 
-					  char * key, 
+					  const char * key, 
 					  void *value );
 
 void gftp_lookup_bookmark_option 	( gftp_bookmarks_var * bm, 
-					  char * key, 
+					  const char * key, 
 					  void *value );
 
-void gftp_set_global_option 		( char * key, 
+void gftp_set_global_option 		( const char * key, 
 					  const void *value );
 
 void gftp_set_request_option 		( gftp_request * request, 
-					  char * key, 
+					  const char * key, 
 					  const void *value );
 
 void gftp_set_bookmark_option 		( gftp_bookmarks_var * bm,
-					  char * key, 
+					  const char * key, 
 					  const void *value );
 
 void gftp_register_config_vars 		( gftp_config_vars *config_vars );
@@ -679,8 +679,8 @@ char *expand_path 			( const char *src );
 
 void make_nonnull 			( char **str );
 
-int gftp_match_filespec 		( char *filename, 
-					  char *filespec );
+int gftp_match_filespec 		( const char *filename, 
+					  const char *filespec );
 
 int gftp_parse_command_line 		( int *argc,
 					  char ***argv );

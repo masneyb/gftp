@@ -265,14 +265,6 @@ int gftpui_run_chdir 				( gpointer uidata,
 void gftpui_chdir_dialog 			( gpointer data );
 
 /* menu_items.c */
-void change_setting 				( gftp_window_data *wdata,
-						  int menuitem,
-						  GtkWidget * checkmenu );
-
-void tb_openurl_dialog 				( gpointer data );
-
-void openurl_dialog 				( gpointer data );
-
 void disconnect 				( gpointer data );
 
 void change_filespec 				( gpointer data );
