@@ -122,7 +122,18 @@ gftpui_common_signal_handler (int signo)
 static RETSIGTYPE
 gftpui_common_sig_child (int signo)
 {
-  gftpui_common_child_process_done = 1;
+  int ret;
+
+  if (gftpui_common_child_process_done == -1)
+    {
+      /* Running from text port */
+      while (waitpid (-1, &ret, WNOHANG) > 0)
+        {
+          /* Nothing */
+        }
+    }
+  else
+    gftpui_common_child_process_done = 1;
 }
 
 
@@ -144,6 +155,7 @@ gftpui_common_init (int *argc, char ***argv, gftp_logging_func logfunc)
     exit (0);
 
   gftpui_common_logfunc = logfunc;
+  gftpui_common_child_process_done = -1;
 }
 
 

@@ -105,6 +105,9 @@ typedef struct sshv2_params_tag
 #define SSH_FXP_REALPATH           16
 #define SSH_FXP_STAT               17
 #define SSH_FXP_RENAME             18
+#define SSH_FXP_READLINK           19
+#define SSH_FXP_SYMLINK            20
+
 #define SSH_FXP_STATUS            101
 #define SSH_FXP_HANDLE            102
 #define SSH_FXP_DATA              103
@@ -118,6 +121,12 @@ typedef struct sshv2_params_tag
 #define SSH_FILEXFER_ATTR_PERMISSIONS   0x00000004
 #define SSH_FILEXFER_ATTR_ACMODTIME     0x00000008
 #define SSH_FILEXFER_ATTR_EXTENDED      0x80000000
+
+#define SSH_FILEXFER_TYPE_REGULAR          1
+#define SSH_FILEXFER_TYPE_DIRECTORY        2
+#define SSH_FILEXFER_TYPE_SYMLINK          3
+#define SSH_FILEXFER_TYPE_SPECIAL          4
+#define SSH_FILEXFER_TYPE_UNKNOWN          5
 
 #define SSH_FXF_READ            0x00000001
 #define SSH_FXF_WRITE           0x00000002
@@ -1162,11 +1171,91 @@ sshv2_list_files (gftp_request * request)
 
 
 static int
+sshv2_decode_file_attributes (gftp_request * request, sshv2_message * message,
+                              gftp_file * fle)
+{
+  gint32 attrs, hinum, num, count;
+  sshv2_params *params;
+  int i;
+
+  params = request->protocol_data;
+
+  if ((attrs = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+    return (attrs);
+
+  if (attrs & SSH_FILEXFER_ATTR_SIZE)
+    {
+      if ((hinum = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+        return (hinum);
+
+      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+        return (num);
+
+#if G_HAVE_GINT64
+      fle->size = (gint64) num | ((gint64) hinum >> 32);
+#else
+      fle->size = num;
+#endif
+    }
+
+  if (attrs & SSH_FILEXFER_ATTR_UIDGID)
+    {
+      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+        return (num);
+
+      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+        return (num);
+    }
+
+  if (attrs & SSH_FILEXFER_ATTR_PERMISSIONS)
+    {
+      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+        return (num);
+    }
+
+  if (attrs & SSH_FILEXFER_ATTR_ACMODTIME)
+    {
+      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+        return (num);
+
+      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+        return (num);
+
+      fle->datetime = num;
+    }
+
+  if (attrs & SSH_FILEXFER_ATTR_EXTENDED)
+    {
+      if ((count = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+        return (GFTP_EFATAL);
+
+      printf ("FIXME - file %d extended attributes\n", count);
+      for (i=0; i<count; i++)
+        {
+          if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0 ||
+              message->pos + num + 4 > message->end)
+            return (GFTP_EFATAL);
+
+          message->pos += num + 4;
+
+          if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0 ||
+              message->pos + num + 4 > message->end)
+            return (GFTP_EFATAL);
+       
+          message->pos += num + 4;
+        }
+    }
+
+  return (0);
+}
+
+
+static int
 sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
-  gint32 len, attrs, longnamelen;
-  int ret, i, count, retsize;
+  gint32 len, longnamelen;
   sshv2_params *params;
+  int ret, retsize;
   char *longname;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1238,63 +1327,6 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
         return (GFTP_EFATAL);
 
       longname = params->message.pos;
-      params->message.pos += longnamelen;
-
-      if ((attrs = sshv2_buffer_get_int32 (request, &params->message, -1)) < 0)
-        return (attrs);
-
-      if (attrs & SSH_FILEXFER_ATTR_SIZE)
-        {
-          params->message.pos += 8;
-          if (params->message.pos > params->message.end)
-            return (sshv2_wrong_response (request, &params->message));
-        }
-
-      if (attrs & SSH_FILEXFER_ATTR_UIDGID)
-        {
-          params->message.pos += 8;
-          if (params->message.pos > params->message.end)
-            return (sshv2_wrong_response (request, &params->message));
-        }
-
-      if (attrs & SSH_FILEXFER_ATTR_PERMISSIONS)
-        {
-          params->message.pos += 4;
-          if (params->message.pos > params->message.end)
-            return (sshv2_wrong_response (request, &params->message));
-        }
-
-      if (attrs & SSH_FILEXFER_ATTR_ACMODTIME)
-        {
-          params->message.pos += 8;
-          if (params->message.pos > params->message.end)
-            return (sshv2_wrong_response (request, &params->message));
-        }
-
-      if (attrs & SSH_FILEXFER_ATTR_EXTENDED)
-        {
-          if ((count = sshv2_buffer_get_int32 (request,
-                                               &params->message, -1)) < 0)
-            return (GFTP_EFATAL);
-
-          for (i=0; i<count; i++)
-            {
-              if ((len = sshv2_buffer_get_int32 (request, 
-                                                 &params->message, -1)) < 0 ||
-                  params->message.pos + len + 4 > params->message.end)
-                return (GFTP_EFATAL);
-
-              params->message.pos += len + 4;
-
-              if ((len = sshv2_buffer_get_int32 (request, 
-                                                 &params->message, -1)) < 0 ||
-                  params->message.pos + len + 4 > params->message.end)
-                return (GFTP_EFATAL);
-           
-              params->message.pos += len + 4;
-            }
-        }
-
       longname[longnamelen] = '\0';
 
       /* The commercial SSH2 puts a / and * after some entries */
@@ -1303,13 +1335,22 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       if (longname[longnamelen - 1] == '/')
         longname[--longnamelen] = '\0';
 
+      params->message.pos += longnamelen;
+
       if ((ret = gftp_parse_ls (request, longname, fle, 0)) < 0)
         {
           gftp_file_destroy (fle);
           return (ret);
         }
-      retsize = strlen (longname);
 
+      if ((ret = sshv2_decode_file_attributes (request, &params->message,
+                                               fle)) < 0)
+        {
+          gftp_file_destroy (fle);
+          return (ret);
+        }
+
+      retsize = strlen (longname);
       params->count--;
     }
   else if (ret == SSH_FXP_STATUS)
@@ -1634,10 +1675,11 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
 static off_t
 sshv2_get_file_size (gftp_request * request, const char *file)
 {
-  gint32 len, highnum, lownum, attrs;
   sshv2_message message;
+  gftp_file fle;
   char *tempstr;
   int serv_ret;
+  gint32 len;
   off_t ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1662,31 +1704,18 @@ sshv2_get_file_size (gftp_request * request, const char *file)
     return (GFTP_EFATAL);
 
   message.pos += 4;
-
-  if ((attrs = sshv2_buffer_get_int32 (request, &message, -1)) < 0)
-    return (GFTP_ERETRYABLE);
-
-  if (attrs & SSH_FILEXFER_ATTR_SIZE)
+  memset (&fle, 0, sizeof (fle));
+  if ((serv_ret = sshv2_decode_file_attributes (request, &message, &fle)) < 0)
     {
-      if ((highnum = sshv2_buffer_get_int32 (request, &message, -1)) < 0)
-        return (GFTP_ERETRYABLE);
-
-      if ((lownum = sshv2_buffer_get_int32 (request, &message, -1)) < 0)
-        return (GFTP_ERETRYABLE);
-
-      sshv2_message_free (&message);
-
-#if G_HAVE_GINT64
-      ret = (gint64) lownum | ((gint64) highnum >> 32);
-      return (ret);
-#else
-      return (lownum);
-#endif
+      gftp_file_destroy (&fle);
+      return (serv_ret);
     }
 
+  ret = fle.size;
+  gftp_file_destroy (&fle);
   sshv2_message_free (&message);
 
-  return (0);
+  return (ret);
 
 }
 
@@ -1863,7 +1892,10 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
       if ((num = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
         return (num);
       sshv2_message_free (&message);
-      if (num != SSH_FX_EOF)
+
+      if (num == SSH_FX_FAILURE)
+        return (GFTP_ERETRYABLE);
+      else if (num != SSH_FX_EOF)
         return (sshv2_wrong_response (request, &message));
 
       return (0);

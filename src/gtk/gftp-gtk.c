@@ -1226,6 +1226,7 @@ main (int argc, char **argv)
   gftp_option_types[gftp_option_type_color].write_function = gftp_gtk_config_file_write_color;
 
   gftpui_common_init (&argc, &argv, ftp_log);
+  gftpui_common_child_process_done = 0;
 
   g_thread_init (NULL);
 

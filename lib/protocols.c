@@ -2723,10 +2723,10 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 int
 gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
 {
-  int ret1, ret2;
   intptr_t retries, sleep_time;
   gftp_file * tempfle;
   struct timeval tv;
+  int ret1, ret2;
 
   ret1 = ret2 = 0;
   gftp_lookup_request_option (tdata->fromreq, "retries", &retries);
@@ -2783,7 +2783,12 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
             {
               tv.tv_sec = sleep_time;
               tv.tv_usec = 0;
-              select (0, NULL, NULL, NULL, &tv);
+
+              do
+                {
+                  ret1 = select (0, NULL, NULL, NULL, &tv);
+                }
+              while (ret1 == -1 && errno == EINTR);
             }
           else
             tdata->conn_error_no_timeout = 0;

@@ -1,4 +1,16 @@
 2004-7-12 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c - added sshv2_decode_file_attributes(). This is used
+	by sshv2_get_next_file() and sshv2_get_file_size().
+	(sshv2_get_next_file_chunk) - if the error SSH_FX_FAILURE was returned,
+	then do not return wrong message received from server to the user
+
+	* lib/protocols.c (gftp_get_transfer_status) - when there is a 
+	transfer error, make sure that an incoming signal does not
+	interrupt the timeout
+
+	* src/gtk/gftp-gtk.c src/uicommon/gftpui.c - make sure the SIGCHLD
+	signal handler reaps the zombies in the text port.
+
 	* docs/rfcs/* - added RFCs that are used by this program
 
 2004-7-11 Brian Masney <masneyb@gftp.org>
