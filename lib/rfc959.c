@@ -453,19 +453,28 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
     *endpos = '\0';
 
   tempstr = g_strconcat ("PORT ", pos, "\r\n", NULL);
-  g_free (tempstr);
   if (rfc959_send_command (toreq, tempstr) != '2')
-    return (-2);
+     {
+       g_free (tempstr);
+       return (-2);
+     }
+  g_free (tempstr);
 
   tempstr = g_strconcat ("RETR ", fromfile, "\r\n", NULL);
-  g_free (tempstr);
   if (write_to_socket (fromreq, tempstr) < 0)
-    return (-1);
+     {
+       g_free (tempstr);
+       return (-2);
+     }
+  g_free (tempstr);
 
   tempstr = g_strconcat ("STOR ", tofile, "\r\n", NULL);
-  g_free (tempstr);
   if (write_to_socket (toreq, tempstr) < 0)
-    return (-1);
+     {
+       g_free (tempstr);
+       return (-2);
+     }
+  g_free (tempstr);
 
   if (rfc959_read_response (fromreq) < 0)
     return (-2);
