@@ -1598,7 +1598,7 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
     newstr = gftp_build_path (request, request->directory, newname, NULL);
 
   oldlen = strlen (oldstr); 
-  newlen = strlen (newname); 
+  newlen = strlen (newstr); 
 
   len = oldlen + newlen + 12;
   tempstr = sshv2_initialize_string (request, len);
