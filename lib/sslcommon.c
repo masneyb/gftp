@@ -84,11 +84,16 @@ static int
 gftp_ssl_verify_callback (int ok, X509_STORE_CTX *store)
 {
   char issuer[256], subject[256];
+  intptr_t verify_ssl_peer;
   gftp_request * request;
   SSL * ssl;
 
   ssl = X509_STORE_CTX_get_ex_data (store, SSL_get_ex_data_X509_STORE_CTX_idx ());
   request = SSL_get_ex_data (ssl, gftp_ssl_get_index ());
+  gftp_lookup_request_option (request, "verify_ssl_peer", &verify_ssl_peer);
+
+  if (!verify_ssl_peer)
+    ok = 1;
 
   if (!ok)
     {
@@ -273,7 +278,7 @@ _gftp_ssl_thread_setup (void)
 int
 gftp_ssl_startup (gftp_request * request)
 {
-  intptr_t entropy_len, verify_ssl_peer;
+  intptr_t entropy_len;
   char *entropy_source;
 
   if (gftp_ssl_initialized)
@@ -293,7 +298,6 @@ gftp_ssl_startup (gftp_request * request)
 
   SSL_load_error_strings (); 
 
-  gftp_lookup_request_option (request, "verify_ssl_peer", &verify_ssl_peer);
   gftp_lookup_request_option (request, "entropy_source", &entropy_source);
   gftp_lookup_request_option (request, "entropy_len", &entropy_len);
   RAND_load_file (entropy_source, entropy_len);
@@ -307,11 +311,8 @@ gftp_ssl_startup (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
-  if (verify_ssl_peer)
-    {
-      SSL_CTX_set_verify (ctx, SSL_VERIFY_PEER, gftp_ssl_verify_callback);
-      SSL_CTX_set_verify_depth (ctx, 9);
-    }
+  SSL_CTX_set_verify (ctx, SSL_VERIFY_PEER, gftp_ssl_verify_callback);
+  SSL_CTX_set_verify_depth (ctx, 9);
 
   SSL_CTX_set_options (ctx, SSL_OP_ALL|SSL_OP_NO_SSLv2);
 

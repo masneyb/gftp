@@ -1,4 +1,7 @@
 2004-3-17 Brian Masney <masneyb@gftp.org>
+	* lib/sslcommon.c - fix so that the option verify_ssl_peer can be
+	toggled while gftp is running and on a per connection basis
+
 	* docs/gftp-faq.sgml - added SSL Issues section
 
 	* docs/sample.gftp/gftprc - updated config file that has all
@@ -416,14 +419,14 @@
 	* docs/gftp-faq.sgml - updated link to the (old) threaded version of
 	XFree86 libraries
 
-2004-12-29 Brian Masney <masneyb@gftp.org>
+2003-12-29 Brian Masney <masneyb@gftp.org>
 	* po/POTFILES.in - added the new uicommon files to this file
 
-2004-12-28 Brian Masney <masneyb@gftp.org>
+2003-12-28 Brian Masney <masneyb@gftp.org>
 	* src/gtk/gtkui.c src/text/textui.c - necessary UI related files for
 	each port of gftp. The uicommon code will call these functions.
 
-2004-12-28 Brian Masney <masneyb@gftp.org>
+2003-12-28 Brian Masney <masneyb@gftp.org>
 	**** NOTE: this commit breaks a lot of functionality in gftp. I ****
 	**** still have more work to do on this. Please don't email me  ****
 	**** saying that the CVS code is broken.                        ****
@@ -461,7 +464,7 @@
 	* src/gtk/options_dialog.c (apply_changes) - whenever the options are
 	saved, check to see if the command entry needs to be shown or hidden.
 
-2004-12-10 Brian Masney <masneyb@gftp.org>
+2003-12-10 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c - fix IPv6 compile problem when IPv6 support is not
 	available on the system.
 
@@ -478,7 +481,7 @@
 	* lib/rfc2068.c - set the default file attributes to -rw-r--r-- for
 	all files.
 
-2004-12-7 Brian Masney <masneyb@gftp.org>
+2003-12-7 Brian Masney <masneyb@gftp.org>
 	* lib/options.h lib/config_file.c - removed scramble_passwords
 	option. Instead, make this the default action all the time. This
 	is to avoid having too many unnecessary options. Also put a note
@@ -503,7 +506,7 @@
 	will be defined. The appropriate version of insert_commas() can be
 	used.
 
-2004-12-4 Brian Masney <masneyb@gftp.org>
+2003-12-4 Brian Masney <masneyb@gftp.org>
 	* src/gftp.in - check for the bin_dir for the binary location
 
 	* lib/cache.c lib/misc.c lib/protocols.c lib/rfc2068.c lib/rfc959.c 
@@ -525,7 +528,7 @@
 	* src/gtk/gftp-gtk.c (CreateToolbar) - on startup, have the host edit
 	box grab the keyboard focus
 
-2004-11-30 Brian Masney <masneyb@gftp.org>
+2003-11-30 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - cleaned up some of the code. Added a temporary fix for
 	an upload crash that is happening on FreeBSD. 
 
@@ -534,7 +537,7 @@
 
 	* lib/options.h - added show_trans_in_title option.
 	
-2004-11-25 Brian Masney <masneyb@gftp.org>
+2003-11-25 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (gftp_locale_init) - call bindtextdomain() so that the
 	directory is setup properly
 
@@ -542,7 +545,7 @@
 	config_file.c and declare it to be static. On the destination file,
 	set the flag O_EXCL
 
-2004-11-23 Brian Masney <masneyb@gftp.org>
+2003-11-23 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c - when transfering a file, if the file being
 	transfered is greater in the destination than in the source, overwrite
 	it
@@ -550,7 +553,7 @@
 	* lib/rfc959.c (rfc959_ipv6_data_connection_new) - when parsing the
 	output, parse the integers as unsigned.
 
-2004-11-9 Brian Masney <masneyb@gftp.org>
+2003-11-9 Brian Masney <masneyb@gftp.org>
 	* lib/options.h lib/protoocols.c - added enable_ipv6 option. 
 
 	* lib/rfc959.c lib/protocols.c - if there is an error creating a socket,
@@ -560,7 +563,7 @@
 	* debian/* - updated Debian package files from 
 	Aurelien Jarno <aurel32@debian.org>
 
-2004-11-9 Brian Masney <masneyb@gftp.org>
+2003-11-9 Brian Masney <masneyb@gftp.org>
 	* Officially released 2.0.16
 
 	* debian/ChangeLog - incremented version to 2.0.16
@@ -577,7 +580,7 @@
 
 	* ChangeLog-old - updated with brief list of changes since 2.0.15
 
-2004-11-7 Brian Masney <masneyb@gftp.org>
+2003-11-7 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/local.c lib/protocols.c lib/rfc2068.c lib/rfc959.c
 	lib/sshv2.c - added copy_param_options method to gftp_request
 	structure. When a gftp_request structure is copied, if a
@@ -595,7 +598,7 @@
 
 	* configure.in - added 'hr' to ALL_LINGUAS
 
-2004-11-5 Brian Masney <masneyb@gftp.org>
+2003-11-5 Brian Masney <masneyb@gftp.org>
 	* TODO - updated
 
 	* configure.in - updated version to 2.0.16.
@@ -614,7 +617,7 @@
 
 	* README - removed, this is automatically generated now.
 
-2004-11-3 Brian Masney <masneyb@gftp.org>
+2003-11-3 Brian Masney <masneyb@gftp.org>
 	* docs/gftp-faq.sgml docs/Makefile.am - added initial SGML version
 	of the gFTP FAQ. I used the same format as the GTK+ FAQ.
 
@@ -629,7 +632,7 @@
 	(transfer_done) - refresh the destination window correctly after a
 	transfer is completed.
 
-2004-11-2 Brian Masney <masneyb@gftp.org>
+2003-11-2 Brian Masney <masneyb@gftp.org>
 	* lib/rfc2068.c (rfc2068_get_file) - if there is any data in the current
 	read buffer, grab that data first. Otherwise, read from the socket.
 
@@ -659,7 +662,7 @@
 
 	* lib/gftp.h - remove gftp_transfer_type enum. It wasn't used anymore.
 	
-2004-10-27 Brian Masney <masneyb@gftp.org>
+2003-10-27 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c (gftp_get_next_file_chunk) - fixed ASCII file corruption
 	bug.
 
@@ -667,7 +670,7 @@
 	to be completed before 2.0.16 can be released. If I missed something
 	important, please drop me an email.
 
-2004-10-26 Brian Masney <masneyb@gftp.org>
+2003-10-26 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c (gftp_{get,put}_next_file_chunk) - check whether or not
 	this is an ascii file transfer properly.
 
@@ -686,7 +689,7 @@
 
 	* src/gtk/dnd.c - cleaned up the DND code some.
 
-2004-10-25 Brian Masney <masneyb@gftp.org>
+2003-10-25 Brian Masney <masneyb@gftp.org>
 	* src/gtk/menu-items.c (dosave_directory_listing) - when saving the
 	directory listing, skip over the files that are not shown based on the
 	current filespec.
@@ -709,10 +712,10 @@
 	* lib/local.c (local_get_next_file) - if the file is a symlink, grab
 	file size and attributes from the file this symlink points to.
 
-2004-10-22 Brian Masney <masneyb@gftp.org>
+2003-10-22 Brian Masney <masneyb@gftp.org>
 	* lib/rfc2068.c - fixed parsing some chunked file transfers
 
-2004-10-19 Brian Masney <masneyb@gftp.org>
+2003-10-19 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c - abort a file transfer properly. When a transfer is
 	aborted, you will not be disconnected from the remote site.
 
@@ -727,7 +730,7 @@
 	* src/gtk/misc-gtk.c (update_window_info) - when showing the directory
 	we are currently in, make sure it is converted to UTF8
 
-2004-10-18 Brian Masney <masneyb@gftp.org>
+2003-10-18 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c lib/gftp.h src/text/gftp-text.c src/gtk/gftp-gtk.c - added
 	gftp_locale_init().
 
@@ -741,16 +744,16 @@
 	(or %'lld) format to print the numbers out. This is more portable for
 	other locales.
 
-2004-10-17 Brian Masney <masneyb@gftp.org>
+2003-10-17 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c (rfc959_ipv[46]_data_connection_new) - when there is an
 	error establishing a connection to the remote server, make sure that
 	GFTP_ERETRYABLE is returned.
 
-2004-10-13 Brian Masney <masneyb@gftp.org>
+2003-10-13 Brian Masney <masneyb@gftp.org>
 	* src/gtk/options_dialog.c - when specifying a FTP proxy config in the 
 	GTK+ 2.0 port, the last character was getting chopped off.
 
-2004-10-12 Brian Masney <masneyb@gftp.org>
+2003-10-12 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c - when logging in to the server, if a 5xx code is 
 	returned, don't attempt to log in again.
 
@@ -760,18 +763,18 @@
 	* lib/sshv2.c - fixed crash when deleting subdirectories with the SSH2
 	protocol.
 
-2004-10-4 Brian Masney <masneyb@gftp.org>
+2003-10-4 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c - fix for CRAY directory listings. Some UNIX directory
 	listings with files containing spaces could be misinterpreted.
 
 	* cvsclean - purge the m4 directory, but save the largefile.m4 file.
 	(from Nathan Robertson <nathanr@nathanr.net>)
 
-2004-10-03  Marcel Telka  <marcel@telka.sk>
+2003-10-03  Marcel Telka  <marcel@telka.sk>
 
 	* configure.in (ALL_LINGUAS): Added sk.
 
-2004-10-2 Brian Masney <masneyb@gftp.org>
+2003-10-2 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c - fixed rename bug (from 
 	Aurelien Jarno <aurel32@debian.org>)
 
@@ -783,11 +786,11 @@
 	is moved, set the current transfer size back to 0. The user could
 	briefly (< 1 sec) see the old size transfered on the next file.
 	
-2004-09-23  Taneem Ahmed  <taneem@bengalinux.org>
+2003-09-23  Taneem Ahmed  <taneem@bengalinux.org>
 
 	* configure.in: Added "bn" to ALL_LINGUAS.
 
-2004-9-21 Brian Masney <masneyb@gftp.org>
+2003-9-21 Brian Masney <masneyb@gftp.org>
 	* src/gtk/menu-items.c (dosave_directory_listing) - fixed a bug that 
 	would occur when saving directory listings to a file, the last filename
 	in the list was never written to the file 
@@ -807,14 +810,14 @@
 	* lib/rfc959.c - if there is a login failure, return GFTP_ERETRYABLE
 	(from winkey <rush@winkey.oompah.org>)
 
-2004-09-01  Metin Amiroff  <metin@karegen.com>
+2003-09-01  Metin Amiroff  <metin@karegen.com>
 
 	configure.in: Added "az" in ALL_LINGUAS.
 
-2004-8-21 Brian Masney <masneyb@gftp.org>
+2003-8-21 Brian Masney <masneyb@gftp.org>
 	* Officially released 2.0.15
 
-2004-8-20 Brian Masney <masneyb@gftp.org>
+2003-8-20 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/protocols.c - largefile fixes
 
 	* configure.in debian/changelog - updated version
@@ -823,14 +826,14 @@
 	
 	* ChangeLog-old README TODO docs/website/index.html.in - updated
 
-2004-8-17 Brian Masney <masneyb@gftp.org>
+2003-8-17 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (parse_time) - when parsing timestamps that are not in
 	the current locale, skip over the proper amount of tokens. This is so
 	that the filename is returned properly.
 
 	* lib/misc.c (gftp_info) - show the protocols that are installed.
 
-2004-8-11 Brian Masney <masneyb@gftp.org>
+2003-8-11 Brian Masney <masneyb@gftp.org>
 	* lib/local.c (local_get_next_file) - fix for directories that are 
 	symlinks
 
@@ -850,14 +853,14 @@
 
 	* lib/cache.c (gftp_delete_cache_entry) - added assertion
 
-2004-8-7 Brian Masney <masneyb@gftp.org>
+2003-8-7 Brian Masney <masneyb@gftp.org>
 	* configure.in - HPUX fix
 
 	* debian/changelog - incremented version
 
 	* Officially release 2.0.15rc2
 
-2004-8-7 Brian Masney <masneyb@gftp.org>
+2003-8-7 Brian Masney <masneyb@gftp.org>
 	* lib/cache.c lib/misc.c lib/protocols.c lib/pty.c - make sure a NUL
 	byte appears at the end of the buffer after the call to strncpy
 
@@ -866,15 +869,15 @@
 	* lib/protocols.c (gftp_fd_write) - use a signed variable to store the
 	result from write(). Write errors were not being caught properly.
 
-2004-8-6 Brian Masney <masneyb@gftp.org>
+2003-8-6 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (gftp_build_path) - fixed initial path beginning with //.
 	(expand_path) - when the path is empty at the end, set it to /. This
 	would happen for directories like /etc/..
 
-2004-8-4 Brian Masney <masneyb@gftp.org>
+2003-8-4 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c (update_file_status) - fix possible division by 0
 
-2004-8-4 Brian Masney <masneyb@gftp.org>
+2003-8-4 Brian Masney <masneyb@gftp.org>
 	* src/gtk/gftp-gtk.c (CreateMenus) - on startup, select the proper
 	ASCII/binary radio button (looks like an old bug!)
 
@@ -885,7 +888,7 @@
 	* lib/protocols.c lib/sshv2.c src/gtk/dnd.c src/gtk/menu-items.c - 
 	instead of using g_build_path(), use gftp_build_path()
 
-2004-8-3 Brian Masney <masneyb@gftp.org>
+2003-8-3 Brian Masney <masneyb@gftp.org>
 	* lib/local.c (local_put_file) - specify an initial file creation mode
 	of 0644
 
@@ -899,7 +902,7 @@
 	gftp_transfer_file) - changed type of startsize paramter from size_t
 	to off_t
 
-2004-7-31 Brian Masney <masneyb@gftp.org>
+2003-7-31 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - fix blocking problem reading the error message from the
 	remote server when there was an error establishing a connection
 
@@ -917,28 +920,28 @@
 
 	* configure.in - increment version to 2.0.15rc2
 
-2004-07-30  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
+2003-07-30  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
 
 	* configure.in: Added Belarusian to ALL_LINGUAS.
 
-2004-7-29 Brian Masney <masneyb@gftp.org>
+2003-7-29 Brian Masney <masneyb@gftp.org>
 	* src/gtk/options_dialog.c - fix crash that would occur when hitting 
 	apply, then ok
 
-2004-7-25 Brian Masney <masneyb@gftp.org>
+2003-7-25 Brian Masney <masneyb@gftp.org>
 	* configure.in - define HAVE_OPENPTY if openpty() is found in libutil
 
 	* lib/gftp.h lib/pty.c - moved including of some PTY related header
 	files to pty.c. Hopefully should fix build problems under FreeBSD
 
-2004-7-25 Brian Masney <masneyb@gftp.org>
+2003-7-25 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c - changed looking up of overwrite_by_default to
 	overwrite_default
 
 	* src/text/gftp-text.h - fix for when the readline library was not 
 	found on the local system
 
-2004-7-25 Brian Masney <masneyb@gftp.org>
+2003-7-25 Brian Masney <masneyb@gftp.org>
         * lib/pty.c - prefer to use openpty() instead of grantpt() if it is
         available (for FreeBSD)
 
@@ -949,7 +952,7 @@
         __attribute__((format(printf, 3, 4))) to logging functions (from
         Oliver Lehmann <oliver@FreeBSD.ORG>)
 
-2004-7-25 Brian Masney <masneyb@gftp.org>
+2003-7-25 Brian Masney <masneyb@gftp.org>
 	* lib/pty.c - prefer to use openpty() instead of grantpt() if it is
 	available (for FreeBSD)
 
@@ -960,7 +963,7 @@
 	__attribute__((format(printf, 3, 4))) to logging functions (from
 	Oliver Lehmann <oliver@FreeBSD.ORG>)
 
-2004-7-23 Brian Masney <masneyb@gftp.org>
+2003-7-23 Brian Masney <masneyb@gftp.org>
 	* TODO - updated
 
 	* debian/* - new files from the Debian maintainer
@@ -970,7 +973,7 @@
 
 	* po/*.po - updated line numbers
 
-2004-7-23 Brian Masney <masneyb@gftp.org>
+2003-7-23 Brian Masney <masneyb@gftp.org>
 	* configure.in - incremented version to 2.0.15rc1. Also, if readline
 	wasn't found on the system, the text port wasn't be built
 
@@ -985,7 +988,7 @@
 	the error message from the remote server. The user is only interested
 	in the error returned from the server.
 	
-2004-7-22 Brian Masney <masneyb@gftp.org>
+2003-7-22 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - added gftp_lookup_bookmark_option()
 	and gftp_set_bookmark_option(). Also added _gftp_set_option_value()
 	that is used by the set functions for bookmark and request structures
@@ -1000,7 +1003,7 @@
 	down. For the moment, don't edit the bookmarks twice in the same 
 	session.
 
-2004-7-20 Brian Masney <masneyb@gftp.org>
+2003-7-20 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - added compare_function to 
 	gftp_config_vars structure. (gftp_set_global_option) use the compare
 	function to see if the value was actually changed, and if so set the
@@ -1032,7 +1035,7 @@
 	* src/gtk/options_dialog.c - added gftp_gtk_setup_bookmark_options()
 	to display all the editable options for this bookmark
 
-2004-7-11 Brian Masney <masneyb@gftp.org>
+2003-7-11 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_calc_kbs) - only call gettimeofday() at the
 	end only if we are throttling this connection
 
@@ -1047,7 +1050,7 @@
 	pretty, but hey it works. I'm mainly putting these in CVS just for
 	backup purposes.
 
-2004-7-10 Brian Masney <masneyb@gftp.org>
+2003-7-10 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (insert_commas) - improved calculating # of digits
 	in number. (Not sure if this worked properly for long long's, aka
 	off_t when _LARGEFILE_SOURCE is defined)
@@ -1057,7 +1060,7 @@
 
 	* lib/protocols.c (gftp_calc_kbs) - improved throttling module.
 
-2004-7-9 Brian Masney <masneyb@gftp.org>
+2003-7-9 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - if we are logging in to the server, and the message 
 	size is too big from the server, assume that an error message follows
 	and log the ASCII text to the log window
@@ -1074,7 +1077,7 @@
 
 	* docs/sample.gftp/gftprc - enable require SSH user/pass by default
 
-2004-7-9 Brian Masney <masneyb@gftp.org>
+2003-7-9 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c (gftp_write_config_file) - fix for writing out
 	list items to the config file. 
 
@@ -1097,7 +1100,7 @@
 
 	* docs/sample.gftp/gftprc - new default config file
 
-2004-7-7 Brian Masney <masneyb@gftp.org>
+2003-7-7 Brian Masney <masneyb@gftp.org>
 	* configure.in src/gtk/Makefile.am src/text/Makefile.am - if the 
 	OpenSSL libraries are available on the system, link them in and
 	define USE_SSL. The generic SSL engine and the HTTPS protocol checks
@@ -1111,19 +1114,19 @@
 
 	* lib/sslcommon.c - several fixes and cleanups
 
-2004-7-6 Brian Masney <masneyb@gftp.org>
+2003-7-6 Brian Masney <masneyb@gftp.org>
 	* lib/configure.in - check for getdtablesize()
 
 	* TODO - updated
 
-2004-7-6 Brian Masney <masneyb@gftp.org>
+2003-7-6 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c lib/sshv2.c src/gtk/dnd.c src/gtk/menu-items.c -
 	instead of using g_strconcat to build the directory paths, use
 	g_build_path. Fixes a bug when you was connected to a remote host,
 	and you was in /, the path would show up as // 
 	(from Krzysztof Foltman <kfoltman@onet.pl>, slightly changed by me)
 
-2004-7-6 Brian Masney <masneyb@gftp.org>
+2003-7-6 Brian Masney <masneyb@gftp.org>
 	* lib/pty.c lib/gftp.h - added gftp_exec_with_new_pty() and
 	gftp_exec_without_new_pty()
 
@@ -1137,7 +1140,7 @@
 	that would make the text port dependant on pthreads being installed on
 	the box
 
-2004-7-5 Brian Masney <masneyb@gftp.org>
+2003-7-5 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_get_line) - fixed bug where the read function
 	was being called one extra time after the end of file was reached
 
@@ -1146,7 +1149,7 @@
 
 	* lib/httpcommon.h (struct rfc2068_params_tag) - added eof variable
 
-2004-7-1 Brian Masney <masneyb@gftp.org>
+2003-7-1 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (base64_encode) - alphabet fix (+ wasn't a valid
 	character, it should have been /) (thanks to Holger Kiehl
 	<Holger.Kiehl@dwd.de> for pointing this out)
@@ -1170,20 +1173,20 @@
 	* acinclude.h (AC_TYPE_SOCKLEN_T) - AC_DEFINE fix (from
 	Nathan Robertson <nathanr@nathanr.net>)
 
-2004-6-25 Brian Masney <masneyb@gftp.org>
+2003-6-25 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (expand_path) - small improvements
 
 	* lib/rfc2068.c src/text/gftp-gtk.c - fixes for path handling, namely
 	when changing directories to the parent (..)
 
-2004-6-25 Brian Masney <masneyb@gftp.org>
+2003-6-25 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c - fix warning if DMALLOC is disabled
 
 	* src/text/gftp-text.c - don't attempt to expand the local directory
 
 	* TODO - updated
 
-2004-6-25 Brian Masney <masneyb@gftp.org>
+2003-6-25 Brian Masney <masneyb@gftp.org>
 	* acinclude.m4 - added AC_TYPE_SOCKLEN_T. Thanks to
 	Nathan Robertson <nathanr@nathanr.net> for pointing this out
 
@@ -1193,7 +1196,7 @@
 	
 	* Makefile.am - formatting fixes
 
-2004-6-25 Brian Masney <masneyb@gftp.org>
+2003-6-25 Brian Masney <masneyb@gftp.org>
 	* configure.in - added mk to ALL_LINGUAS
 
 	* lib/gftp.h - added several macros for dmalloc
@@ -1222,7 +1225,7 @@
 	get_xpm_path() to GTK+ port. No longer call it startup when reading
 	the config file
 	
-2004-6-24 Brian Masney <masneyb@gftp.org>
+2003-6-24 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h lib/protocols.c - added backend for 
 	overriding options on a per bookmark basis. Also added 
 	gftp_copy_local_options() to config_file.c
@@ -1234,7 +1237,7 @@
 	* lib/sslcommon.c - formatting fixes. Added thread functions (mostly 
 	from the OReilly SSL book)
 
-2004-6-22 Brian Masney <masneyb@gftp.org>
+2003-6-22 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - renamed parse_args to 
 	gftp_config_parse_args() and removed the static declaration
 
@@ -1252,7 +1255,7 @@
 
 	* TODO - updated
 
-2004-6-19 Brian Masney <masneyb@gftp.org>
+2003-6-19 Brian Masney <masneyb@gftp.org>
 	* autogen.sh - updated to hopefully make it more portable across
 	various systems
 
@@ -1268,17 +1271,17 @@
 	least I'll be able to fix the define in glib and then these warnings
 	will be fixed then
 
-2004-6-18 Brian Masney <masneyb@gftp.org>
+2003-6-18 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c - send right parameters to the logging function
 	(from Nam SungHyun <namsh@kldp.org>)
 
-2004-6-17 Brian Masney <masneyb@gftp.org>
+2003-6-17 Brian Masney <masneyb@gftp.org>
 	* src/gtk/misc-gtk.c (ftp_log) - remote charset fixes for when the log 
 	message is generated inside a child thread
 
 	* lib/cache.c - don't complain about not being able to open index.db
 
-2004-6-16 Brian Masney <masneyb@gftp.org>
+2003-6-16 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_string_to_utf8) - return if request is NULL
 
 	* lib/protocols.c - run g_iconv_close() in gftp_disconnect() instead
@@ -1309,7 +1312,7 @@
 	in this list. I have no idea if this even works, so if someone can test
 	this, please let me know.
 
-2004-6-15 Brian Masney <masneyb@gftp.org>
+2003-6-15 Brian Masney <masneyb@gftp.org>
 	* lib/cache.c lib/gftp.h - added gftp_generate_cache_description(). 
 
 	* lib/cache.c lib/gftp.h src/text/gftp-text.c src/gtk/delete-dialog.c 
@@ -1336,7 +1339,7 @@
 	* src/gtk/delete-dialog.c - improvments to clearing the expired cache
 	entries
 
-2004-6-14 Brian Masney <masneyb@gftp.org>
+2003-6-14 Brian Masney <masneyb@gftp.org>
 	* lib/cache.c (gftp_delete_cache_entry) - fix for restoring newlines
 
 	* lib/gftp.h lib/protocols.c - added EOF flag for gftp_get_line()
@@ -1347,14 +1350,14 @@
 	* src/text/gftp-text.c - after removing files, clear the cache for
 	that directory
 
-2004-6-11 Brian Masney <masneyb@gftp.org>
+2003-6-11 Brian Masney <masneyb@gftp.org>
 	* lib/configure.in lib/gftp.h - portability fix for openpty(). (from 
 	Nathan Robertson <nathanr@nathanr.net>, which he took from 
 	http://mail.python.org/pipermail/patches/2000-June/000953.html)
 
 	* lib/pty.h - found out about #elif preprocessor macro ;)
 
-2004-6-9 Brian Masney <masneyb@gftp.org>
+2003-6-9 Brian Masney <masneyb@gftp.org>
 	* lib/bookmark.c lib/gftp.h lib/local.c lib/protocols.c lib/rfc2068.c
 	lib/rfc959.c lib/sshv2.c - make return value of *_set_config_options()
 	be an integer
@@ -1362,17 +1365,17 @@
 	* lib/rfc2068.c lib/rfc959.c - return the error code of
 	gftp_connect_server() if there was a connection problem
 
-2004-6-8 Brian Masney <masneyb@gftp.org>
+2003-6-8 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c lib/rfc2068.c - if gftp_connect_server() returns an
 	error, make sure the exact error code is returned
 
-2004-6-8 Brian Masney <masneyb@gftp.org>
+2003-6-8 Brian Masney <masneyb@gftp.org>
 	* lib/sslcommon.c - added entropy_len option. Added
 	gftp_ssl_get_index(). Use SSL_get_ex_data() so that we can get the
 	request structure, and error messages can be logged properly. Changed
 	the verify depth from 4 to 9
 
-2004-6-8 Brian Masney <masneyb@gftp.org>
+2003-6-8 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/sslcommon.c - added ssl_register_module(). This
 	function registers the configuration variables for the SSL engine.
 	Right now, the only variable is the entropy source
@@ -1381,7 +1384,7 @@
 	Multiple protocols will be able to call this function, it will only 
 	be initialized once
 
-2004-6-8 Brian Masney <masneyb@gftp.org>
+2003-6-8 Brian Masney <masneyb@gftp.org>
 	* lib/bookmark.c lib/gftp.h lib/https.c lib/local.c lib/misc.c 
 	lib/protocols.c lib/rfc2068.c lib/rfc959.c lib/sshv2.c
 	src/text/gftp-text.c src/gtk/gftp-gtk.c - made the init function for 
@@ -1398,13 +1401,13 @@
 	* lib/https.c - only initialize the SSL engine the first time a SSL
 	connection is made.
 
-2004-6-8 Brian Masney <masneyb@gftp.org>
+2003-6-8 Brian Masney <masneyb@gftp.org>
 	* aclocal.m4 - removed, this file is automatically generated
 
 	* autogen.sh - just call automake and aclocal, instead of automake-1.4
 	and aclocal-1.4 (from Nathan Robertson <nathanr@nathanr.net>)
 
-2004-6-8 Brian Masney <masneyb@gftp.org>
+2003-6-8 Brian Masney <masneyb@gftp.org>
 	* lib/https.c lib/options.h lib/sslcommon.c - make sure USE_SSL is
 	defined before using any SSL functions
 
@@ -1423,7 +1426,7 @@
 
 	* Makefile.am - added intl to SUBDIRS
 
-2004-6-8 Brian Masney <masneyb@gftp.org>
+2003-6-8 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h - if USE_SSL is defined, include the OpenSSL headers.
 	Added read_function, write_function and post_connect function pointers
 	to gftp_request structure. Added SSL object to gftp_request structure
@@ -1467,26 +1470,26 @@
 
 	* lib/Makefile.am - added https.c, sslcommon.c and httpcommon.h
 
-2004-5-27 Brian Masney <masneyb@gftp.org>
+2003-5-27 Brian Masney <masneyb@gftp.org>
 	* Makefile.am configure.in autogen.sh - build fixes
 
 	* src/text/gftp-text.c - if the protocol we are connecting to
 	  doesn't need a username/password, don't prompt the user for one
 
-2004-5-22 Brian Masney <masneyb@gftp.org>
+2003-5-22 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (gftp_usage) - updated usage statement
 
 	* lib/options.h - put terminate options properly
 
-2004-05-06  Christian Rose  <menthos@menthos.com>
+2003-05-06  Christian Rose  <menthos@menthos.com>
 
 	* configure.in: Added sr and sr@Latn to ALL_LINGUAS.
 
-2004-05-01  Hasbullah Bin Pit  <sebol@ikhlas.com>
+2003-05-01  Hasbullah Bin Pit  <sebol@ikhlas.com>
                                                                                 
         * configure.in(ALL_LINGUAS): Added "ms".
 
-2004-4-27 Brian Masney <masneyb@gftp.org>
+2003-4-27 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c (gftp_config_file_read_float) - use strtod instead
 	of strtof(). ANSI C describes strtod, and C99 describes strtof(). Some
 	older systems don't have strtof() 
@@ -1509,13 +1512,13 @@
 	* src/gtk/transfer.c - lookup option one_transfer instead of 
 	do_one_transfer_at_a_time
 
-2004-04-27  Christian Rose  <menthos@menthos.com>
+2003-04-27  Christian Rose  <menthos@menthos.com>
 
 	* lib/rfc959.c: Fix bug #111090 by adding
 	/* xgettext:no-c-format */ comment. This trivial bug prevented any
 	full localization of gftp.
 
-2004-4-25 Brian Masney <masneyb@gftp.org>
+2003-4-25 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c - added IPV6 support (RFC2428). The only part of the
 	project that isn't IPV6 ready is the proxy comparsion functions.
 
@@ -1537,7 +1540,7 @@
 	HAVE_OPENPTY if this function is present on the system
 
 
-2004-4-23 Brian Masney <masneyb@gftp.org>
+2003-4-23 Brian Masney <masneyb@gftp.org>
 	* Makefile.am - removed config.rpath from EXTRA_DIST
 
 	* configure.in - added 'sr' to ALL_LINGUAS. Incremented
@@ -1563,7 +1566,7 @@
 	* debian/gftp-text.postinst - this will add add an alternative for the
 	ftp command and point it to gftp-text
 
-2004-4-21 Brian Masney <masneyb@gftp.org>
+2003-4-21 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h - added ui_cancel_function to struct gftp_option_type_var
 
 	* src/gtk/gftp-gtk.c - added custom_edit_value to struct
@@ -1576,7 +1579,7 @@
 
 	* lib/rfc959.c - remove FIXME comment
 
-2004-4-18 Brian Masney <masneyb@gftp.org>
+2003-4-18 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - removed gftp_option_type_subtree,
 	gftp_option_type_table and gftp_option_type_newtable
 
@@ -1611,7 +1614,7 @@
 	* src/gtk/transfer.c - remove FIXME note. This is already in
 	lib/gftp.h
 
-2004-4-13 Brian Masney <masneyb@gftp.org>
+2003-4-13 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c - fixed float config type
 
 	* lib/gftp.h lib/misc.c - added gftp_gen_ls_string()
@@ -1620,7 +1623,7 @@
 	src/text/gftp-text.c (gftp_text_ls) - use 
 	gftp_gen_ls_string()
 
-2004-4-13 Brian Masney <masneyb@gftp.org>
+2003-4-13 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c - implemented gftp_set_global_option()
 
 	* lib/gftp.h lib/misc.c - added gftp_tdata_new()
@@ -1654,7 +1657,7 @@
 	* src/gtk/*.[ch] - Use new configuration interface in all source 
 	files. Updated copyright dates on all source files
 
-2004-4-9 Brian Masney <masneyb@gftp.org>
+2003-4-9 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/config_file.c - reordered config option types. Added
 	gftp_option_type_textcomboedt type
 
@@ -1664,7 +1667,7 @@
 	gftp_option_type_textcomboedt. Consolidated help text into comment.
 	In parse_ftp_proxy_string(), improve parsing of proxy config
 
-2004-4-8 Brian Masney <masneyb@gftp.org>
+2003-4-8 Brian Masney <masneyb@gftp.org>
 	* src/text/gftp-text.c lib/misc.c - moved r_gethostbyname() and 
 	r_getservbyname() to lib/misc.c. Now uses GMutex functions
 
@@ -1687,7 +1690,7 @@
 	gftp_get_transfer_status(). Uses GMutex functions
 
 
-2004-4-7 Brian Masney <masneyb@gftp.org>
+2003-4-7 Brian Masney <masneyb@gftp.org>
 	* src/gtk/bookmarks.c - renamed struct gftp_bookmarks to
 	gftp_bookmarks_var. In run_bookmark(), use gftp_parse_bookmark()
 
@@ -1707,7 +1710,7 @@
 	lib/protocols.c. Removed Binary/Ascii conversion. This is all done in
 	lib/rfc959.c
 
-2004-4-6 Brian Masney <masneyb@gftp.org>
+2003-4-6 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c src/text/gftp-text.c - changed arguments of 
 	gftp_read_config_file() and gftp_read_bookmarks() to take an argument
 	to the path of the global config directory. The text/gtk+ port will
@@ -1732,7 +1735,7 @@
 	* lib/protocols.c lib/misc.c lib/config_file.c - use g_strdup() 
 	instead of g_malloc()/strcpy()
 
-2004-4-5 Brian Masney <masneyb@gftp.org>
+2003-4-5 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/options.h lib/gftp.h lib/rfc959.c
 	lib/rfc2068.c lib/ssh.c - added new internal configuration interface. 
 	Rather than having a global variable for each option, I have a global 
@@ -1780,20 +1783,20 @@
 	* Note: GTK+ port is completely broken at the moment. I'll upload
 	those changes whenever I get them done
 
-2004-04-05  Duarte Loreto <happyguy_pt@hotmail.com>
+2003-04-05  Duarte Loreto <happyguy_pt@hotmail.com>
 
         * configure.in: Added "pt" to ALL_LINGUAS.
 
-2004-03-04  Yuriy Syrota  <rasta renome.rovno.ua>
+2003-03-04  Yuriy Syrota  <rasta renome.rovno.ua>
 
 	* configure.in: Added Ukrainian (uk) to ALL_LINGUAS
 	
-2004-2-25 Brian Masney <masneyb@gftp.org>
+2003-2-25 Brian Masney <masneyb@gftp.org>
 	* src/gtk/gftp-gtk.c - use gtk_container_add() instead of
 	gtk_scrolled_window_add_with_viewport() 
 	(from Kang Jeong-Hee <Keizi@mail.co.kr>)
 
-2004-2-23 Brian Masney <masneyb@gftp.org>
+2003-2-23 Brian Masney <masneyb@gftp.org>
 	* lib/cache.c - added function gftp_parse_cache_entry(). Save
 	request->server_type (output of SYST in FTP command) to the directory
 	entry
@@ -1805,16 +1808,16 @@
 
 	* acinclude.m4 - put largefile.m4 in here
 
-2004-02-21  Pablo Saratxaga  <pablo@mandrakesoft.com>
+2003-02-21  Pablo Saratxaga  <pablo@mandrakesoft.com>
 	* configure.in: Added Catalan (ca) to ALL_LINGUAS
 
-2004-2-17 Brian Masney <masneyb@gftp.org>
+2003-2-17 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c lib/rfc959.c - added VMS directory listing support
 
 	* lib/config_file.c lib/protocols.c - extra checks when stripping off
 	carriage returns and linefeeds
 
-2004-2-9 Brian Masney <masneyb@gftp.org>
+2003-2-9 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (parse_time) - parse more time formats. Better
 	error checking. If there was an error parsing this time,
 	skip ahead to the next token
@@ -1824,7 +1827,7 @@
 
 	* lib/rfc959.c - use g_strdup instead of g_malloc/strcpy
 
-2004-2-6 Brian Masney <masneyb@gftp.org>
+2003-2-6 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/protocols.c lib/rfc2068.c - put in new 
 	parse_time() function that should work across all locales.
 	It uses strptime() internally.
@@ -1834,14 +1837,14 @@
 	* lib/config_file.c lib/gftp.h lib/options.h - remove ssh1_sftp_path
 	option
 
-2004-02-03  Daniel Yacob  <locales@geez.org>
+2003-02-03  Daniel Yacob  <locales@geez.org>
 	* configure.ac: Added "am" (Amharic) to ALL_LINGUAS.
 
-2004-1-21 Brian Masney <masneyb@gftp.org>
+2003-1-21 Brian Masney <masneyb@gftp.org>
 	* configure.in - fix for Solaris. Move the initial declaration up
 	in the source file
 
-2004-1-21 Brian Masney <masneyb@gftp.org>
+2003-1-21 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h - added server type defines. Added server_type field to 
 	gftp_request
 
@@ -1857,7 +1860,7 @@
 
 	* lib/sshv2.c - set server_type to be GFTP_TYPE_UNIX
 
-2004-1-11 Brian Masney <masneyb@gftp.org>
+2003-1-11 Brian Masney <masneyb@gftp.org>
 	* autogen.sh - removed --intl and --no-changelog flags to gettextize
 
 	* aclocal.m4 - updated
