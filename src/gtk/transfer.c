@@ -1993,19 +1993,24 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
       add_data[0] = pos;
 
       if (overwrite_default)
-        add_data[3] = _("Overwrite");
+        {
+          add_data[3] = _("Overwrite");
+          tempfle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
+        }
+      else if (tempfle->startsize == tempfle->size)
+        {
+          add_data[3] = _("Skip");
+          tempfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
+        }
+      else if (tempfle->startsize > tempfle->size)
+        {
+          add_data[3] = _("Overwrite");
+          tempfle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
+        }
       else
         {
-          if (tempfle->startsize >= tempfle->size)
-            {
-              add_data[3] = _("Skip");
-              tempfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-            }
-          else
-            {
-              add_data[3] = _("Resume");
-              tempfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
-            }
+          add_data[3] = _("Resume");
+          tempfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
         }
 
       add_data[1] = insert_commas (tempfle->size, tempstr, sizeof (tempstr));

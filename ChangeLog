@@ -1,3 +1,11 @@
+2003-11-23 Brian Masney <masneyb@gftp.org>
+	* src/gtk/transfer.c - when transfering a file, if the file being
+	transfered is greater in the destination than in the source, overwrite
+	it
+
+	* lib/rfc959.c (rfc959_ipv6_data_connection_new) - when parsing the
+	output, parse the integers as unsigned.
+
 2003-11-9 Brian Masney <masneyb@gftp.org>
 	* lib/options.h lib/protoocols.c - added enable_ipv6 option. 
 
@@ -7,6 +15,9 @@
 
 	* debian/* - updated Debian package files from 
 	Aurelien Jarno <aurel32@debian.org>
+
+2003-11-9 Brian Masney <masneyb@gftp.org>
+	* Officially released 2.0.16
 
 	* debian/ChangeLog - incremented version to 2.0.16
 

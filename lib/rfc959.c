@@ -822,7 +822,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
           return (GFTP_EFATAL);
         }
 
-      if (sscanf (pos, "|||%d|", &port) != 1)
+      if (sscanf (pos, "|||%u|", &port) != 1)
         {
           request->logging_function (gftp_logging_error, request,
                       _("Invalid EPSV response '%s'\n"),
