@@ -154,11 +154,6 @@ typedef enum gftp_logging_level_tag
   gftp_logging_misc
 } gftp_logging_level;
 
-typedef void (*gftp_logging_func)		( gftp_logging_level level, 
-						  void *ptr, 
-						  const char *string, ... );
-
-
 typedef struct gftp_file_tag gftp_file;
 
 #define GFTP_TRANS_ACTION_OVERWRITE		1
@@ -294,6 +289,10 @@ typedef struct gftp_textcomboedt_data_tag
 
 
 typedef struct gftp_request_tag gftp_request;
+
+typedef void (*gftp_logging_func)		( gftp_logging_level level, 
+						  gftp_request * request, 
+						  const char *string, ... );
 
 struct gftp_request_tag 
 {
@@ -758,6 +757,11 @@ ssize_t gftp_put_next_file_chunk 	( gftp_request * request,
 					  size_t size );
 
 int gftp_list_files 			( gftp_request * request );
+
+#if GLIB_MAJOR_VERSION > 1
+char * gftp_string_to_utf8		( gftp_request * request, 
+					  char *str );
+#endif
 
 int gftp_parse_bookmark 		( gftp_request * request, 
 					  const char * bookmark );

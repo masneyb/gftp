@@ -85,7 +85,7 @@ https_init (gftp_request * request)
 
   return (0);
 #else
-  request->logging_function (gftp_logging_error, request->user_data,
+  request->logging_function (gftp_logging_error, request,
                              _("HTTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"));
 
   return (GFTP_EFATAL);

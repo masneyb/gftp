@@ -36,7 +36,8 @@ remove_files_window (gftp_window_data * wdata)
 
 
 void
-ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
+ftp_log (gftp_logging_level level, gftp_request * request, 
+         const char *string, ...)
 {
   guint max_log_window_size;
   int upd, free_logstr;
@@ -49,11 +50,10 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
   gftp_color * color;
   GdkColor fore;
 #else
+  char *utf8_str;
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
-  gsize bread, bwrite;
   const char *descr;
-  char *tempstr;
 #endif
 
   if (pthread_self () != main_thread_id)
@@ -82,6 +82,21 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
       free_logstr = 1;
     }
   va_end (argp);
+
+#if GTK_MAJOR_VERSION > 1
+  if (!g_utf8_validate (logstr, -1, NULL))
+    {
+      if ((utf8_str = gftp_string_to_utf8 (request, logstr)) != NULL)
+        {
+          if (free_logstr)
+            g_free (logstr);
+          else
+            free_logstr = 1;
+
+          logstr = utf8_str;
+        }
+    }
+#endif
 
   if (gftp_logfd != NULL)
     {
@@ -159,20 +174,6 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
       default:
         descr = "misc";
         break;
-    }
-
-  /* If the current log message is not in UTF8 format, convert it to UTF8 
-     format based on the current locale */
-  if (!g_utf8_validate (logstr, -1, NULL))
-    {
-      tempstr = g_locale_to_utf8 (logstr, -1, &bread, &bwrite, NULL);
-      if (tempstr != NULL)
-        {
-          if (free_logstr)
-            g_free (logstr);
-          logstr = tempstr;
-          free_logstr = 1;
-        }
     }
 
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
@@ -1251,7 +1252,7 @@ display_cached_logs (void)
   while (templist != NULL)
     { 
       templog = (gftp_log *) templist->data;
-      ftp_log (templog->type, (void *) 0x2, "%s", templog->msg);
+      ftp_log (templog->type, NULL, "%s", templog->msg);
       g_free (templog->msg);
       g_free (templog); 
       templist->data = NULL;

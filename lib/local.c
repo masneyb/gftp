@@ -63,7 +63,7 @@ local_connect (gftp_request * request)
     {
       if (chdir (request->directory) != 0)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                              _("Could not change local directory to %s: %s\n"),
                              request->directory, g_strerror (errno));
         }
@@ -77,7 +77,7 @@ local_connect (gftp_request * request)
       request->directory = g_strdup (tempstr);
     }
   else
-    request->logging_function (gftp_logging_error, request->user_data,
+    request->logging_function (gftp_logging_error, request,
                              _("Could not get current working directory: %s\n"),
                              g_strerror (errno));
 
@@ -94,7 +94,7 @@ local_disconnect (gftp_request * request)
   if (request->datafd != -1)
     {
       if (close (request->datafd) == -1)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
       request->datafd = -1;
@@ -128,7 +128,7 @@ local_get_file (gftp_request * request, const char *filename, int fd,
 
   if ((size = lseek (request->datafd, 0, SEEK_END)) == -1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
       gftp_disconnect (request);
@@ -137,7 +137,7 @@ local_get_file (gftp_request * request, const char *filename, int fd,
 
   if (lseek (request->datafd, startsize, SEEK_SET) == -1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
       gftp_disconnect (request);
@@ -175,7 +175,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
 
   if (ftruncate (request->datafd, startsize) == -1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                _("Error: Cannot truncate local file %s: %s\n"),
                                filename, g_strerror (errno));
       gftp_disconnect (request);
@@ -184,7 +184,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
     
   if (lseek (request->datafd, startsize, SEEK_SET) == -1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
       gftp_disconnect (request);
@@ -209,7 +209,7 @@ local_end_transfer (gftp_request * request)
   if (request->datafd > 0)
     {
       if (close (request->datafd) == -1)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
 
@@ -401,7 +401,7 @@ local_list_files (gftp_request * request)
 
   if ((lpd->dir = opendir (tempstr)) == NULL)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                            _("Could not get local directory listing %s: %s\n"),
                            tempstr, g_strerror (errno));
       if (freeit)
@@ -438,13 +438,13 @@ local_chdir (gftp_request * request, const char *directory)
 
   if (chdir (directory) == 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                           _("Successfully changed local directory to %s\n"),
                           directory);
 
       if (getcwd (tempstr, sizeof (tempstr)) == NULL)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                             _("Could not get current working directory: %s\n"),
                             g_strerror (errno));
 	  return (GFTP_ERETRYABLE);
@@ -458,7 +458,7 @@ local_chdir (gftp_request * request, const char *directory)
     }
   else
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                               _("Could not change local directory to %s: %s\n"),
                               directory, g_strerror (errno));
       return (GFTP_ERETRYABLE);
@@ -475,13 +475,13 @@ local_rmdir (gftp_request * request, const char *directory)
 
   if (rmdir (directory) == 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Successfully removed %s\n"), directory);
       return (0);
     }
   else
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                               _("Error: Could not remove directory %s: %s\n"),
                               directory, g_strerror (errno));
       return (GFTP_ERETRYABLE);
@@ -498,13 +498,13 @@ local_rmfile (gftp_request * request, const char *file)
 
   if (unlink (file) == 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Successfully removed %s\n"), file);
       return (0);
     }
   else
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Could not remove file %s: %s\n"),
                                  file, g_strerror (errno));
       return (GFTP_ERETRYABLE);
@@ -521,14 +521,14 @@ local_mkdir (gftp_request * request, const char *directory)
 
   if (mkdir (directory, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH) == 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Successfully made directory %s\n"),
                                  directory);
       return (0);
     }
   else
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Could not make directory %s: %s\n"),
                                  directory, g_strerror (errno));
       return (GFTP_ERETRYABLE);
@@ -547,14 +547,14 @@ local_rename (gftp_request * request, const char *oldname,
 
   if (rename (oldname, newname) == 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Successfully renamed %s to %s\n"),
                                  oldname, newname);
       return (0);
     }
   else
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Could not rename %s to %s: %s\n"),
                                  oldname, newname, g_strerror (errno));
       return (GFTP_ERETRYABLE);
@@ -577,14 +577,14 @@ local_chmod (gftp_request * request, const char *file, int mode)
 
   if (chmod (file, newmode) == 0) 
     {
-      request->logging_function (gftp_logging_misc, request->user_data, 
+      request->logging_function (gftp_logging_misc, request, 
                                  _("Successfully changed mode of %s to %d\n"),
                                  file, mode);
       return (0);
     }
   else 
     {
-      request->logging_function (gftp_logging_error, request->user_data, 
+      request->logging_function (gftp_logging_error, request, 
                           _("Error: Could not change mode of %s to %d: %s\n"),
                           file, mode, g_strerror (errno));
       return (GFTP_ERETRYABLE);

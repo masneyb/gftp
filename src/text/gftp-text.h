@@ -52,7 +52,7 @@ struct _gftp_text_methods
 
 /* gftp-text.h */
 void gftp_text_log				( gftp_logging_level level, 
-						  void *ptr, 
+						  gftp_request * request, 
 						  const char *string, ... );
 int gftp_text_open				( gftp_request * request, 
 						  char *command, 

@@ -86,7 +86,7 @@ do_delete_thread (void *data)
     {
       gftp_disconnect (transfer->fromreq);
       transfer->fromreq->logging_function (gftp_logging_error,
-                                        transfer->fromreq->user_data,
+                                        transfer->fromreq,
                                         _("Operation canceled\n"));
     }
 

@@ -34,7 +34,7 @@ bookmark_parse_url (gftp_request * request, const char * url)
       pos += 3;
       if (strncmp (url, "bookmark://", 11) != 0)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                  _("Invalid URL %s\n"), url);
           return (GFTP_EFATAL);
         }

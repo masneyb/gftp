@@ -54,7 +54,7 @@ do_make_dir_thread (void * data)
     {
       gftp_disconnect (wdata->request);
       wdata->request->logging_function (gftp_logging_error,
-                                        wdata->request->user_data,
+                                        wdata->request,
                                         _("Operation canceled\n"));
     }
 

@@ -90,8 +90,8 @@ gftp_ssl_verify_callback (int ok, X509_STORE_CTX *store)
 
       X509_NAME_oneline (X509_get_issuer_name (cert), issuer, sizeof (issuer));
       X509_NAME_oneline (X509_get_subject_name (cert), subject, sizeof (subject));
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 "Error with certificate at depth: %i\nIssuer = %s\nSubject = %s\nError %i:%s\n", 
+      request->logging_function (gftp_logging_error, request,
+                                 _("Error with certificate at depth: %i\nIssuer = %s\nSubject = %s\nError %i:%s\n"),
                                  depth, issuer, subject, err, 
                                  X509_verify_cert_error_string (err));
     }
@@ -112,7 +112,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
   ok = 0;
   if (!(cert = SSL_get_peer_certificate (request->ssl)))
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Cannot get peer certificate\n"));
       return (X509_V_ERR_APPLICATION_VERIFICATION);
     }
@@ -168,7 +168,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
      data[sizeof (data) - 1] = '\0';
      if (strcasecmp (data, request->hostname) != 0)
        {
-         request->logging_function (gftp_logging_error, request->user_data,
+         request->logging_function (gftp_logging_error, request,
                                     _("The SSL certificate's host %s does not match the host %s that we connected to\n"),
                                     data, request->hostname);
          X509_free (cert);
@@ -196,7 +196,7 @@ gftp_ssl_startup (gftp_request * request)
   /* FIXME _ thread setup */
   if (!SSL_library_init ())
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Cannot initialized the OpenSSL library\n"));
       return (GFTP_EFATAL);
     }
@@ -211,7 +211,7 @@ gftp_ssl_startup (gftp_request * request)
 
   if (SSL_CTX_set_default_verify_paths (ctx) != 1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error loading default SSL certificates\n"));
       return (GFTP_EFATAL);
     }
@@ -222,7 +222,7 @@ gftp_ssl_startup (gftp_request * request)
 
   if (SSL_CTX_set_cipher_list (ctx, "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH") != 1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error setting cipher list (no valid ciphers)\n"));
       return (GFTP_EFATAL);
     }
@@ -241,7 +241,7 @@ gftp_ssl_session_setup (gftp_request * request)
 
   if (!gftp_ssl_initialized)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: SSL engine was not initialized\n"));
       return (GFTP_EFATAL);
     }
@@ -254,7 +254,7 @@ gftp_ssl_session_setup (gftp_request * request)
 
   if ((bio = BIO_new (BIO_s_socket ())) == NULL)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error setting up SSL connection (BIO object)\n"));
       return (GFTP_EFATAL);
     }
@@ -263,7 +263,7 @@ gftp_ssl_session_setup (gftp_request * request)
 
   if ((request->ssl = SSL_new (ctx)) == NULL)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error setting up SSL connection (SSL object)\n"));
       return (GFTP_EFATAL);
     }
@@ -276,13 +276,13 @@ gftp_ssl_session_setup (gftp_request * request)
 
   if ((ret = gftp_ssl_post_connection_check (request)) != X509_V_OK)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error with peer certificate: %s\n"),
                                  X509_verify_cert_error_string (ret));
       return (GFTP_EFATAL);
     }
 
-  request->logging_function (gftp_logging_misc, request->user_data,
+  request->logging_function (gftp_logging_misc, request,
                              "SSL connection established using %s (%s)\n", 
                              SSL_get_cipher_version (request->ssl), 
                              SSL_get_cipher_name (request->ssl));
@@ -299,7 +299,7 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
 
   if (!gftp_ssl_initialized)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: SSL engine was not initialized\n"));
       return (GFTP_EFATAL);
     }
@@ -322,7 +322,7 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
  
           if (request != NULL)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                                    _("Error: Could not read from socket: %s\n"),
                                     g_strerror (errno));
               gftp_disconnect (request);
@@ -349,7 +349,7 @@ gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
  
   if (!gftp_ssl_initialized)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: SSL engine was not initialized\n"));
       return (GFTP_EFATAL);
     }
@@ -370,7 +370,7 @@ gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
  
           if (request != NULL)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                                     _("Error: Could not write to socket: %s\n"),
                                     g_strerror (errno));
               gftp_disconnect (request);

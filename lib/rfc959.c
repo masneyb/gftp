@@ -122,7 +122,7 @@ rfc959_read_response (gftp_request * request)
 	  strncpy (code, tempstr, 3);
 	  code[3] = ' ';
 	}
-      request->logging_function (gftp_logging_recv, request->user_data,
+      request->logging_function (gftp_logging_recv, request,
 				 "%s\n", tempstr);
     }
   while (strncmp (code, tempstr, 4) != 0);
@@ -152,17 +152,17 @@ rfc959_send_command (gftp_request * request, const char *command)
 
   if (strncmp (command, "PASS", 4) == 0)
     {
-      request->logging_function (gftp_logging_send, request->user_data, 
+      request->logging_function (gftp_logging_send, request, 
                                  "PASS xxxx\n");
     }
   else if (strncmp (command, "ACCT", 4) == 0)
     {
-      request->logging_function (gftp_logging_send, request->user_data, 
+      request->logging_function (gftp_logging_send, request, 
                                  "ACCT xxxx\n");
     }
   else
     {
-      request->logging_function (gftp_logging_send, request->user_data, "%s",
+      request->logging_function (gftp_logging_send, request, "%s",
                                  command);
     }
 
@@ -300,7 +300,7 @@ rfc959_getcwd (gftp_request * request)
     return (ret);
   else if (ret != '2')
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
 				 _("Received invalid response to PWD command: '%s'\n"),
                                  request->last_ftp_response);
       gftp_disconnect (request);
@@ -309,7 +309,7 @@ rfc959_getcwd (gftp_request * request)
 
   if ((pos = strchr (request->last_ftp_response, '"')) == NULL)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
 				 _("Received invalid response to PWD command: '%s'\n"),
                                  request->last_ftp_response);
       gftp_disconnect (request);
@@ -320,7 +320,7 @@ rfc959_getcwd (gftp_request * request)
 
   if ((pos = strchr (dir, '"')) == NULL)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
 				 _("Received invalid response to PWD command: '%s'\n"),
                                  request->last_ftp_response);
       gftp_disconnect (request);
@@ -552,7 +552,7 @@ rfc959_disconnect (gftp_request * request)
 
   if (request->datafd > 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
 				 _("Disconnecting from site %s\n"),
 				 request->hostname);
       close (request->datafd);
@@ -582,7 +582,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 
   if ((parms->data_connection = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
 				 _("Failed to create a socket: %s\n"),
 				 g_strerror (errno));
       gftp_disconnect (request);
@@ -591,7 +591,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 
   if (fcntl (parms->data_connection, F_SETFD, 1) == -1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot set close on exec flag: %s\n"),
                                  g_strerror (errno));
 
@@ -620,7 +620,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 
       if (*pos == '\0')
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                       _("Cannot find an IP address in PASV response '%s'\n"),
                       request->last_ftp_response);
           gftp_disconnect (request);
@@ -630,7 +630,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       if (sscanf (pos, "%u,%u,%u,%u,%u,%u", &temp[0], &temp[1], &temp[2],
                   &temp[3], &temp[4], &temp[5]) != 6)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                       _("Cannot find an IP address in PASV response '%s'\n"),
                       request->last_ftp_response);
           gftp_disconnect (request);
@@ -645,7 +645,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       if (connect (parms->data_connection, (struct sockaddr *) &data_addr, 
                    data_addr_len) == -1)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                     _("Cannot create a data connection: %s\n"),
                                     g_strerror (errno));
           gftp_disconnect (request);
@@ -657,7 +657,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       if (getsockname (request->datafd, (struct sockaddr *) &data_addr,
                        &data_addr_len) == -1)
         {
-	  request->logging_function (gftp_logging_error, request->user_data,
+	  request->logging_function (gftp_logging_error, request,
 				     _("Cannot get socket name: %s\n"),
 				     g_strerror (errno));
           gftp_disconnect (request);
@@ -668,7 +668,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       if (bind (parms->data_connection, (struct sockaddr *) &data_addr, 
                 data_addr_len) == -1)
 	{
-	  request->logging_function (gftp_logging_error, request->user_data,
+	  request->logging_function (gftp_logging_error, request,
 				     _("Cannot bind a port: %s\n"),
 				     g_strerror (errno));
           gftp_disconnect (request);
@@ -678,7 +678,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       if (getsockname (parms->data_connection, (struct sockaddr *) &data_addr, 
                        &data_addr_len) == -1)
         {
-	  request->logging_function (gftp_logging_error, request->user_data,
+	  request->logging_function (gftp_logging_error, request,
 				     _("Cannot get socket name: %s\n"),
 				     g_strerror (errno));
           gftp_disconnect (request);
@@ -687,7 +687,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 
       if (listen (parms->data_connection, 1) == -1)
 	{
-	  request->logging_function (gftp_logging_error, request->user_data,
+	  request->logging_function (gftp_logging_error, request,
 				     _("Cannot listen on port %d: %s\n"),
 				     ntohs (data_addr.sin_port),
 				     g_strerror (errno));
@@ -729,7 +729,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   parms = request->protocol_data;
   if ((parms->data_connection = socket (AF_INET6, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
 				 _("Failed to create a socket: %s\n"),
 				 g_strerror (errno));
       gftp_disconnect (request);
@@ -738,7 +738,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 
   if (fcntl (parms->data_connection, F_SETFD, 1) == -1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot set close on exec flag: %s\n"),
                                  g_strerror (errno));
 
@@ -749,7 +749,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   /* This condition shouldn't happen. We better check anyway... */
   if (data_addr_len != request->hostp->ai_addrlen) 
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
 				 _("Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"));
       gftp_disconnect (request);
       return (GFTP_EFATAL);
@@ -778,7 +778,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 
       if (*pos == '\0')
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                       _("Invalid EPSV response '%s'\n"),
                       request->last_ftp_response);
           gftp_disconnect (request);
@@ -787,7 +787,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 
       if (sscanf (pos, "|||%d|", &port) != 1)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                       _("Invalid EPSV response '%s'\n"),
                       request->last_ftp_response);
           gftp_disconnect (request);
@@ -800,7 +800,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       if (connect (parms->data_connection, (struct sockaddr *) &data_addr, 
                    data_addr_len) == -1)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                     _("Cannot create a data connection: %s\n"),
                                     g_strerror (errno));
           gftp_disconnect (request);
@@ -815,7 +815,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       if (bind (parms->data_connection, (struct sockaddr *) &data_addr, 
                 data_addr_len) == -1)
 	{
-	  request->logging_function (gftp_logging_error, request->user_data,
+	  request->logging_function (gftp_logging_error, request,
 				     _("Cannot bind a port: %s\n"),
 				     g_strerror (errno));
           gftp_disconnect (request);
@@ -825,7 +825,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       if (getsockname (parms->data_connection, (struct sockaddr *) &data_addr, 
                        &data_addr_len) == -1)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
 				     _("Cannot get socket name: %s\n"),
 				     g_strerror (errno));
           gftp_disconnect (request);
@@ -834,7 +834,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 
       if (listen (parms->data_connection, 1) == -1)
 	{
-	  request->logging_function (gftp_logging_error, request->user_data,
+	  request->logging_function (gftp_logging_error, request,
 				     _("Cannot listen on port %d: %s\n"),
 				     ntohs (data_addr.sin6_port),
 				     g_strerror (errno));
@@ -844,7 +844,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 
       if (inet_ntop (AF_INET6, &data_addr.sin6_addr, buf, sizeof (buf)) == NULL)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
 				     _("Cannot get address of local socket: %s\n"),
 				     g_strerror (errno));
           gftp_disconnect (request);
@@ -916,7 +916,7 @@ rfc959_accept_active_connection (gftp_request * request)
   if ((infd = accept (parms->data_connection, (struct sockaddr *) &cli_addr,
        &cli_addr_len)) == -1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                 _("Cannot accept connection from server: %s\n"),
                                 g_strerror (errno));
       gftp_disconnect (request);
@@ -1414,7 +1414,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 	{
 	  if (strncmp (tempstr, "total", strlen ("total")) != 0 &&
 	      strncmp (tempstr, _("total"), strlen (_("total"))) != 0)
-	    request->logging_function (gftp_logging_error, request->user_data,
+	    request->logging_function (gftp_logging_error, request,
 				       _("Warning: Cannot parse listing %s\n"),
 				       tempstr);
 	  gftp_file_destroy (fle);

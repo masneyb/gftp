@@ -77,7 +77,7 @@ rfc2068_read_response (gftp_request * request)
 
       if (*tempstr != '\0')
         {
-          request->logging_function (gftp_logging_recv, request->user_data, "%s\n",
+          request->logging_function (gftp_logging_recv, request, "%s\n",
                                      tempstr);
 
           if (strncmp (tempstr, "Content-Length:", 15) == 0)
@@ -96,7 +96,7 @@ rfc2068_read_response (gftp_request * request)
 
       if (sscanf ((char *) tempstr, "%lx", &params->chunk_size) != 1)
         {
-          request->logging_function (gftp_logging_recv, request->user_data,
+          request->logging_function (gftp_logging_recv, request,
                                      _("Received wrong response from server, disconnecting\n"));
           gftp_disconnect (request);
           return (GFTP_EFATAL);
@@ -109,7 +109,7 @@ rfc2068_read_response (gftp_request * request)
 
       if (params->chunk_size < 0)
         {
-          request->logging_function (gftp_logging_recv, request->user_data, "FIXME - the chunk size is negative. aborting directory listing\n");
+          request->logging_function (gftp_logging_recv, request, "FIXME - the chunk size is negative. aborting directory listing\n");
           return (GFTP_EFATAL);
         }
 
@@ -135,7 +135,7 @@ rfc2068_send_command (gftp_request * request, const void *command, size_t len)
   tempstr = g_strdup_printf ("%sUser-Agent: %s\nHost: %s\n", (char *) command,
                              gftp_version, request->hostname);
 
-  request->logging_function (gftp_logging_send, request->user_data,
+  request->logging_function (gftp_logging_send, request,
                              "%s", tempstr);
 
   ret = request->write_function (request, tempstr, strlen (tempstr), 
@@ -156,7 +156,7 @@ rfc2068_send_command (gftp_request * request, const void *command, size_t len)
       str = base64_encode (tempstr);
       g_free (tempstr);
 
-      request->logging_function (gftp_logging_send, request->user_data,
+      request->logging_function (gftp_logging_send, request,
                                  "Proxy-authorization: Basic xxxx:xxxx\n");
       ret = gftp_writefmt (request, request->datafd, 
                            "Proxy-authorization: Basic %s\n", str);
@@ -171,7 +171,7 @@ rfc2068_send_command (gftp_request * request, const void *command, size_t len)
       str = base64_encode (tempstr);
       g_free (tempstr);
 
-      request->logging_function (gftp_logging_send, request->user_data,
+      request->logging_function (gftp_logging_send, request,
                                  "Authorization: Basic xxxx\n");
       ret = gftp_writefmt (request, request->datafd, 
                            "Authorization: Basic %s\n", str);
@@ -238,12 +238,12 @@ rfc2068_disconnect (gftp_request * request)
 
   if (request->datafd > 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
 				 _("Disconnecting from site %s\n"),
 				 request->hostname);
 
       if (close (request->datafd) < 0)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
 
@@ -292,7 +292,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
   if (use_http11 && startsize > 0)
     {
 #if defined (_LARGEFILE_SOURCE)
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                               _("Starting the file transfer at offset %lld\n"),
                               startsize);
 
@@ -300,7 +300,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
       tempstr = g_strdup_printf ("%sRange: bytes=%lld-\n", tempstr, startsize);
       g_free (oldstr);
 #else
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
 			       _("Starting the file transfer at offset %ld\n"), 
                                startsize);
 
@@ -322,7 +322,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
   else if (strlen (request->last_ftp_response) < 9 ||
            strncmp (request->last_ftp_response + 9, "200", 3) != 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
 			         _("Cannot retrieve file %s\n"), filename);
       return (GFTP_ERETRYABLE);
     }
@@ -363,7 +363,7 @@ rfc2068_end_transfer (gftp_request * request)
     return (GFTP_EFATAL);
 
   if (close (request->datafd) < 0)
-    request->logging_function (gftp_logging_error, request->user_data,
+    request->logging_function (gftp_logging_error, request,
                                _("Error closing file descriptor: %s\n"),
                                g_strerror (errno));
   request->datafd = -1;
@@ -373,7 +373,7 @@ rfc2068_end_transfer (gftp_request * request)
   params->chunked_transfer = 0;
   params->chunk_size = 0;
 
-  request->logging_function (gftp_logging_misc, request->user_data,
+  request->logging_function (gftp_logging_misc, request,
                              _("Finished retrieving data\n"));
   return (0);
 }
@@ -420,7 +420,7 @@ rfc2068_list_files (gftp_request * request)
   if (strlen (request->last_ftp_response) > 9 &&
       strncmp (request->last_ftp_response + 9, "200", 3) == 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Retrieving directory listing...\n"));
       return (0);
     }
@@ -714,7 +714,7 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
         {
           if (*stpos != '\r' || *(stpos + 1) != '\n')
             {
-              request->logging_function (gftp_logging_recv, request->user_data,
+              request->logging_function (gftp_logging_recv, request,
                                          _("Received wrong response from server, disconnecting\n"));
               gftp_disconnect (request);
               return (GFTP_EFATAL);
@@ -732,7 +732,7 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
     
           if (sscanf (stpos + 2, "%lx", &params->chunk_size) != 1)
             {
-              request->logging_function (gftp_logging_recv, request->user_data,
+              request->logging_function (gftp_logging_recv, request,
                                          _("Received wrong response from server, disconnecting\n"));
               gftp_disconnect (request);
               return (GFTP_EFATAL);

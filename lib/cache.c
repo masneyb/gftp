@@ -44,7 +44,7 @@ gftp_parse_cache_line (gftp_request * request, gftp_cache_entry * centry,
   if ((pos = strchr (line, '\t')) == NULL || *(pos + 1) == '\0')
     {
       if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                             _("Error: Invalid line %s in cache index file\n"), 
                             line);
       return (-1);
@@ -58,7 +58,7 @@ gftp_parse_cache_line (gftp_request * request, gftp_cache_entry * centry,
   if ((pos = strchr (pos, '\t')) == NULL || *(pos + 1) == '\0')
     {
       if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                             _("Error: Invalid line %s in cache index file\n"), 
                             line);
       return (-1);
@@ -109,7 +109,7 @@ gftp_new_cache_entry (gftp_request * request)
       if (mkdir (cachedir, S_IRUSR | S_IWUSR | S_IXUSR) < 0)
         {
           if (request != NULL)
-            request->logging_function (gftp_logging_error, request->user_data,
+            request->logging_function (gftp_logging_error, request,
                                  _("Error: Could not make directory %s: %s\n"),
                                  cachedir, g_strerror (errno));
 
@@ -133,7 +133,7 @@ gftp_new_cache_entry (gftp_request * request)
     {
       g_free (tempstr);
       if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot create temporary file: %s\n"),
                                  g_strerror (errno));
       return (-1);
@@ -155,7 +155,7 @@ gftp_new_cache_entry (gftp_request * request)
   if (close (fd) != 0 || ret < 0)
     {
       if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
 
@@ -197,8 +197,7 @@ gftp_find_cache_entry (gftp_request * request)
 	  if (close (indexfd) != 0)
             {
               if (request != NULL)
-                request->logging_function (gftp_logging_error, 
-                                       request->user_data,
+                request->logging_function (gftp_logging_error, request,
                                        _("Error closing file descriptor: %s\n"),
                                        g_strerror (errno));
               return (-1);
@@ -216,8 +215,7 @@ gftp_find_cache_entry (gftp_request * request)
           if (lseek (cachefd, 0, SEEK_SET) == -1)
             {
               if (request != NULL)
-                request->logging_function (gftp_logging_error, 
-                                       request->user_data,
+                request->logging_function (gftp_logging_error, request,
                                        _("Error: Cannot seek on file %s: %s\n"),
                                        centry.file, g_strerror (errno));
 

@@ -275,7 +275,7 @@ void fix_display				( void );
 void remove_files_window			( gftp_window_data * wdata );
 
 void ftp_log					( gftp_logging_level level,
-						  void *ptr,
+						  gftp_request * request,
 						  const char *string,
 						  ... );
 

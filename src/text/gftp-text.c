@@ -248,9 +248,10 @@ main (int argc, char **argv)
 
 
 void
-gftp_text_log (gftp_logging_level level, void *ptr, const char *string, ...)
+gftp_text_log (gftp_logging_level level, gftp_request * request, 
+               const char *string, ...)
 {
-  char tempstr[512], *stpos, *endpos;
+  char tempstr[512], *stpos, *endpos, *utf8_str = NULL, *outstr;
   va_list argp;
   int sw;
 
@@ -276,9 +277,19 @@ gftp_text_log (gftp_logging_level level, void *ptr, const char *string, ...)
   g_vsnprintf (tempstr, sizeof (tempstr), string, argp);
   va_end (argp);
 
+#if GLIB_MAJOR_VERSION > 1
+  if (!g_utf8_validate (tempstr, -1, NULL))
+    utf8_str = gftp_string_to_utf8 (request, tempstr);
+#endif
+
+  if (utf8_str != NULL)
+    outstr = utf8_str;
+  else
+    outstr = tempstr;
+
   if (gftp_logfd != NULL)
     {
-      fwrite (tempstr, 1, strlen (tempstr), gftp_logfd);
+      fwrite (outstr, 1, strlen (outstr), gftp_logfd);
       if (ferror (gftp_logfd))
         {
           fclose (gftp_logfd);
@@ -289,8 +300,8 @@ gftp_text_log (gftp_logging_level level, void *ptr, const char *string, ...)
     }
 
   sw = gftp_text_get_win_size ();
-  stpos = tempstr;
-  endpos = tempstr + 1;
+  stpos = outstr;
+  endpos = outstr + 1;
   do
     {
       if (strlen (stpos) <= sw)
@@ -309,6 +320,9 @@ gftp_text_log (gftp_logging_level level, void *ptr, const char *string, ...)
   while (stpos != endpos);
   
   printf ("%s", COLOR_DEFAULT);
+
+  if (utf8_str != NULL)
+    g_free (utf8_str);
 }
 
 
@@ -324,7 +338,7 @@ gftp_text_open (gftp_request * request, char *command, gpointer *data)
 
   if (*command == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
           _("usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"));
       return (1);
     }
@@ -373,13 +387,13 @@ gftp_text_about (gftp_request * request, char *command, gpointer *data)
 {
   char *str;
 
-  gftp_text_log (gftp_logging_misc, NULL,
+  gftp_text_log (gftp_logging_misc, request,
       "%s. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n", 
       gftp_version);
 
   str = _("Translated by");
   if (strcmp (str, "Translated by") != 0)
-    gftp_text_log (gftp_logging_misc, NULL, "%s\n", str);
+    gftp_text_log (gftp_logging_misc, request, "%s\n", str);
   return (1);
 }
 
@@ -399,11 +413,11 @@ gftp_text_pwd (gftp_request * request, char *command, gpointer *data)
 {
   if (!GFTP_IS_CONNECTED (request))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
-  gftp_text_log (gftp_logging_misc, NULL, "%s\n", request->directory);
+  gftp_text_log (gftp_logging_misc, request, "%s\n", request->directory);
   return (1);
 }
 
@@ -415,19 +429,21 @@ gftp_text_cd (gftp_request * request, char *command, gpointer *data)
 
   if (!GFTP_IS_CONNECTED (request))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
   else if (*command == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL, _("usage: chdir <directory>\n"));
+      gftp_text_log (gftp_logging_error, request, 
+                     _("usage: chdir <directory>\n"));
       return (1);
     }
   else if (request->protonum == GFTP_LOCAL_NUM &&
            (newdir = expand_path (command)) == NULL)
     {
-      gftp_text_log (gftp_logging_error, NULL, _("usage: chdir <directory>\n"));
+      gftp_text_log (gftp_logging_error, request, 
+                     _("usage: chdir <directory>\n"));
       return (1);
     }
 
@@ -445,14 +461,14 @@ gftp_text_mkdir (gftp_request * request, char *command, gpointer *data)
 {
   if (!GFTP_IS_CONNECTED (request))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
 
   if (*command == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("usage: mkdir <new directory>\n"));
     }
   else
@@ -468,14 +484,15 @@ gftp_text_rmdir (gftp_request * request, char *command, gpointer *data)
 {
   if (!GFTP_IS_CONNECTED (request))
     {
-      gftp_text_log (gftp_logging_error, NULL, 
+      gftp_text_log (gftp_logging_error, request, 
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
 
   if (*command == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL, _("usage: rmdir <directory>\n"));
+      gftp_text_log (gftp_logging_error, request, 
+                     _("usage: rmdir <directory>\n"));
     }
   else
     {
@@ -490,14 +507,15 @@ gftp_text_delete (gftp_request * request, char *command, gpointer *data)
 {
   if (!GFTP_IS_CONNECTED (request))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
 
   if (*command == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL,_("usage: delete <file>\n"));
+      gftp_text_log (gftp_logging_error, request,
+                     _("usage: delete <file>\n"));
     }
   else
     {
@@ -515,7 +533,7 @@ gftp_text_rename (gftp_request * request, char *command, gpointer *data)
 
   if (!GFTP_IS_CONNECTED (request))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
@@ -525,7 +543,7 @@ gftp_text_rename (gftp_request * request, char *command, gpointer *data)
 
   if (*command == '\0' || pos == NULL || *pos == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("usage: rename <old name> <new name>\n"));
     }
   else
@@ -543,7 +561,7 @@ gftp_text_chmod (gftp_request * request, char *command, gpointer *data)
 
   if (!GFTP_IS_CONNECTED (request))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
@@ -553,7 +571,7 @@ gftp_text_chmod (gftp_request * request, char *command, gpointer *data)
 
   if (*command == '\0' || pos == NULL || *pos == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("usage: chmod <mode> <file>\n"));
     }
   else
@@ -576,7 +594,7 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
   time (&curtime);
   if (!GFTP_IS_CONNECTED (request))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
@@ -664,7 +682,7 @@ gftp_text_binary (gftp_request * request, char *command, gpointer *data)
 {
   if (!GFTP_IS_CONNECTED (gftp_text_remreq))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
@@ -682,7 +700,7 @@ gftp_text_ascii (gftp_request * request, char *command, gpointer *data)
 {
   if (!GFTP_IS_CONNECTED (gftp_text_remreq))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
@@ -703,14 +721,15 @@ gftp_text_mget_file (gftp_request * request, char *command, gpointer *data)
 
   if (!GFTP_IS_CONNECTED (gftp_text_remreq))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
 
   if (*command == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL, _("usage: mget <filespec>\n"));
+      gftp_text_log (gftp_logging_error, request, 
+                     _("usage: mget <filespec>\n"));
       return (1);
     }
 
@@ -776,14 +795,15 @@ gftp_text_mput_file (gftp_request * request, char *command, gpointer *data)
 
   if (!GFTP_IS_CONNECTED (gftp_text_remreq))
     {
-      gftp_text_log (gftp_logging_error, NULL,
+      gftp_text_log (gftp_logging_error, request,
                      _("Error: Not connected to a remote site\n"));
       return (1);
     }
 
   if (*command == '\0')
     {
-      gftp_text_log (gftp_logging_error, NULL, _("usage: mput <filespec>\n"));
+      gftp_text_log (gftp_logging_error, request, 
+                     _("usage: mput <filespec>\n"));
       return (1);
     }
 
@@ -920,14 +940,14 @@ gftp_text_transfer_files (gftp_transfer * transfer)
 
       if (num_read < 0)
         {
-          gftp_text_log (gftp_logging_misc, NULL, 
+          gftp_text_log (gftp_logging_misc, transfer->fromreq, 
                          _("Could not download %s\n"), curfle->file);
           gftp_disconnect (transfer->fromreq);
           gftp_disconnect (transfer->toreq);
         }
       else
         {
-          gftp_text_log (gftp_logging_misc, NULL, 
+          gftp_text_log (gftp_logging_misc, transfer->fromreq, 
                          _("Successfully transferred %s\n"), curfle->file);
           gftp_end_transfer (transfer->fromreq);
           gftp_end_transfer (transfer->toreq);
@@ -1050,7 +1070,7 @@ gftp_text_set (gftp_request * request, char *command, gpointer *data)
     {
       if ((pos = strchr (command, '=')) == NULL)
         {
-          gftp_text_log (gftp_logging_error, NULL,
+          gftp_text_log (gftp_logging_error, request,
                          _("usage: set [variable = value]\n"));
           return (1);
         }
@@ -1064,14 +1084,14 @@ gftp_text_set (gftp_request * request, char *command, gpointer *data)
 
       if ((cv = g_hash_table_lookup (gftp_global_options_htable, command)) == NULL)
         {
-          gftp_text_log (gftp_logging_error, NULL,
+          gftp_text_log (gftp_logging_error, request,
                          _("Error: Variable %s is not a valid configuration variable.\n"), command);
           return (1);
         }
 
       if (!(cv->ports_shown & GFTP_PORT_TEXT))
         {
-          gftp_text_log (gftp_logging_error, NULL,
+          gftp_text_log (gftp_logging_error, request,
                          _("Error: Variable %s is not available in the text port of gFTP\n"), command);
           return (1);
         }
@@ -1093,7 +1113,7 @@ gftp_text_clear (gftp_request * request, char *command, gpointer *data)
   if (strcasecmp (command, "cache") == 0)
     gftp_clear_cache_files ();
   else
-    gftp_text_log (gftp_logging_error, NULL, "Invalid argument\n");
+    gftp_text_log (gftp_logging_error, request, _("Invalid argument\n"));
   return (1);
 }
 
@@ -1118,7 +1138,7 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
         {
           
           gftp_text_log (gftp_logging_error, NULL, 
-                         "Cannot open controlling terminal %s\n", termname);
+                         _("Cannot open controlling terminal %s\n"), termname);
           return (NULL);
         }
       outfd = infd;

@@ -278,7 +278,7 @@ connect_thread (void *data)
         }
       else if (retries == 0 || conn_num < retries)
         {
-          request->logging_function (gftp_logging_misc, request->user_data,
+          request->logging_function (gftp_logging_misc, request,
                      _("Waiting %d seconds until trying to connect again\n"),
 		     sleep_time);
           alarm (sleep_time);
@@ -528,7 +528,7 @@ do_getdir_thread (void * data)
       if (transfer->toreq)
         gftp_disconnect (transfer->toreq);
       transfer->fromreq->logging_function (gftp_logging_error,
-                                           transfer->fromreq->user_data,
+                                           transfer->fromreq,
                                            _("Operation canceled\n"));
     }
 
@@ -640,7 +640,7 @@ gftp_gtk_transfer_files (void *data)
           !GFTP_IS_CONNECTED (transfer->toreq))
         {
           transfer->fromreq->logging_function (gftp_logging_misc, 
-                         transfer->fromreq->user_data, 
+                         transfer->fromreq, 
                          _("Error: Remote site disconnected after trying to transfer file\n"));
         }
       else if (fromsize < 0)
@@ -697,7 +697,7 @@ gftp_gtk_transfer_files (void *data)
       else if (num_read < 0)
         {
           transfer->fromreq->logging_function (gftp_logging_misc, 
-                                        transfer->fromreq->user_data, 
+                                        transfer->fromreq, 
                                         _("Could not download %s from %s\n"), 
                                         curfle->file,
                                         transfer->fromreq->hostname);
@@ -727,7 +727,7 @@ gftp_gtk_transfer_files (void *data)
           gftp_end_transfer (transfer->toreq);
 
           transfer->fromreq->logging_function (gftp_logging_misc, 
-                         transfer->fromreq->user_data, 
+                         transfer->fromreq, 
                          _("Successfully transferred %s at %.2f KB/s\n"),
                          curfle->file, transfer->kbs);
         }

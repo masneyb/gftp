@@ -248,7 +248,7 @@ sshv2_gen_exec_args (gftp_request * request, char *execname,
     sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
                          " %s \"%s\"", request->hostname, execname);
 
-  request->logging_function (gftp_logging_misc, request->user_data, 
+  request->logging_function (gftp_logging_misc, request, 
                              _("Running program %s\n"), logstr);
   g_free (logstr);
   return (args);
@@ -342,7 +342,7 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
         break;
       else if (rem <= 1)
         {
-          request->logging_function (gftp_logging_recv, request->user_data,
+          request->logging_function (gftp_logging_recv, request,
                                      "%s", tempstr + lastdiff);
           len += SSH_LOGIN_BUFSIZE;
           rem += SSH_LOGIN_BUFSIZE;
@@ -355,19 +355,19 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
   g_free (pwstr);
 
   if (*(tempstr + lastdiff) != '\0')
-    request->logging_function (gftp_logging_recv, request->user_data,
+    request->logging_function (gftp_logging_recv, request,
                                "%s\n", tempstr + lastdiff);
 
   if (ok <= 0)
     {
       if (ok == SSH_ERROR_BADPASS)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                _("Error: An incorrect password was entered\n"));
       else if (ok == SSH_ERROR_QUESTION)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                _("Please connect to this host with the command line SSH utility and answer this question appropriately.\n"));
       else if (ok == SSH_WARNING)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                    _("Please correct the above warning to connect to this host.\n"));
 
       g_free (tempstr);
@@ -406,13 +406,13 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
   switch (type)
     {
       case SSH_FXP_INIT:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Protocol Initialization\n"), id);
         break;
       case SSH_FXP_VERSION:
         memcpy (&num, message, 4);
         num = ntohl (num);
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Protocol version %d\n"), id, num);
         break;
       case SSH_FXP_OPEN:
@@ -421,51 +421,51 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
         pos = message + 12 + num - 1;
         oldchar = *pos;
         *pos = '\0';
-        request->logging_function (level, request->user_data,
+        request->logging_function (level, request,
                                    _("%d: Open %s\n"), id, message + 8);
         *pos = oldchar;
         break;
       case SSH_FXP_CLOSE:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Close\n"), id);
       case SSH_FXP_READ:
       case SSH_FXP_WRITE:
         break;  
       case SSH_FXP_OPENDIR:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Open Directory %s\n"), id,
                                    message + 8);
         break;
       case SSH_FXP_READDIR:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Read Directory\n"), id);
         break;
       case SSH_FXP_REMOVE:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Remove file %s\n"), id,
                                    message + 8);
         break;
       case SSH_FXP_MKDIR:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Make directory %s\n"), id,
                                    message + 8);
         break;
       case SSH_FXP_RMDIR:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Remove directory %s\n"), id,
                                    message + 8);
         break;
       case SSH_FXP_REALPATH:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Realpath %s\n"), id,
                                    message + 8);
         break;
       case SSH_FXP_ATTRS:
-        request->logging_function (level, request->user_data,
+        request->logging_function (level, request,
                                    _("%d: File attributes\n"), id);
         break;
       case SSH_FXP_STAT:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    _("%d: Stat %s\n"), id,
                                    message + 8);
         break;
@@ -482,12 +482,12 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
         switch (stattype)
           {
             case SSH_FILEXFER_ATTR_PERMISSIONS:
-              request->logging_function (level, request->user_data,
+              request->logging_function (level, request,
                                          _("%d: Chmod %s %o\n"), id,
                                          message + 8, attr);
               break;
             case SSH_FILEXFER_ATTR_ACMODTIME:
-              request->logging_function (level, request->user_data,
+              request->logging_function (level, request,
                                          _("%d: Utime %s %d\n"), id,
                                          message + 8, attr);
           }
@@ -531,11 +531,11 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
               descr = _("Unknown message returned from server");
               break;
           }
-        request->logging_function (level, request->user_data,
+        request->logging_function (level, request,
                                    "%d: %s\n", id, descr);
         break;
       case SSH_FXP_HANDLE:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    "%d: File handle\n", id);
         break;
       case SSH_FXP_DATA:
@@ -543,12 +543,12 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
       case SSH_FXP_NAME:
         memcpy (&num, message + 4, 4);
         num = ntohl (num);
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    "%d: Filenames (%d entries)\n", id,
                                    num);
         break;
       default:
-        request->logging_function (level, request->user_data, 
+        request->logging_function (level, request, 
                                    "Command: %x\n", type);
     }
 }
@@ -564,7 +564,7 @@ sshv2_send_command (gftp_request * request, char type, char *command,
 
   if (len > 33995)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                              _("Error: Message size %d too big\n"), len);
       gftp_disconnect (request);
       return (GFTP_EFATAL);
@@ -616,7 +616,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
   message->length = ntohl (message->length);
   if (message->length > 34000)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                              _("Error: Message size %d too big from server\n"),
                              message->length);
       memset (message, 0, sizeof (*message));
@@ -677,7 +677,7 @@ sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
 
   if (message->end - message->pos < 4)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (message);
       gftp_disconnect (request);
@@ -690,7 +690,7 @@ sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
 
   if (expected_response > 0 && ret != expected_response)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (message);
       gftp_disconnect (request);
@@ -712,7 +712,7 @@ sshv2_buffer_get_string (gftp_request * request, sshv2_message * message)
 
   if (len > SSH_MAX_STRING_SIZE || (message->end - message->pos < len))
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (message);
       gftp_disconnect (request);
@@ -780,7 +780,7 @@ sshv2_getcwd (gftp_request * request)
     }
   else if (ret != SSH_FXP_NAME)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
@@ -826,7 +826,7 @@ sshv2_connect (gftp_request * request)
   if (request->datafd > 0)
     return (0);
 
-  request->logging_function (gftp_logging_misc, request->user_data,
+  request->logging_function (gftp_logging_misc, request,
 			     _("Opening SSH connection to %s\n"),
                              request->hostname);
 
@@ -855,7 +855,7 @@ sshv2_connect (gftp_request * request)
     {
       if (!r_getservbyname ("ssh", "tcp", &serv_struct, NULL))
         {
-         request->logging_function (gftp_logging_error, request->user_data,
+         request->logging_function (gftp_logging_error, request,
                                     _("Cannot look up service name %s/tcp. Please check your services file\n"),
                                     "ssh");
         }
@@ -870,7 +870,7 @@ sshv2_connect (gftp_request * request)
     {
       if (socketpair (AF_LOCAL, SOCK_STREAM, 0, s) < 0)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                      _("Cannot create a socket pair: %s\n"),
                                      g_strerror (errno));
           return (GFTP_ERETRYABLE);
@@ -927,7 +927,7 @@ sshv2_connect (gftp_request * request)
       memset (&message, 0, sizeof (message));
       if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_VERSION)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                    _("Received wrong response from server, disconnecting\n"));
           sshv2_message_free (&message);
           gftp_disconnect (request);
@@ -939,13 +939,13 @@ sshv2_connect (gftp_request * request)
         }
       sshv2_message_free (&message);
 
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
 			         _("Successfully logged into SSH server %s\n"),
                                  request->hostname);
     }
   else
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Cannot fork another process: %s\n"),
                                  g_strerror (errno));
       g_free (args);
@@ -981,12 +981,12 @@ sshv2_disconnect (gftp_request * request)
 
   if (request->datafd > 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
 			         _("Disconnecting from site %s\n"),
                                  request->hostname);
 
       if (close (request->datafd) < 0)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
 
@@ -1028,7 +1028,7 @@ sshv2_end_transfer (gftp_request * request)
       memset (&message, 0, sizeof (message));
       if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_STATUS)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
           sshv2_message_free (&message);
           gftp_disconnect (request);
@@ -1066,7 +1066,7 @@ sshv2_list_files (gftp_request * request)
 
   params = request->protocol_data;
 
-  request->logging_function (gftp_logging_misc, request->user_data,
+  request->logging_function (gftp_logging_misc, request,
 			     _("Retrieving directory listing...\n"));
 
   tempstr = g_malloc (strlen (request->directory) + 9);
@@ -1096,7 +1096,7 @@ sshv2_list_files (gftp_request * request)
     }
   else if (ret != SSH_FXP_HANDLE)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
@@ -1105,7 +1105,7 @@ sshv2_list_files (gftp_request * request)
 
   if (message.length - 4 > SSH_MAX_HANDLE_SIZE)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                              _("Error: Message size %d too big from server\n"),
                              message.length - 4);
       sshv2_message_free (&message);
@@ -1210,7 +1210,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           params->message.pos += 8;
           if (params->message.pos > params->message.end)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
               sshv2_message_free (&params->message);
               gftp_disconnect (request);
@@ -1223,7 +1223,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           params->message.pos += 8;
           if (params->message.pos > params->message.end)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
               sshv2_message_free (&params->message);
               gftp_disconnect (request);
@@ -1236,7 +1236,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           params->message.pos += 4;
           if (params->message.pos > params->message.end)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
               sshv2_message_free (&params->message);
               gftp_disconnect (request);
@@ -1249,7 +1249,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           params->message.pos += 8;
           if (params->message.pos > params->message.end)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
               sshv2_message_free (&params->message);
               gftp_disconnect (request);
@@ -1305,7 +1305,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
     }
   else
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&params->message);
       gftp_disconnect (request);
@@ -1370,7 +1370,7 @@ sshv2_chdir (gftp_request * request, const char *directory)
         }
       else if (ret != SSH_FXP_NAME)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
           sshv2_message_free (&message);
           gftp_disconnect (request);
@@ -1830,7 +1830,7 @@ sshv2_get_file_size (gftp_request * request, const char *file)
     }
   else if (serv_ret != SSH_FXP_ATTRS)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&params->message);
       gftp_disconnect (request);
@@ -1932,7 +1932,7 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
     }
   else if (ret != SSH_FXP_HANDLE)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
@@ -1941,7 +1941,7 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
 
   if (message.length - 4 > SSH_MAX_HANDLE_SIZE)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                              _("Error: Message size %d too big from server\n"),
                              message.length - 4);
       sshv2_message_free (&message);
@@ -2025,7 +2025,7 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
     }
   else if (ret != SSH_FXP_HANDLE)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
@@ -2034,7 +2034,7 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
 
   if (message.length - 4 > SSH_MAX_HANDLE_SIZE)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                              _("Error: Message size %d too big from server\n"),
                              message.length - 4);
       sshv2_message_free (&message);
@@ -2110,7 +2110,7 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
       sshv2_message_free (&message);
       if (num != SSH_FX_EOF)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
@@ -2122,7 +2122,7 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   num = ntohl (num);
   if (num > size)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                              _("Error: Message size %d too big from server\n"),
                              num);
       sshv2_message_free (&message);
@@ -2195,7 +2195,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   params->dont_log_status = 0;
   if (ret != SSH_FXP_STATUS)
    {
-     request->logging_function (gftp_logging_error, request->user_data,
+     request->logging_function (gftp_logging_error, request,
                      _("Received wrong response from server, disconnecting\n"));
      sshv2_message_free (&message);
      gftp_disconnect (request);

@@ -155,7 +155,7 @@ gftp_get_file (gftp_request * request, const char *filename, int fd,
   gftp_lookup_request_option (request, "maxkbs", &maxkbs);
   if (maxkbs > 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                     _("File transfer will be throttled to %.2f KB/s\n"),
                     maxkbs);
     }
@@ -179,7 +179,7 @@ gftp_put_file (gftp_request * request, const char *filename, int fd,
 
   if (maxkbs > 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                     _("File transfer will be throttled to %.2f KB/s\n"), 
                     maxkbs);
     }
@@ -314,7 +314,7 @@ gftp_list_files (gftp_request * request)
   request->cached = 0;
   if (request->use_cache && (fd = gftp_find_cache_entry (request)) > 0)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Loading directory listing %s from cache\n"),
                                  request->directory);
 
@@ -359,7 +359,7 @@ _gftp_get_next_charset (char *remote_charsets, char **curpos)
 }
 
 
-static char *
+char *
 gftp_string_to_utf8 (gftp_request * request, char *str)
 {
   char *ret, *remote_charsets, *stpos, *cur_charset;
@@ -442,7 +442,7 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
           if (gftp_fd_write (request, request->last_dir_entry,
                           request->last_dir_entry_len, request->cachefd) < 0)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                                         _("Error: Cannot write to cache: %s\n"),
                                         g_strerror (errno));
               close (request->cachefd);
@@ -473,14 +473,14 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
   if ((tempentry = g_hash_table_lookup (gftp_bookmarks_htable, 
                                         bookmark)) == NULL)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Could not find bookmark %s\n"), 
                                  bookmark);
       return (GFTP_EFATAL);
     }
   else if (tempentry->hostname == NULL || *tempentry->hostname == '\0')
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Bookmarks Error: The bookmark entry %s does not have a hostname\n"), bookmark);
       return (GFTP_EFATAL);
     }
@@ -890,13 +890,13 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
   else
     snprintf (serv, sizeof (serv), "%d", port);
 
-  request->logging_function (gftp_logging_misc, request->user_data,
+  request->logging_function (gftp_logging_misc, request,
                              _("Looking up %s\n"), request->hostname);
 
   if ((errnum = getaddrinfo (request->hostname, serv, &hints, 
                              &request->hostp)) != 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Cannot look up hostname %s: %s\n"),
                                  request->hostname, gai_strerror (errnum));
       return (GFTP_ERETRYABLE);
@@ -905,13 +905,13 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
   addr = request->hostp->ai_addr;
 
 #else /* !HAVE_GETADDRINFO */
-  request->logging_function (gftp_logging_misc, request->user_data,
+  request->logging_function (gftp_logging_misc, request,
                              _("Looking up %s\n"), request->hostname);
 
   if (!(request->hostp = r_gethostbyname (request->hostname, &request->host,
                                           NULL)))
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Cannot look up hostname %s: %s\n"),
                                  request->hostname, g_strerror (errno));
       return (GFTP_ERETRYABLE);
@@ -1705,12 +1705,12 @@ gftp_connect_server (gftp_request * request, char *service,
       else
         snprintf (serv, sizeof (serv), "%d", port);
 
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Looking up %s\n"), connect_host);
       if ((errnum = getaddrinfo (connect_host, serv, &hints, 
                                  &request->hostp)) != 0)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                      _("Cannot look up hostname %s: %s\n"),
                                      connect_host, gai_strerror (errnum));
           return (GFTP_ERETRYABLE);
@@ -1728,18 +1728,18 @@ gftp_connect_server (gftp_request * request, char *service,
       if ((sock = socket (res->ai_family, res->ai_socktype, 
                           res->ai_protocol)) < 0)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                      _("Failed to create a socket: %s\n"),
                                      g_strerror (errno));
           continue; 
         } 
 
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Trying %s:%d\n"), disphost, port);
 
       if (connect (sock, res->ai_addr, res->ai_addrlen) == -1)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                      _("Cannot connect to %s: %s\n"),
                                      disphost, g_strerror (errno));
           close (sock);
@@ -1771,7 +1771,7 @@ gftp_connect_server (gftp_request * request, char *service,
 
   if ((sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Failed to create a socket: %s\n"),
                                  g_strerror (errno));
       return (GFTP_ERETRYABLE);
@@ -1795,7 +1795,7 @@ gftp_connect_server (gftp_request * request, char *service,
     {
       if (!r_getservbyname (service, "tcp", &serv_struct, NULL))
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                      _("Cannot look up service name %s/tcp. Please check your services file\n"),
                                      service);
           close (sock);
@@ -1814,12 +1814,12 @@ gftp_connect_server (gftp_request * request, char *service,
 
   if (request->hostp == NULL)
     {
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Looking up %s\n"), connect_host);
       if (!(request->hostp = r_gethostbyname (connect_host, &request->host,
                                               NULL)))
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                      _("Cannot look up hostname %s: %s\n"),
                                      connect_host, g_strerror (errno));
           close (sock);
@@ -1833,14 +1833,14 @@ gftp_connect_server (gftp_request * request, char *service,
       disphost = request->host.h_name;
       memcpy (&remote_address.sin_addr, request->host.h_addr_list[curhost],
               request->host.h_length);
-      request->logging_function (gftp_logging_misc, request->user_data,
+      request->logging_function (gftp_logging_misc, request,
                                  _("Trying %s:%d\n"),
                                  request->host.h_name, ntohs (port));
 
       if (connect (sock, (struct sockaddr *) &remote_address,
                    sizeof (remote_address)) == -1)
         {
-          request->logging_function (gftp_logging_error, request->user_data,
+          request->logging_function (gftp_logging_error, request,
                                      _("Cannot connect to %s: %s\n"),
                                      connect_host, g_strerror (errno));
         }
@@ -1857,14 +1857,14 @@ gftp_connect_server (gftp_request * request, char *service,
 
   if (fcntl (sock, F_SETFD, 1) == -1)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot set close on exec flag: %s\n"),
                                  g_strerror (errno));
 
       return (GFTP_ERETRYABLE);
     }
 
-  request->logging_function (gftp_logging_misc, request->user_data,
+  request->logging_function (gftp_logging_misc, request,
                              _("Connected to %s:%d\n"), connect_host, port);
 
   if (gftp_fd_set_sockblocking (request, sock, 1) < 0)
@@ -2079,7 +2079,7 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
         {
           if (request != NULL)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                                          _("Connection to %s timed out\n"),
                                          request->hostname);
               gftp_disconnect (request);
@@ -2099,7 +2099,7 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
  
           if (request != NULL)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                                    _("Error: Could not read from socket: %s\n"),
                                     g_strerror (errno));
               gftp_disconnect (request);
@@ -2149,7 +2149,7 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
         {
           if (request != NULL)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                                          _("Connection to %s timed out\n"),
                                          request->hostname);
               gftp_disconnect (request);
@@ -2169,7 +2169,7 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
  
           if (request != NULL)
             {
-              request->logging_function (gftp_logging_error, request->user_data,
+              request->logging_function (gftp_logging_error, request,
                                     _("Error: Could not write to socket: %s\n"),
                                     g_strerror (errno));
               gftp_disconnect (request);
@@ -2217,7 +2217,7 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
 
   if ((flags = fcntl (fd, F_GETFL, 0)) < 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Cannot get socket flags: %s\n"),
                                  g_strerror (errno));
       gftp_disconnect (request);
@@ -2231,7 +2231,7 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
 
   if (fcntl (fd, F_SETFL, flags) < 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_error, request,
                                  _("Cannot set socket to non-blocking: %s\n"),
                                  g_strerror (errno));
       gftp_disconnect (request);
@@ -2462,7 +2462,7 @@ gftp_fd_open (gftp_request * request, const char *pathname, int flags, mode_t mo
   if ((fd = open (pathname, flags, mode)) < 0)
     {
       if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                    _("Error: Cannot open local file %s: %s\n"),
                                    pathname, g_strerror (errno));
       return (GFTP_ERETRYABLE);
@@ -2471,7 +2471,7 @@ gftp_fd_open (gftp_request * request, const char *pathname, int flags, mode_t mo
   if (fcntl (fd, F_SETFD, 1) == -1)
     {
       if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
+        request->logging_function (gftp_logging_error, request,
                                    _("Error: Cannot set close on exec flag: %s\n"),
                                    g_strerror (errno));
 

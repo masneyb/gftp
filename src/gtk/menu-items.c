@@ -426,7 +426,7 @@ do_change_dir_thread (void * data)
     {
       gftp_disconnect (wdata->request);
       wdata->request->logging_function (gftp_logging_error,
-                                        wdata->request->user_data,
+                                        wdata->request,
                                         _("Operation canceled\n"));
     }
 
@@ -616,7 +616,9 @@ viewlog (gpointer data)
     {
       if ((len = write (fd, pos, textlen)) == -1)
         { 
-          ftp_log (gftp_logging_misc, NULL, _("Error: Error writing to %s: %s\n"), tempstr, g_strerror (errno));
+          ftp_log (gftp_logging_misc, NULL, 
+                   _("Error: Error writing to %s: %s\n"), 
+                   tempstr, g_strerror (errno));
           break;
         }
       textlen -= len;
@@ -672,7 +674,9 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
       if ((len = write (fileno (fd), pos, textlen)) == -1)
         {
           ok = 0;
-          ftp_log (gftp_logging_misc, NULL, _("Error: Error writing to %s: %s\n"), filename, g_strerror (errno));
+          ftp_log (gftp_logging_misc, NULL, 
+                   _("Error: Error writing to %s: %s\n"), 
+                   filename, g_strerror (errno));
           break;
         }
 

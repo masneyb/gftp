@@ -1,4 +1,17 @@
 2003-6-16 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h src/text/gftp-text.c src/gtk/misc-gtk.c - changed 2nd
+	parameter of logging function to be a request structure, instead of
+	request->user_data. In the logging functions, if the string isn't in
+	UTF-8, convert it with gftp_string_to_utf8()
+
+	* lib/bookmark.c lib/cache.c lib/gftp.h lib/https.c lib/local.c
+	lib/protocols.c lib/rfc2068.c lib/rfc959.c lib/sshv2.c lib/sslcommon.c
+	src/gtk/chmod_dialog.c src/gtk/delete_dialog.c src/gtk/gftp-gtk.h 
+	src/gtk/menu-items.c src/gtk/misc-gtk.c src/gtk/mkdir_dialog.c 
+	src/gtk/rename_dialog.c src/gtk/transfer.c src/text/gftp-text.c 
+	src/gtk/gftp-gtk.h src/text/gftp-text.h - pass request structure
+	to logging function instead of request->user_data
+
 	* lib/protocols.c (_gftp_get_next_charset) - set the separator for
 	remote charsets to be a comma
 
