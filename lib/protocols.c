@@ -20,27 +20,6 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
-static time_t parse_time 			( char **str );
-static int gftp_parse_ls_eplf 			( char *str, 
-						  gftp_file * fle );
-static int gftp_parse_ls_unix 			( char *str, 
-						  int cols, 
-						  gftp_file * fle );
-static int gftp_parse_ls_nt 			( char *str, 
-						  gftp_file * fle );
-static int gftp_parse_ls_novell 		( char *str, 
-						  gftp_file * fle );
-static char *copy_token 			( char **dest, 
-						  char *source );
-static char *goto_next_token 			( char *pos );
-static GList * gftp_get_dir_listing 		( gftp_transfer * transfer,
-						  int getothdir );
-static GHashTable * gftp_gen_dir_hash 		( gftp_request * request );
-static void gftp_destroy_dir_hash 		( GHashTable * dirhash );
-static void destroy_hash_ent 			( gpointer key, 
-						  gpointer value, 
-						  gpointer user_data );
-
 gftp_request *
 gftp_request_new (void)
 {
@@ -1043,87 +1022,45 @@ gftp_convert_ascii (char *buf, ssize_t *len, int direction)
 }
 
 
-int
-gftp_parse_ls (const char *lsoutput, gftp_file * fle)
+static char *
+copy_token (char **dest, char *source)
 {
-  int result, cols;
-  char *str, *pos;
+  /* This function is used internally by gftp_parse_ls () */
+  char *endpos, savepos;
 
-  g_return_val_if_fail (lsoutput != NULL, -2);
-  g_return_val_if_fail (fle != NULL, -2);
+  endpos = source;
+  while (*endpos != ' ' && *endpos != '\t' && *endpos != '\0')
+    endpos++;
+  if (*endpos == '\0')
+    return (NULL);
 
-  str = g_malloc (strlen (lsoutput) + 1);
-  strcpy (str, lsoutput);
-  memset (fle, 0, sizeof (*fle));
+  savepos = *endpos;
+  *endpos = '\0';
+  *dest = g_malloc (endpos - source + 1);
+  strcpy (*dest, source);
+  *endpos = savepos;
 
-  if (str[strlen (str) - 1] == '\n')
-    str[strlen (str) - 1] = '\0';
-  if (str[strlen (str) - 1] == '\r')
-    str[strlen (str) - 1] = '\0';
-  if (*lsoutput == '+') 			/* EPLF format */
-    result = gftp_parse_ls_eplf (str, fle);
-  else if (isdigit ((int) str[0]) && str[2] == '-') 	/* DOS/WinNT format */
-    result = gftp_parse_ls_nt (str, fle);
-  else if (str[1] == ' ' && str[2] == '[') 	/* Novell format */
-    result = gftp_parse_ls_novell (str, fle);
-  else
-    {
-      /* UNIX/MacOS format */
+  /* Skip the blanks till we get to the next entry */
+  source = endpos + 1;
+  while ((*source == ' ' || *source == '\t') && *source != '\0')
+    source++;
+  return (source);
+}
 
-      /* If there is no space between the attribs and links field, just make one */
-      if (strlen (str) > 10)
-	str[10] = ' ';
 
-      /* Determine the number of columns */
-      cols = 0;
-      pos = str;
-      while (*pos != '\0')
-	{
-	  while (*pos != '\0' && *pos != ' ' && *pos != '\t')
-	    {
-	      if (*pos == ':')
-		break;
-	      pos++;
-	    }
+static char *
+goto_next_token (char *pos)
+{
+  while (*pos != ' ' && *pos != '\t' && *pos != '\0')
+    pos++;
 
-	  cols++;
+  if (pos == '\0')
+    return (pos);
 
-	  if (*pos == ':')
-	    {
-	      cols++;
-	      break;
-	    }
+  while ((*pos == ' ' || *pos == '\t') && *pos != '\0')
+    pos++;
 
-	  while (*pos == ' ' || *pos == '\t')
-	    pos++;
-	}
-
-      if (cols > 6)
-	result = gftp_parse_ls_unix (str, cols, fle);
-      else
-	result = -2;
-    }
-  g_free (str);
-
-  if (fle->attribs == NULL)
-    return (result);
-
-  if (*fle->attribs == 'd')
-    fle->isdir = 1;
-  if (*fle->attribs == 'l')
-    fle->islink = 1;
-  if (strchr (fle->attribs, 'x') != NULL && !fle->isdir && !fle->islink)
-    fle->isexe = 1;
-  if (*fle->attribs == 'b')
-    fle->isblock = 1;
-  if (*fle->attribs == 'c')
-    fle->ischar = 1;
-  if (*fle->attribs == 's')
-    fle->issocket = 1;
-  if (*fle->attribs == 'p')
-    fle->isfifo = 1;
-
-  return (result);
+  return (pos);
 }
 
 
@@ -1456,45 +1393,138 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
 }
 
 
-static char *
-copy_token (char **dest, char *source)
+int
+gftp_parse_ls (const char *lsoutput, gftp_file * fle)
 {
-  /* This function is used internally by gftp_parse_ls () */
-  char *endpos, savepos;
+  int result, cols;
+  char *str, *pos;
 
-  endpos = source;
-  while (*endpos != ' ' && *endpos != '\t' && *endpos != '\0')
-    endpos++;
-  if (*endpos == '\0')
-    return (NULL);
+  g_return_val_if_fail (lsoutput != NULL, -2);
+  g_return_val_if_fail (fle != NULL, -2);
 
-  savepos = *endpos;
-  *endpos = '\0';
-  *dest = g_malloc (endpos - source + 1);
-  strcpy (*dest, source);
-  *endpos = savepos;
+  str = g_malloc (strlen (lsoutput) + 1);
+  strcpy (str, lsoutput);
+  memset (fle, 0, sizeof (*fle));
 
-  /* Skip the blanks till we get to the next entry */
-  source = endpos + 1;
-  while ((*source == ' ' || *source == '\t') && *source != '\0')
-    source++;
-  return (source);
+  if (str[strlen (str) - 1] == '\n')
+    str[strlen (str) - 1] = '\0';
+  if (str[strlen (str) - 1] == '\r')
+    str[strlen (str) - 1] = '\0';
+  if (*lsoutput == '+') 			/* EPLF format */
+    result = gftp_parse_ls_eplf (str, fle);
+  else if (isdigit ((int) str[0]) && str[2] == '-') 	/* DOS/WinNT format */
+    result = gftp_parse_ls_nt (str, fle);
+  else if (str[1] == ' ' && str[2] == '[') 	/* Novell format */
+    result = gftp_parse_ls_novell (str, fle);
+  else
+    {
+      /* UNIX/MacOS format */
+
+      /* If there is no space between the attribs and links field, just make one */
+      if (strlen (str) > 10)
+	str[10] = ' ';
+
+      /* Determine the number of columns */
+      cols = 0;
+      pos = str;
+      while (*pos != '\0')
+	{
+	  while (*pos != '\0' && *pos != ' ' && *pos != '\t')
+	    {
+	      if (*pos == ':')
+		break;
+	      pos++;
+	    }
+
+	  cols++;
+
+	  if (*pos == ':')
+	    {
+	      cols++;
+	      break;
+	    }
+
+	  while (*pos == ' ' || *pos == '\t')
+	    pos++;
+	}
+
+      if (cols > 6)
+	result = gftp_parse_ls_unix (str, cols, fle);
+      else
+	result = -2;
+    }
+  g_free (str);
+
+  if (fle->attribs == NULL)
+    return (result);
+
+  if (*fle->attribs == 'd')
+    fle->isdir = 1;
+  if (*fle->attribs == 'l')
+    fle->islink = 1;
+  if (strchr (fle->attribs, 'x') != NULL && !fle->isdir && !fle->islink)
+    fle->isexe = 1;
+  if (*fle->attribs == 'b')
+    fle->isblock = 1;
+  if (*fle->attribs == 'c')
+    fle->ischar = 1;
+  if (*fle->attribs == 's')
+    fle->issocket = 1;
+  if (*fle->attribs == 'p')
+    fle->isfifo = 1;
+
+  return (result);
 }
 
 
-static char *
-goto_next_token (char *pos)
+static GHashTable *
+gftp_gen_dir_hash (gftp_request * request)
 {
-  while (*pos != ' ' && *pos != '\t' && *pos != '\0')
-    pos++;
+  unsigned long *newsize;
+  GHashTable * dirhash;
+  gftp_file * fle;
+  char * newname;
 
-  if (pos == '\0')
-    return (pos);
 
-  while ((*pos == ' ' || *pos == '\t') && *pos != '\0')
-    pos++;
+  dirhash = g_hash_table_new (string_hash_function, string_hash_compare);
+  if (gftp_list_files (request) == 0)
+    {
+      fle = g_malloc0 (sizeof (*fle));
+      while (gftp_get_next_file (request, NULL, fle) > 0)
+        {
+          newname = fle->file;
+          newsize = g_malloc (sizeof (unsigned long));
+          *newsize = fle->size;
+          g_hash_table_insert (dirhash, newname, newsize);
+          fle->file = NULL;
+          gftp_file_destroy (fle);
+        }
+      gftp_end_transfer (request);
+      g_free (fle);
+    }
+  else
+    {
+      g_hash_table_destroy (dirhash);
+      dirhash = NULL;
+    }
+  return (dirhash);
+}
 
-  return (pos);
+
+static void
+destroy_hash_ent (gpointer key, gpointer value, gpointer user_data)
+{
+
+  g_free (key);
+  g_free (value);
+}
+
+
+static void
+gftp_destroy_dir_hash (GHashTable * dirhash)
+{
+  g_hash_table_foreach (dirhash, destroy_hash_ent, NULL);
+  g_hash_table_destroy (dirhash);
 }
 
 
@@ -1660,57 +1690,6 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
       update_func (transfer);
     }
   return (0);
-}
-
-
-static GHashTable *
-gftp_gen_dir_hash (gftp_request * request)
-{
-  unsigned long *newsize;
-  GHashTable * dirhash;
-  gftp_file * fle;
-  char * newname;
-
-
-  dirhash = g_hash_table_new (string_hash_function, string_hash_compare);
-  if (gftp_list_files (request) == 0)
-    {
-      fle = g_malloc0 (sizeof (*fle));
-      while (gftp_get_next_file (request, NULL, fle) > 0)
-        {
-          newname = fle->file;
-          newsize = g_malloc (sizeof (unsigned long));
-          *newsize = fle->size;
-          g_hash_table_insert (dirhash, newname, newsize);
-          fle->file = NULL;
-          gftp_file_destroy (fle);
-        }
-      gftp_end_transfer (request);
-      g_free (fle);
-    }
-  else
-    {
-      g_hash_table_destroy (dirhash);
-      dirhash = NULL;
-    }
-  return (dirhash);
-}
-
-
-static void
-gftp_destroy_dir_hash (GHashTable * dirhash)
-{
-  g_hash_table_foreach (dirhash, destroy_hash_ent, NULL);
-  g_hash_table_destroy (dirhash);
-}
-
-
-static void
-destroy_hash_ent (gpointer key, gpointer value, gpointer user_data)
-{
-
-  g_free (key);
-  g_free (value);
 }
 
 

@@ -20,41 +20,6 @@
 #include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
-static gint delete_event 			( GtkWidget * widget, 
-						  GdkEvent * event, 
-						  gpointer data );
-static void destroy 				( GtkWidget * widget, 
-						  gpointer data );
-static RETSIGTYPE sig_child 			( int signo );
-static GtkWidget * CreateFTPWindows 		( GtkWidget * ui );
-static GtkWidget * CreateMenus			( GtkWidget * parent );
-static GtkWidget * CreateToolbar 		( GtkWidget * parent );
-static void doexit 				( GtkWidget * widget, 
-						  gpointer data );
-static int get_column 				( GtkCListColumn * col );
-static void init_gftp 				( int argc, 
-						  char *argv[], 
-						  GtkWidget * parent );
-static void menu_exit 				( GtkWidget * widget, 
-						  gpointer data );
-static GtkWidget * CreateFTPWindow 		( gftp_window_data * wdata,
-						  int width,
-						  int columns[6] );
-static void setup_column 			( GtkWidget * listbox, 
-						  int column, 
-						  int width );
-static gint menu_mouse_click 			( GtkWidget * widget, 
-						  GdkEventButton * event, 
-						  gpointer data );
-static gint list_dblclick 			( GtkWidget * widget, 
-						  GdkEventButton * event, 
-						  gpointer data );
-static void list_doaction 			( gftp_window_data * wdata );
-static gint list_enter 				( GtkWidget * widget, 
-						  GdkEventKey * event, 
-						  gpointer data );
-static void chfunc				( gpointer data );
-
 static GtkItemFactory *log_factory, *dl_factory;
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
                  * openurl_btn;
@@ -77,86 +42,46 @@ int gftp_is_started = 0;
 sigjmp_buf jmp_environment;
 volatile int use_jmp_environment = 0;
 
-
-int
-main (int argc, char **argv)
+static int
+get_column (GtkCListColumn * col)
 {
-  GtkWidget *window, *ui;
+  if (col->auto_resize)
+    return (0);
+  else if (!col->visible)
+    return (-1);
+  else
+    return (col->width);
+}
 
-#ifdef HAVE_GETTEXT
-  setlocale (LC_ALL, "");
-  bindtextdomain ("gftp", LOCALE_DIR);
-#if GTK_MAJOR_VERSION > 1
-  bind_textdomain_codeset ("gftp", "UTF-8");
-#endif
-  textdomain ("gftp");
-#endif
 
-  g_thread_init (NULL);
-  gtk_set_locale ();
-  gtk_init (&argc, &argv);
+static void
+doexit (GtkWidget * widget, gpointer data)
+{
+  listbox_local_width = GTK_WIDGET (local_frame)->allocation.width;
+  listbox_remote_width = GTK_WIDGET (remote_frame)->allocation.width;
+  listbox_file_height = GTK_WIDGET (remote_frame)->allocation.height;
+  log_height = GTK_WIDGET (log_table)->allocation.height;
+  transfer_height = GTK_WIDGET (transfer_scroll)->allocation.height;
 
-  signal (SIGCHLD, sig_child);
-  signal (SIGPIPE, SIG_IGN);
-  signal (SIGALRM, signal_handler);
-  signal (SIGINT, signal_handler);
+  local_columns[0] = get_column (&GTK_CLIST (window1.listbox)->column[1]);
+  local_columns[1] = get_column (&GTK_CLIST (window1.listbox)->column[2]);
+  local_columns[2] = get_column (&GTK_CLIST (window1.listbox)->column[3]);
+  local_columns[3] = get_column (&GTK_CLIST (window1.listbox)->column[4]);
+  local_columns[4] = get_column (&GTK_CLIST (window1.listbox)->column[5]);
+  local_columns[5] = get_column (&GTK_CLIST (window1.listbox)->column[6]);
 
-  graphic_hash_table = g_hash_table_new (string_hash_function, string_hash_compare);
-  gftp_read_config_file (argv, 1);
-  if (gftp_parse_command_line (&argc, &argv) != 0)
-    exit (0);
+  remote_columns[0] = get_column (&GTK_CLIST (window2.listbox)->column[1]);
+  remote_columns[1] = get_column (&GTK_CLIST (window2.listbox)->column[2]);
+  remote_columns[2] = get_column (&GTK_CLIST (window2.listbox)->column[3]);
+  remote_columns[3] = get_column (&GTK_CLIST (window2.listbox)->column[4]);
+  remote_columns[4] = get_column (&GTK_CLIST (window2.listbox)->column[5]);
+  remote_columns[5] = get_column (&GTK_CLIST (window2.listbox)->column[6]);
 
-  window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_signal_connect (GTK_OBJECT (window), "delete_event",
-		      GTK_SIGNAL_FUNC (delete_event), NULL);
-  gtk_signal_connect (GTK_OBJECT (window), "destroy",
-		      GTK_SIGNAL_FUNC (destroy), NULL);
-  gtk_window_set_title (GTK_WINDOW (window), version);
-  gtk_window_set_wmclass (GTK_WINDOW(window), "main", "gFTP");
-  gtk_widget_set_name (window, version);
-  gtk_window_set_policy (GTK_WINDOW (window), TRUE, TRUE, FALSE);
-  gtk_widget_realize (window);
+  file_trans_column = get_column (&GTK_CLIST (dlwdw)->column[0]);
 
-  gftp_icon = open_xpm (window, "gftp.xpm");
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (window->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (window->window, _("gFTP Icon"));
-    }
-
-  other_wdata = &window1;
-  current_wdata = &window2;
-  ui = CreateFTPWindows (window);
-  gtk_container_add (GTK_CONTAINER (window), ui);
-  gtk_widget_show (window);
-
-  ftp_log (gftp_logging_misc, NULL,
-	   "%s, Copyright (C) 1998-2002 Brian Masney <", version);
-  ftp_log (gftp_logging_recv, NULL, "masneyb@gftp.org");
-  ftp_log (gftp_logging_misc, NULL,
-	   _(">. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"));
-  ftp_log (gftp_logging_misc, NULL,
-	   _("gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"));
-
-  gtk_timeout_add (1000, update_downloads, NULL);
-  gftp_protocols[GFTP_LOCAL_NUM].init (window1.request);
-  if (startup_directory != NULL && *startup_directory != '\0')
-    gftp_set_directory (window1.request, startup_directory);
-  gftp_connect (window1.request);
-  ftp_list_files (&window1, 0);
-
-  /* On the remote window, even though we aren't connected, draw the sort
-     icon on that side */
-  sortrows (GTK_CLIST (window2.listbox), *window2.sortcol, &window2);
-
-  init_gftp (argc, argv, window);
-  gftp_is_started = 1;
-
-  GDK_THREADS_ENTER ();
-  gtk_main ();
-  GDK_THREADS_LEAVE ();
-  return (0);
+  gftp_write_config_file ();
+  gftp_clear_cache_files ();
+  exit (0);
 }
 
 
@@ -188,177 +113,18 @@ sig_child (int signo)
 }
 
 
-static GtkWidget *
-CreateFTPWindows (GtkWidget * ui)
+static void
+menu_exit (GtkWidget * widget, gpointer data)
 {
-  GtkWidget *box, *dlbox, *winpane, *dlpane, *logpane, *mainvbox, *tempwid,
-            *button;
-  char *dltitles[2];
-#if GTK_MAJOR_VERSION > 1
-  GtkTextBuffer * textbuf;
-  GtkTextIter iter;
-  GtkTextTag *tag;
-  GdkColor fore;
-#endif
+  if (!delete_event (widget, NULL, data))
+    doexit (widget, data);
+}
 
-  memset (&window1, 0, sizeof (window1));
-  memset (&window2, 0, sizeof (window2));
-  window1.history = &localhistory;
-  window1.histlen = &localhistlen;
-  window2.history = &remotehistory;
-  window2.histlen = &remotehistlen;
- 
-  mainvbox = gtk_vbox_new (FALSE, 0);
 
-  tempwid = CreateMenus (ui);
-  gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
-
-  tempwid = CreateToolbar (ui);
-  gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
-
-  winpane = gtk_hpaned_new ();
-
-  box = gtk_hbox_new (FALSE, 0);
-
-  local_frame = CreateFTPWindow (&window1, listbox_local_width, local_columns);
-  window1.sortcol = &local_sortcol;
-  window1.sortasds = &local_sortasds;
-  gtk_box_pack_start (GTK_BOX (box), local_frame, TRUE, TRUE, 0);
-
-  dlbox = gtk_vbox_new (FALSE, 0);
-  gtk_container_border_width (GTK_CONTAINER (dlbox), 5);
-  gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
-
-#if GTK_MAJOR_VERSION == 1
-  tempwid = toolbar_pixmap (ui, "right.xpm");
-#else
-  tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD,
-                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
-#endif
-
-  button = gtk_button_new ();
-  gtk_box_pack_start (GTK_BOX (dlbox), button, TRUE, FALSE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
-			     GTK_SIGNAL_FUNC (put_files), NULL);
-  gtk_container_add (GTK_CONTAINER (button), tempwid);
-
-#if GTK_MAJOR_VERSION == 1
-  tempwid = toolbar_pixmap (ui, "left.xpm");
-#else
-  tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_BACK,
-                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
-#endif
-
-  button = gtk_button_new ();
-  gtk_box_pack_start (GTK_BOX (dlbox), button, TRUE, FALSE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
-			     GTK_SIGNAL_FUNC (get_files), NULL);
-  gtk_container_add (GTK_CONTAINER (button), tempwid);
-
-  gtk_paned_pack1 (GTK_PANED (winpane), box, 1, 1);
-
-  remote_frame = CreateFTPWindow (&window2, listbox_remote_width, 
-                                  remote_columns);
-  window2.sortcol = &remote_sortcol;
-  window2.sortasds = &remote_sortasds;
-  gtk_paned_pack2 (GTK_PANED (winpane), remote_frame, 1, 1);
-
-  dlpane = gtk_vpaned_new ();
-  gtk_paned_pack1 (GTK_PANED (dlpane), winpane, 1, 1);
-
-  transfer_scroll = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_size_request (transfer_scroll, -1, transfer_height);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (transfer_scroll),
-				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  dltitles[0] = _("Filename");
-  dltitles[1] = _("Progress");
-  dlwdw = gtk_ctree_new_with_titles (2, 0, dltitles);
-  gtk_clist_set_selection_mode (GTK_CLIST (dlwdw), GTK_SELECTION_SINGLE);
-  gtk_clist_set_reorderable (GTK_CLIST (dlwdw), 0);
-
-  if (file_trans_column == 0)
-    gtk_clist_set_column_auto_resize (GTK_CLIST (dlwdw), 0, TRUE);
-  else
-    gtk_clist_set_column_width (GTK_CLIST (dlwdw), 0, file_trans_column);
-
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (transfer_scroll),                                          dlwdw);
-  gtk_signal_connect (GTK_OBJECT (dlwdw), "button_press_event",
-		      GTK_SIGNAL_FUNC (menu_mouse_click), (gpointer) dl_factory);
-  gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
-
-  logpane = gtk_vpaned_new ();
-  gtk_paned_pack1 (GTK_PANED (logpane), dlpane, 1, 1);
-
-  log_table = gtk_table_new (1, 2, FALSE);
-  gtk_widget_set_size_request (log_table, -1, log_height);
-
-#if GTK_MAJOR_VERSION == 1
-  logwdw = gtk_text_new (NULL, NULL);
-
-  gtk_text_set_editable (GTK_TEXT (logwdw), FALSE);
-  gtk_text_set_word_wrap (GTK_TEXT (logwdw), TRUE);
-
-  gtk_table_attach (GTK_TABLE (log_table), logwdw, 0, 1, 0, 1,
-		    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-		    0, 0);
-  gtk_signal_connect (GTK_OBJECT (logwdw), "button_press_event",
-		      GTK_SIGNAL_FUNC (menu_mouse_click), 
-                      (gpointer) log_factory);
-
-  tempwid = gtk_vscrollbar_new (GTK_TEXT (logwdw)->vadj);
-  gtk_table_attach (GTK_TABLE (log_table), tempwid, 1, 2, 0, 1,
-		    GTK_FILL, GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0);
-  logwdw_vadj = GTK_TEXT (logwdw)->vadj;
-#else
-  logwdw = gtk_text_view_new ();
-  gtk_text_view_set_editable (GTK_TEXT_VIEW (logwdw), FALSE);
-  gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (logwdw), FALSE);
-  gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (logwdw), GTK_WRAP_WORD);
-
-  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
-
-  tag = gtk_text_buffer_create_tag (textbuf, "send", NULL);
-  fore.red = send_color.red;
-  fore.green = send_color.green;
-  fore.blue = send_color.blue;
-  g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
-
-  tag = gtk_text_buffer_create_tag (textbuf, "recv", NULL);
-  fore.red = recv_color.red;
-  fore.green = recv_color.green;
-  fore.blue = recv_color.blue;
-  g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
-
-  tag = gtk_text_buffer_create_tag (textbuf, "error", NULL);
-  fore.red = error_color.red;
-  fore.green = error_color.green;
-  fore.blue = error_color.blue;
-  g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
-
-  tag = gtk_text_buffer_create_tag (textbuf, "misc", NULL);
-  fore.red = misc_color.red;
-  fore.green = misc_color.green;
-  fore.blue = misc_color.blue;
-  g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
-
-  tempwid = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (tempwid),
-                                 GTK_POLICY_AUTOMATIC,
-                                 GTK_POLICY_AUTOMATIC);
-  gtk_container_add (GTK_CONTAINER (tempwid), logwdw);
-  gtk_table_attach (GTK_TABLE (log_table), tempwid, 0, 1, 0, 1,
-		    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-		    0, 0);
-  logwdw_vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (tempwid));
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  logwdw_textmark = gtk_text_buffer_create_mark (textbuf, "end", &iter, 1);
-#endif
-  gtk_paned_pack2 (GTK_PANED (logpane), log_table, 1, 1);
-  gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
-
-  gtk_widget_show_all (mainvbox);
-  return (mainvbox);
+static void
+chfunc (gpointer data)
+{
+  chdir_dialog (data);
 }
 
 
@@ -665,66 +431,113 @@ CreateToolbar (GtkWidget * parent)
 
 
 static void
-doexit (GtkWidget * widget, gpointer data)
+setup_column (GtkWidget * listbox, int column, int width)
 {
-  listbox_local_width = GTK_WIDGET (local_frame)->allocation.width;
-  listbox_remote_width = GTK_WIDGET (remote_frame)->allocation.width;
-  listbox_file_height = GTK_WIDGET (remote_frame)->allocation.height;
-  log_height = GTK_WIDGET (log_table)->allocation.height;
-  transfer_height = GTK_WIDGET (transfer_scroll)->allocation.height;
-
-  local_columns[0] = get_column (&GTK_CLIST (window1.listbox)->column[1]);
-  local_columns[1] = get_column (&GTK_CLIST (window1.listbox)->column[2]);
-  local_columns[2] = get_column (&GTK_CLIST (window1.listbox)->column[3]);
-  local_columns[3] = get_column (&GTK_CLIST (window1.listbox)->column[4]);
-  local_columns[4] = get_column (&GTK_CLIST (window1.listbox)->column[5]);
-  local_columns[5] = get_column (&GTK_CLIST (window1.listbox)->column[6]);
-
-  remote_columns[0] = get_column (&GTK_CLIST (window2.listbox)->column[1]);
-  remote_columns[1] = get_column (&GTK_CLIST (window2.listbox)->column[2]);
-  remote_columns[2] = get_column (&GTK_CLIST (window2.listbox)->column[3]);
-  remote_columns[3] = get_column (&GTK_CLIST (window2.listbox)->column[4]);
-  remote_columns[4] = get_column (&GTK_CLIST (window2.listbox)->column[5]);
-  remote_columns[5] = get_column (&GTK_CLIST (window2.listbox)->column[6]);
-
-  file_trans_column = get_column (&GTK_CLIST (dlwdw)->column[0]);
-
-  gftp_write_config_file ();
-  gftp_clear_cache_files ();
-  exit (0);
-}
-
-
-static int
-get_column (GtkCListColumn * col)
-{
-  if (col->auto_resize)
-    return (0);
-  else if (!col->visible)
-    return (-1);
+  if (width == 0)
+    gtk_clist_set_column_auto_resize (GTK_CLIST (listbox), column, TRUE);
+  else if (width == -1)
+    gtk_clist_set_column_visibility (GTK_CLIST (listbox), column, FALSE);
   else
-    return (col->width);
-}
-
-
-void
-init_gftp (int argc, char *argv[], GtkWidget * parent)
-{
-  if (argc == 2 && strncmp (argv[1], "--", 2) != 0)
-    {
-      if (gftp_parse_url (window2.request, argv[1]) == 0)
-	ftp_connect (&window2, window2.request, 1);
-      else
-	gftp_usage ();
-    }
+    gtk_clist_set_column_width (GTK_CLIST (listbox), column, width);
 }
 
 
 static void
-menu_exit (GtkWidget * widget, gpointer data)
+list_doaction (gftp_window_data * wdata)
 {
-  if (!delete_event (widget, NULL, data))
-    doexit (widget, data);
+  GList *templist, *filelist;
+  int num, dir, success;
+  gftp_file *tempfle;
+
+  filelist = wdata->files;
+  templist = GTK_CLIST (wdata->listbox)->selection;
+  num = 0;
+  templist = get_next_selection (templist, &filelist, &num);
+  tempfle = (gftp_file *) filelist->data;
+
+  dir = tempfle->isdir;
+  success = 0;
+
+  if (tempfle->islink || tempfle->isdir)
+    success = chdir_dialog (wdata);
+
+  if (!dir && !success)
+    {
+      switch (listbox_dblclick_action)
+        {
+          case 0:
+            view_dialog (wdata);
+            break;
+          case 1:
+            edit_dialog (wdata);
+            break;
+          case 2:
+            if (wdata == &window2)
+              get_files (wdata);
+            else
+              put_files (wdata);
+            break;
+        }
+    }
+}
+
+
+static gint
+list_enter (GtkWidget * widget, GdkEventKey * event, gpointer data)
+{
+  gftp_window_data * wdata;
+
+  wdata = data;
+  if (!GFTP_IS_CONNECTED (wdata->request))
+    return (TRUE);
+
+  if (event->type == GDK_KEY_PRESS && 
+           (event->keyval == GDK_KP_Delete || event->keyval == GDK_Delete))
+    {
+      delete_dialog (wdata);
+      return (FALSE);
+    }
+  else if (IS_ONE_SELECTED (wdata) && event->type == GDK_KEY_PRESS && 
+      event->keyval == GDK_Return)
+    {
+      list_doaction (wdata);
+      return (FALSE);
+    }
+  return (TRUE);
+}
+
+
+static gint
+list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
+{
+  gftp_window_data * wdata;
+
+  wdata = data;
+  if (event->button == 3)
+    gtk_item_factory_popup (wdata->ifactory, (guint) event->x_root,
+                            (guint) event->y_root, 3, event->time);
+  else if (!GFTP_IS_CONNECTED (wdata->request) || !IS_ONE_SELECTED (wdata))
+    return (TRUE);
+
+#if GTK_MAJOR_VERSION == 1
+  if (event->type == GDK_2BUTTON_PRESS && event->button == 1)
+    {
+      list_doaction (wdata);
+      return (FALSE);
+    }
+  return (TRUE);
+#else
+  /* If we're using GTK 2.0, if I connect to the button_press_event signal,
+     whenever I get the GDK_2BUTTON_PRESS event, nothing is selected inside
+     the clist. But if I connect_after to the button_release_event, it seems
+     to only get called when we double click */
+  if (event->button == 1)
+    {
+      list_doaction (wdata);
+      return (FALSE);
+    }
+  return (TRUE);
+#endif
 }
 
 
@@ -821,18 +634,6 @@ CreateFTPWindow (gftp_window_data * wdata, int width, int columns[6])
 }
 
 
-static void
-setup_column (GtkWidget * listbox, int column, int width)
-{
-  if (width == 0)
-    gtk_clist_set_column_auto_resize (GTK_CLIST (listbox), column, TRUE);
-  else if (width == -1)
-    gtk_clist_set_column_visibility (GTK_CLIST (listbox), column, FALSE);
-  else
-    gtk_clist_set_column_width (GTK_CLIST (listbox), column, width);
-}
-
-
 static gint
 menu_mouse_click (GtkWidget * widget, GdkEventButton * event, gpointer data)
 {
@@ -846,109 +647,190 @@ menu_mouse_click (GtkWidget * widget, GdkEventButton * event, gpointer data)
 }
 
 
-static gint
-list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
+static GtkWidget *
+CreateFTPWindows (GtkWidget * ui)
 {
-  gftp_window_data * wdata;
+  GtkWidget *box, *dlbox, *winpane, *dlpane, *logpane, *mainvbox, *tempwid,
+            *button;
+  char *dltitles[2];
+#if GTK_MAJOR_VERSION > 1
+  GtkTextBuffer * textbuf;
+  GtkTextIter iter;
+  GtkTextTag *tag;
+  GdkColor fore;
+#endif
 
-  wdata = data;
-  if (event->button == 3)
-    gtk_item_factory_popup (wdata->ifactory, (guint) event->x_root,
-                            (guint) event->y_root, 3, event->time);
-  else if (!GFTP_IS_CONNECTED (wdata->request) || !IS_ONE_SELECTED (wdata))
-    return (TRUE);
+  memset (&window1, 0, sizeof (window1));
+  memset (&window2, 0, sizeof (window2));
+  window1.history = &localhistory;
+  window1.histlen = &localhistlen;
+  window2.history = &remotehistory;
+  window2.histlen = &remotehistlen;
+ 
+  mainvbox = gtk_vbox_new (FALSE, 0);
+
+  tempwid = CreateMenus (ui);
+  gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
+
+  tempwid = CreateToolbar (ui);
+  gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
+
+  winpane = gtk_hpaned_new ();
+
+  box = gtk_hbox_new (FALSE, 0);
+
+  local_frame = CreateFTPWindow (&window1, listbox_local_width, local_columns);
+  window1.sortcol = &local_sortcol;
+  window1.sortasds = &local_sortasds;
+  gtk_box_pack_start (GTK_BOX (box), local_frame, TRUE, TRUE, 0);
+
+  dlbox = gtk_vbox_new (FALSE, 0);
+  gtk_container_border_width (GTK_CONTAINER (dlbox), 5);
+  gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
 #if GTK_MAJOR_VERSION == 1
-  if (event->type == GDK_2BUTTON_PRESS && event->button == 1)
-    {
-      list_doaction (wdata);
-      return (FALSE);
-    }
-  return (TRUE);
+  tempwid = toolbar_pixmap (ui, "right.xpm");
 #else
-  /* If we're using GTK 2.0, if I connect to the button_press_event signal,
-     whenever I get the GDK_2BUTTON_PRESS event, nothing is selected inside
-     the clist. But if I connect_after to the button_release_event, it seems
-     to only get called when we double click */
-  if (event->button == 1)
-    {
-      list_doaction (wdata);
-      return (FALSE);
-    }
-  return (TRUE);
+  tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD,
+                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
 #endif
+
+  button = gtk_button_new ();
+  gtk_box_pack_start (GTK_BOX (dlbox), button, TRUE, FALSE, 0);
+  gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+			     GTK_SIGNAL_FUNC (put_files), NULL);
+  gtk_container_add (GTK_CONTAINER (button), tempwid);
+
+#if GTK_MAJOR_VERSION == 1
+  tempwid = toolbar_pixmap (ui, "left.xpm");
+#else
+  tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_BACK,
+                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
+#endif
+
+  button = gtk_button_new ();
+  gtk_box_pack_start (GTK_BOX (dlbox), button, TRUE, FALSE, 0);
+  gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+			     GTK_SIGNAL_FUNC (get_files), NULL);
+  gtk_container_add (GTK_CONTAINER (button), tempwid);
+
+  gtk_paned_pack1 (GTK_PANED (winpane), box, 1, 1);
+
+  remote_frame = CreateFTPWindow (&window2, listbox_remote_width, 
+                                  remote_columns);
+  window2.sortcol = &remote_sortcol;
+  window2.sortasds = &remote_sortasds;
+  gtk_paned_pack2 (GTK_PANED (winpane), remote_frame, 1, 1);
+
+  dlpane = gtk_vpaned_new ();
+  gtk_paned_pack1 (GTK_PANED (dlpane), winpane, 1, 1);
+
+  transfer_scroll = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_size_request (transfer_scroll, -1, transfer_height);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (transfer_scroll),
+				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+  dltitles[0] = _("Filename");
+  dltitles[1] = _("Progress");
+  dlwdw = gtk_ctree_new_with_titles (2, 0, dltitles);
+  gtk_clist_set_selection_mode (GTK_CLIST (dlwdw), GTK_SELECTION_SINGLE);
+  gtk_clist_set_reorderable (GTK_CLIST (dlwdw), 0);
+
+  if (file_trans_column == 0)
+    gtk_clist_set_column_auto_resize (GTK_CLIST (dlwdw), 0, TRUE);
+  else
+    gtk_clist_set_column_width (GTK_CLIST (dlwdw), 0, file_trans_column);
+
+  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (transfer_scroll),                                          dlwdw);
+  gtk_signal_connect (GTK_OBJECT (dlwdw), "button_press_event",
+		      GTK_SIGNAL_FUNC (menu_mouse_click), (gpointer) dl_factory);
+  gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
+
+  logpane = gtk_vpaned_new ();
+  gtk_paned_pack1 (GTK_PANED (logpane), dlpane, 1, 1);
+
+  log_table = gtk_table_new (1, 2, FALSE);
+  gtk_widget_set_size_request (log_table, -1, log_height);
+
+#if GTK_MAJOR_VERSION == 1
+  logwdw = gtk_text_new (NULL, NULL);
+
+  gtk_text_set_editable (GTK_TEXT (logwdw), FALSE);
+  gtk_text_set_word_wrap (GTK_TEXT (logwdw), TRUE);
+
+  gtk_table_attach (GTK_TABLE (log_table), logwdw, 0, 1, 0, 1,
+		    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+		    0, 0);
+  gtk_signal_connect (GTK_OBJECT (logwdw), "button_press_event",
+		      GTK_SIGNAL_FUNC (menu_mouse_click), 
+                      (gpointer) log_factory);
+
+  tempwid = gtk_vscrollbar_new (GTK_TEXT (logwdw)->vadj);
+  gtk_table_attach (GTK_TABLE (log_table), tempwid, 1, 2, 0, 1,
+		    GTK_FILL, GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0);
+  logwdw_vadj = GTK_TEXT (logwdw)->vadj;
+#else
+  logwdw = gtk_text_view_new ();
+  gtk_text_view_set_editable (GTK_TEXT_VIEW (logwdw), FALSE);
+  gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (logwdw), FALSE);
+  gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (logwdw), GTK_WRAP_WORD);
+
+  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
+
+  tag = gtk_text_buffer_create_tag (textbuf, "send", NULL);
+  fore.red = send_color.red;
+  fore.green = send_color.green;
+  fore.blue = send_color.blue;
+  g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
+
+  tag = gtk_text_buffer_create_tag (textbuf, "recv", NULL);
+  fore.red = recv_color.red;
+  fore.green = recv_color.green;
+  fore.blue = recv_color.blue;
+  g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
+
+  tag = gtk_text_buffer_create_tag (textbuf, "error", NULL);
+  fore.red = error_color.red;
+  fore.green = error_color.green;
+  fore.blue = error_color.blue;
+  g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
+
+  tag = gtk_text_buffer_create_tag (textbuf, "misc", NULL);
+  fore.red = misc_color.red;
+  fore.green = misc_color.green;
+  fore.blue = misc_color.blue;
+  g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
+
+  tempwid = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (tempwid),
+                                 GTK_POLICY_AUTOMATIC,
+                                 GTK_POLICY_AUTOMATIC);
+  gtk_container_add (GTK_CONTAINER (tempwid), logwdw);
+  gtk_table_attach (GTK_TABLE (log_table), tempwid, 0, 1, 0, 1,
+		    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+		    0, 0);
+  logwdw_vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (tempwid));
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
+  logwdw_textmark = gtk_text_buffer_create_mark (textbuf, "end", &iter, 1);
+#endif
+  gtk_paned_pack2 (GTK_PANED (logpane), log_table, 1, 1);
+  gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
+
+  gtk_widget_show_all (mainvbox);
+  return (mainvbox);
 }
 
 
-static void
-list_doaction (gftp_window_data * wdata)
+void
+init_gftp (int argc, char *argv[], GtkWidget * parent)
 {
-  GList *templist, *filelist;
-  int num, dir, success;
-  gftp_file *tempfle;
-
-  filelist = wdata->files;
-  templist = GTK_CLIST (wdata->listbox)->selection;
-  num = 0;
-  templist = get_next_selection (templist, &filelist, &num);
-  tempfle = (gftp_file *) filelist->data;
-
-  dir = tempfle->isdir;
-  success = 0;
-
-  if (tempfle->islink || tempfle->isdir)
-    success = chdir_dialog (wdata);
-
-  if (!dir && !success)
+  if (argc == 2 && strncmp (argv[1], "--", 2) != 0)
     {
-      switch (listbox_dblclick_action)
-        {
-          case 0:
-            view_dialog (wdata);
-            break;
-          case 1:
-            edit_dialog (wdata);
-            break;
-          case 2:
-            if (wdata == &window2)
-              get_files (wdata);
-            else
-              put_files (wdata);
-            break;
-        }
+      if (gftp_parse_url (window2.request, argv[1]) == 0)
+	ftp_connect (&window2, window2.request, 1);
+      else
+	gftp_usage ();
     }
-}
-
-
-static gint
-list_enter (GtkWidget * widget, GdkEventKey * event, gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
-  if (!GFTP_IS_CONNECTED (wdata->request))
-    return (TRUE);
-
-  if (event->type == GDK_KEY_PRESS && 
-           (event->keyval == GDK_KP_Delete || event->keyval == GDK_Delete))
-    {
-      delete_dialog (wdata);
-      return (FALSE);
-    }
-  else if (IS_ONE_SELECTED (wdata) && event->type == GDK_KEY_PRESS && 
-      event->keyval == GDK_Return)
-    {
-      list_doaction (wdata);
-      return (FALSE);
-    }
-  return (TRUE);
-}
-
-
-static void
-chfunc (gpointer data)
-{
-  chdir_dialog (data);
 }
 
 
@@ -1094,4 +976,87 @@ stop_button (GtkWidget * widget, gpointer data)
   else if (!pthread_equal (comptid, window2.tid))
     pthread_kill (window2.tid, SIGINT);
 }
+
+
+int
+main (int argc, char **argv)
+{
+  GtkWidget *window, *ui;
+
+#ifdef HAVE_GETTEXT
+  setlocale (LC_ALL, "");
+  bindtextdomain ("gftp", LOCALE_DIR);
+#if GTK_MAJOR_VERSION > 1
+  bind_textdomain_codeset ("gftp", "UTF-8");
+#endif
+  textdomain ("gftp");
+#endif
+
+  g_thread_init (NULL);
+  gtk_set_locale ();
+  gtk_init (&argc, &argv);
+
+  signal (SIGCHLD, sig_child);
+  signal (SIGPIPE, SIG_IGN);
+  signal (SIGALRM, signal_handler);
+  signal (SIGINT, signal_handler);
+
+  graphic_hash_table = g_hash_table_new (string_hash_function, string_hash_compare);
+  gftp_read_config_file (argv, 1);
+  if (gftp_parse_command_line (&argc, &argv) != 0)
+    exit (0);
+
+  window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_signal_connect (GTK_OBJECT (window), "delete_event",
+		      GTK_SIGNAL_FUNC (delete_event), NULL);
+  gtk_signal_connect (GTK_OBJECT (window), "destroy",
+		      GTK_SIGNAL_FUNC (destroy), NULL);
+  gtk_window_set_title (GTK_WINDOW (window), version);
+  gtk_window_set_wmclass (GTK_WINDOW(window), "main", "gFTP");
+  gtk_widget_set_name (window, version);
+  gtk_window_set_policy (GTK_WINDOW (window), TRUE, TRUE, FALSE);
+  gtk_widget_realize (window);
+
+  gftp_icon = open_xpm (window, "gftp.xpm");
+  if (gftp_icon != NULL)
+    {
+      gdk_window_set_icon (window->window, NULL, gftp_icon->pixmap,
+                           gftp_icon->bitmap);
+      gdk_window_set_icon_name (window->window, _("gFTP Icon"));
+    }
+
+  other_wdata = &window1;
+  current_wdata = &window2;
+  ui = CreateFTPWindows (window);
+  gtk_container_add (GTK_CONTAINER (window), ui);
+  gtk_widget_show (window);
+
+  ftp_log (gftp_logging_misc, NULL,
+	   "%s, Copyright (C) 1998-2002 Brian Masney <", version);
+  ftp_log (gftp_logging_recv, NULL, "masneyb@gftp.org");
+  ftp_log (gftp_logging_misc, NULL,
+	   _(">. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"));
+  ftp_log (gftp_logging_misc, NULL,
+	   _("gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"));
+
+  gtk_timeout_add (1000, update_downloads, NULL);
+  gftp_protocols[GFTP_LOCAL_NUM].init (window1.request);
+  if (startup_directory != NULL && *startup_directory != '\0')
+    gftp_set_directory (window1.request, startup_directory);
+  gftp_connect (window1.request);
+  ftp_list_files (&window1, 0);
+
+  /* On the remote window, even though we aren't connected, draw the sort
+     icon on that side */
+  sortrows (GTK_CLIST (window2.listbox), *window2.sortcol, &window2);
+
+  init_gftp (argc, argv, window);
+  gftp_is_started = 1;
+
+  GDK_THREADS_ENTER ();
+  gtk_main ();
+  GDK_THREADS_LEAVE ();
+  return (0);
+}
+
 

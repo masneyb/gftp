@@ -35,6 +35,7 @@
 #endif
 #include <sys/wait.h>
 #include <sys/utsname.h>
+#include <sys/sysmacros.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <glib.h>
@@ -74,6 +75,18 @@
 
 #ifndef AF_LOCAL
 #define AF_LOCAL AF_UNIX
+#endif
+
+/* We need the major() and minor() macros in the user interface. If they aren't
+   defined by the system, we'll just define them here. */
+#ifndef major
+#warning major macro was not defined by the system. Defining one that is probably wrong for your system
+#define major(dev) (((dev) >> 8) & 0xff)
+#endif
+
+#ifndef minor
+#warning minor macro was not defined by the system. Defining one that is probably wrong for your system
+#define minor(dev) ((dev) & 0xff)
 #endif
 
 #ifdef HAVE_DMALLOC

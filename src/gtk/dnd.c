@@ -20,9 +20,122 @@
 #include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
-static int dnd_remote_file 			( char *url, 
-						  GList ** transfers, 
-						  gftp_window_data * wdata );
+
+static int
+dnd_remote_file (char *url, GList ** transfers, gftp_window_data * wdata)
+{
+  gftp_request * current_ftpdata;
+  gftp_window_data * fromwdata;
+  gftp_transfer * tdata;
+  gftp_file * newfle;
+  GList * templist;
+  char *str, *pos;
+  int i;
+
+  newfle = g_malloc0 (sizeof (*newfle));
+  newfle->shown = 1;
+  if (url[strlen (url) - 1] == '/') 
+    {
+      newfle->isdir = 1;
+      url[strlen (url) - 1] = '\0';
+    }
+
+  current_ftpdata = gftp_request_new ();
+  current_ftpdata->logging_function = ftp_log;
+
+  if (gftp_parse_url (current_ftpdata, url) != 0) 
+    {
+      ftp_log (gftp_logging_misc, NULL, 
+               _("Drag-N-Drop: Ignoring url %s: Not a valid url\n"), url);
+      gftp_request_destroy (current_ftpdata);
+      free_fdata (newfle);
+      return (0);
+    }
+
+  if ((str = GFTP_GET_DIRECTORY (current_ftpdata)) != NULL) 
+    {
+      if ((pos = strrchr (str, '/')) == NULL) 
+        pos = str;
+      else pos++;
+      *(pos - 1) = '\0';
+      i = 1;
+    }
+  else 
+    {
+      pos = str = GFTP_GET_DIRECTORY (current_ftpdata);
+      i = 0;
+    }
+
+  if (compare_request (current_ftpdata, wdata->request, 1))
+    return (0);
+
+  if (i)
+    {
+      *(pos - 1) = '/';
+      newfle->file = g_malloc (strlen (str) + 1);
+      strcpy (newfle->file, str);
+      *(pos - 1) = '\0';
+    }
+  else
+    {
+      newfle->file = g_malloc (strlen (str) + 1);
+      strcpy (newfle->file, str);
+    }
+  
+  newfle->destfile = g_strconcat (GFTP_GET_DIRECTORY (wdata->request),
+                                     "/", pos, NULL);
+  newfle->ascii = gftp_get_file_transfer_mode (newfle->file, 
+                                wdata->request->data_type) == GFTP_TYPE_ASCII;
+
+  tdata = NULL;
+  templist = *transfers;
+  while (templist != NULL) 
+    {
+      tdata = templist->data;
+      if (compare_request (tdata->fromreq, current_ftpdata, 1))
+        break;
+      templist = templist->next;
+    }
+
+  if (tdata == NULL) 
+    {
+      tdata = g_malloc0 (sizeof (*tdata));
+      tdata->towdata = wdata == &window1 ? &window1 : &window2;
+      fromwdata = wdata == &window1 ? &window2 : &window1;
+      if (fromwdata->request != NULL &&
+          compare_request (fromwdata->request, current_ftpdata, 1))
+        {
+          if (fromwdata->request->password != NULL)
+            gftp_set_password (current_ftpdata, fromwdata->request->password);
+          tdata->fromwdata = fromwdata;
+        }
+      tdata->fromreq = current_ftpdata;
+      tdata->toreq = gftp_request_new ();
+      tdata->toreq->logging_function = ftp_log;
+      tdata->toreq = copy_request (wdata->request);
+      *transfers = g_list_append (*transfers, tdata);
+    }
+  else
+    gftp_request_destroy (current_ftpdata);
+
+  if (newfle->isdir)
+    {
+/* FIXME - need to fix this
+      add_entire_directory (tdata, newfle, 
+		            GFTP_GET_DIRECTORY (tdata->fromhdata->ftpdata), 
+			    GFTP_GET_DIRECTORY (tdata->tohdata->ftpdata), 
+			    tdata->fromhdata->ftpdata);
+*/
+    }
+  else
+    {
+      tdata->files = g_list_append (tdata->files, newfle);
+      if (tdata->curfle == NULL) 
+	tdata->curfle = tdata->files;
+    }
+  return (1);
+}
+
 
 void
 openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
@@ -182,121 +295,5 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
         }
     }
   gtk_drag_finish (context, finish_drag, FALSE, clk_time);
-}
-
-
-static int
-dnd_remote_file (char *url, GList ** transfers, gftp_window_data * wdata)
-{
-  gftp_request * current_ftpdata;
-  gftp_window_data * fromwdata;
-  gftp_transfer * tdata;
-  gftp_file * newfle;
-  GList * templist;
-  char *str, *pos;
-  int i;
-
-  newfle = g_malloc0 (sizeof (*newfle));
-  newfle->shown = 1;
-  if (url[strlen (url) - 1] == '/') 
-    {
-      newfle->isdir = 1;
-      url[strlen (url) - 1] = '\0';
-    }
-
-  current_ftpdata = gftp_request_new ();
-  current_ftpdata->logging_function = ftp_log;
-
-  if (gftp_parse_url (current_ftpdata, url) != 0) 
-    {
-      ftp_log (gftp_logging_misc, NULL, 
-               _("Drag-N-Drop: Ignoring url %s: Not a valid url\n"), url);
-      gftp_request_destroy (current_ftpdata);
-      free_fdata (newfle);
-      return (0);
-    }
-
-  if ((str = GFTP_GET_DIRECTORY (current_ftpdata)) != NULL) 
-    {
-      if ((pos = strrchr (str, '/')) == NULL) 
-        pos = str;
-      else pos++;
-      *(pos - 1) = '\0';
-      i = 1;
-    }
-  else 
-    {
-      pos = str = GFTP_GET_DIRECTORY (current_ftpdata);
-      i = 0;
-    }
-
-  if (compare_request (current_ftpdata, wdata->request, 1))
-    return (0);
-
-  if (i)
-    {
-      *(pos - 1) = '/';
-      newfle->file = g_malloc (strlen (str) + 1);
-      strcpy (newfle->file, str);
-      *(pos - 1) = '\0';
-    }
-  else
-    {
-      newfle->file = g_malloc (strlen (str) + 1);
-      strcpy (newfle->file, str);
-    }
-  
-  newfle->destfile = g_strconcat (GFTP_GET_DIRECTORY (wdata->request),
-                                     "/", pos, NULL);
-  newfle->ascii = gftp_get_file_transfer_mode (newfle->file, 
-                                wdata->request->data_type) == GFTP_TYPE_ASCII;
-
-  tdata = NULL;
-  templist = *transfers;
-  while (templist != NULL) 
-    {
-      tdata = templist->data;
-      if (compare_request (tdata->fromreq, current_ftpdata, 1))
-        break;
-      templist = templist->next;
-    }
-
-  if (tdata == NULL) 
-    {
-      tdata = g_malloc0 (sizeof (*tdata));
-      tdata->towdata = wdata == &window1 ? &window1 : &window2;
-      fromwdata = wdata == &window1 ? &window2 : &window1;
-      if (fromwdata->request != NULL &&
-          compare_request (fromwdata->request, current_ftpdata, 1))
-        {
-          if (fromwdata->request->password != NULL)
-            gftp_set_password (current_ftpdata, fromwdata->request->password);
-          tdata->fromwdata = fromwdata;
-        }
-      tdata->fromreq = current_ftpdata;
-      tdata->toreq = gftp_request_new ();
-      tdata->toreq->logging_function = ftp_log;
-      tdata->toreq = copy_request (wdata->request);
-      *transfers = g_list_append (*transfers, tdata);
-    }
-  else
-    gftp_request_destroy (current_ftpdata);
-
-  if (newfle->isdir)
-    {
-/* FIXME - need to fix this
-      add_entire_directory (tdata, newfle, 
-		            GFTP_GET_DIRECTORY (tdata->fromhdata->ftpdata), 
-			    GFTP_GET_DIRECTORY (tdata->tohdata->ftpdata), 
-			    tdata->fromhdata->ftpdata);
-*/
-    }
-  else
-    {
-      tdata->files = g_list_append (tdata->files, newfle);
-      if (tdata->curfle == NULL) 
-	tdata->curfle = tdata->files;
-    }
-  return (1);
 }
 

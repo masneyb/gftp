@@ -20,51 +20,6 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
-static void local_destroy 			( gftp_request * request );
-static void local_remove_key 			( gpointer key, 
-						  gpointer value, 
-						  gpointer user_data );
-static int local_connect 			( gftp_request * request );
-static void local_disconnect 			( gftp_request * request );
-static long local_get_file 			( gftp_request * request, 
-						  const char *filename,
-						  FILE * fd,
-						  off_t startsize );
-static int local_put_file 			( gftp_request * request, 
-						  const char *filename,
-						  FILE * fd,
-						  off_t startsize,
-						  off_t totalsize );
-static int local_end_transfer 			( gftp_request * request );
-static int local_get_next_file 			( gftp_request * request, 
-						  gftp_file * fle, 
-						  FILE * fd );
-static int local_list_files 			( gftp_request * request );
-static off_t local_get_file_size 		( gftp_request * request,
-						  const char *filename );
-static int local_chdir 				( gftp_request * request, 
-						  const char *directory );
-static int local_rmdir 				( gftp_request * request, 
-						  const char *directory );
-static int local_rmfile 			( gftp_request * request, 
-						  const char *file );
-static int local_mkdir 				( gftp_request * request, 
-						  const char *directory );
-static int local_rename 			( gftp_request * request, 
-						  const char *oldname,
-						  const char *newname );
-static int local_chmod 				( gftp_request * request, 
-						  const char *file, 
-						  int mode );
-static int local_set_file_time 			( gftp_request * request, 
-						  const char *file,
-						  time_t datetime );
-static char *make_text_mode			( gftp_file * fle,
-						  mode_t mode );
-static gint hash_compare 			( gconstpointer path1, 
-						  gconstpointer path2 );
-static guint hash_function 			( gconstpointer key );
-
 typedef struct local_protocol_data_tag
 {
   DIR *dir;
@@ -72,51 +27,10 @@ typedef struct local_protocol_data_tag
 } local_protocol_data;
 
 
-void
-local_init (gftp_request * request)
+static void
+local_remove_key (gpointer key, gpointer value, gpointer user_data)
 {
-  local_protocol_data *lpd;
-
-  g_return_if_fail (request != NULL);
-
-  request->protonum = GFTP_LOCAL_NUM;
-  request->init = local_init;
-  request->destroy = local_destroy;
-  request->connect = local_connect;
-  request->disconnect = local_disconnect;
-  request->get_file = local_get_file;
-  request->put_file = local_put_file;
-  request->transfer_file = NULL;
-  request->get_next_file_chunk = NULL;
-  request->put_next_file_chunk = NULL;
-  request->end_transfer = local_end_transfer;
-  request->abort_transfer = local_end_transfer; /* NOTE: uses end_transfer */
-  request->list_files = local_list_files;
-  request->get_next_file = local_get_next_file;
-  request->set_data_type = NULL;
-  request->get_file_size = local_get_file_size;
-  request->chdir = local_chdir;
-  request->rmdir = local_rmdir;
-  request->rmfile = local_rmfile;
-  request->mkdir = local_mkdir;
-  request->rename = local_rename;
-  request->chmod = local_chmod;
-  request->set_file_time = local_set_file_time;
-  request->site = NULL;
-  request->parse_url = NULL;
-  request->url_prefix = "file";
-  request->protocol_name = "Local";
-  request->need_hostport = 0;
-  request->need_userpass = 0;
-  request->use_cache = 0;
-  request->use_threads = 0;
-  request->always_connected = 1;
-  gftp_set_config_options (request);
-
-  lpd = g_malloc0 (sizeof (*lpd));
-  request->protocol_data = lpd;
-  lpd->userhash = g_hash_table_new (hash_function, hash_compare);
-  lpd->grouphash = g_hash_table_new (hash_function, hash_compare);
+  g_free (value);
 }
 
 
@@ -134,13 +48,6 @@ local_destroy (gftp_request * request)
   g_hash_table_foreach (lpd->grouphash, local_remove_key, NULL);
   g_hash_table_destroy (lpd->grouphash);
   lpd->userhash = lpd->grouphash = NULL;
-}
-
-
-static void
-local_remove_key (gpointer key, gpointer value, gpointer user_data)
-{
-  g_free (value);
 }
 
 
@@ -357,6 +264,92 @@ local_end_transfer (gftp_request * request)
 }
 
 
+static char *
+make_text_mode (gftp_file * fle, mode_t mode)
+{
+  char *str;
+
+  str = g_malloc0 (11);
+  
+  str[0] = '?';
+  if (S_ISREG (mode))
+    str[0] = '-';
+
+  if (S_ISLNK (mode))
+    {
+      fle->islink = 1; 
+      str[0] = 'l';
+    }
+
+  if (S_ISBLK (mode))
+     {
+       fle->isblock = 1;
+       str[0] = 'b';
+     }
+
+  if (S_ISCHR (mode))
+     {
+       fle->ischar = 1;
+       str[0] = 'c';
+    }
+
+  if (S_ISFIFO (mode))
+    {
+      fle->isfifo = 1;
+      str[0] = 'p';
+    }
+
+  if (S_ISSOCK (mode))
+    {
+      fle->issocket = 1;
+      str[0] = 's';
+    }
+
+  if (S_ISDIR (mode))
+    {
+      fle->isdir = 1;
+      str[0] = 'd';
+    }
+
+  str[1] = mode & S_IRUSR ? 'r' : '-';
+  str[2] = mode & S_IWUSR ? 'w' : '-';
+
+  if ((mode & S_ISUID) && (mode & S_IXUSR))
+    str[3] = 's';
+  else if (mode & S_ISUID)
+    str[3] = 'S';
+  else if (mode & S_IXUSR)
+    str[3] = 'x';
+  else
+    str[3] = '-';
+    
+  str[4] = mode & S_IRGRP ? 'r' : '-';
+  str[5] = mode & S_IWGRP ? 'w' : '-';
+
+  if ((mode & S_ISGID) && (mode & S_IXGRP))
+    str[6] = 's';
+  else if (mode & S_ISGID)
+    str[6] = 'S';
+  else if (mode & S_IXGRP)
+    str[6] = 'x';
+  else
+    str[6] = '-';
+
+  str[7] = mode & S_IROTH ? 'r' : '-';
+  str[8] = mode & S_IWOTH ? 'w' : '-';
+
+  if ((mode & S_ISVTX) && (mode & S_IXOTH))
+    str[9] = 't';
+  else if (mode & S_ISVTX)
+    str[9] = 'T';
+  else if (mode & S_IXOTH)
+    str[9] = 'x';
+  else
+    str[9] = '-';
+  return (str);
+}
+
+
 static int
 local_get_next_file (gftp_request * request, gftp_file * fle, FILE * fd)
 {
@@ -440,14 +433,7 @@ local_get_next_file (gftp_request * request, gftp_file * fle, FILE * fd)
 
   if ((fle->attribs[0] == 'b' || fle->attribs[0] == 'u' ||
        fle->attribs[0] == 'c'))
-    {
-      /* FIXME find out if sys/sysmacros.h is portable, and if 
-         #define {major,minor} is portable. If so, use that instead. If not,
-         I will have to add a configure flag to find out the size of the
-         major numbers */
-      fle->size = ((((int) st.st_rdev) >> 8) & 0xFF) << 16;
-      fle->size |= st.st_rdev & 0xFF;
-    }
+    fle->size = (off_t) st.st_rdev;
   else
     fle->size = st.st_size;
 
@@ -684,92 +670,6 @@ local_set_file_time (gftp_request * request, const char *file,
 }
 
 
-static char *
-make_text_mode (gftp_file * fle, mode_t mode)
-{
-  char *str;
-
-  str = g_malloc0 (11);
-  
-  str[0] = '?';
-  if (S_ISREG (mode))
-    str[0] = '-';
-
-  if (S_ISLNK (mode))
-    {
-      fle->islink = 1; 
-      str[0] = 'l';
-    }
-
-  if (S_ISBLK (mode))
-     {
-       fle->isblock = 1;
-       str[0] = 'b';
-     }
-
-  if (S_ISCHR (mode))
-     {
-       fle->ischar = 1;
-       str[0] = 'c';
-    }
-
-  if (S_ISFIFO (mode))
-    {
-      fle->isfifo = 1;
-      str[0] = 'p';
-    }
-
-  if (S_ISSOCK (mode))
-    {
-      fle->issocket = 1;
-      str[0] = 's';
-    }
-
-  if (S_ISDIR (mode))
-    {
-      fle->isdir = 1;
-      str[0] = 'd';
-    }
-
-  str[1] = mode & S_IRUSR ? 'r' : '-';
-  str[2] = mode & S_IWUSR ? 'w' : '-';
-
-  if ((mode & S_ISUID) && (mode & S_IXUSR))
-    str[3] = 's';
-  else if (mode & S_ISUID)
-    str[3] = 'S';
-  else if (mode & S_IXUSR)
-    str[3] = 'x';
-  else
-    str[3] = '-';
-    
-  str[4] = mode & S_IRGRP ? 'r' : '-';
-  str[5] = mode & S_IWGRP ? 'w' : '-';
-
-  if ((mode & S_ISGID) && (mode & S_IXGRP))
-    str[6] = 's';
-  else if (mode & S_ISGID)
-    str[6] = 'S';
-  else if (mode & S_IXGRP)
-    str[6] = 'x';
-  else
-    str[6] = '-';
-
-  str[7] = mode & S_IROTH ? 'r' : '-';
-  str[8] = mode & S_IWOTH ? 'w' : '-';
-
-  if ((mode & S_ISVTX) && (mode & S_IXOTH))
-    str[9] = 't';
-  else if (mode & S_ISVTX)
-    str[9] = 'T';
-  else if (mode & S_IXOTH)
-    str[9] = 'x';
-  else
-    str[9] = '-';
-  return (str);
-}
-
-
 static gint
 hash_compare (gconstpointer path1, gconstpointer path2)
 {
@@ -781,5 +681,53 @@ static guint
 hash_function (gconstpointer key)
 {
   return (GPOINTER_TO_UINT (key));
+}
+
+
+void
+local_init (gftp_request * request)
+{
+  local_protocol_data *lpd;
+
+  g_return_if_fail (request != NULL);
+
+  request->protonum = GFTP_LOCAL_NUM;
+  request->init = local_init;
+  request->destroy = local_destroy;
+  request->connect = local_connect;
+  request->disconnect = local_disconnect;
+  request->get_file = local_get_file;
+  request->put_file = local_put_file;
+  request->transfer_file = NULL;
+  request->get_next_file_chunk = NULL;
+  request->put_next_file_chunk = NULL;
+  request->end_transfer = local_end_transfer;
+  request->abort_transfer = local_end_transfer; /* NOTE: uses end_transfer */
+  request->list_files = local_list_files;
+  request->get_next_file = local_get_next_file;
+  request->set_data_type = NULL;
+  request->get_file_size = local_get_file_size;
+  request->chdir = local_chdir;
+  request->rmdir = local_rmdir;
+  request->rmfile = local_rmfile;
+  request->mkdir = local_mkdir;
+  request->rename = local_rename;
+  request->chmod = local_chmod;
+  request->set_file_time = local_set_file_time;
+  request->site = NULL;
+  request->parse_url = NULL;
+  request->url_prefix = "file";
+  request->protocol_name = "Local";
+  request->need_hostport = 0;
+  request->need_userpass = 0;
+  request->use_cache = 0;
+  request->use_threads = 0;
+  request->always_connected = 1;
+  gftp_set_config_options (request);
+
+  lpd = g_malloc0 (sizeof (*lpd));
+  request->protocol_data = lpd;
+  lpd->userhash = g_hash_table_new (hash_function, hash_compare);
+  lpd->grouphash = g_hash_table_new (hash_function, hash_compare);
 }
 

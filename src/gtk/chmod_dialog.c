@@ -20,13 +20,113 @@
 #include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
-static void dochmod 				( GtkWidget * widget, 
-						  gftp_window_data * wdata );
-static void *do_chmod_thread 			( void * data );
-
 static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow,
                  *ox;
 static int mode; 
+
+
+static void *
+do_chmod_thread (void * data)
+{
+  GList * filelist, * templist;
+  gftp_window_data * wdata;
+  int success, num, sj;
+  gftp_file * tempfle;
+
+  wdata = data;
+  wdata->request->user_data = (void *) 0x01;
+
+  if (wdata->request->use_threads)
+    {
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
+    }
+  else
+    sj = 0;
+
+  success = 0;
+  if (sj == 0)
+    { 
+      filelist = wdata->files;
+      templist = GTK_CLIST (wdata->listbox)->selection;
+      num = 0;
+      while (templist != NULL)
+        {
+          templist = get_next_selection (templist, &filelist, &num);
+          tempfle = filelist->data;
+          if (wdata->request->network_timeout > 0)
+            alarm (wdata->request->network_timeout);
+          if (gftp_chmod (wdata->request, tempfle->file, mode) == 0)
+            success = 1;
+          if (!GFTP_IS_CONNECTED (wdata->request))
+            break;
+        }
+      alarm (0);
+    }
+  else
+    {
+      gftp_disconnect (wdata->request);
+      wdata->request->logging_function (gftp_logging_error, 
+                                        wdata->request->user_data,
+                                        _("Operation canceled\n"));
+    }
+
+  if (wdata->request->use_threads)
+    use_jmp_environment = 0;
+
+  wdata->request->user_data = NULL;
+  wdata->request->stopable = 0;
+  return ((void *) success);
+}
+
+
+static void
+dochmod (GtkWidget * widget, gftp_window_data * wdata)
+{
+  int cur;
+
+  mode = 0;
+  if (GTK_TOGGLE_BUTTON (suid)->active)
+    mode += 4;
+  if (GTK_TOGGLE_BUTTON (sgid)->active)
+    mode += 2;
+  if (GTK_TOGGLE_BUTTON (sticky)->active)
+    mode += 1;
+
+  cur = 0;
+  if (GTK_TOGGLE_BUTTON (ur)->active)
+    cur += 4;
+  if (GTK_TOGGLE_BUTTON (uw)->active)
+    cur += 2;
+  if (GTK_TOGGLE_BUTTON (ux)->active)
+    cur += 1;
+  mode = mode * 10 + cur;
+
+  cur = 0;
+  if (GTK_TOGGLE_BUTTON (gr)->active)
+    cur += 4;
+  if (GTK_TOGGLE_BUTTON (gw)->active)
+    cur += 2;
+  if (GTK_TOGGLE_BUTTON (gx)->active)
+    cur += 1;
+  mode = mode * 10 + cur;
+
+  cur = 0;
+  if (GTK_TOGGLE_BUTTON (or)->active)
+    cur += 4;
+  if (GTK_TOGGLE_BUTTON (ow)->active)
+    cur += 2;
+  if (GTK_TOGGLE_BUTTON (ox)->active)
+    cur += 1;
+  mode = mode * 10 + cur;
+
+  if (check_reconnect (wdata) < 0)
+    return;
+
+   if ((int) generic_thread (do_chmod_thread, wdata))
+    refresh (wdata);
+}
+
 
 #if GTK_MAJOR_VERSION > 1
 static void
@@ -237,108 +337,5 @@ chmod_dialog (gpointer data)
                                     tempfle->attribs[9] == 't');
     }
   gtk_widget_show (dialog);
-}
-
-
-static void
-dochmod (GtkWidget * widget, gftp_window_data * wdata)
-{
-  int cur;
-
-  mode = 0;
-  if (GTK_TOGGLE_BUTTON (suid)->active)
-    mode += 4;
-  if (GTK_TOGGLE_BUTTON (sgid)->active)
-    mode += 2;
-  if (GTK_TOGGLE_BUTTON (sticky)->active)
-    mode += 1;
-
-  cur = 0;
-  if (GTK_TOGGLE_BUTTON (ur)->active)
-    cur += 4;
-  if (GTK_TOGGLE_BUTTON (uw)->active)
-    cur += 2;
-  if (GTK_TOGGLE_BUTTON (ux)->active)
-    cur += 1;
-  mode = mode * 10 + cur;
-
-  cur = 0;
-  if (GTK_TOGGLE_BUTTON (gr)->active)
-    cur += 4;
-  if (GTK_TOGGLE_BUTTON (gw)->active)
-    cur += 2;
-  if (GTK_TOGGLE_BUTTON (gx)->active)
-    cur += 1;
-  mode = mode * 10 + cur;
-
-  cur = 0;
-  if (GTK_TOGGLE_BUTTON (or)->active)
-    cur += 4;
-  if (GTK_TOGGLE_BUTTON (ow)->active)
-    cur += 2;
-  if (GTK_TOGGLE_BUTTON (ox)->active)
-    cur += 1;
-  mode = mode * 10 + cur;
-
-  if (check_reconnect (wdata) < 0)
-    return;
-
-   if ((int) generic_thread (do_chmod_thread, wdata))
-    refresh (wdata);
-}
-
-
-static void *
-do_chmod_thread (void * data)
-{
-  GList * filelist, * templist;
-  gftp_window_data * wdata;
-  int success, num, sj;
-  gftp_file * tempfle;
-
-  wdata = data;
-  wdata->request->user_data = (void *) 0x01;
-
-  if (wdata->request->use_threads)
-    {
-      sj = sigsetjmp (jmp_environment, 1);
-      use_jmp_environment = 1;
-    }
-  else
-    sj = 0;
-
-  success = 0;
-  if (sj == 0)
-    { 
-      filelist = wdata->files;
-      templist = GTK_CLIST (wdata->listbox)->selection;
-      num = 0;
-      while (templist != NULL)
-        {
-          templist = get_next_selection (templist, &filelist, &num);
-          tempfle = filelist->data;
-          if (wdata->request->network_timeout > 0)
-            alarm (wdata->request->network_timeout);
-          if (gftp_chmod (wdata->request, tempfle->file, mode) == 0)
-            success = 1;
-          if (!GFTP_IS_CONNECTED (wdata->request))
-            break;
-        }
-      alarm (0);
-    }
-  else
-    {
-      gftp_disconnect (wdata->request);
-      wdata->request->logging_function (gftp_logging_error, 
-                                        wdata->request->user_data,
-                                        _("Operation canceled\n"));
-    }
-
-  if (wdata->request->use_threads)
-    use_jmp_environment = 0;
-
-  wdata->request->user_data = NULL;
-  wdata->request->stopable = 0;
-  return ((void *) success);
 }
 

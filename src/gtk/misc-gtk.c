@@ -20,15 +20,6 @@
 #include <gftp-gtk.h>
 static const char cvsid[] = "$Id$";
 
-static void set_menu_sensitive 			( gftp_window_data * wdata,
-						  char *path, 
-						  int sensitive );
-static gint delete_event 			( GtkWidget * widget, 
-						  GdkEvent * event, 
-						  gpointer data );
-static void trans_stop_button 			( GtkWidget * widget,
-						  gpointer data );
-
 static GtkWidget * statuswid;
 
 
@@ -298,6 +289,29 @@ update_window_info (void)
 }
 
 
+static void
+set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
+{
+  GtkWidget * tempwid;
+  char * pos;
+
+  tempwid = NULL;
+
+  if (factory != NULL)
+    tempwid = gtk_item_factory_get_widget (factory, path);
+  if (tempwid)
+    gtk_widget_set_sensitive (tempwid, sensitive);
+
+  if ((pos = strchr (path + 1, '/')) == NULL)
+    pos = path;
+
+  if (wdata->ifactory)
+    tempwid = gtk_item_factory_get_widget (wdata->ifactory, pos);
+  if (tempwid)
+    gtk_widget_set_sensitive (tempwid, sensitive);
+}
+
+
 void
 update_window (gftp_window_data * wdata)
 {
@@ -367,29 +381,6 @@ update_window (gftp_window_data * wdata)
   set_menu_sensitive (wdata, menus[start + 20].path, connected);
   fix_display ();
 }  
-
-
-static void
-set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
-{
-  GtkWidget * tempwid;
-  char * pos;
-
-  tempwid = NULL;
-
-  if (factory != NULL)
-    tempwid = gtk_item_factory_get_widget (factory, path);
-  if (tempwid)
-    gtk_widget_set_sensitive (tempwid, sensitive);
-
-  if ((pos = strchr (path + 1, '/')) == NULL)
-    pos = path;
-
-  if (wdata->ifactory)
-    tempwid = gtk_item_factory_get_widget (wdata->ifactory, pos);
-  if (tempwid)
-    gtk_widget_set_sensitive (tempwid, sensitive);
-}
 
 
 GtkWidget *
@@ -805,8 +796,8 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
     gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 1, fle->file);
 
   if (fle->attribs && (*fle->attribs == 'b' || *fle->attribs == 'c'))
-    tempstr = g_strdup_printf ("%d, %d", (int) fle->size >> 16,
-                               (int) fle->size & 0xFF);
+    tempstr = g_strdup_printf ("%d, %d", major (fle->size),
+                               minor (fle->size));
   else
     tempstr = insert_commas (fle->size, NULL, 0);
 
@@ -1107,6 +1098,23 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
 }
 
 
+static gint
+delete_event (GtkWidget * widget, GdkEvent * event, gpointer data)
+{
+  return (TRUE);
+}
+
+
+static void
+trans_stop_button (GtkWidget * widget, gpointer data)
+{
+  gftp_transfer * transfer;
+
+  transfer = data;
+  pthread_kill (((gftp_window_data *) transfer->fromwdata)->tid, SIGINT);
+}
+
+
 void
 update_directory_download_progress (gftp_transfer * transfer)
 {
@@ -1219,22 +1227,6 @@ progress_timeout (gpointer data)
   return (1);
 }
 
-
-static gint
-delete_event (GtkWidget * widget, GdkEvent * event, gpointer data)
-{
-  return (TRUE);
-}
-
-
-static void
-trans_stop_button (GtkWidget * widget, gpointer data)
-{
-  gftp_transfer * transfer;
-
-  transfer = data;
-  pthread_kill (((gftp_window_data *) transfer->fromwdata)->tid, SIGINT);
-}
 
 void
 display_cached_logs (void)

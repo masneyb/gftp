@@ -20,47 +20,6 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
-static int bookmark_parse_url 			( gftp_request * request, 
-						  const char * url );
-
-void
-bookmark_init (gftp_request * request)
-{
-  g_return_if_fail (request != NULL);
-
-  request->protonum = GFTP_BOOKMARK_NUM;
-  request->init = bookmark_init;
-  request->destroy = NULL;
-  request->connect = NULL;
-  request->disconnect = NULL;
-  request->get_file = NULL;
-  request->put_file = NULL;
-  request->transfer_file = NULL;
-  request->get_next_file_chunk = NULL;
-  request->put_next_file_chunk = NULL;
-  request->end_transfer = NULL;
-  request->list_files = NULL;
-  request->get_next_file = NULL;
-  request->set_data_type = NULL;
-  request->get_file_size = NULL;
-  request->chdir = NULL;
-  request->rmdir = NULL;
-  request->rmfile = NULL;
-  request->mkdir = NULL;
-  request->rename = NULL;
-  request->chmod = NULL;
-  request->set_file_time = NULL;
-  request->site = NULL;
-  request->parse_url = bookmark_parse_url;
-  request->url_prefix = "bookmark";
-  request->protocol_name = "Bookmark";
-  request->need_hostport = 0;
-  request->need_userpass = 0;
-  request->use_threads = 0;
-  request->use_cache = 0;
-  request->always_connected = 0;
-  gftp_set_config_options (request);
-}
 
 static int
 bookmark_parse_url (gftp_request * request, const char * url)
@@ -116,5 +75,45 @@ bookmark_parse_url (gftp_request * request, const char * url)
     gftp_protocols[0].init (request);
 
   return (0);
+}
+
+
+void
+bookmark_init (gftp_request * request)
+{
+  g_return_if_fail (request != NULL);
+
+  request->protonum = GFTP_BOOKMARK_NUM;
+  request->init = bookmark_init;
+  request->destroy = NULL;
+  request->connect = NULL;
+  request->disconnect = NULL;
+  request->get_file = NULL;
+  request->put_file = NULL;
+  request->transfer_file = NULL;
+  request->get_next_file_chunk = NULL;
+  request->put_next_file_chunk = NULL;
+  request->end_transfer = NULL;
+  request->list_files = NULL;
+  request->get_next_file = NULL;
+  request->set_data_type = NULL;
+  request->get_file_size = NULL;
+  request->chdir = NULL;
+  request->rmdir = NULL;
+  request->rmfile = NULL;
+  request->mkdir = NULL;
+  request->rename = NULL;
+  request->chmod = NULL;
+  request->set_file_time = NULL;
+  request->site = NULL;
+  request->parse_url = bookmark_parse_url;
+  request->url_prefix = "bookmark";
+  request->protocol_name = "Bookmark";
+  request->need_hostport = 0;
+  request->need_userpass = 0;
+  request->use_threads = 0;
+  request->use_cache = 0;
+  request->always_connected = 0;
+  gftp_set_config_options (request);
 }
 

@@ -20,15 +20,6 @@
 #include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
-static gftp_viewedit_data * fork_process 	( char *proc, 
-						  char *filename,
-						  int fd,
-						  char *remote_filename,
-						  int viewedit, 
-                                                  int del_file,
-                                                  int dontupload,
-						  gftp_window_data * wdata );
-
 static gftp_file * curfle;
 
 void
@@ -159,6 +150,81 @@ edit_dialog (gpointer data)
       add_file_transfer (fromwdata->request, towdata->request,
                          fromwdata, towdata, newfile, 1);
     }
+}
+
+
+static gftp_viewedit_data *
+fork_process (char *proc, char *filename, int fd, char *remote_filename, 
+              int viewedit, int del_file, int dontupload, 
+              gftp_window_data * wdata)
+{
+  gftp_viewedit_data * newproc;
+  char *pos, *endpos, **argv;
+  pid_t ret;
+  int n;
+
+  argv = NULL;
+  n = 0;
+  pos = proc;
+  while ((endpos = strchr (pos, ' ')) != NULL)
+    {
+      *endpos = '\0';
+      n++;
+      argv = g_realloc (argv, n * sizeof (char *));
+      argv[n - 1] = g_malloc (strlen (pos) + 1);
+      strcpy (argv[n - 1], pos);
+      *endpos = ' ';
+      pos = endpos + 1;
+    }
+  argv = g_realloc (argv, (n + 3) * sizeof (char *));
+  argv[n] = g_malloc (strlen (pos) + 1);
+  strcpy (argv[n], pos);
+  argv[n + 1] = g_malloc (strlen (filename) + 1);
+  strcpy (argv[n + 1], filename);
+  argv[n + 2] = NULL;
+
+  newproc = NULL;
+  switch ((ret = fork ()))
+    {
+    case 0:
+      close (fd);
+      execvp (argv[0], argv);
+      _exit (1);
+    case -1:
+      for (n = 0; argv[n] != NULL; n++)
+	g_free (argv[n]);
+      ftp_log (gftp_logging_error, NULL,
+              _("View: Cannot fork another process: %s\n"), g_strerror (errno));
+      break;
+    default:
+      ftp_log (gftp_logging_misc, NULL, _("Running program: %s %s\n"), proc,
+	       filename);
+      newproc = g_malloc0 (sizeof (*newproc));
+      newproc->pid = ret;
+      newproc->argv = argv;
+      if (wdata == &window2)
+        {
+          newproc->fromwdata = &window2;
+          newproc->towdata = &window1;
+        }
+      else
+        {
+          newproc->fromwdata = &window1;
+          newproc->towdata = &window2;
+        }
+      newproc->filename = g_malloc (strlen (filename) + 1);
+      strcpy (newproc->filename, filename);
+      if (remote_filename != NULL)
+	{
+	  newproc->remote_filename = g_malloc (strlen (remote_filename) + 1);
+	  strcpy (newproc->remote_filename, remote_filename);
+	}
+      newproc->view = viewedit;
+      newproc->rm = del_file;
+      newproc->dontupload = dontupload;
+      viewedit_processes = g_list_append (viewedit_processes, newproc);
+    }
+  return (newproc);
 }
 
 
@@ -346,80 +412,5 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
 
   if (!start_pos)
     gtk_adjustment_set_value (vadj, vadj->upper);
-}
-
-
-static gftp_viewedit_data *
-fork_process (char *proc, char *filename, int fd, char *remote_filename, 
-              int viewedit, int del_file, int dontupload, 
-              gftp_window_data * wdata)
-{
-  gftp_viewedit_data * newproc;
-  char *pos, *endpos, **argv;
-  pid_t ret;
-  int n;
-
-  argv = NULL;
-  n = 0;
-  pos = proc;
-  while ((endpos = strchr (pos, ' ')) != NULL)
-    {
-      *endpos = '\0';
-      n++;
-      argv = g_realloc (argv, n * sizeof (char *));
-      argv[n - 1] = g_malloc (strlen (pos) + 1);
-      strcpy (argv[n - 1], pos);
-      *endpos = ' ';
-      pos = endpos + 1;
-    }
-  argv = g_realloc (argv, (n + 3) * sizeof (char *));
-  argv[n] = g_malloc (strlen (pos) + 1);
-  strcpy (argv[n], pos);
-  argv[n + 1] = g_malloc (strlen (filename) + 1);
-  strcpy (argv[n + 1], filename);
-  argv[n + 2] = NULL;
-
-  newproc = NULL;
-  switch ((ret = fork ()))
-    {
-    case 0:
-      close (fd);
-      execvp (argv[0], argv);
-      _exit (1);
-    case -1:
-      for (n = 0; argv[n] != NULL; n++)
-	g_free (argv[n]);
-      ftp_log (gftp_logging_error, NULL,
-              _("View: Cannot fork another process: %s\n"), g_strerror (errno));
-      break;
-    default:
-      ftp_log (gftp_logging_misc, NULL, _("Running program: %s %s\n"), proc,
-	       filename);
-      newproc = g_malloc0 (sizeof (*newproc));
-      newproc->pid = ret;
-      newproc->argv = argv;
-      if (wdata == &window2)
-        {
-          newproc->fromwdata = &window2;
-          newproc->towdata = &window1;
-        }
-      else
-        {
-          newproc->fromwdata = &window1;
-          newproc->towdata = &window2;
-        }
-      newproc->filename = g_malloc (strlen (filename) + 1);
-      strcpy (newproc->filename, filename);
-      if (remote_filename != NULL)
-	{
-	  newproc->remote_filename = g_malloc (strlen (remote_filename) + 1);
-	  strcpy (newproc->remote_filename, remote_filename);
-	}
-      newproc->view = viewedit;
-      newproc->rm = del_file;
-      newproc->dontupload = dontupload;
-      viewedit_processes = g_list_append (viewedit_processes, newproc);
-    }
-  return (newproc);
 }
 

@@ -61,68 +61,6 @@ typedef struct sshv2_params_tag
 } sshv2_params;
 
 
-static void sshv2_destroy 			( gftp_request * request );
-static int sshv2_connect 			( gftp_request * request );
-static void sshv2_disconnect 			( gftp_request * request );
-static gint32 sshv2_buffer_get_int32 		( gftp_request * request, 
-						  sshv2_message * buffer,
-						  int expected_response );
-static char * sshv2_buffer_get_string 		( gftp_request * request,
-						  sshv2_message * buffer );
-static int sshv2_send_command 			( gftp_request * request, 
-						  char type,
-						  char *command, 
-						  gint32 len );
-static int sshv2_read_response 			( gftp_request * request, 
-						  sshv2_message * message, 
-						  FILE * fd );
-static void sshv2_message_free 			( sshv2_message * message );
-static void sshv2_log_command 			( gftp_request * request, 
-						  gftp_logging_level level,
-						  char type,
-						  char *message,
-						  size_t length );
-static int sshv2_end_transfer 			( gftp_request * request );
-static int sshv2_list_files 			( gftp_request * request );
-static int sshv2_get_next_file 			( gftp_request * request,
-						  gftp_file * fle, 
-						  FILE * fd );
-static int sshv2_chdir                    	( gftp_request * request,
-						  const char *directory );
-static int sshv2_getcwd				( gftp_request * request );
-static int sshv2_rmdir 				( gftp_request * request, 
-						  const char *directory );
-static int sshv2_rmfile				( gftp_request * request, 
-						  const char *file);
-static int sshv2_chmod                    	( gftp_request * request,
-						  const char *file,
-						  int mode );
-static int sshv2_mkdir                    	( gftp_request * request,
-						  const char *newdir );
-static int sshv2_rename                   	( gftp_request * request,
-						  const char *oldname,
-						  const char *newname );
-static int sshv2_set_file_time                  ( gftp_request * request,
-                                                  const char *file,
-                                                  time_t datetime );
-static off_t sshv2_get_file_size 		( gftp_request * request,
-						  const char *file );
-static long sshv2_get_file                      ( gftp_request * request,
-                                                  const char *filename,
-						  FILE * fd,
-                                                  off_t startsize );
-static int sshv2_put_file 			( gftp_request * request,
-                                                  const char *filename,
-						  FILE * fd,
-                                                  off_t startsize,
-						  off_t totalsize );
-static size_t sshv2_get_next_file_chunk 	( gftp_request * request,
-						  char *buf,
-						  size_t size );
-static size_t sshv2_put_next_file_chunk 	( gftp_request * request,
-						  char *buf,
-						  size_t size );
-
 #define SSH_MY_VERSION              3
 
 #define SSH_FXP_INIT                1
@@ -175,50 +113,271 @@ static size_t sshv2_put_next_file_chunk 	( gftp_request * request,
 #define SSH_FX_OP_UNSUPPORTED                8
 
 
-void
-sshv2_init (gftp_request * request)
+static void
+sshv2_log_command (gftp_request * request, gftp_logging_level level,
+                   char type, char *message, size_t length)
 {
+  gint32 id, num, attr, stattype;
+  char *descr, *pos, oldchar;
   sshv2_params * params;
 
-  g_return_if_fail (request != NULL);
-
-  request->protonum = GFTP_SSHV2_NUM;
-  request->init = sshv2_init;
-  request->destroy = sshv2_destroy;
-  request->connect = sshv2_connect;
-  request->disconnect = sshv2_disconnect;
-  request->get_file = sshv2_get_file;
-  request->put_file = sshv2_put_file;
-  request->transfer_file = NULL;
-  request->get_next_file_chunk = sshv2_get_next_file_chunk;
-  request->put_next_file_chunk = sshv2_put_next_file_chunk;
-  request->end_transfer = sshv2_end_transfer;
-  request->abort_transfer = NULL; /* FIXME */
-  request->list_files = sshv2_list_files;
-  request->get_next_file = sshv2_get_next_file;
-  request->set_data_type = NULL;
-  request->get_file_size = sshv2_get_file_size;
-  request->chdir = sshv2_chdir;
-  request->rmdir = sshv2_rmdir;
-  request->rmfile = sshv2_rmfile;
-  request->mkdir = sshv2_mkdir;
-  request->rename = sshv2_rename;
-  request->chmod = sshv2_chmod;
-  request->set_file_time = sshv2_set_file_time;
-  request->site = NULL;
-  request->parse_url = NULL;
-  request->url_prefix = "ssh2";
-  request->protocol_name = "SSH2";
-  request->need_hostport = 1;
-  request->need_userpass = ssh_need_userpass;
-  request->use_cache = 1;
-  request->use_threads = 1;
-  request->always_connected = 0;
-  request->protocol_data = g_malloc0 (sizeof (sshv2_params));
-  gftp_set_config_options (request);
-
   params = request->protocol_data;
-  params->id = 1;
+  memcpy (&id, message, 4);
+  id = ntohl (id);
+  switch (type)
+    {
+      case SSH_FXP_INIT:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Protocol Initialization\n"), id);
+        break;
+      case SSH_FXP_VERSION:
+        memcpy (&num, message, 4);
+        num = ntohl (num);
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Protocol version %d\n"), id, num);
+        break;
+      case SSH_FXP_OPEN:
+        memcpy (&num, message + 4, 4);
+        num = ntohl (num);
+        pos = message + 12 + num - 1;
+        oldchar = *pos;
+        *pos = '\0';
+        request->logging_function (level, request->user_data,
+                                   _("%d: Open %s\n"), id, message + 8);
+        *pos = oldchar;
+        break;
+      case SSH_FXP_CLOSE:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Close\n"), id);
+      case SSH_FXP_READ:
+      case SSH_FXP_WRITE:
+        break;  
+      case SSH_FXP_OPENDIR:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Open Directory %s\n"), id,
+                                   message + 8);
+        break;
+      case SSH_FXP_READDIR:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Read Directory\n"), id);
+        break;
+      case SSH_FXP_REMOVE:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Remove file %s\n"), id,
+                                   message + 8);
+        break;
+      case SSH_FXP_MKDIR:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Make directory %s\n"), id,
+                                   message + 8);
+        break;
+      case SSH_FXP_RMDIR:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Remove directory %s\n"), id,
+                                   message + 8);
+        break;
+      case SSH_FXP_REALPATH:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Realpath %s\n"), id,
+                                   message + 8);
+        break;
+      case SSH_FXP_ATTRS:
+        request->logging_function (level, request->user_data,
+                                   _("%d: File attributes\n"), id);
+        break;
+      case SSH_FXP_STAT:
+        request->logging_function (level, request->user_data, 
+                                   _("%d: Stat %s\n"), id,
+                                   message + 8);
+        break;
+      case SSH_FXP_SETSTAT:
+        memcpy (&num, message + 4, 4);
+        num = ntohl (num);
+        pos = message + 12 + num - 1;
+        oldchar = *pos;
+        *pos = '\0';
+        memcpy (&stattype, message + 8 + num, 4);
+        stattype = ntohl (stattype);
+        memcpy (&attr, message + 12 + num, 4);
+        attr = ntohl (attr);
+        switch (stattype)
+          {
+            case SSH_FILEXFER_ATTR_PERMISSIONS:
+              request->logging_function (level, request->user_data,
+                                         _("%d: Chmod %s %o\n"), id,
+                                         message + 8, attr);
+              break;
+            case SSH_FILEXFER_ATTR_ACMODTIME:
+              request->logging_function (level, request->user_data,
+                                         _("%d: Utime %s %d\n"), id,
+                                         message + 8, attr);
+          }
+        *pos = oldchar;
+        break;
+      case SSH_FXP_STATUS:
+        if (params->dont_log_status)
+          break;
+        memcpy (&num, message + 4, 4);
+        num = ntohl (num);
+        switch (num)
+          {
+            case SSH_FX_OK:
+              descr = _("OK");
+              break;
+            case SSH_FX_EOF:
+              descr = _("EOF");
+              break;
+            case SSH_FX_NO_SUCH_FILE:
+              descr = _("No such file or directory");
+              break;
+            case SSH_FX_PERMISSION_DENIED:
+              descr = _("Permission denied");
+              break;
+            case SSH_FX_FAILURE:
+              descr = _("Failure");
+              break;
+            case SSH_FX_BAD_MESSAGE:
+              descr = _("Bad message");
+              break;
+            case SSH_FX_NO_CONNECTION:
+              descr = _("No connection");
+              break;
+            case SSH_FX_CONNECTION_LOST:
+              descr = _("Connection lost");
+              break;
+            case SSH_FX_OP_UNSUPPORTED:
+              descr = _("Operation unsupported");
+              break;
+            default:
+              descr = _("Unknown message returned from server");
+              break;
+          }
+        request->logging_function (level, request->user_data,
+                                   "%d: %s\n", id, descr);
+        break;
+      case SSH_FXP_HANDLE:
+        request->logging_function (level, request->user_data, 
+                                   "%d: File handle\n", id);
+        break;
+      case SSH_FXP_DATA:
+        break;
+      case SSH_FXP_NAME:
+        memcpy (&num, message + 4, 4);
+        num = ntohl (num);
+        request->logging_function (level, request->user_data, 
+                                   "%d: Filenames (%d entries)\n", id,
+                                   num);
+        break;
+      default:
+        request->logging_function (level, request->user_data, 
+                                   "Command: %x\n", type);
+    }
+}
+
+
+static int
+sshv2_send_command (gftp_request * request, char type, char *command, 
+                    gint32 len)
+{
+  char buf[34000];
+  gint32 clen;
+
+  if (len > 33995)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                             _("Error: Message size %d too big\n"), len);
+      gftp_disconnect (request);
+      return (-1);
+    }
+
+  clen = htonl (len + 1);
+  memcpy (buf, &clen, 4);
+  buf[4] = type;
+  memcpy (&buf[5], command, len);
+  buf[len + 5] = '\0';
+
+#ifdef DEBUG
+  printf ("\rSending: ");
+  for (wrote=0; wrote<len + 5; wrote++)
+    printf ("%x ", buf[wrote]);
+  printf ("\n");
+#endif
+
+  sshv2_log_command (request, gftp_logging_send, type, buf + 5, len);
+
+  if (gftp_fwrite (request, buf, len + 5, request->sockfd_write) < 0)
+    return (-2);
+
+  return 0;
+}
+
+
+static int
+sshv2_read_response (gftp_request * request, sshv2_message * message,
+                     FILE * fd)
+{
+  ssize_t numread;
+  char buf[5];
+
+  if (fd == NULL)
+    fd = request->sockfd;
+
+  numread = fread (buf, 5, 1, fd);
+  if (ferror (fd))
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Error: Could not read from socket: %s\n"),
+                                 g_strerror (errno));
+      gftp_disconnect (request);
+      return (-1);
+    }
+
+#ifdef DEBUG
+  printf ("\rReceived: ");
+  for (numread=0; numread<5; numread++)
+    printf ("%x ", buf[numread]);
+  fflush (stdout);
+#endif
+
+  memcpy (&message->length, buf, 4);
+  message->length = ntohl (message->length);
+  if (message->length > 34000)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                             _("Error: Message size %d too big from server\n"),
+                             message->length);
+      memset (message, 0, sizeof (*message));
+      gftp_disconnect (request);
+      return (-1);
+    }
+  message->command = buf[4];
+  message->buffer = g_malloc (message->length);
+
+  message->pos = message->buffer;
+  message->end = message->buffer + message->length - 1;
+
+  numread = fread (message->buffer, message->length - 1, 1, fd);
+  if (ferror (fd))
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Error: Could not read from socket: %s\n"),
+                                 g_strerror (errno));
+      gftp_disconnect (request);
+      return (-1);
+    }
+  message->buffer[message->length - 1] = '\0';
+
+#ifdef DEBUG
+  printf ("\rReceived: ");
+  for (numread=0; numread<message->length - 1; numread++)
+    printf ("%x ", message->buffer[numread]);
+  printf ("\n");
+#endif
+
+  sshv2_log_command (request, gftp_logging_recv, message->command, 
+                     message->buffer, message->length);
+  
+  return (message->command);
 }
 
 
@@ -230,6 +389,134 @@ sshv2_destroy (gftp_request * request)
 
   g_free (request->protocol_data);
   request->protocol_data = NULL;
+}
+
+
+static void
+sshv2_message_free (sshv2_message * message)
+{
+  if (message->buffer)
+    g_free (message->buffer);
+  memset (message, 0, sizeof (*message));
+}
+
+
+static gint32
+sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
+                        int expected_response)
+{
+  gint32 ret;
+
+  if (message->end - message->pos < 4)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                     _("Received wrong response from server, disconnecting\n"));
+      sshv2_message_free (message);
+      gftp_disconnect (request);
+      return (-2);
+    }
+
+  memcpy (&ret, message->pos, 4);
+  ret = ntohl (ret);
+  message->pos += 4;
+
+  if (expected_response > 0 && ret != expected_response)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                     _("Received wrong response from server, disconnecting\n"));
+      sshv2_message_free (message);
+      gftp_disconnect (request);
+      return (-2);
+    }
+
+  return (ret);
+}
+
+
+static char *
+sshv2_buffer_get_string (gftp_request * request, sshv2_message * message)
+{
+  char *string;
+  gint32 len;
+
+  if ((len = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+    return (NULL);
+
+  if (len > SSH_MAX_STRING_SIZE || (message->end - message->pos < len))
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                     _("Received wrong response from server, disconnecting\n"));
+      sshv2_message_free (message);
+      gftp_disconnect (request);
+      return (NULL);
+    }
+
+  string = g_malloc (len + 1);
+  memcpy (string, message->pos, len);
+  string[len] = '\0';
+  message->pos += len;
+  return (string);
+}
+
+
+static int
+sshv2_getcwd (gftp_request * request)
+{
+  sshv2_message message;
+  sshv2_params * params;
+  char *tempstr, *dir;
+  gint32 num;
+  size_t len;
+
+  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
+
+  if (request->directory == NULL || *request->directory == '\0')
+    dir = ".";
+  else
+    dir = request->directory;
+
+  params = request->protocol_data;
+  len = strlen (dir);
+  tempstr = g_malloc (len + 9);
+  strcpy (tempstr + 8, dir);
+
+  num = htonl (params->id++);
+  memcpy (tempstr, &num, 4);
+
+  num = htonl (len);
+  memcpy (tempstr + 4, &num, 4);
+  if (sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len + 8) < 0)
+    {
+      g_free (tempstr);
+      return (-2);
+    }
+
+  g_free (tempstr);
+  if (request->directory)
+    {
+      g_free (request->directory);
+      request->directory = NULL;
+    }
+
+  memset (&message, 0, sizeof (message));
+  if (sshv2_read_response (request, &message, NULL) != SSH_FXP_NAME)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                     _("Received wrong response from server, disconnecting\n"));
+      sshv2_message_free (&message);
+      gftp_disconnect (request);
+      return (-2);
+    }
+
+  message.pos += 4;
+  if (sshv2_buffer_get_int32 (request, &message, 1) < 0)
+    return (-2);
+
+  if ((request->directory = sshv2_buffer_get_string (request, &message)) == NULL)
+    return (-2);
+  sshv2_message_free (&message);
+  return (0);
 }
 
 
@@ -433,341 +720,6 @@ sshv2_disconnect (gftp_request * request)
 
   if (params->message.buffer != NULL)
     sshv2_message_free (&params->message);
-}
-
-
-static gint32
-sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
-                        int expected_response)
-{
-  gint32 ret;
-
-  if (message->end - message->pos < 4)
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (message);
-      gftp_disconnect (request);
-      return (-2);
-    }
-
-  memcpy (&ret, message->pos, 4);
-  ret = ntohl (ret);
-  message->pos += 4;
-
-  if (expected_response > 0 && ret != expected_response)
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (message);
-      gftp_disconnect (request);
-      return (-2);
-    }
-
-  return (ret);
-}
-
-
-static char *
-sshv2_buffer_get_string (gftp_request * request, sshv2_message * message)
-{
-  char *string;
-  gint32 len;
-
-  if ((len = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-    return (NULL);
-
-  if (len > SSH_MAX_STRING_SIZE || (message->end - message->pos < len))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (message);
-      gftp_disconnect (request);
-      return (NULL);
-    }
-
-  string = g_malloc (len + 1);
-  memcpy (string, message->pos, len);
-  string[len] = '\0';
-  message->pos += len;
-  return (string);
-}
-
-
-static int
-sshv2_send_command (gftp_request * request, char type, char *command, 
-                    gint32 len)
-{
-  char buf[34000];
-  gint32 clen;
-
-  if (len > 33995)
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                             _("Error: Message size %d too big\n"), len);
-      gftp_disconnect (request);
-      return (-1);
-    }
-
-  clen = htonl (len + 1);
-  memcpy (buf, &clen, 4);
-  buf[4] = type;
-  memcpy (&buf[5], command, len);
-  buf[len + 5] = '\0';
-
-#ifdef DEBUG
-  printf ("\rSending: ");
-  for (wrote=0; wrote<len + 5; wrote++)
-    printf ("%x ", buf[wrote]);
-  printf ("\n");
-#endif
-
-  sshv2_log_command (request, gftp_logging_send, type, buf + 5, len);
-
-  if (gftp_fwrite (request, buf, len + 5, request->sockfd_write) < 0)
-    return (-2);
-
-  return 0;
-}
-
-
-static int
-sshv2_read_response (gftp_request * request, sshv2_message * message,
-                     FILE * fd)
-{
-  ssize_t numread;
-  char buf[5];
-
-  if (fd == NULL)
-    fd = request->sockfd;
-
-  numread = fread (buf, 5, 1, fd);
-  if (ferror (fd))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Could not read from socket: %s\n"),
-                                 g_strerror (errno));
-      gftp_disconnect (request);
-      return (-1);
-    }
-
-#ifdef DEBUG
-  printf ("\rReceived: ");
-  for (numread=0; numread<5; numread++)
-    printf ("%x ", buf[numread]);
-  fflush (stdout);
-#endif
-
-  memcpy (&message->length, buf, 4);
-  message->length = ntohl (message->length);
-  if (message->length > 34000)
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                             _("Error: Message size %d too big from server\n"),
-                             message->length);
-      memset (message, 0, sizeof (*message));
-      gftp_disconnect (request);
-      return (-1);
-    }
-  message->command = buf[4];
-  message->buffer = g_malloc (message->length);
-
-  message->pos = message->buffer;
-  message->end = message->buffer + message->length - 1;
-
-  numread = fread (message->buffer, message->length - 1, 1, fd);
-  if (ferror (fd))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Could not read from socket: %s\n"),
-                                 g_strerror (errno));
-      gftp_disconnect (request);
-      return (-1);
-    }
-  message->buffer[message->length - 1] = '\0';
-
-#ifdef DEBUG
-  printf ("\rReceived: ");
-  for (numread=0; numread<message->length - 1; numread++)
-    printf ("%x ", message->buffer[numread]);
-  printf ("\n");
-#endif
-
-  sshv2_log_command (request, gftp_logging_recv, message->command, 
-                     message->buffer, message->length);
-  
-  return (message->command);
-}
-
-
-static void
-sshv2_message_free (sshv2_message * message)
-{
-  if (message->buffer)
-    g_free (message->buffer);
-  memset (message, 0, sizeof (*message));
-}
-
-
-static void
-sshv2_log_command (gftp_request * request, gftp_logging_level level,
-                   char type, char *message, size_t length)
-{
-  gint32 id, num, attr, stattype;
-  char *descr, *pos, oldchar;
-  sshv2_params * params;
-
-  params = request->protocol_data;
-  memcpy (&id, message, 4);
-  id = ntohl (id);
-  switch (type)
-    {
-      case SSH_FXP_INIT:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Protocol Initialization\n"), id);
-        break;
-      case SSH_FXP_VERSION:
-        memcpy (&num, message, 4);
-        num = ntohl (num);
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Protocol version %d\n"), id, num);
-        break;
-      case SSH_FXP_OPEN:
-        memcpy (&num, message + 4, 4);
-        num = ntohl (num);
-        pos = message + 12 + num - 1;
-        oldchar = *pos;
-        *pos = '\0';
-        request->logging_function (level, request->user_data,
-                                   _("%d: Open %s\n"), id, message + 8);
-        *pos = oldchar;
-        break;
-      case SSH_FXP_CLOSE:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Close\n"), id);
-      case SSH_FXP_READ:
-      case SSH_FXP_WRITE:
-        break;  
-      case SSH_FXP_OPENDIR:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Open Directory %s\n"), id,
-                                   message + 8);
-        break;
-      case SSH_FXP_READDIR:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Read Directory\n"), id);
-        break;
-      case SSH_FXP_REMOVE:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Remove file %s\n"), id,
-                                   message + 8);
-        break;
-      case SSH_FXP_MKDIR:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Make directory %s\n"), id,
-                                   message + 8);
-        break;
-      case SSH_FXP_RMDIR:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Remove directory %s\n"), id,
-                                   message + 8);
-        break;
-      case SSH_FXP_REALPATH:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Realpath %s\n"), id,
-                                   message + 8);
-        break;
-      case SSH_FXP_ATTRS:
-        request->logging_function (level, request->user_data,
-                                   _("%d: File attributes\n"), id);
-        break;
-      case SSH_FXP_STAT:
-        request->logging_function (level, request->user_data, 
-                                   _("%d: Stat %s\n"), id,
-                                   message + 8);
-        break;
-      case SSH_FXP_SETSTAT:
-        memcpy (&num, message + 4, 4);
-        num = ntohl (num);
-        pos = message + 12 + num - 1;
-        oldchar = *pos;
-        *pos = '\0';
-        memcpy (&stattype, message + 8 + num, 4);
-        stattype = ntohl (stattype);
-        memcpy (&attr, message + 12 + num, 4);
-        attr = ntohl (attr);
-        switch (stattype)
-          {
-            case SSH_FILEXFER_ATTR_PERMISSIONS:
-              request->logging_function (level, request->user_data,
-                                         _("%d: Chmod %s %o\n"), id,
-                                         message + 8, attr);
-              break;
-            case SSH_FILEXFER_ATTR_ACMODTIME:
-              request->logging_function (level, request->user_data,
-                                         _("%d: Utime %s %d\n"), id,
-                                         message + 8, attr);
-          }
-        *pos = oldchar;
-        break;
-      case SSH_FXP_STATUS:
-        if (params->dont_log_status)
-          break;
-        memcpy (&num, message + 4, 4);
-        num = ntohl (num);
-        switch (num)
-          {
-            case SSH_FX_OK:
-              descr = _("OK");
-              break;
-            case SSH_FX_EOF:
-              descr = _("EOF");
-              break;
-            case SSH_FX_NO_SUCH_FILE:
-              descr = _("No such file or directory");
-              break;
-            case SSH_FX_PERMISSION_DENIED:
-              descr = _("Permission denied");
-              break;
-            case SSH_FX_FAILURE:
-              descr = _("Failure");
-              break;
-            case SSH_FX_BAD_MESSAGE:
-              descr = _("Bad message");
-              break;
-            case SSH_FX_NO_CONNECTION:
-              descr = _("No connection");
-              break;
-            case SSH_FX_CONNECTION_LOST:
-              descr = _("Connection lost");
-              break;
-            case SSH_FX_OP_UNSUPPORTED:
-              descr = _("Operation unsupported");
-              break;
-            default:
-              descr = _("Unknown message returned from server");
-              break;
-          }
-        request->logging_function (level, request->user_data,
-                                   "%d: %s\n", id, descr);
-        break;
-      case SSH_FXP_HANDLE:
-        request->logging_function (level, request->user_data, 
-                                   "%d: File handle\n", id);
-        break;
-      case SSH_FXP_DATA:
-        break;
-      case SSH_FXP_NAME:
-        memcpy (&num, message + 4, 4);
-        num = ntohl (num);
-        request->logging_function (level, request->user_data, 
-                                   "%d: Filenames (%d entries)\n", id,
-                                   num);
-        break;
-      default:
-        request->logging_function (level, request->user_data, 
-                                   "Command: %x\n", type);
-    }
 }
 
 
@@ -1140,67 +1092,6 @@ sshv2_chdir (gftp_request * request, const char *directory)
       sshv2_message_free (&message);
     }
   
-  return (0);
-}
-
-
-static int
-sshv2_getcwd (gftp_request * request)
-{
-  sshv2_message message;
-  sshv2_params * params;
-  char *tempstr, *dir;
-  gint32 num;
-  size_t len;
-
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-
-  if (request->directory == NULL || *request->directory == '\0')
-    dir = ".";
-  else
-    dir = request->directory;
-
-  params = request->protocol_data;
-  len = strlen (dir);
-  tempstr = g_malloc (len + 9);
-  strcpy (tempstr + 8, dir);
-
-  num = htonl (params->id++);
-  memcpy (tempstr, &num, 4);
-
-  num = htonl (len);
-  memcpy (tempstr + 4, &num, 4);
-  if (sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len + 8) < 0)
-    {
-      g_free (tempstr);
-      return (-2);
-    }
-
-  g_free (tempstr);
-  if (request->directory)
-    {
-      g_free (request->directory);
-      request->directory = NULL;
-    }
-
-  memset (&message, 0, sizeof (message));
-  if (sshv2_read_response (request, &message, NULL) != SSH_FXP_NAME)
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (&message);
-      gftp_disconnect (request);
-      return (-2);
-    }
-
-  message.pos += 4;
-  if (sshv2_buffer_get_int32 (request, &message, 1) < 0)
-    return (-2);
-
-  if ((request->directory = sshv2_buffer_get_string (request, &message)) == NULL)
-    return (-2);
-  sshv2_message_free (&message);
   return (0);
 }
 
@@ -1984,5 +1875,52 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
   params->offset += size;
   return (size);
+}
+
+
+void
+sshv2_init (gftp_request * request)
+{
+  sshv2_params * params;
+
+  g_return_if_fail (request != NULL);
+
+  request->protonum = GFTP_SSHV2_NUM;
+  request->init = sshv2_init;
+  request->destroy = sshv2_destroy;
+  request->connect = sshv2_connect;
+  request->disconnect = sshv2_disconnect;
+  request->get_file = sshv2_get_file;
+  request->put_file = sshv2_put_file;
+  request->transfer_file = NULL;
+  request->get_next_file_chunk = sshv2_get_next_file_chunk;
+  request->put_next_file_chunk = sshv2_put_next_file_chunk;
+  request->end_transfer = sshv2_end_transfer;
+  request->abort_transfer = sshv2_end_transfer; /* NOTE: uses sshv2_end_transfer */
+  request->list_files = sshv2_list_files;
+  request->get_next_file = sshv2_get_next_file;
+  request->set_data_type = NULL;
+  request->get_file_size = sshv2_get_file_size;
+  request->chdir = sshv2_chdir;
+  request->rmdir = sshv2_rmdir;
+  request->rmfile = sshv2_rmfile;
+  request->mkdir = sshv2_mkdir;
+  request->rename = sshv2_rename;
+  request->chmod = sshv2_chmod;
+  request->set_file_time = sshv2_set_file_time;
+  request->site = NULL;
+  request->parse_url = NULL;
+  request->url_prefix = "ssh2";
+  request->protocol_name = "SSH2";
+  request->need_hostport = 1;
+  request->need_userpass = ssh_need_userpass;
+  request->use_cache = 1;
+  request->use_threads = 1;
+  request->always_connected = 0;
+  request->protocol_data = g_malloc0 (sizeof (sshv2_params));
+  gftp_set_config_options (request);
+
+  params = request->protocol_data;
+  params->id = 1;
 }
 

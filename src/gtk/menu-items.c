@@ -20,10 +20,6 @@
 #include <gftp-gtk.h>
 static const char cvsid[] = "$Id$";
 
-static int do_change_dir			( gftp_window_data * wdata,
-						  char * directory );
-static void *do_change_dir_thread 		( void * data );
-
 void
 change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
 {
@@ -422,6 +418,85 @@ site_dialog (gpointer data)
 }
 
 
+static void *
+do_change_dir_thread (void * data)
+{
+  gftp_window_data * wdata;
+  int success, sj;
+
+  wdata = data;
+  wdata->request->user_data = (void *) 0x01;
+
+  if (wdata->request->use_threads)
+    {
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
+    }
+  else
+    sj = 0;
+
+  success = 0;
+  if (sj == 0) 
+    {
+      if (wdata->request->network_timeout > 0)
+        alarm (wdata->request->network_timeout);
+      success = gftp_set_directory (wdata->request, wdata->request->directory);
+      alarm (0);
+    }
+  else
+    {
+      gftp_disconnect (wdata->request);
+      wdata->request->logging_function (gftp_logging_error,
+                                        wdata->request->user_data,
+                                        _("Operation canceled\n"));
+    }
+
+  if (wdata->request->use_threads)
+    use_jmp_environment = 0;
+
+  wdata->request->user_data = NULL;
+  wdata->request->stopable = 0;
+  return ((void *) success);
+}
+
+
+static int
+do_change_dir (gftp_window_data * wdata, char *directory)
+{
+  char *olddir;
+  int ret;
+
+  if (directory != wdata->request->directory)
+    {
+      olddir = wdata->request->directory;
+      wdata->request->directory = g_malloc (strlen (directory) + 1);
+      strcpy (wdata->request->directory, directory);
+    }
+  else
+    olddir = NULL;
+
+  ret = (int) generic_thread (do_change_dir_thread, wdata);
+
+  if (!GFTP_IS_CONNECTED (wdata->request))
+    {
+      disconnect (wdata);
+      if (olddir != NULL)
+        g_free (olddir);
+      return (-2);
+    }
+
+  if (ret != 0)
+    {
+      g_free (wdata->request->directory);
+      wdata->request->directory = olddir;
+    }
+  else
+    g_free (olddir);
+
+  return (ret);
+}
+
+
 int
 chdir_edit (GtkWidget * widget, gpointer data)
 {
@@ -502,85 +577,6 @@ chdir_dialog (gpointer data)
     }
   g_free (tempstr);
   return (ret);
-}
-
-
-static int
-do_change_dir (gftp_window_data * wdata, char *directory)
-{
-  char *olddir;
-  int ret;
-
-  if (directory != wdata->request->directory)
-    {
-      olddir = wdata->request->directory;
-      wdata->request->directory = g_malloc (strlen (directory) + 1);
-      strcpy (wdata->request->directory, directory);
-    }
-  else
-    olddir = NULL;
-
-  ret = (int) generic_thread (do_change_dir_thread, wdata);
-
-  if (!GFTP_IS_CONNECTED (wdata->request))
-    {
-      disconnect (wdata);
-      if (olddir != NULL)
-        g_free (olddir);
-      return (-2);
-    }
-
-  if (ret != 0)
-    {
-      g_free (wdata->request->directory);
-      wdata->request->directory = olddir;
-    }
-  else
-    g_free (olddir);
-
-  return (ret);
-}
-
-
-static void *
-do_change_dir_thread (void * data)
-{
-  gftp_window_data * wdata;
-  int success, sj;
-
-  wdata = data;
-  wdata->request->user_data = (void *) 0x01;
-
-  if (wdata->request->use_threads)
-    {
-      sj = sigsetjmp (jmp_environment, 1);
-      use_jmp_environment = 1;
-    }
-  else
-    sj = 0;
-
-  success = 0;
-  if (sj == 0) 
-    {
-      if (wdata->request->network_timeout > 0)
-        alarm (wdata->request->network_timeout);
-      success = gftp_set_directory (wdata->request, wdata->request->directory);
-      alarm (0);
-    }
-  else
-    {
-      gftp_disconnect (wdata->request);
-      wdata->request->logging_function (gftp_logging_error,
-                                        wdata->request->user_data,
-                                        _("Operation canceled\n"));
-    }
-
-  if (wdata->request->use_threads)
-    use_jmp_environment = 0;
-
-  wdata->request->user_data = NULL;
-  wdata->request->stopable = 0;
-  return ((void *) success);
 }
 
 
