@@ -1396,8 +1396,8 @@ sshv2_chdir (gftp_request * request, const char *directory)
       sshv2_message_free (&message);
       return (0);
     }
-  else
-    return (sshv2_getcwd (request));
+
+  return (0);
 }
 
 
