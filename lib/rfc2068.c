@@ -919,6 +919,7 @@ rfc2068_init (gftp_request * request)
   request->put_next_file_chunk = NULL;
   request->end_transfer = rfc2068_end_transfer;
   request->abort_transfer = rfc2068_end_transfer; /* NOTE: uses end_transfer */
+  request->stat_filename = NULL;
   request->list_files = rfc2068_list_files;
   request->get_next_file = rfc2068_get_next_file;
   request->get_next_dirlist_line = NULL;

@@ -220,6 +220,18 @@ local_end_transfer (gftp_request * request)
 }
 
 
+static mode_t
+local_stat_filename (gftp_request * request, const char *filename)
+{
+  struct stat st;
+
+  if (stat (filename, &st) != 0)
+    return (GFTP_ERETRYABLE);
+
+  return (st.st_mode);
+}
+
+
 static int
 local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
@@ -577,6 +589,7 @@ local_init (gftp_request * request)
   request->put_next_file_chunk = NULL;
   request->end_transfer = local_end_transfer;
   request->abort_transfer = local_end_transfer; /* NOTE: uses end_transfer */
+  request->stat_filename = local_stat_filename;
   request->list_files = local_list_files;
   request->get_next_file = local_get_next_file;
   request->get_next_dirlist_line = NULL;

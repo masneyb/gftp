@@ -339,6 +339,22 @@ gftp_abort_transfer (gftp_request * request)
 }
 
 
+mode_t
+gftp_stat_filename (gftp_request * request, const char *filename)
+{
+  mode_t ret;
+
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+
+  if (request->stat_filename != NULL)
+    ret = request->stat_filename (request, filename);
+  else
+    ret = 0;
+
+  return (ret);
+}
+
+
 int
 gftp_list_files (gftp_request * request)
 {
@@ -1881,6 +1897,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
   unsigned long *newsize;
   GHashTable * dirhash;
   gftp_file * curfle;
+  mode_t st_mode;
 
   g_return_val_if_fail (transfer != NULL, GFTP_EFATAL);
   g_return_val_if_fail (transfer->fromreq != NULL, GFTP_EFATAL);
@@ -1940,7 +1957,14 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
     {
       curfle = templist->data;
 
-      if (S_ISDIR (curfle->st_mode))
+      if (S_ISLNK (curfle->st_mode) && !S_ISDIR (curfle->st_mode))
+        {
+          st_mode = gftp_stat_filename (transfer->fromreq, curfle->file);
+          if (S_ISDIR (st_mode))
+            curfle->st_mode = st_mode;
+        }
+
+      if (curfle->st_mode & S_IFDIR)
         {
           oldfromdir = transfer->fromreq->directory;
           transfer->fromreq->directory = curfle->file;

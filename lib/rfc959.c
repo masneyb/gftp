@@ -1809,6 +1809,7 @@ rfc959_init (gftp_request * request)
   request->put_next_file_chunk = rfc959_put_next_file_chunk;
   request->end_transfer = rfc959_end_transfer;
   request->abort_transfer = rfc959_abort_transfer;
+  request->stat_filename = NULL;
   request->list_files = rfc959_list_files;
   request->get_next_file = rfc959_get_next_file;
   request->get_next_dirlist_line = rfc959_get_next_dirlist_line;

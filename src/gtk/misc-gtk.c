@@ -693,7 +693,7 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
     gftp_get_pixmap (wdata->listbox, "linkdir.xpm", &pix, &bitmap);
   else if (S_ISLNK (fle->st_mode))
     gftp_get_pixmap (wdata->listbox, "linkfile.xpm", &pix, &bitmap);
-  else if (S_ISLNK (fle->st_mode))
+  else if (S_ISDIR (fle->st_mode))
     gftp_get_pixmap (wdata->listbox, "dir.xpm", &pix, &bitmap);
   else if ((fle->st_mode & S_IXUSR) ||
            (fle->st_mode & S_IXGRP) ||

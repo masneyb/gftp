@@ -1211,6 +1211,8 @@ sshv2_decode_file_attributes (gftp_request * request, sshv2_message * message,
     {
       if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
         return (num);
+
+      fle->st_mode = num;
     }
 
   if (attrs & SSH_FILEXFER_ATTR_ACMODTIME)
@@ -1229,7 +1231,6 @@ sshv2_decode_file_attributes (gftp_request * request, sshv2_message * message,
       if ((count = sshv2_buffer_get_int32 (request, message, -1)) < 0)
         return (GFTP_EFATAL);
 
-      printf ("FIXME - file %d extended attributes\n", count);
       for (i=0; i<count; i++)
         {
           if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0 ||
@@ -1672,22 +1673,21 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
 }
 
 
-static off_t
-sshv2_get_file_size (gftp_request * request, const char *file)
+static int
+sshv2_send_stat_command (gftp_request * request, const char *filename,
+                         gftp_file * fle)
 {
   sshv2_message message;
-  gftp_file fle;
   char *tempstr;
-  int serv_ret;
   gint32 len;
-  off_t ret;
+  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   len = 0;
-  tempstr = sshv2_initialize_string_with_path (request, file, &len, NULL);
+  tempstr = sshv2_initialize_string_with_path (request, filename, &len, NULL);
 
   ret = sshv2_send_command (request, SSH_FXP_STAT, tempstr, len);
 
@@ -1695,28 +1695,61 @@ sshv2_get_file_size (gftp_request * request, const char *file)
   if (ret < 0)
     return (ret);
 
-  serv_ret = sshv2_read_status_response (request, &message, -1, SSH_FXP_STATUS,
-                                         SSH_FXP_ATTRS);
-  if (serv_ret < 0)
-    return (serv_ret);
+  ret = sshv2_read_status_response (request, &message, -1, SSH_FXP_STATUS,
+                                    SSH_FXP_ATTRS);
+  if (ret < 0)
+    return (ret);
 
   if (message.length < 5)
     return (GFTP_EFATAL);
 
   message.pos += 4;
-  memset (&fle, 0, sizeof (fle));
-  if ((serv_ret = sshv2_decode_file_attributes (request, &message, &fle)) < 0)
+  if ((ret = sshv2_decode_file_attributes (request, &message, fle)) < 0)
     {
-      gftp_file_destroy (&fle);
-      return (serv_ret);
+      gftp_file_destroy (fle);
+      return (ret);
     }
 
-  ret = fle.size;
-  gftp_file_destroy (&fle);
   sshv2_message_free (&message);
 
-  return (ret);
+  return (0);
+}
 
+
+static mode_t
+sshv2_stat_filename (gftp_request * request, const char *filename)
+{
+  gftp_file fle;
+  mode_t ret;
+
+  memset (&fle, 0, sizeof (fle));
+  ret = sshv2_send_stat_command (request, filename, &fle);
+  if (ret < 0)
+    return (ret);
+
+  ret = fle.st_mode;
+  gftp_file_destroy (&fle);
+
+  return (ret);
+}
+
+
+static off_t
+sshv2_get_file_size (gftp_request * request, const char *file)
+{
+  gftp_file fle;
+  off_t size;
+  int ret;
+
+  memset (&fle, 0, sizeof (fle));
+  ret = sshv2_send_stat_command (request, file, &fle);
+  if (ret < 0)
+    return (ret);
+
+  size = fle.size;
+  gftp_file_destroy (&fle);
+
+  return (size);
 }
 
 
@@ -2047,6 +2080,7 @@ sshv2_init (gftp_request * request)
   request->put_next_file_chunk = sshv2_put_next_file_chunk;
   request->end_transfer = sshv2_end_transfer;
   request->abort_transfer = sshv2_end_transfer; /* NOTE: uses sshv2_end_transfer */
+  request->stat_filename = sshv2_stat_filename;
   request->list_files = sshv2_list_files;
   request->get_next_file = sshv2_get_next_file;
   request->get_next_dirlist_line = NULL;

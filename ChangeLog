@@ -1,4 +1,13 @@
 2004-7-13 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/local.c lib/protocols.c lib/rfc2068.c lib/rfc959.c
+	lib/sshv2.c - added gftp_stat_filename(). This will retrieve the
+	attributes for the selected file. When downloading a list of items,
+	if one of the items is a symlink, check to see if it points to a 
+	directory or file
+
+	* src/gtk/misc-gtk.c - fix for displaying the folder icon for
+	directories
+
 	* lib/gftp.h lib/local.c lib/misc.c lib/protocols.c lib/rfc2068.c
 	lib/rfc959.c lib/sshv2.c src/gtk/chmod_dialog.c src/gtk/delete_dialog.c
 	src/gtk/dnd.c src/gtk/gftp-gtk.c src/gtk/gtkui_transfer.c

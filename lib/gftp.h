@@ -424,6 +424,8 @@ struct gftp_request_tag
 					  size_t size );
   int (*end_transfer) 			( gftp_request * request );
   int (*abort_transfer) 		( gftp_request * request );
+  mode_t (*stat_filename) 		( gftp_request * request,
+					  const char *filename );
   int (*list_files) 			( gftp_request * request );
   int (*get_next_file)			( gftp_request * request, 
 					  gftp_file *fle, 
@@ -887,6 +889,9 @@ int gftp_get_next_file 			( gftp_request * request,
 int gftp_end_transfer 			( gftp_request * request );
 
 int gftp_abort_transfer 		( gftp_request * request );
+
+mode_t gftp_stat_filename		( gftp_request * request,
+					  const char *filename );
 
 void gftp_set_hostname 			( gftp_request * request, 
 					  const char *hostname );
