@@ -55,7 +55,7 @@ typedef enum _gftpui_common_request_type
 typedef struct _gftpui_common_methods
 {
   char *command;
-  int minlen;
+  size_t minlen;
   int (*func)(void *uidata, gftp_request * request,
               void *other_uidata, gftp_request * other_request,
               const char *command);

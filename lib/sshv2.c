@@ -1700,7 +1700,7 @@ sshv2_stat_filename (gftp_request * request, const char *filename,
                      mode_t * mode)
 {
   gftp_file fle;
-  mode_t ret;
+  int ret;
 
   memset (&fle, 0, sizeof (fle));
   ret = sshv2_send_stat_command (request, filename, &fle);
@@ -2041,6 +2041,43 @@ sshv2_register_module (void)
 }
 
 
+static void
+sshv2_copy_message (sshv2_message * src_message, sshv2_message * dest_message)
+{
+  dest_message->length = src_message->length;
+  dest_message->command = src_message->command;
+  dest_message->buffer = g_strdup (src_message->buffer);
+  dest_message->pos = dest_message->buffer + (src_message->pos - src_message->buffer);
+  dest_message->end = dest_message->buffer + (src_message->end - src_message->buffer);
+}
+
+
+static void
+sshv2_copy_param_options (gftp_request * dest_request,
+                          gftp_request * src_request)
+{ 
+  sshv2_params * dparms, * sparms;
+  
+  dparms = dest_request->protocol_data;
+  sparms = src_request->protocol_data;
+
+  memcpy (dparms->handle, sparms->handle, sizeof (*dparms->handle));
+  if (sparms->read_buffer)
+    dparms->read_buffer = g_strdup (sparms->read_buffer);
+  else
+    dparms->read_buffer = NULL;
+
+  sshv2_copy_message (&sparms->message, &dparms->message);
+
+  dparms->id = sparms->id;
+  dparms->count = sparms->count;
+  dparms->handle_len = sparms->handle_len;
+  dparms->initialized = sparms->initialized;
+  dparms->dont_log_status = sparms->dont_log_status;
+  dparms->offset = sparms->offset;
+}
+
+
 int
 sshv2_init (gftp_request * request)
 {
@@ -2050,7 +2087,7 @@ sshv2_init (gftp_request * request)
 
   request->protonum = GFTP_SSHV2_NUM;
   request->init = sshv2_init;
-  request->copy_param_options = NULL;
+  request->copy_param_options = sshv2_copy_param_options;
   request->destroy = sshv2_destroy;
   request->read_function = gftp_fd_read;
   request->write_function = gftp_fd_write;

@@ -32,7 +32,7 @@ static gftp_textcomboedt_data gftp_proxy_type[] = {
   {N_("user@host NOAUTH"), "USER %hu@%hh\nPASS %hp\n", 0},
   {N_("HTTP Proxy"), "http", 0},
   {N_("Custom"), "", GFTP_TEXTCOMBOEDT_EDITABLE},
-  {NULL, NULL}
+  {NULL, NULL, 0}
 };
 
 static gftp_config_vars config_vars[] = 

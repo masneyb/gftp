@@ -1245,11 +1245,11 @@ options_dialog (gpointer data)
   gftp_option_data = _init_option_data ();
 
 #if GTK_MAJOR_VERSION == 1
-  option_data->dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (option_data->dialog), _("Options"));
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (option_data->dialog)->action_area), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (option_data->dialog)->action_area), 15);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (option_data->dialog)->action_area), TRUE);
+  gftp_option_data->dialog = gtk_dialog_new ();
+  gtk_window_set_title (GTK_WINDOW (gftp_option_data->dialog), _("Options"));
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (gftp_option_data->dialog)->action_area), 5);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (gftp_option_data->dialog)->action_area), 15);
+  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (gftp_option_data->dialog)->action_area), TRUE);
 #else
   gftp_option_data->dialog = gtk_dialog_new_with_buttons (_("Options"), NULL, 0,
                                         GTK_STOCK_OK,

@@ -1,3 +1,17 @@
+2004-8-9 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/options.h lib/rfc959.c - fixed warnings about
+	unitialized members in the structure
+
+	* lib/pty.c (gftp_exec) - setup stderr when running the program
+
+	* lib/sshv2.c src/uicommon/gftpui.h - fixed signed/unsigned integer
+	comparisions
+
+	* lib/sshv2.c - added sshv2_copy_param_options()
+
+	* src/gtk/options_dialog.c - compile fix when compiling against GTK+
+	1.2
+
 2004-8-1 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - treat all integers from the remote server as
 	unsigned

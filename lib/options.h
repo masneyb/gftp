@@ -242,7 +242,7 @@ supported_gftp_protocols gftp_protocols[] =
 
   {N_("Bookmark"), bookmark_init, bookmark_register_module, "bookmark", 0, 0},
 
-  {NULL, NULL, NULL, NULL, 0}
+  {NULL, NULL, NULL, NULL, 0, 0}
 };
 
 GHashTable * gftp_global_options_htable = NULL, 	
