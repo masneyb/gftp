@@ -39,7 +39,7 @@ gftpui_common_run_rename (gftpui_callback_data * cdata)
 int
 gftpui_common_run_site (gftpui_callback_data * cdata)
 {
-  return (gftp_site_cmd (cdata->request, 1, cdata->input_string));
+  return (gftp_site_cmd (cdata->request, cdata->toggled, cdata->input_string));
 }
 
 

@@ -278,6 +278,11 @@ gftpui_run_function_callback (gftp_window_data * wdata,
       cdata->input_string = g_strdup (edttext);
     }
 
+  if (ddata->checkbox != NULL)
+    cdata->toggled = GTK_TOGGLE_BUTTON (ddata->checkbox)->active;
+  else
+    cdata->toggled = 0;
+
   gftpui_common_run_callback_function (cdata);
 }
 
@@ -371,7 +376,7 @@ gftpui_site_dialog (gpointer data)
     return;
 
   MakeEditDialog (_("Site"), _("Enter site-specific command"), NULL, 1,
-                  NULL, gftp_dialog_button_ok,
+                  _("Prepend with SITE"), gftp_dialog_button_ok,
                   gftpui_run_function_callback, cdata,
                   gftpui_run_function_cancel_callback, cdata);
 }

@@ -1,4 +1,17 @@
 2004-12-2 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gtkui.c (gftpui_run_function_callback)
+	src/uicommon/gftpui.h - added toggled variable to the
+	gftpui_callback_data structure. If the edit dialog had a checkbox
+	in it, then put the checkbox value in the toggled variable
+
+	* src/gtk/gtkui.c (gftpui_site_dialog) 
+	src/uicommon/gftpuicallbacks.c (gftpui_common_run_site) - allow the user
+	to not send the prepend the command with the SITE keyword
+
+	* docs/website/index.html.in docs/website/bats.gif 
+	docs/website/generate-gftp-website.pl - updated bug reporting section.
+	Added link and graphic for the National Speleological Society (NSS)
+
 	* lib/sshv2.c (sshv2_rename) - fixed segfault that could occur (from
         Aurelien Jarno <aurelien@aurel32.net >) (closes #159963)
 

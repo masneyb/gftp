@@ -40,7 +40,8 @@ struct _gftpui_callback_data
   void (*disconnect_function) (gftpui_callback_data * cdata);
   unsigned int dont_check_connection : 1,
                dont_refresh : 1,
-               dont_clear_cache : 1;
+               dont_clear_cache : 1,
+               toggled : 1;
 };
 
 
