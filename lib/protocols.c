@@ -448,11 +448,11 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
   if (request == NULL)
     return (NULL);
 
-  if (request->iconv_initialized)
+  if (g_utf8_validate (str, -1, NULL))
+    return (NULL);
+  else if (request->iconv_initialized)
     return (g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
                                   &error));
-  else if (g_utf8_validate (str, -1, NULL))
-    return (NULL);
 
   gftp_lookup_request_option (request, "remote_charsets", &tempstr);
   if (*tempstr == '\0')
@@ -461,6 +461,10 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
       if ((ret = g_locale_to_utf8 (str, -1, &bread, &bwrite, &error)) != NULL)
         return (ret);
 
+      /* Don't use request->logging_function since the strings must be in UTF-8
+         for the GTK+ 2.x port */
+      printf (_("Error converting string '%s' to UTF-8 from current locale: %s\n"),
+              str, error->message);
       return (NULL);
     }
 
@@ -514,6 +518,10 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
       if ((ret = g_locale_from_utf8 (str, -1, &bread, &bwrite, &error)) != NULL)
         return (ret);
 
+      /* Don't use request->logging_function since the strings must be in UTF-8
+         for the GTK+ 2.x port */
+      printf (_("Error converting string '%s' to current locale from UTF-8: %s\n"),
+              str, error->message);
       return (NULL);
     }
 
