@@ -149,10 +149,13 @@ expand_path (const char *src)
       pos++;
       while (*pos == '/')
         pos++;
+
       if ((endpos = strchr (pos, '/')) == NULL)
 	endpos = pos + strlen (pos);
+
       tempchar = *endpos;
       *endpos = '\0';
+
       if (strcmp (pos, "..") == 0)
 	{
 	  *(pos - 1) = '\0';
@@ -170,18 +173,28 @@ expand_path (const char *src)
 	      newstr = tempstr;
 	    }
 	}
+
       *endpos = tempchar;
       if (*endpos == '\0')
 	break;
+
       endpos = pos + 1;
+    }
+
+  if (endpos != NULL && *endpos != '\0' && newstr == NULL)
+    {
+      if (strcmp (endpos, "..") == 0)
+        newstr = g_malloc0 (1);
+      else
+        newstr = g_strdup (endpos);
     }
 
   if (newstr == NULL || *newstr == '\0')
     {
       if (newstr != NULL)
 	g_free (newstr);
-      newstr = g_malloc0 (2);
-      *newstr = '/';
+
+      newstr = g_malloc0 (1);
     }
 
   g_free (str);

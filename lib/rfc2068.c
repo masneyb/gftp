@@ -643,15 +643,27 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 static int
 rfc2068_chdir (gftp_request * request, const char *directory)
 {
+  char *tempstr, *olddir;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   if (request->directory != directory)
     {
-      if (request->directory)
-        g_free (request->directory);
-      request->directory = g_strdup (directory);
+      olddir = request->directory;
+
+      if (*directory != '/')
+        {
+          tempstr = g_strconcat (request->directory, "/", directory, NULL);
+          request->directory = expand_path (tempstr);
+          g_free (tempstr);
+        }
+      else
+        request->directory = expand_path (directory);
+
+      if (olddir != NULL)
+        g_free (olddir);
     }
   return (0);
 }

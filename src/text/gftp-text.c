@@ -422,7 +422,7 @@ gftp_text_pwd (gftp_request * request, char *command, gpointer *data)
 int
 gftp_text_cd (gftp_request * request, char *command, gpointer *data)
 {
-  char *newdir = NULL;
+  char *tempstr, *newdir = NULL;
 
   if (!GFTP_IS_CONNECTED (request))
     {
@@ -435,6 +435,24 @@ gftp_text_cd (gftp_request * request, char *command, gpointer *data)
       gftp_text_log (gftp_logging_error, request, 
                      _("usage: chdir <directory>\n"));
       return (1);
+    }
+  else if (request->protonum == GFTP_LOCAL_NUM)
+    {
+      if (*command != '/')
+        {
+          tempstr = g_strconcat (request->directory, "/", command, NULL);
+          newdir = expand_path (tempstr);
+          g_free (tempstr);
+        }
+      else
+        newdir = expand_path (command);
+
+      if (newdir == NULL)
+        {
+          gftp_text_log (gftp_logging_error, request, 
+                         _("usage: chdir <directory>\n"));
+          return (1);
+        }
     }
 
   gftp_set_directory (request, newdir != NULL ? newdir : command);
