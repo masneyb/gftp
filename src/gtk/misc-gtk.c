@@ -222,9 +222,6 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
 
   if (free_logstr)
     g_free (logstr);
-
-  if (ptr == NULL) 
-    fix_display ();
 }
 
 
@@ -238,7 +235,6 @@ refresh (gftp_window_data * wdata)
   gftp_delete_cache_entry (wdata->request, 0);
   ftp_list_files (wdata, 0);
   gtk_clist_thaw (GTK_CLIST (wdata->listbox));
-  fix_display ();
 }
 
 
@@ -379,7 +375,6 @@ update_window (gftp_window_data * wdata)
   set_menu_sensitive (wdata, menus[start + 19].path, connected &&
                       wdata->request->get_file != NULL);
   set_menu_sensitive (wdata, menus[start + 20].path, connected);
-  fix_display ();
 }  
 
 

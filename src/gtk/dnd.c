@@ -22,16 +22,15 @@ static const char cvsid[] = "$Id$";
 
 
 static int
-dnd_remote_file (char *url, GList ** transfers, gftp_window_data * wdata)
+dnd_remote_file (char *url, gftp_window_data * wdata)
 {
   gftp_request * current_ftpdata;
-  gftp_window_data * fromwdata;
-  gftp_transfer * tdata;
   gftp_file * newfle;
-  GList * templist;
   char *str, *pos;
+  GList templist;
   int i;
 
+  printf ("FIXME - in dnd_remote file\n");
   newfle = g_malloc0 (sizeof (*newfle));
   newfle->shown = 1;
   if (url[strlen (url) - 1] == '/') 
@@ -67,7 +66,10 @@ dnd_remote_file (char *url, GList ** transfers, gftp_window_data * wdata)
     }
 
   if (compare_request (current_ftpdata, wdata->request, 1))
-    return (0);
+    {
+      gftp_request_destroy (current_ftpdata);
+      return (0);
+    }
 
   if (i)
     {
@@ -87,36 +89,11 @@ dnd_remote_file (char *url, GList ** transfers, gftp_window_data * wdata)
   newfle->ascii = gftp_get_file_transfer_mode (newfle->file, 
                                 wdata->request->data_type) == GFTP_TYPE_ASCII;
 
-  tdata = NULL;
-  templist = *transfers;
-  while (templist != NULL) 
-    {
-      tdata = templist->data;
-      if (compare_request (tdata->fromreq, current_ftpdata, 1))
-        break;
-      templist = templist->next;
-    }
-
-  if (tdata == NULL) 
-    {
-      tdata = g_malloc0 (sizeof (*tdata));
-      tdata->towdata = wdata == &window1 ? &window1 : &window2;
-      fromwdata = wdata == &window1 ? &window2 : &window1;
-      if (fromwdata->request != NULL &&
-          compare_request (fromwdata->request, current_ftpdata, 1))
-        {
-          if (fromwdata->request->password != NULL)
-            gftp_set_password (current_ftpdata, fromwdata->request->password);
-          tdata->fromwdata = fromwdata;
-        }
-      tdata->fromreq = current_ftpdata;
-      tdata->toreq = gftp_request_new ();
-      tdata->toreq->logging_function = ftp_log;
-      tdata->toreq = copy_request (wdata->request);
-      *transfers = g_list_append (*transfers, tdata);
-    }
-  else
-    gftp_request_destroy (current_ftpdata);
+  templist.data = newfle;
+  templist.next = NULL;
+  add_file_transfer (current_ftpdata, wdata->request, NULL,
+                     wdata, &templist, 1);
+  gftp_request_destroy (current_ftpdata);
 
   if (newfle->isdir)
     {
@@ -126,12 +103,6 @@ dnd_remote_file (char *url, GList ** transfers, gftp_window_data * wdata)
 			    GFTP_GET_DIRECTORY (tdata->tohdata->ftpdata), 
 			    tdata->fromhdata->ftpdata);
 */
-    }
-  else
-    {
-      tdata->files = g_list_append (tdata->files, newfle);
-      if (tdata->curfle == NULL) 
-	tdata->curfle = tdata->files;
     }
   return (1);
 }
@@ -253,28 +224,26 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 		       gint y, GtkSelectionData * selection_data, guint info,
 		       guint32 clk_time, gpointer data)
 {
-  GList * new_file_transfers, * templist;
   char *newpos, *oldpos, tempchar;
   gftp_window_data * wdata;
-  gftp_transfer * tdata;
   int finish_drag;
 
   wdata = data;   
   if (!check_status (_("Drag-N-Drop"), wdata, 1, 0, 0, 1)) 
     return;
 
-  new_file_transfers = NULL;
   finish_drag = 0;
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
       oldpos = (char *) selection_data->data;
-      while ((newpos = strchr (oldpos, '\n')) 
-             || (newpos = strchr (oldpos, '\0'))) 
+      printf ("FIXME - got data %s\n", oldpos);
+      while ((newpos = strchr (oldpos, '\n')) || 
+             (newpos = strchr (oldpos, '\0'))) 
         {
           tempchar = *newpos;
           *newpos = '\0';
           ftp_log (gftp_logging_misc, NULL, _("Received URL %s\n"), oldpos);
-          if (dnd_remote_file (oldpos, &new_file_transfers, wdata))
+          if (dnd_remote_file (oldpos, wdata))
             finish_drag = 1;
          
           if (*newpos == '\0') 
@@ -283,17 +252,6 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
         }
     }
 
-  if (finish_drag) 
-    {
-      for (templist = new_file_transfers; templist != NULL; 
-           templist = templist->next)
-        {
-          tdata = templist->data;
-	  if (tdata->files != NULL)
-            add_file_transfer (tdata->fromreq, tdata->toreq, tdata->fromwdata,
-                               tdata->towdata, tdata->files, 0);
-        }
-    }
   gtk_drag_finish (context, finish_drag, FALSE, clk_time);
 }
 

@@ -527,10 +527,13 @@ list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
     }
   return (TRUE);
 #else
-  /* If we're using GTK 2.0, if I connect to the button_press_event signal,
-     whenever I get the GDK_2BUTTON_PRESS event, nothing is selected inside
-     the clist. But if I connect_after to the button_release_event, it seems
-     to only get called when we double click */
+  /* FIXME - If we're using GTK 2.0, if I connect to the button_press_event 
+     signal, whenever I get the GDK_2BUTTON_PRESS event, nothing is selected 
+     inside the clist. But if I connect_after to the button_release_event, it 
+     seems to only get called when we double click */
+
+  /* This is also causing a bug where the file transfer is being added twice */
+
   if (event->button == 1)
     {
       list_doaction (wdata);
