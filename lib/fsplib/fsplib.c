@@ -2,7 +2,7 @@
 This file is part of fsplib - FSP protocol stack implemented in C
 language. See http://fsp.sourceforge.net for more information.
 
-Copyright (c) 2003-2004 by Radim HSN Kolar (hsn@netmag.cz)
+Copyright (c) 2003-2005 by Radim HSN Kolar (hsn@netmag.cz)
 
 You may copy or modify this file in any manner you wish, provided
 that this notice is always included, and that you hold the author
@@ -251,6 +251,7 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
     /* compute initial delay here */
     /* we are using hardcoded value for now */
     f_delay = 1340;
+    l_delay = 0;
     for(;;retry++)
     {
 	if(t_delay >= s->timeout)
@@ -578,6 +579,7 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
 {
     FSP_RDENTRY fentry,*fresult;
     int rc;
+    char *c;
 
     if (dir == NULL || entry == NULL || *result == NULL)
         return -EINVAL;
@@ -595,6 +597,17 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
 	entry->d_type=DT_DIR;
     else
 	entry->d_type=DT_REG;
+	
+    /* remove symlink destination */
+    c=strchr(fentry.name,'\n');
+    if (c)
+    {
+	*c='\0';
+	rc=fentry.namlen-strlen(fentry.name);
+	fentry.reclen-=rc;
+	fentry.namlen-=rc;
+    }
+
     entry->d_fileno = 10;
     entry->d_reclen = fentry.reclen;
     strncpy(entry->d_name,fentry.name,MAXNAMLEN);
@@ -602,7 +615,7 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
     if (fentry.namlen > MAXNAMLEN)
     {
 	entry->d_name[MAXNAMLEN + 1 ] = '\0';
-#ifdef HAVE_NAMLEN	
+#ifdef HAVE_NAMLEN
 	entry->d_namlen = MAXNAMLEN;
     } else
     {
