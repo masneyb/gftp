@@ -42,7 +42,7 @@ dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
   wdata->filespec = g_strdup (edttext);
 
   filelist = wdata->files;
-  templist = GTK_CLIST (wdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (wdata);
   num = 0;
   while (templist != NULL)
     {
@@ -164,7 +164,7 @@ show_selected (gpointer data)
   wdata->show_selected = 1;
 
   filelist = wdata->files;
-  templist = GTK_CLIST (wdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (wdata);
   num = 0;
   while (templist != NULL)
     {

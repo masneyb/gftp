@@ -21,6 +21,13 @@
 static const char cvsid[] = "$Id$";
 
 static void
+_gftp_gtk_free_del_data (gftp_transfer * transfer, gftp_dialog_data * ddata)
+{
+  free_tdata (transfer);
+}
+
+
+static void
 yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
 {
   gftpui_callback_data * cdata;
@@ -40,7 +47,7 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
   gftpui_common_run_callback_function (cdata);
 
   g_free (cdata);
-  /* FIXME free_tdata (transfer); */
+  _gftp_gtk_free_del_data (transfer, ddata);
 }
 
 
@@ -65,7 +72,7 @@ askdel (gftp_transfer * transfer)
     return;
 
   MakeYesNoDialog (_("Delete Files/Directories"), tempstr, 
-                   yesCB, transfer, NULL, NULL);
+                   yesCB, transfer, _gftp_gtk_free_del_data, transfer);
   g_free (tempstr);
 }
 
@@ -89,7 +96,7 @@ delete_dialog (gpointer data)
   transfer->fromwdata = wdata;
 
   num = 0;
-  templist = GTK_CLIST (wdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (wdata);
   filelist = wdata->files;
   while (templist != NULL)
     {
@@ -112,13 +119,13 @@ delete_dialog (gpointer data)
 
   ret = gftp_gtk_get_subdirs (transfer, &wdata->tid);
 
-  if (!GFTP_IS_CONNECTED (transfer->fromreq))
+  gftp_swap_socks (wdata->request, transfer->fromreq);
+
+  if (!GFTP_IS_CONNECTED (wdata->request))
     {
       gftpui_disconnect (wdata);
       return;
     }
-
-  gftp_swap_socks (wdata->request, transfer->fromreq);
 
   if (!ret)
     return;

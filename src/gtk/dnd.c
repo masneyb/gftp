@@ -151,7 +151,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
     return;
 
   filelist = wdata->files;
-  templist = GTK_CLIST (wdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (wdata);
   curpos = 0;
   while (templist != NULL)
     {

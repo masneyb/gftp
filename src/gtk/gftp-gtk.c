@@ -600,7 +600,7 @@ list_doaction (gftp_window_data * wdata)
                               &list_dblclk_action);
 
   filelist = wdata->files;
-  templist = GTK_CLIST (wdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (wdata);
   num = 0;
   templist = get_next_selection (templist, &filelist, &num);
   tempfle = (gftp_file *) filelist->data;

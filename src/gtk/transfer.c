@@ -110,7 +110,7 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
   transfer->towdata = towdata;
 
   num = 0;
-  templist = GTK_CLIST (fromwdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (fromwdata);
   filelist = fromwdata->files;
   while (templist != NULL)
     {

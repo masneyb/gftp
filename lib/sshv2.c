@@ -44,17 +44,6 @@ static gftp_config_vars config_vars[] =
 };
 
 
-typedef struct sshv2_attribs_tag
-{
-  gint32 flags;
-  gint64 size;
-  gint32 uid;
-  gint32 gid;
-  gint32 perm;
-  gint32 atime;
-  gint32 mtime;
-} sshv2_attribs;
-
 typedef struct sshv2_message_tag
 {
   guint32 length;
@@ -69,8 +58,8 @@ typedef struct sshv2_params_tag
   char handle[SSH_MAX_HANDLE_SIZE + 4], /* We'll encode the ID in here too */
        *read_buffer;
 
-  gint32 id,
-         count;
+  guint32 id,
+          count;
   size_t handle_len;
   sshv2_message message;
 
@@ -78,9 +67,9 @@ typedef struct sshv2_params_tag
                dont_log_status : 1;              /* For uploading files */
 
 #ifdef G_HAVE_GINT64
-  gint64 offset;
+  guint64 offset;
 #else
-  gint32 offset;
+  guint32 offset;
 #endif
 } sshv2_params;
 
@@ -831,23 +820,39 @@ sshv2_read_status_response (gftp_request * request, sshv2_message * message,
 }
 
 
-static gint32 /* FIXME - return value */
+static int
 sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
-                        int expected_response)
+                        int expected_response, guint32 * num)
 {
-  guint32 ret;
+  guint32 snum;
 
   if (message->end - message->pos < 4)
     return (sshv2_wrong_response (request, message));
-
-  memcpy (&ret, message->pos, 4);
-  ret = ntohl (ret);
+      
+  memcpy (&snum, message->pos, 4);
+  snum = ntohl (snum);
   message->pos += 4;
 
-  if (expected_response >= 0 && ret != expected_response)
-    return (sshv2_wrong_response (request, message));
+  if (expected_response >= 0 && snum != expected_response)
+    {
+      switch (snum)
+        {
+          case SSH_FX_OK:
+          case SSH_FX_EOF:
+          case SSH_FX_NO_SUCH_FILE:
+          case SSH_FX_PERMISSION_DENIED:
+          case SSH_FX_FAILURE:
+          case SSH_FX_OP_UNSUPPORTED:
+            return (GFTP_ERETRYABLE);
+          default:
+            return (sshv2_wrong_response (request, message));
+        }
+    }
 
-  return (ret);
+  if (num != NULL)
+    *num = snum;
+
+  return (0);
 }
 
 
@@ -855,9 +860,9 @@ static char *
 sshv2_buffer_get_string (gftp_request * request, sshv2_message * message)
 {
   char *string;
-  gint32 len;
+  guint32 len;
 
-  if ((len = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+  if (sshv2_buffer_get_int32 (request, message, -1, &len) < 0)
     return (NULL);
 
   if (len > SSH_MAX_STRING_SIZE || (message->end - message->pos < len))
@@ -912,7 +917,7 @@ sshv2_getcwd (gftp_request * request)
     return (ret);
 
   message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, 1)) < 0)
+  if ((ret = sshv2_buffer_get_int32 (request, &message, 1, NULL)) < 0)
     return (ret);
 
   if ((request->directory = sshv2_buffer_get_string (request, &message)) == NULL)
@@ -1162,19 +1167,19 @@ static int
 sshv2_decode_file_attributes (gftp_request * request, sshv2_message * message,
                               gftp_file * fle)
 {
-  gint32 attrs, hinum, num, count;
-  int i;
+  guint32 attrs, hinum, num, count, i;
+  int ret;
 
-  if ((attrs = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-    return (attrs);
+  if ((ret = sshv2_buffer_get_int32 (request, message, -1, &attrs)) < 0)
+    return (ret);
 
   if (attrs & SSH_FILEXFER_ATTR_SIZE)
     {
-      if ((hinum = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-        return (hinum);
+      if ((ret = sshv2_buffer_get_int32 (request, message, -1, &hinum)) < 0)
+        return (ret);
 
-      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-        return (num);
+      if ((ret = sshv2_buffer_get_int32 (request, message, -1, &num)) < 0)
+        return (ret);
 
 #if G_HAVE_GINT64
       fle->size = (gint64) num | ((gint64) hinum >> 32);
@@ -1185,46 +1190,46 @@ sshv2_decode_file_attributes (gftp_request * request, sshv2_message * message,
 
   if (attrs & SSH_FILEXFER_ATTR_UIDGID)
     {
-      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-        return (num);
+      if ((ret = sshv2_buffer_get_int32 (request, message, -1, NULL)) < 0)
+        return (ret);
 
-      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-        return (num);
+      if ((ret = sshv2_buffer_get_int32 (request, message, -1, NULL)) < 0)
+        return (ret);
     }
 
   if (attrs & SSH_FILEXFER_ATTR_PERMISSIONS)
     {
-      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-        return (num);
+      if ((ret = sshv2_buffer_get_int32 (request, message, -1, &num)) < 0)
+        return (ret);
 
       fle->st_mode = num;
     }
 
   if (attrs & SSH_FILEXFER_ATTR_ACMODTIME)
     {
-      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
+      if ((ret = sshv2_buffer_get_int32 (request, message, -1, NULL)) < 0)
         return (num);
 
-      if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-        return (num);
+      if ((ret = sshv2_buffer_get_int32 (request, message, -1, &num)) < 0)
+        return (ret);
 
       fle->datetime = num;
     }
 
   if (attrs & SSH_FILEXFER_ATTR_EXTENDED)
     {
-      if ((count = sshv2_buffer_get_int32 (request, message, -1)) < 0)
-        return (GFTP_EFATAL);
+      if ((ret = sshv2_buffer_get_int32 (request, message, -1, &count)) < 0)
+        return (ret);
 
       for (i=0; i<count; i++)
         {
-          if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0 ||
+          if ((ret = sshv2_buffer_get_int32 (request, message, -1, &num)) < 0 ||
               message->pos + num + 4 > message->end)
             return (GFTP_EFATAL);
 
           message->pos += num + 4;
 
-          if ((num = sshv2_buffer_get_int32 (request, message, -1)) < 0 ||
+          if ((ret = sshv2_buffer_get_int32 (request, message, -1, &num)) < 0 ||
               message->pos + num + 4 > message->end)
             return (GFTP_EFATAL);
        
@@ -1240,8 +1245,8 @@ static int
 sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   guint32 len, longnamelen;
+  int ret, retsize, iret;
   sshv2_params *params;
-  int ret, retsize;
   char *longname;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1293,22 +1298,23 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       if (ret == SSH_FXP_NAME)
         {
           params->message.pos = params->message.buffer + 4;
-          if ((params->count = sshv2_buffer_get_int32 (request, 
-                       &params->message, -1)) < 0)
-            return (params->count);
+          if ((iret = sshv2_buffer_get_int32 (request, 
+                                              &params->message, -1,
+                                              &params->count)) < 0)
+            return (iret);
         }
     }
 
   if (ret == SSH_FXP_NAME)
     {
-      if ((len = sshv2_buffer_get_int32 (request, &params->message, -1)) < 0 ||
+      if (sshv2_buffer_get_int32 (request, &params->message, -1, &len) < 0 ||
           params->message.pos + len > params->message.end)
         return (GFTP_EFATAL);
 
       params->message.pos += len;
 
-      if ((longnamelen = sshv2_buffer_get_int32 (request, 
-                                                 &params->message, -1)) < 0 || 
+      if (sshv2_buffer_get_int32 (request, &params->message, -1,
+                                  &longnamelen) < 0 || 
            params->message.pos + longnamelen > params->message.end)
         return (GFTP_EFATAL);
 
@@ -1380,8 +1386,8 @@ sshv2_chdir (gftp_request * request, const char *directory)
         return (ret);
 
       message.pos += 4;
-      if (sshv2_buffer_get_int32 (request, &message, 1) != 1)
-        return (GFTP_EFATAL);
+      if ((ret = sshv2_buffer_get_int32 (request, &message, 1, NULL)) < 0)
+        return (ret);
 
       if ((dir = sshv2_buffer_get_string (request, &message)) == NULL)
         return (GFTP_EFATAL);
@@ -1424,7 +1430,7 @@ sshv2_rmdir (gftp_request * request, const char *directory)
     return (ret);
 
   message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, NULL)) < 0)
     return (ret);
 
   sshv2_message_free (&message);
@@ -1459,7 +1465,7 @@ sshv2_rmfile (gftp_request * request, const char *file)
     return (ret);
 
   message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, NULL)) < 0)
     return (ret);
 
   sshv2_message_free (&message);
@@ -1502,7 +1508,7 @@ sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
     return (ret);
 
   message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, NULL)) < 0)
     return (ret);
 
   sshv2_message_free (&message);
@@ -1540,7 +1546,7 @@ sshv2_mkdir (gftp_request * request, const char *newdir)
     return (ret);
 
   message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, NULL)) < 0)
     return (ret);
 
   sshv2_message_free (&message);
@@ -1594,7 +1600,7 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
     return (ret);
 
   message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, NULL)) < 0)
     return (ret);
 
   sshv2_message_free (&message);
@@ -1637,7 +1643,7 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
     return (ret);
 
   message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, NULL)) < 0)
     return (ret);
 
   sshv2_message_free (&message);
@@ -1917,15 +1923,11 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
         return (ret);
 
       message.pos += 4;
-      if ((num = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
-        return (num);
+      if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_EOF,
+                                         NULL)) < 0)
+        return (ret); 
+
       sshv2_message_free (&message);
-
-      if (num == SSH_FX_FAILURE)
-        return (GFTP_ERETRYABLE);
-      else if (num != SSH_FX_EOF)
-        return (sshv2_wrong_response (request, &message));
-
       return (0);
     }
 
@@ -1996,15 +1998,15 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
     return (sshv2_wrong_response (request, &message));
 
   message.pos += 4;
-  if ((num = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
-    return (GFTP_ERETRYABLE);
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, &num)) < 0)
+    {
+      if (num == SSH_FX_EOF)
+        return (0);
+
+      return (ret);
+    }
+
   sshv2_message_free (&message);
-
-  if (num == SSH_FX_EOF)
-    return (0);
-  else if (num != SSH_FX_OK)
-    return (GFTP_ERETRYABLE);
-
   params->offset += size;
   return (size);
 }

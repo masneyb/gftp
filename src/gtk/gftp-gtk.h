@@ -35,6 +35,7 @@
 
 #define IS_ONE_SELECTED(wdata)		(GTK_CLIST ((wdata)->listbox)->selection && GTK_CLIST ((wdata)->listbox)->selection->next == NULL)
 #define IS_NONE_SELECTED(wdata)		(GTK_CLIST ((wdata)->listbox)->selection == NULL)
+#define gftp_gtk_get_list_selection(wdata)  (GTK_CLIST ((wdata)->listbox)->selection)
 
 #define GFTP_IS_SAME_HOST_START_TRANS(wdata,trequest) \
   ((wdata) != NULL && (wdata)->request != NULL && \

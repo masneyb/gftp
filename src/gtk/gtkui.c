@@ -338,7 +338,7 @@ gftpui_rename_dialog (gpointer data)
   if (!check_status (_("Rename"), wdata, gftpui_common_use_threads (wdata->request), 1, 1, wdata->request->rename != NULL))
     return;
 
-  templist = GTK_CLIST (wdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (wdata);
   num = 0;
   filelist = wdata->files;
   templist = get_next_selection (templist, &filelist, &num);
@@ -418,7 +418,7 @@ gftpui_chdir_dialog (gpointer data)
                      wdata->request->chdir != NULL))
     return;
 
-  templist = GTK_CLIST (wdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (wdata);
   num = 0;
   filelist = wdata->files;
   templist = get_next_selection (templist, &filelist, &num);

@@ -37,7 +37,7 @@ do_chmod_thread (gftpui_callback_data * cdata)
   error = 0;
 
   filelist = wdata->files;
-  templist = GTK_CLIST (wdata->listbox)->selection;
+  templist = gftp_gtk_get_list_selection (wdata);
   num = 0;
   while (templist != NULL)
     {
@@ -278,7 +278,7 @@ chmod_dialog (gpointer data)
   if (IS_ONE_SELECTED (wdata))
     {
       filelist = wdata->files;
-      templist = GTK_CLIST (wdata->listbox)->selection;
+      templist = gftp_gtk_get_list_selection (wdata);
       num = 0;
       templist = get_next_selection (templist, &filelist, &num);
       tempfle = filelist->data;
