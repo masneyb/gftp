@@ -1,4 +1,10 @@
 2003-12-7 Brian Masney <masneyb@gftp.org>
+	* lib/options.h lib/config_file.c - removed scramble_passwords
+	option. Instead, make this the default action all the time. This
+	is to avoid having too many unnecessary options. Also put a note
+	at the top of the bookmarks file stating the passwords are being
+	scrambled.
+
 	* lib/config_file.c lib/gftp.h lib/misc.c lib/options.h - added
 	scramble passwords option. This patch is mostly from Aurelien Jarno
         <lists@aurel32.net>, but it was modified by me quite a bit. This is

@@ -718,12 +718,12 @@ void
 gftp_write_bookmarks_file (void)
 {
   gftp_bookmarks_var * tempentry;
-  char *bmhdr, *tempstr, *password;
-  intptr_t scramble_passwords;
+  char *bmhdr, *pwhdr, *tempstr, *password;
   FILE * bmfile;
   int i;
 
   bmhdr = N_("Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten");
+  pwhdr = N_("Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext.");
 
   if ((tempstr = expand_path (BOOKMARKS_FILE)) == NULL)
     {
@@ -741,10 +741,9 @@ gftp_write_bookmarks_file (void)
   g_free (tempstr);
 
   write_comment (bmfile, _(bmhdr));
+  write_comment (bmfile, _(pwhdr));
   fwrite ("\n", 1, 1, bmfile);
 
-  gftp_lookup_global_option ("scramble_passwords", &scramble_passwords);
-  
   tempentry = gftp_bookmarks->children;
   while (tempentry != NULL)
     {
@@ -759,12 +758,7 @@ gftp_write_bookmarks_file (void)
 	tempstr++;
 
       if (tempentry->save_password && tempentry->pass != NULL)
-        {
-	  if (scramble_passwords)
-            password = gftp_scramble_password (tempentry->pass);
-	  else
-	    password = g_strdup (tempentry->pass);
-	}
+        password = gftp_scramble_password (tempentry->pass);
       else
         password = NULL;
 
