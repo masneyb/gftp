@@ -721,7 +721,12 @@ update_file_status (gftp_transfer * tdata)
   else
     pcent = 0;
 
-  g_snprintf (totstr, sizeof (totstr),
+  if (pcent > 100)
+    g_snprintf (totstr, sizeof (totstr),
+	_("Unknown percentage complete. (File %ld of %ld)"),
+	tdata->current_file_number, tdata->numdirs + tdata->numfiles);
+  else
+    g_snprintf (totstr, sizeof (totstr),
 	_("%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"),
 	pcent, hours, mins, secs, tdata->current_file_number,
 	tdata->numdirs + tdata->numfiles);

@@ -1,4 +1,10 @@
 2004-11-1 Brian Masney <masneyb@gftp.org>
+	* src/gtk/transfer.c (update_file_status) - if the % transferred goes
+	over 100%, then set the update string to unknown percentage transfered.
+	This will occur whenever the reported transfer size is different than
+	what is actually being transfered. This occurs whenever a symlink is
+	being transfered
+
 	* lib/protocols.c (gftp_parse_ls_novell) - fixes for parsing directory
 	listings that have a space in their username
 
