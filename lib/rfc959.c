@@ -314,8 +314,8 @@ rfc959_getcwd (gftp_request * request)
   else if (ret != '2')
     {
       request->logging_function (gftp_logging_error, request,
-				 _("Received invalid response to PWD command: '%s'\n"),
-                                 request->last_ftp_response);
+                                 _("Invalid response '%c' received from server.\n"),
+                                 ret);
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
     }
@@ -323,8 +323,8 @@ rfc959_getcwd (gftp_request * request)
   if ((pos = strchr (request->last_ftp_response, '"')) == NULL)
     {
       request->logging_function (gftp_logging_error, request,
-				 _("Received invalid response to PWD command: '%s'\n"),
-                                 request->last_ftp_response);
+                                 _("Invalid response '%c' received from server.\n"),
+                                 ret);
       gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
@@ -334,8 +334,8 @@ rfc959_getcwd (gftp_request * request)
   if ((pos = strchr (dir, '"')) == NULL)
     {
       request->logging_function (gftp_logging_error, request,
-				 _("Received invalid response to PWD command: '%s'\n"),
-                                 request->last_ftp_response);
+                                 _("Invalid response '%c' received from server.\n"),
+                                 ret);
       gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
@@ -536,6 +536,9 @@ rfc959_connect (gftp_request * request)
 
   if (resp != '2')
     {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Invalid response '%c' received from server.\n"),
+                                 resp);
       gftp_disconnect (request);
 
       if (resp == '5')
@@ -749,6 +752,9 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       g_free (command);
       if (resp != '2')
 	{
+          request->logging_function (gftp_logging_error, request,
+                                     _("Invalid response '%c' received from server.\n"),
+                                     resp);
           gftp_disconnect (request);
 	  return (GFTP_ERETRYABLE);
 	}
@@ -1340,7 +1346,12 @@ rfc959_list_files (gftp_request * request)
   g_free (tempstr);
 
   if (ret != '1')
-    return (GFTP_ERETRYABLE);
+    {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Invalid response '%c' received from server.\n"),
+                                 ret);
+      return (GFTP_ERETRYABLE);
+    }
 
   ret = 0;
   if (!passive_transfer)
