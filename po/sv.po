@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gFTP\n"
-"POT-Creation-Date: 2003-06-09 00:27+0200\n"
-"PO-Revision-Date: 2003-06-09 00:28+0200\n"
+"POT-Creation-Date: 2003-06-10 01:15+0200\n"
+"PO-Revision-Date: 2003-06-10 01:16+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -173,13 +173,13 @@ msgstr ""
 "ÖDESDIGERT gFTP-fel: Konfigurationsalternativet \"%s\" hittades inte i "
 "globala hashtabellen\n"
 
-#: lib/https.c:83
+#: lib/https.c:89
 msgid ""
-"HTTPS Support unavailable since SSL support was not compiled in. Reverting "
-"back to plaintext\n"
+"HTTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
 msgstr ""
 "Stöd för HTTPS inte tillgängligt eftersom stöd för SSL inte har kompilerats "
-"in. Återgår till klartext\n"
+"in. Avbryter anslutning.\n"
 
 #: lib/local.c:67 lib/local.c:472
 #, c-format
@@ -251,12 +251,12 @@ msgstr "Fel: Kunde inte ändra attribut på %s till %d: %s\n"
 msgid "local filesystem"
 msgstr "lokalt filsystem"
 
-#: lib/misc.c:261 lib/protocols.c:2071 lib/sslcommon.c:324
+#: lib/misc.c:261 lib/protocols.c:2087 lib/sslcommon.c:374
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Fel: Kunde inte skriva till uttag (socket): %s\n"
 
-#: lib/misc.c:269 lib/protocols.c:2001 lib/sslcommon.c:276
+#: lib/misc.c:269 lib/protocols.c:2017 lib/sslcommon.c:326
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Fel: Kunde inte läsa från uttag (socket): %s\n"
@@ -602,70 +602,75 @@ msgstr "Fel: Kunde inte hitta bokmärket %s\n"
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Bokmärkesfel: Bokmärkesposten %s har inget värdnamn\n"
 
-#: lib/protocols.c:809 lib/protocols.c:824 lib/protocols.c:1624
-#: lib/protocols.c:1733
+#: lib/protocols.c:508
+#, c-format
+msgid "The protocol '%s' is currently not supported.\n"
+msgstr "Protokollet \"%s\" stöds inte för tillfället.\n"
+
+#: lib/protocols.c:825 lib/protocols.c:840 lib/protocols.c:1640
+#: lib/protocols.c:1749
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Slår upp %s\n"
 
-#: lib/protocols.c:815 lib/protocols.c:830 lib/protocols.c:1629
-#: lib/protocols.c:1738
+#: lib/protocols.c:831 lib/protocols.c:846 lib/protocols.c:1645
+#: lib/protocols.c:1754
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Kan inte slå upp värdnamnet %s: %s\n"
 
-#: lib/protocols.c:1074 lib/protocols.c:1075 lib/protocols.c:1134
-#: lib/protocols.c:1141 lib/protocols.c:1220 lib/protocols.c:1221
-#: lib/protocols.c:1255
+#: lib/protocols.c:1090 lib/protocols.c:1091 lib/protocols.c:1150
+#: lib/protocols.c:1157 lib/protocols.c:1236 lib/protocols.c:1237
+#: lib/protocols.c:1271
 msgid "unknown"
 msgstr "okänd"
 
-#: lib/protocols.c:1647 lib/protocols.c:1690 lib/rfc959.c:586 lib/rfc959.c:724
+#: lib/protocols.c:1663 lib/protocols.c:1706 lib/rfc959.c:586 lib/rfc959.c:724
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Misslyckades med att skapa ett uttag (socket): %s\n"
 
-#: lib/protocols.c:1653 lib/protocols.c:1752
+#: lib/protocols.c:1669 lib/protocols.c:1768
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Försöker med %s:%d\n"
 
-#: lib/protocols.c:1658 lib/protocols.c:1759
+#: lib/protocols.c:1674 lib/protocols.c:1775
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Kan inte ansluta till %s: %s\n"
 
-#: lib/protocols.c:1714 lib/sshv2.c:859
+#: lib/protocols.c:1730 lib/sshv2.c:859
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr "Kan inte slå upp tjänstnamnet %s/tcp. Kontrollera din services-fil\n"
 
-#: lib/protocols.c:1774
+#: lib/protocols.c:1790
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Ansluten till %s:%d\n"
 
-#: lib/protocols.c:1981 lib/protocols.c:2051
+#: lib/protocols.c:1997 lib/protocols.c:2067
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Anslutningen till %s gjorde time-out\n"
 
-#: lib/protocols.c:2119
+#: lib/protocols.c:2135
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Kan inte skapa uttagsflaggor (socket flags): %s\n"
 
-#: lib/protocols.c:2133
+#: lib/protocols.c:2149
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Kan inte sätta uttag (socket) till icke-blockerande: %s\n"
 
-#: lib/protocols.c:2266
+#: lib/protocols.c:2282
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "Fel: Värden %s kopplade ner. Max antal försök uppnått... ger upp\n"
 
-#: lib/protocols.c:2275
+#: lib/protocols.c:2291
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Fel: Värden %s kopplade ner. Nytt försök om %d sekunder\n"
@@ -1162,39 +1167,55 @@ msgstr "Lyckad inloggning till SSH-servern %s\n"
 msgid "Cannot fork another process: %s\n"
 msgstr "Kan inte grena en till process: %s\n"
 
-#: lib/sslcommon.c:69
+#: lib/sslcommon.c:31
+msgid "SSL Engine"
+msgstr "SSL-motor"
+
+#: lib/sslcommon.c:34
+msgid "SSL Entropy File:"
+msgstr "SSL-entropifil:"
+
+#: lib/sslcommon.c:36
+msgid "SSL entropy file"
+msgstr "SSL-entropifil"
+
+#: lib/sslcommon.c:37
+msgid "Entropy Seed Length:"
+msgstr "Längd på entropifrö:"
+
+#: lib/sslcommon.c:39
+msgid "The maximum number of bytes to seed the SSL engine with"
+msgstr "Maximalt antal byte att ge som frö till SSL-motorn"
+
+#: lib/sslcommon.c:116
 msgid "Cannot get peer certificate\n"
 msgstr "Kan inte hämta certifikat för motpart\n"
 
-#: lib/sslcommon.c:149
+#: lib/sslcommon.c:200
 msgid "Cannot initialized the OpenSSL library\n"
 msgstr "Kan inte initierade OpenSSL-biblioteket\n"
 
-#: lib/sslcommon.c:161
+#: lib/sslcommon.c:215
 msgid "Error loading default SSL certificates\n"
 msgstr "Fel vid inläsning av SSL-standardcertifikat\n"
 
-#: lib/sslcommon.c:172
+#: lib/sslcommon.c:226
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "Fel vid hämtning av chifferlista (inga giltiga chiffer)\n"
 
-#: lib/sslcommon.c:192 lib/sslcommon.c:253 lib/sslcommon.c:303
+#: lib/sslcommon.c:245 lib/sslcommon.c:303 lib/sslcommon.c:353
 msgid "Error: SSL engine was not initialized\n"
 msgstr "Fel: SSL-motorn initerades inte\n"
 
-#: lib/sslcommon.c:205
+#: lib/sslcommon.c:258
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "Fel vid iordningställande av SSL-anslutning (BIO-objekt)\n"
 
-#: lib/sslcommon.c:214
+#: lib/sslcommon.c:267
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "Fel vid iordningställande av SSL-anslutning (SSL-objekt)\n"
 
-#: lib/sslcommon.c:223
-msgid "Error connecting to SSL object\n"
-msgstr "Fel vid anslutning till SSL-objekt\n"
-
-#: lib/sslcommon.c:230
+#: lib/sslcommon.c:280
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "Fel med motpartens certifikat: %s\n"
@@ -1366,7 +1387,7 @@ msgid "Edit Bookmarks"
 msgstr "Redigera bokmärken"
 
 #: src/gtk/chmod_dialog.c:73 src/gtk/delete_dialog.c:97
-#: src/gtk/menu-items.c:432 src/gtk/mkdir_dialog.c:58
+#: src/gtk/menu-items.c:430 src/gtk/mkdir_dialog.c:58
 #: src/gtk/rename_dialog.c:59 src/gtk/transfer.c:532
 msgid "Operation canceled\n"
 msgstr "Åtgärden avbruten\n"
@@ -1440,21 +1461,11 @@ msgstr "Ta bort filer/kataloger"
 msgid "Delete"
 msgstr "Ta bort"
 
-#: src/gtk/dnd.c:56
-#, c-format
-msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
-msgstr "Drag och släpp: Ignorerar URL %s: Inte en giltig URL\n"
-
-#: src/gtk/dnd.c:115 src/gtk/menu-items.c:120 src/text/gftp-text.c:334
-#, c-format
-msgid "Could not parse URL %s\n"
-msgstr "Kunde inte tolka URL:en %s\n"
-
-#: src/gtk/dnd.c:137 src/gtk/dnd.c:229
+#: src/gtk/dnd.c:130 src/gtk/dnd.c:222
 msgid "Drag-N-Drop"
 msgstr "Drag och släpp"
 
-#: src/gtk/dnd.c:241
+#: src/gtk/dnd.c:234
 #, c-format
 msgid "Received URL %s\n"
 msgstr "Tog emot URL %s\n"
@@ -1819,11 +1830,11 @@ msgstr "Förlopp"
 msgid "Connect"
 msgstr "Anslut"
 
-#: src/gtk/gftp-gtk.c:923
+#: src/gtk/gftp-gtk.c:924
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Fel: Du måste skriva in en värd att ansluta till\n"
 
-#: src/gtk/gftp-gtk.c:1112
+#: src/gtk/gftp-gtk.c:1113
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
@@ -1834,7 +1845,7 @@ msgstr ""
 "om gFTP på min hemsida http://www.gftp.org/ Skicka synpunkter på "
 "översättningen till sv@li.org\n"
 
-#: src/gtk/gftp-gtk.c:1114 src/text/gftp-text.c:151
+#: src/gtk/gftp-gtk.c:1115 src/text/gftp-text.c:152
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1852,67 +1863,67 @@ msgstr "ÖppnaURL"
 msgid "OpenURL: Operation canceled...you must enter a string\n"
 msgstr "ÖppnaURL: Åtgärden avbruten... du måste ange en sträng\n"
 
-#: src/gtk/menu-items.c:129
+#: src/gtk/menu-items.c:127
 msgid "Connect via URL"
 msgstr "Anslut genom URL"
 
-#: src/gtk/menu-items.c:129
+#: src/gtk/menu-items.c:127
 msgid "Enter ftp url to connect to"
 msgstr "Ange FTP-adress att ansluta till"
 
-#: src/gtk/menu-items.c:162
+#: src/gtk/menu-items.c:160
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr "Byt filfilter: Åtgärden avbruten... Du måste ange en sträng\n"
 
-#: src/gtk/menu-items.c:199 src/gtk/menu-items.c:202
+#: src/gtk/menu-items.c:197 src/gtk/menu-items.c:200
 msgid "Change Filespec"
 msgstr "Ändra filfilter"
 
-#: src/gtk/menu-items.c:202
+#: src/gtk/menu-items.c:200
 msgid "Enter the new file specification"
 msgstr "Ange det nya filfiltret"
 
-#: src/gtk/menu-items.c:230 src/gtk/menu-items.c:598 src/gtk/menu-items.c:654
+#: src/gtk/menu-items.c:228 src/gtk/menu-items.c:596 src/gtk/menu-items.c:652
 #: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:129
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Fel: Kan inte skriva till %s: %s\n"
 
-#: src/gtk/menu-items.c:256
+#: src/gtk/menu-items.c:254
 msgid "Save Directory Listing"
 msgstr "Spara kataloglista"
 
-#: src/gtk/menu-items.c:373
+#: src/gtk/menu-items.c:371
 msgid "SITE: Operation canceled...you must enter a string\n"
 msgstr "SITE: Åtgärden avbruten... Du måste ange en sträng\n"
 
-#: src/gtk/menu-items.c:392 src/gtk/menu-items.c:395
+#: src/gtk/menu-items.c:390 src/gtk/menu-items.c:393
 msgid "Site"
 msgstr "Plats"
 
-#: src/gtk/menu-items.c:395
+#: src/gtk/menu-items.c:393
 msgid "Enter site-specific command"
 msgstr "Ange ett platsspecifikt kommando"
 
-#: src/gtk/menu-items.c:494 src/gtk/menu-items.c:528
+#: src/gtk/menu-items.c:492 src/gtk/menu-items.c:526
 msgid "Chdir"
 msgstr "Chdir"
 
-#: src/gtk/menu-items.c:621 src/gtk/menu-items.c:677
+#: src/gtk/menu-items.c:619 src/gtk/menu-items.c:675
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Fel: Fel vid skrivning till %s: %s\n"
 
-#: src/gtk/menu-items.c:687
+#: src/gtk/menu-items.c:685
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Loggfil sparad till %s\n"
 
-#: src/gtk/menu-items.c:699
+#: src/gtk/menu-items.c:697
 msgid "Save Log"
 msgstr "Spara logg"
 
-#: src/gtk/menu-items.c:735
+#: src/gtk/menu-items.c:733
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
@@ -1921,11 +1932,11 @@ msgstr ""
 "Kan inte hitta licensavtalsfilen COPYING. Kontrollera att den finns i "
 "antingen %s eller %s"
 
-#: src/gtk/menu-items.c:739 src/gtk/menu-items.c:744
+#: src/gtk/menu-items.c:737 src/gtk/menu-items.c:742
 msgid "About gFTP"
 msgstr "Om gFTP"
 
-#: src/gtk/menu-items.c:775
+#: src/gtk/menu-items.c:773
 #, c-format
 msgid ""
 "%s\n"
@@ -1939,26 +1950,26 @@ msgstr ""
 "Logotyp av: Aaron Worley <planet_hoth@yahoo.com>\n"
 
 # Ska det se ut så här?
-#: src/gtk/menu-items.c:776 src/text/gftp-text.c:383
+#: src/gtk/menu-items.c:774 src/text/gftp-text.c:380
 msgid "Translated by"
 msgstr ""
 "Översatt av\n"
 "Anders Eurenius <c96aes@cs.umu.se>\n"
 "och Mattias Dahlberg <voz@home.se>"
 
-#: src/gtk/menu-items.c:787
+#: src/gtk/menu-items.c:785
 msgid "About"
 msgstr "Om"
 
-#: src/gtk/menu-items.c:836
+#: src/gtk/menu-items.c:834
 msgid "License Agreement"
 msgstr "Licensavtal"
 
-#: src/gtk/menu-items.c:842 src/gtk/view_dialog.c:377
+#: src/gtk/menu-items.c:840 src/gtk/view_dialog.c:377
 msgid "  Close  "
 msgstr "  Stäng  "
 
-#: src/gtk/menu-items.c:924
+#: src/gtk/menu-items.c:922
 msgid "Compare Windows"
 msgstr "Jämför fönster"
 
@@ -2563,7 +2574,7 @@ msgstr ""
 "Visa variabler för konfigurationsfil. Du kan också ange variabler med set "
 "var=värde"
 
-#: src/text/gftp-text.c:149
+#: src/text/gftp-text.c:150
 msgid ""
 ">.\n"
 "If you have any questions, comments, or suggestions about this program, "
@@ -2576,65 +2587,65 @@ msgstr ""
 "nyheterna om gFTP på min hemsida http://www.gftp.org/ Skicka synpunkter på "
 "översättningen till sv@li.org\n"
 
-#: src/text/gftp-text.c:232
+#: src/text/gftp-text.c:233
 msgid "Error: Command not recognized\n"
 msgstr "Fel: Känner inte igen kommando\n"
 
-#: src/text/gftp-text.c:327
+#: src/text/gftp-text.c:328
 msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
 msgstr ""
 "användning: open [[ftp://][användare:lösen@]ftp-plats[:port][/katalog]]\n"
 
-#: src/text/gftp-text.c:406 src/text/gftp-text.c:422 src/text/gftp-text.c:452
-#: src/text/gftp-text.c:475 src/text/gftp-text.c:497 src/text/gftp-text.c:521
-#: src/text/gftp-text.c:549 src/text/gftp-text.c:582 src/text/gftp-text.c:670
-#: src/text/gftp-text.c:688 src/text/gftp-text.c:709 src/text/gftp-text.c:782
+#: src/text/gftp-text.c:403 src/text/gftp-text.c:419 src/text/gftp-text.c:449
+#: src/text/gftp-text.c:472 src/text/gftp-text.c:494 src/text/gftp-text.c:518
+#: src/text/gftp-text.c:546 src/text/gftp-text.c:579 src/text/gftp-text.c:667
+#: src/text/gftp-text.c:685 src/text/gftp-text.c:706 src/text/gftp-text.c:779
 msgid "Error: Not connected to a remote site\n"
 msgstr "Fel: Inte ansluten till en fjärrplats\n"
 
-#: src/text/gftp-text.c:427 src/text/gftp-text.c:433
+#: src/text/gftp-text.c:424 src/text/gftp-text.c:430
 msgid "usage: chdir <directory>\n"
 msgstr "användning: chdir <katalog>\n"
 
-#: src/text/gftp-text.c:459
+#: src/text/gftp-text.c:456
 msgid "usage: mkdir <new directory>\n"
 msgstr "användning: mkdir <ny katalog>\n"
 
-#: src/text/gftp-text.c:481
+#: src/text/gftp-text.c:478
 msgid "usage: rmdir <directory>\n"
 msgstr "användning: rmdir <katalog>\n"
 
-#: src/text/gftp-text.c:503
+#: src/text/gftp-text.c:500
 msgid "usage: delete <file>\n"
 msgstr "användning: delete <fil>\n"
 
-#: src/text/gftp-text.c:531
+#: src/text/gftp-text.c:528
 msgid "usage: rename <old name> <new name>\n"
 msgstr "användning: rename <gammalt namn> <nytt namn>\n"
 
-#: src/text/gftp-text.c:559
+#: src/text/gftp-text.c:556
 msgid "usage: chmod <mode> <file>\n"
 msgstr "användning: chmod <attribut> <fil>\n"
 
-#: src/text/gftp-text.c:715
+#: src/text/gftp-text.c:712
 msgid "usage: mget <filespec>\n"
 msgstr "användning: mget <filspec>\n"
 
-#: src/text/gftp-text.c:788
+#: src/text/gftp-text.c:785
 msgid "usage: mput <filespec>\n"
 msgstr "användning: mput <filspec>\n"
 
-#: src/text/gftp-text.c:922
+#: src/text/gftp-text.c:919
 #, c-format
 msgid "Could not download %s\n"
 msgstr "Kunde inte hämta %s\n"
 
-#: src/text/gftp-text.c:929
+#: src/text/gftp-text.c:926
 #, c-format
 msgid "Successfully transferred %s\n"
 msgstr "Överförde %s\n"
 
-#: src/text/gftp-text.c:983
+#: src/text/gftp-text.c:980
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -2642,23 +2653,32 @@ msgstr ""
 "Giltiga kommandon:\n"
 "\n"
 
-#: src/text/gftp-text.c:1039
+#: src/text/gftp-text.c:1036
 msgid "usage: set [variable = value]\n"
 msgstr "användning: set [variabel = värde]\n"
 
-#: src/text/gftp-text.c:1053
+#: src/text/gftp-text.c:1050
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "Fel: Variabeln %s är ingen giltig konfigurationsvariabel.\n"
 
-#: src/text/gftp-text.c:1060
+#: src/text/gftp-text.c:1057
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "Fel: Variabeln %s finns inte tillgänglig i textversionen av gFTP\n"
 
-#: src/text/gftp-text.c:1188
+#: src/text/gftp-text.c:1185
 msgid "Clear the directory cache\n"
 msgstr "Töm katalogcachen\n"
+
+#~ msgid "Error connecting to SSL object\n"
+#~ msgstr "Fel vid anslutning till SSL-objekt\n"
+
+#~ msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
+#~ msgstr "Drag och släpp: Ignorerar URL %s: Inte en giltig URL\n"
+
+#~ msgid "Could not parse URL %s\n"
+#~ msgstr "Kunde inte tolka URL:en %s\n"
 
 #~ msgid "Cannot initialize the OpenSSL library\n"
 #~ msgstr "Kan inte initiera OpenSSL-biblioteket\n"
