@@ -560,7 +560,6 @@ static void
 transfer_done (GList * node)
 {
   gftpui_common_curtrans_data * transdata;
-  gftp_request * fromreq;
   gftp_transfer * tdata;
   gftp_file * tempfle;
   GList * templist;
@@ -568,8 +567,6 @@ transfer_done (GList * node)
   tdata = node->data;
   if (tdata->started)
     {
-      fromreq = tdata->fromwdata != NULL ? ((gftp_window_data *) tdata->fromwdata)->request : NULL;
-
       if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->fromwdata,
                                          tdata->fromreq))
         {

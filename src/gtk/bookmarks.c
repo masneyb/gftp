@@ -403,7 +403,6 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
   GdkBitmap * closedir_bitmap, * opendir_bitmap;  
   gftp_bookmarks_var * tempentry, * newentry;
-  GtkCTreeNode * sibling;
   char *pos, *text[2];
   const char *str;
 #if GTK_MAJOR_VERSION > 1
@@ -436,17 +435,13 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
     newentry->isfolder = 1;
 
   if (new_bookmarks->children == NULL)
-    {
-      new_bookmarks->children = newentry;
-      sibling = NULL;
-    }
+    new_bookmarks->children = newentry;
   else
     {
       tempentry = new_bookmarks->children;
       while (tempentry->next != NULL)
 	tempentry = tempentry->next;
       tempentry->next = newentry;
-      sibling = tempentry->cnode;
     }
 
   text[0] = text[1] = newentry->path;

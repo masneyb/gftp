@@ -263,7 +263,6 @@ gftpui_run_function_callback (gftp_window_data * wdata,
 {
   gftpui_callback_data * cdata;
   const char *edttext;
-  int ret;
 
   cdata = ddata->yespointer;
   if (ddata->edit != NULL)
@@ -279,7 +278,7 @@ gftpui_run_function_callback (gftp_window_data * wdata,
       cdata->input_string = g_strdup (edttext);
     }
 
-  ret = gftpui_common_run_callback_function (cdata);
+  gftpui_common_run_callback_function (cdata);
 }
 
 

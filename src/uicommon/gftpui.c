@@ -1283,8 +1283,8 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
   intptr_t preserve_permissions;
   struct timeval updatetime;
   ssize_t num_read, ret;
-  int i, tofd, fromfd;
   gftp_file * curfle; 
+  int tofd, fromfd;
   char buf[8192];
 
   tdata->curfle = tdata->files;
@@ -1398,7 +1398,6 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
           memset (&updatetime, 0, sizeof (updatetime));
           gftpui_start_current_file_in_transfer (tdata);
 
-          i = 0;
           while (!tdata->cancel &&
                  (num_read = gftp_get_next_file_chunk (tdata->fromreq,
                                                        buf, sizeof (buf))) > 0)

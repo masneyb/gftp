@@ -1188,7 +1188,7 @@ progress_timeout (gpointer data)
 
   val = gtk_progress_get_value (GTK_PROGRESS (statuswid));
   if (val >= 1.0)
-    val = 0;
+    val = 0.0;
   else
     val += 0.10;
   gtk_progress_bar_update (GTK_PROGRESS_BAR (statuswid), val);

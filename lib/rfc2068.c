@@ -53,14 +53,11 @@ static int
 rfc2068_connect (gftp_request * request)
 {
   char *proxy_hostname, *proxy_config;
-  rfc2068_params * params;
   intptr_t proxy_port;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->hostname != NULL, GFTP_EFATAL);
-
-  params = request->protocol_data;
 
   if (request->datafd > 0)
     return (0);

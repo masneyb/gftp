@@ -59,7 +59,6 @@ static void
 dochmod (GtkWidget * widget, gftp_window_data * wdata)
 {
   gftpui_callback_data * cdata;
-  int ret;
 
   mode = 0;
   if (GTK_TOGGLE_BUTTON (suid)->active)
@@ -98,7 +97,7 @@ dochmod (GtkWidget * widget, gftp_window_data * wdata)
   cdata->uidata = wdata;
   cdata->run_function = do_chmod_thread;
 
-  ret = gftpui_common_run_callback_function (cdata);
+  gftpui_common_run_callback_function (cdata);
 
   g_free (cdata);
 }

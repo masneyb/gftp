@@ -1176,10 +1176,7 @@ sshv2_decode_file_attributes (gftp_request * request, sshv2_message * message,
                               gftp_file * fle)
 {
   gint32 attrs, hinum, num, count;
-  sshv2_params *params;
   int i;
-
-  params = request->protocol_data;
 
   if ((attrs = sshv2_buffer_get_int32 (request, message, -1)) < 0)
     return (attrs);
@@ -1488,7 +1485,6 @@ static int
 sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
 {
   char *tempstr, *endpos, buf[10];
-  sshv2_params * params;
   sshv2_message message;
   guint32 num;
   size_t len;
@@ -1497,8 +1493,6 @@ sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
-
-  params = request->protocol_data;
 
   len = 8; /* For attributes */
   tempstr = sshv2_initialize_string_with_path (request, file, &len, &endpos);
@@ -1533,7 +1527,6 @@ sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
 static int 
 sshv2_mkdir (gftp_request * request, const char *newdir)
 {
-  sshv2_params * params;
   sshv2_message message;
   char *tempstr;
   size_t len;
@@ -1542,8 +1535,6 @@ sshv2_mkdir (gftp_request * request, const char *newdir)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
   g_return_val_if_fail (newdir != NULL, GFTP_EFATAL);
-
-  params = request->protocol_data;
 
   len = 4; /* For attributes */
   tempstr = sshv2_initialize_string_with_path (request, newdir, &len, NULL);
@@ -1576,7 +1567,6 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
 {
   char *tempstr, *oldstr, *newstr;
   size_t oldlen, newlen, len;
-  sshv2_params * params;
   sshv2_message message;
   int ret;
 
@@ -1584,8 +1574,6 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
   g_return_val_if_fail (oldname != NULL, GFTP_EFATAL);
   g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
-
-  params = request->protocol_data;
 
   if (*oldname == '/')
     oldstr = g_strdup (oldname);
@@ -1632,7 +1620,6 @@ static int
 sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
 {
   char *tempstr, *endpos;
-  sshv2_params * params;
   sshv2_message message;
   guint32 num;
   size_t len;
@@ -1641,8 +1628,6 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
-
-  params = request->protocol_data;
 
   len = 12; /* For date/time */
   tempstr = sshv2_initialize_string_with_path (request, file, &len, &endpos);
