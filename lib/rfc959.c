@@ -770,7 +770,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 {
   char *pos, resp, buf[64], *command;
   struct sockaddr_in6 data_addr;
-  int passive_transfer;
+  intptr_t passive_transfer;
   socklen_t data_addr_len;
   rfc959_parms * parms;
   unsigned int port;

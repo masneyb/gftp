@@ -1948,8 +1948,9 @@ gftp_connect_server (gftp_request * request, char *service,
   int port, sock;
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   struct addrinfo hints, *res;
-  int errnum, enable_ipv6;
+  intptr_t enable_ipv6;
   char serv[8];
+  int errnum;
 
   if ((request->use_proxy = gftp_need_proxy (request, service,
                                              proxy_hostname, proxy_port)) < 0)

@@ -646,8 +646,9 @@ static void
 update_file_status (gftp_transfer * tdata)
 {
   char totstr[100], dlstr[100], winstr[150], gotstr[50], ofstr[50];
-  int hours, mins, secs, pcent, st, show_trans_in_title;
   unsigned long remaining_secs, lkbs;
+  int hours, mins, secs, pcent, st;
+  intptr_t show_trans_in_title;
   gftp_file * tempfle;
   struct timeval tv;
   
