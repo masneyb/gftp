@@ -292,11 +292,11 @@ static int
 local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   local_protocol_data * lpd;
+  struct stat st, fst;
   struct dirent *dirp;
   char *user, *group;
   struct passwd *pw;
   struct group *gr;
-  struct stat st;
 
   /* the struct passwd and struct group are not thread safe. But,
      we're ok here because I have threading turned off for the local
@@ -320,6 +320,13 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
   fle->file = g_strdup (dirp->d_name);
   if (lstat (fle->file, &st) != 0)
+    {
+      closedir (lpd->dir);
+      lpd->dir = NULL;
+      return (GFTP_ERETRYABLE);
+    }
+
+  if (stat (fle->file, &fst) != 0)
     {
       closedir (lpd->dir);
       lpd->dir = NULL;
@@ -363,11 +370,11 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   else
     fle->size = st.st_size;
 
-  fle->isdir = S_ISDIR (st.st_mode);
+  fle->isdir = S_ISDIR (fst.st_mode);
   fle->islink = S_ISLNK (st.st_mode);
-  fle->isexe = (st.st_mode & S_IXUSR) || 
-               (st.st_mode & S_IXGRP) ||
-               (st.st_mode & S_IXOTH);
+  fle->isexe = (fst.st_mode & S_IXUSR) || 
+               (fst.st_mode & S_IXGRP) ||
+               (fst.st_mode & S_IXOTH);
 
   return (1);
 }

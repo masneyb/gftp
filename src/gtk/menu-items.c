@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  menu-items.c - menu callbacks                                            */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -770,7 +770,7 @@ about_dialog (gpointer data)
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
 
-  tempstr = g_strdup_printf (_("%s\nCopyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\nOfficial Homepage: http://www.gftp.org/\nLogo by: Aaron Worley <planet_hoth@yahoo.com>\n"), gftp_version);
+  tempstr = g_strdup_printf (_("%s\nCopyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\nOfficial Homepage: http://www.gftp.org/\nLogo by: Aaron Worley <planet_hoth@yahoo.com>\n"), gftp_version);
   str = _("Translated by");
   if (strcmp (str, "Translated by") != 0)
     {

@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  gftp-gtk.c - GTK+ 1.2 port of gftp                                       */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -1164,7 +1164,7 @@ main (int argc, char **argv)
   gtk_widget_show (window);
 
   ftp_log (gftp_logging_misc, NULL,
-	   "%s, Copyright (C) 1998-2002 Brian Masney <", gftp_version);
+	   "%s, Copyright (C) 1998-2003 Brian Masney <", gftp_version);
   ftp_log (gftp_logging_recv, NULL, "masneyb@gftp.org");
   ftp_log (gftp_logging_misc, NULL,
 	   _(">. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"));
