@@ -22,7 +22,7 @@ AUTOHEADER=autoheader
 autoconf_version=`$AUTOCONF --version 2>/dev/null`
 if [ "x$autoconf_version" = "x" ] ; then 
        echo
-       echo "GNU autoconf must be installed to build gFTP"
+       echo "GNU autoconf must be installed to build $PROJECT"
        echo "GNU autoconf is available from http://www.gnu.org/software/autoconf/"
        DIE=1
 fi
@@ -30,7 +30,7 @@ fi
 automake_version=`$AUTOMAKE --version 2>/dev/null`
 if [ "x$automake_version" = "x" ] ; then 
        echo
-       echo "GNU automake must be installed to build gFTP"
+       echo "GNU automake must be installed to build $PROJECT"
        echo "GNU automake is available from http://www.gnu.org/software/automake/"
        DIE=1
 fi
@@ -38,7 +38,7 @@ fi
 gettext_version=`$GETTEXTIZE --version 2>/dev/null | grep 'GNU'`
 if [ "x$gettext_version" = "x" ] ; then 
        echo
-       echo "GNU gettext must be installed to build gFTP"
+       echo "GNU gettext must be installed to build $PROJECT"
        echo "GNU gettext is available from http://www.gnu.org/software/gettext/"
        DIE=1
 fi

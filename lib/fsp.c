@@ -19,10 +19,10 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-/* include fsplibrary directly, because FSPLIB it not intergrated to build system yet. */
+
 #define FSP_USE_SHAREMEM_AND_SEMOP 1
-#include "fsplib.c"
-#include "lock.c"
+#include "fsplib/fsplib.h"
+#include "fsplib/lock.h"
 
 static const char cvsid[] = "$Id$";
 
@@ -99,7 +99,6 @@ fsp_get_file (gftp_request * request, const char *filename, int fd,
                 off_t startsize)
 {
   fsp_protocol_data * lpd;
-  off_t size;
   struct stat sb;
 
   g_return_val_if_fail (request != NULL,GFTP_EFATAL);
@@ -170,8 +169,6 @@ fsp_put_file (gftp_request * request, const char *filename, int fd,
                 off_t startsize, off_t totalsize)
 {
   fsp_protocol_data * lpd;
-  off_t size;
-  struct stat sb;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
