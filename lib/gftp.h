@@ -57,10 +57,6 @@
 #include <grp.h>
 #include <math.h>
 
-#ifdef HAVE_GRANTPT
-#include <stropts.h>
-#endif
-
 #ifdef HAVE_STRING_H
 #include <string.h>
 #else
@@ -86,17 +82,6 @@
 
 #ifndef AF_LOCAL
 #define AF_LOCAL AF_UNIX
-#endif
-
-#ifdef HAVE_PTY_H
-#include <pty.h>
-#include <utmp.h> /* for login_tty */
-#elif HAVE_LIBUTIL_H
-#include <libutil.h>
-#include <utmp.h> /* for login_tty */
-#else
-extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp, struct winsize * winp);
-extern int login_tty(int fd);
 #endif
 
 #ifdef HAVE_GETADDRINFO

@@ -61,6 +61,17 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
 
 #elif HAVE_OPENPTY
 
+#ifdef HAVE_PTY_H
+#include <pty.h>
+#include <utmp.h> /* for login_tty */
+#elif HAVE_LIBUTIL_H
+#include <libutil.h>
+#include <utmp.h> /* for login_tty */
+#else
+extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp, struct winsize * winp);
+extern int login_tty(int fd);
+#endif
+
 char *
 gftp_get_pty_impl (void)
 {
@@ -92,6 +103,8 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
 }
 
 #elif HAVE_GRANTPT
+
+#include <stropts.h>
 
 char *
 gftp_get_pty_impl (void)
