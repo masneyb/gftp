@@ -764,34 +764,40 @@ gftp_write_bookmarks_file (void)
       while (*tempstr == '/')
 	tempstr++;
 
-      if (tempentry->save_password && tempentry->pass != NULL)
-        password = gftp_scramble_password (tempentry->pass);
-      else
-        password = NULL;
-
-      fprintf (bmfile,
-	       "[%s]\nhostname=%s\nport=%d\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
-	       tempstr, tempentry->hostname == NULL ? "" : tempentry->hostname,
-	       tempentry->port, tempentry->protocol == NULL
-	       || *tempentry->protocol ==
-	       '\0' ? gftp_protocols[0].name : tempentry->protocol,
-	       tempentry->remote_dir == NULL ? "" : tempentry->remote_dir,
-	       tempentry->local_dir == NULL ? "" : tempentry->local_dir,
-	       tempentry->user == NULL ? "" : tempentry->user,
-	       password == NULL ? "" : password,
-	       tempentry->acct == NULL ? "" : tempentry->acct);
-
-      if (password != NULL)
-        g_free(password);
-
-      if (tempentry->local_options_vars != NULL)
+      if (tempentry->isfolder)
         {
-          for (i=0; i<tempentry->num_local_options_vars; i++)
-            {
-              gftp_option_types[tempentry->local_options_vars[i].otype].write_function (&tempentry->local_options_vars[i], buf, sizeof (buf), 1);
+          fprintf (bmfile, "[%s/]\n", tempstr);
+        }
+      else
+        {
+          if (tempentry->save_password && tempentry->pass != NULL)
+            password = gftp_scramble_password (tempentry->pass);
+          else
+            password = NULL;
 
-              fprintf (bmfile, "%s=%s\n", tempentry->local_options_vars[i].key,
-                       buf);
+          fprintf (bmfile,
+    	       "[%s]\nhostname=%s\nport=%d\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
+    	       tempstr, tempentry->hostname == NULL ? "" : tempentry->hostname,
+    	       tempentry->port, tempentry->protocol == NULL
+    	       || *tempentry->protocol ==
+    	       '\0' ? gftp_protocols[0].name : tempentry->protocol,
+    	       tempentry->remote_dir == NULL ? "" : tempentry->remote_dir,
+    	       tempentry->local_dir == NULL ? "" : tempentry->local_dir,
+    	       tempentry->user == NULL ? "" : tempentry->user,
+    	       password == NULL ? "" : password,
+    	       tempentry->acct == NULL ? "" : tempentry->acct);
+          if (password != NULL)
+            g_free(password);
+
+          if (tempentry->local_options_vars != NULL)
+            {
+              for (i=0; i<tempentry->num_local_options_vars; i++)
+                {
+                  gftp_option_types[tempentry->local_options_vars[i].otype].write_function (&tempentry->local_options_vars[i], buf, sizeof (buf), 1);
+    
+                  fprintf (bmfile, "%s=%s\n", tempentry->local_options_vars[i].key,
+                           buf);
+                }
             }
         }
 
