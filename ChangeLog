@@ -1,4 +1,13 @@
 2004-11-11 Brian Masney <masneyb@gftp.org>
+	* configure.in - fixes for HP/UX
+	(from "H.Merijn Brand" <h.m.brand@hccnet.nl>)
+
+	* lib/gftp.h - fixes for large files under HP/UX
+	(from "H.Merijn Brand" <h.m.brand@hccnet.nl>)
+
+	* lib/protocols.c (gftp_list_files) - if ENABLE_NLS is disabled, then
+	do not use setlocale()
+
 	* docs/website/index.html.in - fixed several typos on the website.
 	Updated introduction paragraph
 

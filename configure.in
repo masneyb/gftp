@@ -236,6 +236,7 @@ if test "x$enable_gtkport" = "xyes" ; then
       *-hpux*)
         # From H.Merijn Brand <h.m.brand@hccnet.nl>
         echo '#define pthread_attr_init(x) __pthread_attr_init_system(x)' >>confdefs.h
+        echo '#define pthread_create(x) __pthread_create_system(x)' >>confdefs.h
         ;;
       *-aix*)
         PTHREAD_CFLAGS="$PTHREAD_CFLAGS -D_THREAD_SAFE"
