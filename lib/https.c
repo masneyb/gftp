@@ -73,6 +73,7 @@ https_init (gftp_request * request)
     return (ret);
 
   params = request->protocol_data;
+  request->protonum = GFTP_HTTPS_NUM;
   request->init = https_init;
   request->post_connect = gftp_ssl_session_setup;
   params->real_read_function = gftp_ssl_read;

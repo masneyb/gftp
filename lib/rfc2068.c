@@ -58,7 +58,6 @@ rfc2068_connect (gftp_request * request)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->hostname != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
@@ -187,7 +186,6 @@ rfc2068_send_command (gftp_request * request, const void *command, size_t len)
   ssize_t ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (command != NULL, GFTP_EFATAL);
 
   if (request->datafd < 0 && (conn_ret = rfc2068_connect (request)) != 0)
@@ -252,7 +250,6 @@ static void
 rfc2068_disconnect (gftp_request * request)
 {
   g_return_if_fail (request != NULL);
-  g_return_if_fail (request->protonum == GFTP_HTTP_NUM);
 
   if (request->datafd > 0)
     {
@@ -281,7 +278,6 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
   off_t size;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
@@ -354,7 +350,6 @@ rfc2068_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   size_t len;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
 
   params = request->protocol_data;
   if (params->rbuf != NULL && params->rbuf->curpos != NULL)
@@ -383,7 +378,6 @@ rfc2068_end_transfer (gftp_request * request)
   rfc2068_params * params;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
 
   if (request->datafd < 0)
     return (GFTP_EFATAL);
@@ -409,7 +403,6 @@ rfc2068_list_files (gftp_request * request)
   off_t ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
 
   params = request->protocol_data;
   gftp_lookup_request_option (request, "use_http11", &use_http11);
@@ -458,7 +451,6 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
   off_t size;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
@@ -622,7 +614,6 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
@@ -669,7 +660,6 @@ rfc2068_chdir (gftp_request * request, const char *directory)
   char *tempstr, *olddir;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   if (request->directory != directory)

@@ -123,6 +123,7 @@ ftps_init (gftp_request * request)
     return (ret);
 
   params = request->protocol_data;
+  request->protonum = GFTP_FTPS_NUM;
   params->auth_tls_start = ftps_auth_tls_start;
   request->get_next_file = ftps_get_next_file;
   request->init = ftps_init;

@@ -94,7 +94,6 @@ rfc959_read_response (gftp_request * request, int disconnect_on_42x)
   ssize_t num_read;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   *code = '\0';
@@ -144,7 +143,6 @@ rfc959_send_command (gftp_request * request, const char *command,
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (command != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
@@ -184,7 +182,6 @@ parse_ftp_proxy_string (gftp_request * request)
   intptr_t tmp;
 
   g_return_val_if_fail (request != NULL, NULL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, NULL);
 
   gftp_lookup_request_option (request, "proxy_config", &proxy_config);
 
@@ -357,7 +354,6 @@ rfc959_chdir (gftp_request * request, const char *directory)
   int r;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   if (strcmp (directory, "..") == 0)
@@ -389,7 +385,6 @@ rfc959_syst (gftp_request * request)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   ret = rfc959_send_command (request, "SYST\r\n", 1);
@@ -435,7 +430,6 @@ rfc959_connect (gftp_request * request)
   rfc959_parms * parms;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->hostname != NULL, GFTP_EFATAL);
 
   if (request->datafd > 0)
@@ -592,7 +586,6 @@ rfc959_disconnect (gftp_request * request)
   rfc959_parms * parms;
 
   g_return_if_fail (request != NULL);
-  g_return_if_fail (request->protonum == GFTP_FTP_NUM);
 
   parms = request->protocol_data;
 
@@ -923,7 +916,6 @@ static int
 rfc959_data_connection_new (gftp_request * request)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
 #ifdef HAVE_IPV6
@@ -953,7 +945,6 @@ rfc959_accept_active_connection (gftp_request * request)
   parms = request->protocol_data;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (parms->data_connection > 0, GFTP_EFATAL);
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
@@ -1024,7 +1015,6 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
   char *tempstr;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
 
   parms = request->protocol_data;
   new_ascii = rfc959_is_ascii_transfer (request, filename);
@@ -1060,7 +1050,6 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
   rfc959_parms * parms;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
@@ -1136,7 +1125,6 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
   rfc959_parms * parms;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
@@ -1264,7 +1252,6 @@ rfc959_end_transfer (gftp_request * request)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   parms = request->protocol_data;
@@ -1294,7 +1281,6 @@ rfc959_abort_transfer (gftp_request * request)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   parms = request->protocol_data;
@@ -1326,7 +1312,6 @@ rfc959_list_files (gftp_request * request)
   char *tempstr, parms[3];
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   if ((ret = rfc959_data_connection_new (request)) < 0)
@@ -1454,7 +1439,6 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   ssize_t len;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
   g_return_val_if_fail (fd > 0, GFTP_EFATAL);
 
@@ -1515,7 +1499,6 @@ rfc959_get_file_size (gftp_request * request, const char *filename)
   int ret;
 
   g_return_val_if_fail (request != NULL, 0);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, 0);
   g_return_val_if_fail (request->datafd > 0, 0);
 
@@ -1537,7 +1520,6 @@ rfc959_rmdir (gftp_request * request, const char *directory)
   char *tempstr, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
@@ -1560,7 +1542,6 @@ rfc959_rmfile (gftp_request * request, const char *file)
   char *tempstr, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
@@ -1583,7 +1564,6 @@ rfc959_mkdir (gftp_request * request, const char *directory)
   char *tempstr, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
@@ -1607,7 +1587,6 @@ rfc959_rename (gftp_request * request, const char *oldname,
   char *tempstr, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (oldname != NULL, GFTP_EFATAL);
   g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
@@ -1640,7 +1619,6 @@ rfc959_chmod (gftp_request * request, const char *file, int mode)
   char *tempstr, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
@@ -1664,7 +1642,6 @@ rfc959_site (gftp_request * request, const char *command)
   char *tempstr, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (command != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
