@@ -1,4 +1,9 @@
 2004-8-17 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c - renamed read_buffer in sshv2_params to
+	transfer_buffer. In sshv2_put_next_file_chunk(), dynamically allocate
+	memory for transfer_buffer instead of using a fixed buffer on the
+	stack. This allows for large transfer buffer sizes.
+
 	* lib/sshv2.c - added sshv2_open_file(). sshv2_get_file() and
 	sshv2_put_file() now use this function
 

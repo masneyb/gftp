@@ -56,11 +56,11 @@ typedef struct sshv2_message_tag
 typedef struct sshv2_params_tag
 {
   char handle[SSH_MAX_HANDLE_SIZE + 4], /* We'll encode the ID in here too */
-       *read_buffer;
+       *transfer_buffer;
+  size_t handle_len, transfer_buffer_len;
 
   guint32 id,
           count;
-  size_t handle_len;
   sshv2_message message;
 
   unsigned int initialized : 1,
@@ -1105,10 +1105,10 @@ sshv2_end_transfer (gftp_request * request)
       params->handle_len = 0;
     }  
 
-  if (params->read_buffer != NULL)
+  if (params->transfer_buffer != NULL)
     {
-      g_free (params->read_buffer);
-      params->read_buffer = NULL;
+      g_free (params->transfer_buffer);
+      params->transfer_buffer = NULL;
     }
 
   return (0);
@@ -1785,7 +1785,6 @@ sshv2_open_file (gftp_request * request, const char *file, off_t startsize,
   memset (params->handle, 0, 4);
   memcpy (params->handle + 4, message.buffer + 4, message.length - 5);
   params->handle_len = message.length - 1;
-printf ("FIXME - handle len is %d\n", params->handle_len);
   sshv2_message_free (&message);
 
   return (0);
@@ -1874,24 +1873,24 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
   params = request->protocol_data;
 
-  if (params->read_buffer == NULL)
+  if (params->transfer_buffer == NULL)
     {
-      params->read_buffer = g_malloc (params->handle_len + 12);
-      num = htonl (params->handle_len);
-      memcpy (params->read_buffer, params->handle, params->handle_len);
+      params->transfer_buffer_len = params->handle_len + 12;
+      params->transfer_buffer = g_malloc (params->transfer_buffer_len);
+      memcpy (params->transfer_buffer, params->handle, params->handle_len);
     }
 
   num = htonl (params->id++);
-  memcpy (params->read_buffer, &num, 4);
+  memcpy (params->transfer_buffer, &num, 4);
 
-  sshv2_setup_file_offset (params, params->read_buffer);
+  sshv2_setup_file_offset (params, params->transfer_buffer);
 
   num = htonl (size);
-  memcpy (params->read_buffer + params->handle_len + 8, &num, 4);
+  memcpy (params->transfer_buffer + params->handle_len + 8, &num, 4);
   
-  if (sshv2_send_command (request, SSH_FXP_READ, params->read_buffer,
-                          params->handle_len + 12) < 0)
-    return (GFTP_ERETRYABLE);
+  if ((ret = sshv2_send_command (request, SSH_FXP_READ, params->transfer_buffer,
+                                 params->handle_len + 12)) < 0)
+    return (ret);
 
   memset (&message, 0, sizeof (message));
   if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_DATA)
@@ -1933,36 +1932,36 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   sshv2_params * params;
   sshv2_message message;
-  char tempstr[32768];
   guint32 num;
-  size_t len;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
   g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (size <= 32500, GFTP_EFATAL);
 
   params = request->protocol_data;
 
-  memcpy (tempstr, params->handle, params->handle_len);
+  if (params->transfer_buffer == NULL)
+    {
+      params->transfer_buffer_len = params->handle_len + size + 12;
+      params->transfer_buffer = g_malloc (params->transfer_buffer_len);
+      memcpy (params->transfer_buffer, params->handle, params->handle_len);
+    }
 
   num = htonl (params->id++);
-  memcpy (tempstr, &num, 4);
+  memcpy (params->transfer_buffer, &num, 4);
 
-  sshv2_setup_file_offset (params, tempstr);
- 
+  sshv2_setup_file_offset (params, params->transfer_buffer);
+
   num = htonl (size);
-  memcpy (tempstr + params->handle_len + 8, &num, 4);
-  memcpy (tempstr + params->handle_len + 12, buf, size);
+  memcpy (params->transfer_buffer + params->handle_len + 8, &num, 4);
+  memcpy (params->transfer_buffer + params->handle_len + 12, buf, size);
   
-  len = params->handle_len + size + 12;
-  if (sshv2_send_command (request, SSH_FXP_WRITE, tempstr, len) < 0)
-    {
-      g_free (tempstr);
-      return (GFTP_ERETRYABLE);
-    }
+  if ((ret = sshv2_send_command (request, SSH_FXP_WRITE,
+                                 params->transfer_buffer,
+                                 params->transfer_buffer_len)) < 0)
+    return (ret);
 
   memset (&message, 0, sizeof (message));
   params->dont_log_status = 1;
@@ -2039,10 +2038,14 @@ sshv2_copy_param_options (gftp_request * dest_request,
   sparms = src_request->protocol_data;
 
   memcpy (dparms->handle, sparms->handle, sizeof (*dparms->handle));
-  if (sparms->read_buffer)
-    dparms->read_buffer = g_strdup (sparms->read_buffer);
+  if (sparms->transfer_buffer != NULL)
+    {
+      dparms->transfer_buffer = g_malloc (sparms->transfer_buffer_len);
+      memcpy (dparms->transfer_buffer, sparms->transfer_buffer,
+              sparms->transfer_buffer_len);
+    }
   else
-    dparms->read_buffer = NULL;
+    dparms->transfer_buffer = NULL;
 
   sshv2_copy_message (&sparms->message, &dparms->message);
 
