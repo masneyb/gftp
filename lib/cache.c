@@ -25,9 +25,11 @@ struct gftp_cache_entry_tag
   char *url,
        *file;
   int server_type;
+  time_t expiration_date;
 
   char *pos1,
-       *pos2;
+       *pos2,
+       *pos3;
 };
   
 typedef struct gftp_cache_entry_tag gftp_cache_entry;
@@ -68,6 +70,19 @@ gftp_parse_cache_line (gftp_request * request, gftp_cache_entry * centry,
   *pos++ = '\0';
   centry->server_type = strtol (pos, NULL, 10);
 
+  if ((pos = strchr (pos, '\t')) == NULL || *(pos + 1) == '\0')
+    {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request,
+                            _("Error: Invalid line %s in cache index file\n"), 
+                            line);
+      return (-1);
+    }
+
+  centry->pos3 = pos;
+  *pos++ = '\0';
+  centry->expiration_date = strtol (pos, NULL, 10);
+
   return (0);
 }
 
@@ -80,6 +95,9 @@ gftp_restore_cache_line (gftp_cache_entry * centry, char *line)
 
   if (centry->pos2 != NULL)
     *centry->pos2 = '\t';
+
+  if (centry->pos3 != NULL)
+    *centry->pos3 = '\t';
 }
 
 
@@ -100,8 +118,13 @@ int
 gftp_new_cache_entry (gftp_request * request)
 {
   char *cachedir, *tempstr, *temp1str;
-  int cache_fd, fd;
+  int cache_fd, fd, cache_ttl;
   ssize_t ret;
+  time_t t;
+
+  gftp_lookup_request_option (request, "cache_ttl", &cache_ttl);
+  time (&t);
+  t += cache_ttl;
 
   cachedir = expand_path (BASE_CONF_DIR "/cache");
   if (access (cachedir, F_OK) == -1)
@@ -141,13 +164,13 @@ gftp_new_cache_entry (gftp_request * request)
   g_free (cachedir);
 
   lseek (fd, 0, SEEK_END);
-  temp1str = g_strdup_printf ("%s://%s@%s:%d%s\t%s\t%d\n", 
+  temp1str = g_strdup_printf ("%s://%s@%s:%d%s\t%s\t%d\t%ld\n", 
                            request->url_prefix,
                            request->username == NULL ? "" : request->username,
                            request->hostname == NULL ? "" : request->hostname,
                            request->port, 
                            request->directory == NULL ? "" : request->directory,
-                           tempstr, request->server_type);
+                           tempstr, request->server_type, t);
   g_free (tempstr);
   ret = gftp_fd_write (NULL, temp1str, strlen (temp1str), fd);
   g_free (temp1str);
@@ -174,6 +197,9 @@ gftp_find_cache_entry (gftp_request * request)
   gftp_getline_buffer * rbuf;
   gftp_cache_entry centry;
   int indexfd, cachefd;
+  time_t now;
+
+  time (&now);
 
   gftp_generate_cache_description (request, description, sizeof (description),
                                    0);
@@ -190,6 +216,10 @@ gftp_find_cache_entry (gftp_request * request)
   while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf), indexfd) > 0)
     {
       if (gftp_parse_cache_line (request, &centry, buf) < 0)
+        continue;
+
+      /* See if this entry is still valid... */
+      if (centry.expiration_date < now)
         continue;
 
       if (strcmp (description, centry.url) == 0)
@@ -267,7 +297,10 @@ gftp_delete_cache_entry (gftp_request * request, char *descr, int ignore_directo
   gftp_getline_buffer * rbuf;
   gftp_cache_entry centry;
   int indexfd, newfd;
+  time_t now;
   int remove;
+ 
+  time (&now);
 
   if (request != NULL)
     {
@@ -304,7 +337,9 @@ gftp_delete_cache_entry (gftp_request * request, char *descr, int ignore_directo
         continue;
 
       remove = 0;
-      if (ignore_directory)
+      if (centry.expiration_date < now)
+        remove = 1;
+      else if (ignore_directory)
         {
           if (strncmp (centry.url, description, strlen (description)) == 0)
             remove = 1;

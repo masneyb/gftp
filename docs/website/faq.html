@@ -1,0 +1,148 @@
+<HTML>
+<HEAD>
+<TITLE>Frequently Asked Questions for gFTP</TITLE>
+<META NAME="author" CONTENT="Brian Masney"> 
+<LINK REV=MADE HREF="mailto:masneyb@gftp.org">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#336699" VLINK="#336699" ALINK="#336699">
+<FONT FACE="Lucida,Verdana,Helvetica,Arial"><SMALL>
+
+<H4>I'm having problems with installing the RPMs off of your website.</H4>
+If the RPM installs fine, but when you run gFTP, if you get an error about the symbol GCC_3.0 not found, then you need to recompile the RPM. Or if you try to install the RPM and you get an error about unresolved dependency libreadline.so.1 and you have the readline RPM installed, you'll also have to get a different gFTP RPM. The RPMs on my website I built on a Debian GNU/Linux i386 box with gcc 3.0.3.
+
+<P>I would first suggest checking your distributions development tree (RedHat Rawhide or Mandrake Cooker for example), they probably have a RPM of the latest gFTP there. If not, download the SRC RPM and type <em>rpm -i gftp-version-1.src.rpm</em>. It will build a RPM and put it in /usr/src/redhat/RPMS/arch or /usr/src/rpm/RPMS/arch (arch is i386, sparc, axp, etc...)</P>
+
+<H4>What systems is gFTP known to run on?</H4>
+I develop gFTP on a Debian GNU/Linux machine. Here is a list of other platforms I have received successful compile reports on:
+<UL>
+<LI>FreeBSD/NetBSD/OpenBSD/BSDI
+<LI>Solaris
+<LI>IRIX
+<LI>Digital UNIX 
+<LI>HP-UX 11
+</UL>
+I have gotten reports about successful compiles more platforms, but I lost those emails. If you got gFTP to compile on a platform not listed here, please email me about it and I'll add it to this list. If you are having problems compiling gtk+ or gftp on another platform, try using GNU make instead of your vendor supplied make. Most of the vendor supplied makes are brain-dead.
+
+<H4>I'm having problems getting SSH2 transfers to work. I keep getting the error: <EM>Error: Message size 1644196712 too big from server</EM></H4>
+<P>What probably is the problem, sftp-server isn't in your path on the remote server. When you try to connect to the remote server, you'll see the command gftp is trying to run, and it'll look something like:</P> 
+<P><CENTER>ssh -l <EM>username hostname</EM> "echo -n xsftp ;  sftp-server"</CENTER></P>
+<P>Try running this command. If you get a prompt asking:</P>
+
+<P><EM>The authenticity of host 'hostname (###.###.###.###)' can't be established.<BR>
+RSA key fingerprint is xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx.<BR>
+Are you sure you want to continue connecting (yes/no)?<BR></EM></P>
+
+<P>Tell it yes. gFTP won't even try to answer this question for you at the moment. Then, if you get the following output:</P>
+
+<P><EM>Enter passphrase for key '/home/brian/.ssh/id_dsa':<BR>
+xsftp<BR>
+bash: sftp-server: command not found<BR></EM></P>
+
+<P>You'll have to set the path to the sftp-server program. Alternatively you could go under FTP-&gt;Options-&gt;SSH and enable Use sftp subsys. If you enable this, then you don't have to know the remote path to your sftp executable. But if you enable this, gFTP won't be able to send your password over to the ssh client. So if you're not using ssh-agent, then ssh will spawn the ssh-askpass program to grab your password.</P>
+
+<H4>What is the difference between the SSH and SSH2 protocols?</H4>
+
+The SSH protocol uses sftp &gt;= 0.7 from <A HREF="http://www.xbill.org/sftp">http://www.xbill.org/sftp</A>. SSH2 uses the native file transfers found in the <A HREF="http://www.ssh.com/">commercial SSH2</A> and in later versions of <A HREF="http://www.openssh.org/">OpenSSH</A>.
+
+<H4>How do I force running the text or gtk+ version of gftp?</H4>
+
+To run the text port, you can type gftp-text or to run the gtk+ port, you can run the gftp-gtk. The gftp command is just a shell script that sees if your DISPLAY variable is set, and if so it'll run the appropriate version
+
+<H4>Is there a way for gftp to download a bunch of files/directories and then exit when it's completed?</H4>
+
+Yes, the text port of gftp supports this well. You can type:<BR>
+<P><CENTER>gftp-text -d ftp://ftp.somesite.com/someplace</CENTER></P>
+If someplace is a directory, it'll automatically download all its subdirs as well. If you want to transfer a file through ssh instead of ftp, just change the ftp:// to ssh://
+
+<H4>In the GTK+ version of gFTP, do I have to enter a port, username and password   to connect to a ftp server?</H4>
+
+No you don't. If you leave the port blank, it'll default to the default port for the protocol you selected (port 21 for FTP). If you leave the username blank, it will default to logging in as anonymous
+
+<H4>How do I set up my HTTP Proxy server?</H4>
+
+Go under FTP-&gt;Options and hit the FTP tab. Enter HTTP as the proxy type and fill in your proxy server info on that screen. Then hit the HTTP tab and enter your same proxy server info there.
+
+
+<H4>When gFTP tries to get the remote directory listing, it sends LIST -L, but the remote server sends an error back</H4>
+Go to FTP-&gt;Options and turn off resolve remote symlinks. gFTP will then send LIST instead of LIST -L.
+
+<H4>When gFTP tries to get the remote directory listing, I get an error that says: Cannot create a data connection: Connection refused</H4>
+
+Go under FTP-&gt;Options and turn off passive file transfers. Instead of sending the PASV command to open up the data connection on the server side, the data connection will be opened up on the client side, and the PORT command will be sent to the server instead.
+
+<H4>When I try to compile gFTP, I get some errors. One of them is undefined symbol LC_ALL</H4>
+Try typing <EM>make distclean ; configure --with-included-gettext</EM> and it should compile fine then.
+
+<H4>How do I report bugs in gFTP?</H4>
+If you find ANY bugs in gFTP, please email them to me at <A HREF="mailto:masneyb@gftp.org">masneyb@gftp.org</A>. 
+If there is a newer version of gFTP available, please try it first before you 
+send me a bug report. If the problem exists in that version, feel free to email
+me about it. When sending in bug reports, please try to be as descriptive as 
+possible. Send me what OS/version you are running, what compiler you are 
+compiling with, and any other important information. If you get gFTP to crash,
+it would be very helpful if you could send me a backtrace. If you do not know 
+how to do a backtrace, download the source code from my website. Edit the 
+Makefile, and make sure that -g appear in the CFLAGS variable. Then recompile 
+gFTP, but do NOT do a make install because it will install a stripped binary in
+$PREFIX/bin. Then type gdb ./gftp. Once you have a (gdb) prompt, type r. Once 
+you get gFTP to crash, go back to that terminal window, and type bt, and send 
+me that output in an email message along with a short description of how it 
+happened.
+
+<H4>I downloaded a binary off the internet and everytime I run gFTP I get an
+error saying: undefined symbol :__register_frame_info</H4>
+
+ObiTuarY <A HREF="mailto:obituary@freshmeat.net">obituary@freshmeat.net</A> says:<BR><P>
+This happens when you compile a library with egcs. The library then has
+the __register_frame_info symbol. If you link a program to it, it will    
+require this symbol. Now if you have the exact same library compiled with
+gcc 2.7.2.3 it won't have this symbol. The thing about glibc 2.1 under Red
+Hat 6 is it was compiled with egcs and glibc 2.0.x under Red Hat 5.x was  
+compiled with gcc 2.7.2.3, therefore it's not an incompatibility between  
+glibc 2.0.x and 2.1.x. What some people do for that is they get the .o file
+of egcs with __register_frame_info in it and link into the program so it's 
+always there, that way it works with libs compiled with egcs or gcc 2.7.2.3.
+(in /usr/lib/gcc-lib/i386-*-linux/egcs-*/ )"
+</P>
+Another alternative, is to recompile gftp on your machine, or you can
+download some RPMs off my website that were compiled against Red Hat 5.2
+
+<H4>I upgraded to a newer version of gFTP and now I am getting some warnings about some config file lines not having enough arguments, and it cannot find html.xpm.</H4>
+
+This is from upgrading from a very old version of gftp to a newer version. I removed some icons from the distribution (0.20 to 0.21). Edit your ~/.gftp/gftprc file. At the bottom of the file, there are some ext= lines. Some of them have html.xpm, rpm.xpm and pdf.xpm. Remove these lines and gFTP will startup fine. Don't worry about fixing the warnings...they will go away themselves.
+
+<H4>Where does gFTP store it's options?</H4>
+gFTP will automatically create a ~/.gftp directory when it is first run.
+Your config file is ~/.gftp/gftprc, and this is where all of gFTP's
+settings are stored. The config file is well commented, so take a glance
+at it and see if there is anything you want to change.
+
+<H4>I am trying to compile your program and I get some parse errors before
+GdkDragContext. What's wrong?</H4>
+You have an older version of gtk installed on your system. If you are
+using Red Hat or Debian Linux, simply remove the gtk and glib devel
+packages. You can still leave the gtk 1.0 libraries installed.
+
+<H4>I am having a hard time using the drag and drop in gFTP. How do I use it?</H4>
+To drag from the file listboxes in gFTP, you have to drag with button #3.
+On a two button mouse, you have to hold down both buttons. For this to work
+tho, you have to edit your XF86Config file, and go to the Pointer section.
+You have to make sure Emulate3Buttons is in there. Here's the section out of
+my config file:
+
+Section "Pointer"<BR>
+   Protocol        "PS/2"             # This will depend on your mouse<BR>
+   Device          "/dev/mouse"       # This will also depend on your mouse<BR>
+   Emulate3Buttons                    # You need this for a 2 button mouse<BR>
+EndSection<BR>
+
+<H4>I have a libc 5 based machine and everytime I run gFTP it instantly crashes. 
+I get an error something like: Gdk-ERROR **: an x io error occurred
+What's wrong?</H4>
+Your X libraries are not thread safe. They must be compiled with 
+-D_REENTRANT. You can either recompile your X libraries, or you can
+download some from my webpage at
+<A HREF="ftp://ftp.gftp.org/pub/gftp/libs/XFree86-libs-3.3-2_threading.i386.tgz">ftp://ftp.gftp.org/pub/gftp/libs/XFree86-libs-3.3-2_threading.i386.tgz</A>
+
+<P>Brian Masney <A HREF="mailto:masneyb@gftp.org">masneyb@gftp.org</A></P>
+</SMALL></FONT></BODY></HTML>

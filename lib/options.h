@@ -49,6 +49,10 @@ gftp_config_vars gftp_global_config_vars[] =
    gftp_option_type_text, "", NULL, 0,
    N_("This is a comma separated list of charsets to try to convert the remote messages to the current locale"), 
    GFTP_PORT_ALL, NULL},
+  {"cache_ttl", N_("Cache TTL:"), 
+   gftp_option_type_int, GINT_TO_POINTER(3600), NULL, 0,
+   N_("The number of seconds to keep cache entries before they expire."), 
+   GFTP_PORT_ALL, NULL},
 
   {"append_transfers", N_("Append file transfers"), 
   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,

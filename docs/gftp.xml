@@ -1,0 +1,1717 @@
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+  <!ENTITY legal SYSTEM "legal.xml">
+  <!ENTITY appversion "2.0.12">
+  <!ENTITY manrevision "1.0">
+  <!ENTITY date "June  2002">
+  <!ENTITY gftp "<application>gFTP</application>">
+  <!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file. 
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the gftp entity to specify the name of the application. -->
+]>
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the GNOME Documentation Project
+  http://developer.GNOME.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Jan 30, 2002
+-->
+<!-- =============Document Header ============================= -->
+<article id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <articleinfo> 
+    <title>gFTP Manual &manrevision;</title>       
+
+    <copyright> 
+      <year>2002</year> 
+      <holder>Alexander Kirillov</holder> 
+    </copyright>
+    <copyright>
+      <year>2002</year>
+      <holder>Brian Masney</holder>
+    </copyright> 
+
+<!-- translators: uncomment this:
+
+  <copyright>
+   <year>2002</year>
+   <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+  </copyright>
+
+   -->
+<!-- An address can be added to the publisher information.  If a role is 
+     not specified, the publisher/author is the same for all versions of the 
+     document.  -->
+    <publisher> 
+      <publishername>GNOME Documentation Project </publishername> 
+    </publisher> 
+
+   &legal; <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <authorgroup> 
+      <author> 
+	<firstname>Alexander</firstname> 
+	<surname>Kirillov</surname> 
+	<affiliation> 
+	  <orgname>GNOME Documentation Project</orgname> 
+	  <address> <email>kirillov@math.sunysb.edu</email> </address> 
+	</affiliation> 
+      </author> 
+      <author> 
+	<firstname>Brian</firstname> 
+	<surname>Masney</surname> 
+	<affiliation> 
+	  <orgname></orgname> 
+	  <address><email>masneyb@seul.org</email> </address> 
+	</affiliation> 
+      </author> 
+    </authorgroup>
+
+
+    <releaseinfo> This manual describes version &appversion; of &gftp;.
+    </releaseinfo> 
+  </articleinfo> 
+
+  <indexterm zone="index"> 
+    <primary>gFTP</primary> 
+  </indexterm> 
+  <indexterm zone="index"> 
+    <primary>gFTP</primary> 
+  </indexterm>
+  <indexterm zone="index"> 
+    <primary>File Transfer</primary> 
+  </indexterm>
+
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<!-- Use the Introduction section to give a brief overview of what
+     the application is and what it does. -->
+  <sect1 id="gftp-introduction"> 
+    <title>Introduction</title> 
+    <para>The &gftp; is a graphical file transfer manager. It can be
+      used for downloading files from remote FTP servers, uploading
+      files to an FTP server, or transferring files between two remote
+      servers.       &gftp; provides the following
+      features:</para> 
+    <itemizedlist> 
+  <!-- ######### -->
+      <listitem> 
+	<para> Support for  FTP, HTTP and SSH (both SSH1 and SSH2) protocols
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para>Support for fxp file transfers (transferring files between two
+	  remote servers via ftp)   
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para> Multithreaded to allow for simultaneous downloads
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para>File transfer queues to allow for downloading multiple files 
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para> Bookmarks menu to allow you to quickly connect to remote sites
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para>  Support for  resuming interrupted file transfers
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para>  Drag-N-Drop support
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para> FTP and HTTP proxy server support
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para> Allows for passive and non-passive file transfers
+	</para>
+      </listitem> 
+  <!-- ######### -->
+      <listitem> 
+	<para> Supports UNIX, EPLF, Novell, MacOS, and NT (DOS) style directory listings
+	</para>
+      </listitem> 
+    </itemizedlist>
+ 
+  </sect1>
+
+<!-- =========== Basic usage ========================= -->
+  <sect1 id="gftp-basic"> 
+    <title>Basic Usage</title> 
+    <para>
+      This section describes basic usage of &gftp; and its graphical
+      interface (buttons, menus, etc). 
+    </para>
+
+    <!-- ======= ===== --> 
+    <sect2 id="gftp-starting">
+      <title>Starting And Quitting &gftp;</title>
+
+	<para>To start &gftp; open the <guimenu> Main Menu</guimenu>,
+	then choose <menuchoice> <guimenu>Programs</guimenu>
+	<guisubmenu>Internet</guisubmenu>
+	<guimenuitem>gFTP</guimenuitem> </menuchoice>. 
+	</para>
+	<para>
+	  You can also start &gftp; from the command line. To do so,
+	  type <command>gftp</command> or <command>gftp
+	  <replaceable>ftp://ftp.myhostname.com/pub</replaceable></command>
+	  and press <keycap>Return</keycap>. Here
+	  <replaceable>ftp://ftp.myhostname.com/pub</replaceable> is
+	  the address (URL) of the site you want to connect to. See
+	  <xref linkend="gftp-connect-url"/> for examples of
+	  admissible URLs. 
+	</para>
+      <para>
+	  To quit &gftp; choose <menuchoice><guimenu>FTP</guimenu>
+	  <guimenuitem>Quit</guimenuitem> </menuchoice>. 
+      </para>	
+      <para>
+	There are two versions of &gftp;: graphical and text. Command
+	&gftp; will start graphical version in graphical environment
+	(i.e., when X Window System is running)
+	and text version otherwise. (For advanced users: &gftp; checks
+	whether environment variable DISPLAY is set to determine
+	whether graphical environment is present.) You can also
+	explicitly start graphical version by using command
+	<command>gftp-gtk</command> and text version by using command
+	<command>gftp-text</command>. This manual only describes graphical
+	version.
+      </para>
+      </sect2>
+
+    <!-- ======= ===== --> 
+      <sect2 id="gftp-gui">
+	<title>&gftp; Main Window And Controls</title>
+	<para>
+	  After starting, &gftp; opens the main window shown in <xref
+	  linkend="gftp-mainwin-fig"/>. 
+	</para>
+    <!-- ==== Figure ==== -->
+	<figure id="gftp-mainwin-fig">
+	  <title>gFTP Main Window</title>
+	  <screenshot>	  
+	    <mediaobject> 
+	    <imageobject>
+		<imagedata
+		fileref="figures/mainwin.png" format="PNG"/> 
+	    </imageobject>
+	    <textobject> 
+	      <phrase>Shows &gftp; main window. </phrase>
+	    </textobject> 
+	  </mediaobject> 
+	</screenshot>
+      </figure>
+      <para>
+	This window contains the following areas and controls:
+      </para>
+      <variablelist>
+	<!-- ########## -->
+	<varlistentry>
+	  <term>Connection information: <guilabel>hostname</guilabel>,
+	    <guilabel>port</guilabel>, 
+	    <guilabel>User</guilabel>, 
+	    <guilabel>Pass</guilabel>, 
+	    <guilabel>Protocol type</guilabel> (FTP, HTTP, SSH) 
+          </term>
+	  <listitem>
+	    <para>
+	      These fields contain information about currently active
+	      connection (<guilabel>User</guilabel> and
+	      <guilabel>Pass</guilabel> stand for username and
+	      password respectively). You can also use them to open a new
+	      connection: enter the connection information in these
+	      fields and click on <guibutton>Connect</guibutton> button.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- ########## -->
+	<varlistentry>
+	  <term><guibutton>Connect</guibutton> button</term>
+	  <listitem>
+	    <para>
+	      When not connected, enter connection settings (hostname,
+	      protocol, etc) and click on this button to connect to a
+	      remote computer. When connected to a remote computer,
+	      click on this button to disconnect.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- ########## -->
+	<varlistentry>
+	  <term><guibutton>Stop</guibutton> button</term>
+	  <listitem>
+	    <para>
+	      Click on this button to stop connection attempts or a
+	      file transfer. 
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- ########## -->
+	<varlistentry>
+	  <term><guilabel>File list</guilabel> panels</term>
+	  <listitem>
+	    <para>
+	      These tow panels show the contents of current directory
+	      on local (left panel) and remote (right panel)
+	      computers. They can also be used for navigation:
+	      double-clicking on a directory takes you to that
+	      directory. See <xref linkend="gftp-viewing"/> for more
+	      information.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- ########## -->
+	<varlistentry>
+	  <term><guibutton>Transfer</guibutton> buttons</term>
+	  <listitem>
+	    <para>
+	      Click on one of this buttons to transfer selected files
+	      between local and remote computers. The arrow shows
+	      direction of transfer: top button transfers from the
+	      local computer to the remote  one (upload), the bottom
+	      button transfers from the remote computer to the local
+	      one (download) 
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- ########## -->
+	<varlistentry>
+	  <term><guilabel>Transfer progress window</guilabel></term>
+	  <listitem>
+	    <para>
+	      This window shows file transfer progress. 
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- ########## -->
+	<varlistentry>
+	  <term><guilabel>Log window</guilabel></term>
+	  <listitem>
+	    <para>
+	      This window shows all the messages exchanged by the local
+	      computer and the remote one. Mostly useful for
+	      troubleshooting and diagnostic purposes. 
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+    <sect2 id="gftp-basic-transfer">
+      <title>Connecting and Transferring Files</title>
+      <para>
+	To connect to a remote computer, enter the computer address
+	(hostname) on the toolbar and select the protocol type (by
+	default, FTP). If using anonymous FTP or HTTP connection, leave
+	fields <guilabel>User</guilabel> and <guilabel>Pass</guilabel>
+	blank; otherwise, enter your username and password. After
+	entering this information, click on
+	<guibutton>Connect</guibutton> button. For detailed
+	instructions and other ways to establish connection, see <xref
+	linkend="gftp-connect"/>. 
+      </para>
+      <para>
+	To transfer files between local and remote computers,
+	double-click on the file you want to transfer. If you need to
+	transfer several files or whole directories, click on them
+	while holding down <keycap>Ctrl</keycap> key to select. After
+	selecting, click on the appropriate
+	<guibutton>Transfer</guibutton> button located between file
+	list panels. For detailed instructions, see <xref
+	linkend="gftp-transfer"/>.
+      </para>
+    </sect2>    
+  </sect1>
+
+<!-- ===========  Connecting To a  Remote Site ========================= -->
+  <sect1 id="gftp-connect"> 
+    <title>Connecting To a  Remote Site</title> 
+    <para>
+      The first step in transferring files is establishing a
+      connection to the remote site. 
+      &gftp; provides several ways to connect to a remote site,
+      described below. These descriptions assume that you are already
+      connected to the Internet. Please note that 
+      If you are behind a firewall and use HTTP or FTP proxy, you will
+      need to configure &gftp; before connecting as described in <xref
+      linkend="gftp-configuring"/>. Configuration changes are also likely to
+      be required when connecting to an SSH site; see <xref
+      linkend="gftp-ssh"/>. 
+    </para>
+    <para>
+      To disconnect from a remote site, click on
+      <guibutton>Connect</guibutton> button or choose 
+      <menuchoice><guimenu>Remote</guimenu>
+      <guimenuitem>Disconnect</guimenuitem></menuchoice>.
+    </para>
+
+
+    <!-- ===========  Using toolbar  ======== -->
+    <sect2 id="gftp-connect-toolbar">
+      <title>Connecting Using the Toolbar</title>
+    <para>
+      To connect to a remote site, enter the connection information in
+      the appropriate fields in the toolbar.
+    </para>
+    <variablelist>
+     <!-- ############### -->
+      <varlistentry>
+	<term><guilabel>Host</guilabel></term>
+	<listitem>
+	  <para>Enter the remote site hostname (e.g., <systemitem
+	  class="systemname">ftp.gnome.org</systemitem>). Do not
+	  include <systemitem>ftp://</systemitem> prefix or the
+	  directory (e.g., <systemitem>/pub</systemitem>). You can
+	  select one of recently visited sites by clicking on the down
+	  arrow and selecting it from the drop-down list. You can also
+	  drag the URL from any GNOME application to the
+	  <guibutton>Connect</guibutton> button.
+	  </para>
+	</listitem>
+      </varlistentry>
+     <!-- ############### -->
+      <varlistentry>
+	<term><guilabel>Port</guilabel></term>
+	<listitem>
+	  <para>Unless you know that the server uses non-standard
+	  port, leave this field blank
+	  </para>
+	</listitem>
+      </varlistentry>
+     <!-- ############### -->
+      <varlistentry>
+	<term><guilabel>User</guilabel> and <guilabel>Pass</guilabel></term>
+	<listitem>
+	  <para>
+	    If you have an account on the server you are connecting to
+	    and want to use this account, enter your username and
+	    password. If connecting to an anonymous FTP site (i.e.,
+	    one that allows connection to everyone, without requiring
+	    an account), leave these fields blank.  
+	    </para>
+
+
+	    <note>
+	      <title>NOTE</title>
+	      <para>
+		Most anonymous FTP servers ask that you enter
+		<systemitem>anonymous</systemitem> for username and
+		your e-mail address for password. Most of them only use
+		the e-mail address for statistics. However, there is a
+		potential risk that some less scrupulous FTP sites
+		will use your e-mail to send you spam. To avoid this,
+		&gftp; uses fake addresses (that is, strings that look
+		like a valid e-mail address) as passwords.
+	      </para>
+	    </note>
+	</listitem>
+      </varlistentry>
+     <!-- ############### -->
+      <varlistentry>
+	<term><guilabel>Protocol</guilabel></term>
+	<listitem>
+	  <para>Select the protocol to use (by default,
+	  <systemitem>FTP</systemitem>).  Possible protocols include
+	  FTP (File Transfer Protocol), HTTP and SSH (Secure Shell, a
+	  protocol for encrypted communications, described in <xref
+	  linkend="gftp-ssh"/>). 
+	  </para>
+	    <warning>
+	      <title>SECURITY WARNING</title>
+	      <para>
+		Using non-anonymous FTP connection is a serious
+		security risk, as your username and password are
+		transmitted unencrypted over the Internet and can be
+		easily intercepted by a third party. It is recommended
+		that you only use FTP for anonymous sites. When
+		username and password is required, use SSH instead.
+	      </para>
+	    </warning>
+
+	</listitem>
+      </varlistentry>
+    </variablelist>
+    <para>
+      After entering this information, click on
+      <guibutton>Connect</guibutton> button (see <xref
+      linkend="gftp-mainwin-fig"/>). &gftp; will try to connect to the
+      server. If successful, the files on the remote server will be
+      shown in the right file view pane. If there was an error when
+      connecting, the error message will be shown in the lower part of
+      &gftp; window.   
+    </para>
+    </sect2>
+  
+    <!-- ===========  Using menu  ======== -->
+    <sect2 id="gftp-connect-url">
+      <title>Connecting Using URL</title>
+      <para>
+	An equivalent way of connecting to a remote site is by
+	choosing <menuchoice><guimenu>Remote</guimenu>
+	  <guimenuitem>Open URL</guimenuitem></menuchoice> (<keycombo>
+	  <keycap>Ctrl</keycap><keycap>U</keycap></keycombo>). This
+	will prompt you for a URL to connect to. The following are
+	examples of valid URL's:
+      </para>
+      <simplelist>
+	<member>
+	    ftp://ftp.myhostname.com/pub (anonymous FTP connection)
+	</member>
+	<member>
+	    ftp://user@ftp.myhostname.com/pub (non-anonymous FTP
+                                               connection with given
+                                               username. You
+                                               will be
+                                               prompted for a password)
+	</member>
+	<member>
+	    ftp://user:pass@ftp.myhostname.com/pub (non-anonymous FTP
+                                               connection, with given
+                                               username and password)
+	</member>
+	<member>
+	    ssh://user:pass@myhostname.com (SSH connection, with given
+                                               username and password)
+	</member>
+      </simplelist>
+    </sect2>
+
+    <!-- ===========  Using toolbar  ======== -->
+    <sect2 id="gftp-connect-bookmarks">
+      <title>Connecting Using the Bookmarks</title>
+      <para>
+	You can also use &gftp; bookmarks for connecting to frequently
+	used sites, as described in <xref
+	linkend="gftp-bookmarks"/>. 
+      </para>
+    </sect2>
+  </sect1>
+<!-- ===========  Viewing and Selecting  Files ========================= -->
+  <sect1 id="gftp-viewing"> 
+    <title>Viewing  Files and Directories</title> 
+
+    <!-- ===========  Sect 2 ======== -->
+    <sect2 id="gftp-file-list">
+      <title>File List Panel</title>
+      <para>
+	After connecting, the right file list panel will show the files
+	on the remote computer (see <xref
+	  linkend="gftp-fileview-fig"/>. Similarly, the left file view
+	  panel shows the files on the local computer. 
+      </para>
+      <para>
+	At the top of file view panel there is the location field which
+	shows the path to current directory. Immediately below it, there
+	is the status line which shows remote computer name, file
+	selection filter (see below), and protocol. 
+      </para>
+      <para>FILE LIST - NEEDS WORK
+      </para>
+      <para>
+	You can refresh file list panel by choosing
+	<menuchoice><guimenu>Remote</guimenu>
+	  <guimenuitem>Refresh</guimenuitem>
+	</menuchoice>
+      </para> 
+    </sect2>
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-navigate">
+      <title>Navigating Directories</title>
+      <para>
+	To see the contents of a subdirectory, double-click on this
+	directory name in the file list window. To go up one level in
+	the directory tree, double-click on <filename>..</filename>
+	(usually the first item in the list). By a  common Unix
+	convention, <filename>..</filename> stands  for parent directory. 
+      </para>	
+    </sect2>
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-viewing-files">
+      <title>Viewing and Editing Individual Files</title>
+      <para>To view an individual file, select this file in the file
+      view window and choose <menuchoice><guimenu>Remote</guimenu>
+      <guimenuitem>View...</guimenuitem></menuchoice> (for files on
+      the remote computer) or <menuchoice><guimenu>Local</guimenu>
+      <guimenuitem>View...</guimenuitem></menuchoice> (for files on
+      the local  computer). Alternatively, you can select the file,
+      then right-click on it and choose
+      <guimenuitem>View</guimenuitem> from the context menu.  
+      </para>
+      <para>To edit an individual file, select this file in the file
+	view window and choose
+	<menuchoice><guimenu>Local/Remote</guimenu>
+	<guimenuitem>Edit...</guimenuitem></menuchoice>. Alternatively,
+	you can select the file, then right-click on it and choose
+	<guimenuitem>Edit...</guimenuitem> from the context menu.
+      </para>
+
+      <para>
+	Advanced users may configure which applications should be used
+	for opening files of different types by manually editing
+	&gftp; configuration file as described in <xref
+	linkend="gftp-configuring-advanced"/>. 
+      </para>
+    </sect2>
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-filter">
+      <title>File  Filter</title>
+      <para>
+	You can configure &gftp; so that the file list window only
+	shows files matching a given pattern. To do so, choose
+	<menuchoice><guimenu>Remote</guimenu> <guimenuitem>Change
+	Filespec...</guimenuitem></menuchoice> (for files on the
+	remote computer) or <menuchoice><guimenu>Local</guimenu>
+	<guimenuitem>Change Filespec...</guimenuitem></menuchoice>
+	(for files on the local computer) and enter the pattern in
+	<guilabel>Change Filespec...</guilabel> dialog. The pattern
+	may use wildcards <keycap>*</keycap> (matches any string) and
+	<keycap>?</keycap> (matches any single symbol). For example,
+	pattern <filename>*</filename>
+	matches all files, while <filename>*.tar*</filename> matches
+	all files with extension <filename>tar</filename>, possibly
+	followed by any sequence of symbols, for example
+	<filename>filename.tar.gz</filename>. Please note that
+	filenames in Unix are case-sensitive, so the pattern
+	<filename>*.jpeg</filename> will not match files with
+	extension <filename>.JPEG</filename>.  
+      </para>
+      <para>
+	Once you have selected a filter, the file list window will be
+	updated  to show only files matching the pattern. To remind
+	you of that, this pattern will be shown under the location
+	field.
+      </para>
+      <para>
+	To clear the filter and show all files, choose
+	<menuchoice><guimenu>Remote</guimenu> <guimenuitem>Change 
+	Filespec...</guimenuitem></menuchoice> and enter
+	<filename>*</filename> as the pattern. 
+      </para>
+    </sect2>
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-custom-view">
+      <title>Customizing File View</title>
+      <para>
+      </para>
+    </sect2>
+
+	
+  </sect1>
+
+<!-- ===========  Selecting and Transferring Files ========================= -->
+  <sect1 id="gftp-transfer"> 
+    <title>Transferring Files</title> 
+    <para>
+      This section describes how one transfers files between local and
+      remote computer. It assumes that you have already established
+      the connection with the remote computer as described in <xref
+      linkend="gftp-connect"/>. 
+    </para>
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-transfer-single">
+      <title>Transferring a Single File</title>
+      <para>
+	To transfer a single file, double-click on the file in the
+	file list window, or drag the file   from one
+	file list window to another using the mouse. 
+      </para>
+    </sect2>
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-transfer-multiple">
+      <title>Transferring Multiple Files</title>
+      <para>
+	To transfer multiple files in the same directory, you need to
+	select files to transfer. To do so, click on each of the files
+	and directories you want to select while holding down
+	<keycap>Ctrl</keycap>. To select a continuous block of files
+	from the list, click on the first file, then hold down
+	<keycap>Shift</keycap> key and click on the last file of the
+	block. All files between them will be selected.
+      </para>
+      <para>
+	You can also select all files and subdirectories in the
+	current directory by choosing
+	<menuchoice><guimenu>Local</guimenu> <guimenuitem>Select
+	All</guimenuitem> </menuchoice> (respectively,
+	<menuchoice><guimenu>Remote</guimenu> <guimenuitem>Select
+	All</guimenuitem> </menuchoice>). You can also choose
+	<menuchoice><guimenu>Local</guimenu> <guimenuitem>Select 
+	All Files</guimenuitem> </menuchoice> which selects all files
+	but not subdirectories.  
+      </para>
+      <para>
+	To transfer selected files between the local and remote
+	computers, click on the appropriate
+	<guibutton>transfer</guibutton> buttons, located between the
+	file list windows. The arrow on the button shows the direction
+	of the transfer, so the top button will transfer files from
+	the local computer to the remote one, and the bottom button
+	will transfer files from the remote computer to the local
+	one. NEEDS WORK: TRANSFER MENU
+      </para>
+      <para>
+	Once the transfer has started, its progress will be shown in
+	<guilabel>Transfer progress</guilabel> window. NEEDS WORK
+      </para>
+    </sect2>
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-transfer-options">
+      <title>Transfer Options</title>
+      <para>
+	By default, &gftp; preserves file permissions and follows
+	symbolic links. It also starts transfers immediately after you
+	click on <guibutton>transfer</guibutton>` button and does one
+	transfer at a time, i.e. it only starts transferring the next
+	file after completing transfer of the previous file. These and
+	many other options can be modified as described in <xref
+	linkend="gftp-configuring"/>.
+      </para>
+      <para>
+	In addition, you can select whether the files should be
+	transferred in binary or text mode. In binary mode, the file
+	is transferred <quote>as is</quote>, without any changes. This
+	is the default mode, and in most cases, you should use it. 
+      </para>
+      <para>
+	In text (ascii) mode, &gftp; will also make necessary conversion of
+	end-of-line symbol. DOS and Microsoft Windows systems use
+	different way of denoting end-of-line than Unix and Linux
+	systems, which can lead to minor inconveniences if text files
+	are transferred between Windows and Unix/Linux systems
+	<quote>as is</quote>.  Therefore, when transferring text
+	files between Windows and Unix/Linux systems it is recommended
+	that you use text (ascii) mode.
+      </para>
+      <para>
+	You can switch between  binary and ascii modes using
+	<guimenu>FTP</guimenu> menu. 
+      </para> 
+    </sect2>
+
+
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-queue">
+      <title>Transfer Queue</title>
+      <para>
+	By default, &gftp;  starts the
+	transfer immediately after you click on
+	<guibutton>transfer</guibutton> 
+	button or double-click on a file. You can configure it
+	so that instead, it just adds the filename to the list of files
+	to be transferred but does not start the actual transfer until
+	you choose <menuchoice><guimenu>Transfers</guimenu>
+	<guimenuitem>Start transfer</guimenuitem> </menuchoice>. This
+	mode is especially convenient if you need to transfer a number
+	of files in different directories. 
+      </para>
+      <para>
+	To switch to this mode, open <guilabel>Options</guilabel>
+	dialog by choosing <menuchoice><guimenu>FTP</guimenu>
+	<guimenuitem>Options</guimenuitem>
+	</menuchoice>(<keycombo><keycap>Ctrl</keycap>
+	<keycap>O</keycap></keycombo>) and unselect <guilabel>Start
+	file transfers</guilabel> option in
+	<guilabel>General</guilabel> tab. 
+      </para>
+    </sect2>
+    
+	
+
+
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-overwrite">
+      <title>Overwriting Existing Files</title>
+      <para>
+	If some of the files being transferred already exist in the
+	target directory, &gftp; will open <guilabel>??</guilabel>
+	dialog shown in <xref linkend="gftp-overwrite-fig"/>.  
+      </para>
+      <para>
+	This dialog allows you to choose for each file one of the
+	following options:
+      </para>
+      <itemizedlist>
+        <!-- ############### -->
+	<listitem>
+	  <para><guilabel>Overwrite</guilabel>:
+	  transfer the  file overwriting the existing file. 
+	  </para>
+	</listitem> 
+        <!-- ############### -->
+	<listitem><guilabel>Skip</guilabel>: do not transfer the file
+	  <para>
+	  </para>
+	</listitem>
+        <!-- ############### -->
+	<listitem> 
+	  <para><guilabel>Resume</guilabel>:  this option should only
+	  be used if the existing file in the target directory is a
+	  result of interrupted file transfer. This option will resume
+	  the transfer from the place it was interrupted (provided
+	  that the remote computer supports this functionality; most
+	  FTP servers do). This is faster than starting the transfer
+	  form the beginning.
+	  </para>
+	  <warning>
+	    <title>WARNING</title>
+	    <para>
+	      <guilabel>Resume</guilabel> option should only be used
+	      if the file in the target directory is the result of
+	      interrupted transfer. Selecting this option in any other
+	      situation - for example, if the file in the target
+	      directory is a complete copy of an older or newer
+	      version of the file being transferred - will result in
+	      corrupted file. 
+	    </para>
+	  </warning>
+	</listitem>
+      </itemizedlist>
+      <para>
+	To choose one of these options, select the file in the
+	<guilabel></guilabel> dialog and click on the appropriate
+	button (<guibutton>Overwrite</guibutton>,
+	<guibutton>Skip</guibutton>, <guibutton>Resume</guibutton>) at
+	the bottom. After selecting the appropriate options for each
+	of the files in the dialog, click <guibutton>OK</guibutton>. 
+      </para>
+      <para>
+	By default, &gftp; uses <guilabel>Resume</guilabel>
+	option. You can change this using <guilabel>Options</guilabel>
+	dialog, as described in <xref linkend="gftp-configuring"/>.
+      </para>
+    </sect2>
+
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-resume">
+      <title>Resuming Interrupted Transfer</title>
+      <para>
+	If file transfer was interrupted for some reason (e.g., a
+	server overload or network or dialup problems), you do not
+	have to start the transfer again form the beginning. Instead,
+	&gftp; allows you to resume the transfer from the point where
+	it stopped. This requires that the remote computer supports
+	resume function of FTP protocol; most FTP servers do. 
+      </para>
+      <para>
+	To resume transfer manually, reconnect to the same server,
+	select again the files you want to transfer and start
+	transferring them. &gftp; will recognize partially
+	downloaded file in the local  directory and then ask you whether to
+	resume the download  or  overwrite the partially downloaded
+	file and to start all over (see <xref
+	linkend="gftp-overwrite"/>).  Choose
+	<guilabel>Resume</guilabel> and click <guibutton>OK</guibutton>. 
+      </para>
+      <para>
+	You can also configure &gftp; so that if connection closes for
+	some reason during file transfer, &gftp;  will try to reconnect
+	again and continue with the file transfer where it left
+	off. You can also specify how many times to reconnect and how
+	long to wait for connection. All these options can be set
+	using <guilabel>Options</guilabel> dialog described in <xref
+	linkend="gftp-configuring"/>.
+      </para>
+      <para>
+	In order to specify reasonable reconnect options you need to
+	understand some of the things that can go wrong with a
+	download.
+      </para>
+      <para>
+	The most common cause of download problems is an overloaded
+	FTP server.  When a server becomes overloaded there will be
+	times when the server just can't get around to passing gFTP
+	the next block of data.  In the gFTP progress window you will
+	get a message that the transfer is stalled.  If the transfer
+	is stalled for over 30 seconds gFTP will time out the transfer
+	and disconnect.  (Don't mess with the Read timeout Option
+	unless you know what you are doing.  You can get timeouts for
+	a lot of other reasons that an overloaded server.)  gFTP then
+	waits the time interval specified in Options and then
+	reconnects.
+      </para>
+      <para>
+	Some servers recognize when they are overloaded and begin
+	deliberately disconnecting clients until they get back down to
+	the maximum number of downloads that they can reasonably
+	serve.  If gFTP gets disconnected it waits the time interval
+	specified in Options and then reconnects.  These servers
+	sometimes remember who they have just bounced off and if you
+	try to reconnect immediately they tell gFTP to stop trying to
+	automatically reconnect.  So in the Options
+	(Ftp->Options->Network->Retry sleep time) you want to wait
+	just long enough that the busy server will have forgotten you
+	and then reconnect.  The gFTP default is 15 seconds.
+      </para>
+      <para>
+	The other reconnect Option that you are interested in is
+	Connect retries (Ftp->Options->Network->Connect retries).
+	Connect retries is the number of time that gFTP will reconnect
+	before giving up altogether.  There two ways to approach this
+	option.
+      </para>
+      <para>
+	If gFTP has to keep reconnecting to a remote server then the
+	download can be very slow.  You might want to switch another
+	remote server which is faster.  If the file name on the new
+	server is exactly the same as the file name on the first
+	server then you can resume the download at whatever point you
+	got to on the first server.  In this case set Connect retries
+	to 3, which is the default.
+      </para>
+      <para>
+	If you want to keep chugging away at the download until it
+	finishes, no matter what, then set Connect retries to 0.
+	(Incidentally, I once had a download shut down after 100
+	reconnects.  gFTP and that remote site just weren't getting
+	along and I was in bed asleep)
+      </para>
+	
+    </sect2>
+
+
+  </sect1>
+
+<!-- =========== File operations  ========================= -->
+  <sect1 id="gftp-fileops"> 
+    <title>Other File Operations</title> 
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-delete">
+      <title>Deleting, Renaming, Editing and Viewing Files</title>
+      <para>
+	To delete files or directories on local computer, select them
+	(see <xref linkend="gftp-transfer-multiple"/> for information
+	about selecting multiple files) and choose
+	<menuchoice><guimenu>Local</guimenu>
+	<guimenuitem>Delete</guimenuitem> </menuchoice>. Similarly, to
+	delete files or directories on remote computer, select themand
+	choose <menuchoice><guimenu>Remote</guimenu>
+	<guimenuitem>Delete</guimenuitem>
+	</menuchoice>. Alternatively,  after selecting the
+	files you can right-click in the corresponding file list panel
+	and choose <guimenuitem>Delete</guimenuitem> from the context
+	menu.
+      </para>
+      <para>
+	To rename, view, or edit file, select this file in the list
+	and choose corresponding command form <guimenu>Local</guimenu>
+	or <guimenu>Remote</guimenu> menu (or right-click and choose
+	the command from the context menu). You can only rename, view,
+	or edit a single file; if you have selected more than ne file,
+	&gftp; will give an error message. 
+      </para>
+      <para>
+	&gftp; will use the programs specified in
+	<guilabel>Options</guilabel> dialog (see <xref
+	linkend="gftp-configuring"/>) for viewing and editing
+	files. It is also possible to configure &gftp; to use
+	different programs for different file types by manually
+	editing configuration file (see <xref
+	linkend="gftp-configuring-advanced"/>). 
+      </para>
+    </sect2>
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-chmod">
+      <title>Changing File Permissions</title> 
+      <para> To change
+      permissions of a file or directory, select it and choose
+      <menuchoice><guimenu>Local/Remote</guimenu>
+      <guimenuitem>Chmod...</guimenuitem> </menuchoice> or right-click
+      and choose <guimenuitem>Chmod...</guimenuitem>  from the context
+      menu. You can only change permisions of one file at a time.
+      </para>
+      <para>
+	As usual, you can set three types of permissions: read, write,
+	and execute, independently for file owner, group of users
+	owning the file, and everyone else. If you are not fmailair
+	with Unix notion of file permission, read info page for GNU
+	<application>fileutils</application> package (if you are using
+	Linux), or any introductory book or document on Unix, such as
+	<citetitle>If you are new to Linux/UNIX</citetitle>, included
+	in GNOME desktop environment.
+      </para>
+    </sect2>
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-makedir">
+      <title>Creating Directories</title> 
+      <para> To create a
+	subdirectory in the current directory, choose
+	<menuchoice><guimenu>Local/Remote</guimenu> <guimenuitem>Make
+	    Directory...</guimenuitem> </menuchoice> or right-click and
+	choose <guimenuitem>Make Directory...</guimenuitem> from the
+	context menu. &gftp; will prompt you for directory name. 
+      </para>
+    </sect2>
+    <!-- ===========  Sect 2 ======== -->
+     <sect2 id="gftp-compare">
+      <title>Comparing Directories</title> 
+      <para>
+	&gftp; allows you to compare the directories on local and
+	remote computer, showing the files that are different in
+	them. This feature is very convenient for synchronizing you
+	local directory with the remotre one, as it shows the files
+	that were added or updated since your last synchronization. To
+	compare current directories on local and remote computer,
+	choose <menuchoice><guimenu>Tools</guimenu>
+	<guimenuitem>Compare
+	windows</guimenuitem></menuchoice>. &gftp; will show and
+	select in each window the files that are different from the
+	files in the other window. That is, it will select all files
+	that are not present in directory but not the other and those
+	files that are present in both directories but have differnt
+	sizes or modification dates. 
+      </para>
+      <tip>
+	<title>TIP</title>
+	<para>
+	  If you maintain on your local computer a copy of a directory
+	  on the remote computer, you can easily update your local
+	  directory as follows. First, choose
+	  <menuchoice><guimenu>Tools</guimenu> <guimenuitem>Compare
+	  windows</guimenuitem></menuchoice> (this will select in the
+	  remote directory all files that were added or changed since
+	  your last update). Next, click on lower
+	  <guibutton>transfer</guibutton> button (the one that
+	  transfers from remote computer to local one). This will
+	  automatically transfer all selected files from the remote
+	  computer to the local computer. For the files that were
+	  changed, &gftp; will ask you whether it should overwrite
+	  existing files in local directory or resume transfer (see
+	  <xref linkend="gftp-overwrite"/>). Select
+	  <guilabel>Overwrite</guilabel> and click
+	  <guibutton>OK</guibutton>.
+	 </para>
+	</tip>
+    </sect2>
+	
+
+
+  </sect1>
+<!-- =========== Bookmaks  ========================= -->
+  <sect1 id="gftp-bookmarks"> 
+    <title>Bookmarks</title> 
+    <para>
+      &gftp; allows you to create  bookmarks for quick access to
+      frequently used sites. Each bookmark contains the 
+      information about a connection:
+    </para>
+    <itemizedlist>
+      <listitem>
+	<para>
+	  Host name, port, username and password (for non-anonymous
+	  connection) 
+	</para>
+	<warning id="gftp-security-warning">
+	  <para>
+	    Storing your username and password in bookmarks is a
+	    potential security risk! &gftp; stores this information
+	    unencrypted in the configuration file. Thus, anyone who
+	    has access to your account (including any hacker who
+	    managed to break into your account) will be able to read
+	    these usernames and passwords. 
+	  </para>
+	</warning>
+      </listitem>
+      <listitem>
+	<para>
+	  Protocol (FTP, HTTP, SSH)
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Directories on the local and remote systems
+	</para>
+      </listitem>
+    </itemizedlist>
+    <para>
+      To use one of bookmarked connections, choose the connection name
+      from <guimenu>Bookmarks</guimenu> menu. 
+    </para>
+    
+    <para>
+      To add current connection to the list of bookmarks, choose
+      <menuchoice> <guimenu>Bookmarks</guimenu> <guimenuitem>Add
+      Bookmark</guimenuitem> </menuchoice>
+      (<keycombo><keycap>Ctrl</keycap> <keycap>A</keycap></keycombo>). 
+    </para>
+    <para> To delete, rename, or  edit a bookmark, choose
+      <menuchoice> <guimenu>Bookmarks</guimenu> <guimenuitem>Edit
+      Bookmarks</guimenuitem> </menuchoice>. This will open
+      <guilabel>Edit Bookmarks</guilabel> dialog described below.
+    </para>
+    <sect2 id="gftp-edit-bookmarks">
+      <title>Edit Bookmarks Dialog</title>
+      <para>
+	This dialog allows you to create, delete, edit, and rename
+	bookmarks. 
+      </para>
+      <para>
+        To delete a bookmark, click on it to select, then right-click
+        and choose <guimenuitem>Delete</guimenuitem> from the context
+        menu. 
+      </para>
+      <para>
+	To create a new bookmark, right-click in the list of bookmarks
+	and choose <guimenuitem>New Item</guimenuitem> from the context
+        menu. &gftp; will prompt you for the bookmark name. After
+	creating the bookmark, you should edit it as described below
+	to enter the required information.  
+      </para>
+      <para>
+	To edit a bookmark, double-click on it. You can also click on
+        it to select, then right-click and choose
+        <guimenuitem>Properties</guimenuitem> from the context
+        menu. This will open <guilabel>Edit Entry</guilabel>
+        dialog. In this dialog, you can enter bookmark name and
+        connection information: hostname, port, protocol, directories
+        on local and remote computer. If using anonymous connection,
+        select <guilabel>Log in as ANONYMOUS</guilabel>. Otherwise,
+        unselect this option and enter your  username and
+        password (see <xref linkend="gftp-connect"/>). In addition, for SSH
+        connections you can also enter path to <command>sftp</command>
+        command (see <xref linkend="gftp-ssh"/>). If unsure, leave
+        this field blank.
+      </para>
+    </sect2>	
+  </sect1>
+
+<!-- =========== Using SSH Protocol ========================= -->
+  <sect1 id="gftp-ssh"> 
+    <title>Using SSH Protocol</title> 
+    <para>
+      This section contains some information about SSH (Secure Shell_
+      protocol. Normally, you do not need to read this section to use
+      &gftp;. However, if you have problems with configuring or
+      troubleshooting SSH connection, you will find here information
+      you need to fix it. 
+    </para>
+    <!-- ===========  Sect 2 ======== -->
+      <sect2 id="gftp-ssh-whatis">
+	<title>What Is SSH?</title>
+	<para>
+	  SSH (Secure Shell) is a protocol for connecting to a remote
+	  computer encrypting all communications (including username
+	  and password). It was originally designed as a secure
+	  replacement for <application>telnet</application>
+	  command. Later versions of SSH also allow file transfers
+	  over the SSH connection.
+	</para>
+	<para>
+	  As with all communications programs, to connect to a remote
+	  computer using SSH it is necessary to have communication
+	  programs supporting SSH protocol both on your local computer
+	  (ssh client) and on the remote one (ssh ser`ver). There are
+	  many applications supporting this protocol; the most popular
+	  ones for Linux include SSH and OpenSSH.
+	</para>
+      </sect2>
+
+    <!-- ===========  Sect 2 ======== -->
+      <sect2 id="gftp-ssh-versions">
+	<title>What Is the Difference Between SSH And SSH2?</title>
+	<para>
+	  There are two versions of SSH protocol, SSH1 and SSH2. SSH1
+	  is outdated, so you should use SSH2 whenever possible. If
+	  you select SSH as the protocol, then &gftp; (and most other
+	  SSH applications) will try to use SSH2; if it is not
+	  available, then it will try SSH1. If you select SSH2, then
+	  &gftp; will only try to use SSH2 and produce an error
+	  message if SSH2 is not available. 
+      </para>
+    </sect2>
+
+    <!-- ===========  Sect 2 ======== -->
+      <sect2 id="gftp-ssh-transfer">
+	<title>File Transfer Over SSH</title>
+	<para>
+	  SSH1 had no built-in mechanism for transferring
+	  files. However, there is an add-on program, called
+	  <application>sftp</application>, which allows transferring
+	  files over SSH1 connection. this program is available from
+	  <ulink type="http"
+	  url="http://www.xbill.org/sftp">http://www.xbill.org/sftp</ulink>.
+	  To transfer files over SSH1 connection, this program must be
+	  installed on the <emphasis>remote</emphasis>
+	  computer. &gftp; requires version 0.7 or later of
+	  <application>sftp</application>.  
+	</para>
+	<para>
+	  SSH2 has  built-in means of transferring files (so-called
+	  <quote>sftp subsystem</quote>).  So if you are using SSH2,
+	  there is no need to install any additional programs. 
+	</para>
+	<para>
+	  There are two options for transferring files using SSH2
+	  protocol:
+	</para>
+	<variablelist>
+          <!-- ######### --> 
+	  <varlistentry>
+	    <term>Using <quote>sftp subsystem</quote></term>
+	    <listitem>
+	      <para>
+	       This is <quote>the right way</quote> to transfer
+	      files. The downside of this method is that it is not
+	      enough to enter the password in
+	      <guilabel>Pass</guilabel> field;
+	      <application>ssh</application> will ask you for the 
+	      password independently. It also requires that you have
+	      utility <application>ssh-askpass</application>, used by
+	      <application>ssh</application> for asking hte password,
+	      installed on your system. You can test whether this
+	      utility is installed by entering command
+	      <command>ssh-askpass</command> on the command line. If
+	      you get an error message, it means that
+	      <application>ssh-askpass</application> is not installed.
+	      If you are using OpenSSH, you should install one of the
+	      packages  <application>openssh-askpass</application> or
+	      <application>openssh-askpass-gnome</application>.  
+	    </para>
+	    <para>To use this method, open
+	    <link
+	    linkend="gftp-configuring"><guilabel>Options</guilabel>
+	    dialog</link> and   make sure that in the 
+	    <guilabel>SSH</guilabel> tab the option <guilabel>Use SSH2
+	    sftp subsys</guilabel> is selected. In most cases, you
+	    will also need to select <guilabel>Need SSH
+	    User/Pass</guilabel> and <guilabel>Use ssh-askpass
+	    util</guilabel>. FIXME: I do not quite understand what
+	    these options do. In my experiments, I was able to connect
+	    to SSH2 server (requiring password)  whether or not these
+	    options were selected.  
+	    </para>
+	    </listitem>
+	  </varlistentry>
+          <!-- ######### --> 
+	  <varlistentry>
+	    <term>Calling sftp-exec directly</term>
+	    <listitem>
+	      <para> Using this method, &gftp; calls the
+	      <application>sftp-exec</application> directly rather
+	      than through <application>ssh</application>
+	      command. This method does not require
+	      <application>ssh-askpass</application> utility; all you
+	      need is to enter the password in
+	      <guilabel>Pass</guilabel> field.  However,
+	      it requires that the the executable file
+	      <application>sftp-exec</application> on remote computer
+	      be in PATH, i.e. in one of the standard locations  where
+	      the system looks for executables. If it is not in PATH,
+	      you will need to explicitly specify its location in
+	      <guilabel>SSH</guilabel> tab of <link
+	      linkend="gftp-configuring"><guilabel>Options</guilabel>
+	      dialog</link>.  
+	    </para>
+	    <para>
+	      To check whether <application>sftp-exec</application> is
+	      in PATH on the remote computer, connect to remote
+	      computer via ssh as described in <xref
+	      linkend="gftp-ssh-test"/> and enter comamnd
+	      <command>sft-exec</command> on remote computer. If you
+	      get an error message, this means that
+	      <application>sftp-exec</application> is not in PATH. In
+	      this case, you should ask the system administartor of
+	      the remote computer for help. You can also try one of
+	      standard locations (e.g., for OpenSSH server as packaged
+	      for Red Hat Linux, <application>sftp-exec</application>
+	      is in <filename>/usr/libexec/openssh</filename>).
+	    </para>
+	    <para>
+	      To use this method,  open
+	    <link
+	    linkend="gftp-configuring"><guilabel>Options</guilabel>
+	    dialog</link> and   make sure that in the 
+	    <guilabel>SSH</guilabel> tab the option <guilabel>Use SSH2
+	    sftp subsys</guilabel> is unselected. If
+	    <application>sftp-exec</application> is not in PATH, you
+	    will also need to enter its location in <guilabel>SSH2
+	    sftp-server path</guilabel>. 
+	    </para> 
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+    </sect2>
+
+
+    <!-- ===========  Sect 2 ======== -->
+    <sect2 id="gftp-ssh-test">
+      <title>Testing SSH Connection</title>
+      <para>
+	  If you have problems transferring files using SSH, you can
+	  test your SSH connection. To do so, open a terminal window
+	  and type <command>ssh
+	  <replaceable>username@hostname.domain</replaceable></command>.
+	  If you get no reply, it can mean that something is wrong
+	  with your internet connection, or that the remote computer
+	  is down, or that the remote computer is configured not to
+	  allow connections from your computer. 
+	</para>
+	<para>
+	  If you are connecting to the remote computer for the first
+	  time, you should  see a message like this:
+	</para>
+	<screen>
+The authenticity of host 'hostname (###.###.###.###)' can't be established.
+RSA key fingerprint is xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx.
+Are you sure you want to continue connecting (yes/no)?
+	</screen>
+	<para>
+	  This is normal; unless you are paranoid about security or
+	  have reasons to expect foul play (in which case you should
+	  consult an expert), answer <userinput>yes</userinput>. You
+	  only need to do it once; this message should not appear for
+	  the subsequent connections to the same computer. 
+	</para>
+	<para>
+	  After this, remote computer should ask you for the
+	  password. After confirming the password, you should be
+	  logged to the remote computer. 
+	</para>
+      </sect2>
+  </sect1>
+
+
+
+<!-- ===========  Configuring &gftp; ========================= -->
+  <sect1 id="gftp-configuring"> 
+    <title>Configuring &gftp;</title> 
+    <para>
+      To configure &gftp; choose <menuchoice><guimenu>FTP</guimenu>
+	<guimenuitem>Options</guimenuitem> </menuchoice>
+	(<keycombo><keycap>Ctrl</keycap>
+	<keycap>O</keycap></keycombo>). This will open
+	<guilabel>Options</guilabel>  dialog, shown in <xref
+	linkend="gftp-options-fig"/>. This dialog contains several
+	tabs described in detail below. After making your selections
+	in these tabs, click <guibutton>OK</guibutton> to save the
+	changes and close the dialog. You can also click
+	<guibutton>Apply</guibutton> to save the changes without
+	closing the dialog, or <guibutton>Cancel</guibutton> to close
+	the dialog discarding the changes.   
+    </para>
+
+    <!-- ####### Sect2 ######### -->
+    <sect2 id="gftp-configuring-general">
+      <title>General Configuration Tab</title>
+      <para>
+	This tab contains most general &gftp; options which are common
+	for all protocols (FTP, HTTP, SSH).
+      </para>
+      <variablelist>
+	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Email address</guilabel></term>
+	  <listitem>
+	    <para>
+	      
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>View Program</guilabel></term>
+	  <listitem>
+	    <para>
+	      The default command to use for viewing files (when you
+	      select <menuchoice><guimenu>Local/Remote</guimenu>
+	      <guimenuitem>View</guimenuitem></menuchoice>). If this
+	      field is left blank, &gftp; will use built-in text viewer. 
+	    </para>
+	    <para>
+	      You can specify different view programs for different
+	      file types as described in <xref
+	      linkend="gftp-configuring-advanced"/>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Edit Program</guilabel></term>
+	  <listitem>
+	    <para>The default command to use for editing files (when you
+	      select <menuchoice><guimenu>Local/Remote</guimenu>
+	      <guimenuitem>Edit</guimenuitem></menuchoice>)
+	    </para>	    
+	    <para>
+	      You can specify different edit programs for different
+	      file types as described in <xref
+	      linkend="gftp-configuring-advanced"/>.
+	    </para>
+
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Startup Directory</guilabel></term>
+	  <listitem>
+	    <para>
+	      The directory on local computer to show in the file list
+	      when starting &gftp;. 
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Log File</guilabel></term>
+	  <listitem>
+	    <para>In this field, you can enter the location of the log
+	    file (see <xref linkend="gftp-logging"/>. Default location
+	    is <filename>~/.gftp/gftp.log</filename>, where
+	    <filename>~</filename> is your home directory. 
+	    </para>
+	  </listitem>
+`	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Max Log Window Size</guilabel></term>
+	  <listitem>
+	    <para>This is the number of lines you can scroll back in
+	    the <guilabel>Log Window</guilabel>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Append File Transfers</guilabel></term>
+	  <listitem>
+	    <para>
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Confirm Delete</guilabel></term>
+	  <listitem>
+	    <para>If this option is selected, &gftp; will ask for
+	    confirmation before deleting files or directories.
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Overwrite by Default</guilabel></term>
+	  <listitem>
+	    <para>
+	      This option controls behavior of &gftp; if the file
+	      being transferred is already present in the target
+	      directory. As described in <xref
+	      linkend="gftp-overwrite"/>, in such situation &gftp;
+	      prompts you to select one of three possible actions:
+	      <guilabel>Overwrite</guilabel>,
+	      <guilabel>Resume</guilabel>,
+	      <guilabel>Skip</guilabel>. If this option is selected,
+	      then the default action suggested by &gftp; will be
+	      <guilabel>Overwrite</guilabel>. Otherwise, the default
+	      action will be <guilabel>Resume</guilabel>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Preserve permissions</guilabel></term>
+	  <listitem>
+	    <para>
+	      If this option is selected, transferred files will have
+	      the same permissions as the original files. This is the
+	      default behavior. Otherwise, transferred files will have
+	      the default permissions for newly created files. 
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Resolve Remote Symlinks</guilabel></term>
+	  <listitem>
+	    <para>
+	      
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Show hidden files</guilabel></term>
+	  <listitem>
+	    <para>
+	      if this option is selected, &gftp; will show files and
+	      directories with names starting with a dot
+	      (<keycap>.</keycap>). By a common Unix/Linux
+	      conventions, such files are used for system data and
+	      applications' settings. Such files rarely contain user
+	      data.  
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Start file transfers</guilabel></term>
+	  <listitem>
+	    <para>
+	      If this option is selected, &gftp; will start
+	      transferring files as soon as you click on
+	      <guibutton>File transfer</guibutton> button or
+	      double-clicked on the file. This is the default
+	      behavior. If this option is unselected, &gftp; will just
+	      add the names of files to be transferred to the
+	      queue. It will only 
+	      start the actual transfer when you choose
+	      <menuchoice><guimenu>Transfers</guimenu>
+	      <guimenuitem>Start Transfer</guimenuitem></menuchoice>.   
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Bring up reconnect dialog</guilabel></term>
+	  <listitem>
+	    <para>
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Do one transfer at a time</guilabel></term>
+	  <listitem>
+	    <para>
+	      If this option is selected (default), &gftp; will do file
+	      transfers consecutively, i.e. it will only start
+	      transferring the next file after the transfer of the
+	      previous file has completed. If this option is not
+	      selected, &gftp; will transfer files simultaneously,
+	      opening as many connections to the remote computer as
+	      necessary.   
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Passive file transfers</guilabel></term>
+	  <listitem>
+	    <para>
+	      If this option is selected (default), &gftp; will use
+	      <quote>passive</quote> file transfer; otherwise, it will
+	      use active file transfer. For most users, all you need
+	      to know about the difference between these two modes is
+	      that  many firewalls will not let you download a file
+	      using active file transfer. Thus, if you are behind a
+	      firewall, you should use passive file transfer. On the
+	      other hand, not all FTP servers support passive file
+	      transfer. Thus, if you get error message when
+	      transferring files, try unselecting this option. 
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Refresh after each file transfer</guilabel></term>
+	  <listitem>
+	    <para>
+	      If this option is selected, &gftp; will refresh file
+	      list after each file transfer. Otherwise, &gftp; will
+	      only refresh file list when you choose
+	      <menuchoice><guimenu>Local</guimenu>
+	      <guimenutiem>Refresh</guimenutiem> </menuchoice> (or
+	      <menuchoice><guimenu>Remote</guimenu> 
+	      <guimenutiem>Refresh</guimenutiem> </menuchoice>).
+	    </para>
+	  </listitem>
+	</varlistentry>
+ 	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Save geometry</guilabel></term>
+	  <listitem>
+	    <para>
+	      If this option is selected, &gftp; will remember window
+	      size and position on the screen and will use same size
+	      and position when started next time. 
+	    </para>
+	  </listitem>
+	</varlistentry>
+  	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Sort directories first</guilabel></term>
+	  <listitem>
+	    <para>
+	      If this option is selected, file list always shows
+	      directories before files. Otherwise, both directories
+	      and files will be sorted according to the order you have
+	      chosen (see <xref linkend="gftp-file-sort"/>).
+	    </para>
+	  </listitem>
+	</varlistentry>
+  	<!-- ######### --> 
+	<varlistentry>
+	  <term><guilabel>Use cache</guilabel></term>
+	  <listitem>
+	    <para>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>      
+    </sect2>
+
+    <!-- ####### Sect2 ######### -->
+    <sect2 id="gftp-configuring-network">
+      <title>Network Configuration Tab</title>
+      <para>
+
+      </para>
+    </sect2>
+
+    <!-- ####### Sect2 ######### -->
+    <sect2 id="gftp-configuring-ftp">
+      <title>FTP Configuration Tab</title>
+      <para>
+
+      </para>
+    </sect2>
+
+    <!-- ####### Sect2 ######### -->
+    <sect2 id="gftp-configuring-http">
+      <title>HTTP Configuration Tab</title>
+      <para>
+
+      </para>
+    </sect2>
+
+    <!-- ####### Sect2 ######### -->
+    <sect2 id="gftp-configuring-ssh">
+      <title>SSH Configuration Tab</title>
+      <para>
+
+      </para>
+    </sect2>
+
+    <!-- ####### Sect2 ######### -->
+    <sect2 id="gftp-configuring-local">
+      <title>Local Hosts Configuration Tab</title>
+      <para>
+
+      </para>
+    </sect2>
+
+    <!-- ####### Sect2 ######### -->
+    <sect2 id="gftp-configuring-advanced">
+      <title>Advanced Configuration Options</title>
+      <para>
+	Advanced users can also configure &gftp; by manually editing
+	the configuration file. This file is located at
+	<filename>~/.gftp/gftprc</filename> (where
+	<filename>~</filename> is your home directory). This file
+	stores all the configuration options for &gftp;, including
+	those that can be configured in <guilabel>Options</guilabel>
+	dialog.     
+      </para>
+      <para>
+	In addition, there are some options that can only be
+	configured  by manually editing the configuration file. Most
+	importantly, you can configure  how &gftp; should treat files
+	of different types. More precisely, for every mime type, you
+	can select:
+      </para>
+      <itemizedlist>
+	<listitem>
+	  <para>
+	    The icon to be used in file list window
+	  </para>
+	  </listitem>
+	<listitem>
+	  <para>
+	    Default transfer type (binary or ascii)
+	  </para>
+	  </listitem>
+	<listitem>
+	  <para>
+	    Default view/edit program
+	  </para>
+	</listitem>
+      </itemizedlist>
+      <para>
+	Each mime type is described by a line in the configuration
+	file which looks like this:
+	<programlisting>
+	  ext=.xcf:gimp.xpm:B:gimp
+	</programlisting>
+
+	The first token, <literal>.xcf</literal>, is the file
+	extension (&gftp; uses file extensions to identify mime
+	types).  The next token, <literal>gimp.xpm</literal>, is the
+	default icon to use in the file list windows.  You don't have to
+	specify one if you don't have to. By default, &gftp; will
+	search <filename>~/.gftp</filename>,
+	<filename>$(PREFIX)/share/gftp</filename> (where
+	<filename>PREFIX</filename> is your installation prefix), and
+	then <filename>/usr/share/icons</filename> in that order.  The
+	files have to be a valid <filename>xpm</filename> file.  The
+	next token, <literal>B</literal>, specifies whether &gftp;
+	should use binary (B) or ascii (A) mode for transferring files
+	of this type.If you omit this field, then &gftp; will download
+	the file according to whether ascii or binary is selected in
+	the <guimenu>FTP</guimenu> menu.  The final token,
+	<literal>gimp</literal>, specifies the name of the program to
+	run to view or edit a file with that extension.  You can omit
+	this as well if you like.
+      </para>
+    </sect2>
+  </sect1>
+<!-- =========== Troubleshooting ========================= -->
+  <sect1 id="gftp-faq"> 
+    <title>Frequently Asked Questions</title> 
+    <para>
+    </para>
+
+  </sect1>
+
+<!-- ============= About ================================== -->
+  <sect1 id="gftp-about"> 
+    <title>About &gftp;</title> 
+
+    <para> &gftp; was written by Brian Masney 
+      (<email>masneyb@seul.org</email>). To find more information
+      about &gftp;, please visit the <ulink
+      url="http://gftp.seul.org/" type="http">gFTP
+      Web page</ulink>. 
+    </para>
+    <para>
+      This manual was written by Alexander Kirillov
+      (<email>kirillov@math.sunysb.edu</email>), using previous
+      documentation written by Brian Masney 
+      (<email>masneyb@seul.org</email> and ??. 
+    </para>
+
+    <para> This program is distributed under the terms of the GNU
+      General Public license as published by the Free Software
+      Foundation; either version 2 of the License, or (at your option)
+      any later version. A copy of this license can be found at this
+      <ulink url="ghelp:gpl" type="help">link</ulink>, or in the file
+      COPYING included with the source code of this program. </para>
+
+  </sect1> 
+</article>

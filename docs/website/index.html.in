@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<TITLE>gFTP Official Homepage</TITLE>
+<META NAME="description" CONTENT="gFTP is a free multithreaded ftp client for *NIX based machines running X11R6 or later.">
+<META NAME="keywords" CONTENT="gftp gtk ftp client x11r6 x windows linux bsd solaris unix">
+<META NAME="author" CONTENT="Brian Masney">
+<LINK REV=MADE HREF="mailto:masneyb@gftp.org">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#336699" VLINK="#336699" ALINK="#336699">
+<FONT FACE="Lucida,Verdana,Helvetica,Arial">
+
+<TABLE CELLSPACING="0" CELLPADDING="2" BORDER="0" WIDTH="100%">
+<TR>
+<TD ALIGN="left" VALIGN="bottom">
+<A HREF="http://www.gftp.org/"><IMG WIDTH=294 HEIGHT=108 SRC="logo.jpg" BORDER="0" ALT="gFTP Logo"></A>
+</TD>
+
+<TD ALIGN="right" VALIGN="top">
+<TABLE CELLSPACING="0" CELLPADDING="1" BORDER="0" WIDTH="100%"><TR>
+
+<TD ALIGN="right"><SMALL><STRONG>
+<A HREF="install.html">Installation Instructions</A><BR>
+<A HREF="screenshots.html">Screenshots</A><BR>
+<A HREF="changelog.html">Changelog</A><BR>
+<A HREF="faq.html">FAQ</A><BR>
+</STRONG></SMALL></TD>
+
+</TR></TABLE></TD>
+</TR></TABLE>
+<SMALL>
+Latest Stable Version: %STABLE_VER% (%STABLE_DATE%)<BR>
+</SMALL>
+<BR>
+
+gFTP is a <a href="http://www.gnu.org/philosophy/free-sw.html">free</a> multithreaded ftp client for *NIX based machines running X11R6 or later. It has the following features:
+<UL>
+<LI>Distributed under the terms of the <a href="http://www.gnu.org/copyleft/gpl.html">GNU Public License Agreement</a>
+<LI>Written in C and has a text interface and a GTK+ 1.2/2.0 interface
+<LI>Supports the FTP, HTTP and SSH protocols
+<LI>Supports FXP file transfers (transfering files between 2 remote servers via FTP)
+<LI>Multithreaded to allow for simultaneous downloads
+<LI>File transfer queues to allow for downloading multiple files
+<LI>Supports downloading entire directories and subdirectories
+<LI>Bookmarks menu to allow you to quickly connect to remote sites
+<LI>Supports resuming interrupted file transfers
+<LI>Supports caching of remote directory listings
+<LI>Drag-N-Drop support
+<LI>FTP and HTTP proxy server support
+<LI>Allows for passive and non-passive file transfers
+<LI>Supports UNIX, EPLF, Novell, MacOS, and NT (DOS) style directory listings
+<LI>Full graphical configuration
+<LI>Fully Internationalized. I currently have a Bulgarian (bg), Chinese (zh_TW, zh_CN), Czech (cs), Danish (da), Dutch (nl), Finnish (fi), French (fr), German (de), Hungarian (hu), Italian (it), Korean (ko), Japanese (ja), Norwegian (no), Polish (pl), Portuguese (pt_BR), Romanian (ro), Russian (ru), Spanish (es), Swedish (sv) and Turkish (tr) translations available.
+</UL>
+
+<H2>Requirements</H2>
+<UL>
+<LI>GTK+ 1.2.3 or higher. GTK+/Glib is included with most systems now. If you don't have it installed, you may want to check to see if your vendor has a package available. If not, you can download the latest version of GTK+ and Glib from <A HREF="ftp://ftp.gtk.org/pub/gtk">ftp://ftp.gtk.org/pub/gtk</A>. gFTP will work with version 1.2 or 2.0 of GTK+, I would suggest using GTK+ 2.0, but installing GTK+ 2.0 does require installing more packages onto your system.
+<LI>pthread libraries. If you have a libc6 based machine (Debian 2.x+, Red Hat 5.x+), you should already have the pthread libraries installed. If you have a libc5 based machine, you will need to install LinuxThreads. You can download it from my website <A HREF="ftp://www.gftp.org/pub/gftp/libs/linuxthreads.tar.gz">here</A>. If you are running a pretty modern Linux distribution, this shouldn't be an issue. Also, if you don't have LinuxThreads installed, you most likely don't have thread safe X libraries. You must have thread safe X libraries or gFTP will constantly crash. You can download some thread safe X libraries off my website <A HREF="ftp://gftp.seul.org/pub/gftp/libs/XFree86-libs-3.3-2_threading.i386.tgz">here</A>. If you are on a platform other than GNU/Linux, you may want to take a look at the <A HREF="http://www.informatik.hu-berlin.de/~mueller/pthreads/">FSU Pthreads library</A>.
+<LI>I would recommend running X in at least 800x600 mode.
+</UL>
+
+<H2>Download gFTP</H2>
+
+<P>If you run into any problems compiling or using gFTP, please feel free to
+email me. The only thing that I ask is that you read the <A HREF="faq.html">FAQ</A> before you ask any questions. Most of the questions that I get asked are answered there. You can also download these files via FTP at <A HREF="ftp://www.gftp.org/pub/gftp">ftp://gftp.seul.org/pub/gftp</A>. For MD5 sum checks of these files, you can view them <A HREF="MD5SUMS">here</A></P>
+
+<UL>
+<LI><A HREF="%STABLE_BZ2%">%STABLE_BZ2%</A> - Stable Source (bzip2) [%STABLE_BZ2_KB% KB]
+<LI><A HREF="%STABLE_GZ%">%STABLE_GZ%</A> - Stable Source (gzip) [%STABLE_GZ_KB% KB]
+<LI><A HREF="%STABLE_I386RPM%">%STABLE_I386RPM%</A> - Stable Binary i386 RPM [%STABLE_I386RPM_KB% KB]
+<LI><A HREF="%STABLE_SRCRPM%">%STABLE_SRCRPM%</A> - Stable Source RPM [%STABLE_SRCRPM_KB% KB]
+<LI><A HREF="%STABLE_I386DEB%">%STABLE_I386DEB%</A> [%STABLE_I386DEB_KB% KB], <A HREF="%STABLE_I386DEB_COMMON%">%STABLE_I386DEB_COMMON%</A> [%STABLE_I386DEB_COMMON_KB% KB], <A HREF="%STABLE_I386DEB_GTK%">%STABLE_I386DEB_GTK%</A> [%STABLE_I386DEB_GTK_KB% KB], <A HREF="%STABLE_I386DEB_TEXT%">%STABLE_I386DEB_TEXT%</A> [%STABLE_I386DEB_TEXT_KB% KB] - Stable Binary i386 DEBs
+</UL>
+
+<H2>Mailing Lists</H2>
+<UL>
+<LI><A HREF="http://archives.seul.org/gftp/announce/">gftp-announce</A> - this list is announcements related to gFTP. To subscribe, send an email to <A HREF="mailto:majordomo@seul.org">majordomo@seul.org</A> with the words <EM>subscribe gftp-announce</EM> in the body.
+<LI><A HREF="http://archives.seul.org/gftp/users/">gftp-users</A> - this list is for questions regarding gFTP. Please check the list archives first to see if your question has already been answered. To subscribe, send an email to <A HREF="mailto:majordomo@seul.org">majordomo@seul.org</A> with the words <EM>subscribe gftp-users</EM> in the body.
+</UL>
+
+<P>
+Brian Masney <A HREF="mailto:masneyb@gftp.org">masneyb@gftp.org</A><BR>
+Elkview, WV USA
+</P>
+</FONT></BODY></HTML>

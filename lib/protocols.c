@@ -2303,6 +2303,7 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
   gftp_file * tempfle;
   struct timeval tv;
   float maxkbs;
+  int waited;
 
   gftp_lookup_request_option (tdata->fromreq, "maxkbs", &maxkbs);
 
@@ -2323,6 +2324,7 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
   else
     tdata->kbs = tdata->trans_bytes / 1024.0 / start_difftime;
 
+  waited = 0;
   if (maxkbs > 0 && tdata->kbs > maxkbs)
     {
       waitusecs = num_read / 1024.0 / maxkbs * 1000000.0 - start_difftime;
@@ -2332,14 +2334,19 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
           if (g_thread_supported ())
             g_static_mutex_unlock (&tdata->statmutex);
 
+          waited = 1;
           usleep (waitusecs);
 
           if (g_thread_supported ())
             g_static_mutex_lock (&tdata->statmutex);
         }
+
     }
 
-  gettimeofday (&tdata->lasttime, NULL);
+  if (waited)
+    gettimeofday (&tdata->lasttime, NULL);
+  else
+    memcpy (&tdata->lasttime, &tv, sizeof (tdata->lasttime));
 
   if (g_thread_supported ())
     g_static_mutex_unlock (&tdata->statmutex);

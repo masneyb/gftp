@@ -1,3 +1,18 @@
+2003-7-11 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_calc_kbs) - only call gettimeofday() at the
+	end only if we are throttling this connection
+
+	* lib/cache.c lib/options.h docs/sample.gftp/gftprc - added cache_ttl
+	option to determine the amount of time that cache entries will stay 
+	around
+
+	* docs/gftp.xml docs/legal.xml docs/figures/* - documentation from
+	Alexander Kirillov <kirillov@math.sunysb.edu>
+
+	* docs/website - files for generating my main website. They aren't
+	pretty, but hey it works. I'm mainly putting these in CVS just for
+	backup purposes.
+
 2003-7-10 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (insert_commas) - improved calculating # of digits
 	in number. (Not sure if this worked properly for long long's, aka
