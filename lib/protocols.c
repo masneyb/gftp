@@ -1305,8 +1305,7 @@ gftp_parse_ls_vms (char *str, gftp_file * fle)
   fle->size = gftp_parse_file_size (curpos) * 512; /* Is this correct? */
   curpos = goto_next_token (curpos);
 
-  if ((fle->datetime = parse_time (curpos, &curpos)) == 0)
-    return (GFTP_EFATAL);
+  fle->datetime = parse_time (curpos, &curpos);
 
   curpos = goto_next_token (curpos);
 
@@ -1349,9 +1348,11 @@ gftp_parse_ls_mvs (char *str, gftp_file * fle)
   if (curpos == NULL)
     return (GFTP_EFATAL);
 
-  if ((fle->datetime = parse_time (curpos, &curpos)) == 0)
-    return (GFTP_EFATAL);
+  fle->datetime = parse_time (curpos, &curpos);
+
   curpos = goto_next_token (curpos);
+  if (curpos == NULL)
+    return (GFTP_EFATAL);
 
   curpos = goto_next_token (curpos + 1);
   if (curpos == NULL)
@@ -1538,8 +1539,7 @@ gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
   while (*startpos == ' ')
     startpos++;
 
-  if ((fle->datetime = parse_time (startpos, &startpos)) == 0)
-    return (GFTP_EFATAL);
+  fle->datetime = parse_time (startpos, &startpos);
 
   /* Skip the blanks till we get to the next entry */
   startpos = goto_next_token (startpos);
@@ -1569,8 +1569,7 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
   char *startpos;
 
   startpos = str;
-  if ((fle->datetime = parse_time (startpos, &startpos)) == 0)
-    return (GFTP_EFATAL);
+  fle->datetime = parse_time (startpos, &startpos);
 
   fle->user = g_strdup (_("unknown"));
   fle->group = g_strdup (_("unknown"));
@@ -1612,8 +1611,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
   fle->size = gftp_parse_file_size (startpos);
 
   startpos = goto_next_token (startpos);
-  if ((fle->datetime = parse_time (startpos, &startpos)) == 0)
-    return (GFTP_EFATAL);
+  fle->datetime = parse_time (startpos, &startpos);
 
   startpos = goto_next_token (startpos);
   fle->file = g_strdup (startpos);
