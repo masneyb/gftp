@@ -1,16 +1,18 @@
-# gFTP Japanese message catalog
-# Copyright (C) 1999,2002,2003 Free Software Foundation, Inc.
+# gftp ja.po.
+# Copyright (C) 1999-2003 Free Software Foundation, Inc.
 # Yasuyuki Furukawa <yasu@on.cs.keio.ac.jp>, 1999.
 # Ryoichi INAGAKI <ryo1@bc.wakwak.com>, 2002,2003.
 # KAMAGASAKO Masatoshi <emerald@gnome.gr.jp>, 2003.
-#
+# Takeshi Aihana <aihana@gnome.gr.jp>, 2001-2003.
+# , no-wrap
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: gFTP HEAD\n"
+"Project-Id-Version: gftp HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-23 21:50-0400\n"
-"PO-Revision-Date: 2003-05-11 18:43+0900\n"
-"Last-Translator: Ryoichi INAGAKI <ryo1@bc.wakwak.com>\n"
+"POT-Creation-Date: 2003-08-25 20:18+0900\n"
+"PO-Revision-Date: 2003-08-25 20:13+0900\n"
+"Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,53 +21,53 @@ msgstr ""
 #: lib/bookmark.c:38
 #, c-format
 msgid "Invalid URL %s\n"
-msgstr "無効な URL %s\n"
+msgstr "URL %s は無効です\n"
 
 #: lib/cache.c:50 lib/cache.c:64 lib/cache.c:77
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
-msgstr "エラー: キャッシュインデックスの %s が不正です\n"
+msgstr "エラー: キャッシュのインデックス・ファイルにおかしな行 %s があります\n"
 
-#: lib/cache.c:136 lib/local.c:532
+#: lib/cache.c:136 lib/local.c:542
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
-msgstr "エラー: ディレクトリ %s を作成できません: %s\n"
+msgstr "エラー: フォルダ %s を作成できません: %s\n"
 
 #: lib/cache.c:160
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
-msgstr "エラー: テンポラリファイルを生成できません: %s\n"
+msgstr "エラー: 作業用ファイルを生成できません: %s\n"
 
 #: lib/cache.c:182 lib/cache.c:231 lib/local.c:98 lib/local.c:213
-#: lib/misc.c:289 lib/misc.c:295 lib/rfc2068.c:263 lib/sshv2.c:993
+#: lib/misc.c:292 lib/misc.c:298 lib/rfc2068.c:263 lib/sshv2.c:997
 #, c-format
 msgid "Error closing file descriptor: %s\n"
-msgstr "ファイル デスクリプタを閉じる時のエラー: %s\n"
+msgstr "ファイルを閉じる際にエラー: %s\n"
 
 #: lib/cache.c:249 lib/local.c:132 lib/local.c:141 lib/local.c:188
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
-msgstr "エラー: ファイル %s 上を seek できません: %s\n"
+msgstr "エラー: ファイル %s をシークできません: %s\n"
 
 #: lib/config_file.c:120 lib/config_file.c:672
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
-msgstr "gFTP エラー: ブックマークファイル名 %s が不正です\n"
+msgstr "gFTP エラー:ブックマークのファイル名 %s が無効です\n"
 
 #: lib/config_file.c:129
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
-msgstr "gFTPエラー: マスターブックマークファイル %sが見付かりません\n"
+msgstr "gFTP エラー: マスター・ブックマークのファイル %s が見つかりません\n"
 
 #: lib/config_file.c:140 lib/config_file.c:678
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
-msgstr "gFTPエラー: ブックマークファイル %s が開けません: %s\n"
+msgstr "gFTP エラー: ブックマーク・ファイル %s を開けません: %s\n"
 
 #: lib/config_file.c:229 lib/config_file.c:251
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
-msgstr "gFTP警告: ブックマークファイル %d 行をスキップ: %s\n"
+msgstr "gFTP 警告 : ブックマーク・ファイルの %d 行をスキップします: %s\n"
 
 #: lib/config_file.c:281
 #, c-format
@@ -78,70 +80,70 @@ msgid ""
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
-"このセクションでは, どのホストがローカルサブネット上にあり, (もし利用できるの"
-"であれば) プロキシサーバを使う必要がないのかを指定します. 指定方法: "
-"dont_use_proxy=.domain もしくは dont_use_proxy=network number/netmask"
+"このセクションはローカル・サブネットのホストを指定します。プロキシサーバを介"
+"さないようにすることも可能です。書き方: dont_use_proxy=.ドメイン または "
+"dont_use_proxy=ネットワーク番号/ネットマスク"
 
 #: lib/config_file.c:445
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
 msgstr ""
-"ext=ファイル拡張子:XPM ファイル:ASCII もしくはバイナリ (A もしくは B):ビュー"
-"ア・プログラム. 注意: ファイル拡張子を除くのすべての引数は省略できます"
+"ext=ファイル拡張子:XPM ファイル:アスキー(A)またはバイナリ(B):ビュワープログラ"
+"ム。注記: 全ての引数でファイルの拡張子は省略可能です"
 
 #: lib/config_file.c:523 lib/config_file.c:750
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
-msgstr "gFTP エラー: 不正な設定ファイル名 %s です\n"
+msgstr "gFTP エラー: 不正な設定ファイル名 %sです\n"
 
 #: lib/config_file.c:534
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
-msgstr "gFTPエラー: ディレクトリ %s を作成できません: %s\n"
+msgstr "gFTP エラー: フォルダ %s を作成できません: %s\n"
 
 #: lib/config_file.c:544
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
-msgstr "gFTPエラー: マスター設定ファイル %s が見付かりません\n"
+msgstr "gFTP エラー: マスター設定ファイル %s が見つかりません\n"
 
 #: lib/config_file.c:546
 msgid "Did you do a make install?\n"
-msgstr "make install を行いましたか?\n"
+msgstr "make install を行いましたか？\n"
 
 #: lib/config_file.c:555 lib/config_file.c:756
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
-msgstr "gFTPエラー: 設定ファイル %s が開けません: %s\n"
+msgstr "gFTP エラー: 設定ファイル %s が開けません: %s\n"
 
 #: lib/config_file.c:594
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
-msgstr "設定ファイルの %d 行目で解析エラーが発生したために終了します\n"
+msgstr "設定ファイルの %d 行のエラーを解析したため強制終了します\n"
 
 #: lib/config_file.c:600
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
-msgstr "gFTP警告: 設定ファイル%d行をスキップ: %s\n"
+msgstr "gFTP 警告: 設定ファイルの %d 行をスキップします: %s\n"
 
 #: lib/config_file.c:607
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
-msgstr "gFTP エラー: 不正なログファイル名 %sです\n"
+msgstr "gFTP エラー: ログ・ファイル名 %s は無効です\n"
 
 #: lib/config_file.c:613
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
-msgstr "gFTP 警告: 書き込み用に %s を開くことができません: %s\n"
+msgstr "gFTP 警告: %s を書き込みモードで開けません: %s\n"
 
 #: lib/config_file.c:668
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
-"gFTPのブックマークファイル. Copyright (C) 1998-2003 Brian Masney "
-"<masneyb@gftp.org>. 警告: このファイルへあなたが追加したコメントは, 上書きさ"
-"れてしまうかも知れません."
+"gFTP のブックマーク・ファイル - Copyright (C) 1998-2003 Brian Masney "
+"<masneyb@gftp.org> 注意: このファイルに追加したコメントは上書きされます。(*) "
+"がついている行はコメント扱いで、gFTP 内部で変更することはできません。"
 
 #: lib/config_file.c:763
 msgid ""
@@ -149,9 +151,9 @@ msgid ""
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
-"gFTPの設定ファイル. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>."
-"警告: このファイルへあなたが追加したすべてのコメントは, 上書きされてしまいま"
-"す. コメントに (*) をもつ項目は, gFTPの中で それを変更することはできません."
+"gFTP 設定ファイル - Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org> "
+"注意: このファイルに追加した設定は上書きされます。(*) がついている行はコメン"
+"ト扱いで、gFTP 内部で変更することはできません。"
 
 #: lib/config_file.c:1122 lib/rfc2068.c:557 lib/rfc2068.c:558
 msgid "<unknown>"
@@ -162,106 +164,107 @@ msgstr "<不明>"
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
-"重大な gFTP エラー: 設定オプション '%s' が共通ハッシュテーブル上にありませ"
-"ん\n"
+"致命的な gFTP エラー: 設定オプション '%s' がグローバル・ハッシュ・テーブルの"
+"中にありません\n"
 
 #: lib/https.c:89
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
+"SSL サポート付きでビルドされていないので、HTTPS サポートを利用できません。接"
+"続を中止します。\n"
 
-#: lib/local.c:67 lib/local.c:462
+#: lib/local.c:67 lib/local.c:472
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
-msgstr "ローカルのディレクトリを %s に変更できませんでした: %s\n"
+msgstr "ローカル・フォルダを %s へ変更できませんでした: %s\n"
 
-#: lib/local.c:81 lib/local.c:448
+#: lib/local.c:81 lib/local.c:457
 #, c-format
 msgid "Could not get current working directory: %s\n"
-msgstr "現在の作業中のディレクトリを認識できません: %s\n"
+msgstr "現在の作業中のフォルダを認識できません: %s\n"
 
 #: lib/local.c:179
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
-msgstr "エラー: ローカルファイル %sを 切り取りできません: %s\n"
+msgstr "エラー: ローカル・ファイル %s を切りつめれません: %s\n"
 
-#: lib/local.c:405
+#: lib/local.c:412
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
-msgstr "ローカル・ディレクトリ %s の一覧を得ることができません: %s\n"
+msgstr "ローカル・フォルダ %s の一覧を取得できません: %s\n"
 
-#: lib/local.c:442
+#: lib/local.c:449
 #, c-format
 msgid "Successfully changed local directory to %s\n"
-msgstr "無事にローカル・ディレクトリを %s へ変更しました\n"
+msgstr "ローカル・フォルダを %s へ変更しました\n"
 
-#: lib/local.c:479 lib/local.c:502 src/gtk/transfer.c:907
+#: lib/local.c:489 lib/local.c:512 src/gtk/transfer.c:907
 #: src/gtk/view_dialog.c:301
 #, c-format
 msgid "Successfully removed %s\n"
-msgstr "%s を正常に削除しました\n"
+msgstr "%s の削除が完了しました\n"
 
-#: lib/local.c:485
+#: lib/local.c:495
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
-msgstr "エラー: ディレクトリ %s を削除できませんでした: %s\n"
+msgstr "エラー: フォルダ %s を削除できませんでした: %s\n"
 
-#: lib/local.c:508 src/gtk/transfer.c:911 src/gtk/view_dialog.c:305
+#: lib/local.c:518 src/gtk/transfer.c:911 src/gtk/view_dialog.c:305
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "エラー: ファイル %s を削除できませんでした: %s\n"
 
-#: lib/local.c:525
+#: lib/local.c:535
 #, c-format
 msgid "Successfully made directory %s\n"
-msgstr "無事にディレクトリ %s が作成されました\n"
+msgstr "フォルダ %s の作成が完了しました\n"
 
-#: lib/local.c:551
+#: lib/local.c:561
 #, c-format
 msgid "Successfully renamed %s to %s\n"
-msgstr "無事に %s の名前を %s へ変更しました\n"
+msgstr "名前の変更 %s -> %s が完了しました\n"
 
-#: lib/local.c:558
+#: lib/local.c:568
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "エラー: %s の名前を %s へ変更できませんでした: %s\n"
 
-#: lib/local.c:581
+#: lib/local.c:591
 #, c-format
 msgid "Successfully changed mode of %s to %d\n"
-msgstr "無事に %s のモードを %d へ変更しました\n"
+msgstr "モード %s -> %d の変更が完了しました\n"
 
-#: lib/local.c:588
+#: lib/local.c:598
 #, c-format
 msgid "Error: Could not change mode of %s to %d: %s\n"
-msgstr "エラー: %s のモードを %d へ変更できません: %s\n"
+msgstr "エラー: %s のモードを %dへ 変更できません: %s\n"
 
-#: lib/local.c:680
+#: lib/local.c:690
 msgid "local filesystem"
-msgstr "ローカルのファイルシステム"
+msgstr "ローカル・ファイルシステム"
 
-#: lib/misc.c:258 lib/misc.c:265 lib/protocols.c:2488
+#: lib/misc.c:261 lib/misc.c:268 lib/protocols.c:2514
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
-msgstr "エラー: ローカルファイル %s を開けません: %s\n"
+msgstr "エラー: ローカル・ファイル %s を開けません: %s\n"
 
-#: lib/misc.c:275 lib/protocols.c:2206 lib/sslcommon.c:467
+#: lib/misc.c:278 lib/protocols.c:2232 lib/sslcommon.c:467
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
-msgstr "エラー: ソケットへ書き込めませんでした: %s\n"
+msgstr "エラー: ソケットに書き込めませんでした: %s\n"
 
-#: lib/misc.c:283 lib/protocols.c:2136 lib/sslcommon.c:421
+#: lib/misc.c:286 lib/protocols.c:2160 lib/sslcommon.c:421
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "エラー: ソケットから読み込めませんでした: %s\n"
 
-#: lib/misc.c:371
-#, fuzzy
+#: lib/misc.c:442
 msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
 msgstr ""
-"使い方: gftp [[プロトコル://][ユーザ:[パスワード]@]サイト[:ポート][/ディレク"
-"トリ]]\n"
+"用法: gftp [[プロトコル://][ユーザ[:パスワード]@]サイト[:ポート番号][/フォル"
+"ダ]]\n"
 
 #: lib/options.h:24 lib/rfc959.c:24
 msgid "none"
@@ -269,7 +272,7 @@ msgstr "なし"
 
 #: lib/options.h:24
 msgid "file"
-msgstr "ログファイル"
+msgstr "ファイル"
 
 #: lib/options.h:24
 msgid "size"
@@ -285,7 +288,7 @@ msgstr "グループ"
 
 #: lib/options.h:26
 msgid "datetime"
-msgstr "日付"
+msgstr "タイムスタンプ"
 
 #: lib/options.h:26
 msgid "attribs"
@@ -301,63 +304,63 @@ msgstr "昇順"
 
 #: lib/options.h:34
 msgid "General"
-msgstr "一般"
+msgstr "全般"
 
 #: lib/options.h:37
 msgid "View program:"
-msgstr "閲覧プログラム:"
+msgstr "ファイルビュワー:"
 
 #: lib/options.h:38
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
 msgstr ""
-"ファイル閲覧に使う標準プログラム. もし空欄ならば, 内蔵のビューワが使用されま"
-"す"
+"ファイルを表示するために使用するデフォルトのビュワーです。ここが空欄の場合"
+"は、内部実装のビュワーが使用されます。"
 
 #: lib/options.h:40
 msgid "Edit program:"
-msgstr "編集プログラム:"
+msgstr "エディタ:"
 
 #: lib/options.h:41
 msgid "The default program used to edit files."
-msgstr "ファイル編集に使う標準プログラム"
+msgstr "ファイルを編集するデフォルトのエディタです"
 
 #: lib/options.h:42
 msgid "Startup Directory:"
-msgstr "開始ディレクトリ:"
+msgstr "起動時のフォルダ:"
 
 #: lib/options.h:44
 msgid "The default directory gFTP will go to on startup"
-msgstr "gFTP が開始時に移動する標準ディレクトリ"
+msgstr "gFTP が起動した際に移動するデフォルトのフォルダです"
 
 #: lib/options.h:45
 msgid "Max Log Window Size:"
-msgstr "ログウィンドウの最大サイズ:"
+msgstr "ログ・ウィンドウの最大サイズ:"
 
 #: lib/options.h:47
 msgid "The maximum size of the log window in bytes for the GTK+ port"
-msgstr "GTK+ port に対するログウィンドウの上限サイズ(バイト)"
+msgstr "ログ・ウィンドウの最大サイズ (バイト) です"
 
 #: lib/options.h:49
-#, fuzzy
 msgid "Remote Character Sets:"
-msgstr "リモート・ディレクトリ:"
+msgstr "リモートの文字セット:"
 
 #: lib/options.h:51
 msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
 msgstr ""
+"リモート・メッセージを現在利用しているロケールに変換するために試行する文字"
+"セットのリスト (',' で区切る) です"
 
 #: lib/options.h:53
 msgid "Cache TTL:"
-msgstr ""
+msgstr "キャッシュ TTL:"
 
 #: lib/options.h:56
-#, fuzzy
 msgid "The number of seconds to keep cache entries before they expire."
-msgstr "再思考の間の待ち時間 [秒]"
+msgstr "キャッシュ・エントリを無効にするまでの秒数です"
 
 #: lib/options.h:59
 msgid "Append file transfers"
@@ -365,7 +368,7 @@ msgstr "ファイル転送を追加する"
 
 #: lib/options.h:61
 msgid "Append new file transfers onto existing ones"
-msgstr "新規のファイル転送を既存のものに追加する"
+msgstr "新規に転送するファイルを既存のファイルの上に追加します"
 
 #: lib/options.h:62
 msgid "Do one transfer at a time"
@@ -373,91 +376,87 @@ msgstr "一度に一つの転送を行う"
 
 #: lib/options.h:64
 msgid "Do only one transfer at a time?"
-msgstr "一度に一つだけの転送を行いますか?"
+msgstr "一度に一つだけの転送を行うかどうか"
 
 #: lib/options.h:65
 msgid "Overwrite by Default"
-msgstr "標準操作で上書きを行う"
+msgstr "デフォルトで上書きする"
 
 #: lib/options.h:68
 msgid "Overwrite files by default or set to resume file transfers"
-msgstr ""
-"ファイルをデフォルトで上書きするか, もしくはファイル転送のレジュームを設定す"
-"る"
+msgstr "デフォルトでファイルを上書きするか、ファイル転送を続行します"
 
 #: lib/options.h:70
-#, fuzzy
 msgid "Preserve file permissions"
-msgstr "アクセス権を保持する"
+msgstr "ファイルのアクセス権を継承する"
 
 #: lib/options.h:73
-#, fuzzy
 msgid "Preserve file permissions of transfered files"
-msgstr "リモートファイルのアクセス権を変更します"
+msgstr "転送したファイルのアクセス権をそのまま継承します"
 
 #: lib/options.h:75
 msgid "Refresh after each file transfer"
-msgstr "各ファイル転送後にリフレッシュする"
+msgstr "ファイル転送毎にリフレッシュする"
 
 #: lib/options.h:78
 msgid "Refresh the listbox after each file is transfered"
-msgstr "各ファイルの転送後にファイル一覧ボックスをリフレッシュする"
+msgstr "ファイルを転送する度にファイル一覧をリフレッシュします"
 
 #: lib/options.h:80
 msgid "Sort directories first"
-msgstr "ディレクトリを最初にソートする"
+msgstr "フォルダを最初にソートする"
 
 #: lib/options.h:83
 msgid "Put the directories first then the files"
-msgstr "ディレクトリを最初にして, ファイルをその後に表示します"
+msgstr "最初にフォルダを、その次にファイルを表示します"
 
 #: lib/options.h:84
 msgid "Show hidden files"
-msgstr "隠しファイルを見る"
+msgstr "隠しファイルを表示する"
 
 #: lib/options.h:87
 msgid "Show hidden files in the listboxes"
-msgstr "ファイル一覧ボックスで隠しファイルも表示します"
+msgstr "ファイル一覧で隠しファイルも表示します"
 
-#: lib/options.h:89 src/gtk/options_dialog.c:1041
-#: src/gtk/options_dialog.c:1134
+#: lib/options.h:89 src/gtk/options_dialog.c:1048
+#: src/gtk/options_dialog.c:1141
 msgid "Network"
 msgstr "ネットワーク"
 
 #: lib/options.h:91
 msgid "Network timeout:"
-msgstr "読み込み待ち時間:"
+msgstr "ネットワークのタイムアウト [秒]:"
 
 #: lib/options.h:94
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
-"ネットワーク入出力の待ち時間を指定します. アイドル状態からのタイムアウトでは"
-"ありません."
+"ネットワークの入力/出力がタイムアウトするまで待機します。これはアイドルのタイ"
+"ムアウトではありません。"
 
 #: lib/options.h:96
 msgid "Connect retries:"
-msgstr "接続再試行数:"
+msgstr "接続リトライ数:"
 
 #: lib/options.h:99
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
-msgstr "自動的に再試行する回数. 0 に設定すると無制限に再試行します"
+msgstr "自動的に再接続をトライする回数です。0 の場合は無限にトライし続けます"
 
 #: lib/options.h:101
 msgid "Retry sleep time:"
-msgstr "再試行待ち時間:"
+msgstr "リトライ間隔:"
 
 #: lib/options.h:104
 msgid "The number of seconds to wait between retries"
-msgstr "再思考の間の待ち時間 [秒]"
+msgstr "リトライする間の待ち時間"
 
 #: lib/options.h:105
 msgid "Max KB/S:"
-msgstr "最大 Kバイト/秒:"
+msgstr "最大転送速度 [Kバイト/秒]:"
 
 #: lib/options.h:108
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
-msgstr "最大ファイル転送速度 [Kバイト/秒] (0では無効になります)"
+msgstr "最大ファイル転送速度 [Kバイト/秒]  (0では無効になります)"
 
 #: lib/options.h:111
 msgid "Default Protocol:"
@@ -465,23 +464,23 @@ msgstr "デフォルトのプロトコル:"
 
 #: lib/options.h:113
 msgid "This specifies the default protocol to use"
-msgstr "デフォルトで使用されるプロトコルを設定します"
+msgstr "この使用をデフォルトのプロトコルとして使用します"
 
 #: lib/options.h:117
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
 msgstr ""
-"ファイルリストボックス内のファイルをダブルクリックしたときの挙動を定義しま"
-"す. 0 = ファイル閲覧, 1 = ファイル編集, 2 = ファイル転送"
+"これはファイル一覧で、ファイルをダブルクリックした場合の動作を定義するもので"
+"す [0=表示 1=編集 2=転送]"
 
 #: lib/options.h:120
 msgid "The default width of the local files listbox"
-msgstr "ローカルのファイル一覧ボックスのデフォルトの横幅"
+msgstr "ローカルのファイル一覧ボックスのデフォルトの幅"
 
 #: lib/options.h:123
 msgid "The default width of the remote files listbox"
-msgstr "リモートのファイル一覧ボックスのデフォルトの横幅"
+msgstr "リモートのファイル一覧ボックスのデフォルトの幅"
 
 #: lib/options.h:126
 msgid "The default height of the local/remote files listboxes"
@@ -499,81 +498,73 @@ msgstr "ログウィンドウのデフォルトの高さ"
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
-msgstr ""
-"転送ウィンドウのファイル名カラムの幅を指定します. この値を 0 に設定すると, カ"
-"ラムは自動的にリサイズします."
+msgstr "転送ウィンドウで表示するファイル名のタグ幅です [0=自動的に調整]"
 
 #: lib/options.h:139 lib/options.h:145
 msgid "The default column to sort by"
-msgstr "カラムのデフォルトのソート順"
+msgstr "ソートする際のデフォルトの桁"
 
 #: lib/options.h:142 lib/options.h:148
 msgid "Sort ascending or descending"
-msgstr "昇順もしくは降順にソート"
+msgstr "昇順また降順でソートします"
 
 #: lib/options.h:152 lib/options.h:170
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"ファイルリストボックス内のファイル名カラムの幅を指定します. この値を 0 に設定"
-"すると, カラムは自動的にリサイズします. -1 に設定すると, 非表示になります."
+"ファイル一覧で表示するファイル名のタグ幅です [0=自動的に調整 -1=表示しない]"
 
 #: lib/options.h:155 lib/options.h:173
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"ファイルリストボックス内のサイズカラムの幅を指定します. この値を 0 に設定する"
-"と, カラムは自動的にリサイズします. -1 に設定すると, 非表示になります."
+"ファイル一覧で表示するサイズのタグ幅です [0=自動的に調整 -1=表示しない]"
 
 #: lib/options.h:158 lib/options.h:176
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"ファイルリストボックス内のユーザカラムの幅を指定します. この値を 0 に設定する"
-"と, カラムは自動的にリサイズします. -1 に設定すると, 非表示になります."
+"ファイル一覧で表示するユーザ名のタグ幅です [0=自動的に調整 -1=表示しない]"
 
 #: lib/options.h:161 lib/options.h:179
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"ファイルリストボックス内のグループカラムの幅を指定します. この値を 0 に設定す"
-"ると, カラムは自動的にリサイズします. -1 に設定すると, 非表示になります."
+"ファイル一覧で表示するグループ名のタグ幅です [0=自動的に調整 -1=表示しない]"
 
 #: lib/options.h:164 lib/options.h:182
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"ファイルリストボックス内の日付カラムの幅を指定します. この値を 0 に設定する"
-"と, カラムは自動的にリサイズします. -1 に設定すると, 非表示になります."
+"ファイル一覧で表示するデータ名のタグ幅です [0=自動的に調整 -1=表示しない]"
 
 #: lib/options.h:167 lib/options.h:185
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"ファイルリストボックス内の属性カラムの幅を指定します. この値を 0 に設定する"
-"と, カラムは自動的にリサイズします. -1 に設定すると, 非表示になります."
+"ファイル一覧で表示する属性名のタグ幅です [0=自動的に調整 -1=表示しない]"
 
 #: lib/options.h:188
 msgid "The color of the commands that are sent to the server"
-msgstr "サーバに送信したコマンドの色"
+msgstr "サーバに送信するコマンドの色です"
 
 #: lib/options.h:191
 msgid "The color of the commands that are received from the server"
-msgstr "サーバから受信したコマンドの色"
+msgstr "サーバから受信するコマンドの色です"
 
 #: lib/options.h:194
 msgid "The color of the error messages"
-msgstr "エラーメッセージの色"
+msgstr "エラーメッセージの色です"
 
 #: lib/options.h:197
 msgid "The color of the rest of the log messages"
-msgstr "その他のログメッセージの色"
+msgstr "ログメッセージの色です"
 
 #: lib/options.h:203 lib/rfc959.c:38
 msgid "FTP"
@@ -584,9 +575,8 @@ msgid "HTTP"
 msgstr "HTTP"
 
 #: lib/options.h:206 lib/options.h:208
-#, fuzzy
 msgid "HTTPS"
-msgstr "HTTP"
+msgstr "HTTPS"
 
 #: lib/options.h:210
 msgid "Local"
@@ -596,171 +586,172 @@ msgstr "ローカル"
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:212 src/gtk/bookmarks.c:854
+#: lib/options.h:212 src/gtk/bookmarks.c:855
 msgid "Bookmark"
 msgstr "ブックマーク"
 
-#: lib/protocols.c:168 lib/protocols.c:192
+#: lib/protocols.c:168 lib/protocols.c:193
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
-msgstr "ファイル転送速度は %.2f KB/秒 へ抑えられます\n"
+msgstr "ファイル転送レートが %.2f Kバイト/秒になりました\n"
 
-#: lib/protocols.c:321
+#: lib/protocols.c:322
 #, c-format
 msgid "Loading directory listing %s from cache\n"
-msgstr "キャッシュからディレクトリ一覧 %s を取得しています\n"
+msgstr "キャッシュからフォルダ一覧 %s を取得中です\n"
 
-#: lib/protocols.c:466
+#: lib/protocols.c:467
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
-msgstr "エラー: キャッシュへ 書き込めませんでした: %s\n"
+msgstr "エラー: キャッシュへ書き込めません: %s\n"
 
-#: lib/protocols.c:497
+#: lib/protocols.c:499
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
-msgstr "エラー: ブックマーク %s を見つけられませんでした\n"
+msgstr "エラー: ブックマーク %s が見つかりませんでした\n"
 
-#: lib/protocols.c:504
+#: lib/protocols.c:506
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr ""
-"ブックマーク・エラー: ブックマークのエントリ %s にホスト名がありません\n"
+"ブックマーク・エラー: ブックマークのエントリ %s にはホスト名がありません\n"
+"\n"
 
-#: lib/protocols.c:602
+#: lib/protocols.c:609
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
-msgstr ""
+msgstr "プロトコル '%s' はサポートしていません\n"
 
-#: lib/protocols.c:919 lib/protocols.c:934 lib/protocols.c:1737
-#: lib/protocols.c:1846
+#: lib/protocols.c:926 lib/protocols.c:941 lib/protocols.c:1757
+#: lib/protocols.c:1866
 #, c-format
 msgid "Looking up %s\n"
-msgstr "%s を探しています\n"
+msgstr "%s の問い合わせ中\n"
 
-#: lib/protocols.c:925 lib/protocols.c:940 lib/protocols.c:1742
-#: lib/protocols.c:1851
+#: lib/protocols.c:932 lib/protocols.c:947 lib/protocols.c:1762
+#: lib/protocols.c:1871
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
-msgstr "ホスト名 %s が見付かりません: %s\n"
+msgstr "ホスト名 %s が見つかりません: %s\n"
 
-#: lib/protocols.c:1184 lib/protocols.c:1185 lib/protocols.c:1244
-#: lib/protocols.c:1251 lib/protocols.c:1330 lib/protocols.c:1331
-#: lib/protocols.c:1365
+#: lib/protocols.c:1204 lib/protocols.c:1205 lib/protocols.c:1264
+#: lib/protocols.c:1271 lib/protocols.c:1350 lib/protocols.c:1351
+#: lib/protocols.c:1385
 msgid "unknown"
 msgstr "不明"
 
-#: lib/protocols.c:1760 lib/protocols.c:1803 lib/rfc959.c:589 lib/rfc959.c:736
+#: lib/protocols.c:1780 lib/protocols.c:1823 lib/rfc959.c:589 lib/rfc959.c:736
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "ソケット作成に失敗しました: %s\n"
 
-#: lib/protocols.c:1766 lib/protocols.c:1865
+#: lib/protocols.c:1786 lib/protocols.c:1885
 #, c-format
 msgid "Trying %s:%d\n"
-msgstr "%s を試行中: %d\n"
+msgstr "%s:%d の試行中\n"
 
-#: lib/protocols.c:1771 lib/protocols.c:1872
+#: lib/protocols.c:1791 lib/protocols.c:1892
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "%s へ接続できません: %s\n"
 
-#: lib/protocols.c:1827 lib/sshv2.c:891
+#: lib/protocols.c:1847 lib/sshv2.c:895
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
-"サービス名 %s/tcp が見つかりません. サービスファイル(/etc/services など)を確"
-"認してください\n"
+"サービス名 %s/tcp の問い合わせができません。サービス・ファイルを確認して下さ"
+"い\n"
 
-#: lib/protocols.c:1889 lib/protocols.c:2497 lib/rfc959.c:598 lib/rfc959.c:745
-#, fuzzy, c-format
+#: lib/protocols.c:1909 lib/protocols.c:2523 lib/rfc959.c:598 lib/rfc959.c:745
+#, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "エラー: ファイル %s 上を seek できません: %s\n"
+msgstr "エラー: 実行権フラグを閉じれません: %s\n"
 
-#: lib/protocols.c:1896
+#: lib/protocols.c:1916
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "%s へ接続しました: %d\n"
 
-#: lib/protocols.c:2116 lib/protocols.c:2186
+#: lib/protocols.c:2140 lib/protocols.c:2211
 #, c-format
 msgid "Connection to %s timed out\n"
-msgstr "%s への接続が待ち時間を越えました\n"
+msgstr "%s への接続でタイムアウトしました\n"
 
-#: lib/protocols.c:2254
+#: lib/protocols.c:2280
 #, c-format
 msgid "Cannot get socket flags: %s\n"
-msgstr "ソケットフラグを取得できません: %s\n"
+msgstr "ソケット・フラグを取得できません: %s\n"
 
-#: lib/protocols.c:2268
+#: lib/protocols.c:2294
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "ソケットを非ブロック状態に設定できません: %s\n"
+msgstr "ソケットに非ブロック (non-blocking) 属性をセットできません: %s\n"
 
-#: lib/protocols.c:2394
+#: lib/protocols.c:2420
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
-"エラー: リモート・サイト %s から接続を切断されました. 最大再試行数に達しまし"
-"た...あきらめます\n"
+"エラー: リモート・サイト %s から接続を切断されました。最大リトライ数に達しま"
+"した...あきらめます。\n"
 
-#: lib/protocols.c:2402
+#: lib/protocols.c:2428
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
-"エラー: リモート・サイト %sから接続を切断されました. %d秒内に再接続を試みま"
-"す\n"
+"エラー: リモート・サイト %s から接続を切断されました。%d 秒内にリトライしま"
+"す。\n"
 
-#: lib/pty.c:271
+#: lib/pty.c:288
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
-msgstr "ソケットペアを作成できません: %s\n"
+msgstr "ソケット・ペア作成に失敗しました: %s\n"
 
-#: lib/pty.c:290 lib/pty.c:347
+#: lib/pty.c:307 lib/pty.c:364
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "エラー: ssh を実行できません: %s\n"
 
-#: lib/pty.c:303 lib/pty.c:358
+#: lib/pty.c:320 lib/pty.c:375
 #, c-format
 msgid "Cannot fork another process: %s\n"
-msgstr "もう一つ別のプロセスを fork できません: %s\n"
+msgstr "もう一つのプロセスを生成できません: %s\n"
 
-#: lib/pty.c:321
+#: lib/pty.c:338
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
-msgstr "マスター PTY %s への SSH 接続を開けません: %s\n"
+msgstr "マスター PTY %s:%s を開けません\n"
 
 #: lib/rfc2068.c:30 lib/rfc959.c:45
 msgid "Proxy hostname:"
-msgstr "プロキシ・ホスト名:"
+msgstr "プロキシのホスト名:"
 
 #: lib/rfc2068.c:32 lib/rfc959.c:47
 msgid "Firewall hostname"
-msgstr "ファイアウォール・ホスト名:"
+msgstr "ファイアウォールのホスト名:"
 
 #: lib/rfc2068.c:33 lib/rfc959.c:48
 msgid "Proxy port:"
-msgstr "プロキシ・ポート:"
+msgstr "プロキシのポート番号:"
 
 #: lib/rfc2068.c:35 lib/rfc959.c:50
 msgid "Port to connect to on the firewall"
-msgstr "接続するファイアウォール上のポート番号"
+msgstr "接続するファイアウォール上のポート番号です"
 
 #: lib/rfc2068.c:36 lib/rfc959.c:51
 msgid "Proxy username:"
-msgstr "プロキシ・ユーザ名:"
+msgstr "プロキシのユーザ名:"
 
 #: lib/rfc2068.c:38 lib/rfc959.c:53
 msgid "Your firewall username"
-msgstr "ファイアウォールでのユーザ名"
+msgstr "ファイアウォールでのユーザ名です"
 
 #: lib/rfc2068.c:39 lib/rfc959.c:54
 msgid "Proxy password:"
-msgstr "プロキシ・パスワード:"
+msgstr "プロキシのパスワード:"
 
 #: lib/rfc2068.c:41 lib/rfc959.c:56
 msgid "Your firewall password"
-msgstr "ファイアウォールでのパスワード"
+msgstr "ファイアウォールでのパスワードです"
 
 #: lib/rfc2068.c:43
 msgid "Use HTTP/1.1"
@@ -768,19 +759,21 @@ msgstr "HTTP/1.1 を使用する"
 
 #: lib/rfc2068.c:46
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
-msgstr "HTTP/1.1 または HTTP/1.0 のどちらを利用するか"
+msgstr "HTTP/1.1 または HTTP/1.0 のどちらを利用するか指定します"
 
 #: lib/rfc2068.c:153 lib/rfc2068.c:835
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
 "Invalid chunk size '%s' returned by the remote server\n"
-msgstr "サーバから予期せぬ応答を受け取りました. 切断します\n"
+msgstr ""
+"サーバからおかしな応答を受け取りました。接続を閉じます\n"
+"リモート・サーバから不正なチャンク・サイズ '%s' が返されました\n"
 
-#: lib/rfc2068.c:258 lib/rfc959.c:559 lib/sshv2.c:988
+#: lib/rfc2068.c:258 lib/rfc959.c:559 lib/sshv2.c:992
 #, c-format
 msgid "Disconnecting from site %s\n"
-msgstr "サイト %s から接続を切断しています\n"
+msgstr "サイト %s の接続を閉じています\n"
 
 #: lib/rfc2068.c:309
 #, c-format
@@ -797,9 +790,9 @@ msgstr "オフセット %ld にてファイル転送を開始\n"
 msgid "Cannot retrieve file %s\n"
 msgstr "ファイル %s を回復できません\n"
 
-#: lib/rfc2068.c:429 lib/sshv2.c:1073
+#: lib/rfc2068.c:429 lib/sshv2.c:1077
 msgid "Retrieving directory listing...\n"
-msgstr "ディレクトリ一覧を取ってきています...\n"
+msgstr "フォルダ一覧の取得中...\n"
 
 #: lib/rfc2068.c:816
 msgid ""
@@ -807,6 +800,8 @@ msgid ""
 "Expecting a carriage return and line feed before the chunk size in the "
 "server response\n"
 msgstr ""
+"サーバからおかしな応答を受け取ったので接続を閉じます。\n"
+"(サーバからの応答でチャンクのサイズの前に改行と復帰を期待していました)\n"
 
 #: lib/rfc2068.c:824
 msgid ""
@@ -814,6 +809,8 @@ msgid ""
 "Expecting a carriage return and line feed after the chunk size in the server "
 "response\n"
 msgstr ""
+"サーバからおかしな応答を受け取ったので接続を閉じます。\n"
+"(サーバからの応答でチャンクのサイズの後ろに改行と復帰を期待していました)\n"
 
 #: lib/rfc959.c:25
 msgid "SITE command"
@@ -825,7 +822,7 @@ msgstr "ユーザ@ホスト"
 
 #: lib/rfc959.c:27
 msgid "user@host:port"
-msgstr "ユーザ@ホスト:ポート"
+msgstr "ユーザ@ホスト:ポート番号"
 
 #: lib/rfc959.c:28
 msgid "AUTHENTICATE"
@@ -833,7 +830,7 @@ msgstr "認証"
 
 #: lib/rfc959.c:29
 msgid "user@host port"
-msgstr "ユーザ@ホスト ポート"
+msgstr "ユーザ@ホスト ポート番号"
 
 #: lib/rfc959.c:30
 msgid "user@host NOAUTH"
@@ -841,7 +838,7 @@ msgstr "ユーザ@ホスト 認証なし"
 
 #: lib/rfc959.c:31
 msgid "HTTP Proxy"
-msgstr "HTTP プロキシ"
+msgstr "HTTPプロキシ"
 
 #: lib/rfc959.c:32
 msgid "Custom"
@@ -849,22 +846,21 @@ msgstr "カスタム"
 
 #: lib/rfc959.c:41
 msgid "Email address:"
-msgstr "メールアドレス:"
+msgstr "E-メールアドレス:"
 
 #: lib/rfc959.c:43
 msgid ""
 "This is the password that will be used whenever you log into a remote FTP "
 "server as anonymous"
-msgstr ""
-"これは anonymous FTP サーバにログインする時に利用するパスワードになります"
+msgstr "リモートの FTP サーバに匿名でログインする際に使用するパスワードです"
 
 #: lib/rfc959.c:57
 msgid "Proxy account:"
-msgstr "プロキシ・アカウント:"
+msgstr "プロキシのアカウント:"
 
 #: lib/rfc959.c:59
 msgid "Your firewall account (optional)"
-msgstr "ファイアウォール・アカウント (省略可)"
+msgstr "ファイアウォール・アカウント(省略可)"
 
 #: lib/rfc959.c:61
 msgid "Proxy server type:"
@@ -880,16 +876,16 @@ msgid ""
 "(host), o (port) or a (account). For example, to specify the proxy user, you "
 "can you type in %pu"
 msgstr ""
-"プロシキ・サーバにどのようにログインするか指定します. 適切なデータで置換され"
-"る, 一つの % から始まる 2 文字の置換文字列を使うことができます. 1 文字目は, "
-"プロキシに置換される p もしくは FTP サーバのホストに置換される h です. 2 文字"
-"目には u (ユーザ名), p (パスワード), h (ホスト名), o (ポート番号), a (アカウ"
-"ント) を指定できます. 例えば, プロキシ・ユーザを指定するには %pu と入力しま"
-"す. "
+"ログインするプロキシ・サーバの種類を指定します。前のデータを置き換えるため"
+"に、先頭に % を付けた二文字の置換文字列を指定することが可能です。先頭の文字に"
+"はプロキシの 'p' または FTP サーバのホスト名の 'h' のどちらか指定します。二番"
+"目の文字には 'u' (ユーザ)、'p' (パスワード)、'h' (ホスト名)、'o' (ポート番"
+"号)、'a' (アカウント名) を指定します。例えば、プロキシ・ユーザを指定する場合"
+"は \"%pu\" にします。"
 
 #: lib/rfc959.c:67
 msgid "Passive file transfers"
-msgstr "Passive ファイル転送"
+msgstr "Passive ファイル転送を有効にする"
 
 #: lib/rfc959.c:70
 msgid ""
@@ -900,15 +896,15 @@ msgid ""
 "gFTP will open up a port on the client side and the remote server will "
 "attempt to connect to it."
 msgstr ""
-"有効に設定されている場合, リモートの FTP サーバは一つのポートをデータ接続のた"
-"めに開きます. ファイアウォールの内側にいる場合は有効にしてください. 一般に, "
-"この機能をサポートしていない古い FTP サーバに接続しない限りは, これを有効にし"
-"ておくことはよい考えです. 無効に設定されている場合, gFTP はクライアント側で"
-"ポートを 1 つ開いて, リモートのサーバはこのポートに接続しようとします. "
+"これを有効にすると、リモート FTP サーバはデータ接続を行うためにポート番号を開"
+"きます。ファイヤーウォールの内側にいる場合はこれを有効にする必要があります。"
+"一般的に、この機能をサポートしていない古い FTP サーバに接続することを除いて、"
+"常に有効にしておいて下さい。これを無効にすると、gFTP はクライアント側のポート"
+"を開いてリモート・サーバ側に接続を試みて貰います。"
 
 #: lib/rfc959.c:72
 msgid "Resolve Remote Symlinks (LIST -L)"
-msgstr "リモートのシンボリックリンクを解決 (LIST -L)"
+msgstr "リモートのシンボリック・リンクを有効にする (LIST -L)"
 
 #: lib/rfc959.c:75
 msgid ""
@@ -917,13 +913,14 @@ msgid ""
 "will want to disable this is if the remote FTP server doesn't support the -L "
 "option to LIST"
 msgstr ""
-"FTP サーバはディレクトリ内のシンボリックリンクを解決しようとします. 一般に有"
-"効にしておくのがよいでしょう. FTP サーバが LIST -L をサポートしない場合のみ無"
-"効にしたほうがよいでしょう."
+"リモート FTP サーバはフォルダ内の一覧を生成する際にシンボリック・リンクを解決"
+"しようとします。一般的に、この機能を有効にしておいて下さい。もしリモート FTP "
+"サーバが LIST コマンドに対して '-L' をサポートしていない場合にのみ無効にして"
+"下さい。"
 
 #: lib/rfc959.c:77
 msgid "Transfer files in ASCII mode"
-msgstr "ASCII モードでファイル転送"
+msgstr "ASCII モードでファイルの転送"
 
 #: lib/rfc959.c:80
 msgid ""
@@ -933,21 +930,20 @@ msgid ""
 "leave this off. If you are downloading binary data, you will want to disable "
 "this."
 msgstr ""
-"もし, あなたがテキストファイルを Windows から UNIXホストに転送したり, その逆"
-"を行うのであれば, このオプションを有効にすべきです. システムごとにテキスト"
-"ファイルの改行の表現が異なります. UNIX から UNIX に転送するのであればこのオプ"
-"ションは無効のままでもかまいません. バイナリデータをダウンロードするのであれ"
-"ば, 無効にしてもよいでしょう."
+"Windows から UNIX へテキスト・ファイルを転送したり versa を介して転送する場"
+"合、この機能を有効にして下さい。それぞれのシステムでは改行の表現方法が異なり"
+"ます。UNIX から UNIX へ転送する場合は、これを無効にした方が良いでしょう。バイ"
+"ナリ・データをダウンロードする場合は、これを無効にして下さい。"
 
 #: lib/rfc959.c:307 lib/rfc959.c:316 lib/rfc959.c:327
 #, c-format
 msgid "Received invalid response to PWD command: '%s'\n"
-msgstr "PWD コマンドの不正な応答を受け取りました: '%s'\n"
+msgstr "PWD コマンドに対するおかしな応答を受け取りました: '%s'\n"
 
 #: lib/rfc959.c:627 lib/rfc959.c:637
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
-msgstr "PASV 応答 '%s' の中に IP アドレスを見つけることができません\n"
+msgstr "PASV 応答 '%s' の中に IP アドレスがありません\n"
 
 #: lib/rfc959.c:652 lib/rfc959.c:807
 #, c-format
@@ -962,38 +958,38 @@ msgstr "ソケット名を取得できません: %s\n"
 #: lib/rfc959.c:675 lib/rfc959.c:822
 #, c-format
 msgid "Cannot bind a port: %s\n"
-msgstr "ポートを bind できません: %s\n"
+msgstr "ポートに Bind できません: %s\n"
 
 #: lib/rfc959.c:694 lib/rfc959.c:841
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
-msgstr "ポート %d 番を listen できません: %s\n"
+msgstr "ポート番号 %d を Listen できません: %s\n"
 
 #: lib/rfc959.c:756
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
-msgstr "エラー: IPv6経由で接続していないようです. 接続を中断します. \n"
+msgstr "エラー: IPv6 を介した接続がされていないようです。接続を閉じます。\n"
 
 #: lib/rfc959.c:785 lib/rfc959.c:794
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
-msgstr "無効な EPSV 応答 '%s' です\n"
+msgstr "EPSV 応答 '%s' が無効です\n"
 
 #: lib/rfc959.c:851
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
-msgstr "ローカルソケットのアドレスを取得できません: %s\n"
+msgstr "ローカル・ソケットのアドレスを取得できません: %s\n"
 
 #: lib/rfc959.c:923
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
-msgstr "サーバからの接続を accept できません: %s\n"
+msgstr "サーバからの接続を許可できません: %s\n"
 
-#: lib/rfc959.c:1419
+#: lib/rfc959.c:1422
 msgid "total"
 msgstr "合計"
 
-#: lib/rfc959.c:1421
+#: lib/rfc959.c:1424
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "警告: 一覧 %s を解析できません\n"
@@ -1008,39 +1004,39 @@ msgstr "SSH プログラム名:"
 
 #: lib/sshv2.c:33
 msgid "The path to the SSH executable"
-msgstr "SSH 実行ファイルへのパス"
+msgstr "SSH 実行プログラムへのパスです"
 
 #: lib/sshv2.c:34
 msgid "SSH Extra Params:"
-msgstr "SSH 拡張パラメータ:"
+msgstr "SSH 引数:"
 
 #: lib/sshv2.c:36
 msgid "Extra parameters to pass to the SSH program"
-msgstr "SSH プログラムへ通す拡張パラメータ"
+msgstr "SSH プログラムに引き渡す引数です"
 
 #: lib/sshv2.c:37
 msgid "SSH2 sftp-server path:"
-msgstr "SSH2 sftp-serverのパス:"
+msgstr "SSH2 sftp-server パス:"
 
 #: lib/sshv2.c:39
 msgid "Default remote SSH2 sftp-server path"
-msgstr "デフォルトのリモート SSH2 sftp サーバのパス"
+msgstr "デフォルトの SSH2 準拠リモート sftp-server のパス名です"
 
 #: lib/sshv2.c:41
 msgid "Need SSH User/Pass"
-msgstr "SSH ユーザ名/パスワードが必要"
+msgstr "SSH ユーザ名/パスワードを要求する"
 
 #: lib/sshv2.c:44
 msgid "Require a username/password for SSH connections"
-msgstr "SSH 接続にユーザ名/パスワードが要求されるか"
+msgstr "SSH 接続用のユーザ名/パスワードを要求します"
 
 #: lib/sshv2.c:45
 msgid "Use ssh-askpass utility"
-msgstr "ssh-askpass ユーティリティを使う"
+msgstr "'ssh-askpass' ツールを使う"
 
 #: lib/sshv2.c:48
 msgid "Use the ssh-askpass utility to supply the remote password"
-msgstr "ssh-askpass ユーティリティでユーザパスワードを取得する"
+msgstr "リモートのパスワードを提供するために 'ssh-askpass' ツールを使用します"
 
 #: lib/sshv2.c:50
 msgid "Use SSH2 SFTP subsys"
@@ -1051,200 +1047,200 @@ msgid ""
 "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 "know the remote path to the remote sftp-server"
 msgstr ""
-"ssh を -s sftp フラグ付きで起動します. リモートの sftp-server へのパスを知る"
-"必要がないので, 便利です."
+"sftp のオプション -s 付きで ssh を呼び出します。これはリモート先の sftp-"
+"server に対するパス名を知る必要がないので便利です"
 
 #: lib/sshv2.c:257
 #, c-format
 msgid "Running program %s\n"
-msgstr "%s プログラムを実行しています\n"
+msgstr "プログラム %s の実行中\n"
 
-#: lib/sshv2.c:303 lib/sshv2.c:328
+#: lib/sshv2.c:304 lib/sshv2.c:329
 msgid "WARNING"
 msgstr "警告"
 
-#: lib/sshv2.c:370
+#: lib/sshv2.c:371
 msgid "Error: An incorrect password was entered\n"
-msgstr "エラー: 入力されたパスワードは正しくありません\n"
+msgstr "エラー: 入力したパスワードが間違っています\n"
 
-#: lib/sshv2.c:373
+#: lib/sshv2.c:374
 msgid ""
 "Please connect to this host with the command line SSH utility and answer "
 "this question appropriately.\n"
-msgstr ""
-"コマンドライン SSH ユーティリティでこのホストに接続し, この質問に適切に答えて"
-"ください.\n"
+msgstr "SSH のコマンドでこのホストに接続し、適切にこの質問に答えて下さい\n"
 
-#: lib/sshv2.c:376
+#: lib/sshv2.c:377
 msgid "Please correct the above warning to connect to this host.\n"
-msgstr "このホストに接続するために, 上の警告を修正してください.\n"
+msgstr "このホストに接続するために上記の警告を修正して下さい。\n"
 
-#: lib/sshv2.c:415
+#: lib/sshv2.c:416
 #, c-format
 msgid "%d: Protocol Initialization\n"
-msgstr "%d: プロトコル 初期化\n"
+msgstr "%d: プロトコルの初期化\n"
 
-#: lib/sshv2.c:421
+#: lib/sshv2.c:422
 #, c-format
 msgid "%d: Protocol version %d\n"
-msgstr "%d: プロトコル バージョン %d\n"
+msgstr "%d: プロトコルのバージョン %d\n"
 
-#: lib/sshv2.c:430
+#: lib/sshv2.c:431
 #, c-format
 msgid "%d: Open %s\n"
-msgstr "%d: %s を開く\n"
+msgstr "%d: %s のオープン\n"
 
-#: lib/sshv2.c:435
+#: lib/sshv2.c:436
 #, c-format
 msgid "%d: Close\n"
-msgstr "%d: 閉じる\n"
+msgstr "%d: クローズ\n"
 
-#: lib/sshv2.c:441
+#: lib/sshv2.c:442
 #, c-format
 msgid "%d: Open Directory %s\n"
-msgstr "%d: ディレクトリ %s を開きます\n"
+msgstr "%d: フォルダ %s を開きます\n"
 
-#: lib/sshv2.c:446
+#: lib/sshv2.c:447
 #, c-format
 msgid "%d: Read Directory\n"
-msgstr "%d: ディレクトリを読み込みます\n"
+msgstr "%d: フォルダを読み込みます\n"
 
-#: lib/sshv2.c:450
+#: lib/sshv2.c:451
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: ファイル %s を削除します\n"
 
-#: lib/sshv2.c:455
+#: lib/sshv2.c:456
 #, c-format
 msgid "%d: Make directory %s\n"
-msgstr "%d: ディレクトリ %s を作成します\n"
+msgstr "%d: フォルダ %s を作成します\n"
 
-#: lib/sshv2.c:460
+#: lib/sshv2.c:461
 #, c-format
 msgid "%d: Remove directory %s\n"
-msgstr "%d: リモート・ディレクトリ: %s\n"
+msgstr "%d: フォルダ %s を削除します\n"
 
-#: lib/sshv2.c:465
+#: lib/sshv2.c:466
 #, c-format
 msgid "%d: Realpath %s\n"
-msgstr "%d: %s への実パス\n"
+msgstr "%d: 実際のパス名 %s\n"
 
-#: lib/sshv2.c:470
+#: lib/sshv2.c:471
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: ファイルの属性\n"
 
-#: lib/sshv2.c:474
+#: lib/sshv2.c:475
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Stat %s\n"
 
-#: lib/sshv2.c:491
+#: lib/sshv2.c:492
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: lib/sshv2.c:496
+#: lib/sshv2.c:497
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: lib/sshv2.c:509 src/gtk/bookmarks.c:1013 src/gtk/bookmarks.c:1250
-#: src/gtk/chmod_dialog.c:281 src/gtk/options_dialog.c:1099
-#: src/gtk/options_dialog.c:1301 src/gtk/transfer.c:2041
+#: lib/sshv2.c:510 src/gtk/bookmarks.c:1014 src/gtk/bookmarks.c:1251
+#: src/gtk/chmod_dialog.c:281 src/gtk/options_dialog.c:1106
+#: src/gtk/options_dialog.c:1308 src/gtk/transfer.c:2046
 msgid "OK"
-msgstr "了解"
+msgstr "OK"
 
-#: lib/sshv2.c:512
+#: lib/sshv2.c:513
 msgid "EOF"
 msgstr "EOF"
 
-#: lib/sshv2.c:515
+#: lib/sshv2.c:516
 msgid "No such file or directory"
-msgstr "そのようなファイルやディレクトリは存在しません"
+msgstr "そのようなファイルまたはフォルダはありません"
 
-#: lib/sshv2.c:518
+#: lib/sshv2.c:519
 msgid "Permission denied"
-msgstr "アクセス権がありません"
+msgstr "権限がありません"
 
-#: lib/sshv2.c:521
+#: lib/sshv2.c:522
 msgid "Failure"
 msgstr "失敗"
 
-#: lib/sshv2.c:524
+#: lib/sshv2.c:525
 msgid "Bad message"
-msgstr "不正なメッセージ"
+msgstr "おかしなメッセージ"
 
-#: lib/sshv2.c:527
+#: lib/sshv2.c:528
 msgid "No connection"
 msgstr "接続なし"
 
-#: lib/sshv2.c:530
+#: lib/sshv2.c:531
 msgid "Connection lost"
-msgstr "接続をロスト"
+msgstr "接続が閉じました"
 
-#: lib/sshv2.c:533
+#: lib/sshv2.c:534
 msgid "Operation unsupported"
 msgstr "サポートされていない操作"
 
-#: lib/sshv2.c:536
+#: lib/sshv2.c:537
 msgid "Unknown message returned from server"
-msgstr "サーバから返された不明なメッセージ"
+msgstr "サーバから不明なメッセージを受け取りました"
 
-#: lib/sshv2.c:573
+#: lib/sshv2.c:574
 #, c-format
 msgid "Error: Message size %d too big\n"
-msgstr "Error: メッセージサイズ %d は大きすぎます\n"
+msgstr "エラー: メッセージのサイズ %d は大きすぎます\n"
 
-#: lib/sshv2.c:631 lib/sshv2.c:1112 lib/sshv2.c:1949 lib/sshv2.c:2042
-#: lib/sshv2.c:2130
+#: lib/sshv2.c:632 lib/sshv2.c:1116 lib/sshv2.c:1951 lib/sshv2.c:2044
+#: lib/sshv2.c:2132
 #, c-format
 msgid "Error: Message size %d too big from server\n"
-msgstr "Error: サーバからのメッセージサイズ %d は大きすぎます\n"
+msgstr "エラー: サーバから受け取ったメッセージのサイズ %d は大きすぎます\n"
 
-#: lib/sshv2.c:637
+#: lib/sshv2.c:638
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr ""
+"リモート・サーバで SSH 接続の初期化に失敗しました。リモート・サーバからのエ"
+"ラーメッセージ:\n"
 
-#: lib/sshv2.c:710 lib/sshv2.c:723 lib/sshv2.c:745 lib/sshv2.c:813
-#: lib/sshv2.c:944 lib/sshv2.c:1035 lib/sshv2.c:1103 lib/sshv2.c:1216
-#: lib/sshv2.c:1229 lib/sshv2.c:1242 lib/sshv2.c:1255 lib/sshv2.c:1311
-#: lib/sshv2.c:1376 lib/sshv2.c:1838 lib/sshv2.c:1940 lib/sshv2.c:2033
-#: lib/sshv2.c:2118 lib/sshv2.c:2203
+#: lib/sshv2.c:714 lib/sshv2.c:727 lib/sshv2.c:749 lib/sshv2.c:817
+#: lib/sshv2.c:948 lib/sshv2.c:1039 lib/sshv2.c:1107 lib/sshv2.c:1220
+#: lib/sshv2.c:1233 lib/sshv2.c:1246 lib/sshv2.c:1259 lib/sshv2.c:1315
+#: lib/sshv2.c:1380 lib/sshv2.c:1840 lib/sshv2.c:1942 lib/sshv2.c:2035
+#: lib/sshv2.c:2120 lib/sshv2.c:2205
 msgid "Received wrong response from server, disconnecting\n"
-msgstr "サーバから予期せぬ応答を受け取りました. 切断します\n"
+msgstr "サーバからおかしな応答を受け取りました。接続を閉じます\n"
 
-#: lib/sshv2.c:862
+#: lib/sshv2.c:866
 #, c-format
 msgid "Opening SSH connection to %s\n"
-msgstr "%s への SSH 接続を開けません\n"
+msgstr "%s へ SSH 接続する\n"
 
-#: lib/sshv2.c:955
+#: lib/sshv2.c:959
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
-msgstr "SSH サーバ %sへ正常にログインしました\n"
+msgstr "SSH サーバ %s へのログ書き込みが完了しました\n"
 
 #: lib/sslcommon.c:31
 msgid "SSL Engine"
-msgstr ""
+msgstr "SSL エンジン"
 
 #: lib/sslcommon.c:34
 msgid "SSL Entropy File:"
-msgstr ""
+msgstr "SSL エントロピー・ファイル:"
 
 #: lib/sslcommon.c:36
 msgid "SSL entropy file"
-msgstr ""
+msgstr "SSL エントロピー・ファイルです"
 
 #: lib/sslcommon.c:37
 msgid "Entropy Seed Length:"
-msgstr ""
+msgstr "エントロピー速度の長さ:"
 
 #: lib/sslcommon.c:39
 msgid "The maximum number of bytes to seed the SSL engine with"
-msgstr ""
+msgstr "SSL エンジンの乱数の種に使用する最大バイト数です"
 
 #: lib/sslcommon.c:99
 #, c-format
@@ -1254,11 +1250,14 @@ msgid ""
 "Subject = %s\n"
 "Error %i:%s\n"
 msgstr ""
+"認証エラーの深さ: %i\n"
+"Issuer = %s\n"
+"Subject = %s\n"
+"エラー %i:%s\n"
 
 #: lib/sslcommon.c:121
-#, fuzzy
 msgid "Cannot get peer certificate\n"
-msgstr "ソケット名を取得できません: %s\n"
+msgstr "ピア認証を取得できません\n"
 
 #: lib/sslcommon.c:180
 #, c-format
@@ -1266,214 +1265,216 @@ msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
 "connected to (%s). Aborting connection.\n"
 msgstr ""
+"エラー: SSL 認証のホスト (%s) と接続しようとしているホスト (%s) が一致しませ"
+"ん。接続を閉じます。\n"
 
 #: lib/sslcommon.c:287
 msgid "Cannot initialized the OpenSSL library\n"
-msgstr ""
+msgstr "OpenSSL ライブラリを初期化できません\n"
 
 #: lib/sslcommon.c:302
 msgid "Error loading default SSL certificates\n"
-msgstr ""
+msgstr "デフォルトの SSL 認証の読み込みでエラー\n"
 
 #: lib/sslcommon.c:313
 msgid "Error setting cipher list (no valid ciphers)\n"
-msgstr ""
+msgstr "Cipher リストの設定でエラー (Ciphers が正しくありません)\n"
 
 #: lib/sslcommon.c:332 lib/sslcommon.c:401 lib/sslcommon.c:448
 msgid "Error: SSL engine was not initialized\n"
-msgstr ""
+msgstr "エラー: SSL エンジンが初期化されていません\n"
 
 #: lib/sslcommon.c:349
 msgid "Error setting up SSL connection (BIO object)\n"
-msgstr ""
+msgstr "SSL 接続の設定でエラー (BIO オブジェクト)\n"
 
 #: lib/sslcommon.c:359
 msgid "Error setting up SSL connection (SSL object)\n"
-msgstr ""
+msgstr "SSL 接続の設定でエラー (SSL オブジェクト)\n"
 
 #: lib/sslcommon.c:377
-#, fuzzy, c-format
+#, c-format
 msgid "Error with peer certificate: %s\n"
-msgstr "エラー: キャッシュへ 書き込めませんでした: %s\n"
+msgstr "ピア認証でエラーが発生しました: %s\n"
 
-#: src/gtk/bookmarks.c:37 src/gtk/gftp-gtk.c:902 src/gtk/menu-items.c:66
-#: src/gtk/menu-items.c:96 src/gtk/misc-gtk.c:483 src/gtk/misc-gtk.c:491
+#: src/gtk/bookmarks.c:37 src/gtk/gftp-gtk.c:912 src/gtk/menu-items.c:58
+#: src/gtk/menu-items.c:88 src/gtk/misc-gtk.c:483 src/gtk/misc-gtk.c:491
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
-msgstr "%s: 何よりもまずストップ・ボタンを押してください\n"
+msgstr "%s: まず最初にストップボタンを押して下さい\n"
 
 #: src/gtk/bookmarks.c:38
 msgid "Run Bookmark"
-msgstr "ブックマークを実行"
+msgstr "ブックマークの表示"
 
-#: src/gtk/bookmarks.c:64
+#: src/gtk/bookmarks.c:65
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
-msgstr "ブックマーク追加: ブックマーク名を入力してください\n"
+msgstr "ブックマーク追加: ブックマーク名を入力して下さい\n"
 
-#: src/gtk/bookmarks.c:71
+#: src/gtk/bookmarks.c:72
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr "ブックマーク追加: すでに同じブックマーク名 %s が存在します\n"
 
-#: src/gtk/bookmarks.c:128 src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:129 src/gtk/bookmarks.c:140
 msgid "Add Bookmark"
 msgstr "ブックマーク追加"
 
-#: src/gtk/bookmarks.c:135
+#: src/gtk/bookmarks.c:136
 msgid "Add Bookmark: You must enter a hostname\n"
-msgstr "ブックマーク追加: ホスト名を入力しなければなりません\n"
+msgstr "ブックマーク追加: ホスト名を入力して下さい\n"
 
-#: src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:140
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
 "(ex: Linux Sites/Debian)"
 msgstr ""
-"追加したいブックマーク名を入力してください\n"
-"『/』を用いてアイテムをサブメニューへ分けて\n"
-"置くことができます  (例: Linux Sites/Debian)"
+"追加するブックマーク名を入力して下さい。\n"
+"\"/\" を用いると、サブメニューにすることが可能です。\n"
+"(例: Linux Sites/Debian)"
 
-#: src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:140
 msgid "Remember password"
-msgstr "パスワードを覚えて下さい"
+msgstr "パスワードを覚えて置いて下さい"
 
-#: src/gtk/bookmarks.c:465 src/gtk/bookmarks.c:475
+#: src/gtk/bookmarks.c:466 src/gtk/bookmarks.c:476
 msgid "New Folder"
 msgstr "新規フォルダ"
 
-#: src/gtk/bookmarks.c:466
+#: src/gtk/bookmarks.c:467
 msgid "Enter the name of the new folder to create"
-msgstr "作成する新規フォルダ名を入力してください"
+msgstr "作成する新規フォルダ名を入力して下さい"
 
-#: src/gtk/bookmarks.c:476
+#: src/gtk/bookmarks.c:477
 msgid "Enter the name of the new item to create"
-msgstr "新規アイテム名を入力してください"
+msgstr "新規アイテム名を入力して下さい"
 
-#: src/gtk/bookmarks.c:549
+#: src/gtk/bookmarks.c:550
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
 "%s and all it's children?"
 msgstr ""
-"本当に %s のブックマークおよびそれ以下の\n"
-"階層すべてを削除してもよろしいですか?"
+"本当にブックマーク %s とその配下の全てを\n"
+"削除してもよろしいですか？"
 
-#: src/gtk/bookmarks.c:550
+#: src/gtk/bookmarks.c:551
 msgid "Delete Bookmark"
 msgstr "ブックマークの削除"
 
-#: src/gtk/bookmarks.c:577
+#: src/gtk/bookmarks.c:578
 msgid "Bookmarks"
 msgstr "ブックマーク"
 
-#: src/gtk/bookmarks.c:819 src/gtk/bookmarks.c:822
+#: src/gtk/bookmarks.c:820 src/gtk/bookmarks.c:823
 msgid "Edit Entry"
-msgstr "エントリ編集"
+msgstr "エントリの編集"
 
-#: src/gtk/bookmarks.c:859
+#: src/gtk/bookmarks.c:860
 msgid "Description:"
 msgstr "メモ:"
 
-#: src/gtk/bookmarks.c:874
+#: src/gtk/bookmarks.c:875
 msgid "Hostname:"
 msgstr "ホスト名:"
 
-#: src/gtk/bookmarks.c:887
+#: src/gtk/bookmarks.c:888
 msgid "Port:"
-msgstr "ポート:"
+msgstr "ポート番号:"
 
-#: src/gtk/bookmarks.c:904
+#: src/gtk/bookmarks.c:905
 msgid "Protocol:"
 msgstr "プロトコル:"
 
-#: src/gtk/bookmarks.c:928
+#: src/gtk/bookmarks.c:929
 msgid "Remote Directory:"
-msgstr "リモート・ディレクトリ:"
+msgstr "リモート・フォルダ:"
 
-#: src/gtk/bookmarks.c:941
+#: src/gtk/bookmarks.c:942
 msgid "Local Directory:"
-msgstr "ローカル・ディレクトリ:"
+msgstr "ローカル・フォルダ:"
 
-#: src/gtk/bookmarks.c:958
+#: src/gtk/bookmarks.c:959
 msgid "Username:"
 msgstr "ユーザ名:"
 
-#: src/gtk/bookmarks.c:971
+#: src/gtk/bookmarks.c:972
 msgid "Password:"
 msgstr "パスワード:"
 
-#: src/gtk/bookmarks.c:985
+#: src/gtk/bookmarks.c:986
 msgid "Account:"
 msgstr "アカウント:"
 
-#: src/gtk/bookmarks.c:999
+#: src/gtk/bookmarks.c:1000
 msgid "Log in as ANONYMOUS"
-msgstr "ANONYMOUS でログイン"
+msgstr "ANONYMOUS でログインする"
 
-#: src/gtk/bookmarks.c:1025 src/gtk/bookmarks.c:1260
-#: src/gtk/chmod_dialog.c:293 src/gtk/options_dialog.c:1110
-#: src/gtk/options_dialog.c:1312 src/gtk/transfer.c:2053
+#: src/gtk/bookmarks.c:1026 src/gtk/bookmarks.c:1261
+#: src/gtk/chmod_dialog.c:293 src/gtk/options_dialog.c:1117
+#: src/gtk/options_dialog.c:1319 src/gtk/transfer.c:2058
 msgid "  Cancel  "
 msgstr "  キャンセル  "
 
-#: src/gtk/bookmarks.c:1035 src/gtk/options_dialog.c:1323
+#: src/gtk/bookmarks.c:1036 src/gtk/options_dialog.c:1330
 msgid "Apply"
 msgstr "適用"
 
-#: src/gtk/bookmarks.c:1177
+#: src/gtk/bookmarks.c:1178
 msgid "/_File"
 msgstr "/ファイル(_F)"
 
-#: src/gtk/bookmarks.c:1178
-msgid "/File/tearoff"
-msgstr "/ファイル(F)/tearoff"
-
 #: src/gtk/bookmarks.c:1179
-msgid "/File/New Folder..."
-msgstr "/ファイル(F)/新規フォルダ..."
+msgid "/File/tearoff"
+msgstr "/ファイル(_F)/tearoff"
 
 #: src/gtk/bookmarks.c:1180
-msgid "/File/New Item..."
-msgstr "/ファイル(F)/新規アイテム..."
+msgid "/File/New Folder..."
+msgstr "/ファイル(_F)/新規フォルダ..."
 
 #: src/gtk/bookmarks.c:1181
-msgid "/File/Delete"
-msgstr "/ファイル(F)/削除"
+msgid "/File/New Item..."
+msgstr "/ファイル(_F)/新規アイテム..."
 
 #: src/gtk/bookmarks.c:1182
-msgid "/File/Properties..."
-msgstr "/ファイル(F)/プロパティ..."
+msgid "/File/Delete"
+msgstr "/ファイル(_F)/削除"
 
 #: src/gtk/bookmarks.c:1183
-msgid "/File/sep"
-msgstr "/ファイル(F)/sep"
+msgid "/File/Properties..."
+msgstr "/ファイル(_F)/プロパティ..."
 
 #: src/gtk/bookmarks.c:1184
-msgid "/File/Close"
-msgstr "/ファイル(F)/閉じる"
+msgid "/File/sep"
+msgstr "/ファイル(_F)/sep"
 
-#: src/gtk/bookmarks.c:1195 src/gtk/bookmarks.c:1198
+#: src/gtk/bookmarks.c:1185
+msgid "/File/Close"
+msgstr "/ファイル(_F)/閉じる"
+
+#: src/gtk/bookmarks.c:1196 src/gtk/bookmarks.c:1199
 msgid "Edit Bookmarks"
 msgstr "ブックマークの編集"
 
-#: src/gtk/chmod_dialog.c:73 src/gtk/delete_dialog.c:90
-#: src/gtk/menu-items.c:430 src/gtk/mkdir_dialog.c:58
+#: src/gtk/chmod_dialog.c:73 src/gtk/delete_dialog.c:89
+#: src/gtk/menu-items.c:422 src/gtk/mkdir_dialog.c:58
 #: src/gtk/rename_dialog.c:59 src/gtk/transfer.c:533
 msgid "Operation canceled\n"
-msgstr "操作は取り消されました\n"
+msgstr "操作が取り消されました\n"
 
 #: src/gtk/chmod_dialog.c:159 src/gtk/chmod_dialog.c:165
 #: src/gtk/chmod_dialog.c:170
 msgid "Chmod"
-msgstr "アクセスモード変更"
+msgstr "Chmod"
 
 #: src/gtk/chmod_dialog.c:190
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
 msgstr ""
-"現在, 自分のファイル属性を調整できます\n"
-"ノート: いくつかのFTPサーバはアクセスモード変更機能をサポートしていません"
+"現在、自分のファイル属性を調整できます\n"
+"注記: いくつかのFTPサーバはモード変更機能をサポートしていません"
 
 #: src/gtk/chmod_dialog.c:200
 msgid "Special"
@@ -1485,13 +1486,13 @@ msgstr "SUID"
 
 #: src/gtk/chmod_dialog.c:212
 msgid "SGID"
-msgstr "SGID"
+msgstr "SGUID"
 
 #: src/gtk/chmod_dialog.c:216
 msgid "Sticky"
-msgstr "Sticky"
+msgstr "ステッキー"
 
-#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:590
+#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:600
 msgid "User"
 msgstr "ユーザ"
 
@@ -1510,7 +1511,7 @@ msgstr "書き込み"
 msgid "Execute"
 msgstr "実行"
 
-#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:591
+#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:601
 msgid "Group"
 msgstr "グループ"
 
@@ -1518,29 +1519,28 @@ msgstr "グループ"
 msgid "Other"
 msgstr "その他"
 
-#: src/gtk/delete_dialog.c:157
+#: src/gtk/delete_dialog.c:156
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr ""
-"本当にこれら %ld 個のファイル, および %ld 個のディレクトリを削除してもよろし"
-"いですか"
+"本当にこれら %ld 個のファイルと %ld 個のフォルダを削除してもよろしいですか？"
 
-#: src/gtk/delete_dialog.c:159
+#: src/gtk/delete_dialog.c:158
 msgid "Delete Files/Directories"
-msgstr "ファイル/ディレクトリの削除"
+msgstr "ファイル/フォルダの削除"
 
-#: src/gtk/delete_dialog.c:177 src/gtk/options_dialog.c:1184
+#: src/gtk/delete_dialog.c:176 src/gtk/options_dialog.c:1191
 msgid "Delete"
 msgstr "削除"
 
 #: src/gtk/dnd.c:130 src/gtk/dnd.c:222
 msgid "Drag-N-Drop"
-msgstr "ドラッグ&ドロップ"
+msgstr "ドラッグ＆ドロップ"
 
 #: src/gtk/dnd.c:234
 #, c-format
 msgid "Received URL %s\n"
-msgstr "ドロップされた URL: %s\n"
+msgstr "URL %s を受信しました\n"
 
 #: src/gtk/gftp-gtk.c:116
 msgid "Exit"
@@ -1551,493 +1551,493 @@ msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
 msgstr ""
-"転送途中のファイルがあります.\n"
-"本当に終了してもよろしいですか?"
-
-#: src/gtk/gftp-gtk.c:159
-msgid "/_FTP"
-msgstr "/_FTP"
+"転送途中のファイルがあります。\n"
+"本当に終了してもよろしいですか？"
 
 #: src/gtk/gftp-gtk.c:160
-msgid "/FTP/tearoff"
-msgstr "/FTP/tearoff"
+msgid "/_FTP"
+msgstr "/FTP(_F)"
 
 #: src/gtk/gftp-gtk.c:161
-msgid "/FTP/Window 1"
-msgstr "/FTP/ウィンドウ 1"
+msgid "/FTP/tearoff"
+msgstr "/FTP(F)/tearoff"
 
 #: src/gtk/gftp-gtk.c:162
+msgid "/FTP/Window 1"
+msgstr "/FTP(F)/ローカル"
+
+#: src/gtk/gftp-gtk.c:163
 msgid "/FTP/Window 2"
-msgstr "/FTP/ウィンドウ 2"
+msgstr "/FTP(F)/リモート"
 
-#: src/gtk/gftp-gtk.c:163 src/gtk/gftp-gtk.c:166 src/gtk/gftp-gtk.c:169
+#: src/gtk/gftp-gtk.c:164 src/gtk/gftp-gtk.c:167 src/gtk/gftp-gtk.c:170
 msgid "/FTP/sep"
-msgstr "/FTP/sep"
-
-#: src/gtk/gftp-gtk.c:164
-msgid "/FTP/Ascii"
-msgstr "/FTP/アスキー"
+msgstr "/FTP(F)/sep"
 
 #: src/gtk/gftp-gtk.c:165
+msgid "/FTP/Ascii"
+msgstr "/FTP(F)/アスキー"
+
+#: src/gtk/gftp-gtk.c:166
 msgid "/FTP/Binary"
-msgstr "/FTP/バイナリ"
+msgstr "/FTP(F)/バイナリ"
 
-#: src/gtk/gftp-gtk.c:167
+#: src/gtk/gftp-gtk.c:168
 msgid "/FTP/_Options..."
-msgstr "/FTP/オプション(_O)..."
-
-#: src/gtk/gftp-gtk.c:170
-msgid "/FTP/_Quit"
-msgstr "/FTP/終了(_Q)"
+msgstr "/FTP(F)/オプション(_O)..."
 
 #: src/gtk/gftp-gtk.c:171
+msgid "/FTP/_Quit"
+msgstr "/FTP(F)/終了(_Q)"
+
+#: src/gtk/gftp-gtk.c:172
 msgid "/_Local"
 msgstr "/ローカル(_L)"
 
-#: src/gtk/gftp-gtk.c:172
+#: src/gtk/gftp-gtk.c:173
 msgid "/Local/tearoff"
 msgstr "/ローカル(L)/tearoff"
 
-#: src/gtk/gftp-gtk.c:173
+#: src/gtk/gftp-gtk.c:174
 msgid "/Local/Open _URL..."
 msgstr "/ローカル(L)/URLを開く(_U)..."
 
-#: src/gtk/gftp-gtk.c:174
+#: src/gtk/gftp-gtk.c:175
 msgid "/Local/Disconnect"
 msgstr "/ローカル(L)/接続を切断"
 
-#: src/gtk/gftp-gtk.c:175 src/gtk/gftp-gtk.c:181
+#: src/gtk/gftp-gtk.c:176 src/gtk/gftp-gtk.c:182
 msgid "/Local/sep"
 msgstr "/ローカル(L)/sep"
 
-#: src/gtk/gftp-gtk.c:176
+#: src/gtk/gftp-gtk.c:177
 msgid "/Local/Change Filespec..."
 msgstr "/ローカル(L)/ファイル・フィルタ変更..."
 
-#: src/gtk/gftp-gtk.c:177
-msgid "/Local/Show selected"
-msgstr "/ローカル(L)/選択ファイルのみ表示"
-
 #: src/gtk/gftp-gtk.c:178
+msgid "/Local/Show selected"
+msgstr "/ローカル(L)/選択したアイテムの表示"
+
+#: src/gtk/gftp-gtk.c:179
 msgid "/Local/Select All"
 msgstr "/ローカル(L)/全選択"
 
-#: src/gtk/gftp-gtk.c:179
+#: src/gtk/gftp-gtk.c:180
 msgid "/Local/Select All Files"
 msgstr "/ローカル(L)/全ファイル選択"
 
-#: src/gtk/gftp-gtk.c:180
+#: src/gtk/gftp-gtk.c:181
 msgid "/Local/Deselect All"
 msgstr "/ローカル(L)/全選択解除"
 
-#: src/gtk/gftp-gtk.c:182
-msgid "/Local/Save Directory Listing..."
-msgstr "/ローカル(L)/ディレクトリリスト保存..."
-
 #: src/gtk/gftp-gtk.c:183
+msgid "/Local/Save Directory Listing..."
+msgstr "/ローカル(L)/フォルダ一覧の保存..."
+
+#: src/gtk/gftp-gtk.c:184
 msgid "/Local/Send SITE Command..."
 msgstr "/ローカル(L)/SITEコマンド送信..."
 
-#: src/gtk/gftp-gtk.c:184
-msgid "/Local/Change Directory"
-msgstr "/ローカル(L)/ディレクトリ変更"
-
 #: src/gtk/gftp-gtk.c:185
+msgid "/Local/Change Directory"
+msgstr "/ローカル(L)/フォルダの変更"
+
+#: src/gtk/gftp-gtk.c:186
 msgid "/Local/Chmod..."
 msgstr "/ローカル(L)/アクセスモード変更..."
 
-#: src/gtk/gftp-gtk.c:186
-msgid "/Local/Make Directory..."
-msgstr "/ローカル(L)/ディレクトリ作成..."
-
 #: src/gtk/gftp-gtk.c:187
+msgid "/Local/Make Directory..."
+msgstr "/ローカル(L)/フォルダの作成..."
+
+#: src/gtk/gftp-gtk.c:188
 msgid "/Local/Rename..."
 msgstr "/ローカル(L)/名前変更..."
 
-#: src/gtk/gftp-gtk.c:188
+#: src/gtk/gftp-gtk.c:189
 msgid "/Local/Delete..."
 msgstr "/ローカル(L)/削除..."
 
-#: src/gtk/gftp-gtk.c:189
+#: src/gtk/gftp-gtk.c:190
 msgid "/Local/Edit..."
 msgstr "/ローカル(L)/編集..."
 
-#: src/gtk/gftp-gtk.c:190
+#: src/gtk/gftp-gtk.c:191
 msgid "/Local/View..."
 msgstr "/ローカル(L)/閲覧..."
 
-#: src/gtk/gftp-gtk.c:191
+#: src/gtk/gftp-gtk.c:192
 msgid "/Local/Refresh"
 msgstr "/ローカル(L)/リフレッシュ"
 
-#: src/gtk/gftp-gtk.c:192
+#: src/gtk/gftp-gtk.c:193
 msgid "/_Remote"
 msgstr "/リモート(_R)"
 
-#: src/gtk/gftp-gtk.c:193
+#: src/gtk/gftp-gtk.c:194
 msgid "/Remote/tearoff"
 msgstr "/リモート(R)/tearoff"
 
-#: src/gtk/gftp-gtk.c:194
+#: src/gtk/gftp-gtk.c:195
 msgid "/Remote/Open _URL..."
 msgstr "/リモート(R)/URLを開く(_U)..."
 
-#: src/gtk/gftp-gtk.c:196
+#: src/gtk/gftp-gtk.c:197
 msgid "/Remote/Disconnect"
 msgstr "/リモート(R)/接続を切断"
 
-#: src/gtk/gftp-gtk.c:198 src/gtk/gftp-gtk.c:204
+#: src/gtk/gftp-gtk.c:199 src/gtk/gftp-gtk.c:205
 msgid "/Remote/sep"
 msgstr "/リモート(R)/sep"
 
-#: src/gtk/gftp-gtk.c:199
+#: src/gtk/gftp-gtk.c:200
 msgid "/Remote/Change Filespec..."
 msgstr "/リモート(R)/ファイル・フィルタ変更..."
 
-#: src/gtk/gftp-gtk.c:200
-msgid "/Remote/Show selected"
-msgstr "/リモート(R)/選択ファイルのみ表示"
-
 #: src/gtk/gftp-gtk.c:201
-msgid "/Remote/Select All"
-msgstr "/リモート(R)/全選択"
+msgid "/Remote/Show selected"
+msgstr "/リモート(R)/選択したアイテムの表示"
 
 #: src/gtk/gftp-gtk.c:202
+msgid "/Remote/Select All"
+msgstr "/リモート(R)/全て選択"
+
+#: src/gtk/gftp-gtk.c:203
 msgid "/Remote/Select All Files"
 msgstr "/リモート(R)/全ファイル選択"
 
-#: src/gtk/gftp-gtk.c:203
+#: src/gtk/gftp-gtk.c:204
 msgid "/Remote/Deselect All"
 msgstr "/リモート(R)/全選択解除"
 
-#: src/gtk/gftp-gtk.c:205
-msgid "/Remote/Save Directory Listing..."
-msgstr "/リモート(R)/ディレクトリリスト保存..."
-
 #: src/gtk/gftp-gtk.c:206
+msgid "/Remote/Save Directory Listing..."
+msgstr "/リモート(R)/フォルダ一覧の保存..."
+
+#: src/gtk/gftp-gtk.c:207
 msgid "/Remote/Send SITE Command..."
 msgstr "/リモート(R)/SITEコマンド送信..."
 
-#: src/gtk/gftp-gtk.c:207
-msgid "/Remote/Change Directory"
-msgstr "/リモート(R)/ディレクトリ変更"
-
 #: src/gtk/gftp-gtk.c:208
+msgid "/Remote/Change Directory"
+msgstr "/リモート(R)/フォルダの変更"
+
+#: src/gtk/gftp-gtk.c:209
 msgid "/Remote/Chmod..."
 msgstr "/リモート(R)/アクセスモード変更..."
 
-#: src/gtk/gftp-gtk.c:209
-msgid "/Remote/Make Directory..."
-msgstr "/リモート(R)/ディレクトリ作成..."
-
 #: src/gtk/gftp-gtk.c:210
+msgid "/Remote/Make Directory..."
+msgstr "/リモート(R)/フォルダの作成..."
+
+#: src/gtk/gftp-gtk.c:211
 msgid "/Remote/Rename..."
 msgstr "/リモート(R)/名前変更..."
 
-#: src/gtk/gftp-gtk.c:211
+#: src/gtk/gftp-gtk.c:212
 msgid "/Remote/Delete..."
 msgstr "/リモート(R)/削除..."
 
-#: src/gtk/gftp-gtk.c:212
+#: src/gtk/gftp-gtk.c:213
 msgid "/Remote/Edit..."
 msgstr "/リモート(R)/編集..."
 
-#: src/gtk/gftp-gtk.c:213
+#: src/gtk/gftp-gtk.c:214
 msgid "/Remote/View..."
 msgstr "/リモート(R)/閲覧..."
 
-#: src/gtk/gftp-gtk.c:214
+#: src/gtk/gftp-gtk.c:215
 msgid "/Remote/Refresh"
 msgstr "/リモート(R)/リフレッシュ"
 
-#: src/gtk/gftp-gtk.c:215
+#: src/gtk/gftp-gtk.c:216
 msgid "/_Bookmarks"
 msgstr "/ブックマーク(_B)"
 
-#: src/gtk/gftp-gtk.c:216
+#: src/gtk/gftp-gtk.c:217
 msgid "/Bookmarks/tearoff"
 msgstr "/ブックマーク(B)/tearoff"
 
-#: src/gtk/gftp-gtk.c:217
+#: src/gtk/gftp-gtk.c:218
 msgid "/Bookmarks/Add bookmark"
-msgstr "/ブックマーク(B)/ブックマークに追加"
+msgstr "/ブックマーク(B)/ブックマークへ追加"
 
-#: src/gtk/gftp-gtk.c:219
+#: src/gtk/gftp-gtk.c:220
 msgid "/Bookmarks/Edit bookmarks"
 msgstr "/ブックマーク(B)/ブックマークの編集"
 
-#: src/gtk/gftp-gtk.c:220
+#: src/gtk/gftp-gtk.c:221
 msgid "/Bookmarks/sep"
 msgstr "/ブックマーク(B)/sep"
 
-#: src/gtk/gftp-gtk.c:221
+#: src/gtk/gftp-gtk.c:222
 msgid "/_Transfers"
 msgstr "/転送(_T)"
 
-#: src/gtk/gftp-gtk.c:222
+#: src/gtk/gftp-gtk.c:223
 msgid "/Transfers/tearoff"
 msgstr "/転送(T)/tearoff"
 
-#: src/gtk/gftp-gtk.c:223
+#: src/gtk/gftp-gtk.c:224
 msgid "/Transfers/Start Transfer"
 msgstr "/転送(T)/転送開始"
 
-#: src/gtk/gftp-gtk.c:224
+#: src/gtk/gftp-gtk.c:225
 msgid "/Transfers/Stop Transfer"
 msgstr "/転送(T)/転送停止"
 
-#: src/gtk/gftp-gtk.c:226 src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:227 src/gtk/gftp-gtk.c:235
 msgid "/Transfers/sep"
 msgstr "/転送(T)/sep"
 
-#: src/gtk/gftp-gtk.c:227
-msgid "/Transfers/Skip Current File"
-msgstr "/転送(T)/現在のファイルをスキップ"
-
 #: src/gtk/gftp-gtk.c:228
+msgid "/Transfers/Skip Current File"
+msgstr "/転送(T)/このファイルをスキップ"
+
+#: src/gtk/gftp-gtk.c:229
 msgid "/Transfers/Remove File"
-msgstr "/転送(T)/ファイルを削除"
+msgstr "/転送(T)/ファイルの削除"
 
-#: src/gtk/gftp-gtk.c:230
+#: src/gtk/gftp-gtk.c:231
 msgid "/Transfers/Move File _Up"
-msgstr "/転送(T)/ファイルを上へ移動(_U)"
+msgstr "/転送(T)/アップロード(_U)"
 
-#: src/gtk/gftp-gtk.c:232
+#: src/gtk/gftp-gtk.c:233
 msgid "/Transfers/Move File _Down"
-msgstr "/転送(T)/ファイルを下へ移動(_D)"
+msgstr "/転送(T)/ダウンロード(_D)"
 
-#: src/gtk/gftp-gtk.c:235
+#: src/gtk/gftp-gtk.c:236
 msgid "/Transfers/Retrieve Files"
 msgstr "/転送(T)/ファイルを取ってくる"
 
-#: src/gtk/gftp-gtk.c:236
+#: src/gtk/gftp-gtk.c:237
 msgid "/Transfers/Put Files"
 msgstr "/転送(T)/ファイルを送る"
 
-#: src/gtk/gftp-gtk.c:237
+#: src/gtk/gftp-gtk.c:238
 msgid "/L_ogging"
 msgstr "/ログ(_O)"
 
-#: src/gtk/gftp-gtk.c:238
+#: src/gtk/gftp-gtk.c:239
 msgid "/Logging/tearoff"
 msgstr "/ログ(O)/tearoff"
 
-#: src/gtk/gftp-gtk.c:239
+#: src/gtk/gftp-gtk.c:240
 msgid "/Logging/Clear"
 msgstr "/ログ(O)/消去"
 
-#: src/gtk/gftp-gtk.c:240
-msgid "/Logging/View log..."
-msgstr "/ログ(O)/ログを見る..."
-
 #: src/gtk/gftp-gtk.c:241
-msgid "/Logging/Save log..."
-msgstr "/ログ(O)/ログを保存..."
+msgid "/Logging/View log..."
+msgstr "/ログ(O)/ログの表示..."
 
 #: src/gtk/gftp-gtk.c:242
+msgid "/Logging/Save log..."
+msgstr "/ログ(O)/ログの保存..."
+
+#: src/gtk/gftp-gtk.c:243
 msgid "/Tool_s"
 msgstr "/ツール(_S)"
 
-#: src/gtk/gftp-gtk.c:243
+#: src/gtk/gftp-gtk.c:244
 msgid "/Tools/tearoff"
 msgstr "/ツール(S)/tearoff"
 
-#: src/gtk/gftp-gtk.c:244
+#: src/gtk/gftp-gtk.c:245
 msgid "/Tools/Compare Windows"
 msgstr "/ツール(S)/ウィンドウの比較"
 
-#: src/gtk/gftp-gtk.c:245
-msgid "/Tools/Clear Cache"
-msgstr "/ツール(S)/キャッシュをクリア"
-
 #: src/gtk/gftp-gtk.c:246
+msgid "/Tools/Clear Cache"
+msgstr "/ツール(S)/キャッシュのクリア"
+
+#: src/gtk/gftp-gtk.c:247
 msgid "/_Help"
 msgstr "/ヘルプ(_H)"
 
-#: src/gtk/gftp-gtk.c:247
+#: src/gtk/gftp-gtk.c:248
 msgid "/Help/tearoff"
 msgstr "/ヘルプ(H)/tearoff"
 
-#: src/gtk/gftp-gtk.c:248
+#: src/gtk/gftp-gtk.c:249
 msgid "/Help/About..."
-msgstr "/ヘルプ(H)/gFTPについて..."
+msgstr "/ヘルプ(H)/情報..."
 
-#: src/gtk/gftp-gtk.c:357
+#: src/gtk/gftp-gtk.c:367
 msgid "Host: "
 msgstr "ホスト"
 
-#: src/gtk/gftp-gtk.c:375
+#: src/gtk/gftp-gtk.c:385
 msgid "Port: "
-msgstr "ポート:"
+msgstr "ポート番号:"
 
-#: src/gtk/gftp-gtk.c:393
+#: src/gtk/gftp-gtk.c:403
 msgid "User: "
 msgstr "ユーザ:"
 
-#: src/gtk/gftp-gtk.c:411
+#: src/gtk/gftp-gtk.c:421
 msgid "Pass: "
 msgstr "パスワード:"
 
-#: src/gtk/gftp-gtk.c:588 src/gtk/gftp-gtk.c:792 src/gtk/transfer.c:1882
+#: src/gtk/gftp-gtk.c:598 src/gtk/gftp-gtk.c:802 src/gtk/transfer.c:1887
 msgid "Filename"
 msgstr "ファイル名"
 
-#: src/gtk/gftp-gtk.c:589
+#: src/gtk/gftp-gtk.c:599
 msgid "Size"
 msgstr "サイズ"
 
-#: src/gtk/gftp-gtk.c:592
+#: src/gtk/gftp-gtk.c:602
 msgid "Date"
 msgstr "日付"
 
-#: src/gtk/gftp-gtk.c:593
+#: src/gtk/gftp-gtk.c:603
 msgid "Attribs"
 msgstr "属性"
 
-#: src/gtk/gftp-gtk.c:793
+#: src/gtk/gftp-gtk.c:803
 msgid "Progress"
 msgstr "経過"
 
-#: src/gtk/gftp-gtk.c:903 src/gtk/misc-gtk.c:892 src/gtk/misc-gtk.c:963
+#: src/gtk/gftp-gtk.c:913 src/gtk/misc-gtk.c:892 src/gtk/misc-gtk.c:963
 msgid "Connect"
 msgstr "接続"
 
-#: src/gtk/gftp-gtk.c:925
+#: src/gtk/gftp-gtk.c:935
 msgid "Error: You must type in a host to connect to\n"
-msgstr "エラー: 接続先のホストを入力してください\n"
+msgstr "エラー: 接続先のホストを入力して下さい\n"
 
-#: src/gtk/gftp-gtk.c:1160
+#: src/gtk/gftp-gtk.c:1170
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
 "news about gFTP from my website at http://www.gftp.org/\n"
 msgstr ""
-">. もしこのプログラムについて不明な点やコメント, 提案があるのなら, 気軽にE"
-"メールで私に送ってください. gFTPに関する最新の情報は 私のウェブ・サイト "
-"http://www.gftp.org/ で見付けることができます.\n"
+">. このプログラムに対する質問やコメント、提案がある場合はお気軽に E-メールで"
+"私に送って下さい。gFTPに関する最新の情報はウェブ・サイト http://www.gftp."
+"org/ をご覧下さい。\n"
 
-#: src/gtk/gftp-gtk.c:1162 src/text/gftp-text.c:150
+#: src/gtk/gftp-gtk.c:1172 src/text/gftp-text.c:150
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
 "conditions; for details, see the COPYING file\n"
 msgstr ""
-"gFTP は完全に無保証です; 詳細は COPYING ファイルを参照してください. これはフ"
-"リー・ソフトウェアです. 特定条件下での再配布を歓迎します. 詳細は COPYING を参"
-"照してください\n"
+"gFTP は完全に無保証です; 詳細は COPYINGファイルを参照して下さい。これはフリー"
+"ソフトウェアです。特定条件下での再配布を歓迎します。詳細は COPYING を参照して"
+"下さい。\n"
+
+#: src/gtk/menu-items.c:59 src/gtk/menu-items.c:89
+msgid "OpenURL"
+msgstr "OpenURL"
 
 #: src/gtk/menu-items.c:67 src/gtk/menu-items.c:97
-msgid "OpenURL"
-msgstr "URLを開く"
-
-#: src/gtk/menu-items.c:75 src/gtk/menu-items.c:105
 msgid "OpenURL: Operation canceled...you must enter a string\n"
-msgstr "URL を開く: 操作がキャンセルされました...文字を入力してください\n"
+msgstr "OpenURL: 操作がキャンセルされました...文字を入力して下さい\n"
 
-#: src/gtk/menu-items.c:127
+#: src/gtk/menu-items.c:119
 msgid "Connect via URL"
 msgstr "URL による接続"
 
-#: src/gtk/menu-items.c:127
+#: src/gtk/menu-items.c:119
 msgid "Enter ftp url to connect to"
-msgstr "接続先の FTP URL を入力してください"
+msgstr "接続先の FTP URL を入力して下さい"
 
-#: src/gtk/menu-items.c:160
+#: src/gtk/menu-items.c:152
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
-"ファイルフィルタ変更: 処理がキャンセルされました...文字列を入力してください\n"
+"ファイルフィルタ変更: 処理がキャンセルされました...文字列を入力して下さい\n"
 
-#: src/gtk/menu-items.c:197 src/gtk/menu-items.c:200
+#: src/gtk/menu-items.c:189 src/gtk/menu-items.c:192
 msgid "Change Filespec"
 msgstr "ファイルフィルタ変更"
 
-#: src/gtk/menu-items.c:200
+#: src/gtk/menu-items.c:192
 msgid "Enter the new file specification"
-msgstr "新しいファイルフィルタを入力してください"
+msgstr "新しいファイルフィルタを入力して下さい"
 
-#: src/gtk/menu-items.c:228 src/gtk/menu-items.c:600 src/gtk/menu-items.c:658
+#: src/gtk/menu-items.c:220 src/gtk/menu-items.c:592 src/gtk/menu-items.c:650
 #: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:129
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
-msgstr "エラー: 書き込み用に %s を開くことができません: %s\n"
+msgstr "エラー: %s を書き込みモードで開けません: %s\n"
 
-#: src/gtk/menu-items.c:254
+#: src/gtk/menu-items.c:246
 msgid "Save Directory Listing"
-msgstr "ディレクトリ一覧を保存する"
+msgstr "フォルダ一覧を保存します"
 
-#: src/gtk/menu-items.c:371
+#: src/gtk/menu-items.c:363
 msgid "SITE: Operation canceled...you must enter a string\n"
-msgstr "SITE: 処理がキャンセルされました...文字列を入力してください\n"
+msgstr "SITE: 処理がキャンセルされました...文字列を入力して下さい\n"
 
-#: src/gtk/menu-items.c:390 src/gtk/menu-items.c:393
+#: src/gtk/menu-items.c:382 src/gtk/menu-items.c:385
 msgid "Site"
 msgstr "サイト"
 
-#: src/gtk/menu-items.c:393
+#: src/gtk/menu-items.c:385
 msgid "Enter site-specific command"
-msgstr "site-specificコマンドを入力してください"
+msgstr "site-specific コマンドを入力して下さい"
 
-#: src/gtk/menu-items.c:492 src/gtk/menu-items.c:526
+#: src/gtk/menu-items.c:484 src/gtk/menu-items.c:518
 msgid "Chdir"
-msgstr "ディレクトリ移動"
+msgstr "Chdir"
 
-#: src/gtk/menu-items.c:624 src/gtk/menu-items.c:682
+#: src/gtk/menu-items.c:616 src/gtk/menu-items.c:674
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "エラー: %s への書き込みにエラーがありました: %s\n"
 
-#: src/gtk/menu-items.c:693
+#: src/gtk/menu-items.c:685
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
-msgstr "無事にログファイルを %s へ書き込みました\n"
+msgstr "ログファイルへ %s の書き込みが完了しました\n"
 
-#: src/gtk/menu-items.c:705
+#: src/gtk/menu-items.c:697
 msgid "Save Log"
-msgstr "ログを保存"
+msgstr "ログの保存"
 
-#: src/gtk/menu-items.c:741
+#: src/gtk/menu-items.c:733
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr ""
-"ライセンス承諾ファイル COPYING が見付かりません. Please make sure it is in "
-"either %s or in %s"
+"ライセンス承諾ファイル COPYING が見つかりません。%s または %s の中を確認して"
+"下さい。"
 
-#: src/gtk/menu-items.c:745 src/gtk/menu-items.c:750
+#: src/gtk/menu-items.c:737 src/gtk/menu-items.c:742
 msgid "About gFTP"
 msgstr "gFTPについて"
 
-#: src/gtk/menu-items.c:781
+#: src/gtk/menu-items.c:773
 #, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
 "Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
 "%s\n"
-"著作(C) 1998-2002 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
 "公式ホームページ: http://www.gftp.org/\n"
-"ロゴ製作者: Aaron Worley <planet_hoth@yahoo.com>\n"
+"ロゴ提供: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: src/gtk/menu-items.c:782 src/text/gftp-text.c:390
+#: src/gtk/menu-items.c:774 src/text/gftp-text.c:390
 msgid "Translated by"
-msgstr "翻訳者: 古川 泰之・稲垣良一・鎌ヶ迫正俊"
+msgstr "翻訳者: 古川泰之/稲垣良一/鎌ヶ迫正俊/相花毅"
 
-#: src/gtk/menu-items.c:793
+#: src/gtk/menu-items.c:785
 msgid "About"
-msgstr "gFTP について"
+msgstr "情報"
 
-#: src/gtk/menu-items.c:842
+#: src/gtk/menu-items.c:834
 msgid "License Agreement"
 msgstr "ライセンス承諾"
 
-#: src/gtk/menu-items.c:848 src/gtk/view_dialog.c:377
+#: src/gtk/menu-items.c:840 src/gtk/view_dialog.c:377
 msgid "  Close  "
 msgstr "  閉じる  "
 
-#: src/gtk/menu-items.c:930
+#: src/gtk/menu-items.c:922
 msgid "Compare Windows"
 msgstr "ウィンドウの比較"
 
@@ -2060,29 +2060,29 @@ msgstr "接続なし"
 #: src/gtk/misc-gtk.c:410
 #, c-format
 msgid "Error opening file %s: %s\n"
-msgstr "ファイル %s オープンのエラー: %s\n"
+msgstr "ファイル %s のオープンでエラー: %s\n"
 
 #: src/gtk/misc-gtk.c:499
 #, c-format
 msgid "%s: Not connected to a remote site\n"
-msgstr "%s: リモート・サイトへ接続がありません\n"
+msgstr "%s: リモート・サイトに接続していません\n"
 
 #: src/gtk/misc-gtk.c:506
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr ""
-"%s: この失敗は, このプロトコルを使った利用でができないことによるものです\n"
+"%s: この失敗は、このプロトコルを使った利用でができないことによるものです\n"
 
 #: src/gtk/misc-gtk.c:514
 #, c-format
 msgid "%s: You must only have one item selected\n"
-msgstr "%s: アイテムを一つだけ選択してください\n"
+msgstr "%s: アイテムを一つだけ選択して下さい\n"
 
 #: src/gtk/misc-gtk.c:521
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr ""
-"%s: アイテムを少なくとも一つ選択してください\n"
+"%s: アイテムを少なくとも一つ選択して下さい\n"
 "\n"
 
 #: src/gtk/misc-gtk.c:889 src/gtk/misc-gtk.c:960
@@ -2092,9 +2092,9 @@ msgstr "変更"
 #: src/gtk/misc-gtk.c:895 src/gtk/misc-gtk.c:966 src/gtk/rename_dialog.c:101
 #: src/gtk/rename_dialog.c:113
 msgid "Rename"
-msgstr "名前変更"
+msgstr "Rename"
 
-#: src/gtk/misc-gtk.c:957 src/gtk/options_dialog.c:1170
+#: src/gtk/misc-gtk.c:957 src/gtk/options_dialog.c:1177
 msgid "Add"
 msgstr "追加"
 
@@ -2112,7 +2112,7 @@ msgstr "  いいえ  "
 
 #: src/gtk/misc-gtk.c:1119
 msgid "Getting directory listings"
-msgstr "ディレクトリ一覧を取得しています"
+msgstr "フォルダ一覧を取得しています"
 
 #: src/gtk/misc-gtk.c:1139
 msgid "  Stop  "
@@ -2124,71 +2124,70 @@ msgid ""
 "Received %ld directories\n"
 "and %ld files"
 msgstr ""
-"%ld 個のディレクトリ\n"
-"%ld 個のファイルを受信"
+"%ld 個のフォルダ\n"
+"%ld 個のファイルを受信済"
 
 #: src/gtk/misc-gtk.c:1269
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
-msgstr "gFTPエラー: ファイル %s が %s か %s に見付かりません\n"
+msgstr "gFTP エラー: ファイル %s が %s または %s の中にありません\n"
 
 #: src/gtk/mkdir_dialog.c:78
 msgid "Mkdir: Operation canceled...you must enter a string\n"
-msgstr ""
-"ディレクトリ作成: 操作がキャンセルされました...文字を入力してください\n"
+msgstr "フォルダの作成: 操作がキャンセルされました...文字を入力して下さい\n"
 
 #: src/gtk/mkdir_dialog.c:100
 msgid "Mkdir"
-msgstr "ディレクトリ作成"
+msgstr "Mkdir"
 
 #: src/gtk/mkdir_dialog.c:104
 msgid "Make Directory"
-msgstr "新規ディレクトリを作成します"
+msgstr "新しいフォルダを作成します"
 
 #: src/gtk/mkdir_dialog.c:104
 msgid "Enter name of directory to create"
-msgstr "作成するディレクトリ名を入力してください"
+msgstr "作成するフォルダ名を入力して下さい"
 
-#: src/gtk/options_dialog.c:910
+#: src/gtk/options_dialog.c:917
 msgid "Edit Host"
-msgstr "ホストを編集"
+msgstr "ホストの編集"
 
-#: src/gtk/options_dialog.c:910
+#: src/gtk/options_dialog.c:917
 msgid "Add Host"
-msgstr "ホストを追加"
+msgstr "ホストの追加"
 
-#: src/gtk/options_dialog.c:942 src/gtk/options_dialog.c:1033
+#: src/gtk/options_dialog.c:949 src/gtk/options_dialog.c:1040
 msgid "Domain"
 msgstr "ドメイン"
 
-#: src/gtk/options_dialog.c:962
+#: src/gtk/options_dialog.c:969
 msgid "Network Address"
 msgstr "ネットワーク・アドレス"
 
-#: src/gtk/options_dialog.c:995 src/gtk/options_dialog.c:1135
+#: src/gtk/options_dialog.c:1002 src/gtk/options_dialog.c:1142
 msgid "Netmask"
 msgstr "ネットマスク"
 
-#: src/gtk/options_dialog.c:1141
+#: src/gtk/options_dialog.c:1148
 msgid "Local Hosts"
 msgstr "ローカル・ホスト"
 
-#: src/gtk/options_dialog.c:1177 src/gtk/view_dialog.c:91
+#: src/gtk/options_dialog.c:1184 src/gtk/view_dialog.c:91
 msgid "Edit"
 msgstr "編集"
 
-#: src/gtk/options_dialog.c:1239 src/gtk/options_dialog.c:1244
+#: src/gtk/options_dialog.c:1246 src/gtk/options_dialog.c:1251
 msgid "Options"
 msgstr "オプション"
 
 #: src/gtk/rename_dialog.c:79
 msgid "Rename: Operation canceled...you must enter a string\n"
-msgstr "名前変更: 操作がキャンセルされました...文字を入力してください\n"
+msgstr "名前変更: 操作がキャンセルされました...文字を入力して下さい\n"
 
 #: src/gtk/rename_dialog.c:111
 #, c-format
 msgid "What would you like to rename %s to?"
-msgstr "%s を何に変更しますか"
+msgstr "%sを何に変更しますか"
 
 #: src/gtk/transfer.c:166
 msgid "Receiving file names..."
@@ -2197,7 +2196,7 @@ msgstr "ファイル名を取ってきています..."
 #: src/gtk/transfer.c:282
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
-msgstr "再び接続するまで, %d 秒待ってください\n"
+msgstr "再び接続するまで, %d 秒お待ち下さい\n"
 
 #: src/gtk/transfer.c:309 src/gtk/transfer.c:1285
 msgid "Connecting..."
@@ -2205,15 +2204,15 @@ msgstr "接続しています..."
 
 #: src/gtk/transfer.c:319 src/gtk/transfer.c:1179 src/gtk/transfer.c:1190
 msgid "Enter Password"
-msgstr "パスワードを入力してください"
+msgstr "パスワードを入力して下さい"
 
 #: src/gtk/transfer.c:320 src/gtk/transfer.c:1180 src/gtk/transfer.c:1191
 msgid "Please enter your password for this site"
-msgstr "このサイトのパスワードを入力してください"
+msgstr "このサイトのパスワードを入力して下さい"
 
 #: src/gtk/transfer.c:410
 msgid "Transfer Files"
-msgstr "ファイル転送"
+msgstr "ファイルの転送"
 
 #: src/gtk/transfer.c:418
 msgid "Retrieve Files: Not connected to a remote site\n"
@@ -2222,7 +2221,8 @@ msgstr "ファイル復旧: リモート・サイトへ接続していません\
 #: src/gtk/transfer.c:645
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr ""
-"エラー: ファイル転送のテスト後, リモート・サイトから接続を切断されました.\n"
+"エラー: リモートサイトはファイル転送後に接続を閉じました\n"
+"\n"
 
 #: src/gtk/transfer.c:702
 #, c-format
@@ -2232,10 +2232,10 @@ msgstr "%s を %s からダウンロードできませんでした\n"
 #: src/gtk/transfer.c:732
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
-msgstr "%s を %.2f KB/秒にて正常に転送しました\n"
+msgstr "%s の転送が完了しました (%.2f Kバイト/秒)\n"
 
 #: src/gtk/transfer.c:837 src/gtk/transfer.c:1071 src/gtk/transfer.c:1157
-#: src/gtk/transfer.c:1595
+#: src/gtk/transfer.c:1600
 msgid "Skipped"
 msgstr "スキップ"
 
@@ -2256,7 +2256,7 @@ msgstr "子プロセス %d は正常に終了しました\n"
 #: src/gtk/transfer.c:994
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
-msgstr "エラー: ファイル %sの情報を取得できません: %s\n"
+msgstr "エラー: ファイル %s の情報を取得できません: %s\n"
 
 #: src/gtk/transfer.c:999
 #, c-format
@@ -2269,8 +2269,8 @@ msgid ""
 "File %s has changed.\n"
 "Would you like to upload it?"
 msgstr ""
-"ファイル %s は変更されています.\n"
-"アップロードしますか?"
+"ファイル %s が変更されています。\n"
+"アップロードしますか？"
 
 #: src/gtk/transfer.c:1010
 msgid "Edit File"
@@ -2285,91 +2285,90 @@ msgstr "終了しました"
 msgid "Stopping the transfer of %s\n"
 msgstr "%s の転送を停止しています\n"
 
-#: src/gtk/transfer.c:1326
+#: src/gtk/transfer.c:1329
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
-msgstr ""
-"%1$d%% 完了, 推測残り時間 %2$02d:%3$02d:%4$02d. (全 %6$ld ファイル中 %5$ld)"
+msgstr "%d%% 完了  推測残り時間=%02d:%02d:%02d (ファイル数 %ld/%ld)"
 
-#: src/gtk/transfer.c:1354
+#: src/gtk/transfer.c:1359
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
-msgstr "Recv %s of %s at %.2fKバイト/秒, 推測残り時間 %02d:%02d:%02d"
+msgstr "受信 %s of %s (%.2fKバイト/秒)  推測残り時間=%02d:%02d:%02d"
 
-#: src/gtk/transfer.c:1363
+#: src/gtk/transfer.c:1368
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
-msgstr "Recv %s of %s, 転送停止中, 推測残り時間は不明"
+msgstr "Recv %s of %s (転送停止中) 推測残り時間=不明"
 
-#: src/gtk/transfer.c:1389
+#: src/gtk/transfer.c:1394
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "ファイル名を取ってきています... %s バイト"
 
-#: src/gtk/transfer.c:1467 src/gtk/transfer.c:1489 src/gtk/transfer.c:1523
-#: src/gtk/transfer.c:1563 src/gtk/transfer.c:1616 src/gtk/transfer.c:1675
+#: src/gtk/transfer.c:1472 src/gtk/transfer.c:1494 src/gtk/transfer.c:1528
+#: src/gtk/transfer.c:1568 src/gtk/transfer.c:1621 src/gtk/transfer.c:1680
 msgid "There are no file transfers selected\n"
-msgstr "選択された転送ファイルはありません\n"
+msgstr "転送するファイルがありません\n"
 
-#: src/gtk/transfer.c:1507
+#: src/gtk/transfer.c:1512
 #, c-format
 msgid "Stopping the transfer on host %s\n"
-msgstr "ホスト %s の転送を停止しています\n"
+msgstr "ホスト %s で転送を停止しています\n"
 
-#: src/gtk/transfer.c:1548 src/gtk/transfer.c:1601
+#: src/gtk/transfer.c:1553 src/gtk/transfer.c:1606
 #, c-format
 msgid "Skipping file %s on host %s\n"
-msgstr "ファイル %s (ホスト %s) の転送をスキップしています\n"
+msgstr "ホスト %s 上のファイル %s をスキップしています\n"
 
-#: src/gtk/transfer.c:1762 src/gtk/transfer.c:1967 src/gtk/transfer.c:2006
+#: src/gtk/transfer.c:1767 src/gtk/transfer.c:1972 src/gtk/transfer.c:2011
 msgid "Overwrite"
 msgstr "上書き"
 
-#: src/gtk/transfer.c:1784 src/gtk/transfer.c:1977 src/gtk/transfer.c:2012
+#: src/gtk/transfer.c:1789 src/gtk/transfer.c:1982 src/gtk/transfer.c:2017
 msgid "Resume"
 msgstr "レジューム"
 
-#: src/gtk/transfer.c:1806 src/gtk/transfer.c:1972
+#: src/gtk/transfer.c:1811 src/gtk/transfer.c:1977
 msgid "Skip"
 msgstr "スキップ"
 
-#: src/gtk/transfer.c:1883
+#: src/gtk/transfer.c:1888
 msgid "Local Size"
 msgstr "ローカルサイズ"
 
-#: src/gtk/transfer.c:1884
+#: src/gtk/transfer.c:1889
 msgid "Remote Size"
 msgstr "リモートサイズ"
 
-#: src/gtk/transfer.c:1885
+#: src/gtk/transfer.c:1890
 msgid "Action"
 msgstr "処理"
 
-#: src/gtk/transfer.c:1887
+#: src/gtk/transfer.c:1892
 msgid "Download Files"
 msgstr "ファイルのダウンロード"
 
-#: src/gtk/transfer.c:1887
+#: src/gtk/transfer.c:1892
 msgid "Upload Files"
 msgstr "ファイルのアップロード"
 
-#: src/gtk/transfer.c:1913
+#: src/gtk/transfer.c:1918
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
 msgstr ""
 "以下のファイルがローカルおよびリモート・コンピュータの両方に\n"
-"存在しています. どうすればよいのか選択して下さい"
+"存在しています。どうすればよいのか選択して下さい。"
 
-#: src/gtk/transfer.c:2018
+#: src/gtk/transfer.c:2023
 msgid "Skip File"
 msgstr "ファイルをスキップ"
 
-#: src/gtk/transfer.c:2028
+#: src/gtk/transfer.c:2033
 msgid "Select All"
 msgstr "全選択"
 
-#: src/gtk/transfer.c:2034
+#: src/gtk/transfer.c:2039
 msgid "Deselect All"
 msgstr "全選択解除"
 
@@ -2380,21 +2379,21 @@ msgstr "閲覧"
 #: src/gtk/view_dialog.c:47
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
-msgstr "閲覧: %s はディレクトリです. 閲覧できません.\n"
+msgstr "閲覧: %s はフォルダです。閲覧できません\n"
 
 #: src/gtk/view_dialog.c:100
 msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "編集: オプション・ダイアログでエディタを指定してください\n"
+msgstr "編集: オプション・ダイアログでエディタを指定して下さい\n"
 
 #: src/gtk/view_dialog.c:113
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
-msgstr "編集: %s はディレクトリです. 閲覧できません.\n"
+msgstr "編集: %s はフォルダです。閲覧できません\n"
 
 #: src/gtk/view_dialog.c:184
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
-msgstr "閲覧: もう一つ他のプロセスをforkできません: %s\n"
+msgstr "閲覧: もう一つ他のプロセスを fork できません: %s\n"
 
 #: src/gtk/view_dialog.c:187
 #, c-format
@@ -2422,23 +2421,23 @@ msgstr "情報"
 
 #: src/text/gftp-text.c:30
 msgid "Shows gFTP information"
-msgstr "gFTP についての情報を表示します"
+msgstr "gFTP の情報を表示します"
 
 #: src/text/gftp-text.c:31
 msgid "ascii"
-msgstr "ASCII モード"
+msgstr "ascii"
 
 #: src/text/gftp-text.c:32
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
-msgstr "現在のファイル転送モードを ASCII に設定します (FTPのみ)"
+msgstr "現在のファイル転送モードを ASCII にします (FTPの場合のみ)"
 
 #: src/text/gftp-text.c:33
 msgid "binary"
-msgstr "バイナリモード"
+msgstr "binary"
 
 #: src/text/gftp-text.c:34
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
-msgstr "現在のファイル転送モードをバイナリに設定します (FTPのみ)"
+msgstr "現在のファイル転送モードをバイナリにします (FTPの場合のみ)"
 
 #: src/text/gftp-text.c:35
 msgid "cd"
@@ -2446,7 +2445,7 @@ msgstr "cd"
 
 #: src/text/gftp-text.c:36 src/text/gftp-text.c:38
 msgid "Changes the remote working directory"
-msgstr "リモート側のディレクトリを変更します"
+msgstr "リモートの作業ディレクトリを変更する"
 
 #: src/text/gftp-text.c:37
 msgid "chdir"
@@ -2458,7 +2457,7 @@ msgstr "chmod"
 
 #: src/text/gftp-text.c:40
 msgid "Changes the permissions of a remote file"
-msgstr "リモートファイルのアクセス権を変更します"
+msgstr "リモートのファイルのアクセス権を変更する"
 
 #: src/text/gftp-text.c:41
 msgid "clear"
@@ -2466,7 +2465,7 @@ msgstr "clear"
 
 #: src/text/gftp-text.c:42
 msgid "Available options: cache"
-msgstr "使用できるオプション: cache"
+msgstr "利用可能なオプション: cache"
 
 #: src/text/gftp-text.c:43
 msgid "close"
@@ -2474,7 +2473,7 @@ msgstr "close"
 
 #: src/text/gftp-text.c:44
 msgid "Disconnects from the remote site"
-msgstr "リモート・サイトから切断します"
+msgstr "リモートのサイトを閉じます"
 
 #: src/text/gftp-text.c:45
 msgid "delete"
@@ -2482,7 +2481,7 @@ msgstr "delete"
 
 #: src/text/gftp-text.c:46
 msgid "Removes a remote file"
-msgstr "リモートのファイルを削除します"
+msgstr "リモート・ファイルを削除する"
 
 #: src/text/gftp-text.c:47
 msgid "get"
@@ -2490,7 +2489,7 @@ msgstr "get"
 
 #: src/text/gftp-text.c:48 src/text/gftp-text.c:72
 msgid "Downloads remote file(s)"
-msgstr "ファイルをダウンロードします"
+msgstr "リモートのファイルのダウンロード"
 
 #: src/text/gftp-text.c:49
 msgid "help"
@@ -2498,7 +2497,7 @@ msgstr "help"
 
 #: src/text/gftp-text.c:50
 msgid "Shows this help screen"
-msgstr "このヘルプ画面を表示します"
+msgstr "このヘルプ画面を表示する"
 
 #: src/text/gftp-text.c:51
 msgid "lcd"
@@ -2506,7 +2505,7 @@ msgstr "lcd"
 
 #: src/text/gftp-text.c:52 src/text/gftp-text.c:54
 msgid "Changes the local working directory"
-msgstr "現在の作業中のディレクトリを変更します"
+msgstr "ローカルのディレクトリを変更する"
 
 #: src/text/gftp-text.c:53
 msgid "lchdir"
@@ -2518,7 +2517,7 @@ msgstr "lchmod"
 
 #: src/text/gftp-text.c:56
 msgid "Changes the permissions of a local file"
-msgstr "ローカルファイルのアクセス権を変更します"
+msgstr "ローカルのファイルのアクセス権を変更する"
 
 #: src/text/gftp-text.c:57
 msgid "ldelete"
@@ -2526,7 +2525,7 @@ msgstr "ldelete"
 
 #: src/text/gftp-text.c:58
 msgid "Removes a local file"
-msgstr "ローカルファイルを削除します"
+msgstr "ローカル・ファイルを削除する"
 
 #: src/text/gftp-text.c:59
 msgid "lls"
@@ -2534,7 +2533,7 @@ msgstr "lls"
 
 #: src/text/gftp-text.c:60
 msgid "Shows the directory listing for the current local directory"
-msgstr "現在のローカルのディレクトリのファイルリストを表示します"
+msgstr "現在のローカル・ディレクトリの一覧を表示する"
 
 #: src/text/gftp-text.c:61
 msgid "lmkdir"
@@ -2542,7 +2541,7 @@ msgstr "lmkdir"
 
 #: src/text/gftp-text.c:62
 msgid "Creates a local directory"
-msgstr "ローカル側でディレクトリを作成します"
+msgstr "ローカルのディレクトリを作成する"
 
 #: src/text/gftp-text.c:63
 msgid "lpwd"
@@ -2550,7 +2549,7 @@ msgstr "lpwd"
 
 #: src/text/gftp-text.c:64
 msgid "Show current local directory"
-msgstr "現在のローカルのディレクトリを表示します"
+msgstr "現在のローカル・ディレクトリを表示する"
 
 #: src/text/gftp-text.c:65
 msgid "lrename"
@@ -2558,7 +2557,7 @@ msgstr "lrename"
 
 #: src/text/gftp-text.c:66
 msgid "Rename a local file"
-msgstr "ローカルファイルの名前を変更します"
+msgstr "ローカル・ファイルの名前を変更する"
 
 #: src/text/gftp-text.c:67
 msgid "lrmdir"
@@ -2566,7 +2565,7 @@ msgstr "lrmdir"
 
 #: src/text/gftp-text.c:68
 msgid "Remove a local directory"
-msgstr "ローカル側のディレクトリを削除します"
+msgstr "ローカルのディレクトリを削除する"
 
 #: src/text/gftp-text.c:69
 msgid "ls"
@@ -2574,7 +2573,7 @@ msgstr "ls"
 
 #: src/text/gftp-text.c:70
 msgid "Shows the directory listing for the current remote directory"
-msgstr "現在のリモートのディレクトリのファイルリストを表示します"
+msgstr "リモート・ディレクトリの一覧を表示する"
 
 #: src/text/gftp-text.c:71
 msgid "mget"
@@ -2586,7 +2585,7 @@ msgstr "mkdir"
 
 #: src/text/gftp-text.c:74
 msgid "Creates a remote directory"
-msgstr "リモート側にディレクトリを作成します"
+msgstr "リモートのディレクトリを作成する"
 
 #: src/text/gftp-text.c:75
 msgid "mput"
@@ -2594,7 +2593,7 @@ msgstr "mput"
 
 #: src/text/gftp-text.c:76 src/text/gftp-text.c:80
 msgid "Uploads local file(s)"
-msgstr "ローカルファイルをアップロードします"
+msgstr "ローカルのファイルをアップロードする"
 
 #: src/text/gftp-text.c:77
 msgid "open"
@@ -2602,7 +2601,7 @@ msgstr "open"
 
 #: src/text/gftp-text.c:78
 msgid "Opens a connection to a remote site"
-msgstr "リモート・サイトへの接続を開きます"
+msgstr "リモート・サイトの接続を開く"
 
 #: src/text/gftp-text.c:79
 msgid "put"
@@ -2614,7 +2613,7 @@ msgstr "pwd"
 
 #: src/text/gftp-text.c:82
 msgid "Show current remote directory"
-msgstr "リモート側のディレクトリを表示します"
+msgstr "リモートのディレクトリを表示する"
 
 #: src/text/gftp-text.c:83
 msgid "quit"
@@ -2622,7 +2621,7 @@ msgstr "quit"
 
 #: src/text/gftp-text.c:84
 msgid "Exit from gFTP"
-msgstr "gFTPを終了します"
+msgstr "gFTP を終了する"
 
 #: src/text/gftp-text.c:85
 msgid "rename"
@@ -2630,7 +2629,7 @@ msgstr "rename"
 
 #: src/text/gftp-text.c:86
 msgid "Rename a remote file"
-msgstr "リモートのファイル名を変更します"
+msgstr "リモート・ファイルの名前を変更する"
 
 #: src/text/gftp-text.c:87
 msgid "rmdir"
@@ -2638,7 +2637,7 @@ msgstr "rmdir"
 
 #: src/text/gftp-text.c:88
 msgid "Remove a remote directory"
-msgstr "リモート・ディレクトリを削除する"
+msgstr "リモートのディレクトリを削除する"
 
 #: src/text/gftp-text.c:89
 msgid "set"
@@ -2648,7 +2647,7 @@ msgstr "set"
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
-"設定ファイル変数を表示します. 変数は 変数名=変数 と指定することで設定できます"
+"設定ファイルの変数を表示する。\"変数=値\" の書式で変数をセットすることも可能"
 
 #: src/text/gftp-text.c:148
 msgid ""
@@ -2658,18 +2657,18 @@ msgid ""
 "news about gFTP from my website at http://www.gftp.org/\n"
 msgstr ""
 ">.\n"
-"もしこのプログラムについて不明な点やコメント, 提案があるのなら, 気軽にメール"
-"で私に送ってください. gFTP に関する最新の情報は 私のウェブ・サイト http://"
-"www.gftp.org/ で見付けることができます\n"
+"このプログラムについて質問やコメント、提案などがある場合は、お気軽に E-メール"
+"で私に教えて下さい。gFTP に対する最新情報についてはウェブ・サイト http://www."
+"gftp.org/ をご覧下さい。\n"
 
 #: src/text/gftp-text.c:231
 msgid "Error: Command not recognized\n"
-msgstr "エラー: 認識できないコマンドです\n"
+msgstr "エラー: コマンドが認識できません\n"
 
 #: src/text/gftp-text.c:338
 msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
 msgstr ""
-"使用法: open [[ftp://][ユーザ:パスワード@]FTPサイト[:ポート][/ディレクト"
+"用法: open [[ftp://][ユーザ:パスワード@]FTPサイト[:ポート番号][/ディレクト"
 "リ]]\n"
 
 #: src/text/gftp-text.c:414 src/text/gftp-text.c:430 src/text/gftp-text.c:473
@@ -2677,49 +2676,49 @@ msgstr ""
 #: src/text/gftp-text.c:573 src/text/gftp-text.c:606 src/text/gftp-text.c:698
 #: src/text/gftp-text.c:716 src/text/gftp-text.c:737 src/text/gftp-text.c:811
 msgid "Error: Not connected to a remote site\n"
-msgstr "エラー: リモート・サイトへ接続していません\n"
+msgstr "エラー: リモートサイトに接続していません\n"
 
 #: src/text/gftp-text.c:436 src/text/gftp-text.c:453
 msgid "usage: chdir <directory>\n"
-msgstr "使用法: chdir <ディレクトリ>\n"
+msgstr "用法: chdir <ディレクトリ>\n"
 
 #: src/text/gftp-text.c:480
 msgid "usage: mkdir <new directory>\n"
-msgstr "使用法: mkdir <新規ディレクトリ>\n"
+msgstr "用法: chdir <新しいディレクトリ>\n"
 
 #: src/text/gftp-text.c:503
 msgid "usage: rmdir <directory>\n"
-msgstr "使用法: rmdir <ディレクトリ>\n"
+msgstr "用法: rmdir <ディレクトリ>\n"
 
 #: src/text/gftp-text.c:526
 msgid "usage: delete <file>\n"
-msgstr "使用法: delete <ファイル>\n"
+msgstr "用法: delete <ファイル>\n"
 
 #: src/text/gftp-text.c:555
 msgid "usage: rename <old name> <new name>\n"
-msgstr "使用法: rename <旧名> <新名>\n"
+msgstr "用法: rename <古い名前> <新しい名前>\n"
 
 #: src/text/gftp-text.c:583
 msgid "usage: chmod <mode> <file>\n"
-msgstr "使用法: chmod <モード> <ファイル>\n"
+msgstr "用法: chmod <モード> <ファイル>\n"
 
 #: src/text/gftp-text.c:744
 msgid "usage: mget <filespec>\n"
-msgstr "使用法: mget <ファイルスペック>\n"
+msgstr "用法: mget <ファイル...>\n"
 
 #: src/text/gftp-text.c:818
 msgid "usage: mput <filespec>\n"
-msgstr "使用法: mput <ファイルスペック>\n"
+msgstr "用法: mput <ファイル...>\n"
 
 #: src/text/gftp-text.c:956
 #, c-format
 msgid "Could not download %s\n"
-msgstr "%sをダウンロードできませんでした\n"
+msgstr "%s をダウンロードできませんでした\n"
 
 #: src/text/gftp-text.c:963
 #, c-format
 msgid "Successfully transferred %s\n"
-msgstr "%sを正常に転送しました\n"
+msgstr "%s の転送が完了しました\n"
 
 #: src/text/gftp-text.c:1030
 msgid ""
@@ -2731,218 +2730,27 @@ msgstr ""
 
 #: src/text/gftp-text.c:1086
 msgid "usage: set [variable = value]\n"
-msgstr "使用法: set [変数 = 値]\n"
+msgstr "用法: set [変数 = 値]\n"
 
 #: src/text/gftp-text.c:1100
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
-msgstr "エラー: 変数 %s は適切な環境変数ではありません\n"
+msgstr "エラー: 変数 %s は正しい設定変数ではありません\n"
 
 #: src/text/gftp-text.c:1107
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
-msgstr "エラー: 変数 %s は gFTP のテキスト部に適当ではありません\n"
+msgstr "エラー: gFTP テキスト版では変数 %s を利用できません\n"
 
 #: src/text/gftp-text.c:1135
 msgid "Invalid argument\n"
-msgstr ""
+msgstr "不正な引数です\n"
 
 #: src/text/gftp-text.c:1160
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open controlling terminal %s\n"
-msgstr "gFTPエラー: 設定ファイル %s が開けません: %s\n"
+msgstr "制御端末 %s を開けません\n"
 
 #: src/text/gftp-text.c:1238
 msgid "Clear the directory cache\n"
-msgstr "ディレクトリのキャッシュを削除します\n"
-
-#~ msgid "Finished retrieving data\n"
-#~ msgstr "データの復旧が完了しました\n"
-
-#~ msgid "Could not parse URL %s\n"
-#~ msgstr "URL %s を解釈できませんでした\n"
-
-#~ msgid "gFTP Icon"
-#~ msgstr "gFTP アイコン"
-
-#~ msgid "Remote SSH sftp path:"
-#~ msgstr "リモート SSH sftp パス:"
-
-#~ msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
-#~ msgstr "ドラッグ&ドロップ: 無効なURL %s: URLが不適切です\n"
-
-#~ msgid "Enter your email address here"
-#~ msgstr "メールアドレス:"
-
-#~ msgid "Start file transfers"
-#~ msgstr "ファイル転送を開始する"
-
-#~ msgid "Automatically start the file transfers when they get queued?"
-#~ msgstr "キューを受けたときに自動的にファイル転送を開始するかどうか"
-
-#~ msgid "Send PASV command or PORT command for data transfers"
-#~ msgstr "データ転送に対して PASV コマンドもしくは PORT コマンドを送信します"
-
-#~ msgid ""
-#~ "If you disable this feature, then gFTP will only send LIST to the remote "
-#~ "server instead of LIST -L"
-#~ msgstr ""
-#~ "この機能を無効にすると, gFTPはリモートサーバに, LIST -L のかわりに, LIST "
-#~ "しか送らなくなります"
-
-#~ msgid "Proxy config"
-#~ msgstr "プロキシ設定"
-
-#~ msgid "This specifies how your proxy server expects us to log in"
-#~ msgstr "プロキシサーバへログインする方法を指定します"
-
-#~ msgid "%pu = proxy user"
-#~ msgstr "%pu = プロキシ・ユーザ"
-
-#~ msgid "%hu = host user"
-#~ msgstr "%hu = ホスト・ユーザ"
-
-#~ msgid "%pp = proxy pass"
-#~ msgstr "%pp = プロキシ・パスワード"
-
-#~ msgid "%hp = host pass"
-#~ msgstr "%hp = ホスト・パスワード"
-
-#~ msgid "%ph = proxy host"
-#~ msgstr "%ph = プロキシ・ホスト"
-
-#~ msgid "%hh = host"
-#~ msgstr "%hh = ホスト"
-
-#~ msgid "%po = proxy port"
-#~ msgstr "%po = プロキシ・ポート"
-
-#~ msgid "%ho = host port"
-#~ msgstr "%ho = ホスト・ポート"
-
-#~ msgid "%pa = proxy account"
-#~ msgstr "%pa = プロキシ・アカウント"
-
-#~ msgid "%ha = host account"
-#~ msgstr "%ha = ホスト・アカウント"
-
-#~ msgid "gFTP Error: Default protocol %s is not a valid protocol\n"
-#~ msgstr "gFTP エラー: デフォルトのプロトコル %s は無効なプロトコルです\n"
-
-#~ msgid "This section contains the data that is in the history"
-#~ msgstr "このセクションはヒストリ中にあるデータを含みます"
-
-#~ msgid "Error: You cannot change this variable\n"
-#~ msgstr "エラー: この変数を変更することはできません\n"
-
-#~ msgid ""
-#~ "Internal gFTP Error: Could not look up bookmark entry. This is definately "
-#~ "a bug. Please email masneyb@gftp.org about it. Please be sure to include "
-#~ "the version number and how you can reproduce it\n"
-#~ msgstr ""
-#~ "gFTP 内部エラー: ブックマークエントリが見付かりません. これはバグです. "
-#~ "masneyb@gftp.org へこれについてEメールを送ってください. バージョン番号と "
-#~ "作成方法に関する情報を含ませてください\n"
-
-#~ msgid ""
-#~ "Bookmarks Error: There are some missing entries in this bookmark. Make "
-#~ "sure you have a hostname and username\n"
-#~ msgstr ""
-#~ "ブックマーク・エラー: ブックマーク中いくつかのエントリが足りません. ホスト"
-#~ "名とユーザ名がきちんとあるか, 確認してください\n"
-
-#~ msgid "SSH sftpserv path:"
-#~ msgstr "SSH sftpservのパス:"
-
-#~ msgid "Default remote SSH sftpserv path"
-#~ msgstr "デフォルト リモートSSH sftpservのパス"
-
-#~ msgid "Could not change remote directory to %s: %s\n"
-#~ msgstr "%sへの リモート・ディレクトリの変更ができませんでした:%s \n"
-
-#~ msgid "Remote host could not find file %s\n"
-#~ msgstr "リモートホストは ファイル %sを見付けられません\n"
-
-#~ msgid "Received unexpected response from server\n"
-#~ msgstr "サーバーから予期せぬ応答を受け取りました\n"
-
-#~ msgid "Finished retrieving directory listing\n"
-#~ msgstr "ディレクトリリストの取得を完了しました\n"
-
-#~ msgid "Cannot fdopen() socket for %s: %s\n"
-#~ msgstr "%sに対するソケットの fdopen() をできません : %s\n"
-
-#~ msgid "Error reading from host %s: %s\n"
-#~ msgstr "ホスト%sからの読み込みエラー: %s\n"
-
-#~ msgid "Error writing to host %s: %s\n"
-#~ msgstr "ホスト%sへの書き込みエラー: %s\n"
-
-#~ msgid "Cannot fdopen() socket: %s\n"
-#~ msgstr "ソケット fdopen() ができません: %s\n"
-
-#~ msgid "Error: Received wrong init string from server\n"
-#~ msgstr "エラー: サーバーから不正な初期文字列を受け取りました\n"
-
-#~ msgid "/Bookmarks/"
-#~ msgstr "/ブックマーク(B)/"
-
-#~ msgid "/Bookmarks/%s"
-#~ msgstr "/ブックマーク(B)/%s"
-
-#~ msgid "Create"
-#~ msgstr "作成"
-
-#~ msgid "Yes"
-#~ msgstr "はい"
-
-#~ msgid "No"
-#~ msgstr "いいえ"
-
-#~ msgid "Don't Exit"
-#~ msgstr "終了しない"
-
-#~ msgid "Sort"
-#~ msgstr "ソート"
-
-#~ msgid "Sorting..."
-#~ msgstr "ソートしています..."
-
-#~ msgid "Error: Cannot open %s: %s\n"
-#~ msgstr "エラー: %sを開けません: %s\n"
-
-#~ msgid "Upload"
-#~ msgstr "アップロード"
-
-#~ msgid "Bring up reconnect dialog"
-#~ msgstr "再接続ダイアログを出す"
-
-#~ msgid "Bring up the reconnect dialog after login failure"
-#~ msgstr "ログイン失敗後に再接続ダイアログを表示します"
-
-#~ msgid "Confirm delete"
-#~ msgstr "削除を確認する"
-
-#~ msgid "Confirm when deleting files"
-#~ msgstr "ファイル削除時に確認をとります"
-
-#~ msgid "Save geometry"
-#~ msgstr "ウィンドウ位置を保存"
-
-#~ msgid "Save the size of each widget for next startup"
-#~ msgstr "次回の起動用に各ウィジェットのサイズを保存します"
-
-#~ msgid "Use cache"
-#~ msgstr "キャッシュを利用する"
-
-#~ msgid "Do you want to use the cache?"
-#~ msgstr "キャッシュを利用するかどうか"
-
-#~ msgid "Connect timeout:"
-#~ msgstr "接続待ち時間:"
-
-#~ msgid "The max timeout for the connection"
-#~ msgstr "接続の最大待ち時間"
-
-#~ msgid "The timeout for the read()s and write()s"
-#~ msgstr "read()およびwrite()に対する待ち時間"
+msgstr "フォルダのキャッシュをクリアする\n"
