@@ -1,3 +1,16 @@
+2004-8-21 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c lib/ftpcommon.h - added internal option to quote
+	the filename in the SITE command. This is only enabled for servers
+	that return UNIX in the SYST output. It is disabled if it is a BSD
+	based FTP server
+
+	* lib/sshv2.c (sshv2_start_login_sequence) - pass the search strings
+	through gettext so that logins will work properly for non-english
+	users
+
+	* lib/pty.c (gftp_exec) - redirect STDERR of the child process to the
+	opened pty so that stderr is shown properly in the log window
+
 2004-8-17 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - renamed read_buffer in sshv2_params to
 	transfer_buffer. In sshv2_put_next_file_chunk(), dynamically allocate

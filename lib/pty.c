@@ -324,7 +324,7 @@ gftp_exec (gftp_request * request, int *fdm, int *ptymfd, char **args)
 
       dup2 (s[1], 0);
       dup2 (s[1], 1);
-      dup2 (s[1], 2);
+      dup2 (ptysfd, 2);
       _gftp_close_all_fds (ptysfd);
 
       execvp (args[0], args);
