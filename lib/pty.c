@@ -61,7 +61,9 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
 
 #elif HAVE_GRANTPT
 
+#ifndef __FreeBSD__
 #include <stropts.h>
+#endif
 
 char *
 gftp_get_pty_impl (void)

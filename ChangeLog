@@ -1,3 +1,7 @@
+2004-11-28 Brian Masney <masneyb@gftp.org>
+	* lib/pty.c - if HAVE_GRANTPT is defined, then don't include stropts.h
+	if it is being compiled on FreeBSD (from Radim Kolar <hsn@sendmail.cz>)
+
 2004-11-11 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_connect_server) - if the system does not have
 	getaddrinfo(), removed erronous g_return_val_if_fail() that was always
