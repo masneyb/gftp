@@ -382,7 +382,8 @@ struct gftp_request_tag
   /* One of these are used to lookup the IP address of the host we are
      connecting to */
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-  struct addrinfo *hostp;
+  struct addrinfo *hostp,
+                  *current_hostp;
 #else
   struct hostent host, *hostp;
 #endif

@@ -808,7 +808,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 
   data_addr_len = sizeof (data_addr);
   /* This condition shouldn't happen. We better check anyway... */
-  if (data_addr_len != request->hostp->ai_addrlen) 
+  if (data_addr_len != request->current_hostp->ai_addrlen) 
     {
       request->logging_function (gftp_logging_error, request,
 				 _("Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"));
@@ -835,9 +835,8 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       pos = request->last_ftp_response + 4;
       while (*pos != '(' && *pos != '\0')
         pos++;
-      pos++;
 
-      if (*pos == '\0')
+      if (*pos == '\0' || *(pos + 1) == '\0')
         {
           request->logging_function (gftp_logging_error, request,
                       _("Invalid EPSV response '%s'\n"),
@@ -846,7 +845,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
           return (GFTP_EFATAL);
         }
 
-      if (sscanf (pos, "|||%u|", &port) != 1)
+      if (sscanf (pos + 1, "|||%u|", &port) != 1)
         {
           request->logging_function (gftp_logging_error, request,
                       _("Invalid EPSV response '%s'\n"),
@@ -855,7 +854,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
           return (GFTP_EFATAL);
         }
 
-      memcpy (&data_addr, request->hostp->ai_addr, data_addr_len);
+      memcpy (&data_addr, request->current_hostp->ai_addr, data_addr_len);
       data_addr.sin6_port = htons (port);
 
       if (connect (parms->data_connection, (struct sockaddr *) &data_addr, 
@@ -870,7 +869,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
     }
   else
     {
-      memcpy (&data_addr, request->hostp->ai_addr, data_addr_len);
+      memcpy (&data_addr, request->current_hostp->ai_addr, data_addr_len);
       data_addr.sin6_port = 0;
 
       if (bind (parms->data_connection, (struct sockaddr *) &data_addr, 

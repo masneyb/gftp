@@ -2175,6 +2175,7 @@ gftp_connect_server (gftp_request * request, char *service,
           continue;
         }
 
+      request->current_hostp = res;
       request->ai_family = res->ai_family;
       break;
     }
