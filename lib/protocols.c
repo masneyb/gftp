@@ -1540,9 +1540,13 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir)
         fle->startsize = *newsize;
 
       if (transfer->toreq)
-        fle->destfile = g_strconcat (transfer->toreq->directory, "/", 
-                                     fle->file, NULL);
-      newname = g_strconcat (transfer->fromreq->directory, "/", fle->file, NULL);
+        fle->destfile = g_build_path (G_DIR_SEPARATOR_S, 
+                                      transfer->toreq->directory, fle->file, 
+                                      NULL);
+
+      newname = g_build_path (G_DIR_SEPARATOR_S, transfer->fromreq->directory,
+			     fle->file, NULL);
+
       g_free (fle->file);
       fle->file = newname;
 
@@ -2508,4 +2512,3 @@ gftp_fd_open (gftp_request * request, const char *pathname, int flags, mode_t mo
 
   return (fd);
 }
-

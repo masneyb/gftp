@@ -533,10 +533,15 @@ chdir_dialog (gpointer data)
   templist = get_next_selection (templist, &filelist, &num);
   tempfle = filelist->data;
 
-  newdir = g_strconcat (wdata->request->directory, "/", tempfle->file, NULL);
-  remove_double_slashes (newdir);
+  newdir = g_build_path (G_DIR_SEPARATOR_S, wdata->request->directory, 
+                         tempfle->file, NULL);
+
   if ((tempstr = expand_path (newdir)) == NULL)
-    return (0);
+    {
+      g_free (newdir);
+      return (0);
+    }
+
   g_free (newdir);
 
   if (check_reconnect (wdata) < 0)
@@ -999,4 +1004,3 @@ compare_windows (gpointer data)
       curlist = curlist->next;
     }
 }
-
