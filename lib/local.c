@@ -164,7 +164,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
   g_return_val_if_fail (filename != NULL, -2);
 
-  if (fd > 0)
+  if (fd < 0)
     {
       flags = O_WRONLY | O_CREAT;
       if (startsize > 0)
