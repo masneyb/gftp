@@ -2073,8 +2073,8 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
               (*rbuf)->eof = 1;
             }
 
-          (*rbuf)->buffer[ret + (*rbuf)->cur_bufsize] = '\0';
           (*rbuf)->cur_bufsize += ret;
+          (*rbuf)->curpos[(*rbuf)->cur_bufsize] = '\0';
         }
     }
   while (retval == GFTP_ERETRYABLE);

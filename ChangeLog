@@ -1,3 +1,17 @@
+2003-7-7 Brian Masney <masneyb@gftp.org>
+	* configure.in src/gtk/Makefile.am src/text/Makefile.am - if the 
+	OpenSSL libraries are available on the system, link them in and
+	define USE_SSL. The generic SSL engine and the HTTPS protocol checks
+	for this
+
+	* lib/protocols.c (gftp_get_line) - small fix
+
+	* lib/rfc2068.c - fixed several bugs in the handling of chunked 
+	messages that are spread across multiple packets (the HTTPS protocol
+	unconvered all of these)
+
+	* lib/sslcommon.c - several fixes and cleanups
+
 2003-7-6 Brian Masney <masneyb@gftp.org>
 	* lib/configure.in - check for getdtablesize()
 

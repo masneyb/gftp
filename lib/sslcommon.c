@@ -169,7 +169,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
             break;
         }
     }
- 
+
   if (!ok && (subj = X509_get_subject_name (cert)) &&
       X509_NAME_get_text_by_NID (subj, NID_commonName, data, 256) > 0)
     {
@@ -249,7 +249,7 @@ _gftp_ssl_thread_setup (void)
 {
   int i;
 
-#ifdef G_MAJOR_VERSION == 1
+#if G_MAJOR_VERSION == 1
   /* Thread setup isn't supported in glib 1.2 yet */
   return;
 #endif
@@ -330,6 +330,7 @@ gftp_ssl_session_setup (gftp_request * request)
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Error: SSL engine was not initialized\n"));
+      gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
 
@@ -346,6 +347,7 @@ gftp_ssl_session_setup (gftp_request * request)
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Error setting up SSL connection (BIO object)\n"));
+      gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
 
@@ -355,6 +357,7 @@ gftp_ssl_session_setup (gftp_request * request)
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Error setting up SSL connection (SSL object)\n"));
+      gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
 
@@ -362,7 +365,10 @@ gftp_ssl_session_setup (gftp_request * request)
   SSL_set_ex_data (request->ssl, gftp_ssl_get_index (), request);
 
   if (SSL_connect (request->ssl) <= 0)
-    return (GFTP_EFATAL);
+    {
+      gftp_disconnect (request);
+      return (GFTP_EFATAL);
+    }
 
   if ((ret = gftp_ssl_post_connection_check (request)) != X509_V_OK)
     {
@@ -370,6 +376,7 @@ gftp_ssl_session_setup (gftp_request * request)
         request->logging_function (gftp_logging_error, request,
                                    _("Error with peer certificate: %s\n"),
                                    X509_verify_cert_error_string (ret));
+      gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
 
@@ -404,19 +411,17 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
           err = SSL_get_error (request->ssl, ret);
           if (errno == EINTR)
             {
-              if (request != NULL && request->cancel)
+              if (request->cancel)
                 break;
               else
                 continue;
              }
  
-          if (request != NULL)
-            {
-              request->logging_function (gftp_logging_error, request,
+          request->logging_function (gftp_logging_error, request,
                                    _("Error: Could not read from socket: %s\n"),
                                     g_strerror (errno));
-              gftp_disconnect (request);
-            }
+          gftp_disconnect (request);
+
           return (GFTP_ERETRYABLE);
         }
     }
@@ -458,13 +463,11 @@ gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
                 continue;
              }
  
-          if (request != NULL)
-            {
-              request->logging_function (gftp_logging_error, request,
+          request->logging_function (gftp_logging_error, request,
                                     _("Error: Could not write to socket: %s\n"),
                                     g_strerror (errno));
-              gftp_disconnect (request);
-            }
+          gftp_disconnect (request);
+
           return (GFTP_ERETRYABLE);
         }
       ptr += w_ret;
