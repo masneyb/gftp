@@ -1,3 +1,23 @@
+2002-11-26 Brian Masney <masneyb@gftp.org>
+	* configure.in - change version to 2.0.14rc1
+
+	* lib/local.c - fix for uploading files. Move setting of hostname
+	from local_connect() to local_init()
+
+	* lib/misc.c (gftp_request) - copy only select fields over instead of
+	whole structure
+
+	* lib/protocols.c (gftp_request_new) - set datafd and cachefd to -1
+
+	* lib/protocols.c (gftp_set_proxy_config) - allow a NULL proxy_config
+	to be passed
+
+	* src/gtk/misc-gtk.c (update_window) - don't show the hostname if we
+	are connected via the local protocol
+
+	* src/gtk/transfer.c (create_transfer) - check to see if this protocol
+	is always connected
+
 2002-11-25 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (ssh_start_login_sequence) - fixes for when the initial
 	SSH banner is bigger than 200 characters

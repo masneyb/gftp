@@ -298,7 +298,8 @@ update_window (gftp_window_data * wdata)
     {
       fspec = wdata->show_selected ? "Selected" : strcmp (wdata->filespec, "*") == 0 ?  _("All Files") : wdata->filespec;
 
-      if ((temp1str = GFTP_GET_HOSTNAME (wdata->request)) == NULL)
+      if ((temp1str = GFTP_GET_HOSTNAME (wdata->request)) == NULL ||
+          wdata->request->protonum == GFTP_LOCAL_NUM)
 	temp1str = "";
       tempstr = g_strconcat (temp1str, *temp1str == '\0' ? "[" : " [",
 		     GFTP_GET_PROTOCOL_NAME (wdata->request),
@@ -687,6 +688,7 @@ int
 check_reconnect (gftp_window_data *wdata)
 {
   return (wdata->request->cached && wdata->request->sockfd < 0 && 
+          !wdata->request->always_connected &&
 	  !ftp_connect (wdata, wdata->request, 0) ? -1 : 0);
 }
 

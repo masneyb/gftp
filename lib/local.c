@@ -59,9 +59,6 @@ local_connect (gftp_request * request)
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
 
-  if (request->hostname == NULL)
-    request->hostname = g_strdup (_("local filesystem"));
-
   if (request->directory)
     {
       if (chdir (request->directory) != 0)
@@ -117,7 +114,7 @@ local_get_file (gftp_request * request, const char *filename, int fd,
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
   g_return_val_if_fail (filename != NULL, -2);
 
-  if (fd > 0)
+  if (fd <= 0)
     {
       flags = O_RDONLY;
 #if defined (_LARGEFILE_SOURCE)
@@ -167,7 +164,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
   g_return_val_if_fail (filename != NULL, -2);
 
-  if (fd < 0)
+  if (fd <= 0)
     {
       flags = O_WRONLY | O_CREAT;
       if (startsize > 0)
@@ -701,5 +698,9 @@ local_init (gftp_request * request)
   request->protocol_data = lpd;
   lpd->userhash = g_hash_table_new (hash_function, hash_compare);
   lpd->grouphash = g_hash_table_new (hash_function, hash_compare);
+
+  if (request->hostname != NULL)
+    g_free (request->hostname);
+  request->hostname = g_strdup (_("local filesystem"));
 }
 

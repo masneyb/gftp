@@ -27,6 +27,8 @@ gftp_request_new (void)
 
   request = g_malloc0 (sizeof (*request));
   request->sockfd = -1;
+  request->datafd = -1;
+  request->cachefd = -1;
   request->data_type = GFTP_TYPE_BINARY;
   return (request);
 }
@@ -714,10 +716,15 @@ gftp_set_proxy_config (gftp_request * request, const char *proxy_config)
   int len;
 
   g_return_if_fail (request != NULL);
-  g_return_if_fail (proxy_config != NULL);
 
   if (request->proxy_config != NULL)
     g_free (request->proxy_config);
+
+  if (proxy_config == NULL)
+    {
+      request->proxy_config = NULL;
+      return;
+    }
 
   len = strlen (proxy_config);
 
@@ -1668,7 +1675,7 @@ gftp_connect_server (gftp_request * request, char *service)
                                      _("Failed to create a socket: %s\n"),
                                      g_strerror (errno));
           continue; 
-        }
+        } 
 
       request->logging_function (gftp_logging_misc, request->user_data,
 				 _("Trying %s:%d\n"), disphost, port);

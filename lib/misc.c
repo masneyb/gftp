@@ -569,8 +569,7 @@ copy_request (gftp_request * req)
 {
   gftp_request * newreq;
 
-  newreq = g_malloc0 (sizeof (*newreq));
-  memcpy (newreq, req, sizeof (*newreq));
+  newreq = gftp_request_new ();
 
   if (req->hostname)
     newreq->hostname = g_strdup (req->hostname);
@@ -582,24 +581,20 @@ copy_request (gftp_request * req)
     newreq->account = g_strdup (req->account);
   if (req->directory)
     newreq->directory = g_strdup (req->directory);
+  newreq->port = req->port;
+  newreq->data_type = req->data_type;
+  newreq->use_proxy = req->use_proxy;
+  gftp_set_proxy_config (newreq, req->proxy_config);
+  newreq->transfer_type = req->transfer_type;
+  newreq->network_timeout = req->network_timeout;
+  newreq->retries = req->retries;
+  newreq->sleep_time = req->sleep_time;
+  newreq->passive_transfer = req->passive_transfer;
+  newreq->maxkbs = req->maxkbs;
+  newreq->logging_function = req->logging_function;
 
-  newreq->url_prefix = NULL;
-  newreq->protocol_name = NULL;
-  newreq->sftpserv_path = NULL;
-  newreq->proxy_config = NULL;
-  newreq->proxy_hostname = NULL;
-  newreq->proxy_username = NULL;
-  newreq->proxy_password = NULL;
-  newreq->proxy_account = NULL;
-  newreq->last_ftp_response = NULL;
-  newreq->last_dir_entry = NULL;
-  newreq->sockfd = -1;
-  newreq->datafd = -1;
-  newreq->cachefd = -1;
-  newreq->hostp = NULL;
-  
-  if (req->proxy_config != NULL)
-    newreq->proxy_config = g_strdup (req->proxy_config);
+  if (req->sftpserv_path != NULL)
+    newreq->sftpserv_path = g_strdup (req->sftpserv_path);
 
   req->init (newreq);
 
