@@ -1551,7 +1551,7 @@ rfc959_rename (gftp_request * request, const char *oldname,
 
   if (ret < 0)
     return (ret);
-  else if (ret != '2')
+  else if (ret != '3')
     return (GFTP_ERETRYABLE);
 
   tempstr = g_strconcat ("RNTO ", newname, "\r\n", NULL);

@@ -244,7 +244,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Tools/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Tools/Compare Windows"), NULL, compare_windows, 0, MN_(NULL)},
     {N_("/Tools/Clear Cache"), NULL, clear_cache, 0, MS_(GTK_STOCK_CLEAR)},
-    {N_("/_Help"), NULL, 0, 0, MN_("<LastBranch>")},
+    {N_("/_Help"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Help/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Help/About..."), NULL, about_dialog, 0, MS_(GTK_STOCK_HELP)}
   };

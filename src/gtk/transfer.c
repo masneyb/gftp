@@ -755,6 +755,7 @@ gftp_gtk_transfer_files (void *data)
         }
 
       g_static_mutex_lock (&transfer->structmutex);
+      transfer->curtrans = 0;
       transfer->next_file = 1;
       curfle->transfer_done = 1;
       transfer->curfle = transfer->curfle->next;
