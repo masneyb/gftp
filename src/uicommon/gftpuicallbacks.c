@@ -106,7 +106,7 @@ gftpui_common_run_ls (gftpui_callback_data * cdata)
       fle->file = g_strdup ("..");
       fle->user = g_malloc0 (1);
       fle->group = g_malloc0 (1);
-      fle->st_mode |= S_IFDIR;
+      fle->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR;
       cdata->files = g_list_prepend (cdata->files, fle);
     }
 

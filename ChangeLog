@@ -1,3 +1,8 @@
+2004-10-7 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftpuicallbacks.c (gftpui_common_run_ls) - if the ..
+	directory was not found and an entry is to be created, make sure
+	the attributes are set to drwx------ (previously it was d---------)
+
 2004-10-5 Brian Masney <masneyb@gftp.org>
 	* src/gtk/menu-items.c (dosavelog, viewlog) - make sure the entire
 	log is written out when multibyte characters are used
