@@ -20,6 +20,68 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
+struct gftp_cache_entry_tag
+{
+  char *url,
+       *file;
+  int server_type;
+
+  char *pos1,
+       *pos2;
+};
+  
+typedef struct gftp_cache_entry_tag gftp_cache_entry;
+
+
+static int
+gftp_parse_cache_line (gftp_request * request, gftp_cache_entry * centry, 
+                       char *line)
+{
+  char *pos;
+
+  memset (centry, 0, sizeof (*centry));
+
+  if ((pos = strchr (line, '\t')) == NULL || *(pos + 1) == '\0')
+    {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                            _("Error: Invalid line %s in cache index file\n"), 
+                            line);
+      return (-1);
+    }
+
+  centry->pos1 = pos;
+  *pos++ = '\0';
+  centry->url = line;
+  centry->file = pos;
+  
+  if ((pos = strchr (pos, '\t')) == NULL || *(pos + 1) == '\0')
+    {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                            _("Error: Invalid line %s in cache index file\n"), 
+                            line);
+      return (-1);
+    }
+
+  centry->pos2 = pos;
+  *pos++ = '\0';
+  centry->server_type = strtol (pos, NULL, 10);
+
+  return (0);
+}
+
+
+void
+gftp_restore_cache_line (gftp_cache_entry * centry, char *line)
+{
+  if (centry->pos1 != NULL)
+    *centry->pos1 = '\t';
+
+  if (centry->pos2 != NULL)
+    *centry->pos2 = '\t';
+}
+
 
 int
 gftp_new_cache_entry (gftp_request * request)
@@ -70,13 +132,13 @@ gftp_new_cache_entry (gftp_request * request)
   g_free (cachedir);
 
   lseek (fd, 0, SEEK_END);
-  temp1str = g_strdup_printf ("%s://%s@%s:%d%s\t%s\n", 
+  temp1str = g_strdup_printf ("%s://%s@%s:%d%s\t%s\t%d\n", 
                            request->url_prefix,
                            request->username == NULL ? "" : request->username,
                            request->hostname == NULL ? "" : request->hostname,
                            request->port, 
                            request->directory == NULL ? "" : request->directory,
-                           tempstr);
+                           tempstr, request->server_type);
   g_free (tempstr);
   ret = gftp_write (NULL, temp1str, strlen (temp1str), fd);
   g_free (temp1str);
@@ -99,10 +161,10 @@ gftp_new_cache_entry (gftp_request * request)
 int
 gftp_find_cache_entry (gftp_request * request)
 {
-  char *indexfile, *pos, buf[BUFSIZ], description[BUFSIZ];
+  char *indexfile, buf[BUFSIZ], description[BUFSIZ];
   gftp_getline_buffer * rbuf;
+  gftp_cache_entry centry;
   int indexfd, cachefd;
-  size_t len;
 
   g_snprintf (description, sizeof (description), "%s://%s@%s:%d%s",
               request->url_prefix,
@@ -122,18 +184,11 @@ gftp_find_cache_entry (gftp_request * request)
   rbuf = NULL;
   while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf), indexfd) > 0)
     {
-      len = strlen (buf);
-
-      if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
-	continue;
-
-      len = strlen (description);
-      if (pos - buf != len)
+      if (gftp_parse_cache_line (request, &centry, buf) < 0)
         continue;
 
-      if (strncmp (buf, description, len) == 0)
+      if (strcmp (description, centry.url) == 0)
 	{
-	  pos++;
 	  if (close (indexfd) != 0)
             {
               if (request != NULL)
@@ -144,13 +199,13 @@ gftp_find_cache_entry (gftp_request * request)
               return (-1);
             }
 
-	  if ((cachefd = open (pos, O_RDONLY)) == -1)
+	  if ((cachefd = open (centry.file, O_RDONLY)) == -1)
             {
               if (request != NULL)
                 request->logging_function (gftp_logging_error, 
                                    request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),
-                                   pos, g_strerror (errno));
+                                   centry.file, g_strerror (errno));
               return (-1);
             }
 
@@ -166,10 +221,11 @@ gftp_find_cache_entry (gftp_request * request)
                 request->logging_function (gftp_logging_error, 
                                        request->user_data,
                                        _("Error: Cannot seek on file %s: %s\n"),
-                                       pos, g_strerror (errno));
+                                       centry.file, g_strerror (errno));
 
             }
 
+          request->server_type = centry.server_type;
 	  return (cachefd);
 	}
     }
@@ -181,10 +237,10 @@ gftp_find_cache_entry (gftp_request * request)
 void
 gftp_clear_cache_files (void)
 {
-  char *indexfile, buf[BUFSIZ], *pos;
+  char *indexfile, buf[BUFSIZ];
   gftp_getline_buffer * rbuf;
+  gftp_cache_entry centry;
   int indexfd;
-  size_t len;
 
   indexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
   if ((indexfd = open (indexfile, O_RDONLY)) == -1)
@@ -196,11 +252,10 @@ gftp_clear_cache_files (void)
   rbuf = NULL;
   while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf), indexfd) > 0)
     {
-      len = strlen (buf);
+      if (gftp_parse_cache_line (NULL, &centry, buf) < 0)
+        continue;
 
-      if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
-	continue;
-      unlink (pos + 1);
+      unlink (centry.file);
     }
 
   close (indexfd);
@@ -212,10 +267,10 @@ gftp_clear_cache_files (void)
 void
 gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
 {
-  char *oldindexfile, *newindexfile, *pos, buf[BUFSIZ], description[BUFSIZ];
+  char *oldindexfile, *newindexfile, buf[BUFSIZ], description[BUFSIZ];
   gftp_getline_buffer * rbuf;
+  gftp_cache_entry centry;
   int indexfd, newfd;
-  size_t len, buflen;
   int remove;
 
   g_snprintf (description, sizeof (description), "%s://%s@%s:%d%s",
@@ -247,39 +302,37 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
     }
 
   rbuf = NULL;
-  buflen = strlen (description);
-  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf), indexfd) > 0)
+  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf) - 1, indexfd) > 0)
     {
-      len = strlen (buf);
-
-      if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
-        {
-          if (request != NULL)
-            request->logging_function (gftp_logging_error, request->user_data,
-                            _("Error: Invalid line %s in cache index file\n"), 
-                            buf);
-
-          continue;
-        }
+      if (gftp_parse_cache_line (request, &centry, buf) < 0)
+        continue;
 
       remove = 0;
       if (ignore_directory)
         {
-          if (strncmp (buf, description, strlen (description)) == 0)
+          if (strncmp (centry.url, description, strlen (description)) == 0)
             remove = 1;
         }
       else
         {
-          if (buflen == pos - buf && strncmp (buf, description, pos - buf) == 0)
+          if (strcmp (centry.url, description) == 0)
             remove = 1;
         }
 
  
       if (remove)
-        unlink (pos + 1);
+        unlink (centry.file);
       else
         {
+          /* Make sure when we call gftp_get_line() that we pass the read size
+             as sizeof(buf) - 1 so that we'll have room to put the newline */
           buf[strlen (buf)] = '\n';
+
+          /* Make sure we put the tabs back in the line. I do it this way 
+             so that I don't have to allocate memory again for each line 
+             as we read it */
+          gftp_restore_cache_line (&centry, buf);
+
           if (gftp_write (NULL, buf, strlen (buf), newfd) < 0)
             break;
         }

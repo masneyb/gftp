@@ -310,6 +310,8 @@ rfc959_syst (gftp_request * request)
   if ((stpos = strchr (request->last_ftp_response, ' ')) == NULL)
     return (GFTP_ERETRYABLE);
 
+  stpos++;
+
   if ((endpos = strchr (stpos, ' ')) == NULL)
     return (GFTP_ERETRYABLE);
 

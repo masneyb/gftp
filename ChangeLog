@@ -1,4 +1,13 @@
 2003-2-23 Brian Masney <masneyb@gftp.org>
+	* lib/cache.c - added function gftp_parse_cache_entry(). Save
+	request->server_type (output of SYST in FTP command) to the directory
+	entry
+
+	* lib/rfc959.c (rfc959_syst) - fix to parse the output correctly
+
+	* src/{text,gtk}/Makefile.am - remove @LIBINTL@. The gettext.m4
+	macro should automatically add this to the LIBS variable
+
 	* acinclude.m4 - put largefile.m4 in here
 
 2003-02-21  Pablo Saratxaga  <pablo@mandrakesoft.com>
