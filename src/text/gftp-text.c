@@ -592,7 +592,8 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
 {
   GList * files, * templist, * delitem;
   char *color, *filespec, *tempstr;
-  int sortcol, sortasds, got;
+  intptr_t sortcol, sortasds;
+  int got;
   gftp_file * fle;
   time_t curtime;
 
@@ -871,7 +872,8 @@ gftp_text_mput_file (gftp_request * request, char *command, gpointer *data)
 int
 gftp_text_transfer_files (gftp_transfer * transfer)
 {
-  int i, j, sw, tot, preserve_permissions;
+  int i, j, sw, tot;
+  intptr_t preserve_permissions;
   char buf[8192], *progress = "|/-\\";
   struct timeval updatetime;
   long fromsize, total;
