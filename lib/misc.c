@@ -615,7 +615,7 @@ gftp_file_sort_function_as (gconstpointer a, gconstpointer b)
 
   f1 = a;
   f2 = b;
-  return (strcmp (f1->file, f2->file));
+  return (strcasecmp (f1->file, f2->file));
 }
 
 
@@ -627,7 +627,7 @@ gftp_file_sort_function_ds (gconstpointer a, gconstpointer b)
 
   f1 = a;
   f2 = b;
-  ret = strcmp (f1->file, f2->file);
+  ret = strcasecmp (f1->file, f2->file);
   return (ret * -1);
 }
 
@@ -639,7 +639,7 @@ gftp_user_sort_function_as (gconstpointer a, gconstpointer b)
 
   f1 = a;
   f2 = b;
-  return (strcmp (f1->user, f2->user));
+  return (strcasecmp (f1->user, f2->user));
 }
 
 
@@ -651,7 +651,7 @@ gftp_user_sort_function_ds (gconstpointer a, gconstpointer b)
 
   f1 = a;
   f2 = b;
-  ret = strcmp (f1->user, f2->user);
+  ret = strcasecmp (f1->user, f2->user);
   return (ret * -1);
 }
 
@@ -663,7 +663,7 @@ gftp_group_sort_function_as (gconstpointer a, gconstpointer b)
 
   f1 = a;
   f2 = b;
-  return (strcmp (f1->group, f2->group));
+  return (strcasecmp (f1->group, f2->group));
 }
 
 
@@ -675,7 +675,7 @@ gftp_group_sort_function_ds (gconstpointer a, gconstpointer b)
 
   f1 = a;
   f2 = b;
-  ret = strcmp (f1->group, f2->group);
+  ret = strcasecmp (f1->group, f2->group);
   return (ret * -1);
 }
 
