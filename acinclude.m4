@@ -113,3 +113,19 @@ AC_DEFUN(AC_SYS_LARGEFILE,
 	esac])
    fi
   ])
+
+# serial 1
+
+# This function is derived from
+# http://savannah.gnu.org/cgi-bin/viewcvs/gcc/gcc/libjava/configure.in?rev=1.142.2.7&content-type=text/vnd.viewcvs-markup
+
+AC_DEFUN(AC_TYPE_SOCKLEN_T,
+  [AC_MSG_CHECKING([for socklen_t in sys/socket.h])
+   AC_TRY_COMPILE([#define _POSIX_PII_SOCKET
+   #include <sys/types.h>
+   #include <sys/socket.h>], [socklen_t x = 5;],
+     [AC_MSG_RESULT(yes)],
+     [AC_DEFINE(socklen_t,int)
+      AC_MSG_RESULT(no)])
+  ])
+

@@ -103,10 +103,6 @@ extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp,
 #define GFTP_GET_AI_FAMILY(request)	AF_INET
 #endif
 
-#ifndef HAVE_SOCKLEN_T
-typedef int socklen_t;
-#endif 
-
 /* We need the major() and minor() macros in the user interface. If they aren't
    defined by the system, we'll just define them here. */
 #ifndef major
