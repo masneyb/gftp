@@ -408,6 +408,8 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
   ssize_t ret;
   int err;
 
+  g_return_val_if_fail (request->ssl != NULL, GFTP_EFATAL);
+
   if (!gftp_ssl_initialized)
     {
       request->logging_function (gftp_logging_error, request,
@@ -422,13 +424,16 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
       if ((ret = SSL_read (request->ssl, ptr, size)) < 0)
         { 
           err = SSL_get_error (request->ssl, ret);
-          if (errno == EINTR)
+          if (errno == EINTR || errno == EAGAIN)
             {
               if (request->cancel)
-                break;
-              else
-                continue;
-             }
+                {
+                  gftp_disconnect (request);
+                  return (GFTP_ERETRYABLE);
+                }
+
+              continue;
+            }
  
           request->logging_function (gftp_logging_error, request,
                                    _("Error: Could not read from socket: %s\n"),
@@ -437,14 +442,10 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
 
           return (GFTP_ERETRYABLE);
         }
-    }
-  while (errno == EINTR && !(request != NULL && request->cancel));
 
-  if (errno == EINTR && request != NULL && request->cancel)
-    {
-      gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
+      break;
     }
+  while (1);
 
   return (ret);
 }
@@ -455,6 +456,8 @@ gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
 {
   size_t ret, w_ret;
  
+  g_return_val_if_fail (request->ssl != NULL, GFTP_EFATAL);
+
   if (!gftp_ssl_initialized)
     {
       request->logging_function (gftp_logging_error, request,
@@ -468,12 +471,15 @@ gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
       w_ret = SSL_write (request->ssl, ptr, size);
       if (w_ret <= 0)
         {
-          if (errno == EINTR)
+          if (errno == EINTR || errno == EAGAIN)
             {
               if (request != NULL && request->cancel)
-                break;
-              else
-                continue;
+                {
+                  gftp_disconnect (request);
+                  return (GFTP_ERETRYABLE);
+                }
+
+              continue;
              }
  
           request->logging_function (gftp_logging_error, request,
@@ -483,17 +489,12 @@ gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
 
           return (GFTP_ERETRYABLE);
         }
+
       ptr += w_ret;
       size -= w_ret;
       ret += w_ret;
     }
   while (size > 0);
-
-  if (errno == EINTR && request != NULL && request->cancel)
-    {
-      gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
-    }
 
   return (ret);
 }

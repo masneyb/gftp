@@ -346,7 +346,7 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
       FD_SET (ptymfd, &eset);
 
       ret = select (maxfd + 1, &rset, NULL, &eset, NULL);
-      if (ret < 0 && errno == EINTR)
+      if (ret < 0 && (errno == EINTR || errno == EAGAIN))
         continue;
 
       if (ret < 0)

@@ -2487,19 +2487,22 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
   errno = 0;
   ret = 0;
 
-  while (1)
+  do
     {
       FD_ZERO (&fset);
       FD_SET (fd, &fset);
       tv.tv_sec = network_timeout;
       tv.tv_usec = 0;
       ret = select (fd + 1, &fset, NULL, NULL, &tv);
-      if (ret == -1 && errno == EINTR)
+      if (ret == -1 && (errno == EINTR || errno == EAGAIN))
         {
-          if (request && request->cancel)
-            break;
-          else
-            continue;
+          if (request != NULL && request->cancel)
+            {
+              gftp_disconnect (request);
+              return (GFTP_ERETRYABLE);
+            }
+
+          continue;
         }
       else if (ret <= 0)
         {
@@ -2510,17 +2513,21 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
                                          request->hostname);
               gftp_disconnect (request);
             }
+
           return (GFTP_ERETRYABLE);
         }
 
       if ((ret = read (fd, ptr, size)) < 0)
         {
-          if (errno == EINTR)
+          if (errno == EINTR || errno == EAGAIN)
             {
               if (request != NULL && request->cancel)
-                break;
-              else
-                continue;
+                {
+                  gftp_disconnect (request);
+                  return (GFTP_ERETRYABLE);
+                }
+
+              continue;
             }
  
           if (request != NULL)
@@ -2530,16 +2537,13 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
                                     g_strerror (errno));
               gftp_disconnect (request);
             }
+
           return (GFTP_ERETRYABLE);
         }
+
       break;
     }
-
-  if (errno == EINTR && request != NULL && request->cancel)
-    {
-      gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
-    }
+  while (1);
 
   return (ret);
 }
@@ -2565,12 +2569,15 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
       tv.tv_sec = network_timeout;
       tv.tv_usec = 0;
       ret = select (fd + 1, NULL, &fset, NULL, &tv);
-      if (ret == -1 && errno == EINTR)
+      if (ret == -1 && (errno == EINTR || errno == EAGAIN))
         {
           if (request != NULL && request->cancel)
-            break;
-          else
-            continue;
+            {
+              gftp_disconnect (request);
+              return (GFTP_ERETRYABLE);
+            }
+
+          continue;
         }
       else if (ret <= 0)
         {
@@ -2581,18 +2588,22 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
                                          request->hostname);
               gftp_disconnect (request);
             }
+
           return (GFTP_ERETRYABLE);
         }
 
       w_ret = write (fd, ptr, size);
       if (w_ret < 0)
         {
-          if (errno == EINTR)
+          if (errno == EINTR || errno == EAGAIN)
             {
               if (request != NULL && request->cancel)
-                break;
-              else
-                continue;
+                {
+                  gftp_disconnect (request);
+                  return (GFTP_ERETRYABLE);
+                }
+
+              continue;
              }
  
           if (request != NULL)
@@ -2602,6 +2613,7 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
                                     g_strerror (errno));
               gftp_disconnect (request);
             }
+
           return (GFTP_ERETRYABLE);
         }
 
@@ -2610,12 +2622,6 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
       ret += w_ret;
     }
   while (size > 0);
-
-  if (errno == EINTR && request != NULL && request->cancel)
-    {
-      gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
-    }
 
   return (ret);
 }
@@ -2823,7 +2829,7 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
                 {
                   ret1 = select (0, NULL, NULL, NULL, &tv);
                 }
-              while (ret1 == -1 && errno == EINTR);
+              while (ret1 == -1 && (errno == EINTR || errno == EAGAIN));
             }
 
           if ((ret1 = gftp_connect (tdata->fromreq)) == 0 &&

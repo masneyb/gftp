@@ -1,4 +1,11 @@
 2004-9-6 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c lib/sshv2.c lib/sslcommon.c - cleanups to the
+	functions that write/read to/from the network. Retry the operation
+	if EAGAIN is returned
+
+	* lib/ftps.c - return an error if the SSL session cannot be setup
+	properly
+
 	* autogen.sh - updated autogen.sh so that it will work with newer
 	versions of automake/autoconf
 

@@ -64,7 +64,7 @@ ftps_auth_tls_start (gftp_request * request)
   if (ret < 0)
     return (ret);
   else if (ret != '2')
-    return (0);
+    return (GFTP_EFATAL);
 
   if ((ret = gftp_ssl_session_setup (request)) < 0)
     return (ret);
