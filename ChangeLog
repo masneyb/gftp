@@ -1,3 +1,18 @@
+2003-7-22 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/gftp.h - added gftp_lookup_bookmark_option()
+	and gftp_set_bookmark_option(). Also added _gftp_set_option_value()
+	that is used by the set functions for bookmark and request structures
+
+	* src/gtk/bookmarks.c - make sure the options are copied over to the
+	new bookmarks. Also show all of the editable toptions for this bookmark
+	entry
+
+	* src/gtk/options_dialog.c src/gtk/gftp-gtk.h lib/config_file.c 
+	lib/gftp.h - improvements to overriding options for each bookmark 
+	entry. There is still one crash that is occuring that I have to track
+	down. For the moment, don't edit the bookmarks twice in the same 
+	session.
+
 2003-7-20 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - added compare_function to 
 	gftp_config_vars structure. (gftp_set_global_option) use the compare

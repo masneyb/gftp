@@ -151,6 +151,7 @@ typedef struct gftp_options_dialog_data_tag
   int tbl_col_num,
       tbl_row_num;
   gftp_option_type_enum last_option;
+  gftp_bookmarks_var * bm;
 } gftp_options_dialog_data;
 
 
@@ -363,10 +364,10 @@ void mkdir_dialog 				( gpointer data );
 /* options_dialog.c */
 void options_dialog 				( gpointer data );
 
-void gftp_gtk_setup_bookmark_options 		( GtkWidget * notebook );
+void gftp_gtk_setup_bookmark_options 		( GtkWidget * notebook,
+						  gftp_bookmarks_var * bm );
 
-void gftp_gtk_save_bookmark_options 		( GtkWidget * widget, 
-						  gpointer data );
+void gftp_gtk_save_bookmark_options 		( gftp_bookmarks_var * bm );
 
 /* rename_dialog.c */
 void rename_dialog				( gpointer data );

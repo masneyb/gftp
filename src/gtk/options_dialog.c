@@ -23,13 +23,15 @@ static const char cvsid[] = "$Id$";
 static GtkWidget * proxy_list, * new_proxy_domain, * network1,
                  * network2, * network3, * network4, * netmask1, * netmask2, 
                  * netmask3, * netmask4, * domain_active;
-static GList * new_proxy_hosts;
+static gftp_options_dialog_data * option_data = NULL;
+static GList * new_proxy_hosts = NULL;
 
 static void
 _setup_option (gftp_option_type_enum otype,
                gftp_options_dialog_data * option_data, 
                void * (*ui_print_function) (gftp_config_vars * cv,
-                                                 void *user_data),
+                                            void *user_data,
+                                            void *value),
                void (*ui_save_function) (gftp_config_vars * cv,
                                          void *user_data),
                void (*ui_cancel_function) (gftp_config_vars * cv,
@@ -77,7 +79,7 @@ _gen_input_widget (gftp_options_dialog_data * option_data, char *label, char *ti
 
 
 static void *
-_print_option_type_newtable (gftp_config_vars * cv, void *user_data)
+_print_option_type_newtable (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
 
@@ -97,7 +99,7 @@ _print_option_type_newtable (gftp_config_vars * cv, void *user_data)
 
 
 static void *
-_print_option_type_text (gftp_config_vars * cv, void *user_data)
+_print_option_type_text (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
   GtkWidget * tempwid;
@@ -105,8 +107,8 @@ _print_option_type_text (gftp_config_vars * cv, void *user_data)
   option_data = user_data;
 
   tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
-  if (cv->value != NULL)
-    gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) cv->value);
+  if (value != NULL)
+    gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) value);
 
   return (tempwid);
 }
@@ -121,7 +123,10 @@ _save_option_type_text (gftp_config_vars * cv, void *user_data)
   option_data = user_data;
   tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
 
-  gftp_set_global_option (cv->key, tempstr);
+  if (option_data->bm == NULL)
+    gftp_set_global_option (cv->key, tempstr);
+  else
+    gftp_set_bookmark_option (option_data->bm, cv->key, tempstr);
 }
 
 
@@ -150,7 +155,7 @@ _gen_combo_widget (gftp_options_dialog_data * option_data, char *label)
 
 
 static void *
-_print_option_type_textcombo (gftp_config_vars * cv, void *user_data)
+_print_option_type_textcombo (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
   GtkWidget * tempwid, * combo;
@@ -170,8 +175,7 @@ _print_option_type_textcombo (gftp_config_vars * cv, void *user_data)
       clist = cv->listdata;
       for (i=0; clist[i] != NULL; i++)
         {
-          if (cv->value != NULL &&
-              strcasecmp ((char *) cv->value, clist[i]) == 0)
+          if (value != NULL && strcasecmp ((char *) value, clist[i]) == 0)
             selitem = i;
 
           tempwid = gtk_list_item_new_with_label (clist[i]);
@@ -205,7 +209,10 @@ _save_option_type_textcombo (gftp_config_vars * cv, void *user_data)
 
   tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cv->user_data)->entry));
 
-  gftp_set_global_option (cv->key, tempstr);
+  if (option_data->bm == NULL)
+    gftp_set_global_option (cv->key, tempstr);
+  else
+    gftp_set_bookmark_option (option_data->bm, cv->key, tempstr);
 }
 
 
@@ -330,7 +337,7 @@ _gftp_convert_from_newlines (char *str)
 
 
 static void *
-_print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
+_print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_textcomboedt_widget_data * widdata;
   GtkWidget * combo, * textwid, * tempwid;
@@ -345,8 +352,8 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
   combo = _gen_combo_widget (option_data, cv->description);
  
   tempstr = NULL;
-  if (cv->value != NULL)
-    tempstr = _gftp_convert_to_newlines (cv->value);
+  if (value != NULL)
+    tempstr = _gftp_convert_to_newlines (value);
   if (tempstr == NULL)
     tempstr = g_strdup ("");
 
@@ -438,7 +445,7 @@ static void
 _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
 {
   gftp_textcomboedt_widget_data * widdata;
-  char *newstr;
+  char *newstr, *proxy_config;
   int freeit;
 #if GTK_MAJOR_VERSION == 1
   char tmp[128];
@@ -474,11 +481,14 @@ _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
   freeit = 1;
 #endif
 
-  if (cv->flags & GFTP_CVARS_FLAGS_DYNMEM)
-    g_free (cv->value);
+  proxy_config = _gftp_convert_from_newlines (newstr);
 
-  cv->value = _gftp_convert_from_newlines (newstr);
-  cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
+  if (option_data->bm == NULL)
+    gftp_set_global_option (cv->key, proxy_config);
+  else
+    gftp_set_bookmark_option (option_data->bm, cv->key, proxy_config);
+
+  g_free (proxy_config);
 
   if (freeit)
     g_free (newstr);
@@ -488,7 +498,7 @@ _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
 
 
 static void *
-_print_option_type_hidetext (gftp_config_vars * cv, void *user_data)
+_print_option_type_hidetext (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
   GtkWidget * tempwid;
@@ -497,13 +507,13 @@ _print_option_type_hidetext (gftp_config_vars * cv, void *user_data)
 
   tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
   gtk_entry_set_visibility (GTK_ENTRY (tempwid), 0);
-  gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) cv->value);
+  gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) value);
   return (tempwid);
 }
 
 
 static void *
-_print_option_type_int (gftp_config_vars * cv, void *user_data)
+_print_option_type_int (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
   GtkWidget * tempwid;
@@ -512,7 +522,7 @@ _print_option_type_int (gftp_config_vars * cv, void *user_data)
   option_data = user_data;
 
   tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
-  g_snprintf (tempstr, sizeof (tempstr), "%d", GPOINTER_TO_INT(cv->value));
+  g_snprintf (tempstr, sizeof (tempstr), "%d", GPOINTER_TO_INT(value));
   gtk_entry_set_text (GTK_ENTRY (tempwid), tempstr);
   return (tempwid);
 }
@@ -523,16 +533,22 @@ _save_option_type_int (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
   const char *tempstr;
+  int val;
 
   option_data = user_data;
   tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
 
-  gftp_set_global_option (cv->key, GINT_TO_POINTER(strtol (tempstr, NULL, 10)));
+  val = strtol (tempstr, NULL, 10);
+
+  if (option_data->bm == NULL)
+    gftp_set_global_option (cv->key, GINT_TO_POINTER(val));
+  else
+    gftp_set_bookmark_option (option_data->bm, cv->key, GINT_TO_POINTER(val));
 }
 
 
 static void *
-_print_option_type_checkbox (gftp_config_vars * cv, void *user_data)
+_print_option_type_checkbox (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
   GtkTooltips * tooltip;
@@ -541,7 +557,7 @@ _print_option_type_checkbox (gftp_config_vars * cv, void *user_data)
   option_data = user_data;
 
   if (option_data->last_option != gftp_option_type_checkbox)
-    _print_option_type_newtable (NULL, user_data);
+    _print_option_type_newtable (NULL, user_data, NULL);
 
   if (option_data->tbl_col_num == 0)
     {
@@ -557,7 +573,7 @@ _print_option_type_checkbox (gftp_config_vars * cv, void *user_data)
                              option_data->tbl_row_num, 
                              option_data->tbl_row_num + 1);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tempwid),
-                                GPOINTER_TO_INT(cv->value));
+                                GPOINTER_TO_INT(value));
   gtk_widget_show (tempwid);
 
   option_data->tbl_col_num = (option_data->tbl_col_num + 1) % 2;
@@ -576,14 +592,21 @@ static void
 _save_option_type_checkbox (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
+  int val;
 
   option_data = user_data;
-  gftp_set_global_option (cv->key, GINT_TO_POINTER (GTK_TOGGLE_BUTTON (cv->user_data)->active));
+
+  val = GTK_TOGGLE_BUTTON (cv->user_data)->active;
+
+  if (option_data->bm == NULL)
+    gftp_set_global_option (cv->key, GINT_TO_POINTER (val));
+  else
+    gftp_set_bookmark_option (option_data->bm, cv->key, GINT_TO_POINTER (val));
 }
 
 
 static void *
-_print_option_type_float (gftp_config_vars * cv, void *user_data)
+_print_option_type_float (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
   GtkWidget * tempwid;
@@ -593,7 +616,7 @@ _print_option_type_float (gftp_config_vars * cv, void *user_data)
   option_data = user_data;
 
   tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
-  memcpy (&f, &cv->value, sizeof (f));
+  memcpy (&f, &value, sizeof (f));
   g_snprintf (tempstr, sizeof (tempstr), "%.2f", f);
   gtk_entry_set_text (GTK_ENTRY (tempwid), tempstr);
   return (tempwid);
@@ -612,12 +635,16 @@ _save_option_type_float (gftp_config_vars * cv, void *user_data)
   tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
   f = strtod (tempstr, NULL);
   memcpy (&val, &f, sizeof (val));
-  gftp_set_global_option (cv->key, val);
+
+  if (option_data->bm == NULL)
+    gftp_set_global_option (cv->key, val);
+  else
+    gftp_set_bookmark_option (option_data->bm, cv->key, val);
 }
 
 
 static void *
-_print_option_type_notebook (gftp_config_vars * cv, void *user_data)
+_print_option_type_notebook (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
   GtkWidget * tempwid;
@@ -633,7 +660,7 @@ _print_option_type_notebook (gftp_config_vars * cv, void *user_data)
   gtk_notebook_append_page (GTK_NOTEBOOK (option_data->notebook), 
                             option_data->box, tempwid);
 
-  _print_option_type_newtable (NULL, user_data);
+  _print_option_type_newtable (NULL, user_data, NULL);
   
   return (NULL);
 }
@@ -1163,10 +1190,12 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 }
 
 
-static void
-_init_option_data (gftp_options_dialog_data * option_data)
+static gftp_options_dialog_data *
+_init_option_data (void)
 {
-  memset (option_data, 0, sizeof (*option_data));
+  gftp_options_dialog_data * option_data;
+
+  option_data = g_malloc0 (sizeof (*option_data));
 
   _setup_option (gftp_option_type_text, option_data, 
                  _print_option_type_text, _save_option_type_text, NULL);
@@ -1187,30 +1216,32 @@ _init_option_data (gftp_options_dialog_data * option_data)
                  _print_option_type_float, _save_option_type_float, NULL);
   _setup_option (gftp_option_type_notebook, option_data, 
                  _print_option_type_notebook, NULL, NULL);
+
+  return (option_data);
 }
 
 
 void
 options_dialog (gpointer data)
 {
-  gftp_options_dialog_data option_data;
   gftp_config_vars * cv;
   GList * templist;
+  void *value;
   int i;
 #if GTK_MAJOR_VERSION == 1
   GtkWidget * tempwid;
 #endif
 
-  _init_option_data (&option_data);
+  option_data = _init_option_data ();
 
 #if GTK_MAJOR_VERSION == 1
-  option_data.dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (option_data.dialog), _("Options"));
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (option_data.dialog)->action_area), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), 15);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), TRUE);
+  option_data->dialog = gtk_dialog_new ();
+  gtk_window_set_title (GTK_WINDOW (option_data->dialog), _("Options"));
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (option_data->dialog)->action_area), 5);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (option_data->dialog)->action_area), 15);
+  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (option_data->dialog)->action_area), TRUE);
 #else
-  option_data.dialog = gtk_dialog_new_with_buttons (_("Options"), NULL, 0,
+  option_data->dialog = gtk_dialog_new_with_buttons (_("Options"), NULL, 0,
                                         GTK_STOCK_OK,
                                         GTK_RESPONSE_OK,
                                         GTK_STOCK_CANCEL,
@@ -1219,26 +1250,26 @@ options_dialog (gpointer data)
                                         GTK_RESPONSE_APPLY,
                                         NULL);
 #endif
-  gtk_window_set_wmclass (GTK_WINDOW(option_data.dialog), "options", "gFTP");
-  gtk_window_set_position (GTK_WINDOW (option_data.dialog), GTK_WIN_POS_MOUSE);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (option_data.dialog)->vbox), 10);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (option_data.dialog)->vbox), 2);
-  gtk_widget_realize (option_data.dialog);
+  gtk_window_set_wmclass (GTK_WINDOW(option_data->dialog), "options", "gFTP");
+  gtk_window_set_position (GTK_WINDOW (option_data->dialog), GTK_WIN_POS_MOUSE);
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (option_data->dialog)->vbox), 10);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (option_data->dialog)->vbox), 2);
+  gtk_widget_realize (option_data->dialog);
 
   if (gftp_icon != NULL)
     {
-      gdk_window_set_icon (option_data.dialog->window, NULL, gftp_icon->pixmap,
+      gdk_window_set_icon (option_data->dialog->window, NULL, gftp_icon->pixmap,
                            gftp_icon->bitmap);
-      gdk_window_set_icon_name (option_data.dialog->window, gftp_version);
+      gdk_window_set_icon_name (option_data->dialog->window, gftp_version);
     }
 
-  option_data.notebook = gtk_notebook_new ();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data.dialog)->vbox), 
-                      option_data.notebook, TRUE, TRUE, 0);
-  gtk_widget_show (option_data.notebook);
+  option_data->notebook = gtk_notebook_new ();
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data->dialog)->vbox), 
+                      option_data->notebook, TRUE, TRUE, 0);
+  gtk_widget_show (option_data->notebook);
 
   cv = gftp_options_list->data;
-  option_data.last_option = cv[0].otype;
+  option_data->last_option = cv[0].otype;
   for (templist = gftp_options_list; 
        templist != NULL; 
        templist = templist->next)
@@ -1253,67 +1284,73 @@ options_dialog (gpointer data)
           if (gftp_option_types[cv[i].otype].ui_print_function == NULL)
             continue;
 
-          cv[i].user_data = gftp_option_types[cv[i].otype].ui_print_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
+          if (*cv[i].key != '\0')
+            gftp_lookup_global_option (cv[i].key, &value);
+          else
+            value = NULL;
 
-          option_data.last_option = cv[i].otype;
+          cv[i].user_data = gftp_option_types[cv[i].otype].ui_print_function (&cv[i], gftp_option_types[cv[i].otype].user_data, value);
+
+          option_data->last_option = cv[i].otype;
         }
     }
 
-  make_proxy_hosts_tab (option_data.notebook);
+  make_proxy_hosts_tab (option_data->notebook);
 
 #if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), 
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data->dialog)->action_area), 
                       tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
                       GTK_SIGNAL_FUNC (apply_changes), NULL);
   gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
                              GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                             GTK_OBJECT (option_data.dialog));
+                             GTK_OBJECT (option_data->dialog));
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("  Cancel  "));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), 
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data->dialog)->action_area), 
                       tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
                       GTK_SIGNAL_FUNC (clean_old_changes), NULL);
   gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
                              GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                             GTK_OBJECT (option_data.dialog));
+                             GTK_OBJECT (option_data->dialog));
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Apply"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), 
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data->dialog)->action_area), 
                       tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
                       GTK_SIGNAL_FUNC (apply_changes), NULL);
   gtk_widget_grab_default (tempwid);
   gtk_widget_show (tempwid);
 #else
-  g_signal_connect (GTK_OBJECT (option_data.dialog), "response",
+  g_signal_connect (GTK_OBJECT (option_data->dialog), "response",
                     G_CALLBACK (options_action), NULL);
 #endif
 
-  gtk_widget_show (option_data.dialog);
+  gtk_widget_show (option_data->dialog);
 }
 
 
 void
-gftp_gtk_setup_bookmark_options (GtkWidget * notebook)
+gftp_gtk_setup_bookmark_options (GtkWidget * notebook, gftp_bookmarks_var * bm)
 {
-  gftp_options_dialog_data option_data;
   gftp_config_vars * cv;
   GList * templist;
+  void *value;
   int i;
 
-  _init_option_data (&option_data);
-  option_data.notebook = notebook;
+  option_data = _init_option_data ();
+  option_data->bm = bm;
+  option_data->notebook = notebook;
 
   cv = gftp_options_list->data;
-  option_data.last_option = cv[0].otype;
+  option_data->last_option = cv[0].otype;
   for (templist = gftp_options_list; 
        templist != NULL; 
        templist = templist->next)
@@ -1328,18 +1365,22 @@ gftp_gtk_setup_bookmark_options (GtkWidget * notebook)
           if (gftp_option_types[cv[i].otype].ui_print_function == NULL)
             continue;
 
-          cv[i].user_data = gftp_option_types[cv[i].otype].ui_print_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
+          if (*cv[i].key != '\0')
+            gftp_lookup_bookmark_option (bm, cv[i].key, &value);
+          else
+            value = NULL;
 
-          option_data.last_option = cv[i].otype;
+          cv[i].user_data = gftp_option_types[cv[i].otype].ui_print_function (&cv[i], option_data, value);
+
+          option_data->last_option = cv[i].otype;
         }
     }
 }
 
 
 void
-gftp_gtk_save_bookmark_options (GtkWidget * widget, gpointer data)
+gftp_gtk_save_bookmark_options (gftp_bookmarks_var * bm)
 {
-/* FIXME  - implement
   gftp_config_vars * cv;
   GList * templist;
   int i;
@@ -1358,9 +1399,8 @@ gftp_gtk_save_bookmark_options (GtkWidget * widget, gpointer data)
           if (gftp_option_types[cv[i].otype].ui_save_function == NULL)
             continue;
 
-          gftp_option_types[cv[i].otype].ui_save_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
+          gftp_option_types[cv[i].otype].ui_save_function (&cv[i], option_data);
         }
     }
-*/
 }
 

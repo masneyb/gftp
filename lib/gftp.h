@@ -299,7 +299,7 @@ typedef struct gftp_option_type_tag
   int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
   void (*copy_function) (gftp_config_vars * cv, gftp_config_vars * dest_cv);
   int (*compare_function) (gftp_config_vars * cv1, gftp_config_vars * cv2);
-  void * (*ui_print_function) (gftp_config_vars * cv, void *user_data);
+  void *(*ui_print_function) (gftp_config_vars * cv, void *user_data, void *value);
   void (*ui_save_function) (gftp_config_vars * cv, void *user_data);
   void (*ui_cancel_function) (gftp_config_vars * cv, void *user_data);
   void *user_data;
@@ -636,12 +636,20 @@ void gftp_lookup_request_option 	( gftp_request * request,
 					  char * key, 
 					  void *value );
 
+void gftp_lookup_bookmark_option 	( gftp_bookmarks_var * bm, 
+					  char * key, 
+					  void *value );
+
 void gftp_set_global_option 		( char * key, 
 					  const void *value );
 
 void gftp_set_request_option 		( gftp_request * request, 
 					  char * key, 
-					  void *value );
+					  const void *value );
+
+void gftp_set_bookmark_option 		( gftp_bookmarks_var * bm,
+					  char * key, 
+					  const void *value );
 
 void gftp_register_config_vars 		( gftp_config_vars *config_vars );
 

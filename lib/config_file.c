@@ -1216,6 +1216,20 @@ gftp_lookup_request_option (gftp_request * request, char * key, void *value)
 
 
 void
+gftp_lookup_bookmark_option (gftp_bookmarks_var * bm, char * key, void *value)
+{
+  gftp_config_vars * tmpconfigvar;
+
+  if (bm != NULL && bm->local_options_hash != NULL &&
+      (tmpconfigvar = g_hash_table_lookup (bm->local_options_hash,
+                                           key)) != NULL)
+    memcpy (value, &tmpconfigvar->value, sizeof (value));
+  else
+    gftp_lookup_global_option (key, value);
+}
+
+
+void
 gftp_set_global_option (char * key, const void *value)
 {
   gftp_config_vars * tmpconfigvar, newconfigvar;
@@ -1248,8 +1262,25 @@ gftp_set_global_option (char * key, const void *value)
 }
 
 
+static void
+_gftp_set_option_value (gftp_config_vars * cv, const void * newval)
+{
+  gftp_config_vars newconfigvar;
+  void *nc_ptr;
+
+  memcpy (&newconfigvar, cv, sizeof (newconfigvar));
+
+  /* Cheap warning fix for const pointer... */
+  memcpy (&nc_ptr, &newval, sizeof (nc_ptr));
+  newconfigvar.value = nc_ptr;
+  newconfigvar.flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
+
+  gftp_option_types[newconfigvar.otype].copy_function (&newconfigvar, cv);
+}
+
+
 void
-gftp_set_request_option (gftp_request * request, char * key, void *value)
+gftp_set_request_option (gftp_request * request, char * key, const void *value)
 {
   gftp_config_vars * tmpconfigvar;
 
@@ -1259,7 +1290,7 @@ gftp_set_request_option (gftp_request * request, char * key, void *value)
 
   if ((tmpconfigvar = g_hash_table_lookup (request->local_options_hash,
                                            key)) != NULL)
-    memcpy (&tmpconfigvar->value, &value, sizeof (tmpconfigvar->value));
+    _gftp_set_option_value (tmpconfigvar, value);
   else
     {
       if (gftp_global_options_htable == NULL ||
@@ -1274,11 +1305,56 @@ gftp_set_request_option (gftp_request * request, char * key, void *value)
       request->local_options_vars = g_realloc (request->local_options_vars, 
                                                sizeof (gftp_config_vars) * request->num_local_options_vars);
 
-      memcpy (&request->local_options_vars[request->num_local_options_vars - 1],
-              tmpconfigvar, sizeof (*tmpconfigvar));
-      memcpy (&request->local_options_vars[request->num_local_options_vars - 1].value, &value, sizeof (value));
+      memcpy (&request->local_options_vars[request->num_local_options_vars - 1], tmpconfigvar, sizeof (*tmpconfigvar));
+      _gftp_set_option_value (&request->local_options_vars[request->num_local_options_vars - 1], value);
 
       g_hash_table_insert (request->local_options_hash, request->local_options_vars[request->num_local_options_vars - 1].key, &request->local_options_vars[request->num_local_options_vars - 1]);
+    }
+}
+
+
+void
+gftp_set_bookmark_option (gftp_bookmarks_var * bm, char * key, const void *value)
+{
+  gftp_config_vars * tmpconfigvar, newconfigvar;
+  int ret;
+
+  if (bm->local_options_hash != NULL &&
+      (tmpconfigvar = g_hash_table_lookup (bm->local_options_hash,
+                                           key)) != NULL)
+    _gftp_set_option_value (tmpconfigvar, value);
+  else
+    {
+      if (gftp_global_options_htable == NULL ||
+          (tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
+                                               key)) == NULL)
+        {
+          fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);
+          exit (1);
+        }
+
+      /* Check to see if this is set to the same value as the global option. 
+         If so, don't add it to the bookmark preferences */
+      memcpy (&newconfigvar, tmpconfigvar, sizeof (newconfigvar));
+      memcpy (&newconfigvar.value, &value, sizeof (newconfigvar.value));
+      newconfigvar.flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
+
+      ret = gftp_option_types[newconfigvar.otype].compare_function (&newconfigvar, tmpconfigvar);
+      if (ret == 0)
+        return;
+      
+      if (bm->local_options_hash == NULL)
+        bm->local_options_hash = g_hash_table_new (string_hash_function,
+                                                   string_hash_compare);
+
+      bm->num_local_options_vars++;
+      bm->local_options_vars = g_realloc (bm->local_options_vars, 
+                                          sizeof (gftp_config_vars) * bm->num_local_options_vars);
+
+      memcpy (&bm->local_options_vars[bm->num_local_options_vars - 1], tmpconfigvar, sizeof (*tmpconfigvar));
+      _gftp_set_option_value (&bm->local_options_vars[bm->num_local_options_vars - 1], value);
+
+      g_hash_table_insert (bm->local_options_hash, bm->local_options_vars[bm->num_local_options_vars - 1].key, &bm->local_options_vars[bm->num_local_options_vars - 1]);
     }
 }
 

@@ -220,6 +220,12 @@ copy_bookmarks (gftp_bookmarks_var * bookmarks)
 
       newentry->port = tempentry->port;
 
+      gftp_copy_local_options (&newentry->local_options_vars,
+                               &newentry->local_options_hash,
+                               tempentry->local_options_vars,
+                               tempentry->num_local_options_vars);
+      newentry->num_local_options_vars = tempentry->num_local_options_vars;
+
       if (sibling == NULL)
 	{
 	  if (preventry->children == NULL)
@@ -261,6 +267,7 @@ copy_bookmarks (gftp_bookmarks_var * bookmarks)
 	    }
 	}
     }
+
   return (new_bm);
 }
 
@@ -734,6 +741,8 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
     g_free (entry->acct);
   entry->acct = g_strdup (str);
 
+  gftp_gtk_save_bookmark_options (entry);
+
   if (strcmp (entry->path, newpath) != 0)
     {
       tempentry = entry;
@@ -1036,7 +1045,7 @@ edit_entry (gpointer data)
                     G_CALLBACK (bmedit_action), (gpointer) entry);
 #endif
 
-/* FIXME gftp_gtk_setup_bookmark_options (notebook); */
+  gftp_gtk_setup_bookmark_options (notebook, entry);
 
   gtk_widget_show (dialog);
 }
