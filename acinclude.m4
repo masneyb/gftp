@@ -3,7 +3,7 @@
 dnl This function is derived from
 dnl http://savannah.gnu.org/cgi-bin/viewcvs/gcc/gcc/libjava/configure.in?rev=1.142.2.7&content-type=text/vnd.viewcvs-markup
 
-AC_DEFUN(AC_TYPE_SOCKLEN_T,
+AC_DEFUN([AC_TYPE_SOCKLEN_T],
   [AC_MSG_CHECKING([for socklen_t in sys/socket.h])
    AC_TRY_COMPILE([#define _POSIX_PII_SOCKET
    #include <sys/types.h>
@@ -21,7 +21,7 @@ dnl %'ld format.
 dnl Brian Masney <masneyb@gftp.org>
 
 dnl 
-AC_DEFUN(AC_INTL_PRINTF,
+AC_DEFUN([AC_INTL_PRINTF],
   [AC_MSG_CHECKING([whether the printf family of functions supports %'ld])
    AC_TRY_RUN([#include <stdio.h>
                #include <string.h>
@@ -42,7 +42,7 @@ AC_DEFUN(AC_INTL_PRINTF,
 
 dnl Brian Masney <masneyb@gftp.org>
 
-AC_DEFUN(AC_TYPE_INTPTR_T,
+AC_DEFUN([AC_TYPE_INTPTR_T],
   [AC_MSG_CHECKING([for intptr_t in stdint.h])
    AC_TRY_COMPILE([#include <stdint.h>],
    [intptr_t i = 0;],
