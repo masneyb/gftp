@@ -1,3 +1,14 @@
+2004-11-3 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c (gftp_bookmarks_destroy)
+	src/gtk/bookmarks.c (bm_apply_changes) - cleaned up the tree parsing
+	code
+
+	* lib/gftp.h lib/misc.c lib/config_file.c src/gtk/bookmarks.c - added
+	free_node argument to gftp_free_bookmark()
+
+	* lib/gftp.h src/gtk/bookmarks.c - added oldpath variable to the
+	gftp_bookmarks structure.
+
 2004-11-1 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c (gftp_write_bookmarks_file) - if a folder has no
 	children, make sure the entry has a / appended to the end of the

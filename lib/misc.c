@@ -988,8 +988,10 @@ base64_encode (char *str)
 
 
 void
-gftp_free_bookmark (gftp_bookmarks_var * entry)
+gftp_free_bookmark (gftp_bookmarks_var * entry, int free_node)
 {
+  gftp_bookmarks_var * tempentry;
+
   if (entry->hostname)
     g_free (entry->hostname);
   if (entry->remote_dir)
@@ -1014,6 +1016,15 @@ gftp_free_bookmark (gftp_bookmarks_var * entry)
       entry->local_options_vars = NULL;
       entry->local_options_hash = NULL;
       entry->num_local_options_vars = 0;
+    }
+
+  if (free_node)
+    g_free (entry);
+  else
+    {
+      tempentry = entry->children;
+      memset (entry, 0, sizeof (*entry));
+      entry->children = tempentry;
     }
 }
 

@@ -1554,27 +1554,21 @@ gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks)
   tempentry = bookmarks;
   while (tempentry != NULL)
     {
-      gftp_free_bookmark (tempentry);
-
-      if (tempentry->path != NULL)
-        g_free (tempentry->path);
-
       if (tempentry->children != NULL)
+        tempentry = tempentry->children;
+      else
         {
-          tempentry = tempentry->children;
-          continue;
-        }
-
-      while (tempentry->next == NULL && tempentry->prev != NULL)
-        {
+          while (tempentry->next == NULL && tempentry->prev != NULL)
+            {
+              delentry = tempentry;
+              tempentry = tempentry->prev;
+              gftp_free_bookmark (delentry, 1);
+            }
+    
           delentry = tempentry;
-          tempentry = tempentry->prev;
-          g_free (delentry);
+          tempentry = tempentry->next;
+          gftp_free_bookmark (delentry, 1);
         }
-
-      delentry = tempentry;
-      tempentry = tempentry->next;
-      g_free (delentry);
     }
 }
 

@@ -579,8 +579,9 @@ typedef struct gftp_bookmarks_tag gftp_bookmarks_var;
 
 struct gftp_bookmarks_tag 
 {
-  char *path;                  /* Path */
-  char *hostname,              /* Our actual internet hostname */
+  char *path,                  /* Path */
+       *oldpath,               /* Old path name */
+       *hostname,              /* Our actual internet hostname */
        *protocol,              /* Protocol we will connect through */
        *remote_dir,            /* Initial directory */
        *local_dir,             /* Init local directory */
@@ -771,7 +772,8 @@ char * gftp_gen_ls_string 		( gftp_file * fle,
 
 char * base64_encode 			( char *str );
 
-void gftp_free_bookmark 		( gftp_bookmarks_var * entry );
+void gftp_free_bookmark 		( gftp_bookmarks_var * entry,
+					  int free_node );
 
 void gftp_shutdown			( void );
 
