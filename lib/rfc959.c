@@ -1405,10 +1405,9 @@ static ssize_t
 rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   rfc959_parms * parms;
+  size_t rsize, i, j;
   ssize_t num_wrote;
   char *tempstr;
-  size_t rsize;
-  int i, j;
 
   if (size == 0)
     return (0);

@@ -844,7 +844,7 @@ sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
   ret = ntohl (ret);
   message->pos += 4;
 
-  if (expected_response > 0 && ret != expected_response)
+  if (expected_response >= 0 && ret != expected_response)
     return (sshv2_wrong_response (request, message));
 
   return (ret);

@@ -248,8 +248,9 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
   gftp_file_extensions * tempext;
   gftp_viewedit_data * newproc;
   GtkAdjustment * vadj;
-  int stlen, doclose;
   GList * templist;
+  size_t stlen;
+  int doclose;
   ssize_t n;
 #if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;

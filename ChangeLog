@@ -1,4 +1,15 @@
 2004-7-27 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c src/gtk/misc-gtk.c src/gtk/view_dialog.c - fixed more
+	comparsions between signed and unsigned integers
+
+	* lib/sshv2.c (sshv2_buffer_get_int32) - allow an expected response
+	value of 0. If it does not match, call sshv2_wrong_response().
+	SSH_FX_OK is set to 0, so this value was not being checked
+
+	* src/gtk/gtkui.c src/text/textui.c src/uicommon/gftpui.h - renamed the
+	clear_cache argument of gftpui_refresh() to clear_cache_entry. There is
+	already a function named clear_cache()
+
 	* lib/gftp.h lib/local.c lib/protocols.c lib/sshv2.c - changed
 	declaration of gftp_stat_filename() so that the mode of the filename
 	is returned as a parameter instead of the function return value.

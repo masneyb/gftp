@@ -161,7 +161,7 @@ void gftpui_lookup_file_colors 		( gftp_file * fle,
 int gftpui_check_reconnect		( gftpui_callback_data * cdata );
 
 void gftpui_refresh 			( void *uidata,
-					  int clear_cache );
+					  int clear_cache_entry );
 
 void *gftpui_generic_thread 		( void *(*run_function)(void *data),
 					  void *data);

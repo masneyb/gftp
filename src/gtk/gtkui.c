@@ -43,7 +43,7 @@ gftpui_run_command (GtkWidget * widget, gpointer data)
 
 
 void
-gftpui_refresh (void *uidata, int clear_cache)
+gftpui_refresh (void *uidata, int clear_cache_entry)
 {
   gftp_window_data * wdata;
 
@@ -57,7 +57,7 @@ gftpui_refresh (void *uidata, int clear_cache)
   gtk_clist_freeze (GTK_CLIST (wdata->listbox));
   remove_files_window (wdata);
 
-  if (clear_cache)
+  if (clear_cache_entry)
     gftp_delete_cache_entry (wdata->request, NULL, 0);
 
   ftp_list_files (wdata);

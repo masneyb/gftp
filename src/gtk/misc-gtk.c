@@ -565,7 +565,7 @@ create_item_factory (GtkItemFactory * ifactory, guint n_entries,
 {
   const char *strip_prefix;
   size_t strip_prefix_len;
-  int i;
+  size_t i;
 
   strip_prefix = gtk_object_get_data (GTK_OBJECT (ifactory), "gftp-strip-prefix");
   if (strip_prefix)
