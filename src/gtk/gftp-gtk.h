@@ -30,6 +30,19 @@
 #define IS_ONE_SELECTED(wdata)		(GTK_CLIST ((wdata)->listbox)->selection && GTK_CLIST ((wdata)->listbox)->selection->next == NULL)
 #define IS_NONE_SELECTED(wdata)		(GTK_CLIST ((wdata)->listbox)->selection == NULL)
 
+#define GFTP_IS_SAME_HOST_START_TRANS(wdata,trequest) \
+  ((wdata) != NULL && (wdata)->request != NULL && \
+  (wdata)->request->datafd > 0 && !(wdata)->request->always_connected && \
+  !(wdata)->request->stopable && \
+  compare_request (trequest, (wdata)->request, 0))
+
+#define GFTP_IS_SAME_HOST_STOP_TRANS(wdata,trequest) \
+  ((wdata) != NULL && (wdata)->request != NULL && \
+  (wdata)->request->datafd < 0 && !(wdata)->request->always_connected && \
+  (wdata)->request->cached && !(wdata)->request->stopable && \
+  trequest->datafd > 0 && !trequest->always_connected && \
+  compare_request (trequest, (wdata)->request, 0))
+
 #if GTK_MAJOR_VERSION == 1
   #define gtk_widget_set_size_request(widget, width, height)	\
 				gtk_widget_set_usize (widget, width, height)

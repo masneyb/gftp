@@ -1,4 +1,9 @@
 2003-10-26 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.h src/gtk/transfer.c - (create_transfer, 
+	transfer_done) - added more checks whenever a transfer is created and
+	stopped to make sure we don't log into the same remote host twice. This
+	is mainly for DnD.
+
 	* lib/misc.c (copy_request) - don't copy over the hostp pointer. This
 	fixes a segfault in DnD
 

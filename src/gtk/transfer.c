@@ -1220,25 +1220,26 @@ transfer_done (GList * node)
   if (tdata->started)
     {
       fromreq = tdata->fromwdata != NULL ? ((gftp_window_data *) tdata->fromwdata)->request : NULL;
-      if (!tdata->fromreq->stopable && tdata->fromwdata &&
-          ((fromreq->datafd < 0 && fromreq->cached) || fromreq->always_connected) &&
-          (tdata->fromreq->datafd > 0 || tdata->fromreq->always_connected) &&
-          compare_request (tdata->fromreq, fromreq, 0))
-	{
-          gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
-                           tdata->toreq);
+
+      if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->fromwdata,
+                                         tdata->fromreq))
+        {
           gftp_swap_socks (((gftp_window_data *) tdata->fromwdata)->request, 
                            tdata->fromreq);
-	}
-      else
-        {
-	  gftp_disconnect (tdata->fromreq);
-          gftp_disconnect (tdata->toreq);
+	  refresh (tdata->fromwdata);
         }
+      else
+	gftp_disconnect (tdata->fromreq);
 
-      if (tdata->towdata != NULL && compare_request (tdata->toreq, 
-                           ((gftp_window_data *) tdata->towdata)->request, 1)) 
-	refresh (tdata->towdata);
+      if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->towdata,
+                                         tdata->toreq))
+        {
+          gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
+                           tdata->toreq);
+	  refresh (tdata->towdata);
+        }
+      else
+	gftp_disconnect (tdata->toreq);
 
       num_transfers_in_progress--;
     }
@@ -1277,18 +1278,22 @@ create_transfer (gftp_transfer * tdata)
 
   if (!tdata->fromreq->stopable)
     {
-      if (tdata->fromwdata && 
-          (((gftp_window_data *) tdata->fromwdata)->request->datafd > 0 ||
-           ((gftp_window_data *) tdata->fromwdata)->request->always_connected) && 
-          !((gftp_window_data *) tdata->fromwdata)->request->stopable &&
-          compare_request (tdata->fromreq, ((gftp_window_data *) tdata->fromwdata)->request, 0))
-	{
-          gftp_swap_socks (tdata->toreq, 
-                           ((gftp_window_data *) tdata->towdata)->request);
+      if (GFTP_IS_SAME_HOST_START_TRANS ((gftp_window_data *) tdata->fromwdata,
+                                         tdata->fromreq))
+        {
           gftp_swap_socks (tdata->fromreq, 
                            ((gftp_window_data *) tdata->fromwdata)->request);
-	  update_window_info ();
+          update_window (tdata->fromwdata);
+        }
+
+      if (GFTP_IS_SAME_HOST_START_TRANS ((gftp_window_data *) tdata->towdata,
+                                         tdata->toreq))
+        {
+          gftp_swap_socks (tdata->toreq, 
+                           ((gftp_window_data *) tdata->towdata)->request);
+	  update_window (tdata->towdata);
 	}
+
       num_transfers_in_progress++;
       tdata->started = 1;
       tdata->stalled = 1;
