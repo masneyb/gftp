@@ -115,7 +115,7 @@ gftp_config_vars gftp_global_config_vars[] =
   {"retries", N_("Connect retries:"), 
    gftp_option_type_int, GINT_TO_POINTER(3), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("The number of auto-retries to do. Set this to 0 to retry indefinately"), 
+   N_("The number of auto-retries to do. Set this to 0 to retry indefinitely"), 
    GFTP_PORT_ALL, NULL},
   {"sleep_time", N_("Retry sleep time:"), 
    gftp_option_type_int, GINT_TO_POINTER(30), NULL, 
