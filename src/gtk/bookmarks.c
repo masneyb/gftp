@@ -670,7 +670,7 @@ build_bookmarks_tree (void)
 static void
 entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
 {
-  gftp_bookmarks_var * tempentry, * nextentry;
+  gftp_bookmarks_var * tempentry, * nextentry, * bmentry;
   char *pos, *newpath, tempchar, *tempstr;
   GtkWidget * tempwid;
   size_t oldpathlen;
@@ -681,15 +681,17 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
     *pos = ' ';
 
   oldpathlen = strlen (entry->path);
-  if ((pos = strrchr (entry->path, '/')) == NULL)
-    pos = entry->path;
-
-  tempchar = *pos;
-  *pos = '\0';
-  newpath = gftp_build_path (NULL, entry->path, tempstr, NULL);
-  *pos = tempchar;
-
-  g_free (tempstr);
+  if ((pos = strrchr (entry->path, '/')) != NULL)
+    {
+      pos = entry->path;
+      tempchar = *pos;
+      *pos = '\0';
+      newpath = gftp_build_path (NULL, entry->path, tempstr, NULL);
+      *pos = tempchar;
+      g_free (tempstr);
+    }
+  else
+    newpath = tempstr;
 
   str = gtk_entry_get_text (GTK_ENTRY (bm_hostedit));
   if (entry->hostname != NULL)
@@ -745,12 +747,15 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
       tempentry = entry;
       nextentry = entry->next;
       entry->next = NULL;
+
       while (tempentry != NULL)
 	{
 	  g_hash_table_remove (new_bookmarks_htable, tempentry->path);
 
-          if (tempentry->oldpath == NULL)
-            tempentry->oldpath = tempentry->path;
+          bmentry = g_hash_table_lookup (gftp_bookmarks_htable,
+                                         tempentry->path);
+          if (bmentry->oldpath == NULL)
+            bmentry->oldpath = tempentry->path;
           else
             g_free (tempentry->path);
 
@@ -763,16 +768,20 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
 
 	  g_hash_table_insert (new_bookmarks_htable, tempentry->path,
                                tempentry);
-	  if (tempentry->children != NULL)
-	    {
-	      tempentry = tempentry->children;
-	      continue;
-	    }
-	  while (tempentry->next == NULL && tempentry != entry &&
-		 tempentry->prev != NULL)
-	    tempentry = tempentry->prev;
 
-	  tempentry = tempentry->next;
+          gtk_ctree_node_set_text (GTK_CTREE (tree), tempentry->cnode, 0,
+                                   tempentry->path);
+
+	  if (tempentry->children != NULL)
+	    tempentry = tempentry->children;
+          else
+            {
+	      while (tempentry->next == NULL && tempentry != entry &&
+                     tempentry->prev != NULL)
+                tempentry = tempentry->prev;
+
+	      tempentry = tempentry->next;
+            }
 	}
 
       entry->next = nextentry;
