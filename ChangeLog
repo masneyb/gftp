@@ -1,4 +1,8 @@
 2003-10-25 Brian Masney <masneyb@gftp.org>
+	* src/gtk/menu-items.c (dosave_directory_listing) - when saving the
+	directory listing, skip over the files that are not shown based on the
+	current filespec.
+
 	* src/gtk/transfer.c src/gtk/gftp-gtk.h src/gtk/view_dialog.c - when
 	editing a remote file, if the user chooses to upload the changes, make
 	sure the upload is not sent to the current directory on the remote
