@@ -5,10 +5,20 @@ AC_INIT(lib/gftp.h)
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(gftp,2.0.14)
 
-AC_ARG_ENABLE(gtk20, [  --disable-gtk20	  Don't look for GTK+ 2.0 libraries], enable_gtk20=0, enable_gtk20=1)
-AC_ARG_ENABLE(gtkport, [  --disable-gtkport	  Disable compiling the GTK+ port], enable_gtkport=0, enable_gtkport=1)
-AC_ARG_ENABLE(textport, [  --disable-textport	  Disable compiling the text port], enable_textport=0, enable_textport=1)
-AC_ARG_ENABLE(dmalloc, [  --enable-dmalloc	  Enable the dmalloc library], enable_dmalloc=1, enable_dmalloc=0)
+AC_ARG_ENABLE(gtk20, 
+              [  --disable-gtk20	  Don't look for GTK+ 2.0 libraries], 
+              enable_gtk20=$enableval, 
+              enable_gtk20="yes")
+
+AC_ARG_ENABLE(gtkport, 
+              [  --disable-gtkport	  Disable compiling the GTK+ port], 
+              enable_gtkport=$enableval, 
+              enable_gtkport="yes")
+
+AC_ARG_ENABLE(textport, 
+              [  --disable-textport	  Disable compiling the text port], 
+              enable_textport=$enableval, 
+              enable_textport="yes")
 
 AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
@@ -56,7 +66,7 @@ AC_FUNC_STRFTIME
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(gai_strerror getaddrinfo getcwd gettimeofday getwd mkdir mktime putenv rmdir select socket strdup strstr strtod strtol uname grantpt)
 
-if test $enable_gtk20 = 1 ; then
+if test "x$enable_gtk20" = "xyes" ; then
   PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.0.0, found_glib20=1, found_glib20=0)
 else
   found_glib20=0;
@@ -74,7 +84,7 @@ GFTP_TEXT=""
 EXTRA_LIBS=""
 USE_READLINE="yes"
 READLINE_LIBS=""
-if test "x$enable_textport" = "x1" ; then
+if test "x$enable_textport" = "xyes" ; then
   AC_MSG_CHECKING([whether to use readline])
   AC_ARG_WITH(readline,
   [  --with-readline         turn on readline [default=yes, default tries -lncurses, -lcurses, -ltermcap]],
@@ -167,8 +177,8 @@ PTHREAD_LIBS=""
 # the text port doesn't need to be compiled against the thread libraries
 GTHREAD_LIBS=""
 
-if test "x$enable_gtkport" = "x1" ; then
-  if test $found_glib20 = 1 -a $enable_gtk20 = 1 ; then
+if test "x$enable_gtkport" = "xyes" ; then
+  if test $found_glib20 = 1 -a "x$enable_gtk20" = "xyes" ; then
     PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0, GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk20 or install GTK+ 2.0))
   fi
 
@@ -247,4 +257,4 @@ AC_SUBST(GFTP_GTK)
 
 AM_GNU_GETTEXT
 
-AC_OUTPUT(Makefile docs/Makefile docs/sample.gftp/Makefile src/gftp src/Makefile src/gtk/Makefile src/text/Makefile lib/Makefile gftp.spec intl/Makefile po/Makefile.in )
+AC_OUTPUT(Makefile docs/Makefile docs/sample.gftp/Makefile src/gftp src/Makefile src/gtk/Makefile src/text/Makefile lib/Makefile gftp.spec)
