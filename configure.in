@@ -24,7 +24,7 @@ AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
 AC_SUBST(PREFIX)
 
-ALL_LINGUAS="am ar bg ca cs da de es fi fr hu it ja ko nl no pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
+ALL_LINGUAS="am ar bg ca cs da de es fi fr hu it ja ko ms nl no pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
 
 AC_DEFINE(_GNU_SOURCE, 1, [Define for setting a GNU environment])
 
@@ -259,6 +259,6 @@ AC_SUBST(PTHREAD_LIBS)
 AC_SUBST(GTHREAD_LIBS)
 AC_SUBST(GFTP_GTK)
 
-AM_GNU_GETTEXT
+#AM_GNU_GETTEXT
 
-AC_OUTPUT(Makefile docs/Makefile docs/sample.gftp/Makefile intl/Makefile lib/Makefile po/Makefile.in src/gftp src/Makefile src/gtk/Makefile src/text/Makefile gftp.spec)
+AC_OUTPUT(Makefile docs/Makefile docs/sample.gftp/Makefile intl/Makefile lib/Makefile po/Makefile.in src/gftp src/Makefile src/gtk/Makefile src/text/Makefile gftp.spec po/Makefile.in )
