@@ -291,7 +291,8 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
       diff += rd;
       tempstr[diff] = '\0'; 
 
-      if (diff >= 10 && strcmp (tempstr + diff - 9, "assword: ") == 0)
+      if ( (strcmp (tempstr, "Password:") == 0) || 
+           (diff >= 10 && strcmp (tempstr + diff - 9, "assword: ") == 0))
         {
           if (wrotepw)
             {

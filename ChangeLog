@@ -1,3 +1,25 @@
+2003-7-25 Brian Masney <masneyb@gftp.org>
+        * lib/pty.c - prefer to use openpty() instead of grantpt() if it is
+        available (for FreeBSD)
+
+        * lib/sshv2.c - fixes for FreeBSD password prompt (from Oliver Lehmann 
+        <oliver@FreeBSD.ORG>)
+
+        * src/gtk/gftp-gtk.h src/text/gftp-text.h - added 
+        __attribute__((format(printf, 3, 4))) to logging functions (from
+        Oliver Lehmann <oliver@FreeBSD.ORG>)
+
+2003-7-25 Brian Masney <masneyb@gftp.org>
+	* lib/pty.c - prefer to use openpty() instead of grantpt() if it is
+	available (for FreeBSD)
+
+	* lib/sshv2.c - fixes for FreeBSD password prompt (from Oliver Lehmann 
+	<oliver@FreeBSD.ORG>)
+
+	* src/gtk/gftp-gtk.h src/text/gftp-text.h - added 
+	__attribute__((format(printf, 3, 4))) to logging functions (from
+	Oliver Lehmann <oliver@FreeBSD.ORG>)
+
 2003-7-23 Brian Masney <masneyb@gftp.org>
 	* TODO - updated
 
