@@ -5,40 +5,40 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gFTP 2.0.9\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-23 21:50-0400\n"
-"PO-Revision-Date: 2001-01-09 21:05+0100\n"
+"POT-Creation-Date: 2003-08-23 13:16+0200\n"
+"PO-Revision-Date: 2003-08-23 13:22+0200\n"
 "Last-Translator: Anders Henriksen <anders@henrix.no>\n"
 "Language-Team: Norwegian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: lib/bookmark.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid URL %s\n"
-msgstr "Mottok URL %s\n"
+msgstr "Ugyldig URL %s\n"
 
 #: lib/cache.c:50 lib/cache.c:64 lib/cache.c:77
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr ""
 
-#: lib/cache.c:136 lib/local.c:532
+#: lib/cache.c:136 lib/local.c:542
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Feil: Kunne ikke opprette katalog %s: %s\n"
 
 #: lib/cache.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Cannot create temporary file: %s\n"
-msgstr "Feil: Kunne ikke åpne lokal fil %s: %s\n"
+msgstr "Feil: Kunne ikke opprette midlertidig fil: %s\n"
 
 #: lib/cache.c:182 lib/cache.c:231 lib/local.c:98 lib/local.c:213
-#: lib/misc.c:289 lib/misc.c:295 lib/rfc2068.c:263 lib/sshv2.c:993
+#: lib/misc.c:292 lib/misc.c:298 lib/rfc2068.c:263 lib/sshv2.c:997
 #, c-format
 msgid "Error closing file descriptor: %s\n"
-msgstr "gFTP-feil: Feil under åpning av fil %s\n"
+msgstr "Feil under luking av fildeskriptor: %s\n"
 
 #: lib/cache.c:249 lib/local.c:132 lib/local.c:141 lib/local.c:188
 #, c-format
@@ -53,7 +53,7 @@ msgstr "gFTP-feil: Feil i bokmerkefilnavn: %s\n"
 #: lib/config_file.c:129
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
-msgstr "gFTP-feil: Kunne ikke finne hovedfilen for bokmerker %s\n"
+msgstr "Advarsel: Kunne ikke finne hovedfilen for bokmerker %s\n"
 
 #: lib/config_file.c:140 lib/config_file.c:678
 #, c-format
@@ -156,9 +156,8 @@ msgstr ""
 "den fra gFTP"
 
 #: lib/config_file.c:1122 lib/rfc2068.c:557 lib/rfc2068.c:558
-#, fuzzy
 msgid "<unknown>"
-msgstr "ukjent"
+msgstr "<ukjent>"
 
 #: lib/config_file.c:1198 lib/config_file.c:1259 lib/config_file.c:1300
 #: lib/config_file.c:1332
@@ -172,12 +171,12 @@ msgid ""
 "connection.\n"
 msgstr ""
 
-#: lib/local.c:67 lib/local.c:462
+#: lib/local.c:67 lib/local.c:472
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
 msgstr "Kunne ikke bytte lokal katalog til %s: %s\n"
 
-#: lib/local.c:81 lib/local.c:448
+#: lib/local.c:81 lib/local.c:457
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "Kunne ikke bytte fjernkatalog til: %s\n"
@@ -187,122 +186,115 @@ msgstr "Kunne ikke bytte fjernkatalog til: %s\n"
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "Feil: Kunne ikke åpne lokal fil %s: %s\n"
 
-#: lib/local.c:405
+#: lib/local.c:412
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "Kunne ikke lese lokal katalog %s: %s\n"
 
-#: lib/local.c:442
+#: lib/local.c:449
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "Byttet lokal katalog til %s\n"
 
-#: lib/local.c:479 lib/local.c:502 src/gtk/transfer.c:907
+#: lib/local.c:489 lib/local.c:512 src/gtk/transfer.c:907
 #: src/gtk/view_dialog.c:301
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "Fjernet %s\n"
 
-#: lib/local.c:485
+#: lib/local.c:495
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Feil: Kunne ikke fjerne katalog %s: %s\n"
 
-#: lib/local.c:508 src/gtk/transfer.c:911 src/gtk/view_dialog.c:305
+#: lib/local.c:518 src/gtk/transfer.c:911 src/gtk/view_dialog.c:305
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Feil: Kunne ikke fjerne fil %s: %s\n"
 
-#: lib/local.c:525
+#: lib/local.c:535
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "Katalog %s opprettet\n"
 
-#: lib/local.c:551
+#: lib/local.c:561
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "%s heter nå %s\n"
 
-#: lib/local.c:558
+#: lib/local.c:568
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Feil: Kunne ikke bytte navn på %s til %s: %s\n"
 
-#: lib/local.c:581
+#: lib/local.c:591
 #, c-format
 msgid "Successfully changed mode of %s to %d\n"
 msgstr "Byttet attributter på %s til %d\n"
 
-#: lib/local.c:588
+#: lib/local.c:598
 #, c-format
 msgid "Error: Could not change mode of %s to %d: %s\n"
 msgstr "Feil: Kunne ikke andre attributter på %s til %d: %s\n"
 
-#: lib/local.c:680
+#: lib/local.c:690
 msgid "local filesystem"
 msgstr ""
 
-#: lib/misc.c:258 lib/misc.c:265 lib/protocols.c:2488
+#: lib/misc.c:261 lib/misc.c:268 lib/protocols.c:2514
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Feil: Kunne ikke åpne lokal fil %s: %s\n"
 
-#: lib/misc.c:275 lib/protocols.c:2206 lib/sslcommon.c:467
+#: lib/misc.c:278 lib/protocols.c:2232 lib/sslcommon.c:467
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Feil: Kunne ikke skrive til socket: %s\n"
 
-#: lib/misc.c:283 lib/protocols.c:2136 lib/sslcommon.c:421
+#: lib/misc.c:286 lib/protocols.c:2160 lib/sslcommon.c:421
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Feil: Kunne ikke lese fra socket: %s\n"
 
-#: lib/misc.c:371
-#, fuzzy
+#: lib/misc.c:442
 msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
-msgstr ""
-"anvendelse: gftp [[ftp://][bruker:passord@]ftp-site[:port][/katalog]]\n"
+msgstr "bruk: gftp [[protocol://][bruker:passord@]lokasjon[:port][/katalog]]\n"
 
 #: lib/options.h:24 lib/rfc959.c:24
 msgid "none"
 msgstr "ingen"
 
 #: lib/options.h:24
-#, fuzzy
 msgid "file"
-msgstr "Loggfil:"
+msgstr "fil:"
 
 #: lib/options.h:24
-#, fuzzy
 msgid "size"
-msgstr "Størrelse"
+msgstr "størrelse"
 
 #: lib/options.h:25
-#, fuzzy
 msgid "user"
-msgstr "Bruker"
+msgstr "bruker"
 
 #: lib/options.h:25
-#, fuzzy
 msgid "group"
-msgstr "Gruppe"
+msgstr "gruppe"
 
 #: lib/options.h:26
 msgid "datetime"
-msgstr ""
+msgstr "datotid"
 
 #: lib/options.h:26
-#, fuzzy
 msgid "attribs"
-msgstr "Attributter"
+msgstr "attributter"
 
 #: lib/options.h:28
 msgid "descending"
-msgstr ""
+msgstr "synkende"
 
 #: lib/options.h:28
 msgid "ascending"
-msgstr ""
+msgstr "stigende"
 
 #: lib/options.h:34
 msgid "General"
@@ -345,9 +337,8 @@ msgid "The maximum size of the log window in bytes for the GTK+ port"
 msgstr "Maksimal størrelse på loggvinduet i bytes (for \"GTK+\"-versjonen)"
 
 #: lib/options.h:49
-#, fuzzy
 msgid "Remote Character Sets:"
-msgstr "Fjernkatalog:"
+msgstr "Eksterne tegnsett:"
 
 #: lib/options.h:51
 msgid ""
@@ -389,14 +380,12 @@ msgid "Overwrite files by default or set to resume file transfers"
 msgstr "Overskriv fil eller fortsett overføring fra slutten av fila"
 
 #: lib/options.h:70
-#, fuzzy
 msgid "Preserve file permissions"
-msgstr "Bevar rettigheter"
+msgstr "Bevar filrettigheter"
 
 #: lib/options.h:73
-#, fuzzy
 msgid "Preserve file permissions of transfered files"
-msgstr "Ta vare på rettighetene på overførte filer"
+msgstr "Bevar filrettighetene på overførte filer"
 
 #: lib/options.h:75
 msgid "Refresh after each file transfer"
@@ -422,15 +411,14 @@ msgstr "Vis skjulte filer"
 msgid "Show hidden files in the listboxes"
 msgstr "Vis skjulte filer i kataloglistene"
 
-#: lib/options.h:89 src/gtk/options_dialog.c:1041
-#: src/gtk/options_dialog.c:1134
+#: lib/options.h:89 src/gtk/options_dialog.c:1048
+#: src/gtk/options_dialog.c:1141
 msgid "Network"
 msgstr "Nettverk"
 
 #: lib/options.h:91
-#, fuzzy
 msgid "Network timeout:"
-msgstr "Lese-timeout:"
+msgstr "Nettverkstimeout:"
 
 #: lib/options.h:94
 msgid ""
@@ -462,9 +450,8 @@ msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr "Maximal båndbredde i KB/s. Sett til 0 for å koble ut."
 
 #: lib/options.h:111
-#, fuzzy
 msgid "Default Protocol:"
-msgstr "Standardprotokoll:"
+msgstr "Forvalgt protokoll:"
 
 #: lib/options.h:113
 msgid "This specifies the default protocol to use"
@@ -593,147 +580,141 @@ msgid "HTTP"
 msgstr "HTTP"
 
 #: lib/options.h:206 lib/options.h:208
-#, fuzzy
 msgid "HTTPS"
-msgstr "HTTP"
+msgstr "HTTPS"
 
 #: lib/options.h:210
-#, fuzzy
 msgid "Local"
-msgstr "/_Lokalt"
+msgstr "Lokal"
 
 #: lib/options.h:211
-#, fuzzy
 msgid "SSH2"
-msgstr "SSH"
+msgstr "SSH2"
 
-#: lib/options.h:212 src/gtk/bookmarks.c:854
-#, fuzzy
+#: lib/options.h:212 src/gtk/bookmarks.c:855
 msgid "Bookmark"
-msgstr "Bokmerker"
+msgstr "Bokmerke"
 
-#: lib/protocols.c:168 lib/protocols.c:192
+#: lib/protocols.c:168 lib/protocols.c:193
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Filoverføringshastighet vil bli begrenset til %.2f KB/s\n"
 
-#: lib/protocols.c:321
+#: lib/protocols.c:322
 #, c-format
 msgid "Loading directory listing %s from cache\n"
 msgstr "Henter katalogliste %s fra cache\n"
 
-#: lib/protocols.c:466
+#: lib/protocols.c:467
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Feil: Kunne ikke skrive til cache: %s\n"
 
-#: lib/protocols.c:497
-#, fuzzy, c-format
+#: lib/protocols.c:499
+#, c-format
 msgid "Error: Could not find bookmark %s\n"
-msgstr "Feil: Kunne ikke skrive til socket: %s\n"
+msgstr "Feil: Kunne ikke finne bokmerke %s\n"
 
-#: lib/protocols.c:504
-#, fuzzy, c-format
+#: lib/protocols.c:506
+#, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
-msgstr ""
-"Feil i bokmerker: Det mangler oppføringer i dette bokmerket. Sjekk at du har "
-"med både vertsmaskinsnavn og brukernavn\n"
+msgstr "Feil i bokmerker: Bokmerkeoppføring %s har ikke et vertsnavn\n"
 
-#: lib/protocols.c:602
-#, fuzzy, c-format
+#: lib/protocols.c:609
+#, c-format
 msgid "The protocol '%s' is currently not supported.\n"
-msgstr "Feil: Protokollen %s støttes ikke enda\n"
+msgstr "Protokollen «%s» støttes ikke enda\n"
 
-#: lib/protocols.c:919 lib/protocols.c:934 lib/protocols.c:1737
-#: lib/protocols.c:1846
+#: lib/protocols.c:926 lib/protocols.c:941 lib/protocols.c:1757
+#: lib/protocols.c:1866
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Slår opp %s\n"
 
-#: lib/protocols.c:925 lib/protocols.c:940 lib/protocols.c:1742
-#: lib/protocols.c:1851
+#: lib/protocols.c:932 lib/protocols.c:947 lib/protocols.c:1762
+#: lib/protocols.c:1871
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Kunne ikke slå opp hostname %s: %s\n"
 
-#: lib/protocols.c:1184 lib/protocols.c:1185 lib/protocols.c:1244
-#: lib/protocols.c:1251 lib/protocols.c:1330 lib/protocols.c:1331
-#: lib/protocols.c:1365
+#: lib/protocols.c:1204 lib/protocols.c:1205 lib/protocols.c:1264
+#: lib/protocols.c:1271 lib/protocols.c:1350 lib/protocols.c:1351
+#: lib/protocols.c:1385
 msgid "unknown"
 msgstr "ukjent"
 
-#: lib/protocols.c:1760 lib/protocols.c:1803 lib/rfc959.c:589 lib/rfc959.c:736
+#: lib/protocols.c:1780 lib/protocols.c:1823 lib/rfc959.c:589 lib/rfc959.c:736
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Kunne ikke opprette tilkobling: %s\n"
 
-#: lib/protocols.c:1766 lib/protocols.c:1865
+#: lib/protocols.c:1786 lib/protocols.c:1885
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Prøver med %s:%d\n"
 
-#: lib/protocols.c:1771 lib/protocols.c:1872
+#: lib/protocols.c:1791 lib/protocols.c:1892
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Kunne ikke koble til %s: %s\n"
 
-#: lib/protocols.c:1827 lib/sshv2.c:891
+#: lib/protocols.c:1847 lib/sshv2.c:895
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 
-#: lib/protocols.c:1889 lib/protocols.c:2497 lib/rfc959.c:598 lib/rfc959.c:745
-#, fuzzy, c-format
+#: lib/protocols.c:1909 lib/protocols.c:2523 lib/rfc959.c:598 lib/rfc959.c:745
+#, c-format, fuzzy
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Feil: Kunne ikke åpne lokal fil %s: %s\n"
 
-#: lib/protocols.c:1896
+#: lib/protocols.c:1916
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Koblet til %s:%d\n"
 
-#: lib/protocols.c:2116 lib/protocols.c:2186
+#: lib/protocols.c:2140 lib/protocols.c:2211
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Tid for oppkoblingsforsøk mot %s gikk ut\n"
 
-#: lib/protocols.c:2254
+#: lib/protocols.c:2280
 #, fuzzy, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Kunne ikke opprette tilkobling: %s\n"
 
-#: lib/protocols.c:2268
+#: lib/protocols.c:2294
 #, fuzzy, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Kunne ikke opprette tilkobling: %s\n"
 
-#: lib/protocols.c:2394
+#: lib/protocols.c:2420
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Feil: Vertsmaskinen %s koblet fra. Maks antall forsøk nådd... gir opp\n"
 
-#: lib/protocols.c:2402
+#: lib/protocols.c:2428
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Feil: Vertsmaskinen %s koblet ned. Nytt forsøk om %d sekunder\n"
 
-#: lib/pty.c:271
+#: lib/pty.c:288
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "Kunne ikke opprette tilkobling: %s\n"
 
-#: lib/pty.c:290 lib/pty.c:347
-#, fuzzy, c-format
+#: lib/pty.c:307 lib/pty.c:364
+#, c-format
 msgid "Error: Cannot execute ssh: %s\n"
-msgstr "Feil: Kan ikke starte ssh: "
+msgstr "Feil: Kan ikke kjøre ssh: %s\n"
 
-#: lib/pty.c:303 lib/pty.c:358
+#: lib/pty.c:320 lib/pty.c:375
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "Kunne ikke opprette underprosess: %s\n"
 
-#: lib/pty.c:321
+#: lib/pty.c:338
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "Kan ikke åpne master pty %s: %s\n"
@@ -785,27 +766,27 @@ msgid ""
 "Invalid chunk size '%s' returned by the remote server\n"
 msgstr "Mottok uventet svar fra server\n"
 
-#: lib/rfc2068.c:258 lib/rfc959.c:559 lib/sshv2.c:988
+#: lib/rfc2068.c:258 lib/rfc959.c:559 lib/sshv2.c:992
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Kobler fra vertsmaskin %s\n"
 
 #: lib/rfc2068.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "Starting the file transfer at offset %lld\n"
-msgstr "Starter overføringen etter posisjon %ld\n"
+msgstr "Starter filoverføringen ved posisjon %lld\n"
 
 #: lib/rfc2068.c:317
 #, c-format
 msgid "Starting the file transfer at offset %ld\n"
-msgstr "Starter overføringen etter posisjon %ld\n"
+msgstr "Starter filoverføringen ved posisjon %ld\n"
 
 #: lib/rfc2068.c:339
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "Kan ikke hente fil %s\n"
 
-#: lib/rfc2068.c:429 lib/sshv2.c:1073
+#: lib/rfc2068.c:429 lib/sshv2.c:1077
 msgid "Retrieving directory listing...\n"
 msgstr "Henter katalogliste...\n"
 
@@ -874,9 +855,8 @@ msgid "Your firewall account (optional)"
 msgstr "Din brannmurkonto (valgfritt)"
 
 #: lib/rfc959.c:61
-#, fuzzy
 msgid "Proxy server type:"
-msgstr "Proxyservertype"
+msgstr "Type proxyserver:"
 
 #: lib/rfc959.c:64
 #, no-c-format
@@ -917,9 +897,8 @@ msgid ""
 msgstr ""
 
 #: lib/rfc959.c:77
-#, fuzzy
 msgid "Transfer files in ASCII mode"
-msgstr "Send filer"
+msgstr "Overfør filer i ASCII-modus"
 
 #: lib/rfc959.c:80
 msgid ""
@@ -980,11 +959,11 @@ msgstr "Kunne ikke opprette tilkobling: %s\n"
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Kunne ikke koble til %s: %s\n"
 
-#: lib/rfc959.c:1419
+#: lib/rfc959.c:1422
 msgid "total"
 msgstr "totalt"
 
-#: lib/rfc959.c:1421
+#: lib/rfc959.c:1424
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Advarsel: Kan ikke tolke liste %s\n"
@@ -1048,173 +1027,173 @@ msgstr ""
 msgid "Running program %s\n"
 msgstr "Starter program: %s\n"
 
-#: lib/sshv2.c:303 lib/sshv2.c:328
+#: lib/sshv2.c:304 lib/sshv2.c:329
 msgid "WARNING"
 msgstr ""
 
-#: lib/sshv2.c:370
+#: lib/sshv2.c:371
 msgid "Error: An incorrect password was entered\n"
 msgstr ""
 
-#: lib/sshv2.c:373
+#: lib/sshv2.c:374
 msgid ""
 "Please connect to this host with the command line SSH utility and answer "
 "this question appropriately.\n"
 msgstr ""
 
-#: lib/sshv2.c:376
+#: lib/sshv2.c:377
 msgid "Please correct the above warning to connect to this host.\n"
 msgstr ""
 
-#: lib/sshv2.c:415
+#: lib/sshv2.c:416
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr ""
 
-#: lib/sshv2.c:421
+#: lib/sshv2.c:422
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr ""
 
-#: lib/sshv2.c:430
+#: lib/sshv2.c:431
 #, c-format
 msgid "%d: Open %s\n"
 msgstr ""
 
-#: lib/sshv2.c:435
+#: lib/sshv2.c:436
 #, fuzzy, c-format
 msgid "%d: Close\n"
 msgstr "  Lukk  "
 
-#: lib/sshv2.c:441
+#: lib/sshv2.c:442
 #, fuzzy, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "Opprett katalog"
 
-#: lib/sshv2.c:446
+#: lib/sshv2.c:447
 #, fuzzy, c-format
 msgid "%d: Read Directory\n"
 msgstr "Opprett katalog"
 
-#: lib/sshv2.c:450
+#: lib/sshv2.c:451
 #, fuzzy, c-format
 msgid "%d: Remove file %s\n"
 msgstr "Kan ikke hente fil %s\n"
 
-#: lib/sshv2.c:455
+#: lib/sshv2.c:456
 #, fuzzy, c-format
 msgid "%d: Make directory %s\n"
 msgstr "Opprett katalog"
 
-#: lib/sshv2.c:460
+#: lib/sshv2.c:461
 #, fuzzy, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "Fjernkatalog:"
 
-#: lib/sshv2.c:465
+#: lib/sshv2.c:466
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr ""
 
-#: lib/sshv2.c:470
+#: lib/sshv2.c:471
 #, c-format
 msgid "%d: File attributes\n"
 msgstr ""
 
-#: lib/sshv2.c:474
+#: lib/sshv2.c:475
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr ""
 
-#: lib/sshv2.c:491
+#: lib/sshv2.c:492
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr ""
 
-#: lib/sshv2.c:496
+#: lib/sshv2.c:497
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr ""
 
-#: lib/sshv2.c:509 src/gtk/bookmarks.c:1013 src/gtk/bookmarks.c:1250
-#: src/gtk/chmod_dialog.c:281 src/gtk/options_dialog.c:1099
-#: src/gtk/options_dialog.c:1301 src/gtk/transfer.c:2041
+#: lib/sshv2.c:510 src/gtk/bookmarks.c:1014 src/gtk/bookmarks.c:1251
+#: src/gtk/chmod_dialog.c:281 src/gtk/options_dialog.c:1106
+#: src/gtk/options_dialog.c:1308 src/gtk/transfer.c:2046
 msgid "OK"
 msgstr "OK"
 
-#: lib/sshv2.c:512
+#: lib/sshv2.c:513
 msgid "EOF"
 msgstr ""
 
-#: lib/sshv2.c:515
+#: lib/sshv2.c:516
 #, fuzzy
 msgid "No such file or directory"
 msgstr "bruk: chdir <katalog>\n"
 
-#: lib/sshv2.c:518
+#: lib/sshv2.c:519
 msgid "Permission denied"
 msgstr ""
 
-#: lib/sshv2.c:521
+#: lib/sshv2.c:522
 #, fuzzy
 msgid "Failure"
 msgstr "/_Fil"
 
-#: lib/sshv2.c:524
+#: lib/sshv2.c:525
 msgid "Bad message"
 msgstr ""
 
-#: lib/sshv2.c:527
+#: lib/sshv2.c:528
 #, fuzzy
 msgid "No connection"
 msgstr "Ikke oppkoblet"
 
-#: lib/sshv2.c:530
+#: lib/sshv2.c:531
 #, fuzzy
 msgid "Connection lost"
 msgstr "Tid for oppkoblingsforsøk mot %s gikk ut\n"
 
-#: lib/sshv2.c:533
+#: lib/sshv2.c:534
 #, fuzzy
 msgid "Operation unsupported"
 msgstr "Operasjonen ble avbrutt\n"
 
-#: lib/sshv2.c:536
+#: lib/sshv2.c:537
 msgid "Unknown message returned from server"
 msgstr ""
 
-#: lib/sshv2.c:573
+#: lib/sshv2.c:574
 #, fuzzy, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Feil: Beskjedstørrelse %d fra server for stor\n"
 
-#: lib/sshv2.c:631 lib/sshv2.c:1112 lib/sshv2.c:1949 lib/sshv2.c:2042
-#: lib/sshv2.c:2130
+#: lib/sshv2.c:632 lib/sshv2.c:1116 lib/sshv2.c:1951 lib/sshv2.c:2044
+#: lib/sshv2.c:2132
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Feil: Beskjedstørrelse %d fra server for stor\n"
 
-#: lib/sshv2.c:637
+#: lib/sshv2.c:638
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr ""
 
-#: lib/sshv2.c:710 lib/sshv2.c:723 lib/sshv2.c:745 lib/sshv2.c:813
-#: lib/sshv2.c:944 lib/sshv2.c:1035 lib/sshv2.c:1103 lib/sshv2.c:1216
-#: lib/sshv2.c:1229 lib/sshv2.c:1242 lib/sshv2.c:1255 lib/sshv2.c:1311
-#: lib/sshv2.c:1376 lib/sshv2.c:1838 lib/sshv2.c:1940 lib/sshv2.c:2033
-#: lib/sshv2.c:2118 lib/sshv2.c:2203
+#: lib/sshv2.c:714 lib/sshv2.c:727 lib/sshv2.c:749 lib/sshv2.c:817
+#: lib/sshv2.c:948 lib/sshv2.c:1039 lib/sshv2.c:1107 lib/sshv2.c:1220
+#: lib/sshv2.c:1233 lib/sshv2.c:1246 lib/sshv2.c:1259 lib/sshv2.c:1315
+#: lib/sshv2.c:1380 lib/sshv2.c:1840 lib/sshv2.c:1942 lib/sshv2.c:2035
+#: lib/sshv2.c:2120 lib/sshv2.c:2205
 #, fuzzy
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Mottok uventet svar fra server\n"
 
-#: lib/sshv2.c:862
+#: lib/sshv2.c:866
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "Kunne ikke koble til %s\n"
 
-#: lib/sshv2.c:955
+#: lib/sshv2.c:959
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Koblet til SSH-server %s\n"
@@ -1289,8 +1268,8 @@ msgstr ""
 msgid "Error with peer certificate: %s\n"
 msgstr "Feil: Kunne ikke skrive til cache: %s\n"
 
-#: src/gtk/bookmarks.c:37 src/gtk/gftp-gtk.c:902 src/gtk/menu-items.c:66
-#: src/gtk/menu-items.c:96 src/gtk/misc-gtk.c:483 src/gtk/misc-gtk.c:491
+#: src/gtk/bookmarks.c:37 src/gtk/gftp-gtk.c:912 src/gtk/menu-items.c:58
+#: src/gtk/menu-items.c:88 src/gtk/misc-gtk.c:483 src/gtk/misc-gtk.c:491
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: Trykk på stoppknappen før du gjør noe annet\n"
@@ -1299,25 +1278,25 @@ msgstr "%s: Trykk på stoppknappen før du gjør noe annet\n"
 msgid "Run Bookmark"
 msgstr "Åpne bokmerke"
 
-#: src/gtk/bookmarks.c:64
+#: src/gtk/bookmarks.c:65
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr "Legg til bokmerke: Du må skrive inn et navn på bokmerket\n"
 
-#: src/gtk/bookmarks.c:71
+#: src/gtk/bookmarks.c:72
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr ""
 "Legge til bokmerke: Kan ikke legge til %s fordi bokmerket allerede finnes\n"
 
-#: src/gtk/bookmarks.c:128 src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:129 src/gtk/bookmarks.c:140
 msgid "Add Bookmark"
 msgstr "Legg til bokmerke"
 
-#: src/gtk/bookmarks.c:135
+#: src/gtk/bookmarks.c:136
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "Legg til bokmerke: Du må skrive inn et vertsmaskinnavn\n"
 
-#: src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:140
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
@@ -1327,23 +1306,23 @@ msgstr ""
 "Du kan legge det inn i en undermeny med hjelp av /\n"
 "(F.eks. Linux Sites/Debian)"
 
-#: src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:140
 msgid "Remember password"
 msgstr "Husk passord"
 
-#: src/gtk/bookmarks.c:465 src/gtk/bookmarks.c:475
+#: src/gtk/bookmarks.c:466 src/gtk/bookmarks.c:476
 msgid "New Folder"
 msgstr "Ny mappe"
 
-#: src/gtk/bookmarks.c:466
+#: src/gtk/bookmarks.c:467
 msgid "Enter the name of the new folder to create"
 msgstr "Skriv inn navnet på den nye mappa"
 
-#: src/gtk/bookmarks.c:476
+#: src/gtk/bookmarks.c:477
 msgid "Enter the name of the new item to create"
 msgstr "Skriv inn navnet på den nye oppføringen"
 
-#: src/gtk/bookmarks.c:549
+#: src/gtk/bookmarks.c:550
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1352,106 +1331,106 @@ msgstr ""
 "Er du sikker på at du vil fjerne bokmerket\n"
 "%s og dets innhold?"
 
-#: src/gtk/bookmarks.c:550
+#: src/gtk/bookmarks.c:551
 msgid "Delete Bookmark"
 msgstr "Slett bokmerke"
 
-#: src/gtk/bookmarks.c:577
+#: src/gtk/bookmarks.c:578
 msgid "Bookmarks"
 msgstr "Bokmerker"
 
-#: src/gtk/bookmarks.c:819 src/gtk/bookmarks.c:822
+#: src/gtk/bookmarks.c:820 src/gtk/bookmarks.c:823
 msgid "Edit Entry"
 msgstr "Rediger post"
 
-#: src/gtk/bookmarks.c:859
+#: src/gtk/bookmarks.c:860
 msgid "Description:"
 msgstr "Beskrivelse:"
 
-#: src/gtk/bookmarks.c:874
+#: src/gtk/bookmarks.c:875
 msgid "Hostname:"
 msgstr "Vertsmaskinnavn:"
 
-#: src/gtk/bookmarks.c:887
+#: src/gtk/bookmarks.c:888
 msgid "Port:"
 msgstr "Port:"
 
-#: src/gtk/bookmarks.c:904
+#: src/gtk/bookmarks.c:905
 msgid "Protocol:"
 msgstr "Protokoll:"
 
-#: src/gtk/bookmarks.c:928
+#: src/gtk/bookmarks.c:929
 msgid "Remote Directory:"
 msgstr "Fjernkatalog:"
 
-#: src/gtk/bookmarks.c:941
+#: src/gtk/bookmarks.c:942
 msgid "Local Directory:"
 msgstr "Lokalkatalog:"
 
-#: src/gtk/bookmarks.c:958
+#: src/gtk/bookmarks.c:959
 msgid "Username:"
 msgstr "Brukernavn:"
 
-#: src/gtk/bookmarks.c:971
+#: src/gtk/bookmarks.c:972
 msgid "Password:"
 msgstr "Passord:"
 
-#: src/gtk/bookmarks.c:985
+#: src/gtk/bookmarks.c:986
 msgid "Account:"
 msgstr "Konto:"
 
-#: src/gtk/bookmarks.c:999
+#: src/gtk/bookmarks.c:1000
 msgid "Log in as ANONYMOUS"
 msgstr "Logg inn som ANONYMOUS"
 
-#: src/gtk/bookmarks.c:1025 src/gtk/bookmarks.c:1260
-#: src/gtk/chmod_dialog.c:293 src/gtk/options_dialog.c:1110
-#: src/gtk/options_dialog.c:1312 src/gtk/transfer.c:2053
+#: src/gtk/bookmarks.c:1026 src/gtk/bookmarks.c:1261
+#: src/gtk/chmod_dialog.c:293 src/gtk/options_dialog.c:1117
+#: src/gtk/options_dialog.c:1319 src/gtk/transfer.c:2058
 msgid "  Cancel  "
 msgstr "  Avbryt  "
 
-#: src/gtk/bookmarks.c:1035 src/gtk/options_dialog.c:1323
+#: src/gtk/bookmarks.c:1036 src/gtk/options_dialog.c:1330
 msgid "Apply"
 msgstr "Utfør"
 
-#: src/gtk/bookmarks.c:1177
+#: src/gtk/bookmarks.c:1178
 msgid "/_File"
 msgstr "/_Fil"
 
-#: src/gtk/bookmarks.c:1178
+#: src/gtk/bookmarks.c:1179
 msgid "/File/tearoff"
 msgstr "/Fil/tearoff"
 
-#: src/gtk/bookmarks.c:1179
+#: src/gtk/bookmarks.c:1180
 msgid "/File/New Folder..."
 msgstr "/Fil/Ny mappe..."
 
-#: src/gtk/bookmarks.c:1180
+#: src/gtk/bookmarks.c:1181
 msgid "/File/New Item..."
 msgstr "/Fil/Ny oppføring"
 
-#: src/gtk/bookmarks.c:1181
+#: src/gtk/bookmarks.c:1182
 msgid "/File/Delete"
 msgstr "/Fil/Slett"
 
-#: src/gtk/bookmarks.c:1182
+#: src/gtk/bookmarks.c:1183
 msgid "/File/Properties..."
 msgstr "/Fil/Egenskaper"
 
-#: src/gtk/bookmarks.c:1183
+#: src/gtk/bookmarks.c:1184
 msgid "/File/sep"
 msgstr "/Fil/sep"
 
-#: src/gtk/bookmarks.c:1184
+#: src/gtk/bookmarks.c:1185
 msgid "/File/Close"
 msgstr "/Fil/Lukk"
 
-#: src/gtk/bookmarks.c:1195 src/gtk/bookmarks.c:1198
+#: src/gtk/bookmarks.c:1196 src/gtk/bookmarks.c:1199
 msgid "Edit Bookmarks"
 msgstr "Rediger bokmerker"
 
-#: src/gtk/chmod_dialog.c:73 src/gtk/delete_dialog.c:90
-#: src/gtk/menu-items.c:430 src/gtk/mkdir_dialog.c:58
+#: src/gtk/chmod_dialog.c:73 src/gtk/delete_dialog.c:89
+#: src/gtk/menu-items.c:422 src/gtk/mkdir_dialog.c:58
 #: src/gtk/rename_dialog.c:59 src/gtk/transfer.c:533
 msgid "Operation canceled\n"
 msgstr "Operasjonen ble avbrutt\n"
@@ -1485,7 +1464,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Sticky"
 
-#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:590
+#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:600
 msgid "User"
 msgstr "Bruker"
 
@@ -1504,7 +1483,7 @@ msgstr "Skriv"
 msgid "Execute"
 msgstr "Kjør"
 
-#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:591
+#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:601
 msgid "Group"
 msgstr "Gruppe"
 
@@ -1512,16 +1491,16 @@ msgstr "Gruppe"
 msgid "Other"
 msgstr "Andre"
 
-#: src/gtk/delete_dialog.c:157
+#: src/gtk/delete_dialog.c:156
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr "Er du sikker på at du vil fjerne disse %ld filene og %ld katalogene?"
 
-#: src/gtk/delete_dialog.c:159
+#: src/gtk/delete_dialog.c:158
 msgid "Delete Files/Directories"
 msgstr "Slett filer/kataloger"
 
-#: src/gtk/delete_dialog.c:177 src/gtk/options_dialog.c:1184
+#: src/gtk/delete_dialog.c:176 src/gtk/options_dialog.c:1191
 msgid "Delete"
 msgstr "Slett"
 
@@ -1546,363 +1525,363 @@ msgstr ""
 "Filoverføring(er) pågår.\n"
 "Er du sikker på at du vil avslutte?"
 
-#: src/gtk/gftp-gtk.c:159
+#: src/gtk/gftp-gtk.c:160
 msgid "/_FTP"
 msgstr "/_FTP"
 
-#: src/gtk/gftp-gtk.c:160
+#: src/gtk/gftp-gtk.c:161
 msgid "/FTP/tearoff"
 msgstr "/FTP/tearoff"
 
-#: src/gtk/gftp-gtk.c:161
+#: src/gtk/gftp-gtk.c:162
 msgid "/FTP/Window 1"
 msgstr "/FTP/Vindu 1"
 
-#: src/gtk/gftp-gtk.c:162
+#: src/gtk/gftp-gtk.c:163
 msgid "/FTP/Window 2"
 msgstr "/FTP/Vindu 2"
 
-#: src/gtk/gftp-gtk.c:163 src/gtk/gftp-gtk.c:166 src/gtk/gftp-gtk.c:169
+#: src/gtk/gftp-gtk.c:164 src/gtk/gftp-gtk.c:167 src/gtk/gftp-gtk.c:170
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
 
-#: src/gtk/gftp-gtk.c:164
+#: src/gtk/gftp-gtk.c:165
 msgid "/FTP/Ascii"
 msgstr "/FTP/Ascii-overføring"
 
-#: src/gtk/gftp-gtk.c:165
+#: src/gtk/gftp-gtk.c:166
 msgid "/FTP/Binary"
 msgstr "/FTP/Binær overføring"
 
-#: src/gtk/gftp-gtk.c:167
+#: src/gtk/gftp-gtk.c:168
 msgid "/FTP/_Options..."
 msgstr "/FTP/_Tilpass..."
 
-#: src/gtk/gftp-gtk.c:170
+#: src/gtk/gftp-gtk.c:171
 msgid "/FTP/_Quit"
 msgstr "/FTP/_Avslutt"
 
-#: src/gtk/gftp-gtk.c:171
+#: src/gtk/gftp-gtk.c:172
 msgid "/_Local"
 msgstr "/_Lokalt"
 
-#: src/gtk/gftp-gtk.c:172
+#: src/gtk/gftp-gtk.c:173
 msgid "/Local/tearoff"
 msgstr "/Lokalt/tearoff"
 
-#: src/gtk/gftp-gtk.c:173
+#: src/gtk/gftp-gtk.c:174
 msgid "/Local/Open _URL..."
 msgstr "/Lokalt/Åpne _URL..."
 
-#: src/gtk/gftp-gtk.c:174
+#: src/gtk/gftp-gtk.c:175
 msgid "/Local/Disconnect"
 msgstr "/Lokalt/Koble fra"
 
-#: src/gtk/gftp-gtk.c:175 src/gtk/gftp-gtk.c:181
+#: src/gtk/gftp-gtk.c:176 src/gtk/gftp-gtk.c:182
 msgid "/Local/sep"
 msgstr "/Lokalt/sep"
 
-#: src/gtk/gftp-gtk.c:176
+#: src/gtk/gftp-gtk.c:177
 msgid "/Local/Change Filespec..."
 msgstr "/Lokalt/Bytt filfilter..."
 
-#: src/gtk/gftp-gtk.c:177
+#: src/gtk/gftp-gtk.c:178
 #, fuzzy
 msgid "/Local/Show selected"
 msgstr "/Lokalt/Velg alle"
 
-#: src/gtk/gftp-gtk.c:178
+#: src/gtk/gftp-gtk.c:179
 msgid "/Local/Select All"
 msgstr "/Lokalt/Velg alle"
 
-#: src/gtk/gftp-gtk.c:179
+#: src/gtk/gftp-gtk.c:180
 msgid "/Local/Select All Files"
 msgstr "/Lokalt/Velg alle filer"
 
-#: src/gtk/gftp-gtk.c:180
+#: src/gtk/gftp-gtk.c:181
 msgid "/Local/Deselect All"
 msgstr "/Lokalt/Velg bort alt"
 
-#: src/gtk/gftp-gtk.c:182
+#: src/gtk/gftp-gtk.c:183
 #, fuzzy
 msgid "/Local/Save Directory Listing..."
 msgstr "/Lokalt/Opprett katalog..."
 
-#: src/gtk/gftp-gtk.c:183
+#: src/gtk/gftp-gtk.c:184
 msgid "/Local/Send SITE Command..."
 msgstr "/Lokalt/Send SITE-kommando"
 
-#: src/gtk/gftp-gtk.c:184
+#: src/gtk/gftp-gtk.c:185
 msgid "/Local/Change Directory"
 msgstr "/Lokalt/Bytt katalog"
 
-#: src/gtk/gftp-gtk.c:185
+#: src/gtk/gftp-gtk.c:186
 msgid "/Local/Chmod..."
 msgstr "/Lokalt/Chmod..."
 
-#: src/gtk/gftp-gtk.c:186
+#: src/gtk/gftp-gtk.c:187
 msgid "/Local/Make Directory..."
 msgstr "/Lokalt/Opprett katalog..."
 
-#: src/gtk/gftp-gtk.c:187
+#: src/gtk/gftp-gtk.c:188
 msgid "/Local/Rename..."
 msgstr "/Lokalt/Bytt navn..."
 
-#: src/gtk/gftp-gtk.c:188
+#: src/gtk/gftp-gtk.c:189
 msgid "/Local/Delete..."
 msgstr "/Lokalt/Slett..."
 
-#: src/gtk/gftp-gtk.c:189
+#: src/gtk/gftp-gtk.c:190
 msgid "/Local/Edit..."
 msgstr "/Lokalt/Rediger..."
 
-#: src/gtk/gftp-gtk.c:190
+#: src/gtk/gftp-gtk.c:191
 msgid "/Local/View..."
 msgstr "/Lokalt/Vis..."
 
-#: src/gtk/gftp-gtk.c:191
+#: src/gtk/gftp-gtk.c:192
 msgid "/Local/Refresh"
 msgstr "/Lokalt/Oppdater"
 
-#: src/gtk/gftp-gtk.c:192
+#: src/gtk/gftp-gtk.c:193
 msgid "/_Remote"
 msgstr "/_Fjernt"
 
-#: src/gtk/gftp-gtk.c:193
+#: src/gtk/gftp-gtk.c:194
 msgid "/Remote/tearoff"
 msgstr "/Fjernt/tearoff"
 
-#: src/gtk/gftp-gtk.c:194
+#: src/gtk/gftp-gtk.c:195
 msgid "/Remote/Open _URL..."
 msgstr "/Fjernt/Åpne _URL..."
 
-#: src/gtk/gftp-gtk.c:196
+#: src/gtk/gftp-gtk.c:197
 msgid "/Remote/Disconnect"
 msgstr "/Fjernt/Koble fra"
 
-#: src/gtk/gftp-gtk.c:198 src/gtk/gftp-gtk.c:204
+#: src/gtk/gftp-gtk.c:199 src/gtk/gftp-gtk.c:205
 msgid "/Remote/sep"
 msgstr "/Fjernt/sep"
 
-#: src/gtk/gftp-gtk.c:199
+#: src/gtk/gftp-gtk.c:200
 msgid "/Remote/Change Filespec..."
 msgstr "/Fjernt/Bytt filfilter..."
 
-#: src/gtk/gftp-gtk.c:200
+#: src/gtk/gftp-gtk.c:201
 #, fuzzy
 msgid "/Remote/Show selected"
 msgstr "/Lokalt/Velg alle"
 
-#: src/gtk/gftp-gtk.c:201
+#: src/gtk/gftp-gtk.c:202
 msgid "/Remote/Select All"
 msgstr "/Fjernt/Velg alt"
 
-#: src/gtk/gftp-gtk.c:202
+#: src/gtk/gftp-gtk.c:203
 msgid "/Remote/Select All Files"
 msgstr "/Fjernt/Velg alle filer"
 
-#: src/gtk/gftp-gtk.c:203
+#: src/gtk/gftp-gtk.c:204
 msgid "/Remote/Deselect All"
 msgstr "/Fjernt/Velg bort alle"
 
-#: src/gtk/gftp-gtk.c:205
+#: src/gtk/gftp-gtk.c:206
 #, fuzzy
 msgid "/Remote/Save Directory Listing..."
 msgstr "/Fjernt/Opprett katalog..."
 
-#: src/gtk/gftp-gtk.c:206
+#: src/gtk/gftp-gtk.c:207
 msgid "/Remote/Send SITE Command..."
 msgstr "/Fjernt/Send SITE-kommando..."
 
-#: src/gtk/gftp-gtk.c:207
+#: src/gtk/gftp-gtk.c:208
 msgid "/Remote/Change Directory"
 msgstr "/Fjernt/Bytt katalog"
 
-#: src/gtk/gftp-gtk.c:208
+#: src/gtk/gftp-gtk.c:209
 msgid "/Remote/Chmod..."
 msgstr "/Fjernt/Chmod..."
 
-#: src/gtk/gftp-gtk.c:209
+#: src/gtk/gftp-gtk.c:210
 msgid "/Remote/Make Directory..."
 msgstr "/Fjernt/Opprett katalog..."
 
-#: src/gtk/gftp-gtk.c:210
+#: src/gtk/gftp-gtk.c:211
 msgid "/Remote/Rename..."
 msgstr "/Fjernt/Bytt navn..."
 
-#: src/gtk/gftp-gtk.c:211
+#: src/gtk/gftp-gtk.c:212
 msgid "/Remote/Delete..."
 msgstr "/Fjernt/Ta bort..."
 
-#: src/gtk/gftp-gtk.c:212
+#: src/gtk/gftp-gtk.c:213
 msgid "/Remote/Edit..."
 msgstr "/Fjernt/Rediger..."
 
-#: src/gtk/gftp-gtk.c:213
+#: src/gtk/gftp-gtk.c:214
 msgid "/Remote/View..."
 msgstr "/Fjernt/Vis..."
 
-#: src/gtk/gftp-gtk.c:214
+#: src/gtk/gftp-gtk.c:215
 msgid "/Remote/Refresh"
 msgstr "/Fjernt/Oppdater"
 
-#: src/gtk/gftp-gtk.c:215
+#: src/gtk/gftp-gtk.c:216
 msgid "/_Bookmarks"
 msgstr "/_Bokmerker"
 
-#: src/gtk/gftp-gtk.c:216
+#: src/gtk/gftp-gtk.c:217
 msgid "/Bookmarks/tearoff"
 msgstr "/Bokmerker/tearoff"
 
-#: src/gtk/gftp-gtk.c:217
+#: src/gtk/gftp-gtk.c:218
 msgid "/Bookmarks/Add bookmark"
 msgstr "/Bokmerker/Legg til bokmerke"
 
-#: src/gtk/gftp-gtk.c:219
+#: src/gtk/gftp-gtk.c:220
 msgid "/Bookmarks/Edit bookmarks"
 msgstr "/Bokmerker/Rediger bokmerker"
 
-#: src/gtk/gftp-gtk.c:220
+#: src/gtk/gftp-gtk.c:221
 msgid "/Bookmarks/sep"
 msgstr "/Bokmerker/sep"
 
-#: src/gtk/gftp-gtk.c:221
+#: src/gtk/gftp-gtk.c:222
 msgid "/_Transfers"
 msgstr "/_Overføringer"
 
-#: src/gtk/gftp-gtk.c:222
+#: src/gtk/gftp-gtk.c:223
 msgid "/Transfers/tearoff"
 msgstr "/Overføringer/tearoff"
 
-#: src/gtk/gftp-gtk.c:223
+#: src/gtk/gftp-gtk.c:224
 msgid "/Transfers/Start Transfer"
 msgstr "/Overføringer/Start overføring"
 
-#: src/gtk/gftp-gtk.c:224
+#: src/gtk/gftp-gtk.c:225
 msgid "/Transfers/Stop Transfer"
 msgstr "/Overføringer/Avbryt overføring"
 
-#: src/gtk/gftp-gtk.c:226 src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:227 src/gtk/gftp-gtk.c:235
 msgid "/Transfers/sep"
 msgstr "/Overføringer/sep"
 
-#: src/gtk/gftp-gtk.c:227
+#: src/gtk/gftp-gtk.c:228
 msgid "/Transfers/Skip Current File"
 msgstr "/Overføringer/Hopp over fil"
 
-#: src/gtk/gftp-gtk.c:228
+#: src/gtk/gftp-gtk.c:229
 msgid "/Transfers/Remove File"
 msgstr "/Overføringer/Fjern fil"
 
-#: src/gtk/gftp-gtk.c:230
+#: src/gtk/gftp-gtk.c:231
 msgid "/Transfers/Move File _Up"
 msgstr "/Overføringer/Flytt fil _opp"
 
-#: src/gtk/gftp-gtk.c:232
+#: src/gtk/gftp-gtk.c:233
 msgid "/Transfers/Move File _Down"
 msgstr "/Overføringer/Flytt fil _ned"
 
-#: src/gtk/gftp-gtk.c:235
+#: src/gtk/gftp-gtk.c:236
 msgid "/Transfers/Retrieve Files"
 msgstr "/Overføringer/Last ned filer"
 
-#: src/gtk/gftp-gtk.c:236
+#: src/gtk/gftp-gtk.c:237
 msgid "/Transfers/Put Files"
 msgstr "/Overføringer/Send filer"
 
-#: src/gtk/gftp-gtk.c:237
+#: src/gtk/gftp-gtk.c:238
 msgid "/L_ogging"
 msgstr "/_Logging"
 
-#: src/gtk/gftp-gtk.c:238
+#: src/gtk/gftp-gtk.c:239
 msgid "/Logging/tearoff"
 msgstr "/Logging/tearoff"
 
-#: src/gtk/gftp-gtk.c:239
+#: src/gtk/gftp-gtk.c:240
 msgid "/Logging/Clear"
 msgstr "/Logging/Tøm logg"
 
-#: src/gtk/gftp-gtk.c:240
+#: src/gtk/gftp-gtk.c:241
 msgid "/Logging/View log..."
 msgstr "/Logging/Vis logg..."
 
-#: src/gtk/gftp-gtk.c:241
+#: src/gtk/gftp-gtk.c:242
 msgid "/Logging/Save log..."
 msgstr "/Logging/Lagre logg..."
 
-#: src/gtk/gftp-gtk.c:242
+#: src/gtk/gftp-gtk.c:243
 msgid "/Tool_s"
 msgstr "/_Verktøy"
 
-#: src/gtk/gftp-gtk.c:243
+#: src/gtk/gftp-gtk.c:244
 msgid "/Tools/tearoff"
 msgstr "/Verktøy/tearoff"
 
-#: src/gtk/gftp-gtk.c:244
+#: src/gtk/gftp-gtk.c:245
 msgid "/Tools/Compare Windows"
 msgstr "/Verktøy/Sammenlign vinduer"
 
-#: src/gtk/gftp-gtk.c:245
+#: src/gtk/gftp-gtk.c:246
 msgid "/Tools/Clear Cache"
 msgstr "/Verktøy/Tøm cache"
 
-#: src/gtk/gftp-gtk.c:246
+#: src/gtk/gftp-gtk.c:247
 msgid "/_Help"
 msgstr "/_Hjelp"
 
-#: src/gtk/gftp-gtk.c:247
+#: src/gtk/gftp-gtk.c:248
 msgid "/Help/tearoff"
 msgstr "/Hjelp/tearoff"
 
-#: src/gtk/gftp-gtk.c:248
+#: src/gtk/gftp-gtk.c:249
 msgid "/Help/About..."
 msgstr "/Hjelp/Om..."
 
-#: src/gtk/gftp-gtk.c:357
+#: src/gtk/gftp-gtk.c:367
 msgid "Host: "
 msgstr "Vertsmaskin: "
 
-#: src/gtk/gftp-gtk.c:375
+#: src/gtk/gftp-gtk.c:385
 msgid "Port: "
 msgstr "Port: "
 
-#: src/gtk/gftp-gtk.c:393
+#: src/gtk/gftp-gtk.c:403
 msgid "User: "
 msgstr "Bruker: "
 
-#: src/gtk/gftp-gtk.c:411
+#: src/gtk/gftp-gtk.c:421
 msgid "Pass: "
 msgstr "Passord: "
 
-#: src/gtk/gftp-gtk.c:588 src/gtk/gftp-gtk.c:792 src/gtk/transfer.c:1882
+#: src/gtk/gftp-gtk.c:598 src/gtk/gftp-gtk.c:802 src/gtk/transfer.c:1887
 msgid "Filename"
 msgstr "Filnavn"
 
-#: src/gtk/gftp-gtk.c:589
+#: src/gtk/gftp-gtk.c:599
 msgid "Size"
 msgstr "Størrelse"
 
-#: src/gtk/gftp-gtk.c:592
+#: src/gtk/gftp-gtk.c:602
 msgid "Date"
 msgstr "Dato"
 
-#: src/gtk/gftp-gtk.c:593
+#: src/gtk/gftp-gtk.c:603
 msgid "Attribs"
 msgstr "Attributter"
 
-#: src/gtk/gftp-gtk.c:793
+#: src/gtk/gftp-gtk.c:803
 msgid "Progress"
 msgstr "Progresjon"
 
-#: src/gtk/gftp-gtk.c:903 src/gtk/misc-gtk.c:892 src/gtk/misc-gtk.c:963
+#: src/gtk/gftp-gtk.c:913 src/gtk/misc-gtk.c:892 src/gtk/misc-gtk.c:963
 msgid "Connect"
 msgstr "Koble til"
 
-#: src/gtk/gftp-gtk.c:925
+#: src/gtk/gftp-gtk.c:935
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Feil: Du må skrive inn en vertsmaskin å koble opp mot\n"
 
-#: src/gtk/gftp-gtk.c:1160
+#: src/gtk/gftp-gtk.c:1170
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
@@ -1912,7 +1891,7 @@ msgstr ""
 "du gjerne sende dem til meg på mail. Du kan alltid finne de siste nyhetene "
 "om gFTP på min webside: http://www.gftp.org\n"
 
-#: src/gtk/gftp-gtk.c:1162 src/text/gftp-text.c:150
+#: src/gtk/gftp-gtk.c:1172 src/text/gftp-text.c:150
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1922,77 +1901,77 @@ msgstr ""
 "er gratis programvare, og du står fritt til å distribuere den videre med "
 "visse forbehold; for detaljer se COPYING-filen.\n"
 
-#: src/gtk/menu-items.c:67 src/gtk/menu-items.c:97
+#: src/gtk/menu-items.c:59 src/gtk/menu-items.c:89
 msgid "OpenURL"
 msgstr "Åpne URL"
 
-#: src/gtk/menu-items.c:75 src/gtk/menu-items.c:105
+#: src/gtk/menu-items.c:67 src/gtk/menu-items.c:97
 msgid "OpenURL: Operation canceled...you must enter a string\n"
 msgstr "Åpne URL: Operasjonen avbrutt... Du må skrive inn en tekststreng\n"
 
-#: src/gtk/menu-items.c:127
+#: src/gtk/menu-items.c:119
 msgid "Connect via URL"
 msgstr "Koble til med URL"
 
-#: src/gtk/menu-items.c:127
+#: src/gtk/menu-items.c:119
 msgid "Enter ftp url to connect to"
 msgstr "Skriv en FTP-URL å koble til"
 
-#: src/gtk/menu-items.c:160
+#: src/gtk/menu-items.c:152
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
 "Bytt filfilter: Operasjonen avbrutt...du må skrive inn en tekststreng\n"
 
-#: src/gtk/menu-items.c:197 src/gtk/menu-items.c:200
+#: src/gtk/menu-items.c:189 src/gtk/menu-items.c:192
 msgid "Change Filespec"
 msgstr "Endre filfilter"
 
-#: src/gtk/menu-items.c:200
+#: src/gtk/menu-items.c:192
 msgid "Enter the new file specification"
 msgstr "Skriv inn nytt filfilter"
 
-#: src/gtk/menu-items.c:228 src/gtk/menu-items.c:600 src/gtk/menu-items.c:658
+#: src/gtk/menu-items.c:220 src/gtk/menu-items.c:592 src/gtk/menu-items.c:650
 #: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:129
 #, fuzzy, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "gFTP-advarsel: Kan ikke åpne %s for skriving\n"
 
-#: src/gtk/menu-items.c:254
+#: src/gtk/menu-items.c:246
 #, fuzzy
 msgid "Save Directory Listing"
 msgstr "Henter katalogliste"
 
-#: src/gtk/menu-items.c:371
+#: src/gtk/menu-items.c:363
 msgid "SITE: Operation canceled...you must enter a string\n"
 msgstr "SITE: Operasjonen avbrutt... Du må skrive inn en tekststreng\n"
 
-#: src/gtk/menu-items.c:390 src/gtk/menu-items.c:393
+#: src/gtk/menu-items.c:382 src/gtk/menu-items.c:385
 msgid "Site"
 msgstr "Host"
 
-#: src/gtk/menu-items.c:393
+#: src/gtk/menu-items.c:385
 msgid "Enter site-specific command"
 msgstr "Skriv inn vertsmaskinspesifikk kommando"
 
-#: src/gtk/menu-items.c:492 src/gtk/menu-items.c:526
+#: src/gtk/menu-items.c:484 src/gtk/menu-items.c:518
 msgid "Chdir"
 msgstr "Chdir"
 
-#: src/gtk/menu-items.c:624 src/gtk/menu-items.c:682
+#: src/gtk/menu-items.c:616 src/gtk/menu-items.c:674
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Feil: En feil oppsto da %s skulle skrives til disk: %s\n"
 
-#: src/gtk/menu-items.c:693
+#: src/gtk/menu-items.c:685
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Loggfil lagret til %s\n"
 
-#: src/gtk/menu-items.c:705
+#: src/gtk/menu-items.c:697
 msgid "Save Log"
 msgstr "Lagre logg"
 
-#: src/gtk/menu-items.c:741
+#: src/gtk/menu-items.c:733
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
@@ -2001,15 +1980,15 @@ msgstr ""
 "Kan ikke finne lisensavtalefilen COPYING. Vennligst kontroller at den finnes "
 "i %s eller %s"
 
-#: src/gtk/menu-items.c:745 src/gtk/menu-items.c:750
+#: src/gtk/menu-items.c:737 src/gtk/menu-items.c:742
 msgid "About gFTP"
 msgstr "Om gFTP"
 
-#: src/gtk/menu-items.c:781
-#, c-format
+#: src/gtk/menu-items.c:773
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
 "Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
@@ -2018,25 +1997,25 @@ msgstr ""
 "Offisiell hjemmeside: http://www.gftp.org/\n"
 "Logo av: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: src/gtk/menu-items.c:782 src/text/gftp-text.c:390
+#: src/gtk/menu-items.c:774 src/text/gftp-text.c:390
 msgid "Translated by"
 msgstr ""
 "Oversatt av\n"
 "Anders Henriksen <anders@henrix.no>"
 
-#: src/gtk/menu-items.c:793
+#: src/gtk/menu-items.c:785
 msgid "About"
 msgstr "Om"
 
-#: src/gtk/menu-items.c:842
+#: src/gtk/menu-items.c:834
 msgid "License Agreement"
 msgstr "Lisensavtale"
 
-#: src/gtk/menu-items.c:848 src/gtk/view_dialog.c:377
+#: src/gtk/menu-items.c:840 src/gtk/view_dialog.c:377
 msgid "  Close  "
 msgstr "  Lukk  "
 
-#: src/gtk/menu-items.c:930
+#: src/gtk/menu-items.c:922
 msgid "Compare Windows"
 msgstr "Sammenlign vinduer"
 
@@ -2090,7 +2069,7 @@ msgstr "Endre"
 msgid "Rename"
 msgstr "Gi nytt navn"
 
-#: src/gtk/misc-gtk.c:957 src/gtk/options_dialog.c:1170
+#: src/gtk/misc-gtk.c:957 src/gtk/options_dialog.c:1177
 msgid "Add"
 msgstr "Legg til"
 
@@ -2147,35 +2126,35 @@ msgstr "Opprett katalog"
 msgid "Enter name of directory to create"
 msgstr "Skriv inn navnet på den nye katalogen"
 
-#: src/gtk/options_dialog.c:910
+#: src/gtk/options_dialog.c:917
 msgid "Edit Host"
 msgstr "Rediger vertsmaskinoppføring"
 
-#: src/gtk/options_dialog.c:910
+#: src/gtk/options_dialog.c:917
 msgid "Add Host"
 msgstr "Legg til vertsmaskin"
 
-#: src/gtk/options_dialog.c:942 src/gtk/options_dialog.c:1033
+#: src/gtk/options_dialog.c:949 src/gtk/options_dialog.c:1040
 msgid "Domain"
 msgstr "Domene"
 
-#: src/gtk/options_dialog.c:962
+#: src/gtk/options_dialog.c:969
 msgid "Network Address"
 msgstr "Nettverksadresse"
 
-#: src/gtk/options_dialog.c:995 src/gtk/options_dialog.c:1135
+#: src/gtk/options_dialog.c:1002 src/gtk/options_dialog.c:1142
 msgid "Netmask"
 msgstr "Nettverksmaske"
 
-#: src/gtk/options_dialog.c:1141
+#: src/gtk/options_dialog.c:1148
 msgid "Local Hosts"
 msgstr "Lokale vertsmaskiner"
 
-#: src/gtk/options_dialog.c:1177 src/gtk/view_dialog.c:91
+#: src/gtk/options_dialog.c:1184 src/gtk/view_dialog.c:91
 msgid "Edit"
 msgstr "Rediger"
 
-#: src/gtk/options_dialog.c:1239 src/gtk/options_dialog.c:1244
+#: src/gtk/options_dialog.c:1246 src/gtk/options_dialog.c:1251
 msgid "Options"
 msgstr "Alternativer"
 
@@ -2232,7 +2211,7 @@ msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr ""
 
 #: src/gtk/transfer.c:837 src/gtk/transfer.c:1071 src/gtk/transfer.c:1157
-#: src/gtk/transfer.c:1595
+#: src/gtk/transfer.c:1600
 msgid "Skipped"
 msgstr "Hoppet over"
 
@@ -2282,76 +2261,76 @@ msgstr "Ferdig"
 msgid "Stopping the transfer of %s\n"
 msgstr "Stopper overføringen av %s\n"
 
-#: src/gtk/transfer.c:1326
+#: src/gtk/transfer.c:1329
 #, fuzzy, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% ferdige, omtrent %02d:%02d:%02d igjen. (Fil %d av %d)"
 
-#: src/gtk/transfer.c:1354
+#: src/gtk/transfer.c:1359
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr ""
 "Mottar %s av %s med %.2fkB/s, gjenstående tid beregnes til %02d:%02d:%02d"
 
-#: src/gtk/transfer.c:1363
+#: src/gtk/transfer.c:1368
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr ""
 "Mottar %s av %s, men overføringen har stanset opp, gjenstående tid ukjent"
 
-#: src/gtk/transfer.c:1389
+#: src/gtk/transfer.c:1394
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Henter filnavn... %s bytes"
 
-#: src/gtk/transfer.c:1467 src/gtk/transfer.c:1489 src/gtk/transfer.c:1523
-#: src/gtk/transfer.c:1563 src/gtk/transfer.c:1616 src/gtk/transfer.c:1675
+#: src/gtk/transfer.c:1472 src/gtk/transfer.c:1494 src/gtk/transfer.c:1528
+#: src/gtk/transfer.c:1568 src/gtk/transfer.c:1621 src/gtk/transfer.c:1680
 msgid "There are no file transfers selected\n"
 msgstr "Du har ikke valgt noen overføringer\n"
 
-#: src/gtk/transfer.c:1507
+#: src/gtk/transfer.c:1512
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Stopper overføringen til/fra vertsmaskin %s\n"
 
-#: src/gtk/transfer.c:1548 src/gtk/transfer.c:1601
+#: src/gtk/transfer.c:1553 src/gtk/transfer.c:1606
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Hopper over %s på vertsmaskin %s\n"
 
-#: src/gtk/transfer.c:1762 src/gtk/transfer.c:1967 src/gtk/transfer.c:2006
+#: src/gtk/transfer.c:1767 src/gtk/transfer.c:1972 src/gtk/transfer.c:2011
 msgid "Overwrite"
 msgstr "Skriv over"
 
-#: src/gtk/transfer.c:1784 src/gtk/transfer.c:1977 src/gtk/transfer.c:2012
+#: src/gtk/transfer.c:1789 src/gtk/transfer.c:1982 src/gtk/transfer.c:2017
 msgid "Resume"
 msgstr "Legg til"
 
-#: src/gtk/transfer.c:1806 src/gtk/transfer.c:1972
+#: src/gtk/transfer.c:1811 src/gtk/transfer.c:1977
 msgid "Skip"
 msgstr "Hopp over"
 
-#: src/gtk/transfer.c:1883
+#: src/gtk/transfer.c:1888
 msgid "Local Size"
 msgstr "Lokalt filstørrelse"
 
-#: src/gtk/transfer.c:1884
+#: src/gtk/transfer.c:1889
 msgid "Remote Size"
 msgstr "Fjern filstørrelse"
 
-#: src/gtk/transfer.c:1885
+#: src/gtk/transfer.c:1890
 msgid "Action"
 msgstr "Handling"
 
-#: src/gtk/transfer.c:1887
+#: src/gtk/transfer.c:1892
 msgid "Download Files"
 msgstr "Last ned filer"
 
-#: src/gtk/transfer.c:1887
+#: src/gtk/transfer.c:1892
 msgid "Upload Files"
 msgstr "Send filer"
 
-#: src/gtk/transfer.c:1913
+#: src/gtk/transfer.c:1918
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2359,15 +2338,15 @@ msgstr ""
 "Følgende fil(er) finnes både lokalt og på fjernmaskinen\n"
 "Hva vil du gjøre?"
 
-#: src/gtk/transfer.c:2018
+#: src/gtk/transfer.c:2023
 msgid "Skip File"
 msgstr "Hopp over fil"
 
-#: src/gtk/transfer.c:2028
+#: src/gtk/transfer.c:2033
 msgid "Select All"
 msgstr "Velg alle"
 
-#: src/gtk/transfer.c:2034
+#: src/gtk/transfer.c:2039
 msgid "Deselect All"
 msgstr "Velg bort alle"
 
