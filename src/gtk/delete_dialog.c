@@ -21,122 +21,25 @@
 static const char cvsid[] = "$Id$";
 
 static void
-delete_purge_cache (gpointer key, gpointer value, gpointer user_data)
-{
-  gftp_delete_cache_entry (NULL, key, 0);
-  g_free (key);
-}
-
-
-static void *
-do_delete_thread (void *data)
-{
-  char *tempstr, description[BUFSIZ];
-  gftp_transfer * transfer;
-  gftp_file * tempfle;
-  GHashTable * rmhash;
-  GList * templist;
-  int success, sj;
-
-  transfer = data;
-
-  if (gftpui_common_use_threads (transfer->fromreq))
-    {
-      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
-      gftpui_common_use_jmp_environment = 1;
-    }
-  else
-    sj = 0;
-
-  if (sj == 0)
-    {
-      for (templist = transfer->files; templist->next != NULL; 
-           templist = templist->next);
-
-      rmhash = g_hash_table_new (string_hash_function, string_hash_compare);
-
-      for (; templist != NULL; templist = templist->prev)
-        {
-          tempfle = templist->data;
-          if (S_ISDIR (tempfle->st_mode))
-            success = gftp_remove_directory (transfer->fromreq, tempfle->file);
-          else
-            success = gftp_remove_file (transfer->fromreq, tempfle->file);
-
-          if (success == 0 && transfer->fromreq->use_cache)
-            {
-              gftp_generate_cache_description (transfer->fromreq, description, 
-                                               sizeof (description), 0);
-              if (g_hash_table_lookup (rmhash, description) == NULL)
-                {
-                  tempstr = g_strdup (description);
-                  g_hash_table_insert (rmhash, tempstr, NULL);
-                }
-            }
-
-          if (!GFTP_IS_CONNECTED (transfer->fromreq))
-            break;
-        }
-
-      g_hash_table_foreach (rmhash, delete_purge_cache, NULL);
-      g_hash_table_destroy (rmhash);
-    }
-  else
-    {
-      gftp_disconnect (transfer->fromreq);
-      transfer->fromreq->logging_function (gftp_logging_error,
-                                        transfer->fromreq,
-                                        _("Operation canceled\n"));
-    }
-
-  transfer->fromreq->stopable = 0;
-
-  if (gftpui_common_use_threads (transfer->fromreq))
-    gftpui_common_use_jmp_environment = 0;
-
-  return (NULL);
-}
-
-
-static void
 yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
 {
+  gftpui_callback_data * cdata;
   gftp_window_data * wdata;
-  void * ret;
 
   g_return_if_fail (transfer != NULL);
   g_return_if_fail (transfer->files != NULL);
 
   wdata = transfer->fromwdata;
-  if (check_reconnect (wdata) < 0)
-    return;
 
-  gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-  gftp_swap_socks (transfer->fromreq, wdata->request);
-  if (gftpui_common_use_threads (wdata->request))
-    {
-      wdata->request->stopable = 1;
-      transfer->fromreq->stopable = 1;
-      gtk_widget_set_sensitive (stop_btn, 1);
-      pthread_create (&wdata->tid, NULL, do_delete_thread, transfer);
+  cdata = g_malloc0 (sizeof (*cdata));
+  cdata->request = wdata->request;
+  cdata->files = transfer->files;
+  cdata->uidata = wdata;
+  cdata->run_function = gftpui_common_run_delete;
 
-      while (transfer->fromreq->stopable)
-        {
-          GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-          g_main_iteration (TRUE);
-#else
-          g_main_context_iteration (NULL, TRUE);
-#endif
-        }
+  gftpui_common_run_callback_function (cdata);
 
-      gtk_widget_set_sensitive (stop_btn, 0);
-      pthread_join (wdata->tid, &ret);
-      wdata->request->stopable = 0;
-    }
-  else
-    ret = do_delete_thread (transfer);
-  gftp_swap_socks (wdata->request, transfer->fromreq);
+  g_free (cdata);
   free_tdata (transfer);
 
   if (!GFTP_IS_CONNECTED (wdata->request))
@@ -153,7 +56,20 @@ askdel (gftp_transfer * transfer)
 {
   char *tempstr;
 
-  tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld files and %ld directories"), transfer->numfiles, transfer->numdirs);
+  if (transfer->numfiles > 0 && transfer->numdirs > 0)
+    {
+      tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld files and %ld directories"), transfer->numfiles, transfer->numdirs);
+    }
+  else if (transfer->numfiles > 0)
+    {
+      tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld files"), transfer->numfiles, transfer->numdirs);
+    }
+  else if (transfer->numdirs > 0)
+    {
+      tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld directories"), transfer->numfiles, transfer->numdirs);
+    }
+  else
+    return;
 
   MakeYesNoDialog (_("Delete Files/Directories"), tempstr, 
                    yesCB, transfer, NULL, NULL);
