@@ -35,7 +35,6 @@
 #endif
 #include <sys/wait.h>
 #include <sys/utsname.h>
-#include <sys/sysmacros.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <glib.h>

@@ -605,6 +605,8 @@ get_status (gftp_transfer * tdata, ssize_t num_read)
 {
   gftp_file * tempfle;
   struct timeval tv;
+  int ret1 = 0, 
+      ret2 = 0;
 
   pthread_mutex_lock (tdata->structmutex);
   if (tdata->curfle == NULL)
@@ -619,7 +621,10 @@ get_status (gftp_transfer * tdata, ssize_t num_read)
   gftp_disconnect (tdata->toreq);
   if (num_read < 0 || tdata->skip_file)
     {
-      if (tdata->fromreq->retries != 0 && tdata->current_file_retries >= tdata->fromreq->retries)
+      if (num_read == GFTP_EFATAL)
+        return (-1);
+      else if (tdata->fromreq->retries != 0 && 
+               tdata->current_file_retries >= tdata->fromreq->retries)
         {
           tdata->fromreq->logging_function (gftp_logging_error, 
                    tdata->fromreq->user_data,
@@ -648,8 +653,8 @@ get_status (gftp_transfer * tdata, ssize_t num_read)
               select (0, NULL, NULL, NULL, &tv);
             }
 
-          if (gftp_connect (tdata->fromreq) == 0 &&
-              gftp_connect (tdata->toreq) == 0)
+          if ((ret1 = gftp_connect (tdata->fromreq)) == 0 &&
+              (ret2 = gftp_connect (tdata->toreq)) == 0)
             {
               pthread_mutex_lock (tdata->structmutex);
               tdata->resumed_bytes = tdata->resumed_bytes + tdata->trans_bytes - tdata->curresumed - tdata->curtrans;
@@ -680,6 +685,12 @@ get_status (gftp_transfer * tdata, ssize_t num_read)
               gettimeofday (&tdata->starttime, NULL);
               pthread_mutex_unlock (tdata->structmutex);
               return (1);
+            }
+          else if (ret1 == GFTP_EFATAL || ret2 == GFTP_EFATAL)
+            {
+              gftp_disconnect (tdata->fromreq);
+              gftp_disconnect (tdata->toreq);
+              return (-1);
             }
           else
             tdata->current_file_retries++;
@@ -740,7 +751,7 @@ gftp_gtk_transfer_files (void *data)
   char *tempstr, buf[8192];
   off_t fromsize, total;
   gftp_file * curfle; 
-  ssize_t num_read;
+  ssize_t num_read, ret;
 
   pthread_detach (pthread_self ());
   transfer = data;
@@ -902,10 +913,10 @@ gftp_gtk_transfer_files (void *data)
               else
                 tempstr = buf;
 
-              if (gftp_put_next_file_chunk (transfer->toreq, tempstr, 
-                                            num_read) < 0)
+              if ((ret = gftp_put_next_file_chunk (transfer->toreq, tempstr, 
+                                                   num_read)) < 0)
                 {
-                  num_read = -1;
+                  num_read = (int) ret;
                   break;
                 }
 
