@@ -451,8 +451,15 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
   if (g_utf8_validate (str, -1, NULL))
     return (NULL);
   else if (request->iconv_initialized)
-    return (g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
-                                  &error));
+    {
+      ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
+                                  &error);
+      if (ret == NULL)
+        printf (_("Error converting string '%s' from character set %s to character set %s: %s\n"),
+                str, _("<unknown>"), "UTF-8", error->message);
+
+      return (ret);
+    }
 
   gftp_lookup_request_option (request, "remote_charsets", &tempstr);
   if (*tempstr == '\0')
@@ -480,6 +487,9 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
       if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite,
                                        &error)) == NULL)
         {
+          printf (_("Error converting string '%s' from character set %s to character set %s: %s\n"),
+                  str, cur_charset, "UTF-8", error->message);
+
           g_iconv_close (request->iconv);
           request->iconv = NULL;
           continue;
@@ -507,9 +517,20 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
   if (request == NULL)
     return (NULL);
 
-  if (request->iconv_initialized)
-    return (g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
-                                  &error));
+  /* If the string isn't in UTF-8 format, assume it is already in the current
+     locale... */
+  if (!g_utf8_validate (str, -1, NULL))
+    return (NULL);
+  else if (request->iconv_initialized)
+    {
+      ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
+                                  &error);
+      if (ret == NULL)
+        printf (_("Error converting string '%s' from character set %s to character set %s: %s\n"),
+                str, "UTF-8", _("<unknown>"), error->message);
+
+      return (ret);
+    }
 
   gftp_lookup_request_option (request, "remote_charsets", &tempstr);
   if (*tempstr == '\0')
@@ -537,6 +558,9 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
       if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite,
                                        &error)) == NULL)
         {
+          printf (_("Error converting string '%s' from character set %s to character set %s: %s\n"),
+                  str, "UTF-8", cur_charset, error->message);
+
           g_iconv_close (request->iconv);
           request->iconv = NULL;
           continue;
