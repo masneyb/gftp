@@ -293,6 +293,39 @@ rfc959_chdir (gftp_request * request, const char *directory)
 
 
 static int
+rfc959_syst (gftp_request * request)
+{
+  char *stpos, *endpos;
+  int ret;
+
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+
+  ret = rfc959_send_command (request, "SYST\r\n");
+
+  if (ret < 0)
+    return (ret);
+  else if (ret != '2')
+    return (GFTP_ERETRYABLE);
+
+  if ((stpos = strchr (request->last_ftp_response, ' ')) == NULL)
+    return (GFTP_ERETRYABLE);
+
+  if ((endpos = strchr (stpos, ' ')) == NULL)
+    return (GFTP_ERETRYABLE);
+
+  *endpos = '\0';
+  if (strcmp (stpos, "UNIX") == 0)
+    request->server_type = GFTP_TYPE_UNIX;
+  else
+    request->server_type = GFTP_TYPE_OTHER;
+
+  return (0);
+}
+
+
+static int
 rfc959_connect (gftp_request * request)
 {
   char tempchar, *startpos, *endpos, *tempstr;
@@ -377,6 +410,9 @@ rfc959_connect (gftp_request * request)
       gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
+
+  if ((ret = rfc959_syst (request)) < 0 && request->sockfd < 0)
+    return (ret);
 
   if (request->data_type == GFTP_TYPE_BINARY)
     tempstr = "TYPE I\r\n";
@@ -915,7 +951,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 	  return ((int) len);
 	} 
 
-      if (gftp_parse_ls (tempstr, fle) != 0)
+      if (gftp_parse_ls (request, tempstr, fle) != 0)
 	{
 	  if (strncmp (tempstr, "total", strlen ("total")) != 0 &&
 	      strncmp (tempstr, _("total"), strlen (_("total"))) != 0)

@@ -30,6 +30,7 @@ gftp_request_new (void)
   request->datafd = -1;
   request->cachefd = -1;
   request->data_type = GFTP_TYPE_BINARY;
+  request->server_type = GFTP_TYPE_OTHER;
   return (request);
 }
 
@@ -1026,6 +1027,7 @@ goto_next_token (char *pos)
 static time_t
 parse_time (char **str)
 {
+  /* FIXME - doesn't work with all locales */
   const char *months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
     "Aug", "Sep", "Oct", "Nov", "Dec" };
   char *startpos, *endpos, *datepos;
@@ -1183,9 +1185,38 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
 
 
 static int
-gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
+gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
 {
-  char *endpos, *startpos;
+  char *endpos, *startpos, *pos;
+  int cols;
+
+  /* If there is no space between the attribs and links field, just make one */
+  if (strlen (str) > 10)
+    str[10] = ' ';
+
+  /* Determine the number of columns */
+  cols = 0;
+  pos = str;
+  while (*pos != '\0')
+    {
+      while (*pos != '\0' && *pos != ' ' && *pos != '\t')
+        {
+          if (*pos == ':')
+            break;
+          pos++;
+        }
+
+      cols++;
+
+      if (*pos == ':')
+        {
+          cols++;
+          break;
+        }
+
+      while (*pos == ' ' || *pos == '\t')
+        pos++;
+    }
 
   startpos = str;
   /* Copy file attributes */
@@ -1222,13 +1253,16 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
       startpos = goto_next_token (startpos);
     }
 
-  /* FIXME - this is a bug if there is some extra spaces in the file */
-  /* See if this is a Cray directory listing. It has the following format:
-     drwx------     2 feiliu    g913     DK  common      4096 Sep 24  2001 wv */
-  if (cols == 11 && strstr (str, "->") == NULL)
+  /* FIXME - make this GFTP_TYPE_CRAY */
+  if (request->server_type != GFTP_TYPE_UNIX)
     {
-      startpos = goto_next_token (startpos);
-      startpos = goto_next_token (startpos);
+      /* See if this is a Cray directory listing. It has the following format:
+      drwx------     2 feiliu    g913     DK  common      4096 Sep 24  2001 wv */
+      if (cols == 11 && strstr (str, "->") == NULL)
+        {
+          startpos = goto_next_token (startpos);
+          startpos = goto_next_token (startpos);
+        }
     }
 
   /* See if this is a block or character device. We will store the major number
@@ -1353,10 +1387,11 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
 
 
 int
-gftp_parse_ls (const char *lsoutput, gftp_file * fle)
+gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
 {
-  int result, cols;
-  char *str, *pos;
+  int result;
+  size_t len;
+  char *str;
 
   g_return_val_if_fail (lsoutput != NULL, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
@@ -1365,52 +1400,37 @@ gftp_parse_ls (const char *lsoutput, gftp_file * fle)
   strcpy (str, lsoutput);
   memset (fle, 0, sizeof (*fle));
 
-  if (str[strlen (str) - 1] == '\n')
-    str[strlen (str) - 1] = '\0';
-  if (str[strlen (str) - 1] == '\r')
-    str[strlen (str) - 1] = '\0';
-  if (*lsoutput == '+') 			/* EPLF format */
-    result = gftp_parse_ls_eplf (str, fle);
-  else if (isdigit ((int) str[0]) && str[2] == '-') 	/* DOS/WinNT format */
-    result = gftp_parse_ls_nt (str, fle);
-  else if (str[1] == ' ' && str[2] == '[') 	/* Novell format */
-    result = gftp_parse_ls_novell (str, fle);
-  else
+  len = strlen (str);
+  if (str[len - 1] == '\n')
+    str[--len] = '\0';
+  if (len > 0 && str[len - 1] == '\r')
+    str[--len] = '\0';
+
+  switch (request->server_type)
     {
-      /* UNIX/MacOS format */
+      case GFTP_TYPE_UNIX:
+	result = gftp_parse_ls_unix (request, str, fle);
+        break;
+      case GFTP_TYPE_EPLF:
+        result = gftp_parse_ls_eplf (str, fle);
+        break;
+      case GFTP_TYPE_NOVELL:
+        result = gftp_parse_ls_novell (str, fle);
+        break;
+      case GFTP_TYPE_DOS:
+        result = gftp_parse_ls_nt (str, fle);
+        break;
+      default: /* autodetect */
+        if (*lsoutput == '+')
+          result = gftp_parse_ls_eplf (str, fle);
+        else if (isdigit ((int) str[0]) && str[2] == '-')
+          result = gftp_parse_ls_nt (str, fle);
+        else if (str[1] == ' ' && str[2] == '[')
+          result = gftp_parse_ls_novell (str, fle);
+        else
+	  result = gftp_parse_ls_unix (request, str, fle);
 
-      /* If there is no space between the attribs and links field, just make one */
-      if (strlen (str) > 10)
-	str[10] = ' ';
-
-      /* Determine the number of columns */
-      cols = 0;
-      pos = str;
-      while (*pos != '\0')
-	{
-	  while (*pos != '\0' && *pos != ' ' && *pos != '\t')
-	    {
-	      if (*pos == ':')
-		break;
-	      pos++;
-	    }
-
-	  cols++;
-
-	  if (*pos == ':')
-	    {
-	      cols++;
-	      break;
-	    }
-
-	  while (*pos == ' ' || *pos == '\t')
-	    pos++;
-	}
-
-      if (cols > 6)
-	result = gftp_parse_ls_unix (str, cols, fle);
-      else
-	result = GFTP_EFATAL;
+        break;
     }
   g_free (str);
 

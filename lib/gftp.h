@@ -96,6 +96,15 @@
 #include <dmalloc.h>
 #endif
 
+/* Server types (used by FTP protocol from SYST command) */
+#define GFTP_TYPE_UNIX		1
+#define GFTP_TYPE_EPLF		2
+#define GFTP_TYPE_CRAY		3	
+#define GFTP_TYPE_NOVELL	4	
+#define GFTP_TYPE_DOS		5	
+#define GFTP_TYPE_VMS		6	
+#define GFTP_TYPE_OTHER 	7
+
 /* Error types */
 #define GFTP_ERETRYABLE		-1
 #define GFTP_EFATAL		-2
@@ -217,7 +226,8 @@ struct gftp_request_tag
   struct hostent host, *hostp;  /* Remote host we are connected to */
 #endif
 
-  int data_type;		/* ASCII or BINARY (FTP only) */
+  int data_type,		/* ASCII or BINARY (FTP only) */
+      server_type;		/* The type of server we are connected to */
   unsigned int use_proxy : 1,           /* Go out of proxy server */
                always_connected : 1,
                need_hostport : 1,
@@ -498,6 +508,7 @@ extern volatile sig_atomic_t viewedit_process_done;
 extern gftp_config_vars config_file_vars[];
 extern gftp_proxy_type proxy_type[];
 extern gftp_color send_color, recv_color, error_color, misc_color;
+extern struct lconv *my_localeinfo;
 
 /* cache.c */
 int gftp_new_cache_entry 		( gftp_request * request );
@@ -780,7 +791,8 @@ char *gftp_convert_ascii 		( char *buf,
 void gftp_calc_kbs 			( gftp_transfer * tdata, 
 				 	  ssize_t num_read );
 
-int gftp_parse_ls 			( const char *lsoutput, 
+int gftp_parse_ls 			( gftp_request * request,
+					  const char *lsoutput, 
 					  gftp_file *fle );
 
 int gftp_get_all_subdirs 		( gftp_transfer * transfer, 

@@ -373,8 +373,8 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   else
     fle->size = st.st_size;
 
-  fle->isdir = st.st_mode & S_IFDIR;
-  fle->islink = st.st_mode & S_IFLNK;
+  fle->isdir = S_ISDIR (st.st_mode);
+  fle->islink = S_ISLNK (st.st_mode);
   fle->isexe = (st.st_mode & S_IXUSR) || 
                (st.st_mode & S_IXGRP) ||
                (st.st_mode & S_IXOTH);

@@ -1010,7 +1010,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       if (longname[longnamelen - 1] == '/')
         longname[--longnamelen] = '\0';
 
-      if ((ret = gftp_parse_ls (longname, fle)) < 0)
+      if ((ret = gftp_parse_ls (request, longname, fle)) < 0)
         {
           gftp_file_destroy (fle);
           return (ret);
@@ -2011,6 +2011,7 @@ sshv2_init (gftp_request * request)
   request->use_threads = 1;
   request->always_connected = 0;
   request->protocol_data = g_malloc0 (sizeof (sshv2_params));
+  request->server_type = GFTP_TYPE_UNIX;
   gftp_set_config_options (request);
 
   params = request->protocol_data;
