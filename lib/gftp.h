@@ -161,7 +161,7 @@
 # define GFTP_LOG_FUNCTION_ATTRIBUTES
 #endif
 
-#if defined (_LARGEFILE_SOURCE) && !defined (__hppa__)
+#if defined (_LARGEFILE_SOURCE) && !defined (__hppa__) && !defined (__hppa)
 #define GFTP_OFF_T_HEX_PRINTF_MOD	"%llx"
 #define GFTP_OFF_T_INTL_PRINTF_MOD	"%'lld"
 #define GFTP_OFF_T_PRINTF_MOD		"%lld"
