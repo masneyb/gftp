@@ -572,93 +572,93 @@ set_userpass_visible (GtkWidget * checkbutton, GtkWidget * entry)
 
 
 static void
+_add_tree_node (gftp_bookmarks_var * entry, char *path, int isleaf,
+                int expanded)
+{
+  static GdkPixmap * closedir_pixmap = NULL,
+                   * opendir_pixmap = NULL;
+  static GdkBitmap * closedir_bitmap = NULL,
+                   * opendir_bitmap = NULL;
+  static int initialized = 0;
+  GtkCTreeNode * parent;
+  char *text[2], *pos;
+
+  if (!initialized)
+    {
+      gftp_get_pixmap (tree, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
+      gftp_get_pixmap (tree, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
+      initialized = 1;
+    }
+
+  if (path == NULL)
+    {
+      if ((pos = strrchr (entry->path, '/')) == NULL)
+        pos = entry->path;
+      else
+        pos++;
+    }
+  else
+    pos = path;
+
+  text[0] = text[1] = pos;
+
+  if (entry->prev == NULL)
+    parent = NULL;
+  else
+    parent = entry->prev->cnode;
+
+  if (isleaf) 
+    entry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree), parent, NULL, text,
+                                          5, NULL, NULL, NULL, NULL, TRUE,
+                                          expanded);
+  else
+    entry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree), parent, NULL,
+                                          text, 5, closedir_pixmap,
+                                          closedir_bitmap, opendir_pixmap,
+                                          opendir_bitmap, FALSE, expanded);
+
+  gtk_ctree_node_set_row_data (GTK_CTREE (tree), entry->cnode, entry);
+}
+
+
+static void
 build_bookmarks_tree (void)
 {
-  GdkPixmap * closedir_pixmap, * opendir_pixmap;
-  GdkBitmap * closedir_bitmap, * opendir_bitmap;  
   gftp_bookmarks_var * tempentry, * preventry;
-  char *pos, *prevpos, *text[2], *str;
-  GtkCTreeNode * parent;
-  int add_child;
+  char *pos, *tempstr;
 
-  gftp_get_pixmap (tree, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
-  gftp_get_pixmap (tree, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
-  text[0] = text[1] = _("Bookmarks");
-  parent = gtk_ctree_insert_node (GTK_CTREE (tree), NULL, NULL, text, 5, 
-                                  closedir_pixmap, closedir_bitmap, 
-                                  opendir_pixmap, opendir_bitmap, FALSE, TRUE);
-  gtk_ctree_node_set_row_data (GTK_CTREE (tree), parent, new_bookmarks);
-  new_bookmarks->cnode = parent;
+  _add_tree_node (new_bookmarks, _("Bookmarks"), 0, 1);
 
   tempentry = new_bookmarks->children;
   while (tempentry != NULL)
     {
-      add_child = 1;
       tempentry->cnode = NULL;
+
       if (tempentry->children != NULL)
 	{
 	  tempentry = tempentry->children;
 	  continue;
 	}
+      else if (strchr (tempentry->path, '/') == NULL && tempentry->isfolder)
+        _add_tree_node (tempentry, NULL, 0, 0);
       else
-	{
-          if (strchr (tempentry->path, '/') == NULL && tempentry->isfolder)
-            {
-              add_child = 0;
-              text[0] = text[1] = tempentry->path;
-              tempentry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree),
-            				   tempentry->prev->cnode, NULL, text,
-            				   5, closedir_pixmap, closedir_bitmap,
-            				   opendir_pixmap, opendir_bitmap,
-            				   FALSE, FALSE);
-              gtk_ctree_node_set_row_data (GTK_CTREE (tree), tempentry->cnode,
-                                           tempentry);
-            }
-          else
-            {
-              pos = tempentry->path;
-              while ((pos = strchr (pos, '/')) != NULL)
-                {
-                  *pos = '\0';
-                  str = g_strdup (tempentry->path);
-                  *pos = '/';
-                  preventry = g_hash_table_lookup (new_bookmarks_htable, str);
-                  if (preventry->cnode == NULL)
-                    {
-                      if ((prevpos = strrchr (str, '/')) == NULL)
-                        prevpos = str;
-                      else
-                        prevpos++;
-                      text[0] = text[1] = prevpos;
-                      preventry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree),
-            				   preventry->prev->cnode, NULL, text,
-            				   5, closedir_pixmap, closedir_bitmap,
-            				   opendir_pixmap, opendir_bitmap,
-            				   FALSE, FALSE);
-                      gtk_ctree_node_set_row_data (GTK_CTREE (tree),
-                                                   preventry->cnode, preventry);
-                    }
-    
-                  g_free (str);
-                  pos++;
-                }
-            }
-	}
-
-      if (add_child)
         {
-          if ((pos = strrchr (tempentry->path, '/')) == NULL)
-            pos = tempentry->path;
-          else
-            pos++;
-    
-          text[0] = text[1] = pos;
-          tempentry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree), 
-                                 tempentry->prev->cnode, NULL, text, 5, NULL,
-                                 NULL, NULL, NULL, TRUE, FALSE);
-          gtk_ctree_node_set_row_data (GTK_CTREE (tree), tempentry->cnode,
-                                       tempentry);
-        }
+          pos = tempentry->path;
+          while ((pos = strchr (pos, '/')) != NULL)
+            {
+              *pos = '\0';
+              tempstr = g_strdup (tempentry->path);
+              *pos++ = '/';
+
+              preventry = g_hash_table_lookup (new_bookmarks_htable, tempstr);
+              g_free (tempstr);
+
+              if (preventry->cnode == NULL)
+                _add_tree_node (preventry, NULL, 0, 0);
+            }
+
+          _add_tree_node (tempentry, NULL, TRUE, 0);
+	}
 
       while (tempentry->next == NULL && tempentry->prev != NULL)
         tempentry = tempentry->prev;

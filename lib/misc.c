@@ -992,6 +992,10 @@ gftp_free_bookmark (gftp_bookmarks_var * entry, int free_node)
 {
   gftp_bookmarks_var * tempentry;
 
+  if (entry->path)
+    g_free (entry->path);
+  if (entry->oldpath)
+    g_free (entry->oldpath);
   if (entry->hostname)
     g_free (entry->hostname);
   if (entry->remote_dir)
