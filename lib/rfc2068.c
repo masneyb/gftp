@@ -718,9 +718,9 @@ rfc2068_destroy (gftp_request * request)
 static ssize_t 
 rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
 {
-  size_t read_size, begin_ptr_len;
+  size_t read_size, begin_ptr_len, current_size;
+  char *stpos, *crlfpos;
   rfc2068_params * params;
-  char *stpos, *endpos;
   void *read_ptr_pos;
   ssize_t retval;
 
@@ -766,13 +766,13 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
 
   if (read_size > 0 && !params->eof)
     {
+      read_size--; /* decrement by one so that we can put the NUL character in
+                      the buffer */
       retval = params->real_read_function (request, read_ptr_pos, read_size, fd);
 
       if (retval > 0)
         params->read_bytes += retval;
       else if (retval == 0)
-        params->eof = 1;
-      else if (retval < 0)
         return (retval);
 
       if (params->chunk_size > 0 && retval > 0)
@@ -786,12 +786,32 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
   else
     retval = begin_ptr_len;
 
+  ((char *) ptr)[retval] = '\0';
+
   if (!params->chunked_transfer || retval <= 0)
     return (retval);
 
   stpos = (char *) ptr;
   while (params->chunk_size == 0)
     {
+      current_size = retval - (stpos - (char *) ptr);
+      if (current_size < 5)
+        {
+          /* The current chunk size is split between multiple packets.
+             Save this chunk and read the next */
+
+          params->extra_read_buffer = g_malloc (current_size + 1);
+          memcpy (params->extra_read_buffer, stpos, current_size);
+          params->extra_read_buffer[current_size] = '\0';
+          params->extra_read_buffer_len = current_size;
+          retval -= current_size;
+
+          if (retval == 0)
+            return (rfc2068_chunked_read (request, ptr, size, fd));
+          else
+            return (retval);
+        }
+
       if (*stpos != '\r' || *(stpos + 1) != '\n')
         {
           request->logging_function (gftp_logging_recv, request,
@@ -800,25 +820,16 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           return (GFTP_EFATAL);
         }
 
-      for (endpos = stpos + 2; 
-           *endpos != '\n' && endpos < stpos + retval;
-           endpos++);
-
-      if (*endpos != '\n')
+      if ((crlfpos = strstr (stpos + 2, "\r\n")) == NULL)
         {
-          /* The current chunk size is split between multiple packets.
-             Save this chunk and read the next */
-
-          params->extra_read_buffer = g_malloc (retval + 1);
-          memcpy (params->extra_read_buffer, ptr, retval);
-          params->extra_read_buffer[retval] = '\0';
-          params->extra_read_buffer_len = retval;
-          return (rfc2068_chunked_read (request, ptr, size, fd));
+          request->logging_function (gftp_logging_recv, request,
+                                     _("Received wrong response from server, disconnecting\nExpecting a carriage return and line feed after the chunk size in the server response\n"));
+          gftp_disconnect (request);
+          return (GFTP_EFATAL);
         }
 
-      *endpos = '\0';
-      if (*(endpos - 1) == '\r')
-        *(endpos - 1) = '\0';
+      *crlfpos = '\0';
+      crlfpos++; /* advance to line feed */
 
       if (sscanf (stpos + 2, "%lx", &params->chunk_size) != 1)
         {
@@ -829,6 +840,9 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           return (GFTP_EFATAL);
         }
 
+      retval -= crlfpos - (char *) stpos + 1;
+      current_size -= crlfpos - (char *) stpos + 1;
+
       if (params->chunk_size == 0)
         {
           if (params->eof)
@@ -838,9 +852,7 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           return (retval);
         }
 
-      retval -= endpos - (char *) stpos + 1;
-
-      memmove (stpos, endpos + 1, retval - (stpos - (char *) ptr));
+      memmove (stpos, crlfpos + 1, current_size);
 
       params->chunk_size -= retval;
       if (params->chunk_size < 0)
