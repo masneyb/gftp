@@ -481,8 +481,7 @@ extern char version[], *emailaddr, *edit_program, *view_program,
             *firewall_account, *proxy_config, *http_proxy_host, 
             *http_proxy_username, *http_proxy_password, 
             *startup_directory, *ssh_prog_name, *ssh_extra_params, 
-            **ssh_extra_params_list, *default_protocol, *ssh1_sftp_path, 
-            *ssh2_sftp_path;
+            **ssh_extra_params_list, *default_protocol, *ssh2_sftp_path;
 extern int num_ssh_extra_params;
 extern FILE * logfd;
 extern double maxkbs;

@@ -63,7 +63,6 @@ char version[] = "gFTP " VERSION,
      *ssh_prog_name = NULL,
      *ssh_extra_params = NULL,
      **ssh_extra_params_list = NULL,
-     *ssh1_sftp_path = NULL,
      *ssh2_sftp_path = NULL;
 int num_ssh_extra_params;
 

@@ -127,8 +127,6 @@ gftp_config_vars config_file_vars[] =
 	N_("The path to the SSH executable"), NULL, GFTP_PORT_ALL},
   {"ssh_extra_params", N_("SSH Extra Params:"), &ssh_extra_params, 
         CONFIG_CHARTEXT, N_("Extra parameters to pass to the SSH program"), NULL, GFTP_PORT_ALL},
-  {"ssh1_sftp_path", N_("SSH sftpserv path:"), &ssh1_sftp_path,
-	CONFIG_CHARTEXT, N_("Default remote SSH sftpserv path"), NULL, GFTP_PORT_ALL},
   {"ssh2_sftp_path", N_("SSH2 sftp-server path:"), &ssh2_sftp_path,
 	CONFIG_CHARTEXT, N_("Default remote SSH2 sftp-server path"), NULL, GFTP_PORT_ALL},
   {"", "", (void *) 0x1, CONFIG_TABLE, "", NULL, GFTP_PORT_GTK},
