@@ -1,3 +1,30 @@
+Changes from 2.0.15rc2 to 2.0.15
+
+* FTP: Fixes for selecting ASCII/Binary transfers
+* Fixed crash when deleting files in the GTK+ port
+* Fixed parsing directory listings that have timestamps that are not in the 
+  current locale.
+* More largefile support fixes.
+* Updated translations (cs, pl, sr, sr@Latn, sv)
+
+Changes from 2.0.15rc1 to 2.0.15rc2
+
+* Largefile (>2.1GB) fixes. 
+* When resuming files, look up the right option name. gFTP would bail out
+  whenever it couldn't look up the right option.
+* Fixes to the permissions of files when they are first transfered. New files 
+  are created with the mode 0644 & ~umask.
+* Change to the proper local directory when one was enabled with a bookmark.
+* Fixed crash that would occur in the options dialog when you hit Apply, then 
+  OK.
+* Fixed possible division by 0 when transfering a file.
+* Fixed double free of a gftp_file structure member (utf8_file). This was not
+  present in 2.0.14.
+* FreeBSD PTY and password prompt fixes.
+* Detect write errors properly.
+* Added --info argument to the command line. This will give some information
+  about how gFTP was compiled.
+
 Changes from 2.0.14 to 2.0.15rc1
 
 * I18N improvements in GTK+ 2.0 port. If the remote server is not returning 

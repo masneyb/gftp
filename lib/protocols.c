@@ -201,13 +201,13 @@ gftp_put_file (gftp_request * request, const char *filename, int fd,
 }
 
 
-long
+off_t
 gftp_transfer_file (gftp_request * fromreq, const char *fromfile, 
                     int fromfd, off_t fromsize, 
                     gftp_request * toreq, const char *tofile,
                     int tofd, off_t tosize)
 {
-  long size;
+  off_t size;
   int ret;
 
   g_return_val_if_fail (fromreq != NULL, GFTP_EFATAL);

@@ -790,7 +790,7 @@ int gftp_put_file 			( gftp_request * request,
 					  off_t startsize,
 					  off_t totalsize );
 
-long gftp_transfer_file 		( gftp_request *fromreq, 
+off_t gftp_transfer_file 		( gftp_request *fromreq, 
 					  const char *fromfile, 
 					  int fromfd,
 					  off_t fromsize, 
