@@ -1748,15 +1748,20 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir)
           (newsize = g_hash_table_lookup (dirhash, fle->file)) != NULL)
         fle->startsize = *newsize;
 
-      if (transfer->toreq)
+      if (transfer->toreq && fle->destfile == NULL)
         fle->destfile = gftp_build_path (transfer->toreq->directory, 
                                          fle->file, NULL);
 
-      newname = gftp_build_path (transfer->fromreq->directory,
-                                 fle->file, NULL);
+      if (transfer->fromreq->directory != NULL &&
+          *transfer->fromreq->directory != '\0' &&
+          *fle->file != '/')
+        {
+          newname = gftp_build_path (transfer->fromreq->directory,
+                                     fle->file, NULL);
 
-      g_free (fle->file);
-      fle->file = newname;
+          g_free (fle->file);
+          fle->file = newname;
+        }
 
       templist = g_list_append (templist, fle);
 
@@ -1779,7 +1784,7 @@ int
 gftp_get_all_subdirs (gftp_transfer * transfer,
                       void (*update_func) (gftp_transfer * transfer))
 {
-  char *oldfromdir, *oldtodir, *newname;
+  char *oldfromdir, *oldtodir, *newname, *pos;
   GList * templist, * lastlist;
   int forcecd, remotechanged;
   unsigned long *newsize;
@@ -1798,16 +1803,32 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
   for (lastlist = transfer->files; ; lastlist = lastlist->next)
     {
       curfle = lastlist->data;
-      if (dirhash && 
-          (newsize = g_hash_table_lookup (dirhash, curfle->file)) != NULL)
+
+      if ((pos = strrchr (curfle->file, '/')) != NULL)
+        pos++;
+      else
+        pos = curfle->file;
+
+      if (dirhash != NULL && 
+          (newsize = g_hash_table_lookup (dirhash, pos)) != NULL)
         curfle->startsize = *newsize;
 
-      if (transfer->toreq)
-        curfle->destfile = g_strconcat (transfer->toreq->directory, "/", 
-                                        curfle->file, NULL);
-      newname = g_strconcat (transfer->fromreq->directory, transfer->fromreq->directory[strlen (transfer->fromreq->directory) - 1] == '/' ? "" : "/", curfle->file, NULL);
-      g_free (curfle->file);
-      curfle->file = newname;
+      if (curfle->size < 0 && GFTP_IS_CONNECTED (transfer->fromreq))
+        curfle->size = gftp_get_file_size (transfer->fromreq, curfle->file);
+
+      if (transfer->toreq && curfle->destfile == NULL)
+        curfle->destfile = gftp_build_path (transfer->toreq->directory, 
+                                            curfle->file, NULL);
+
+      if (transfer->fromreq->directory != NULL &&
+          *transfer->fromreq->directory != '\0' &&
+          *curfle->file != '/')
+        {
+          newname = gftp_build_path (transfer->fromreq->directory,
+                                     curfle->file, NULL);
+          g_free (curfle->file);
+          curfle->file = newname;
+        }
 
       if (lastlist->next == NULL)
         break;
