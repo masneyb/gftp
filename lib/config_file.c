@@ -169,7 +169,7 @@ gftp_read_bookmarks (char *global_data_path)
   size_t len;
   int line;
 
-  if ((tempstr = expand_path (BOOKMARKS_FILE)) == NULL)
+  if ((tempstr = gftp_expand_path (NULL, BOOKMARKS_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad bookmarks file name %s\n"), BOOKMARKS_FILE);
       exit (1);
@@ -572,7 +572,7 @@ gftp_read_config_file (char *global_data_path)
                            &gftp_config_list[i]);
     }
 
-  if ((tempstr = expand_path (CONFIG_FILE)) == NULL)
+  if ((tempstr = gftp_expand_path (NULL, CONFIG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
       exit (1);
@@ -580,7 +580,7 @@ gftp_read_config_file (char *global_data_path)
 
   if (access (tempstr, F_OK) == -1)
     {
-      temp1str = expand_path (BASE_CONF_DIR);
+      temp1str = gftp_expand_path (NULL, BASE_CONF_DIR);
       if (access (temp1str, F_OK) == -1)
 	{
 	  if (mkdir (temp1str, S_IRUSR | S_IWUSR | S_IXUSR) != 0)
@@ -656,7 +656,7 @@ gftp_read_config_file (char *global_data_path)
 	}
     }
 
-  if ((tempstr = expand_path (LOG_FILE)) == NULL)
+  if ((tempstr = gftp_expand_path (NULL, LOG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad log file name %s\n"), LOG_FILE);
       exit (1);
@@ -722,7 +722,7 @@ gftp_write_bookmarks_file (void)
   bmhdr = N_("Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten");
   pwhdr = N_("Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext.");
 
-  if ((tempstr = expand_path (BOOKMARKS_FILE)) == NULL)
+  if ((tempstr = gftp_expand_path (NULL, BOOKMARKS_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad bookmarks file name %s\n"), CONFIG_FILE);
       exit (1);
@@ -811,7 +811,7 @@ gftp_write_config_file (void)
   FILE *conffile;
   int i;
 
-  if ((tempstr = expand_path (CONFIG_FILE)) == NULL)
+  if ((tempstr = gftp_expand_path (NULL, CONFIG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
       exit (1);

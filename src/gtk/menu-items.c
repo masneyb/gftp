@@ -262,7 +262,7 @@ chdir_edit (GtkWidget * widget, gpointer data)
       return (0);
     }
 
-  if ((tempstr = expand_path (edttxt)) == NULL)
+  if ((tempstr = gftp_expand_path (wdata->request, edttxt)) == NULL)
     return (FALSE);
 
   if (gftpui_run_chdir (wdata, tempstr))
@@ -580,12 +580,12 @@ about_dialog (gpointer data)
     {
       g_free (tempstr);
       temp1str = g_strconcat (share_dir, "/COPYING", NULL);
-      tempstr = expand_path (temp1str);
+      tempstr = gftp_expand_path (NULL, temp1str);
       g_free (temp1str);
       if (access (tempstr, F_OK) != 0)
 	{
 	  g_free (tempstr);
-          tempstr = expand_path (BASE_CONF_DIR "/COPYING");
+          tempstr = gftp_expand_path (NULL, BASE_CONF_DIR "/COPYING");
 	  if (access (tempstr, F_OK) != 0)
 	    {
 #if GTK_MAJOR_VERSION == 1

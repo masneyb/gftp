@@ -385,7 +385,7 @@ gftpui_run_chdir (gpointer uidata, char *directory)
   char *tempstr;
   int ret;
 
-  if ((tempstr = expand_path (directory)) == NULL)
+  if ((tempstr = gftp_expand_path (wdata->request, directory)) == NULL)
     return (FALSE);	  
   
   wdata = uidata;
@@ -424,7 +424,8 @@ gftpui_chdir_dialog (gpointer data)
   templist = get_next_selection (templist, &filelist, &num);
   curfle = filelist->data;
 
-  tempstr = gftp_build_path (wdata->request->directory, curfle->file, NULL);
+  tempstr = gftp_build_path (wdata->request, wdata->request->directory,
+                             curfle->file, NULL);
   gftpui_run_chdir (wdata, tempstr);
   g_free (tempstr);
 }

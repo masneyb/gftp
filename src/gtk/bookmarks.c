@@ -691,7 +691,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
       *pos = '\0';
     }
 
-  origpath = newpath = gftp_build_path (entry->path, gtk_entry_get_text (GTK_ENTRY (bm_pathedit)), NULL);
+  origpath = newpath = gftp_build_path (NULL, entry->path,gtk_entry_get_text (GTK_ENTRY (bm_pathedit)), NULL);
   *pos = tempchar;
 
   str = gtk_entry_get_text (GTK_ENTRY (bm_hostedit));
@@ -757,7 +757,8 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
           if (*(tempentry->path + oldpathlen) == '\0')
 	    tempstr = g_strdup (newpath);
           else
-	    tempstr = gftp_build_path (newpath, tempentry->path + oldpathlen, NULL);
+	    tempstr = gftp_build_path (NULL, newpath,
+                                       tempentry->path + oldpathlen, NULL);
 
 	  g_free (tempentry->path);
 	  tempentry->path = tempstr;

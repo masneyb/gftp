@@ -79,7 +79,8 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
   newfle->file = g_strdup (current_ftpdata->directory);
   *(pos - 1) = '\0';
   
-  newfle->destfile = gftp_build_path (wdata->request->directory, pos, NULL);
+  newfle->destfile = gftp_build_path (wdata->request,
+                                      wdata->request->directory, pos, NULL);
 
   tdata = NULL;
   for (templist = *trans_list; templist != NULL; templist = templist->next)
@@ -162,7 +163,8 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
         continue;
 
       oldlen = totlen;
-      df = gftp_build_path (wdata->request->directory, tempfle->file, NULL);
+      df = gftp_build_path (wdata->request, wdata->request->directory,
+                            tempfle->file, NULL);
 
       if (wdata->request->hostname == NULL || 
           wdata->request->protonum == GFTP_LOCAL_NUM)

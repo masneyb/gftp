@@ -1234,7 +1234,7 @@ get_xpm_path (char *filename, int quit_on_err)
   char *tempstr, *exfile, *share_dir;
 
   tempstr = g_strconcat (BASE_CONF_DIR, "/", filename, NULL);
-  exfile = expand_path (tempstr);
+  exfile = gftp_expand_path (NULL, tempstr);
   g_free (tempstr);
   if (access (exfile, F_OK) != 0)
     {
@@ -1242,7 +1242,7 @@ get_xpm_path (char *filename, int quit_on_err)
       share_dir = gftp_get_share_dir ();
 
       tempstr = g_strconcat (share_dir, "/", filename, NULL);
-      exfile = expand_path (tempstr);
+      exfile = gftp_expand_path (NULL, tempstr);
       g_free (tempstr);
       if (access (exfile, F_OK) != 0)
 	{

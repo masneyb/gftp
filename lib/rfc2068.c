@@ -285,7 +285,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
   if (fd > 0)
     request->datafd = fd;
 
-  hf = gftp_build_path (request->hostname, filename, NULL);
+  hf = gftp_build_path (request, request->hostname, filename, NULL);
 
   if (request->username == NULL || *request->username == '\0')
     tempstr = g_strconcat ("GET ", request->url_prefix, "://", hf,
@@ -398,7 +398,7 @@ rfc2068_list_files (gftp_request * request)
   if (strncmp (request->directory, "/", strlen (request->directory)) == 0)
     hd = g_strdup (request->hostname);
   else
-    hd = gftp_build_path (request->hostname, request->directory, NULL);
+    hd = gftp_build_path (request, request->hostname, request->directory, NULL);
 
   if (request->username == NULL || *request->username == '\0')
     tempstr = g_strconcat ("GET ", request->url_prefix, "://", hd,
@@ -442,7 +442,7 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
 
   gftp_lookup_request_option (request, "use_http11", &use_http11);
 
-  hf = gftp_build_path (request->hostname, filename, NULL);
+  hf = gftp_build_path (request, request->hostname, filename, NULL);
 
   if (request->username == NULL || *request->username == '\0')
     tempstr = g_strconcat ("HEAD ", request->url_prefix, "://", hf,
@@ -651,11 +651,11 @@ rfc2068_chdir (gftp_request * request, const char *directory)
       if (*directory != '/' && request->directory != NULL)
         {
           tempstr = g_strconcat (request->directory, "/", directory, NULL);
-          request->directory = expand_path (tempstr);
+          request->directory = gftp_expand_path (request, tempstr);
           g_free (tempstr);
         }
       else
-        request->directory = expand_path (directory);
+        request->directory = gftp_expand_path (request, directory);
 
       if (olddir != NULL)
         g_free (olddir);

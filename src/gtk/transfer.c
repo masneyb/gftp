@@ -300,7 +300,8 @@ do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
   GList * newfile;
 
   tempfle = g_malloc0 (sizeof (*tempfle));
-  tempfle->destfile = gftp_build_path (ve_proc->torequest->directory,
+  tempfle->destfile = gftp_build_path (ve_proc->torequest,
+                                       ve_proc->torequest->directory,
                                        ve_proc->remote_filename, NULL);
   ve_proc->remote_filename = NULL;
   tempfle->file = ve_proc->filename;

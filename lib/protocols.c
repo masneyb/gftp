@@ -1856,14 +1856,16 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
         fle->startsize = *newsize;
 
       if (transfer->toreq && fle->destfile == NULL)
-        fle->destfile = gftp_build_path (transfer->toreq->directory, 
+        fle->destfile = gftp_build_path (transfer->toreq,
+                                         transfer->toreq->directory, 
                                          fle->file, NULL);
 
       if (transfer->fromreq->directory != NULL &&
           *transfer->fromreq->directory != '\0' &&
           *fle->file != '/')
         {
-          newname = gftp_build_path (transfer->fromreq->directory,
+          newname = gftp_build_path (transfer->fromreq,
+                                     transfer->fromreq->directory,
                                      fle->file, NULL);
 
           g_free (fle->file);
@@ -1933,13 +1935,15 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
         }
 
       if (transfer->toreq && curfle->destfile == NULL)
-        curfle->destfile = gftp_build_path (transfer->toreq->directory, 
+        curfle->destfile = gftp_build_path (transfer->toreq,
+                                            transfer->toreq->directory, 
                                             curfle->file, NULL);
 
       if (transfer->fromreq->directory != NULL &&
           *transfer->fromreq->directory != '\0' && *curfle->file != '/')
         {
-          newname = gftp_build_path (transfer->fromreq->directory,
+          newname = gftp_build_path (transfer->fromreq,
+                                     transfer->fromreq->directory,
                                      curfle->file, NULL);
           g_free (curfle->file);
           curfle->file = newname;
@@ -2932,7 +2936,7 @@ gftp_setup_startup_directory (gftp_request * request)
   gftp_lookup_request_option (request, "startup_directory", &startup_directory);
 
   if (*startup_directory != '\0' &&
-      (tempstr = expand_path (startup_directory)) != NULL)
+      (tempstr = gftp_expand_path (request, startup_directory)) != NULL)
     {
       gftp_set_directory (request, tempstr);
       g_free (tempstr);

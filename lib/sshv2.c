@@ -183,7 +183,7 @@ sshv2_initialize_string_with_path (gftp_request * request, const char *path,
     }
   else
     {
-      tempstr = gftp_build_path (request->directory, path, NULL);
+      tempstr = gftp_build_path (request, request->directory, path, NULL);
       pathlen = strlen (tempstr);
       *len += pathlen + 8;
       ret = sshv2_initialize_string (request, *len);
@@ -1586,12 +1586,12 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   if (*oldname == '/')
     oldstr = g_strdup (oldname);
   else
-    oldstr = gftp_build_path (request->directory, oldname, NULL);
+    oldstr = gftp_build_path (request, request->directory, oldname, NULL);
 
   if (*newname == '/')
     newstr = g_strdup (newname);
   else
-    newstr = gftp_build_path (request->directory, newname, NULL);
+    newstr = gftp_build_path (request, request->directory, newname, NULL);
 
   oldlen = strlen (oldstr); 
   newlen = strlen (newname); 

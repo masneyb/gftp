@@ -473,12 +473,13 @@ gftpui_common_cmd_chdir (void *uidata, gftp_request * request,
     {
       if (*command != '/' && request->directory != NULL)
         {
-          tempstr = gftp_build_path (request->directory, command, NULL);
-          newdir = expand_path (tempstr);
+          tempstr = gftp_build_path (request, request->directory, command,
+                                     NULL);
+          newdir = gftp_expand_path (request, tempstr);
           g_free (tempstr);
         }
       else
-        newdir = expand_path (command);
+        newdir = gftp_expand_path (request, command);
 
       if (newdir == NULL)
         {

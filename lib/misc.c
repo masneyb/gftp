@@ -135,7 +135,7 @@ alltrim (char *str)
 
 
 char *
-expand_path (const char *src)
+gftp_expand_path (gftp_request * request, const char *src)
 {
   char *str, *pos, *endpos, *prevpos, *newstr, *tempstr, *ntoken,
        tempchar;
@@ -228,7 +228,7 @@ expand_path (const char *src)
       if ((pos = strchr (newstr, '/')) == NULL)
 	str = g_strdup (pw->pw_dir);
       else
-	str = gftp_build_path (pw->pw_dir, pos, NULL);
+	str = gftp_build_path (request, pw->pw_dir, pos, NULL);
 
       g_free (newstr);
       newstr = str;
@@ -1127,7 +1127,7 @@ get_next_selection (GList * selection, GList ** list, int *curnum)
 
 
 char *
-gftp_build_path (const char *first_element, ...) 
+gftp_build_path (gftp_request * request, const char *first_element, ...) 
 {
   const char *element;
   size_t len, retlen;
@@ -1161,7 +1161,9 @@ gftp_build_path (const char *first_element, ...)
       retlen += len;
       ret = g_realloc (ret, retlen + 1);
 
-      if (add_separator)
+      /* Don't append a / for VMS servers... */
+      if (add_separator &&
+          (request == NULL || request->server_type != GFTP_DIRTYPE_VMS))
         strncat (ret, "/", retlen);
 
       strncat (ret, element, retlen);

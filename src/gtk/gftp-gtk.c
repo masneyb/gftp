@@ -610,7 +610,8 @@ list_doaction (gftp_window_data * wdata)
 
   if (S_ISLNK (tempfle->st_mode) || S_ISDIR (tempfle->st_mode))
     {
-      directory = gftp_build_path (wdata->request->directory, tempfle->file, NULL);
+      directory = gftp_build_path (wdata->request, wdata->request->directory,
+                                   tempfle->file, NULL);
       success = gftpui_run_chdir (wdata, directory);
       g_free (directory);
     }

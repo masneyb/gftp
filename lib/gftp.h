@@ -354,7 +354,7 @@ typedef void (*gftp_logging_func)		( gftp_logging_level level,
 						  gftp_request * request, 
 						  const char *string, ... );
 
-#define gftp_need_username(request)		((request)->need_username && ((request)->username == NULL || *(request)->username == '\0')
+#define gftp_need_username(request)		((request)->need_username && ((request)->username == NULL || *(request)->username == '\0'))
 #define gftp_need_password(request)		((request)->need_password && (request)->username != NULL && *(request)->username != '\0' && strcmp ((request)->username, "anonymous") != 0 && ((request)->password == NULL || *(request)->password == '\0'))
 
 struct gftp_request_tag 
@@ -727,7 +727,8 @@ char *insert_commas 			( off_t number,
 
 char *alltrim 				( char *str );
 
-char *expand_path 			( const char *src );
+char *gftp_expand_path 			( gftp_request * request,
+					  const char *src );
 
 void make_nonnull 			( char **str );
 
@@ -778,7 +779,8 @@ GList * get_next_selection 		( GList * selection,
 					  GList ** list, 
 					  int *curnum );
 
-char * gftp_build_path 			( const char *first_element,
+char * gftp_build_path 			( gftp_request * request,
+					  const char *first_element,
 					  ... );
 
 void gftp_locale_init 			( void );
