@@ -1240,3 +1240,76 @@ gftp_locale_init (void)
 #endif /* HAVE_GETTEXT */
 }
 
+/* Very primary encryption/decryption to make the passwords unreadable
+   with 'cat ~/.gftp/bookmarks'.
+   
+   Each character is separated in two nibbles. Then each nibble is stored
+   under the form 01xxxx01. The resulted string is prefixed by a '$'.
+*/
+
+
+char * 
+gftp_scramble_password (const char *password)
+{
+  char *newstr, *newpos;
+
+  if (strcmp (password, "@EMAIL@") == 0)
+    return (g_strdup (password));
+
+  newstr = g_malloc (strlen(password) * 2 + 2);
+  newpos = newstr;
+  
+  *newpos++ = '$';
+
+  while (*password != 0)
+    {
+      *newpos++ = ((*password >> 2) & 0x3c) | 0x41;
+      *newpos++ = ((*password << 2) & 0x3c) | 0x41;
+      password++;
+    }
+  *newpos = 0;
+  
+  return (newstr);
+}
+
+
+char *
+gftp_descramble_password (const char *password)
+{
+  const char *passwordpos;
+  char *newstr, *newpos;
+  int error;
+
+  if (*password != '$')
+    return (g_strdup (password));
+
+  passwordpos = password + 1;
+  newstr = g_malloc (strlen (passwordpos) / 2 + 1);
+  newpos = newstr;
+ 
+  error = 0;
+  while (*passwordpos != '\0' && (*passwordpos + 1) != '\0')
+    {
+      if ((*passwordpos & 0xc3) != 0x41 ||
+          (*(passwordpos + 1) & 0xc3) != 0x41)
+        {
+          error = 1;
+          break;
+        }
+
+      *newpos++ = ((*passwordpos & 0x3c) << 2) | 
+                  ((*(passwordpos + 1) & 0x3c) >> 2);
+
+      passwordpos += 2;
+    }
+
+  if (error)
+    {
+      g_free (newstr);
+      return (g_strdup (password));
+    }
+
+  *newpos = '\0';
+  return (newstr);
+}
+

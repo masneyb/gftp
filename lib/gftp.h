@@ -717,6 +717,10 @@ off_t gftp_parse_file_size 		( char *str );
 
 void gftp_locale_init 			( void );
 
+char * gftp_scramble_password		( const char *password );
+
+char * gftp_descramble_password		( const char *password );
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_HTTP_NUM				1

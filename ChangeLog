@@ -1,4 +1,12 @@
 2003-12-7 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/gftp.h lib/misc.c lib/options.h - added
+	scramble passwords option. This patch is mostly from Aurelien Jarno
+        <lists@aurel32.net>, but it was modified by me quite a bit. This is
+	not safe, and can be broken. That is why it's labeled scrambled
+	passwords instead of encrypt passwords.
+
+	* acinclude.m4 - fix to AC_INTL_PRINTF
+
 	* src/gtk/dnd.c (openurl_get_drag_data) - if we are connected to a
 	remote site, disconnect before parsing the URL. This fixes a bug where
 	the directory was not being refreshed properly (from Aurelien Jarno

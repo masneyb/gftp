@@ -88,6 +88,9 @@ gftp_config_vars gftp_global_config_vars[] =
   {"show_trans_in_title", N_("Show transfer status in title"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
    N_("Show the file transfer status in the titlebar"), GFTP_PORT_GTK, NULL},
+  {"scramble_passwords", N_("Store passwords in scrambled form"),
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   N_("Scramble passwords stored in ~/.gftp/bookmarks"), GFTP_PORT_ALL, NULL},
 
   {"", N_("Network"), gftp_option_type_notebook, NULL, NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK, NULL, GFTP_PORT_GTK, NULL},

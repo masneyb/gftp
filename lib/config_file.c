@@ -258,7 +258,10 @@ gftp_read_bookmarks (char *global_data_path)
 	  curpos = buf + 9;
 	  if (newentry->pass)
 	    g_free (newentry->pass);
-	  newentry->pass = g_strdup (curpos);
+
+	  /* Always try to descramble passords. If the password is not
+             scrambled, descramble_password returns the string unchanged */
+	  newentry->pass = gftp_descramble_password (curpos);
 	  newentry->save_password = *newentry->pass != '\0';
 	}
       else if (strncmp (buf, "account", 7) == 0 && newentry)
@@ -715,7 +718,8 @@ void
 gftp_write_bookmarks_file (void)
 {
   gftp_bookmarks_var * tempentry;
-  char *bmhdr, *tempstr;
+  char *bmhdr, *tempstr, *password;
+  intptr_t scramble_passwords;
   FILE * bmfile;
   int i;
 
@@ -739,6 +743,8 @@ gftp_write_bookmarks_file (void)
   write_comment (bmfile, _(bmhdr));
   fwrite ("\n", 1, 1, bmfile);
 
+  gftp_lookup_global_option ("scramble_passwords", &scramble_passwords);
+  
   tempentry = gftp_bookmarks->children;
   while (tempentry != NULL)
     {
@@ -747,9 +753,21 @@ gftp_write_bookmarks_file (void)
 	  tempentry = tempentry->children;
 	  continue;
 	}
+
       tempstr = tempentry->path;
       while (*tempstr == '/')
 	tempstr++;
+
+      if (tempentry->save_password && tempentry->pass != NULL)
+        {
+	  if (scramble_passwords)
+            password = gftp_scramble_password (tempentry->pass);
+	  else
+	    password = g_strdup (tempentry->pass);
+	}
+      else
+        password = NULL;
+
       fprintf (bmfile,
 	       "[%s]\nhostname=%s\nport=%d\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
 	       tempstr, tempentry->hostname == NULL ? "" : tempentry->hostname,
@@ -759,9 +777,11 @@ gftp_write_bookmarks_file (void)
 	       tempentry->remote_dir == NULL ? "" : tempentry->remote_dir,
 	       tempentry->local_dir == NULL ? "" : tempentry->local_dir,
 	       tempentry->user == NULL ? "" : tempentry->user,
-	       !tempentry->save_password
-	       || tempentry->pass == NULL ? "" : tempentry->pass,
+	       password == NULL ? "" : password,
 	       tempentry->acct == NULL ? "" : tempentry->acct);
+
+      if (password != NULL)
+        g_free(password);
 
       if (tempentry->local_options_vars != NULL)
         {
