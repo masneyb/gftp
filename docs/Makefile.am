@@ -5,7 +5,7 @@ SUBDIRS=sample.gftp
 EXTRA_DIST=USERS-GUIDE gftp.1 gftp.desktop gftp.lsm gftp.png parse-netrc.pl \
            gftp-faq.sgml
 
-Utilitiesdir = $(datadir)/gnome/apps/Internet
+Utilitiesdir = $(datadir)/applications
 Utilities_DATA = gftp.desktop
 
 Iconsdir = $(datadir)/pixmaps
