@@ -20,6 +20,10 @@ max_log_window_size=5000
 # messages to the current locale
 remote_charsets=
 
+# This is the value of LC_TIME for the remote site. This is so that dates can
+# be parsed properly in the directory listings.
+remote_lc_time=
+
 # The number of seconds to keep cache entries before they expire.
 cache_ttl=3600
 
@@ -35,6 +39,9 @@ overwrite_default=0
 # Preserve file permissions of transfered files
 preserve_permissions=1
 
+# Preserve file times of transfered files
+preserve_time=1
+
 # Refresh the listbox after each file is transfered
 refresh_files=0
 
@@ -47,13 +54,16 @@ show_hidden_files=1
 # Show the file transfer status in the titlebar
 show_trans_in_title=0
 
+# Automatically start the file transfers when they get queued
+start_transfers=1
+
 # Allow entering manual commands in the GUI (functions like the text port)
 cmd_in_gui=0
 
 # The timeout waiting for network input/output. This is NOT an idle timeout.
 network_timeout=120
 
-# The number of auto-retries to do. Set this to 0 to retry indefinately
+# The number of auto-retries to do. Set this to 0 to retry indefinitely
 retries=3
 
 # The number of seconds to wait between retries
@@ -61,6 +71,10 @@ sleep_time=30
 
 # The maximum KB/s a file transfer can get. (Set to 0 to disable)
 maxkbs=0.00
+
+# The block size that is used when transfering files. This should be a
+# multiple of 1024.
+trans_blksize=20480
 
 # This specifies the default protocol to use
 default_protocol=FTP
@@ -241,18 +255,8 @@ ssh_prog_name=
 # Extra parameters to pass to the SSH program
 ssh_extra_params=
 
-# Default remote SSH2 sftp-server path
-ssh2_sftp_path=
-
 # Require a username/password for SSH connections
 ssh_need_userpass=1
-
-# Use the ssh-askpass utility to supply the remote password
-ssh_use_askpass=0
-
-# Call ssh with the -s sftp flag. This is helpful because you won't have to
-# know the remote path to the remote sftp-server
-sshv2_use_sftp_subsys=0
 
 # This section specifies which hosts are on the local subnet and won't need to
 # go out the proxy server (if available). Syntax: dont_use_proxy=.domain or
