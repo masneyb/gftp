@@ -642,6 +642,7 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
   gftp_logging_func logging_function;
   gftp_bookmarks_var * tempentry;
   char *default_protocol, *utf8;
+  const char *email;
   int i, init_ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -670,7 +671,15 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
     gftp_set_username (request, tempentry->user);
 
   if (tempentry->pass != NULL)
-    gftp_set_password (request, tempentry->pass);
+    {
+      if (strcmp (tempentry->pass, "@EMAIL@") == 0)
+        {
+          gftp_lookup_request_option (request, "email", &email);
+          gftp_set_password (request, email);
+        }
+      else
+        gftp_set_password (request, tempentry->pass);
+    }
 
   if (tempentry->acct != NULL)
     gftp_set_account (request, tempentry->acct);
