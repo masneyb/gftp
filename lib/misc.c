@@ -28,7 +28,7 @@ insert_commas (unsigned long number, char *dest_str, size_t dest_len)
 
   if (dest_str != NULL)
     *dest_str = '\0';
-  len = log10 (number) + 1;
+  len = (number > 0 ? log10 (number) : 0) + 1;
 
   if (len <= 0) 
     {
