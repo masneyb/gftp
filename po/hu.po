@@ -1,4 +1,4 @@
-# Hungarian translation of gftp
+# Hungarian translation of gftp.
 # Copyright (C) 2002, 2004 Free Software Foundation, Inc.
 # Doome <doome@uhulinux.hu>, 2002.
 # Andras Timar <timar@gnome.hu>, 2002.
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-11 21:23+0100\n"
-"PO-Revision-Date: 2004-02-11 18:10+0100\n"
+"POT-Creation-Date: 2004-03-03 15:01+0100\n"
+"PO-Revision-Date: 2004-03-03 18:04+0100\n"
 "Last-Translator: Laszlo Dvornik <dvornikl@mailbox.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Hiba: Ideiglenes fájl létrehozása sikertelen: %s\n"
 
 #: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:148 lib/config_file.c:154
-#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:265 lib/sshv2.c:1000
+#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:262 lib/sshv2.c:1000
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Hiba a fájlleíró bezárása közben: %s\n"
@@ -53,12 +53,12 @@ msgstr "Hiba: Nem lehet keresni a %s fájlban: %s\n"
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Hiba: Nem sikerült megnyitni a(z) %s helyi fájlt: %s\n"
 
-#: lib/config_file.c:134 lib/protocols.c:2455 lib/sslcommon.c:467
+#: lib/config_file.c:134 lib/protocols.c:2455 lib/sslcommon.c:479
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Hiba: Nem lehet írni a socketbe: %s\n"
 
-#: lib/config_file.c:142 lib/protocols.c:2383 lib/sslcommon.c:421
+#: lib/config_file.c:142 lib/protocols.c:2383 lib/sslcommon.c:433
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Hiba: Nem lehet olvasni a socketből: %s\n"
@@ -122,6 +122,7 @@ msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP Hiba: A fő konfigurációs fájl nem található: %s\n"
 
 #: lib/config_file.c:603
+#, c-format
 msgid "Did you do a make install?\n"
 msgstr "Kiadta a \"make install\" parancsot?\n"
 
@@ -177,7 +178,7 @@ msgstr ""
 "egy bejegyzésnek (*) van a megjegyzésében, akkor az a gFTP-n belül nem "
 "változtatható."
 
-#: lib/config_file.c:1196 lib/rfc2068.c:568 lib/rfc2068.c:569
+#: lib/config_file.c:1196 lib/rfc2068.c:560 lib/rfc2068.c:561
 msgid "<unknown>"
 msgstr "<ismeretlen>"
 
@@ -187,7 +188,15 @@ msgstr "<ismeretlen>"
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
 
-#: lib/https.c:89
+#: lib/ftps.c:139
+msgid ""
+"FTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
+msgstr ""
+"FTPS támogatás nem elérhető, mivel az SSL támogatás nem lett belefordítva a "
+"programba. Kapcsolat megszakítása.\n"
+
+#: lib/https.c:90
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
@@ -221,7 +230,7 @@ msgid "Successfully changed local directory to %s\n"
 msgstr "Sikeres könyvtárváltás a(z) %s helyi könyvtárba\n"
 
 #: lib/local.c:481 lib/local.c:504 src/gtk/transfer.c:229
-#: src/gtk/view_dialog.c:302
+#: src/gtk/view_dialog.c:316
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "%s sikeresen törölve\n"
@@ -231,7 +240,7 @@ msgstr "%s sikeresen törölve\n"
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Hiba: %s könyvtár törlése sikertelen: %s\n"
 
-#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:306
+#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:320
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Hiba: %s fájl törlése sikertelen: %s\n"
@@ -266,10 +275,12 @@ msgid "local filesystem"
 msgstr "helyi fájlrendszer"
 
 #: lib/misc.c:415
+#, c-format
 msgid "usage: gftp "
 msgstr "használat: gftp "
 
 #: lib/misc.c:415 src/uicommon/gftpui.c:616
+#, c-format
 msgid "\n"
 msgstr "\n"
 
@@ -364,9 +375,8 @@ msgid "Cache TTL:"
 msgstr ""
 
 #: lib/options.h:56
-#, fuzzy
 msgid "The number of seconds to keep cache entries before they expire."
-msgstr "Két újrapróbálkozás közti várakozási idő másodpercben"
+msgstr ""
 
 #: lib/options.h:59
 msgid "Append file transfers"
@@ -693,7 +703,7 @@ msgstr "Próba: %s:%d\n"
 msgid "Cannot connect to %s: %s\n"
 msgstr "Nem lehet a(z) %s géphez kapcsolódni: %s\n"
 
-#: lib/protocols.c:2040 lib/rfc959.c:630
+#: lib/protocols.c:2040 lib/rfc959.c:626
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Hiba az IPv4 socket létrehozásakor: %s\n"
@@ -703,7 +713,7 @@ msgstr "Hiba az IPv4 socket létrehozásakor: %s\n"
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 
-#: lib/protocols.c:2126 lib/protocols.c:2759 lib/rfc959.c:639 lib/rfc959.c:786
+#: lib/protocols.c:2126 lib/protocols.c:2759 lib/rfc959.c:635 lib/rfc959.c:785
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr ""
@@ -719,14 +729,14 @@ msgid "Connection to %s timed out\n"
 msgstr "Kapcsolat a(z) %s géphez sikertelen.\n"
 
 #: lib/protocols.c:2503
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get socket flags: %s\n"
-msgstr "Nem lehet létrehozni a socketpárt: %s\n"
+msgstr ""
 
 #: lib/protocols.c:2517
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "Nem lehet létrehozni a socketpárt: %s\n"
+msgstr ""
 
 #: lib/protocols.c:2653
 #, c-format
@@ -800,38 +810,38 @@ msgstr "HTTP/1.1 használata"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "HTTP/1.1-et vagy HTTP/1.0 szeretne használni?"
 
-#: lib/rfc2068.c:154 lib/rfc2068.c:866
+#: lib/rfc2068.c:153 lib/rfc2068.c:856
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
 "Invalid chunk size '%s' returned by the remote server\n"
 msgstr ""
 
-#: lib/rfc2068.c:260 lib/rfc959.c:599 lib/sshv2.c:995
+#: lib/rfc2068.c:257 lib/rfc959.c:595 lib/sshv2.c:995
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Lekapcsolódás a(z) %s helyről\n"
 
-#: lib/rfc2068.c:310
+#: lib/rfc2068.c:306
 #, c-format
 msgid "Starting the file transfer at offset %lld\n"
 msgstr "Fájlátvitel indítása %lld pozícióról\n"
 
-#: lib/rfc2068.c:318
+#: lib/rfc2068.c:314
 #, c-format
 msgid "Starting the file transfer at offset %ld\n"
 msgstr "Fájlátvitel indítása %ld pozícióról\n"
 
-#: lib/rfc2068.c:340
+#: lib/rfc2068.c:336
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "%s fájl letöltése sikertelen\n"
 
-#: lib/rfc2068.c:442 lib/sshv2.c:1080
+#: lib/rfc2068.c:435 lib/sshv2.c:1080
 msgid "Retrieving directory listing...\n"
 msgstr "Könyvtárlista letöltése...\n"
 
-#: lib/rfc2068.c:847 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
+#: lib/rfc2068.c:837 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
 #: lib/sshv2.c:819 lib/sshv2.c:951 lib/sshv2.c:1042 lib/sshv2.c:1110
 #: lib/sshv2.c:1223 lib/sshv2.c:1236 lib/sshv2.c:1249 lib/sshv2.c:1262
 #: lib/sshv2.c:1318 lib/sshv2.c:1383 lib/sshv2.c:1843 lib/sshv2.c:1946
@@ -943,66 +953,67 @@ msgid ""
 "this."
 msgstr ""
 
-#: lib/rfc959.c:317 lib/rfc959.c:326 lib/rfc959.c:337
+#: lib/rfc959.c:314 lib/rfc959.c:323 lib/rfc959.c:334 lib/rfc959.c:534
+#: lib/rfc959.c:749 lib/rfc959.c:1336
 #, c-format
-msgid "Received invalid response to PWD command: '%s'\n"
+msgid "Invalid response '%c' received from server.\n"
 msgstr ""
 
-#: lib/rfc959.c:668 lib/rfc959.c:678
+#: lib/rfc959.c:664 lib/rfc959.c:674
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr ""
 
-#: lib/rfc959.c:693 lib/rfc959.c:848
+#: lib/rfc959.c:689 lib/rfc959.c:847
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Adatkapcsolat létrehozása sikertelen: %s\n"
 
-#: lib/rfc959.c:705 lib/rfc959.c:726 lib/rfc959.c:873
-#, fuzzy, c-format
+#: lib/rfc959.c:701 lib/rfc959.c:722 lib/rfc959.c:872
+#, c-format
 msgid "Cannot get socket name: %s\n"
-msgstr "Nem lehet létrehozni a socketpárt: %s\n"
+msgstr ""
 
-#: lib/rfc959.c:716 lib/rfc959.c:863
+#: lib/rfc959.c:712 lib/rfc959.c:862
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Egy port lekötése sikertelen: %s\n"
 
-#: lib/rfc959.c:735 lib/rfc959.c:882
+#: lib/rfc959.c:731 lib/rfc959.c:881
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "%d porton nem lehet figyelni: %s\n"
 
-#: lib/rfc959.c:777
+#: lib/rfc959.c:776
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "Hiba az IPv6 socket létrehozásakor: %s\n"
 
-#: lib/rfc959.c:797
+#: lib/rfc959.c:796
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 
-#: lib/rfc959.c:826 lib/rfc959.c:835
+#: lib/rfc959.c:825 lib/rfc959.c:834
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr ""
 
-#: lib/rfc959.c:892
-#, fuzzy, c-format
+#: lib/rfc959.c:891
+#, c-format
 msgid "Cannot get address of local socket: %s\n"
-msgstr "Nem lehet létrehozni a socketpárt: %s\n"
+msgstr ""
 
-#: lib/rfc959.c:965
+#: lib/rfc959.c:962
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Nem lehet elfogadni a kiszolgálótól a kapcsolatot: %s\n"
 
-#: lib/rfc959.c:1478
+#: lib/rfc959.c:1473
 msgid "total"
 msgstr "összesen"
 
-#: lib/rfc959.c:1480
+#: lib/rfc959.c:1475
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Figyelem: %s lista feldolgozása sikertelen\n"
@@ -1048,10 +1059,8 @@ msgid "Use ssh-askpass utility"
 msgstr "Az ssh-askpass segédprogram használata"
 
 #: lib/sshv2.c:48
-#, fuzzy
 msgid "Use the ssh-askpass utility to supply the remote password"
-msgstr ""
-"Az ssh-askpass program használata a felhasználók jelszavának elkapására"
+msgstr "Az ssh-askpass program használata a távoli jelszó elkapására"
 
 #: lib/sshv2.c:50
 msgid "Use SSH2 SFTP subsys"
@@ -1160,7 +1169,8 @@ msgstr "%d: Utime %s %d\n"
 
 #: lib/sshv2.c:512 src/gtk/bookmarks.c:1017 src/gtk/bookmarks.c:1263
 #: src/gtk/chmod_dialog.c:281 src/gtk/gtkui_transfer.c:361
-#: src/gtk/options_dialog.c:1109 src/gtk/options_dialog.c:1311
+#: src/gtk/misc-gtk.c:956 src/gtk/options_dialog.c:1109
+#: src/gtk/options_dialog.c:1311
 msgid "OK"
 msgstr "OK"
 
@@ -1247,7 +1257,11 @@ msgstr "Entrópia-kezdőérték hossza:"
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr ""
 
-#: lib/sslcommon.c:99
+#: lib/sslcommon.c:41 lib/sslcommon.c:43
+msgid "Verify SSL Peer"
+msgstr ""
+
+#: lib/sslcommon.c:102
 #, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
@@ -1256,45 +1270,45 @@ msgid ""
 "Error %i:%s\n"
 msgstr ""
 
-#: lib/sslcommon.c:121
+#: lib/sslcommon.c:124
 msgid "Cannot get peer certificate\n"
 msgstr ""
 
-#: lib/sslcommon.c:180
+#: lib/sslcommon.c:183
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
 "connected to (%s). Aborting connection.\n"
 msgstr ""
 
-#: lib/sslcommon.c:287
+#: lib/sslcommon.c:290
 msgid "Cannot initialized the OpenSSL library\n"
 msgstr ""
 
-#: lib/sslcommon.c:302
+#: lib/sslcommon.c:306
 msgid "Error loading default SSL certificates\n"
 msgstr ""
 
-#: lib/sslcommon.c:313
+#: lib/sslcommon.c:321
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr ""
 
-#: lib/sslcommon.c:332 lib/sslcommon.c:401 lib/sslcommon.c:448
+#: lib/sslcommon.c:341 lib/sslcommon.c:413 lib/sslcommon.c:460
 msgid "Error: SSL engine was not initialized\n"
 msgstr ""
 
-#: lib/sslcommon.c:349
+#: lib/sslcommon.c:358
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr ""
 
-#: lib/sslcommon.c:359
+#: lib/sslcommon.c:368
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr ""
 
-#: lib/sslcommon.c:377
-#, fuzzy, c-format
+#: lib/sslcommon.c:389
+#, c-format
 msgid "Error with peer certificate: %s\n"
-msgstr "Hiba: Nem lehet írni a gyorsítótárba: %s\n"
+msgstr ""
 
 #: src/uicommon/gftpui.c:61
 #, c-format
@@ -1355,9 +1369,8 @@ msgid "usage: rmdir <directory>\n"
 msgstr "használat: rmdir <könyvtár>\n"
 
 #: src/uicommon/gftpui.c:354
-#, fuzzy
 msgid "usage: site <site command>\n"
-msgstr "használat: delete <fájl>\n"
+msgstr "használat: site <site parancs>\n"
 
 #: src/uicommon/gftpui.c:389
 msgid "usage: mkdir <new directory>\n"
@@ -1642,12 +1655,10 @@ msgstr ""
 "változót is be tud állítani."
 
 #: src/uicommon/gftpui.c:983
-#, fuzzy
 msgid "site"
-msgstr "méret"
+msgstr "hely"
 
 #: src/uicommon/gftpui.c:984
-#, fuzzy
 msgid "Run a site specific command"
 msgstr "Helyspecifikus parancs kiadása"
 
@@ -2419,7 +2430,7 @@ msgid "Enter the new file specification"
 msgstr "Írja be az új fájlspecifikációt"
 
 #: src/gtk/menu-items.c:105 src/gtk/menu-items.c:313 src/gtk/menu-items.c:371
-#: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:129
+#: src/gtk/view_dialog.c:76 src/gtk/view_dialog.c:143
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Hiba: %s fájlt nem lehet írásra megnyitni: %s\n"
@@ -2476,7 +2487,7 @@ msgstr "Névjegy"
 msgid "License Agreement"
 msgstr "Licencszerződés"
 
-#: src/gtk/menu-items.c:561 src/gtk/view_dialog.c:378
+#: src/gtk/menu-items.c:561 src/gtk/view_dialog.c:392
 msgid "  Close  "
 msgstr "  Bezárás  "
 
@@ -2587,7 +2598,7 @@ msgstr "Hálózati maszk"
 msgid "Local Hosts"
 msgstr "Helyi gépek"
 
-#: src/gtk/options_dialog.c:1187 src/gtk/view_dialog.c:91
+#: src/gtk/options_dialog.c:1187 src/gtk/view_dialog.c:105
 msgid "Edit"
 msgstr "Szerkesztés"
 
@@ -2684,53 +2695,53 @@ msgstr "Fájlátvitel leállítása a %s gépen\n"
 msgid "Skipping file %s on host %s\n"
 msgstr "%s fájl kihagyása a %s gépen\n"
 
-#: src/gtk/view_dialog.c:35
+#: src/gtk/view_dialog.c:36
 msgid "View"
 msgstr "Nézet"
 
-#: src/gtk/view_dialog.c:47
+#: src/gtk/view_dialog.c:48
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "Megtekintés: %s egy könyvtár. Nem lehet megnézni.\n"
 
-#: src/gtk/view_dialog.c:100
+#: src/gtk/view_dialog.c:114
 msgid "Edit: You must specify an editor in the options dialog\n"
 msgstr "Szerkesztés: meg kell adnia egy szerkesztőt az opciók ablakban\n"
 
-#: src/gtk/view_dialog.c:113
+#: src/gtk/view_dialog.c:127
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "Hiba: %s egy könyvtár. Nem lehet szerkeszteni.\n"
 
-#: src/gtk/view_dialog.c:184
+#: src/gtk/view_dialog.c:198
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Megtekintés: Másik folyamat létrehozása sikertelen: %s\n"
 
-#: src/gtk/view_dialog.c:187
+#: src/gtk/view_dialog.c:201
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "%s %s program futtatása\n"
 
-#: src/gtk/view_dialog.c:245
+#: src/gtk/view_dialog.c:259
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "%s megnyitása %s programmal\n"
 
-#: src/gtk/view_dialog.c:280
+#: src/gtk/view_dialog.c:294
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "%s fájl megtekintése\n"
 
-#: src/gtk/view_dialog.c:287
+#: src/gtk/view_dialog.c:301
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Megtekintés: %s fájlt nem sikerült megnyitni: %s\n"
 
 #: src/text/gftp-text.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open controlling terminal %s\n"
-msgstr "gFTP Hiba: A(z) %s konfigurációs fájl megnyitása sikertelen: %s\n"
+msgstr "%s vezérlő terminált nem lehet megnyitni\n"
 
 #: src/text/textui.c:70
 msgid "Username [anonymous]:"
@@ -2743,53 +2754,3 @@ msgid ""
 "(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
 "c)"
 msgstr ""
-
-#~ msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
-#~ msgstr ""
-#~ "használat: gftp [[protokoll://][felh:[jelszó]@]ftp-gép[:port][/"
-#~ "könyvtár]]\n"
-
-#~ msgid "OpenURL: Operation canceled...you must enter a string\n"
-#~ msgstr "URLMegnyitás: Művelet megszakítva... írjon be egy karakterláncot\n"
-
-#~ msgid "Mkdir: Operation canceled...you must enter a string\n"
-#~ msgstr "Mkdir: Művelet megszakítva...írjon be egy karakterláncot\n"
-
-#~ msgid "Rename: Operation canceled...you must enter a string\n"
-#~ msgstr "Átnevezés: Művelet megszakítva...írjon be egy karakterláncot\n"
-
-#~ msgid "Local Size"
-#~ msgstr "Helyi méret"
-
-#~ msgid "Remote Size"
-#~ msgstr "Távoli méret"
-
-#~ msgid "Download Files"
-#~ msgstr "Fájlok letöltése"
-
-#~ msgid "Upload Files"
-#~ msgstr "Fájlok feltöltése"
-
-#~ msgid ""
-#~ ">.\n"
-#~ "If you have any questions, comments, or suggestions about this program, "
-#~ "please feel free to email them to me. You can always find out the latest "
-#~ "news about gFTP from my website at http://www.gftp.org/\n"
-#~ msgstr ""
-#~ ">.\n"
-#~ "Ha bármilyen kérdése, megjegyzése, vagy javaslata van a programmal "
-#~ "kapcsolatban, kérem nyugodtan írjon nekem e-mailt. Mindig megtalálja a "
-#~ "legfrissebb híreket a gFTP weboldalán: http://www.gftp.org/\n"
-
-#~ msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
-#~ msgstr ""
-#~ "használat: open [[ftp://][felh:jelszó@]ftp-hely[:port][/könyvtár]]\n"
-
-#~ msgid "usage: mput <filespec>\n"
-#~ msgstr "használat: mput <fájlspec>\n"
-
-#~ msgid "Could not download %s\n"
-#~ msgstr "%s -t nem tudtam letölteni\n"
-
-#~ msgid "Successfully transferred %s\n"
-#~ msgstr "%s átvitele sikeres\n"
