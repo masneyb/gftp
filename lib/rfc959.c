@@ -1385,7 +1385,7 @@ int
 rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   rfc959_parms * parms;
-  char tempstr[255];
+  char tempstr[1024];
   ssize_t len;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);

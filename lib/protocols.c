@@ -1996,7 +1996,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
     {
       *rbuf = g_malloc0 (sizeof (**rbuf));
       (*rbuf)->max_bufsize = len;
-      (*rbuf)->buffer = g_malloc ((*rbuf)->max_bufsize + 1);
+      (*rbuf)->buffer = g_malloc0 ((*rbuf)->max_bufsize + 1);
 
       if ((ret = read_function (request, (*rbuf)->buffer, 
                                 (*rbuf)->max_bufsize, fd)) <= 0)
@@ -2019,21 +2019,25 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
       if ((*rbuf)->cur_bufsize > 0 && (pos != NULL || end_of_buffer))
         {
           if (pos != NULL)
-            retval = pos - (*rbuf)->curpos + 1;
-          else
-            retval = (*rbuf)->cur_bufsize;
-
-          if (pos != NULL)
             {
+              retval = pos - (*rbuf)->curpos + 1;
               nextpos = pos + 1;
               if (pos > (*rbuf)->curpos && *(pos - 1) == '\r')
                 pos--;
               *pos = '\0';
             }
           else
-            nextpos = NULL;
+            {
+              retval = (*rbuf)->cur_bufsize;
+              nextpos = NULL;
+
+              /* This is not an overflow since we allocated one extra byte to
+                 buffer above */
+              ((*rbuf)->curpos)[retval] = '\0';
+            }
 
           strncpy (str, (*rbuf)->curpos, len);
+          str[len - 1] = '\0';
           (*rbuf)->cur_bufsize -= retval;
 
           if (nextpos != NULL)

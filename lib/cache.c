@@ -310,6 +310,7 @@ gftp_delete_cache_entry (gftp_request * request, char *descr, int ignore_directo
   else if (descr != NULL)
     { 
       strncpy (description, descr, sizeof (description));
+      description[sizeof (description) - 1] = '\0';
     }
   else
     return;

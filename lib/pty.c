@@ -40,6 +40,7 @@ _gftp_ptym_open (char *pts_name, size_t len, int *fds)
     return (GFTP_ERETRYABLE);
 
   strncpy (pts_name, new_pts_name, len);
+  pts_name[len - 1] = '\0';
 
   return (fdm);
 }
@@ -141,6 +142,7 @@ _gftp_ptym_open (char *pts_name, size_t len, int *fds)
     }
 
   strncpy (pts_name, new_pts_name, len);
+  pts_name[len - 1] = '\0';
 
   return (fdm);
 }
@@ -187,6 +189,8 @@ _gftp_ptym_open (char *pts_name, size_t len, int *fds)
   g_return_val_if_fail (len >= 10, GFTP_EFATAL);
 
   strncpy (pts_name, "/dev/ptyXY", len);
+  pts_name[len - 1] = '\0';
+
   for (pos1 = "pqrstuvwxyzPQRST"; *pos1 != '\0'; pos1++) 
     {
       pts_name[8] = *pos1;

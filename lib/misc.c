@@ -42,7 +42,10 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   if (len == 0)
     {
       if (dest_str != NULL)
-        strncpy (dest_str, "0", dest_len);
+        {
+          strncpy (dest_str, "0", dest_len);
+          dest_str[dest_len - 1] = '\0';
+        }
       else
         dest_str = g_strdup ("0");
       return (dest_str);

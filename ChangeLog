@@ -1,4 +1,9 @@
 2003-8-7 Brian Masney <masneyb@gftp.org>
+	* lib/cache.c lib/misc.c lib/protocols.c lib/pty.c - make sure a NUL
+	byte appears at the end of the buffer after the call to strncpy
+
+	* lib/rfc959.c - increased buffer size to directory parsing routine
+	
 	* lib/protocols.c (gftp_fd_write) - use a signed variable to store the
 	result from write(). Write errors were not being caught properly.
 
