@@ -2248,8 +2248,6 @@ gftp_connect_server (gftp_request * request, char *service,
   else if (request->use_proxy == 1)
     request->hostp = NULL;
 
-  g_return_val_if_fail (sock != -1, GFTP_EFATAL);
-
   request->ai_family = AF_INET;
   if ((sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {

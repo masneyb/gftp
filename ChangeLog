@@ -1,4 +1,9 @@
 2004-11-11 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_connect_server) - if the system does not have
+	getaddrinfo(), removed erronous g_return_val_if_fail() that was always
+	causing the function to fail and not connect to the server
+	(from samn@sun.com)
+
 	* configure.in - fixes for HP/UX
 	(from "H.Merijn Brand" <h.m.brand@hccnet.nl>)
 
