@@ -570,11 +570,8 @@ parse_html_line (char *tempstr, gftp_file * fle)
 
   kpos = strchr (pos, 'k');
   mpos = strchr (pos, 'M');
-  if (kpos == NULL)
-    stpos = mpos;
-  else if (mpos == NULL)
-    stpos = kpos;
-  else if (kpos < stpos)
+
+  if (kpos != NULL && (mpos == NULL || (kpos < mpos)))
     stpos = kpos;
   else
     stpos = mpos;
