@@ -727,6 +727,8 @@ gchar * g_build_path 			( const gchar *separator,
 
 #endif
 
+off_t gftp_parse_file_size 		( char *str );
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_HTTP_NUM				1
@@ -785,22 +787,22 @@ void gftp_disconnect 			( gftp_request * request );
 off_t gftp_get_file 			( gftp_request * request, 
 					  const char *filename, 
 					  int fd,
-					  size_t startsize );
+					  off_t startsize );
 
 int gftp_put_file 			( gftp_request * request, 
 					  const char *filename, 
 					  int fd,
-					  size_t startsize,
-					  size_t totalsize );
+					  off_t startsize,
+					  off_t totalsize );
 
 long gftp_transfer_file 		( gftp_request *fromreq, 
 					  const char *fromfile, 
 					  int fromfd,
-					  size_t fromsize, 
+					  off_t fromsize, 
 					  gftp_request *toreq, 
 					  const char *tofile, 
 					  int tofd,
-					  size_t tosize );
+					  off_t tosize );
 
 ssize_t gftp_get_next_file_chunk 	( gftp_request * request, 
 					  char *buf, 

@@ -167,7 +167,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
       flags |= O_LARGEFILE;
 #endif
 
-      if ((request->datafd = gftp_fd_open (request, filename, flags, 0)) == -1)
+      if ((request->datafd = gftp_fd_open (request, filename, flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
         return (GFTP_ERETRYABLE);
     }
   else

@@ -1067,7 +1067,7 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
   else
     tempstr++;
 
-  return (strtol (tempstr, NULL, 10) + startsize);
+  return (gftp_parse_file_size (tempstr) + startsize);
 }
 
 

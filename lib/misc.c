@@ -1236,3 +1236,14 @@ g_build_path (const char *separator, const char *first_element, ...)
 
 #endif
 
+
+off_t
+gftp_parse_file_size (char *str)
+{
+#if defined (_LARGEFILE_SOURCE)
+  return (strtoll (str, NULL, 10));
+#else
+  return (strtol (str, NULL, 10));
+#endif
+}
+

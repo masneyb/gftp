@@ -155,7 +155,7 @@ gftp_disconnect (gftp_request * request)
 
 off_t
 gftp_get_file (gftp_request * request, const char *filename, int fd,
-               size_t startsize)
+               off_t startsize)
 {
   float maxkbs;
 
@@ -172,13 +172,14 @@ gftp_get_file (gftp_request * request, const char *filename, int fd,
   request->cached = 0;
   if (request->get_file == NULL)
     return (GFTP_EFATAL);
+
   return (request->get_file (request, filename, fd, startsize));
 }
 
 
 int
 gftp_put_file (gftp_request * request, const char *filename, int fd,
-               size_t startsize, size_t totalsize)
+               off_t startsize, off_t totalsize)
 {
   float maxkbs;
 
@@ -202,9 +203,9 @@ gftp_put_file (gftp_request * request, const char *filename, int fd,
 
 long
 gftp_transfer_file (gftp_request * fromreq, const char *fromfile, 
-                    int fromfd, size_t fromsize, 
+                    int fromfd, off_t fromsize, 
                     gftp_request * toreq, const char *tofile,
-                    int tofd, size_t tosize)
+                    int tofd, off_t tosize)
 {
   long size;
   int ret;
@@ -1130,7 +1131,7 @@ gftp_parse_ls_vms (char *str, gftp_file * fle)
   fle->file = g_strdup (str);
 
   curpos = goto_next_token (curpos + 1);
-  fle->size = strtol (curpos, NULL, 10) * 512; /* Is this correct? */
+  fle->size = gftp_parse_file_size (curpos) * 512; /* Is this correct? */
   curpos = goto_next_token (curpos);
 
   if ((fle->datetime = parse_time (curpos, &curpos)) == 0)
@@ -1176,7 +1177,7 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
           *fle->attribs = 'd';
           break;
         case 's':
-          fle->size = strtol (startpos + 1, NULL, 10);
+          fle->size = gftp_parse_file_size (startpos + 1);
           break;
         case 'm':
           fle->datetime = strtol (startpos + 1, NULL, 10);
@@ -1291,7 +1292,7 @@ gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
       /* This is a regular file  */
       if ((endpos = strchr (startpos, ' ')) == NULL)
         return (GFTP_EFATAL);
-      fle->size = strtol (startpos, NULL, 10);
+      fle->size = gftp_parse_file_size (startpos);
     }
 
   /* Skip the blanks till we get to the next entry */
@@ -1342,7 +1343,7 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
   else
     {
       fle->attribs = g_strdup ("-rw-rw-rw-");
-      fle->size = strtol (startpos, NULL, 10);
+      fle->size = gftp_parse_file_size (startpos);
     }
 
   startpos = goto_next_token (startpos);
@@ -1370,7 +1371,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
 
   fle->group = g_strdup (_("unknown"));
 
-  fle->size = strtol (startpos, NULL, 10);
+  fle->size = gftp_parse_file_size (startpos);
 
   startpos = goto_next_token (startpos);
   if ((fle->datetime = parse_time (startpos, &startpos)) == 0)

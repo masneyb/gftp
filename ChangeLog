@@ -1,3 +1,17 @@
+2003-8-3 Brian Masney <masneyb@gftp.org>
+	* lib/local.c (local_put_file) - specify an initial file creation mode
+	of 0644
+
+	* lib/misc.c lib/gftp.h - added gftp_parse_file_size(). This function
+	works correctly for files greater than 2.1GB
+
+	* lib/rfc959.c (rfc959_get_file) lib/protocols.c lib/rfc2068.c
+	lib/rfc959.c - use gftp_parse_file_size()
+
+	* lib/protocols.c lib/gftp.h (gftp_get_file, gftp_put_file, 
+	gftp_transfer_file) - changed type of startsize paramter from size_t
+	to off_t
+
 2003-7-31 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - fix blocking problem reading the error message from the
 	remote server when there was an error establishing a connection

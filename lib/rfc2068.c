@@ -134,7 +134,7 @@ rfc2068_read_response (gftp_request * request)
                                      tempstr);
 
           if (strncmp (tempstr, "Content-Length:", 15) == 0)
-            params->content_length = strtol (tempstr + 16, NULL, 10);
+            params->content_length = gftp_parse_file_size (tempstr + 16);
           else if (strcmp (tempstr, "Transfer-Encoding: chunked") == 0)
             chunked = 1;
         }
@@ -592,11 +592,11 @@ parse_html_line (char *tempstr, gftp_file * fle)
       stpos--;
       if ((*stpos == '.') && isdigit (*(stpos + 1))) 
         {  /* found decimal point */
-          fle->size = units * strtol (stpos + 1, NULL, 10) / 10;;
+          fle->size = units * gftp_parse_file_size (stpos + 1) / 10;;
         }
     }
 
-  fle->size += units * strtol (stpos, NULL, 10);
+  fle->size += units * gftp_parse_file_size (stpos);
 
   return (1);
 }
