@@ -264,6 +264,8 @@ int gftpui_run_chdir 				( gpointer uidata,
 
 void gftpui_chdir_dialog 			( gpointer data );
 
+char * gftpui_gtk_get_utf8_file_pos 		( gftp_file * fle );
+
 /* menu_items.c */
 void change_filespec 				( gpointer data );
 

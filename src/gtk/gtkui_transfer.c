@@ -47,15 +47,15 @@ gftpui_start_transfer (gftp_transfer * tdata)
 
 
 void
-gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
-                             char *filepos)
+gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle)
 {
   gftpui_common_curtrans_data * transdata;
-  gftp_file * fle;
   char *text[2];
+  gftp_file * fle;
 
   fle = curfle->data;
-  text[0] = filepos;
+  text[0] = gftpui_gtk_get_utf8_file_pos (fle);
+
   if (fle->transfer_action == GFTP_TRANS_ACTION_SKIP)
     text[1] = _("Skipped");
   else

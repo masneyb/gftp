@@ -2533,10 +2533,17 @@ gftp_swap_socks (gftp_request * dest, gftp_request * source)
 
   dest->datafd = source->datafd;
   dest->cached = 0;
+#ifdef USE_SSL
+  dest->ssl = source->ssl;
+#endif
+
   if (!source->always_connected)
     {
       source->datafd = -1;
       source->cached = 1;
+#ifdef USE_SSL
+      source->ssl = NULL;
+#endif
     }
 
   if (dest->swap_socks)

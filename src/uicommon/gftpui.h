@@ -166,8 +166,7 @@ void gftpui_prompt_password 		( void *uidata,
 					  gftp_request * request );
 
 void gftpui_add_file_to_transfer 	( gftp_transfer * tdata,
-					  GList * curfle,
-					  char *filepos );
+					  GList * curfle );
 
 void gftpui_ask_transfer		( gftp_transfer * tdata );
 

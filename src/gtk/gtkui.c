@@ -434,3 +434,22 @@ gftpui_disconnect (void *uidata)
   update_window (wdata);
 }
 
+
+char *
+gftpui_gtk_get_utf8_file_pos (gftp_file * fle)
+{
+  char *disp_item, *pos;
+
+  if (fle->utf8_file != NULL)
+    disp_item = fle->utf8_file;
+  else
+    disp_item = fle->file;
+
+  if ((pos = strrchr (disp_item, '/')) != NULL)
+    pos++;
+  else
+    pos = disp_item;
+
+  return (pos);
+}
+

@@ -1,3 +1,27 @@
+Changes from 2.0.16 to 2.0.17
+
+* Created a user interface common repository. Started to merge the UI
+  independant parts of the GTK+ and text ports into this. The GTK+ port
+  can now be controlled from a command line interface in the GUI. There
+  is an option you have to enable in the options dialog for this.
+* Added support for the FTPS protocol. The control connection is the only
+  one encrypted at the moment.
+* File transfers can be resumed/skipped/overwritten in the text port and
+  whenever files are dropped on gftp.
+* FTP: Added support for MVS directory listings
+* Added option to show the transfer status in the title bar.
+* Added option to disable IPV6 support.
+* Fixed the wrong date being displayed when a file was modified last year
+* 64 bit cleanups. This also fixed a SSH segfault that was happening on
+  FreeBSD
+* Look for the .gmo translation files in the proper directory
+* If a bookmarked site has it's password saved in the config file, then the
+  passwords are written out in a scrambled format. This isn't secure, but it'll
+  prevent someone from casually looking over your shoulder and seeing your
+  password. I would not recommend saving your passwords to disk.
+* Fix for systems that do not support the %'ld format argument
+* Overall code cleanup in the user interface code and several small bug fixes
+
 Changes from 2.0.15 to 2.0.16
 
 * Fixed bug where the local directory listing was not updated when

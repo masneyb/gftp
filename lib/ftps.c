@@ -22,12 +22,32 @@
 
 static const char cvsid[] = "$Id$";
 
-void
-ftps_register_module (void)
-{
 #ifdef USE_SSL
-  ssl_register_module ();
-#endif
+static int
+ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
+{
+  rfc959_parms * params;
+  int ret, resetptr;
+
+  params = request->protocol_data;
+  if (request->cached)
+    {
+      request->read_function = gftp_fd_read;
+      request->write_function = gftp_fd_write;
+      resetptr = 1;
+    }
+  else
+    resetptr = 0;
+
+  ret = rfc959_get_next_file (request, fle, fd);
+
+  if (resetptr)
+    {
+      request->read_function = gftp_ssl_read;
+      request->write_function = gftp_ssl_write;
+    }
+
+  return (ret);
 }
 
 
@@ -78,6 +98,16 @@ ftps_auth_tls_start (gftp_request * request)
 
   return (0);
 }
+#endif
+
+
+void
+ftps_register_module (void)
+{
+#ifdef USE_SSL
+  ssl_register_module ();
+#endif
+}
 
 
 int
@@ -94,6 +124,7 @@ ftps_init (gftp_request * request)
 
   params = request->protocol_data;
   params->auth_tls_start = ftps_auth_tls_start;
+  request->get_next_file = ftps_get_next_file;
   request->init = ftps_init;
   request->post_connect = NULL;
   request->url_prefix = g_strdup ("ftps");

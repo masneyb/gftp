@@ -455,8 +455,8 @@ show_transfer (gftp_transfer * tdata)
   GdkBitmap * closedir_bitmap, * opendir_bitmap;
   gftpui_common_curtrans_data * transdata;
   gftp_file * tempfle;
-  char *pos, *text[2];
   GList * templist;
+  char *text[2];
 
   gftp_get_pixmap (dlwdw, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
   gftp_get_pixmap (dlwdw, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
@@ -480,11 +480,8 @@ show_transfer (gftp_transfer * tdata)
   for (templist = tdata->files; templist != NULL; templist = templist->next)
     {
       tempfle = templist->data;
-      if ((pos = strrchr (tempfle->file, '/')) == NULL)
-	pos = tempfle->file;
-      else
-	pos++;
-      text[0] = pos;
+
+      text[0] = gftpui_gtk_get_utf8_file_pos (tempfle);
       if (tempfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
         text[1] = _("Skipped");
       else

@@ -1090,7 +1090,6 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
   gftp_transfer * tdata;
   gftp_file * tempfle;
   int show_dialog;
-  char *pos;
   
   for (templist = files; templist != NULL; templist = templist->next)
     { 
@@ -1144,12 +1143,7 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
               if (tempfle->transfer_action != GFTP_TRANS_ACTION_SKIP)
                 tdata->total_bytes += tempfle->size;
 
-              if ((pos = strrchr (tempfle->file, '/')) == NULL)
-                pos = tempfle->file;
-              else
-                pos++;
-
-              gftpui_add_file_to_transfer (tdata, curfle, pos);
+              gftpui_add_file_to_transfer (tdata, curfle);
             }
 
           if (g_thread_supported ())
