@@ -205,7 +205,7 @@ change_filespec (gpointer data)
 
 
 static void
-destroy_save_directory_listing (gftp_save_dir_struct * str)
+destroy_save_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
 {
   gtk_widget_destroy (str->filew);
   g_free (str);
@@ -287,11 +287,12 @@ save_directory_listing (gpointer data)
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
                       "clicked", GTK_SIGNAL_FUNC (dosave_directory_listing), 
                       str);
-  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
-                             "clicked", 
-                             GTK_SIGNAL_FUNC (destroy_save_directory_listing),
-                             str);
-  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button), "clicked", GTK_SIGNAL_FUNC (destroy_save_directory_listing), str);
+  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
+                      "clicked", 
+                      GTK_SIGNAL_FUNC (destroy_save_directory_listing), str);
+  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button), 
+                      "clicked", 
+                      GTK_SIGNAL_FUNC (destroy_save_directory_listing), str);
 
   gtk_window_set_wmclass (GTK_WINDOW(filew), "Save Directory Listing", "gFTP");
   gtk_widget_show (filew);

@@ -1,3 +1,10 @@
+2002-09-16 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.c, src/gtk/menu-items.c, src/gtk/misc-gtk.c - 
+	Fixed compile errors when compiling against GTK+ 1.2
+
+	* src/gtk/misc-gtk.c (MakeEditDialog, MakeYesNoDialog) - fixed to work
+	with GTK+ 1.2
+
 2002-09-15 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h (struct gftp_transfer) - changed the type of numfiles and
 	numdirs from unsigned long to long. This must be a signed field. This 

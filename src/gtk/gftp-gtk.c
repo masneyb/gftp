@@ -629,7 +629,7 @@ CreateToolbar (GtkWidget * parent)
   gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), num);
 
 #if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
-  tempwid = toolbar_pixmap (ui, "stop.xpm");
+  tempwid = toolbar_pixmap (parent, "stop.xpm");
 #else
   tempwid = gtk_image_new_from_stock (GTK_STOCK_STOP,
                                       GTK_ICON_SIZE_LARGE_TOOLBAR);

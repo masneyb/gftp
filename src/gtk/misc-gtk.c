@@ -776,7 +776,38 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
 }
 
 
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+static void
+ok_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
+{
+  if (ddata->edit == NULL)
+    gtk_widget_destroy (ddata->dialog);
+ 
+  if (ddata->yesfunc != NULL)
+    ddata->yesfunc (ddata->yespointer, ddata);
+
+  if (ddata->edit != NULL)
+    gtk_widget_destroy (ddata->dialog);
+
+  g_free (ddata);
+}
+
+
+static void
+cancel_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
+{
+  if (ddata->edit == NULL)
+    gtk_widget_destroy (ddata->dialog);
+ 
+  if (ddata->nofunc != NULL)
+    ddata->nofunc (ddata->nopointer, ddata);
+
+  if (ddata->edit != NULL)
+    gtk_widget_destroy (ddata->dialog);
+
+  g_free (ddata);
+}
+#else
 static void
 dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
 {
@@ -896,18 +927,42 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
     }
       
 #if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
-/* FIXME - fix call backs */
-  tempwid = gtk_button_new_with_label (oktxt);
+  switch (okbutton)
+    {
+      case gftp_dialog_button_create:
+        yes_text = _("Add");
+        break;
+      case gftp_dialog_button_change:
+        yes_text = _("Change");
+        break;
+      case gftp_dialog_button_connect:
+        yes_text = _("Connect");
+        break;
+      case gftp_dialog_button_rename:
+        yes_text = _("Rename");
+        break;
+      default:
+        yes_text = "";
+        break;
+    }
+
+  tempwid = gtk_button_new_with_label (yes_text);
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
+  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
+                      GTK_SIGNAL_FUNC (ok_dialog_response),
+                      ddata);
   gtk_widget_grab_default (tempwid);
   gtk_widget_show (tempwid);
 
-  tempwid = gtk_button_new_with_label (canceltxt);
+  tempwid = gtk_button_new_with_label (_("Cancel"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
+  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
+                      GTK_SIGNAL_FUNC (cancel_dialog_response),
+                      ddata);
   gtk_widget_show (tempwid);
 #else
   g_signal_connect (GTK_OBJECT (dialog), "response",
@@ -924,9 +979,16 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
                  void (*nofunc) (), gpointer nopointer)
 {
   GtkWidget * text, * dialog;
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
   gftp_dialog_data * ddata;
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+  GtkWidget * tempwid;
 #endif
+
+  ddata = g_malloc (sizeof (*ddata));
+  ddata->yesfunc = yesfunc;
+  ddata->yespointer = yespointer;
+  ddata->nofunc = nofunc;
+  ddata->nopointer = nopointer;
 
 #if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
@@ -957,19 +1019,20 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
       gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
     }
 
+  ddata->dialog = dialog;
+
   text = gtk_label_new (infotxt);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), text, TRUE, TRUE, 0);
   gtk_widget_show (text);
 
 #if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
-/* FIXME - fix call backs */
   tempwid = gtk_button_new_with_label (_("  Yes  "));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
                       FALSE, FALSE, 0);
-  gtk_signal_connect_object_before (GTK_OBJECT (tempwid), "clicked",
-                                    GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                                    GTK_OBJECT (dialog));
+  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
+                      GTK_SIGNAL_FUNC (ok_dialog_response),
+                      ddata);
   gtk_widget_grab_default (tempwid);
   gtk_widget_show (tempwid);
 
@@ -977,18 +1040,12 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
                       FALSE, FALSE, 0);
-  gtk_signal_connect_object_before (GTK_OBJECT (tempwid), "clicked",
-                                    GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                                    GTK_OBJECT (dialog));
+  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
+                      GTK_SIGNAL_FUNC (cancel_dialog_response),
+                      ddata);
   gtk_widget_show (tempwid);
 
 #else
-  ddata = g_malloc (sizeof (*ddata));
-  ddata->yesfunc = yesfunc;
-  ddata->yespointer = yespointer;
-  ddata->nofunc = nofunc;
-  ddata->nopointer = nopointer;
-
   g_signal_connect (GTK_OBJECT (dialog), "response",
                     G_CALLBACK (dialog_response), ddata);
 #endif
