@@ -1,4 +1,11 @@
 2004-11-1 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.c src/gtk/gftp-gtk.h src/gtk/misc-gtk.c - added a
+	tooltip to the button on the top left of the GUI
+
+	* src/gtk/gtkui.c (gftpui_disconnect) - call update_window_info()
+	instead of update_window() so that the toolbar tooltip is updated
+	properly
+
 	* src/gtk/bookmarks.c - don't allow the main bookmarks dialog to be
 	closed if a child entry is being edited. Fixes for a toplevel folder
 	that has no children

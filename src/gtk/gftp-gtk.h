@@ -180,7 +180,8 @@ extern gftp_window_data window1, window2, * other_wdata, * current_wdata;
 extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
                  * portedit, * logwdw, * dlwdw, * protocol_menu, * optionmenu,
                  * gftpui_command_widget, * download_left_arrow,
-                 * upload_right_arrow;
+                 * upload_right_arrow, * openurl_btn;
+extern GtkTooltips * openurl_tooltip;
 extern GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
 extern GtkTextMark * logwdw_textmark;

@@ -22,12 +22,13 @@ static const char cvsid[] = "$Id$";
 
 static GtkItemFactory *log_factory, *dl_factory;
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
-                 * openurl_btn, * gftpui_command_toolbar;
+                 * gftpui_command_toolbar;
 
 gftp_window_data window1, window2, *other_wdata, *current_wdata;
 GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
           * dlwdw, * protocol_menu, * optionmenu, * gftpui_command_widget,
-          * download_left_arrow, * upload_right_arrow;
+          * download_left_arrow, * upload_right_arrow, * openurl_btn;
+GtkTooltips * openurl_tooltip;
 GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
 GtkTextMark * logwdw_textmark;
@@ -429,6 +430,8 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_container_add (GTK_CONTAINER (toolbar), box);
   gtk_container_border_width (GTK_CONTAINER (box), 5);
 
+  openurl_tooltip = gtk_tooltips_new ();
+
   tempwid = toolbar_pixmap (parent, "connect.xpm");
   openurl_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (openurl_btn), tempwid);
@@ -540,6 +543,7 @@ CreateConnectToolbar (GtkWidget * parent)
 #endif
 
   stop_btn = gtk_button_new ();
+
   gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
   gtk_widget_set_sensitive (stop_btn, 0);
   gtk_signal_connect_object (GTK_OBJECT (stop_btn), "clicked",

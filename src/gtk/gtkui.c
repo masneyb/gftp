@@ -440,7 +440,7 @@ gftpui_disconnect (void *uidata)
   gftp_delete_cache_entry (wdata->request, NULL, 1);
   gftp_disconnect (wdata->request);
   remove_files_window (wdata);
-  update_window (wdata);
+  update_window_info ();
 }
 
 
