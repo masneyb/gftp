@@ -97,7 +97,7 @@ main (int argc, char **argv)
   gftp_request * request;
   size_t len, cmdlen;
   int i;
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
   char *tempstr, prompt[20];
 #else
   char tempstr[512];
@@ -165,7 +165,7 @@ main (int argc, char **argv)
   else if (argc == 2)
     gftp_text_open (gftp_text_remreq, argv[1], NULL);
 
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
   g_snprintf (prompt, sizeof (prompt), "%sftp%s> ", COLOR_BLUE, COLOR_DEFAULT);
   while ((tempstr = readline (prompt)))
 #else
@@ -188,13 +188,13 @@ main (int argc, char **argv)
 
       if (*stpos == '\0')
         {
-#ifndef HAVE_LIBREADLINE
+#if !HAVE_LIBREADLINE
           printf ("%sftp%s> ", COLOR_BLUE, COLOR_DEFAULT);
 #endif
           continue;
         }
 
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
       add_history (tempstr);
 #endif
 
@@ -230,7 +230,7 @@ main (int argc, char **argv)
         gftp_text_log (gftp_logging_error, NULL, 
                        _("Error: Command not recognized\n"));
 
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
      free (tempstr);
 #else
      printf ("%sftp%s> ", COLOR_BLUE, COLOR_DEFAULT);

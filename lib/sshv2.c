@@ -638,7 +638,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
 
           request->logging_function (gftp_logging_error, request, "%s", buf);
 
-          while ((numread = gftp_fd_read (request, error_buffer, 
+          while ((numread = gftp_fd_read (NULL, error_buffer, 
                                           sizeof (error_buffer) - 1, 
                                           fd)) > 0)
             {

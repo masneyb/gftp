@@ -1,3 +1,18 @@
+2003-7-23 Brian Masney <masneyb@gftp.org>
+	* configure.in - incremented version to 2.0.15rc1. Also, if readline
+	wasn't found on the system, the text port wasn't be built
+
+	* ChangeLog-old - added summary of changes since version 2.0.14
+
+	* TODO - updated
+
+	* src/text/gftp-text.c - build fixes if readline isn't present on the
+	system
+
+	* lib/sshv2.c - don't print out the network error as well when getting
+	the error message from the remote server. The user is only interested
+	in the error returned from the server.
+	
 2003-7-22 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - added gftp_lookup_bookmark_option()
 	and gftp_set_bookmark_option(). Also added _gftp_set_option_value()

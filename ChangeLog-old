@@ -1,3 +1,44 @@
+Changes from 2.0.14 to 2.0.15rc1
+
+* I18N improvements in GTK+ 2.0 port. If the remote server is not returning 
+  output in UTF8, it will first attempt to convert it from the local character
+  set and if that fails it will try the character sets listed in the 
+  remote_charsets option.
+* Added an improved internal configuration interface. You can now override just
+  about any option in the bookmarks dialog for a particular site. 
+* Each protocol that gFTP supports is now completely self contained in it's own
+  file. So, if gFTP doesn't support your favorite protocol, it should be pretty
+  easy to add support
+* When you attempt to connect to a site and there is a fatal error, gFTP will 
+  abort properly and no longer keep trying to log back into the server.
+* Fixes for transferring files greater than 2.1GB.
+* Improved throttling of file transfers.
+* Added support to expire cache entries after a particular period of time.
+* FTP: Added IPV6 support. gFTP is almost 100% IPV6 compatible. If you are not 
+  using a proxy server, you will not run into any issues. The list of local 
+  networks to not use the proxy server is still currently IPV4 only.
+* FTP: Added ability to parse VMS directory listings.
+* FTP: The firewall_* options were renamed to ftp_proxy_* for better 
+  consistency with the other protocols.
+* SSH2: More informative error messages when the initial connection to the 
+  remote server fails. You should hopefully not see those "Messages size too 
+  big" error messages anymore.
+* SSH2: Improved the PTY interface.
+* Removed legacy SSH protocol. THe SSH2 protocol is now the only SSH protocol
+  supported. You had to enable an option in 2.0.14 to be able to use this 
+  protocol.
+* HTTP: Lots of improvements to this protocol. 
+* Added support for the HTTPS protocol. I added a generic SSL layer to the code
+  so that other SSL protocols can be easily added.
+* The bookmarks and configuration file is now only written if something changed
+  during this session.
+* Build fixes for various platforms
+* Lots of cleanups and improvements to the core library. Also lots of bug fixes
+  throughout the code.
+* New language translations and updates (am ar ca cs es fr hu ja mk ms nl pl 
+  pt pt_BR ru sr sr@Latn sv tr uk zh_TW). Thanks to everybody that has 
+  contributed language updates!
+
 Changes from 2.0.14rc1 to 2.0.14
 
 * Added key bindings to edit dialogs
