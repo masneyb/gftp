@@ -84,7 +84,8 @@ fi
 EXTRA_LIBS=""
 
 # FreeBSD needs this
-AC_CHECK_LIB(util, openpty, EXTRA_LIBS="-lutil")
+AC_CHECK_LIB(util, openpty, [EXTRA_LIBS="-lutil"
+                             AC_DEFINE(HAVE_OPENPTY, [1], [Define if you have the openpty function.]) ])
 
 AC_CHECK_LIB(socket, socket, EXTRA_LIBS="-lsocket")
   
