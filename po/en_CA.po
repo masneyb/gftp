@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-18 19:40-0400\n"
-"PO-Revision-Date: 2004-09-18 16:37-0400\n"
+"POT-Creation-Date: 2004-09-23 12:44-0400\n"
+"PO-Revision-Date: 2004-09-23 16:37-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -428,99 +428,107 @@ msgid "Preserve file permissions of transfered files"
 msgstr "Preserve file permissions of transfered files"
 
 #: lib/options.h:79
+msgid "Preserve file time"
+msgstr "Preserve file time"
+
+#: lib/options.h:82
+msgid "Preserve file times of transfered files"
+msgstr "Preserve file times of transferred files"
+
+#: lib/options.h:84
 msgid "Refresh after each file transfer"
 msgstr "Refresh after each file transfer"
 
-#: lib/options.h:82
+#: lib/options.h:87
 msgid "Refresh the listbox after each file is transfered"
 msgstr "Refresh the listbox after each file is transfered"
 
-#: lib/options.h:84
+#: lib/options.h:89
 msgid "Sort directories first"
 msgstr "Sort directories first"
 
-#: lib/options.h:87
+#: lib/options.h:92
 msgid "Put the directories first then the files"
 msgstr "Put the directories first then the files"
 
-#: lib/options.h:88
+#: lib/options.h:93
 msgid "Show hidden files"
 msgstr "Show hidden files"
 
-#: lib/options.h:91
+#: lib/options.h:96
 msgid "Show hidden files in the listboxes"
 msgstr "Show hidden files in the listboxes"
 
-#: lib/options.h:92
+#: lib/options.h:97
 msgid "Show transfer status in title"
 msgstr "Show transfer status in title"
 
-#: lib/options.h:94
+#: lib/options.h:99
 msgid "Show the file transfer status in the titlebar"
 msgstr "Show the file transfer status in the titlebar"
 
-#: lib/options.h:95
+#: lib/options.h:100
 msgid "Start file transfers"
 msgstr "Start file transfers"
 
-#: lib/options.h:97
+#: lib/options.h:102
 msgid "Automatically start the file transfers when they get queued"
 msgstr "Automatically start the file transfers when they get queued"
 
-#: lib/options.h:99
+#: lib/options.h:104
 msgid "Allow manual commands in GUI"
 msgstr "Allow manual commands in GUI"
 
-#: lib/options.h:101
+#: lib/options.h:106
 msgid ""
 "Allow entering manual commands in the GUI (functions like the text port)"
 msgstr ""
 "Allow entering manual commands in the GUI (functions like the text port)"
 
-#: lib/options.h:103 src/gtk/options_dialog.c:1051
+#: lib/options.h:108 src/gtk/options_dialog.c:1051
 #: src/gtk/options_dialog.c:1144
 msgid "Network"
 msgstr "Network"
 
-#: lib/options.h:105
+#: lib/options.h:110
 msgid "Network timeout:"
 msgstr "Network timeout:"
 
-#: lib/options.h:108
+#: lib/options.h:113
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 
-#: lib/options.h:110
+#: lib/options.h:115
 msgid "Connect retries:"
 msgstr "Connect retries:"
 
-#: lib/options.h:113
-msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
-msgstr "The number of auto-retries to do. Set this to 0 to retry indefinately"
+#: lib/options.h:118
+msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
+msgstr "The number of times to auto-retry. Set this to 0 to retry indefinitely"
 
-#: lib/options.h:115
+#: lib/options.h:120
 msgid "Retry sleep time:"
 msgstr "Retry sleep time:"
 
-#: lib/options.h:118
+#: lib/options.h:123
 msgid "The number of seconds to wait between retries"
 msgstr "The number of seconds to wait between retries"
 
-#: lib/options.h:119
+#: lib/options.h:124
 msgid "Max KB/S:"
 msgstr "Max KB/S:"
 
-#: lib/options.h:122
+#: lib/options.h:127
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 
-#: lib/options.h:124
+#: lib/options.h:129
 msgid "Transfer Block Size:"
 msgstr "Transfer Block Size:"
 
-#: lib/options.h:127
+#: lib/options.h:132
 msgid ""
 "The block size that is used when transfering files. This should be a "
 "multiple of 1024."
@@ -528,19 +536,19 @@ msgstr ""
 "The block size that is used when transferring files. This should be a "
 "multiple of 1024."
 
-#: lib/options.h:130
+#: lib/options.h:135
 msgid "Default Protocol:"
 msgstr "Default Protocol:"
 
-#: lib/options.h:132
+#: lib/options.h:137
 msgid "This specifies the default protocol to use"
 msgstr "This specifies the default protocol to use"
 
-#: lib/options.h:134 lib/options.h:137
+#: lib/options.h:139 lib/options.h:142
 msgid "Enable IPv6 support"
 msgstr "Enable IPv6 support"
 
-#: lib/options.h:142
+#: lib/options.h:147
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -548,27 +556,27 @@ msgstr ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
 
-#: lib/options.h:145
+#: lib/options.h:150
 msgid "The default width of the local files listbox"
 msgstr "The default width of the local files listbox"
 
-#: lib/options.h:148
+#: lib/options.h:153
 msgid "The default width of the remote files listbox"
 msgstr "The default width of the remote files listbox"
 
-#: lib/options.h:151
+#: lib/options.h:156
 msgid "The default height of the local/remote files listboxes"
 msgstr "The default height of the local/remote files listboxes"
 
-#: lib/options.h:154
+#: lib/options.h:159
 msgid "The default height of the transfer listbox"
 msgstr "The default height of the transfer listbox"
 
-#: lib/options.h:157
+#: lib/options.h:162
 msgid "The default height of the logging window"
 msgstr "The default height of the logging window"
 
-#: lib/options.h:160
+#: lib/options.h:165
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -576,15 +584,15 @@ msgstr ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
 
-#: lib/options.h:164 lib/options.h:170
+#: lib/options.h:169 lib/options.h:175
 msgid "The default column to sort by"
 msgstr "The default column to sort by"
 
-#: lib/options.h:167 lib/options.h:173
+#: lib/options.h:172 lib/options.h:178
 msgid "Sort ascending or descending"
 msgstr "Sort ascending or descending"
 
-#: lib/options.h:177 lib/options.h:195
+#: lib/options.h:182 lib/options.h:200
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -592,7 +600,7 @@ msgstr ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
 
-#: lib/options.h:180 lib/options.h:198
+#: lib/options.h:185 lib/options.h:203
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -600,7 +608,7 @@ msgstr ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 
-#: lib/options.h:183 lib/options.h:201
+#: lib/options.h:188 lib/options.h:206
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -608,7 +616,7 @@ msgstr ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 
-#: lib/options.h:186 lib/options.h:204
+#: lib/options.h:191 lib/options.h:209
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -616,7 +624,7 @@ msgstr ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 
-#: lib/options.h:189 lib/options.h:207
+#: lib/options.h:194 lib/options.h:212
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -624,7 +632,7 @@ msgstr ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 
-#: lib/options.h:192 lib/options.h:210
+#: lib/options.h:197 lib/options.h:215
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -632,47 +640,47 @@ msgstr ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 
-#: lib/options.h:213
+#: lib/options.h:218
 msgid "The color of the commands that are sent to the server"
 msgstr "The colour of the commands that are sent to the server"
 
-#: lib/options.h:216
+#: lib/options.h:221
 msgid "The color of the commands that are received from the server"
 msgstr "The colour of the commands that are received from the server"
 
-#: lib/options.h:219
+#: lib/options.h:224
 msgid "The color of the error messages"
 msgstr "The colour of the error messages"
 
-#: lib/options.h:222
+#: lib/options.h:227
 msgid "The color of the rest of the log messages"
 msgstr "The colour of the rest of the log messages"
 
-#: lib/options.h:228 lib/rfc959.c:40
+#: lib/options.h:233 lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:231 lib/options.h:233
+#: lib/options.h:236 lib/options.h:238
 msgid "FTPS"
 msgstr "FTPS"
 
-#: lib/options.h:236 lib/rfc2068.c:27
+#: lib/options.h:241 lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:239 lib/options.h:241
+#: lib/options.h:244 lib/options.h:246
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: lib/options.h:244
+#: lib/options.h:249
 msgid "Local"
 msgstr "Local"
 
-#: lib/options.h:246
+#: lib/options.h:251
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:248 src/gtk/bookmarks.c:879
+#: lib/options.h:253 src/gtk/bookmarks.c:879
 msgid "Bookmark"
 msgstr "Bookmark"
 
@@ -1135,8 +1143,8 @@ msgstr "(yes/no)?"
 msgid "Enter PASSCODE:"
 msgstr "Enter PASSCODE:"
 
-#: lib/sshv2.c:436 src/gtk/gtkui.c:118 src/gtk/transfer.c:549
-#: src/gtk/transfer.c:559
+#: lib/sshv2.c:436 src/gtk/gtkui.c:118 src/gtk/transfer.c:553
+#: src/gtk/transfer.c:563
 msgid "Enter Password"
 msgstr "Enter Password"
 
@@ -2282,8 +2290,8 @@ msgid "/Logging/Clear"
 msgstr "/Logging/Clear"
 
 #: src/gtk/gftp-gtk.c:317
-msgid "/Logging/View log..."
-msgstr "/Logging/View log..."
+msgid "/Logging/View log"
+msgstr "/Logging/View log"
 
 #: src/gtk/gftp-gtk.c:318
 msgid "/Logging/Save log..."
@@ -2314,8 +2322,8 @@ msgid "/Help/tearoff"
 msgstr "/Help/tearoff"
 
 #: src/gtk/gftp-gtk.c:325
-msgid "/Help/About..."
-msgstr "/Help/About..."
+msgid "/Help/About"
+msgstr "/Help/About"
 
 #: src/gtk/gftp-gtk.c:443
 msgid "Host: "
@@ -2377,7 +2385,7 @@ msgstr "Enter Username"
 msgid "Please enter your username for this site"
 msgstr "Please enter your username for this site"
 
-#: src/gtk/gtkui.c:119 src/gtk/transfer.c:550 src/gtk/transfer.c:560
+#: src/gtk/gtkui.c:119 src/gtk/transfer.c:554 src/gtk/transfer.c:564
 msgid "Please enter your password for this site"
 msgstr "Please enter your password for this site"
 
@@ -2419,12 +2427,12 @@ msgstr "Enter site-specific command"
 msgid "Chdir"
 msgstr "Chdir"
 
-#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:445 src/gtk/transfer.c:528
-#: src/gtk/transfer.c:1002
+#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:449 src/gtk/transfer.c:532
+#: src/gtk/transfer.c:1006
 msgid "Skipped"
 msgstr "Skipped"
 
-#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:507 src/gtk/transfer.c:532
+#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:511 src/gtk/transfer.c:536
 msgid "Waiting..."
 msgstr "Waiting..."
 
@@ -2668,7 +2676,7 @@ msgstr "Options"
 msgid "Receiving file names..."
 msgstr "Receiving file names..."
 
-#: src/gtk/transfer.c:63 src/gtk/transfer.c:676
+#: src/gtk/transfer.c:63 src/gtk/transfer.c:680
 msgid "Connecting..."
 msgstr "Connecting..."
 
@@ -2676,32 +2684,32 @@ msgstr "Connecting..."
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "Retrieve Files: Not connected to a remote site\n"
 
-#: src/gtk/transfer.c:350
+#: src/gtk/transfer.c:351
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "Error: Child %d returned %d\n"
 
-#: src/gtk/transfer.c:353
+#: src/gtk/transfer.c:357
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "Child %d returned successfully\n"
 
-#: src/gtk/transfer.c:357
+#: src/gtk/transfer.c:361
 #, c-format
 msgid "Error: Child %d did not terminate properly\n"
 msgstr "Error: Child %d did not terminate properly\n"
 
-#: src/gtk/transfer.c:367
+#: src/gtk/transfer.c:371
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "Error: Cannot get information about file %s: %s\n"
 
-#: src/gtk/transfer.c:372
+#: src/gtk/transfer.c:376
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "File %s was not changed\n"
 
-#: src/gtk/transfer.c:380
+#: src/gtk/transfer.c:384
 #, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2710,50 +2718,50 @@ msgstr ""
 "File %s has changed.\n"
 "Would you like to upload it?"
 
-#: src/gtk/transfer.c:383
+#: src/gtk/transfer.c:387
 msgid "Edit File"
 msgstr "Edit File"
 
-#: src/gtk/transfer.c:448
+#: src/gtk/transfer.c:452
 msgid "Finished"
 msgstr "Finished"
 
-#: src/gtk/transfer.c:488
+#: src/gtk/transfer.c:492
 #, c-format
 msgid "Stopping the transfer of %s\n"
 msgstr "Stopping the transfer of %s\n"
 
-#: src/gtk/transfer.c:721
+#: src/gtk/transfer.c:725
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 
-#: src/gtk/transfer.c:751
+#: src/gtk/transfer.c:755
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 
-#: src/gtk/transfer.c:760
+#: src/gtk/transfer.c:764
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Recv %s of %s, transfer stalled, unknown time remaining"
 
-#: src/gtk/transfer.c:795
+#: src/gtk/transfer.c:799
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Retrieving file names...%s bytes"
 
-#: src/gtk/transfer.c:874 src/gtk/transfer.c:896 src/gtk/transfer.c:930
-#: src/gtk/transfer.c:970 src/gtk/transfer.c:1023 src/gtk/transfer.c:1083
+#: src/gtk/transfer.c:878 src/gtk/transfer.c:900 src/gtk/transfer.c:934
+#: src/gtk/transfer.c:974 src/gtk/transfer.c:1027 src/gtk/transfer.c:1087
 msgid "There are no file transfers selected\n"
 msgstr "There are no file transfers selected\n"
 
-#: src/gtk/transfer.c:914
+#: src/gtk/transfer.c:918
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Stopping the transfer on host %s\n"
 
-#: src/gtk/transfer.c:955 src/gtk/transfer.c:1008
+#: src/gtk/transfer.c:959 src/gtk/transfer.c:1012
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Skipping file %s on host %s\n"
