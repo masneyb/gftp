@@ -747,11 +747,12 @@ int gftp_get_transfer_action 		( gftp_request * request,
 
 /* protocols.c */
 #define GFTP_FTP_NUM				0
-#define GFTP_HTTP_NUM				1
-#define GFTP_HTTPS_NUM				2
-#define GFTP_LOCAL_NUM				3
-#define GFTP_SSHV2_NUM				4
-#define GFTP_BOOKMARK_NUM			5
+#define GFTP_FTPS_NUM				1
+#define GFTP_HTTP_NUM				2
+#define GFTP_HTTPS_NUM				3
+#define GFTP_LOCAL_NUM				4
+#define GFTP_SSHV2_NUM				5
+#define GFTP_BOOKMARK_NUM			6
 
 #define GFTP_IS_CONNECTED(request)		((request) != NULL && \
                                                  ((request)->datafd > 0 || \
@@ -766,6 +767,10 @@ void rfc959_register_module		( void );
 int rfc959_get_next_file 		( gftp_request * request, 
 					  gftp_file *fle, 
 					  int fd );
+
+int ftps_init 				( gftp_request * request );
+
+void ftps_register_module		( void );
 
 int rfc2068_init 			( gftp_request * request );
 

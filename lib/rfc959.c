@@ -18,6 +18,8 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+#include "ftpcommon.h"
+
 static const char cvsid[] = "$Id$";
 
 static gftp_textcomboedt_data gftp_proxy_type[] = {
@@ -84,16 +86,6 @@ static gftp_config_vars config_vars[] =
 };
 
          
-typedef struct rfc959_params_tag
-{
-  gftp_getline_buffer * datafd_rbuf,
-                      * dataconn_rbuf;
-  int data_connection;
-  unsigned int is_ascii_transfer : 1,
-               sent_retr : 1;
-} rfc959_parms;
-
-
 static int
 rfc959_read_response (gftp_request * request, int disconnect_on_42x)
 {
@@ -145,7 +137,7 @@ rfc959_read_response (gftp_request * request, int disconnect_on_42x)
 }
 
 
-static int
+int
 rfc959_send_command (gftp_request * request, const char *command, 
                      int read_response)
 {
@@ -172,8 +164,8 @@ rfc959_send_command (gftp_request * request, const char *command,
                                  command);
     }
 
-  if ((ret = gftp_fd_write (request, command, strlen (command), 
-                         request->datafd)) < 0)
+  if ((ret = request->write_function (request, command, strlen (command), 
+                                      request->datafd)) < 0)
     return (ret);
 
   if (read_response)
@@ -472,6 +464,15 @@ rfc959_connect (gftp_request * request)
     {
       gftp_disconnect (request);
       return (ret);
+    }
+
+  if (parms->auth_tls_start != NULL)
+    {
+      if ((ret = parms->auth_tls_start (request)) < 0)
+        {
+          gftp_disconnect (request);
+          return (ret);
+        }
     }
 
   /* Login the proxy server if available */
@@ -1225,7 +1226,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_free (tempstr);
 
   tempstr = g_strconcat ("RETR ", fromfile, "\r\n", NULL);
-  if ((ret = gftp_fd_write (fromreq, tempstr, strlen (tempstr), 
+  if ((ret = gftp_fd_write (fromreq, tempstr, strlen (tempstr), /* FIXME */
                          fromreq->datafd)) < 0)
     {
       g_free (tempstr);
@@ -1234,7 +1235,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_free (tempstr);
 
   tempstr = g_strconcat ("STOR ", tofile, "\r\n", NULL);
-  if ((ret = gftp_fd_write (toreq, tempstr, strlen (tempstr), 
+  if ((ret = gftp_fd_write (toreq, tempstr, strlen (tempstr),  /* FIXME */
                             toreq->datafd)) < 0)
     {
       g_free (tempstr);
@@ -1436,6 +1437,8 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 int
 rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
+  ssize_t (*oldread_func) (gftp_request * request, void *ptr, size_t size,
+                           int fd);
   rfc959_parms * parms;
   char tempstr[1024];
   ssize_t len;
@@ -1458,8 +1461,13 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
   do
     {
-      if ((len = gftp_get_line (request, &parms->dataconn_rbuf,
-                                tempstr, sizeof (tempstr), fd)) <= 0)
+      oldread_func = request->read_function;
+      request->read_function = gftp_fd_read;
+      len = gftp_get_line (request, &parms->dataconn_rbuf, tempstr,
+                           sizeof (tempstr), fd);
+      request->read_function = oldread_func;
+
+      if (len <= 0)
 	{
           gftp_file_destroy (fle);
 	  return ((int) len);
@@ -1783,6 +1791,7 @@ rfc959_init (gftp_request * request)
   request->protocol_data = g_malloc0 (sizeof (rfc959_parms));
   parms = request->protocol_data;
   parms->data_connection = -1; 
+  parms->auth_tls_start = NULL;
 
   return (gftp_set_config_options (request));
 }

@@ -213,15 +213,27 @@ gftp_config_vars gftp_global_config_vars[] =
 supported_gftp_protocols gftp_protocols[] =
 {
   {N_("FTP"), rfc959_init, rfc959_register_module, "ftp", 1, 1},
+
+#ifdef USE_SSL
+  {N_("FTPS"), ftps_init, ftps_register_module, "ftps", 1, 1},
+#else
+  {N_("FTPS"), ftps_init, ftps_register_module, "ftps", 0, 1},
+#endif
+
   {N_("HTTP"), rfc2068_init, rfc2068_register_module, "http", 1, 1},
+
 #ifdef USE_SSL
   {N_("HTTPS"), https_init, https_register_module, "https", 1, 1},
 #else
   {N_("HTTPS"), https_init, https_register_module, "https", 0, 1},
 #endif
+
   {N_("Local"), local_init, local_register_module, "file", 1, 0},
+
   {N_("SSH2"), sshv2_init, sshv2_register_module, "ssh2", 1, 1},
+
   {N_("Bookmark"), bookmark_init, bookmark_register_module, "bookmark", 0, 0},
+
   {NULL, NULL, NULL, NULL, 0}
 };
 
