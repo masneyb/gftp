@@ -2,8 +2,8 @@ Source: gftp
 Section: net
 Priority: optional
 Maintainer: Aurelien Beaujean <aure@debian.org>
-Build-Depends: debhelper (>= 3), libglib1.2-dev, libgtk1.2-dev
-Standards-Version: 3.5.6.0
+Build-Depends: debhelper (>= 2), libreadline4-dev, libgtk2.0-dev (>= 2.0.9), libglib2.0-dev (>= 2.2.0)
+Standards-Version: 3.5.10
 
 Package: gftp
 Architecture: any
@@ -17,8 +17,9 @@ Description: X/GTK+ FTP client
 
 Package: gftp-gtk
 Architecture: any
-Depends: ${shlibs:Depends}, gftp-common (>= 2.0.13-1)
-Replaces: gftp (<< 2.0.13)
+Depends: ${shlibs:Depends}, gftp-common (>= ${Source-Version})
+Conflicts: gftp-common (<< 2.0.14-1)
+Replaces: gftp-common (<< 2.0.14-1)
 Description: X/GTK+ FTP client
  gFTP is a multithreaded FTP client. This version of it runs under X
  and was written using GLib/GTK+.
@@ -39,8 +40,8 @@ Description: X/GTK+ FTP client
 
 Package: gftp-text
 Architecture: any
-Depends: ${shlibs:Depends}, gftp-common (>= 2.0.13-1)
-Description: a colored FTP client using GLib
+Depends: ${shlibs:Depends}, gftp-common (>= ${Source-Version})
+Description: colored FTP client using GLib
  gFTP is a multithreaded FTP client. This version of it runs under console
  and was written using GLib.
  .
@@ -60,9 +61,7 @@ Description: a colored FTP client using GLib
 
 Package: gftp-common
 Architecture: any
-Depends: gftp-gtk | gftp-text
-Replaces: gftp (<< 2.0.13)
-Conflicts: gftp-gtk (<< 2.0.13-1), gftp-text (<< 2.0.13-1)
+Depends: gftp-gtk (= ${Source-Version}) | gftp-text (= ${Source-Version})
 Description: shared files for other gFTP packages
  gFTP is a multithreaded FTP client. This package contains the locale data
  used by both gftp-gtk and gftp-text, along with a common manual page.

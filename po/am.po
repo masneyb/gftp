@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
-"POT-Creation-Date: 2003-02-01 10:58+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-07-23 21:50-0400\n"
 "PO-Revision-Date: 2003-02-03 10:13+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
@@ -20,2091 +21,1908 @@ msgstr ""
 msgid "Invalid URL %s\n"
 msgstr "%s URL ተቀብሏል\n"
 
-#: lib/cache.c:38 lib/local.c:543
-#, c-format
-msgid "Error: Could not make directory %s: %s\n"
-msgstr ""
-
-#: lib/cache.c:51 lib/cache.c:152 lib/cache.c:241 lib/local.c:126
-#: lib/local.c:178 lib/misc.c:247 lib/misc.c:254
-#, c-format
-msgid "Error: Cannot open local file %s: %s\n"
-msgstr ""
-
-#: lib/cache.c:66
-#, c-format
-msgid "Error: Cannot create temporary file: %s\n"
-msgstr ""
-
-#: lib/cache.c:88 lib/cache.c:142 lib/local.c:98 lib/local.c:223
-#: lib/misc.c:278 lib/misc.c:284 lib/rfc2068.c:250 lib/rfc2068.c:372
-#: lib/sshv2.c:711
-#, c-format
-msgid "Error closing file descriptor: %s\n"
-msgstr ""
-
-#: lib/cache.c:168 lib/local.c:137 lib/local.c:146 lib/local.c:198
-#, c-format
-msgid "Error: Cannot seek on file %s: %s\n"
-msgstr ""
-
-#: lib/cache.c:259
+#: lib/cache.c:50 lib/cache.c:64 lib/cache.c:77
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr ""
 
-#: lib/config_file.c:33
-msgid "General"
-msgstr "አጠቃላይ"
-
-#: lib/config_file.c:35
-msgid "Email address:"
-msgstr "ኢሜያል አድራሻ"
-
-#: lib/config_file.c:36
-msgid "Enter your email address here"
-msgstr ""
-
-#: lib/config_file.c:37
-msgid "View program:"
-msgstr ""
-
-#: lib/config_file.c:38
-msgid ""
-"The default program used to view files. If this is blank, the internal file "
-"viewer will be used"
-msgstr ""
-
-#: lib/config_file.c:39
-msgid "Edit program:"
-msgstr ""
-
-#: lib/config_file.c:40
-msgid "The default program used to edit files."
-msgstr ""
-
-#: lib/config_file.c:41
-msgid "Startup Directory:"
-msgstr ""
-
-#: lib/config_file.c:42
-msgid "The default directory gFTP will go to on startup"
-msgstr ""
-
-#: lib/config_file.c:43
-msgid "Max Log Window Size:"
-msgstr ""
-
-#: lib/config_file.c:44
-msgid "The maximum size of the log window in bytes for the GTK+ port"
-msgstr ""
-
-#: lib/config_file.c:46
-msgid "Append file transfers"
-msgstr ""
-
-#: lib/config_file.c:48
-msgid "Append new file transfers onto existing ones"
-msgstr ""
-
-#: lib/config_file.c:49
-msgid "Do one transfer at a time"
-msgstr ""
-
-#: lib/config_file.c:50
-msgid "Do only one transfer at a time?"
-msgstr ""
-
-#: lib/config_file.c:51
-msgid "Overwrite by Default"
-msgstr ""
-
-#: lib/config_file.c:52
-msgid "Overwrite files by default or set to resume file transfers"
-msgstr ""
-
-#: lib/config_file.c:53
-msgid "Refresh after each file transfer"
-msgstr ""
-
-#: lib/config_file.c:54
-msgid "Refresh the listbox after each file is transfered"
-msgstr ""
-
-#: lib/config_file.c:55
-msgid "Sort directories first"
-msgstr ""
-
-#: lib/config_file.c:56
-msgid "Put the directories first then the files"
-msgstr ""
-
-#: lib/config_file.c:57
-msgid "Start file transfers"
-msgstr ""
-
-#: lib/config_file.c:58
-msgid "Automatically start the file transfers when they get queued?"
-msgstr ""
-
-#: lib/config_file.c:59
-msgid "Show hidden files"
-msgstr ""
-
-#: lib/config_file.c:60
-msgid "Show hidden files in the listboxes"
-msgstr ""
-
-#: lib/config_file.c:62 src/gtk/options_dialog.c:558
-#: src/gtk/options_dialog.c:651
-msgid "Network"
-msgstr "መረብ"
-
-#: lib/config_file.c:64
-msgid "Network timeout:"
-msgstr ""
-
-#: lib/config_file.c:65
-msgid ""
-"The timeout waiting for network input/output. This is NOT an idle timeout."
-msgstr ""
-
-#: lib/config_file.c:66
-msgid "Connect retries:"
-msgstr ""
-
-#: lib/config_file.c:67
-msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
-msgstr ""
-
-#: lib/config_file.c:68
-msgid "Retry sleep time:"
-msgstr ""
-
-#: lib/config_file.c:69
-msgid "The number of seconds to wait between retries"
-msgstr ""
-
-#: lib/config_file.c:70
-msgid "Max KB/S:"
-msgstr ""
-
-#: lib/config_file.c:71
-msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
-msgstr ""
-
-#: lib/config_file.c:72 lib/config_file.c:73
-msgid "Default Protocol"
-msgstr ""
-
-#: lib/config_file.c:74
-msgid "This specifies the default protocol to use"
-msgstr ""
-
-#: lib/config_file.c:76
-msgid "FTP"
-msgstr "FTP"
-
-#: lib/config_file.c:78 lib/config_file.c:112
-msgid "Proxy hostname:"
-msgstr ""
-
-#: lib/config_file.c:79 lib/config_file.c:113
-msgid "Firewall hostname"
-msgstr ""
-
-#: lib/config_file.c:80 lib/config_file.c:114
-msgid "Proxy port:"
-msgstr ""
-
-#: lib/config_file.c:81 lib/config_file.c:115
-msgid "Port to connect to on the firewall"
-msgstr ""
-
-#: lib/config_file.c:82 lib/config_file.c:116
-msgid "Proxy username:"
-msgstr ""
-
-#: lib/config_file.c:83 lib/config_file.c:117
-msgid "Your firewall username"
-msgstr ""
-
-#: lib/config_file.c:84 lib/config_file.c:118
-msgid "Proxy password:"
-msgstr ""
-
-#: lib/config_file.c:85 lib/config_file.c:119
-msgid "Your firewall password"
-msgstr ""
-
-#: lib/config_file.c:86
-msgid "Proxy account:"
-msgstr ""
-
-#: lib/config_file.c:87
-msgid "Your firewall account (optional)"
-msgstr ""
-
-#: lib/config_file.c:90
-msgid "Passive file transfers"
-msgstr ""
-
-#: lib/config_file.c:91
-msgid "Send PASV command or PORT command for data transfers"
-msgstr ""
-
-#: lib/config_file.c:92
-msgid "Resolve Remote Symlinks (LIST -L)"
-msgstr ""
-
-#: lib/config_file.c:93
-msgid ""
-"If you disable this feature, then gFTP will only send LIST to the remote "
-"server instead of LIST -L"
-msgstr ""
-
-#: lib/config_file.c:96
-msgid "Proxy server type"
-msgstr ""
-
-#: lib/config_file.c:97
-msgid "Proxy config"
-msgstr ""
-
-#: lib/config_file.c:98
-msgid "This specifies how your proxy server expects us to log in"
-msgstr ""
-
-#: lib/config_file.c:99
+#: lib/cache.c:136 lib/local.c:532
 #, c-format
-msgid "%pu = proxy user"
+msgid "Error: Could not make directory %s: %s\n"
 msgstr ""
 
-#: lib/config_file.c:100
+#: lib/cache.c:160
 #, c-format
-msgid "%hu = host user"
+msgid "Error: Cannot create temporary file: %s\n"
 msgstr ""
 
-#: lib/config_file.c:101
+#: lib/cache.c:182 lib/cache.c:231 lib/local.c:98 lib/local.c:213
+#: lib/misc.c:289 lib/misc.c:295 lib/rfc2068.c:263 lib/sshv2.c:993
 #, c-format
-msgid "%pp = proxy pass"
+msgid "Error closing file descriptor: %s\n"
 msgstr ""
 
-#: lib/config_file.c:102
+#: lib/cache.c:249 lib/local.c:132 lib/local.c:141 lib/local.c:188
 #, c-format
-msgid "%hp = host pass"
+msgid "Error: Cannot seek on file %s: %s\n"
 msgstr ""
 
-#: lib/config_file.c:103
-#, c-format
-msgid "%ph = proxy host"
-msgstr ""
-
-#: lib/config_file.c:104
-msgid "%hh = host"
-msgstr ""
-
-#: lib/config_file.c:105
-#, c-format
-msgid "%po = proxy port"
-msgstr ""
-
-#: lib/config_file.c:106
-#, c-format
-msgid "%ho = host port"
-msgstr ""
-
-#: lib/config_file.c:107
-#, c-format
-msgid "%pa = proxy account"
-msgstr ""
-
-#: lib/config_file.c:108
-#, c-format
-msgid "%ha = host account"
-msgstr ""
-
-#: lib/config_file.c:110
-msgid "HTTP"
-msgstr "HTTP"
-
-#: lib/config_file.c:121
-msgid "Use HTTP/1.1"
-msgstr "HTTP/1.1ን ተጠቀም"
-
-#: lib/config_file.c:122
-msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
-msgstr ""
-
-#: lib/config_file.c:124
-msgid "SSH"
-msgstr "SSH"
-
-#: lib/config_file.c:126
-msgid "SSH Prog Name:"
-msgstr ""
-
-#: lib/config_file.c:127
-msgid "The path to the SSH executable"
-msgstr ""
-
-#: lib/config_file.c:128
-msgid "SSH Extra Params:"
-msgstr ""
-
-#: lib/config_file.c:129
-msgid "Extra parameters to pass to the SSH program"
-msgstr ""
-
-#: lib/config_file.c:130
-msgid "SSH sftpserv path:"
-msgstr ""
-
-#: lib/config_file.c:131
-msgid "Default remote SSH sftpserv path"
-msgstr ""
-
-#: lib/config_file.c:132
-msgid "SSH2 sftp-server path:"
-msgstr ""
-
-#: lib/config_file.c:133
-msgid "Default remote SSH2 sftp-server path"
-msgstr ""
-
-#: lib/config_file.c:135
-msgid "Need SSH User/Pass"
-msgstr ""
-
-#: lib/config_file.c:136
-msgid "Require a username/password for SSH connections"
-msgstr ""
-
-#: lib/config_file.c:137
-msgid "Use ssh-askpass util"
-msgstr ""
-
-#: lib/config_file.c:138
-msgid "Use the ssh-askpass utility to grab the users password"
-msgstr ""
-
-#: lib/config_file.c:139
-msgid "Use SSH2 SFTP subsys"
-msgstr ""
-
-#: lib/config_file.c:140
-msgid ""
-"Call ssh with the -s sftp flag. This is helpful because you won't have to "
-"know the remote path to the remote sftp-server"
-msgstr ""
-
-#: lib/config_file.c:143
-msgid ""
-"This defines what will happen when you double click a file in the file "
-"listboxes. 0=View file 1=Edit file 2=Transfer file"
-msgstr ""
-
-#: lib/config_file.c:145
-msgid "The default width of the local files listbox"
-msgstr ""
-
-#: lib/config_file.c:147
-msgid "The default width of the remote files listbox"
-msgstr ""
-
-#: lib/config_file.c:149
-msgid "The default height of the local/remote files listboxes"
-msgstr ""
-
-#: lib/config_file.c:151
-msgid "The default height of the transfer listbox"
-msgstr ""
-
-#: lib/config_file.c:153
-msgid "The default height of the logging window"
-msgstr ""
-
-#: lib/config_file.c:155
-msgid ""
-"The width of the filename column in the transfer window. Set this to 0 to "
-"have this column automagically resize."
-msgstr ""
-
-#: lib/config_file.c:157 lib/config_file.c:161
-msgid "The default column to sort by"
-msgstr ""
-
-#: lib/config_file.c:159 lib/config_file.c:163
-msgid "Sort ascending or descending"
-msgstr ""
-
-#: lib/config_file.c:165 lib/config_file.c:177
-msgid ""
-"The width of the filename column in the file listboxes. Set this to 0 to "
-"have this column automagically resize. Set this to -1 to disable this column"
-msgstr ""
-
-#: lib/config_file.c:167 lib/config_file.c:179
-msgid ""
-"The width of the size column in the file listboxes. Set this to 0 to have "
-"this column automagically resize. Set this to -1 to disable this column"
-msgstr ""
-
-#: lib/config_file.c:169 lib/config_file.c:181
-msgid ""
-"The width of the user column in the file listboxes. Set this to 0 to have "
-"this column automagically resize. Set this to -1 to disable this column"
-msgstr ""
-
-#: lib/config_file.c:171 lib/config_file.c:183
-msgid ""
-"The width of the group column in the file listboxes. Set this to 0 to have "
-"this column automagically resize. Set this to -1 to disable this column"
-msgstr ""
-
-#: lib/config_file.c:173 lib/config_file.c:185
-msgid ""
-"The width of the date column in the file listboxes. Set this to 0 to have "
-"this column automagically resize. Set this to -1 to disable this column"
-msgstr ""
-
-#: lib/config_file.c:175 lib/config_file.c:187
-msgid ""
-"The width of the attribs column in the file listboxes. Set this to 0 to have "
-"this column automagically resize. Set this to -1 to disable this column"
-msgstr ""
-
-#: lib/config_file.c:189
-msgid "The color of the commands that are sent to the server"
-msgstr ""
-
-#: lib/config_file.c:191
-msgid "The color of the commands that are received from the server"
-msgstr ""
-
-#: lib/config_file.c:193
-msgid "The color of the error messages"
-msgstr ""
-
-#: lib/config_file.c:195
-msgid "The color of the rest of the log messages"
-msgstr ""
-
-#: lib/config_file.c:238 lib/config_file.c:764
-#, c-format
-msgid "gFTP Error: Bad config file name %s\n"
-msgstr ""
-
-#: lib/config_file.c:249
-#, c-format
-msgid "gFTP Error: Could not make directory %s: %s\n"
-msgstr ""
-
-#: lib/config_file.c:259
-#, c-format
-msgid "gFTP Error: Cannot find master config file %s\n"
-msgstr ""
-
-#: lib/config_file.c:261
-msgid "Did you do a make install?\n"
-msgstr ""
-
-#: lib/config_file.c:270 lib/config_file.c:770
-#, c-format
-msgid "gFTP Error: Cannot open config file %s: %s\n"
-msgstr ""
-
-#: lib/config_file.c:428
-#, c-format
-msgid "gFTP Warning: Skipping line %d in config file: %s\n"
-msgstr ""
-
-#: lib/config_file.c:447
-#, c-format
-msgid "gFTP Error: Default protocol %s is not a valid protocol\n"
-msgstr ""
-
-#: lib/config_file.c:453
-#, c-format
-msgid "gFTP Error: Bad log file name %s\n"
-msgstr ""
-
-#: lib/config_file.c:459
-#, c-format
-msgid "gFTP Warning: Cannot open %s for writing: %s\n"
-msgstr ""
-
-#: lib/config_file.c:536 lib/config_file.c:886
+#: lib/config_file.c:120 lib/config_file.c:672
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr ""
 
-#: lib/config_file.c:545
+#: lib/config_file.c:129
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr ""
 
-#: lib/config_file.c:556 lib/config_file.c:892
+#: lib/config_file.c:140 lib/config_file.c:678
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr ""
 
-#: lib/config_file.c:650
+#: lib/config_file.c:229 lib/config_file.c:251
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr ""
 
-#: lib/config_file.c:757
-msgid ""
-"Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
-"org>. Warning: Any comments that you add to this file WILL be overwritten. "
-"If a entry has a (*) in it's comment, you can't change it inside gFTP"
+#: lib/config_file.c:281
+#, c-format
+msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr ""
 
-#: lib/config_file.c:758
+#: lib/config_file.c:442
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
 
-#: lib/config_file.c:759
+#: lib/config_file.c:445
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
 msgstr ""
 
-#: lib/config_file.c:760
-msgid "This section contains the data that is in the history"
+#: lib/config_file.c:523 lib/config_file.c:750
+#, c-format
+msgid "gFTP Error: Bad config file name %s\n"
 msgstr ""
 
-#: lib/config_file.c:882
+#: lib/config_file.c:534
+#, c-format
+msgid "gFTP Error: Could not make directory %s: %s\n"
+msgstr ""
+
+#: lib/config_file.c:544
+#, c-format
+msgid "gFTP Error: Cannot find master config file %s\n"
+msgstr ""
+
+#: lib/config_file.c:546
+msgid "Did you do a make install?\n"
+msgstr ""
+
+#: lib/config_file.c:555 lib/config_file.c:756
+#, c-format
+msgid "gFTP Error: Cannot open config file %s: %s\n"
+msgstr ""
+
+#: lib/config_file.c:594
+#, c-format
+msgid "Terminating due to parse errors at line %d in the config file\n"
+msgstr ""
+
+#: lib/config_file.c:600
+#, c-format
+msgid "gFTP Warning: Skipping line %d in config file: %s\n"
+msgstr ""
+
+#: lib/config_file.c:607
+#, c-format
+msgid "gFTP Error: Bad log file name %s\n"
+msgstr ""
+
+#: lib/config_file.c:613
+#, c-format
+msgid "gFTP Warning: Cannot open %s for writing: %s\n"
+msgstr ""
+
+#: lib/config_file.c:668
 msgid ""
-"Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
+"Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
 
-#: lib/config_file.c:998
-#, c-format
-msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
+#: lib/config_file.c:763
+msgid ""
+"Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten. "
+"If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
 
-#: lib/local.c:67 lib/local.c:473
+#: lib/config_file.c:1122 lib/rfc2068.c:557 lib/rfc2068.c:558
+#, fuzzy
+msgid "<unknown>"
+msgstr "ያልታወቀ"
+
+#: lib/config_file.c:1198 lib/config_file.c:1259 lib/config_file.c:1300
+#: lib/config_file.c:1332
+#, c-format
+msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
+msgstr ""
+
+#: lib/https.c:89
+msgid ""
+"HTTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
+msgstr ""
+
+#: lib/local.c:67 lib/local.c:462
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
 msgstr ""
 
-#: lib/local.c:81 lib/local.c:459
+#: lib/local.c:81 lib/local.c:448
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr ""
 
-#: lib/local.c:189
+#: lib/local.c:179
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr ""
 
-#: lib/local.c:415
+#: lib/local.c:405
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr ""
 
-#: lib/local.c:452
+#: lib/local.c:442
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr ""
 
-#: lib/local.c:490 lib/local.c:513 src/gtk/transfer.c:1150
-#: src/gtk/view_dialog.c:291
+#: lib/local.c:479 lib/local.c:502 src/gtk/transfer.c:907
+#: src/gtk/view_dialog.c:301
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr ""
 
-#: lib/local.c:496
+#: lib/local.c:485
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr ""
 
-#: lib/local.c:519 src/gtk/transfer.c:1154 src/gtk/view_dialog.c:295
+#: lib/local.c:508 src/gtk/transfer.c:911 src/gtk/view_dialog.c:305
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr ""
 
-#: lib/local.c:536
+#: lib/local.c:525
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr ""
 
-#: lib/local.c:562
+#: lib/local.c:551
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr ""
 
-#: lib/local.c:569
+#: lib/local.c:558
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr ""
 
-#: lib/local.c:592
+#: lib/local.c:581
 #, c-format
 msgid "Successfully changed mode of %s to %d\n"
 msgstr ""
 
-#: lib/local.c:599
+#: lib/local.c:588
 #, c-format
 msgid "Error: Could not change mode of %s to %d: %s\n"
 msgstr ""
 
-#: lib/local.c:685
+#: lib/local.c:680
 msgid "local filesystem"
 msgstr ""
 
-#: lib/misc.c:264 lib/protocols.c:2187
+#: lib/misc.c:258 lib/misc.c:265 lib/protocols.c:2488
+#, c-format
+msgid "Error: Cannot open local file %s: %s\n"
+msgstr ""
+
+#: lib/misc.c:275 lib/protocols.c:2206 lib/sslcommon.c:467
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr ""
 
-#: lib/misc.c:272 lib/protocols.c:2117
+#: lib/misc.c:283 lib/protocols.c:2136 lib/sslcommon.c:421
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr ""
 
-#: lib/misc.c:360
-msgid "usage: gftp [[protocol://][user:[pass]@]site[:port][/directory]]\n"
+#: lib/misc.c:371
+msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
 msgstr ""
 
-#: lib/misc.c:389
+#: lib/options.h:24 lib/rfc959.c:24
+msgid "none"
+msgstr "ምንም"
+
+#: lib/options.h:24
+#, fuzzy
+msgid "file"
+msgstr "/ፋይል (_F)"
+
+#: lib/options.h:24
+#, fuzzy
+msgid "size"
+msgstr "መጠን"
+
+#: lib/options.h:25
+#, fuzzy
+msgid "user"
+msgstr "ተጠቃሚ"
+
+#: lib/options.h:25
+#, fuzzy
+msgid "group"
+msgstr "መድረክ"
+
+#: lib/options.h:26
+msgid "datetime"
+msgstr ""
+
+#: lib/options.h:26
+msgid "attribs"
+msgstr ""
+
+#: lib/options.h:28
+msgid "descending"
+msgstr ""
+
+#: lib/options.h:28
+msgid "ascending"
+msgstr ""
+
+#: lib/options.h:34
+msgid "General"
+msgstr "አጠቃላይ"
+
+#: lib/options.h:37
+msgid "View program:"
+msgstr ""
+
+#: lib/options.h:38
+msgid ""
+"The default program used to view files. If this is blank, the internal file "
+"viewer will be used"
+msgstr ""
+
+#: lib/options.h:40
+msgid "Edit program:"
+msgstr ""
+
+#: lib/options.h:41
+msgid "The default program used to edit files."
+msgstr ""
+
+#: lib/options.h:42
+msgid "Startup Directory:"
+msgstr ""
+
+#: lib/options.h:44
+msgid "The default directory gFTP will go to on startup"
+msgstr ""
+
+#: lib/options.h:45
+msgid "Max Log Window Size:"
+msgstr ""
+
+#: lib/options.h:47
+msgid "The maximum size of the log window in bytes for the GTK+ port"
+msgstr ""
+
+#: lib/options.h:49
+msgid "Remote Character Sets:"
+msgstr ""
+
+#: lib/options.h:51
+msgid ""
+"This is a comma separated list of charsets to try to convert the remote "
+"messages to the current locale"
+msgstr ""
+
+#: lib/options.h:53
+msgid "Cache TTL:"
+msgstr ""
+
+#: lib/options.h:56
+msgid "The number of seconds to keep cache entries before they expire."
+msgstr ""
+
+#: lib/options.h:59
+msgid "Append file transfers"
+msgstr ""
+
+#: lib/options.h:61
+msgid "Append new file transfers onto existing ones"
+msgstr ""
+
+#: lib/options.h:62
+msgid "Do one transfer at a time"
+msgstr ""
+
+#: lib/options.h:64
+msgid "Do only one transfer at a time?"
+msgstr ""
+
+#: lib/options.h:65
+msgid "Overwrite by Default"
+msgstr ""
+
+#: lib/options.h:68
+msgid "Overwrite files by default or set to resume file transfers"
+msgstr ""
+
+#: lib/options.h:70
+msgid "Preserve file permissions"
+msgstr ""
+
+#: lib/options.h:73
+msgid "Preserve file permissions of transfered files"
+msgstr ""
+
+#: lib/options.h:75
+msgid "Refresh after each file transfer"
+msgstr ""
+
+#: lib/options.h:78
+msgid "Refresh the listbox after each file is transfered"
+msgstr ""
+
+#: lib/options.h:80
+msgid "Sort directories first"
+msgstr ""
+
+#: lib/options.h:83
+msgid "Put the directories first then the files"
+msgstr ""
+
+#: lib/options.h:84
+msgid "Show hidden files"
+msgstr ""
+
+#: lib/options.h:87
+msgid "Show hidden files in the listboxes"
+msgstr ""
+
+#: lib/options.h:89 src/gtk/options_dialog.c:1041
+#: src/gtk/options_dialog.c:1134
+msgid "Network"
+msgstr "መረብ"
+
+#: lib/options.h:91
+msgid "Network timeout:"
+msgstr ""
+
+#: lib/options.h:94
+msgid ""
+"The timeout waiting for network input/output. This is NOT an idle timeout."
+msgstr ""
+
+#: lib/options.h:96
+msgid "Connect retries:"
+msgstr ""
+
+#: lib/options.h:99
+msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
+msgstr ""
+
+#: lib/options.h:101
+msgid "Retry sleep time:"
+msgstr ""
+
+#: lib/options.h:104
+msgid "The number of seconds to wait between retries"
+msgstr ""
+
+#: lib/options.h:105
+msgid "Max KB/S:"
+msgstr ""
+
+#: lib/options.h:108
+msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
+msgstr ""
+
+#: lib/options.h:111
+msgid "Default Protocol:"
+msgstr ""
+
+#: lib/options.h:113
+msgid "This specifies the default protocol to use"
+msgstr ""
+
+#: lib/options.h:117
+msgid ""
+"This defines what will happen when you double click a file in the file "
+"listboxes. 0=View file 1=Edit file 2=Transfer file"
+msgstr ""
+
+#: lib/options.h:120
+msgid "The default width of the local files listbox"
+msgstr ""
+
+#: lib/options.h:123
+msgid "The default width of the remote files listbox"
+msgstr ""
+
+#: lib/options.h:126
+msgid "The default height of the local/remote files listboxes"
+msgstr ""
+
+#: lib/options.h:129
+msgid "The default height of the transfer listbox"
+msgstr ""
+
+#: lib/options.h:132
+msgid "The default height of the logging window"
+msgstr ""
+
+#: lib/options.h:135
+msgid ""
+"The width of the filename column in the transfer window. Set this to 0 to "
+"have this column automagically resize."
+msgstr ""
+
+#: lib/options.h:139 lib/options.h:145
+msgid "The default column to sort by"
+msgstr ""
+
+#: lib/options.h:142 lib/options.h:148
+msgid "Sort ascending or descending"
+msgstr ""
+
+#: lib/options.h:152 lib/options.h:170
+msgid ""
+"The width of the filename column in the file listboxes. Set this to 0 to "
+"have this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+
+#: lib/options.h:155 lib/options.h:173
+msgid ""
+"The width of the size column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+
+#: lib/options.h:158 lib/options.h:176
+msgid ""
+"The width of the user column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+
+#: lib/options.h:161 lib/options.h:179
+msgid ""
+"The width of the group column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+
+#: lib/options.h:164 lib/options.h:182
+msgid ""
+"The width of the date column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+
+#: lib/options.h:167 lib/options.h:185
+msgid ""
+"The width of the attribs column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+
+#: lib/options.h:188
+msgid "The color of the commands that are sent to the server"
+msgstr ""
+
+#: lib/options.h:191
+msgid "The color of the commands that are received from the server"
+msgstr ""
+
+#: lib/options.h:194
+msgid "The color of the error messages"
+msgstr ""
+
+#: lib/options.h:197
+msgid "The color of the rest of the log messages"
+msgstr ""
+
+#: lib/options.h:203 lib/rfc959.c:38
+msgid "FTP"
+msgstr "FTP"
+
+#: lib/options.h:204 lib/rfc2068.c:27
+msgid "HTTP"
+msgstr "HTTP"
+
+#: lib/options.h:206 lib/options.h:208
+#, fuzzy
+msgid "HTTPS"
+msgstr "HTTP"
+
+#: lib/options.h:210
+#, fuzzy
+msgid "Local"
+msgstr "/ቅርብ (_L)"
+
+#: lib/options.h:211
+#, fuzzy
+msgid "SSH2"
+msgstr "SSH"
+
+#: lib/options.h:212 src/gtk/bookmarks.c:854
+#, fuzzy
+msgid "Bookmark"
+msgstr "መለያ ምልክቶች"
+
+#: lib/protocols.c:168 lib/protocols.c:192
 #, c-format
-msgid "gFTP Error: Cannot find file %s in %s or %s\n"
+msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr ""
 
-#: lib/misc.c:803
+#: lib/protocols.c:321
+#, c-format
+msgid "Loading directory listing %s from cache\n"
+msgstr ""
+
+#: lib/protocols.c:466
+#, c-format
+msgid "Error: Cannot write to cache: %s\n"
+msgstr ""
+
+#: lib/protocols.c:497
+#, c-format
+msgid "Error: Could not find bookmark %s\n"
+msgstr ""
+
+#: lib/protocols.c:504
+#, c-format
+msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
+msgstr ""
+
+#: lib/protocols.c:602
+#, c-format
+msgid "The protocol '%s' is currently not supported.\n"
+msgstr ""
+
+#: lib/protocols.c:919 lib/protocols.c:934 lib/protocols.c:1737
+#: lib/protocols.c:1846
+#, c-format
+msgid "Looking up %s\n"
+msgstr ""
+
+#: lib/protocols.c:925 lib/protocols.c:940 lib/protocols.c:1742
+#: lib/protocols.c:1851
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr ""
+
+#: lib/protocols.c:1184 lib/protocols.c:1185 lib/protocols.c:1244
+#: lib/protocols.c:1251 lib/protocols.c:1330 lib/protocols.c:1331
+#: lib/protocols.c:1365
+msgid "unknown"
+msgstr "ያልታወቀ"
+
+#: lib/protocols.c:1760 lib/protocols.c:1803 lib/rfc959.c:589 lib/rfc959.c:736
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr ""
+
+#: lib/protocols.c:1766 lib/protocols.c:1865
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr ""
+
+#: lib/protocols.c:1771 lib/protocols.c:1872
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr ""
+
+#: lib/protocols.c:1827 lib/sshv2.c:891
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr ""
+
+#: lib/protocols.c:1889 lib/protocols.c:2497 lib/rfc959.c:598 lib/rfc959.c:745
+#, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr ""
+
+#: lib/protocols.c:1896
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr ""
+
+#: lib/protocols.c:2116 lib/protocols.c:2186
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr ""
+
+#: lib/protocols.c:2254
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr ""
+
+#: lib/protocols.c:2268
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr ""
+
+#: lib/protocols.c:2394
+#, c-format
+msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
+msgstr ""
+
+#: lib/protocols.c:2402
+#, c-format
+msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
+msgstr ""
+
+#: lib/pty.c:271
+#, c-format
+msgid "Cannot create a socket pair: %s\n"
+msgstr ""
+
+#: lib/pty.c:290 lib/pty.c:347
+#, c-format
+msgid "Error: Cannot execute ssh: %s\n"
+msgstr ""
+
+#: lib/pty.c:303 lib/pty.c:358
+#, c-format
+msgid "Cannot fork another process: %s\n"
+msgstr ""
+
+#: lib/pty.c:321
+#, c-format
+msgid "Cannot open master pty %s: %s\n"
+msgstr ""
+
+#: lib/rfc2068.c:30 lib/rfc959.c:45
+msgid "Proxy hostname:"
+msgstr ""
+
+#: lib/rfc2068.c:32 lib/rfc959.c:47
+msgid "Firewall hostname"
+msgstr ""
+
+#: lib/rfc2068.c:33 lib/rfc959.c:48
+msgid "Proxy port:"
+msgstr ""
+
+#: lib/rfc2068.c:35 lib/rfc959.c:50
+msgid "Port to connect to on the firewall"
+msgstr ""
+
+#: lib/rfc2068.c:36 lib/rfc959.c:51
+msgid "Proxy username:"
+msgstr ""
+
+#: lib/rfc2068.c:38 lib/rfc959.c:53
+msgid "Your firewall username"
+msgstr ""
+
+#: lib/rfc2068.c:39 lib/rfc959.c:54
+msgid "Proxy password:"
+msgstr ""
+
+#: lib/rfc2068.c:41 lib/rfc959.c:56
+msgid "Your firewall password"
+msgstr ""
+
+#: lib/rfc2068.c:43
+msgid "Use HTTP/1.1"
+msgstr "HTTP/1.1ን ተጠቀም"
+
+#: lib/rfc2068.c:46
+msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
+msgstr ""
+
+#: lib/rfc2068.c:153 lib/rfc2068.c:835
+#, c-format
+msgid ""
+"Received wrong response from server, disconnecting\n"
+"Invalid chunk size '%s' returned by the remote server\n"
+msgstr ""
+
+#: lib/rfc2068.c:258 lib/rfc959.c:559 lib/sshv2.c:988
+#, c-format
+msgid "Disconnecting from site %s\n"
+msgstr ""
+
+#: lib/rfc2068.c:309
+#, c-format
+msgid "Starting the file transfer at offset %lld\n"
+msgstr ""
+
+#: lib/rfc2068.c:317
+#, c-format
+msgid "Starting the file transfer at offset %ld\n"
+msgstr ""
+
+#: lib/rfc2068.c:339
+#, c-format
+msgid "Cannot retrieve file %s\n"
+msgstr ""
+
+#: lib/rfc2068.c:429 lib/sshv2.c:1073
+msgid "Retrieving directory listing...\n"
+msgstr ""
+
+#: lib/rfc2068.c:816
+msgid ""
+"Received wrong response from server, disconnecting\n"
+"Expecting a carriage return and line feed before the chunk size in the "
+"server response\n"
+msgstr ""
+
+#: lib/rfc2068.c:824
+msgid ""
+"Received wrong response from server, disconnecting\n"
+"Expecting a carriage return and line feed after the chunk size in the server "
+"response\n"
+msgstr ""
+
+#: lib/rfc959.c:25
+msgid "SITE command"
+msgstr ""
+
+#: lib/rfc959.c:26
+msgid "user@host"
+msgstr "user@host"
+
+#: lib/rfc959.c:27
+msgid "user@host:port"
+msgstr "user@host:port"
+
+#: lib/rfc959.c:28
+msgid "AUTHENTICATE"
+msgstr ""
+
+#: lib/rfc959.c:29
+msgid "user@host port"
+msgstr ""
+
+#: lib/rfc959.c:30
+msgid "user@host NOAUTH"
+msgstr ""
+
+#: lib/rfc959.c:31
+msgid "HTTP Proxy"
+msgstr ""
+
+#: lib/rfc959.c:32
+msgid "Custom"
+msgstr "የተለየ"
+
+#: lib/rfc959.c:41
+msgid "Email address:"
+msgstr "ኢሜያል አድራሻ"
+
+#: lib/rfc959.c:43
+msgid ""
+"This is the password that will be used whenever you log into a remote FTP "
+"server as anonymous"
+msgstr ""
+
+#: lib/rfc959.c:57
+msgid "Proxy account:"
+msgstr ""
+
+#: lib/rfc959.c:59
+msgid "Your firewall account (optional)"
+msgstr ""
+
+#: lib/rfc959.c:61
+msgid "Proxy server type:"
+msgstr ""
+
+#: lib/rfc959.c:64
+#, no-c-format
+msgid ""
+"This specifies how your proxy server expects us to log in. You can specify a "
+"2 character replacement string prefixed by a % that will be replaced with "
+"the proper data. The first character can be either p for proxy or h for the "
+"host of the FTP server. The second character can be u (user), p (pass), h "
+"(host), o (port) or a (account). For example, to specify the proxy user, you "
+"can you type in %pu"
+msgstr ""
+
+#: lib/rfc959.c:67
+msgid "Passive file transfers"
+msgstr ""
+
+#: lib/rfc959.c:70
+msgid ""
+"If this is enabled, then the remote FTP server will open up a port for the "
+"data connection. If you are behind a firewall, you will need to enable this. "
+"Generally, it is a good idea to keep this enabled unless you are connecting "
+"to an older FTP server that doesn't support this. If this is disabled, then "
+"gFTP will open up a port on the client side and the remote server will "
+"attempt to connect to it."
+msgstr ""
+
+#: lib/rfc959.c:72
+msgid "Resolve Remote Symlinks (LIST -L)"
+msgstr ""
+
+#: lib/rfc959.c:75
+msgid ""
+"The remote FTP server will attempt to resolve symlinks in the directory "
+"listings. Generally, this is a good idea to leave enabled. The only time you "
+"will want to disable this is if the remote FTP server doesn't support the -L "
+"option to LIST"
+msgstr ""
+
+#: lib/rfc959.c:77
+msgid "Transfer files in ASCII mode"
+msgstr ""
+
+#: lib/rfc959.c:80
+msgid ""
+"If you are transfering a text file from Windows to UNIX box or vice versa, "
+"then you should enable this. Each system represents newlines differently for "
+"text files. If you are transfering from UNIX to UNIX, then it is safe to "
+"leave this off. If you are downloading binary data, you will want to disable "
+"this."
+msgstr ""
+
+#: lib/rfc959.c:307 lib/rfc959.c:316 lib/rfc959.c:327
+#, c-format
+msgid "Received invalid response to PWD command: '%s'\n"
+msgstr ""
+
+#: lib/rfc959.c:627 lib/rfc959.c:637
+#, c-format
+msgid "Cannot find an IP address in PASV response '%s'\n"
+msgstr ""
+
+#: lib/rfc959.c:652 lib/rfc959.c:807
+#, c-format
+msgid "Cannot create a data connection: %s\n"
+msgstr ""
+
+#: lib/rfc959.c:664 lib/rfc959.c:685 lib/rfc959.c:832
+#, c-format
+msgid "Cannot get socket name: %s\n"
+msgstr ""
+
+#: lib/rfc959.c:675 lib/rfc959.c:822
+#, c-format
+msgid "Cannot bind a port: %s\n"
+msgstr ""
+
+#: lib/rfc959.c:694 lib/rfc959.c:841
+#, c-format
+msgid "Cannot listen on port %d: %s\n"
+msgstr ""
+
+#: lib/rfc959.c:756
+msgid ""
+"Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+msgstr ""
+
+#: lib/rfc959.c:785 lib/rfc959.c:794
+#, c-format
+msgid "Invalid EPSV response '%s'\n"
+msgstr ""
+
+#: lib/rfc959.c:851
+#, c-format
+msgid "Cannot get address of local socket: %s\n"
+msgstr ""
+
+#: lib/rfc959.c:923
+#, c-format
+msgid "Cannot accept connection from server: %s\n"
+msgstr ""
+
+#: lib/rfc959.c:1419
+msgid "total"
+msgstr "አጠቃላይ"
+
+#: lib/rfc959.c:1421
+#, c-format
+msgid "Warning: Cannot parse listing %s\n"
+msgstr ""
+
+#: lib/sshv2.c:28
+msgid "SSH"
+msgstr "SSH"
+
+#: lib/sshv2.c:31
+msgid "SSH Prog Name:"
+msgstr ""
+
+#: lib/sshv2.c:33
+msgid "The path to the SSH executable"
+msgstr ""
+
+#: lib/sshv2.c:34
+msgid "SSH Extra Params:"
+msgstr ""
+
+#: lib/sshv2.c:36
+msgid "Extra parameters to pass to the SSH program"
+msgstr ""
+
+#: lib/sshv2.c:37
+msgid "SSH2 sftp-server path:"
+msgstr ""
+
+#: lib/sshv2.c:39
+msgid "Default remote SSH2 sftp-server path"
+msgstr ""
+
+#: lib/sshv2.c:41
+msgid "Need SSH User/Pass"
+msgstr ""
+
+#: lib/sshv2.c:44
+msgid "Require a username/password for SSH connections"
+msgstr ""
+
+#: lib/sshv2.c:45
+msgid "Use ssh-askpass utility"
+msgstr ""
+
+#: lib/sshv2.c:48
+msgid "Use the ssh-askpass utility to supply the remote password"
+msgstr ""
+
+#: lib/sshv2.c:50
+msgid "Use SSH2 SFTP subsys"
+msgstr ""
+
+#: lib/sshv2.c:53
+msgid ""
+"Call ssh with the -s sftp flag. This is helpful because you won't have to "
+"know the remote path to the remote sftp-server"
+msgstr ""
+
+#: lib/sshv2.c:257
 #, c-format
 msgid "Running program %s\n"
 msgstr ""
 
-#: lib/misc.c:853 lib/misc.c:878
+#: lib/sshv2.c:303 lib/sshv2.c:328
 msgid "WARNING"
 msgstr "ማስጠንቀቂያ"
 
-#: lib/misc.c:920
+#: lib/sshv2.c:370
 msgid "Error: An incorrect password was entered\n"
 msgstr ""
 
-#: lib/misc.c:923
+#: lib/sshv2.c:373
 msgid ""
 "Please connect to this host with the command line SSH utility and answer "
 "this question appropriately.\n"
 msgstr ""
 
-#: lib/misc.c:926
+#: lib/sshv2.c:376
 msgid "Please correct the above warning to connect to this host.\n"
 msgstr ""
 
-#: lib/options.h:35
-msgid "none"
-msgstr "ምንም"
-
-#: lib/options.h:36
-msgid "SITE command"
-msgstr ""
-
-#: lib/options.h:37
-msgid "user@host"
-msgstr "user@host"
-
-#: lib/options.h:38
-msgid "user@host:port"
-msgstr "user@host:port"
-
-#: lib/options.h:39
-msgid "AUTHENTICATE"
-msgstr ""
-
-#: lib/options.h:40
-msgid "user@host port"
-msgstr ""
-
-#: lib/options.h:41
-msgid "user@host NOAUTH"
-msgstr ""
-
-#: lib/options.h:42
-msgid "HTTP Proxy"
-msgstr ""
-
-#: lib/options.h:43
-msgid "Custom"
-msgstr "የተለየ"
-
-#: lib/protocols.c:296
-#, c-format
-msgid "Loading directory listing %s from cache\n"
-msgstr ""
-
-#: lib/protocols.c:364
-#, c-format
-msgid "Error: Cannot write to cache: %s\n"
-msgstr ""
-
-#: lib/protocols.c:393
-#, c-format
-msgid "Error: Could not find bookmark %s\n"
-msgstr ""
-
-#: lib/protocols.c:400
-#, c-format
-msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
-msgstr ""
-
-#: lib/protocols.c:877 lib/protocols.c:900 lib/protocols.c:1747
-#: lib/protocols.c:1845
-#, c-format
-msgid "Looking up %s\n"
-msgstr ""
-
-#: lib/protocols.c:883 lib/protocols.c:906 lib/protocols.c:1752
-#: lib/protocols.c:1850
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr ""
-
-#: lib/protocols.c:1180 lib/protocols.c:1182 lib/protocols.c:1242
-#: lib/protocols.c:1251 lib/protocols.c:1335 lib/protocols.c:1337
-#: lib/protocols.c:1374
-msgid "unknown"
-msgstr "ያልታወቀ"
-
-#: lib/protocols.c:1770 lib/protocols.c:1812 lib/rfc959.c:485
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr ""
-
-#: lib/protocols.c:1776 lib/protocols.c:1864
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr ""
-
-#: lib/protocols.c:1781 lib/protocols.c:1871
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr ""
-
-#: lib/protocols.c:1886
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr ""
-
-#: lib/protocols.c:2097 lib/protocols.c:2167
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr ""
-
-#: lib/protocols.c:2235
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr ""
-
-#: lib/protocols.c:2249
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr ""
-
-#: lib/rfc2068.c:245 lib/rfc959.c:455 lib/sshv2.c:706
-#, c-format
-msgid "Disconnecting from site %s\n"
-msgstr ""
-
-#: lib/rfc2068.c:302
-#, c-format
-msgid "Starting the file transfer at offset %lld\n"
-msgstr ""
-
-#: lib/rfc2068.c:307
-#, c-format
-msgid "Starting the file transfer at offset %ld\n"
-msgstr ""
-
-#: lib/rfc2068.c:327
-#, c-format
-msgid "Cannot retrieve file %s\n"
-msgstr ""
-
-#: lib/rfc2068.c:380
-msgid "Finished retrieving data\n"
-msgstr ""
-
-#: lib/rfc2068.c:429 lib/sshv2.c:791
-msgid "Retrieving directory listing...\n"
-msgstr ""
-
-#: lib/rfc959.c:226 lib/rfc959.c:235 lib/rfc959.c:246
-#, c-format
-msgid "Received invalid response to PWD command: '%s'\n"
-msgstr ""
-
-#: lib/rfc959.c:513 lib/rfc959.c:523
-#, c-format
-msgid "Cannot find an IP address in PASV response '%s'\n"
-msgstr ""
-
-#: lib/rfc959.c:538
-#, c-format
-msgid "Cannot create a data connection: %s\n"
-msgstr ""
-
-#: lib/rfc959.c:550 lib/rfc959.c:571
-#, c-format
-msgid "Cannot get socket name: %s\n"
-msgstr ""
-
-#: lib/rfc959.c:561
-#, c-format
-msgid "Cannot bind a port: %s\n"
-msgstr ""
-
-#: lib/rfc959.c:580
-#, c-format
-msgid "Cannot listen on port %d: %s\n"
-msgstr ""
-
-#: lib/rfc959.c:627
-#, c-format
-msgid "Cannot accept connection from server: %s\n"
-msgstr ""
-
-#: lib/rfc959.c:957
-msgid "total"
-msgstr "አጠቃላይ"
-
-#: lib/rfc959.c:959
-#, c-format
-msgid "Warning: Cannot parse listing %s\n"
-msgstr ""
-
-#: lib/sshv2.c:131
+#: lib/sshv2.c:415
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr ""
 
-#: lib/sshv2.c:137
+#: lib/sshv2.c:421
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr ""
 
-#: lib/sshv2.c:146
+#: lib/sshv2.c:430
 #, c-format
 msgid "%d: Open %s\n"
 msgstr ""
 
-#: lib/sshv2.c:151
+#: lib/sshv2.c:435
 #, c-format
 msgid "%d: Close\n"
 msgstr ""
 
-#: lib/sshv2.c:157
+#: lib/sshv2.c:441
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr ""
 
-#: lib/sshv2.c:162
+#: lib/sshv2.c:446
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr ""
 
-#: lib/sshv2.c:166
+#: lib/sshv2.c:450
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr ""
 
-#: lib/sshv2.c:171
+#: lib/sshv2.c:455
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr ""
 
-#: lib/sshv2.c:176
+#: lib/sshv2.c:460
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr ""
 
-#: lib/sshv2.c:181
+#: lib/sshv2.c:465
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr ""
 
-#: lib/sshv2.c:186
+#: lib/sshv2.c:470
 #, c-format
 msgid "%d: File attributes\n"
 msgstr ""
 
-#: lib/sshv2.c:190
+#: lib/sshv2.c:474
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr ""
 
-#: lib/sshv2.c:207
+#: lib/sshv2.c:491
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr ""
 
-#: lib/sshv2.c:212
+#: lib/sshv2.c:496
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr ""
 
-#: lib/sshv2.c:225 src/gtk/bookmarks.c:1157 src/gtk/bookmarks.c:1395
-#: src/gtk/chmod_dialog.c:277 src/gtk/options_dialog.c:616
-#: src/gtk/options_dialog.c:962 src/gtk/transfer.c:2268
+#: lib/sshv2.c:509 src/gtk/bookmarks.c:1013 src/gtk/bookmarks.c:1250
+#: src/gtk/chmod_dialog.c:281 src/gtk/options_dialog.c:1099
+#: src/gtk/options_dialog.c:1301 src/gtk/transfer.c:2041
 msgid "OK"
 msgstr "እሺ"
 
-#: lib/sshv2.c:228
+#: lib/sshv2.c:512
 msgid "EOF"
 msgstr "EOF"
 
-#: lib/sshv2.c:231
+#: lib/sshv2.c:515
 msgid "No such file or directory"
 msgstr ""
 
-#: lib/sshv2.c:234
+#: lib/sshv2.c:518
 msgid "Permission denied"
 msgstr ""
 
-#: lib/sshv2.c:237
+#: lib/sshv2.c:521
 msgid "Failure"
 msgstr ""
 
-#: lib/sshv2.c:240
+#: lib/sshv2.c:524
 msgid "Bad message"
 msgstr ""
 
-#: lib/sshv2.c:243
+#: lib/sshv2.c:527
 msgid "No connection"
 msgstr ""
 
-#: lib/sshv2.c:246
+#: lib/sshv2.c:530
 msgid "Connection lost"
 msgstr ""
 
-#: lib/sshv2.c:249
+#: lib/sshv2.c:533
 msgid "Operation unsupported"
 msgstr ""
 
-#: lib/sshv2.c:252
+#: lib/sshv2.c:536
 msgid "Unknown message returned from server"
 msgstr ""
 
-#: lib/sshv2.c:289
+#: lib/sshv2.c:573
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr ""
 
-#: lib/sshv2.c:341 lib/sshv2.c:830 lib/sshv2.c:1666 lib/sshv2.c:1759
-#: lib/sshv2.c:1847
+#: lib/sshv2.c:631 lib/sshv2.c:1112 lib/sshv2.c:1949 lib/sshv2.c:2042
+#: lib/sshv2.c:2130
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr ""
 
-#: lib/sshv2.c:402 lib/sshv2.c:415 lib/sshv2.c:437 lib/sshv2.c:505
-#: lib/sshv2.c:652 lib/sshv2.c:753 lib/sshv2.c:821 lib/sshv2.c:935
-#: lib/sshv2.c:948 lib/sshv2.c:961 lib/sshv2.c:974 lib/sshv2.c:1030
-#: lib/sshv2.c:1095 lib/sshv2.c:1555 lib/sshv2.c:1657 lib/sshv2.c:1750
-#: lib/sshv2.c:1835 lib/sshv2.c:1920
+#: lib/sshv2.c:637
+msgid ""
+"There was an error initializing a SSH connection with the remote server. The "
+"error message from the remote server follows:\n"
+msgstr ""
+
+#: lib/sshv2.c:710 lib/sshv2.c:723 lib/sshv2.c:745 lib/sshv2.c:813
+#: lib/sshv2.c:944 lib/sshv2.c:1035 lib/sshv2.c:1103 lib/sshv2.c:1216
+#: lib/sshv2.c:1229 lib/sshv2.c:1242 lib/sshv2.c:1255 lib/sshv2.c:1311
+#: lib/sshv2.c:1376 lib/sshv2.c:1838 lib/sshv2.c:1940 lib/sshv2.c:2033
+#: lib/sshv2.c:2118 lib/sshv2.c:2203
 msgid "Received wrong response from server, disconnecting\n"
 msgstr ""
 
-#: lib/sshv2.c:539
+#: lib/sshv2.c:862
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr ""
 
-#: lib/sshv2.c:569
-#, c-format
-msgid "Cannot create a socket pair: %s\n"
-msgstr ""
-
-#: lib/sshv2.c:580
-#, c-format
-msgid "Cannot open master pty %s: %s\n"
-msgstr ""
-
-#: lib/sshv2.c:614
-#, c-format
-msgid "Error: Cannot execute ssh: %s\n"
-msgstr ""
-
-#: lib/sshv2.c:664
+#: lib/sshv2.c:955
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr ""
 
-#: lib/sshv2.c:670
+#: lib/sslcommon.c:31
+msgid "SSL Engine"
+msgstr ""
+
+#: lib/sslcommon.c:34
+msgid "SSL Entropy File:"
+msgstr ""
+
+#: lib/sslcommon.c:36
+msgid "SSL entropy file"
+msgstr ""
+
+#: lib/sslcommon.c:37
+msgid "Entropy Seed Length:"
+msgstr ""
+
+#: lib/sslcommon.c:39
+msgid "The maximum number of bytes to seed the SSL engine with"
+msgstr ""
+
+#: lib/sslcommon.c:99
 #, c-format
-msgid "Cannot fork another process: %s\n"
-msgstr ""
-
-#: src/text/gftp-text.c:30
-msgid "about"
-msgstr "ስለ"
-
-#: src/text/gftp-text.c:31
-msgid "Shows gFTP information"
-msgstr ""
-
-#: src/text/gftp-text.c:32
-msgid "ascii"
-msgstr "ascii"
-
-#: src/text/gftp-text.c:33
-msgid "Sets the current file transfer mode to Ascii (only for FTP)"
-msgstr ""
-
-#: src/text/gftp-text.c:34
-msgid "binary"
-msgstr "binary"
-
-#: src/text/gftp-text.c:35
-msgid "Sets the current file transfer mode to Binary (only for FTP)"
-msgstr ""
-
-#: src/text/gftp-text.c:36
-msgid "cd"
-msgstr "ሲዲ"
-
-#: src/text/gftp-text.c:37 src/text/gftp-text.c:39
-msgid "Changes the remote working directory"
-msgstr ""
-
-#: src/text/gftp-text.c:38
-msgid "chdir"
-msgstr "chdir"
-
-#: src/text/gftp-text.c:40
-msgid "chmod"
-msgstr "chmod"
-
-#: src/text/gftp-text.c:41
-msgid "Changes the permissions of a remote file"
-msgstr ""
-
-#: src/text/gftp-text.c:42
-msgid "clear"
-msgstr "ሰርዝ"
-
-#: src/text/gftp-text.c:43
-msgid "Available options: cache"
-msgstr ""
-
-#: src/text/gftp-text.c:44
-msgid "close"
-msgstr "ዝጋ"
-
-#: src/text/gftp-text.c:45
-msgid "Disconnects from the remote site"
-msgstr ""
-
-#: src/text/gftp-text.c:46
-msgid "delete"
-msgstr "አጥፉ"
-
-#: src/text/gftp-text.c:47
-msgid "Removes a remote file"
-msgstr ""
-
-#: src/text/gftp-text.c:48
-msgid "get"
-msgstr "get"
-
-#: src/text/gftp-text.c:49 src/text/gftp-text.c:73
-msgid "Downloads remote file(s)"
-msgstr ""
-
-#: src/text/gftp-text.c:50
-msgid "help"
-msgstr "መረጃ"
-
-#: src/text/gftp-text.c:51
-msgid "Shows this help screen"
-msgstr ""
-
-#: src/text/gftp-text.c:52
-msgid "lcd"
-msgstr "lcd"
-
-#: src/text/gftp-text.c:53 src/text/gftp-text.c:55
-msgid "Changes the local working directory"
-msgstr ""
-
-#: src/text/gftp-text.c:54
-msgid "lchdir"
-msgstr "lchdir"
-
-#: src/text/gftp-text.c:56
-msgid "lchmod"
-msgstr "lchmod"
-
-#: src/text/gftp-text.c:57
-msgid "Changes the permissions of a local file"
-msgstr ""
-
-#: src/text/gftp-text.c:58
-msgid "ldelete"
-msgstr "ldelete"
-
-#: src/text/gftp-text.c:59
-msgid "Removes a local file"
-msgstr ""
-
-#: src/text/gftp-text.c:60
-msgid "lls"
-msgstr "lls"
-
-#: src/text/gftp-text.c:61
-msgid "Shows the directory listing for the current local directory"
-msgstr ""
-
-#: src/text/gftp-text.c:62
-msgid "lmkdir"
-msgstr "lmkdir"
-
-#: src/text/gftp-text.c:63
-msgid "Creates a local directory"
-msgstr ""
-
-#: src/text/gftp-text.c:64
-msgid "lpwd"
-msgstr "lpwd"
-
-#: src/text/gftp-text.c:65
-msgid "Show current local directory"
-msgstr ""
-
-#: src/text/gftp-text.c:66
-msgid "lrename"
-msgstr "lrename"
-
-#: src/text/gftp-text.c:67
-msgid "Rename a local file"
-msgstr ""
-
-#: src/text/gftp-text.c:68
-msgid "lrmdir"
-msgstr "lrmdir"
-
-#: src/text/gftp-text.c:69
-msgid "Remove a local directory"
-msgstr ""
-
-#: src/text/gftp-text.c:70
-msgid "ls"
-msgstr "ls"
-
-#: src/text/gftp-text.c:71
-msgid "Shows the directory listing for the current remote directory"
-msgstr ""
-
-#: src/text/gftp-text.c:72
-msgid "mget"
-msgstr "mget"
-
-#: src/text/gftp-text.c:74
-msgid "mkdir"
-msgstr "mkdir"
-
-#: src/text/gftp-text.c:75
-msgid "Creates a remote directory"
-msgstr ""
-
-#: src/text/gftp-text.c:76
-msgid "mput"
-msgstr "mput"
-
-#: src/text/gftp-text.c:77 src/text/gftp-text.c:81
-msgid "Uploads local file(s)"
-msgstr ""
-
-#: src/text/gftp-text.c:78
-msgid "open"
-msgstr "ክፈት"
-
-#: src/text/gftp-text.c:79
-msgid "Opens a connection to a remote site"
-msgstr ""
-
-#: src/text/gftp-text.c:80
-msgid "put"
-msgstr "put"
-
-#: src/text/gftp-text.c:82
-msgid "pwd"
-msgstr "pwd"
-
-#: src/text/gftp-text.c:83
-msgid "Show current remote directory"
-msgstr ""
-
-#: src/text/gftp-text.c:84
-msgid "quit"
-msgstr "ውጣ"
-
-#: src/text/gftp-text.c:85
-msgid "Exit from gFTP"
-msgstr ""
-
-#: src/text/gftp-text.c:86
-msgid "rename"
-msgstr "እንደገና ሰይም"
-
-#: src/text/gftp-text.c:87
-msgid "Rename a remote file"
-msgstr ""
-
-#: src/text/gftp-text.c:88
-msgid "rmdir"
-msgstr ""
-
-#: src/text/gftp-text.c:89
-msgid "Remove a remote directory"
-msgstr ""
-
-#: src/text/gftp-text.c:90
-msgid "set"
-msgstr "አድርግ"
-
-#: src/text/gftp-text.c:91
 msgid ""
-"Show configuration file variables. You can also set variables by set var=val"
+"Error with certificate at depth: %i\n"
+"Issuer = %s\n"
+"Subject = %s\n"
+"Error %i:%s\n"
 msgstr ""
 
-#: src/text/gftp-text.c:137
+#: lib/sslcommon.c:121
+msgid "Cannot get peer certificate\n"
+msgstr ""
+
+#: lib/sslcommon.c:180
+#, c-format
 msgid ""
-">.\n"
-"If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
+"ERROR: The host in the SSL certificate (%s) does not match the host that we "
+"connected to (%s). Aborting connection.\n"
 msgstr ""
 
-#: src/text/gftp-text.c:139 src/gtk/gftp-gtk.c:1033
-msgid ""
-"gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
-"This is free software, and you are welcome to redistribute it under certain "
-"conditions; for details, see the COPYING file\n"
+#: lib/sslcommon.c:287
+msgid "Cannot initialized the OpenSSL library\n"
 msgstr ""
 
-#: src/text/gftp-text.c:220
-msgid "Error: Command not recognized\n"
+#: lib/sslcommon.c:302
+msgid "Error loading default SSL certificates\n"
 msgstr ""
 
-#: src/text/gftp-text.c:315
-msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
+#: lib/sslcommon.c:313
+msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr ""
 
-#: src/text/gftp-text.c:322 src/gtk/dnd.c:117 src/gtk/menu-items.c:114
+#: lib/sslcommon.c:332 lib/sslcommon.c:401 lib/sslcommon.c:448
+msgid "Error: SSL engine was not initialized\n"
+msgstr ""
+
+#: lib/sslcommon.c:349
+msgid "Error setting up SSL connection (BIO object)\n"
+msgstr ""
+
+#: lib/sslcommon.c:359
+msgid "Error setting up SSL connection (SSL object)\n"
+msgstr ""
+
+#: lib/sslcommon.c:377
 #, c-format
-msgid "Could not parse URL %s\n"
+msgid "Error with peer certificate: %s\n"
 msgstr ""
 
-#: src/text/gftp-text.c:372 src/gtk/menu-items.c:797
-msgid "Translated by"
-msgstr "ተርጓሚ"
-
-#: src/text/gftp-text.c:395 src/text/gftp-text.c:411 src/text/gftp-text.c:441
-#: src/text/gftp-text.c:464 src/text/gftp-text.c:486 src/text/gftp-text.c:510
-#: src/text/gftp-text.c:538 src/text/gftp-text.c:571 src/text/gftp-text.c:668
-#: src/text/gftp-text.c:684 src/text/gftp-text.c:703 src/text/gftp-text.c:776
-msgid "Error: Not connected to a remote site\n"
-msgstr ""
-
-#: src/text/gftp-text.c:416 src/text/gftp-text.c:422
-msgid "usage: chdir <directory>\n"
-msgstr ""
-
-#: src/text/gftp-text.c:448
-msgid "usage: mkdir <new directory>\n"
-msgstr ""
-
-#: src/text/gftp-text.c:470
-msgid "usage: rmdir <directory>\n"
-msgstr ""
-
-#: src/text/gftp-text.c:492
-msgid "usage: delete <file>\n"
-msgstr ""
-
-#: src/text/gftp-text.c:520
-msgid "usage: rename <old name> <new name>\n"
-msgstr ""
-
-#: src/text/gftp-text.c:548
-msgid "usage: chmod <mode> <file>\n"
-msgstr ""
-
-#: src/text/gftp-text.c:709
-msgid "usage: mget <filespec>\n"
-msgstr ""
-
-#: src/text/gftp-text.c:782
-msgid "usage: mput <filespec>\n"
-msgstr ""
-
-#: src/text/gftp-text.c:866 src/gtk/transfer.c:806
-#, c-format
-msgid "File transfer will be throttled to %.2f KB/s\n"
-msgstr ""
-
-#: src/text/gftp-text.c:933
-#, c-format
-msgid "Could not download %s\n"
-msgstr ""
-
-#: src/text/gftp-text.c:940
-#, c-format
-msgid "Successfully transferred %s\n"
-msgstr ""
-
-#: src/text/gftp-text.c:994
-msgid ""
-"Supported commands:\n"
-"\n"
-msgstr ""
-
-#: src/text/gftp-text.c:1050
-msgid "usage: set [variable = value]\n"
-msgstr ""
-
-#: src/text/gftp-text.c:1071
-#, c-format
-msgid "Error: Variable %s is not a valid configuration variable.\n"
-msgstr ""
-
-#: src/text/gftp-text.c:1078
-#, c-format
-msgid "Error: Variable %s is not available in the text port of gFTP\n"
-msgstr ""
-
-#: src/text/gftp-text.c:1101
-msgid "Error: You cannot change this variable\n"
-msgstr ""
-
-#: src/text/gftp-text.c:1277
-msgid "Clear the directory cache\n"
-msgstr ""
-
-#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:840 src/gtk/menu-items.c:60
-#: src/gtk/menu-items.c:90 src/gtk/misc-gtk.c:480 src/gtk/misc-gtk.c:488
+#: src/gtk/bookmarks.c:37 src/gtk/gftp-gtk.c:902 src/gtk/menu-items.c:66
+#: src/gtk/menu-items.c:96 src/gtk/misc-gtk.c:483 src/gtk/misc-gtk.c:491
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr ""
 
-#: src/gtk/bookmarks.c:41
+#: src/gtk/bookmarks.c:38
 msgid "Run Bookmark"
 msgstr ""
 
-#: src/gtk/bookmarks.c:48
-msgid ""
-"Internal gFTP Error: Could not look up bookmark entry. This is definately a "
-"bug. Please email masneyb@gftp.org about it. Please be sure to include the "
-"version number and how you can reproduce it\n"
-msgstr ""
-
-#: src/gtk/bookmarks.c:54
-msgid ""
-"Bookmarks Error: There are some missing entries in this bookmark. Make sure "
-"you have a hostname and username\n"
-msgstr ""
-
-#: src/gtk/bookmarks.c:110
+#: src/gtk/bookmarks.c:64
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr ""
 
-#: src/gtk/bookmarks.c:117
+#: src/gtk/bookmarks.c:71
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr ""
 
-#: src/gtk/bookmarks.c:180 src/gtk/bookmarks.c:191
+#: src/gtk/bookmarks.c:128 src/gtk/bookmarks.c:139
 msgid "Add Bookmark"
 msgstr "መለያ ምልክት ጨምር"
 
-#: src/gtk/bookmarks.c:187
+#: src/gtk/bookmarks.c:135
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr ""
 
-#: src/gtk/bookmarks.c:191
+#: src/gtk/bookmarks.c:139
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
 "(ex: Linux Sites/Debian)"
 msgstr ""
 
-#: src/gtk/bookmarks.c:191
+#: src/gtk/bookmarks.c:139
 msgid "Remember password"
 msgstr ""
 
-#: src/gtk/bookmarks.c:572 src/gtk/bookmarks.c:582
+#: src/gtk/bookmarks.c:465 src/gtk/bookmarks.c:475
 msgid "New Folder"
 msgstr "አዲስ ዶሴ"
 
-#: src/gtk/bookmarks.c:573
+#: src/gtk/bookmarks.c:466
 msgid "Enter the name of the new folder to create"
 msgstr ""
 
-#: src/gtk/bookmarks.c:583
+#: src/gtk/bookmarks.c:476
 msgid "Enter the name of the new item to create"
 msgstr ""
 
-#: src/gtk/bookmarks.c:667
+#: src/gtk/bookmarks.c:549
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
 "%s and all it's children?"
 msgstr ""
 
-#: src/gtk/bookmarks.c:668
+#: src/gtk/bookmarks.c:550
 msgid "Delete Bookmark"
 msgstr "መለያ ምልክትን ያስተካክሉ"
 
-#: src/gtk/bookmarks.c:695
+#: src/gtk/bookmarks.c:577
 msgid "Bookmarks"
 msgstr "መለያ ምልክቶች"
 
-#: src/gtk/bookmarks.c:954 src/gtk/bookmarks.c:957
+#: src/gtk/bookmarks.c:819 src/gtk/bookmarks.c:822
 msgid "Edit Entry"
 msgstr ""
 
-#: src/gtk/bookmarks.c:975 src/gtk/bookmarks.c:1356 src/gtk/chmod_dialog.c:183
-#: src/gtk/gftp-gtk.c:1018 src/gtk/menu-items.c:779 src/gtk/misc-gtk.c:947
-#: src/gtk/misc-gtk.c:1071 src/gtk/options_dialog.c:752
-#: src/gtk/view_dialog.c:320
-msgid "gFTP Icon"
-msgstr "gFTP ምልክት"
-
-#: src/gtk/bookmarks.c:990
+#: src/gtk/bookmarks.c:859
 msgid "Description:"
 msgstr "መግለጫ፦"
 
-#: src/gtk/bookmarks.c:1005
+#: src/gtk/bookmarks.c:874
 msgid "Hostname:"
 msgstr "የእንግዳ ተቀባይ ስም፦"
 
-#: src/gtk/bookmarks.c:1018
+#: src/gtk/bookmarks.c:887
 msgid "Port:"
 msgstr "ፖርት፦"
 
-#: src/gtk/bookmarks.c:1035
+#: src/gtk/bookmarks.c:904
 msgid "Protocol:"
 msgstr ""
 
-#: src/gtk/bookmarks.c:1059
+#: src/gtk/bookmarks.c:928
 msgid "Remote Directory:"
 msgstr ""
 
-#: src/gtk/bookmarks.c:1072
+#: src/gtk/bookmarks.c:941
 msgid "Local Directory:"
 msgstr ""
 
-#: src/gtk/bookmarks.c:1085
-msgid "Remote SSH sftp path:"
-msgstr ""
-
-#: src/gtk/bookmarks.c:1102
+#: src/gtk/bookmarks.c:958
 msgid "Username:"
 msgstr "የተጠቃሚ ስም፦"
 
-#: src/gtk/bookmarks.c:1115
+#: src/gtk/bookmarks.c:971
 msgid "Password:"
 msgstr "ሚስጢራዊ ቃል፦"
 
-#: src/gtk/bookmarks.c:1129
+#: src/gtk/bookmarks.c:985
 msgid "Account:"
 msgstr ""
 
-#: src/gtk/bookmarks.c:1143
+#: src/gtk/bookmarks.c:999
 msgid "Log in as ANONYMOUS"
 msgstr ""
 
-#: src/gtk/bookmarks.c:1169 src/gtk/bookmarks.c:1405
-#: src/gtk/chmod_dialog.c:289 src/gtk/options_dialog.c:627
-#: src/gtk/options_dialog.c:973 src/gtk/transfer.c:2280
+#: src/gtk/bookmarks.c:1025 src/gtk/bookmarks.c:1260
+#: src/gtk/chmod_dialog.c:293 src/gtk/options_dialog.c:1110
+#: src/gtk/options_dialog.c:1312 src/gtk/transfer.c:2053
 msgid "  Cancel  "
 msgstr "  ተወው  "
 
-#: src/gtk/bookmarks.c:1179 src/gtk/options_dialog.c:984
+#: src/gtk/bookmarks.c:1035 src/gtk/options_dialog.c:1323
 msgid "Apply"
 msgstr "ተጠቀም"
 
-#: src/gtk/bookmarks.c:1320
+#: src/gtk/bookmarks.c:1177
 msgid "/_File"
 msgstr "/ፋይል (_F)"
 
-#: src/gtk/bookmarks.c:1321
+#: src/gtk/bookmarks.c:1178
 msgid "/File/tearoff"
 msgstr ""
 
-#: src/gtk/bookmarks.c:1322
+#: src/gtk/bookmarks.c:1179
 msgid "/File/New Folder..."
 msgstr "/ፋይል/አዲስ ዶሴ..."
 
-#: src/gtk/bookmarks.c:1323
+#: src/gtk/bookmarks.c:1180
 msgid "/File/New Item..."
 msgstr "/ፋይል/አዲስ ዕቃ..."
 
-#: src/gtk/bookmarks.c:1324
+#: src/gtk/bookmarks.c:1181
 msgid "/File/Delete"
 msgstr "/ፋይል/አጥፉ"
 
-#: src/gtk/bookmarks.c:1325
+#: src/gtk/bookmarks.c:1182
 msgid "/File/Properties..."
 msgstr "/ፋይል/ምርጫዎች..."
 
-#: src/gtk/bookmarks.c:1326
+#: src/gtk/bookmarks.c:1183
 msgid "/File/sep"
 msgstr "/ፋይል/sep"
 
-#: src/gtk/bookmarks.c:1327
+#: src/gtk/bookmarks.c:1184
 msgid "/File/Close"
 msgstr "/ፋይል/ዝጋ"
 
-#: src/gtk/bookmarks.c:1338 src/gtk/bookmarks.c:1341
+#: src/gtk/bookmarks.c:1195 src/gtk/bookmarks.c:1198
 msgid "Edit Bookmarks"
 msgstr "መለያ ምልክቶች ያስተካክሉ"
 
-#: src/gtk/chmod_dialog.c:70 src/gtk/delete_dialog.c:97
-#: src/gtk/menu-items.c:450 src/gtk/mkdir_dialog.c:55
-#: src/gtk/rename_dialog.c:56 src/gtk/transfer.c:535
+#: src/gtk/chmod_dialog.c:73 src/gtk/delete_dialog.c:90
+#: src/gtk/menu-items.c:430 src/gtk/mkdir_dialog.c:58
+#: src/gtk/rename_dialog.c:59 src/gtk/transfer.c:533
 msgid "Operation canceled\n"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:155 src/gtk/chmod_dialog.c:161
-#: src/gtk/chmod_dialog.c:166
+#: src/gtk/chmod_dialog.c:159 src/gtk/chmod_dialog.c:165
+#: src/gtk/chmod_dialog.c:170
 msgid "Chmod"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:186
+#: src/gtk/chmod_dialog.c:190
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:196
+#: src/gtk/chmod_dialog.c:200
 msgid "Special"
 msgstr "የተለየ"
 
-#: src/gtk/chmod_dialog.c:204
+#: src/gtk/chmod_dialog.c:208
 msgid "SUID"
 msgstr "SUID"
 
-#: src/gtk/chmod_dialog.c:208
+#: src/gtk/chmod_dialog.c:212
 msgid "SGID"
 msgstr "SGID"
 
-#: src/gtk/chmod_dialog.c:212
+#: src/gtk/chmod_dialog.c:216
 msgid "Sticky"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:216 src/gtk/gftp-gtk.c:552
+#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:590
 msgid "User"
 msgstr "ተጠቃሚ"
 
-#: src/gtk/chmod_dialog.c:224 src/gtk/chmod_dialog.c:244
-#: src/gtk/chmod_dialog.c:264
+#: src/gtk/chmod_dialog.c:228 src/gtk/chmod_dialog.c:248
+#: src/gtk/chmod_dialog.c:268
 msgid "Read"
 msgstr "አንብብ"
 
-#: src/gtk/chmod_dialog.c:228 src/gtk/chmod_dialog.c:248
-#: src/gtk/chmod_dialog.c:268
+#: src/gtk/chmod_dialog.c:232 src/gtk/chmod_dialog.c:252
+#: src/gtk/chmod_dialog.c:272
 msgid "Write"
 msgstr "ጻፈ"
 
-#: src/gtk/chmod_dialog.c:232 src/gtk/chmod_dialog.c:252
-#: src/gtk/chmod_dialog.c:272
+#: src/gtk/chmod_dialog.c:236 src/gtk/chmod_dialog.c:256
+#: src/gtk/chmod_dialog.c:276
 msgid "Execute"
 msgstr "አስኪድ"
 
-#: src/gtk/chmod_dialog.c:236 src/gtk/gftp-gtk.c:553
+#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:591
 msgid "Group"
 msgstr "መድረክ"
 
-#: src/gtk/chmod_dialog.c:256
+#: src/gtk/chmod_dialog.c:260
 msgid "Other"
 msgstr "ሌላ"
 
-#: src/gtk/delete_dialog.c:164
+#: src/gtk/delete_dialog.c:157
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr ""
 
-#: src/gtk/delete_dialog.c:166
+#: src/gtk/delete_dialog.c:159
 msgid "Delete Files/Directories"
 msgstr ""
 
-#: src/gtk/delete_dialog.c:184 src/gtk/options_dialog.c:692
+#: src/gtk/delete_dialog.c:177 src/gtk/options_dialog.c:1184
 msgid "Delete"
 msgstr "አጥፉ"
 
-#: src/gtk/dnd.c:56
-#, c-format
-msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
-msgstr ""
-
-#: src/gtk/dnd.c:139 src/gtk/dnd.c:231
+#: src/gtk/dnd.c:130 src/gtk/dnd.c:222
 msgid "Drag-N-Drop"
 msgstr ""
 
-#: src/gtk/dnd.c:243
+#: src/gtk/dnd.c:234
 #, c-format
 msgid "Received URL %s\n"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:95
+#: src/gtk/gftp-gtk.c:116
 msgid "Exit"
 msgstr "ውጣ"
 
-#: src/gtk/gftp-gtk.c:95
+#: src/gtk/gftp-gtk.c:116
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:138
+#: src/gtk/gftp-gtk.c:159
 msgid "/_FTP"
 msgstr "/_FTP"
 
-#: src/gtk/gftp-gtk.c:139
+#: src/gtk/gftp-gtk.c:160
 msgid "/FTP/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:140
+#: src/gtk/gftp-gtk.c:161
 msgid "/FTP/Window 1"
 msgstr "/FTP/መስኮት 1"
 
-#: src/gtk/gftp-gtk.c:141
+#: src/gtk/gftp-gtk.c:162
 msgid "/FTP/Window 2"
 msgstr "/FTP/መስኮት 2"
 
-#: src/gtk/gftp-gtk.c:142 src/gtk/gftp-gtk.c:145 src/gtk/gftp-gtk.c:148
+#: src/gtk/gftp-gtk.c:163 src/gtk/gftp-gtk.c:166 src/gtk/gftp-gtk.c:169
 msgid "/FTP/sep"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:143
+#: src/gtk/gftp-gtk.c:164
 msgid "/FTP/Ascii"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:144
+#: src/gtk/gftp-gtk.c:165
 msgid "/FTP/Binary"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:146
+#: src/gtk/gftp-gtk.c:167
 msgid "/FTP/_Options..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:149
+#: src/gtk/gftp-gtk.c:170
 msgid "/FTP/_Quit"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:150
+#: src/gtk/gftp-gtk.c:171
 msgid "/_Local"
 msgstr "/ቅርብ (_L)"
 
-#: src/gtk/gftp-gtk.c:151
+#: src/gtk/gftp-gtk.c:172
 msgid "/Local/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:152
+#: src/gtk/gftp-gtk.c:173
 msgid "/Local/Open _URL..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:153
+#: src/gtk/gftp-gtk.c:174
 msgid "/Local/Disconnect"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:154 src/gtk/gftp-gtk.c:160
+#: src/gtk/gftp-gtk.c:175 src/gtk/gftp-gtk.c:181
 msgid "/Local/sep"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:155
+#: src/gtk/gftp-gtk.c:176
 msgid "/Local/Change Filespec..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:156
+#: src/gtk/gftp-gtk.c:177
 msgid "/Local/Show selected"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:157
+#: src/gtk/gftp-gtk.c:178
 msgid "/Local/Select All"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:158
+#: src/gtk/gftp-gtk.c:179
 msgid "/Local/Select All Files"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:159
+#: src/gtk/gftp-gtk.c:180
 msgid "/Local/Deselect All"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:161
+#: src/gtk/gftp-gtk.c:182
 msgid "/Local/Save Directory Listing..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:162
+#: src/gtk/gftp-gtk.c:183
 msgid "/Local/Send SITE Command..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:163
+#: src/gtk/gftp-gtk.c:184
 msgid "/Local/Change Directory"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:164
+#: src/gtk/gftp-gtk.c:185
 msgid "/Local/Chmod..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:165
+#: src/gtk/gftp-gtk.c:186
 msgid "/Local/Make Directory..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:166
+#: src/gtk/gftp-gtk.c:187
 msgid "/Local/Rename..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:167
+#: src/gtk/gftp-gtk.c:188
 msgid "/Local/Delete..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:168
+#: src/gtk/gftp-gtk.c:189
 msgid "/Local/Edit..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:169
+#: src/gtk/gftp-gtk.c:190
 msgid "/Local/View..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:170
+#: src/gtk/gftp-gtk.c:191
 msgid "/Local/Refresh"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:171
+#: src/gtk/gftp-gtk.c:192
 msgid "/_Remote"
 msgstr "/የራቀ (_R)"
 
-#: src/gtk/gftp-gtk.c:172
+#: src/gtk/gftp-gtk.c:193
 msgid "/Remote/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:173
+#: src/gtk/gftp-gtk.c:194
 msgid "/Remote/Open _URL..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:175
+#: src/gtk/gftp-gtk.c:196
 msgid "/Remote/Disconnect"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:177 src/gtk/gftp-gtk.c:183
+#: src/gtk/gftp-gtk.c:198 src/gtk/gftp-gtk.c:204
 msgid "/Remote/sep"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:178
+#: src/gtk/gftp-gtk.c:199
 msgid "/Remote/Change Filespec..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:179
+#: src/gtk/gftp-gtk.c:200
 msgid "/Remote/Show selected"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:180
+#: src/gtk/gftp-gtk.c:201
 msgid "/Remote/Select All"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:181
+#: src/gtk/gftp-gtk.c:202
 msgid "/Remote/Select All Files"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:182
+#: src/gtk/gftp-gtk.c:203
 msgid "/Remote/Deselect All"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:184
+#: src/gtk/gftp-gtk.c:205
 msgid "/Remote/Save Directory Listing..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:185
+#: src/gtk/gftp-gtk.c:206
 msgid "/Remote/Send SITE Command..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:186
+#: src/gtk/gftp-gtk.c:207
 msgid "/Remote/Change Directory"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:187
+#: src/gtk/gftp-gtk.c:208
 msgid "/Remote/Chmod..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:188
+#: src/gtk/gftp-gtk.c:209
 msgid "/Remote/Make Directory..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:189
+#: src/gtk/gftp-gtk.c:210
 msgid "/Remote/Rename..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:190
+#: src/gtk/gftp-gtk.c:211
 msgid "/Remote/Delete..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:191
+#: src/gtk/gftp-gtk.c:212
 msgid "/Remote/Edit..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:192
+#: src/gtk/gftp-gtk.c:213
 msgid "/Remote/View..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:193
+#: src/gtk/gftp-gtk.c:214
 msgid "/Remote/Refresh"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:194
+#: src/gtk/gftp-gtk.c:215
 msgid "/_Bookmarks"
 msgstr "መለያ ምልክቶች"
 
-#: src/gtk/gftp-gtk.c:195
+#: src/gtk/gftp-gtk.c:216
 msgid "/Bookmarks/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:196
+#: src/gtk/gftp-gtk.c:217
 msgid "/Bookmarks/Add bookmark"
 msgstr "/መለያ ምልክቶች/መለያ ምልክት ጨምር"
 
-#: src/gtk/gftp-gtk.c:198
+#: src/gtk/gftp-gtk.c:219
 msgid "/Bookmarks/Edit bookmarks"
 msgstr "/መለያ ምልክቶች/መለያ ምልክቶች ያስተካክሉ"
 
-#: src/gtk/gftp-gtk.c:199
+#: src/gtk/gftp-gtk.c:220
 msgid "/Bookmarks/sep"
 msgstr "/መለያ ምልክቶች/sep"
 
-#: src/gtk/gftp-gtk.c:200
+#: src/gtk/gftp-gtk.c:221
 msgid "/_Transfers"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:201
+#: src/gtk/gftp-gtk.c:222
 msgid "/Transfers/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:202
+#: src/gtk/gftp-gtk.c:223
 msgid "/Transfers/Start Transfer"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:203
+#: src/gtk/gftp-gtk.c:224
 msgid "/Transfers/Stop Transfer"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:205 src/gtk/gftp-gtk.c:213
+#: src/gtk/gftp-gtk.c:226 src/gtk/gftp-gtk.c:234
 msgid "/Transfers/sep"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:206
+#: src/gtk/gftp-gtk.c:227
 msgid "/Transfers/Skip Current File"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:207
+#: src/gtk/gftp-gtk.c:228
 msgid "/Transfers/Remove File"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:209
+#: src/gtk/gftp-gtk.c:230
 msgid "/Transfers/Move File _Up"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:211
+#: src/gtk/gftp-gtk.c:232
 msgid "/Transfers/Move File _Down"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:214
+#: src/gtk/gftp-gtk.c:235
 msgid "/Transfers/Retrieve Files"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:215
+#: src/gtk/gftp-gtk.c:236
 msgid "/Transfers/Put Files"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:216
+#: src/gtk/gftp-gtk.c:237
 msgid "/L_ogging"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:217
+#: src/gtk/gftp-gtk.c:238
 msgid "/Logging/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:218
+#: src/gtk/gftp-gtk.c:239
 msgid "/Logging/Clear"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:219
+#: src/gtk/gftp-gtk.c:240
 msgid "/Logging/View log..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:220
+#: src/gtk/gftp-gtk.c:241
 msgid "/Logging/Save log..."
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:221
+#: src/gtk/gftp-gtk.c:242
 msgid "/Tool_s"
 msgstr "/መሣሪያዎች (_S)"
 
-#: src/gtk/gftp-gtk.c:222
+#: src/gtk/gftp-gtk.c:243
 msgid "/Tools/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:223
+#: src/gtk/gftp-gtk.c:244
 msgid "/Tools/Compare Windows"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:224
+#: src/gtk/gftp-gtk.c:245
 msgid "/Tools/Clear Cache"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:225
+#: src/gtk/gftp-gtk.c:246
 msgid "/_Help"
 msgstr "/መረጃ (_H)"
 
-#: src/gtk/gftp-gtk.c:226
+#: src/gtk/gftp-gtk.c:247
 msgid "/Help/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:227
+#: src/gtk/gftp-gtk.c:248
 msgid "/Help/About..."
 msgstr "/መረጃ/ስለ..."
 
-#: src/gtk/gftp-gtk.c:334
+#: src/gtk/gftp-gtk.c:357
 msgid "Host: "
 msgstr "እንግዳ ተቀባይ፦ "
 
-#: src/gtk/gftp-gtk.c:349
+#: src/gtk/gftp-gtk.c:375
 msgid "Port: "
 msgstr "ፖርት፦ "
 
-#: src/gtk/gftp-gtk.c:364
+#: src/gtk/gftp-gtk.c:393
 msgid "User: "
 msgstr "ተጠቃሚ፦ "
 
-#: src/gtk/gftp-gtk.c:379
+#: src/gtk/gftp-gtk.c:411
 msgid "Pass: "
 msgstr "ሚስጢራዊ ቃል፦ "
 
-#: src/gtk/gftp-gtk.c:550 src/gtk/gftp-gtk.c:725 src/gtk/transfer.c:2112
+#: src/gtk/gftp-gtk.c:588 src/gtk/gftp-gtk.c:792 src/gtk/transfer.c:1882
 msgid "Filename"
 msgstr "የፋይል ስም"
 
-#: src/gtk/gftp-gtk.c:551
+#: src/gtk/gftp-gtk.c:589
 msgid "Size"
 msgstr "መጠን"
 
-#: src/gtk/gftp-gtk.c:554
+#: src/gtk/gftp-gtk.c:592
 msgid "Date"
 msgstr "ቀን"
 
-#: src/gtk/gftp-gtk.c:555
+#: src/gtk/gftp-gtk.c:593
 msgid "Attribs"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:726
+#: src/gtk/gftp-gtk.c:793
 msgid "Progress"
 msgstr "ይሻሻል"
 
-#: src/gtk/gftp-gtk.c:841 src/gtk/misc-gtk.c:920 src/gtk/misc-gtk.c:991
+#: src/gtk/gftp-gtk.c:903 src/gtk/misc-gtk.c:892 src/gtk/misc-gtk.c:963
 msgid "Connect"
 msgstr "አገናኝ"
 
-#: src/gtk/gftp-gtk.c:860
+#: src/gtk/gftp-gtk.c:925
 msgid "Error: You must type in a host to connect to\n"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:1031
+#: src/gtk/gftp-gtk.c:1160
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
 "news about gFTP from my website at http://www.gftp.org/\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:61 src/gtk/menu-items.c:91
+#: src/gtk/gftp-gtk.c:1162 src/text/gftp-text.c:150
+msgid ""
+"gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
+"This is free software, and you are welcome to redistribute it under certain "
+"conditions; for details, see the COPYING file\n"
+msgstr ""
+
+#: src/gtk/menu-items.c:67 src/gtk/menu-items.c:97
 msgid "OpenURL"
 msgstr ""
 
-#: src/gtk/menu-items.c:69 src/gtk/menu-items.c:99
+#: src/gtk/menu-items.c:75 src/gtk/menu-items.c:105
 msgid "OpenURL: Operation canceled...you must enter a string\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:123
+#: src/gtk/menu-items.c:127
 msgid "Connect via URL"
 msgstr ""
 
-#: src/gtk/menu-items.c:123
+#: src/gtk/menu-items.c:127
 msgid "Enter ftp url to connect to"
 msgstr ""
 
-#: src/gtk/menu-items.c:156
+#: src/gtk/menu-items.c:160
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:194 src/gtk/menu-items.c:197
+#: src/gtk/menu-items.c:197 src/gtk/menu-items.c:200
 msgid "Change Filespec"
 msgstr ""
 
-#: src/gtk/menu-items.c:197
+#: src/gtk/menu-items.c:200
 msgid "Enter the new file specification"
 msgstr ""
 
-#: src/gtk/menu-items.c:227 src/gtk/menu-items.c:618 src/gtk/menu-items.c:674
-#: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:125
+#: src/gtk/menu-items.c:228 src/gtk/menu-items.c:600 src/gtk/menu-items.c:658
+#: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:129
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:277
+#: src/gtk/menu-items.c:254
 msgid "Save Directory Listing"
 msgstr ""
 
-#: src/gtk/menu-items.c:394
+#: src/gtk/menu-items.c:371
 msgid "SITE: Operation canceled...you must enter a string\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:413 src/gtk/menu-items.c:416
+#: src/gtk/menu-items.c:390 src/gtk/menu-items.c:393
 msgid "Site"
 msgstr ""
 
-#: src/gtk/menu-items.c:416
+#: src/gtk/menu-items.c:393
 msgid "Enter site-specific command"
 msgstr ""
 
-#: src/gtk/menu-items.c:513 src/gtk/menu-items.c:547
+#: src/gtk/menu-items.c:492 src/gtk/menu-items.c:526
 msgid "Chdir"
 msgstr ""
 
-#: src/gtk/menu-items.c:641 src/gtk/menu-items.c:697
+#: src/gtk/menu-items.c:624 src/gtk/menu-items.c:682
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:707
+#: src/gtk/menu-items.c:693
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:719
+#: src/gtk/menu-items.c:705
 msgid "Save Log"
 msgstr ""
 
-#: src/gtk/menu-items.c:755
+#: src/gtk/menu-items.c:741
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr ""
 
-#: src/gtk/menu-items.c:759 src/gtk/menu-items.c:764
+#: src/gtk/menu-items.c:745 src/gtk/menu-items.c:750
 msgid "About gFTP"
 msgstr "ስለ gFTP"
 
-#: src/gtk/menu-items.c:795
+#: src/gtk/menu-items.c:781
 #, c-format
 msgid ""
 "%s\n"
@@ -2113,156 +1931,165 @@ msgid ""
 "Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:808
+#: src/gtk/menu-items.c:782 src/text/gftp-text.c:390
+msgid "Translated by"
+msgstr "ተርጓሚ"
+
+#: src/gtk/menu-items.c:793
 msgid "About"
 msgstr "ስለ"
 
-#: src/gtk/menu-items.c:857
+#: src/gtk/menu-items.c:842
 msgid "License Agreement"
 msgstr ""
 
-#: src/gtk/menu-items.c:863 src/gtk/view_dialog.c:367
+#: src/gtk/menu-items.c:848 src/gtk/view_dialog.c:377
 msgid "  Close  "
 msgstr "  ዝጋ  "
 
-#: src/gtk/menu-items.c:945
+#: src/gtk/menu-items.c:930
 msgid "Compare Windows"
 msgstr ""
 
-#: src/gtk/misc-gtk.c:210
+#: src/gtk/misc-gtk.c:214
 msgid "Refresh"
 msgstr "በድጋሚ ጀምር"
 
-#: src/gtk/misc-gtk.c:299
+#: src/gtk/misc-gtk.c:303
 msgid "All Files"
 msgstr "ሁሉንም ፋይሎች"
 
-#: src/gtk/misc-gtk.c:306
+#: src/gtk/misc-gtk.c:310
 msgid "] (Cached) ["
 msgstr ""
 
-#: src/gtk/misc-gtk.c:320
+#: src/gtk/misc-gtk.c:324
 msgid "Not connected"
 msgstr "ተገናኝቷል አይደለም"
 
-#: src/gtk/misc-gtk.c:406
+#: src/gtk/misc-gtk.c:410
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr ""
 
-#: src/gtk/misc-gtk.c:496
+#: src/gtk/misc-gtk.c:499
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr ""
 
-#: src/gtk/misc-gtk.c:503
+#: src/gtk/misc-gtk.c:506
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr ""
 
-#: src/gtk/misc-gtk.c:511
+#: src/gtk/misc-gtk.c:514
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr ""
 
-#: src/gtk/misc-gtk.c:518
+#: src/gtk/misc-gtk.c:521
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr ""
 
-#: src/gtk/misc-gtk.c:917 src/gtk/misc-gtk.c:988
+#: src/gtk/misc-gtk.c:889 src/gtk/misc-gtk.c:960
 msgid "Change"
 msgstr "ለውጥ"
 
-#: src/gtk/misc-gtk.c:923 src/gtk/misc-gtk.c:994 src/gtk/rename_dialog.c:95
-#: src/gtk/rename_dialog.c:107
+#: src/gtk/misc-gtk.c:895 src/gtk/misc-gtk.c:966 src/gtk/rename_dialog.c:101
+#: src/gtk/rename_dialog.c:113
 msgid "Rename"
 msgstr "እንደገና ሰይም"
 
-#: src/gtk/misc-gtk.c:985 src/gtk/options_dialog.c:678
+#: src/gtk/misc-gtk.c:957 src/gtk/options_dialog.c:1170
 msgid "Add"
 msgstr "ጨምር"
 
-#: src/gtk/misc-gtk.c:1011
+#: src/gtk/misc-gtk.c:983
 msgid "Cancel"
 msgstr "ተወው"
 
-#: src/gtk/misc-gtk.c:1081
+#: src/gtk/misc-gtk.c:1053
 msgid "  Yes  "
 msgstr "  አዎ  "
 
-#: src/gtk/misc-gtk.c:1091
+#: src/gtk/misc-gtk.c:1063
 msgid "  No  "
 msgstr "  አይ  "
 
-#: src/gtk/misc-gtk.c:1147
+#: src/gtk/misc-gtk.c:1119
 msgid "Getting directory listings"
 msgstr ""
 
-#: src/gtk/misc-gtk.c:1167
+#: src/gtk/misc-gtk.c:1139
 msgid "  Stop  "
 msgstr "አቁም"
 
-#: src/gtk/misc-gtk.c:1177
+#: src/gtk/misc-gtk.c:1149
 #, c-format
 msgid ""
 "Received %ld directories\n"
 "and %ld files"
 msgstr ""
 
-#: src/gtk/mkdir_dialog.c:73
+#: src/gtk/misc-gtk.c:1269
+#, c-format
+msgid "gFTP Error: Cannot find file %s in %s or %s\n"
+msgstr ""
+
+#: src/gtk/mkdir_dialog.c:78
 msgid "Mkdir: Operation canceled...you must enter a string\n"
 msgstr ""
 
-#: src/gtk/mkdir_dialog.c:94
+#: src/gtk/mkdir_dialog.c:100
 msgid "Mkdir"
 msgstr ""
 
-#: src/gtk/mkdir_dialog.c:98
+#: src/gtk/mkdir_dialog.c:104
 msgid "Make Directory"
 msgstr ""
 
-#: src/gtk/mkdir_dialog.c:98
+#: src/gtk/mkdir_dialog.c:104
 msgid "Enter name of directory to create"
 msgstr ""
 
-#: src/gtk/options_dialog.c:427
+#: src/gtk/options_dialog.c:910
 msgid "Edit Host"
 msgstr ""
 
-#: src/gtk/options_dialog.c:427
+#: src/gtk/options_dialog.c:910
 msgid "Add Host"
 msgstr ""
 
-#: src/gtk/options_dialog.c:459 src/gtk/options_dialog.c:550
+#: src/gtk/options_dialog.c:942 src/gtk/options_dialog.c:1033
 msgid "Domain"
 msgstr "ዶሜን"
 
-#: src/gtk/options_dialog.c:479
+#: src/gtk/options_dialog.c:962
 msgid "Network Address"
 msgstr ""
 
-#: src/gtk/options_dialog.c:512 src/gtk/options_dialog.c:652
+#: src/gtk/options_dialog.c:995 src/gtk/options_dialog.c:1135
 msgid "Netmask"
 msgstr ""
 
-#: src/gtk/options_dialog.c:658
+#: src/gtk/options_dialog.c:1141
 msgid "Local Hosts"
 msgstr ""
 
-#: src/gtk/options_dialog.c:685 src/gtk/view_dialog.c:90
+#: src/gtk/options_dialog.c:1177 src/gtk/view_dialog.c:91
 msgid "Edit"
 msgstr "አስተካክል"
 
-#: src/gtk/options_dialog.c:727 src/gtk/options_dialog.c:733
+#: src/gtk/options_dialog.c:1239 src/gtk/options_dialog.c:1244
 msgid "Options"
 msgstr "ምርጫዎች"
 
-#: src/gtk/rename_dialog.c:74
+#: src/gtk/rename_dialog.c:79
 msgid "Rename: Operation canceled...you must enter a string\n"
 msgstr ""
 
-#: src/gtk/rename_dialog.c:105
+#: src/gtk/rename_dialog.c:111
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr ""
@@ -2271,186 +2098,176 @@ msgstr ""
 msgid "Receiving file names..."
 msgstr ""
 
-#: src/gtk/transfer.c:278
+#: src/gtk/transfer.c:282
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr ""
 
-#: src/gtk/transfer.c:305 src/gtk/transfer.c:1521
+#: src/gtk/transfer.c:309 src/gtk/transfer.c:1285
 msgid "Connecting..."
 msgstr ""
 
-#: src/gtk/transfer.c:315 src/gtk/transfer.c:1417 src/gtk/transfer.c:1428
+#: src/gtk/transfer.c:319 src/gtk/transfer.c:1179 src/gtk/transfer.c:1190
 msgid "Enter Password"
 msgstr "ሚስጢራዊ ቃል አስገቡ"
 
-#: src/gtk/transfer.c:316 src/gtk/transfer.c:1418 src/gtk/transfer.c:1429
+#: src/gtk/transfer.c:320 src/gtk/transfer.c:1180 src/gtk/transfer.c:1191
 msgid "Please enter your password for this site"
 msgstr ""
 
-#: src/gtk/transfer.c:406
+#: src/gtk/transfer.c:410
 msgid "Transfer Files"
 msgstr ""
 
-#: src/gtk/transfer.c:414
+#: src/gtk/transfer.c:418
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr ""
 
-#: src/gtk/transfer.c:631
-#, c-format
-msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
-msgstr ""
-
-#: src/gtk/transfer.c:640
-#, c-format
-msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
-msgstr ""
-
-#: src/gtk/transfer.c:874
+#: src/gtk/transfer.c:645
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr ""
 
-#: src/gtk/transfer.c:943
+#: src/gtk/transfer.c:702
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr ""
 
-#: src/gtk/transfer.c:975
+#: src/gtk/transfer.c:732
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1078 src/gtk/transfer.c:1314 src/gtk/transfer.c:1397
-#: src/gtk/transfer.c:1823
+#: src/gtk/transfer.c:837 src/gtk/transfer.c:1071 src/gtk/transfer.c:1157
+#: src/gtk/transfer.c:1595
 msgid "Skipped"
 msgstr ""
 
-#: src/gtk/transfer.c:1082 src/gtk/transfer.c:1374 src/gtk/transfer.c:1401
+#: src/gtk/transfer.c:841 src/gtk/transfer.c:1133 src/gtk/transfer.c:1161
 msgid "Waiting..."
 msgstr ""
 
-#: src/gtk/transfer.c:1227
+#: src/gtk/transfer.c:984
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1230
+#: src/gtk/transfer.c:987
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1237
+#: src/gtk/transfer.c:994
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1242
+#: src/gtk/transfer.c:999
 #, c-format
 msgid "File %s was not changed\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1250
+#: src/gtk/transfer.c:1007
 #, c-format
 msgid ""
 "File %s has changed.\n"
 "Would you like to upload it?"
 msgstr ""
 
-#: src/gtk/transfer.c:1253
+#: src/gtk/transfer.c:1010
 msgid "Edit File"
 msgstr "ፋይል ያስተካክሉ"
 
-#: src/gtk/transfer.c:1317
+#: src/gtk/transfer.c:1074
 msgid "Finished"
 msgstr "ጨርሷል"
 
-#: src/gtk/transfer.c:1355
+#: src/gtk/transfer.c:1114
 #, c-format
 msgid "Stopping the transfer of %s\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1561
+#: src/gtk/transfer.c:1326
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr ""
 
-#: src/gtk/transfer.c:1586
+#: src/gtk/transfer.c:1354
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr ""
 
-#: src/gtk/transfer.c:1595
+#: src/gtk/transfer.c:1363
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr ""
 
-#: src/gtk/transfer.c:1621
+#: src/gtk/transfer.c:1389
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr ""
 
-#: src/gtk/transfer.c:1695 src/gtk/transfer.c:1717 src/gtk/transfer.c:1751
-#: src/gtk/transfer.c:1791 src/gtk/transfer.c:1844 src/gtk/transfer.c:1904
+#: src/gtk/transfer.c:1467 src/gtk/transfer.c:1489 src/gtk/transfer.c:1523
+#: src/gtk/transfer.c:1563 src/gtk/transfer.c:1616 src/gtk/transfer.c:1675
 msgid "There are no file transfers selected\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1735
+#: src/gtk/transfer.c:1507
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1776 src/gtk/transfer.c:1829
+#: src/gtk/transfer.c:1548 src/gtk/transfer.c:1601
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr ""
 
-#: src/gtk/transfer.c:1992 src/gtk/transfer.c:2194 src/gtk/transfer.c:2233
+#: src/gtk/transfer.c:1762 src/gtk/transfer.c:1967 src/gtk/transfer.c:2006
 msgid "Overwrite"
 msgstr "በላዩ ላይ ይጻፍ"
 
-#: src/gtk/transfer.c:2014 src/gtk/transfer.c:2204 src/gtk/transfer.c:2239
+#: src/gtk/transfer.c:1784 src/gtk/transfer.c:1977 src/gtk/transfer.c:2012
 msgid "Resume"
 msgstr "ቀጥል"
 
-#: src/gtk/transfer.c:2036 src/gtk/transfer.c:2199
+#: src/gtk/transfer.c:1806 src/gtk/transfer.c:1972
 msgid "Skip"
 msgstr "ዝለል"
 
-#: src/gtk/transfer.c:2113
+#: src/gtk/transfer.c:1883
 msgid "Local Size"
 msgstr ""
 
-#: src/gtk/transfer.c:2114
+#: src/gtk/transfer.c:1884
 msgid "Remote Size"
 msgstr ""
 
-#: src/gtk/transfer.c:2115
+#: src/gtk/transfer.c:1885
 msgid "Action"
 msgstr "ትግባር"
 
-#: src/gtk/transfer.c:2117
+#: src/gtk/transfer.c:1887
 msgid "Download Files"
 msgstr ""
 
-#: src/gtk/transfer.c:2117
+#: src/gtk/transfer.c:1887
 msgid "Upload Files"
 msgstr ""
 
-#: src/gtk/transfer.c:2143
+#: src/gtk/transfer.c:1913
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
 msgstr ""
 
-#: src/gtk/transfer.c:2245
+#: src/gtk/transfer.c:2018
 msgid "Skip File"
 msgstr ""
 
-#: src/gtk/transfer.c:2255
+#: src/gtk/transfer.c:2028
 msgid "Select All"
 msgstr "ሁሉንም ምረጡ"
 
-#: src/gtk/transfer.c:2261
+#: src/gtk/transfer.c:2034
 msgid "Deselect All"
 msgstr ""
 
@@ -2463,36 +2280,370 @@ msgstr "ተመልከት"
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr ""
 
-#: src/gtk/view_dialog.c:96
+#: src/gtk/view_dialog.c:100
 msgid "Edit: You must specify an editor in the options dialog\n"
 msgstr ""
 
-#: src/gtk/view_dialog.c:109
+#: src/gtk/view_dialog.c:113
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr ""
 
-#: src/gtk/view_dialog.c:183
+#: src/gtk/view_dialog.c:184
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr ""
 
-#: src/gtk/view_dialog.c:186
+#: src/gtk/view_dialog.c:187
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr ""
 
-#: src/gtk/view_dialog.c:245
+#: src/gtk/view_dialog.c:244
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr ""
 
-#: src/gtk/view_dialog.c:269
+#: src/gtk/view_dialog.c:279
 #, c-format
 msgid "Viewing file %s\n"
 msgstr ""
 
-#: src/gtk/view_dialog.c:276
+#: src/gtk/view_dialog.c:286
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr ""
+
+#: src/text/gftp-text.c:29
+msgid "about"
+msgstr "ስለ"
+
+#: src/text/gftp-text.c:30
+msgid "Shows gFTP information"
+msgstr ""
+
+#: src/text/gftp-text.c:31
+msgid "ascii"
+msgstr "ascii"
+
+#: src/text/gftp-text.c:32
+msgid "Sets the current file transfer mode to Ascii (only for FTP)"
+msgstr ""
+
+#: src/text/gftp-text.c:33
+msgid "binary"
+msgstr "binary"
+
+#: src/text/gftp-text.c:34
+msgid "Sets the current file transfer mode to Binary (only for FTP)"
+msgstr ""
+
+#: src/text/gftp-text.c:35
+msgid "cd"
+msgstr "ሲዲ"
+
+#: src/text/gftp-text.c:36 src/text/gftp-text.c:38
+msgid "Changes the remote working directory"
+msgstr ""
+
+#: src/text/gftp-text.c:37
+msgid "chdir"
+msgstr "chdir"
+
+#: src/text/gftp-text.c:39
+msgid "chmod"
+msgstr "chmod"
+
+#: src/text/gftp-text.c:40
+msgid "Changes the permissions of a remote file"
+msgstr ""
+
+#: src/text/gftp-text.c:41
+msgid "clear"
+msgstr "ሰርዝ"
+
+#: src/text/gftp-text.c:42
+msgid "Available options: cache"
+msgstr ""
+
+#: src/text/gftp-text.c:43
+msgid "close"
+msgstr "ዝጋ"
+
+#: src/text/gftp-text.c:44
+msgid "Disconnects from the remote site"
+msgstr ""
+
+#: src/text/gftp-text.c:45
+msgid "delete"
+msgstr "አጥፉ"
+
+#: src/text/gftp-text.c:46
+msgid "Removes a remote file"
+msgstr ""
+
+#: src/text/gftp-text.c:47
+msgid "get"
+msgstr "get"
+
+#: src/text/gftp-text.c:48 src/text/gftp-text.c:72
+msgid "Downloads remote file(s)"
+msgstr ""
+
+#: src/text/gftp-text.c:49
+msgid "help"
+msgstr "መረጃ"
+
+#: src/text/gftp-text.c:50
+msgid "Shows this help screen"
+msgstr ""
+
+#: src/text/gftp-text.c:51
+msgid "lcd"
+msgstr "lcd"
+
+#: src/text/gftp-text.c:52 src/text/gftp-text.c:54
+msgid "Changes the local working directory"
+msgstr ""
+
+#: src/text/gftp-text.c:53
+msgid "lchdir"
+msgstr "lchdir"
+
+#: src/text/gftp-text.c:55
+msgid "lchmod"
+msgstr "lchmod"
+
+#: src/text/gftp-text.c:56
+msgid "Changes the permissions of a local file"
+msgstr ""
+
+#: src/text/gftp-text.c:57
+msgid "ldelete"
+msgstr "ldelete"
+
+#: src/text/gftp-text.c:58
+msgid "Removes a local file"
+msgstr ""
+
+#: src/text/gftp-text.c:59
+msgid "lls"
+msgstr "lls"
+
+#: src/text/gftp-text.c:60
+msgid "Shows the directory listing for the current local directory"
+msgstr ""
+
+#: src/text/gftp-text.c:61
+msgid "lmkdir"
+msgstr "lmkdir"
+
+#: src/text/gftp-text.c:62
+msgid "Creates a local directory"
+msgstr ""
+
+#: src/text/gftp-text.c:63
+msgid "lpwd"
+msgstr "lpwd"
+
+#: src/text/gftp-text.c:64
+msgid "Show current local directory"
+msgstr ""
+
+#: src/text/gftp-text.c:65
+msgid "lrename"
+msgstr "lrename"
+
+#: src/text/gftp-text.c:66
+msgid "Rename a local file"
+msgstr ""
+
+#: src/text/gftp-text.c:67
+msgid "lrmdir"
+msgstr "lrmdir"
+
+#: src/text/gftp-text.c:68
+msgid "Remove a local directory"
+msgstr ""
+
+#: src/text/gftp-text.c:69
+msgid "ls"
+msgstr "ls"
+
+#: src/text/gftp-text.c:70
+msgid "Shows the directory listing for the current remote directory"
+msgstr ""
+
+#: src/text/gftp-text.c:71
+msgid "mget"
+msgstr "mget"
+
+#: src/text/gftp-text.c:73
+msgid "mkdir"
+msgstr "mkdir"
+
+#: src/text/gftp-text.c:74
+msgid "Creates a remote directory"
+msgstr ""
+
+#: src/text/gftp-text.c:75
+msgid "mput"
+msgstr "mput"
+
+#: src/text/gftp-text.c:76 src/text/gftp-text.c:80
+msgid "Uploads local file(s)"
+msgstr ""
+
+#: src/text/gftp-text.c:77
+msgid "open"
+msgstr "ክፈት"
+
+#: src/text/gftp-text.c:78
+msgid "Opens a connection to a remote site"
+msgstr ""
+
+#: src/text/gftp-text.c:79
+msgid "put"
+msgstr "put"
+
+#: src/text/gftp-text.c:81
+msgid "pwd"
+msgstr "pwd"
+
+#: src/text/gftp-text.c:82
+msgid "Show current remote directory"
+msgstr ""
+
+#: src/text/gftp-text.c:83
+msgid "quit"
+msgstr "ውጣ"
+
+#: src/text/gftp-text.c:84
+msgid "Exit from gFTP"
+msgstr ""
+
+#: src/text/gftp-text.c:85
+msgid "rename"
+msgstr "እንደገና ሰይም"
+
+#: src/text/gftp-text.c:86
+msgid "Rename a remote file"
+msgstr ""
+
+#: src/text/gftp-text.c:87
+msgid "rmdir"
+msgstr ""
+
+#: src/text/gftp-text.c:88
+msgid "Remove a remote directory"
+msgstr ""
+
+#: src/text/gftp-text.c:89
+msgid "set"
+msgstr "አድርግ"
+
+#: src/text/gftp-text.c:90
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
+msgstr ""
+
+#: src/text/gftp-text.c:148
+msgid ""
+">.\n"
+"If you have any questions, comments, or suggestions about this program, "
+"please feel free to email them to me. You can always find out the latest "
+"news about gFTP from my website at http://www.gftp.org/\n"
+msgstr ""
+
+#: src/text/gftp-text.c:231
+msgid "Error: Command not recognized\n"
+msgstr ""
+
+#: src/text/gftp-text.c:338
+msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
+msgstr ""
+
+#: src/text/gftp-text.c:414 src/text/gftp-text.c:430 src/text/gftp-text.c:473
+#: src/text/gftp-text.c:496 src/text/gftp-text.c:519 src/text/gftp-text.c:545
+#: src/text/gftp-text.c:573 src/text/gftp-text.c:606 src/text/gftp-text.c:698
+#: src/text/gftp-text.c:716 src/text/gftp-text.c:737 src/text/gftp-text.c:811
+msgid "Error: Not connected to a remote site\n"
+msgstr ""
+
+#: src/text/gftp-text.c:436 src/text/gftp-text.c:453
+msgid "usage: chdir <directory>\n"
+msgstr ""
+
+#: src/text/gftp-text.c:480
+msgid "usage: mkdir <new directory>\n"
+msgstr ""
+
+#: src/text/gftp-text.c:503
+msgid "usage: rmdir <directory>\n"
+msgstr ""
+
+#: src/text/gftp-text.c:526
+msgid "usage: delete <file>\n"
+msgstr ""
+
+#: src/text/gftp-text.c:555
+msgid "usage: rename <old name> <new name>\n"
+msgstr ""
+
+#: src/text/gftp-text.c:583
+msgid "usage: chmod <mode> <file>\n"
+msgstr ""
+
+#: src/text/gftp-text.c:744
+msgid "usage: mget <filespec>\n"
+msgstr ""
+
+#: src/text/gftp-text.c:818
+msgid "usage: mput <filespec>\n"
+msgstr ""
+
+#: src/text/gftp-text.c:956
+#, c-format
+msgid "Could not download %s\n"
+msgstr ""
+
+#: src/text/gftp-text.c:963
+#, c-format
+msgid "Successfully transferred %s\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1030
+msgid ""
+"Supported commands:\n"
+"\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1086
+msgid "usage: set [variable = value]\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1100
+#, c-format
+msgid "Error: Variable %s is not a valid configuration variable.\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1107
+#, c-format
+msgid "Error: Variable %s is not available in the text port of gFTP\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1135
+msgid "Invalid argument\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1160
+#, c-format
+msgid "Cannot open controlling terminal %s\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1238
+msgid "Clear the directory cache\n"
+msgstr ""
+
+#~ msgid "gFTP Icon"
+#~ msgstr "gFTP ምልክት"

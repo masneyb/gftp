@@ -48,7 +48,7 @@ $rep{"STABLE_DATE"} = ++$date[4] . "/$date[3]/" . ($date[5] + 1900);
 
 print "Generating changelog.html...\n";
 
-open C, "<../gftp/ChangeLog-old" or die "Can't open ../gftp/ChangeLog-old: $!\n";
+open C, "<../../ChangeLog-old" or die "Can't open ../../ChangeLog-old: $!\n";
 open N, ">changelog.html" or die "Can't open changelog.html: $!\n";
 
 print N "<HTML>\n";

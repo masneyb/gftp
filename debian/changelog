@@ -1,8 +1,33 @@
+gftp (2.0.15rc1-1) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Wed, 23 Jul 2003 21:58:18 -0400
+
+gftp (2.0.14-1.1) unstable; urgency=low
+
+  * NMU (RC bug with patch more than 4 months old).
+  * debian/control:
+    + Set policy to 3.5.10.
+    + Added proper Conflicts/Replaces to reflect moving the menu file from
+      gftp-common to gftp-gtk (Closes: #176188, #176206).
+    + Used ${Source-Version} in package dependencies.
+  * debian/menu:
+    + Changed the package test to gftp-gtk.
+
+ -- Sam Hocevar (Debian packages) <sam+deb@zoy.org>  Fri,  6 Jun 2003 13:24:06 +0200
+
 gftp (2.0.14-1) unstable; urgency=low
 
-  * New release. See ChangeLog for details on changes in this release
+  * Added Brian's patch which closes: #170367.
+  * Moving menu file in gftp-gtk (closes: #158430).
+  * Added libreadline-dev in the gtk-text Build-Depends (closes: #172016).
+  * gftp now supports gtk2, so switching to use it (closes: #158406).
+  * Lowered debhelper version to 2 to build gftp in debian stable release
+    (Nicolas Boos).
+  * New upstream release.
 
- -- Brian Masney <masneyb@gftp.org>  Thu, 5 Dec 2002 21:29:57 -0500
+ -- Aurelien Beaujean <aure@debian.org>  Wed,  8 Jan 2003 22:50:38 +0100
 
 gftp (2.0.13-1) unstable; urgency=low
 
