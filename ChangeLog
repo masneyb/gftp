@@ -1,3 +1,13 @@
+2004-3-21 Brian Masney <masneyb@gftp.org>
+	* src/uicommon/gftpuicallbacks.c (gftpui_common_run_ls) - if there
+	is an error, make sure that the exact error code is returned
+
+	* lib/protocols.c (gftp_transfer_files) - if the connection timed
+	out, reconnect immediately
+
+	* lib/rfc959.c - if the connection timed out to the server, make
+	sure GFTP_ETIMEDOUT is returned
+
 2004-3-20 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h src/uicommon/gftpui.c lib/rfc959.c - if the connection
 	timed out to the server, return GFTP_ETIMEDOUT. In the UI, if this

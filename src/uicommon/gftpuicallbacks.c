@@ -61,13 +61,14 @@ gftpui_common_run_chmod (gftpui_callback_data * cdata)
 int
 gftpui_common_run_ls (gftpui_callback_data * cdata)
 {
-  int got, matched_filespec, have_dotdot;
+  int got, matched_filespec, have_dotdot, ret;
   char *sortcol_var, *sortasds_var;
   intptr_t sortcol, sortasds;
   gftp_file * fle;
 
-  if (gftp_list_files (cdata->request) != 0)
-    return (0);
+  ret = gftp_list_files (cdata->request);
+  if (ret < 0)
+    return (ret);
 
   have_dotdot = 0;
   cdata->request->gotbytes = 0;

@@ -229,11 +229,36 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
 
   fromreq->cached = 0;
   toreq->cached = 0;
-  if ((size = gftp_get_file (fromreq, fromfile, fromfd, tosize)) < 0)
-    return (size);
 
-  if ((ret = gftp_put_file (toreq, tofile, tofd, tosize, size)) != 0)
+get_file:
+  size = gftp_get_file (fromreq, fromfile, fromfd, tosize);
+  if (size < 0)
     {
+      if (size == GFTP_ETIMEDOUT)
+        {
+          ret = gftp_connect (fromreq);
+          if (ret < 0)
+            return (ret);
+
+          goto get_file;
+        }
+
+      return (size);
+    }
+
+put_file:
+  ret = gftp_put_file (toreq, tofile, tofd, tosize, size);
+  if (ret != 0)
+    {
+      if (size == GFTP_ETIMEDOUT)
+        {
+          ret = gftp_connect (fromreq);
+          if (ret < 0)
+            return (ret);
+
+          goto put_file;
+        }
+
       if (gftp_abort_transfer (fromreq) != 0)
         gftp_end_transfer (fromreq);
 

@@ -504,7 +504,7 @@ rfc959_connect (gftp_request * request)
       resp = rfc959_send_command (request, tempstr, 1);
       g_free (tempstr);
       if (resp < 0)
-        return (GFTP_ERETRYABLE);
+        return (resp);
 
       if (resp == '3')
 	{
@@ -520,7 +520,7 @@ rfc959_connect (gftp_request * request)
 	  resp = rfc959_send_command (request, tempstr, 1);
 	  g_free (tempstr);
           if (resp < 0)
-            return (GFTP_ERETRYABLE);
+            return (resp);
         }
 
       if (resp == '3' && request->account)
@@ -529,7 +529,7 @@ rfc959_connect (gftp_request * request)
 	  resp = rfc959_send_command (request, tempstr, 1);
 	  g_free (tempstr);
           if (resp < 0)
-            return (GFTP_ERETRYABLE);
+            return (resp);
 	}
     }
 
@@ -647,12 +647,13 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
   if (passive_transfer)
     {
-      if ((resp = rfc959_send_command (request, "PASV\r\n", 1)) != '2')
+      resp = rfc959_send_command (request, "PASV\r\n", 1);
+      if (resp < 0)
+        return (resp);
+      else if (resp != '2')
 	{
-          if (request->datafd < 0)
-            return (GFTP_ERETRYABLE);
-
-          gftp_set_request_option (request, "passive_transfer", GINT_TO_POINTER(0));
+          gftp_set_request_option (request, "passive_transfer",
+                                   GINT_TO_POINTER(0));
 	  return (rfc959_ipv4_data_connection_new (request));
 	}
 
@@ -745,7 +746,10 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 				 pos1[1] & 0xff);
       resp = rfc959_send_command (request, command, 1);
       g_free (command);
-      if (resp != '2')
+
+      if (resp < 0)
+        return (resp);
+      else if (resp != '2')
 	{
           request->logging_function (gftp_logging_error, request,
                                      _("Invalid response '%c' received from server.\n"),
@@ -806,11 +810,11 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
   if (passive_transfer)
     {
-      if ((resp = rfc959_send_command (request, "EPSV\r\n", 1)) != '2')
+      resp = rfc959_send_command (request, "EPSV\r\n", 1);
+      if (resp < 0)
+        return (resp);
+      else if (resp != '2')
 	{
-          if (request->datafd < 0)
-            return (GFTP_ERETRYABLE);
-
           gftp_set_request_option (request, "passive_transfer", 
                                    GINT_TO_POINTER(0));
 	  return (rfc959_ipv6_data_connection_new (request));
@@ -901,7 +905,10 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 
       resp = rfc959_send_command (request, command, 1);
       g_free (command);
-      if (resp != '2')
+
+      if (resp < 0)
+        return (resp);
+      else if (resp != '2')
 	{
           gftp_disconnect (request);
 	  return (GFTP_ERETRYABLE);
@@ -1230,20 +1237,18 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
     return (GFTP_ERETRYABLE);
 
   tempstr = g_strconcat ("RETR ", fromfile, "\r\n", NULL);
-  if ((ret = rfc959_send_command (fromreq, tempstr, 0)) < 0)
-    {
-      g_free (tempstr);
-      return (ret);
-    }
+  ret = rfc959_send_command (fromreq, tempstr, 0);
   g_free (tempstr);
 
+  if (ret < 0)
+    return (ret);
+
   tempstr = g_strconcat ("STOR ", tofile, "\r\n", NULL);
-  if ((ret = rfc959_send_command (toreq, tempstr, 0)) < 0)
-    {
-      g_free (tempstr);
-      return (ret);
-    }
+  ret = rfc959_send_command (toreq, tempstr, 0);
   g_free (tempstr);
+
+  if (ret < 0)
+    return (ret);
 
   if ((ret = rfc959_read_response (fromreq, 1)) < 0)
     return (ret);
