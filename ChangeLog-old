@@ -1,3 +1,28 @@
+Changes from 2.0.17 to 2.0.17
+
+* SSH2: Improved the login code. You no longer need to specify in gFTP the
+  path to the sftp-server binary on the remote server. It will now just work
+  out of the box for most sites. Also, if the SSH binary is asking a
+  question, this question will be relayed back through the gFTP user interface
+  so the user can answer it appropriately.
+* SSH2: Added support for RSA SecurID passwords
+* FTP, SSH2: Added support for preserving the file date/time
+* FTP: Fixed IPv6 connection problem
+* More 64 bit cleanups
+* More largefile fixes
+* Fixed detection of SIGCHLD signal when viewing/editing files
+* Added remote_lc_time option. The value of LC_TIME can now be overridden on
+  a per site basis. This will fix problems parsing the dates in the remote
+  directory listings
+* Some more GNOME HIG fixes
+* Fixed several segfaults in the bookmarks editor
+* Save the state of the host, user and port fields in the toolbar
+* Fixed compiler errors on OpenBSD and HPUX
+* Many other small changes and improvements. See the ChangeLog file in the
+  distribution for a detailed list of changes.
+* New language translations and updates (bg cs en_CA en_GB es fi he hu ja nl pa
+                                         pt_BR ru sq)
+
 Changes from 2.0.16 to 2.0.17
 
 * Separated out more of the UI independent code in the GTK+ and Text ports and
