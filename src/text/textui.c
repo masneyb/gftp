@@ -265,3 +265,19 @@ gftpui_protocol_ask_yes_no (gftp_request * request, char *title, char *question)
   return (ret);
 }
 
+
+char *
+gftpui_protocol_ask_user_input (gftp_request * request, char *title,
+                                char *question, int shown)
+{
+  char buf[255];
+
+  do
+    {
+      gftp_text_ask_question (question, shown, buf, sizeof (buf));
+    }
+  while (*buf == '\0');
+
+  return (g_strdup (buf));
+}
+

@@ -34,19 +34,11 @@ static gftp_config_vars config_vars[] =
   {"ssh_extra_params", N_("SSH Extra Params:"), 
    gftp_option_type_text, NULL, NULL, 0,  
    N_("Extra parameters to pass to the SSH program"), GFTP_PORT_ALL, NULL},
-  {"ssh2_sftp_path", N_("SSH2 sftp-server path:"), 
-   gftp_option_type_text, NULL, NULL, GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("Default remote SSH2 sftp-server path"), GFTP_PORT_ALL, NULL},
 
   {"ssh_need_userpass", N_("Need SSH User/Pass"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Require a username/password for SSH connections"), GFTP_PORT_ALL, NULL},
-  {"sshv2_use_sftp_subsys", N_("Use SSH2 SFTP subsys"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
-   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("Call ssh with the -s sftp flag. This is helpful because you won't have to know the remote path to the remote sftp-server"), 
-   GFTP_PORT_GTK, NULL},
 
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
@@ -147,7 +139,6 @@ typedef struct sshv2_params_tag
 #define SSH_LOGIN_BUFSIZE	200
 #define SSH_ERROR_BADPASS	-1
 #define SSH_ERROR_QUESTION	-2
-#define SSH_WARNING 		-3
 
 static void
 sshv2_add_exec_args (char **logstr, size_t *logstr_len, char ***args, 
@@ -210,8 +201,7 @@ sshv2_add_exec_args (char **logstr, size_t *logstr_len, char ***args,
 
 
 static char **
-sshv2_gen_exec_args (gftp_request * request, char *execname, 
-                    int use_sftp_subsys)
+sshv2_gen_exec_args (gftp_request * request)
 {
   size_t logstr_len, args_len, args_cur;
   char **args, *tempstr, *logstr;
@@ -243,12 +233,8 @@ sshv2_gen_exec_args (gftp_request * request, char *execname,
   sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
                        " -p %d", request->port);
 
-  if (use_sftp_subsys)
-    sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
-                         " %s -s sftp", request->hostname);
-  else
-    sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
-                         " %s %s", request->hostname, execname);
+  sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
+                       " %s -s sftp", request->hostname);
 
   request->logging_function (gftp_logging_misc, request, 
                              _("Running program %s\n"), logstr);
@@ -260,16 +246,15 @@ sshv2_gen_exec_args (gftp_request * request, char *execname,
 static int
 sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
 {
-  char *tempstr, *pwstr, *tmppos, *yesstr = "yes\n", *question_pos;
-  size_t rem, len, diff, lastdiff;
-  int wrotepw, ok, maxfd, ret;
+  char *tempstr, *temp1str, *pwstr, *yesstr = "yes\n", *securid_pass;
+  int wrotepw, ok, maxfd, ret, clear_tempstr;
+  size_t rem, len, diff;
   fd_set rset, eset;
   ssize_t rd;
 
-  question_pos = NULL;
   rem = len = SSH_LOGIN_BUFSIZE;
+  diff = 0;
   tempstr = g_malloc0 (len + 1);
-  diff = lastdiff = 0;
   wrotepw = 0;
   ok = 1;
 
@@ -333,47 +318,20 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
       else if (rd == 0)
         continue;
 
+      tempstr[diff + rd] = '\0'; 
+      request->logging_function (gftp_logging_recv, request, "%s", tempstr + diff);
       rem -= rd;
       diff += rd;
-      tempstr[diff] = '\0'; 
 
-      if ( (strcmp (tempstr, "Password:") == 0) || 
-           (diff >= 10 && strcmp (tempstr + diff - 9, "assword: ") == 0))
+      if (strcmp (tempstr, "Password:") == 0 || 
+          (diff >= 10 && strcmp (tempstr + diff - 9, "assword: ") == 0) ||
+          strstr (tempstr, "Enter passphrase for RSA key") != NULL ||
+          strstr (tempstr, "Enter passphrase for key '") != NULL)
         {
+          clear_tempstr = 1;
           if (wrotepw)
             {
               ok = SSH_ERROR_BADPASS;
-              break;
-            }
-
-          if (strstr (tempstr, "WARNING") != NULL ||
-              strstr (tempstr, _("WARNING")) != NULL)
-            {
-              ok = SSH_WARNING;
-              break;
-            }
-              
-          wrotepw = 1;
-          if (gftp_fd_write (request, pwstr, strlen (pwstr), ptymfd) < 0)
-            {
-              ok = 0;
-              break;
-            }
-        }
-      else if (diff > 2 && strcmp (tempstr + diff - 2, ": ") == 0 &&
-               ((tmppos = strstr (tempstr, "Enter passphrase for RSA key")) != NULL ||
-                ((tmppos = strstr (tempstr, "Enter passphrase for key '")) != NULL)))
-        {
-          if (wrotepw)
-            {
-              ok = SSH_ERROR_BADPASS;
-              break;
-            }
-
-          if (strstr (tempstr, "WARNING") != NULL ||
-              strstr (tempstr, _("WARNING")) != NULL)
-            {
-              ok = SSH_WARNING;
               break;
             }
 
@@ -386,7 +344,7 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
         }
       else if (diff > 10 && strcmp (tempstr + diff - 10, "(yes/no)? ") == 0)
         {
-          question_pos = tempstr + diff;
+          clear_tempstr = 1;
           if (!gftpui_protocol_ask_yes_no (request, request->hostname, tempstr))
             {
               ok = SSH_ERROR_QUESTION;
@@ -401,37 +359,62 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
                 }
             }
         }
+      else if (strstr (tempstr, "Enter PASSCODE:") != NULL)
+        {
+          clear_tempstr = 1;
+          securid_pass = gftpui_protocol_ask_user_input (request,
+                                             _("Enter Password"),
+                                             _("Enter SecurID Password:"), 0);
+
+          if (securid_pass == NULL || *securid_pass == '\0')
+            {
+              ok = SSH_ERROR_BADPASS;
+              break;
+            }
+
+          temp1str = g_strconcat (securid_pass, "\n", NULL);
+
+          ret = gftp_fd_write (request, yesstr, strlen (yesstr), ptymfd);
+
+          memset (temp1str, 0, strlen (temp1str));
+          g_free (temp1str);
+          memset (securid_pass, 0, strlen (securid_pass));
+          g_free (securid_pass);
+
+          if (ret <= 0)
+            {
+              ok = 0;
+              break;
+            }
+        }
       else if (rem <= 1)
         {
           len += SSH_LOGIN_BUFSIZE;
           rem += SSH_LOGIN_BUFSIZE;
-          lastdiff = diff;
           tempstr = g_realloc (tempstr, len);
           continue;
+        }
+      else
+        clear_tempstr = 0;
+
+      if (clear_tempstr)
+        {
+          *tempstr = '\0';
+          rem = SSH_LOGIN_BUFSIZE;
+          diff = 0;
         }
     }
 
   g_free (pwstr);
-
-  if (question_pos != NULL)
-    {
-      if (*question_pos != '\0')
-        request->logging_function (gftp_logging_recv, request, "%s\n",
-                                   question_pos);
-    }
-  else if (*tempstr != '\0')
-    request->logging_function (gftp_logging_recv, request, "%s\n", tempstr);
-
   g_free (tempstr);
 
   if (ok <= 0)
     {
+      request->logging_function (gftp_logging_error, request, "\n");
+
       if (ok == SSH_ERROR_BADPASS)
         request->logging_function (gftp_logging_error, request,
                                _("Error: An incorrect password was entered\n"));
-      else if (ok == SSH_WARNING)
-        request->logging_function (gftp_logging_error, request,
-                                   _("Please correct the above warning to connect to this host.\n"));
 
       gftp_disconnect (request);
       return (GFTP_EFATAL);
@@ -903,12 +886,11 @@ sshv2_free_args (char **args)
 static int
 sshv2_connect (gftp_request * request)
 {
-  char **args, *p1, p2, *exepath, *ssh2_sftp_path;
-  intptr_t sshv2_use_sftp_subsys;
   int version, ret, fdm, ptymfd;
   struct servent serv_struct;
   sshv2_params * params;
   sshv2_message message;
+  char **args;
   pid_t child;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -924,21 +906,6 @@ sshv2_connect (gftp_request * request)
 			     _("Opening SSH connection to %s\n"),
                              request->hostname);
 
-  gftp_lookup_request_option (request, "ssh2_sftp_path", &ssh2_sftp_path);
-  gftp_lookup_request_option (request, "sshv2_use_sftp_subsys", 
-                              &sshv2_use_sftp_subsys);
-
-  if (ssh2_sftp_path == NULL || *ssh2_sftp_path == '\0')
-    {
-      p1 = "";
-      p2 = ' ';
-    }
-  else
-    {
-      p1 = ssh2_sftp_path;
-      p2 = '/';
-    }
-
   if (request->port == 0)
     {
       if (!r_getservbyname ("ssh", "tcp", &serv_struct, NULL))
@@ -951,8 +918,7 @@ sshv2_connect (gftp_request * request)
         request->port = ntohs (serv_struct.s_port);
     }
 
-  exepath = g_strdup_printf ("%s%csftp-server", p1, p2);
-  args = sshv2_gen_exec_args (request, exepath, sshv2_use_sftp_subsys);
+  args = sshv2_gen_exec_args (request);
 
   child = gftp_exec (request, &fdm, &ptymfd, args);
 
@@ -960,7 +926,6 @@ sshv2_connect (gftp_request * request)
     exit (0);
 
   sshv2_free_args (args);
-  g_free (exepath);
 
   if (child < 0)
     return (GFTP_ERETRYABLE);

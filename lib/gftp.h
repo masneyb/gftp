@@ -1044,6 +1044,11 @@ int gftpui_protocol_ask_yes_no 		( gftp_request * request,
 					  char *title,
 					  char *question );
 
+char *gftpui_protocol_ask_user_input	( gftp_request * request,
+					  char *title,
+					  char *question,
+					  int shown );
+
 void gftpui_protocol_update_timeout 	( gftp_request * request );
 
 #endif

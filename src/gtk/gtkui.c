@@ -486,7 +486,7 @@ gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
 
   if (gftp_protocols[request->protonum].use_threads)
     {
-      /* Otherwise let the main loop in the main thread run the events */
+      /* Let the main loop in the main thread run the events */
       GDK_THREADS_LEAVE ();
 
       while (answer == -1)
@@ -508,5 +508,64 @@ gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
     }
 
   return (answer);
+}
+
+
+static void
+_protocol_ok_answer (char *buf, gftp_dialog_data * ddata)
+{
+  buf[1] = ' '; /* In case this is an empty string entered */
+  strncpy (buf, gtk_entry_get_text (GTK_ENTRY (ddata->edit)), BUFSIZ);
+}
+
+
+static void
+_protocol_cancel_answer (char *buf, gftp_dialog_data * ddata)
+{
+  buf[0] = '\0';
+  buf[1] = '\0';
+}
+
+
+char *
+gftpui_protocol_ask_user_input (gftp_request * request, char *title,
+                                char *question, int shown)
+{
+  char buf[BUFSIZ];
+
+  GDK_THREADS_ENTER ();
+
+  *buf = '\0';
+  *(buf + 1) = ' ';
+  MakeEditDialog (title, question, NULL, shown, NULL, gftp_dialog_button_ok,
+                  _protocol_ok_answer, &buf, _protocol_cancel_answer, &buf);
+
+  if (gftp_protocols[request->protonum].use_threads)
+    {
+      /* Let the main loop in the main thread run the events */
+      GDK_THREADS_LEAVE ();
+
+      while (*buf == '\0' && *(buf + 1) == ' ')
+        {
+          sleep (1);
+        }
+    }
+  else
+    {
+      while (*buf == '\0' && *(buf + 1) == ' ')
+        {
+          GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1
+          g_main_iteration (TRUE);
+#else
+          g_main_context_iteration (NULL, TRUE);
+#endif
+        }
+    }
+
+  if (*buf != '\0')
+    return (g_strdup (buf));
+  else
+    return (NULL);
 }
 

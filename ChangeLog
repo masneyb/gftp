@@ -1,3 +1,11 @@
+2004-6-15 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/sshv2.c src/gtk/gtkui.c src/text/textui.c - added
+	support for RSA SecurID passwords
+
+	* lib/sshv2.c - cleaned up the SSH login sequence even more. Removed
+	ssh2_sftp_path and sshv2_use_sftp_subsys options. The sftp subsystem
+	is now always used.
+
 2004-6-13 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/misc.c src/gtk/Makefile.am src/gtk/menu-items.c
 	src/gtk/misc-gtk.c src/text/Makefile.am src/uicommon/Makefile.am
