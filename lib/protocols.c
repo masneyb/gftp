@@ -1234,6 +1234,7 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
       startpos = goto_next_token (startpos);
     }
 
+  /* FIXME - this is a bug if there is some extra spaces in the file */
   /* See if this is a Cray directory listing. It has the following format:
      drwx------     2 feiliu    g913     DK  common      4096 Sep 24  2001 wv */
   if (cols == 11 && strstr (str, "->") == NULL)
@@ -1367,16 +1368,19 @@ static char *
 copy_token (char **dest, char *source)
 {
   /* This function is used internally by gftp_parse_ls () */
-  char *endpos;
+  char *endpos, savepos;
 
   endpos = source;
   while (*endpos != ' ' && *endpos != '\t' && *endpos != '\0')
     endpos++;
   if (*endpos == '\0')
     return (NULL);
+
+  savepos = *endpos;
   *endpos = '\0';
   *dest = g_malloc (endpos - source + 1);
   strcpy (*dest, source);
+  *endpos = savepos;
 
   /* Skip the blanks till we get to the next entry */
   source = endpos + 1;
@@ -1391,10 +1395,13 @@ goto_next_token (char *pos)
 {
   while (*pos != ' ' && *pos != '\t' && *pos != '\0')
     pos++;
+
   if (pos == '\0')
     return (pos);
+
   while ((*pos == ' ' || *pos == '\t') && *pos != '\0')
     pos++;
+
   return (pos);
 }
 

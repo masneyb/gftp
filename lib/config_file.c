@@ -93,7 +93,7 @@ gftp_config_vars config_file_vars[] =
 	N_("If you disable this feature, then gFTP will only send LIST to the remote server instead of LIST -L"), NULL, GFTP_PORT_ALL},
 
   {"", "", (void *) 0x1, CONFIG_TABLE, "", NULL, GFTP_PORT_GTK},
-  {"", N_("Proxy server type"), (void *) 0x1, CONFIG_COMBO, "PS", NULL, 0},
+  {"", N_("Proxy server type"), (void *) 0x1, CONFIG_COMBO, "PS", NULL, GFTP_PORT_GTK},
   {"proxy_config", N_("Proxy config"), &proxy_config, CONFIG_TEXT,
 	N_("This specifies how your proxy server expects us to log in"), NULL, GFTP_PORT_GTK},
   {"", N_("%pu = proxy user"), (void *) 0x1, CONFIG_LABEL, "", NULL, 0},

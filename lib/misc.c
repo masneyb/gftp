@@ -1205,6 +1205,9 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
   else
     filelist = g_list_concat (filelist, files);
 
+  /* I haven't check this, but I'm pretty sure some older versions of glib
+     had a bug that the prev pointer wasn't being sent to NULL */
+  filelist->prev = NULL;
   return (filelist);
 }
 

@@ -358,7 +358,7 @@ selectallfiles (gpointer data)
   wdata->show_selected = 0;
   gtk_clist_freeze (GTK_CLIST (wdata->listbox));
   i = 0;
-  templist = g_list_first (wdata->files);
+  templist = wdata->files;
   while (templist != NULL)
     {
       tempfle = (gftp_file *) templist->data;
@@ -476,7 +476,7 @@ chdir_dialog (gpointer data)
                      wdata->request->chdir != NULL))
     return (0);
 
-  filelist = g_list_first (wdata->files);
+  filelist = wdata->files;
   templist = GTK_CLIST (wdata->listbox)->selection;
   num = 0;
   templist = get_next_selection (templist, &filelist, &num);

@@ -885,7 +885,7 @@ list_doaction (gftp_window_data * wdata)
   int num, dir, success;
   gftp_file *tempfle;
 
-  filelist = g_list_first (wdata->files);
+  filelist = wdata->files;
   templist = GTK_CLIST (wdata->listbox)->selection;
   num = 0;
   templist = get_next_selection (templist, &filelist, &num);

@@ -1,3 +1,15 @@
+2002-10-15 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c - enable combo in GTK port for Proxy server type
+
+	* lib/misc.c (gftp_sort_filelist) - make sure prev pointer to first
+	entry is NULL
+
+	* lib/protocols.c (copy_token) - when setting the end position of 
+	the token to \0, after we're done set it back to the origional position
+
+	* src/gtk/gftp-gtk.c, src/gtk/menu-items.c - changed g_list_first (list)
+	to just list
+
 2002-10-13 Brian Masney <masneyb@gftp.org>
         * lib/gftp.h (struct gftp_config_vars_tag) - remove shown flag and
         added ports_shown flag. Added GFTP_PORTS_TEXT, GFTP_PORTS_GTK,
