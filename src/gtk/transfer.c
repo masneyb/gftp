@@ -1616,6 +1616,7 @@ update_downloads (gpointer data)
 	  else if (tdata->done)
 	    {
 	      next = templist->next;
+              pthread_mutex_unlock (tdata->structmutex);
 	      transfer_done (templist);
 	      templist = next;
 	      continue;

@@ -1,4 +1,16 @@
 2002-11-20 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c - don't check buf[-1] for blank newlines in 
+	gftp_read_config_file() and gftp_read_bookmarks_file() 
+
+	* lib/misc.c (string_hash_function) - Fixes if the string was less 
+	than 2 characters
+
+	* src/gtk/transfer.c - unlock mutex before we destroy (for POSIX
+	compliance)
+
+	All 3 of these fixes are from Peter Osterlund <petero2@telia.com>
+
+2002-11-20 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c lib/gftp.h - added gftp_get_line(), gftp_read(), 
 	gftp_write(), gftp_writefmt(), and gftp_set_sockblocking() functions. 
 	Added struct_gftp_getline_buffer for gftp_get_line function()

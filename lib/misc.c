@@ -414,7 +414,14 @@ string_hash_compare (gconstpointer path1, gconstpointer path2)
 guint
 string_hash_function (gconstpointer key)
 {
-  return (((char *) key)[0] + ((char *) key)[1] + ((char *) key)[2]);
+  guint ret;
+  int i;
+
+  ret = 0;
+  for (i=0; ((char *) key)[0] != '\0' && i < 3; i++)
+    ret += ((char *) key)[i];
+
+  return (ret);
 }
 
 

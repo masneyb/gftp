@@ -288,7 +288,7 @@ gftp_read_config_file (char **argv, int get_xpms)
       len = strlen (buf);
       if (buf[len - 1] == '\n')
 	buf[--len] = '\0';
-      if (buf[len - 1] == '\r')
+      if (len && buf[len - 1] == '\r')
 	buf[--len] = '\0';
       line++;
 
@@ -566,7 +566,7 @@ gftp_read_bookmarks (void)
      len = strlen (buf);
       if (buf[len - 1] == '\n')
 	buf[--len] = '\0';
-      if (buf[len - 1] == '\r')
+      if (len && buf[len - 1] == '\r')
 	buf[--len] = '\0';
       line++;
 
