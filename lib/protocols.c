@@ -112,8 +112,6 @@ gftp_file_destroy (gftp_file * file)
     g_free (file->user);
   if (file->group)
     g_free (file->group);
-  if (file->attribs)
-    g_free (file->attribs);
   if (file->destfile)
     g_free (file->destfile);
   memset (file, 0, sizeof (*file));
@@ -980,7 +978,7 @@ gftp_rename_file (gftp_request * request, const char *oldname,
 
 
 int
-gftp_chmod (gftp_request * request, const char *file, int mode)
+gftp_chmod (gftp_request * request, const char *file, mode_t mode)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
@@ -1285,25 +1283,29 @@ parse_time (char *str, char **endpos)
 }
 
 
-static void 
-gftp_parse_vms_attribs (char *dest, char **src)
+static mode_t
+gftp_parse_vms_attribs (char **src, mode_t mask)
 {
   char *endpos;
+  mode_t ret;
 
   if (*src == NULL)
-    return;
+    return (0);
 
   if ((endpos = strchr (*src, ',')) != NULL)
     *endpos = '\0';
 
+  ret = 0;
   if (strchr (*src, 'R') != NULL)
-    *dest = 'r';
+    ret |= S_IRUSR | S_IRGRP | S_IROTH;
   if (strchr (*src, 'W') != NULL)
-    *(dest + 1) = 'w';
+    ret |= S_IWUSR | S_IWGRP | S_IWOTH;
   if (strchr (*src, 'E') != NULL)
-    *(dest + 2) = 'x';
+    ret |= S_IXUSR | S_IXGRP | S_IXOTH;
 
   *src = endpos + 1;
+
+  return (ret & mask);
 }
 
 
@@ -1335,12 +1337,9 @@ gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
   *curpos = '\0';
   if (strlen (str) > 4 && strcmp (curpos - 4, ".DIR") == 0)
     {
-      fle->isdir = 1;
-      fle->attribs = g_strdup ("d---------");
+      fle->st_mode |= S_IFDIR;
       *(curpos - 4) = '\0';
     }
-  else
-   fle->attribs = g_strdup ("----------");
 
   fle->file = g_strdup (str);
 
@@ -1376,9 +1375,9 @@ gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
     return (0);
   curpos++;
 
-  gftp_parse_vms_attribs (fle->attribs + 1, &curpos);
-  gftp_parse_vms_attribs (fle->attribs + 4, &curpos);
-  gftp_parse_vms_attribs (fle->attribs + 7, &curpos);
+  fle->st_mode = gftp_parse_vms_attribs (&curpos, S_IRWXU);
+  fle->st_mode |= gftp_parse_vms_attribs (&curpos, S_IRWXG);
+  fle->st_mode |= gftp_parse_vms_attribs (&curpos, S_IRWXO);
 
   fle->user = g_strdup ("");
   fle->group = g_strdup ("");
@@ -1432,9 +1431,9 @@ gftp_parse_ls_mvs (char *str, gftp_file * fle)
     return (GFTP_EFATAL);
 
   if (strncmp (curpos, "PS", 2) == 0)
-    fle->attribs = g_strdup ("-rw-r--r--");
+    fle->st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
   else if (strncmp (curpos, "PO", 2) == 0)
-    fle->attribs = g_strdup ("drwxr-xr-x");
+    fle->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
   else
     return (GFTP_EFATAL);
 
@@ -1477,9 +1476,9 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
     return (GFTP_EFATAL);
 
   if (isdir)
-    fle->attribs = g_strdup ("drwxr-xr-x");
+    fle->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
   else
-    fle->attribs = g_strdup ("-rw-r--r--");
+    fle->st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
   fle->file = g_strdup (startpos + 1);
   fle->user = g_strdup (_("unknown"));
@@ -1492,7 +1491,7 @@ static int
 gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
                     gftp_file * fle)
 {
-  char *endpos, *startpos, *pos;
+  char *endpos, *startpos, *pos, *attribs;
   int cols;
 
   /* If there is no space between the attribs and links field, just make one */
@@ -1525,8 +1524,11 @@ gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
 
   startpos = str;
   /* Copy file attributes */
-  if ((startpos = copy_token (&fle->attribs, startpos)) == NULL)
+  if ((startpos = copy_token (&attribs, startpos)) == NULL)
     return (GFTP_EFATAL);
+
+  fle->st_mode = gftp_convert_attributes_to_mode_t (attribs);
+  g_free (attribs);
 
   if (cols >= 9)
     {
@@ -1567,9 +1569,8 @@ gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
 
   /* See if this is a block or character device. We will store the major number
      in the high word and the minor number in the low word.  */
-  if ((fle->attribs[0] == 'b' || fle->attribs[0] == 'u' || 
-       fle->attribs[0] == 'c') &&
-      ((endpos = strchr (startpos, ',')) != NULL))
+  if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode) &&
+      (endpos = strchr (startpos, ',')) != NULL)
     {
       fle->size = strtol (startpos, NULL, 10) << 16;
 
@@ -1601,7 +1602,7 @@ gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
   startpos = goto_next_token (startpos);
 
   /* Parse the filename. If this file is a symbolic link, remove the -> part */
-  if (fle->attribs[0] == 'l' && ((endpos = strstr (startpos, "->")) != NULL))
+  if (S_ISLNK (fle->st_mode) && ((endpos = strstr (startpos, "->")) != NULL))
     *(endpos - 1) = '\0';
 
   fle->file = g_strdup (startpos);
@@ -1631,11 +1632,12 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
   fle->group = g_strdup (_("unknown"));
 
   startpos = goto_next_token (startpos);
+
   if (startpos[0] == '<')
-    fle->attribs = g_strdup ("drwxrwxrwx");
+    fle->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
   else
     {
-      fle->attribs = g_strdup ("-rw-rw-rw-");
+      fle->st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
       fle->size = gftp_parse_file_size (startpos);
     }
 
@@ -1652,8 +1654,9 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
 
   if (str[12] != ' ')
     return (GFTP_EFATAL);
+
   str[12] = '\0';
-  fle->attribs = g_strdup (str);
+  fle->st_mode = gftp_convert_attributes_to_mode_t (str);
   startpos = str + 13;
 
   while ((*startpos == ' ' || *startpos == '\t') && *startpos != '\0')
@@ -1745,16 +1748,6 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
         break;
     }
   g_free (str);
-
-  if (fle->attribs == NULL)
-    return (result);
-
-  if (*fle->attribs == 'd')
-    fle->isdir = 1;
-  if (*fle->attribs == 'l')
-    fle->islink = 1;
-  if (strchr (fle->attribs, 'x') != NULL && !fle->isdir && !fle->islink)
-    fle->isexe = 1;
 
   return (result);
 }
@@ -1947,7 +1940,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
     {
       curfle = templist->data;
 
-      if (curfle->isdir)
+      if (S_ISDIR (curfle->st_mode))
         {
           oldfromdir = transfer->fromreq->directory;
           transfer->fromreq->directory = curfle->file;
@@ -2272,22 +2265,27 @@ print_file_list (GList * list)
 {
   gftp_file * tempfle;
   GList * templist;
+  char *attribs;
 
   printf ("--START OF FILE LISTING - TOP TO BOTTOM--\n");
   for (templist = list; ; templist = templist->next)
     {
       tempfle = templist->data;
+      attribs = gftp_convert_attributes_from_mode_t (tempfle->st_mode);
+
 #if defined (_LARGEFILE_SOURCE)
       printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
               tempfle->file, tempfle->destfile, 
               (long long) tempfle->size, (long long) tempfle->startsize, 
-              tempfle->user, tempfle->group, tempfle->attribs);
+              tempfle->user, tempfle->group, attribs);
 #else
       printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
               tempfle->file, tempfle->destfile, 
               tempfle->size, tempfle->startsize, 
-              tempfle->user, tempfle->group, tempfle->attribs);
+              tempfle->user, tempfle->group, attribs);
 #endif
+
+      g_free (attribs);
       if (templist->next == NULL)
         break;
     }
@@ -2296,17 +2294,21 @@ print_file_list (GList * list)
   for (; ; templist = templist->prev)
     {
       tempfle = templist->data;
+      attribs = gftp_convert_attributes_from_mode_t (tempfle->st_mode);
+
 #if defined (_LARGEFILE_SOURCE)
       printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
               tempfle->file, tempfle->destfile, 
               (long long) tempfle->size, (long long) tempfle->startsize, 
-              tempfle->user, tempfle->group, tempfle->attribs);
+              tempfle->user, tempfle->group, attribs);
 #else
       printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
               tempfle->file, tempfle->destfile, 
               tempfle->size, tempfle->startsize, 
-              tempfle->user, tempfle->group, tempfle->attribs);
+              tempfle->user, tempfle->group, attribs);
 #endif
+
+      g_free (attribs);
       if (templist == list)
         break;
     }
@@ -2895,5 +2897,125 @@ gftp_setup_startup_directory (gftp_request * request)
       gftp_set_directory (request, tempstr);
       g_free (tempstr);
     }
+}
+
+
+char *
+gftp_convert_attributes_from_mode_t (mode_t mode)
+{
+  char *str;
+
+  str = g_malloc0 (11);
+  
+  str[0] = '?';
+  if (S_ISREG (mode))
+    str[0] = '-';
+
+  if (S_ISLNK (mode))
+    str[0] = 'l';
+
+  if (S_ISBLK (mode))
+    str[0] = 'b';
+
+  if (S_ISCHR (mode))
+    str[0] = 'c';
+
+  if (S_ISFIFO (mode))
+    str[0] = 'p';
+
+  if (S_ISSOCK (mode))
+    str[0] = 's';
+
+  if (S_ISDIR (mode))
+    str[0] = 'd';
+
+  str[1] = mode & S_IRUSR ? 'r' : '-';
+  str[2] = mode & S_IWUSR ? 'w' : '-';
+
+  if ((mode & S_ISUID) && (mode & S_IXUSR))
+    str[3] = 's';
+  else if (mode & S_ISUID)
+    str[3] = 'S';
+  else if (mode & S_IXUSR)
+    str[3] = 'x';
+  else
+    str[3] = '-';
+    
+  str[4] = mode & S_IRGRP ? 'r' : '-';
+  str[5] = mode & S_IWGRP ? 'w' : '-';
+
+  if ((mode & S_ISGID) && (mode & S_IXGRP))
+    str[6] = 's';
+  else if (mode & S_ISGID)
+    str[6] = 'S';
+  else if (mode & S_IXGRP)
+    str[6] = 'x';
+  else
+    str[6] = '-';
+
+  str[7] = mode & S_IROTH ? 'r' : '-';
+  str[8] = mode & S_IWOTH ? 'w' : '-';
+
+  if ((mode & S_ISVTX) && (mode & S_IXOTH))
+    str[9] = 't';
+  else if (mode & S_ISVTX)
+    str[9] = 'T';
+  else if (mode & S_IXOTH)
+    str[9] = 'x';
+  else
+    str[9] = '-';
+
+  return (str);
+}
+
+
+mode_t
+gftp_convert_attributes_to_mode_t (char *attribs)
+{
+  mode_t mode;
+
+  if (attribs[0] == 'd')
+    mode = S_IFDIR;
+  else if (attribs[0] == 'l')
+    mode = S_IFLNK;
+  else if (attribs[0] == 's')
+    mode = S_IFSOCK;
+  else if (attribs[0] == 'b')
+    mode = S_IFBLK;
+  else if (attribs[0] == 'c')
+    mode = S_IFCHR;
+  else
+    mode = S_IFREG;
+
+  if (attribs[1] == 'r')
+    mode |= S_IRUSR;
+  if (attribs[2] == 'w')
+    mode |= S_IWUSR;
+  if (attribs[3] == 'x' || attribs[3] == 's')
+    mode |= S_IXUSR;
+  if (attribs[3] == 's' || attribs[3] == 'S')
+    mode |= S_ISUID;
+
+  if (attribs[4] == 'r')
+    mode |= S_IRGRP;
+  if (attribs[5] == 'w')
+    mode |= S_IWGRP;
+  if (attribs[6] == 'x' ||
+      attribs[6] == 's')
+    mode |= S_IXGRP;
+  if (attribs[6] == 's' || attribs[6] == 'S')
+    mode |= S_ISGID;
+
+  if (attribs[7] == 'r')
+    mode |= S_IROTH;
+  if (attribs[8] == 'w')
+    mode |= S_IWOTH;
+  if (attribs[9] == 'x' ||
+      attribs[9] == 's')
+    mode |= S_IXOTH;
+  if (attribs[9] == 't' || attribs[9] == 'T')
+    mode |= S_ISVTX;
+
+  return (mode);
 }
 

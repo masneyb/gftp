@@ -1159,7 +1159,7 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
             {
               tempfle = curfle->data;
 
-              if (tempfle->isdir)
+              if (S_ISDIR (tempfle->st_mode))
                 tdata->numdirs++;
               else
                 tdata->numfiles++;
@@ -1198,7 +1198,7 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
       for (curfle = files; curfle != NULL; curfle = curfle->next)
         {
           tempfle = curfle->data;
-          if (tempfle->isdir)
+          if (S_ISDIR (tempfle->st_mode))
             tdata->numdirs++;
           else
             tdata->numfiles++;
@@ -1258,9 +1258,9 @@ int
 gftpui_common_transfer_files (gftp_transfer * tdata)
 {
   intptr_t preserve_permissions;
-  int i, mode, tofd, fromfd;
   struct timeval updatetime;
   ssize_t num_read, ret;
+  int i, tofd, fromfd;
   gftp_file * curfle; 
   char buf[8192];
 
@@ -1299,7 +1299,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
       if (gftp_connect (tdata->fromreq) == 0 &&
           gftp_connect (tdata->toreq) == 0)
         {
-          if (curfle->isdir)
+          if (S_ISDIR (curfle->st_mode))
             {
               if (tdata->toreq->mkdir != NULL)
                 {
@@ -1446,12 +1446,8 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
 
       if (!curfle->is_fd && preserve_permissions)
         {
-          if (curfle->attribs)
-            {
-              mode = gftp_parse_attribs (curfle->attribs);
-              if (mode != 0)
-                gftp_chmod (tdata->toreq, curfle->destfile, mode);
-            }
+          if (curfle->st_mode != 0)
+            gftp_chmod (tdata->toreq, curfle->destfile, curfle->st_mode);
 
           if (curfle->datetime != 0)
             gftp_set_file_time (tdata->toreq, curfle->destfile,

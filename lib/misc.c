@@ -469,8 +469,6 @@ free_fdata (gftp_file * fle)
     g_free (fle->user);
   if (fle->group)
     g_free (fle->group);
-  if (fle->attribs)
-    g_free (fle->attribs);
   if (fle->destfile)
     g_free (fle->destfile);
   if (fle->fd > 0)
@@ -498,9 +496,6 @@ copy_fdata (gftp_file * fle)
 
   if (fle->group)
     newfle->group = g_strdup (fle->group);
-
-  if (fle->attribs)
-    newfle->attribs = g_strdup (fle->attribs);
 
   if (fle->destfile)
     newfle->destfile = g_strdup (fle->destfile);
@@ -709,7 +704,12 @@ gftp_attribs_sort_function_as (gconstpointer a, gconstpointer b)
 
   f1 = a;
   f2 = b;
-  return (strcmp (f1->attribs, f2->attribs));
+  if (f1->st_mode < f2->st_mode)
+    return (-1);
+  else if (f1->st_mode == f2->st_mode)
+    return (0);
+  else
+    return (1);
 }
 
 
@@ -717,12 +717,15 @@ static gint
 gftp_attribs_sort_function_ds (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
-  gint ret;
 
   f1 = a;
   f2 = b;
-  ret = strcmp (f1->attribs, f2->attribs);
-  return (ret * -1);
+  if (f1->st_mode < f2->st_mode)
+    return (1);
+  else if (f1->st_mode == f2->st_mode)
+    return (0);
+  else
+    return (-1);
 }
 
 
@@ -833,7 +836,7 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
 
       if (dotdot == NULL && strcmp (tempfle->file, "..") == 0)
         dotdot = insitem;
-      else if (sort_dirs_first && tempfle->isdir)
+      else if (sort_dirs_first && S_ISDIR (tempfle->st_mode))
         {
           insitem->next = dirs;
           dirs = insitem;
@@ -869,59 +872,20 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
 }
 
 
-mode_t
-gftp_parse_attribs (char *attribs)
-{
-  mode_t mode;
-  int cur;
-
-  cur = 0;
-  if (attribs[1] == 'r')
-    cur += 4;
-  if (attribs[2] == 'w')
-    cur += 2;
-  if (attribs[3] == 'x' ||
-      attribs[3] == 's')
-    cur += 1;
-  mode = cur;
-
-  cur = 0;
-  if (attribs[4] == 'r')
-    cur += 4;
-  if (attribs[5] == 'w')
-    cur += 2;
-  if (attribs[6] == 'x' ||
-      attribs[6] == 's')
-    cur += 1;
-  mode = (mode * 10) + cur;
-
-  cur = 0;
-  if (attribs[7] == 'r')
-    cur += 4;
-  if (attribs[8] == 'w')
-    cur += 2;
-  if (attribs[9] == 'x' ||
-      attribs[9] == 's')
-    cur += 1;
-  mode = (mode * 10) + cur;
-
-  return (mode);
-}
-
-
 char *
 gftp_gen_ls_string (gftp_file * fle, char *file_prefixstr, char *file_suffixstr)
 {
-  char *tempstr1, *tempstr2, *ret, tstr[50];
+  char *tempstr1, *tempstr2, *ret, tstr[50], *attribs;
   struct tm *lt;
   time_t t;
 
   lt = localtime (&fle->datetime);
 
-  tempstr1 = g_strdup_printf ("%10s %8s %8s", fle->attribs, fle->user,
-                              fle->group);
+  attribs = gftp_convert_attributes_from_mode_t (fle->st_mode);
+  tempstr1 = g_strdup_printf ("%10s %8s %8s", attribs, fle->user, fle->group);
+  g_free (attribs);
 
-  if (fle->attribs && (*fle->attribs == 'b' || *fle->attribs == 'c'))
+  if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))
     tempstr2 = g_strdup_printf ("%d, %d", major (fle->size), minor (fle->size));
   else
     {

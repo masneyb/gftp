@@ -216,7 +216,7 @@ selectallfiles (gpointer data)
       tempfle = (gftp_file *) templist->data;
       if (tempfle->shown)
 	{
-	  if (tempfle->isdir)
+	  if (S_ISDIR (tempfle->st_mode))
 	    gtk_clist_unselect_row (GTK_CLIST (wdata->listbox), i, 0);
 	  else
 	    gtk_clist_select_row (GTK_CLIST (wdata->listbox), i, 0);
@@ -642,7 +642,7 @@ compare_windows (gpointer data)
 {
   gftp_file * curfle, * otherfle;
   GList * curlist, * otherlist;
-  int row;
+  int row, curdir, othdir;
 
   if (!check_status (_("Compare Windows"), &window2, 1, 0, 0, 1))
     return;
@@ -671,9 +671,12 @@ compare_windows (gpointer data)
               continue;
             }
 
+          curdir = S_ISDIR (curfle->st_mode);
+          othdir = S_ISDIR (otherfle->st_mode);
+
           if (strcmp (otherfle->file, curfle->file) == 0 &&
-              otherfle->isdir == curfle->isdir &&
-              (curfle->isdir || otherfle->size == curfle->size))
+              curdir == othdir &&
+              (curdir || otherfle->size == curfle->size))
 	    break;
 
           otherlist = otherlist->next;
@@ -706,9 +709,12 @@ compare_windows (gpointer data)
               continue;
             }
 
+          curdir = S_ISDIR (curfle->st_mode);
+          othdir = S_ISDIR (otherfle->st_mode);
+
           if (strcmp (otherfle->file, curfle->file) == 0 &&
-              otherfle->isdir == curfle->isdir &&
-              (curfle->isdir || otherfle->size == curfle->size))
+              curdir == othdir &&
+              (curdir || otherfle->size == curfle->size))
 	    break;
 
           otherlist = otherlist->next;

@@ -1,3 +1,12 @@
+2004-7-13 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/local.c lib/misc.c lib/protocols.c lib/rfc2068.c
+	lib/rfc959.c lib/sshv2.c src/gtk/chmod_dialog.c src/gtk/delete_dialog.c
+	src/gtk/dnd.c src/gtk/gftp-gtk.c src/gtk/gtkui_transfer.c
+	src/gtk/menu-items.c src/gtk/misc-gtk.c src/gtk/view_dialog.c
+	src/text/textui.c src/uicommon/gftpui.c src/uicommon/gftpuicallbacks.c -
+	represent the file attributes as a mode_t variable instead of a
+	character string
+
 2004-7-12 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - added sshv2_decode_file_attributes(). This is used
 	by sshv2_get_next_file() and sshv2_get_file_size().

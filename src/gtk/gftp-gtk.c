@@ -579,8 +579,8 @@ list_doaction (gftp_window_data * wdata)
 {
   intptr_t list_dblclk_action;
   GList *templist, *filelist;
-  int num, dir, success;
   gftp_file *tempfle;
+  int num, success;
   char *directory;
 
   gftp_lookup_request_option (wdata->request, "list_dblclk_action", 
@@ -592,12 +592,10 @@ list_doaction (gftp_window_data * wdata)
   templist = get_next_selection (templist, &filelist, &num);
   tempfle = (gftp_file *) filelist->data;
 
-  dir = tempfle->isdir;
-
   if (check_reconnect (wdata) < 0) 
     return;
 
-  if (tempfle->islink || tempfle->isdir)
+  if (S_ISLNK (tempfle->st_mode) || S_ISDIR (tempfle->st_mode))
     {
       directory = gftp_build_path (wdata->request->directory, tempfle->file, NULL);
       success = gftpui_run_chdir (wdata, directory);
@@ -606,7 +604,7 @@ list_doaction (gftp_window_data * wdata)
   else
     success = 0;
 
-  if (!dir && !success)
+  if (!S_ISDIR (tempfle->st_mode) && !success)
     {
       switch (list_dblclk_action)
         {

@@ -42,7 +42,7 @@ view_dialog (gpointer data)
   templist = get_next_selection (templist, &filelist, &num);
   curfle = filelist->data;
 
-  if (curfle->isdir)
+  if (S_ISDIR (curfle->st_mode))
     {
       ftp_log (gftp_logging_misc, NULL,
 	       _("View: %s is a directory. Cannot view it.\n"), curfle->file);
@@ -121,7 +121,7 @@ edit_dialog (gpointer data)
   templist = get_next_selection (templist, &filelist, &num);
   curfle = filelist->data;
 
-  if (curfle->isdir)
+  if (S_ISDIR (curfle->st_mode))
     {
       ftp_log (gftp_logging_misc, NULL,
 	       _("Edit: %s is a directory. Cannot edit it.\n"), curfle->file);

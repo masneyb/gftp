@@ -646,15 +646,15 @@ check_reconnect (gftp_window_data *wdata)
 void
 add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
 {
-  char *add_data[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL }, *pos;
+  char *add_data[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+  char *tempstr, *str, *pos, *attribs;
   gftp_config_list_vars * tmplistvar;
-  int clist_num;
-  intptr_t show_hidden_files;
   gftp_file_extensions * tempext;
-  char *tempstr, *str;
+  intptr_t show_hidden_files;
   GdkBitmap * bitmap;
   GList * templist;
   GdkPixmap * pix;
+  int clist_num;
   size_t stlen;
 
   gftp_lookup_request_option (wdata->request, "show_hidden_files", 
@@ -689,13 +689,15 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
   bitmap = NULL;
   if (strcmp (fle->file, "..") == 0)
     gftp_get_pixmap (wdata->listbox, "dotdot.xpm", &pix, &bitmap);
-  else if (fle->islink && fle->isdir)
+  else if (S_ISLNK (fle->st_mode) && S_ISDIR (fle->st_mode))
     gftp_get_pixmap (wdata->listbox, "linkdir.xpm", &pix, &bitmap);
-  else if (fle->islink)
+  else if (S_ISLNK (fle->st_mode))
     gftp_get_pixmap (wdata->listbox, "linkfile.xpm", &pix, &bitmap);
-  else if (fle->isdir)
+  else if (S_ISLNK (fle->st_mode))
     gftp_get_pixmap (wdata->listbox, "dir.xpm", &pix, &bitmap);
-  else if (fle->isexe)
+  else if ((fle->st_mode & S_IXUSR) ||
+           (fle->st_mode & S_IXGRP) ||
+           (fle->st_mode & S_IXOTH))
     gftp_get_pixmap (wdata->listbox, "exe.xpm", &pix, &bitmap); 
   else
     {
@@ -727,7 +729,7 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
   else if (fle->file)
     gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 1, fle->file);
 
-  if (fle->attribs && (*fle->attribs == 'b' || *fle->attribs == 'c'))
+  if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))
     tempstr = g_strdup_printf ("%d, %d", major (fle->size),
                                minor (fle->size));
   else
@@ -746,8 +748,10 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
         *pos = '\0';
       gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 5, str);
     }
-  if (fle->attribs)
-    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 6, fle->attribs);
+
+  attribs = gftp_convert_attributes_from_mode_t (fle->st_mode);
+  gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 6, attribs);
+  g_free (attribs);
 
 }
 

@@ -58,7 +58,7 @@ do_delete_thread (void *data)
       for (; templist != NULL; templist = templist->prev)
         {
           tempfle = templist->data;
-          if (tempfle->isdir)
+          if (S_ISDIR (tempfle->st_mode))
             success = gftp_remove_directory (transfer->fromreq, tempfle->file);
           else
             success = gftp_remove_file (transfer->fromreq, tempfle->file);

@@ -502,12 +502,11 @@ parse_html_line (char *tempstr, gftp_file * fle)
      is a directory or not */
   if (*(pos - 1) == '/')
     {
-      fle->attribs = g_strdup ("drwxr-xr-x");
+      fle->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
       *(pos - 1) = '\0';
-      fle->isdir = 1;
     }
   else
-    fle->attribs = g_strdup ("-rw-r--r--");
+    fle->st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
   /* Copy filename */
   if (strchr (stpos, '/') != NULL || strncmp (stpos, "mailto:", 7) == 0 ||

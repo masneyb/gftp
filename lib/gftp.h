@@ -209,6 +209,8 @@ typedef struct gftp_file_tag gftp_file;
 #define GFTP_SORT_COL_DATETIME			5
 #define GFTP_SORT_COL_ATTRIBS			6
 
+#define GFTP_IS_SPECIAL_DEVICE(mode)	(S_ISBLK (mode) || S_ISCHR (mode))
+
 struct gftp_file_tag 
 {
   char *file,			/* Our filename */
@@ -217,7 +219,6 @@ struct gftp_file_tag
 				   UTF-8 */
        *user,			/* User that owns it */
        *group,			/* Group that owns it */
-       *attribs,		/* Attribs (-rwxr-x-rx) */
        *destfile;		/* Full pathname to the destination for the 
                                    file transfer */
 
@@ -227,10 +228,8 @@ struct gftp_file_tag
   time_t datetime;		/* File date and time */
   off_t size,			/* Size of the file */
         startsize;		/* Size to start the transfer at */
-  unsigned int isdir : 1,	/* File type */
-               isexe : 1,
-               islink : 1,
-               selected : 1,	/* Is this file selected? */
+  mode_t st_mode;		/* File attributes */
+  unsigned int selected : 1,	/* Is this file selected? */
                was_sel : 1,	/* Was this file selected before  */
                shown : 1,	/* Is this file shown? */
                done_view : 1,	/* View the file when done transfering? */
@@ -448,7 +447,7 @@ struct gftp_request_tag
 					  const char *newname );
   int (*chmod)				( gftp_request * request, 
 					  const char *filename, 
-					  int mode );
+					  mode_t mode );
   int (*set_file_time)			( gftp_request * request, 
 					  const char *filename, 
 					  time_t datettime );
@@ -738,8 +737,6 @@ GList * gftp_sort_filelist 		( GList * filelist,
 					  int column, 
 					  int asds );
 
-mode_t gftp_parse_attribs 		( char *attribs );
-
 char * gftp_gen_ls_string 		( gftp_file * fle, 
 					  char *file_prefixstr, 
 					  char *file_suffixstr );
@@ -924,7 +921,7 @@ int gftp_rename_file 			( gftp_request * request,
 
 int gftp_chmod 				( gftp_request * request, 
 					  const char *file, 
-					  int mode );
+					  mode_t mode );
 
 int gftp_set_file_time 			( gftp_request * request, 
 					  const char *file, 
@@ -1024,6 +1021,11 @@ pid_t gftp_exec 			( gftp_request * request,
 					  int *fdm,
 					  int *ptymfd,
 					  char **args );
+
+char *gftp_convert_attributes_from_mode_t ( mode_t mode );
+
+mode_t gftp_convert_attributes_to_mode_t ( char *attribs );
+
 
 #ifdef USE_SSL
 /* sslcommon.c */

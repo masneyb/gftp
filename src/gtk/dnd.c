@@ -42,7 +42,7 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
   newfle->shown = 1;
   if (url[strlen (url) - 1] == '/') 
     {
-      newfle->isdir = 1;
+      newfle->st_mode |= S_IFDIR;
       url[strlen (url) - 1] = '\0';
     }
 
@@ -192,7 +192,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
 
       /* Note, I am allocating memory for this byte above. Note the extra space
          at the end of the g_strdup_printf() format argument */
-      if (tempfle->isdir)
+      if (S_ISDIR (tempfle->st_mode))
         tempstr[strlen (tempstr) - 1] = '/';
       else
         tempstr[strlen (tempstr) - 1] = '\0';

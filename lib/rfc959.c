@@ -1656,7 +1656,7 @@ rfc959_rename (gftp_request * request, const char *oldname,
 
 
 static int
-rfc959_chmod (gftp_request * request, const char *file, int mode)
+rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
 {
   char *tempstr, ret;
 

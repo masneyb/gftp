@@ -22,7 +22,7 @@ static const char cvsid[] = "$Id$";
 
 static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow,
                  *ox;
-static int mode; 
+static mode_t mode; 
 
 
 static int
@@ -59,42 +59,36 @@ static void
 dochmod (GtkWidget * widget, gftp_window_data * wdata)
 {
   gftpui_callback_data * cdata;
-  int cur, ret;
+  int ret;
 
   mode = 0;
   if (GTK_TOGGLE_BUTTON (suid)->active)
-    mode += 4;
+    mode |= S_ISUID;
   if (GTK_TOGGLE_BUTTON (sgid)->active)
-    mode += 2;
+    mode |= S_ISGID;
   if (GTK_TOGGLE_BUTTON (sticky)->active)
-    mode += 1;
+    mode |= S_ISVTX;
 
-  cur = 0;
   if (GTK_TOGGLE_BUTTON (ur)->active)
-    cur += 4;
+    mode |= S_IRUSR;
   if (GTK_TOGGLE_BUTTON (uw)->active)
-    cur += 2;
+    mode |= S_IWUSR;
   if (GTK_TOGGLE_BUTTON (ux)->active)
-    cur += 1;
-  mode = mode * 10 + cur;
+    mode |= S_IXUSR;
 
-  cur = 0;
   if (GTK_TOGGLE_BUTTON (gr)->active)
-    cur += 4;
+    mode |= S_IRGRP;
   if (GTK_TOGGLE_BUTTON (gw)->active)
-    cur += 2;
+    mode |= S_IWGRP;
   if (GTK_TOGGLE_BUTTON (gx)->active)
-    cur += 1;
-  mode = mode * 10 + cur;
+    mode |= S_IWOTH;
 
-  cur = 0;
   if (GTK_TOGGLE_BUTTON (or)->active)
-    cur += 4;
+    mode |= S_IROTH;
   if (GTK_TOGGLE_BUTTON (ow)->active)
-    cur += 2;
+    mode |= S_IWOTH;
   if (GTK_TOGGLE_BUTTON (ox)->active)
-    cur += 1;
-  mode = mode * 10 + cur;
+    mode |= S_IXOTH;
 
   if (check_reconnect (wdata) < 0)
     return;
@@ -289,33 +283,33 @@ chmod_dialog (gpointer data)
       num = 0;
       templist = get_next_selection (templist, &filelist, &num);
       tempfle = filelist->data;
+
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (suid),
-				    tolower (tempfle->attribs[3]) == 's');
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sgid),
-				    tolower (tempfle->attribs[6]) == 's');
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sticky),
-				    tolower (tempfle->attribs[9]) == 't');
+                                    tempfle->st_mode & S_ISUID);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ur),
-				    tempfle->attribs[1] == 'r');
+                                    tempfle->st_mode & S_IRUSR);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (uw),
-				    tempfle->attribs[2] == 'w');
+                                    tempfle->st_mode & S_IWUSR);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ux),
-				    tempfle->attribs[3] == 'x' ||
-                                    tempfle->attribs[3] == 's');
+                                    tempfle->st_mode & S_IXUSR);
+
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sgid),
+                                    tempfle->st_mode & S_ISGID);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gr),
-				    tempfle->attribs[4] == 'r');
+                                    tempfle->st_mode & S_IRGRP);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gw),
-				    tempfle->attribs[5] == 'w');
+                                    tempfle->st_mode & S_IWGRP);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gx),
-				    tempfle->attribs[6] == 'x' ||
-                                    tempfle->attribs[6] == 's');
+                                    tempfle->st_mode & S_IXGRP);
+
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sticky),
+                                    tempfle->st_mode & S_ISVTX);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (or),
-				    tempfle->attribs[7] == 'r');
+                                    tempfle->st_mode & S_IROTH);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ow),
-				    tempfle->attribs[8] == 'w');
+                                    tempfle->st_mode & S_IWOTH);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ox),
-				    tempfle->attribs[9] == 'x' ||
-                                    tempfle->attribs[9] == 't');
+                                    tempfle->st_mode & S_IXOTH);
     }
   gtk_widget_show (dialog);
 }

@@ -24,11 +24,13 @@ void
 gftpui_lookup_file_colors (gftp_file * fle, char **start_color,
                            char ** end_color)
 {
-  if (*fle->attribs == 'd')
+  if (S_ISDIR (fle->st_mode))
     *start_color = GFTPUI_COMMON_COLOR_BLUE;
-  else if (*fle->attribs == 'l')
+  else if (S_ISLNK (fle->st_mode))
     *start_color = GFTPUI_COMMON_COLOR_WHITE;
-  else if (strchr (fle->attribs, 'x') != NULL)
+  else if ((fle->st_mode & S_IXUSR) ||
+           (fle->st_mode & S_IXGRP) ||
+           (fle->st_mode & S_IXOTH))
     *start_color = GFTPUI_COMMON_COLOR_GREEN;
   else
     *start_color = GFTPUI_COMMON_COLOR_DEFAULT;
@@ -103,7 +105,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   for (templist = tdata->files; templist != NULL; templist = templist->next)
     {
       tempfle = templist->data;
-      if (tempfle->startsize == 0 || tempfle->isdir)
+      if (tempfle->startsize == 0 || S_ISDIR (tempfle->st_mode))
         continue;
 
       while (action == -1)

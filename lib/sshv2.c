@@ -1483,7 +1483,7 @@ sshv2_rmfile (gftp_request * request, const char *file)
 
 
 static int 
-sshv2_chmod (gftp_request * request, const char *file, int mode)
+sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
 {
   char *tempstr, *endpos, buf[10];
   sshv2_params * params;

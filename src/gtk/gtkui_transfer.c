@@ -279,7 +279,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
        templist = templist->next)
     {
       tempfle = templist->data;
-      if (tempfle->startsize == 0 || tempfle->isdir)
+      if (tempfle->startsize == 0 || S_ISDIR (tempfle->st_mode))
         {
            tempfle->shown = 0;
            continue;

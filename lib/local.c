@@ -220,74 +220,6 @@ local_end_transfer (gftp_request * request)
 }
 
 
-static char *
-make_text_mode (mode_t mode)
-{
-  char *str;
-
-  str = g_malloc0 (11);
-  
-  str[0] = '?';
-  if (S_ISREG (mode))
-    str[0] = '-';
-
-  if (S_ISLNK (mode))
-    str[0] = 'l';
-
-  if (S_ISBLK (mode))
-    str[0] = 'b';
-
-  if (S_ISCHR (mode))
-    str[0] = 'c';
-
-  if (S_ISFIFO (mode))
-    str[0] = 'p';
-
-  if (S_ISSOCK (mode))
-    str[0] = 's';
-
-  if (S_ISDIR (mode))
-    str[0] = 'd';
-
-  str[1] = mode & S_IRUSR ? 'r' : '-';
-  str[2] = mode & S_IWUSR ? 'w' : '-';
-
-  if ((mode & S_ISUID) && (mode & S_IXUSR))
-    str[3] = 's';
-  else if (mode & S_ISUID)
-    str[3] = 'S';
-  else if (mode & S_IXUSR)
-    str[3] = 'x';
-  else
-    str[3] = '-';
-    
-  str[4] = mode & S_IRGRP ? 'r' : '-';
-  str[5] = mode & S_IWGRP ? 'w' : '-';
-
-  if ((mode & S_ISGID) && (mode & S_IXGRP))
-    str[6] = 's';
-  else if (mode & S_ISGID)
-    str[6] = 'S';
-  else if (mode & S_IXGRP)
-    str[6] = 'x';
-  else
-    str[6] = '-';
-
-  str[7] = mode & S_IROTH ? 'r' : '-';
-  str[8] = mode & S_IWOTH ? 'w' : '-';
-
-  if ((mode & S_ISVTX) && (mode & S_IXOTH))
-    str[9] = 't';
-  else if (mode & S_ISVTX)
-    str[9] = 'T';
-  else if (mode & S_IXOTH)
-    str[9] = 'x';
-  else
-    str[9] = '-';
-  return (str);
-}
-
-
 static int
 local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
@@ -353,20 +285,13 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       g_hash_table_insert (lpd->grouphash, GUINT_TO_POINTER (st.st_gid), group);
     }
 
-  fle->attribs = make_text_mode (fst.st_mode);
+  fle->st_mode = fst.st_mode;
   fle->datetime = st.st_mtime;
 
-  if ((fle->attribs[0] == 'b' || fle->attribs[0] == 'u' ||
-       fle->attribs[0] == 'c'))
+  if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))
     fle->size = (off_t) st.st_rdev;
   else
     fle->size = fst.st_size;
-
-  fle->isdir = S_ISDIR (fst.st_mode);
-  fle->islink = S_ISLNK (st.st_mode);
-  fle->isexe = (fst.st_mode & S_IXUSR) || 
-               (fst.st_mode & S_IXGRP) ||
-               (fst.st_mode & S_IXOTH);
 
   return (1);
 }
@@ -565,7 +490,7 @@ local_rename (gftp_request * request, const char *oldname,
 
 
 static int
-local_chmod (gftp_request * request, const char *file, int mode)
+local_chmod (gftp_request * request, const char *file, mode_t mode)
 {
   char buf[10];
   int newmode;
