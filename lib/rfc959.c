@@ -67,8 +67,7 @@ rfc959_read_response (gftp_request * request)
   if (num_read < 0)
     return ((int) num_read);
 
-  request->last_ftp_response = g_malloc (strlen (tempstr) + 1);
-  strcpy (request->last_ftp_response, tempstr);
+  request->last_ftp_response = g_strdup (tempstr);
 
   if (request->last_ftp_response[0] == '4' &&
       request->last_ftp_response[1] == '2')
@@ -254,8 +253,7 @@ rfc959_getcwd (gftp_request * request)
   if (request->directory)
     g_free (request->directory);
 
-  request->directory = g_malloc (strlen (dir) + 1);
-  strcpy (request->directory, dir);
+  request->directory = g_strdup (dir);
   return (0);
 }
 

@@ -1028,17 +1028,22 @@ time_t
 parse_time (char *str, char **endpos)
 {
   struct tm curtime, *loctime;
+  time_t t, ret;
   char *tmppos;
-  time_t t;
 
   memset (&curtime, 0, sizeof (curtime));
   curtime.tm_isdst = -1;
-  if (isdigit ((int) str[0]) && str[2] == '-')
+  if (strlen (str) > 4 && isdigit ((int) str[0]) && str[2] == '-' && isdigit ((int) str[3]))
     {
       /* This is how DOS will return the date/time */
       /* 07-06-99  12:57PM */
 
       tmppos = strptime (str, "%m-%d-%y %I:%M%p", &curtime);
+    }
+  else if (strlen (str) > 4 && isdigit ((int) str[0]) && str[2] == '-' && isalpha (str[3]))
+    {
+      /* 10-Jan-2003 09:14 */
+      tmppos = strptime (str, "%d-%h-%Y %H:%M", &curtime);
     }
   else
     {
@@ -1056,8 +1061,23 @@ parse_time (char *str, char **endpos)
         tmppos = strptime (str, "%h %d %Y", &curtime);
     }
 
+  if (tmppos != NULL)
+    ret = mktime (&curtime);
+  else
+    ret = 0;
+
   if (endpos != NULL)
-    *endpos = tmppos;
+    {
+      if (tmppos == NULL)
+        {
+          /* We cannot parse this date format. So, just skip this date field and continue to the next
+             token. This is mainly for the HTTP support */
+
+          for (*endpos = str; **endpos != ' ' && **endpos != '\t' && **endpos != '\0'; *endpos++);
+        }
+      else
+        *endpos = tmppos;
+    }
 
   return (mktime (&curtime));
 }
