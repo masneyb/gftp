@@ -59,6 +59,9 @@ local_connect (gftp_request * request)
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
 
+  if (request->hostname == NULL)
+    request->hostname = g_strdup (_("local filesystem"));
+
   if (request->directory)
     {
       if (chdir (request->directory) != 0)

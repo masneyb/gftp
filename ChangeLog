@@ -1,3 +1,18 @@
+2002-11-25 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (ssh_start_login_sequence) - fixes for when the initial
+	SSH banner is bigger than 200 characters
+
+	* lib/local.c (local_connect) - set request->hostname to local
+	filesystem
+
+	* lib/protocols.c (gftp_parse_url) - don't include 2 slashes for 
+	the directory when parsing a local URL
+
+	* src/gtk/chmod_dialog.c (chmod_dialog) - allow multiple files to be
+	selected
+
+	* src/gtk/dnd.c - small fixes
+
 2002-11-23 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - added more error checking so that the user won't get
 	disconnected if they enter files or directories that don't exist

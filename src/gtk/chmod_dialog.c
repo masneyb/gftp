@@ -152,7 +152,7 @@ chmod_dialog (gpointer data)
   int num;
 
   wdata = data;
-  if (!check_status (_("Chmod"), wdata, wdata->request->use_threads, 1, 1, 
+  if (!check_status (_("Chmod"), wdata, wdata->request->use_threads, 0, 1, 
                      wdata->request->chmod != NULL))
     return;
 

@@ -69,7 +69,9 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   if (other_wdata != NULL && 
       compare_request (current_ftpdata, other_wdata->request, 1))
     {
-      gftp_set_password (current_ftpdata, other_wdata->request->password);
+      if (other_wdata->request->password != NULL)
+        gftp_set_password (current_ftpdata, other_wdata->request->password);
+
       fromwdata = other_wdata;
     }
   else
@@ -152,7 +154,8 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
         continue;
 
       oldlen = totlen;
-      if (GFTP_GET_HOSTNAME (wdata->request) == NULL)
+      if (GFTP_GET_HOSTNAME (wdata->request) == NULL || 
+          wdata->request->protonum == GFTP_LOCAL_NUM)
         {
           tempstr = g_strdup_printf ("%s://%s/%s ", 
                                  GFTP_GET_URL_PREFIX (wdata->request),
@@ -181,7 +184,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
         }
 
       if ((pos = strchr (tempstr, ':')) != NULL)
-        pos += 2;
+        pos += 3;
       else
         pos = tempstr;
       remove_double_slashes (pos);

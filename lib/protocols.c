@@ -408,7 +408,7 @@ gftp_parse_url (gftp_request * request, const char *url)
   if (i == GFTP_LOCAL_NUM)
     {
       request->directory = g_malloc (strlen (stpos + 6) + 1);
-      strcpy (request->directory, stpos + 6);
+      strcpy (request->directory, stpos + 7);
       return (0);
     }
 

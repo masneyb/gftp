@@ -857,14 +857,14 @@ make_ssh_exec_args (gftp_request * request, char *execname,
 char *
 ssh_start_login_sequence (gftp_request * request, int fd)
 {
-  char *tempstr, *pwstr, *key_pos, *tmppos;
-  size_t rem, len, diff, lastdiff;
+  char *tempstr, *pwstr, *tmppos;
+  size_t rem, len, diff, lastdiff, key_pos;
   int wrotepw, ok;
   ssize_t rd;
 
   rem = len = SSH_LOGIN_BUFSIZE;
-  key_pos = tempstr = g_malloc0 (len + 1);
-  diff = lastdiff = 0;
+  tempstr = g_malloc0 (len + 1);
+  key_pos = diff = lastdiff = 0;
   wrotepw = 0;
   ok = 1;
 
@@ -881,20 +881,9 @@ ssh_start_login_sequence (gftp_request * request, int fd)
           ok = 0;
           break;
         }
-
-      tempstr[diff + rd] = '\0';
       rem -= rd;
       diff += rd;
-      if (rem <= 1)
-        {
-          tempstr = g_realloc (tempstr, len + SSH_LOGIN_BUFSIZE);
-
-          request->logging_function (gftp_logging_recv, request->user_data,
-                                     "%s", tempstr + lastdiff);
-          lastdiff = diff;
-          len += SSH_LOGIN_BUFSIZE;
-          rem = SSH_LOGIN_BUFSIZE;
-        }
+      tempstr[diff] = '\0'; 
 
       if (diff > 11 && strcmp (tempstr + diff - 10, "password: ") == 0)
         {
@@ -911,10 +900,11 @@ ssh_start_login_sequence (gftp_request * request, int fd)
               break;
             }
         }
-      else if ((tmppos = strstr (key_pos, "Enter passphrase for RSA key")) != NULL ||
-               ((tmppos = strstr (key_pos, "Enter passphrase for key '")) != NULL))
+      else if (diff > 2 && strcmp (tempstr + diff - 2, ": ") == 0 &&
+               ((tmppos = strstr (tempstr + key_pos, "Enter passphrase for RSA key")) != NULL ||
+                ((tmppos = strstr (tempstr + key_pos, "Enter passphrase for key '")) != NULL)))
         {
-          key_pos = tmppos + 1;
+          key_pos = diff;
           if (wrotepw)
             {
               ok = SSH_ERROR_BADPASS;
@@ -928,13 +918,23 @@ ssh_start_login_sequence (gftp_request * request, int fd)
               break;
             }
         }
-      else if (diff >= 10 && strcmp (tempstr + diff - 10, "(yes/no)? ") == 0)
+      else if (diff > 10 && strcmp (tempstr + diff - 10, "(yes/no)? ") == 0)
         {
           ok = SSH_ERROR_QUESTION;
           break;
         }
       else if (diff >= 5 && strcmp (tempstr + diff - 5, "xsftp") == 0)
         break;
+      else if (rem <= 1)
+        {
+          request->logging_function (gftp_logging_recv, request->user_data,
+                                     "%s", tempstr + lastdiff);
+          len += SSH_LOGIN_BUFSIZE;
+          rem += SSH_LOGIN_BUFSIZE;
+          lastdiff = diff;
+          tempstr = g_realloc (tempstr, len);
+          continue;
+        }
     }
 
   g_free (pwstr);
