@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP 2.0.5a\n"
 "POT-Creation-Date: 2003-01-29 19:29+0100\n"
-"PO-Revision-Date: 2003-02-20 18:09+0100\n"
+"PO-Revision-Date: 2003-02-22 14:52+0100\n"
 "Last-Translator: Mattias Dahlberg <voz@home.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Fel: Kunde inte skapa katalogen %s: %s\n"
 #: lib/misc.c:254
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
-msgstr "Fel: Kan inte öppna den lokal filen %s: %s\n"
+msgstr "Fel: Kan inte öppna den lokala filen %s: %s\n"
 
 #: lib/cache.c:66
 #, c-format
@@ -101,7 +101,7 @@ msgstr "Startkatalog:"
 
 #: lib/config_file.c:42
 msgid "The default directory gFTP will go to on startup"
-msgstr "Standardkatalogen gFTP går till vid uppstart"
+msgstr "Standardkatalogen som gFTP går till vid uppstart"
 
 #: lib/config_file.c:43
 msgid "Max Log Window Size:"
@@ -183,7 +183,7 @@ msgstr "Tidsgräns för att vänta på indata/utdata från nätverket. Det är INTE en 
 
 #: lib/config_file.c:66
 msgid "Connect retries:"
-msgstr "Antal anslutningsförsök:"
+msgstr "Anslutningsomförsök:"
 
 #: lib/config_file.c:67
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
@@ -417,7 +417,7 @@ msgstr "Anropa ssh med flaggan -s sftp. Det är användbart eftersom du inte behöv
 
 #: lib/config_file.c:143
 msgid "This defines what will happen when you double click a file in the file listboxes. 0=View file 1=Edit file 2=Transfer file"
-msgstr "Det här definierar vad som händer om dubbelklickar på en fil i fillistan. 0=Läs fil 1=Redigera fil 2=Skicka fil"
+msgstr "Det här definierar vad som händer om dubbelklickar på en fil i fillistan. 0=Läs fil 1=Redigera fil 2=Överför fil"
 
 #: lib/config_file.c:145
 msgid "The default width of the local files listbox"
@@ -503,7 +503,7 @@ msgstr "Färgen på resten av loggmeddelandena"
 #: lib/config_file.c:764
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
-msgstr "gFTP-fel: Konfigurationsfilnamnet %s är felaktigt\n"
+msgstr "gFTP-fel: Felaktigt konfigurationsfilnamn %s\n"
 
 #: lib/config_file.c:249
 #, c-format
@@ -538,7 +538,7 @@ msgstr "gFTP-fel: Standardprotokollet %s är inget giltigt protokoll\n"
 #: lib/config_file.c:453
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
-msgstr "gFTP-fel: %s är ett felaktigt loggfilnamn\n"
+msgstr "gFTP-fel: Felaktigt loggfilnamn %s\n"
 
 #: lib/config_file.c:459
 #, c-format
@@ -549,7 +549,7 @@ msgstr "gFTP-varning: Kan inte öppna %s för skrivning: %s\n"
 #: lib/config_file.c:886
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
-msgstr "gFTP-fel: %s är ett felaktigt bokmärkesfilnamn\n"
+msgstr "gFTP-fel: Felaktigt bokmärkesfilnamn %s\n"
 
 #: lib/config_file.c:545
 #, c-format
@@ -602,7 +602,7 @@ msgstr "Kunde inte byta lokal katalog till %s: %s\n"
 #: lib/local.c:459
 #, c-format
 msgid "Could not get current working directory: %s\n"
-msgstr "Kunde inte läsa aktuell arbetskatalog: %s\n"
+msgstr "Kunde inte avgöra aktuell arbetskatalog: %s\n"
 
 #: lib/local.c:189
 #, c-format
@@ -612,7 +612,7 @@ msgstr "Fel: Kan inte trunkera den lokala filen %s: %s\n"
 #: lib/local.c:415
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
-msgstr "Kunde inte läsa den lokala kataloglistan %s: %s\n"
+msgstr "Kunde inte lista den lokala katalogen %s: %s\n"
 
 #: lib/local.c:452
 #, c-format
@@ -642,7 +642,7 @@ msgstr "Fel: Kunde inte ta bort filen %s: %s\n"
 #: lib/local.c:536
 #, c-format
 msgid "Successfully made directory %s\n"
-msgstr "Katalogen %s är skapad\n"
+msgstr "Skapade katalogen %s\n"
 
 #: lib/local.c:562
 #, c-format
@@ -853,7 +853,7 @@ msgstr "Börjar filöverföringen vid position %ld\n"
 #: lib/rfc2068.c:327
 #, c-format
 msgid "Cannot retrieve file %s\n"
-msgstr "Kan inte ta emot filen %s\n"
+msgstr "Kan inte hämta filen %s\n"
 
 #: lib/rfc2068.c:380
 msgid "Finished retrieving data\n"
@@ -1427,7 +1427,7 @@ msgstr "Kunde inte hämta %s\n"
 #: src/text/gftp-text.c:940
 #, c-format
 msgid "Successfully transferred %s\n"
-msgstr "Överföringen av %s lyckades\n"
+msgstr "Överförde %s\n"
 
 #: src/text/gftp-text.c:994
 msgid "Supported commands:\n"
@@ -1737,7 +1737,7 @@ msgstr "Ta bort"
 #: src/gtk/dnd.c:56
 #, c-format
 msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
-msgstr "Drag och släpp: Ignorerar adressen %s: Inte en giltig adress\n"
+msgstr "Drag och släpp: Ignorerar URL %s: Inte en giltig URL\n"
 
 #: src/gtk/dnd.c:139
 #: src/gtk/dnd.c:231
@@ -1747,7 +1747,7 @@ msgstr "Drag och släpp"
 #: src/gtk/dnd.c:243
 #, c-format
 msgid "Received URL %s\n"
-msgstr "Tog emot adressen %s\n"
+msgstr "Tog emot URL %s\n"
 
 #: src/gtk/gftp-gtk.c:95
 msgid "Exit"
@@ -2204,7 +2204,7 @@ msgstr "Spara logg"
 #: src/gtk/menu-items.c:755
 #, c-format
 msgid "Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"
-msgstr "Kan inte hitta licensavtalsfilen COPYING. Kontrollera att den finns i %s eller %s"
+msgstr "Kan inte hitta licensavtalsfilen COPYING. Kontrollera att den finns i antingen %s eller %s"
 
 #: src/gtk/menu-items.c:759
 #: src/gtk/menu-items.c:764
@@ -2275,12 +2275,12 @@ msgstr "%s: Den funktionen är inte tillgänglig med det här protokollet\n"
 #: src/gtk/misc-gtk.c:511
 #, c-format
 msgid "%s: You must only have one item selected\n"
-msgstr "%s: Du kan bara markera ett objekt\n"
+msgstr "%s: Du får bara ha ett objekt markerat\n"
 
 #: src/gtk/misc-gtk.c:518
 #, c-format
 msgid "%s: You must have at least one item selected\n"
-msgstr "%s: Du måste markera minst ett objekt\n"
+msgstr "%s: Du måste ha minst ett objekt markerat\n"
 
 #: src/gtk/misc-gtk.c:917
 #: src/gtk/misc-gtk.c:988
