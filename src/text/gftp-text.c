@@ -323,7 +323,7 @@ gftp_text_open (gftp_request * request, char *command, gpointer *data)
       return (1);
     }
 
-  if (strcmp (GFTP_GET_USERNAME (request), "anonymous") == 0)
+  if (GFTP_GET_USERNAME (request) == NULL)
     {
       if ((pos = gftp_text_ask_question ("Username [anonymous]", 1, tempstr, 
                                          sizeof (tempstr))) != NULL)
@@ -335,6 +335,8 @@ gftp_text_open (gftp_request * request, char *command, gpointer *data)
               request->password = NULL;
             }
         }
+      else
+        gftp_set_username (request, "anonymous");
     }
 
   if (strcmp (GFTP_GET_USERNAME (request), "anonymous") != 0 && 

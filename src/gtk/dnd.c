@@ -54,7 +54,7 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
     {
       ftp_log (gftp_logging_misc, NULL, 
                _("Drag-N-Drop: Ignoring url %s: Not a valid url\n"), url);
-      gftp_request_destroy (current_ftpdata);
+      gftp_request_destroy (current_ftpdata, 1);
       free_fdata (newfle);
       return (0);
     }
@@ -62,7 +62,7 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   *pos++ = '\0';
   if (compare_request (current_ftpdata, wdata->request, 1))
     {
-      gftp_request_destroy (current_ftpdata);
+      gftp_request_destroy (current_ftpdata, 1);
       return (0);
     }
 
@@ -92,7 +92,7 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   templist->next = NULL;
   add_file_transfer (current_ftpdata, wdata->request, fromwdata,
                      wdata, templist, 1);
-  gftp_request_destroy (current_ftpdata);
+  gftp_request_destroy (current_ftpdata, 1);
 
   /* FIXME  resume files and download entire directories */
 

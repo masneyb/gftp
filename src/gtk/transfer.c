@@ -998,8 +998,8 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
             {
               if (!copy_req)
                 {
-                  gftp_request_destroy (fromreq);
-                  gftp_request_destroy (toreq);
+                  gftp_request_destroy (fromreq, 1);
+                  gftp_request_destroy (toreq, 1);
                 }
               fromreq = NULL;
               toreq = NULL;
@@ -1405,7 +1405,7 @@ transfer_done (GList * node)
     {
       fromreq = tdata->fromwdata != NULL ? ((gftp_window_data *) tdata->fromwdata)->request : NULL;
       if (!tdata->fromreq->stopable && tdata->fromwdata &&
-          fromreq->sockfd < 0 && fromreq->cached &&
+          ((fromreq->sockfd < 0 && fromreq->cached) || fromreq->always_connected) &&
           (tdata->fromreq->sockfd > 0 || tdata->fromreq->always_connected) &&
           compare_request (tdata->fromreq, fromreq, 0))
 	{

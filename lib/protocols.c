@@ -35,7 +35,7 @@ gftp_request_new (void)
 
 
 void
-gftp_request_destroy (gftp_request * request)
+gftp_request_destroy (gftp_request * request, int free_request)
 {
   g_return_if_fail (request != NULL);
 
@@ -76,8 +76,18 @@ gftp_request_destroy (gftp_request * request)
     g_free (request->protocol_data);
   if (request->sftpserv_path)
     g_free (request->sftpserv_path);
+
   memset (request, 0, sizeof (*request));
-  g_free (request);
+
+  if (free_request)
+    g_free (request);
+  else
+    {
+      request->sockfd = -1;
+      request->datafd = -1;
+      request->cachefd = -1;
+      request->data_type = GFTP_TYPE_BINARY;
+    }
 }
 
 
@@ -368,11 +378,16 @@ int
 gftp_parse_url (gftp_request * request, const char *url)
 {
   char *pos, *endpos, *endhostpos, *str, tempchar;
+  gftp_logging_func logging_function;
   const char *stpos;
   int len, i;
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (url != NULL, -2);
+
+  logging_function = request->logging_function;
+  gftp_request_destroy (request, 0);
+  request->logging_function = logging_function;
 
   for (stpos = url; *stpos == ' '; stpos++);
 

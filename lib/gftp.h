@@ -653,7 +653,8 @@ void bookmark_init 			( gftp_request * request );
 
 gftp_request *gftp_request_new 		( void );
 
-void gftp_request_destroy 		( gftp_request * request );
+void gftp_request_destroy 		( gftp_request * request,
+					  int free_request );
 
 void gftp_file_destroy 			( gftp_file *file );
 

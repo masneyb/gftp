@@ -238,11 +238,6 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
   oldindexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
   if ((indexfd = open (oldindexfile, O_RDONLY)) == -1)
     {
-      if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Error: Cannot open local file %s: %s\n"),
-                                   oldindexfile, g_strerror (errno));
-
       g_free (oldindexfile);
       return;
     }

@@ -1,3 +1,16 @@
+2002-11-27 Brian Masney <masneyb@gftp.org>
+	* Officially release 2.0.14rc1
+
+	* lib/cache.c - take out a warning message
+
+	* lib/misc.c lib/protocols.c lib/gftp.h lib/gtk/dnd.c lib/transfer.c -
+	add second argument (free_request) to gftp_request_destroy
+
+	* lib/protocols.c (gftp_parse_url) - make sure the request structure
+	is cleared before we start to modify it
+
+	* src/gtk/gftp-text.c - fixed crash if you didn't enter a username
+
 2002-11-26 Brian Masney <masneyb@gftp.org>
 	* configure.in - change version to 2.0.14rc1
 

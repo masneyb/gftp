@@ -556,9 +556,9 @@ free_tdata (gftp_transfer * tdata)
   if (tdata->structmutex)
     g_free (tdata->structmutex);
   if (tdata->fromreq != NULL)
-    gftp_request_destroy (tdata->fromreq);
+    gftp_request_destroy (tdata->fromreq, 1);
   if (tdata->toreq != NULL)
-    gftp_request_destroy (tdata->toreq);
+    gftp_request_destroy (tdata->toreq, 1);
   free_file_list (tdata->files);
   g_free (tdata);
 }
