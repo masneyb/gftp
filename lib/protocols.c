@@ -2147,12 +2147,15 @@ print_file_list (GList * list)
       tempfle = templist->data;
 #if defined (_LARGEFILE_SOURCE)
       printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
+              tempfle->file, tempfle->destfile, 
+              (long long) tempfle->size, (long long) tempfle->startsize, 
+              tempfle->user, tempfle->group, tempfle->attribs);
 #else
       printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
-#endif
               tempfle->file, tempfle->destfile, 
               tempfle->size, tempfle->startsize, 
               tempfle->user, tempfle->group, tempfle->attribs);
+#endif
       if (templist->next == NULL)
         break;
     }
@@ -2163,12 +2166,15 @@ print_file_list (GList * list)
       tempfle = templist->data;
 #if defined (_LARGEFILE_SOURCE)
       printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
+              tempfle->file, tempfle->destfile, 
+              (long long) tempfle->size, (long long) tempfle->startsize, 
+              tempfle->user, tempfle->group, tempfle->attribs);
 #else
       printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
-#endif
               tempfle->file, tempfle->destfile, 
               tempfle->size, tempfle->startsize, 
               tempfle->user, tempfle->group, tempfle->attribs);
+#endif
       if (templist == list)
         break;
     }

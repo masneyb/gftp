@@ -308,7 +308,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
 #if defined (_LARGEFILE_SOURCE)
       request->logging_function (gftp_logging_misc, request,
                               _("Starting the file transfer at offset %lld\n"),
-                              startsize);
+                              (long long) startsize);
 
       oldstr = tempstr;
       tempstr = g_strdup_printf ("%sRange: bytes=%lld-\n", tempstr, startsize);

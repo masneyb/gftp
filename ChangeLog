@@ -1,4 +1,8 @@
 2003-1-18 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c lib/protocols.c lib/rfc2068.c lib/rfc959.c - if
+	_LARGEFILE_SOURCE is defined, explicitly cast the file sizes to
+	long long so that the %lld format will be correct
+
 	* src/gtk/gtkui_transfer.c - gtk+ specific file transfer code.
 	Forgot to attach this with the last commit
 

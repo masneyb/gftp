@@ -30,7 +30,7 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   if (dest_str != NULL)
     {
 #if defined (_LARGEFILE_SOURCE)
-      g_snprintf (dest_str, dest_len, "%'lld", number);
+      g_snprintf (dest_str, dest_len, "%'lld", (long long) number);
 #else
       g_snprintf (dest_str, dest_len, "%'ld", number);
 #endif
@@ -38,7 +38,7 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   else
     {
 #if defined (_LARGEFILE_SOURCE)
-      dest_str = g_strdup_printf ("%'lld", number);
+      dest_str = g_strdup_printf ("%'lld", (long long) number);
 #else
       dest_str = g_strdup_printf ("%'ld", number);
 #endif
@@ -56,7 +56,7 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   int len, num, rem, i;
 
 #if defined (_LARGEFILE_SOURCE)
-  g_snprintf (src, sizeof (src), "%lld", number);
+  g_snprintf (src, sizeof (src), "%lld", (long long) number);
 #else
   g_snprintf (src, sizeof (src), "%ld", number);
 #endif
@@ -918,7 +918,7 @@ gftp_gen_ls_string (gftp_file * fle, char *file_prefixstr, char *file_suffixstr)
   else
     {
 #if defined (_LARGEFILE_SOURCE)
-      tempstr2 = g_strdup_printf ("%11lld", fle->size);
+      tempstr2 = g_strdup_printf ("%11lld", (long long) fle->size);
 #else
       tempstr2 = g_strdup_printf ("%11ld", fle->size);
 #endif
