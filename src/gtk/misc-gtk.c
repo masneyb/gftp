@@ -41,10 +41,11 @@ ftp_log (gftp_logging_level level, gftp_request * request,
 {
   uintptr_t max_log_window_size;
   int upd, free_logstr;
-  size_t len, delsize;
   gftp_log * newlog;
+  gint delsize;
   char *logstr;
   va_list argp;
+  size_t len;
 #if GTK_MAJOR_VERSION == 1
   gftp_color * color;
   GdkColor fore;

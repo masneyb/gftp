@@ -1,4 +1,11 @@
 2004-7-27 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c - fixed SSHV2 transfers so that they work again
+	(they were busted in the last CVS commit due to the wrong file
+	offset being sent over)
+
+	* src/gtk/misc-gtk.c - fix for the log window so that the contents
+	are properly shown. (this was busted in the last CVS commit)
+
 	* lib/protocols.c lib/rfc2068.c lib/rfc959.c lib/sshv2.c
 	src/gtk/bookmarks.c src/gtk/dnd.c src/gtk/gftp-gtk.c src/gtk/gtui.c
 	src/gtk/menu-items.c src/misc-gtk.c src/gtk/options_dialog.c 
