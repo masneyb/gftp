@@ -283,6 +283,9 @@ gftpui_run_function_callback (gftp_window_data * wdata,
   else
     cdata->toggled = 0;
 
+  gtk_widget_destroy (ddata->dialog);
+  ddata->dialog = NULL;
+
   gftpui_common_run_callback_function (cdata);
 }
 
