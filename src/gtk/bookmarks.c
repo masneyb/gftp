@@ -594,6 +594,7 @@ build_bookmarks_tree (void)
   gftp_bookmarks_var * tempentry, * preventry;
   char *pos, *prevpos, *text[2], *str;
   GtkCTreeNode * parent;
+  int add_child;
 
   gftp_get_pixmap (tree, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
   gftp_get_pixmap (tree, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
@@ -607,6 +608,7 @@ build_bookmarks_tree (void)
   tempentry = new_bookmarks->children;
   while (tempentry != NULL)
     {
+      add_child = 1;
       tempentry->cnode = NULL;
       if (tempentry->children != NULL)
 	{
@@ -617,6 +619,7 @@ build_bookmarks_tree (void)
 	{
           if (strchr (tempentry->path, '/') == NULL && tempentry->isfolder)
             {
+              add_child = 0;
               text[0] = text[1] = tempentry->path;
               tempentry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree),
             				   tempentry->prev->cnode, NULL, text,
@@ -657,20 +660,23 @@ build_bookmarks_tree (void)
             }
 	}
 
-      if ((pos = strrchr (tempentry->path, '/')) == NULL)
-	pos = tempentry->path;
-      else
-	pos++;
-
-      text[0] = text[1] = pos;
-      tempentry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree), 
-                               tempentry->prev->cnode, NULL,
-			       text, 5, NULL, NULL, NULL, NULL, FALSE, FALSE);
-      gtk_ctree_node_set_row_data (GTK_CTREE (tree), tempentry->cnode,
-				   tempentry);
+      if (add_child)
+        {
+          if ((pos = strrchr (tempentry->path, '/')) == NULL)
+            pos = tempentry->path;
+          else
+            pos++;
+    
+          text[0] = text[1] = pos;
+          tempentry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree), 
+                                 tempentry->prev->cnode, NULL, text, 5, NULL,
+                                 NULL, NULL, NULL, FALSE, FALSE);
+          gtk_ctree_node_set_row_data (GTK_CTREE (tree), tempentry->cnode,
+                                       tempentry);
+        }
 
       while (tempentry->next == NULL && tempentry->prev != NULL)
-	tempentry = tempentry->prev;
+        tempentry = tempentry->prev;
       tempentry = tempentry->next;
     }
 }
