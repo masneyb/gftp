@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gftp 2.0.18rc1\n"
+"Project-Id-Version: gftp 2.0.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-19 22:25+0900\n"
-"PO-Revision-Date: 2005-01-19 22:38+0900\n"
+"POT-Creation-Date: 2005-02-17 14:04+0900\n"
+"PO-Revision-Date: 2005-02-17 14:08+0900\n"
 "Last-Translator: SungHyun Nam <goweol@gmail.com>\n"
 "Language-Team: Korean <gnome-kr-translation@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "%s은(는) 잘못된 URL입니다\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "에러: 캐쉬 인덱스 파에 이상한 라인 %s\n"
 
-#: lib/cache.c:137 lib/local.c:477
+#: lib/cache.c:137 lib/fsp.c:537 lib/local.c:477
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "에러: 디렉토리 %s을(를) 만들 수 없습니다: %s\n"
@@ -40,22 +40,23 @@ msgstr "에러: 임시파일을 만들 수 없습니다: %s\n"
 msgid "Error closing file descriptor: %s\n"
 msgstr "파일 서술자 닫기 에러: %s\n"
 
-#: lib/cache.c:250 lib/local.c:136 lib/local.c:145 lib/local.c:192
+#: lib/cache.c:250 lib/fsp.c:128 lib/fsp.c:208 lib/local.c:136 lib/local.c:145
+#: lib/local.c:192
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "에러: 파일 %s에서 찾을 수 없습니다: %s\n"
 
-#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:3001
+#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:3000
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "에러: 로컬 파일 %s을(를) 열 수 없습니다: %s\n"
 
-#: lib/config_file.c:143 lib/protocols.c:2708 lib/sslcommon.c:486
+#: lib/config_file.c:143 lib/protocols.c:2707 lib/sslcommon.c:486
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "에러: 소켓에 쓸 수 없습니다: %s\n"
 
-#: lib/config_file.c:151 lib/protocols.c:2632 lib/sshv2.c:364
+#: lib/config_file.c:151 lib/protocols.c:2631 lib/sshv2.c:364
 #: lib/sslcommon.c:439
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -190,6 +191,80 @@ msgstr "<모름>"
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr "심각한 gFTP 에러: 설정 옵션 '%s'은(는) 모르는 옵션입니다\n"
 
+#: lib/fsp.c:190
+#, c-format
+msgid "Error: Cannot upload file %s\n"
+msgstr "에러: 파일 %s을(를) 업로드할 수 없습니다\n"
+
+#: lib/fsp.c:200
+#, c-format
+msgid "Error: Cannot write to file %s: %s\n"
+msgstr "에러: 파일 %s을(를) 쓸 수 없습니다: %s\n"
+
+#: lib/fsp.c:238
+#, c-format
+msgid "Error: Error closing file: %s\n"
+msgstr "에러: 파일을 닫을 수 없습니다: %s\n"
+
+#: lib/fsp.c:326
+#, c-format
+msgid "Corrupted file listing from FSP server %s\n"
+msgstr "FSP 서버 %s에서 깨진 파일 목록을 받았습니다\n"
+
+#: lib/fsp.c:338 lib/fsp.c:339 lib/protocols.c:1541 lib/protocols.c:1542
+#: lib/protocols.c:1583 lib/protocols.c:1584 lib/protocols.c:1647
+#: lib/protocols.c:1654 lib/protocols.c:1730 lib/protocols.c:1731
+#: lib/protocols.c:1767
+msgid "unknown"
+msgstr "모름"
+
+#: lib/fsp.c:376
+#, c-format
+msgid "Could not get FSP directory listing %s: %s\n"
+msgstr "FSP 디렉토리 목록 %s을(를) 얻을 수 없습니다: %s\n"
+
+#: lib/fsp.c:438
+#, c-format
+msgid "Successfully changed directory to %s\n"
+msgstr "디렉토리를 %s(으)로 성공적으로 바꾸었습니다\n"
+
+#: lib/fsp.c:448
+#, c-format
+msgid "Could not change directory to %s\n"
+msgstr "디렉토리를 %s(으)로 바꿀 수 없습니다\n"
+
+#: lib/fsp.c:473 lib/fsp.c:502 lib/local.c:424 lib/local.c:447
+#: src/gtk/transfer.c:260 src/gtk/view_dialog.c:328
+#, c-format
+msgid "Successfully removed %s\n"
+msgstr "성공적으로 %s을(를) 지웠습니다\n"
+
+#: lib/fsp.c:479 lib/local.c:430
+#, c-format
+msgid "Error: Could not remove directory %s: %s\n"
+msgstr "에러: 디렉토리 %s을(를) 삭제할 수 없습니다: %s\n"
+
+#: lib/fsp.c:508 lib/local.c:453 src/gtk/transfer.c:264
+#: src/gtk/view_dialog.c:332
+#, c-format
+msgid "Error: Could not remove file %s: %s\n"
+msgstr "에러: 파일 %s을(를) 삭제할 수 없습니다: %s\n"
+
+#: lib/fsp.c:530 lib/local.c:470
+#, c-format
+msgid "Successfully made directory %s\n"
+msgstr "디렉토리 %s을(를) 성공적으로 만들었습니다\n"
+
+#: lib/fsp.c:565 lib/local.c:496
+#, c-format
+msgid "Successfully renamed %s to %s\n"
+msgstr "%s을(를) %s(으)로 성공적으로 바꾸었습니다\n"
+
+#: lib/fsp.c:577 lib/local.c:503
+#, c-format
+msgid "Error: Could not rename %s to %s: %s\n"
+msgstr "에러: %s을(를) %s(으)로 바꿀 수 없습니다: %s\n"
+
 #: lib/ftps.c:157
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
@@ -230,37 +305,6 @@ msgstr "로컬 디렉토리 목록 %s을(를) 얻을 수 없습니다: %s\n"
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "성공적으로 로컬 디렉토리를 %s(으)로 바꾸었습니다\n"
-
-#: lib/local.c:424 lib/local.c:447 src/gtk/transfer.c:260
-#: src/gtk/view_dialog.c:328
-#, c-format
-msgid "Successfully removed %s\n"
-msgstr "성공적으로 %s을(를) 지웠습니다\n"
-
-#: lib/local.c:430
-#, c-format
-msgid "Error: Could not remove directory %s: %s\n"
-msgstr "에러: 디렉토리 %s을(를) 삭제할 수 없습니다: %s\n"
-
-#: lib/local.c:453 src/gtk/transfer.c:264 src/gtk/view_dialog.c:332
-#, c-format
-msgid "Error: Could not remove file %s: %s\n"
-msgstr "에러: 파일 %s을(를) 삭제할 수 없습니다: %s\n"
-
-#: lib/local.c:470
-#, c-format
-msgid "Successfully made directory %s\n"
-msgstr "디렉토리 %s을(를) 성공적으로 만들었습니다\n"
-
-#: lib/local.c:496
-#, c-format
-msgid "Successfully renamed %s to %s\n"
-msgstr "%s을(를) %s(으)로 성공적으로 바꾸었습니다\n"
-
-#: lib/local.c:503
-#, c-format
-msgid "Error: Could not rename %s to %s: %s\n"
-msgstr "에러: %s을(를) %s(으)로 바꿀 수 없습니다: %s\n"
 
 #: lib/local.c:520
 #, c-format
@@ -530,8 +574,7 @@ msgstr "전송 블록 크기:"
 msgid ""
 "The block size that is used when transfering files. This should be a "
 "multiple of 1024."
-msgstr ""
-"파일 전송에 사용할 블록 크기. 1024의 배수이어야 합니다."
+msgstr "파일 전송에 사용할 블록 크기. 1024의 배수이어야 합니다."
 
 #: lib/options.h:135
 msgid "Default Protocol:"
@@ -709,20 +752,17 @@ msgstr "%s 디렉토리 목록을 서버에서 읽는 중 (LC_TIME=%s)\n"
 #, c-format
 msgid ""
 "Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr ""
-"'%s' 문자열을 %s 문자셋에서 %s 문자셋으로 변환 중 에러: %s\n"
+msgstr "'%s' 문자열을 %s 문자셋에서 %s 문자셋으로 변환 중 에러: %s\n"
 
 #: lib/protocols.c:469
 #, c-format
 msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
-msgstr ""
-"'%s' 문자열을 UTF-8에서 현재 로케일로 변환 중 에러: %s\n"
+msgstr "'%s' 문자열을 UTF-8에서 현재 로케일로 변환 중 에러: %s\n"
 
 #: lib/protocols.c:540
 #, c-format
 msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
-msgstr ""
-"'%s' 문자열을 현재 로케일에서 UTF-8로 변환 중 에러: %s\n"
+msgstr "'%s' 문자열을 현재 로케일에서 UTF-8로 변환 중 에러: %s\n"
 
 #: lib/protocols.c:629
 #, c-format
@@ -746,85 +786,79 @@ msgstr "에러: %s 책갈피를 찾을 수 없습니다\n"
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "책갈피 에러: 책갈피 항목 %s에는 호스트이름이 없습니다\n"
 
-#: lib/protocols.c:822
+#: lib/protocols.c:826 lib/protocols.c:853
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "'%s' 프로토콜은 현재 지원되지 않습니다.\n"
 
-#: lib/protocols.c:1168 lib/protocols.c:1183 lib/protocols.c:2215
-#: lib/protocols.c:2325
+#: lib/protocols.c:1167 lib/protocols.c:1182 lib/protocols.c:2214
+#: lib/protocols.c:2324
 #, c-format
 msgid "Looking up %s\n"
 msgstr "%s 찾는 중\n"
 
-#: lib/protocols.c:1174 lib/protocols.c:1189 lib/protocols.c:2220
-#: lib/protocols.c:2330
+#: lib/protocols.c:1173 lib/protocols.c:1188 lib/protocols.c:2219
+#: lib/protocols.c:2329
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "호스트명 %s을(를) 찾을 수 없습니다: %s\n"
 
-#: lib/protocols.c:1542 lib/protocols.c:1543 lib/protocols.c:1584
-#: lib/protocols.c:1585 lib/protocols.c:1648 lib/protocols.c:1655
-#: lib/protocols.c:1731 lib/protocols.c:1732 lib/protocols.c:1768
-msgid "unknown"
-msgstr "모름"
-
-#: lib/protocols.c:2238
+#: lib/protocols.c:2237
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "소켓을 만들 수 없습니다: %s\n"
 
-#: lib/protocols.c:2244 lib/protocols.c:2347
+#: lib/protocols.c:2243 lib/protocols.c:2346
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "%s 시도 중:%d\n"
 
-#: lib/protocols.c:2249 lib/protocols.c:2354
+#: lib/protocols.c:2248 lib/protocols.c:2353
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "%s(으)로 연결할 수 없습니다: %s\n"
 
-#: lib/protocols.c:2284 lib/rfc959.c:640
+#: lib/protocols.c:2283 lib/rfc959.c:640
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "IPv4 소켓을 만들 수 없습니다: %s\n"
 
-#: lib/protocols.c:2308 lib/sshv2.c:1046
+#: lib/protocols.c:2307 lib/sshv2.c:1046
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr "서비스 이름 %s/tcp를 찾을 수 없습니다. 서비스 파일을 확인하세요\n"
 
-#: lib/protocols.c:2370 lib/protocols.c:3010 lib/rfc959.c:649 lib/rfc959.c:826
+#: lib/protocols.c:2369 lib/protocols.c:3009 lib/rfc959.c:649 lib/rfc959.c:826
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "에러: Cannot set close on exec flag: %s\n"
 
-#: lib/protocols.c:2377
+#: lib/protocols.c:2376
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "%s(으)로 연결되었습니다:%d\n"
 
-#: lib/protocols.c:2608 lib/protocols.c:2683 lib/sshv2.c:355
+#: lib/protocols.c:2607 lib/protocols.c:2682 lib/sshv2.c:355
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "%s로의 연결 제한 시간 초과\n"
 
-#: lib/protocols.c:2751
+#: lib/protocols.c:2750
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "소켓 플래그를 얻을 수 없습니다: %s\n"
 
-#: lib/protocols.c:2765
+#: lib/protocols.c:2764
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "소켓을 non-blocking으로 설정할 수 없습니다: %s\n"
 
-#: lib/protocols.c:2900
+#: lib/protocols.c:2899
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "에러: 원격 사이트 %s에서 끊겼습니다. 최대 재시도에 도달...포기\n"
 
-#: lib/protocols.c:2908
+#: lib/protocols.c:2907
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "에러: 원격 사이트 %s에서 끊겼습니다. %d초 후에 재연결할 겁니다\n"
@@ -1430,7 +1464,7 @@ msgstr ""
 
 #: src/uicommon/gftpui.c:193 src/gtk/menu-items.c:505
 msgid "Translated by"
-msgstr "번역자: 남성현 <namsh@kldp.org>"
+msgstr "번역자: 남성현 <goweol@gmail.com>"
 
 #: src/uicommon/gftpui.c:240 src/uicommon/gftpui.c:282
 #: src/uicommon/gftpui.c:322 src/uicommon/gftpui.c:357
@@ -2438,41 +2472,41 @@ msgstr "이 사이트에 대한 열쇠글을 입력하세요"
 msgid "Operation canceled...you must enter a string\n"
 msgstr "동작이 취소되었습니다...문자열을 입력하셔야 합니다\n"
 
-#: src/gtk/gtkui.c:317
+#: src/gtk/gtkui.c:320
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: src/gtk/gtkui.c:320
+#: src/gtk/gtkui.c:323
 msgid "Make Directory"
 msgstr "디렉토리 생성"
 
-#: src/gtk/gtkui.c:320
+#: src/gtk/gtkui.c:323
 msgid "Enter name of directory to create"
 msgstr "만들 디렉토리명을 입력하십시요"
 
-#: src/gtk/gtkui.c:343 src/gtk/gtkui.c:355 src/gtk/misc-gtk.c:949
+#: src/gtk/gtkui.c:346 src/gtk/gtkui.c:358 src/gtk/misc-gtk.c:949
 #: src/gtk/misc-gtk.c:1023
 msgid "Rename"
 msgstr "이름변경"
 
-#: src/gtk/gtkui.c:353
+#: src/gtk/gtkui.c:356
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "%s을(를) 어떤 이름으로 바꾸고 싶으세요?"
 
-#: src/gtk/gtkui.c:375 src/gtk/gtkui.c:378
+#: src/gtk/gtkui.c:378 src/gtk/gtkui.c:381
 msgid "Site"
 msgstr "사이트"
 
-#: src/gtk/gtkui.c:378
+#: src/gtk/gtkui.c:381
 msgid "Enter site-specific command"
 msgstr "사이트 명령 입력"
 
-#: src/gtk/gtkui.c:379
+#: src/gtk/gtkui.c:382
 msgid "Prepend with SITE"
 msgstr ""
 
-#: src/gtk/gtkui.c:422 src/gtk/menu-items.c:250
+#: src/gtk/gtkui.c:425 src/gtk/menu-items.c:250
 msgid "Chdir"
 msgstr "Chdir"
 
@@ -2897,7 +2931,7 @@ msgstr "%s 파일 보는 중\n"
 msgid "View: Cannot open file %s: %s\n"
 msgstr "보기: 파일 %s을(를) 열 수 없습니다: %s\n"
 
-#: src/text/gftp-text.c:167
+#: src/text/gftp-text.c:176
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "터미널 %s을(를) 열 수 없습니다\n"
