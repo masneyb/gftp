@@ -1169,6 +1169,36 @@ goto_next_token (char *pos)
 }
 
 
+static time_t
+parse_vms_time (char *str, char **endpos)
+{
+  struct tm curtime;
+  time_t ret;
+
+  /* 8-JUN-2004 13:04:14 */
+  memset (&curtime, 0, sizeof (curtime));
+
+  *endpos = strptime (str, "%d-%b-%Y %H:%M:%S", &curtime);
+  if (*endpos == NULL)
+    *endpos = strptime (str, "%d-%b-%Y %H:%M", &curtime);
+  
+  if (*endpos != NULL)
+    {
+      ret = mktime (&curtime);
+      for (; **endpos == ' ' || **endpos == '\t'; (*endpos)++);
+    }
+  else
+    {
+      ret = 0;
+      *endpos = goto_next_token (str);
+      if (*endpos != NULL)
+        *endpos = goto_next_token (*endpos);
+    }
+
+  return (ret);
+}
+
+
 time_t
 parse_time (char *str, char **endpos)
 {
@@ -1278,44 +1308,68 @@ gftp_parse_vms_attribs (char *dest, char **src)
 
 
 static int
-gftp_parse_ls_vms (char *str, gftp_file * fle)
+gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
 {
-  char *curpos, *endpos;
+  char *curpos, *endpos, tempstr[1024];
+  int multiline;
+  ssize_t len;
 
   /* .PINE-DEBUG1;1              9  21-AUG-2002 20:06 [MYERSRG] (RWED,RWED,,) */
   /* WWW.DIR;1                   1  23-NOV-1999 05:47 [MYERSRG] (RWE,RWE,RE,E) */
 
+  /* Multiline VMS 
+  $MAIN.TPU$JOURNAL;1
+	1/18 8-JUN-2004 13:04:14  [NUCLEAR,FISSION]      (RWED,RWED,RE,)
+  TCPIP$FTP_SERVER.LOG;29
+	0/18 8-JUN-2004 14:42:04  [NUCLEAR,FISSION]      (RWED,RWED,RE,)
+  TCPIP$FTP_SERVER.LOG;28
+	5/18 8-JUN-2004 13:05:11  [NUCLEAR,FISSION]      (RWED,RWED,RE,)
+  TCPIP$FTP_SERVER.LOG;27
+	5/18 8-JUN-2004 13:03:51  [NUCLEAR,FISSION]      (RWED,RWED,RE,) */
+
   if ((curpos = strchr (str, ';')) == NULL)
     return (GFTP_EFATAL);
+
+  multiline = strchr (str, ' ') == NULL;
 
   *curpos = '\0';
   if (strlen (str) > 4 && strcmp (curpos - 4, ".DIR") == 0)
     {
       fle->isdir = 1;
-      fle->attribs = g_strdup ("drwxr-xr-x");
+      fle->attribs = g_strdup ("d---------");
       *(curpos - 4) = '\0';
     }
   else
-   fle->attribs = g_strdup ("-rw-r--r--");
+   fle->attribs = g_strdup ("----------");
 
   fle->file = g_strdup (str);
 
-  curpos = goto_next_token (curpos + 1);
+  if (multiline)
+    {
+      if (request->get_next_dirlist_line == NULL)
+        return (GFTP_EFATAL);
+
+      len = request->get_next_dirlist_line (request, fd, tempstr,
+                                            sizeof (tempstr));
+      if (len <= 0)
+        return ((int) len);
+
+      for (curpos = tempstr; *curpos == ' ' || *curpos == '\t'; curpos++);
+    }
+  else
+    curpos = goto_next_token (curpos + 1);
+
   fle->size = gftp_parse_file_size (curpos) * 512; /* Is this correct? */
-  curpos = goto_next_token (curpos);
-
-  fle->datetime = parse_time (curpos, &curpos);
 
   curpos = goto_next_token (curpos);
+
+  fle->datetime = parse_vms_time (curpos, &curpos);
 
   if (*curpos != '[')
     return (GFTP_EFATAL);
-  curpos++;
+
   if ((endpos = strchr (curpos, ']')) == NULL)
     return (GFTP_EFATAL);
-  *endpos = '\0';
-  fle->user = g_strdup (curpos);
-  fle->group = g_strdup ("");
 
   curpos = goto_next_token (endpos + 1);
   if ((curpos = strchr (curpos, ',')) == NULL)
@@ -1325,6 +1379,9 @@ gftp_parse_ls_vms (char *str, gftp_file * fle)
   gftp_parse_vms_attribs (fle->attribs + 1, &curpos);
   gftp_parse_vms_attribs (fle->attribs + 4, &curpos);
   gftp_parse_vms_attribs (fle->attribs + 7, &curpos);
+
+  fle->user = g_strdup ("");
+  fle->group = g_strdup ("");
 
   return (0);
 }
@@ -1619,7 +1676,8 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
 
 
 int
-gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
+gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
+               int fd)
 {
   char *str, *endpos, tmpchar;
   int result, is_vms;
@@ -1653,7 +1711,7 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
         result = gftp_parse_ls_nt (str, fle);
         break;
       case GFTP_DIRTYPE_VMS:
-        result = gftp_parse_ls_vms (str, fle);
+        result = gftp_parse_ls_vms (request, fd, str, fle);
         break;
       case GFTP_DIRTYPE_MVS:
         result = gftp_parse_ls_mvs (str, fle);
@@ -1680,7 +1738,7 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
               is_vms = 0;
 
             if (is_vms)
-              result = gftp_parse_ls_vms (str, fle);
+              result = gftp_parse_ls_vms (request, fd, str, fle);
             else
               result = gftp_parse_ls_unix (request, str, len, fle);
           }

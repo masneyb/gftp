@@ -1457,11 +1457,29 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 }
 
 
-int
-rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
+static ssize_t
+rfc959_get_next_dirlist_line (gftp_request * request, int fd,
+                              char *buf, size_t buflen)
 {
   ssize_t (*oldread_func) (gftp_request * request, void *ptr, size_t size,
                            int fd);
+  rfc959_parms * parms;
+  ssize_t len;
+
+  parms = request->protocol_data;
+
+  oldread_func = request->read_function;
+  request->read_function = parms->data_conn_read;
+  len = gftp_get_line (request, &parms->dataconn_rbuf, buf, buflen, fd);
+  request->read_function = oldread_func;
+
+  return (len);
+}
+
+
+int
+rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
+{
   rfc959_parms * parms;
   char tempstr[1024];
   ssize_t len;
@@ -1483,19 +1501,15 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
   do
     {
-      oldread_func = request->read_function;
-      request->read_function = parms->data_conn_read;
-      len = gftp_get_line (request, &parms->dataconn_rbuf, tempstr,
-                           sizeof (tempstr), fd);
-      request->read_function = oldread_func;
-
+      len = rfc959_get_next_dirlist_line (request, fd, tempstr,
+                                          sizeof (tempstr));
       if (len <= 0)
 	{
           gftp_file_destroy (fle);
 	  return ((int) len);
 	} 
 
-      if (gftp_parse_ls (request, tempstr, fle) != 0)
+      if (gftp_parse_ls (request, tempstr, fle, fd) != 0)
 	{
 	  if (strncmp (tempstr, "total", strlen ("total")) != 0 &&
 	      strncmp (tempstr, _("total"), strlen (_("total"))) != 0)
@@ -1797,6 +1811,7 @@ rfc959_init (gftp_request * request)
   request->abort_transfer = rfc959_abort_transfer;
   request->list_files = rfc959_list_files;
   request->get_next_file = rfc959_get_next_file;
+  request->get_next_dirlist_line = rfc959_get_next_dirlist_line;
   request->get_file_size = rfc959_get_file_size;
   request->chdir = rfc959_chdir;
   request->rmdir = rfc959_rmdir;

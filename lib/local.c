@@ -654,6 +654,7 @@ local_init (gftp_request * request)
   request->abort_transfer = local_end_transfer; /* NOTE: uses end_transfer */
   request->list_files = local_list_files;
   request->get_next_file = local_get_next_file;
+  request->get_next_dirlist_line = NULL;
   request->get_file_size = local_get_file_size;
   request->chdir = local_chdir;
   request->rmdir = local_rmdir;

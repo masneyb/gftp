@@ -1301,7 +1301,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       if (longname[longnamelen - 1] == '/')
         longname[--longnamelen] = '\0';
 
-      if ((ret = gftp_parse_ls (request, longname, fle)) < 0)
+      if ((ret = gftp_parse_ls (request, longname, fle, 0)) < 0)
         {
           gftp_file_destroy (fle);
           return (ret);
@@ -2286,6 +2286,7 @@ sshv2_init (gftp_request * request)
   request->abort_transfer = sshv2_end_transfer; /* NOTE: uses sshv2_end_transfer */
   request->list_files = sshv2_list_files;
   request->get_next_file = sshv2_get_next_file;
+  request->get_next_dirlist_line = NULL;
   request->get_file_size = sshv2_get_file_size;
   request->chdir = sshv2_chdir;
   request->rmdir = sshv2_rmdir;

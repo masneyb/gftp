@@ -1,4 +1,14 @@
 2004-6-15 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c - added supported for multiline VMS directory
+	listings. Also, parse the date correctly for single line VMS
+	directory listings
+
+	* lib/gftp.h lib/local.c lib/rfc2068.c lib/rfc959.c lib/sshv.c -
+	added function pointer get_next_dirlist_line to gftp_request structure.
+	This will retrieve the next line of input for the directory listing.
+	This is only implemented in the FTP protocol at the moment. It shouldn't
+	be needed in the other protocols
+
 	* lib/gftp.h lib/sshv2.c src/gtk/gtkui.c src/text/textui.c - added
 	support for RSA SecurID passwords
 

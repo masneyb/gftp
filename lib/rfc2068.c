@@ -922,6 +922,7 @@ rfc2068_init (gftp_request * request)
   request->abort_transfer = rfc2068_end_transfer; /* NOTE: uses end_transfer */
   request->list_files = rfc2068_list_files;
   request->get_next_file = rfc2068_get_next_file;
+  request->get_next_dirlist_line = NULL;
   request->get_file_size = rfc2068_get_file_size;
   request->chdir = rfc2068_chdir;
   request->rmdir = NULL;

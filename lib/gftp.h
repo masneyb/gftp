@@ -429,6 +429,10 @@ struct gftp_request_tag
   int (*get_next_file)			( gftp_request * request, 
 					  gftp_file *fle, 
 					  int fd );
+  ssize_t (*get_next_dirlist_line)	( gftp_request * request, 
+					  int fd,
+					  char *buf,
+					  size_t buflen );
   off_t (*get_file_size) 		( gftp_request * request, 
 					  const char *filename );
   int (*chdir)				( gftp_request * request, 
@@ -941,7 +945,8 @@ time_t parse_time 			( char *str,
 
 int gftp_parse_ls 			( gftp_request * request,
 					  const char *lsoutput, 
-					  gftp_file *fle );
+					  gftp_file *fle,
+					  int fd );
 
 int gftp_get_all_subdirs 		( gftp_transfer * transfer, 
 					  void (*update_func) 
