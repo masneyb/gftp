@@ -154,3 +154,16 @@ AC_DEFUN(AC_INTL_PRINTF,
     [AC_MSG_RESULT(no)])
   ])
 
+# serial 1
+
+dnl Brian Masney <masneyb@gftp.org>
+
+AC_DEFUN(AC_TYPE_INTPTR_T,
+  [AC_MSG_CHECKING([for intptr_t in stdint.h])
+   AC_TRY_COMPILE([#include <stdint.h>],
+   [intptr_t i = 0;],
+     [AC_MSG_RESULT(yes)],
+     [AC_DEFINE(intptr_t,long,Need to define intptr_t as a long because it should be in stdint.h)
+      AC_MSG_RESULT(no)])
+  ])
+

@@ -1003,13 +1003,13 @@ gftp_set_file_time (gftp_request * request, const char *file, time_t datetime)
 
 
 char
-gftp_site_cmd (gftp_request * request, const char *command)
+gftp_site_cmd (gftp_request * request, int specify_site, const char *command)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->site == NULL)
     return (GFTP_EFATAL);
-  return (request->site (request, command));
+  return (request->site (request, specify_site, command));
 }
 
 

@@ -1,3 +1,12 @@
+2004-6-6 Brian Masney <masneyb@gftp.org>
+	* acinclude.m4 configure.in - added AC_TYPE_INTPTR_T that will define
+	intptr_t if it does not exist on the system
+
+	* lib/gftp.h lib/protocols.c lib/rfc959.c
+	src/uicommon/gftpuicallbacks.c - added specify site argument to
+	rfc959_site(). If this is set, then SITE will be prepended to the
+	command
+
 2004-5-26 Brian Masney <masneyb@gftp.org>
 	* docs/gftp.desktop - make desktop item follow HIG (closes #142005)
 

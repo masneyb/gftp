@@ -449,6 +449,7 @@ struct gftp_request_tag
 					  const char *filename, 
 					  time_t datettime );
   int (*site)				( gftp_request * request, 
+					  int specify_site,
 					  const char *filename );
   int (*parse_url)			( gftp_request * request,
 					  const char *url );
@@ -924,6 +925,7 @@ int gftp_set_file_time 			( gftp_request * request,
 					  time_t datetime );
 
 char gftp_site_cmd 			( gftp_request * request, 
+					  int specify_site,
 					  const char *command );
 
 off_t gftp_get_file_size 		( gftp_request * request, 

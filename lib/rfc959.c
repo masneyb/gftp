@@ -1665,7 +1665,7 @@ rfc959_chmod (gftp_request * request, const char *file, int mode)
 
 
 static int
-rfc959_site (gftp_request * request, const char *command)
+rfc959_site (gftp_request * request, int specify_site, const char *command)
 {
   char *tempstr, ret;
 
@@ -1673,7 +1673,11 @@ rfc959_site (gftp_request * request, const char *command)
   g_return_val_if_fail (command != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  tempstr = g_strconcat ("SITE ", command, "\r\n", NULL);
+  if (specify_site)
+    tempstr = g_strconcat ("SITE ", command, "\r\n", NULL);
+  else
+    tempstr = g_strconcat (command, "\r\n", NULL);
+
   ret = rfc959_send_command (request, tempstr, 1);
   g_free (tempstr);
 
