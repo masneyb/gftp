@@ -436,6 +436,8 @@ free_fdata (gftp_file * fle)
 {
   if (fle->file)
     g_free (fle->file);
+  if (fle->utf8_file)
+    g_free (fle->utf8_file);
   if (fle->user)
     g_free (fle->user);
   if (fle->group)
@@ -926,7 +928,9 @@ gftp_gen_ls_string (gftp_file * fle, char *file_prefixstr, char *file_suffixstr)
     file_suffixstr = "";
 
   ret = g_strdup_printf ("%s %s %s %s%s%s", tempstr1, tempstr2, tstr, 
-                         file_prefixstr, fle->file, file_suffixstr);
+                         file_prefixstr, 
+                         fle->utf8_file != NULL ? fle->utf8_file : fle->file,
+                         file_suffixstr);
 
   g_free (tempstr1);
   g_free (tempstr2);

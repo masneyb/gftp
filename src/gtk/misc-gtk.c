@@ -770,7 +770,10 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
    
   gtk_clist_set_pixmap (GTK_CLIST (wdata->listbox), clist_num, 0, pix, bitmap);
 
-  if (fle->file)
+  if (fle->utf8_file)
+    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 1, 
+                        fle->utf8_file);
+  else if (fle->file)
     gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 1, fle->file);
 
   if (fle->attribs && (*fle->attribs == 'b' || *fle->attribs == 'c'))

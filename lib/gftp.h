@@ -178,6 +178,9 @@ typedef struct gftp_file_tag gftp_file;
 struct gftp_file_tag 
 {
   char *file,			/* Our filename */
+       *utf8_file,		/* UTF-8 encoded filename for display purposes
+				   only. This is only set if file is not in 
+				   UTF-8 */
        *user,			/* User that owns it */
        *group,			/* Group that owns it */
        *attribs,		/* Attribs (-rwxr-x-rx) */
@@ -416,6 +419,11 @@ struct gftp_request_tag
   GHashTable * local_options_hash;
 #ifdef USE_SSL
   SSL * ssl;
+#endif
+
+#if GLIB_MAJOR_VERSION > 1
+  GIConv iconv; 
+  unsigned int iconv_initialized : 1;
 #endif
 };
 

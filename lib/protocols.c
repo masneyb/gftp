@@ -282,6 +282,12 @@ gftp_end_transfer (gftp_request * request)
       request->last_dir_entry_len = 0;
     }
 
+  if (request->iconv_initialized)
+    {
+      g_iconv_close (request->iconv);
+      request->iconv_initialized = 0;
+    }
+
   return (ret);
 }
 
@@ -328,15 +334,84 @@ gftp_list_files (gftp_request * request)
 }
 
 
+#if GLIB_MAJOR_VERSION > 1
+static char *
+_gftp_get_next_charset (char *remote_charsets, char **curpos)
+{
+  char *ret, *endpos;
+
+  if (**curpos == '\0')
+    return (NULL);
+
+  ret = *curpos;
+  if (*curpos != remote_charsets)
+    *(*curpos - 1) = '\0';
+
+  if ((endpos = strchr (*curpos, ' ')) == NULL)
+    *curpos += strlen (*curpos);
+  else
+    {
+      *endpos = '\0';
+      *curpos = endpos + 1;
+    }
+
+  return (ret);
+}
+
+
+static char *
+gftp_string_to_utf8 (gftp_request * request, char *str)
+{
+  char *ret, *remote_charsets, *stpos, *cur_charset;
+  gsize bread, bwrite;
+  GError * error;
+
+  if (request->iconv_initialized)
+    return (g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
+                                  &error));
+
+  gftp_lookup_request_option (request, "remote_charsets", &remote_charsets);
+  if (*remote_charsets == '\0')
+    {
+      error = NULL;
+      if ((ret = g_locale_to_utf8 (str, -1, &bread, &bwrite, &error)) != NULL)
+        return (ret);
+
+      return (NULL);
+    }
+
+  ret = NULL;
+  stpos = remote_charsets;
+  while ((cur_charset = _gftp_get_next_charset (remote_charsets, 
+                                                &stpos)) != NULL)
+    {
+      if ((request->iconv = g_iconv_open ("UTF-8", cur_charset)) == (GIConv) -1)
+        continue;
+
+      error = NULL;
+      if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite,
+                                       &error)) == NULL)
+        {
+          g_iconv_close (request->iconv);
+          request->iconv = NULL;
+          continue;
+        }
+      else
+        {
+          request->iconv_initialized = 1;
+          break;
+        }
+    }
+
+  return (ret);
+}
+#endif
+
+
 int
 gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
 {
   int fd, ret;
-#if GLIB_MAJOR_VERSION > 1
-  gsize bread, bwrite;
-  char *tempstr;
-  GError * error;
-#endif
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
@@ -356,18 +431,7 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
 
 #if GLIB_MAJOR_VERSION > 1
       if (ret >= 0 && fle->file != NULL && !g_utf8_validate (fle->file, -1, NULL))
-        {
-          error = NULL;
-          if ((tempstr = g_locale_to_utf8 (fle->file, -1, &bread, 
-                                           &bwrite, &error)) != NULL)
-            {
-              g_free (fle->file);
-              fle->file = tempstr;
-            }
-          else
-            g_warning ("Error when converting %s to UTF-8: %s\n", fle->file,
-                       error->message);
-        }
+        fle->utf8_file = gftp_string_to_utf8 (request, fle->file);
 #endif
 
       if (ret >= 0 && !request->cached && request->cachefd > 0 && 

@@ -1,3 +1,11 @@
+2003-6-16 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/misc.c lib/options.h lib/protocols.c
+	src/gtk/misc-gtk.c - added remote_charsets option. Whenever a file is
+	read in that is not in UTF-8, it will first attempt to convert it from
+	the local charset, and if that fails, it will try each of the locales
+	in this list. I have no idea if this even works, so if someone can test
+	this, please let me know.
+
 2003-6-15 Brian Masney <masneyb@gftp.org>
 	* lib/cache.c lib/gftp.h - added gftp_generate_cache_description(). 
 
