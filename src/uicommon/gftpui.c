@@ -25,7 +25,7 @@ volatile int gftpui_common_use_jmp_environment = 0;
 
 GStaticMutex gftpui_common_transfer_mutex = G_STATIC_MUTEX_INIT;
 volatile sig_atomic_t gftpui_common_child_process_done = 0;
-gftp_logging_func gftpui_common_logfunc;
+static gftp_logging_func gftpui_common_logfunc;
 
 
 static int

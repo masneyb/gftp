@@ -206,7 +206,7 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
   gftpui_gtk_thread_data * thread_data;
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
-  guint handler;
+  gint handler;
   void * ret;
 
   cdata = data;

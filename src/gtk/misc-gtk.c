@@ -17,7 +17,7 @@
 /*  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                */
 /*****************************************************************************/
 
-#include <gftp-gtk.h>
+#include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
 static GtkWidget * statuswid;
@@ -41,11 +41,10 @@ ftp_log (gftp_logging_level level, gftp_request * request,
 {
   uintptr_t max_log_window_size;
   int upd, free_logstr;
+  size_t len, delsize;
   gftp_log * newlog;
   char *logstr;
-  gint delsize;
   va_list argp;
-  guint len;
 #if GTK_MAJOR_VERSION == 1
   gftp_color * color;
   GdkColor fore;
@@ -233,14 +232,14 @@ update_window_info (void)
           g_free (tempstr);
         }
 
-     for (i=0; gftp_protocols[i].init != NULL; i++)
-       {
-         if (current_wdata->request->init == gftp_protocols[i].init)
-           {
-             gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), i);
-             break;
-           }
-       }
+      for (i=0; gftp_protocols[i].init != NULL; i++)
+        {
+          if (current_wdata->request->init == gftp_protocols[i].init)
+            {
+              gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), i);
+              break;
+            }
+        }
     }
 
   update_window (&window1);
@@ -563,12 +562,15 @@ void
 create_item_factory (GtkItemFactory * ifactory, guint n_entries,
 		     GtkItemFactoryEntry * entries, gpointer callback_data)
 {
+  const char *strip_prefix;
+  size_t strip_prefix_len;
   int i;
-  const char *strip_prefix = gtk_object_get_data (GTK_OBJECT (ifactory), "gftp-strip-prefix");
-  int strip_prefix_len = 0;
 
+  strip_prefix = gtk_object_get_data (GTK_OBJECT (ifactory), "gftp-strip-prefix");
   if (strip_prefix)
     strip_prefix_len = strlen (strip_prefix);
+  else
+    strip_prefix_len = 0;
 
   for (i = 0; i < n_entries; i++)
     {

@@ -339,7 +339,7 @@ gftp_abort_transfer (gftp_request * request)
 }
 
 
-mode_t
+mode_t /* FIXME - this is unsigned, can return negative */
 gftp_stat_filename (gftp_request * request, const char *filename)
 {
   mode_t ret;
@@ -705,8 +705,9 @@ gftp_parse_url (gftp_request * request, const char *url)
 {
   char *pos, *endpos, *endhostpos, tempchar, *default_protocol, *stpos;
   gftp_logging_func logging_function;
-  int len, i, init_ret;
   const char *cpos;
+  int i, init_ret;
+  size_t len;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (url != NULL, GFTP_EFATAL);
@@ -1041,7 +1042,7 @@ gftp_get_file_size (gftp_request * request, const char *filename)
 
 static int
 gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname, 
-                 int proxy_port)
+                 unsigned int proxy_port)
 {
   gftp_config_list_vars * proxy_hosts;
   gftp_proxy_hosts * hostname;
@@ -2501,7 +2502,8 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
 
   errno = 0;
   ret = 0;
-  do
+
+  while (1)
     {
       FD_ZERO (&fset);
       FD_SET (fd, &fset);
@@ -2535,7 +2537,7 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
                 break;
               else
                 continue;
-             }
+            }
  
           if (request != NULL)
             {
@@ -2546,8 +2548,8 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
             }
           return (GFTP_ERETRYABLE);
         }
+      break;
     }
-  while (errno == EINTR && !(request != NULL && request->cancel));
 
   if (errno == EINTR && request != NULL && request->cancel)
     {

@@ -24,19 +24,19 @@ static const char cvsid[] = "$Id$";
 static int
 dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
 {
-  gftp_window_data * other_wdata, * fromwdata;
   gftp_request * current_ftpdata;
+  gftp_window_data * fromwdata;
   gftp_transfer * tdata;
   gftp_file * newfle;
   GList * templist;
   char *pos;
 
   if (wdata == &window1)
-    other_wdata = &window2;
+    fromwdata = &window2;
   else if (wdata == &window2)
-    other_wdata = &window1;
+    fromwdata = &window1;
   else 
-    other_wdata = NULL;
+    fromwdata = NULL;
     
   newfle = g_malloc0 (sizeof (*newfle));
   newfle->shown = 1;
@@ -66,13 +66,11 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
       return (0);
     }
 
-  if (other_wdata != NULL && 
-      compare_request (current_ftpdata, other_wdata->request, 0))
+  if (fromwdata != NULL && 
+      compare_request (current_ftpdata, fromwdata->request, 0))
     {
-      if (other_wdata->request->password != NULL)
-        gftp_set_password (current_ftpdata, other_wdata->request->password);
-
-      fromwdata = other_wdata;
+      if (fromwdata->request->password != NULL)
+        gftp_set_password (current_ftpdata, fromwdata->request->password);
     }
   else
     fromwdata = NULL;
@@ -83,6 +81,7 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
   
   newfle->destfile = gftp_build_path (wdata->request->directory, pos, NULL);
 
+  tdata = NULL;
   for (templist = *trans_list; templist != NULL; templist = templist->next)
     {
       tdata = templist->data;
@@ -90,7 +89,7 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
         break;
     }
 
-  if (templist == NULL)
+  if (templist == NULL || tdata == NULL)
     {
       tdata = gftp_tdata_new ();
 

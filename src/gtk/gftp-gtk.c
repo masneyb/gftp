@@ -677,7 +677,7 @@ list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
 }
 
 
-void 
+static void 
 select_row_callback (GtkWidget *widget, gint row, gint column,
                      GdkEventButton *event, gpointer data)
 {
@@ -810,11 +810,11 @@ CreateFTPWindow (gftp_window_data * wdata)
 static gint
 menu_mouse_click (GtkWidget * widget, GdkEventButton * event, gpointer data)
 {
-  GtkItemFactory *factory;
+  GtkItemFactory *mfactory;
 
-  factory = (GtkItemFactory *) data;
+  mfactory = (GtkItemFactory *) data;
   if (event->button == 3)
-    gtk_item_factory_popup (factory, (guint) event->x_root,
+    gtk_item_factory_popup (mfactory, (guint) event->x_root,
 			    (guint) event->y_root, 3, event->time);
   return (FALSE);
 }
@@ -997,7 +997,7 @@ CreateFTPWindows (GtkWidget * ui)
 }
 
 
-void
+static void
 init_gftp (int argc, char *argv[], GtkWidget * parent)
 {
   if (argc == 2 && strncmp (argv[1], "--", 2) != 0)

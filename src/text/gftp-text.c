@@ -20,9 +20,6 @@
 #include "gftp-text.h"
 static const char cvsid[] = "$Id$";
 
-static gftp_request * gftp_text_locreq = NULL;
-static gftp_request * gftp_text_remreq = NULL;
-
 int
 gftp_text_get_win_size (void)
 {
@@ -83,7 +80,7 @@ gftp_text_write_string (char *string)
 }
 
 
-void
+static void
 gftp_text_log (gftp_logging_level level, gftp_request * request, 
                const char *string, ...)
 {
@@ -149,9 +146,10 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
 char *
 gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
 {
-  char *pos, *termname, singlechar;
   struct termios term, oldterm;
   sigset_t sig, sigsave;
+  char *pos, *termname;
+  int singlechar;
   FILE *infd;
 
   if (!echo)
@@ -223,6 +221,7 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
 int
 main (int argc, char **argv)
 {
+  gftp_request * gftp_text_locreq, * gftp_text_remreq;
   void *locuidata, *remuidata;
   char *pos;
 #if HAVE_LIBREADLINE

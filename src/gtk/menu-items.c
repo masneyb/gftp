@@ -17,7 +17,7 @@
 /*  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                */
 /*****************************************************************************/
 
-#include <gftp-gtk.h>
+#include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
 static void

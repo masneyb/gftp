@@ -69,9 +69,9 @@ typedef struct sshv2_params_tag
   char handle[SSH_MAX_HANDLE_SIZE + 4], /* We'll encode the ID in here too */
        *read_buffer;
 
-  gint32 handle_len,
-         id,
+  gint32 id,
          count;
+  size_t handle_len;
   sshv2_message message;
 
   unsigned int initialized : 1,
@@ -493,20 +493,6 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
 }
 
 
-#ifdef G_HAVE_GINT64
-
-static gint64
-hton64 (gint64 val)
-{
-  if (G_BYTE_ORDER != G_BIG_ENDIAN)
-    return (GINT64_TO_BE (val));
-  else
-    return (val);
-}
-
-#endif
-
-
 static void
 sshv2_log_command (gftp_request * request, gftp_logging_level level,
                    char type, char *message, size_t length)
@@ -710,7 +696,8 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
 {
   char buf[6], error_buffer[255], *pos;
   sshv2_params * params;
-  ssize_t numread, rem;
+  ssize_t numread;
+  size_t rem;
 
   params = request->protocol_data;
 
@@ -1853,6 +1840,40 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
 }
 
 
+#ifdef G_HAVE_GINT64
+
+static gint64
+hton64 (gint64 val)
+{
+  if (G_BYTE_ORDER != G_BIG_ENDIAN)
+    return (GINT64_TO_BE (val));
+  else
+    return (val);
+}
+
+#endif
+
+
+static void
+sshv2_setup_file_offset (sshv2_params * params)
+{
+  guint32 hinum, lownum;
+#ifdef G_HAVE_GINT64
+  gint64 offset;
+
+  offset = hton64 (params->offset);
+  lownum = offset & 0xffffffff;
+  hinum = offset >> 32;
+#else
+  hinum = 0;
+  lownum = htonl (params->offset);
+#endif
+
+  memcpy (params->read_buffer + params->handle_len, &hinum, 4);
+  memcpy (params->read_buffer + params->handle_len + 4, &lownum, 4);
+}
+
+
 static ssize_t 
 sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
@@ -1860,12 +1881,6 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   sshv2_message message;
   guint32 num;
   int ret;
-
-#ifdef G_HAVE_GINT64
-  gint64 offset;
-#else
-  gint32 offset;
-#endif
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
@@ -1884,15 +1899,8 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   num = htonl (params->id++);
   memcpy (params->read_buffer, &num, 4);
 
-#ifdef G_HAVE_GINT64
-  offset = hton64 (params->offset);
-  memcpy (params->read_buffer + params->handle_len, &offset, 8);
-#else
-  memset (params->read_buffer + params->handle_len, 0, 4);
-  offset = htonl (params->offset);
-  memcpy (params->read_buffer + params->handle_len + 4, &offset, 4);
-#endif
-  
+  sshv2_setup_file_offset (params);
+
   num = htonl (size);
   memcpy (params->read_buffer + params->handle_len + 8, &num, 4);
   
@@ -1949,12 +1957,6 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   size_t len;
   int ret;
 
-#ifdef G_HAVE_GINT64
-  gint64 offset;
-#else
-  gint32 offset;
-#endif
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
@@ -1968,14 +1970,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   num = htonl (params->id++);
   memcpy (tempstr, &num, 4);
 
-#ifdef G_HAVE_GINT64
-  offset = hton64 (params->offset);
-  memcpy (tempstr + params->handle_len, &offset, 8);
-#else
-  memset (tempstr + params->handle_len, 0, 4);
-  offset = htonl (params->offset);
-  memcpy (tempstr + params->handle_len + 4, &offset, 4);
-#endif
+  sshv2_setup_file_offset (params);
  
   num = htonl (size);
   memcpy (tempstr + params->handle_len + 8, &num, 4);

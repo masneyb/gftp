@@ -326,8 +326,8 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 		{
 		  tempstr = g_strdup_printf ("/Bookmarks/%s", 
                                              delentry->path);
-                    gtk_widget_destroy (gtk_item_factory_get_item (factory, 
-                                                                   tempstr));
+                  gtk_widget_destroy (gtk_item_factory_get_item (factory, 
+                                                                 tempstr));
 		  g_free (delentry->path);
 		  g_free (tempstr);
 		  g_free (delentry);
@@ -675,8 +675,8 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
   char *pos, *newpath, tempchar, *tempstr, *origpath;
   gftp_bookmarks_var * tempentry, * nextentry;
   GtkWidget * tempwid;
+  size_t oldpathlen;
   const char *str;
-  int oldpathlen;
 
   oldpathlen = strlen (entry->path);
   if ((pos = strrchr (entry->path, '/')) == NULL)
@@ -754,7 +754,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
 	{
 	  g_hash_table_remove (new_bookmarks_htable, tempentry->path);
 
-          if (tempentry->path + oldpathlen == '\0')
+          if (*(tempentry->path + oldpathlen) == '\0')
 	    tempstr = g_strdup (newpath);
           else
 	    tempstr = gftp_build_path (newpath, tempentry->path + oldpathlen, NULL);
