@@ -243,17 +243,29 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
                  g_strerror (errno));
     }
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), filename);
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "fileview", "gFTP");
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 5);
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
                               5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-  gtk_signal_connect_object (GTK_OBJECT (dialog), "delete_event",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+#else
+  dialog = gtk_dialog_new_with_buttons (filename, NULL, 0,
+                                        GTK_STOCK_CLOSE,
+                                        GTK_RESPONSE_CLOSE,
+                                        NULL);
+#endif
+  gtk_window_set_wmclass (GTK_WINDOW(dialog), "fileview", "gFTP");
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 5);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
+  gtk_widget_realize (dialog);
+
+  if (gftp_icon != NULL)
+    {
+      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
+                           gftp_icon->bitmap);
+      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+    }
 
   table = gtk_table_new (1, 2, FALSE);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), table, TRUE, TRUE, 0);
@@ -298,6 +310,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
   gtk_widget_set_size_request (table, 500, 400);
   gtk_widget_show (table);
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   tempwid = gtk_button_new_with_label (_("  Close  "));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      FALSE, FALSE, 0);
@@ -305,6 +318,11 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     GTK_OBJECT (dialog));
   gtk_widget_show (tempwid);
+#else
+  g_signal_connect_swapped (GTK_OBJECT (dialog), "response",
+                            G_CALLBACK (gtk_widget_destroy),
+                            GTK_OBJECT (dialog));
+#endif
 
   buf[sizeof (buf) - 1] = '\0';
   while ((n = read (fd, buf, sizeof (buf) - 1)))

@@ -19,63 +19,17 @@
 
 #include "gftp-gtk.h"
 
-static void dorenCB 				( GtkWidget * widget, 
-						  gftp_dialog_data * data );
-static void *do_rename_thread 			( void * data );
-static RETSIGTYPE sig_renquit			( int signo );
-
 static sigjmp_buf renenvir;
 static const char *edttext;
 static gftp_file * curfle;
 
-void
-rename_dialog (gpointer data)
+
+static RETSIGTYPE
+sig_renquit (int signo)
 {
-  GList *templist, *filelist;
-  gftp_window_data * wdata;
-  char *tempstr;
-  int num;
-
-  wdata = data;
-  if (!check_status (_("Rename"), wdata, wdata->request->use_threads, 1, 1, 
-                     wdata->request->rename != NULL))
-    return;
-
-  templist = GTK_CLIST (wdata->listbox)->selection;
-  num = 0;
-  filelist = wdata->files;
-  templist = get_next_selection (templist, &filelist, &num);
-  curfle = filelist->data;
-
-  tempstr = g_strdup_printf (_("What would you like to rename %s to?"), 
-                             curfle->file);
-  MakeEditDialog (_("Rename"), tempstr, curfle->file, 1, 1, NULL,
-                  _("Rename"), dorenCB, wdata, _("  Cancel  "), NULL, NULL);
-  g_free (tempstr);
+  signal (signo, sig_renquit);
+  siglongjmp (renenvir, signo == SIGINT ? 1 : 2);
 }
-
-
-static void
-dorenCB (GtkWidget * widget, gftp_dialog_data * data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data->data;
-  edttext = gtk_entry_get_text (GTK_ENTRY (data->edit));
-  if (*edttext == '\0')
-    {
-      ftp_log (gftp_logging_misc, NULL,
-	       _("Rename: Operation canceled...you must enter a string\n"));
-      return;
-    }
-
-  if (check_reconnect (wdata) < 0) 
-    return;
-
-  if ((int) generic_thread (do_rename_thread, wdata))
-    refresh ((gpointer) wdata);
-}
-
 
 
 static void *
@@ -124,10 +78,48 @@ do_rename_thread (void * data)
 }
 
 
-static RETSIGTYPE
-sig_renquit (int signo)
+static void
+dorenCB (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
-  signal (signo, sig_renquit);
-  siglongjmp (renenvir, signo == SIGINT ? 1 : 2);
+  edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
+  if (*edttext == '\0')
+    {
+      ftp_log (gftp_logging_misc, NULL,
+	       _("Rename: Operation canceled...you must enter a string\n"));
+      return;
+    }
+
+  if (check_reconnect (wdata) < 0) 
+    return;
+
+  if ((int) generic_thread (do_rename_thread, wdata))
+    refresh ((gpointer) wdata);
+}
+
+
+void
+rename_dialog (gpointer data)
+{
+  GList *templist, *filelist;
+  gftp_window_data * wdata;
+  char *tempstr;
+  int num;
+
+  wdata = data;
+  if (!check_status (_("Rename"), wdata, wdata->request->use_threads, 1, 1, 
+                     wdata->request->rename != NULL))
+    return;
+
+  templist = GTK_CLIST (wdata->listbox)->selection;
+  num = 0;
+  filelist = wdata->files;
+  templist = get_next_selection (templist, &filelist, &num);
+  curfle = filelist->data;
+
+  tempstr = g_strdup_printf (_("What would you like to rename %s to?"), 
+                             curfle->file);
+  MakeEditDialog (_("Rename"), tempstr, curfle->file, 1, NULL,
+                  gftp_dialog_button_rename, dorenCB, wdata, NULL, NULL);
+  g_free (tempstr);
 }
 

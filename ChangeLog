@@ -1,4 +1,32 @@
-2002-09-11  Marius Andreiana <mandreiana@yahoo.com>
+2002-09-15 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h (struct gftp_transfer) - changed the type of numfiles and
+	numdirs from unsigned long to long. This must be a signed field. This 
+	is a bug I introduced a few days ago.
+
+	* lib/local.c (local_put_file) - remove the + off of the ab mode to
+	fdopen. This is also a bug I introduced a few days ago.
+
+	* src/gtk/transfer.c (gftp_gtk_calc_kbs) - make sure that the variable
+	difftime isn't a negative number when computing the KB/s
+
+	* src/gtk/menu-items.c (save_directory_listing) - remove casts to
+	GTK_OBJECT for the str variable
+
+	* src/gtk/gftp-gtk.c - use GTK_STOCK_* icons in place of left.xpm,
+	right.xpm, up.xpm, down.xpm and stop.xpm in GTK+ 2.0 port
+
+	* src/gtk/bookmarks.c - show GTK_STOCK_* icons on the popup menu
+
+	* src/gtk/bookmarks.c, src/gtk/chmod_dialog.c, src/gtk/menu-items.c,
+        src/gtk/misc-gtk.c, src/gtk/options_dialog.c and 
+	src/gtk/view_dialog.c - use gtk_dialog_new_with_buttons in GTK+ 2.0 
+	port to create the dialog.  Also, associate gFTP icon with this dialog
+
+	* src/gtk/misc-gtk.c - changed the interface of MakeEditDialog and
+	MakeYesNoDialog. In the GTK+ 2.0 port, I now use stock icons in the 
+	dialog buttons.
+
+2002-09-11 Marius Andreiana <mandreiana@yahoo.com>
 
 	* configure.in: added 'ro' to ALL_LINGUAS
 
@@ -14,25 +42,26 @@
 	* src/text/gftp-text.c, lib/protocols.c - more large file support
 
 2002-09-04 Brian Masney <masneyb@gftp.org>
-	* lib/rfc959.c - FXP fixes (from Tobias Gruetzmacher <tobias@portfolio16.de>)
+	* lib/rfc959.c - FXP fixes (from Tobias Gruetzmacher 
+	<tobias@portfolio16.de>)
 
 2002-09-03 Brian Masney <masneyb@gftp.org>
 	* lib/rfc2068.c - HTTP fixes when running under Solaris. Read from 
-	request->sockfd and write to request->sockfd_write (Solaris doesn't like it 
-	when you read/write to the same FILE structure)
+	request->sockfd and write to request->sockfd_write (Solaris doesn't 
+	like it when you read/write to the same FILE structure)
 
-	* lib/local.c - encode major/minor numbers for a device in the file size. This
-	is probably still busted for other platforms
+	* lib/local.c - encode major/minor numbers for a device in the file 
+	size. This is probably still busted for other platforms
 
 	* lib/rfc2068.c, lib/rfc959.c, lib/ssh.c, lib/sshv2.c - Sanity 
-	checking on the fdopen() calls. Also make sure that all of them have a + in 
-	their open mode. Doesn't affect UNIX, but it does affect Windows
+	checking on the fdopen() calls. Also make sure that all of them have a 
+	+ in their open mode. Doesn't affect UNIX, but it does affect Windows
 
 	* src/gtk/menu-items.c, src/gtk/gftp-gtk.c, src/gtk/misc-gtk.c - added 
 	function save_directory_listing. It's in the Local and Remote menus
 
-	* src/gtk/view_dialog.c - changed log message slightly. The new string should 
-	already be in the po files translated
+	* src/gtk/view_dialog.c - changed log message slightly. The new string 
+	should already be in the po files translated
 
 2002-08-30 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c - don't allow passing a 0 to log10
@@ -73,7 +102,8 @@
 	(from Owen Taylor <otaylor@redhat.com>)
 
 2002-08-23 <baddog@cvs.gnome.org>
-	* configure.in - (ALL_LINGUAS): zh_CN.GB2312 -> zh_CN, zh_TW.Big5 -> zh_TW
+	* configure.in - (ALL_LINGUAS): zh_CN.GB2312 -> zh_CN, zh_TW.Big5 -> 
+	zh_TW
 
 2002-08-23 Abel Cheung <maddog@linux.org.hk>
 	* zh_TW.Big5.po renamed to zh_TW.po
@@ -91,18 +121,20 @@
 	* po/de.po - Fixed German translation (charset, header)
 
 2002-08-05 Brian Masney <masneyb@gftp.org>
-	* lib/protocols.c - When we connect to a remote server, don't change the 
-	hostname to the PTR record of the hostname
+	* lib/protocols.c - When we connect to a remote server, don't change 
+	the hostname to the PTR record of the hostname
 
-	* src/gtk/transfer.c - Fixed crash if you was already transfering a file, 
-	and you started another transfer, and if you hit cancel at the 
+	* src/gtk/transfer.c - Fixed crash if you was already transfering a 
+	file, and you started another transfer, and if you hit cancel at the 
 	Overwrite/Resume/Skip dialog
 
 	* docs/sample.gftp/gftprc - put the ext= lines back in the config file
 
-	* po/es.po - Spanish updates (from Gustavo D. Vranjes <gvranjes@softhome.net>)
+	* po/es.po - Spanish updates (from Gustavo D. Vranjes 
+	<gvranjes@softhome.net>)
 
-	* po/nl.po - Dutch updates (from Myckel Habets <myckelhabets@netscape.net>)
+	* po/nl.po - Dutch updates (from Myckel Habets 
+	<myckelhabets@netscape.net>)
 
 2002-07-19 Brian Masney <masneyb@gftp.org>
 	* gFTP 2.0.13 released

@@ -19,8 +19,8 @@
 
 #include "gftp-gtk.h"
 
-static void doadd_bookmark 			( GtkWidget * widget, 
-						  gftp_dialog_data * data);
+static void doadd_bookmark 			( gpointer * data,
+						  gftp_dialog_data * ddata);
 static void bm_apply_changes 			( GtkWidget * widget, 
 						  gpointer backup_data );
 static gftp_bookmarks * copy_bookmarks 		( gftp_bookmarks * bookmarks );
@@ -38,13 +38,13 @@ static gint bm_enter 				( GtkWidget * widget,
 						  GdkEventKey * event, 
 						  gpointer data );
 static void new_folder_entry 			( gpointer data );
-static void do_make_new 			( GtkWidget * widget, 
-						  gftp_dialog_data * data );
+static void do_make_new 			( gpointer data,
+						  gftp_dialog_data * ddata );
 static void new_item_entry 			( gpointer data );
 static void edit_entry 				( gpointer data );
 static void delete_entry 			( gpointer data );
-static void do_delete_entry 			( GtkWidget * widget, 
-						  gftp_dialog_data * data ); 
+static void do_delete_entry 			( gftp_bookmarks * entry,
+						  gftp_dialog_data * ddata );
 static void entry_apply_changes 		( GtkWidget * widget, 
 						  gftp_bookmarks * entry );
 static void set_userpass_visible 		( GtkWidget * checkbutton, 
@@ -147,19 +147,19 @@ add_bookmark (gpointer data)
       return;
     }
 
-  MakeEditDialog (_("Add Bookmark"), _("Enter the name of the bookmark you want to add\nYou can separate items by a / to put it into a submenu\n(ex: Linux Sites/Debian)"), NULL, 1, 1, _("Remember password"), _("Add"), doadd_bookmark, data, _("  Cancel  "), NULL, NULL);
+  MakeEditDialog (_("Add Bookmark"), _("Enter the name of the bookmark you want to add\nYou can separate items by a / to put it into a submenu\n(ex: Linux Sites/Debian)"), NULL, 1, _("Remember password"), gftp_dialog_button_create, doadd_bookmark, data, NULL, NULL);
 }
 
 
 static void
-doadd_bookmark (GtkWidget * widget, gftp_dialog_data * data)
+doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 {
   GtkItemFactoryEntry test = { NULL, NULL, run_bookmark, 0 };
   const char *edttxt, *spos;
   gftp_bookmarks * tempentry;
   char *dpos;
 
-  edttxt = gtk_entry_get_text (GTK_ENTRY (data->edit));
+  edttxt = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (*edttxt == '\0')
     {
       ftp_log (gftp_logging_error, NULL,
@@ -215,7 +215,7 @@ doadd_bookmark (GtkWidget * widget, gftp_dialog_data * data)
       edttxt = gtk_entry_get_text (GTK_ENTRY (passedit));
       tempentry->pass = g_malloc (strlen (edttxt) + 1);
       strcpy (tempentry->pass, edttxt);
-      tempentry->save_password = GTK_TOGGLE_BUTTON (data->checkbox)->active;
+      tempentry->save_password = GTK_TOGGLE_BUTTON (ddata->checkbox)->active;
     }
 
   add_to_bookmark (tempentry);
@@ -264,30 +264,67 @@ build_bookmarks_menu (void)
 }
 
 
+#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+static void
+editbm_action (GtkWidget * widget, gint response, gpointer user_data)
+{
+  switch (response)
+    {
+      case GTK_RESPONSE_OK:
+        bm_apply_changes (widget, NULL);
+        /* no break */
+      default:
+        bm_close_dialog (NULL, widget);
+    }
+}
+#endif
+
+
 void
 edit_bookmarks (gpointer data)
 {
-  GtkWidget * dialog, * scroll, * tempwid;
+  GtkWidget * dialog, * scroll;
   GtkItemFactory * ifactory;
   GtkItemFactoryEntry menu_items[] = {
     {N_("/_File"), NULL, 0, 0, "<Branch>"},
     {N_("/File/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/File/New Folder..."), NULL, new_folder_entry, 0},
-    {N_("/File/New Item..."), NULL, new_item_entry, 0},
-    {N_("/File/Delete"), NULL, delete_entry, 0},
-    {N_("/File/Properties..."), NULL, edit_entry, 0},
+    {N_("/File/New Folder..."), NULL, new_folder_entry, 0, MN_(NULL)},
+    {N_("/File/New Item..."), NULL, new_item_entry, 0, MS_(GTK_STOCK_NEW)},
+    {N_("/File/Delete"), NULL, delete_entry, 0, MS_(GTK_STOCK_DELETE)},
+    {N_("/File/Properties..."), NULL, edit_entry, 0, MS_(GTK_STOCK_PROPERTIES)},
     {N_("/File/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/File/Close"), NULL, gtk_widget_destroy, 0}
+    {N_("/File/Close"), NULL, gtk_widget_destroy, 0, MS_(GTK_STOCK_CLOSE)}
   };
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+  GtkWidget * tempwid;
+#endif
 
   new_bookmarks = copy_bookmarks (bookmarks);
   new_bookmarks_htable = build_bookmarks_hash_table (new_bookmarks);
 
+/* FIXME - busted if you pull this up twice */
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Bookmarks"));
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "Edit Bookmarks", "gFTP");
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
+#else
+  dialog = gtk_dialog_new_with_buttons (_("Edit Bookmarks"), NULL, 0,
+                                        GTK_STOCK_SAVE,
+                                        GTK_RESPONSE_OK,
+                                        GTK_STOCK_CANCEL,
+                                        GTK_RESPONSE_CANCEL,
+                                        NULL);
+#endif
+  gtk_window_set_wmclass (GTK_WINDOW(dialog), "Edit Bookmarks", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_widget_realize (dialog);
+
+  if (gftp_icon != NULL)
+    {
+      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
+                           gftp_icon->bitmap);
+      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+    }
 
   ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", NULL, NULL);
   create_item_factory (ifactory, 7, menu_items, NULL);
@@ -322,6 +359,7 @@ edit_bookmarks (gpointer data)
 			    GTK_SIGNAL_FUNC (bm_dblclick), (gpointer) tree);
   gtk_widget_show (tree);
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   tempwid = gtk_button_new_with_label (_("OK"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
@@ -340,16 +378,10 @@ edit_bookmarks (gpointer data)
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_widget_grab_focus (tempwid);
   gtk_widget_show (tempwid);
-
-/* FIXME
-  tempwid = gtk_button_new_with_label (_("Apply"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (bm_apply_changes), (gpointer) 1);
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_widget_show (tempwid);
-*/
+#else
+  g_signal_connect (GTK_OBJECT (dialog), "response",
+                    G_CALLBACK (editbm_action), NULL);
+#endif
 
   gtk_widget_show (dialog);
 
@@ -709,9 +741,9 @@ static void
 new_folder_entry (gpointer data)
 {
   MakeEditDialog (_("New Folder"),
-		  _("Enter the name of the new folder to create"), NULL, 1, 1,
-		  NULL, _("Create"), do_make_new, (gpointer) 1, _("  Cancel  "),
-		  NULL, NULL);
+		  _("Enter the name of the new folder to create"), NULL, 1,
+		  NULL, gftp_dialog_button_create, 
+                  do_make_new, (gpointer) 0x1, NULL, NULL);
 }
 
 
@@ -719,14 +751,14 @@ static void
 new_item_entry (gpointer data)
 {
   MakeEditDialog (_("New Folder"),
-		  _("Enter the name of the new item to create"), NULL, 1, 1,
-		  NULL, _("Create"), do_make_new, (gpointer) 0, _("  Cancel  "),
-		  NULL, NULL);
+		  _("Enter the name of the new item to create"), NULL, 1,
+		  NULL, gftp_dialog_button_create,
+                  do_make_new, NULL, NULL, NULL);
 }
 
 
 static void
-do_make_new (GtkWidget * widget, gftp_dialog_data * data)
+do_make_new (gpointer data, gftp_dialog_data * ddata)
 {
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
   GdkBitmap * closedir_bitmap, * opendir_bitmap;  
@@ -738,7 +770,7 @@ do_make_new (GtkWidget * widget, gftp_dialog_data * data)
   gftp_get_pixmap (tree, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
   gftp_get_pixmap (tree, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
 
-  str = gtk_entry_get_text (GTK_ENTRY (data->edit));
+  str = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
 
   newentry = g_malloc0 (sizeof (*newentry));
   newentry->path = g_malloc (strlen (str) + 1);
@@ -747,7 +779,7 @@ do_make_new (GtkWidget * widget, gftp_dialog_data * data)
     *pos++ = ' ';
 
   newentry->prev = new_bookmarks;
-  if (data->data)
+  if (data)
     newentry->isfolder = 1;
 
   if (new_bookmarks->children == NULL)
@@ -783,6 +815,25 @@ do_make_new (GtkWidget * widget, gftp_dialog_data * data)
 }
 
 
+#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+static void
+bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
+{
+  switch (response)
+    {
+      case GTK_RESPONSE_APPLY:
+        entry_apply_changes (widget, user_data);
+        break;
+      case GTK_RESPONSE_OK:
+        entry_apply_changes (widget, user_data);
+        /* no break */
+      default:
+        gtk_widget_destroy (widget);
+    }
+}   
+#endif
+
+
 static void
 edit_entry (gpointer data)
 {
@@ -800,12 +851,31 @@ edit_entry (gpointer data)
   if (entry == NULL || entry == new_bookmarks)
     return;
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Entry"));
-  gtk_window_set_wmclass (GTK_WINDOW (dialog), "Edit Bookmark Entry", "gFTP");
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+#else
+  dialog = gtk_dialog_new_with_buttons (_("Edit Entry"), NULL, 0,
+                                        GTK_STOCK_SAVE,
+                                        GTK_RESPONSE_OK,
+                                        GTK_STOCK_CANCEL,
+                                        GTK_RESPONSE_CANCEL,
+                                        GTK_STOCK_APPLY,
+                                        GTK_RESPONSE_APPLY,
+                                        NULL);
+#endif
+  gtk_window_set_wmclass (GTK_WINDOW (dialog), "Edit Bookmark Entry", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+  gtk_widget_realize (dialog);
+
+  if (gftp_icon != NULL)
+    {
+      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
+                           gftp_icon->bitmap);
+      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+    }
 
   tempwid = gtk_frame_new (NULL);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, TRUE,
@@ -985,6 +1055,7 @@ edit_entry (gpointer data)
     }
   gtk_widget_show (anon_chk);
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   tempwid = gtk_button_new_with_label (_("OK"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
@@ -1015,6 +1086,10 @@ edit_entry (gpointer data)
 		      (gpointer) entry);
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_widget_show (tempwid);
+#else
+  g_signal_connect (GTK_OBJECT (dialog), "response",
+                    G_CALLBACK (bmedit_action), (gpointer) entry);
+#endif
 
   gtk_widget_show (dialog);
 }
@@ -1023,7 +1098,6 @@ edit_entry (gpointer data)
 static void
 delete_entry (gpointer data)
 {
-  gftp_dialog_data d_data;
   gftp_bookmarks * entry;
   char *tempstr, *pos;
 
@@ -1035,9 +1109,8 @@ delete_entry (gpointer data)
   if (entry == NULL || entry->prev == NULL)
     return;
 
-  d_data.data = entry;
   if (!entry->isfolder)
-    do_delete_entry (NULL, &d_data);
+    do_delete_entry (entry, NULL);
   else
     {
       if ((pos = strrchr (entry->path, '/')) == NULL)
@@ -1046,19 +1119,17 @@ delete_entry (gpointer data)
 	pos++;
 
       tempstr = g_strdup_printf (_("Are you sure you want to erase the bookmark\n%s and all it's children?"), pos);
-      MakeYesNoDialog (_("Delete Bookmark"), tempstr, 1, 2, _("Yes"),
-		       do_delete_entry, entry, _("No"), NULL, NULL);
+      MakeYesNoDialog (_("Delete Bookmark"), tempstr, do_delete_entry, entry, 
+                       NULL, NULL);
       g_free (tempstr);
     }
 }
 
 
 static void
-do_delete_entry (GtkWidget * widget, gftp_dialog_data * data)
+do_delete_entry (gftp_bookmarks * entry, gftp_dialog_data * ddata)
 {
-  gftp_bookmarks * entry, * tempentry, * delentry;
-
-  entry = data->data;
+  gftp_bookmarks * tempentry, * delentry;
 
   g_hash_table_remove (new_bookmarks_htable, entry->path);
   gtk_ctree_remove_node (GTK_CTREE (tree), entry->cnode);

@@ -30,6 +30,22 @@ static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow,
 static sigjmp_buf chmodenvir;
 static int mode; 
 
+#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+static void
+chmod_action (GtkWidget * widget, gint response, gpointer wdata)
+{
+  switch (response)
+    {
+      case GTK_RESPONSE_OK:
+        dochmod (widget, wdata);
+        /* no break */
+      default:
+        gtk_widget_destroy (widget);
+    }
+}
+#endif
+
+
 void
 chmod_dialog (gpointer data)
 {
@@ -44,18 +60,32 @@ chmod_dialog (gpointer data)
                      wdata->request->chmod != NULL))
     return;
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Chmod"));
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "Chmod", "gFTP");
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
                               5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
+#else
+  dialog = gtk_dialog_new_with_buttons (_("Chmod"), NULL, 0,
+                                        GTK_STOCK_OK,
+                                        GTK_RESPONSE_OK,
+                                        GTK_STOCK_CANCEL,
+                                        GTK_RESPONSE_CANCEL,
+                                        NULL);
+#endif
+  gtk_window_set_wmclass (GTK_WINDOW(dialog), "Chmod", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_signal_connect_object (GTK_OBJECT (dialog), "delete_event",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+  gtk_widget_realize (dialog);
+
+  if (gftp_icon != NULL)
+    {
+      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
+                           gftp_icon->bitmap);
+      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+    }
 
   tempwid = gtk_label_new (_("You can now adjust the attributes of your file(s)\nNote: Not all ftp servers support the chmod feature"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, FALSE,
@@ -147,7 +177,8 @@ chmod_dialog (gpointer data)
   gtk_box_pack_start (GTK_BOX (vbox), ox, FALSE, FALSE, 0);
   gtk_widget_show (ox);
 
-  tempwid = gtk_button_new_with_label (_("Change"));
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+  tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
@@ -167,6 +198,10 @@ chmod_dialog (gpointer data)
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     GTK_OBJECT (dialog));
   gtk_widget_show (tempwid);
+#else
+  g_signal_connect (GTK_OBJECT (dialog), "response",
+                    G_CALLBACK (chmod_action), wdata);
+#endif
 
   if (IS_ONE_SELECTED (wdata))
     {

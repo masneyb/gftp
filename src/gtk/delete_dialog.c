@@ -20,9 +20,8 @@
 #include "gftp-gtk.h"
 
 static void askdel 				( gftp_transfer * transfer );
-static void yes_dialog_cb 			( GtkWidget * widget, 
-						  gpointer data );
-static void yesCB 				( gftp_transfer * transfer );
+static void yesCB 				( gftp_transfer * transfer,
+						  gftp_dialog_data * ddata );
 static void * do_delete_thread 			( void *data );
 static void delete_purge_cache 			( gpointer key, 
 						  gpointer value, 
@@ -118,25 +117,14 @@ askdel (gftp_transfer * transfer)
 
   tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld files and %ld directories"), transfer->numfiles, transfer->numdirs);
 
-  MakeYesNoDialog (_("Delete Files/Directories"), tempstr, 0, 2, _("Yes"),
-		   yes_dialog_cb, transfer, _("No"), NULL, NULL);
+  MakeYesNoDialog (_("Delete Files/Directories"), tempstr, 
+                   yesCB, transfer, NULL, NULL);
   g_free (tempstr);
 }
 
 
 static void
-yes_dialog_cb (GtkWidget * widget, gpointer data)
-{
-  gftp_dialog_data * dialog;
-
-  dialog = data;
-  gtk_widget_destroy (dialog->dialog);
-  yesCB (dialog->data);
-}
-
-
-static void
-yesCB (gftp_transfer * transfer)
+yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
 {
   gftp_window_data * wdata;
   void * ret;

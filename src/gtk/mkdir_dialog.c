@@ -19,54 +19,16 @@
 
 #include "gftp-gtk.h"
 
-static void domkdir 				( GtkWidget * widget, 
-						  gftp_dialog_data * data );
-static void *do_make_dir_thread 		( void * data );
-static RETSIGTYPE sig_mkdirquit 		( int signo );
-
 static const char *edttext;
 static sigjmp_buf mkdirenvir;
 
-void
-mkdir_dialog (gpointer data)
+
+static RETSIGTYPE
+sig_mkdirquit (int signo)
 {
-  gftp_window_data * wdata;
-
-  wdata = data;
-  if (!check_status (_("Mkdir"), wdata, wdata->request->use_threads, 0, 0, 
-                     wdata->request->mkdir != NULL))
-    return;
-
-  MakeEditDialog (_("Make Directory"), _("Enter name of directory to create"),
-		  NULL, 1, 1, NULL, _("Create"), domkdir, wdata, 
-                  _("  Cancel  "), NULL, NULL);
+  signal (signo, sig_mkdirquit);
+  siglongjmp (mkdirenvir, signo == SIGINT ? 1 : 2);
 }
-
-
-static void
-domkdir (GtkWidget * widget, gftp_dialog_data * data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data->data;
-  edttext = gtk_entry_get_text (GTK_ENTRY (data->edit));
-  if (*edttext == '\0')
-    {
-      ftp_log (gftp_logging_misc, NULL,
-	       _("Mkdir: Operation canceled...you must enter a string\n"));
-      return;
-    }
-
-  if (check_reconnect (wdata) < 0)
-    return;
-
-  if ((int) generic_thread (do_make_dir_thread, wdata))
-    {
-      gftp_delete_cache_entry (wdata->request);
-      refresh (wdata);
-    }
-}
-
 
 
 static void *
@@ -115,10 +77,40 @@ do_make_dir_thread (void * data)
 }
 
 
-static RETSIGTYPE
-sig_mkdirquit (int signo)
+static void
+domkdir (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
-  signal (signo, sig_mkdirquit);
-  siglongjmp (mkdirenvir, signo == SIGINT ? 1 : 2);
+  edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
+  if (*edttext == '\0')
+    {
+      ftp_log (gftp_logging_misc, NULL,
+	       _("Mkdir: Operation canceled...you must enter a string\n"));
+      return;
+    }
+
+  if (check_reconnect (wdata) < 0)
+    return;
+
+  if ((int) generic_thread (do_make_dir_thread, wdata))
+    {
+      gftp_delete_cache_entry (wdata->request);
+      refresh (wdata);
+    }
+}
+
+
+void
+mkdir_dialog (gpointer data)
+{
+  gftp_window_data * wdata;
+
+  wdata = data;
+  if (!check_status (_("Mkdir"), wdata, wdata->request->use_threads, 0, 0, 
+                     wdata->request->mkdir != NULL))
+    return;
+
+  MakeEditDialog (_("Make Directory"), _("Enter name of directory to create"),
+		  NULL, 1, NULL, gftp_dialog_button_create, domkdir, wdata, 
+                  NULL, NULL);
 }
 

@@ -20,20 +20,12 @@
 #include <gftp-gtk.h>
 
 static void *getdir_thread			( void *data );
-static void try_connect_again 			( GtkWidget * widget, 
-						  gftp_dialog_data * data );
-static void dont_connect_again 			( GtkWidget * widget, 
-						  gftp_dialog_data * data );
 static void *connect_thread 			( void *data );
 static void on_next_transfer 			( gftp_transfer * tdata );
 static void show_transfer 			( gftp_transfer * tdata );
 static void transfer_done 			( GList * node );
 static void create_transfer 			( gftp_transfer * tdata );
 static void update_file_status 			( gftp_transfer * tdata );
-static void get_trans_password 			( GtkWidget * widget, 
-						  gftp_dialog_data * data );
-static void cancel_get_trans_password 		( GtkWidget * widget, 
-						  gftp_dialog_data * data );
 static void trans_selectall 			( GtkWidget * widget, 
 						  gpointer data );
 static void trans_unselectall 			( GtkWidget * widget, 
@@ -51,11 +43,11 @@ static void cancel 				( GtkWidget * widget,
 static void gftp_gtk_calc_kbs 			( gftp_transfer * tdata, 
 						  ssize_t num_read );
 static void check_done_process 			( void );
-static void do_upload 				( GtkWidget * widget, 
-						  gftp_dialog_data * data );
-static void free_edit_data 			( GtkWidget * widget, 
-						  gftp_dialog_data * data );
-static void do_free_edit_data 			( gftp_viewedit_data * ve_proc );
+static void do_upload 				( gftp_viewedit_data * ve_proc,
+						  gftp_dialog_data * ddata );
+static void dont_upload 			( gftp_viewedit_data * ve_proc,
+						  gftp_dialog_data * ddata );
+static void free_edit_data 			( gftp_viewedit_data *ve_proc );
 static int get_status 				( gftp_transfer * tdata, 
 						  ssize_t num_read );
 static void wakeup_main_thread			( gpointer data,
@@ -221,6 +213,21 @@ getdir_thread (void * data)
 }
 
 
+static void
+try_connect_again (gftp_request * request, gftp_dialog_data * ddata)
+{
+  gftp_set_password (request, gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
+  request->stopable = 0;
+}
+
+
+static void
+dont_connect_again (gftp_request * request, gftp_dialog_data * ddata)
+{
+  request->stopable = 0;
+}
+
+
 int
 ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
 {
@@ -243,8 +250,9 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
           request->stopable = 1;
           MakeEditDialog (_("Enter Password"),
                           _("Please enter your password for this site"), NULL,
-                          0, 1, NULL, _("Connect"), try_connect_again, request,
-                          _("  Cancel  "), dont_connect_again, request);
+                          0, NULL, gftp_dialog_button_connect, 
+                          try_connect_again, request, 
+                          dont_connect_again, request);
           while (request->stopable)
             g_main_iteration (TRUE);
 
@@ -289,29 +297,6 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
     }
 
   return (success);
-}
-
-
-static void
-try_connect_again (GtkWidget * widget, gftp_dialog_data * data)
-{
-  gftp_request * request;
-
-  request = data->data;
-  gftp_set_password (request, gtk_entry_get_text (GTK_ENTRY (data->edit)));
-  data->data = NULL;
-  request->stopable = 0;
-}
-
-
-static void
-dont_connect_again (GtkWidget * widget, gftp_dialog_data * data)
-{
-  gftp_request * request;
-
-  request = data->data;
-  data->data = NULL;
-  request->stopable = 0;
 }
 
 
@@ -1044,6 +1029,34 @@ on_next_transfer (gftp_transfer * tdata)
 
 
 static void
+get_trans_password (gftp_request * request, gftp_dialog_data * ddata)
+{
+  gftp_set_password (request, gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
+  request->stopable = 0;
+}
+
+
+static void
+cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
+{
+  if (tdata->fromreq->stopable == 0)
+    return;
+
+  pthread_mutex_lock (tdata->structmutex);
+  if (tdata->started)
+    tdata->cancel = 1;
+  else
+    tdata->done = 1;
+
+  tdata->fromreq->stopable = 0;
+  tdata->toreq->stopable = 0;
+  ftp_log (gftp_logging_misc, NULL, _("Stopping the transfer of %s\n"),
+	   ((gftp_file *) tdata->curfle->data)->file);
+  pthread_mutex_unlock (tdata->structmutex);
+}
+
+
+static void
 show_transfer (gftp_transfer * tdata)
 {
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
@@ -1102,8 +1115,9 @@ show_transfer (gftp_transfer * tdata)
       tdata->toreq->stopable = 1;
       MakeEditDialog (_("Enter Password"),
 		      _("Please enter your password for this site"), NULL, 0,
-		      1, NULL, _("Connect"), get_trans_password, tdata->toreq,
-		      _("  Cancel  "), cancel_get_trans_password, tdata);
+		      NULL, gftp_dialog_button_connect, 
+                      get_trans_password, tdata->toreq,
+		      cancel_get_trans_password, tdata);
     }
 
   if (!tdata->fromreq->stopable && tdata->fromreq->need_userpass &&
@@ -1112,8 +1126,9 @@ show_transfer (gftp_transfer * tdata)
       tdata->fromreq->stopable = 1;
       MakeEditDialog (_("Enter Password"),
 		      _("Please enter your password for this site"), NULL, 0,
-		      1, NULL, _("Connect"), get_trans_password, tdata->fromreq,
-		      _("  Cancel  "), cancel_get_trans_password, tdata);
+		      NULL, gftp_dialog_button_connect, 
+                      get_trans_password, tdata->fromreq,
+		      cancel_get_trans_password, tdata);
     }
 }
 
@@ -1287,40 +1302,6 @@ update_file_status (gftp_transfer * tdata)
 
   if (*dlstr != '\0')
     gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->node, 1, dlstr);
-}
-
-
-static void
-get_trans_password (GtkWidget * widget, gftp_dialog_data * data)
-{
-  gftp_request * request;
-
-  request = data->data;
-  gftp_set_password (request, gtk_entry_get_text (GTK_ENTRY (data->edit)));
-  data->data = NULL;
-  request->stopable = 0;
-}
-
-
-static void
-cancel_get_trans_password (GtkWidget * widget, gftp_dialog_data * data)
-{
-  gftp_transfer * tdata;
-
-  tdata = data->data;
-  if (tdata->fromreq->stopable == 0)
-    return;
-  pthread_mutex_lock (tdata->structmutex);
-  if (tdata->started)
-    tdata->cancel = 1;
-  else
-    tdata->done = 1;
-  tdata->fromreq->stopable = 0;
-  tdata->toreq->stopable = 0;
-  data->data = NULL;
-  ftp_log (gftp_logging_misc, NULL, _("Stopping the transfer of %s\n"),
-	   ((gftp_file *) tdata->curfle->data)->file);
-  pthread_mutex_unlock (tdata->structmutex);
 }
 
 
@@ -1597,7 +1578,7 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
   dltitles[1] = _("Local Size");
   dltitles[2] = _("Remote Size");
   dltitles[3] = _("Action");
-  dialog = gtk_dialog_new ();
+  dialog = gtk_dialog_new (); /* FIXME - gtk+ 2.0 stock icons */
   gtk_grab_add (dialog);
   gtk_window_set_title (GTK_WINDOW (dialog), 
                         tdata->transfer_direction == GFTP_DIRECTION_DOWNLOAD ? 
@@ -1910,7 +1891,7 @@ gftp_gtk_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
   tdata->stalled = 0;
 
   difftime = (tv.tv_sec - tdata->starttime.tv_sec) + ((double) (tv.tv_usec - tdata->starttime.tv_usec) / 1000000.0);
-  if (difftime == 0)
+  if (difftime <= 0)
     tdata->kbs = (double) tdata->trans_bytes / 1024.0;
   else
     tdata->kbs = (double) tdata->trans_bytes / 1024.0 / difftime;
@@ -1996,18 +1977,18 @@ check_done_process (void)
 		    {
 		      memcpy (&ve_proc->st, &st, sizeof (ve_proc->st));
 		      str = g_strdup_printf (
-			_("File %s has changed.\nWhat would you like to do?"),
+			_("File %s has changed.\nWould you like to upload it?"),
                         ve_proc->remote_filename);
 
-		      MakeYesNoDialog (_("Edit File"), str, 1, 2, 
-                                      _("Upload"), do_upload, ve_proc, 
-                                      _("  Cancel  "), free_edit_data, ve_proc);
+		      MakeYesNoDialog (_("Edit File"), str, 
+                                       do_upload, ve_proc, 
+                                       dont_upload, ve_proc);
 		      g_free (str);
 		      continue;
 		    }
 		}
 
-              do_free_edit_data (ve_proc);
+              free_edit_data (ve_proc);
 	      continue;
 	    }
 	}
@@ -2016,13 +1997,11 @@ check_done_process (void)
 
 
 static void
-do_upload (GtkWidget * widget, gftp_dialog_data * data)
+do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 {
-  gftp_viewedit_data * ve_proc;
   gftp_file * tempfle;
   GList * newfile;
 
-  ve_proc = data->data;
   tempfle = g_malloc0 (sizeof (*tempfle));
   tempfle->destfile = ve_proc->remote_filename;
   ve_proc->remote_filename = NULL;
@@ -2032,23 +2011,20 @@ do_upload (GtkWidget * widget, gftp_dialog_data * data)
   newfile = g_list_append (NULL, tempfle);
   add_file_transfer (ve_proc->fromwdata->request, ve_proc->towdata->request,
                      ve_proc->fromwdata, ve_proc->towdata, newfile, 1);
-  do_free_edit_data (ve_proc);
+  free_edit_data (ve_proc);
 }
 
 
 static void
-free_edit_data (GtkWidget * widget, gftp_dialog_data * data)
+dont_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 {
-  gftp_viewedit_data * ve_proc;
-
-  ve_proc = data->data;
   remove_file (ve_proc->filename);
-  do_free_edit_data (data->data);
+  free_edit_data (ve_proc);
 }
 
 
 static void
-do_free_edit_data (gftp_viewedit_data * ve_proc)
+free_edit_data (gftp_viewedit_data * ve_proc)
 {
   int i;
 

@@ -19,21 +19,9 @@
 
 #include <gftp-gtk.h>
 
-static void do_openurl 				( GtkWidget * widget, 
-						  gftp_dialog_data * data );
-static void dochange_filespec 			( GtkWidget * widget, 
-						  gftp_dialog_data * data );
-static void dosave_directory_listing 		( GtkWidget * widget, 
-						  gftp_save_dir_struct * str );
-static void destroy_save_directory_listing 	( gftp_save_dir_struct * str );
-static void dosite 				( GtkWidget * widget, 
-						  gftp_dialog_data * data );
 static int do_change_dir			( gftp_window_data * wdata,
 						  char * directory );
 static void *do_change_dir_thread 		( void * data );
-static void dosavelog 				( GtkWidget * widget, 
-						  GtkFileSelection * fs );
-
 static RETSIGTYPE sig_chdirquit                 ( int signo );
 static sigjmp_buf chdirenvir;
 
@@ -96,22 +84,11 @@ tb_openurl_dialog (gpointer data)
 }
 
 
-void
-openurl_dialog (gpointer data)
-{
-  MakeEditDialog (_("Connect via URL"), _("Enter ftp url to connect to"),
-                  NULL, 1, 1, NULL, _("Connect"), do_openurl, data,
-                  _("  Cancel  "), NULL, NULL);
-}
-
-
 static void
-do_openurl (GtkWidget * widget, gftp_dialog_data * data)
+do_openurl (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
-  gftp_window_data * wdata;
   const char *tempstr;
 
-  wdata = data->data;
   if (current_wdata->request->stopable)
     {
       ftp_log (gftp_logging_misc, NULL,
@@ -120,7 +97,7 @@ do_openurl (GtkWidget * widget, gftp_dialog_data * data)
       return;
     }
 
-  tempstr = gtk_entry_get_text (GTK_ENTRY (data->edit));
+  tempstr = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (*tempstr == '\0')
     {
       ftp_log (gftp_logging_misc, NULL,
@@ -133,15 +110,24 @@ do_openurl (GtkWidget * widget, gftp_dialog_data * data)
 
   if (gftp_parse_url (wdata->request, tempstr) == 0)
     {
-      gtk_widget_destroy (data->dialog);
+      gtk_widget_destroy (ddata->dialog);
       ftp_connect (wdata, wdata->request, 1);
     }
   else
     {
-      gtk_widget_destroy (data->dialog);
+      gtk_widget_destroy (ddata->dialog);
       ftp_log (gftp_logging_misc, NULL, _("Could not parse URL %s\n"), tempstr);    
     }
-  data->dialog = NULL; 
+  ddata->dialog = NULL; 
+}
+
+
+void
+openurl_dialog (gpointer data)
+{
+  MakeEditDialog (_("Connect via URL"), _("Enter ftp url to connect to"),
+                  NULL, 1, NULL, gftp_dialog_button_connect, do_openurl, data,
+                  NULL, NULL);
 }
 
 
@@ -157,34 +143,17 @@ disconnect (gpointer data)
 }
 
 
-void 
-change_filespec (gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
-  if (!check_status (_("Change Filespec"), wdata, 0, 0, 0, 1))
-    return;
-
-  MakeEditDialog (_("Change Filespec"), _("Enter the new file specification"),
-                  wdata->filespec, 1, 1, NULL, _("Change"), dochange_filespec,
-                  wdata, _("  Cancel  "), NULL, NULL);
-}
-
-
 static void
-dochange_filespec (GtkWidget * widget, gftp_dialog_data * data)
+dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
   GList * templist, * filelist;
   gftp_file * tempfle;
-  gftp_window_data * wdata;
   const char *edttext;
   int num;
 
-  wdata = data->data;
   wdata->show_selected = 0;
 
-  edttext = gtk_entry_get_text (GTK_ENTRY (data->edit));
+  edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (*edttext == '\0')
     {
       ftp_log (gftp_logging_misc, NULL,
@@ -221,28 +190,17 @@ dochange_filespec (GtkWidget * widget, gftp_dialog_data * data)
 
 
 void 
-save_directory_listing (gpointer data)
+change_filespec (gpointer data)
 {
-  gftp_save_dir_struct * str;
-  GtkWidget *filew;
+  gftp_window_data * wdata;
 
-  filew = gtk_file_selection_new (_("Save Directory Listing"));
+  wdata = data;
+  if (!check_status (_("Change Filespec"), wdata, 0, 0, 0, 1))
+    return;
 
-  str = g_malloc (sizeof (*str));
-  str->filew = filew;
-  str->wdata = data;
-
-  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
-                      "clicked", GTK_SIGNAL_FUNC (dosave_directory_listing), 
-                      str);
-  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
-                             "clicked", 
-                             GTK_SIGNAL_FUNC (destroy_save_directory_listing),
-                             GTK_OBJECT (str));
-  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button), "clicked", GTK_SIGNAL_FUNC (destroy_save_directory_listing), GTK_OBJECT (str));
-
-  gtk_window_set_wmclass (GTK_WINDOW(filew), "Save Directory Listing", "gFTP");
-  gtk_widget_show (filew);
+  MakeEditDialog (_("Change Filespec"), _("Enter the new file specification"),
+                  wdata->filespec, 1, NULL, gftp_dialog_button_change, 
+                  dochange_filespec, wdata, NULL, NULL);
 }
 
 
@@ -311,6 +269,32 @@ dosave_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
     }
 
   fclose (fd);
+}
+
+
+void 
+save_directory_listing (gpointer data)
+{
+  gftp_save_dir_struct * str;
+  GtkWidget *filew;
+
+  filew = gtk_file_selection_new (_("Save Directory Listing"));
+
+  str = g_malloc (sizeof (*str));
+  str->filew = filew;
+  str->wdata = data;
+
+  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
+                      "clicked", GTK_SIGNAL_FUNC (dosave_directory_listing), 
+                      str);
+  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
+                             "clicked", 
+                             GTK_SIGNAL_FUNC (destroy_save_directory_listing),
+                             str);
+  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button), "clicked", GTK_SIGNAL_FUNC (destroy_save_directory_listing), str);
+
+  gtk_window_set_wmclass (GTK_WINDOW(filew), "Save Directory Listing", "gFTP");
+  gtk_widget_show (filew);
 }
 
 
@@ -401,28 +385,12 @@ deselectall (gpointer data)
 }
 
 
-void
-site_dialog (gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
-  if (!check_status (_("Site"), wdata, 0, 0, 0, wdata->request->site != NULL))
-    return;
-
-  MakeEditDialog (_("Site"), _("Enter site-specific command"), NULL, 1, 1,
-                  NULL, _("OK"), dosite, wdata, _("  Cancel  "), NULL, NULL);
-}
-
-
 static void
-dosite (GtkWidget * widget, gftp_dialog_data * data)
+dosite (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
-  gftp_window_data * wdata;
   const char *edttext;
 
-  wdata = data->data;
-  edttext = gtk_entry_get_text (GTK_ENTRY (data->edit));
+  edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (*edttext == '\0')
     {
       ftp_log (gftp_logging_misc, NULL,
@@ -436,6 +404,20 @@ dosite (GtkWidget * widget, gftp_dialog_data * data)
 
   if (!GFTP_IS_CONNECTED (wdata->request))
     disconnect (wdata);
+}
+
+
+void
+site_dialog (gpointer data)
+{
+  gftp_window_data * wdata;
+
+  wdata = data;
+  if (!check_status (_("Site"), wdata, 0, 0, 0, wdata->request->site != NULL))
+    return;
+
+  MakeEditDialog (_("Site"), _("Enter site-specific command"), NULL, 1,
+                  NULL, gftp_dialog_button_ok, dosite, wdata, NULL, NULL);
 }
 
 
@@ -688,26 +670,6 @@ viewlog (gpointer data)
 }
 
 
-void 
-savelog (gpointer data)
-{
-  GtkWidget *filew;
-
-  filew = gtk_file_selection_new (_("Save Log"));
-
-  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
-                      "clicked", GTK_SIGNAL_FUNC (dosavelog), filew);
-  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
-                             "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                             GTK_OBJECT (filew));
-  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button), "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy), GTK_OBJECT (filew));
-
-  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filew), "gftp.log");
-  gtk_window_set_wmclass (GTK_WINDOW(filew), "Save Log", "gFTP");
-  gtk_widget_show (filew);
-}
-
-
 static void
 dosavelog (GtkWidget * widget, GtkFileSelection * fs)
 {
@@ -767,6 +729,26 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
 
 
 void 
+savelog (gpointer data)
+{
+  GtkWidget *filew;
+
+  filew = gtk_file_selection_new (_("Save Log"));
+
+  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
+                      "clicked", GTK_SIGNAL_FUNC (dosavelog), filew);
+  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
+                             "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
+                             GTK_OBJECT (filew));
+  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button), "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy), GTK_OBJECT (filew));
+
+  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filew), "gftp.log");
+  gtk_window_set_wmclass (GTK_WINDOW(filew), "Save Log", "gFTP");
+  gtk_widget_show (filew);
+}
+
+
+void 
 clear_cache (gpointer data)
 {
   gftp_clear_cache_files ();
@@ -789,19 +771,30 @@ about_dialog (gpointer data)
 
   no_license_agreement = g_strdup_printf (_("Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"), BASE_CONF_DIR, SHARE_DIR);
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("About gFTP"));
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "about", "gFTP");
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
   gtk_container_border_width (GTK_CONTAINER
 			      (GTK_DIALOG (dialog)->action_area), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
+#else
+  dialog = gtk_dialog_new_with_buttons (_("About gFTP"), NULL, 0,
+                                        GTK_STOCK_CLOSE,
+                                        GTK_RESPONSE_CLOSE,
+                                        NULL);
+#endif
+  gtk_window_set_wmclass (GTK_WINDOW(dialog), "about", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_signal_connect_object (GTK_OBJECT (dialog), "delete_event",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_widget_realize (dialog);
+
+  if (gftp_icon != NULL)
+    {
+      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
+                           gftp_icon->bitmap);
+      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+    }
 
   notebook = gtk_notebook_new ();
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
@@ -883,6 +876,7 @@ version);
 
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), box, label);
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   tempwid = gtk_button_new_with_label (_("  Close  "));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
@@ -892,6 +886,11 @@ version);
 			     GTK_OBJECT (dialog));
   gtk_widget_grab_default (tempwid);
   gtk_widget_show (tempwid);
+#else
+  g_signal_connect_swapped (GTK_OBJECT (dialog), "response",
+                            G_CALLBACK (gtk_widget_destroy),
+                            GTK_OBJECT (dialog));
+#endif
 
   tempstr = g_strconcat ("/usr/share/common-licenses/GPL", NULL);
   if (access (tempstr, F_OK) != 0)

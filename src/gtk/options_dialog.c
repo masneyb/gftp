@@ -45,6 +45,25 @@ static GtkWidget * proxy_text, * proxy_list, * new_proxy_domain, * network1,
 static GList * new_proxy_hosts;
 static char *custom_proxy;
 
+#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+static void
+options_action (GtkWidget * widget, gint response, gpointer user_data)
+{
+  switch (response)
+    {
+      case GTK_RESPONSE_APPLY:
+        apply_changes (widget, NULL);
+        break;
+      case GTK_RESPONSE_OK:
+        apply_changes (widget, NULL);
+        /* no break */
+      default:
+        gtk_widget_destroy (widget);
+    }
+}
+#endif
+
+
 void
 options_dialog (gpointer data)
 {
@@ -53,16 +72,35 @@ options_dialog (gpointer data)
   int i, tbl_col, tbl_num, combo_num;
   GList * combo_list;
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Options"));
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "options", "gFTP");
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
                               5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 2);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
+#else
+  dialog = gtk_dialog_new_with_buttons (_("Options"), NULL, 0,
+                                        GTK_STOCK_SAVE,
+                                        GTK_RESPONSE_OK,
+                                        GTK_STOCK_CANCEL,
+                                        GTK_RESPONSE_CANCEL,
+                                        GTK_STOCK_APPLY,
+                                        GTK_RESPONSE_APPLY,
+                                        NULL);
+#endif
+  gtk_window_set_wmclass (GTK_WINDOW(dialog), "options", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 2);
+  gtk_widget_realize (dialog);
+
+  if (gftp_icon != NULL)
+    {
+      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
+                           gftp_icon->bitmap);
+      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+    }
 
   notebook = gtk_notebook_new ();
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
@@ -270,6 +308,7 @@ options_dialog (gpointer data)
 
   make_proxy_hosts_tab (notebook);
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
@@ -300,6 +339,10 @@ options_dialog (gpointer data)
                       GTK_SIGNAL_FUNC (apply_changes), NULL);
   gtk_widget_grab_default (tempwid);
   gtk_widget_show (tempwid);
+#else
+  g_signal_connect (GTK_OBJECT (dialog), "response",
+                    G_CALLBACK (options_action), NULL);
+#endif
 
   gtk_widget_show (dialog);
 }
@@ -413,13 +456,29 @@ add_host_to_listbox (GList * templist)
 }
 
 
+#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+static void
+proxyhosts_action (GtkWidget * widget, gint response, gpointer user_data)
+{
+  switch (response)
+    {
+      case GTK_RESPONSE_OK:
+        add_ok (widget, user_data);
+        /* no break */
+      default:
+        gtk_widget_destroy (widget);
+    }
+}
+#endif
+
+
 static void
 add_proxy_host (GtkWidget * widget, gpointer data)
 {
   GtkWidget *tempwid, *dialog, *frame, *box, *table;
   gftp_proxy_hosts *hosts;
+  char *tempstr, *title;
   GList *templist;
-  char *tempstr;
 
   if (data)
     {
@@ -435,21 +494,27 @@ add_proxy_host (GtkWidget * widget, gpointer data)
       templist = NULL;
     }
 
+  title = hosts ? _("Edit Host") : _("Add Host");
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog),
-			hosts ? _("Edit Host") : _("Add Host"));
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "hostinfo", "Gftp");
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+  gtk_window_set_title (GTK_WINDOW (dialog), title);
   gtk_container_border_width (GTK_CONTAINER
 			      (GTK_DIALOG (dialog)->action_area), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 2);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_signal_connect_object (GTK_OBJECT (dialog), "delete_event",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
   gtk_grab_add (dialog);
+#else
+  dialog = gtk_dialog_new_with_buttons (title, NULL, 0,
+                                        GTK_STOCK_SAVE,
+                                        GTK_RESPONSE_OK,
+                                        GTK_STOCK_CANCEL,
+                                        GTK_RESPONSE_CANCEL,
+                                        NULL);
+#endif
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 2);
+  gtk_window_set_wmclass (GTK_WINDOW(dialog), "hostinfo", "Gftp");
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   frame = gtk_frame_new (NULL);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), frame, TRUE, TRUE,
@@ -617,6 +682,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
 	}
     }
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
@@ -636,6 +702,10 @@ add_proxy_host (GtkWidget * widget, gpointer data)
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     GTK_OBJECT (dialog));
   gtk_widget_show (tempwid);
+#else
+  g_signal_connect (GTK_OBJECT (dialog), "response",
+                    G_CALLBACK (proxyhosts_action), NULL);
+#endif
 
   gtk_widget_show (dialog);
 }

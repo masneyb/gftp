@@ -311,10 +311,10 @@ struct gftp_transfer_tag
         * curfle,
         * updfle;
 
-  unsigned long numfiles,
-                numdirs,
-                current_file_number,
-                current_file_retries;
+  long numfiles,
+       numdirs,
+       current_file_number,
+       current_file_retries;
 
   off_t curtrans,		/* Current transfered bytes for this file */
         curresumed,		/* Resumed bytes for this file */

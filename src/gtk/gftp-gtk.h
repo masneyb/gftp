@@ -33,6 +33,30 @@
 				gtk_widget_set_usize (widget, width, height)
 #endif
 
+/* These 2 defines are for creating menu items with stock icons in GTK+ 2.0. 
+   If we are using version 1.2, it will disable the stock items since it's not
+   supported */
+
+#if GTK_MAJOR_VERSION < 2
+#define MS_(a) NULL
+#define MN_(a) a
+#else
+#define MS_(a) "<StockItem>",a
+#define MN_(a) a,NULL
+#endif
+
+/* These are used for the MakeEditDialog function. I have these types to make
+   it easier for creating dialogs with GTK+ 1.2 and GTK+ 2.0 */
+
+typedef enum gftp_dialog_button_tag
+{
+  gftp_dialog_button_create,
+  gftp_dialog_button_change,
+  gftp_dialog_button_connect,
+  gftp_dialog_button_rename,
+  gftp_dialog_button_ok
+} gftp_dialog_button;
+
 typedef struct gftp_window_data_tag
 {
   GtkWidget *combo, 		/* Entry widget/history for the user to enter 
@@ -65,11 +89,15 @@ typedef struct gftp_graphic_tag
 
 typedef struct gftp_dialog_data_tag
 {
-  GtkWidget * dialog,		/* Pointer to the dialog */
-            * checkbox,		/* Pointer to the checkbox widget */
-            * edit; 		/* Pointer to the edit widget */
-  GList * all_buttons;		/* All the buttons of this dialog */
-  gpointer data;		/* Data pointer we'll pass to the function */
+  GtkWidget * dialog,
+            * checkbox,
+            * edit;
+
+  void (*yesfunc) ();
+  gpointer yespointer;
+
+  void (*nofunc) ();
+  gpointer nopointer;
 } gftp_dialog_data;
 
 
@@ -117,6 +145,7 @@ extern GHashTable * graphic_hash_table;
 extern GtkItemFactoryEntry * menus;
 extern GtkItemFactory * factory;
 extern pthread_mutex_t transfer_mutex, log_mutex;
+extern gftp_graphic * gftp_icon;
 
 /* bookmarks.c */
 void run_bookmark 				( gpointer data );
@@ -275,21 +304,20 @@ void add_file_listbox 				( gftp_window_data * wdata,
 void MakeEditDialog 				( char *diagtxt, 
 						  char *infotxt, 
 						  char *deftext, 
-						  int edit_shown, 
-						  int erase, 
-                                                  char *checktext,
-						  char *oktxt, 
+						  int passwd_item,
+						  char *checktext, 
+						  gftp_dialog_button okbutton, 
 						  void (*okfunc) (), 
 						  void *okptr, 
-						  char *canceltxt, 
 						  void (*cancelfunc) (), 
 						  void *cancelptr );
 
 void MakeYesNoDialog 				( char *diagtxt, 
 						  char *infotxt, 
-						  int erase, 
-						  int num, 
-						  ... );
+						  void (*yesfunc) (), 
+						  gpointer yespointer,
+						  void (*nofunc) (), 
+						  gpointer nopointer );
 
 void update_directory_download_progress 	( gftp_transfer * transfer );
 

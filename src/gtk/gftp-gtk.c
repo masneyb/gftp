@@ -71,12 +71,12 @@ GtkItemFactoryEntry * menus = NULL;
 GtkItemFactory * factory = NULL;
 pthread_mutex_t transfer_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
+gftp_graphic * gftp_icon;
 
 int
 main (int argc, char **argv)
 {
   GtkWidget *window, *ui;
-  gftp_graphic * graphic;
 
 #ifdef HAVE_GETTEXT
   setlocale (LC_ALL, "");
@@ -108,11 +108,11 @@ main (int argc, char **argv)
   gtk_window_set_policy (GTK_WINDOW (window), TRUE, TRUE, FALSE);
   gtk_widget_realize (window);
 
-  graphic = open_xpm (window, "gftp.xpm");
-  if (graphic != NULL)
+  gftp_icon = open_xpm (window, "gftp.xpm");
+  if (gftp_icon != NULL)
     {
-      gdk_window_set_icon (window->window, NULL, graphic->pixmap,
-                           graphic->bitmap);
+      gdk_window_set_icon (window->window, NULL, gftp_icon->pixmap,
+                           gftp_icon->bitmap);
       gdk_window_set_icon_name (window->window, _("gFTP Icon"));
     }
 
@@ -150,10 +150,7 @@ delete_event (GtkWidget * widget, GdkEvent * event, gpointer data)
     doexit (NULL, NULL);
   else
     {
-      MakeYesNoDialog (_("Exit"),
-                       _("There are file transfers in progress.\nAre you sure you want to exit?"),
-		       1, 2, _("Exit"), doexit, NULL, _("Don't Exit"), NULL,
-		       NULL);
+      MakeYesNoDialog (_("Exit"), _("There are file transfers in progress.\nAre you sure you want to exit?"), doexit, NULL, NULL, NULL);
       return (TRUE);
     }
   return (FALSE);
@@ -213,14 +210,26 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_container_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   tempwid = toolbar_pixmap (ui, "right.xpm");
+#else
+  tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD,
+                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
+#endif
+
   button = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), button, TRUE, FALSE, 0);
   gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
 			     GTK_SIGNAL_FUNC (put_files), NULL);
   gtk_container_add (GTK_CONTAINER (button), tempwid);
 
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   tempwid = toolbar_pixmap (ui, "left.xpm");
+#else
+  tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_BACK,
+                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
+#endif
+
   button = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), button, TRUE, FALSE, 0);
   gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
@@ -331,14 +340,6 @@ CreateFTPWindows (GtkWidget * ui)
   return (mainvbox);
 }
 
-
-#if GTK_MAJOR_VERSION < 2
-#define MS_(a) NULL
-#define MN_(a) a
-#else
-#define MS_(a) "<StockItem>",a
-#define MN_(a) a,NULL
-#endif
 
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
@@ -627,7 +628,13 @@ CreateToolbar (GtkWidget * parent)
   gtk_option_menu_set_menu (GTK_OPTION_MENU (optionmenu), protocol_menu);
   gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), num);
 
-  tempwid = toolbar_pixmap (parent, "stop.xpm");
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+  tempwid = toolbar_pixmap (ui, "stop.xpm");
+#else
+  tempwid = gtk_image_new_from_stock (GTK_STOCK_STOP,
+                                      GTK_ICON_SIZE_LARGE_TOOLBAR);
+#endif
+
   stop_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
   gtk_widget_set_sensitive (stop_btn, 0);
@@ -686,20 +693,6 @@ get_column (GtkCListColumn * col)
 void
 init_gftp (int argc, char *argv[], GtkWidget * parent)
 {
-  GtkWidget *sort_wid;
-
-  if (window1.sortasds)
-    sort_wid = toolbar_pixmap (parent, "down.xpm");
-  else
-    sort_wid = toolbar_pixmap (parent, "up.xpm");
-  gtk_clist_set_column_widget (GTK_CLIST (window1.listbox), 0, sort_wid);
-
-  if (window2.sortasds)
-    sort_wid = toolbar_pixmap (parent, "down.xpm");
-  else
-    sort_wid = toolbar_pixmap (parent, "up.xpm");
-  gtk_clist_set_column_widget (GTK_CLIST (window2.listbox), 0, sort_wid);
-
   if (argc == 2 && strncmp (argv[1], "--", 2) != 0)
     {
       if (gftp_parse_url (window2.request, argv[1]) == 0)
@@ -1019,17 +1012,35 @@ sortrows (GtkCList * clist, gint column, gpointer data)
   gftp_window_data * wdata;
   GtkWidget * sort_wid;
   GList * templist;
+  int swap_col;
 
   wdata = data;
   if (column == 0 || (column == wdata->sortcol && wdata->sorted))
     {
       wdata->sortasds = !wdata->sortasds;
+      swap_col = 1;
+    }
+  else
+    swap_col = 0;
+
+  if (swap_col || !wdata->sorted)
+    {
       sort_wid = gtk_clist_get_column_widget (clist, 0);
       gtk_widget_destroy (sort_wid);
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
       if (wdata->sortasds)
 	sort_wid = toolbar_pixmap (wdata->listbox, "down.xpm");
       else
 	sort_wid = toolbar_pixmap (wdata->listbox, "up.xpm");
+#else
+      if (wdata->sortasds)
+        sort_wid = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, 
+                                             GTK_ICON_SIZE_SMALL_TOOLBAR);
+      else
+        sort_wid = gtk_image_new_from_stock (GTK_STOCK_SORT_DESCENDING, 
+                                             GTK_ICON_SIZE_SMALL_TOOLBAR);
+#endif
+
       gtk_clist_set_column_widget (clist, 0, sort_wid);
     }
   else
