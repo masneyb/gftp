@@ -22,10 +22,11 @@ static const char cvsid[] = "$Id$";
 
 
 static int
-dnd_remote_file (char *url, gftp_window_data * wdata)
+dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
 {
   gftp_window_data * other_wdata, * fromwdata;
   gftp_request * current_ftpdata;
+  gftp_transfer * tdata;
   gftp_file * newfle;
   GList * templist;
   char *pos;
@@ -61,11 +62,12 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   if (compare_request (current_ftpdata, wdata->request, 1))
     {
       gftp_request_destroy (current_ftpdata, 1);
+      free_fdata (newfle);
       return (0);
     }
 
   if (other_wdata != NULL && 
-      compare_request (current_ftpdata, other_wdata->request, 1))
+      compare_request (current_ftpdata, other_wdata->request, 0))
     {
       if (other_wdata->request->password != NULL)
         gftp_set_password (current_ftpdata, other_wdata->request->password);
@@ -80,14 +82,30 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   *(pos - 1) = '\0';
   
   newfle->destfile = gftp_build_path (wdata->request->directory, pos, NULL);
-  templist = g_malloc0 (sizeof (*templist));
-  templist->data = newfle;
-  templist->next = NULL;
-  gftpui_common_add_file_transfer (current_ftpdata, wdata->request, fromwdata,
-                                   wdata, templist);
-  gftp_request_destroy (current_ftpdata, 1);
 
-  /* FIXME  resume files and download entire directories */
+  for (templist = *trans_list; templist != NULL; templist = templist->next)
+    {
+      tdata = templist->data;
+      if (compare_request (current_ftpdata, tdata->fromreq, 0))
+        break;
+    }
+
+  if (templist == NULL)
+    {
+      tdata = gftp_tdata_new ();
+
+      tdata->fromreq = current_ftpdata;
+      tdata->fromwdata = fromwdata;
+
+      tdata->toreq = wdata->request;
+      tdata->towdata = wdata;
+
+      *trans_list = g_list_append (*trans_list, tdata);
+    }
+  else
+    gftp_request_destroy (current_ftpdata, 1);
+
+  tdata->files = g_list_append (tdata->files, newfle);
 
   return (1);
 }
@@ -205,7 +223,9 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 		       guint32 clk_time, gpointer data)
 {
   char *newpos, *oldpos, *tempstr;
+  GList * trans_list, * templist;
   gftp_window_data * wdata;
+  gftp_transfer * tdata;
   int finish_drag;
   size_t len;
 
@@ -213,6 +233,7 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
   if (!check_status (_("Drag-N-Drop"), wdata, 1, 0, 0, 1)) 
     return;
 
+  trans_list = NULL;
   finish_drag = 0;
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
@@ -233,8 +254,9 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
           ftp_log (gftp_logging_misc, NULL, _("Received URL %s\n"), tempstr);
 
-          if (dnd_remote_file (tempstr, wdata))
+          if (dnd_remote_file (wdata, &trans_list, tempstr))
             finish_drag = 1;
+
           g_free (tempstr);
 
           if (*newpos == '\0') 
@@ -245,4 +267,28 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
     }
 
   gtk_drag_finish (context, finish_drag, FALSE, clk_time);
+
+  for (templist = trans_list; templist != NULL; templist = templist->next)
+    {
+      tdata = templist->data;
+
+      if (tdata->files == NULL || gftp_get_all_subdirs (tdata, NULL) != 0)
+        {
+          g_free (tdata);
+          continue;
+        }
+
+      if (tdata->files == NULL)
+        {
+          g_free (tdata);
+          continue;
+        }
+
+      gftpui_common_add_file_transfer (tdata->fromreq, tdata->toreq,
+                                       tdata->fromwdata, tdata->towdata,
+                                       tdata->files);
+      g_free (tdata);
+    }
+
+  g_list_free (trans_list);
 }
