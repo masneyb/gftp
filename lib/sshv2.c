@@ -1481,7 +1481,7 @@ sshv2_rmfile (gftp_request * request, const char *file)
 static int 
 sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
 {
-  char *tempstr, *endpos, buf[10];
+  char *tempstr, *endpos;
   sshv2_message message;
   guint32 num;
   size_t len;
@@ -1497,8 +1497,7 @@ sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
   num = htonl (SSH_FILEXFER_ATTR_PERMISSIONS);
   memcpy (endpos, &num, 4);
 
-  g_snprintf (buf, sizeof (buf), "%o", mode);
-  num = htonl (strtol (buf, NULL, 8));
+  num = htonl (mode);
   memcpy (endpos + 4, &num, 4);
 
   ret = sshv2_send_command (request, SSH_FXP_SETSTAT, tempstr, len);
