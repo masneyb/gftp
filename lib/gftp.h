@@ -152,6 +152,7 @@
 #define GFTP_DIRTYPE_DOS	5	
 #define GFTP_DIRTYPE_VMS	6	
 #define GFTP_DIRTYPE_OTHER 	7
+#define GFTP_DIRTYPE_MVS	8
 
 /* Error types */
 #define GFTP_ERETRYABLE		-1		/* Temporary failure. The GUI

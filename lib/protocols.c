@@ -1157,6 +1157,11 @@ parse_time (char *str, char **endpos)
       /* 10-Jan-2003 09:14 */
       tmppos = strptime (str, "%d-%h-%Y %H:%M", &curtime);
     }
+  else if (strlen (str) > 4 && isdigit ((int) str[0]) && str[4] == '/')
+    {
+      /* 2003/12/25 */
+      tmppos = strptime (str, "%Y/%m/%d", &curtime);
+    }
   else
     {
       /* This is how most UNIX, Novell, and MacOS ftp servers send their time */
@@ -1241,13 +1246,14 @@ gftp_parse_ls_vms (char *str, gftp_file * fle)
     return (GFTP_EFATAL);
 
   *curpos = '\0';
-  fle->attribs = g_strdup ("----------");
   if (strlen (str) > 4 && strcmp (curpos - 4, ".DIR") == 0)
     {
       fle->isdir = 1;
-      *fle->attribs = 'd';
+      fle->attribs = g_strdup ("drwxr-xr-x");
       *(curpos - 4) = '\0';
     }
+  else
+   fle->attribs = g_strdup ("-rw-r--r--");
 
   fle->file = g_strdup (str);
 
@@ -1280,22 +1286,81 @@ gftp_parse_ls_vms (char *str, gftp_file * fle)
 
   return (0);
 }
+
+
+static int
+gftp_parse_ls_mvs (char *str, gftp_file * fle)
+{
+  char *curpos;
+
+  /* Volume Unit    Referred Ext Used Recfm Lrecl BlkSz Dsorg Dsname */
+  /* SVI52A 3390   2003/12/10  8  216  FB      80 27920  PS  CARDS.DELETES */
+  /* SVI528 3390   2003/12/12  1    5  FB      80 24000  PO  CLIST */
+
+  curpos = goto_next_token (str + 1);
+  if (curpos == NULL)
+    return (GFTP_EFATAL);
+
+  curpos = goto_next_token (curpos + 1);
+  if (curpos == NULL)
+    return (GFTP_EFATAL);
+
+  if ((fle->datetime = parse_time (curpos, &curpos)) == 0)
+    return (GFTP_EFATAL);
+  curpos = goto_next_token (curpos);
+
+  curpos = goto_next_token (curpos + 1);
+  if (curpos == NULL)
+    return (GFTP_EFATAL);
+
+  fle->size = gftp_parse_file_size (curpos) * 55996; 
+  curpos = goto_next_token (curpos + 1);
+  if (curpos == NULL)
+    return (GFTP_EFATAL);
+
+  curpos = goto_next_token (curpos + 1);
+  if (curpos == NULL)
+    return (GFTP_EFATAL);
+
+  curpos = goto_next_token (curpos + 1);
+  if (curpos == NULL)
+    return (GFTP_EFATAL);
+
+  curpos = goto_next_token (curpos + 1);
+  if (curpos == NULL)
+    return (GFTP_EFATAL);
+
+  if (strncmp (curpos, "PS", 2) == 0)
+    fle->attribs = g_strdup ("-rw-r--r--");
+  else if (strncmp (curpos, "PO", 2) == 0)
+    fle->attribs = g_strdup ("drwxr-xr-x");
+  else
+    return (GFTP_EFATAL);
+
+  curpos = goto_next_token (curpos + 1);
+
+  fle->user = g_strdup (_("unknown"));
+  fle->group = g_strdup (_("unknown"));
+  fle->file = g_strdup (curpos);
+
+  return (0);
+}
   
 
 static int
 gftp_parse_ls_eplf (char *str, gftp_file * fle)
 {
   char *startpos;
+  int isdir = 0;
 
   startpos = str;
-  fle->attribs = g_strdup ("----------");
   while (startpos)
     {
       startpos++;
       switch (*startpos)
         {
         case '/':
-          *fle->attribs = 'd';
+          isdir = 1;
           break;
         case 's':
           fle->size = gftp_parse_file_size (startpos + 1);
@@ -1306,8 +1371,15 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
         }
       startpos = strchr (startpos, ',');
     }
+
   if ((startpos = strchr (str, 9)) == NULL)
     return (GFTP_EFATAL);
+
+  if (isdir)
+    fle->attribs = g_strdup ("drwxr-xr-x");
+  else
+    fle->attribs = g_strdup ("-rw-r--r--");
+
   fle->file = g_strdup (startpos + 1);
   fle->user = g_strdup (_("unknown"));
   fle->group = g_strdup (_("unknown"));
@@ -1540,6 +1612,9 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
         break;
       case GFTP_DIRTYPE_VMS:
         result = gftp_parse_ls_vms (str, fle);
+        break;
+      case GFTP_DIRTYPE_MVS:
+        result = gftp_parse_ls_mvs (str, fle);
         break;
       default: /* autodetect */
         if (*lsoutput == '+')

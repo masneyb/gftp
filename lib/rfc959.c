@@ -420,6 +420,8 @@ rfc959_syst (gftp_request * request)
     request->server_type = GFTP_DIRTYPE_UNIX;
   else if (strcmp (stpos, "VMS") == 0)
     request->server_type = GFTP_DIRTYPE_VMS;
+  else if (strcmp (stpos, "MVS") == 0)
+    request->server_type = GFTP_DIRTYPE_MVS;
   else if (strcmp (stpos, "NETWARE") == 0)
     request->server_type = GFTP_DIRTYPE_NOVELL;
   else if (strcmp (stpos, "CRAY") == 0)
