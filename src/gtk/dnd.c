@@ -84,9 +84,6 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   
   newfle->destfile = g_strconcat (GFTP_GET_DIRECTORY (wdata->request),
                                      "/", pos, NULL);
-  newfle->ascii = gftp_get_file_transfer_mode (newfle->file, 
-                                wdata->request->data_type) == GFTP_TYPE_ASCII;
-
   templist = g_malloc0 (sizeof (*templist));
   templist->data = newfle;
   templist->next = NULL;

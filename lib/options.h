@@ -90,14 +90,6 @@ int do_one_transfer_at_a_time = 1, 	/* Only allow one transfer at a time.
     passive_transfer = 1, 		/* Are we sending PASV or PORT to the 
 					   server */
     sort_dirs_first = 1, 		/* Put the dirs first when sorting */
-    use_default_dl_types = 1, 		/* If this is set, then files will use 
-                                           their default dl type. For example, 
-                                           if you set in the config file .txt 
-                                           files to have a default option of 
-                                           ASCII, and if this setting is set, 
-                                           it will use ASCII. Otherwise, it 
-                                           would use the setting in the FTP 
-                                           menu */
     show_hidden_files = 1, 		/* Show hidden files */
     refresh_files = 0, 			/* Refresh the listbox after each file 
                                            is done */

@@ -727,13 +727,13 @@ parse_attribs (char *attribs)
 void * 
 gftp_gtk_transfer_files (void *data)
 {
+  int i, mode, from_data_type, to_data_type;
   gftp_transfer * transfer;
   char *tempstr, buf[8192];
   int tofd, fromfd;
   off_t fromsize, total;
   gftp_file * curfle; 
   ssize_t num_read;
-  int i, mode;
 
   pthread_detach (pthread_self ());
   transfer = data;
@@ -743,6 +743,8 @@ gftp_gtk_transfer_files (void *data)
           sizeof (transfer->lasttime));
   while (transfer->curfle != NULL)
     {
+      from_data_type = to_data_type = -1;
+
       pthread_mutex_lock (transfer->structmutex);
       curfle = transfer->curfle->data;
       transfer->current_file_number++;
@@ -813,6 +815,21 @@ gftp_gtk_transfer_files (void *data)
           if (GFTP_IS_CONNECTED (transfer->fromreq) &&
               GFTP_IS_CONNECTED (transfer->toreq))
             {
+              if (curfle->ascii)
+                {
+                  if (transfer->fromreq->data_type != GFTP_TYPE_ASCII)
+                    {
+                      from_data_type = transfer->fromreq->data_type;
+                      gftp_set_data_type (transfer->fromreq, GFTP_TYPE_ASCII);
+                    }
+
+                  if (transfer->toreq->data_type != GFTP_TYPE_ASCII)
+                    {
+                      to_data_type = transfer->toreq->data_type;
+                      gftp_set_data_type (transfer->toreq, GFTP_TYPE_ASCII);
+                    }
+                }
+
               fromsize = gftp_transfer_file (transfer->fromreq, curfle->file, 
                           fromfd,
                           curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
@@ -820,6 +837,15 @@ gftp_gtk_transfer_files (void *data)
                           transfer->toreq, curfle->destfile, tofd,
                           curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
                                                     curfle->startsize : 0);
+
+              if (curfle->ascii)
+                {
+                  if (from_data_type != -1)
+                    gftp_set_data_type (transfer->fromreq, from_data_type);
+
+                  if (to_data_type != -1)
+                    gftp_set_data_type (transfer->toreq, to_data_type);
+                }
             }
         }
 
@@ -865,7 +891,8 @@ gftp_gtk_transfer_files (void *data)
               total += num_read;
               gftp_gtk_calc_kbs (transfer, num_read);
 
-              if (GFTP_GET_DATA_TYPE (transfer->fromreq) == GFTP_TYPE_ASCII)
+              if (GFTP_GET_DATA_TYPE (transfer->fromreq) == GFTP_TYPE_ASCII ||
+                  curfle->ascii)
                 tempstr = gftp_convert_ascii (buf, &num_read, 1);
               else
                 tempstr = buf;
@@ -879,7 +906,8 @@ gftp_gtk_transfer_files (void *data)
 
               /* We don't have to free tempstr for a download because new 
                  memory is not allocated for it in that case */
-              if (GFTP_GET_DATA_TYPE (transfer->fromreq) == GFTP_TYPE_ASCII && 
+              if ((GFTP_GET_DATA_TYPE (transfer->fromreq) == GFTP_TYPE_ASCII ||
+                   curfle->ascii) && 
                   transfer->transfer_direction == GFTP_DIRECTION_UPLOAD)
                 g_free (tempstr);
             }

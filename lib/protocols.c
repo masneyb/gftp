@@ -1588,9 +1588,6 @@ gftp_get_file_transfer_mode (char *filename, int def)
   GList * templist;
   int stlen, ret;
 
-  if (!use_default_dl_types)
-    return (def);
-
   ret = def;
   stlen = strlen (filename);
   for (templist = registered_exts; templist != NULL; templist = templist->next)

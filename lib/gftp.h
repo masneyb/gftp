@@ -478,15 +478,14 @@ extern GList * proxy_hosts, * registered_exts, * viewedit_processes,
 extern gftp_bookmarks * bookmarks;
 extern int do_one_transfer_at_a_time, start_file_transfers, 
            transfer_in_progress, passive_transfer, sort_dirs_first, 
-           use_default_dl_types, show_hidden_files, refresh_files, 
-           listbox_local_width, listbox_remote_width, listbox_file_height, 
-           transfer_height, log_height, retries, sleep_time, network_timeout, 
-           use_http11, listbox_dblclick_action, file_trans_column, 
-           local_columns[6], remote_columns[6], resolve_symlinks, 
-           firewall_port, http_proxy_port, overwrite_by_default, 
-           append_file_transfers, enable_old_ssh, ssh_need_userpass, 
-           ssh_use_askpass, sshv2_use_sftp_subsys, local_sortcol, 
-           local_sortasds, remote_sortcol, remote_sortasds;
+           show_hidden_files, refresh_files, listbox_local_width, 
+           listbox_remote_width, listbox_file_height, transfer_height, 
+           log_height, retries, sleep_time, network_timeout, use_http11, 
+           listbox_dblclick_action, file_trans_column, local_columns[6], 
+           remote_columns[6], resolve_symlinks, firewall_port, http_proxy_port,
+           overwrite_by_default, append_file_transfers, enable_old_ssh, 
+           ssh_need_userpass, ssh_use_askpass, sshv2_use_sftp_subsys, 
+           local_sortcol, local_sortasds, remote_sortcol, remote_sortasds;
 extern guint max_log_window_size;
 extern GHashTable * bookmarks_htable, * config_htable;
 extern GList * localhistory, * remotehistory, * host_history, * port_history, 

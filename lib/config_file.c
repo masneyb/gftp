@@ -143,8 +143,6 @@ gftp_config_vars config_file_vars[] =
 
   {"list_dblclk_action", "", &listbox_dblclick_action, CONFIG_HIDEINT, 
 	N_("This defines what will happen when you double click a file in the file listboxes. 0=View file 1=Edit file 2=Transfer file"), NULL, 0},
-  {"use_default_dl_types", "", &use_default_dl_types, CONFIG_HIDEINT, 
-	N_("(*) If this is set, and there is a ext= line below for the file extension, it will download the file as specified below"), NULL, 0},
   {"listbox_local_width", "", &listbox_local_width, CONFIG_HIDEINT, 
 	N_("The default width of the local files listbox"), NULL, 0},
   {"listbox_remote_width", "", &listbox_remote_width, CONFIG_HIDEINT,
