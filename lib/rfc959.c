@@ -1663,7 +1663,7 @@ rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
+  tempstr = g_strdup_printf ("SITE CHMOD %o \"%s\"\r\n", mode, file);
   ret = rfc959_send_command (request, tempstr, 1);
   g_free (tempstr);
 
@@ -1740,7 +1740,7 @@ rfc959_set_file_time (gftp_request * request, const char *file, time_t datetime)
   if (datestr == NULL)
     return (GFTP_EFATAL);
 
-  tempstr = g_strconcat ("SITE UTIME ", datestr, " ", file, "\r\n", NULL);
+  tempstr = g_strconcat ("SITE UTIME ", datestr, " \"", file, "\"\r\n", NULL);
   g_free (datestr);
 
   ret = rfc959_send_command (request, tempstr, 1);
