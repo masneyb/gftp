@@ -164,6 +164,10 @@ gftp_config_vars gftp_global_config_vars[] =
    gftp_option_type_int, GINT_TO_POINTER(100), NULL, 0,
    N_("The width of the filename column in the transfer window. Set this to 0 to have this column automagically resize."), 0, NULL},
 
+  {"host_value", "", gftp_option_type_text, "", NULL, 0, NULL, 0, NULL},
+  {"port_value", "", gftp_option_type_text, "", NULL, 0, NULL, 0, NULL},
+  {"user_value", "", gftp_option_type_text, "", NULL, 0, NULL, 0, NULL},
+
   {"local_sortcol", "", 
    gftp_option_type_intcombo, GINT_TO_POINTER(1), gftp_sort_columns, 0,
    N_("The default column to sort by"), GFTP_PORT_TEXT, NULL},

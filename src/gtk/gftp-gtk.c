@@ -57,6 +57,7 @@ get_column (GtkCListColumn * col)
 static void
 _gftp_exit (GtkWidget * widget, gpointer data)
 {
+  const char *tempstr;
   intptr_t ret;
 
   ret = GTK_WIDGET (local_frame)->allocation.width;
@@ -98,6 +99,15 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   gftp_set_global_option ("remote_date_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window2.listbox)->column[6]);
   gftp_set_global_option ("remote_attribs_width", GINT_TO_POINTER (ret));
+
+  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry));
+  gftp_set_global_option ("host_value", tempstr);
+
+  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (portedit)->entry));
+  gftp_set_global_option ("port_value", tempstr);
+
+  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry));
+  gftp_set_global_option ("user_value", tempstr);
 
   gftp_shutdown ();
   exit (0);
@@ -421,7 +431,7 @@ CreateConnectToolbar (GtkWidget * parent)
   };
   GtkWidget *toolbar, *box, *tempwid;
   gftp_config_list_vars * tmplistvar;
-  char *default_protocol;
+  char *default_protocol, *tempstr;
   int i, num;
 
   toolbar = gtk_handle_box_new ();
@@ -464,7 +474,9 @@ CreateConnectToolbar (GtkWidget * parent)
     gtk_combo_set_popdown_strings (GTK_COMBO (hostedit), tmplistvar->list);
 
   gtk_combo_disable_activate (GTK_COMBO (hostedit));
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry), "");
+
+  gftp_lookup_global_option ("host_value", &tempstr);
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry), tempstr);
 #if GTK_MAJOR_VERSION > 1
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid),
                                  GTK_COMBO (hostedit)->entry);
@@ -486,7 +498,9 @@ CreateConnectToolbar (GtkWidget * parent)
     gtk_combo_set_popdown_strings (GTK_COMBO (portedit), tmplistvar->list);
 
   gtk_combo_disable_activate (GTK_COMBO (portedit));
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), "");
+
+  gftp_lookup_global_option ("port_value", &tempstr);
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), portedit, FALSE, FALSE, 0);
 
 #if GTK_MAJOR_VERSION == 1
@@ -508,7 +522,9 @@ CreateConnectToolbar (GtkWidget * parent)
     gtk_combo_set_popdown_strings (GTK_COMBO (useredit), tmplistvar->list);
 
   gtk_combo_disable_activate (GTK_COMBO (useredit));
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (useredit)->entry), "");
+
+  gftp_lookup_global_option ("user_value", &tempstr);
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (useredit)->entry), tempstr);
 #if GTK_MAJOR_VERSION > 1
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid),
                                  GTK_COMBO (useredit)->entry);

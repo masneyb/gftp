@@ -215,41 +215,43 @@ update_window_info (void)
 
   if (current_wdata->request != NULL)
     {
-      if ((tempstr = current_wdata->request->hostname) == NULL)
-        tempstr = empty;
-      gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry), tempstr);
-
-      if ((tempstr = current_wdata->request->username) == NULL)
-        tempstr = empty;
-      gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (useredit)->entry), tempstr);
-
-      if ((tempstr = current_wdata->request->password) == NULL)
-        tempstr = empty;
-      gtk_entry_set_text (GTK_ENTRY (passedit), tempstr);
-
-      port = gftp_protocol_default_port (current_wdata->request);
-      if (current_wdata->request->port != 0 &&
-          port != current_wdata->request->port)
-        {
-          tempstr = g_strdup_printf ("%d", current_wdata->request->port);
-          gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), tempstr);
-          g_free (tempstr);
-        }
-      else
-        gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), "");
-
-      for (i=0; gftp_protocols[i].init != NULL; i++)
-        {
-          if (current_wdata->request->init == gftp_protocols[i].init)
-            {
-              gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), i);
-              break;
-            }
-        }
-
       if (GFTP_IS_CONNECTED (current_wdata->request))
-        gtk_tooltips_set_tip (GTK_TOOLTIPS(openurl_tooltip), openurl_btn,
-                              _("Disconnect from the remote server"), NULL);
+        {
+          if ((tempstr = current_wdata->request->hostname) == NULL)
+            tempstr = empty;
+          gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry), tempstr);
+    
+          if ((tempstr = current_wdata->request->username) == NULL)
+            tempstr = empty;
+          gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (useredit)->entry), tempstr);
+    
+          if ((tempstr = current_wdata->request->password) == NULL)
+            tempstr = empty;
+          gtk_entry_set_text (GTK_ENTRY (passedit), tempstr);
+    
+          port = gftp_protocol_default_port (current_wdata->request);
+          if (current_wdata->request->port != 0 &&
+              port != current_wdata->request->port)
+            {
+              tempstr = g_strdup_printf ("%d", current_wdata->request->port);
+              gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), tempstr);
+              g_free (tempstr);
+            }
+          else
+            gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), "");
+    
+          for (i=0; gftp_protocols[i].init != NULL; i++)
+            {
+              if (current_wdata->request->init == gftp_protocols[i].init)
+                {
+                  gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), i);
+                  break;
+                }
+            }
+
+          gtk_tooltips_set_tip (GTK_TOOLTIPS(openurl_tooltip), openurl_btn,
+                                _("Disconnect from the remote server"), NULL);
+        }
       else
         gtk_tooltips_set_tip (GTK_TOOLTIPS(openurl_tooltip), openurl_btn,
                               _("Connect to the site specified in the host entry. If the host entry is blank, then a dialog is presented that will allow you to enter a URL."), NULL);
