@@ -1459,12 +1459,21 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
 
               break;
             }
-          gftp_end_transfer (tdata->toreq);
 
-          tdata->fromreq->logging_function (gftp_logging_misc,
-                         tdata->fromreq,
-                         _("Successfully transferred %s at %.2f KB/s\n"),
-                         curfle->file, tdata->kbs);
+          if (gftp_end_transfer (tdata->toreq) == 0)
+            {
+              tdata->fromreq->logging_function (gftp_logging_misc,
+                             tdata->fromreq,
+                             _("Successfully transferred %s at %.2f KB/s\n"),
+                             curfle->file, tdata->kbs);
+            }
+          else
+            {
+              tdata->fromreq->logging_function (gftp_logging_error,
+                             tdata->fromreq,
+                             _("There was an error transfering the file %s"),
+                             curfle->file);
+            }
         }
 
       gftp_lookup_request_option (tdata->fromreq, "preserve_permissions",
