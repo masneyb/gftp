@@ -296,12 +296,11 @@ gftp_delete_cache_entry (gftp_request * request, char *descr,
                          int ignore_directory)
 {
   char *oldindexfile, *newindexfile, buf[BUFSIZ], description[BUFSIZ];
+  int indexfd, newfd, del_entry;
   gftp_getline_buffer * rbuf;
   gftp_cache_entry centry;
-  int indexfd, newfd;
   size_t len;
   time_t now;
-  int remove;
  
   g_return_if_fail (request != NULL || descr != NULL);
 
@@ -341,22 +340,22 @@ gftp_delete_cache_entry (gftp_request * request, char *descr,
       if (gftp_parse_cache_line (request, &centry, buf) < 0)
         continue;
 
-      remove = 0;
+      del_entry = 0;
       if (centry.expiration_date < now)
-        remove = 1;
+        del_entry = 1;
       else if (ignore_directory)
         {
           if (strncmp (centry.url, description, strlen (description)) == 0)
-            remove = 1;
+            del_entry = 1;
         }
       else
         {
           if (strcmp (centry.url, description) == 0)
-            remove = 1;
+            del_entry = 1;
         }
 
  
-      if (remove)
+      if (del_entry)
         unlink (centry.file);
       else
         {

@@ -1079,7 +1079,7 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
   if (startsize > 0)
     {
 #if defined (_LARGEFILE_SOURCE)
-      command = g_strdup_printf ("REST %lld\r\n", (long long) startsize); 
+      command = g_strdup_printf ("REST %lld\r\n", startsize); 
 #else
       command = g_strdup_printf ("REST %ld\r\n", startsize); 
 #endif
@@ -1157,7 +1157,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
   if (startsize > 0)
     {
 #if defined (_LARGEFILE_SOURCE)
-      command = g_strdup_printf ("REST %lld\r\n", (long long) startsize); 
+      command = g_strdup_printf ("REST %lld\r\n", startsize); 
 #else
       command = g_strdup_printf ("REST %ld\r\n", startsize); 
 #endif
@@ -1476,12 +1476,12 @@ rfc959_get_next_dirlist_line (gftp_request * request, int fd,
   return (len);
 }
 
-
 int
 rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   rfc959_parms * parms;
   char tempstr[1024];
+  size_t stlen;
   ssize_t len;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1524,11 +1524,11 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
     }
   while (1);
 
-  len = strlen (tempstr);
+  stlen = strlen (tempstr);
   if (!request->cached)
     {
       request->last_dir_entry = g_strdup_printf ("%s\n", tempstr);
-      request->last_dir_entry_len = len + 1;
+      request->last_dir_entry_len = stlen + 1;
     }
   return (len);
 }
@@ -1783,7 +1783,7 @@ rfc959_register_module (void)
 }
 
 
-void
+static void
 rfc959_request_destroy (gftp_request * request)
 {
   rfc959_parms * parms;
@@ -1798,7 +1798,7 @@ rfc959_request_destroy (gftp_request * request)
 }
 
 
-void
+static void
 rfc959_copy_param_options (gftp_request * dest_request,
                            gftp_request * src_request)
 {

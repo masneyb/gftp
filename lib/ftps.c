@@ -27,7 +27,8 @@ static int
 ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   rfc959_parms * params;
-  int ret, resetptr;
+  int resetptr;
+  size_t ret;
 
   params = request->protocol_data;
   if (request->cached)

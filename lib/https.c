@@ -27,7 +27,8 @@ static int
 https_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   rfc2068_params * params;
-  int ret, resetptr;
+  int resetptr;
+  size_t ret;
 
   params = request->protocol_data;
   if (request->cached)

@@ -17,9 +17,8 @@
 /*  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA      */
 /*****************************************************************************/
 
-static const char cvsid[] = "$Id$";
-
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 #ifdef __sgi
 

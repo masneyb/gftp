@@ -643,14 +643,14 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
   gftp_set_directory (request, tempentry->remote_dir);
   gftp_set_port (request, tempentry->port);
 
-  if (local_request != NULL &&
-      tempentry->local_dir != NULL &&
+  if (local_request != NULL && tempentry->local_dir != NULL &&
       *tempentry->local_dir != '\0')
     {
       gftp_set_directory (local_request, tempentry->local_dir);
-      *refresh_local = 1;
+      if (refresh_local != NULL)
+        *refresh_local = 1;
     }
-  else
+  else if (refresh_local != NULL)
     *refresh_local = 0;
 
   for (i = 0; gftp_protocols[i].name; i++)
@@ -1053,7 +1053,8 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
   char *pos;
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   struct addrinfo hints;
-  int port, errnum;
+  unsigned int port;
+  int errnum;
   char serv[8];
 #endif
 
@@ -1128,7 +1129,7 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
 
       if (hostname->ipv4_network_address != 0)
         {
-          memcpy (addy, addr, sizeof (addy));
+          memcpy (addy, addr, sizeof (*addy));
           netaddr =
             (((addy[0] & 0xff) << 24) | ((addy[1] & 0xff) << 16) |
              ((addy[2] & 0xff) << 8) | (addy[3] & 0xff)) & 
@@ -1175,10 +1176,7 @@ goto_next_token (char *pos)
   while (*pos != ' ' && *pos != '\t' && *pos != '\0')
     pos++;
 
-  if (pos == '\0')
-    return (pos);
-
-  while ((*pos == ' ' || *pos == '\t') && *pos != '\0')
+  while (*pos == ' ' || *pos == '\t')
     pos++;
 
   return (pos);
@@ -1477,15 +1475,15 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
       startpos++;
       switch (*startpos)
         {
-        case '/':
-          isdir = 1;
-          break;
-        case 's':
-          fle->size = gftp_parse_file_size (startpos + 1);
-          break;
-        case 'm':
-          fle->datetime = strtol (startpos + 1, NULL, 10);
-          break;
+          case '/':
+            isdir = 1;
+            break;
+          case 's':
+            fle->size = gftp_parse_file_size (startpos + 1);
+            break;
+          case 'm':
+            fle->datetime = strtol (startpos + 1, NULL, 10);
+            break;
         }
       startpos = strchr (startpos, ',');
     }
@@ -1774,9 +1772,9 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
 static GHashTable *
 gftp_gen_dir_hash (gftp_request * request, int *ret)
 {
-  unsigned long *newsize;
   GHashTable * dirhash;
   gftp_file * fle;
+  off_t *newsize;
   char * newname;
 
   dirhash = g_hash_table_new (string_hash_function, string_hash_compare);
@@ -1787,7 +1785,7 @@ gftp_gen_dir_hash (gftp_request * request, int *ret)
       while (gftp_get_next_file (request, NULL, fle) > 0)
         {
           newname = fle->file;
-          newsize = g_malloc (sizeof (unsigned long));
+          newsize = g_malloc (sizeof (*newsize));
           *newsize = fle->size;
           g_hash_table_insert (dirhash, newname, newsize);
           fle->file = NULL;
@@ -1826,10 +1824,10 @@ gftp_destroy_dir_hash (GHashTable * dirhash)
 static GList *
 gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
 {
-  unsigned long *newsize;
   GHashTable * dirhash;
   GList * templist;
   gftp_file * fle;
+  off_t *newsize;
   char *newname;
 
   if (getothdir && transfer->toreq)
@@ -1897,9 +1895,9 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
   char *oldfromdir, *oldtodir, *newname, *pos;
   int forcecd, remotechanged, ret;
   GList * templist, * lastlist;
-  unsigned long *newsize;
   GHashTable * dirhash;
   gftp_file * curfle;
+  off_t *newsize;
   mode_t st_mode;
 
   g_return_val_if_fail (transfer != NULL, GFTP_EFATAL);
@@ -2070,21 +2068,26 @@ get_port (struct addrinfo *addr)
 
 int
 gftp_connect_server (gftp_request * request, char *service,
-                     char *proxy_hostname, int proxy_port)
+                     char *proxy_hostname, unsigned int proxy_port)
 {
   char *connect_host, *disphost;
-  int port, sock;
+  unsigned int port;
+  int sock = -1;
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   struct addrinfo hints, *res;
   intptr_t enable_ipv6;
   char serv[8];
   int errnum;
 
-  if ((request->use_proxy = gftp_need_proxy (request, service,
-                                             proxy_hostname, proxy_port)) < 0)
-    return (request->use_proxy);
-  else if (request->use_proxy == 1)
-    request->hostp = NULL;
+  if ((errnum = gftp_need_proxy (request, service, proxy_hostname,
+                                 proxy_port)) < 0)
+    return (errnum);
+  else
+    {
+      request->use_proxy = errnum;
+      if (request->use_proxy)
+        request->hostp = NULL;
+    }
 
   gftp_lookup_request_option (request, "enable_ipv6", &enable_ipv6);
 
@@ -2180,6 +2183,8 @@ gftp_connect_server (gftp_request * request, char *service,
     return (request->use_proxy);
   else if (request->use_proxy == 1)
     request->hostp = NULL;
+
+  g_return_val_if_fail (sock != -1, GFTP_EFATAL);
 
   if ((sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
@@ -2317,7 +2322,7 @@ print_file_list (GList * list)
 #if defined (_LARGEFILE_SOURCE)
       printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
               tempfle->file, tempfle->destfile, 
-              (long long) tempfle->size, (long long) tempfle->startsize, 
+              tempfle->size, tempfle->startsize, 
               tempfle->user, tempfle->group, attribs);
 #else
       printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
@@ -2340,7 +2345,7 @@ print_file_list (GList * list)
 #if defined (_LARGEFILE_SOURCE)
       printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
               tempfle->file, tempfle->destfile, 
-              (long long) tempfle->size, (long long) tempfle->startsize, 
+              tempfle->size, tempfle->startsize, 
               tempfle->user, tempfle->group, attribs);
 #else
       printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
@@ -2370,11 +2375,12 @@ ssize_t
 gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf, 
                char * str, size_t len, int fd)
 {
-  ssize_t ret, retval, rlen;
-  char *pos, *nextpos;
   ssize_t (*read_function) (gftp_request * request, void *ptr, size_t size,
                             int fd);
+  char *pos, *nextpos;
+  size_t rlen, nslen;
   int end_of_buffer;
+  ssize_t ret;
 
   if (request == NULL || request->read_function == NULL)
     read_function = gftp_fd_read;
@@ -2398,8 +2404,8 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
       (*rbuf)->curpos = (*rbuf)->buffer;
     }
 
-  retval = GFTP_ERETRYABLE;
-  do
+  ret = 0;
+  while (1)
     {
       pos = strchr ((*rbuf)->curpos, '\n');
       end_of_buffer = (*rbuf)->curpos == (*rbuf)->buffer && 
@@ -2409,7 +2415,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
         {
           if (pos != NULL)
             {
-              retval = pos - (*rbuf)->curpos + 1;
+              nslen = pos - (*rbuf)->curpos + 1;
               nextpos = pos + 1;
               if (pos > (*rbuf)->curpos && *(pos - 1) == '\r')
                 pos--;
@@ -2417,22 +2423,24 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
             }
           else
             {
-              retval = (*rbuf)->cur_bufsize;
+              nslen = (*rbuf)->cur_bufsize;
               nextpos = NULL;
 
               /* This is not an overflow since we allocated one extra byte to
                  buffer above */
-              ((*rbuf)->curpos)[retval] = '\0';
+              ((*rbuf)->curpos)[nslen] = '\0';
             }
 
           strncpy (str, (*rbuf)->curpos, len);
           str[len - 1] = '\0';
-          (*rbuf)->cur_bufsize -= retval;
+          (*rbuf)->cur_bufsize -= nslen;
 
           if (nextpos != NULL)
             (*rbuf)->curpos = nextpos;
           else
             (*rbuf)->cur_bufsize = 0;
+
+          ret = nslen;
           break;
         }
       else
@@ -2476,9 +2484,8 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
           (*rbuf)->curpos[(*rbuf)->cur_bufsize] = '\0';
         }
     }
-  while (retval == GFTP_ERETRYABLE);
 
-  return (retval);
+  return (ret);
 }
 
 
@@ -2559,7 +2566,7 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
   struct timeval tv;
   ssize_t w_ret;
   fd_set fset;
-  size_t ret;
+  int ret;
 
   gftp_lookup_request_option (request, "network_timeout", &network_timeout);  
 
@@ -2699,7 +2706,7 @@ gftp_swap_socks (gftp_request * dest, gftp_request * source)
 #endif
     }
 
-  if (dest->swap_socks)
+  if (dest->swap_socks != NULL)
     dest->swap_socks (dest, source);
 }
 
@@ -2711,7 +2718,6 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
   union { intptr_t i; float f; } maxkbs;
   unsigned long waitusecs;
   double start_difftime;
-  gftp_file * tempfle;
   struct timeval tv;
   int waited;
 
@@ -2722,7 +2728,6 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 
   gettimeofday (&tv, NULL);
 
-  tempfle = tdata->curfle->data;
   tdata->trans_bytes += num_read;
   tdata->curtrans += num_read;
   tdata->stalled = 0;

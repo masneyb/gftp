@@ -203,15 +203,15 @@ gftp_read_bookmarks (char *global_data_path)
     {
       len = strlen (buf);
       if (len > 0 && buf[len - 1] == '\n')
-	buf[--len] = '\0';
+        buf[--len] = '\0';
       if (len > 0 && buf[len - 1] == '\r')
-	buf[--len] = '\0';
+        buf[--len] = '\0';
       line++;
 
       if (*buf == '[')
 	{
 	  newentry = g_malloc0 (sizeof (*newentry));
-	  for (; buf[len - 1] == ' ' || buf[len - 1] == ']'; buf[--len] = '\0');
+          for (; buf[len - 1] == ' ' || buf[len - 1] == ']'; buf[--len] = '\0');
 	  newentry->path = g_strdup (buf + 1);
 	  newentry->isfolder = 0;
 	  gftp_add_bookmark (newentry);
@@ -391,17 +391,14 @@ gftp_config_parse_args (char *str, int numargs, int lineno, char **first, ...)
       numargs--;
     }
   va_end (argp);
-  return (1);
+  return (ret);
 }
 
 
 static void *
 gftp_config_read_str (char *buf, int line)
 {
-  char *ret;
-
-  ret = g_strdup (buf);
-  return (ret);
+  return (g_strdup (buf));
 }
 
 
@@ -493,7 +490,7 @@ gftp_config_write_ext (FILE *fd, void *data)
 }
 
 
-gftp_config_list_vars gftp_config_list[] = {
+static gftp_config_list_vars gftp_config_list[] = {
   {"dont_use_proxy",	gftp_config_read_proxy,	gftp_config_write_proxy, 
    NULL, 0,
    N_("This section specifies which hosts are on the local subnet and won't need to go out the proxy server (if available). Syntax: dont_use_proxy=.domain or dont_use_proxy=network number/netmask")},
@@ -1323,10 +1320,10 @@ gftp_set_global_option (const char * key, const void *value)
       newconfigvar.value = nc_ptr;
       newconfigvar.flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
 
-      ret = gftp_option_types[newconfigvar.otype].compare_function (&newconfigvar, tmpconfigvar);
+      ret = gftp_option_types[tmpconfigvar->otype].compare_function (&newconfigvar, tmpconfigvar);
       if (ret != 0)
         {
-          gftp_option_types[newconfigvar.otype].copy_function (&newconfigvar, tmpconfigvar);
+          gftp_option_types[tmpconfigvar->otype].copy_function (&newconfigvar, tmpconfigvar);
           gftp_configuration_changed = 1;
         }
     }
@@ -1351,7 +1348,7 @@ _gftp_set_option_value (gftp_config_vars * cv, const void * newval)
   newconfigvar.value = nc_ptr;
   newconfigvar.flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
 
-  gftp_option_types[newconfigvar.otype].copy_function (&newconfigvar, cv);
+  gftp_option_types[cv->otype].copy_function (&newconfigvar, cv);
 }
 
 
@@ -1417,7 +1414,7 @@ gftp_set_bookmark_option (gftp_bookmarks_var * bm, const char * key,
       memcpy (&newconfigvar.value, &value, sizeof (newconfigvar.value));
       newconfigvar.flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
 
-      ret = gftp_option_types[newconfigvar.otype].compare_function (&newconfigvar, tmpconfigvar);
+      ret = gftp_option_types[tmpconfigvar->otype].compare_function (&newconfigvar, tmpconfigvar);
       if (ret == 0)
         return;
       

@@ -17,10 +17,9 @@
 /*  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA      */
 /*****************************************************************************/
 
-static const char cvsid[] = "$Id$";
-
 #include "gftp.h"
 #include "options.h"
+static const char cvsid[] = "$Id$";
 
 #ifdef HAVE_INTL_PRINTF
 
@@ -28,21 +27,9 @@ char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
   if (dest_str != NULL)
-    {
-#if defined (_LARGEFILE_SOURCE)
-      g_snprintf (dest_str, dest_len, "%'lld", (long long) number);
-#else
-      g_snprintf (dest_str, dest_len, "%'ld", number);
-#endif
-    }
+    g_snprintf (dest_str, dest_len, GFTP_OFF_T_PRINTF_MOD, number);
   else
-    {
-#if defined (_LARGEFILE_SOURCE)
-      dest_str = g_strdup_printf ("%'lld", (long long) number);
-#else
-      dest_str = g_strdup_printf ("%'ld", number);
-#endif
-    }
+    dest_str = g_strdup_printf (GFTP_OFF_T_PRINTF_MOD, number);
 
   return (dest_str);
 }
@@ -56,11 +43,7 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   size_t num, rem, srclen;
   int len, i;
 
-#if defined (_LARGEFILE_SOURCE)
-  g_snprintf (src, sizeof (src), "%lld", (long long) number);
-#else
-  g_snprintf (src, sizeof (src), "%ld", number);
-#endif
+  g_snprintf (src, sizeof (src), GFTP_OFF_T_PRINTF_MOD, number);
 
   if (dest_str != NULL)
     *dest_str = '\0';
@@ -890,7 +873,7 @@ gftp_gen_ls_string (gftp_file * fle, char *file_prefixstr, char *file_suffixstr)
   else
     {
 #if defined (_LARGEFILE_SOURCE)
-      tempstr2 = g_strdup_printf ("%11lld", (long long) fle->size);
+      tempstr2 = g_strdup_printf ("%11lld", fle->size);
 #else
       tempstr2 = g_strdup_printf ("%11ld", fle->size);
 #endif

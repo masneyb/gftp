@@ -103,7 +103,7 @@
 
 #ifdef HAVE_GETADDRINFO
 #define HAVE_IPV6
-#define GFTP_GET_AI_FAMILY(request)	(request != NULL && request->hostp != NULL ? request->hostp->ai_family : -1)
+#define GFTP_GET_AI_FAMILY(request)	((request) != NULL && (request)->hostp != NULL ? (request)->hostp->ai_family : -1)
 #else
 #define GFTP_GET_AI_FAMILY(request)	AF_INET
 #endif
@@ -155,6 +155,12 @@
 # define GFTP_LOG_FUNCTION_ATTRIBUTES __attribute__((format(printf, 3, 4)))
 #else
 # define GFTP_LOG_FUNCTION_ATTRIBUTES
+#endif
+
+#if defined (_LARGEFILE_SOURCE)
+#define GFTP_OFF_T_PRINTF_MOD	"%'lld"
+#else
+#define GFTP_OFF_T_PRINTF_MOD	"%'ld"
 #endif
 
 /* Server types (used by FTP protocol from SYST command) */
@@ -582,7 +588,7 @@ typedef struct gftp_file_extensions_tag
         *filename,              /* The xpm file to display */
         *view_program,          /* The program used to view this file */
         *ascii_binary;          /* Is this a ASCII transfer or a BINARY transfer */
-   int stlen;                   /* How long is the file extension. */
+   unsigned int stlen;          /* How long is the file extension. */
 } gftp_file_extensions;
 
 
@@ -957,7 +963,7 @@ int gftp_get_all_subdirs 		( gftp_transfer * transfer,
 int gftp_connect_server 		( gftp_request * request, 
 					  char *service,
 					  char *proxy_hostname,
-					  int proxy_port );
+					  unsigned int proxy_port );
 
 #if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
 

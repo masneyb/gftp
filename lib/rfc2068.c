@@ -147,7 +147,13 @@ rfc2068_read_response (gftp_request * request)
                                 sizeof (tempstr), request->datafd)) < 0)
         return (ret);
 
-      if (sscanf ((char *) tempstr, "%lx", &params->chunk_size) != 1)
+#ifdef _LARGEFILE_SOURCE
+      ret = sscanf (tempstr, "%llx", &params->chunk_size);
+#else
+      ret = sscanf (tempstr, "%lx", &params->chunk_size);
+#endif
+
+      if (ret != 1)
         {
           request->logging_function (gftp_logging_recv, request,
                                      _("Received wrong response from server, disconnecting\nInvalid chunk size '%s' returned by the remote server\n"), 
@@ -445,7 +451,6 @@ rfc2068_list_files (gftp_request * request)
 static off_t 
 rfc2068_get_file_size (gftp_request * request, const char *filename)
 {
-  rfc2068_params *params;
   char *tempstr, *hf;
   intptr_t use_http11;
   off_t size;
@@ -453,7 +458,6 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
-  params = request->protocol_data;
   gftp_lookup_request_option (request, "use_http11", &use_http11);
 
   hf = gftp_build_path (request->hostname, filename, NULL);
@@ -718,6 +722,8 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
   char *stpos, *crlfpos;
   void *read_ptr_pos;
   ssize_t retval;
+  size_t sret;
+  int ret;
 
   params = request->protocol_data;
   params->read_ref_cnt++;
@@ -777,9 +783,8 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           params->read_ref_cnt--;
           return (retval);
         }
-      else if (retval > 0)
-        params->read_bytes += retval;
 
+      params->read_bytes += retval;
       if (params->chunk_size > 0)
         {
           params->chunk_size -= retval;
@@ -787,23 +792,23 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           return (retval);
         }
 
-      retval += begin_ptr_len;
+      sret = retval + begin_ptr_len;
     }
   else
-    retval = begin_ptr_len;
+    sret = begin_ptr_len;
 
-  ((char *) ptr)[retval] = '\0';
+  ((char *) ptr)[sret] = '\0';
 
   if (!params->chunked_transfer)
     {
       params->read_ref_cnt--;
-      return (retval);
+      return (sret);
     }
 
   stpos = (char *) ptr;
   while (params->chunk_size == 0)
     {
-      current_size = retval - (stpos - (char *) ptr);
+      current_size = sret - (stpos - (char *) ptr);
       if (current_size == 0)
         break;
 
@@ -821,9 +826,9 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           memcpy (params->extra_read_buffer, stpos, current_size);
           params->extra_read_buffer[current_size] = '\0';
           params->extra_read_buffer_len = current_size;
-          retval -= current_size;
+          sret -= current_size;
 
-          if (retval == 0)
+          if (sret == 0)
             {
               /* Don't let a hostile web server send us in an infinite recursive
                  loop */
@@ -837,16 +842,26 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
                 }
 
               retval = rfc2068_chunked_read (request, ptr, size, fd);
+              if (retval < 0)
+                return (retval);
+
+              sret = retval;
             }
 
           params->read_ref_cnt--;
-          return (retval);
+          return (sret);
         }
 
       *crlfpos = '\0';
       crlfpos++; /* advance to line feed */
 
-      if (sscanf (stpos + 2, "%lx", &params->chunk_size) != 1)
+#ifdef _LARGEFILE_SOURCE
+      ret = sscanf (stpos + 2, "%llx", &params->chunk_size);
+#else
+      ret = sscanf (stpos + 2, "%lx", &params->chunk_size);
+#endif
+
+      if (ret != 1)
         {
           request->logging_function (gftp_logging_recv, request,
                                      _("Received wrong response from server, disconnecting\nInvalid chunk size '%s' returned by the remote server\n"), 
@@ -856,8 +871,8 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           return (GFTP_EFATAL);
         }
 
-      crlfsize = crlfpos - (char *) stpos + 1;
-      retval -= crlfsize;
+      crlfsize = crlfpos - stpos + 1;
+      sret -= crlfsize;
       current_size -= crlfsize;
 
       if (params->chunk_size == 0)
@@ -870,7 +885,7 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
 
           params->eof = 1;
           params->read_ref_cnt--;
-          return (retval);
+          return (sret);
         }
 
       memmove (stpos, crlfpos + 1, current_size + 1);
@@ -885,7 +900,7 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
     }
 
   params->read_ref_cnt--;
-  return (retval);
+  return (sret);
 }
 
 

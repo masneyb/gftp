@@ -539,7 +539,8 @@ local_set_file_time (gftp_request * request, const char *file,
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
-  time_buf.modtime = time_buf.actime = datetime;
+  time_buf.modtime = datetime;
+  time_buf.actime = datetime;
   return (utime (file, &time_buf) == 0 ? 0 : GFTP_ERETRYABLE);
 }
 

@@ -57,7 +57,7 @@ typedef struct sshv2_attribs_tag
 
 typedef struct sshv2_message_tag
 {
-  gint32 length;
+  guint32 length;
   char command;
   char *buffer,
        *pos,
@@ -154,7 +154,7 @@ static char *
 sshv2_initialize_string (gftp_request * request, size_t len)
 {
   sshv2_params * params;
-  gint32 num;
+  guint32 num;
   char *ret;
 
   params = request->protocol_data;
@@ -170,7 +170,7 @@ sshv2_initialize_string (gftp_request * request, size_t len)
 static void
 sshv2_add_string_to_buf (char *buf, const char *str)
 {
-  gint32 num;
+  guint32 num;
 
   num = htonl (strlen (str));
   memcpy (buf, &num, 4);
@@ -511,7 +511,7 @@ static void
 sshv2_log_command (gftp_request * request, gftp_logging_level level,
                    char type, char *message, size_t length)
 {
-  gint32 id, num, attr, stattype;
+  guint32 id, num, attr, stattype;
   char *descr, *pos, oldchar;
   sshv2_params * params;
 
@@ -671,7 +671,7 @@ sshv2_send_command (gftp_request * request, char type, char *command,
                     size_t len)
 {
   char buf[34000];
-  gint32 clen;
+  guint32 clen;
   int ret;
 
   if (len > 33995)
@@ -722,7 +722,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
   while (rem > 0)
     {
       if ((numread = gftp_fd_read (request, pos, rem, fd)) < 0)
-        return ((int) numread);
+        return (numread);
       rem -= numread;
       pos += numread;
     }
@@ -774,7 +774,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
   while (rem > 0)
     {
       if ((numread = gftp_fd_read (request, pos, rem, fd)) < 0)
-        return ((int) numread);
+        return (numread);
       rem -= numread;
       pos += numread;
     }
@@ -844,11 +844,11 @@ sshv2_read_status_response (gftp_request * request, sshv2_message * message,
 }
 
 
-static gint32
+static gint32 /* FIXME - return value */
 sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
                         int expected_response)
 {
-  gint32 ret;
+  guint32 ret;
 
   if (message->end - message->pos < 4)
     return (sshv2_wrong_response (request, message));
@@ -950,10 +950,11 @@ sshv2_free_args (char **args)
 static int
 sshv2_connect (gftp_request * request)
 {
-  int version, ret, fdm, ptymfd;
   struct servent serv_struct;
   sshv2_params * params;
   sshv2_message message;
+  int ret, fdm, ptymfd;
+  guint32 version;
   char **args;
   pid_t child;
 
@@ -1076,7 +1077,7 @@ sshv2_end_transfer (gftp_request * request)
 {
   sshv2_params * params;
   sshv2_message message;
-  gint32 len;
+  guint32 len;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1124,7 +1125,7 @@ sshv2_list_files (gftp_request * request)
   sshv2_params * params;
   sshv2_message message;
   char *tempstr;
-  gint32 len;
+  size_t len;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1254,7 +1255,7 @@ sshv2_decode_file_attributes (gftp_request * request, sshv2_message * message,
 static int
 sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
-  gint32 len, longnamelen;
+  guint32 len, longnamelen;
   sshv2_params *params;
   int ret, retsize;
   char *longname;
@@ -1489,7 +1490,7 @@ sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
   char *tempstr, *endpos, buf[10];
   sshv2_params * params;
   sshv2_message message;
-  gint32 num;
+  guint32 num;
   size_t len;
   int ret;
 
@@ -1633,7 +1634,7 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
   char *tempstr, *endpos;
   sshv2_params * params;
   sshv2_message message;
-  gint32 num;
+  guint32 num;
   size_t len;
   int ret;
 
@@ -1679,7 +1680,7 @@ sshv2_send_stat_command (gftp_request * request, const char *filename,
 {
   sshv2_message message;
   char *tempstr;
-  gint32 len;
+  size_t len;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1760,8 +1761,8 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
   char *tempstr, *endpos;
   sshv2_params * params;
   sshv2_message message;
+  guint32 num;
   size_t len;
-  gint32 num;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1816,8 +1817,7 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
   char *tempstr, *endpos;
   sshv2_params * params;
   sshv2_message message;
-  size_t len;
-  gint32 num;
+  size_t len, num;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1873,7 +1873,7 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   sshv2_params * params;
   sshv2_message message;
-  gint32 num;
+  guint32 num;
   int ret;
 
 #ifdef G_HAVE_GINT64
@@ -1960,7 +1960,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   sshv2_params * params;
   sshv2_message message;
   char tempstr[32768];
-  gint32 num;
+  guint32 num;
   size_t len;
   int ret;
 
