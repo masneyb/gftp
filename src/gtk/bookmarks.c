@@ -41,15 +41,15 @@ run_bookmark (gpointer data)
       return;
     }
 
+  if (GFTP_IS_CONNECTED (current_wdata->request))
+    disconnect (current_wdata);
+
   if (gftp_parse_bookmark (current_wdata->request, other_wdata->request,
                            (char *) data, &refresh_local) < 0)
     return;
 
   if (refresh_local)
     refresh (other_wdata);
-
-  if (GFTP_IS_CONNECTED (current_wdata->request))
-    disconnect (current_wdata);
 
   ftp_connect (current_wdata, current_wdata->request, 1);
 }
