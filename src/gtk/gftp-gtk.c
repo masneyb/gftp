@@ -512,11 +512,7 @@ CreateMenus (GtkWidget * parent)
 
   build_bookmarks_menu ();
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
-  gtk_accel_group_attach (accel_group, GTK_OBJECT (parent));
-#else
-  _gtk_accel_group_attach (accel_group, G_OBJECT (parent));
-#endif
+  gtk_window_add_accel_group (GTK_WINDOW (parent), accel_group);
 
   tempwid = gtk_item_factory_get_widget (factory, menu_items[6].path);
   gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);

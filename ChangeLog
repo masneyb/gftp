@@ -1,4 +1,10 @@
 2002-10-30 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.c (CreateMenus) - no longer use depreciated
+	_gtk_accel_group_attach in GTK+ 2.0 port. Instead use 
+	gtk_window_add_accel_group for both GTK+ ports 
+	(from Nam SungHyun <namsh@kldp.org>)
+
+2002-10-30 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c (getdir_thread) - set use_jmp_environment to 0		instead of 1
 
 	* src/gtk/misc-gtk.c (signal_handler) - if use_jmp_environment is 0,
