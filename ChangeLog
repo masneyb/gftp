@@ -1,4 +1,10 @@
 2003-1-4 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (gftp_parse_command_line) - unified this function so that
+	it is consistent for all arguments.
+
+	* lib/protocols.c (gftp_file_destroy) - fixed memory leak (utf8_file
+	was not being freed)
+
 	* docs/gftp-faq.sgml - updated link to the (old) threaded version of
 	XFree86 libraries
 

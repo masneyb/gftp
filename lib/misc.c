@@ -388,17 +388,20 @@ gftp_parse_command_line (int *argc, char ***argv)
     {
       if (strcmp (argv[0][1], "--help") == 0 || 
           strcmp (argv[0][1], "-h") == 0)
-	gftp_usage ();
+        {
+          gftp_usage ();
+          exit (0);
+        }
       else if (strcmp (argv[0][1], "--version") == 0 || 
                strcmp (argv[0][1], "-v") == 0)
 	{
-	  printf ("%s\n", gftp_version);
-	  exit (0);
+          printf ("%s\n", gftp_version);
+          exit (0);
 	}
       else if (strcmp (argv[0][1], "--info") == 0)
 	{
           gftp_info ();
-	  exit (0);
+          exit (0);
 	}
     }
   return (0);

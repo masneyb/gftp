@@ -106,6 +106,8 @@ gftp_file_destroy (gftp_file * file)
 
   if (file->file)
     g_free (file->file);
+  if (file->utf8_file)
+    g_free (file->utf8_file);
   if (file->user)
     g_free (file->user);
   if (file->group)
