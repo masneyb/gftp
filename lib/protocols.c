@@ -1000,6 +1000,8 @@ gftp_chmod (gftp_request * request, const char *file, mode_t mode)
 
   if (request->chmod == NULL)
     return (GFTP_EFATAL);
+
+  mode &= S_IRWXU | S_IRWXG | S_IRWXO | S_ISUID | S_ISGID | S_ISVTX;
   return (request->chmod (request, file, mode));
 }
 

@@ -1447,7 +1447,8 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
       if (!curfle->is_fd && preserve_permissions)
         {
           if (curfle->st_mode != 0)
-            gftp_chmod (tdata->toreq, curfle->destfile, curfle->st_mode);
+            gftp_chmod (tdata->toreq, curfle->destfile,
+                        curfle->st_mode & (S_IRWXU | S_IRWXG | S_IRWXO));
 
           if (curfle->datetime != 0)
             gftp_set_file_time (tdata->toreq, curfle->destfile,

@@ -504,27 +504,21 @@ local_rename (gftp_request * request, const char *oldname,
 static int
 local_chmod (gftp_request * request, const char *file, mode_t mode)
 {
-  char buf[10];
-  int newmode;
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
-  g_snprintf (buf, sizeof (buf), "%d", mode);
-  newmode = strtol (buf, NULL, 8);
-
-  if (chmod (file, newmode) == 0) 
+  if (chmod (file, mode) == 0) 
     {
       request->logging_function (gftp_logging_misc, request, 
-                                 _("Successfully changed mode of %s to %d\n"),
+                                 _("Successfully changed mode of %s to %o\n"),
                                  file, mode);
       return (0);
     }
   else 
     {
       request->logging_function (gftp_logging_error, request, 
-                          _("Error: Could not change mode of %s to %d: %s\n"),
+                          _("Error: Could not change mode of %s to %o: %s\n"),
                           file, mode, g_strerror (errno));
       return (GFTP_ERETRYABLE);
     }

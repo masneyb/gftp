@@ -1659,13 +1659,15 @@ static int
 rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
 {
   char *tempstr, ret;
+  size_t len;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  tempstr = g_malloc (strlen (file) + (mode / 10) + 16);
-  sprintf (tempstr, "SITE CHMOD %d %s\r\n", mode, file);
+  len = strlen (file) + (mode / 10) + 20;
+  tempstr = g_malloc (len);
+  snprintf (tempstr, len, "SITE CHMOD %o %s\r\n", mode, file);
   ret = rfc959_send_command (request, tempstr, 1);
   g_free (tempstr);
 
