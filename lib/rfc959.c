@@ -71,6 +71,11 @@ static gftp_config_vars config_vars[] =
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."),
    GFTP_PORT_ALL, NULL},
+  {"pasv_behind_router", N_("PASV Host Behind Router"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
+   N_("If this is enabled, then the remote FTP server's PASV IP address field will be ignored and the host's IP address will be used instead. This is often needed for routers giving their internal rather then their external IP address in a PASV reply."),
+   GFTP_PORT_ALL, NULL},
   {"resolve_symlinks", N_("Resolve Remote Symlinks (LIST -L)"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
@@ -623,6 +628,7 @@ static int
 rfc959_ipv4_data_connection_new (gftp_request * request)
 {
   struct sockaddr_in data_addr;
+  intptr_t pasv_behind_router;
   char *pos, *pos1, *command;
   intptr_t passive_transfer;
   rfc959_parms * parms;
@@ -694,8 +700,30 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       for (i = 0; i < 6; i++)
         ad[i] = (unsigned char) (temp[i] & 0xff);
 
-      memcpy (&data_addr.sin_addr, &ad[0], 4);
       memcpy (&data_addr.sin_port, &ad[4], 2);
+
+      gftp_lookup_request_option (request, "pasv_behind_router",
+                                  &pasv_behind_router);
+      if (pasv_behind_router)
+	{
+#if defined (HAVE_GETADDRINFO)
+          memcpy (&data_addr.sin_addr,
+                  &((struct sockaddr_in *) request->current_hostp->ai_addr)->sin_addr,
+                  sizeof (data_addr.sin_addr));
+#else
+          memcpy (&data_addr.sin_addr, request->hostp->h_addr_list[request->curhost],
+                  request->hostp->h_length);
+#endif
+
+          pos = (char *) &data_addr.sin_addr;
+          request->logging_function (gftp_logging_misc, request,
+               _("Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"),
+               pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff, pos[3] & 0xff,
+               ntohs (data_addr.sin_port));
+        }
+      else
+        memcpy (&data_addr.sin_addr, &ad[0], 4);
+
       if (connect (parms->data_connection, (struct sockaddr *) &data_addr, 
                    data_addr_len) == -1)
         {

@@ -1,4 +1,10 @@
 2004-12-12 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c - added pasv_behind_router option. If this is enabled,
+	then the IP address that is in the PASV response will be ignored.
+	Instead the IP address of the remote host will be used. This is a patch
+	from Jasper van Veghel <vanveghel@home.nl> that I made some changes to
+	(closes #161037)
+
 	* lib/gftp.h lib/protocols.c (gftp_connect_server) - if getaddrinfo()
 	is not defined in the system, save the current index of the host that we
 	are connected to
