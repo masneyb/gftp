@@ -337,28 +337,39 @@ gftp_text_open (gftp_request * request, char *command, gpointer *data)
 
   if (request->username == NULL)
     {
-      if ((pos = gftp_text_ask_question ("Username [anonymous]", 1, tempstr, 
-                                         sizeof (tempstr))) != NULL)
+      if (request->need_userpass)
         {
-          gftp_set_username (request, pos);
-          if (request->password)
+          if ((pos = gftp_text_ask_question ("Username [anonymous]", 1, tempstr, 
+                                             sizeof (tempstr))) != NULL)
             {
-              g_free (request->password);
-              request->password = NULL;
+              gftp_set_username (request, pos);
+              if (request->password)
+                {
+                  g_free (request->password);
+                  request->password = NULL;
+                }
+            }
+          else
+            gftp_set_username (request, "anonymous");
+
+          if (strcmp (request->username, "anonymous") != 0 && 
+              (request->password == NULL || *request->password == '\0'))
+            {
+              if ((pos = gftp_text_ask_question ("Password", 0, tempstr, 
+                                                 sizeof (tempstr))) == NULL)
+                return (1);
+              gftp_set_password (request, pos);
             }
         }
       else
-        gftp_set_username (request, "anonymous");
+        {
+          request->username = g_strdup ("");
+          if (request->password != NULL)
+            g_free (request->password);
+          request->password = g_strdup ("");
+        }
     }
 
-  if (strcmp (request->username, "anonymous") != 0 && 
-      (request->password == NULL || *request->password == '\0'))
-    {
-      if ((pos = gftp_text_ask_question ("Password", 0, tempstr, 
-                                         sizeof (tempstr))) == NULL)
-        return (1);
-      gftp_set_password (request, pos);
-    }
 
   gftp_connect (request);
   return (1);

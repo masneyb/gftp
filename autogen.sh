@@ -71,7 +71,7 @@ case $CC in
 *xlc | *xlc\ * | *lcc | *lcc\ *) am_opt=--include-deps;;
 esac
 
-gettextize -f -c 
+gettextize -f -c --intl
 
 aclocal-1.4 $ACLOCAL_FLAGS
 
