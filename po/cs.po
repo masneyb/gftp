@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-03 03:33+0100\n"
-"PO-Revision-Date: 2004-03-03 13:30+0100\n"
+"POT-Creation-Date: 2004-03-18 03:32+0100\n"
+"PO-Revision-Date: 2004-03-18 19:29+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,17 +47,17 @@ msgstr "Chyba při zavírání deskriptoru souboru: %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Chyba: Nemohu se posunout v souboru %s: %s\n"
 
-#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2750
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2735
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Chyba: Nemohu otevřít místní soubor %s: %s\n"
 
-#: lib/config_file.c:134 lib/protocols.c:2455 lib/sslcommon.c:479
+#: lib/config_file.c:134 lib/protocols.c:2440 lib/sslcommon.c:480
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Chyba: Nemohu zapisovat do socketu: %s\n"
 
-#: lib/config_file.c:142 lib/protocols.c:2383 lib/sslcommon.c:433
+#: lib/config_file.c:142 lib/protocols.c:2368 lib/sslcommon.c:434
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Chyba: Nemohu číst ze socketu: %s\n"
@@ -194,7 +194,7 @@ msgstr ""
 "Fatální chyba gFTP: Možnost konfigurace '%s' nenalezena v globální hašovací "
 "tabulce\n"
 
-#: lib/ftps.c:139
+#: lib/ftps.c:137
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
@@ -236,7 +236,7 @@ msgid "Successfully changed local directory to %s\n"
 msgstr "Místní adresář úspěšně změněn na %s\n"
 
 #: lib/local.c:481 lib/local.c:504 src/gtk/transfer.c:229
-#: src/gtk/view_dialog.c:316
+#: src/gtk/view_dialog.c:328
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "Úspěšně odstraněn %s\n"
@@ -246,7 +246,7 @@ msgstr "Úspěšně odstraněn %s\n"
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Chyba: Nemohu odstranit adresář %s: %s\n"
 
-#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:320
+#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:332
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Chyba: Nemohu odstranit soubor %s: %s\n"
@@ -452,68 +452,76 @@ msgid "Show the file transfer status in the titlebar"
 msgstr "Zobrazovat stav přenosu v titulku"
 
 #: lib/options.h:91
+msgid "Start file transfers"
+msgstr "Spouštět přenosy souborů"
+
+#: lib/options.h:93
+msgid "Automatically start the file transfers when they get queued"
+msgstr "Automaticky spouštět přenosy souborů, když jsou zařazeny do fronty"
+
+#: lib/options.h:95
 msgid "Allow manual commands in GUI"
 msgstr "Povolit ruční příkazy v GUI"
 
-#: lib/options.h:93
+#: lib/options.h:97
 msgid ""
 "Allow entering manual commands in the GUI (functions like the text port)"
 msgstr "Povolit ruční zadávání příkazů v GUI (funguje jako textový port)"
 
-#: lib/options.h:95 src/gtk/options_dialog.c:1051
+#: lib/options.h:99 src/gtk/options_dialog.c:1051
 #: src/gtk/options_dialog.c:1144
 msgid "Network"
 msgstr "Síť"
 
-#: lib/options.h:97
+#: lib/options.h:101
 msgid "Network timeout:"
 msgstr "Časový limit pro síť"
 
-#: lib/options.h:100
+#: lib/options.h:104
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "Časový limit pro čekání na vstup/výstup po síti. Toto NENÍ časový limit "
 "nečinnosti."
 
-#: lib/options.h:102
+#: lib/options.h:106
 msgid "Connect retries:"
 msgstr "Opakování spojení:"
 
-#: lib/options.h:105
+#: lib/options.h:109
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
 msgstr ""
 "Počet automatických pokusů o spojení. Pro neustálé opakování nastavte na 0"
 
-#: lib/options.h:107
+#: lib/options.h:111
 msgid "Retry sleep time:"
 msgstr "Opakovat spojení za:"
 
-#: lib/options.h:110
+#: lib/options.h:114
 msgid "The number of seconds to wait between retries"
 msgstr "Počet sekund čekání mezi pokusy"
 
-#: lib/options.h:111
+#: lib/options.h:115
 msgid "Max KB/S:"
 msgstr "Max KB/s:"
 
-#: lib/options.h:114
+#: lib/options.h:118
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr "Maximum KB/s pro přenos souborů. (Zakážete nastavením na 0)"
 
-#: lib/options.h:117
+#: lib/options.h:121
 msgid "Default Protocol:"
 msgstr "Implicitní protokol:"
 
-#: lib/options.h:119
+#: lib/options.h:123
 msgid "This specifies the default protocol to use"
 msgstr "Toto určuje implicitně používaný protokol"
 
-#: lib/options.h:121 lib/options.h:124
+#: lib/options.h:125 lib/options.h:128
 msgid "Enable IPv6 support"
 msgstr "Povolit podporu IPv6"
 
-#: lib/options.h:129
+#: lib/options.h:133
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -521,27 +529,27 @@ msgstr ""
 "Definuje, co se stane, když dvakrát kliknete na soubor v listboxech "
 "souborů. 0=Zobrazit soubor 1=Upravit soubor 2=Přenést soubor"
 
-#: lib/options.h:132
+#: lib/options.h:136
 msgid "The default width of the local files listbox"
 msgstr "Implicitní šířka listboxu místních souborů"
 
-#: lib/options.h:135
+#: lib/options.h:139
 msgid "The default width of the remote files listbox"
 msgstr "Implicitní šířka listboxu vzdálených souborů"
 
-#: lib/options.h:138
+#: lib/options.h:142
 msgid "The default height of the local/remote files listboxes"
 msgstr "Implicitní výška listboxů místních/vzdálených souborů"
 
-#: lib/options.h:141
+#: lib/options.h:145
 msgid "The default height of the transfer listbox"
 msgstr "Implicitní výška listboxu přenosu"
 
-#: lib/options.h:144
+#: lib/options.h:148
 msgid "The default height of the logging window"
 msgstr "Implicitní výška okna záznamu"
 
-#: lib/options.h:147
+#: lib/options.h:151
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -549,15 +557,15 @@ msgstr ""
 "Šířka sloupce jméno souboru v okně přenosu. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0."
 
-#: lib/options.h:151 lib/options.h:157
+#: lib/options.h:155 lib/options.h:161
 msgid "The default column to sort by"
 msgstr "Implicitní sloupec, podle kterého třídit"
 
-#: lib/options.h:154 lib/options.h:160
+#: lib/options.h:158 lib/options.h:164
 msgid "Sort ascending or descending"
 msgstr "Třídit vzestupně nebo sestupně"
 
-#: lib/options.h:164 lib/options.h:182
+#: lib/options.h:168 lib/options.h:186
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -565,7 +573,7 @@ msgstr ""
 "Šířka sloupce jméno souboru v listboxech souborů. Sloupec necháte "
 "automagicky měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:167 lib/options.h:185
+#: lib/options.h:171 lib/options.h:189
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -573,7 +581,7 @@ msgstr ""
 "Šířka sloupce velikost v listboxech souborů. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:170 lib/options.h:188
+#: lib/options.h:174 lib/options.h:192
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -581,7 +589,7 @@ msgstr ""
 "Šířka sloupce uživatel v listboxech souborů. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:173 lib/options.h:191
+#: lib/options.h:177 lib/options.h:195
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -589,7 +597,7 @@ msgstr ""
 "Šířka sloupce skupina v listboxech souborů. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:176 lib/options.h:194
+#: lib/options.h:180 lib/options.h:198
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -597,7 +605,7 @@ msgstr ""
 "Šířka sloupce datum v listboxech souborů. Sloupec necháte automagicky měnit "
 "velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:179 lib/options.h:197
+#: lib/options.h:183 lib/options.h:201
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -605,47 +613,47 @@ msgstr ""
 "Šířka sloupce atributy v listboxech souborů. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:200
+#: lib/options.h:204
 msgid "The color of the commands that are sent to the server"
 msgstr "Barva příkazů posílaných na server"
 
-#: lib/options.h:203
+#: lib/options.h:207
 msgid "The color of the commands that are received from the server"
 msgstr "Barva příkazů přijímaných ze serveru"
 
-#: lib/options.h:206
+#: lib/options.h:210
 msgid "The color of the error messages"
 msgstr "Barva chybových zpráv"
 
-#: lib/options.h:209
+#: lib/options.h:213
 msgid "The color of the rest of the log messages"
 msgstr "Barva ostatních zpráv záznamu"
 
-#: lib/options.h:215 lib/rfc959.c:40
+#: lib/options.h:219 lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:218 lib/options.h:220
+#: lib/options.h:222 lib/options.h:224
 msgid "FTPS"
 msgstr "FTPS"
 
-#: lib/options.h:223 lib/rfc2068.c:27
+#: lib/options.h:227 lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:226 lib/options.h:228
+#: lib/options.h:230 lib/options.h:232
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: lib/options.h:231
+#: lib/options.h:235
 msgid "Local"
 msgstr "Místní"
 
-#: lib/options.h:233
+#: lib/options.h:237
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:235 src/gtk/bookmarks.c:858
+#: lib/options.h:239 src/gtk/bookmarks.c:882
 msgid "Bookmark"
 msgstr "Záložka"
 
@@ -659,104 +667,104 @@ msgstr "Přenos souborů bude omezen na %.2f KB/s\n"
 msgid "Loading directory listing %s from cache\n"
 msgstr "Načítám výpis adresáře %s z cache\n"
 
-#: lib/protocols.c:546
+#: lib/protocols.c:530
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Chyba: Nemohu zapisovat do cache: %s\n"
 
-#: lib/protocols.c:578
+#: lib/protocols.c:562
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Chyba: Nemohu najít záložku %s\n"
 
-#: lib/protocols.c:585
+#: lib/protocols.c:569
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Chyba záložek: Položka záložek %s nemá jméno počítače\n"
 
-#: lib/protocols.c:693
+#: lib/protocols.c:678
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Protokol '%s' není momentálně podporován.\n"
 
-#: lib/protocols.c:1036 lib/protocols.c:1051 lib/protocols.c:1974
-#: lib/protocols.c:2083
+#: lib/protocols.c:1021 lib/protocols.c:1036 lib/protocols.c:1959
+#: lib/protocols.c:2068
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Vyhledávám %s\n"
 
-#: lib/protocols.c:1042 lib/protocols.c:1057 lib/protocols.c:1979
-#: lib/protocols.c:2088
+#: lib/protocols.c:1027 lib/protocols.c:1042 lib/protocols.c:1964
+#: lib/protocols.c:2073
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Nemohu vyhledat jméno počítače %s: %s\n"
 
-#: lib/protocols.c:1348 lib/protocols.c:1349 lib/protocols.c:1390
-#: lib/protocols.c:1391 lib/protocols.c:1450 lib/protocols.c:1457
-#: lib/protocols.c:1536 lib/protocols.c:1537 lib/protocols.c:1571
+#: lib/protocols.c:1333 lib/protocols.c:1334 lib/protocols.c:1375
+#: lib/protocols.c:1376 lib/protocols.c:1435 lib/protocols.c:1442
+#: lib/protocols.c:1521 lib/protocols.c:1522 lib/protocols.c:1556
 msgid "unknown"
 msgstr "neznámý"
 
-#: lib/protocols.c:1997
+#: lib/protocols.c:1982
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Nemohu vytvořit socket: %s\n"
 
-#: lib/protocols.c:2003 lib/protocols.c:2102
+#: lib/protocols.c:1988 lib/protocols.c:2087
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Zkouším %s:%d\n"
 
-#: lib/protocols.c:2008 lib/protocols.c:2109
+#: lib/protocols.c:1993 lib/protocols.c:2094
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Nemohu se připojit k %s: %s\n"
 
-#: lib/protocols.c:2040 lib/rfc959.c:626
+#: lib/protocols.c:2025 lib/rfc959.c:623
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Nemohu vytvořit socket IPv4: %s\n"
 
-#: lib/protocols.c:2064 lib/sshv2.c:898
+#: lib/protocols.c:2049 lib/sshv2.c:898
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Nemohu vyhledat název služby %s/tcp. Zkontrolujte prosím svůj soubor "
 "services\n"
 
-#: lib/protocols.c:2126 lib/protocols.c:2759 lib/rfc959.c:635 lib/rfc959.c:785
+#: lib/protocols.c:2111 lib/protocols.c:2744 lib/rfc959.c:632 lib/rfc959.c:782
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Chyba: Nemohu nastavit příznak zavření při exec: %s\n"
 
-#: lib/protocols.c:2133
+#: lib/protocols.c:2118
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Připojen k %s:%d\n"
 
-#: lib/protocols.c:2363 lib/protocols.c:2434
+#: lib/protocols.c:2348 lib/protocols.c:2419
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Spojení s %s vypršel čas\n"
 
-#: lib/protocols.c:2503
+#: lib/protocols.c:2488
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Nemohu získat nastavení socketu: %s\n"
 
-#: lib/protocols.c:2517
+#: lib/protocols.c:2502
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Nemohu nastavit socket na neblokující: %s\n"
 
-#: lib/protocols.c:2653
+#: lib/protocols.c:2638
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Chyba: Vzdálený počítač %s odpojen. Max. počet opakování vyčerpán...vzdávám "
 "to\n"
 
-#: lib/protocols.c:2661
+#: lib/protocols.c:2646
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Chyba: Vzdálený počítač %s odpojen. Připojím se znovu za %d sekund\n"
@@ -821,7 +829,7 @@ msgstr "Používat HTTP/1.1"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Chcete používat HTTP/1.1 nebo HTTP/1.0"
 
-#: lib/rfc2068.c:153 lib/rfc2068.c:856
+#: lib/rfc2068.c:153 lib/rfc2068.c:853
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -830,7 +838,7 @@ msgstr ""
 "Přijal jsem špatnou odpověď od serveru, odpojuji se\n"
 "Vzdáleným serverem vrácena neplatná velikost úseku '%s'\n"
 
-#: lib/rfc2068.c:257 lib/rfc959.c:595 lib/sshv2.c:995
+#: lib/rfc2068.c:257 lib/rfc959.c:592 lib/sshv2.c:995
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Odpojuji se od %s\n"
@@ -854,7 +862,7 @@ msgstr "Nemohu získat soubor %s\n"
 msgid "Retrieving directory listing...\n"
 msgstr "Získávám výpis adresáře...\n"
 
-#: lib/rfc2068.c:837 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
+#: lib/rfc2068.c:834 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
 #: lib/sshv2.c:819 lib/sshv2.c:951 lib/sshv2.c:1042 lib/sshv2.c:1110
 #: lib/sshv2.c:1223 lib/sshv2.c:1236 lib/sshv2.c:1249 lib/sshv2.c:1262
 #: lib/sshv2.c:1318 lib/sshv2.c:1383 lib/sshv2.c:1843 lib/sshv2.c:1946
@@ -985,67 +993,67 @@ msgstr ""
 "souborech jinak. Pokud přenášíte z UNIXu na UNIX, je bezpečné nechat toto "
 "vypnuté. Pokud stahujete binární data, budete toto chtít zakázat."
 
-#: lib/rfc959.c:314 lib/rfc959.c:323 lib/rfc959.c:334 lib/rfc959.c:534
-#: lib/rfc959.c:749 lib/rfc959.c:1336
+#: lib/rfc959.c:314 lib/rfc959.c:323 lib/rfc959.c:334 lib/rfc959.c:746
+#: lib/rfc959.c:1336
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Od serveru přijata neplatná odpověď '%c'.\n"
 
-#: lib/rfc959.c:664 lib/rfc959.c:674
+#: lib/rfc959.c:661 lib/rfc959.c:671
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Nemohu najít IP adresu v odpovědi na PASV '%s'\n"
 
-#: lib/rfc959.c:689 lib/rfc959.c:847
+#: lib/rfc959.c:686 lib/rfc959.c:844
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Nemohu vytvořit datové spojení: %s\n"
 
-#: lib/rfc959.c:701 lib/rfc959.c:722 lib/rfc959.c:872
+#: lib/rfc959.c:698 lib/rfc959.c:719 lib/rfc959.c:869
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Nemohu získat název socketu: %s\n"
 
-#: lib/rfc959.c:712 lib/rfc959.c:862
+#: lib/rfc959.c:709 lib/rfc959.c:859
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Nemohu získat port: %s\n"
 
-#: lib/rfc959.c:731 lib/rfc959.c:881
+#: lib/rfc959.c:728 lib/rfc959.c:878
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Nemohu poslouchat na portu %d: %s\n"
 
-#: lib/rfc959.c:776
+#: lib/rfc959.c:773
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "Nemohu vytvořit socket IPv6: %s\n"
 
-#: lib/rfc959.c:796
+#: lib/rfc959.c:793
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "Chyba: Nevypadá to, že jsme připojeni přes IPv6. Přerušuji spojení.\n"
 
-#: lib/rfc959.c:825 lib/rfc959.c:834
+#: lib/rfc959.c:822 lib/rfc959.c:831
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Neplatná odpověď EPSV '%s'\n"
 
-#: lib/rfc959.c:891
+#: lib/rfc959.c:888
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Nemohu získat adresu místního socketu: %s\n"
 
-#: lib/rfc959.c:962
+#: lib/rfc959.c:959
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Nemohu přijmout spojení od serveru: %s\n"
 
-#: lib/rfc959.c:1473
+#: lib/rfc959.c:1478
 msgid "total"
 msgstr "celkem"
 
-#: lib/rfc959.c:1475
+#: lib/rfc959.c:1480
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varování: Nemohu analyzovat výpis %s\n"
@@ -1202,9 +1210,9 @@ msgstr "%d: Chmod %s %o\n"
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: lib/sshv2.c:512 src/gtk/bookmarks.c:1017 src/gtk/bookmarks.c:1263
+#: lib/sshv2.c:512 src/gtk/bookmarks.c:1041 src/gtk/bookmarks.c:1286
 #: src/gtk/chmod_dialog.c:281 src/gtk/gtkui_transfer.c:361
-#: src/gtk/misc-gtk.c:956 src/gtk/options_dialog.c:1109
+#: src/gtk/misc-gtk.c:970 src/gtk/options_dialog.c:1109
 #: src/gtk/options_dialog.c:1311
 msgid "OK"
 msgstr "OK"
@@ -1299,7 +1307,7 @@ msgstr "Maximální počet bajtů, se kterými inicializovat engine SSL"
 msgid "Verify SSL Peer"
 msgstr "Ověřit protistranu SSL"
 
-#: lib/sslcommon.c:102
+#: lib/sslcommon.c:107
 #, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
@@ -1312,11 +1320,11 @@ msgstr ""
 "Předmět = %s\n"
 "Chyba %i:%s\n"
 
-#: lib/sslcommon.c:124
+#: lib/sslcommon.c:129
 msgid "Cannot get peer certificate\n"
 msgstr "Nemohu získat certifikát protistrany\n"
 
-#: lib/sslcommon.c:183
+#: lib/sslcommon.c:188
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
@@ -1326,36 +1334,36 @@ msgstr ""
 "se připojili (%s). Přerušuji spojení.\n"
 
 # FIXME: s/initialized/initialize/
-#: lib/sslcommon.c:290
+#: lib/sslcommon.c:295
 msgid "Cannot initialized the OpenSSL library\n"
 msgstr "Nemohu inicializovat knihovnu OpenSSL\n"
 
-#: lib/sslcommon.c:306
+#: lib/sslcommon.c:310
 msgid "Error loading default SSL certificates\n"
 msgstr "Chyba při načítání implicitních certifikátů SSL\n"
 
-#: lib/sslcommon.c:321
+#: lib/sslcommon.c:322
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "Chyba při získávání seznamu šifer (žádné platné šifry)\n"
 
-#: lib/sslcommon.c:341 lib/sslcommon.c:413 lib/sslcommon.c:460
+#: lib/sslcommon.c:342 lib/sslcommon.c:414 lib/sslcommon.c:461
 msgid "Error: SSL engine was not initialized\n"
 msgstr "Chyba: Engine SSL nebyl inicializován\n"
 
-#: lib/sslcommon.c:358
+#: lib/sslcommon.c:359
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "Chyba při vytváření spojení SSL (objekt BIO)\n"
 
-#: lib/sslcommon.c:368
+#: lib/sslcommon.c:369
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "Chyba při vytváření spojení SSL (objekt SSL)\n"
 
-#: lib/sslcommon.c:389
+#: lib/sslcommon.c:390
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "Chyba v certifikátu protistrany: %s\n"
 
-#: src/uicommon/gftpui.c:61
+#: src/uicommon/gftpui.c:62
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "Čekám %d sekund před dalším pokusem o připojení\n"
@@ -1717,44 +1725,44 @@ msgstr "Chyba: Příkaz nerozpoznán\n"
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr "Chyba: Vzdálený počítač odpojen po pokusu o přenést soubor\n"
 
-#: src/uicommon/gftpui.c:1390
+#: src/uicommon/gftpui.c:1393
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Nelze stáhnout %s z %s\n"
 
-#: src/uicommon/gftpui.c:1413
+#: src/uicommon/gftpui.c:1416
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "Úspěšně přeneseno %s rychlostí %.2f KB/s\n"
 
-#: src/gtk/bookmarks.c:39 src/gtk/gftp-gtk.c:194 src/gtk/gftp-gtk.c:1009
+#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:200 src/gtk/gftp-gtk.c:1015
 #: src/gtk/misc-gtk.c:478 src/gtk/misc-gtk.c:486
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: Před jinou činností prosím nejdříve stiskněte tlačítko stop\n"
 
-#: src/gtk/bookmarks.c:40
+#: src/gtk/bookmarks.c:41
 msgid "Run Bookmark"
 msgstr "Spustit záložku"
 
-#: src/gtk/bookmarks.c:70
+#: src/gtk/bookmarks.c:71
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr "Přidat záložku: Musíte zadat jméno záložky\n"
 
-#: src/gtk/bookmarks.c:77
+#: src/gtk/bookmarks.c:78
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr "Přidat záložku: Nemohu přidat záložku %s, toto jméno již existuje\n"
 
-#: src/gtk/bookmarks.c:134 src/gtk/bookmarks.c:145
+#: src/gtk/bookmarks.c:135 src/gtk/bookmarks.c:146
 msgid "Add Bookmark"
 msgstr "Přidat záložku"
 
-#: src/gtk/bookmarks.c:141
+#: src/gtk/bookmarks.c:142
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "Přidat záložku: Musíte vložit jméno počítače\n"
 
-#: src/gtk/bookmarks.c:145
+#: src/gtk/bookmarks.c:146
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
@@ -1764,23 +1772,23 @@ msgstr ""
 "Záložku můžete umístit do submenu oddělením položek s /\n"
 "(př.: Linux Sites/Debian)"
 
-#: src/gtk/bookmarks.c:145
+#: src/gtk/bookmarks.c:146
 msgid "Remember password"
 msgstr "Pamatovat si heslo"
 
-#: src/gtk/bookmarks.c:471 src/gtk/bookmarks.c:481
+#: src/gtk/bookmarks.c:473 src/gtk/bookmarks.c:483
 msgid "New Folder"
 msgstr "Nová složka"
 
-#: src/gtk/bookmarks.c:472
+#: src/gtk/bookmarks.c:474
 msgid "Enter the name of the new folder to create"
 msgstr "Zadejte jméno nové složky"
 
-#: src/gtk/bookmarks.c:482
+#: src/gtk/bookmarks.c:484
 msgid "Enter the name of the new item to create"
 msgstr "Zadejte jméno nové položky"
 
-#: src/gtk/bookmarks.c:555
+#: src/gtk/bookmarks.c:557
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1789,101 +1797,101 @@ msgstr ""
 "Opravdu chcete odstranit záložku\n"
 "%s a všechny její potomky?"
 
-#: src/gtk/bookmarks.c:556
+#: src/gtk/bookmarks.c:558
 msgid "Delete Bookmark"
 msgstr "Odstranit záložku"
 
-#: src/gtk/bookmarks.c:583
+#: src/gtk/bookmarks.c:585
 msgid "Bookmarks"
 msgstr "Záložky"
 
-#: src/gtk/bookmarks.c:823 src/gtk/bookmarks.c:826
+#: src/gtk/bookmarks.c:846 src/gtk/bookmarks.c:849
 msgid "Edit Entry"
 msgstr "Upravit položku"
 
-#: src/gtk/bookmarks.c:863
+#: src/gtk/bookmarks.c:887
 msgid "Description:"
 msgstr "Popis:"
 
-#: src/gtk/bookmarks.c:878
+#: src/gtk/bookmarks.c:902
 msgid "Hostname:"
 msgstr "Jméno počítače:"
 
-#: src/gtk/bookmarks.c:891
+#: src/gtk/bookmarks.c:915
 msgid "Port:"
 msgstr "Port:"
 
-#: src/gtk/bookmarks.c:908
+#: src/gtk/bookmarks.c:932
 msgid "Protocol:"
 msgstr "Protokol:"
 
-#: src/gtk/bookmarks.c:932
+#: src/gtk/bookmarks.c:956
 msgid "Remote Directory:"
 msgstr "Vzdálený adresář:"
 
-#: src/gtk/bookmarks.c:945
+#: src/gtk/bookmarks.c:969
 msgid "Local Directory:"
 msgstr "Místní adresář:"
 
-#: src/gtk/bookmarks.c:962
+#: src/gtk/bookmarks.c:986
 msgid "Username:"
 msgstr "Jméno uživ.:"
 
-#: src/gtk/bookmarks.c:975 src/text/textui.c:82
+#: src/gtk/bookmarks.c:999 src/text/textui.c:82
 msgid "Password:"
 msgstr "Heslo:"
 
-#: src/gtk/bookmarks.c:989
+#: src/gtk/bookmarks.c:1013
 msgid "Account:"
 msgstr "Účet:"
 
-#: src/gtk/bookmarks.c:1003
+#: src/gtk/bookmarks.c:1027
 msgid "Log in as ANONYMOUS"
 msgstr "Přihlásit se jako ANONYMOUS"
 
-#: src/gtk/bookmarks.c:1029 src/gtk/bookmarks.c:1273
+#: src/gtk/bookmarks.c:1052 src/gtk/bookmarks.c:1296
 #: src/gtk/chmod_dialog.c:293 src/gtk/gtkui_transfer.c:373
 #: src/gtk/options_dialog.c:1120 src/gtk/options_dialog.c:1322
 msgid "  Cancel  "
 msgstr "  Zrušit  "
 
-#: src/gtk/bookmarks.c:1039 src/gtk/options_dialog.c:1333
+#: src/gtk/bookmarks.c:1062 src/gtk/options_dialog.c:1333
 msgid "Apply"
 msgstr "Použít"
 
-#: src/gtk/bookmarks.c:1189
+#: src/gtk/bookmarks.c:1212
 msgid "/_File"
 msgstr "/_Soubor"
 
-#: src/gtk/bookmarks.c:1190
+#: src/gtk/bookmarks.c:1213
 msgid "/File/tearoff"
 msgstr "/Soubor/tearoff"
 
-#: src/gtk/bookmarks.c:1191
+#: src/gtk/bookmarks.c:1214
 msgid "/File/New Folder..."
 msgstr "/Soubor/Nová složka..."
 
-#: src/gtk/bookmarks.c:1192
+#: src/gtk/bookmarks.c:1215
 msgid "/File/New Item..."
 msgstr "/Soubor/Nová položka..."
 
-#: src/gtk/bookmarks.c:1193
+#: src/gtk/bookmarks.c:1216
 msgid "/File/Delete"
 msgstr "/Soubor/Odstranit"
 
-#: src/gtk/bookmarks.c:1194
+#: src/gtk/bookmarks.c:1217
 msgid "/File/Properties..."
 msgstr "/Soubor/Vlastnosti..."
 
-#: src/gtk/bookmarks.c:1195
+#: src/gtk/bookmarks.c:1218
 msgid "/File/sep"
 msgstr "/Soubor/sep"
 
-#: src/gtk/bookmarks.c:1196
+#: src/gtk/bookmarks.c:1219
 msgid "/File/Close"
 msgstr "/Soubor/Zavřít"
 
-#: src/gtk/bookmarks.c:1207 src/gtk/bookmarks.c:1210
+#: src/gtk/bookmarks.c:1230 src/gtk/bookmarks.c:1233
 msgid "Edit Bookmarks"
 msgstr "Upravit záložky"
 
@@ -1916,7 +1924,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Sticky"
 
-#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:693
+#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:699
 msgid "User"
 msgstr "Uživatel"
 
@@ -1935,7 +1943,7 @@ msgstr "Zápis"
 msgid "Execute"
 msgstr "Spuštění"
 
-#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:694
+#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:700
 msgid "Group"
 msgstr "Skupina"
 
@@ -1977,371 +1985,371 @@ msgstr ""
 "Probíhají přenosy souborů\n"
 "Opravdu chcete skončit?"
 
-#: src/gtk/gftp-gtk.c:179
+#: src/gtk/gftp-gtk.c:185
 msgid "Connect via URL"
 msgstr "Připojit se k URL"
 
-#: src/gtk/gftp-gtk.c:179
+#: src/gtk/gftp-gtk.c:185
 msgid "Enter a URL to connect to"
 msgstr "Zadejte URL, ke kterému se připojit"
 
-#: src/gtk/gftp-gtk.c:195
+#: src/gtk/gftp-gtk.c:201
 msgid "OpenURL"
 msgstr "OpenURL"
 
-#: src/gtk/gftp-gtk.c:218
+#: src/gtk/gftp-gtk.c:224
 msgid "/_FTP"
 msgstr "/_FTP"
 
-#: src/gtk/gftp-gtk.c:219
+#: src/gtk/gftp-gtk.c:225
 msgid "/FTP/tearoff"
 msgstr "/FTP/tearoff"
 
-#: src/gtk/gftp-gtk.c:220
+#: src/gtk/gftp-gtk.c:226
 msgid "/FTP/Window 1"
 msgstr "/FTP/Okno 1"
 
-#: src/gtk/gftp-gtk.c:221
+#: src/gtk/gftp-gtk.c:227
 msgid "/FTP/Window 2"
 msgstr "/FTP/Okno 2"
 
-#: src/gtk/gftp-gtk.c:222 src/gtk/gftp-gtk.c:225 src/gtk/gftp-gtk.c:228
+#: src/gtk/gftp-gtk.c:228 src/gtk/gftp-gtk.c:231 src/gtk/gftp-gtk.c:234
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
 
-#: src/gtk/gftp-gtk.c:223
+#: src/gtk/gftp-gtk.c:229
 msgid "/FTP/Ascii"
 msgstr "/FTP/Ascii"
 
-#: src/gtk/gftp-gtk.c:224
+#: src/gtk/gftp-gtk.c:230
 msgid "/FTP/Binary"
 msgstr "/FTP/Binární"
 
-#: src/gtk/gftp-gtk.c:226
+#: src/gtk/gftp-gtk.c:232
 msgid "/FTP/_Options..."
 msgstr "/FTP/_Možnosti..."
 
-#: src/gtk/gftp-gtk.c:229
+#: src/gtk/gftp-gtk.c:235
 msgid "/FTP/_Quit"
 msgstr "/FTP/_Konec"
 
-#: src/gtk/gftp-gtk.c:230
+#: src/gtk/gftp-gtk.c:236
 msgid "/_Local"
 msgstr "/_Místní"
 
-#: src/gtk/gftp-gtk.c:231
+#: src/gtk/gftp-gtk.c:237
 msgid "/Local/tearoff"
 msgstr "/Místní/tearoff"
 
-#: src/gtk/gftp-gtk.c:232
+#: src/gtk/gftp-gtk.c:238
 msgid "/Local/Open _URL..."
 msgstr "/Místní/Otevřít _URL..."
 
-#: src/gtk/gftp-gtk.c:233
+#: src/gtk/gftp-gtk.c:239
 msgid "/Local/Disconnect"
 msgstr "/Místní/Odpojit"
 
-#: src/gtk/gftp-gtk.c:234 src/gtk/gftp-gtk.c:240
+#: src/gtk/gftp-gtk.c:240 src/gtk/gftp-gtk.c:246
 msgid "/Local/sep"
 msgstr "/Místní/sep"
 
-#: src/gtk/gftp-gtk.c:235
+#: src/gtk/gftp-gtk.c:241
 msgid "/Local/Change Filespec..."
 msgstr "/Místní/Změnit masku..."
 
-#: src/gtk/gftp-gtk.c:236
+#: src/gtk/gftp-gtk.c:242
 msgid "/Local/Show selected"
 msgstr "/Místní/Zobrazit vybrané"
 
-#: src/gtk/gftp-gtk.c:237
+#: src/gtk/gftp-gtk.c:243
 msgid "/Local/Select All"
 msgstr "/Místní/Vybrat vše"
 
-#: src/gtk/gftp-gtk.c:238
+#: src/gtk/gftp-gtk.c:244
 msgid "/Local/Select All Files"
 msgstr "/Místní/Vybrat všechny soubory"
 
-#: src/gtk/gftp-gtk.c:239
+#: src/gtk/gftp-gtk.c:245
 msgid "/Local/Deselect All"
 msgstr "/Místní/Zrušit výběr"
 
-#: src/gtk/gftp-gtk.c:241
+#: src/gtk/gftp-gtk.c:247
 msgid "/Local/Save Directory Listing..."
 msgstr "/Místní/Uložit výpis adresáře..."
 
-#: src/gtk/gftp-gtk.c:242
+#: src/gtk/gftp-gtk.c:248
 msgid "/Local/Send SITE Command..."
 msgstr "/Místní/Odeslat příkaz SITE..."
 
-#: src/gtk/gftp-gtk.c:243
+#: src/gtk/gftp-gtk.c:249
 msgid "/Local/Change Directory"
 msgstr "/Místní/Změnit adresář"
 
-#: src/gtk/gftp-gtk.c:244
+#: src/gtk/gftp-gtk.c:250
 msgid "/Local/Chmod..."
 msgstr "/Místní/Změnit práva..."
 
-#: src/gtk/gftp-gtk.c:245
+#: src/gtk/gftp-gtk.c:251
 msgid "/Local/Make Directory..."
 msgstr "/Místní/Vytvořit adresář"
 
-#: src/gtk/gftp-gtk.c:246
+#: src/gtk/gftp-gtk.c:252
 msgid "/Local/Rename..."
 msgstr "/Místní/Přejmenovat..."
 
-#: src/gtk/gftp-gtk.c:247
+#: src/gtk/gftp-gtk.c:253
 msgid "/Local/Delete..."
 msgstr "/Místní/Odstranit"
 
-#: src/gtk/gftp-gtk.c:248
+#: src/gtk/gftp-gtk.c:254
 msgid "/Local/Edit..."
 msgstr "/Místní/Upravit..."
 
-#: src/gtk/gftp-gtk.c:249
+#: src/gtk/gftp-gtk.c:255
 msgid "/Local/View..."
 msgstr "/Místní/Zobrazit..."
 
-#: src/gtk/gftp-gtk.c:250
+#: src/gtk/gftp-gtk.c:256
 msgid "/Local/Refresh"
 msgstr "/Místní/Obnovit"
 
-#: src/gtk/gftp-gtk.c:251
+#: src/gtk/gftp-gtk.c:257
 msgid "/_Remote"
 msgstr "/_Vzdálený"
 
-#: src/gtk/gftp-gtk.c:252
+#: src/gtk/gftp-gtk.c:258
 msgid "/Remote/tearoff"
 msgstr "/Vzdálený/tearoff"
 
-#: src/gtk/gftp-gtk.c:253
+#: src/gtk/gftp-gtk.c:259
 msgid "/Remote/Open _URL..."
 msgstr "/Vzdálený/Otevřít _URL..."
 
-#: src/gtk/gftp-gtk.c:255
+#: src/gtk/gftp-gtk.c:261
 msgid "/Remote/Disconnect"
 msgstr "/Vzdálený/Odpojit"
 
-#: src/gtk/gftp-gtk.c:257 src/gtk/gftp-gtk.c:263
+#: src/gtk/gftp-gtk.c:263 src/gtk/gftp-gtk.c:269
 msgid "/Remote/sep"
 msgstr "/Vzdálený/sep"
 
-#: src/gtk/gftp-gtk.c:258
+#: src/gtk/gftp-gtk.c:264
 msgid "/Remote/Change Filespec..."
 msgstr "/Vzdálený/Změnit masku..."
 
-#: src/gtk/gftp-gtk.c:259
+#: src/gtk/gftp-gtk.c:265
 msgid "/Remote/Show selected"
 msgstr "/Lokální/Zobrazit vybrané"
 
-#: src/gtk/gftp-gtk.c:260
+#: src/gtk/gftp-gtk.c:266
 msgid "/Remote/Select All"
 msgstr "/Vzdálený/Vybrat vše"
 
-#: src/gtk/gftp-gtk.c:261
+#: src/gtk/gftp-gtk.c:267
 msgid "/Remote/Select All Files"
 msgstr "/Vzdálený/Vybrat všechny soubory"
 
-#: src/gtk/gftp-gtk.c:262
+#: src/gtk/gftp-gtk.c:268
 msgid "/Remote/Deselect All"
 msgstr "/Vzdálený/Zrušit výběr"
 
-#: src/gtk/gftp-gtk.c:264
+#: src/gtk/gftp-gtk.c:270
 msgid "/Remote/Save Directory Listing..."
 msgstr "/Vzdálený/Uložit výpis adresáře..."
 
-#: src/gtk/gftp-gtk.c:265
+#: src/gtk/gftp-gtk.c:271
 msgid "/Remote/Send SITE Command..."
 msgstr "/Vzdálený/Poslat příkaz SITE..."
 
-#: src/gtk/gftp-gtk.c:266
+#: src/gtk/gftp-gtk.c:272
 msgid "/Remote/Change Directory"
 msgstr "/Vzdálený/Změnit adresář"
 
-#: src/gtk/gftp-gtk.c:267
+#: src/gtk/gftp-gtk.c:273
 msgid "/Remote/Chmod..."
 msgstr "/Vzdálený/Změnit práva..."
 
-#: src/gtk/gftp-gtk.c:268
+#: src/gtk/gftp-gtk.c:274
 msgid "/Remote/Make Directory..."
 msgstr "/Vzdálený/Vytvořit adresář..."
 
-#: src/gtk/gftp-gtk.c:269
+#: src/gtk/gftp-gtk.c:275
 msgid "/Remote/Rename..."
 msgstr "/Vzdálený/Přejmenovat..."
 
-#: src/gtk/gftp-gtk.c:270
+#: src/gtk/gftp-gtk.c:276
 msgid "/Remote/Delete..."
 msgstr "/Vzdálený/Odstranit..."
 
-#: src/gtk/gftp-gtk.c:271
+#: src/gtk/gftp-gtk.c:277
 msgid "/Remote/Edit..."
 msgstr "/Vzdálený/Upravit..."
 
-#: src/gtk/gftp-gtk.c:272
+#: src/gtk/gftp-gtk.c:278
 msgid "/Remote/View..."
 msgstr "/Vzdálený/Zobrazit..."
 
-#: src/gtk/gftp-gtk.c:273
+#: src/gtk/gftp-gtk.c:279
 msgid "/Remote/Refresh"
 msgstr "/Vzdálený/Obnovit"
 
-#: src/gtk/gftp-gtk.c:274
+#: src/gtk/gftp-gtk.c:280
 msgid "/_Bookmarks"
 msgstr "/_Záložky"
 
-#: src/gtk/gftp-gtk.c:275
+#: src/gtk/gftp-gtk.c:281
 msgid "/Bookmarks/tearoff"
 msgstr "/Záložky/tearoff"
 
-#: src/gtk/gftp-gtk.c:276
+#: src/gtk/gftp-gtk.c:282
 msgid "/Bookmarks/Add bookmark"
 msgstr "/Záložky/Přidat záložku"
 
-#: src/gtk/gftp-gtk.c:278
+#: src/gtk/gftp-gtk.c:284
 msgid "/Bookmarks/Edit bookmarks"
 msgstr "/Záložky/Upravit záložku"
 
-#: src/gtk/gftp-gtk.c:279
+#: src/gtk/gftp-gtk.c:285
 msgid "/Bookmarks/sep"
 msgstr "/Záložky/sep"
 
-#: src/gtk/gftp-gtk.c:280
+#: src/gtk/gftp-gtk.c:286
 msgid "/_Transfers"
 msgstr "/_Přenosy"
 
-#: src/gtk/gftp-gtk.c:281
+#: src/gtk/gftp-gtk.c:287
 msgid "/Transfers/tearoff"
 msgstr "/Přenosy/tearoff"
 
-#: src/gtk/gftp-gtk.c:282
+#: src/gtk/gftp-gtk.c:288
 msgid "/Transfers/Start Transfer"
 msgstr "/Přenosy/Zahájit přenos"
 
-#: src/gtk/gftp-gtk.c:283
+#: src/gtk/gftp-gtk.c:289
 msgid "/Transfers/Stop Transfer"
 msgstr "/Přenosy/Ukončit přenos"
 
-#: src/gtk/gftp-gtk.c:285 src/gtk/gftp-gtk.c:293
+#: src/gtk/gftp-gtk.c:291 src/gtk/gftp-gtk.c:299
 msgid "/Transfers/sep"
 msgstr "/Přenosy/sep"
 
-#: src/gtk/gftp-gtk.c:286
+#: src/gtk/gftp-gtk.c:292
 msgid "/Transfers/Skip Current File"
 msgstr "/Přenosy/Přeskočit aktuální soubor"
 
-#: src/gtk/gftp-gtk.c:287
+#: src/gtk/gftp-gtk.c:293
 msgid "/Transfers/Remove File"
 msgstr "/Přenosy/Odebrat soubor"
 
-#: src/gtk/gftp-gtk.c:289
+#: src/gtk/gftp-gtk.c:295
 msgid "/Transfers/Move File _Up"
 msgstr "/Přenosy/Posunout soubor _Nahoru"
 
-#: src/gtk/gftp-gtk.c:291
+#: src/gtk/gftp-gtk.c:297
 msgid "/Transfers/Move File _Down"
 msgstr "/Přenosy/Posunout soubor _Dolů"
 
-#: src/gtk/gftp-gtk.c:294
+#: src/gtk/gftp-gtk.c:300
 msgid "/Transfers/Retrieve Files"
 msgstr "/Přenosy/Stáhnout soubory"
 
-#: src/gtk/gftp-gtk.c:295
+#: src/gtk/gftp-gtk.c:301
 msgid "/Transfers/Put Files"
 msgstr "/Přenosy/Odeslat soubory"
 
-#: src/gtk/gftp-gtk.c:296
+#: src/gtk/gftp-gtk.c:302
 msgid "/L_ogging"
 msgstr "_Záznam"
 
-#: src/gtk/gftp-gtk.c:297
+#: src/gtk/gftp-gtk.c:303
 msgid "/Logging/tearoff"
 msgstr "/Záznam/tearoff"
 
-#: src/gtk/gftp-gtk.c:298
+#: src/gtk/gftp-gtk.c:304
 msgid "/Logging/Clear"
 msgstr "/Záznam/Vyčistit"
 
-#: src/gtk/gftp-gtk.c:299
+#: src/gtk/gftp-gtk.c:305
 msgid "/Logging/View log..."
 msgstr "/Záznam/Zobrazit záznam..."
 
-#: src/gtk/gftp-gtk.c:300
+#: src/gtk/gftp-gtk.c:306
 msgid "/Logging/Save log..."
 msgstr "/Záznam/Uložit záznam..."
 
-#: src/gtk/gftp-gtk.c:301
+#: src/gtk/gftp-gtk.c:307
 msgid "/Tool_s"
 msgstr "/Ná_stroje"
 
-#: src/gtk/gftp-gtk.c:302
+#: src/gtk/gftp-gtk.c:308
 msgid "/Tools/tearoff"
 msgstr "/Nástroje/tearoff"
 
-#: src/gtk/gftp-gtk.c:303
+#: src/gtk/gftp-gtk.c:309
 msgid "/Tools/Compare Windows"
 msgstr "/Nástroje/Porovnat okna"
 
-#: src/gtk/gftp-gtk.c:304
+#: src/gtk/gftp-gtk.c:310
 msgid "/Tools/Clear Cache"
 msgstr "/Nástroje/Vyčistit cache"
 
-#: src/gtk/gftp-gtk.c:305
+#: src/gtk/gftp-gtk.c:311
 msgid "/_Help"
 msgstr "/_Nápověda"
 
-#: src/gtk/gftp-gtk.c:306
+#: src/gtk/gftp-gtk.c:312
 msgid "/Help/tearoff"
 msgstr "/Nápověda/tearoff"
 
-#: src/gtk/gftp-gtk.c:307
+#: src/gtk/gftp-gtk.c:313
 msgid "/Help/About..."
 msgstr "/Nápověda/O programu..."
 
-#: src/gtk/gftp-gtk.c:425
+#: src/gtk/gftp-gtk.c:431
 msgid "Host: "
 msgstr "Hostitel: "
 
-#: src/gtk/gftp-gtk.c:443
+#: src/gtk/gftp-gtk.c:449
 msgid "Port: "
 msgstr "Port: "
 
-#: src/gtk/gftp-gtk.c:461
+#: src/gtk/gftp-gtk.c:467
 msgid "User: "
 msgstr "Uživatel: "
 
-#: src/gtk/gftp-gtk.c:479
+#: src/gtk/gftp-gtk.c:485
 msgid "Pass: "
 msgstr "Heslo: "
 
-#: src/gtk/gftp-gtk.c:548
+#: src/gtk/gftp-gtk.c:554
 msgid "Command: "
 msgstr "Příkaz: "
 
-#: src/gtk/gftp-gtk.c:691 src/gtk/gftp-gtk.c:898 src/gtk/gtkui_transfer.c:216
+#: src/gtk/gftp-gtk.c:697 src/gtk/gftp-gtk.c:904 src/gtk/gtkui_transfer.c:216
 msgid "Filename"
 msgstr "Jméno souboru"
 
-#: src/gtk/gftp-gtk.c:692
+#: src/gtk/gftp-gtk.c:698
 msgid "Size"
 msgstr "Velikost"
 
-#: src/gtk/gftp-gtk.c:695
+#: src/gtk/gftp-gtk.c:701
 msgid "Date"
 msgstr "Datum"
 
-#: src/gtk/gftp-gtk.c:696
+#: src/gtk/gftp-gtk.c:702
 msgid "Attribs"
 msgstr "Atributy"
 
-#: src/gtk/gftp-gtk.c:899
+#: src/gtk/gftp-gtk.c:905
 msgid "Progress"
 msgstr "Průběh"
 
-#: src/gtk/gftp-gtk.c:1010 src/gtk/misc-gtk.c:891 src/gtk/misc-gtk.c:965
+#: src/gtk/gftp-gtk.c:1016 src/gtk/misc-gtk.c:905 src/gtk/misc-gtk.c:979
 msgid "Connect"
 msgstr "Spojeno"
 
-#: src/gtk/gftp-gtk.c:1040
+#: src/gtk/gftp-gtk.c:1046
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Chyba: Musíte zadat hostitele, ke kterému se připojit\n"
 
@@ -2381,8 +2389,8 @@ msgstr "Vytvořit adresář"
 msgid "Enter name of directory to create"
 msgstr "Zadej jméno vytvářeného adresáře"
 
-#: src/gtk/gtkui.c:336 src/gtk/gtkui.c:348 src/gtk/misc-gtk.c:894
-#: src/gtk/misc-gtk.c:968
+#: src/gtk/gtkui.c:336 src/gtk/gtkui.c:348 src/gtk/misc-gtk.c:908
+#: src/gtk/misc-gtk.c:982
 msgid "Rename"
 msgstr "Přejmenovat"
 
@@ -2404,7 +2412,7 @@ msgid "Chdir"
 msgstr "Změnit adresář"
 
 #: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:403 src/gtk/transfer.c:486
-#: src/gtk/transfer.c:963
+#: src/gtk/transfer.c:964
 msgid "Skipped"
 msgstr "Přeskočeno"
 
@@ -2472,7 +2480,7 @@ msgid "Enter the new file specification"
 msgstr "Vložte novou masku souborů"
 
 #: src/gtk/menu-items.c:105 src/gtk/menu-items.c:313 src/gtk/menu-items.c:371
-#: src/gtk/view_dialog.c:76 src/gtk/view_dialog.c:143
+#: src/gtk/view_dialog.c:76 src/gtk/view_dialog.c:155
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Varování: Nemohu otevřít %s pro zápis: %s\n"
@@ -2529,7 +2537,7 @@ msgstr "O programu"
 msgid "License Agreement"
 msgstr "Licenční ujednání"
 
-#: src/gtk/menu-items.c:561 src/gtk/view_dialog.c:392
+#: src/gtk/menu-items.c:561 src/gtk/view_dialog.c:404
 msgid "  Close  "
 msgstr "  Zavřít  "
 
@@ -2574,35 +2582,35 @@ msgstr "%s: Musíte vybrat jen jednu položku\n"
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: Musíte vybrat aspoň jednu položku\n"
 
-#: src/gtk/misc-gtk.c:888 src/gtk/misc-gtk.c:962
+#: src/gtk/misc-gtk.c:902 src/gtk/misc-gtk.c:976
 msgid "Change"
 msgstr "Změnit"
 
-#: src/gtk/misc-gtk.c:959 src/gtk/options_dialog.c:1180
+#: src/gtk/misc-gtk.c:973 src/gtk/options_dialog.c:1180
 msgid "Add"
 msgstr "Přidat"
 
-#: src/gtk/misc-gtk.c:985
+#: src/gtk/misc-gtk.c:999
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/gtk/misc-gtk.c:1055
+#: src/gtk/misc-gtk.c:1069
 msgid "  Yes  "
 msgstr "  Ano  "
 
-#: src/gtk/misc-gtk.c:1065
+#: src/gtk/misc-gtk.c:1079
 msgid "  No  "
 msgstr "  Ne  "
 
-#: src/gtk/misc-gtk.c:1124
+#: src/gtk/misc-gtk.c:1139
 msgid "Getting directory listings"
 msgstr "Získávám výpisy adresáře"
 
-#: src/gtk/misc-gtk.c:1144
+#: src/gtk/misc-gtk.c:1159
 msgid "  Stop  "
 msgstr "  Stop  "
 
-#: src/gtk/misc-gtk.c:1154
+#: src/gtk/misc-gtk.c:1169
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2611,7 +2619,7 @@ msgstr ""
 "Přeneseno %ld adresářů\n"
 "a %ld souborů"
 
-#: src/gtk/misc-gtk.c:1228
+#: src/gtk/misc-gtk.c:1243
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "Chyba gFTP: Nemohu najít soubor %s v %s nebo %s\n"
@@ -2722,17 +2730,17 @@ msgstr "Přeneseno %s z %s, přenos pozastaven, nelze odhadnout zbývající ča
 msgid "Retrieving file names...%s bytes"
 msgstr "Přenáším jména souborů...%s bajtů"
 
-#: src/gtk/transfer.c:835 src/gtk/transfer.c:857 src/gtk/transfer.c:891
-#: src/gtk/transfer.c:931 src/gtk/transfer.c:984 src/gtk/transfer.c:1044
+#: src/gtk/transfer.c:836 src/gtk/transfer.c:858 src/gtk/transfer.c:892
+#: src/gtk/transfer.c:932 src/gtk/transfer.c:985 src/gtk/transfer.c:1045
 msgid "There are no file transfers selected\n"
 msgstr "Není vybrán žádný přenos souborů\n"
 
-#: src/gtk/transfer.c:875
+#: src/gtk/transfer.c:876
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Zastavuji přenos s hostitelem %s\n"
 
-#: src/gtk/transfer.c:916 src/gtk/transfer.c:969
+#: src/gtk/transfer.c:917 src/gtk/transfer.c:970
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Přeskakuji soubor %s na hostiteli %s\n"
@@ -2755,27 +2763,27 @@ msgstr "Upravit: Musíte zadat editor v dialogu Možnosti\n"
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "Upravit: %s je adresář. Nemohu jej upravit.\n"
 
-#: src/gtk/view_dialog.c:198
+#: src/gtk/view_dialog.c:210
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Zobrazit: Nelze vytvořit další proces: %s\n"
 
-#: src/gtk/view_dialog.c:201
+#: src/gtk/view_dialog.c:213
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "Spouštím program: %s %s\n"
 
-#: src/gtk/view_dialog.c:259
+#: src/gtk/view_dialog.c:271
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "Otevírám %s pomocí %s\n"
 
-#: src/gtk/view_dialog.c:294
+#: src/gtk/view_dialog.c:306
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "Zobrazuji soubor %s\n"
 
-#: src/gtk/view_dialog.c:301
+#: src/gtk/view_dialog.c:313
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Zobrazit: Nemohu otevřít soubor %s: %s\n"
