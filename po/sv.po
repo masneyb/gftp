@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gFTP\n"
-"POT-Creation-Date: 2003-04-26 23:08+0200\n"
-"PO-Revision-Date: 2003-04-26 23:19+0200\n"
+"POT-Creation-Date: 2003-04-27 16:33+0200\n"
+"PO-Revision-Date: 2003-04-27 16:34+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -608,7 +608,7 @@ msgstr "Kan inte slå upp värdnamnet %s: %s\n"
 msgid "unknown"
 msgstr "okänd"
 
-#: lib/protocols.c:1623 lib/protocols.c:1666 lib/rfc959.c:577 lib/rfc959.c:713
+#: lib/protocols.c:1623 lib/protocols.c:1666 lib/rfc959.c:578 lib/rfc959.c:714
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Misslyckades med att skapa ett uttag (socket): %s\n"
@@ -698,7 +698,7 @@ msgstr "Använd HTTP/1.1"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Vill du använda HTTP/1.1 eller HTTP/1.0"
 
-#: lib/rfc2068.c:277 lib/rfc959.c:551 lib/sshv2.c:985
+#: lib/rfc2068.c:277 lib/rfc959.c:552 lib/sshv2.c:985
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Kopplar ner från platsen %s\n"
@@ -782,7 +782,7 @@ msgstr "Ditt brandväggskonto (frivilligt)"
 msgid "Proxy server type:"
 msgstr "Proxyservertyp:"
 
-#: lib/rfc959.c:63
+#: lib/rfc959.c:64
 #, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
@@ -799,11 +799,11 @@ msgstr ""
 "(användare), p (lösenord), h (värd), o (port) eller a (konto). För att ange "
 "proxyanvändaren anger du till exempel %pu"
 
-#: lib/rfc959.c:66
+#: lib/rfc959.c:67
 msgid "Passive file transfers"
 msgstr "Passiva filöverföringar"
 
-#: lib/rfc959.c:68
+#: lib/rfc959.c:69
 msgid ""
 "If this is enabled, then the remote FTP server will open up a port for the "
 "data connection. If you are behind a firewall, you will need to enable this. "
@@ -819,11 +819,11 @@ msgstr ""
 "inaktiverat kommer gFTP att öppna upp en port på klientsidan och "
 "fjärrservern kommer att försöka ansluta till den."
 
-#: lib/rfc959.c:70
+#: lib/rfc959.c:71
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "Slå upp fjärrvärdens symboliska länkar (LIST -L)"
 
-#: lib/rfc959.c:72
+#: lib/rfc959.c:73
 msgid ""
 "The remote FTP server will attempt to resolve symlinks in the directory "
 "listings. Generally, this is a good idea to leave enabled. The only time you "
@@ -835,11 +835,11 @@ msgstr ""
 "aktiverat. Det enda tillfället då du vill inaktivera detta är om FTP-"
 "fjärrservern inte stöder flaggan -L för LIST"
 
-#: lib/rfc959.c:74
+#: lib/rfc959.c:75
 msgid "Transfer files in ASCII mode"
 msgstr "Överför filer i ASCII-läge"
 
-#: lib/rfc959.c:76
+#: lib/rfc959.c:77
 msgid ""
 "If you are transfering a text file from Windows to UNIX box or vice versa, "
 "then you should enable this. Each system represents newlines differently for "
@@ -852,66 +852,66 @@ msgstr ""
 "nyrader i textfiler. Om du överför från UNIX till UNIX kan du lämna detta "
 "frånslaget. Om du hämtar binär data bör du inaktivera detta."
 
-#: lib/rfc959.c:302 lib/rfc959.c:311 lib/rfc959.c:322
+#: lib/rfc959.c:303 lib/rfc959.c:312 lib/rfc959.c:323
 #, c-format
 msgid "Received invalid response to PWD command: '%s'\n"
 msgstr "Mottog ogiltigt svar på PWD-kommando: \"%s\"\n"
 
-#: lib/rfc959.c:606 lib/rfc959.c:616
+#: lib/rfc959.c:607 lib/rfc959.c:617
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Kan inte hitta en IP-adress i PASV-svar \"%s\"\n"
 
-#: lib/rfc959.c:631 lib/rfc959.c:775
+#: lib/rfc959.c:632 lib/rfc959.c:776
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Kan inte skapa en dataanslutning: %s\n"
 
-#: lib/rfc959.c:643 lib/rfc959.c:664 lib/rfc959.c:800
+#: lib/rfc959.c:644 lib/rfc959.c:665 lib/rfc959.c:801
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Kan inte läsa uttagsnamn (socket name): %s\n"
 
-#: lib/rfc959.c:654 lib/rfc959.c:790
+#: lib/rfc959.c:655 lib/rfc959.c:791
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Kan inte binda till port: %s\n"
 
-#: lib/rfc959.c:673 lib/rfc959.c:809
+#: lib/rfc959.c:674 lib/rfc959.c:810
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Kan inte lyssna på port %d: %s\n"
 
-#: lib/rfc959.c:724
+#: lib/rfc959.c:725
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 "Fel: Det verkar inte som om vi är anslutna via IPv6. Avbryter anslutning.\n"
 
-#: lib/rfc959.c:753 lib/rfc959.c:762
+#: lib/rfc959.c:754 lib/rfc959.c:763
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Ogiltigt EPSV-svar \"%s\"\n"
 
-#: lib/rfc959.c:819
+#: lib/rfc959.c:820
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Kan inte få tag i adress för lokalt uttag: %s\n"
 
-#: lib/rfc959.c:859
+#: lib/rfc959.c:860
 msgid "Error: IPV6 support was not completely compiled in\n"
 msgstr "Fel: IPV6-stöd kompilerades inte in helt\n"
 
-#: lib/rfc959.c:893
+#: lib/rfc959.c:894
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Kan inte ta emot anslutning från server: %s\n"
 
-#: lib/rfc959.c:1372
+#: lib/rfc959.c:1373
 msgid "total"
 msgstr "totalt"
 
-#: lib/rfc959.c:1374
+#: lib/rfc959.c:1375
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varning: Kan inte tolka listan %s\n"
