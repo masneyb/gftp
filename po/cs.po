@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-25 11:29+0200\n"
-"PO-Revision-Date: 2004-09-25 14:47+0200\n"
+"POT-Creation-Date: 2004-10-04 11:04+0200\n"
+"PO-Revision-Date: 2004-10-04 15:34+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,17 +47,17 @@ msgstr "Chyba při zavírání deskriptoru souboru: %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Chyba: Nemohu se posunout v souboru %s: %s\n"
 
-#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2912
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2949
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Chyba: Nemohu otevřít místní soubor %s: %s\n"
 
-#: lib/config_file.c:134 lib/protocols.c:2619 lib/sslcommon.c:486
+#: lib/config_file.c:134 lib/protocols.c:2656 lib/sslcommon.c:486
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Chyba: Nemohu zapisovat do socketu: %s\n"
 
-#: lib/config_file.c:142 lib/protocols.c:2543 lib/sshv2.c:364
+#: lib/config_file.c:142 lib/protocols.c:2580 lib/sshv2.c:364
 #: lib/sslcommon.c:439
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -511,7 +511,8 @@ msgstr "Opakování spojení:"
 
 #: lib/options.h:118
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
-msgstr "Počet automatických pokusů o spojení. Pro neustálé opakování nastavte na 0"
+msgstr ""
+"Počet automatických pokusů o spojení. Pro neustálé opakování nastavte na 0"
 
 #: lib/options.h:120
 msgid "Retry sleep time:"
@@ -684,128 +685,142 @@ msgstr "Místní"
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:253 src/gtk/bookmarks.c:879
+#: lib/options.h:253 src/gtk/bookmarks.c:861
 msgid "Bookmark"
 msgstr "Záložka"
 
-#: lib/protocols.c:220
+#: lib/protocols.c:233
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Přenos souborů bude omezen na %.2f KB/s\n"
 
-#: lib/protocols.c:373
+#: lib/protocols.c:386
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "Chyba při nastavování LC_TIME na '%s'. Používám místo toho '%s'\n"
 
-#: lib/protocols.c:381
+#: lib/protocols.c:394
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "Načítám výpis adresáře %s z cache (LC_TIME=%s)\n"
 
-#: lib/protocols.c:391
+#: lib/protocols.c:404
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "Načítám výpis adresáře %s od serveru (LC_TIME=%s)\n"
 
-#: lib/protocols.c:587
+#. Don't use request->logging_function since the strings must be in UTF-8
+#. for the GTK+ 2.x port
+#: lib/protocols.c:466
+#, c-format
+msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
+msgstr "Chyba při převodu řetězce '%s' z aktuálního locale do UTF-8: %s\n"
+
+#. Don't use request->logging_function since the strings must be in UTF-8
+#. for the GTK+ 2.x port
+#: lib/protocols.c:523
+#, c-format
+msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
+msgstr "Chyba při převodu řetězce '%s' z UTF-8 do aktuálního locale: %s\n"
+
+#: lib/protocols.c:606
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Chyba: Nemohu zapisovat do cache: %s\n"
 
-#: lib/protocols.c:619
+#: lib/protocols.c:638
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Chyba: Nemohu najít záložku %s\n"
 
-#: lib/protocols.c:626
+#: lib/protocols.c:645
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Chyba záložek: Položka záložek %s nemá jméno počítače\n"
 
-#: lib/protocols.c:736
+#: lib/protocols.c:772
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Protokol '%s' není momentálně podporován.\n"
 
-#: lib/protocols.c:1082 lib/protocols.c:1097 lib/protocols.c:2127
-#: lib/protocols.c:2239
+#: lib/protocols.c:1118 lib/protocols.c:1133 lib/protocols.c:2163
+#: lib/protocols.c:2276
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Vyhledávám %s\n"
 
-#: lib/protocols.c:1088 lib/protocols.c:1103 lib/protocols.c:2132
-#: lib/protocols.c:2244
+#: lib/protocols.c:1124 lib/protocols.c:1139 lib/protocols.c:2168
+#: lib/protocols.c:2281
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Nemohu vyhledat jméno počítače %s: %s\n"
 
-#: lib/protocols.c:1456 lib/protocols.c:1457 lib/protocols.c:1498
-#: lib/protocols.c:1499 lib/protocols.c:1562 lib/protocols.c:1569
-#: lib/protocols.c:1645 lib/protocols.c:1646 lib/protocols.c:1682
+#: lib/protocols.c:1492 lib/protocols.c:1493 lib/protocols.c:1534
+#: lib/protocols.c:1535 lib/protocols.c:1598 lib/protocols.c:1605
+#: lib/protocols.c:1681 lib/protocols.c:1682 lib/protocols.c:1718
 msgid "unknown"
 msgstr "neznámý"
 
-#: lib/protocols.c:2150
+#: lib/protocols.c:2186
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Nemohu vytvořit socket: %s\n"
 
-#: lib/protocols.c:2156 lib/protocols.c:2258
+#: lib/protocols.c:2192 lib/protocols.c:2295
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Zkouším %s:%d\n"
 
-#: lib/protocols.c:2161 lib/protocols.c:2265
+#: lib/protocols.c:2197 lib/protocols.c:2302
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Nemohu se připojit k %s: %s\n"
 
-#: lib/protocols.c:2198 lib/rfc959.c:636
+#: lib/protocols.c:2235 lib/rfc959.c:639
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Nemohu vytvořit socket IPv4: %s\n"
 
-#: lib/protocols.c:2222 lib/sshv2.c:987
+#: lib/protocols.c:2259 lib/sshv2.c:987
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Nemohu vyhledat název služby %s/tcp. Zkontrolujte prosím svůj soubor "
 "services\n"
 
-#: lib/protocols.c:2281 lib/protocols.c:2921 lib/rfc959.c:645 lib/rfc959.c:800
+#: lib/protocols.c:2318 lib/protocols.c:2958 lib/rfc959.c:648 lib/rfc959.c:803
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Chyba: Nemohu nastavit příznak zavření při exec: %s\n"
 
-#: lib/protocols.c:2288
+#: lib/protocols.c:2325
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Připojen k %s:%d\n"
 
-#: lib/protocols.c:2519 lib/protocols.c:2594 lib/sshv2.c:355
+#: lib/protocols.c:2556 lib/protocols.c:2631 lib/sshv2.c:355
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Spojení s %s vypršel čas\n"
 
-#: lib/protocols.c:2662
+#: lib/protocols.c:2699
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Nemohu získat nastavení socketu: %s\n"
 
-#: lib/protocols.c:2676
+#: lib/protocols.c:2713
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Nemohu nastavit socket na neblokující: %s\n"
 
-#: lib/protocols.c:2811
+#: lib/protocols.c:2848
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Chyba: Vzdálený počítač %s odpojen. Max. počet opakování vyčerpán...vzdávám "
 "to\n"
 
-#: lib/protocols.c:2819
+#: lib/protocols.c:2856
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Chyba: Vzdálený počítač %s odpojen. Připojím se znovu za %d sekund\n"
@@ -879,7 +894,7 @@ msgstr ""
 "Přijal jsem špatnou odpověď od serveru, odpojuji se\n"
 "Vzdáleným serverem vrácena neplatná velikost úseku '%s'\n"
 
-#: lib/rfc2068.c:254 lib/rfc959.c:605 lib/sshv2.c:1064
+#: lib/rfc2068.c:254 lib/rfc959.c:608 lib/sshv2.c:1064
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Odpojuji se od %s\n"
@@ -1024,67 +1039,67 @@ msgstr ""
 "souborech jinak. Pokud přenášíte z UNIXu na UNIX, je bezpečné nechat toto "
 "vypnuté. Pokud stahujete binární data, budete toto chtít zakázat."
 
-#: lib/rfc959.c:317 lib/rfc959.c:326 lib/rfc959.c:337 lib/rfc959.c:763
-#: lib/rfc959.c:1362
+#: lib/rfc959.c:317 lib/rfc959.c:326 lib/rfc959.c:337 lib/rfc959.c:766
+#: lib/rfc959.c:1364
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Od serveru přijata neplatná odpověď '%c'.\n"
 
-#: lib/rfc959.c:675 lib/rfc959.c:685
+#: lib/rfc959.c:678 lib/rfc959.c:688
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Nemohu najít IP adresu v odpovědi na PASV '%s'\n"
 
-#: lib/rfc959.c:700 lib/rfc959.c:862
+#: lib/rfc959.c:703 lib/rfc959.c:864
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Nemohu vytvořit datové spojení: %s\n"
 
-#: lib/rfc959.c:712 lib/rfc959.c:733 lib/rfc959.c:887
+#: lib/rfc959.c:715 lib/rfc959.c:736 lib/rfc959.c:889
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Nemohu získat název socketu: %s\n"
 
-#: lib/rfc959.c:723 lib/rfc959.c:877
+#: lib/rfc959.c:726 lib/rfc959.c:879
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Nemohu získat port: %s\n"
 
-#: lib/rfc959.c:742 lib/rfc959.c:896
+#: lib/rfc959.c:745 lib/rfc959.c:898
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Nemohu poslouchat na portu %d: %s\n"
 
-#: lib/rfc959.c:791
+#: lib/rfc959.c:794
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "Nemohu vytvořit socket IPv6: %s\n"
 
-#: lib/rfc959.c:811
+#: lib/rfc959.c:814
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "Chyba: Nevypadá to, že jsme připojeni přes IPv6. Přerušuji spojení.\n"
 
-#: lib/rfc959.c:840 lib/rfc959.c:849
+#: lib/rfc959.c:842 lib/rfc959.c:851
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Neplatná odpověď EPSV '%s'\n"
 
-#: lib/rfc959.c:906
+#: lib/rfc959.c:908
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Nemohu získat adresu místního socketu: %s\n"
 
-#: lib/rfc959.c:980
+#: lib/rfc959.c:982
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Nemohu přijmout spojení od serveru: %s\n"
 
-#: lib/rfc959.c:1517
+#: lib/rfc959.c:1519
 msgid "total"
 msgstr "celkem"
 
-#: lib/rfc959.c:1519
+#: lib/rfc959.c:1521 lib/sshv2.c:1351
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varování: Nemohu analyzovat výpis %s\n"
@@ -1229,7 +1244,7 @@ msgstr "%d: Chmod %s %o\n"
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: lib/sshv2.c:609 src/gtk/bookmarks.c:1038 src/gtk/bookmarks.c:1292
+#: lib/sshv2.c:609 src/gtk/bookmarks.c:1020 src/gtk/bookmarks.c:1273
 #: src/gtk/chmod_dialog.c:253 src/gtk/gtkui_transfer.c:361
 #: src/gtk/misc-gtk.c:982 src/gtk/options_dialog.c:1109
 #: src/gtk/options_dialog.c:1313
@@ -1278,7 +1293,7 @@ msgstr "Ze serveru vrácena neznámá zpráva"
 msgid "Error: Message size %d too big\n"
 msgstr "Chyba: Velikost zprávy %d je příliš velká\n"
 
-#: lib/sshv2.c:730 lib/sshv2.c:1166 lib/sshv2.c:1789 lib/sshv2.c:1927
+#: lib/sshv2.c:730 lib/sshv2.c:1166 lib/sshv2.c:1793 lib/sshv2.c:1931
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Chyba: Velikost zprávy ze serveru %d je příliš velká\n"
@@ -1419,7 +1434,7 @@ msgstr ""
 #: src/uicommon/gftpui.c:322 src/uicommon/gftpui.c:357
 #: src/uicommon/gftpui.c:392 src/uicommon/gftpui.c:427
 #: src/uicommon/gftpui.c:463 src/uicommon/gftpui.c:528
-#: src/uicommon/gftpui.c:609 src/uicommon/gftpui.c:871
+#: src/uicommon/gftpui.c:609 src/uicommon/gftpui.c:873
 msgid "Error: Not connected to a remote site\n"
 msgstr "Chyba: Nepřipojen ke vzdálenému počítači\n"
 
@@ -1477,7 +1492,7 @@ msgstr "Chyba: Proměnná %s není platná proměnná konfigurace.\n"
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "Chyba: Proměnná %s není k dispozici v textovém portu gFTP\n"
 
-#: src/uicommon/gftpui.c:835
+#: src/uicommon/gftpui.c:837
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1485,268 +1500,268 @@ msgstr ""
 "Podporované příkazy:\n"
 "\n"
 
-#: src/uicommon/gftpui.c:878
+#: src/uicommon/gftpui.c:880
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "použití: %s <maska>\n"
 
-#: src/uicommon/gftpui.c:963
+#: src/uicommon/gftpui.c:965
 msgid "about"
 msgstr "about"
 
-#: src/uicommon/gftpui.c:964
+#: src/uicommon/gftpui.c:966
 msgid "Shows gFTP information"
 msgstr "Zobrazí informace o gFTP"
 
-#: src/uicommon/gftpui.c:965
+#: src/uicommon/gftpui.c:967
 msgid "ascii"
 msgstr "ascii"
 
-#: src/uicommon/gftpui.c:966
+#: src/uicommon/gftpui.c:968
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "Nastaví aktuální režim přenosu souborů na Ascii (jen pro FTP)"
 
-#: src/uicommon/gftpui.c:967
+#: src/uicommon/gftpui.c:969
 msgid "binary"
 msgstr "binary"
 
-#: src/uicommon/gftpui.c:968
+#: src/uicommon/gftpui.c:970
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "Nastaví aktuální režim přenosu souborů na binární (jen pro FTP)"
 
-#: src/uicommon/gftpui.c:969
+#: src/uicommon/gftpui.c:971
 msgid "cd"
 msgstr "cd"
 
-#: src/uicommon/gftpui.c:970 src/uicommon/gftpui.c:972
+#: src/uicommon/gftpui.c:972 src/uicommon/gftpui.c:974
 msgid "Changes the remote working directory"
 msgstr "Změní vzdálený pracovní adresář"
 
-#: src/uicommon/gftpui.c:971
+#: src/uicommon/gftpui.c:973
 msgid "chdir"
 msgstr "chdir"
 
-#: src/uicommon/gftpui.c:973
+#: src/uicommon/gftpui.c:975
 msgid "chmod"
 msgstr "chmod"
 
-#: src/uicommon/gftpui.c:974
+#: src/uicommon/gftpui.c:976
 msgid "Changes the permissions of a remote file"
 msgstr "Změní oprávnění vzdáleného souboru"
 
-#: src/uicommon/gftpui.c:975
+#: src/uicommon/gftpui.c:977
 msgid "clear"
 msgstr "clear"
 
-#: src/uicommon/gftpui.c:976
+#: src/uicommon/gftpui.c:978
 msgid "Available options: cache"
 msgstr "Dostupné volby: cache"
 
-#: src/uicommon/gftpui.c:977
+#: src/uicommon/gftpui.c:979
 msgid "close"
 msgstr "close"
 
-#: src/uicommon/gftpui.c:978
+#: src/uicommon/gftpui.c:980
 msgid "Disconnects from the remote site"
 msgstr "Odpojí se od vzdáleného počítače"
 
-#: src/uicommon/gftpui.c:979
+#: src/uicommon/gftpui.c:981
 msgid "delete"
 msgstr "delete"
 
-#: src/uicommon/gftpui.c:980
+#: src/uicommon/gftpui.c:982
 msgid "Removes a remote file"
 msgstr "Odstraní vzdálený soubor"
 
-#: src/uicommon/gftpui.c:981
+#: src/uicommon/gftpui.c:983
 msgid "get"
 msgstr "get"
 
-#: src/uicommon/gftpui.c:982 src/uicommon/gftpui.c:1006
+#: src/uicommon/gftpui.c:984 src/uicommon/gftpui.c:1008
 msgid "Downloads remote file(s)"
 msgstr "Stáhne vzdálené soubory"
 
-#: src/uicommon/gftpui.c:983
+#: src/uicommon/gftpui.c:985
 msgid "help"
 msgstr "help"
 
-#: src/uicommon/gftpui.c:984
+#: src/uicommon/gftpui.c:986
 msgid "Shows this help screen"
 msgstr "Zobrazí tuto obrazovku s nápovědou"
 
-#: src/uicommon/gftpui.c:985
+#: src/uicommon/gftpui.c:987
 msgid "lcd"
 msgstr "lcd"
 
-#: src/uicommon/gftpui.c:986 src/uicommon/gftpui.c:988
+#: src/uicommon/gftpui.c:988 src/uicommon/gftpui.c:990
 msgid "Changes the local working directory"
 msgstr "Změní místní pracovní adresář"
 
-#: src/uicommon/gftpui.c:987
+#: src/uicommon/gftpui.c:989
 msgid "lchdir"
 msgstr "lchdir"
 
-#: src/uicommon/gftpui.c:989
+#: src/uicommon/gftpui.c:991
 msgid "lchmod"
 msgstr "lchmod"
 
-#: src/uicommon/gftpui.c:990
+#: src/uicommon/gftpui.c:992
 msgid "Changes the permissions of a local file"
 msgstr "Změní oprávnění místního souboru"
 
-#: src/uicommon/gftpui.c:991
+#: src/uicommon/gftpui.c:993
 msgid "ldelete"
 msgstr "ldelete"
 
-#: src/uicommon/gftpui.c:992
+#: src/uicommon/gftpui.c:994
 msgid "Removes a local file"
 msgstr "Odstraní místní soubor"
 
-#: src/uicommon/gftpui.c:993
+#: src/uicommon/gftpui.c:995
 msgid "lls"
 msgstr "lls"
 
-#: src/uicommon/gftpui.c:994
+#: src/uicommon/gftpui.c:996
 msgid "Shows the directory listing for the current local directory"
 msgstr "Zobrazí výpis aktuálního místního adresáře"
 
-#: src/uicommon/gftpui.c:995
+#: src/uicommon/gftpui.c:997
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: src/uicommon/gftpui.c:996
+#: src/uicommon/gftpui.c:998
 msgid "Creates a local directory"
 msgstr "Vytvoří místní adresář"
 
-#: src/uicommon/gftpui.c:997
+#: src/uicommon/gftpui.c:999
 msgid "lpwd"
 msgstr "lpwd"
 
-#: src/uicommon/gftpui.c:998
+#: src/uicommon/gftpui.c:1000
 msgid "Show current local directory"
 msgstr "Zobrazit aktuální místní adresář"
 
-#: src/uicommon/gftpui.c:999
+#: src/uicommon/gftpui.c:1001
 msgid "lrename"
 msgstr "lrename"
 
-#: src/uicommon/gftpui.c:1000
+#: src/uicommon/gftpui.c:1002
 msgid "Rename a local file"
 msgstr "Přejmenovat místní soubor"
 
-#: src/uicommon/gftpui.c:1001
+#: src/uicommon/gftpui.c:1003
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: src/uicommon/gftpui.c:1002
+#: src/uicommon/gftpui.c:1004
 msgid "Remove a local directory"
 msgstr "Odstranit místní adresář"
 
-#: src/uicommon/gftpui.c:1003
+#: src/uicommon/gftpui.c:1005
 msgid "ls"
 msgstr "ls"
 
-#: src/uicommon/gftpui.c:1004
+#: src/uicommon/gftpui.c:1006
 msgid "Shows the directory listing for the current remote directory"
 msgstr "Zobrazí výpis aktuálního vzdáleného adresáře"
 
-#: src/uicommon/gftpui.c:1005
+#: src/uicommon/gftpui.c:1007
 msgid "mget"
 msgstr "mget"
 
-#: src/uicommon/gftpui.c:1007
+#: src/uicommon/gftpui.c:1009
 msgid "mkdir"
 msgstr "mkdir"
 
-#: src/uicommon/gftpui.c:1008
+#: src/uicommon/gftpui.c:1010
 msgid "Creates a remote directory"
 msgstr "Vytvoří vzdálený adresář"
 
-#: src/uicommon/gftpui.c:1009
+#: src/uicommon/gftpui.c:1011
 msgid "mput"
 msgstr "mput"
 
-#: src/uicommon/gftpui.c:1010 src/uicommon/gftpui.c:1014
+#: src/uicommon/gftpui.c:1012 src/uicommon/gftpui.c:1016
 msgid "Uploads local file(s)"
 msgstr "Odešle místní soubory"
 
-#: src/uicommon/gftpui.c:1011
+#: src/uicommon/gftpui.c:1013
 msgid "open"
 msgstr "open"
 
-#: src/uicommon/gftpui.c:1012
+#: src/uicommon/gftpui.c:1014
 msgid "Opens a connection to a remote site"
 msgstr "Otevře spojení se vzdáleným počítačem"
 
-#: src/uicommon/gftpui.c:1013
+#: src/uicommon/gftpui.c:1015
 msgid "put"
 msgstr "put"
 
-#: src/uicommon/gftpui.c:1015
+#: src/uicommon/gftpui.c:1017
 msgid "pwd"
 msgstr "pwd"
 
-#: src/uicommon/gftpui.c:1016
+#: src/uicommon/gftpui.c:1018
 msgid "Show current remote directory"
 msgstr "Zobrazit aktuální vzdálený adresář"
 
-#: src/uicommon/gftpui.c:1017
+#: src/uicommon/gftpui.c:1019
 msgid "quit"
 msgstr "quit"
 
-#: src/uicommon/gftpui.c:1018
+#: src/uicommon/gftpui.c:1020
 msgid "Exit from gFTP"
 msgstr "Ukončit gFTP"
 
-#: src/uicommon/gftpui.c:1019
+#: src/uicommon/gftpui.c:1021
 msgid "rename"
 msgstr "rename"
 
-#: src/uicommon/gftpui.c:1020
+#: src/uicommon/gftpui.c:1022
 msgid "Rename a remote file"
 msgstr "Přejmenovat vzdálený soubor"
 
-#: src/uicommon/gftpui.c:1021
+#: src/uicommon/gftpui.c:1023
 msgid "rmdir"
 msgstr "rmdir"
 
-#: src/uicommon/gftpui.c:1022
+#: src/uicommon/gftpui.c:1024
 msgid "Remove a remote directory"
 msgstr "Odstranit vzdálený adresář"
 
-#: src/uicommon/gftpui.c:1023
+#: src/uicommon/gftpui.c:1025
 msgid "set"
 msgstr "set"
 
-#: src/uicommon/gftpui.c:1024
+#: src/uicommon/gftpui.c:1026
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
 "Zobrazit proměnné konfiguračního souboru. Proměnné můžete také nastavit "
 "pomocí set prom=hodn"
 
-#: src/uicommon/gftpui.c:1026
+#: src/uicommon/gftpui.c:1028
 msgid "site"
 msgstr "site"
 
-#: src/uicommon/gftpui.c:1027
+#: src/uicommon/gftpui.c:1029
 msgid "Run a site specific command"
 msgstr "Spustit příkaz specifický pro server"
 
-#: src/uicommon/gftpui.c:1117
+#: src/uicommon/gftpui.c:1119
 msgid "Error: Command not recognized\n"
 msgstr "Chyba: Příkaz nerozpoznán\n"
 
-#: src/uicommon/gftpui.c:1370
+#: src/uicommon/gftpui.c:1372
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr "Chyba: Vzdálený počítač odpojen po pokusu o přenést soubor\n"
 
-#: src/uicommon/gftpui.c:1438
+#: src/uicommon/gftpui.c:1440
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Nelze stáhnout %s z %s\n"
 
-#: src/uicommon/gftpui.c:1461
+#: src/uicommon/gftpui.c:1463
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "Úspěšně přeneseno %s rychlostí %.2f KB/s\n"
@@ -1792,19 +1807,19 @@ msgstr ""
 msgid "Remember password"
 msgstr "Pamatovat si heslo"
 
-#: src/gtk/bookmarks.c:469 src/gtk/bookmarks.c:479
+#: src/gtk/bookmarks.c:485 src/gtk/bookmarks.c:495
 msgid "New Folder"
 msgstr "Nová složka"
 
-#: src/gtk/bookmarks.c:470
+#: src/gtk/bookmarks.c:486
 msgid "Enter the name of the new folder to create"
 msgstr "Zadejte jméno nové složky"
 
-#: src/gtk/bookmarks.c:480
+#: src/gtk/bookmarks.c:496
 msgid "Enter the name of the new item to create"
 msgstr "Zadejte jméno nové položky"
 
-#: src/gtk/bookmarks.c:553
+#: src/gtk/bookmarks.c:569
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1813,101 +1828,101 @@ msgstr ""
 "Opravdu chcete odstranit záložku\n"
 "%s a všechny její potomky?"
 
-#: src/gtk/bookmarks.c:554
+#: src/gtk/bookmarks.c:570
 msgid "Delete Bookmark"
 msgstr "Odstranit záložku"
 
-#: src/gtk/bookmarks.c:581
+#: src/gtk/bookmarks.c:597
 msgid "Bookmarks"
 msgstr "Záložky"
 
-#: src/gtk/bookmarks.c:843 src/gtk/bookmarks.c:846
+#: src/gtk/bookmarks.c:825 src/gtk/bookmarks.c:828
 msgid "Edit Entry"
 msgstr "Upravit položku"
 
-#: src/gtk/bookmarks.c:884
+#: src/gtk/bookmarks.c:866
 msgid "Description:"
 msgstr "Popis:"
 
-#: src/gtk/bookmarks.c:899
+#: src/gtk/bookmarks.c:881
 msgid "Hostname:"
 msgstr "Jméno počítače:"
 
-#: src/gtk/bookmarks.c:912
+#: src/gtk/bookmarks.c:894
 msgid "Port:"
 msgstr "Port:"
 
-#: src/gtk/bookmarks.c:929
+#: src/gtk/bookmarks.c:911
 msgid "Protocol:"
 msgstr "Protokol:"
 
-#: src/gtk/bookmarks.c:953
+#: src/gtk/bookmarks.c:935
 msgid "Remote Directory:"
 msgstr "Vzdálený adresář:"
 
-#: src/gtk/bookmarks.c:966
+#: src/gtk/bookmarks.c:948
 msgid "Local Directory:"
 msgstr "Místní adresář:"
 
-#: src/gtk/bookmarks.c:983
+#: src/gtk/bookmarks.c:965
 msgid "Username:"
 msgstr "Jméno uživ.:"
 
-#: src/gtk/bookmarks.c:996 src/text/textui.c:86
+#: src/gtk/bookmarks.c:978 src/text/textui.c:86
 msgid "Password:"
 msgstr "Heslo:"
 
-#: src/gtk/bookmarks.c:1010
+#: src/gtk/bookmarks.c:992
 msgid "Account:"
 msgstr "Účet:"
 
-#: src/gtk/bookmarks.c:1024
+#: src/gtk/bookmarks.c:1006
 msgid "Log in as ANONYMOUS"
 msgstr "Přihlásit se jako ANONYMOUS"
 
-#: src/gtk/bookmarks.c:1049 src/gtk/bookmarks.c:1303
+#: src/gtk/bookmarks.c:1031 src/gtk/bookmarks.c:1284
 #: src/gtk/chmod_dialog.c:265 src/gtk/gtkui_transfer.c:373
 #: src/gtk/options_dialog.c:1120 src/gtk/options_dialog.c:1324
 msgid "  Cancel  "
 msgstr "  Zrušit  "
 
-#: src/gtk/bookmarks.c:1059 src/gtk/options_dialog.c:1335
+#: src/gtk/bookmarks.c:1040 src/gtk/options_dialog.c:1335
 msgid "Apply"
 msgstr "Použít"
 
-#: src/gtk/bookmarks.c:1209
+#: src/gtk/bookmarks.c:1190
 msgid "/_File"
 msgstr "/_Soubor"
 
-#: src/gtk/bookmarks.c:1210
+#: src/gtk/bookmarks.c:1191
 msgid "/File/tearoff"
 msgstr "/Soubor/tearoff"
 
-#: src/gtk/bookmarks.c:1211
+#: src/gtk/bookmarks.c:1192
 msgid "/File/New Folder..."
 msgstr "/Soubor/Nová složka..."
 
-#: src/gtk/bookmarks.c:1212
+#: src/gtk/bookmarks.c:1193
 msgid "/File/New Item..."
 msgstr "/Soubor/Nová položka..."
 
-#: src/gtk/bookmarks.c:1213
+#: src/gtk/bookmarks.c:1194
 msgid "/File/Delete"
 msgstr "/Soubor/Odstranit"
 
-#: src/gtk/bookmarks.c:1214
+#: src/gtk/bookmarks.c:1195
 msgid "/File/Properties..."
 msgstr "/Soubor/Vlastnosti..."
 
-#: src/gtk/bookmarks.c:1215
+#: src/gtk/bookmarks.c:1196
 msgid "/File/sep"
 msgstr "/Soubor/sep"
 
-#: src/gtk/bookmarks.c:1216
+#: src/gtk/bookmarks.c:1197
 msgid "/File/Close"
 msgstr "/Soubor/Zavřít"
 
-#: src/gtk/bookmarks.c:1234 src/gtk/bookmarks.c:1237
+#: src/gtk/bookmarks.c:1215 src/gtk/bookmarks.c:1218
 msgid "Edit Bookmarks"
 msgstr "Upravit záložky"
 
@@ -2840,9 +2855,6 @@ msgstr ""
 
 #~ msgid "Default remote SSH2 sftp-server path"
 #~ msgstr "Implicitní cesta sftp-server vzdáleného SSH2"
-
-#~ msgid "Use SSH2 SFTP subsys"
-#~ msgstr "Použít subsystém SSH2 SFTP"
 
 #~ msgid ""
 #~ "Call ssh with the -s sftp flag. This is helpful because you won't have to "
