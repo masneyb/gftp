@@ -27,7 +27,8 @@ static gftp_file * curfle;
 static void *
 do_rename_thread (void * data)
 {
-  int success, sj, network_timeout;
+  int success, sj;
+  intptr_t network_timeout;
   gftp_window_data * wdata;
 
   wdata = data;

@@ -39,7 +39,7 @@ void
 ftp_log (gftp_logging_level level, gftp_request * request, 
          const char *string, ...)
 {
-  guint max_log_window_size;
+  uintptr_t max_log_window_size;
   int upd, free_logstr;
   gftp_log * newlog;
   char *logstr;
@@ -661,7 +661,8 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
 {
   char *add_data[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL }, *pos;
   gftp_config_list_vars * tmplistvar;
-  int clist_num, show_hidden_files;
+  int clist_num;
+  intptr_t show_hidden_files;
   gftp_file_extensions * tempext;
   char *tempstr, *str;
   GdkBitmap * bitmap;

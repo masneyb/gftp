@@ -152,7 +152,7 @@ chfunc (gpointer data)
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
-  int local_len, remote_len, len, i, trans_len, log_len, tools_len,
+  intptr_t local_len, remote_len, len, i, trans_len, log_len, tools_len,
       ascii_transfers;
   GtkAccelGroup *accel_group;
   GtkWidget * tempwid;
@@ -470,6 +470,7 @@ CreateToolbar (GtkWidget * parent)
   gtk_container_border_width (GTK_CONTAINER (stop_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), stop_btn, FALSE, FALSE, 0);
 
+  gtk_widget_grab_focus (GTK_COMBO (hostedit)->entry);
   return (toolbar);
 }
 
@@ -489,7 +490,8 @@ setup_column (GtkWidget * listbox, int column, int width)
 static void
 list_doaction (gftp_window_data * wdata)
 {
-  int num, dir, success, list_dblclk_action;
+  int num, dir, success;
+  intptr_t list_dblclk_action;
   GList *templist, *filelist;
   gftp_file *tempfle;
 
@@ -591,7 +593,7 @@ CreateFTPWindow (gftp_window_data * wdata)
     {"application/x-rootwin-drop", 0, 1}
   };
   GtkWidget *box, *scroll_list, *parent;
-  int listbox_file_height, colwidth;
+  intptr_t listbox_file_height, colwidth;
   char *titles[7], tempstr[50];
 
   titles[0] = "";
@@ -718,7 +720,7 @@ CreateFTPWindows (GtkWidget * ui)
             *button;
   gftp_config_list_vars * tmplistvar;
   char *dltitles[2];
-  int tmplookup;
+  intptr_t tmplookup;
 #if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
@@ -981,7 +983,8 @@ void
 sortrows (GtkCList * clist, gint column, gpointer data)
 {
   char sortcol_name[25], sortasds_name[25];
-  int swap_col, sortcol, sortasds;
+  int swap_col;
+  intptr_t sortcol, sortasds;
   gftp_window_data * wdata;
   GtkWidget * sort_wid;
   GList * templist;

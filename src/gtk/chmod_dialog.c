@@ -28,7 +28,8 @@ static int mode;
 static void *
 do_chmod_thread (void * data)
 {
-  int success, num, sj, network_timeout;
+  int success, num, sj;
+  intptr_t network_timeout;
   GList * filelist, * templist;
   gftp_window_data * wdata;
   gftp_file * tempfle;

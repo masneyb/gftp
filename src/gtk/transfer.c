@@ -239,7 +239,8 @@ dont_connect_again (gftp_request * request, gftp_dialog_data * ddata)
 static void *
 connect_thread (void *data)
 {
-  int ret, sj, retries, sleep_time, network_timeout;
+  int ret, sj;
+  intptr_t retries, sleep_time, network_timeout;
   static int conn_num;
   gftp_request * request;
 
@@ -580,7 +581,8 @@ _gftp_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
 void * 
 gftp_gtk_transfer_files (void *data)
 {
-  int i, mode, tofd, fromfd, preserve_permissions;
+  int i, mode, tofd, fromfd;
+  intptr_t preserve_permissions;
   gftp_transfer * transfer;
   char buf[8192];
   off_t fromsize, total;
@@ -773,7 +775,8 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
                    gftp_window_data * fromwdata, gftp_window_data * towdata, 
                    GList * files, int copy_req)
 {
-  int dialog, append_transfers, one_transfer;
+  int dialog;
+  intptr_t  append_transfers, one_transfer;
   gftp_curtrans_data * transdata;
   GList * templist, *curfle;
   gftp_transfer * tdata;
@@ -1041,7 +1044,8 @@ check_done_process (void)
 static void
 on_next_transfer (gftp_transfer * tdata)
 {
-  int fd, refresh_files;
+  int fd;
+  intptr_t refresh_files;
   gftp_file * tempfle;
 
   tdata->next_file = 0;
@@ -1439,7 +1443,7 @@ update_window_transfer_bytes (gftp_window_data * wdata)
 gint
 update_downloads (gpointer data)
 {
-  int do_one_transfer_at_a_time;
+  intptr_t do_one_transfer_at_a_time;
   GList * templist, * next;
   gftp_transfer * tdata;
 
@@ -1915,7 +1919,8 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
   char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
        tempstr[50], temp1str[50], *pos;
   GtkWidget * tempwid, * scroll, * hbox;
-  int i, overwrite_default;
+  int i;
+  intptr_t overwrite_default;
   gftp_file * tempfle;
   GList * templist;
   size_t len;
