@@ -733,7 +733,7 @@ CreateFTPWindows (GtkWidget * ui)
   else
     gtk_clist_set_column_width (GTK_CLIST (dlwdw), 0, file_trans_column);
 
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (transfer_scroll),                                          dlwdw);
+  gtk_container_add (GTK_CONTAINER (transfer_scroll), dlwdw);
   gtk_signal_connect (GTK_OBJECT (dlwdw), "button_press_event",
 		      GTK_SIGNAL_FUNC (menu_mouse_click), (gpointer) dl_factory);
   gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
@@ -974,6 +974,7 @@ int
 main (int argc, char **argv)
 {
   GtkWidget *window, *ui;
+  int i;
 
 #ifdef HAVE_GETTEXT
   setlocale (LC_ALL, "");
@@ -995,6 +996,12 @@ main (int argc, char **argv)
   signal (SIGINT, signal_handler);
 
   graphic_hash_table = g_hash_table_new (string_hash_function, string_hash_compare);
+ 
+  for (i=0; gftp_protocols[i].register_options != NULL; i++)
+    {
+      gftp_protocols[i].register_options ();
+    }
+
   gftp_read_config_file (argv, 1);
   if (gftp_parse_command_line (&argc, &argv) != 0)
     exit (0);
