@@ -513,34 +513,25 @@ list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
   gftp_window_data * wdata;
 
   wdata = data;
+
   if (event->button == 3)
     gtk_item_factory_popup (wdata->ifactory, (guint) event->x_root,
                             (guint) event->y_root, 3, event->time);
-  else if (!GFTP_IS_CONNECTED (wdata->request) || !IS_ONE_SELECTED (wdata))
-    return (TRUE);
+  return (FALSE);
+}
 
-#if GTK_MAJOR_VERSION == 1
-  if (event->type == GDK_2BUTTON_PRESS && event->button == 1)
-    {
-      list_doaction (wdata);
-      return (FALSE);
-    }
-  return (TRUE);
-#else
-  /* FIXME - If we're using GTK 2.0, if I connect to the button_press_event 
-     signal, whenever I get the GDK_2BUTTON_PRESS event, nothing is selected 
-     inside the clist. But if I connect_after to the button_release_event, it 
-     seems to only get called when we double click */
 
-  /* This is also causing a bug where the file transfer is being added twice */
+void 
+select_row_callback (GtkWidget *widget, gint row, gint column,
+                     GdkEventButton *event, gpointer data)
+{
+  gftp_window_data * wdata;
 
-  if (event->button == 1)
-    {
-      list_doaction (wdata);
-      return (FALSE);
-    }
-  return (TRUE);
-#endif
+  wdata = data;
+
+  if (event != NULL && event->type == GDK_2BUTTON_PRESS && event->button == 1 &&
+      GFTP_IS_CONNECTED (wdata->request) && IS_ONE_SELECTED (wdata))
+    list_doaction (wdata);
 }
 
 
@@ -626,13 +617,11 @@ CreateFTPWindow (gftp_window_data * wdata, int width, int columns[6])
 		      (gpointer) wdata);
   gtk_signal_connect_after (GTK_OBJECT (wdata->listbox), "key_press_event",
                             GTK_SIGNAL_FUNC (list_enter), (gpointer) wdata);
-#if GTK_MAJOR_VERSION == 1
+  gtk_signal_connect (GTK_OBJECT (wdata->listbox), "select_row",
+                      GTK_SIGNAL_FUNC(select_row_callback),
+                      (gpointer) wdata);
   gtk_signal_connect_after (GTK_OBJECT (wdata->listbox), "button_press_event",
                             GTK_SIGNAL_FUNC (list_dblclick), (gpointer) wdata);
-#else
-  g_signal_connect_after (G_OBJECT (wdata->listbox), "button_release_event",
-                          G_CALLBACK (list_dblclick), (gpointer) wdata);
-#endif
   return (parent);
 }
 
