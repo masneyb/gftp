@@ -1,3 +1,8 @@
+2004-7-24 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_all_subdirs) - if there is an error in the
+	protocol function, make sure the error code is returned as is. This is
+	so that timeouts can be detected properly
+
 2004-7-19 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c src/uicommon/gftpui.h - use the new thread callback
 	functions for retrieving the list of subdirectories
