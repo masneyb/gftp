@@ -291,7 +291,7 @@ void remove_files_window			( gftp_window_data * wdata );
 void ftp_log					( gftp_logging_level level,
 						  gftp_request * request,
 						  const char *string,
-						  ... ) __attribute__((format(printf, 3, 4)));
+						  ... ) GFTP_LOG_FUNCTION_ATTRIBUTES;
 
 void refresh 					( gftp_window_data * wdata );
 

@@ -1,4 +1,10 @@
 2003-12-10 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h src/text/gftp-text.h src/gtk/gftp-gtk.h - added
+	GFTP_LOG_FUNCTION_ATTRIBUTES that is only defined when compiled
+	against gcc. When this is set, it will specify the function is
+	printf() type function so that extra checks can be done by the
+	compiler. This is to fix problems with older Sun compilers.
+
 	* src/gtk/gftp-gtk.c src/gtk/menu-items.c src/gtk/misc-gtk.c - check
 	for a timeout from the remote server when refreshing the directory
 	listing and changing directores. If it did, reconnect to the server.

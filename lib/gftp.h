@@ -133,6 +133,12 @@
 
 #endif
 
+#ifdef __GNUC__
+# define GFTP_LOG_FUNCTION_ATTRIBUTES __attribute__((format(printf, 3, 4)))
+#else
+# define GFTP_LOG_FUNCTION_ATTRIBUTES
+#endif
+
 /* Server types (used by FTP protocol from SYST command) */
 #define GFTP_DIRTYPE_UNIX	1
 #define GFTP_DIRTYPE_EPLF	2
