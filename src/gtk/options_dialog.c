@@ -286,6 +286,7 @@ _gftp_convert_to_newlines (char *str)
 
   ret = g_strdup ("");
   len = 0;
+
   for (stpos = str; 
        (endpos = strstr (stpos, "%n")) != NULL;
        stpos = endpos + 2)
@@ -301,6 +302,13 @@ _gftp_convert_to_newlines (char *str)
       *endpos = savechar;
     }
 
+  if (stpos != NULL && *stpos != '\0')
+    {
+      len += strlen (stpos);
+      ret = g_realloc (ret, len + 1);
+      strcat (ret, stpos);
+    }
+
   return (ret);
 }
 
@@ -313,6 +321,7 @@ _gftp_convert_from_newlines (char *str)
 
   ret = g_strdup ("");
   len = 0;
+
   for (stpos = str; 
        (endpos = strchr (stpos, '\n')) != NULL;
        stpos = endpos + 1)
@@ -326,6 +335,13 @@ _gftp_convert_from_newlines (char *str)
       strcat (ret, "%n");
 
       *endpos = savechar;
+    }
+
+  if (stpos != NULL && *stpos != '\0')
+    {
+      len += strlen (stpos);
+      ret = g_realloc (ret, len + 1);
+      strcat (ret, stpos);
     }
 
   return (ret);
@@ -463,13 +479,11 @@ _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
     {
       wcstombs (tmp, (wchar_t *) GTK_TEXT (widdata->text)->text.wc, sizeof (tmp));
       newstr = tmp;
-      freeit = 0;
     }
   else
-    {
-      newstr = (char *) GTK_TEXT (widdata->text)->text.ch; 
-      freeit = 0;
-    }
+    newstr = (char *) GTK_TEXT (widdata->text)->text.ch; 
+
+  freeit = 0;
 #else
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widdata->text));
   len = gtk_text_buffer_get_char_count (textbuf);

@@ -1,4 +1,21 @@
 2003-7-9 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c - if we are logging in to the server, and the message 
+	size is too big from the server, assume that an error message follows
+	and log the ASCII text to the log window
+
+	* src/gtk/options_dialog.c - make sure the value is set properly for
+	the textcomboedt option types (the FTP proxy server type uses this)
+
+	* lib/rfc2068.c - HTTP proxy bug fixes. Also, moved rfc2068_connect()
+	call to rfc2068_send_command() and removed it from the now unneeded
+	places. Also, fix in call to HEAD command
+
+	* src/text/gftp-text.c - fixed NULL pointer deference in changing 
+	directory
+
+	* docs/sample.gftp/gftprc - enable require SSH user/pass by default
+
+2003-7-9 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c (gftp_write_config_file) - fix for writing out
 	list items to the config file. 
 

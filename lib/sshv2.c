@@ -82,6 +82,7 @@ typedef struct sshv2_params_tag
 
   gint32 id,				
          count;
+  unsigned int initialized : 1;
 #ifdef G_HAVE_GINT64
   gint64 offset;
 #else
@@ -596,8 +597,11 @@ static int
 sshv2_read_response (gftp_request * request, sshv2_message * message,
                      int fd)
 {
+  char buf[6], error_buffer[255], *pos;
+  sshv2_params * params;
   ssize_t numread, rem;
-  char buf[5], *pos;
+
+  params = request->protocol_data;
 
   if (fd <= 0)
     fd = request->datafd;
@@ -611,14 +615,35 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
       rem -= numread;
       pos += numread;
     }
+  buf[5] = '\0';
 
   memcpy (&message->length, buf, 4);
   message->length = ntohl (message->length);
   if (message->length > 34000)
     {
-      request->logging_function (gftp_logging_error, request,
+      if (params->initialized)
+        {
+          request->logging_function (gftp_logging_error, request,
                              _("Error: Message size %d too big from server\n"),
                              message->length);
+        }
+      else
+        {
+          request->logging_function (gftp_logging_error, request,
+                     _("There was an error initializing a SSH connection with the remote server. The error message from the remote server follows:\n"), buf);
+
+          request->logging_function (gftp_logging_error, request, "%s", buf);
+
+          while ((numread = gftp_fd_read (request, error_buffer, 
+                                          sizeof (error_buffer) - 1, 
+                                          fd)) > 0)
+            {
+              error_buffer[numread] = '\0';
+              request->logging_function (gftp_logging_error, request,
+                                         "%s", error_buffer);
+            }
+        }
+
       memset (message, 0, sizeof (*message));
       gftp_disconnect (request);
       return (GFTP_EFATAL);
@@ -816,6 +841,7 @@ sshv2_connect (gftp_request * request)
   int version, ret, ssh_use_askpass, sshv2_use_sftp_subsys, fdm;
   char **args, *tempstr, *p1, p2, *exepath, *ssh2_sftp_path;
   struct servent serv_struct;
+  sshv2_params * params;
   sshv2_message message;
   pid_t child;
 
@@ -825,6 +851,8 @@ sshv2_connect (gftp_request * request)
   
   if (request->datafd > 0)
     return (0);
+
+  params = request->protocol_data;
 
   request->logging_function (gftp_logging_misc, request,
 			     _("Opening SSH connection to %s\n"),
@@ -900,20 +928,25 @@ sshv2_connect (gftp_request * request)
     return (ret);
 
   memset (&message, 0, sizeof (message));
-  if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_VERSION)
+  ret = sshv2_read_response (request, &message, -1);
+  if (ret < 0)
+    {
+      sshv2_message_free (&message);
+      return (ret);
+    }
+  else if (ret != SSH_FXP_VERSION)
     {
       request->logging_function (gftp_logging_error, request,
-               _("Received wrong response from server, disconnecting\n"));
+                     _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
 
-      if (ret < 0)
-        return (ret);
-      else
-        return (GFTP_ERETRYABLE);
+      return (GFTP_EFATAL);
     }
+
   sshv2_message_free (&message);
 
+  params->initialized = 1;
   request->logging_function (gftp_logging_misc, request,
                              _("Successfully logged into SSH server %s\n"),
                              request->hostname);
@@ -1077,7 +1110,6 @@ sshv2_list_files (gftp_request * request)
       sshv2_message_free (&message);
       gftp_disconnect (request);
       return (GFTP_EFATAL);
-        
     }
 
   memset (params->handle, 0, 4);
