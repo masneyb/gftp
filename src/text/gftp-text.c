@@ -1050,7 +1050,7 @@ gftp_text_help (gftp_request * request, char *command, gpointer *data)
 int
 gftp_text_set (gftp_request * request, char *command, gpointer *data)
 {
-  gftp_config_vars * cv;
+  gftp_config_vars * cv, newcv;
   char *pos, *backpos;
   GList * templist;
   int i;
@@ -1109,7 +1109,17 @@ gftp_text_set (gftp_request * request, char *command, gpointer *data)
         }
 
       if (gftp_option_types[cv->otype].read_function != NULL)
-        gftp_option_types[cv->otype].read_function (pos, cv, 1);
+        {
+          memcpy (&newcv, cv, sizeof (newcv));
+          newcv.flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
+
+          gftp_option_types[cv->otype].read_function (pos, &newcv, 1);
+
+          gftp_set_global_option (command, newcv.value);
+
+          if (newcv.flags & GFTP_CVARS_FLAGS_DYNMEM)
+            g_free (newcv.value);
+        }
     }
 
   return (1);

@@ -935,6 +935,25 @@ gftp_config_file_copy_text (gftp_config_vars * cv, gftp_config_vars * dest_cv)
 }
 
 
+static int
+gftp_config_file_compare_text (gftp_config_vars * cv1, gftp_config_vars * cv2)
+{
+  char *str1, *str2;
+
+  str1 = cv1->value;
+  str2 = cv2->value;
+
+  if (cv1->value == NULL && cv2->value == NULL)
+    return (0);
+
+  if ((cv1->value == NULL && cv2->value != NULL) ||
+      (cv1->value != NULL && cv2->value == NULL))
+    return (-1);
+
+  return (strcmp (str1, str2));
+}
+
+
 static void
 gftp_config_file_copy_ptr_contents (gftp_config_vars * cv, gftp_config_vars * dest_cv)
 {
@@ -954,6 +973,13 @@ gftp_config_file_write_int (gftp_config_vars * cv, FILE * fd, int to_config_file
 {
   fprintf (fd, "%d", GPOINTER_TO_INT(cv->value));
   return (0);
+}
+
+
+static int
+gftp_config_file_compare_int (gftp_config_vars * cv1, gftp_config_vars * cv2)
+{
+  return (GPOINTER_TO_INT(cv1->value) == GPOINTER_TO_INT(cv2->value) ? 0 : -1);
 }
 
 
@@ -984,6 +1010,17 @@ gftp_config_file_write_float (gftp_config_vars * cv, FILE * fd, int to_config_fi
   memcpy (&f, &cv->value, sizeof (f));
   fprintf (fd, "%.2f", f);
   return (0);
+}
+
+
+static int
+gftp_config_file_compare_float (gftp_config_vars * cv1, gftp_config_vars * cv2)
+{
+  float f1, f2;
+
+  memcpy (&f1, &cv1->value, sizeof (f1));
+  memcpy (&f2, &cv2->value, sizeof (f2));
+  return (f1 == f2 ? 0 : -1);
 }
 
 
@@ -1033,6 +1070,19 @@ gftp_config_file_copy_color (gftp_config_vars * cv, gftp_config_vars * dest_cv)
   dest_cv->value = g_malloc (sizeof (gftp_color));
   memcpy (dest_cv->value, cv->value, sizeof (gftp_color));
   dest_cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
+}
+
+
+static int
+gftp_config_file_compare_color (gftp_config_vars * cv1, gftp_config_vars * cv2)
+{
+  gftp_color * color1, * color2;
+
+  color1 = cv1->value;
+  color2 = cv2->value;
+
+  return (color1->red == color2->red && color1->green == color2->green &&
+          color1->blue == color2->blue ? 0 : -1);
 }
 
 
@@ -1102,17 +1152,31 @@ gftp_config_file_read_textcombo (char *str, gftp_config_vars * cv, int line)
 /* Note, the index numbers of this array must match up to the numbers in
    gftp_option_type_enum in gftp.h */
 gftp_option_type_var gftp_option_types[] = {
-  {gftp_config_file_read_text, gftp_config_file_write_text, gftp_config_file_copy_text, NULL, NULL, NULL},
-  {gftp_config_file_read_textcombo, gftp_config_file_write_text, gftp_config_file_copy_text, NULL, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_text, gftp_config_file_copy_text, NULL, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_hidetext, gftp_config_file_copy_text, NULL, NULL, NULL},
-  {gftp_config_file_read_int, gftp_config_file_write_int, gftp_config_file_copy_ptr_contents, NULL, NULL, NULL},
-  {gftp_config_file_read_checkbox, gftp_config_file_write_int, gftp_config_file_copy_ptr_contents, NULL, NULL, NULL},
-  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, gftp_config_file_copy_ptr_contents, NULL, NULL, NULL},
-  {gftp_config_file_read_float, gftp_config_file_write_float, gftp_config_file_copy_ptr_contents, NULL, NULL, NULL},
-  {gftp_config_file_read_color, gftp_config_file_write_color, gftp_config_file_copy_color, NULL, NULL, NULL},
-  {NULL, NULL, NULL, NULL, NULL},
-  {NULL, NULL, NULL, NULL, NULL}
+  {gftp_config_file_read_text, gftp_config_file_write_text, 
+   gftp_config_file_copy_text, gftp_config_file_compare_text, NULL, NULL, NULL},
+  {gftp_config_file_read_textcombo, gftp_config_file_write_text, 
+   gftp_config_file_copy_text, gftp_config_file_compare_text, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_text, 
+   gftp_config_file_copy_text, gftp_config_file_compare_text, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_hidetext, 
+   gftp_config_file_copy_text, gftp_config_file_compare_text, NULL, NULL, NULL},
+  {gftp_config_file_read_int, gftp_config_file_write_int, 
+   gftp_config_file_copy_ptr_contents, gftp_config_file_compare_int, 
+   NULL, NULL, NULL},
+  {gftp_config_file_read_checkbox, gftp_config_file_write_int, 
+   gftp_config_file_copy_ptr_contents, gftp_config_file_compare_int,
+   NULL, NULL, NULL},
+  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, 
+   gftp_config_file_copy_ptr_contents, gftp_config_file_compare_int, 
+   NULL, NULL, NULL},
+  {gftp_config_file_read_float, gftp_config_file_write_float, 
+   gftp_config_file_copy_ptr_contents, gftp_config_file_compare_float,
+   NULL, NULL, NULL},
+  {gftp_config_file_read_color, gftp_config_file_write_color, 
+   gftp_config_file_copy_color, gftp_config_file_compare_color, 
+   NULL, NULL, NULL},
+  {NULL, NULL, NULL, NULL, NULL, NULL},
+  {NULL, NULL, NULL, NULL, NULL, NULL}
 };
 
 
@@ -1152,18 +1216,29 @@ gftp_lookup_request_option (gftp_request * request, char * key, void *value)
 
 
 void
-gftp_set_global_option (char * key, void *value)
+gftp_set_global_option (char * key, const void *value)
 {
-  gftp_config_vars * tmpconfigvar;
+  gftp_config_vars * tmpconfigvar, newconfigvar;
+  void *nc_ptr;
+  int ret;
 
   if (gftp_global_options_htable != NULL &&
       (tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
                                            key)) != NULL)
     {
-      memcpy (&tmpconfigvar->value, value, sizeof (tmpconfigvar->value));
+      memcpy (&newconfigvar, tmpconfigvar, sizeof (newconfigvar));
 
-      /* FIXME - only set this variable if the value has changed */
-      gftp_configuration_changed = 1;
+      /* Cheap warning fix for const pointer... */
+      memcpy (&nc_ptr, &value, sizeof (nc_ptr));
+      newconfigvar.value = nc_ptr;
+      newconfigvar.flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
+
+      ret = gftp_option_types[newconfigvar.otype].compare_function (&newconfigvar, tmpconfigvar);
+      if (ret != 0)
+        {
+          gftp_option_types[newconfigvar.otype].copy_function (&newconfigvar, tmpconfigvar);
+          gftp_configuration_changed = 1;
+        }
     }
   else
     {
@@ -1307,7 +1382,9 @@ gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks)
   while (tempentry != NULL)
     {
       gftp_free_bookmark (tempentry);
-      g_free (tempentry->path);
+
+      if (tempentry->path != NULL)
+        g_free (tempentry->path);
 
       if (tempentry->children != NULL)
         {
@@ -1326,8 +1403,6 @@ gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks)
       tempentry = tempentry->next;
       g_free (delentry);
     }
-
-  g_free (bookmarks);
 }
 
 

@@ -24,8 +24,8 @@ static const char cvsid[] = "$Id$";
 
 static gftp_config_vars config_vars[] =
 {
-  {"", N_("HTTP"), gftp_option_type_notebook, NULL, NULL, 0, NULL, 
-   GFTP_PORT_GTK, NULL},
+  {"", N_("HTTP"), gftp_option_type_notebook, NULL, NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK, NULL, GFTP_PORT_GTK, NULL},
 
   {"http_proxy_host", N_("Proxy hostname:"), 
    gftp_option_type_text, "", NULL, 0, 
@@ -41,8 +41,10 @@ static gftp_config_vars config_vars[] =
    N_("Your firewall password"), GFTP_PORT_ALL, NULL},
 
   {"use_http11", N_("Use HTTP/1.1"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Do you want to use HTTP/1.1 or HTTP/1.0"), GFTP_PORT_ALL, NULL},
+
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
 

@@ -1,3 +1,35 @@
+2003-7-20 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/gftp.h - added compare_function to 
+	gftp_config_vars structure. (gftp_set_global_option) use the compare
+	function to see if the value was actually changed, and if so set the
+	gftp_configuration_changed variable
+
+	* lib/misc.c lib/gftp.h - For glib 1.2, added my version of 
+	g_build_path() since it's not there
+
+	* lib/misc.c - GLIB/GTK+ 1.2 fixes
+
+	* lib/protocols.c (gftp_fd_open) - cleaned up some
+
+	* lib/rfc959.c (rfc959_init) - if the email address is blank, get the
+	users address here instead of in register_module. It was being blanked 
+	out when the config file was being read
+
+	* lib/options.h lib/rfc2068.c lib/rfc959.c lib/sshv2.c - mark the 
+	config variables that can show up in the bookmarks editor
+
+	* src/text/gftp-text.c src/gtk/options_dialog.c - use 
+	gftp_set_global_option() to set the new configuration values
+
+	* src/gtk/bookmarks.c - fixed crash in bookmarks dialog. Added notebook
+	widget to the dialog as well. The options that can be edited for this 
+	site will show up in other tabs
+
+	* src/gtk/gftp-gtk.c - fixes to the calls to gftp_set_global_option()
+
+	* src/gtk/options_dialog.c - added gftp_gtk_setup_bookmark_options()
+	to display all the editable options for this bookmark
+
 2003-7-11 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_calc_kbs) - only call gettimeofday() at the
 	end only if we are throttling this connection

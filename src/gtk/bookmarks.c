@@ -23,8 +23,8 @@ static const char cvsid[] = "$Id$";
 static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
   * bm_remotediredit, * bm_useredit, * bm_passedit, * bm_acctedit, * anon_chk,
   * bm_pathedit, * bm_protocol, * tree;
-static GHashTable * new_bookmarks_htable;
-static gftp_bookmarks_var * new_bookmarks;
+static GHashTable * new_bookmarks_htable = NULL;
+static gftp_bookmarks_var * new_bookmarks = NULL;
 static GtkItemFactory * edit_factory;
 
 
@@ -355,8 +355,11 @@ bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
       new_bookmarks_htable = NULL;
     }
 
-  gftp_bookmarks_destroy (new_bookmarks);
-  new_bookmarks = NULL;
+  if (new_bookmarks != NULL)
+    {
+      gftp_bookmarks_destroy (new_bookmarks);
+      new_bookmarks = NULL;
+    }
 
   gtk_widget_destroy (dialog);
 }
@@ -788,7 +791,7 @@ bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
 static void
 edit_entry (gpointer data)
 {
-  GtkWidget * table, * tempwid, * dialog, * menu;
+  GtkWidget * table, * tempwid, * dialog, * menu, * notebook;
   gftp_bookmarks_var * entry;
   int i, num;
   char *pos;
@@ -828,17 +831,21 @@ edit_entry (gpointer data)
       gdk_window_set_icon_name (dialog->window, gftp_version);
     }
 
-  tempwid = gtk_frame_new (NULL);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, TRUE,
+  notebook = gtk_notebook_new ();
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
 		      TRUE, 0);
-  gtk_widget_show (tempwid);
+  gtk_widget_show (notebook);
 
   table = gtk_table_new (11, 2, FALSE);
   gtk_container_border_width (GTK_CONTAINER (table), 5);
   gtk_table_set_row_spacings (GTK_TABLE (table), 5);
   gtk_table_set_col_spacings (GTK_TABLE (table), 5);
-  gtk_container_add (GTK_CONTAINER (tempwid), table);
   gtk_widget_show (table);
+
+  tempwid = gtk_label_new (_("Bookmark"));
+  gtk_widget_show (tempwid);
+
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, tempwid);
 
   tempwid = gtk_label_new (_("Description:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
@@ -1028,6 +1035,8 @@ edit_entry (gpointer data)
   g_signal_connect (GTK_OBJECT (dialog), "response",
                     G_CALLBACK (bmedit_action), (gpointer) entry);
 #endif
+
+/* FIXME gftp_gtk_setup_bookmark_options (notebook); */
 
   gtk_widget_show (dialog);
 }

@@ -25,8 +25,6 @@ static GtkWidget * proxy_list, * new_proxy_domain, * network1,
                  * netmask3, * netmask4, * domain_active;
 static GList * new_proxy_hosts;
 
-/* FIXME - use cancel function */
-
 static void
 _setup_option (gftp_option_type_enum otype,
                gftp_options_dialog_data * option_data, 
@@ -123,11 +121,7 @@ _save_option_type_text (gftp_config_vars * cv, void *user_data)
   option_data = user_data;
   tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
 
-  if (cv->flags & GFTP_CVARS_FLAGS_DYNMEM)
-    g_free (cv->value);
-
-  cv->value = g_strdup (tempstr);
-  cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
+  gftp_set_global_option (cv->key, tempstr);
 }
 
 
@@ -206,25 +200,12 @@ _save_option_type_textcombo (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
   const char *tempstr;
-  char **clist;
-  int i;
 
   option_data = user_data;
 
   tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cv->user_data)->entry));
 
-  if (cv->listdata != NULL && tempstr != NULL)
-    {
-      clist = cv->listdata;
-      for (i=0; clist[i] != NULL; i++)
-        {
-          if (strcasecmp (tempstr, clist[i]) == 0)
-            {
-              cv->value = clist[i];
-              break;
-            }
-        }
-    }
+  gftp_set_global_option (cv->key, tempstr);
 }
 
 
@@ -545,7 +526,8 @@ _save_option_type_int (gftp_config_vars * cv, void *user_data)
 
   option_data = user_data;
   tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
-  cv->value = GINT_TO_POINTER(strtol (tempstr, NULL, 10));
+
+  gftp_set_global_option (cv->key, GINT_TO_POINTER(strtol (tempstr, NULL, 10)));
 }
 
 
@@ -596,7 +578,7 @@ _save_option_type_checkbox (gftp_config_vars * cv, void *user_data)
   gftp_options_dialog_data * option_data;
 
   option_data = user_data;
-  cv->value = GINT_TO_POINTER (GTK_TOGGLE_BUTTON (cv->user_data)->active);
+  gftp_set_global_option (cv->key, GINT_TO_POINTER (GTK_TOGGLE_BUTTON (cv->user_data)->active));
 }
 
 
@@ -623,12 +605,14 @@ _save_option_type_float (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
   const char *tempstr;
+  void *val;
   float f;
 
   option_data = user_data;
   tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
   f = strtod (tempstr, NULL);
-  memcpy (&cv->value, &f, sizeof (cv->value));
+  memcpy (&val, &f, sizeof (val));
+  gftp_set_global_option (cv->key, val);
 }
 
 
@@ -861,6 +845,8 @@ delete_proxy_host (GtkWidget * widget, gpointer data)
   GList *templist;
   int num;
 
+  gftp_configuration_changed = 1; /* FIXME */
+
   if ((templist = GTK_CLIST (proxy_list)->selection) == NULL)
     return;
   num = GPOINTER_TO_INT (templist->data);
@@ -877,6 +863,8 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gftp_proxy_hosts *hosts;
   char *tempstr, *title;
   GList *templist;
+
+  gftp_configuration_changed = 1; /* FIXME */
 
   if (data)
     {
@@ -1175,6 +1163,33 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 }
 
 
+static void
+_init_option_data (gftp_options_dialog_data * option_data)
+{
+  memset (option_data, 0, sizeof (*option_data));
+
+  _setup_option (gftp_option_type_text, option_data, 
+                 _print_option_type_text, _save_option_type_text, NULL);
+  _setup_option (gftp_option_type_textcombo, option_data, 
+                 _print_option_type_textcombo, _save_option_type_textcombo, 
+                 NULL);
+  _setup_option (gftp_option_type_textcomboedt, option_data, 
+                 _print_option_type_textcomboedt, 
+                 _save_option_type_textcomboedt,
+                 _cancel_option_type_textcomboedt);
+  _setup_option (gftp_option_type_hidetext, option_data, 
+                 _print_option_type_hidetext, _save_option_type_text, NULL);
+  _setup_option (gftp_option_type_int, option_data, 
+                 _print_option_type_int, _save_option_type_int, NULL);
+  _setup_option (gftp_option_type_checkbox, option_data, 
+                 _print_option_type_checkbox, _save_option_type_checkbox, NULL);
+  _setup_option (gftp_option_type_float, option_data, 
+                 _print_option_type_float, _save_option_type_float, NULL);
+  _setup_option (gftp_option_type_notebook, option_data, 
+                 _print_option_type_notebook, NULL, NULL);
+}
+
+
 void
 options_dialog (gpointer data)
 {
@@ -1186,26 +1201,7 @@ options_dialog (gpointer data)
   GtkWidget * tempwid;
 #endif
 
-  memset (&option_data, 0, sizeof (option_data));
-  _setup_option (gftp_option_type_text, &option_data, 
-                 _print_option_type_text, _save_option_type_text, NULL);
-  _setup_option (gftp_option_type_textcombo, &option_data, 
-                 _print_option_type_textcombo, _save_option_type_textcombo, 
-                 NULL);
-  _setup_option (gftp_option_type_textcomboedt, &option_data, 
-                 _print_option_type_textcomboedt, 
-                 _save_option_type_textcomboedt,
-                 _cancel_option_type_textcomboedt);
-  _setup_option (gftp_option_type_hidetext, &option_data, 
-                 _print_option_type_hidetext, _save_option_type_text, NULL);
-  _setup_option (gftp_option_type_int, &option_data, 
-                 _print_option_type_int, _save_option_type_int, NULL);
-  _setup_option (gftp_option_type_checkbox, &option_data, 
-                 _print_option_type_checkbox, _save_option_type_checkbox, NULL);
-  _setup_option (gftp_option_type_float, &option_data, 
-                 _print_option_type_float, _save_option_type_float, NULL);
-  _setup_option (gftp_option_type_notebook, &option_data, 
-                 _print_option_type_notebook, NULL, NULL);
+  _init_option_data (&option_data);
 
 #if GTK_MAJOR_VERSION == 1
   option_data.dialog = gtk_dialog_new ();
@@ -1302,5 +1298,69 @@ options_dialog (gpointer data)
 #endif
 
   gtk_widget_show (option_data.dialog);
+}
+
+
+void
+gftp_gtk_setup_bookmark_options (GtkWidget * notebook)
+{
+  gftp_options_dialog_data option_data;
+  gftp_config_vars * cv;
+  GList * templist;
+  int i;
+
+  _init_option_data (&option_data);
+  option_data.notebook = notebook;
+
+  cv = gftp_options_list->data;
+  option_data.last_option = cv[0].otype;
+  for (templist = gftp_options_list; 
+       templist != NULL; 
+       templist = templist->next)
+    {
+      cv = templist->data;
+
+      for (i=0; cv[i].key != NULL; i++)
+        {
+          if (!(cv[i].flags & GFTP_CVARS_FLAGS_SHOW_BOOKMARK))
+            continue;
+
+          if (gftp_option_types[cv[i].otype].ui_print_function == NULL)
+            continue;
+
+          cv[i].user_data = gftp_option_types[cv[i].otype].ui_print_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
+
+          option_data.last_option = cv[i].otype;
+        }
+    }
+}
+
+
+void
+gftp_gtk_save_bookmark_options (GtkWidget * widget, gpointer data)
+{
+/* FIXME  - implement
+  gftp_config_vars * cv;
+  GList * templist;
+  int i;
+
+  for (templist = gftp_options_list;
+       templist != NULL;
+       templist = templist->next)
+    {
+      cv = templist->data;
+
+      for (i=0; cv[i].key != NULL; i++)
+        {
+          if (!(cv[i].flags & GFTP_CVARS_FLAGS_SHOW_BOOKMARK))
+            continue;
+
+          if (gftp_option_types[cv[i].otype].ui_save_function == NULL)
+            continue;
+
+          gftp_option_types[cv[i].otype].ui_save_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
+        }
+    }
+*/
 }
 

@@ -508,11 +508,21 @@ compare_request (gftp_request * request1, gftp_request * request2,
 gftp_transfer *
 gftp_tdata_new (void)
 {
+#if GLIB_MAJOR_VERSION == 1
+  static GStaticMutex init_mutex = G_STATIC_MUTEX_INIT;
+#endif
   gftp_transfer * tdata;
 
   tdata = g_malloc0 (sizeof (*tdata));
+
+#if GLIB_MAJOR_VERSION == 1
+  tdata->statmutex = init_mutex;
+  tdata->structmutex = init_mutex;
+#else
   g_static_mutex_init (&tdata->statmutex);
   g_static_mutex_init (&tdata->structmutex);
+#endif
+
   return (tdata);
 }
 
@@ -1115,4 +1125,48 @@ get_next_selection (GList * selection, GList ** list, int *curnum)
   return (selection->next);
 }
 
+
+#if GLIB_MAJOR_VERSION == 1
+
+char *
+g_build_path (const char *separator, const char *first_element, ...)
+{
+  const char *element;
+  size_t len, retlen;
+  int add_separator;
+  va_list args;
+  char *ret;
+
+  g_return_val_if_fail (separator != NULL, NULL);
+
+  ret = g_malloc0 (1);
+  retlen = 0;
+
+  va_start (args, first_element);
+  for (element = first_element;
+       element != NULL;
+       element = va_arg (args, char *))
+    {
+      len = strlen (element);
+
+      if (len > 0 && element[len - 1] == *separator)
+        add_separator = 0;
+      else
+        {
+          add_separator = 1;
+          len++;
+        }
+      
+      retlen += len;
+      ret = g_realloc (ret, retlen + 1);
+      strncat (ret, element, retlen);
+
+      if (add_separator)
+        strncat (ret, separator, retlen);
+    }
+
+  return (ret);
+}
+
+#endif
 

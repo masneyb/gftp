@@ -274,7 +274,7 @@ typedef struct gftp_config_list_vars_tag
 
 #define GFTP_CVARS_FLAGS_DYNMEM			(1 << 1)
 #define GFTP_CVARS_FLAGS_DYNLISTMEM		(1 << 2)
-
+#define GFTP_CVARS_FLAGS_SHOW_BOOKMARK		(1 << 3)
 
 typedef struct gftp_config_vars_tag
 {
@@ -298,6 +298,7 @@ typedef struct gftp_option_type_tag
   int (*read_function) (char *str, gftp_config_vars * cv, int line);
   int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
   void (*copy_function) (gftp_config_vars * cv, gftp_config_vars * dest_cv);
+  int (*compare_function) (gftp_config_vars * cv1, gftp_config_vars * cv2);
   void * (*ui_print_function) (gftp_config_vars * cv, void *user_data);
   void (*ui_save_function) (gftp_config_vars * cv, void *user_data);
   void (*ui_cancel_function) (gftp_config_vars * cv, void *user_data);
@@ -636,7 +637,7 @@ void gftp_lookup_request_option 	( gftp_request * request,
 					  void *value );
 
 void gftp_set_global_option 		( char * key, 
-					  void *value );
+					  const void *value );
 
 void gftp_set_request_option 		( gftp_request * request, 
 					  char * key, 
@@ -724,6 +725,14 @@ void gftp_shutdown			( void );
 GList * get_next_selection 		( GList * selection, 
 					  GList ** list, 
 					  int *curnum );
+
+#if GLIB_MAJOR_VERSION == 1
+
+gchar * g_build_path 			( const gchar *separator, 
+					  const gchar *first_element,
+					  ... );
+
+#endif
 
 /* protocols.c */
 #define GFTP_FTP_NUM				0

@@ -25,8 +25,8 @@ static const char cvsid[] = "$Id$";
 
 static gftp_config_vars config_vars[] =
 {
-  {"", N_("SSH"), gftp_option_type_notebook, NULL, NULL, 0, NULL, 
-   GFTP_PORT_GTK, NULL},
+  {"", N_("SSH"), gftp_option_type_notebook, NULL, NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK, NULL, GFTP_PORT_GTK, NULL},
 
   {"ssh_prog_name", N_("SSH Prog Name:"), 
    gftp_option_type_text, "ssh", NULL, 0,
@@ -35,20 +35,24 @@ static gftp_config_vars config_vars[] =
    gftp_option_type_text, NULL, NULL, 0,  
    N_("Extra parameters to pass to the SSH program"), GFTP_PORT_ALL, NULL},
   {"ssh2_sftp_path", N_("SSH2 sftp-server path:"), 
-   gftp_option_type_text, NULL, NULL, 0,
+   gftp_option_type_text, NULL, NULL, GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Default remote SSH2 sftp-server path"), GFTP_PORT_ALL, NULL},
 
   {"ssh_need_userpass", N_("Need SSH User/Pass"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Require a username/password for SSH connections"), GFTP_PORT_ALL, NULL},
   {"ssh_use_askpass", N_("Use ssh-askpass utility"),
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Use the ssh-askpass utility to supply the remote password"), GFTP_PORT_GTK,
    NULL},
   {"sshv2_use_sftp_subsys", N_("Use SSH2 SFTP subsys"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Call ssh with the -s sftp flag. This is helpful because you won't have to know the remote path to the remote sftp-server"), 
    GFTP_PORT_GTK, NULL},
+
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
 

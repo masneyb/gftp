@@ -2474,17 +2474,14 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
 int
 gftp_fd_open (gftp_request * request, const char *pathname, int flags, mode_t mode)
 {
-  mode_t mask;
   int fd;
 
-  if (mode == 0 && (flags & O_CREAT))
-    {
-      mask = umask (0); /* FIXME - improve */
-      umask (mask);
-      mode = 0666 & ~mask;
-    }
+  if (mode == 0)
+    fd = open (pathname, flags);
+  else
+    fd = open (pathname, flags, mode);
 
-  if ((fd = open (pathname, flags, mode)) < 0)
+  if (fd < 0)
     {
       if (request != NULL)
         request->logging_function (gftp_logging_error, request,

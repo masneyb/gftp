@@ -35,11 +35,11 @@ static gftp_textcomboedt_data gftp_proxy_type[] = {
 
 static gftp_config_vars config_vars[] = 
 {
-  {"", N_("FTP"), gftp_option_type_notebook, NULL, NULL, 0, NULL, 
-   GFTP_PORT_GTK, NULL},
+  {"", N_("FTP"), gftp_option_type_notebook, NULL, NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK, NULL, GFTP_PORT_GTK, NULL},
 
   {"email", N_("Email address:"), 
-   gftp_option_type_text, "", NULL, 0,
+   gftp_option_type_text, "", NULL, GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("This is the password that will be used whenever you log into a remote FTP server as anonymous"), 
    GFTP_PORT_ALL, NULL},
   {"ftp_proxy_host", N_("Proxy hostname:"), 
@@ -65,15 +65,18 @@ static gftp_config_vars config_vars[] =
    GFTP_PORT_ALL, NULL},
 
   {"passive_transfer", N_("Passive file transfers"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."),
    GFTP_PORT_ALL, NULL},
   {"resolve_symlinks", N_("Resolve Remote Symlinks (LIST -L)"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"), 
    GFTP_PORT_ALL, NULL},
   {"ascii_transfers", N_("Transfer files in ASCII mode"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."), 
    GFTP_PORT_ALL, NULL},
 
@@ -1630,27 +1633,7 @@ rfc959_set_config_options (gftp_request * request)
 void 
 rfc959_register_module (void)
 {
-  struct hostent *hent;
-  struct utsname unme;
-  struct passwd *pw;
-  char *tempstr;
-
   gftp_register_config_vars (config_vars);
-
-  gftp_lookup_global_option ("email", &tempstr);
-  if (tempstr == NULL || *tempstr == '\0')
-    {
-      /* If there is no email address specified, then we'll just use the
-         currentuser@currenthost */
-      uname (&unme);
-      pw = getpwuid (geteuid ());
-      hent = gethostbyname (unme.nodename);
-      if (strchr (unme.nodename, '.') == NULL && hent != NULL)
-        tempstr = g_strconcat (pw->pw_name, "@", hent->h_name, NULL);
-      else
-        tempstr = g_strconcat (pw->pw_name, "@", unme.nodename, NULL);
-      gftp_set_global_option ("email", tempstr);
-    }
 }
 
 
@@ -1673,8 +1656,28 @@ int
 rfc959_init (gftp_request * request)
 {
   rfc959_parms * parms;
+  struct hostent *hent;
+  struct utsname unme;
+  struct passwd *pw;
+  char *tempstr;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+
+  gftp_lookup_global_option ("email", &tempstr);
+  if (tempstr == NULL || *tempstr == '\0')
+    {
+      /* If there is no email address specified, then we'll just use the
+         currentuser@currenthost */
+      uname (&unme);
+      pw = getpwuid (geteuid ());
+      hent = gethostbyname (unme.nodename);
+      if (strchr (unme.nodename, '.') == NULL && hent != NULL)
+        tempstr = g_strconcat (pw->pw_name, "@", hent->h_name, NULL);
+      else
+        tempstr = g_strconcat (pw->pw_name, "@", unme.nodename, NULL);
+      gftp_set_global_option ("email", tempstr);
+      g_free (tempstr);
+    }
 
   request->protonum = GFTP_FTP_NUM;
   request->init = rfc959_init;

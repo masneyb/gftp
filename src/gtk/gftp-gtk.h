@@ -264,9 +264,9 @@ void savelog 					( gpointer data );
 
 void clear_cache				( gpointer data );
 
-void options_dialog (gpointer data);
-void compare_windows (gpointer data);
-void about_dialog (gpointer data);
+void compare_windows 				( gpointer data );
+
+void about_dialog 				( gpointer data );
 
 /* misc-gtk.c */
 void fix_display				( void );
@@ -359,6 +359,14 @@ char * get_xpm_path 				( char *filename,
 
 /* mkdir_dialog.c */
 void mkdir_dialog 				( gpointer data );
+
+/* options_dialog.c */
+void options_dialog 				( gpointer data );
+
+void gftp_gtk_setup_bookmark_options 		( GtkWidget * notebook );
+
+void gftp_gtk_save_bookmark_options 		( GtkWidget * widget, 
+						  gpointer data );
 
 /* rename_dialog.c */
 void rename_dialog				( gpointer data );

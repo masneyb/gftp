@@ -62,44 +62,44 @@ doexit (GtkWidget * widget, gpointer data)
   int ret;
 
   ret = GTK_WIDGET (local_frame)->allocation.width;
-  gftp_set_global_option ("listbox_local_width", &ret);
+  gftp_set_global_option ("listbox_local_width", GINT_TO_POINTER (ret));
   ret = GTK_WIDGET (remote_frame)->allocation.width;
-  gftp_set_global_option ("listbox_remote_width", &ret);
+  gftp_set_global_option ("listbox_remote_width", GINT_TO_POINTER (ret));
   ret = GTK_WIDGET (remote_frame)->allocation.height;
-  gftp_set_global_option ("listbox_file_height", &ret);
+  gftp_set_global_option ("listbox_file_height", GINT_TO_POINTER (ret));
   ret = GTK_WIDGET (log_table)->allocation.height;
-  gftp_set_global_option ("log_height", &ret);
+  gftp_set_global_option ("log_height", GINT_TO_POINTER (ret));
   ret = GTK_WIDGET (transfer_scroll)->allocation.height;
-  gftp_set_global_option ("transfer_height", &ret);
+  gftp_set_global_option ("transfer_height", GINT_TO_POINTER (ret));
 
   ret = get_column (&GTK_CLIST (dlwdw)->column[0]);
-  gftp_set_global_option ("file_trans_column", &ret);
+  gftp_set_global_option ("file_trans_column", GINT_TO_POINTER (ret));
 
   ret = get_column (&GTK_CLIST (window1.listbox)->column[1]);
-  gftp_set_global_option ("local_file_width", &ret);
+  gftp_set_global_option ("local_file_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window1.listbox)->column[2]);
-  gftp_set_global_option ("local_size_width", &ret);
+  gftp_set_global_option ("local_size_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window1.listbox)->column[3]);
-  gftp_set_global_option ("local_user_width", &ret);
+  gftp_set_global_option ("local_user_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window1.listbox)->column[4]);
-  gftp_set_global_option ("local_group_width", &ret);
+  gftp_set_global_option ("local_group_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window1.listbox)->column[5]);
-  gftp_set_global_option ("local_date_width", &ret);
+  gftp_set_global_option ("local_date_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window1.listbox)->column[6]);
-  gftp_set_global_option ("local_attribs_width", &ret);
+  gftp_set_global_option ("local_attribs_width", GINT_TO_POINTER (ret));
 
   ret = get_column (&GTK_CLIST (window2.listbox)->column[1]);
-  gftp_set_global_option ("remote_file_width", &ret);
+  gftp_set_global_option ("remote_file_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window2.listbox)->column[2]);
-  gftp_set_global_option ("remote_size_width", &ret);
+  gftp_set_global_option ("remote_size_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window2.listbox)->column[3]);
-  gftp_set_global_option ("remote_user_width", &ret);
+  gftp_set_global_option ("remote_user_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window2.listbox)->column[4]);
-  gftp_set_global_option ("remote_group_width", &ret);
+  gftp_set_global_option ("remote_group_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window2.listbox)->column[5]);
-  gftp_set_global_option ("remote_date_width", &ret);
+  gftp_set_global_option ("remote_date_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window2.listbox)->column[6]);
-  gftp_set_global_option ("remote_attribs_width", &ret);
+  gftp_set_global_option ("remote_attribs_width", GINT_TO_POINTER (ret));
 
   gftp_shutdown ();
   exit (0);
@@ -988,7 +988,7 @@ sortrows (GtkCList * clist, gint column, gpointer data)
   if (column == 0 || (column == sortcol && wdata->sorted))
     {
       sortasds = !sortasds;
-      gftp_set_global_option (sortasds_name, &sortasds);
+      gftp_set_global_option (sortasds_name, GINT_TO_POINTER (sortasds));
       swap_col = 1;
     }
   else
@@ -1017,7 +1017,7 @@ sortrows (GtkCList * clist, gint column, gpointer data)
   else
     {
       sortcol = column;
-      gftp_set_global_option (sortcol_name, &sortcol);
+      gftp_set_global_option (sortcol_name, GINT_TO_POINTER (sortcol));
     }
 
   if (!GFTP_IS_CONNECTED (wdata->request))
