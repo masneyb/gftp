@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP 2.0.8pre4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-09 14:38+0100\n"
-"PO-Revision-Date: 2003-12-09 16:55+0100\n"
+"POT-Creation-Date: 2003-12-12 14:29+0100\n"
+"PO-Revision-Date: 2003-12-12 18:38+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgstr ""
 "ext=přípona souboru:soubor XPM:Ascii nebo Binární (A nebo B):prohlížecí "
 "program. Poznámka: Všechny argumenty kromě přípony souboru jsou nepovinné"
 
-#: lib/config_file.c:580 lib/config_file.c:824
+#: lib/config_file.c:580 lib/config_file.c:818
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "Chyba gFTP: Špatné jméno konfiguračního souboru %s\n"
@@ -123,7 +123,7 @@ msgstr "Chyba gFTP: Nemohu najít hlavní konfigurační soubor %s\n"
 msgid "Did you do a make install?\n"
 msgstr "Provedli jste make install?\n"
 
-#: lib/config_file.c:612 lib/config_file.c:830
+#: lib/config_file.c:612 lib/config_file.c:824
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "Chyba gFTP: Nemohu otevřít konfigurační soubor %s: %s\n"
@@ -148,7 +148,7 @@ msgstr "Chyba gFTP: Špatné jméno souboru záznamu %s\n"
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "Varování gFTP: Nemohu otevřít %s pro zápis: %s\n"
 
-#: lib/config_file.c:726
+#: lib/config_file.c:725
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
@@ -157,7 +157,15 @@ msgstr ""
 "org>. Varování: Veškeré komentáře, které přidáte do tohoto souboru, BUDOU "
 "přepsány"
 
-#: lib/config_file.c:837
+#: lib/config_file.c:726
+msgid ""
+"Note: The passwords contained inside this file are scrambled. This algorithm "
+"is not secure. This is to avoid your password being easily remembered by "
+"someone standing over your shoulder while you're editing this file. Prior to "
+"this, all passwords were stored in plaintext."
+msgstr "Poznámka: Hesla obsažená v tomto souboru jsou zašifrována. Tento algoritmus není bezpečný. Cílem je, aby si heslo nemohl snadno zapamatovat někdo, kdo stojí za vámi, když upravujete tento soubor. Dříve byla všechna hesla ukládána nešifrovaně."
+
+#: lib/config_file.c:831
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
@@ -168,12 +176,12 @@ msgstr ""
 "souboru, BUDOU přepsány. Pokud má položka ve svém komentáři (*), nemůžete ji "
 "změnit v gFTP"
 
-#: lib/config_file.c:1196 lib/rfc2068.c:564 lib/rfc2068.c:565
+#: lib/config_file.c:1190 lib/rfc2068.c:564 lib/rfc2068.c:565
 msgid "<unknown>"
 msgstr "<neznámý>"
 
-#: lib/config_file.c:1272 lib/config_file.c:1333 lib/config_file.c:1374
-#: lib/config_file.c:1406
+#: lib/config_file.c:1266 lib/config_file.c:1327 lib/config_file.c:1368
+#: lib/config_file.c:1400
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
@@ -424,68 +432,60 @@ msgstr "Zobrazovat stav přenosu v titulku"
 msgid "Show the file transfer status in the titlebar"
 msgstr "Zobrazovat stav přenosu v titulku"
 
-#: lib/options.h:91
-msgid "Store passwords in scrambled form"
-msgstr "Ukládat hesla zašifrovaně"
-
-#: lib/options.h:93
-msgid "Scramble passwords stored in ~/.gftp/bookmarks"
-msgstr "Šifrovat hesla ukládaná v ~/.gftp/bookmarks"
-
-#: lib/options.h:95 src/gtk/options_dialog.c:1050
+#: lib/options.h:92 src/gtk/options_dialog.c:1050
 #: src/gtk/options_dialog.c:1143
 msgid "Network"
 msgstr "Síť"
 
-#: lib/options.h:97
+#: lib/options.h:94
 msgid "Network timeout:"
 msgstr "Časový limit pro síť"
 
-#: lib/options.h:100
+#: lib/options.h:97
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "Časový limit pro čekání na vstup/výstup po síti. Toto NENÍ časový limit "
 "nečinnosti."
 
-#: lib/options.h:102
+#: lib/options.h:99
 msgid "Connect retries:"
 msgstr "Opakování spojení:"
 
-#: lib/options.h:105
+#: lib/options.h:102
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
 msgstr ""
 "Počet automatických pokusů o spojení. Pro neustálé opakování nastavte na 0"
 
-#: lib/options.h:107
+#: lib/options.h:104
 msgid "Retry sleep time:"
 msgstr "Opakovat spojení za:"
 
-#: lib/options.h:110
+#: lib/options.h:107
 msgid "The number of seconds to wait between retries"
 msgstr "Počet sekund čekání mezi pokusy"
 
-#: lib/options.h:111
+#: lib/options.h:108
 msgid "Max KB/S:"
 msgstr "Max KB/s:"
 
-#: lib/options.h:114
+#: lib/options.h:111
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr "Maximum KB/s pro přenos souborů. (Zakážete nastavením na 0)"
 
-#: lib/options.h:117
+#: lib/options.h:114
 msgid "Default Protocol:"
 msgstr "Implicitní protokol:"
 
-#: lib/options.h:119
+#: lib/options.h:116
 msgid "This specifies the default protocol to use"
 msgstr "Toto určuje implicitně používaný protokol"
 
-#: lib/options.h:121 lib/options.h:124
+#: lib/options.h:118 lib/options.h:121
 msgid "Enable IPv6 support"
 msgstr "Povolit podporu IPv6"
 
-#: lib/options.h:129
+#: lib/options.h:126
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -493,27 +493,27 @@ msgstr ""
 "Definuje, co se stane, když dvakrát kliknete na soubor v listboxech "
 "souborů. 0=Zobrazit soubor 1=Upravit soubor 2=Přenést soubor"
 
-#: lib/options.h:132
+#: lib/options.h:129
 msgid "The default width of the local files listbox"
 msgstr "Implicitní šířka listboxu místních souborů"
 
-#: lib/options.h:135
+#: lib/options.h:132
 msgid "The default width of the remote files listbox"
 msgstr "Implicitní šířka listboxu vzdálených souborů"
 
-#: lib/options.h:138
+#: lib/options.h:135
 msgid "The default height of the local/remote files listboxes"
 msgstr "Implicitní výška listboxů místních/vzdálených souborů"
 
-#: lib/options.h:141
+#: lib/options.h:138
 msgid "The default height of the transfer listbox"
 msgstr "Implicitní výška listboxu přenosu"
 
-#: lib/options.h:144
+#: lib/options.h:141
 msgid "The default height of the logging window"
 msgstr "Implicitní výška okna záznamu"
 
-#: lib/options.h:147
+#: lib/options.h:144
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -521,15 +521,15 @@ msgstr ""
 "Šířka sloupce jméno souboru v okně přenosu. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0."
 
-#: lib/options.h:151 lib/options.h:157
+#: lib/options.h:148 lib/options.h:154
 msgid "The default column to sort by"
 msgstr "Implicitní sloupec, podle kterého třídit"
 
-#: lib/options.h:154 lib/options.h:160
+#: lib/options.h:151 lib/options.h:157
 msgid "Sort ascending or descending"
 msgstr "Třídit vzestupně nebo sestupně"
 
-#: lib/options.h:164 lib/options.h:182
+#: lib/options.h:161 lib/options.h:179
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -537,7 +537,7 @@ msgstr ""
 "Šířka sloupce jméno souboru v listboxech souborů. Sloupec necháte "
 "automagicky měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:167 lib/options.h:185
+#: lib/options.h:164 lib/options.h:182
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -545,7 +545,7 @@ msgstr ""
 "Šířka sloupce velikost v listboxech souborů. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:170 lib/options.h:188
+#: lib/options.h:167 lib/options.h:185
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -553,7 +553,7 @@ msgstr ""
 "Šířka sloupce uživatel v listboxech souborů. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:173 lib/options.h:191
+#: lib/options.h:170 lib/options.h:188
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -561,7 +561,7 @@ msgstr ""
 "Šířka sloupce skupina v listboxech souborů. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:176 lib/options.h:194
+#: lib/options.h:173 lib/options.h:191
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -569,7 +569,7 @@ msgstr ""
 "Šířka sloupce datum v listboxech souborů. Sloupec necháte automagicky měnit "
 "velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:179 lib/options.h:197
+#: lib/options.h:176 lib/options.h:194
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -577,43 +577,43 @@ msgstr ""
 "Šířka sloupce atributy v listboxech souborů. Sloupec necháte automagicky "
 "měnit velikost nastavením na 0. Sloupec vypnete nastavením na -1."
 
-#: lib/options.h:200
+#: lib/options.h:197
 msgid "The color of the commands that are sent to the server"
 msgstr "Barva příkazů posílaných na server"
 
-#: lib/options.h:203
+#: lib/options.h:200
 msgid "The color of the commands that are received from the server"
 msgstr "Barva příkazů přijímaných ze serveru"
 
-#: lib/options.h:206
+#: lib/options.h:203
 msgid "The color of the error messages"
 msgstr "Barva chybových zpráv"
 
-#: lib/options.h:209
+#: lib/options.h:206
 msgid "The color of the rest of the log messages"
 msgstr "Barva ostatních zpráv záznamu"
 
-#: lib/options.h:215 lib/rfc959.c:38
+#: lib/options.h:212 lib/rfc959.c:38
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:216 lib/rfc2068.c:27
+#: lib/options.h:213 lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:218 lib/options.h:220
+#: lib/options.h:215 lib/options.h:217
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: lib/options.h:222
+#: lib/options.h:219
 msgid "Local"
 msgstr "Místní"
 
-#: lib/options.h:223
+#: lib/options.h:220
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:224 src/gtk/bookmarks.c:858
+#: lib/options.h:221 src/gtk/bookmarks.c:858
 msgid "Bookmark"
 msgstr "Záložka"
 
