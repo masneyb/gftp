@@ -1,3 +1,7 @@
+2003-8-7 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_fd_write) - use a signed variable to store the
+	result from write(). Write errors were not being caught properly.
+
 2003-8-6 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (gftp_build_path) - fixed initial path beginning with //.
 	(expand_path) - when the path is empty at the end, set it to /. This

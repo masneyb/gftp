@@ -2164,8 +2164,9 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
 {
   long network_timeout;
   struct timeval tv;
-  size_t ret, w_ret;
+  ssize_t w_ret;
   fd_set fset;
+  size_t ret;
 
   gftp_lookup_request_option (request, "network_timeout", &network_timeout);  
 
@@ -2197,7 +2198,8 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
           return (GFTP_ERETRYABLE);
         }
 
-      if ((w_ret = write (fd, ptr, size)) < 0)
+      w_ret = write (fd, ptr, size);
+      if (w_ret < 0)
         {
           if (errno == EINTR)
             {
