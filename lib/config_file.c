@@ -280,9 +280,9 @@ gftp_read_config_file (char **argv, int get_xpms)
   while (fgets (buf, sizeof (buf), conffile))
     {
       len = strlen (buf);
-      if (buf[len - 1] == '\n')
+      if (len > 0 && buf[len - 1] == '\n')
 	buf[--len] = '\0';
-      if (len && buf[len - 1] == '\r')
+      if (len > 0 && buf[len - 1] == '\r')
 	buf[--len] = '\0';
       line++;
 
@@ -562,9 +562,9 @@ gftp_read_bookmarks (void)
   while (fgets (buf, sizeof (buf), bmfile))
     {
      len = strlen (buf);
-      if (buf[len - 1] == '\n')
+      if (len > 0 && buf[len - 1] == '\n')
 	buf[--len] = '\0';
-      if (len && buf[len - 1] == '\r')
+      if (len > 0 && buf[len - 1] == '\r')
 	buf[--len] = '\0';
       line++;
 

@@ -316,6 +316,8 @@ rfc959_syst (gftp_request * request)
   *endpos = '\0';
   if (strcmp (stpos, "UNIX") == 0)
     request->server_type = GFTP_TYPE_UNIX;
+  else if (strcmp (stpos, "VMS") == 0)
+    request->server_type = GFTP_TYPE_VMS;
   else
     request->server_type = GFTP_TYPE_OTHER;
 

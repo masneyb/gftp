@@ -1083,6 +1083,81 @@ parse_time (char *str, char **endpos)
 }
 
 
+static void 
+gftp_parse_vms_attribs (char *dest, char **src)
+{
+  char *endpos;
+
+  if (*src == NULL)
+    return;
+
+  if ((endpos = strchr (*src, ',')) != NULL)
+    *endpos = '\0';
+
+  if (strchr (*src, 'R') != NULL)
+    *dest = 'r';
+  if (strchr (*src, 'W') != NULL)
+    *(dest + 1) = 'w';
+  if (strchr (*src, 'E') != NULL)
+    *(dest + 2) = 'x';
+
+  *src = endpos + 1;
+}
+
+
+static int
+gftp_parse_ls_vms (char *str, gftp_file * fle)
+{
+  char *curpos, *endpos;
+
+  /* .PINE-DEBUG1;1              9  21-AUG-2002 20:06 [MYERSRG] (RWED,RWED,,) */
+  /* WWW.DIR;1                   1  23-NOV-1999 05:47 [MYERSRG] (RWE,RWE,RE,E) */
+
+  if ((curpos = strchr (str, ';')) == NULL)
+    return (GFTP_EFATAL);
+
+  *curpos = '\0';
+  fle->attribs = g_strdup ("----------");
+  if (strlen (str) > 4 && strcmp (curpos - 4, ".DIR") == 0)
+    {
+      fle->isdir = 1;
+      *fle->attribs = 'd';
+      *(curpos - 4) = '\0';
+    }
+
+  fle->file = g_strdup (str);
+
+  curpos = goto_next_token (curpos + 1);
+  fle->size = strtol (curpos, NULL, 10) * 512; /* FIXME - Is this correct? */
+  curpos = goto_next_token (curpos);
+
+  if ((fle->datetime = parse_time (curpos, &curpos)) == 0)
+    return (GFTP_EFATAL);
+
+  curpos = goto_next_token (curpos);
+
+  if (*curpos != '[')
+    return (GFTP_EFATAL);
+  curpos++;
+  if ((endpos = strchr (curpos, ']')) == NULL)
+    return (GFTP_EFATAL);
+  *endpos = '\0';
+  fle->user = g_strdup (curpos);
+  fle->group = g_strdup ("");
+
+  curpos = goto_next_token (endpos + 1);
+  if ((curpos = strchr (curpos, ',')) == NULL)
+    return (0);
+  curpos++;
+
+  gftp_parse_vms_attribs (fle->attribs + 1, &curpos);
+  gftp_parse_vms_attribs (fle->attribs + 4, &curpos);
+  gftp_parse_vms_attribs (fle->attribs + 7, &curpos);
+
+  return (0);
+}
+  
+
 static int
 gftp_parse_ls_eplf (char *str, gftp_file * fle)
 {
@@ -1325,9 +1400,9 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
 int
 gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
 {
-  int result;
+  char *str, *endpos, tmpchar;
+  int result, is_vms;
   size_t len;
-  char *str;
 
   g_return_val_if_fail (lsoutput != NULL, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
@@ -1337,7 +1412,7 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
   memset (fle, 0, sizeof (*fle));
 
   len = strlen (str);
-  if (str[len - 1] == '\n')
+  if (len > 0 && str[len - 1] == '\n')
     str[--len] = '\0';
   if (len > 0 && str[len - 1] == '\r')
     str[--len] = '\0';
@@ -1356,6 +1431,9 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
       case GFTP_TYPE_DOS:
         result = gftp_parse_ls_nt (str, fle);
         break;
+      case GFTP_TYPE_VMS:
+        result = gftp_parse_ls_vms (str, fle);
+        break;
       default: /* autodetect */
         if (*lsoutput == '+')
           result = gftp_parse_ls_eplf (str, fle);
@@ -1364,8 +1442,24 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
         else if (str[1] == ' ' && str[2] == '[')
           result = gftp_parse_ls_novell (str, fle);
         else
-	  result = gftp_parse_ls_unix (request, str, fle);
+          {
+            if ((endpos = strchr (str, ' ')) != NULL)
+              {
+                /* If the first token in the string has a ; in it, then */
+                /* we'll assume that this is a VMS directory listing    */
+                tmpchar = *endpos;
+                *endpos = '\0';
+                is_vms = strchr (str, ';') != NULL;
+                *endpos = tmpchar;
+              }
+            else
+              is_vms = 0;
 
+            if (is_vms)
+              result = gftp_parse_ls_vms (str, fle);
+            else
+              result = gftp_parse_ls_unix (request, str, fle);
+          }
         break;
     }
   g_free (str);
