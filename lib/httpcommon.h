@@ -25,7 +25,8 @@ typedef struct rfc2068_params_tag
   unsigned long read_bytes,
                 content_length;
   long chunk_size;
-  unsigned int chunked_transfer : 1;
+  unsigned int chunked_transfer : 1,
+               eof : 1;
   ssize_t (*real_read_function) ( gftp_request * request,
                                   void *ptr,
                                   size_t size,

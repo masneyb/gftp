@@ -2048,7 +2048,12 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
 
           (*rbuf)->curpos = (*rbuf)->buffer;
 
-          if ((ret = read_function (request, pos, rlen, fd)) < 0)
+          if ((*rbuf)->eof)
+            ret = 0;
+          else
+            ret = read_function (request, pos, rlen, fd);
+
+          if (ret < 0)
             {
               gftp_free_getline_buffer (rbuf);
               return (ret);

@@ -1,8 +1,11 @@
-2003-07-01  gettextize  <bug-gnu-gettext@gnu.org>
+2003-7-5 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_line) - fixed bug where the read function
+	was being called one extra time after the end of file was reached
 
-	* Makefile.am (SUBDIRS): Add intl.
-	(EXTRA_DIST): Add config.rpath mkinstalldirs.
-	* configure.in (AC_OUTPUT): Add intl/Makefile,
+	* lib/rfc2068.c - fixes for chunked file transfers. All known issues with the
+	HTTP protocol should be (hopefully) fixed now
+
+	* lib/httpcommon.h (struct rfc2068_params_tag) - added eof variable
 
 2003-7-1 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (base64_encode) - alphabet fix (+ wasn't a valid
