@@ -322,7 +322,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Tools/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Tools/Compare Windows"), NULL, compare_windows, 0, MN_(NULL)},
     {N_("/Tools/Clear Cache"), NULL, clear_cache, 0, MS_(GTK_STOCK_CLEAR)},
-    {N_("/_Help"), NULL, 0, 0, MN_("<Branch>")},
+    {N_("/Help"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Help/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Help/About"), NULL, about_dialog, 0, MS_(GTK_STOCK_HELP)}
   };
@@ -444,7 +444,12 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_container_border_width (GTK_CONTAINER (openurl_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), openurl_btn, FALSE, FALSE, 0);
 
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_label_new (_("Host: "));
+#else
+  tempwid = gtk_label_new_with_mnemonic (_("_Host: "));
+#endif
+
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
   hostedit = gtk_combo_new ();
@@ -460,6 +465,10 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gtk_combo_disable_activate (GTK_COMBO (hostedit));
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry), "");
+#if GTK_MAJOR_VERSION > 1
+  gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid),
+                                 GTK_COMBO (hostedit)->entry);
+#endif
   gtk_box_pack_start (GTK_BOX (box), hostedit, TRUE, TRUE, 0);
 
   tempwid = gtk_label_new (_("Port: "));
@@ -480,7 +489,11 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), "");
   gtk_box_pack_start (GTK_BOX (box), portedit, FALSE, FALSE, 0);
 
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_label_new (_("User: "));
+#else
+  tempwid = gtk_label_new_with_mnemonic (_("_User: "));
+#endif
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
   useredit = gtk_combo_new ();
@@ -496,6 +509,10 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gtk_combo_disable_activate (GTK_COMBO (useredit));
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (useredit)->entry), "");
+#if GTK_MAJOR_VERSION > 1
+  gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid),
+                                 GTK_COMBO (useredit)->entry);
+#endif
   gtk_box_pack_start (GTK_BOX (box), useredit, TRUE, TRUE, 0);
 
   tempwid = gtk_label_new (_("Pass: "));
