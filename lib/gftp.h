@@ -88,8 +88,12 @@
 #define AF_LOCAL AF_UNIX
 #endif
 
-#ifdef HAVE_OPENPTY
+#ifdef HAVE_PTY_H
 #include <pty.h>
+#elif HAVE_LIBUTIL_H
+#include <libutil.h>
+#else
+extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp, struct winsize * winp);
 #endif
 
 #ifdef HAVE_GETADDRINFO

@@ -41,9 +41,7 @@ open_ptys (gftp_request * request, int *fdm, int *fds)
   return (0);
 }
 
-#else /* !__sgi */
-
-#ifdef HAVE_GRANTPT
+#elif HAVE_GRANTPT
 
 int
 open_ptys (gftp_request * request, int *fdm, int *fds)
@@ -85,9 +83,7 @@ open_ptys (gftp_request * request, int *fdm, int *fds)
   return (0);
 }
 
-#else /* !HAVE_GRANTPT */
-
-#ifdef HAVE_OPENPTY
+#elif HAVE_OPENPTY
 
 int
 open_ptys (gftp_request * request, int *fdm, int *fds)
@@ -141,10 +137,6 @@ open_ptys (gftp_request * request, int *fdm, int *fds)
 
   return (GFTP_ERETRYABLE);
 }
-
-#endif /* HAVE_OPENPTY */
-
-#endif /* HAVE_GRANTPT */
 
 #endif /* __sgi */
 
