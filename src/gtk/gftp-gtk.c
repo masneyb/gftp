@@ -81,6 +81,7 @@ main (int argc, char **argv)
 #ifdef HAVE_GETTEXT
   setlocale (LC_ALL, "");
   bindtextdomain ("gftp", LOCALE_DIR);
+  bind_textdomain_codeset ("gftp", "UTF-8");
   textdomain ("gftp");
 #endif
   gtk_set_locale ();
@@ -335,14 +336,14 @@ CreateMenus (GtkWidget * parent)
   int local_len, remote_len, len, i, trans_len, log_len, tools_len;
   GtkAccelGroup *accel_group;
   GtkWidget * tempwid;
-  static GtkItemFactoryEntry dummy_item, menu_items[] = {
+  static GtkItemFactoryEntry menu_items[] = {
     {N_("/_FTP"), NULL, 0, 0, "<Branch>"},
     {N_("/FTP/tearoff"), NULL, 0, 0, "<Tearoff>"},
     {N_("/FTP/Window 1"), NULL, change_setting, 3, "<RadioItem>"},
-    {N_("/FTP/Window 2"), NULL, change_setting, 4, N_("/FTP/Window 1")},
+    {N_("/FTP/Window 2"), NULL, change_setting, 4, "/FTP/Window 1"},
     {N_("/FTP/sep"), NULL, 0, 0, "<Separator>"},
     {N_("/FTP/Ascii"), NULL, change_setting, 1, "<RadioItem>"},
-    {N_("/FTP/Binary"), NULL, change_setting, 2, N_("/FTP/Ascii")},
+    {N_("/FTP/Binary"), NULL, change_setting, 2, "/FTP/Ascii"},
     {N_("/FTP/sep"), NULL, 0, 0, "<Separator>"},
     {N_("/FTP/_Options..."), "<control>O", options_dialog, 0},
     {N_("/FTP/sep"), NULL, 0, 0, "<Separator>"},
@@ -421,7 +422,7 @@ CreateMenus (GtkWidget * parent)
   menus = menu_items;
 
   accel_group = gtk_accel_group_new ();
-  factory = gtk_item_factory_new (GTK_TYPE_MENU_BAR, "<main>", accel_group);
+  factory = item_factory_new (GTK_TYPE_MENU_BAR, "<main>", accel_group, NULL);
 
   i = 0;
   len = 11;
@@ -477,47 +478,23 @@ CreateMenus (GtkWidget * parent)
   */
 #endif
 
-  tempwid = gtk_item_factory_get_widget (factory, _(menu_items[6].path));
+  tempwid = gtk_item_factory_get_widget (factory, menu_items[6].path);
   gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
 
-  tempwid = gtk_item_factory_get_widget (factory, _(menu_items[3].path));
+  tempwid = gtk_item_factory_get_widget (factory, menu_items[3].path);
   gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
 
-  window1.ifactory = gtk_item_factory_new (GTK_TYPE_MENU, "<local>", NULL);
-  for (i = local_start + 2; i < local_start + local_len; i++)
-    {
-      memcpy (&dummy_item, &menu_items[i], sizeof (dummy_item));
-      dummy_item.path = strchr (_(dummy_item.path) + 1, '/');
-      if (dummy_item.item_type)
-	dummy_item.item_type = _(menu_items[i].item_type);
-      gtk_item_factory_create_item (window1.ifactory, &dummy_item, &window1, 1);
-    }
+  window1.ifactory = item_factory_new (GTK_TYPE_MENU, "<local>", NULL, "/Local");
+  create_item_factory (window1.ifactory, local_len - 2, menu_items + local_start + 2, &window1);
 
-  window2.ifactory = gtk_item_factory_new (GTK_TYPE_MENU, "<remote>", NULL);
-  for (i = remote_start + 2; i < remote_start + remote_len; i++)
-    {
-      memcpy (&dummy_item, &menu_items[i], sizeof (dummy_item));
-      dummy_item.path = strchr (_(dummy_item.path) + 1, '/');
-      if (dummy_item.item_type)
-	dummy_item.item_type = _(menu_items[i].item_type);
-      gtk_item_factory_create_item (window2.ifactory, &dummy_item, &window2, 1);
-    }
+  window2.ifactory = item_factory_new (GTK_TYPE_MENU, "<remote>", NULL, "/Remote");
+  create_item_factory (window2.ifactory, remote_len - 2, menu_items + remote_start + 2, &window2);
 
-  log_factory = gtk_item_factory_new (GTK_TYPE_MENU, "<log>", NULL);
-  for (i = log_start + 2; i < log_start + log_len; i++)
-    {
-      memcpy (&dummy_item, menu_items + i, sizeof (dummy_item));
-      dummy_item.path = strrchr (_(dummy_item.path), '/');
-      gtk_item_factory_create_item (log_factory, &dummy_item, NULL, 1);
-    }
+  log_factory = item_factory_new (GTK_TYPE_MENU, "<log>", NULL, "/Logging");
+  create_item_factory (log_factory, log_len - 2, menu_items + log_start + 2, NULL);
 
-  dl_factory = gtk_item_factory_new (GTK_TYPE_MENU, "<download>", NULL);
-  for (i = trans_start + 2; i < trans_start + trans_len; i++)
-    {
-      memcpy (&dummy_item, menu_items + i, sizeof (dummy_item));
-      dummy_item.path = strrchr (_(dummy_item.path), '/');
-      gtk_item_factory_create_item (dl_factory, &dummy_item, NULL, 1);
-    }
+  dl_factory = item_factory_new (GTK_TYPE_MENU, "<download>", NULL, "/Transfers");
+  create_item_factory (dl_factory, trans_len - 2, menu_items + trans_start + 2, NULL);
 
   return (factory->widget);
 }
@@ -995,14 +972,6 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
       return;
     }
  
-  if (current_wdata->request->need_userpass &&
-      *gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry)) == '\0')
-    {
-       gftp_set_username (current_wdata->request, "anonymous");
-       gftp_set_password (current_wdata->request, emailaddr);
-    }
-
-
   txt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (portedit)->entry));
   gftp_set_port (current_wdata->request, strtol (txt, NULL, 10));
   add_history (portedit, &port_history, &port_len, txt);

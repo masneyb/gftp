@@ -202,6 +202,7 @@ local_get_file (gftp_request * request, const char *filename, FILE * fd,
                 off_t startsize)
 {
   size_t size;
+  int sock, flags;
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
@@ -209,11 +210,25 @@ local_get_file (gftp_request * request, const char *filename, FILE * fd,
 
   if (fd == NULL)
     {
-      if ((request->datafd = fopen (filename, "rb")) == NULL)
+      flags = O_RDONLY;
+#if defined (_LARGEFILE_SOURCE)
+      flags |= O_LARGEFILE;
+#endif
+
+      if ((sock = open (filename, flags)) < 0)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),
                                    filename, g_strerror (errno));
+          return (-2);
+        }
+
+      if ((request->datafd = fdopen (sock, "rb")) == NULL)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                                     _("Cannot fdopen() socket for %s: %s\n"),
+                                     filename, g_strerror (errno));
+          close (sock);
           return (-2);
         }
     }
@@ -255,7 +270,7 @@ static int
 local_put_file (gftp_request * request, const char *filename, FILE * fd,
                 off_t startsize, off_t totalsize)
 {
-  int sock;
+  int sock, flags;
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
@@ -263,9 +278,14 @@ local_put_file (gftp_request * request, const char *filename, FILE * fd,
 
   if (fd == NULL)
     {
-      if ((sock = open (filename, 
-          startsize > 0 ? O_WRONLY | O_APPEND | O_CREAT: O_WRONLY | O_CREAT, 
-          S_IRUSR | S_IWUSR)) < 0)
+      flags = O_WRONLY | O_CREAT;
+      if (startsize > 0)
+         flags |= O_APPEND;
+#if defined (_LARGEFILE_SOURCE)
+      flags |= O_LARGEFILE;
+#endif
+
+      if ((sock = open (filename, flags, S_IRUSR | S_IWUSR)) < 0)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),

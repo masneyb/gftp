@@ -239,6 +239,11 @@ int check_status				( char *name,
 						  int at_least_one,
 						  int func );
 
+GtkItemFactory *item_factory_new                ( GtkType	       container_type,
+						  const char	      *path,
+						  GtkAccelGroup       *accel_group,
+						  const char          *strip_prefix );
+
 void create_item_factory 			( GtkItemFactory * ifactory, 
 						  guint n_entries, 
 						  GtkItemFactoryEntry * entries,

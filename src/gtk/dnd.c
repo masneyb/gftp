@@ -265,9 +265,11 @@ dnd_remote_file (char *url, GList ** transfers, gftp_window_data * wdata)
       tdata = g_malloc0 (sizeof (*tdata));
       tdata->towdata = wdata == &window1 ? &window1 : &window2;
       fromwdata = wdata == &window1 ? &window2 : &window1;
-      if (compare_request (fromwdata->request, current_ftpdata, 1))
+      if (fromwdata->request != NULL &&
+          compare_request (fromwdata->request, current_ftpdata, 1))
         {
-          gftp_set_password (current_ftpdata, fromwdata->request->password);
+          if (fromwdata->request->password != NULL)
+            gftp_set_password (current_ftpdata, fromwdata->request->password);
           tdata->fromwdata = fromwdata;
         }
       tdata->fromreq = current_ftpdata;

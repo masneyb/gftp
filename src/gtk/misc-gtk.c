@@ -240,7 +240,7 @@ update_window_info (void)
   update_window (&window1);
   update_window (&window2);
 
-  tempwid = gtk_item_factory_get_widget (factory, _(menus[tools_start+2].path));
+  tempwid = gtk_item_factory_get_widget (factory, menus[tools_start+2].path);
   gtk_widget_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
 			    && GFTP_IS_CONNECTED (window2.request));
 }
@@ -325,7 +325,7 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
   tempwid = NULL;
 
   if (factory != NULL)
-    tempwid = gtk_item_factory_get_widget (factory, _(path));
+    tempwid = gtk_item_factory_get_widget (factory, path);
   if (tempwid)
     gtk_widget_set_sensitive (tempwid, sensitive);
 
@@ -333,7 +333,7 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
     pos = path;
 
   if (wdata->ifactory)
-    tempwid = gtk_item_factory_get_widget (wdata->ifactory, _(pos));
+    tempwid = gtk_item_factory_get_widget (wdata->ifactory, pos);
   if (tempwid)
     gtk_widget_set_sensitive (tempwid, sensitive);
 }
@@ -502,24 +502,66 @@ check_status (char *name, gftp_window_data *wdata, int check_other_stop,
   return (1);
 }
 
+static gchar *
+gftp_item_factory_translate (const char *path,
+			     gpointer    func_data)
+{
+  const gchar *strip_prefix = func_data;
+  const char *result;
+  
+  if (strip_prefix)
+    {
+      char *tmp_path = g_strconcat (strip_prefix, path, NULL);
+      result = gettext (tmp_path);
+      if (result == tmp_path)
+	result = path;
+      g_free (tmp_path);
+    }
+  else
+    result = gettext (path);
+
+  return (char *)result;
+}
+
+GtkItemFactory *
+item_factory_new (GtkType	       container_type,
+		  const char	      *path,
+		  GtkAccelGroup       *accel_group,
+		  const char          *strip_prefix)
+{
+  GtkItemFactory *result = gtk_item_factory_new (container_type, path, accel_group);
+  gchar *strip_prefix_dup = g_strdup (g_strdup (strip_prefix));
+  
+  gtk_item_factory_set_translate_func (result, gftp_item_factory_translate,
+				       strip_prefix_dup, NULL);
+
+  if (strip_prefix_dup)
+    gtk_object_set_data_full (GTK_OBJECT (result), "gftp-strip-prefix",
+			      strip_prefix_dup, (GDestroyNotify)g_free);
+
+  return result;
+}
 
 void
 create_item_factory (GtkItemFactory * ifactory, guint n_entries,
 		     GtkItemFactoryEntry * entries, gpointer callback_data)
 {
-  GtkItemFactoryEntry dummy_item;
   int i;
+  const char *strip_prefix = gtk_object_get_data (GTK_OBJECT (ifactory), "gftp-strip-prefix");
+  int strip_prefix_len = 0;
+
+  if (strip_prefix)
+    strip_prefix_len = strlen (strip_prefix);
 
   for (i = 0; i < n_entries; i++)
     {
-      memcpy (&dummy_item, entries + i, sizeof (dummy_item));
-      if (dummy_item.item_type)
-	dummy_item.item_type = _(entries[i].item_type);
-      dummy_item.path = _(entries[i].path);
+      GtkItemFactoryEntry dummy_item = entries[i];
+      if (strip_prefix && strncmp (entries[i].path, strip_prefix, strip_prefix_len) == 0)
+	dummy_item.path += strip_prefix_len;
+      
       gtk_item_factory_create_item (ifactory, &dummy_item, callback_data, 1);
     }
 }
-
 
 GList *
 get_next_selection (GList * selection, GList ** list, int *curnum)

@@ -2,7 +2,7 @@
 
 man_MANS=gftp.1
 SUBDIRS=sample.gftp
-EXTRA_DIST=USERS-GUIDE gftp.1 gftp.desktop gftp.lsm gftp.png parse-netrc.pl
+EXTRA_DIST=USERS-GUIDE faq.xml gftp.xml gftp.1 gftp.desktop gftp.lsm gftp.png legal.xml parse-netrc.pl
 
 Utilitiesdir = $(datadir)/gnome/apps/Internet
 Utilities_DATA = gftp.desktop

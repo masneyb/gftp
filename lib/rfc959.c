@@ -116,8 +116,15 @@ rfc959_connect (gftp_request * request)
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, -2);
   g_return_val_if_fail (request->hostname != NULL, -2);
-  g_return_val_if_fail (request->username != NULL, -2);
 
+  if (request->username == NULL || *request->username == '\0')
+    {
+      gftp_set_username (request, "anonymous");
+      gftp_set_password (request, emailaddr);
+    }
+  else if (strcasecmp (request->username, "anonymous") == 0)
+    gftp_set_password (request, emailaddr);
+    
   if (request->sockfd != NULL)
     return (0);
 

@@ -123,6 +123,11 @@ run_bookmark (gpointer data)
   if (!gftp_protocols[i].name)
     gftp_protocols[0].init (current_wdata->request);
 
+  /* If we're using one of the SSH protocols, override the value of 
+     ssh_need_userpass in the config file */
+  if (strncmp (tempentry->protocol, "SSH", 3) == 0)
+    current_wdata->request->need_userpass = 1;
+
   ftp_connect (current_wdata, current_wdata->request, 1);
 }
 
@@ -202,15 +207,7 @@ doadd_bookmark (GtkWidget * widget, gftp_dialog_data * data)
   tempentry->remote_dir = g_malloc (strlen (edttxt) + 1);
   strcpy (tempentry->remote_dir, edttxt);
 
-  if ((edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry))) == NULL)
-    {
-      tempentry->user = g_malloc (10);
-      strcpy (tempentry->user, "anonymous");
-
-      tempentry->pass = g_malloc (strlen (emailaddr) + 1);
-      strcpy (tempentry->pass, emailaddr);
-    }
-  else
+  if ((edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry))) != NULL)
     {
       tempentry->user = g_malloc (strlen (edttxt) + 1);
       strcpy (tempentry->user, edttxt);
@@ -223,7 +220,7 @@ doadd_bookmark (GtkWidget * widget, gftp_dialog_data * data)
 
   add_to_bookmark (tempentry);
 
-  test.path = g_strconcat (_("/Bookmarks/"), tempentry->path, NULL);
+  test.path = g_strconcat ("/Bookmarks/", tempentry->path, NULL);
   gtk_item_factory_create_item (factory, &test, (gpointer) tempentry->path,
 				1);
   g_free (test.path);
@@ -240,7 +237,7 @@ build_bookmarks_menu (void)
   tempentry = bookmarks->children;
   while (tempentry != NULL)
     {
-      test.path = g_strconcat (_("/Bookmarks/"), tempentry->path, NULL);
+      test.path = g_strconcat ("/Bookmarks/", tempentry->path, NULL);
       if (tempentry->isfolder)
         {
           test.item_type = "<Branch>";
@@ -272,7 +269,7 @@ edit_bookmarks (gpointer data)
 {
   GtkWidget * dialog, * scroll, * tempwid;
   GtkItemFactory * ifactory;
-  GtkItemFactoryEntry dummy_item, menu_items[] = {
+  GtkItemFactoryEntry menu_items[] = {
     {N_("/_File"), NULL, 0, 0, "<Branch>"},
     {N_("/File/tearoff"), NULL, 0, 0, "<Tearoff>"},
     {N_("/File/New Folder..."), NULL, new_folder_entry, 0},
@@ -282,7 +279,6 @@ edit_bookmarks (gpointer data)
     {N_("/File/sep"), NULL, 0, 0, "<Separator>"},
     {N_("/File/Close"), NULL, gtk_widget_destroy, 0}
   };
-  int i;
 
   new_bookmarks = copy_bookmarks (bookmarks);
   new_bookmarks_htable = build_bookmarks_hash_table (new_bookmarks);
@@ -293,7 +289,7 @@ edit_bookmarks (gpointer data)
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
-  ifactory = gtk_item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", NULL);
+  ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", NULL, NULL);
   create_item_factory (ifactory, 7, menu_items, NULL);
   create_item_factory (ifactory, 1, menu_items + 7, dialog);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), ifactory->widget,
@@ -310,13 +306,9 @@ edit_bookmarks (gpointer data)
   gtk_container_border_width (GTK_CONTAINER (scroll), 3);
   gtk_widget_show (scroll);
 
-  edit_factory = gtk_item_factory_new (GTK_TYPE_MENU, "<edit_bookmark>", NULL);
-  for (i = 2; i < 8; i++)
-    {
-      memcpy (&dummy_item, menu_items + i, sizeof (dummy_item));
-      dummy_item.path = strrchr (_(dummy_item.path), '/');
-      gtk_item_factory_create_item (edit_factory, &dummy_item, dialog, 1);
-    }
+  edit_factory = item_factory_new (GTK_TYPE_MENU, "<edit_bookmark>", NULL, "/File");
+
+  create_item_factory (edit_factory, 6, menu_items + 2, dialog);
 
   tree = gtk_ctree_new (1, 0);
   gtk_clist_set_selection_mode (GTK_CLIST (tree), GTK_SELECTION_BROWSE);
@@ -376,7 +368,7 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
     {
       if (tempentry->path && !tempentry->isfolder)
 	{
-	  tempstr = g_strdup_printf (_("/Bookmarks/%s"), tempentry->path);
+	  tempstr = g_strdup_printf ("/Bookmarks/%s", tempentry->path);
           gtk_widget_destroy (gtk_item_factory_get_item (factory, tempstr));
 	  g_free (tempentry->path);
 	  g_free (tempstr);
@@ -408,7 +400,7 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 		  tempentry = tempentry->prev;
 		  if (delentry->isfolder)
 		    {
-		      tempstr = g_strdup_printf (_("/Bookmarks/%s"), 
+		      tempstr = g_strdup_printf ("/Bookmarks/%s", 
                                                  delentry->path);
                       gtk_widget_destroy (gtk_item_factory_get_item (factory, 
                                                                      tempstr));
@@ -421,7 +413,7 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 	      tempentry = tempentry->next;
 	      if (delentry->isfolder && tempentry != NULL)
 		{
-		  tempstr = g_strdup_printf (_("/Bookmarks/%s"), 
+		  tempstr = g_strdup_printf ("/Bookmarks/%s", 
                                              delentry->path);
                     gtk_widget_destroy (gtk_item_factory_get_item (factory, 
                                                                    tempstr));

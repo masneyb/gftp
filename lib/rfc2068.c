@@ -166,8 +166,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, FILE * fd,
   else
     proto = "http";
 
-  if (request->username == NULL || *request->username == '\0' || 
-      strcmp (request->username, "anonymous") == 0)
+  if (request->username == NULL || *request->username == '\0')
     tempstr = g_strconcat ("GET ", proto, "://", 
                      request->hostname, "/", filename, 
                      use_http11 ? " HTTP/1.1\n" : " HTTP/1.0\n", NULL);
@@ -301,8 +300,7 @@ rfc2068_list_files (gftp_request * request)
   else
     proto = "http";
 
-  if (request->username == NULL || *request->username == '\0' || 
-      strcmp (request->username, "anonymous") == 0)
+  if (request->username == NULL || *request->username == '\0')
     tempstr = g_strconcat ("GET ", proto, "://", 
                            request->hostname, "/", request->directory, 
                            use_http11 ? "/ HTTP/1.1\n" : "/ HTTP/1.0\n", NULL);
@@ -352,8 +350,7 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
   else
     proto = "http";
 
-  if (request->username == NULL || *request->username == '\0' || 
-      strcmp (request->username, "anonymous") == 0)
+  if (request->username == NULL || *request->username == '\0')
     tempstr = g_strconcat ("HEAD ", proto, request->hostname, "/", filename, 
                            use_http11 ? " HTTP/1.1\n" : " HTTP/1.0\n", NULL);
   else
@@ -507,8 +504,7 @@ rfc2068_send_command (gftp_request * request, const char *command,
         }
     }
 
-  if (request->username != NULL && *request->username != '\0' &&
-       strcmp (request->username, "anonymous") != 0) 
+  if (request->username != NULL && *request->username != '\0')
     {
       tempstr = g_strconcat (request->username, ":", request->password, NULL);
       str = base64_encode (tempstr);

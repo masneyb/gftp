@@ -234,15 +234,9 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
       gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Connecting..."));
     }
 
-  if (request->need_userpass && (GFTP_GET_USERNAME (request) == NULL ||
-	                         *GFTP_GET_USERNAME (request) == '\0'))
-    gftp_set_username (request, "anonymous");
-  if (request->need_userpass && strcmp (request->username, "anonymous") == 0 &&
-                                ((GFTP_GET_PASSWORD (request) == NULL ||
-	                         *GFTP_GET_PASSWORD (request) == '\0')))
-    gftp_set_password (request, emailaddr);
-  else if (request->need_userpass && (GFTP_GET_PASSWORD (request) == NULL || 
-                                 *GFTP_GET_PASSWORD (request) == '\0'))
+  if (request->need_userpass && request->username != NULL &&
+      *request->username != '\0' &&
+      (request->password == NULL || *request->password == '\0'))
     {
       if (wdata && wdata->request == request)
         {

@@ -510,16 +510,6 @@ gftp_parse_url (gftp_request * request, const char *url)
 	  pos = endpos + 1;
 	}
     }
-  else
-    {
-      gftp_set_username (request, "anonymous");
-      if (request->password)
-        {
-	  g_free (request->password);
-          request->password = NULL;
-        }
-      gftp_set_password (request, emailaddr);
-    }
 
   /* Now get the hostname and an optional port and optional directory */
   endhostpos = pos + strlen (pos);
