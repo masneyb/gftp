@@ -349,7 +349,8 @@ check_done_process (void)
                     {
                       ftp_log (gftp_logging_error, NULL,
                                _("Error: Child %d returned %d\n"), pid, procret);
-                      remove_file (ve_proc->filename);
+                      if (ve_proc->view)
+                        remove_file (ve_proc->filename);
                       continue;
                     }
                   else
