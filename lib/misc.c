@@ -239,14 +239,14 @@ copyfile (char *source, char *dest)
   char buf[8192];
   ssize_t n;
 
-  if ((srcfd = open (source, O_RDONLY)) == -1)
+  if ((srcfd = gftp_fd_open (NULL, source, O_RDONLY, 0)) == -1)
     {
       printf (_("Error: Cannot open local file %s: %s\n"),
               source, g_strerror (errno));
       exit (1);
     }
 
-  if ((destfd = open (dest, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
+  if ((destfd = gftp_fd_open (NULL, dest, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
     {
       printf (_("Error: Cannot open local file %s: %s\n"),
               dest, g_strerror (errno));

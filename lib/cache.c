@@ -72,7 +72,7 @@ gftp_parse_cache_line (gftp_request * request, gftp_cache_entry * centry,
 }
 
 
-void
+static void
 gftp_restore_cache_line (gftp_cache_entry * centry, char *line)
 {
   if (centry->pos1 != NULL)
@@ -80,6 +80,19 @@ gftp_restore_cache_line (gftp_cache_entry * centry, char *line)
 
   if (centry->pos2 != NULL)
     *centry->pos2 = '\t';
+}
+
+
+void
+gftp_generate_cache_description (gftp_request * request, char *description,
+                                 size_t len, int ignore_directory)
+{
+  g_snprintf (description, len, "%s://%s@%s:%d%s",
+              request->url_prefix,
+              request->username == NULL ? "" : request->username,
+              request->hostname == NULL ? "" : request->hostname,
+              request->port, 
+              ignore_directory || request->directory == NULL ? "" : request->directory);
 }
 
 
@@ -105,18 +118,14 @@ gftp_new_cache_entry (gftp_request * request)
     }
 
   tempstr = g_strdup_printf ("%s/index.db", cachedir);
-  if ((fd = open (tempstr, O_WRONLY | O_APPEND | O_CREAT, 
-                  S_IRUSR | S_IWUSR)) == -1)
+  if ((fd = gftp_fd_open (request, tempstr, O_WRONLY | O_APPEND | O_CREAT, 
+                          S_IRUSR | S_IWUSR)) == -1)
     {
-      if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Error: Cannot open local file %s: %s\n"),
-                                   tempstr, g_strerror (errno));
-
       g_free (tempstr);
       g_free (cachedir);
       return (-1);
     }
+
   g_free (tempstr);
 
   tempstr = g_strdup_printf ("%s/cache.XXXXXX", cachedir);
@@ -166,15 +175,11 @@ gftp_find_cache_entry (gftp_request * request)
   gftp_cache_entry centry;
   int indexfd, cachefd;
 
-  g_snprintf (description, sizeof (description), "%s://%s@%s:%d%s",
-              request->url_prefix,
-              request->username == NULL ? "" : request->username,
-              request->hostname == NULL ? "" : request->hostname,
-              request->port, 
-              request->directory == NULL ? "" : request->directory);
+  gftp_generate_cache_description (request, description, sizeof (description),
+                                   0);
 
   indexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
-  if ((indexfd = open (indexfile, O_RDONLY)) == -1)
+  if ((indexfd = gftp_fd_open (request, indexfile, O_RDONLY, 0)) == -1)
     {
       g_free (indexfile);
       return (-1);
@@ -199,15 +204,8 @@ gftp_find_cache_entry (gftp_request * request)
               return (-1);
             }
 
-	  if ((cachefd = open (centry.file, O_RDONLY)) == -1)
-            {
-              if (request != NULL)
-                request->logging_function (gftp_logging_error, 
-                                   request->user_data,
-                                   _("Error: Cannot open local file %s: %s\n"),
-                                   centry.file, g_strerror (errno));
-              return (-1);
-            }
+	  if ((cachefd = gftp_fd_open (request, centry.file, O_RDONLY, 0)) == -1)
+            return (-1);
 
           if (lseek (cachefd, 0, SEEK_END) == 0)
             { 
@@ -243,7 +241,7 @@ gftp_clear_cache_files (void)
   int indexfd;
 
   indexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
-  if ((indexfd = open (indexfile, O_RDONLY)) == -1)
+  if ((indexfd = gftp_fd_open (NULL, indexfile, O_RDONLY, 0)) == -1)
     {
       g_free (indexfile);
       return;
@@ -265,7 +263,7 @@ gftp_clear_cache_files (void)
 
 
 void
-gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
+gftp_delete_cache_entry (gftp_request * request, char *descr, int ignore_directory)
 {
   char *oldindexfile, *newindexfile, buf[BUFSIZ], description[BUFSIZ];
   gftp_getline_buffer * rbuf;
@@ -273,29 +271,29 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
   int indexfd, newfd;
   int remove;
 
-  g_snprintf (description, sizeof (description), "%s://%s@%s:%d%s",
-              request->url_prefix,
-              request->username == NULL ? "" : request->username,
-              request->hostname == NULL ? "" : request->hostname,
-              request->port, 
-              ignore_directory || request->directory == NULL ? "" : request->directory);
+  if (request != NULL)
+    {
+      gftp_generate_cache_description (request, description, sizeof (description),
+                                       ignore_directory);
+    }
+  else if (descr != NULL)
+    { 
+      strncpy (description, descr, sizeof (description));
+    }
+  else
+    return;
 
   oldindexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
-  if ((indexfd = open (oldindexfile, O_RDONLY)) == -1)
+  if ((indexfd = gftp_fd_open (request, oldindexfile, O_RDONLY, 0)) == -1)
     {
       g_free (oldindexfile);
       return;
     }
 
   newindexfile = expand_path (BASE_CONF_DIR "/cache/index.db.new");
-  if ((newfd = open (newindexfile, O_WRONLY | O_CREAT, 
-                     S_IRUSR | S_IWUSR)) == -1)
+  if ((newfd = gftp_fd_open (request, newindexfile, O_WRONLY | O_CREAT, 
+                             S_IRUSR | S_IWUSR)) == -1)
     {
-      if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Error: Cannot open local file %s: %s\n"),
-                                   newindexfile, g_strerror (errno));
-
       g_free (oldindexfile);
       g_free (newindexfile);
       return;

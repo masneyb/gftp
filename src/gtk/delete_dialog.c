@@ -23,14 +23,7 @@ static const char cvsid[] = "$Id$";
 static void
 delete_purge_cache (gpointer key, gpointer value, gpointer user_data)
 {
-  gftp_request * request;
-  char *olddir;
-
-  request = user_data;
-  olddir = request->directory;
-  request->directory = key;
-  gftp_delete_cache_entry (request, 0);
-  request->directory = olddir;
+  gftp_delete_cache_entry (NULL, key, 0);
   g_free (key);
 }
 
@@ -38,8 +31,8 @@ delete_purge_cache (gpointer key, gpointer value, gpointer user_data)
 static void *
 do_delete_thread (void *data)
 {
+  char *tempstr, description[BUFSIZ];
   gftp_transfer * transfer;
-  char *pos, *tempstr;
   gftp_file * tempfle;
   GHashTable * rmhash;
   GList * templist;
@@ -69,15 +62,15 @@ do_delete_thread (void *data)
           else
             success = gftp_remove_file (transfer->fromreq, tempfle->file);
 
-          if (success == 0 && (pos = strrchr (tempfle->file, '/')))
+          if (success == 0)
             {
-              *pos = '\0';
-              if (g_hash_table_lookup (rmhash, tempfle->file) == NULL)
+              gftp_generate_cache_description (transfer->fromreq, description, 
+                                               sizeof (description), 0);
+              if (g_hash_table_lookup (rmhash, description) == NULL)
                 {
-                  tempstr = g_strconcat (tempfle->file, NULL);
+                  tempstr = g_strdup (description);
                   g_hash_table_insert (rmhash, tempstr, NULL);
                 }
-              *pos = '/';
             }
 
           if (templist == transfer->files || 
@@ -86,7 +79,7 @@ do_delete_thread (void *data)
           templist = templist->prev;
         }
 
-      g_hash_table_foreach (rmhash, delete_purge_cache, transfer->fromreq);
+      g_hash_table_foreach (rmhash, delete_purge_cache, NULL);
       g_hash_table_destroy (rmhash);
     }
   else

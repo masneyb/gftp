@@ -213,7 +213,7 @@ refresh (gftp_window_data * wdata)
     return;
   gtk_clist_freeze (GTK_CLIST (wdata->listbox));
   remove_files_window (wdata);
-  gftp_delete_cache_entry (wdata->request, 0);
+  gftp_delete_cache_entry (wdata->request, NULL, 0);
   ftp_list_files (wdata, 0);
   gtk_clist_thaw (GTK_CLIST (wdata->listbox));
 }

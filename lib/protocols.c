@@ -559,7 +559,7 @@ gftp_parse_url (gftp_request * request, const char *url)
       return (0);
     }
 
-  if ((endhostpos = strchr (pos, '@')) != NULL)
+  if ((endhostpos = strrchr (pos, '@')) != NULL)
     {
       /* A user/password was entered */
       if ((endpos = strchr (pos, ':')) == NULL || endhostpos < endpos)
@@ -1789,6 +1789,15 @@ gftp_connect_server (gftp_request * request, char *service,
   port = ntohs (port);
 #endif /* HAVE_GETADDRINFO */
 
+  if (fcntl (sock, F_SETFD, 1) == -1)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Error: Cannot set close on exec flag: %s\n"),
+                                 g_strerror (errno));
+
+      return (GFTP_ERETRYABLE);
+    }
+
   request->logging_function (gftp_logging_misc, request->user_data,
                              _("Connected to %s:%d\n"), connect_host, port);
 
@@ -2368,5 +2377,41 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
     return (GFTP_EFATAL);
 
   return (0);
+}
+
+
+int
+gftp_fd_open (gftp_request * request, const char *pathname, int flags, mode_t mode)
+{
+  mode_t mask;
+  int fd;
+
+  if (mode == 0 && (flags & O_CREAT))
+    {
+      mask = umask (0); /* FIXME - improve */
+      umask (mask);
+      mode = 0666 & ~mask;
+    }
+
+  if ((fd = open (pathname, flags, mode)) < 0)
+    {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error: Cannot open local file %s: %s\n"),
+                                   pathname, g_strerror (errno));
+      return (GFTP_ERETRYABLE);
+    }
+
+  if (fcntl (fd, F_SETFD, 1) == -1)
+    {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error: Cannot set close on exec flag: %s\n"),
+                                   g_strerror (errno));
+
+      return (-1);
+    }
+
+  return (fd);
 }
 

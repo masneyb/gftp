@@ -120,13 +120,8 @@ local_get_file (gftp_request * request, const char *filename, int fd,
       flags |= O_LARGEFILE;
 #endif
 
-      if ((request->datafd = open (filename, flags)) == -1)
-        {
-          request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Error: Cannot open local file %s: %s\n"),
-                                   filename, g_strerror (errno));
-          return (GFTP_ERETRYABLE); 
-        }
+      if ((request->datafd = gftp_fd_open (request, filename, flags, 0)) == -1)
+        return (GFTP_ERETRYABLE); 
     }
   else
     request->datafd = fd;
@@ -172,13 +167,8 @@ local_put_file (gftp_request * request, const char *filename, int fd,
       flags |= O_LARGEFILE;
 #endif
 
-      if ((request->datafd = open (filename, flags, S_IRUSR | S_IWUSR)) == -1)
-        {
-          request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Error: Cannot open local file %s: %s\n"),
-                                   filename, g_strerror (errno));
-          return (GFTP_ERETRYABLE);
-        }
+      if ((request->datafd = gftp_fd_open (request, filename, flags, 0)) == -1)
+        return (GFTP_ERETRYABLE);
     }
   else
     request->datafd = fd;

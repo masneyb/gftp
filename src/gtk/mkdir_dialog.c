@@ -82,7 +82,7 @@ domkdir (gftp_window_data * wdata, gftp_dialog_data * ddata)
 
   if ((int) generic_thread (do_make_dir_thread, wdata))
     {
-      gftp_delete_cache_entry (wdata->request, 0);
+      gftp_delete_cache_entry (wdata->request, NULL, 0);
       refresh (wdata);
     }
 }

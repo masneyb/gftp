@@ -1,3 +1,30 @@
+2003-6-15 Brian Masney <masneyb@gftp.org>
+	* lib/cache.c lib/gftp.h - added gftp_generate_cache_description(). 
+
+	* lib/cache.c lib/gftp.h src/text/gftp-text.c src/gtk/delete-dialog.c 
+	src/gtk/menu-items.c src/gtk/misc-gtk.c src/gtk/mkdir-dialog.c - Added
+	description parameter to gftp_delete_cache_entry().
+
+	* lib/protocols.c lib/gftp.h - added gftp_fd_open(). It will call 
+	open() and then set the socket option close on exec
+
+	* lib/cache.c lib/local.c lib/misc.c - use gftp_fd_open() instead of
+	open()
+
+	* lib/rfc959.c lib/protocols.c - on newly created sockets, make sure
+	the close on exec socket option is set
+
+	* lib/options.h src/text/gftp-text.c src/gtk/transfer.c - added
+	preserve_permissions option
+
+	* lib/protocols.c (gftp_parse_url) - allow an @ to be in the username
+
+	* src/text/gftp-text.c - after transfering a file, honor 
+	preserve_permissions if it is set
+
+	* src/gtk/delete-dialog.c - improvments to clearing the expired cache
+	entries
+
 2003-6-14 Brian Masney <masneyb@gftp.org>
 	* lib/cache.c (gftp_delete_cache_entry) - fix for restoring newlines
 

@@ -589,6 +589,15 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       return (GFTP_ERETRYABLE);
     }
 
+  if (fcntl (parms->data_connection, F_SETFD, 1) == -1)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Error: Cannot set close on exec flag: %s\n"),
+                                 g_strerror (errno));
+
+      return (GFTP_ERETRYABLE);
+    }
+
   data_addr_len = sizeof (data_addr);
   memset (&data_addr, 0, data_addr_len);
   data_addr.sin_family = AF_INET;
@@ -724,6 +733,15 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 				 _("Failed to create a socket: %s\n"),
 				 g_strerror (errno));
       gftp_disconnect (request);
+      return (GFTP_ERETRYABLE);
+    }
+
+  if (fcntl (parms->data_connection, F_SETFD, 1) == -1)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Error: Cannot set close on exec flag: %s\n"),
+                                 g_strerror (errno));
+
       return (GFTP_ERETRYABLE);
     }
 

@@ -502,7 +502,7 @@ gftp_text_delete (gftp_request * request, char *command, gpointer *data)
   else
     {
       if (gftp_remove_file (request, command) == 0)
-        gftp_delete_cache_entry (request, 0);
+        gftp_delete_cache_entry (request, NULL, 0);
     }
   return (1);
 }
@@ -843,12 +843,16 @@ gftp_text_mput_file (gftp_request * request, char *command, gpointer *data)
 int
 gftp_text_transfer_files (gftp_transfer * transfer)
 {
+  int i, j, sw, tot, preserve_permissions;
   char buf[8192], *progress = "|/-\\";
   struct timeval updatetime;
   long fromsize, total;
   gftp_file * curfle;
-  int i, j, sw, tot;
   ssize_t num_read;
+  mode_t mode;
+
+  gftp_lookup_request_option (transfer->fromreq, "preserve_permissions",
+                              &preserve_permissions);
 
   for (transfer->curfle = transfer->files;
        transfer->curfle != NULL;
@@ -929,6 +933,19 @@ gftp_text_transfer_files (gftp_transfer * transfer)
           gftp_end_transfer (transfer->toreq);
         }
 
+      if (!curfle->is_fd && preserve_permissions)
+        {
+          if (curfle->attribs)
+            {
+              mode = gftp_parse_attribs (curfle->attribs);
+              if (mode != 0)
+                gftp_chmod (transfer->toreq, curfle->destfile, mode);
+            } 
+
+          if (curfle->datetime != 0)
+            gftp_set_file_time (transfer->toreq, curfle->destfile,
+                                curfle->datetime);
+        }
     }
   return (1);
 }

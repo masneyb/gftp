@@ -558,6 +558,11 @@ extern FILE * gftp_logfd;
 extern gftp_option_type_var gftp_option_types[];
 
 /* cache.c */
+void gftp_generate_cache_description 	( gftp_request * request, 
+					  char *description,
+					  size_t len, 
+					  int ignore_directory );
+
 int gftp_new_cache_entry 		( gftp_request * request );
 
 int gftp_find_cache_entry 		( gftp_request * request );
@@ -565,6 +570,7 @@ int gftp_find_cache_entry 		( gftp_request * request );
 void gftp_clear_cache_files 		( void );
 
 void gftp_delete_cache_entry 		( gftp_request * request,
+					  char *descr,
 					  int ignore_directory );
 
 /* config_file.c */
@@ -874,6 +880,11 @@ void gftp_calc_kbs 			( gftp_transfer * tdata,
 
 int gftp_get_transfer_status 		( gftp_transfer * tdata, 
 					  ssize_t num_read );
+
+int gftp_fd_open 			( gftp_request * request, 
+					  const char *pathname, 
+					  int flags,
+					  mode_t perms );
 
 /* pty.c */
 char * get_pty_impl 			( void );

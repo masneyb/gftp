@@ -544,7 +544,7 @@ do_getdir_thread (void * data)
 void * 
 gftp_gtk_transfer_files (void *data)
 {
-  int i, mode, tofd, fromfd;
+  int i, mode, tofd, fromfd, preserve_permissions;
   gftp_transfer * transfer;
   char buf[8192];
   off_t fromsize, total;
@@ -557,6 +557,9 @@ gftp_gtk_transfer_files (void *data)
   gettimeofday (&transfer->starttime, NULL);
   memcpy (&transfer->lasttime, &transfer->starttime, 
           sizeof (transfer->lasttime));
+
+  gftp_lookup_request_option (transfer->fromreq, "preserve_permissions", 
+                              &preserve_permissions);
 
   while (transfer->curfle != NULL)
     {
@@ -729,7 +732,7 @@ gftp_gtk_transfer_files (void *data)
                          curfle->file, transfer->kbs);
         }
 
-      if (!curfle->is_fd)
+      if (!curfle->is_fd && preserve_permissions)
         {
           if (curfle->attribs)
             {
