@@ -191,25 +191,13 @@ int
 gftp_put_file (gftp_request * request, const char *filename, int fd,
                off_t startsize, off_t totalsize)
 {
-  char *enc_filename;
-  int ret;
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->cached = 0;
   if (request->put_file == NULL)
     return (GFTP_EFATAL);
 
-  enc_filename = gftp_string_from_utf8 (request, filename);
-  if (enc_filename != NULL)
-    {
-      ret = request->put_file (request, enc_filename, fd, startsize, totalsize);
-      g_free (enc_filename);
-    }
-  else
-    ret = request->put_file (request, filename, fd, startsize, totalsize);
-
-  return (ret);
+  return (request->put_file (request, filename, fd, startsize, totalsize));
 }
 
 

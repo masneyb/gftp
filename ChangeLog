@@ -1,4 +1,8 @@
 2004-10-29 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_put_file) - don't do any kind of character
+	set conversion on the filename. After looking into this some more,
+	this wasn't the proper place to do this.
+
 	* lib/gftp.h lib/misc.c lib/protocols.c lib/rfc2068.c lib/rfc959.c
 	lib/sshv2.c src/gtk/dnd.c src/gtk/view_dialog.c src/uicommon/gftpui.c
 	src/uicommon/gftpuicallbacks.c - removed free_fdata(). Added
