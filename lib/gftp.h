@@ -350,6 +350,8 @@ struct gftp_request_tag
   void *user_data;
 
   int (*init)				( gftp_request * request );
+  void (*copy_param_options) 		( gftp_request * dest_request, 
+					  gftp_request * src_request );
   ssize_t (*read_function)		( gftp_request * request,
 					  void *ptr, 
 					  size_t size, 
@@ -762,6 +764,9 @@ gftp_request *gftp_request_new 		( void );
 
 void gftp_request_destroy 		( gftp_request * request,
 					  int free_request );
+
+void gftp_copy_param_options		( gftp_request * dest_request,
+					  gftp_request * src_request );
 
 void gftp_file_destroy 			( gftp_file *file );
 

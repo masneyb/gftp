@@ -2263,6 +2263,7 @@ sshv2_init (gftp_request * request)
 
   request->protonum = GFTP_SSHV2_NUM;
   request->init = sshv2_init;
+  request->copy_param_options = NULL;
   request->destroy = sshv2_destroy;
   request->read_function = gftp_fd_read;
   request->write_function = gftp_fd_write;

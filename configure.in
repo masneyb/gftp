@@ -28,7 +28,7 @@ AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
 AC_SUBST(PREFIX)
 
-ALL_LINGUAS="am az ar be bg bn ca cs da de el es fi fr hu it ja ko mk ml ms nl no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk zh_CN zh_TW"
+ALL_LINGUAS="am az ar be bg bn ca cs da de el es fi fr hr hu it ja ko mk ml ms nl no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk zh_CN zh_TW"
 
 AC_DEFINE(_GNU_SOURCE, 1, [Define for setting a GNU environment])
 
@@ -285,4 +285,4 @@ AM_GNU_GETTEXT
 AC_CHECK_PROG(DB2HTML, db2html, true, false)
 AM_CONDITIONAL(HAVE_DOCBOOK, $DB2HTML)
 
-AC_OUTPUT(Makefile docs/Makefile docs/sample.gftp/Makefile lib/Makefile src/gftp src/Makefile src/gtk/Makefile src/text/Makefile gftp.spec intl/Makefile po/Makefile.in)
+AC_OUTPUT(Makefile docs/Makefile docs/sample.gftp/Makefile lib/Makefile src/gftp src/Makefile src/gtk/Makefile src/text/Makefile gftp.spec intl/Makefile po/Makefile.in intl/Makefile po/Makefile.in )

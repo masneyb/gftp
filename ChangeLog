@@ -1,3 +1,21 @@
+2003-11-7 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/local.c lib/protocols.c lib/rfc2068.c lib/rfc959.c
+	lib/sshv2.c - added copy_param_options method to gftp_request
+	structure. When a gftp_request structure is copied, if a
+	copy_param_options method exists, this will be called so that the
+	local protocol data can be copied over. This is only used by the
+	FTP protocol at the moment to save the current state of Ascii or
+	Binary transfers.
+
+	* src/gtk/transfer.c (transfer_done) - when a transfer is
+	completed, copy the local protocol options back to the main window
+
+	* lib/rfc959.c (gftp_set_data_type) - check the return value of 
+	rfc959_send_command() and if there is an error, return that
+	error.
+
+	* configure.in - added 'hr' to ALL_LINGUAS
+
 2003-11-5 Brian Masney <masneyb@gftp.org>
 	* TODO - updated
 

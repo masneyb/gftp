@@ -1227,15 +1227,23 @@ transfer_done (GList * node)
 
       if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->fromwdata,
                                          tdata->fromreq))
-        gftp_swap_socks (((gftp_window_data *) tdata->fromwdata)->request, 
-                         tdata->fromreq);
+        {
+          gftp_copy_param_options (((gftp_window_data *) tdata->fromwdata)->request, tdata->fromreq);
+
+          gftp_swap_socks (((gftp_window_data *) tdata->fromwdata)->request, 
+                           tdata->fromreq);
+        }
       else
 	gftp_disconnect (tdata->fromreq);
 
       if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->towdata,
                                          tdata->toreq))
-        gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
-                         tdata->toreq);
+        {
+          gftp_copy_param_options (((gftp_window_data *) tdata->towdata)->request, tdata->toreq);
+
+          gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
+                           tdata->toreq);
+        }
       else
 	gftp_disconnect (tdata->toreq);
 

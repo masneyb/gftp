@@ -83,6 +83,22 @@ gftp_request_destroy (gftp_request * request, int free_request)
 }
 
 
+/* This function is called to copy protocol specific data from one request 
+   structure to another. This is typically called when a file transfer is
+   completed, state information can be copied back to the main window */
+void
+gftp_copy_param_options (gftp_request * dest_request,
+                         gftp_request * src_request)
+{
+  g_return_if_fail (dest_request != NULL);
+  g_return_if_fail (src_request != NULL);
+  g_return_if_fail (dest_request->protonum == src_request->protonum);
+
+  if (dest_request->copy_param_options)
+    dest_request->copy_param_options (dest_request, src_request);
+}
+
+
 void
 gftp_file_destroy (gftp_file * file)
 {

@@ -912,6 +912,7 @@ rfc2068_init (gftp_request * request)
 
   request->protonum = GFTP_HTTP_NUM;
   request->init = rfc2068_init;
+  request->copy_param_options = NULL;
   request->read_function = rfc2068_chunked_read;
   request->write_function = gftp_fd_write;
   request->destroy = rfc2068_destroy;

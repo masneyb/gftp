@@ -1001,15 +1001,15 @@ rfc959_is_ascii_transfer (gftp_request * request, const char *filename)
 }
 
 
-static void
+static int
 rfc959_set_data_type (gftp_request * request, const char *filename)
 {
   rfc959_parms * parms;
-  int new_ascii;
+  int new_ascii, ret;
   char *tempstr;
 
-  g_return_if_fail (request != NULL);
-  g_return_if_fail (request->protonum == GFTP_FTP_NUM);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
 
   parms = request->protocol_data;
   new_ascii = rfc959_is_ascii_transfer (request, filename);
@@ -1027,10 +1027,11 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
           parms->is_ascii_transfer = 0;
         }
 
-      rfc959_send_command (request, tempstr, 1);
+      if ((ret = rfc959_send_command (request, tempstr, 1)) < 0)
+        return (ret);
     }
 
-  return;
+  return (0);
 }
 
 
@@ -1051,7 +1052,8 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
   if (fd > 0)
     parms->data_connection = fd;
 
-  rfc959_set_data_type (request, filename);
+  if ((ret = rfc959_set_data_type (request, filename)) < 0)
+    return (ret);
 
   if (parms->data_connection < 0 && 
       (ret = rfc959_data_connection_new (request)) < 0)
@@ -1125,7 +1127,8 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
   if (fd > 0)
     fd = parms->data_connection;
 
-  rfc959_set_data_type (request, filename);
+  if ((ret = rfc959_set_data_type (request, filename)) < 0)
+    return (ret);
 
   if (parms->data_connection < 0 && 
       (ret = rfc959_data_connection_new (request)) < 0)
@@ -1690,6 +1693,19 @@ rfc959_request_destroy (gftp_request * request)
 }
 
 
+void
+rfc959_copy_param_options (gftp_request * dest_request,
+                           gftp_request * src_request)
+{
+  rfc959_parms * dparms, * sparms;
+
+  dparms = dest_request->protocol_data;
+  sparms = src_request->protocol_data;
+
+  dparms->is_ascii_transfer = sparms->is_ascii_transfer;
+}
+
+
 int
 rfc959_init (gftp_request * request)
 {
@@ -1719,6 +1735,7 @@ rfc959_init (gftp_request * request)
 
   request->protonum = GFTP_FTP_NUM;
   request->init = rfc959_init;
+  request->copy_param_options = rfc959_copy_param_options;
   request->destroy = rfc959_request_destroy; 
   request->read_function = gftp_fd_read;
   request->write_function = gftp_fd_write;

@@ -667,6 +667,8 @@ copy_request (gftp_request * req, int copy_local_options)
       return (NULL);
     }
 
+  gftp_copy_param_options (newreq, req);
+
   return (newreq);
 }
 
