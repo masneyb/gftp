@@ -81,7 +81,9 @@ main (int argc, char **argv)
 #ifdef HAVE_GETTEXT
   setlocale (LC_ALL, "");
   bindtextdomain ("gftp", LOCALE_DIR);
+#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 0
   bind_textdomain_codeset ("gftp", "UTF-8");
+#endif
   textdomain ("gftp");
 #endif
   gtk_set_locale ();
@@ -330,6 +332,14 @@ CreateFTPWindows (GtkWidget * ui)
 }
 
 
+#if GTK_MAJOR_VERSION < 2
+#define MS_(a) NULL
+#define MN_(a) a
+#else
+#define MS_(a) "<StockItem>",a
+#define MN_(a) a,NULL
+#endif
+
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
@@ -337,86 +347,94 @@ CreateMenus (GtkWidget * parent)
   GtkAccelGroup *accel_group;
   GtkWidget * tempwid;
   static GtkItemFactoryEntry menu_items[] = {
-    {N_("/_FTP"), NULL, 0, 0, "<Branch>"},
-    {N_("/FTP/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/FTP/Window 1"), NULL, change_setting, 3, "<RadioItem>"},
-    {N_("/FTP/Window 2"), NULL, change_setting, 4, "/FTP/Window 1"},
-    {N_("/FTP/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/FTP/Ascii"), NULL, change_setting, 1, "<RadioItem>"},
-    {N_("/FTP/Binary"), NULL, change_setting, 2, "/FTP/Ascii"},
-    {N_("/FTP/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/FTP/_Options..."), "<control>O", options_dialog, 0},
-    {N_("/FTP/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/FTP/_Quit"), "<control>Q", menu_exit, 0},
-    {N_("/_Local"), NULL, 0, 0, "<Branch>"},
-    {N_("/Local/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/Local/Open _URL..."), NULL, openurl_dialog, 0},
-    {N_("/Local/Disconnect"), NULL, disconnect, 0},
-    {N_("/Local/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/Local/Change Filespec..."), NULL, change_filespec, 0},
-    {N_("/Local/Show selected"), NULL, show_selected, 0},
-    {N_("/Local/Select All"), NULL, selectall, 0},
-    {N_("/Local/Select All Files"), NULL, selectallfiles, 0},
-    {N_("/Local/Deselect All"), NULL, deselectall, 0},
-    {N_("/Local/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/Local/Send SITE Command..."), NULL, site_dialog, 0},
-    {N_("/Local/Change Directory"), NULL, chfunc, 0},
-    {N_("/Local/Chmod..."), NULL, chmod_dialog, 0},
-    {N_("/Local/Make Directory..."), NULL, mkdir_dialog, 0},
-    {N_("/Local/Rename..."), NULL, rename_dialog, 0},
-    {N_("/Local/Delete..."), NULL, delete_dialog, 0},
-    {N_("/Local/Edit..."), NULL, edit_dialog, 0},
-    {N_("/Local/View..."), NULL, view_dialog, 0},
-    {N_("/Local/Refresh"), NULL, refresh, 0},
-    {N_("/_Remote"), NULL, 0, 0, "<Branch>"},
-    {N_("/Remote/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/Remote/Open _URL..."), "<control>U", openurl_dialog, 0},
-    {N_("/Remote/Disconnect"), "<control>D", disconnect, 0},
-    {N_("/Remote/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/Remote/Change Filespec..."), NULL, change_filespec, 0},
-    {N_("/Remote/Show selected"), NULL, show_selected, 0},
-    {N_("/Remote/Select All"), NULL, selectall, 0},
-    {N_("/Remote/Select All Files"), NULL, selectallfiles, 0},
-    {N_("/Remote/Deselect All"), NULL, deselectall, 0},
-    {N_("/Remote/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/Remote/Send SITE Command..."), NULL, site_dialog, 0},
-    {N_("/Remote/Change Directory"), NULL, chfunc, 0},
-    {N_("/Remote/Chmod..."), NULL, chmod_dialog, 0},
-    {N_("/Remote/Make Directory..."), NULL, mkdir_dialog, 0},
-    {N_("/Remote/Rename..."), NULL, rename_dialog, 0},
-    {N_("/Remote/Delete..."), NULL, delete_dialog, 0},
-    {N_("/Remote/Edit..."), NULL, edit_dialog, 0},
-    {N_("/Remote/View..."), NULL, view_dialog, 0},
-    {N_("/Remote/Refresh"), NULL, refresh, 0},
-    {N_("/_Bookmarks"), NULL, 0, 0, "<Branch>"},
-    {N_("/Bookmarks/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/Bookmarks/Add bookmark"), "<control>A", add_bookmark, 0},
-    {N_("/Bookmarks/Edit bookmarks"), NULL, edit_bookmarks, 0},
-    {N_("/Bookmarks/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/_Transfers"), NULL, 0, 0, "<Branch>"},
-    {N_("/Transfers/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/Transfers/Start Transfer"), NULL, start_transfer, 0},
-    {N_("/Transfers/Stop Transfer"), NULL, stop_transfer, 0},
-    {N_("/Transfers/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/Transfers/Skip Current File"), NULL, skip_transfer, 0},
-    {N_("/Transfers/Remove File"), NULL, remove_file_transfer, 0},
-    {N_("/Transfers/Move File _Up"), NULL, move_transfer_up, 0},
-    {N_("/Transfers/Move File _Down"), NULL, move_transfer_down, 0},
-    {N_("/Transfers/sep"), NULL, 0, 0, "<Separator>"},
-    {N_("/Transfers/Retrieve Files"), "<control>R", get_files, 0},
-    {N_("/Transfers/Put Files"), "<control>P", put_files, 0},
-    {N_("/L_ogging"), NULL, 0, 0, "<Branch>"},
-    {N_("/Logging/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/Logging/Clear"), NULL, clearlog, 0},
-    {N_("/Logging/View log..."), NULL, viewlog, 0},
-    {N_("/Logging/Save log..."), NULL, savelog, 0},
-    {N_("/Tool_s"), NULL, 0, 0, "<Branch>"},
-    {N_("/Tools/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/Tools/Compare Windows"), NULL, compare_windows, 0},
-    {N_("/Tools/Clear Cache"), NULL, clear_cache, 0},
-    {N_("/_Help"), NULL, 0, 0, "<LastBranch>"},
-    {N_("/Help/tearoff"), NULL, 0, 0, "<Tearoff>"},
-    {N_("/Help/About..."), NULL, about_dialog, 0}
+    {N_("/_FTP"), NULL, 0, 0, MN_("<Branch>")},
+    {N_("/FTP/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
+    {N_("/FTP/Window 1"), NULL, change_setting, 3, MN_("<RadioItem>")},
+    {N_("/FTP/Window 2"), NULL, change_setting, 4, MN_("/FTP/Window 1")},
+    {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/FTP/Ascii"), NULL, change_setting, 1, MN_("<RadioItem>")},
+    {N_("/FTP/Binary"), NULL, change_setting, 2, MN_("/FTP/Ascii")},
+    {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/FTP/_Options..."), "<control>O", options_dialog, 0,
+	MS_(GTK_STOCK_PREFERENCES)},
+    {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/FTP/_Quit"), "<control>Q", menu_exit, 0, MS_(GTK_STOCK_QUIT)},
+    {N_("/_Local"), NULL, 0, 0, MN_("<Branch>")},
+    {N_("/Local/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
+    {N_("/Local/Open _URL..."), NULL, openurl_dialog, 0, MS_(GTK_STOCK_OPEN)},
+    {N_("/Local/Disconnect"), NULL, disconnect, 0, MS_(GTK_STOCK_CLOSE)},
+    {N_("/Local/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/Local/Change Filespec..."), NULL, change_filespec, 0, MN_(NULL)},
+    {N_("/Local/Show selected"), NULL, show_selected, 0, MN_(NULL)},
+    {N_("/Local/Select All"), NULL, selectall, 0, MN_(NULL)},
+    {N_("/Local/Select All Files"), NULL, selectallfiles, 0, MN_(NULL)},
+    {N_("/Local/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
+    {N_("/Local/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/Local/Send SITE Command..."), NULL, site_dialog, 0, MN_(NULL)},
+    {N_("/Local/Change Directory"), NULL, chfunc, 0, MN_(NULL)},
+    {N_("/Local/Chmod..."), NULL, chmod_dialog, 0, MN_(NULL)},
+    {N_("/Local/Make Directory..."), NULL, mkdir_dialog, 0, MN_(NULL)},
+    {N_("/Local/Rename..."), NULL, rename_dialog, 0, MN_(NULL)},
+    {N_("/Local/Delete..."), NULL, delete_dialog, 0, MN_(NULL)},
+    {N_("/Local/Edit..."), NULL, edit_dialog, 0, MN_(NULL)},
+    {N_("/Local/View..."), NULL, view_dialog, 0, MN_(NULL)},
+    {N_("/Local/Refresh"), NULL, refresh, 0, MS_(GTK_STOCK_REFRESH)},
+    {N_("/_Remote"), NULL, 0, 0, MN_("<Branch>")},
+    {N_("/Remote/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
+    {N_("/Remote/Open _URL..."), "<control>U", openurl_dialog, 0,
+	MS_(GTK_STOCK_OPEN)},
+    {N_("/Remote/Disconnect"), "<control>D", disconnect, 0,
+	MS_(GTK_STOCK_CLOSE)},
+    {N_("/Remote/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/Remote/Change Filespec..."), NULL, change_filespec, 0, MN_(NULL)},
+    {N_("/Remote/Show selected"), NULL, show_selected, 0, MN_(NULL)},
+    {N_("/Remote/Select All"), NULL, selectall, 0, MN_(NULL)},
+    {N_("/Remote/Select All Files"), NULL, selectallfiles, 0, MN_(NULL)},
+    {N_("/Remote/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
+    {N_("/Remote/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/Remote/Send SITE Command..."), NULL, site_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Change Directory"), NULL, chfunc, 0, MN_(NULL)},
+    {N_("/Remote/Chmod..."), NULL, chmod_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Make Directory..."), NULL, mkdir_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Rename..."), NULL, rename_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Delete..."), NULL, delete_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Edit..."), NULL, edit_dialog, 0, MN_(NULL)},
+    {N_("/Remote/View..."), NULL, view_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Refresh"), NULL, refresh, 0, MS_(GTK_STOCK_REFRESH)},
+    {N_("/_Bookmarks"), NULL, 0, 0, MN_("<Branch>")},
+    {N_("/Bookmarks/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
+    {N_("/Bookmarks/Add bookmark"), "<control>A", add_bookmark, 0,
+	MS_(GTK_STOCK_ADD)},
+    {N_("/Bookmarks/Edit bookmarks"), NULL, edit_bookmarks, 0, MN_(NULL)},
+    {N_("/Bookmarks/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/_Transfers"), NULL, 0, 0, MN_("<Branch>")},
+    {N_("/Transfers/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
+    {N_("/Transfers/Start Transfer"), NULL, start_transfer, 0, MN_(NULL)},
+    {N_("/Transfers/Stop Transfer"), NULL, stop_transfer, 0,
+	MS_(GTK_STOCK_STOP)},
+    {N_("/Transfers/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/Transfers/Skip Current File"), NULL, skip_transfer, 0, MN_(NULL)},
+    {N_("/Transfers/Remove File"), NULL, remove_file_transfer, 0,
+	MS_(GTK_STOCK_DELETE)},
+    {N_("/Transfers/Move File _Up"), NULL, move_transfer_up, 0,
+	MS_(GTK_STOCK_GO_UP)},
+    {N_("/Transfers/Move File _Down"), NULL, move_transfer_down, 0,
+	MS_(GTK_STOCK_GO_DOWN)},
+    {N_("/Transfers/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/Transfers/Retrieve Files"), "<control>R", get_files, 0, MN_(NULL)},
+    {N_("/Transfers/Put Files"), "<control>P", put_files, 0, MN_(NULL)},
+    {N_("/L_ogging"), NULL, 0, 0, MN_("<Branch>")},
+    {N_("/Logging/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
+    {N_("/Logging/Clear"), NULL, clearlog, 0, MS_(GTK_STOCK_CLEAR)},
+    {N_("/Logging/View log..."), NULL, viewlog, 0, MN_(NULL)},
+    {N_("/Logging/Save log..."), NULL, savelog, 0, MS_(GTK_STOCK_SAVE)},
+    {N_("/Tool_s"), NULL, 0, 0, MN_("<Branch>")},
+    {N_("/Tools/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
+    {N_("/Tools/Compare Windows"), NULL, compare_windows, 0, MN_(NULL)},
+    {N_("/Tools/Clear Cache"), NULL, clear_cache, 0, MS_(GTK_STOCK_CLEAR)},
+    {N_("/_Help"), NULL, 0, 0, MN_("<LastBranch>")},
+    {N_("/Help/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
+    {N_("/Help/About..."), NULL, about_dialog, 0, MS_(GTK_STOCK_HELP)}
   };
 
   menus = menu_items;
@@ -473,9 +491,7 @@ CreateMenus (GtkWidget * parent)
 #if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   gtk_accel_group_attach (accel_group, GTK_OBJECT (parent));
 #else
-  /* FIXME 
-  gtk_accel_group_attach (accel_group, G_OBJECT (parent));
-  */
+  _gtk_accel_group_attach (accel_group, G_OBJECT (parent));
 #endif
 
   tempwid = gtk_item_factory_get_widget (factory, menu_items[6].path);
