@@ -65,34 +65,39 @@ gftpui_refresh (void *uidata)
 #define _GFTPUI_GTK_USER_PW_SIZE	256
 
 static void 
-_gftpui_gtk_try_connect_again (char *tempstr, gftp_dialog_data * ddata)
+_gftpui_gtk_set_username (gftp_request * request, gftp_dialog_data * ddata)
 {
-  strncpy (tempstr, gtk_entry_get_text (GTK_ENTRY (ddata->edit)),
-           _GFTPUI_GTK_USER_PW_SIZE);
-  /* FIXME request->stopable = 0; */
+  gftp_set_username (request, gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
+  request->stopable = 0;
+}
+
+
+static void 
+_gftpui_gtk_set_password (gftp_request * request, gftp_dialog_data * ddata)
+{
+  gftp_set_password (request, gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
+  request->stopable = 0;
 }
 
 
 static void
-_gftpui_gtk_dont_connect_again (char *tempstr, gftp_dialog_data * ddata)
+_gftpui_gtk_abort (gftp_request * request, gftp_dialog_data * ddata)
 {
-  /* FIXME request->stopable = 0; */
+  request->stopable = 0;
 }
 
 
-char *
+void
 gftpui_prompt_username (void *uidata, gftp_request * request)
 {
-  char tempstr[_GFTPUI_GTK_USER_PW_SIZE];
-
   MakeEditDialog (_("Enter Username"),
                   _("Please enter your username for this site"), NULL,
                   0, NULL, gftp_dialog_button_connect,
-                  _gftpui_gtk_try_connect_again, tempstr,
-                  _gftpui_gtk_dont_connect_again, tempstr);
+                  _gftpui_gtk_set_username, request,
+                  _gftpui_gtk_abort, request);
 
-  *tempstr = '\0';
-  while (*tempstr == '\0') /* FIXME */
+  request->stopable = 1;
+  while (request->stopable)
     {
       GDK_THREADS_LEAVE ();
 #if GTK_MAJOR_VERSION == 1
@@ -101,27 +106,20 @@ gftpui_prompt_username (void *uidata, gftp_request * request)
       g_main_context_iteration (NULL, TRUE);
 #endif
     }
-
-  if (*tempstr == '\0')
-    return (NULL);
-  else
-    return (g_strdup (tempstr));
 }
 
 
-char *
+void
 gftpui_prompt_password (void *uidata, gftp_request * request)
 {
-  char tempstr[_GFTPUI_GTK_USER_PW_SIZE];
-
   MakeEditDialog (_("Enter Password"),
                   _("Please enter your password for this site"), NULL,
                   0, NULL, gftp_dialog_button_connect,
-                  _gftpui_gtk_try_connect_again, tempstr,
-                  _gftpui_gtk_dont_connect_again, tempstr);
+                  _gftpui_gtk_set_password, request,
+                  _gftpui_gtk_abort, request);
 
-  *tempstr = '\0';
-  while (*tempstr == '\0') /* FIXME */
+  request->stopable = 1;
+  while (request->stopable)
     {
       GDK_THREADS_LEAVE ();
 #if GTK_MAJOR_VERSION == 1
@@ -130,11 +128,6 @@ gftpui_prompt_password (void *uidata, gftp_request * request)
       g_main_context_iteration (NULL, TRUE);
 #endif
     }
-
-  if (*tempstr == '\0')
-    return (NULL);
-  else
-    return (g_strdup (tempstr));
 }
 
 
@@ -243,7 +236,7 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
   gtk_widget_set_sensitive (stop_btn, 0);
 
   if (!GFTP_IS_CONNECTED (wdata->request))
-    disconnect (wdata);
+    gftpui_disconnect (wdata);
 
   return (ret);
 }
@@ -426,5 +419,18 @@ gftpui_chdir_dialog (gpointer data)
   tempstr = gftp_build_path (wdata->request->directory, curfle->file, NULL);
   gftpui_run_chdir (wdata, tempstr);
   g_free (tempstr);
+}
+
+
+void 
+gftpui_disconnect (void *uidata)
+{
+  gftp_window_data * wdata;
+
+  wdata = uidata;
+  gftp_delete_cache_entry (wdata->request, NULL, 1);
+  gftp_disconnect (wdata->request);
+  remove_files_window (wdata);
+  update_window (wdata);
 }
 

@@ -41,7 +41,7 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
   
   if (wdata->files == NULL || !GFTP_IS_CONNECTED (wdata->request))
     {
-      disconnect (wdata);
+      gftpui_disconnect (wdata);
       return (0);
     }
 
@@ -158,13 +158,13 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
 
       if (!GFTP_IS_CONNECTED (transfer->fromreq))
         {
-          disconnect (fromwdata);
+          gftpui_disconnect (fromwdata);
           return;
         } 
 
       if (!GFTP_IS_CONNECTED (transfer->toreq))
         {
-          disconnect (towdata);
+          gftpui_disconnect (towdata);
           return;
         } 
 

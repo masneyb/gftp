@@ -604,7 +604,6 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request,
 {
   gftpui_callback_data * cdata;
   intptr_t retries;
-  char *tempstr;
 
   if (GFTP_IS_CONNECTED (request))
     {
@@ -627,25 +626,12 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request,
   if (request->need_userpass)
     {
       if (request->username == NULL || *request->username == '\0')
-        {
-          if ((tempstr = gftpui_prompt_username (uidata, request)) != NULL)
-            {
-              gftp_set_username (request, tempstr);
-              gftp_set_password (request, NULL);
-              g_free (tempstr);
-            }
-        }
+        gftpui_prompt_username (uidata, request);
 
       if (request->username != NULL &&
           strcmp (request->username, "anonymous") != 0 &&
           (request->password == NULL || *request->password == '\0'))
-        {
-          if ((tempstr = gftpui_prompt_password (uidata, request)) != NULL)
-            {
-              gftp_set_password (request, tempstr);
-              g_free (tempstr);               
-            }
-        }
+        gftpui_prompt_password (uidata, request);
     }
 
   gftp_lookup_request_option (request, "retries", &retries);
@@ -1065,6 +1051,9 @@ gftpui_common_process_command (void *locui, gftp_request * locreq,
     {
       ret = gftpui_common_commands[i].func (uidata, request,
                                             other_uidata, other_request, pos);
+
+      if (!GFTP_IS_CONNECTED (request))
+        gftpui_disconnect (uidata);
     }
   else
     {

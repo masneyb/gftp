@@ -20,19 +20,6 @@
 #include <gftp-gtk.h>
 static const char cvsid[] = "$Id$";
 
-void 
-disconnect (gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
-  gftp_delete_cache_entry (wdata->request, NULL, 1);
-  gftp_disconnect (wdata->request);
-  remove_files_window (wdata);
-  update_window (wdata);
-}
-
-
 static void
 dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {

@@ -140,7 +140,7 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
   free_tdata (transfer);
 
   if (!GFTP_IS_CONNECTED (wdata->request))
-    disconnect (wdata);
+    gftpui_disconnect (wdata);
   else
     gftpui_refresh (wdata);
 
@@ -237,7 +237,7 @@ delete_dialog (gpointer data)
 
   if (!GFTP_IS_CONNECTED (transfer->fromreq))
     {
-      disconnect (wdata);
+      gftpui_disconnect (wdata);
       return;
     }
 

@@ -265,8 +265,6 @@ int gftpui_run_chdir 				( gpointer uidata,
 void gftpui_chdir_dialog 			( gpointer data );
 
 /* menu_items.c */
-void disconnect 				( gpointer data );
-
 void change_filespec 				( gpointer data );
 
 void save_directory_listing 			( gpointer data );

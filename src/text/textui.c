@@ -40,7 +40,10 @@ gftpui_lookup_file_colors (gftp_file * fle, char **start_color,
 void
 gftpui_refresh (void *uidata)
 {
-  /* FIXME - clear the cache entry */
+  gftp_request * request;
+
+  request = uidata; /* Note: uidata is set to the request in gftp_text.c */
+  gftp_delete_cache_entry (request, NULL, 0);
 }
 
 
@@ -58,26 +61,26 @@ gftpui_check_reconnect (gftpui_callback_data * cdata)
 }
 
 
-char *
+void
 gftpui_prompt_username (void *uidata, gftp_request * request)
 {
-  char tempstr[256], *ret;
+  char tempstr[256];
 
-  ret = g_strdup (gftp_text_ask_question (_("Username [anonymous]:"), 1,
-                                          tempstr, sizeof (tempstr)));
-  return (ret);
+  gftp_set_username (request, 
+                     gftp_text_ask_question (_("Username [anonymous]:"), 1,
+                                             tempstr, sizeof (tempstr)));
 }
 
 
 
-char *
+void
 gftpui_prompt_password (void *uidata, gftp_request * request)
 {
-  char tempstr[256], *ret;
+  char tempstr[256];
 
-  ret = g_strdup (gftp_text_ask_question (_("Password:"), 0,
-                                          tempstr, sizeof (tempstr)));
-  return (ret);
+  gftp_set_password (request,
+                     gftp_text_ask_question (_("Password:"), 0,
+                                             tempstr, sizeof (tempstr)));
 }
 
 
@@ -85,7 +88,6 @@ void
 gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
                              char *filepos )
 {
-  /* FIXME */
 }
 
 
@@ -159,6 +161,12 @@ gftpui_ask_transfer (gftp_transfer * tdata)
               case 'S':
                 action = newaction = GFTP_TRANS_ACTION_SKIP;
                 break;
+              case '\0':
+              case '\n':
+                break;
+              default:
+                action = -1;
+                break;
             }
         }
 
@@ -224,5 +232,11 @@ void
 gftpui_start_transfer (gftp_transfer * tdata)
 {
   gftpui_common_transfer_files (tdata);
+}
+
+
+void
+gftpui_disconnect (void *uidata)
+{
 }
 

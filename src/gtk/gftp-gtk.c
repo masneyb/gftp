@@ -199,7 +199,7 @@ tb_openurl_dialog (gpointer data)
   edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry));
 
   if (GFTP_IS_CONNECTED (current_wdata->request))
-    disconnect (current_wdata);
+    gftpui_disconnect (current_wdata);
   else if (edttxt != NULL && *edttxt != '\0')
     toolbar_hostedit (NULL, NULL);
   else
@@ -230,7 +230,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/_Local"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Local/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Local/Open _URL..."), NULL, openurl_dialog, 0, MS_(GTK_STOCK_OPEN)},
-    {N_("/Local/Disconnect"), NULL, disconnect, 0, MS_(GTK_STOCK_CLOSE)},
+    {N_("/Local/Disconnect"), NULL, gftpui_disconnect, 0, MS_(GTK_STOCK_CLOSE)},
     {N_("/Local/sep"), NULL, 0, 0, MN_("<Separator>")},
     {N_("/Local/Change Filespec..."), NULL, change_filespec, 0, MN_(NULL)},
     {N_("/Local/Show selected"), NULL, show_selected, 0, MN_(NULL)},
@@ -252,7 +252,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Remote/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Remote/Open _URL..."), "<control>U", openurl_dialog, 0,
 	MS_(GTK_STOCK_OPEN)},
-    {N_("/Remote/Disconnect"), "<control>D", disconnect, 0,
+    {N_("/Remote/Disconnect"), "<control>D", gftpui_disconnect, 0,
 	MS_(GTK_STOCK_CLOSE)},
     {N_("/Remote/sep"), NULL, 0, 0, MN_("<Separator>")},
     {N_("/Remote/Change Filespec..."), NULL, change_filespec, 0, MN_(NULL)},
@@ -1012,7 +1012,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
     }
 
   if (GFTP_IS_CONNECTED (current_wdata->request))
-    disconnect (current_wdata);
+    gftpui_disconnect (current_wdata);
 
   tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
   num = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid)));

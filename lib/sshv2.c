@@ -2154,7 +2154,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   sshv2_params * params;
   sshv2_message message;
-  static char tempstr[32768]; /* FIXME - temporary fix for FreeBSD */
+  char tempstr[32768];
   gint32 num;
   size_t len;
   int ret;

@@ -1,3 +1,25 @@
+2003-1-28 Brian Masney <masneyb@gftp.org>
+	* src/gtk/bookmarks.c src/gtk/dnd.c src/gtk/gftp-gtk.c
+	src/gtk/gftp-gtk.h src/gtk/gtkui.c src/gtk/menu-items.c 
+	src/gtk/transfer.c - renamed disconnect() to gftpui_disconnect()
+
+	* src/gtk/gtkui.c src/text/textui.c src/uicommon/gftpui.c - improved
+	prompting for the username/password
+
+	* src/gtk/gtkui.c src/text/textui.c src/uicommon/gftpui.c - call
+	gftpui_disconnect() after a command is run and if we are no longer
+	connected to the remote host
+
+	* src/text/gftp-text.c - parse the command line arguments for the host
+	to connect to
+
+	* src/text/textui.c (gftpui_refresh) - clear the cache.
+	(gftpui_ask_transfer) - check for carriage return or empty string
+
+	* src/uicommon/gftp.h - define gftpui_common_cmd_m{get,put}_file()
+
+	* lib/sshv2.c - removed temporary "fix"
+
 2003-1-27 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/misc.c src/gtk/gtkui_transfer.c src/text/textui.c - 
 	added gftp_get_transfer_action(). When a file is to be transfered and

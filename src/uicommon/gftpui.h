@@ -108,6 +108,18 @@ int gftpui_common_cmd_open 		( void *uidata,
 					  gftp_request * other_request,
 					  const char *command );
 
+int gftpui_common_cmd_mget_file 	( void *uidata,
+					  gftp_request * request, 
+					  void *other_uidata,
+					  gftp_request * other_request,
+					  const char *command );
+
+int gftpui_common_cmd_mput_file 	( void *uidata,
+					  gftp_request * request, 
+					  void *other_uidata,
+					  gftp_request * other_request,
+					  const char *command );
+
 gftp_transfer * gftpui_common_add_file_transfer ( gftp_request * fromreq,
 						  gftp_request * toreq,
 						  void *fromuidata,
@@ -147,10 +159,10 @@ void gftpui_refresh 			( void *uidata );
 void *gftpui_generic_thread 		( void *(*run_function)(void *data),
 					  void *data);
 
-char *gftpui_prompt_username		( void *uidata,
+void gftpui_prompt_username		( void *uidata,
 					  gftp_request * request );
 
-char *gftpui_prompt_password 		( void *uidata,
+void gftpui_prompt_password 		( void *uidata,
 					  gftp_request * request );
 
 void gftpui_add_file_to_transfer 	( gftp_transfer * tdata,
@@ -166,5 +178,8 @@ void gftpui_update_current_file_in_transfer ( gftp_transfer * tdata );
 void gftpui_finish_current_file_in_transfer ( gftp_transfer * tdata );
 
 void gftpui_start_transfer 		( gftp_transfer * tdata );
+
+void gftpui_disconnect 			( void *uidata );
+
 
 #endif

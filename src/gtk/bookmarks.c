@@ -42,7 +42,7 @@ run_bookmark (gpointer data)
     }
 
   if (GFTP_IS_CONNECTED (current_wdata->request))
-    disconnect (current_wdata);
+    gftpui_disconnect (current_wdata);
 
   if (gftp_parse_bookmark (current_wdata->request, other_wdata->request,
                            (char *) data, &refresh_local) < 0)

@@ -194,7 +194,8 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
 int
 main (int argc, char **argv)
 {
-  char *startup_directory;
+  char *startup_directory, *pos;
+  void *locuidata, *remuidata;
 #if HAVE_LIBREADLINE
   char *tempstr, prompt[20];
 #else
@@ -207,6 +208,7 @@ main (int argc, char **argv)
      line */
 
   gftp_text_remreq = gftp_request_new ();
+  remuidata = gftp_text_remreq;
   gftp_set_request_option (gftp_text_remreq, "ssh_use_askpass", 
                            GINT_TO_POINTER(0));
   gftp_set_request_option (gftp_text_remreq, "sshv2_use_sftp_subsys", 
@@ -214,6 +216,7 @@ main (int argc, char **argv)
   gftp_text_remreq->logging_function = gftp_text_log;
 
   gftp_text_locreq = gftp_request_new ();
+  locuidata = gftp_text_locreq;
   gftp_set_request_option (gftp_text_locreq, "ssh_use_askpass", 
                            GINT_TO_POINTER(0));
   gftp_set_request_option (gftp_text_locreq, "sshv2_use_sftp_subsys", 
@@ -233,29 +236,37 @@ main (int argc, char **argv)
   gftpui_common_about (gftp_text_log, NULL);
   gftp_text_log (gftp_logging_misc, NULL, "\n");
 
-/* FIXME
   if (argc == 3 && strcmp (argv[1], "-d") == 0)
     {
       if ((pos = strrchr (argv[2], '/')) != NULL)
         *pos = '\0';
-      gftp_text_open (gftp_text_remreq, argv[2], NULL);
+
+      gftpui_common_cmd_open (remuidata, gftp_text_remreq,
+                              locuidata, gftp_text_locreq,
+                              argv[2]);
 
       if (pos != NULL)
         *pos = '/';
 
-      gftp_text_mget_file (gftp_text_remreq, pos + 1, NULL);
+      gftpui_common_cmd_mget_file (remuidata, gftp_text_remreq,
+                                   locuidata, gftp_text_locreq,
+                                   pos + 1);
       exit (0);
     }
   else if (argc == 2)
-    gftp_text_open (gftp_text_remreq, argv[1], NULL);
-*/
+    {
+      gftpui_common_cmd_open (remuidata, gftp_text_remreq,
+                              locuidata, gftp_text_locreq,
+                              argv[1]);
+    }
 
 #if HAVE_LIBREADLINE
   g_snprintf (prompt, sizeof (prompt), "%sftp%s> ", GFTPUI_COMMON_COLOR_BLUE, GFTPUI_COMMON_COLOR_DEFAULT);
   while ((tempstr = readline (prompt)))
     {
-      if (gftpui_common_process_command (NULL, gftp_text_locreq,
-                                         NULL, gftp_text_remreq, tempstr) == 0)
+      if (gftpui_common_process_command (locuidata, gftp_text_locreq,
+                                         remuidata, gftp_text_remreq,
+                                         tempstr) == 0)
         break;
    
       add_history (tempstr);
