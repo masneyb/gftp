@@ -44,6 +44,12 @@ sort_dirs_first=1
 # Show hidden files in the listboxes
 show_hidden_files=1
 
+# Show the file transfer status in the titlebar
+show_trans_in_title=0
+
+# Allow entering manual commands in the GUI (functions like the text port)
+cmd_in_gui=0
+
 # The timeout waiting for network input/output. This is NOT an idle timeout.
 network_timeout=120
 
@@ -58,6 +64,9 @@ maxkbs=0.00
 
 # This specifies the default protocol to use
 default_protocol=FTP
+
+# Enable IPv6 support
+enable_ipv6=1
 
 # This defines what will happen when you double click a file in the file
 # listboxes. 0=View file 1=Edit file 2=Transfer file
@@ -202,6 +211,15 @@ resolve_symlinks=1
 # this.
 ascii_transfers=0
 
+# SSL entropy file
+entropy_source=/dev/urandom
+
+# The maximum number of bytes to seed the SSL engine with
+entropy_len=1024
+
+# Verify SSL Peer
+verify_ssl_peer=1
+
 # Firewall hostname
 http_proxy_host=
 
@@ -216,12 +234,6 @@ http_proxy_password=
 
 # Do you want to use HTTP/1.1 or HTTP/1.0
 use_http11=1
-
-# SSL entropy file
-entropy_source=/dev/urandom
-
-# The maximum number of bytes to seed the SSL engine with
-entropy_len=1024
 
 # The path to the SSH executable
 ssh_prog_name=

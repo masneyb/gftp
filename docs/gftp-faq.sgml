@@ -42,8 +42,8 @@ don't have it installed, you may want to check to see if your vendor has a
 package available. If not, you can download the latest version of GTK+ and
 Glib from 
 <ulink url="ftp://ftp.gtk.org/pub/gtk">ftp://ftp.gtk.org/pub/gtk</ulink>.
-gFTP will work with either version 1.2 or 2.0 of GTK+, but I would recommend
-using GTK+ 2.0.
+gFTP will work with either version 1.2 or 2.x of GTK+, but I would recommend
+using GTK+ 2.x.
 </simpara></listitem>
 <listitem><simpara>
 pthread libraries. Most systems already satisfy this requirement. If you are
@@ -376,6 +376,23 @@ Then hit the HTTP tab and enter your same proxy server info there.</para>
 </sect1>
 
 <!-- ----------------------------------------------------------------- -->
+
+</chapter>
+
+<!-- ***************************************************************** -->
+
+<chapter>
+<title>SSL Issues</title>
+
+<sect1>
+<title>When using the FTPS or HTTPS protocol, gFTP cannot connect if the remote
+server uses a self signed certificate.</title>
+
+<para>You must add the public key of your self signed CA to your OpenSSL
+certs directory. On my Debian box, the OpenSSL certs are installed in
+/usr/lib/ssl/certs.</para>
+
+</sect1>
 
 </chapter>
 

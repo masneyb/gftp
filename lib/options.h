@@ -86,7 +86,7 @@ gftp_config_vars gftp_global_config_vars[] =
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Show hidden files in the listboxes"), GFTP_PORT_ALL, NULL},
   {"show_trans_in_title", N_("Show transfer status in title"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
    N_("Show the file transfer status in the titlebar"), GFTP_PORT_GTK, NULL},
   {"cmd_in_gui", N_("Allow manual commands in GUI"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
