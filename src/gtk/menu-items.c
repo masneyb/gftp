@@ -247,7 +247,7 @@ chdir_edit (GtkWidget * widget, gpointer data)
   char *tempstr;
 
   wdata = data;
-  if (!check_status (_("Chdir"), wdata, gftpui_common_use_threads (wdata->request), 1, 0,
+  if (!check_status (_("Chdir"), wdata, gftpui_common_use_threads (wdata->request), 0, 0,
                      wdata->request->chdir != NULL))
     return (0);
 
