@@ -481,7 +481,8 @@ FILE * gftp_find_cache_entry 		( gftp_request * request );
 
 void gftp_clear_cache_files 		( void );
 
-void gftp_delete_cache_entry 		( gftp_request * request );
+void gftp_delete_cache_entry 		( gftp_request * request,
+					  int ignore_directory );
 
 /* config_file.c */
 void gftp_read_config_file 		( char **argv,

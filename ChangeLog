@@ -1,3 +1,13 @@
+2002-11-5 Brian Masney <masneyb@gftp.org>
+	* lib/cache.c lib/gftp.h - added second argument ignore_directory to
+	gftp_delete_cache_entry
+
+	* src/gtk/menu-items.c (disconnect) - when disconnecting from the 
+	remote site, clear all cache entries for that site
+
+	* src/gtk/delete_dialog.c src/gtk/misc-gtk.c src/gtk/mkdir_dialog.c -
+	pass a 0 as second argument to gftp_delete_cache_entry
+
 2002-10-31 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_get_next_file) - don't use g_filename_to_utf8.
 	If g_locale_to_utf8 fails, print out a warning to the user on the 

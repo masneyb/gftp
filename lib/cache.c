@@ -183,18 +183,19 @@ gftp_clear_cache_files (void)
 
 
 void
-gftp_delete_cache_entry (gftp_request * request)
+gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
 {
   char *oldindexfile, *newindexfile, *pos, buf[BUFSIZ], description[BUFSIZ];
   FILE *indexfd, *newfd;
   size_t len, buflen;
+  int remove;
 
   g_snprintf (description, sizeof (description), "%s://%s@%s:%d%s",
               gftp_cache_get_url_prefix (request),
               request->username == NULL ? "" : request->username,
               request->hostname == NULL ? "" : request->hostname,
               request->port, 
-              request->directory == NULL ? "" : request->directory);
+              ignore_directory || request->directory == NULL ? "" : request->directory);
 
   oldindexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
   if ((indexfd = fopen (oldindexfile, "rb")) == NULL)
@@ -223,11 +224,24 @@ gftp_delete_cache_entry (gftp_request * request)
       if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
         {
           printf (_("Error: Invalid line %s in cache index file\n"), buf);
-	  continue;
+          continue;
         }
 
-      if (buflen == pos - buf && strncmp (buf, description, pos - buf) == 0)
-	unlink (pos + 1);
+      remove = 0;
+      if (ignore_directory)
+        {
+          if (strncmp (buf, description, strlen (description)) == 0)
+            remove = 1;
+        }
+      else
+        {
+          if (buflen == pos - buf && strncmp (buf, description, pos - buf) == 0)
+            remove = 1;
+        }
+
+ 
+      if (remove)
+        unlink (pos + 1);
       else
         {
           buf[strlen (buf)] = '\n';

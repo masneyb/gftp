@@ -260,7 +260,7 @@ delete_purge_cache (gpointer key, gpointer value, gpointer user_data)
   request = user_data;
   olddir = request->directory;
   request->directory = key;
-  gftp_delete_cache_entry (request);
+  gftp_delete_cache_entry (request, 0);
   request->directory = olddir;
   g_free (key);
 }
