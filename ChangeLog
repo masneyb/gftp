@@ -1,4 +1,12 @@
 2004-5-16 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.c src/gtk/gftp-gtk.h src/gtk/transfer.c - fixed
+	detection of SIGCHLD when viewing/editing a file (from
+	Aurelien Jarno <aurelien@aurel32.net>)
+
+	* src/gtk/gtkui.c - expand the path on the client side when changing
+	the remote directory (i.e. CHDIR /home/.. becomes /home)
+	(from Aurelien Jarno <aurelien@aurel32.net>)
+
 	* src/uicommon/gftpui.c lib/gftp.h - added
 	gftpui_protocol_update_timeout()
 

@@ -380,17 +380,22 @@ gftpui_run_chdir (gpointer uidata, char *directory)
 {
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
+  char *tempstr;
   int ret;
 
+  if ((tempstr = expand_path (directory)) == NULL)
+    return (FALSE);	  
+  
   wdata = uidata;
   cdata = g_malloc0 (sizeof (*cdata));
   cdata->request = wdata->request;
   cdata->uidata = wdata;
   cdata->run_function = gftpui_common_run_chdir;
-  cdata->input_string = directory;
+  cdata->input_string = tempstr;
 
   ret = gftpui_common_run_callback_function (cdata);
 
+  g_free(tempstr);
   g_free (cdata);
   return (ret);
 }

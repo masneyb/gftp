@@ -39,7 +39,6 @@ pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 gftp_graphic * gftp_icon;
 pthread_t main_thread_id;
 GList * viewedit_processes = NULL;
-volatile sig_atomic_t viewedit_process_done;
 
 static int
 get_column (GtkCListColumn * col)

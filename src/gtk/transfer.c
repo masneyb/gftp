@@ -297,7 +297,7 @@ check_done_process (void)
   char *str;
   pid_t pid;
 
-  viewedit_process_done = 0;
+  gftpui_common_child_process_done = 0;
   while ((pid = waitpid (-1, &ret, WNOHANG)) > 0)
     {
       curdata = viewedit_processes;
@@ -779,7 +779,7 @@ update_downloads (gpointer data)
   if (window2.request->gotbytes != 0)
     update_window_transfer_bytes (&window2);
 
-  if (viewedit_process_done)
+  if (gftpui_common_child_process_done)
     check_done_process ();
 
   for (templist = gftp_file_transfers; templist != NULL;)

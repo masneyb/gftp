@@ -186,7 +186,6 @@ extern pthread_mutex_t log_mutex;
 extern gftp_graphic * gftp_icon;
 extern pthread_t main_thread_id;
 extern GList * viewedit_processes;
-extern volatile sig_atomic_t viewedit_process_done;
 
 
 /* bookmarks.c */
