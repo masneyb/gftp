@@ -279,13 +279,26 @@ commas will be inserted. If you are in the US, change your
 <!-- ----------------------------------------------------------------- -->
 
 <sect1>
+<title>Filenames are being stored in UTF8 instead of the current locale.</title>
+
+<para>
+Starting with gFTP 2.0.18, you can use the GLIB environment variable
+<emphasis>G_FILENAME_ENCODING</emphasis> to specify the encoding of the files
+on your system. For more information about this environment variable, see
+<ulink url="http://developer.gnome.org/doc/API/2.0/glib/glib-running.html#G_FILENAME_ENCODING">http://developer.gnome.org/doc/API/2.0/glib/glib-running.html#G_FILENAME_ENCODING</ulink>.
+</para>
+</sect1>
+
+<!-- ----------------------------------------------------------------- -->
+
+<sect1>
 <title>When using an external editor, gFTP does not detect changes that are being made to the file.</title>
 
 <para>
 Look at the man page for the editor you are using and see if there is a
 command line argument to have the editor run in the foreground (it won't
 fork to detact from the current terminal). If you are using one of the
-graphical VIM editors, you can add the --nofork argument.
+graphical VIM editors, you can add the <emphasis>--nofork</emphasis> argument.
 </para>
 
 </sect1>
@@ -356,6 +369,8 @@ Then hit the HTTP tab and enter your same proxy server info there.</para>
 <title>gFTP will not log into the remote SSH server when using a non-English
 locale.</title>
 
+<para>Note: This answer only applies to versions of gFTP &gt;= 2.0.18</para>
+
 <para>
 You will need to download the source code to gFTP and edit the appropriate
 po/&lt;lang&gt;.po file. You will need to make sure the following strings
@@ -381,8 +396,10 @@ grab the latest PO file from CVS.
 
 <sect1>
 <title>I'm having problems getting SSH2 transfers to work. I keep getting the
-error: <emphasis>Error: Message size XXXXXXXX too big from server (only relevant for versions <= 2.0.17)</emphasis>
+error: <emphasis>Error: Message size XXXXXXXX too big from server</emphasis>
 </title>
+
+<para>Note: This answer only applies to versions of gFTP &lt;= 2.0.17</para>
 
 <para>What probably is the problem, sftp-server isn't in your path on the
 remote server. When you try to connect to the remote server, you'll see the
@@ -419,7 +436,9 @@ ssh-askpass program to grab your password.</para>
 <!-- ----------------------------------------------------------------- -->
 
 <sect1>
-<title>What is the difference between the SSH and SSH2 protocols? (only relevant for versions <= 2.0.15)</title>
+<title>What is the difference between the SSH and SSH2 protocols?</title>
+
+<para>Note: This answer only applies to versions of gFTP &lt;= 2.0.15</para>
 
 <para>The SSH protocol uses sftp >= 0.7 from 
 <ulink url="http://www.xbill.org/sftp">http://www.xbill.org/sftp</ulink>.
@@ -479,82 +498,6 @@ make distclean ; configure --with-included-gettext.
 to configure, and internationalization support will not be compiled in.</para>
 
 </sect1>
-
-<!-- ----------------------------------------------------------------- -->
-
-<sect1>
-<title>I am trying to compile your program and I get some parse errors before
-GdkDragContext. What's wrong?</title>
-
-<para>You have an older version of gtk installed on your system. If you are
-using Red Hat or Debian Linux, simply remove the gtk and glib devel
-packages. You can still leave the gtk 1.0 libraries installed.</para>
-
-</sect1>
-
-<!-- ----------------------------------------------------------------- -->
-
-</chapter>
-
-<!-- ***************************************************************** -->
-
-<chapter>
-<title>Issues for older releases</title>
-
-<sect1>
-<title>I downloaded a binary off the internet and everytime I run gFTP I get an
-error saying: <emphasis>undefined symbol :__register_frame_info</emphasis></title>
-   
-<para>ObiTuarY &lt;obituary@freshmeat.net&gt; says:</para>
-
-<para>This happens when you compile a library with egcs. The library then has 
-the __register_frame_info symbol. If you link a program to it, it will
-require this symbol. Now if you have the exact same library compiled with
-gcc 2.7.2.3 it won't have this symbol. The thing about glibc 2.1 under Red
-Hat 6 is it was compiled with egcs and glibc 2.0.x under Red Hat 5.x was
-compiled with gcc 2.7.2.3, therefore it's not an incompatibility between
-glibc 2.0.x and 2.1.x. What some people do for that is they get the .o file
-of egcs with __register_frame_info in it and link into the program so it's
-always there, that way it works with libs compiled with egcs or gcc 2.7.2.3.
-(in /usr/lib/gcc-lib/i386-*-linux/egcs-*/ )"</para>
-
-<para>Another alternative, is to recompile gFTP on your machine, or you can
-download some RPMs off my website that were compiled against Red Hat
-5.2.</para>
-
-</sect1>
-
-<!-- ----------------------------------------------------------------- -->
-
-<sect1>
-<title>I upgraded to a newer version of gFTP and now I am getting some warnings
-about some config file lines not having enough arguments, and it cannot find
-html.xpm.</title>
-
-<para>This is from upgrading from a very old version of gFTP to a newer version.
-I removed some icons from the distribution (0.20 to 0.21). Edit your
-~/.gftp/gftprc file. At the bottom of the file, there are some ext= lines.
-Some of them have html.xpm, rpm.xpm and pdf.xpm. Remove these lines and gFTP
-will startup fine. Don't worry about fixing he warnings...they will go away
-themselves whenever you change an option in gFTP.</para>
-
-</sect1>
-
-<!-- ----------------------------------------------------------------- -->
-
-<sect1>
-<title>I have a libc 5 based machine and everytime I run gFTP it instantly
-crashes.  I get an error something like:
-<emphasis>Gdk-ERROR **: an x io error occurred</emphasis></title>
-
-<para>Your X libraries are not thread safe. They must be compiled with
--D_REENTRANT. You can either recompile your X libraries, or you can download
-some from my webpage at
-<ulink url="ftp://www.gftp.org/pub/gftp/libs/XFree86-libs-3.3-2_threading.i386.tgz">ftp://www.gftp.org/pub/gftp/libs/XFree86-libs-3.3-2_threading.i386.tgz</ulink></para>
-
-</sect1>
-
-<!-- ----------------------------------------------------------------- -->
 
 </chapter>
 

@@ -470,7 +470,10 @@ rfc959_connect (gftp_request * request)
   if ((ret = rfc959_read_response (request, 1)) != '2')
     {
       gftp_disconnect (request);
-      return (ret);
+      if (ret < 0)
+        return (ret);
+      else
+        return (GFTP_ERETRYABLE);
     }
 
   if (parms->auth_tls_start != NULL)
