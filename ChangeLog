@@ -1,3 +1,14 @@
+2003-8-4 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.c (CreateMenus) - on startup, select the proper
+	ASCII/binary radio button (looks like an old bug!)
+
+	* lib/misc.c lib/gftp.h - renamed my version of g_build_path() (was
+	used only in glib 1.2 only) to gftp_build_path() and it's compiled in
+	all the time now
+
+	* lib/protocols.c lib/sshv2.c src/gtk/dnd.c src/gtk/menu-items.c - 
+	instead of using g_build_path(), use gftp_build_path()
+
 2003-8-3 Brian Masney <masneyb@gftp.org>
 	* lib/local.c (local_put_file) - specify an initial file creation mode
 	of 0644

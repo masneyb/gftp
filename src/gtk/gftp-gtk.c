@@ -152,7 +152,8 @@ chfunc (gpointer data)
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
-  int local_len, remote_len, len, i, trans_len, log_len, tools_len;
+  int local_len, remote_len, len, i, trans_len, log_len, tools_len,
+      ascii_transfers;
   GtkAccelGroup *accel_group;
   GtkWidget * tempwid;
   static GtkItemFactoryEntry menu_items[] = {
@@ -301,8 +302,17 @@ CreateMenus (GtkWidget * parent)
 
   gtk_window_add_accel_group (GTK_WINDOW (parent), accel_group);
 
-  tempwid = gtk_item_factory_get_widget (factory, menu_items[6].path);
-  gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
+  gftp_lookup_global_option ("ascii_transfers", &ascii_transfers);
+  if (ascii_transfers)
+    {
+      tempwid = gtk_item_factory_get_widget (factory, menu_items[5].path);
+      gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
+    }
+  else
+    {
+      tempwid = gtk_item_factory_get_widget (factory, menu_items[6].path);
+      gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
+    }
 
   tempwid = gtk_item_factory_get_widget (factory, menu_items[3].path);
   gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);

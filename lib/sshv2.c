@@ -1666,8 +1666,7 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   else
     {
       oldlen = strlen (request->directory) + strlen (oldname) + 1;
-      oldstr = g_build_path ("/", request->directory, oldname, 
-                             NULL);
+      oldstr = gftp_build_path (request->directory, oldname, NULL);
     }
 
   if (*newname == '/')
@@ -1678,8 +1677,7 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   else
     {
       newlen = strlen (request->directory) + strlen (newname) + 1;
-      newstr = g_build_path ("/", request->directory, newname, 
-                             NULL);
+      newstr = gftp_build_path (request->directory, newname, NULL);
     }
 
   tempstr = g_malloc (oldlen + newlen + 13);

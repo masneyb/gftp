@@ -1547,11 +1547,11 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir)
         fle->startsize = *newsize;
 
       if (transfer->toreq)
-        fle->destfile = g_build_path ("/", transfer->toreq->directory, 
-                                      fle->file, NULL);
+        fle->destfile = gftp_build_path (transfer->toreq->directory, 
+                                         fle->file, NULL);
 
-      newname = g_build_path ("/", transfer->fromreq->directory,
-			     fle->file, NULL);
+      newname = gftp_build_path (transfer->fromreq->directory,
+                                 fle->file, NULL);
 
       g_free (fle->file);
       fle->file = newname;

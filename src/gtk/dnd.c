@@ -79,7 +79,7 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   newfle->file = g_strdup (current_ftpdata->directory);
   *(pos - 1) = '\0';
   
-  newfle->destfile = g_build_path ("/", wdata->request->directory, pos, NULL);
+  newfle->destfile = gftp_build_path (wdata->request->directory, pos, NULL);
   templist = g_malloc0 (sizeof (*templist));
   templist->data = newfle;
   templist->next = NULL;

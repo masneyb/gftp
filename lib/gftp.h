@@ -719,13 +719,8 @@ GList * get_next_selection 		( GList * selection,
 					  GList ** list, 
 					  int *curnum );
 
-#if GLIB_MAJOR_VERSION == 1
-
-gchar * g_build_path 			( const gchar *separator, 
-					  const gchar *first_element,
+char * gftp_build_path 			( const char *first_element,
 					  ... );
-
-#endif
 
 off_t gftp_parse_file_size 		( char *str );
 

@@ -1192,10 +1192,8 @@ get_next_selection (GList * selection, GList ** list, int *curnum)
 }
 
 
-#if GLIB_MAJOR_VERSION == 1
-
 char *
-g_build_path (const char *separator, const char *first_element, ...)
+gftp_build_path (const char *first_element, ...) 
 {
   const char *element;
   size_t len, retlen;
@@ -1203,7 +1201,7 @@ g_build_path (const char *separator, const char *first_element, ...)
   va_list args;
   char *ret;
 
-  g_return_val_if_fail (separator != NULL, NULL);
+  g_return_val_if_fail (first_element != NULL, NULL);
 
   ret = g_malloc0 (1);
   retlen = 0;
@@ -1215,7 +1213,7 @@ g_build_path (const char *separator, const char *first_element, ...)
     {
       len = strlen (element);
 
-      if (len > 0 && element[len - 1] == *separator)
+      if (len > 0 && element[len - 1] == '/')
         add_separator = 0;
       else
         {
@@ -1225,16 +1223,15 @@ g_build_path (const char *separator, const char *first_element, ...)
       
       retlen += len;
       ret = g_realloc (ret, retlen + 1);
-      strncat (ret, element, retlen);
 
       if (add_separator)
-        strncat (ret, separator, retlen);
+        strncat (ret, "/", retlen);
+
+      strncat (ret, element, retlen);
     }
 
   return (ret);
 }
-
-#endif
 
 
 off_t
