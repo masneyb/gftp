@@ -79,29 +79,38 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
       curpos++;
     }
 
-  /* Get the parent node */
-  if ((curpos = strrchr (newentry->path, '/')) == NULL)
-    preventry = gftp_bookmarks;
+  if (newentry->path[strlen (newentry->path) - 1] == '/')
+    {
+      newentry->path[strlen (newentry->path) - 1] = '\0';
+      newentry->isfolder = 1;
+    }
   else
     {
-      *curpos = '\0';
-      preventry = (gftp_bookmarks_var *)
-	g_hash_table_lookup (gftp_bookmarks_htable, newentry->path);
-      *curpos = '/';
-    }
+      /* Get the parent node */
+      if ((curpos = strrchr (newentry->path, '/')) == NULL)
+        preventry = gftp_bookmarks;
+      else
+        {
+          *curpos = '\0';
+          preventry = (gftp_bookmarks_var *)
+    	g_hash_table_lookup (gftp_bookmarks_htable, newentry->path);
+          *curpos = '/';
+        }
+    
+      if (preventry->children != NULL)
+        {
+          endentry = preventry->children;
+          while (endentry->next != NULL)
+    	endentry = endentry->next;
+          endentry->next = newentry;
+        }
+      else
+        preventry->children = newentry;
 
-  if (preventry->children != NULL)
-    {
-      endentry = preventry->children;
-      while (endentry->next != NULL)
-	endentry = endentry->next;
-      endentry->next = newentry;
+      newentry->prev = preventry;
+      newentry->next = NULL;
+      g_hash_table_insert (gftp_bookmarks_htable, newentry->path, newentry);
     }
-  else
-    preventry->children = newentry;
-  newentry->prev = preventry;
-  newentry->next = NULL;
-  g_hash_table_insert (gftp_bookmarks_htable, newentry->path, newentry);
 }
 
 
