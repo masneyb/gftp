@@ -123,8 +123,8 @@ struct gftp_file_tag
        *destfile;		/* Full pathname to the destination for the 
                                    file transfer */
   time_t datetime;		/* File date and time */
-  unsigned long size,		/* Size of the file */
-                startsize;	/* Size to start the transfer at */
+  off_t size,			/* Size of the file */
+        startsize;		/* Size to start the transfer at */
   unsigned int isdir : 1,	/* File type */
                isexe : 1,
                islink : 1,
@@ -293,9 +293,7 @@ struct gftp_transfer_tag
                show : 1,
                stalled : 1,
                next_file : 1,
-               skip_file : 1,
-               current_file_number, 
-               current_file_retries;
+               skip_file : 1;
 
   struct timeval starttime,
                  lasttime;
@@ -306,8 +304,10 @@ struct gftp_transfer_tag
         * curfle,
         * updfle;
 
-  long numfiles,
-       numdirs;
+  unsigned long numfiles,
+                numdirs,
+                current_file_number,
+                current_file_retries;
 
   off_t curtrans,		/* Current transfered bytes for this file */
         curresumed,		/* Resumed bytes for this file */
@@ -481,7 +481,7 @@ GHashTable * build_bookmarks_hash_table	( gftp_bookmarks * entry );
 void print_bookmarks 			( gftp_bookmarks * bookmarks );
 
 /* misc.c */
-char *insert_commas 			( unsigned long number, 
+char *insert_commas 			( off_t number, 
 					  char *dest_str, 
 					  size_t dest_len );
 

@@ -370,6 +370,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Local/Select All Files"), NULL, selectallfiles, 0, MN_(NULL)},
     {N_("/Local/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
     {N_("/Local/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/Local/Save Directory Listing..."), NULL, save_directory_listing, 0, MN_(NULL)},
     {N_("/Local/Send SITE Command..."), NULL, site_dialog, 0, MN_(NULL)},
     {N_("/Local/Change Directory"), NULL, chfunc, 0, MN_(NULL)},
     {N_("/Local/Chmod..."), NULL, chmod_dialog, 0, MN_(NULL)},
@@ -392,6 +393,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Remote/Select All Files"), NULL, selectallfiles, 0, MN_(NULL)},
     {N_("/Remote/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
     {N_("/Remote/sep"), NULL, 0, 0, MN_("<Separator>")},
+    {N_("/Remote/Save Directory Listing..."), NULL, save_directory_listing, 0, MN_(NULL)},
     {N_("/Remote/Send SITE Command..."), NULL, site_dialog, 0, MN_(NULL)},
     {N_("/Remote/Change Directory"), NULL, chfunc, 0, MN_(NULL)},
     {N_("/Remote/Chmod..."), NULL, chmod_dialog, 0, MN_(NULL)},
@@ -450,13 +452,13 @@ CreateMenus (GtkWidget * parent)
   i += len;
   /* Local Menu */
   local_start = i;
-  local_len = 20;
+  local_len = 21;
   create_item_factory (factory, local_len, menu_items + i, &window1);
 
   i += local_len;
   /* Remote Menu */
   remote_start = i;
-  remote_len = 20;
+  remote_len = 21;
   create_item_factory (factory, remote_len, menu_items + i, &window2);
 
   i += remote_len;

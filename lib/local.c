@@ -150,6 +150,7 @@ local_connect (gftp_request * request)
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
 
+  /* Just to simulate that we are actually connected */
   request->sockfd = (void *) 1;
 
   if (request->directory)
@@ -223,7 +224,7 @@ local_get_file (gftp_request * request, const char *filename, FILE * fd,
           return (-2);
         }
 
-      if ((request->datafd = fdopen (sock, "rb")) == NULL)
+      if ((request->datafd = fdopen (sock, "rb+")) == NULL)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                      _("Cannot fdopen() socket for %s: %s\n"),
@@ -293,7 +294,7 @@ local_put_file (gftp_request * request, const char *filename, FILE * fd,
           return (-2);
         }
 
-      if ((request->datafd = fdopen (sock, "ab")) == NULL)
+      if ((request->datafd = fdopen (sock, "ab+")) == NULL)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                      _("Cannot fdopen() socket for %s: %s\n"),
@@ -432,9 +433,21 @@ local_get_next_file (gftp_request * request, gftp_file * fle, FILE * fd)
       g_hash_table_insert (lpd->grouphash, GUINT_TO_POINTER (st.st_gid), group);
     }
 
-  fle->size = st.st_size;
-  fle->datetime = st.st_mtime;
   fle->attribs = make_text_mode (fle, st.st_mode);
+  fle->datetime = st.st_mtime;
+
+  if ((fle->attribs[0] == 'b' || fle->attribs[0] == 'u' ||
+       fle->attribs[0] == 'c'))
+    {
+      /* FIXME find out if sys/sysmacros.h is portable, and if 
+         #define {major,minor} is portable. If so, use that instead. If not,
+         I will have to add a configure flag to find out the size of the
+         major numbers */
+      fle->size = ((((int) st.st_rdev) >> 8) & 0xFF) << 16;
+      fle->size |= st.st_rdev & 0xFF;
+    }
+  else
+    fle->size = st.st_size;
 
   if (*fle->attribs == 'd')
     fle->isdir = 1;

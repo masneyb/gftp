@@ -1038,8 +1038,7 @@ static time_t
 parse_time (char **str)
 {
   const char *months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-    "Aug", "Sep", "Oct", "Nov", "Dec"
-  };
+    "Aug", "Sep", "Oct", "Nov", "Dec" };
   char *startpos, *endpos, *datepos;
   struct tm curtime, tt;
   time_t t;
@@ -1245,7 +1244,7 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
   /* See if this is a block or character device. We will store the major number
      in the high word and the minor number in the low word.  */
   if ((fle->attribs[0] == 'b' || fle->attribs[0] == 'u' || 
-       fle->attribs[0] == 'c') && 
+       fle->attribs[0] == 'c') &&
       ((endpos = strchr (startpos, ',')) != NULL))
     {
       fle->size = strtol (startpos, NULL, 10) << 16;
@@ -1257,7 +1256,7 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
       /* Get the minor number */
       if ((endpos = strchr (startpos, ' ')) == NULL)
 	return (-2);
-      fle->size |= strtol (startpos, NULL, 10);
+      fle->size |= strtol (startpos, NULL, 10) & 0xFF;
     }
   else
     {
@@ -1920,7 +1919,12 @@ print_file_list (GList * list)
   for (templist = list; ; templist = templist->next)
     {
       tempfle = templist->data;
-      printf ("%s:%s:%ld:%ld:%s:%s:%s\n", tempfle->file, tempfle->destfile,
+#if defined (_LARGEFILE_SOURCE)
+      printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
+#else
+      printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
+#endif
+              tempfle->file, tempfle->destfile,
               tempfle->size, tempfle->startsize, tempfle->user, tempfle->group,
               tempfle->attribs);
       if (templist->next == NULL)
@@ -1931,7 +1935,12 @@ print_file_list (GList * list)
   for (; ; templist = templist->prev)
     {
       tempfle = templist->data;
-      printf ("%s:%s:%ld:%ld:%s:%s:%s\n", tempfle->file, tempfle->destfile,
+#if defined (_LARGEFILE_SOURCE)
+      printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
+#else
+      printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
+#endif
+              tempfle->file, tempfle->destfile,
               tempfle->size, tempfle->startsize, tempfle->user, tempfle->group,
               tempfle->attribs);
       if (templist == list)

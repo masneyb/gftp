@@ -298,8 +298,23 @@ ssh_connect (gftp_request * request)
       g_free (exepath);
       g_free (tempstr);
 
-      request->sockfd = request->datafd = fdopen (fdm, "rb");
-      request->sockfd_write = fdopen (fdm, "wb");
+      if ((request->sockfd = fdopen (fdm, "rb+")) == NULL)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                                     _("Cannot fdopen() socket: %s\n"),
+                                     g_strerror (errno));
+          close (fdm);
+          return (-2);
+        }
+
+      if ((request->sockfd_write = fdopen (fdm, "wb+")) == NULL)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                                     _("Cannot fdopen() socket: %s\n"),
+                                     g_strerror (errno));
+          gftp_disconnect (request);
+          return (-2);
+        }
 
       params->channel = 0;
       version = htonl (7 << 4);
@@ -359,7 +374,7 @@ ssh_disconnect (gftp_request * request)
 			         _("Disconnecting from site %s\n"),
                                  request->hostname);
       fclose (request->sockfd);
-      request->sockfd = request->datafd = request->sockfd_write = NULL;
+      request->sockfd = request->sockfd_write = NULL;
     }
 }
 
@@ -470,8 +485,10 @@ ssh_put_file (gftp_request * request, const char *filename, FILE * fd,
   if (startsize > 0)
     {
       startsize = htonl (startsize);
-      /* FIXME - warning on IRIX - pointer from integer of different size */
-      if (ssh_send_command (request, SKIPBYTES, GUINT_TO_POINTER (startsize), 4) < 0)
+      /* This protocol only supports files up to 2 gig in size. I truncate
+         the file size here just to suppress compiler warnings  */
+      if (ssh_send_command (request, SKIPBYTES, 
+                            GINT_TO_POINTER ((gint32) startsize), 4) < 0)
         return (-1);
     }
 
@@ -536,7 +553,6 @@ ssh_end_transfer (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSH_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
 
   params = request->protocol_data;
   if (params->buffer)

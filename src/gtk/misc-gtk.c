@@ -294,24 +294,25 @@ update_window (gftp_window_data * wdata)
   set_menu_sensitive (wdata, menus[start + 7].path, connected);
   set_menu_sensitive (wdata, menus[start + 8].path, connected);
   set_menu_sensitive (wdata, menus[start + 9].path, connected);
-  set_menu_sensitive (wdata, menus[start + 11].path, connected &&
-                      wdata->request->site != NULL);
+  set_menu_sensitive (wdata, menus[start + 11].path, connected);
   set_menu_sensitive (wdata, menus[start + 12].path, connected &&
-                      wdata->request->chdir!= NULL);
+                      wdata->request->site != NULL);
   set_menu_sensitive (wdata, menus[start + 13].path, connected &&
-                      wdata->request->chmod != NULL);
+                      wdata->request->chdir!= NULL);
   set_menu_sensitive (wdata, menus[start + 14].path, connected &&
-                      wdata->request->mkdir != NULL);
+                      wdata->request->chmod != NULL);
   set_menu_sensitive (wdata, menus[start + 15].path, connected &&
-                      wdata->request->rename != NULL);
+                      wdata->request->mkdir != NULL);
   set_menu_sensitive (wdata, menus[start + 16].path, connected &&
+                      wdata->request->rename != NULL);
+  set_menu_sensitive (wdata, menus[start + 17].path, connected &&
                       wdata->request->rmdir != NULL &&
                       wdata->request->rmfile != NULL);
-  set_menu_sensitive (wdata, menus[start + 17].path, connected &&
-                      wdata->request->get_file != NULL);
   set_menu_sensitive (wdata, menus[start + 18].path, connected &&
                       wdata->request->get_file != NULL);
-  set_menu_sensitive (wdata, menus[start + 19].path, connected);
+  set_menu_sensitive (wdata, menus[start + 19].path, connected &&
+                      wdata->request->get_file != NULL);
+  set_menu_sensitive (wdata, menus[start + 20].path, connected);
   fix_display ();
 }  
 

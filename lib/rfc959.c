@@ -131,7 +131,7 @@ rfc959_connect (gftp_request * request)
   if ((sock = gftp_connect_server (request, "ftp")) < 0)
     return (-1);
 
-  if ((request->sockfd = fdopen (sock, "rb")) == NULL)
+  if ((request->sockfd = fdopen (sock, "rb+")) == NULL)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Cannot fdopen() socket: %s\n"),
@@ -140,7 +140,7 @@ rfc959_connect (gftp_request * request)
       return (-2);
     }
 
-  if ((request->sockfd_write = fdopen (dup (sock), "wb")) == NULL)
+  if ((request->sockfd_write = fdopen (dup (sock), "wb+")) == NULL)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Cannot fdopen() socket: %s\n"),
@@ -314,7 +314,11 @@ rfc959_get_file (gftp_request * request, const char *filename, FILE * fd,
 
   if (startsize > 0)
     {
+#if defined (_LARGEFILE_SOURCE)
+      command = g_strdup_printf ("REST %lld\r\n", startsize); 
+#else
       command = g_strdup_printf ("REST %ld\r\n", startsize); 
+#endif
       resp = rfc959_send_command (request, command);
       g_free (command);
 
@@ -383,7 +387,11 @@ rfc959_put_file (gftp_request * request, const char *filename, FILE * fd,
 
   if (startsize > 0)
     {
-      command = g_strdup_printf ("REST %ld\r\n", startsize);  
+#if defined (_LARGEFILE_SOURCE)
+      command = g_strdup_printf ("REST %lld\r\n", startsize); 
+#else
+      command = g_strdup_printf ("REST %ld\r\n", startsize); 
+#endif
       resp = rfc959_send_command (request, command);
       g_free (command);
       if (resp != '3')

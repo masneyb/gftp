@@ -356,8 +356,23 @@ sshv2_connect (gftp_request * request)
       g_free (args);
       g_free (exepath);
 
-      request->sockfd = request->datafd = fdopen (fdm, "rb");
-      request->sockfd_write = fdopen (fdm, "wb");
+      if ((request->sockfd = fdopen (fdm, "rb+")) == NULL)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                                     _("Cannot fdopen() socket: %s\n"),
+                                     g_strerror (errno));
+          close (fdm);
+          return (-2);
+        }
+
+      if ((request->sockfd_write = fdopen (fdm, "wb+")) == NULL)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                                     _("Cannot fdopen() socket: %s\n"),
+                                     g_strerror (errno));
+          gftp_disconnect (request);
+          return (-2);
+        }
 
       version = htonl (SSH_MY_VERSION);
       if (sshv2_send_command (request, SSH_FXP_INIT, (char *) &version, 4) < 0)
@@ -411,7 +426,7 @@ sshv2_disconnect (gftp_request * request)
 			         _("Disconnecting from site %s\n"),
                                  request->hostname);
       fclose (request->sockfd);
-      request->sockfd = request->datafd = request->sockfd_write = NULL;
+      request->sockfd = request->sockfd_write = NULL;
     }
 
   if (params->message.buffer != NULL)
@@ -780,7 +795,6 @@ sshv2_end_transfer (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
 
   params = request->protocol_data;
   if (params->message.buffer != NULL)
@@ -1087,7 +1101,6 @@ sshv2_chdir (gftp_request * request, const char *directory)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
 
   params = request->protocol_data;
   if (request->directory != directory)
@@ -1157,7 +1170,6 @@ sshv2_getcwd (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
 
   if (request->directory == NULL || *request->directory == '\0')
     dir = ".";
@@ -1219,7 +1231,6 @@ sshv2_rmdir (gftp_request * request, const char *directory)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
   g_return_val_if_fail (directory != NULL, -2);
 
   params = request->protocol_data;
@@ -1277,7 +1288,6 @@ sshv2_rmfile (gftp_request * request, const char *file)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
   g_return_val_if_fail (file != NULL, -2);
 
   params = request->protocol_data;
@@ -1335,7 +1345,6 @@ sshv2_chmod (gftp_request * request, const char *file, int mode)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
   g_return_val_if_fail (file != NULL, -2);
 
   params = request->protocol_data;
@@ -1400,7 +1409,6 @@ sshv2_mkdir (gftp_request * request, const char *newdir)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
   g_return_val_if_fail (newdir != NULL, -2);
 
   params = request->protocol_data;
@@ -1459,7 +1467,6 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
   g_return_val_if_fail (oldname != NULL, -2);
   g_return_val_if_fail (newname != NULL, -2);
 
@@ -1531,7 +1538,6 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
   g_return_val_if_fail (file != NULL, -2);
 
   params = request->protocol_data;
@@ -1599,7 +1605,6 @@ sshv2_get_file_size (gftp_request * request, const char *file)
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->datafd != NULL, -2);
   g_return_val_if_fail (file != NULL, -2);
 
   params = request->protocol_data;

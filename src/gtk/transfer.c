@@ -1242,7 +1242,7 @@ update_file_status (gftp_transfer * tdata)
     pcent = 0;
 
   g_snprintf (totstr, sizeof (totstr),
-	_("%d%% complete, %02d:%02d:%02d est. time remaining. (File %d of %ld)"),
+	_("%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"),
 	pcent, hours, mins, secs, tdata->current_file_number,
 	tdata->numdirs + tdata->numfiles);
 

@@ -23,6 +23,9 @@ static void do_openurl 				( GtkWidget * widget,
 						  gftp_dialog_data * data );
 static void dochange_filespec 			( GtkWidget * widget, 
 						  gftp_dialog_data * data );
+static void dosave_directory_listing 		( GtkWidget * widget, 
+						  gftp_save_dir_struct * str );
+static void destroy_save_directory_listing 	( gftp_save_dir_struct * str );
 static void dosite 				( GtkWidget * widget, 
 						  gftp_dialog_data * data );
 static int do_change_dir			( gftp_window_data * wdata,
@@ -214,6 +217,100 @@ dochange_filespec (GtkWidget * widget, gftp_dialog_data * data)
     }
   gtk_clist_thaw (GTK_CLIST (wdata->listbox));
   update_window (wdata);
+}
+
+
+void 
+save_directory_listing (gpointer data)
+{
+  gftp_save_dir_struct * str;
+  GtkWidget *filew;
+
+  filew = gtk_file_selection_new (_("Save Directory Listing"));
+
+  str = g_malloc (sizeof (*str));
+  str->filew = filew;
+  str->wdata = data;
+
+  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
+                      "clicked", GTK_SIGNAL_FUNC (dosave_directory_listing), 
+                      str);
+  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
+                             "clicked", 
+                             GTK_SIGNAL_FUNC (destroy_save_directory_listing),
+                             GTK_OBJECT (str));
+  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button), "clicked", GTK_SIGNAL_FUNC (destroy_save_directory_listing), GTK_OBJECT (str));
+
+  gtk_window_set_wmclass (GTK_WINDOW(filew), "Save Directory Listing", "gFTP");
+  gtk_widget_show (filew);
+}
+
+
+static void
+destroy_save_directory_listing (gftp_save_dir_struct * str)
+{
+  gtk_widget_destroy (str->filew);
+  g_free (str);
+}
+
+
+static void
+dosave_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
+{
+  const char *months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+    "Aug", "Sep", "Oct", "Nov", "Dec" };
+  const char *filename;
+  struct tm *lt;
+  gftp_file * tempfle;
+  GList * templist;
+  FILE * fd;
+  time_t t;
+
+  filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (str->filew));
+  if ((fd = fopen (filename, "w")) == NULL)
+    {
+      ftp_log (gftp_logging_misc, NULL, 
+               _("Error: Cannot open %s for writing: %s\n"), filename, 
+               g_strerror (errno));
+      return;
+    }
+
+  time (&t);
+
+  for (templist = str->wdata->files; 
+       templist->next != NULL;
+       templist = templist->next)
+    {
+      tempfle = templist->data;
+      fprintf (fd, "%10s %8s %8s ", tempfle->attribs, tempfle->user, 
+               tempfle->group);
+      if (tempfle->attribs && (*tempfle->attribs == 'b' || 
+                               *tempfle->attribs == 'c'))
+        fprintf (fd, "%5d, %4d", (((unsigned int) tempfle->size) >> 16) & 0xFF,
+                                 ((unsigned int) tempfle->size) & 0xFF);
+      else
+        {
+#if defined (_LARGEFILE_SOURCE)
+          fprintf (fd, "%11lld", tempfle->size);
+#else
+          fprintf (fd, "%11ld", tempfle->size);
+#endif
+        }
+
+      lt = localtime (&tempfle->datetime);
+
+      if (tempfle->datetime > t ||
+          t - 3600*24*90 > tempfle->datetime)
+        fprintf (fd, " %s %2d  %4d", months[lt->tm_mon], lt->tm_mday, 
+                 lt->tm_year + 1900);
+      else
+        fprintf (fd, " %s %2d %02d:%02d", months[lt->tm_mon], lt->tm_mday, 
+                 lt->tm_hour, lt->tm_min);
+
+      fprintf (fd, " %s\n", tempfle->file);
+    }
+
+  fclose (fd);
 }
 
 
@@ -552,8 +649,9 @@ viewlog (gpointer data)
   tempstr = g_strconcat (tmp_directory, "/gftp-view.XXXXXXXXXX", NULL);
   if ((fd = mkstemp (tempstr)) < 0)
     {
-      ftp_log (gftp_logging_misc, NULL, _("Error: Cannot open %s: %s\n"),
-	       tempstr, g_strerror (errno));
+      ftp_log (gftp_logging_misc, NULL, 
+               _("Error: Cannot open %s for writing: %s\n"), tempstr, 
+               g_strerror (errno));
       g_free (tempstr); 
       return;
     }
@@ -627,8 +725,9 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
   filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
   if ((fd = fopen (filename, "w")) == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL, _("Error: Cannot open %s: %s\n"),
-               filename, g_strerror (errno));
+      ftp_log (gftp_logging_misc, NULL, 
+               _("Error: Cannot open %s for writing: %s\n"), filename, 
+               g_strerror (errno));
       return;
     }
 

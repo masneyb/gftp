@@ -21,7 +21,7 @@
 #include "options.h"
 
 char *
-insert_commas (unsigned long number, char *dest_str, size_t dest_len)
+insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
   char *frompos, *topos, src[50], *dest;
   int len, num, rem, i;
@@ -54,7 +54,11 @@ insert_commas (unsigned long number, char *dest_str, size_t dest_len)
   else
     dest = dest_str;
 
+#if defined (_LARGEFILE_SOURCE)
+  g_snprintf (src, sizeof (src), "%lld", number);
+#else
   g_snprintf (src, sizeof (src), "%ld", number);
+#endif
 
   num = strlen (src) / 3 - 1;
   rem = strlen (src) % 3;

@@ -98,6 +98,13 @@ typedef struct gftp_curtrans_data_tag
 } gftp_curtrans_data;
 
 
+typedef struct gftp_save_dir_struct_tag
+{
+  GtkWidget * filew;
+  gftp_window_data * wdata;
+} gftp_save_dir_struct;
+
+
 extern gftp_window_data window1, window2, * other_wdata, * current_wdata;
 extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
                  * portedit, * logwdw, * dlwdw, * protocol_menu, * optionmenu;
@@ -175,6 +182,8 @@ void openurl_dialog 				( gpointer data );
 void disconnect 				( gpointer data );
 
 void change_filespec 				( gpointer data );
+
+void save_directory_listing 			( gpointer data );
 
 void show_selected				( gpointer data );
 

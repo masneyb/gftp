@@ -66,7 +66,8 @@ view_dialog (gpointer data)
       new_fle->destfile = g_strconcat (tmp_directory, "/gftp-view.XXXXXX", NULL);
       if ((fd = mkstemp (new_fle->destfile)) < 0)
         {
-          ftp_log (gftp_logging_misc, NULL, _("Error: Cannot open %s: %s\n"),
+          ftp_log (gftp_logging_misc, NULL, 
+                   _("Error: Cannot open %s for writing: %s\n"),  
                    new_fle->destfile, g_strerror (errno));
           free_fdata (new_fle);
           return;
@@ -135,7 +136,8 @@ edit_dialog (gpointer data)
                                        NULL);
       if ((fd = mkstemp (new_fle->destfile)) < 0)
         {
-          ftp_log (gftp_logging_misc, NULL, _("Error: Cannot open %s: %s\n"),
+          ftp_log (gftp_logging_misc, NULL, 
+                   _("Error: Cannot open %s for writing: %s\n"),
                    new_fle->destfile, g_strerror (errno));
           free_fdata (new_fle);
           return;
