@@ -345,9 +345,9 @@ _gftp_get_next_charset (char *remote_charsets, char **curpos)
 
   ret = *curpos;
   if (*curpos != remote_charsets)
-    *(*curpos - 1) = '\0';
+    *(*curpos - 1) = ',';
 
-  if ((endpos = strchr (*curpos, ' ')) == NULL)
+  if ((endpos = strchr (*curpos, ',')) == NULL)
     *curpos += strlen (*curpos);
   else
     {
@@ -401,6 +401,8 @@ gftp_string_to_utf8 (gftp_request * request, char *str)
           request->iconv_initialized = 1;
           break;
         }
+
+      /* FIXME - fix NUL character in remote_charsets */
     }
 
   return (ret);

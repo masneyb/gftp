@@ -1,4 +1,9 @@
 2003-6-16 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (_gftp_get_next_charset) - set the separator for
+	remote charsets to be a comma
+
+	* lib/options.h - updated description of remote charsets
+
 	* lib/gftp.h lib/misc.c lib/options.h lib/protocols.c
 	src/gtk/misc-gtk.c - added remote_charsets option. Whenever a file is
 	read in that is not in UTF-8, it will first attempt to convert it from

@@ -47,7 +47,7 @@ gftp_config_vars gftp_global_config_vars[] =
    GFTP_PORT_GTK, NULL},
   {"remote_charsets", N_("Remote Character Sets:"), 
    gftp_option_type_text, "", NULL, 0,
-   N_("The character sets to try to convert the remote filenames to the current locale"), 
+   N_("This is a comma separated list of charsets to try to convert the remote messages to the current locale"), 
    GFTP_PORT_ALL, NULL},
 
   {"append_transfers", N_("Append file transfers"), 
