@@ -764,8 +764,10 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
 
   if (read_size > 0 && !params->eof)
     {
-      read_size--; /* decrement by one so that we can put the NUL character in
-                      the buffer */
+      if (size == read_size)
+        read_size--; /* decrement by one so that we can put the NUL character
+                        in the buffer */
+
       retval = params->real_read_function (request, read_ptr_pos, read_size, fd);
 
       if (retval > 0)
