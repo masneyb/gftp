@@ -1,4 +1,7 @@
 2003-10-19 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c - abort a file transfer properly. When a transfer is
+	aborted, you will not be disconnected from the remote site.
+
 	* lib/protocols.c lib/gftp.h - added gftp_string_from_utf8(). Also, make
 	gftp_string_{to,from}_utf8() be defined all the time. When using 
 	glib 1.2, the functions will always return NULL.
