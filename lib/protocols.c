@@ -1100,7 +1100,7 @@ parse_time (char *str, char **endpos)
         *endpos = tmppos;
     }
 
-  return (mktime (&curtime));
+  return (ret);
 }
 
 
@@ -1277,7 +1277,7 @@ gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
       startpos = goto_next_token (startpos);
     }
 
-  if (request->server_type != GFTP_DIRTYPE_CRAY)
+  if (request->server_type == GFTP_DIRTYPE_CRAY)
     {
       /* See if this is a Cray directory listing. It has the following format:
       drwx------     2 feiliu    g913     DK  common      4096 Sep 24  2001 wv */
