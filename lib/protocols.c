@@ -613,7 +613,7 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
 {
   gftp_logging_func logging_function;
   gftp_bookmarks_var * tempentry;
-  char *default_protocol;
+  char *default_protocol, *utf8;
   int i, init_ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -648,13 +648,30 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
     gftp_set_account (request, tempentry->acct);
 
   gftp_set_hostname (request, tempentry->hostname);
-  gftp_set_directory (request, tempentry->remote_dir);
+
+  utf8 = gftp_string_from_utf8 (request, tempentry->remote_dir);
+  if (utf8 != NULL)
+    {
+      gftp_set_directory (request, utf8);
+      g_free (utf8);
+    }
+  else
+    gftp_set_directory (request, tempentry->remote_dir);
+
   gftp_set_port (request, tempentry->port);
 
   if (local_request != NULL && tempentry->local_dir != NULL &&
       *tempentry->local_dir != '\0')
     {
-      gftp_set_directory (local_request, tempentry->local_dir);
+      utf8 = gftp_string_from_utf8 (request, tempentry->local_dir);
+      if (utf8 != NULL)
+        {
+          gftp_set_directory (local_request, utf8);
+          g_free (utf8);
+        }
+      else
+        gftp_set_directory (local_request, tempentry->local_dir);
+
       if (refresh_local != NULL)
         *refresh_local = 1;
     }
