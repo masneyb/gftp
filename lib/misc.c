@@ -865,22 +865,25 @@ make_ssh_exec_args (gftp_request * request, char *execname,
   return (args);
 }
 
+#define SSH_LOGIN_BUFSIZE	200
+#define SSH_ERROR_BADPASS	-1
+#define SSH_ERROR_QUESTION	-2
 
 char *
 ssh_start_login_sequence (gftp_request * request, int fd)
 {
+  char *tempstr, *pwstr, *key_pos, *tmppos;
   size_t rem, len, diff, lastdiff;
   int wrotepw, ok;
-  char *tempstr, *pwstr;
   ssize_t rd;
 
-  rem = len = 100;
-  tempstr = g_malloc0 (len);
+  rem = len = SSH_LOGIN_BUFSIZE;
+  key_pos = tempstr = g_malloc0 (len + 1);
   diff = lastdiff = 0;
   wrotepw = 0;
   ok = 1;
 
-  if (gftp_set_sockblocking (request, request->datafd, 1) == -1)
+  if (gftp_set_sockblocking (request, fd, 1) == -1)
     return (NULL);
 
   pwstr = g_strconcat (request->password, "\n", NULL);
@@ -888,29 +891,34 @@ ssh_start_login_sequence (gftp_request * request, int fd)
   errno = 0;
   while (1)
     {
-      if ((rd = gftp_read (request, tempstr + diff, rem -1, fd)) <= 0)
+      if ((rd = gftp_read (request, tempstr + diff, rem - 1, fd)) <= 0)
         {
           ok = 0;
           break;
         }
+
       tempstr[diff + rd] = '\0';
       rem -= rd;
       diff += rd;
       if (rem <= 1)
         {
-          tempstr = g_realloc (tempstr, len + 100);
-          tempstr[diff] = '\0';
+          tempstr = g_realloc (tempstr, len + SSH_LOGIN_BUFSIZE);
+
           request->logging_function (gftp_logging_recv, request->user_data,
                                      "%s", tempstr + lastdiff);
           lastdiff = diff;
-          len += 100;
-          rem = 100;
+          len += SSH_LOGIN_BUFSIZE;
+          rem = SSH_LOGIN_BUFSIZE;
         }
 
-      if (!wrotepw && 
-          strlen (tempstr) > 11 && strcmp (tempstr + strlen (tempstr) - 10, 
-                                           "password: ") == 0)
+      if (diff > 11 && strcmp (tempstr + diff - 10, "password: ") == 0)
         {
+          if (wrotepw)
+            {
+              ok = SSH_ERROR_BADPASS;
+              break;
+            }
+              
           wrotepw = 1;
           if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
             {
@@ -918,11 +926,16 @@ ssh_start_login_sequence (gftp_request * request, int fd)
               break;
             }
         }
-
-      else if (!wrotepw && 
-               (strstr (tempstr, "Enter passphrase for RSA key") != NULL ||
-               strstr (tempstr, "Enter passphrase for key '") != NULL))
+      else if ((tmppos = strstr (key_pos, "Enter passphrase for RSA key")) != NULL ||
+               ((tmppos = strstr (key_pos, "Enter passphrase for key '")) != NULL))
         {
+          key_pos = tmppos + 1;
+          if (wrotepw)
+            {
+              ok = SSH_ERROR_BADPASS;
+              break;
+            }
+
           wrotepw = 1;
           if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
             {
@@ -930,18 +943,30 @@ ssh_start_login_sequence (gftp_request * request, int fd)
               break;
             }
         }
-      else if (strlen (tempstr) >= 5 && 
-               strcmp (tempstr + strlen (tempstr) - 5, "xsftp") == 0)
+      else if (diff >= 10 && strcmp (tempstr + diff - 10, "(yes/no)? ") == 0)
+        {
+          ok = SSH_ERROR_QUESTION;
+          break;
+        }
+      else if (diff >= 5 && strcmp (tempstr + diff - 5, "xsftp") == 0)
         break;
     }
 
   g_free (pwstr);
-  tempstr[diff] = '\0';
-  request->logging_function (gftp_logging_recv, request->user_data,
-                             "%s\n", tempstr + lastdiff);
 
-  if (!ok)
+  if (*(tempstr + lastdiff) != '\0')
+    request->logging_function (gftp_logging_recv, request->user_data,
+                               "%s\n", tempstr + lastdiff);
+
+  if (ok <= 0)
     {
+      if (ok == SSH_ERROR_BADPASS)
+        request->logging_function (gftp_logging_error, request->user_data,
+                               _("Error: An incorrect password was entered\n"));
+      else if (ok == SSH_ERROR_QUESTION)
+        request->logging_function (gftp_logging_error, request->user_data,
+                               _("Please connect to this host with the command line SSH utility and answer this question appropriately.\n"));
+
       g_free (tempstr);
       return (NULL);
     }

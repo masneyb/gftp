@@ -298,8 +298,8 @@ sshv2_send_command (gftp_request * request, char type, char *command,
 
 #ifdef DEBUG
   printf ("\rSending: ");
-  for (wrote=0; wrote<len + 5; wrote++)
-    printf ("%x ", buf[wrote]);
+  for (clen=0; clen<len + 5; clen++)
+    printf ("%x ", buf[clen] & 0xff);
   printf ("\n");
 #endif
 
@@ -316,21 +316,21 @@ static int
 sshv2_read_response (gftp_request * request, sshv2_message * message,
                      int fd)
 {
-  ssize_t numread;
-  char buf[5];
+  ssize_t numread, rem;
+  char buf[5], *pos;
 
   if (fd <= 0)
     fd = request->sockfd;
 
-  if ((numread = gftp_read (request, buf, 5, fd)) < 0)
-    return (-2);
-
-/* #ifdef DEBUG*/
-  printf ("\rReceived: ");
-  for (numread=0; numread<5; numread++)
-    printf ("%x ", buf[numread]);
-  fflush (stdout);
-/* #endif*/
+  pos = buf;
+  rem = 5;
+  while (rem > 0)
+    {
+      if ((numread = gftp_read (request, pos, rem, fd)) < 0)
+        return (-2);
+      rem -= numread;
+      pos += numread;
+    }
 
   memcpy (&message->length, buf, 4);
   message->length = ntohl (message->length);
@@ -345,22 +345,22 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
     }
 
   message->command = buf[4];
-  message->buffer = g_malloc (message->length);
+  message->buffer = g_malloc (message->length + 1);
 
   message->pos = message->buffer;
   message->end = message->buffer + message->length - 1;
 
-  if ((numread = gftp_read (request, message->buffer, message->length -1, fd)) < 0)
+  pos = message->buffer;
+  rem = message->length - 1;
+  while (rem > 0)
+    {
+      if ((numread = gftp_read (request, pos, rem, fd)) < 0)
+        return (-2);
+      rem -= numread;
+      pos += numread;
+    }
 
-    return (-2);
-
-  message->buffer[message->length - 1] = '\0';
-
-/* #ifdef DEBUG*/
-  for (numread=0; numread<message->length - 1; numread++)
-    printf ("%x ", message->buffer[numread]);
-  printf ("\n");
-/* #endif*/
+  message->buffer[message->length] = '\0';
 
   sshv2_log_command (request, gftp_logging_recv, message->command, 
                      message->buffer, message->length);
@@ -617,8 +617,6 @@ sshv2_connect (gftp_request * request)
               !(strlen (tempstr) > 4 && strcmp (tempstr + strlen (tempstr) - 5,
                                                 "xsftp") == 0))
             {
-              request->logging_function (gftp_logging_error, request->user_data,
-                         _("Error: Received wrong init string from server\n"));
               g_free (args);
               g_free (exepath);
               return (-2);

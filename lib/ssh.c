@@ -443,8 +443,6 @@ ssh_connect (gftp_request * request)
           !(strlen (tempstr) > 4 && strcmp (tempstr + strlen (tempstr) - 5, 
                                             "xsftp") == 0))
         {
-          request->logging_function (gftp_logging_error, request->user_data,
-		_("Error: Received wrong init string from server\n"));
           g_free (args);
           g_free (exepath);
           return (-2);
