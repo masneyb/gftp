@@ -1,0 +1,1354 @@
+
+
+                               gFTP Users Guide
+
+
+version 2.0.13 (06/10/2002)
+Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>
+
+
+   gFTP is a multiprotocol file transfer program for both X Window and the
+console.  Some of the gFTP features are:
+
+    * Downloading files
+    * Uploading files
+    * Transfering files between 2 remote servers
+    * Downloading multiple files in one run
+    * Downloading entire directories and subdirectories
+    * Simultaneous downloads using multithreading
+    * Supports resuming interrupted file transfers
+    * Bookmarks menu to allow you to quickly connect to remote sites
+    * FTP and HTTP proxy host support
+    * Supports the FTP, FXP, HTTP and SSH protocols
+    * Supports both passive and non-passive file transfers
+    * Supports UNIX, EPLF, Novell, MacOS, and NT (DOS) style directory listings
+    * Fully Internationalized. gFTP is currently available in Bulgarian (bg),
+      Chinese (zh_TW.Big5, zh_CN.GB2312), Czech (cs), Danish (da), Dutch (nl),
+      Finnish (fi), French (fr), German (de), Italian (it), Korean (ko),
+      Japanese (ja), Norwegian (no), Polish (pl), Portuguese (pt_BR, br),
+      Russian (ru), Spanish (es), Swedish (sv) and Turkish (tr)
+
+
+   gFTP is distributed under the terms of the GNU General Public License.  You
+can read the GPL by clicking on Help->About->License Agreement.
+
+   This document is a tutorial on how to use gFTP and describes some of its
+functionality.  I welcome any changes or additions to this document to make it
+better, and easier to read.
+
+                                    CONTENTS
+
+1. Connecting to a remote site
+   1.1. Connecting using the Open URL button
+   1.2. Connecting using bookmarks
+   1.3. Connecting using the toolbar
+   1.4. Connecting using command line parameters
+2. Downloading files
+   2.1. Traversing remote directory trees
+   2.2. Downloading a single file
+   2.3. Downloading multiple files
+   2.4. Downloading from multiple sites
+   2.5. Simultaneous downloads from multiple sites
+   2.6. Differences between downloading in ASCII and BINARY mode
+3. Uploading files
+   3.1. Selecting the remote directory
+   3.2. Working with the remote file tree
+   3.3. Uploading a single file
+   3.4. Uploading multiple files
+   3.5. Passive and non passive file transfers
+4. Transfering files between remote sites (FXP)
+   4.1. Connecting to the receiving site
+   4.2. Selecting the receiving directory
+   4.3. Working with the receiving file tree
+   4.4. Connecting to the sending site
+   4.5. Traversing the sending site directory tree
+   4.6. Selecting files from the sending site
+5. Resuming transfers
+   5.1. Manual resumes
+   5.2. Automatic resumes
+6. FTP password and user id
+   6.1. Anonymous FTP
+   6.2. Secure FTP password and user id
+   6.3. FTP security concerns
+7. Local directory
+   7.1. Specifying the local directory
+   7.2. Working in the local directory
+   7.3. Formating the local directory window
+8. Remote directory
+   8.1. Specifying the remote directory
+   8.2. Formating the remote directory window
+9. Transfer window
+   9.1. Queue
+   9.2. Progress
+   9.3. Formating the transfer window
+10. Log and log window
+   10.1. Log commands
+   10.2. Formating the log window
+11. Bookmarks
+   11.1. Using a bookmark entry
+   11.2. Adding a bookmark
+   11.3. Editing bookmarks
+   11.4. Bookmark passwords
+   11.5. Bookmark security concerns
+12. FTP protocol
+   12.1 Invoking FTP
+13. HTTP protocol
+   13.1. Invoking HTTP
+14. SSH protocol
+   14.1. Configuring SSH
+   14.2. Invoking SSH
+   14.3. SSH and SSH2
+   14.4 Invoking SSH
+15. Miscellaneous commands
+   15.1. Window
+   15.2. SITE commands
+   15.3. Bidirectional transfers
+   15.4. Clear cache
+   15.5. Compare Windows
+   15.6. Disconnect
+16. Using gftp-text (the command line version of gFTP)
+   16.1. Downloading entire directories and subdirectories
+   16.2. Documentation for gftp-text
+17. Using gftp-gtk (the GUI version of gFTP)
+18. Configuring gFTP
+   18.1. Proxy host setup
+   18.2. Proxy security concerns
+   18.3. Configuring file extensions
+   18.4. Desktop icon
+19. Staying in touch
+   19.1. gFTP bugs
+   19.2. gFTP mailing list
+   19.3. gFTP home page and FAQ
+20. Legal section
+   20.1. Copying gFTP
+   20.2. Warrenty
+   20.3. Source code
+
+
+1. Connecting to a remote site
+
+This section describes the various ways that you can connect to a remote
+site using gFTP.
+
+1.1. Connecting using the Open URL button
+
+   On the top line of gFTP you will see the word "Remote".  Click on Remote
+and you will get a pop down menu.  Click on "Open URL" and you will get a
+command line which has several uses.  You can enter a URL name in this
+command line in a manner very similar to the way it works in most web
+browsers.  You can type in the URL, paste the URL from the clipboard, or Drag
+and Drop a URL from another application (say Mozilla).  gFTP will automatically
+disconnect from the site that you are connected to, if any, and connect to the
+site you specified in the Open URL window.
+
+When you click on the Open URL button, several things are checked
+(in the following order):
+
+        - If you are already connected to a site and you click the Open URL
+          button, you will be disconnected from the site that you are
+          connected to.
+
+        - If you have a hostname entered on the toolbar, it will connect to
+          that host.
+
+        - If the above 2 conditions are false, then it will bring up the
+          Open URL dialog window where you can enter a FTP URL to connect to.
+          FTP URL's can look like some of the following:
+
+          ftp://ftp.myhostname.com/pub (this will log in as anonymous)
+          ftp://user@ftp.myhostname.com/pub (log in as user. You will be
+                                               prompted for a password)
+          ftp://user:password@ftp.myhostname.com/pub (log in as user/password)
+
+1.2. Connecting using bookmarks
+
+   Bookmarks are the easiest way to connect to a remote site. Click on
+Bookmarks and select which site you want to connect to from the pop down menu.
+If gFTP doesn't have a password for the site you are trying to connect to, it
+will prompt you for one.  Due to security reasons, gFTP will not save a password
+in your bookmark file when gFTP obtains the password from a prompt.
+
+1.3. Connecting using the toolbar
+
+   You can use the toolbar at the top of the window to connect to a remote
+site.  The only mandatory field to fill in is the hostname.  You can type in
+the hostname or you can copy it from the clipboard.  When entering a hostname in
+the toolbar do not include a directory name and file name.  If you do
+enter a complete URL gFTP will eventually give you an error message:  "Cannot
+look up hostname (hostname): Name or service not known".  If you have a complete
+URL to enter or paste, a better method would be to go to section 1.1 and
+use the Open URL button.  The way to handle a complete URL name on the toolbar
+is to split up the URL with the hostname in the Host field and the directory
+and/or file name in the directory name field on the right side of the screen
+just above the message that says "Not connected*".
+
+All of the other fields in the toolbar are optional:
+
+   If you don't fill in the port, it will default to the ftp port in your
+/etc/services file (usually port 21).
+
+   If you don't fill in a username, it will default to logging you in as
+anonymous.
+
+   Once you have all your information filled in, you can either
+hit enter in any of the host, port, user or password fields and gFTP will
+connect you to the remote site.
+
+1.4. Connecting using command line parameters
+
+    You can start the GUI version of gFTP by using a KDE desktop application link
+or a Gnome desktop application link.  If you want to go to a specific site
+immediately on startup you can tell gFTP to connect to that site by typing in
+that site's URL after the gftp command.  For example:
+gftp  ftp://ftp.myhostname.com/pub
+
+   gftp-gtk is a the name of the GUI version of gFTP.  The command gftp is
+actually a script which decides whether, under the circumstances, to launch
+gftp-text or gftp-gtk.  If gftp does not launch the version that you want you
+can use gftp-text or gftp-gtk.
+
+
+2. Downloading files
+
+   Once you have successfully connected to a remote site you can then
+select the files that you want and download them.  This section describes
+several ways that you can select and download files in gFTP.
+
+2.1. Traversing remote directory trees
+
+   In the center of the right half of the gFTP screen you will find two windows.
+The upper window shows what remote directory you are currently connected to.
+The lower window is a listing of that directory's contents.  To open a
+directory, double click on the directory name.  To go back up to a parent
+directory double click on the .. at the top of the direcory listing.
+Be careful that you are not double clicking on a file name unless you intend to
+download that file.  You can also change directories by clicking on
+Remote->Change Directory.
+
+   You can control which files are shown in the remote directory window by
+clicking on Remote->Change Filespec.  Then enter the filespec that you would
+like to see.  For example you could enter *.rpm to eliminate everything but rpm
+files in the directory listing.
+
+   You can also control which files are shown in the remote directory window by
+clicking on Remote->Show Selected.  Then the remote directory will only show
+the file names of files that are also on the transfer queue.
+
+   Almost every FTP site limits the portion of their directory tree that you
+can access.  When you double click on the .. at the top of the directory
+listing and nothing happens that means that you are as low in the directory
+tree as you are allowed to go.
+
+2.2. Downloading a Single File
+
+   To download a file double click on the file name.
+Or
+   Drag and Drop a file name from the remote directory window to the local
+   directory window.
+Or
+   Drag and Drop a file name from a web browser (such as Opera) to the
+   gFTP local directory window.
+Or
+   Click on the file name and click on the left arrow near the center of the
+   screen.
+
+2.3. Downloading multiple files
+
+   If you want to specify several files to download one after the other then you
+must first throw the "Start file transfer" toggle off.  What this means is that
+when the toggle is on, gFTP starts downloading immediately when you select a
+file.  When the toggle is off you can stack up as many selections as you want
+on the transfer queue without gFTP starting to download.  You can use any of the
+selection methods described in the previous section on downloading single files.
+You can also select several files at once by using some of the commands on the
+Remote menu.  Click on Remote.  Click on the appropriate command(s) and then
+click on left arrow.  The commands are:
+
+    Select All Files - select every file in the current directory
+
+    Select All - select every file in the current directory and every file in
+                   every subdirectory of the current directory
+
+    Deselect All - erase your selections and start over
+
+   Then when you have finished selecting files you turn on the "Start file
+transfer" toggle on and gFTP will begin working its way through all of the
+downloads, one by one. To turn the toggle on click on
+FTP->Options->Start file transfers->Apply->OK.
+
+2.4. Downloading from multiple sites
+
+    One of the features of gFTP is that you can queue download files from
+different remote sites.  Once you have a file(s) download started, you can
+safely disconnect from the remote site by clicking on Remote->Disconnect, and
+it will not harm the download in progress.  You can then connect to another
+remote site, and select another file(s) to download.  gFTP will add the new
+selections to the transfer queue and download all of the files in the queue
+sequentially.
+
+2.5. Simultaneous downloads from multiple sites
+
+   In the previous section I described how to queue up downloads from multiple
+remote sites.  gFTP also has the ability to download from multiple sites
+simultaneously.  Whether gFTP does the downloads sequentially or in parallel
+is controlled by the "Do one transfer at a time" button.  To find this button:
+click on FTP->Options.  When the "Do one transfer at a time" button
+is on then gFTP will download files sequentially.  When the "Do one transfer at
+a time" button is off then gFTP will open up a connection to each remote site
+listed in the transfer queue and do as many downloads simultaneously as there
+are remote sites in the transfer queue.
+
+   Whether simultaneous downloading is an advantage to you or simply a confusion
+factor depends on how you are connected to the Internet.  If you are connected
+to an ISP with a dial-up modem then simultaneous downloading buys you nothing,
+you should leave the "Do one transfer at a time" button on.  If you are on a
+high speed local network connected to a proxy host which is attached to
+multiple trunk lines then simultaneous downloads could save you a lot of
+download time.  If you are not on a dial-up modem and haven't a clue about your
+network line configuration I suggest that you turn off the "Do one transfer at a
+time" button and give gFTP a real workout as a speed test.  If you get any
+interesting results let me know.
+
+2.6. Differences between downloading in ASCII and BINARY mode
+
+   If you download a file in binary mode, gFTP will transfer the file as is,
+making no modifications to it.  But, if you are downloading text files, you
+should consider downloading them as ascii (unless you're downloading them from
+another unix machine, in which case either ascii or binary works fine).  The
+problem is that DOS and Unix use different methods to show end of line.
+
+In DOS, the lines in text files will have a carriage return and line feed
+after them:
+
+This is a line in a DOS text file\r\n
+
+But, in unix the file will just be stored with a line feed at the end:
+
+This is a line in a UNIX text file\n
+
+If you download a text file from a DOS machine as binary, and open it up in
+an Unix program like vi, you will see some weird Ms at the end of each
+line.  These are the carriage returns.  To get around this, download the file in
+ascii mode, and gFTP will do the proper conversion for you.  You can change
+between ascii and binary in the ftp menu.
+
+
+3. Uploading files
+
+   Uploading is a lot simpler if you collect all of the files that you want to
+upload in the local directory before you connect to a remote site.  The local
+directory is the directory you specified in FTP->Options->Startup Directory.
+
+   Once you have successfully connected to a remote site you can then
+select the files that you want and upload them to a specific place on the
+remote site.  This section describes several ways that you can select and upload
+files in gFTP.
+
+3.1. Selecting the remote directory
+
+   In the center of the right half of the gFTP screen you will find two windows.
+The upper window shows what remote directory you are currently connected to.
+The lower window is a listing of that directory's contents.  To open a
+directory, double click on the directory name.  To go back up to a parent
+directory double click on the .. at the top of the direcory listing.
+Be careful that you are not double clicking on a file name unless you intend to
+download that file.
+
+      You can control which files are shown in the remote directory window by
+clicking on Remote->Change Filespec.  Then enter the filespec that you would
+like to see.  For example you could enter *.rpm to eliminate everything but rpm
+files in the directory listing.
+
+   You can also control which files are shown in the remote directory window by
+clicking on Remote->Show Selected.  Then the remote directory will only show
+the file names of files that are also on the transfer queue.
+
+   Almost every FTP site limits the portion of their directory tree that you
+can access.  When you double click on the .. at the top of the directory
+listing and nothing happens that means that you are as low in the directory
+tree as you are allowed to go.
+
+3.2. Working with the remote file tree
+
+   Uploading often consists of more than simply copying a file to a remote site.
+You may have to create or rearrange portions of the file tree on the remote
+site.  Right click on a blank spot in the directory window for the remote site
+and you will get a pop up menu which contains some commands for manipulating the
+remote site file tree.  These commands include:
+
+   Delete - delete a remote file or directory
+
+   Make Directory - create a directory on the remote site
+
+   Rename - rename a remote file or directory
+
+   Edit - edit a remote file using the editor specified in FTP->Options->Edit
+            program
+
+   View - view a remote file using the editor specified in FTP->Options->View
+            program
+
+   Chmod - change the attributes of a remote file or directory
+
+3.3. Uploading a single file
+
+   To upload a file double click on the file name in the local directory window.
+Or
+   Drag and Drop a file name from the local directory window to the remote
+   directory window.
+Or
+   Click on the file name in the local directory and click on the right arrow
+   near the center of the screen.
+Or
+   Drag and Drop a file name from a file manager such as Midnight Commander to
+   the gFTP remote directory window.
+
+3.4. Uploading multiple files
+
+   If you want to specify several files to upload one after the other then you
+must first throw the "Start file transfer" toggle off.  What this means is that
+when the toggle is on, gFTP starts uploading immediately when you select a
+file.  When the toggle is off you can stack up as many selections as you want
+on the transfer queue without gFTP starting to upload.  You can use any of the
+methods described in the previous section to select files to upload.  You can
+also select several files at once by using some of the commands on the Local
+menu. Click on Local. Click on the appropriate command and then click on right
+arrow.  The commands are:
+
+    Select All Files - select every file in the current directory
+
+    Select All - select every file in the current directory and every file in
+                   every subdirectory of the current directory
+
+    Deselect All - erase your selections and start over
+
+   Then when you have finished selecting files you turn the "Start file
+transfer" toggle on and gFTP will begin working its way through all of the
+uploads, one by one. To turn the toggle on click on FTP->Options->Start file
+transfers->Apply->OK.
+
+3.5. Passive and non passive file transfers
+
+   When uploading files to a server you will find that some servers support
+passive file transfers and others do not.  Those sites which do not support
+passive file transfers usually block them because they consider passive file
+transfers too insecure.  When you run into a site that does not support
+passive file transfers you can try toggling passive file transfers off.  You can
+find the passive file transfers toggle by clicking on File->Options.  Click on
+the Passive file transfers button to toggle passive file transfers on and off.
+
+   The most common error message given out by a site that does not support
+passive transfers is:  Cannot create a data connection: Connection refused
+
+
+4. Transfering files between remote sites (FXP)
+
+   The File Transfer Protocol has a subsection called File eXchange Protocol.
+gFTP can use FXP to transfer files between two remote sites.  gFTP will set up a
+direct connection between the two remote sites so that the transfer proceeds
+from one remote site to the other without your machine acting as an
+intermediary.  In order for gFTP to do a FXP transfer both remote sites must
+support FXP transfers.  Also the receiving site must support passive transfers
+and the sending site must allow gFTP to open a port to the receiving site.  If
+you cannot get the two remote sites to do a FXP transfer then the fall back
+method is to download the file(s) from the source remote site to your machine
+and then upload the file(s) to the receiving remote site.  The fall back method
+will take at least twice as long as a FXP transfer and perhaps as much as an
+order of magnitude longer.
+
+   The next several sections describe the sequence of actions that you must
+do in order to start a FXP transfer.  This explanation of FXP will assume that
+you know how to use gFTP to download and upload files.  Check the sections on
+downloads and uploads to fill in the details missing in the FXP explanation.
+
+4.1. Connecting to the receiving site
+
+   You connect to the receiving remote site the same as if you are doing an
+upload to that site.
+
+4.2. Selecting the receiving directory
+
+   You select the receiving remote directory the same as if you are doing an
+upload to that directory.
+
+4.3. Working with the receiving file tree
+
+   You manipulate the receiving remote file tree the same as if you are doing
+an upload to that site.
+
+4.4. Connecting to the sending site
+
+   On the top line of gFTP you will see the word "Local".  Click on Local
+and you will get a pop down menu.  Click on "Open URL" and you will get a
+command line window.  You can enter an URL name in this command line in a manner
+very similar to the way it works in most web browsers.  You can type in the
+URL, paste the URL from the clipboard, or Drag and Drop an URL from another
+application (say Konqueror).  gFTP will connect to the site you specify in the
+Open URL window.
+
+4.5. Traversing the sending site directory tree
+
+   In the center of the left half of the gFTP screen you will find two windows.
+The upper window shows what remote sending site directory you are currently
+connected to.  The lower window is a listing of that directory's contents.  To
+open a directory, double click on the directory name.  To go back up to a parent
+directory double click on the .. at the top of the direcory listing.  Be
+careful that you are not double clicking on a file name unless you intend to
+transfer that file to the receiving remote site.  You can also change
+directories by clicking on Local->Change Directory.
+
+      You can control which files are shown in the left directory window by
+clicking on Local->Change Filespec.  Then enter the filespec that you would
+like to see.  For example you could enter *.deb to eliminate everything but
+Debian files in the directory listing.
+
+   You can also control which files are shown in the remote directory window by
+clicking on Local->Show Selected.  Then the local directory will only show
+the file names of files that are also on the transfer queue.
+
+   Almost every FTP site limits the portion of their directory tree that you
+can access.  When you double click on the .. at the top of the directory
+listing and nothing happens that means that you are as low in the directory
+tree as you are allowed to go.
+
+4.6. Selecting files from the sending site
+
+   If you want to specify several files to transfer one after the other then you
+must first throw the "Start file transfer" toggle off by clicking on
+FTP->Options->Start file transfers->Apply->OK.  If you are only transfering a
+single file then you can ignore the "Start file transfer" toggle.
+
+   To transfer a file double click on the file name in the left directory
+   window.
+Or
+   Drag and Drop a file name from the left directory window to the right
+   directory window.
+Or
+   Click on the file name in the left directory window and click on the right
+   arrow near the center of the screen.
+
+   Select as many files as you want from the left directory window and gFTP will
+place them on the queue.  You can traverse the left directory window while you
+are selecting files.  You can also select several files at once by using some
+of the commands in the Local menu.  Click on Local.  Click on the appropriate
+command and then click on right arrow.  The commands are:
+
+    Select All Files - select every file in the current directory
+
+    Select All - select every file in the current directory and every file in
+                   every subdirectory of the current directory
+
+    Deselect All - erase your selections and start over
+
+   When you are finished selecting files then toggle "Start file transfer" on
+and gFTP will start transferring the files in the queue.
+
+
+5. Resuming transfers
+
+   The File Transfer Protocol has the ability to restart an interrupted transfer
+at the point where it left off.  gFTP supports the resume function.  If the
+remote site you are dealing with also supports resume (most FTP sites do, HTTP
+sites do not) then you can resume an interrupted transfer.
+
+5.1. Manual resumes
+
+   You can interrupt a transfer in the middle by exiting from gFTP and later
+resume the transfer at the point where it left off.  To resume a download start
+up the download just like any other download.  gFTP will find the partially
+downloaded file in the local download directory and then ask you whether to
+resume the download or to start all over.  Choose resume.  Then gFTP will
+connect to the remote site and negotiate with the remote site to resume the
+download at the point where it was interrupted.
+
+   Uploads and FXP transfers can be resumed in a manner analogous to resuming a
+download.
+
+   The only sticking point with exiting gFTP and then starting it up again is
+that you will lose the queue.  gFTP erases the queue when you exit and when you
+start up again you will have to rebuild the queue.  If you are doing a single
+file transfer then erasing the queue is unimportant.
+
+   Resume is a well defined Internet protocol which requires the cooperation of
+both gFTP and the server software.  Occasionally you will run into a server
+which does not support the Resume protocol.  In the case of downloads all is
+not necessarily lost.  gFTP will try to resume any download when it finds the
+file name in the local download directory.  You might be able to salvage the
+download by finding another remote site to download that same filename from, a
+site that supports the FTP Resume protocol.
+
+5.2. Automatic resumes
+
+  If gFTP is in the process of transferring some files and the connection closes
+for some reason, gFTP will try to reconnect again and continue with the file
+transfer where it left off.  You can set how many times to reconnect and how
+long to wait in the options dialog.  In order to specify reasonable reconnect
+options you need to understand some of the things that can go wrong with a
+transfer.
+
+   The most common cause of transfer problems is an overloaded FTP server.  When
+a server becomes overloaded there will be times when the server just can't get
+around to passing gFTP the next block of data (or receiving the data in the
+case of an upload).  In the gFTP progress window you will get a message that the
+transfer is stalled.  If the transfer is stalled for over 30 seconds gFTP will
+time out the transfer and disconnect. (Don't mess with the Read timeout Option
+unless you know what you are doing. You can get timeouts for a lot of other
+reasons that an overloaded server.) gFTP then waits the time interval specified
+in FTP-Option and then reconnects.
+
+   Some servers recognize when they are overloaded and begin deliberately
+disconnecting clients until they get back down to the maximum number of
+transfers that they can reasonably serve.  If gFTP gets disconnected it waits
+the time interval specified in FTP->Options and then reconnects.  These servers
+sometimes remember who they have just bounced off and if you try to reconnect
+immediately they may tell gFTP to stop trying to automatically reconnect.  So in
+the Options (Ftp->Options->Network->Retry sleep time) you want to wait just long
+enough that the busy server will have forgotten you and then reconnect.  The
+gFTP default is 15 seconds.
+
+   The other reconnect Option that you are interested in is Connect retries
+(Ftp->Options->Network->Connect retries).  Connect retries is the number of
+times that gFTP will reconnect before giving up altogather.  There two ways to
+approach this option:
+
+   If gFTP has to keep reconnecting to a remote server then the transfer can be
+very slow.  You might want to switch another remote server which is faster.
+If the file name on the new server is exactly the same as the file name on the
+previous server then you can resume a download at whatever point you got to on
+the first server.  In this case set FTP->Options->Connect retries to 3, which is
+the gFTP default.
+
+   If you want to keep chugging away at the transfer until it finishes, no
+matter what, then set FTP->Options->Connect retries to 0.
+
+
+6. FTP password and user id
+
+   The standard File Transfer Protocol requires the use of a user id and a
+password.  gFTP will always use a user id and a password for each FTP
+connection.
+
+6.1. Anonymous FTP
+
+   Many FTP server sites are public sites which make their files freely
+available to anyone who wants to download them.  To get around the nuisance of
+user ids and passwords public sites use the standard anonymous FTP protocol.
+gFTP uses an user id of anonymous and a password that looks like a valid email
+address (internet@linux.local).  You can change the anonymous email
+address/password by clicking on FTP->Options->General and changing the Email
+address field.
+
+6.2. Secure FTP password and user id
+
+   Some FTP server sites are private sites which are very selective about who
+can download files from that site.  Almost all upload sites are selective.
+Private sites insist that you obtain a user id and a password, perhaps even
+pay money for them.  Then you have to use that particular user id and password
+to access the private FTP site.
+
+   If you want to save your password for a bookmarked site in the bookmark file,
+you should read the section on security concerns first.  Then if you still
+want gFTP to remember your bookmark entry passwords there are two ways to do it.
+The easier way is to add the password manually to the bookmark file
+(/home/user/.gftp/bookmarks) using a text editor.  Or you can have gFTP add
+the bookmark password by: click on Edit bookmarks, right click on the
+appropriate bookmark entry, click on Properties, and turn off "Log in as
+ANONYMOUS".  Then gFTP will make the Username and Password fields available
+for editing.
+
+  You can tell gFTP not to use anonymous FTP by entering the user name in the
+URL.  For example:
+
+   ftp://user@ftp.myhostname.com/pub (log in as user. gFTP will prompt you
+                                      for a password)
+
+   You can give gFTP both the user name and password in the URL.  For example:
+
+   ftp://user:password@ftp.myhostname.com/pub (log in as user/password)
+
+
+6.3. FTP security concerns
+
+   Some private FTP sites require you to use a valid email address as either the
+user id or the password.  An organization with a reputable name to protect will
+not spam your email address.  With other people or organizations you are
+vunerable to spamming.  You might consider opening a free email account
+somewhere and use it for spam bait only.
+
+
+7. Local directory
+
+   The local directory is the directory on your computer from which you will
+upload files or which you will use to receive downloaded files.  A window
+showing the local directory is located in the middle left of the gFTP screen.
+
+7.1. Specifying the local directory
+
+   You can set the default local directory by clicking on FTP->Options and then
+   typing in the local directory path into Startup Directory.
+Or
+   You can change the local directory by entering the new name into the small
+   window just above the local directory window.  Your new name will be entered
+   into the local directory history but the new name will not replace the
+   default name in Options.
+Or
+   You can select a name from the local directory history list.  Click on the
+   down arrow to the right of the local directory name and then click on the
+   history entry you want to use.  Your new name will be entered into the local
+   directory history but the new name will not replace the
+   default name in Options.
+Or
+   You can traverse the local directory tree by clicking on the directory names
+   in the local directory window.  To open a directory, double click on the
+   directory name.  To go back up to a parent directory double click on the ..
+   at the top of the file listing.  Be careful that you are not double clicking
+   on a file name unless you intend to upload that file.
+
+7.2. Working in the local directory
+
+   There are several operations that gFTP can perform in the local directory.
+You can perform the following operations regardless of whether you are connected
+to a remote site or not:
+
+   Make a directory - Right click on a blank area in the local directory window.
+      Then left click on Make Directory.  Enter the new directory name in the
+      pop up window and click on Create.
+
+   Delete a directory or filename - Right click on the directory or filename.
+      Then left click on Delete.
+
+   Rename a directory or filename - Right click on the directory or filename.
+      Then left click on Rename.  Enter the new name in the pop up window and
+      click on Rename.
+
+   Change the attributes of a directory or filename - Right click on the
+      directory or filename.  Then left click on Chmod.  Set the attributes in
+      the pop up menu and click on Change.
+
+   Edit a file - Right click on the filename.  Then left click on Edit.  The
+      file will be opened in the editor that you specified FTP->Options->Edit
+      program.
+
+   View a file - Right click on the filename.  Then left click on View.  The
+      file will be opened in the program that you specified FTP->Options->View
+      program.
+
+   Refresh the listing - Right click on a blank area in the local directory
+      window.  Then left click on Refresh.  gFTP will refresh the local
+      directory listing.
+
+   Change the filespec - Click on Local->Change Filespec.  Then enter the
+     filespec that you would like to see.  For example you could enter *.html to
+     eliminate everything but html files in the directory listing.
+
+
+7.3. Formating the local directory window
+
+   You can arrange the format of the local directory window by sliding the
+Filename, Size, User, Group, Date, and Attribs labels to wherever you want them.
+
+   You can change the overall size of the local directory window by using a text
+editor to change the config file (/home/user/.gftp/gftrc).  The parameters which
+control the local directory window size are listbox_local_width and
+listbox_file_height.
+
+
+8. Remote directory
+
+     The remote directory is the directory on a remote site from which you will
+download files or which you will use to receive uploaded files.  A window
+showing the remote directory is located in the middle right of the gFTP screen.
+
+8.1. Specifying the remote directory
+
+   When you enter a URL in the Remote->Open URL window, gFTP shows that portion
+of the URL which designates a remote site directory name in the small window
+just above the remote directory window.
+
+8.2. Formating the remote directory window
+
+   You can arrange the format of the remote directory window by sliding the
+Filename, Size, User, Group, Date, and Attribs labels to wherever you want them.
+
+   You can change the overall size of the remote directory window by using a
+text editor to change the config file (/home/user/.gftp/gftrc).  The parameters
+which control the remote directory window size are listbox_remote_width and
+listbox_file_height.
+
+
+9. Transfer window
+
+   The transfer window is the second window from the bottom.  It shows the queue
+and the progress of the current file transfer(s).
+
+9.1. Queue
+
+   The left hand side of the transfer window shows the queue of transfers to be
+done.  You can stack several transfers in the queue and gFTP will work its way
+through the queue transferring the files in the order that they were entered in
+the queue.  Whether gFTP does the transfers sequentially or in parallel is
+controlled by the "Do one transfer at a time" button.  To find this button:
+click on FTP->Options.  When the "Do one transfer at a time" button is on then
+gFTP will transfer files sequentially.  When the "Do one transfer at a time"
+button is off then gFTP will open up a connection to each remote site listed
+in the transfer queue and do as many transfers in parallel as there are remote
+sites in the transfer queue.
+
+   You can manipulate the entries on the transfers queue by first clicking on
+the entry to highlight it and then clicking on Transfers.  The Transfers pop up
+menu makes these commands available:
+
+    Stop Transfer - highlight the queue entry for the file currently being
+                      transferred and then click on Transfers->Stop Transfer
+
+    Start Transfer - highlight the queue entry for the file you want to
+                       transfer next and then click on Transfers->Start
+                       Transfer
+
+    Move File Up - move the file up one position in the queue
+
+    Move File Down - move the file down one position in the queue
+
+    Remove File - delete the file from the queue
+
+    Skip Current File - leave the file name on the queue but do not transfer the
+                          file
+
+   gFTP does not save the transfer queue when gFTP exits.  If you exit gFTP and
+then start it again you will have an empty queue.
+
+9.2. Progress
+
+   The right hand side of the transfer window shows the status of the
+transfer(s) in progress.  gFTP shows the % completion of the entire queue, the
+size of the file currently being transfered, how many bytes of the current file
+have already been transferred, which files are finished transfering, and which
+files are waiting to begin transfering.  The progress report also shows the
+current transfer rate and gives an estimated length of time until the entire
+queue is transferred.  Your milage may vary.
+
+9.3. Formating the transfer window
+
+   You can arrange the format of the transfer window by sliding the Filename and
+Progress labels to wherever you want them.
+
+   You can change the height of the remote directory window by using a text
+editor to change the config file (/home/user/.gftp/gftrc).  The parameter
+which controls the transfer window height is transfer_height.
+
+
+10. Log and log window
+
+   gFTP keeps a log (/home/user/.gftp/gftp.log) which records what gFTP has
+done.  The log is erased and begun anew at each startup of gFTP.  The log
+entries are displayed in the window at the bottom of the gFTP screen.  You can
+specify a different location for your log file by clicking on FTP->Options and
+entering the now location in Log file.
+
+10.1. Log commands
+
+   If you right click anywhere on the log window then a pop up menu will appear
+with three commands:
+
+   Clear - double clicking on Clear erases all of the log entries.
+
+   View log - double clicking on View log launches the program you specified in
+              FTP->Options->View program to display the log.
+
+   Save log - double clicking on Save log opens a file tree display window which
+              you can use to save the gFTP log anywhere that you want to put it.
+
+   The Clear, View log, and Save log commands can also be accessed by clicking
+on the Logging button at the top of the gFTP screen.
+
+10.2. Formating the log window
+
+   You can change the overall size of the log window by using a text editor to
+change the config file (/home/user/.gftp/gftrc).  The parameters which control
+the remote directory window size are log_height= and max_log_window_size=.
+
+   You can change the colors of the various message types in the log window by
+using a text editor to change the config file (/home/user/.gftp/gftrc).  The
+parameters which control the log window message colors are
+send_color=rrii:ggii:bbii, recv_color=rrii:ggii:bbii,
+error_color=rrii:ggii:bbii, and misc_color=rrii:ggii:bbii.
+
+   rrii:ggii:bbii is the color code where each letter stands for a hexidecimal
+digit from o through f.
+
+   rr - amount of red in the color
+   gg - amount of green in the color
+   bb - amount of blue in the color
+   ii - intensity of the color
+
+   examples:  bright red rrii:ggii:bbii = ffff:0000:0000
+              dull brown rrii:ggii:bbii = a000:8d80:4600
+
+
+11. Bookmarks
+
+   gFTP has a bookmarks file which looks and acts very similar to the bookmarks
+file in a web browser.  gFTP comes with several popular download sites listed in
+the bookmarks file.
+
+11.1. Using a bookmark entry
+
+   To connect to a remote site, click on Bookmarks and a drop down menu appears.
+Navigate the tree until you find the site you want to connect to.  Click on that
+entry and gFTP will connect to that site.  If gFTP doesn't have a password for
+the site you are trying to connect to, it will prompt you for one.  For
+security reasons, gFTP will not save this password in your bookmark file when it
+prompts you for it.
+
+11.2. Adding a bookmark
+
+   There are two ways to add a bookmark entry to the gFTP bookmark file:
+
+   When you are connected to a site you can click on Bookmarks->Add bookmark.
+gFTP will open a window in which you enter the entire path name for the new
+entry.  For example:  If you find a Czech mirror site for SuSE downloads you
+could file the bookmark as SuSE Sites/Czech mirror and gFTP will add Czech
+mirror to the existing SuSE Sites folder.
+
+   At any time, connected or not, you can add a bookmark entry by clicking on
+Bookmarks->Edit bookmarks.  Then right click on a blank area of the bookmarks
+window.  A menu will pop up.  Click on New item.  Then enter the entire path
+name of the new entry in the pop up window.  (For example:  To create the first
+site in a new Mandrake folder enter Mandrake Sites/USA mirror.)  Click on
+create.  At this point you have created a bookmark entry that does not point
+anywhere. Now right click on the new entry, click on Properties, and fill out
+the information requested in the pop up form.  Click on Apply and click on OK.
+You are now finished adding the new bookmark entry.
+
+11.3. Editing bookmarks
+
+   You can change the details in a bookmark entry by clicking on Bookmarks->Edit
+bookmarks, right click on the bookmark entry, and click on Properties.  A form
+will pop up which you can use to edit the entry.  Then click on Apply and OK.
+
+   You can delete a bookmark or an entire folder of bookmarks by clicking on
+Bookmarks->Edit bookmarks, right click on the bookmark entry, and click on
+Delete.
+
+   You can rearrange bookmarks with drag and drop.  Rearrangement of the
+bookmark entries in gFTP works very similar to the way that it works in most web
+browsers.  You drag the entry to the appropriate spot in the directory tree and
+drop it.  With a little practice you can get the entries to go where you want
+them to go.
+
+11.4. Bookmark passwords
+
+  If gFTP doesn't have a password for the bookmarked site you are trying to
+connect to, gFPT will prompt you for one.  Due to security concerns, gFTP will
+not save this password in your bookmark file.  If you want to save your
+password for a bookmarked site in the bookmark file, you should read the section
+on security concerns first.  Then if you still want gFTP to remember your
+bookmark entry passwords there are two ways to do it.
+
+   The easier way is to add the password manually to the bookmark file
+   (/home/user/.gftp/bookmarks) using a text editor.  An example of a bookmark
+   entry containing a password is:  ftp://user:password@ftp.myhostname.com/pub
+Or
+   You can have gFTP add the bookmark password by: click on Edit bookmarks,
+   right click on the appropriate bookmark entry, click on Properties, and turn
+   off "Log in as ANONYMOUS".  Then gFTP will make the Username and Password
+   fields available for editing.  Enter the Username and Password fields.  Click
+   on Apply and click on OK.
+
+11.5. Bookmark security concerns
+
+   When you save a password in the gFTP bookmark file you are creating a
+potential security vulnerabilty because gFTP does not encrypt stored passwords.
+Any cracker could write a program to extract passwords from the gFTP bookmarks
+file.  You should weigh the chances of a malicious attack on your machine and
+the value of the password protected data versus the convenience of storing the
+passwords before deciding whether or not to store passwords in the bookmark
+file.
+
+
+12. FTP protocol
+
+   File Transfer Protocol is a hardware and software independent Internet
+protocol which is used to transfer information between servers and clients.
+Servers are computers which give out information and clients are computers that
+receive information.  It is possible for a computer to be both an FTP client and
+server.  gFTP allows your computer to act as a FTP client.
+
+   When gFTP contacts a FTP server it establishes two connections, a control
+connection and a transfer connection.  gFTP first establishes a control
+connection by sending an user id and a password to the server.  Then gFTP
+requests that a particular file(s) be transferred.  Once gFTP has started a FTP
+transfer gFTP can drop the control connection without interrupting the transfer.
+
+12.1 Invoking FTP
+
+   gFTP knows to use FTP by the first three letters of the URL.  An URL for a
+   FTP transfer begins with ftp://.
+Or
+   Click on the button immediately to the left of the red light and click on FTP
+
+
+13. HTTP protocol
+
+   HyperText Transfer Protocol is a hardware and software independent Internet
+protocol which is used to transfer information between servers and clients.  It
+is probably the most used protocol on the Internet.  gFTP can act as a HTTP
+client.
+
+   From the client standpoint the HTTP protocol is far simpler than the FTP
+protocol.  Among other things, HTTP has no user ids and passwords.  This
+simplicity makes file transfers using HTTP somewhat more simple minded.
+
+13.1. Invoking HTTP
+
+   gFTP knows to use HTTP by the first four letters of the URL.  An URL for a
+   HTTP transfer begins with HTTP://.
+Or
+   Click on the button immediately to the left of the red light and click on
+   HTTP.
+
+
+14. SSH protocol
+
+   SSH (Secure SHell) is a protocol which provides a high level of security
+for transfering files from one computer to another across the Internet.  gFTP
+implements the SSH protocol by calling upon an SSH program to wrap a layer of
+security around what would otherwise be an ordinary FTP tansfer.  In effect
+FTP "tunnels" through a secure SSH connection.
+
+14.1. Configuring SSH
+
+   In order to configure your SSH transfers click on FTP->Options->SSH and fill
+out the form.  The required entries are:
+
+    SSH Prog Name - This is the name of the program which provides the SSH
+                      wrapper.
+
+    SSH Extra Params - These are the parameters that the SSH wrapper program
+                         needs to build an encryption key.
+
+14.2. Invoking SSH
+
+   gFTP knows to use SSH by the first three or four letters of the URL.  An URL
+   for a SSH transfer begins with ssh:// or ssh2://.
+Or
+   Click on the button immediately to the left of the red light and click on
+   either SSH or SSH2
+
+14.3. SSH and SSH2
+
+   SSH recently went through a major revision to plug known security holes.  The
+latest version of SSH is called SSH2.  SSH and SSH2 are not compatible with each
+other.  gFTP supports both SSH and SSH2.
+
+
+15. Miscellaneous commands
+
+15.1. Window
+
+   You can reverse the roles of the local window and the remote window.  Click
+on FTP.  The Window 1 and Window 2 buttons can be used to switch the roles of
+the local and remote windows.  Window 2 is the default and this user's guide
+describes everything as set up by Window 2.  Clicking on Window 1 switches the
+roles of the two windows to the mirror image of that described in this document.
+
+15.2. SITE commands
+
+   One of the features of the File Transfer Protocol is the ability to create
+SITE commands.  A FTP server administrator can create customized commands for a
+FTP client program, such as gFTP, to use.  These customized commands are called
+SITE commands.
+
+   If you want to use a SITE command while you are connected to a FTP server
+then click on either Remote or Local, whichever is connected to the remote site
+in question.  Then click on Send SITE Command and a pop up window will open.
+You can enter the SITE command in the window.  Then click on OK and gFTP will
+send the SITE command to the FTP server.
+
+15.3. Bidirectional transfers
+
+   It is possible that you may want to open a connection to a remote site and
+transfer files in both directions.  Click on Transfers and you will find some
+commands to help you change the direction of the transfers without having to
+drop the connection and restart it in the other direction.  These commands are:
+
+    Put Files - send the files on the transfer queue to the remote site
+
+    Retrieve Files - copy the files on the transfer queue from the remote site
+                       to the local site
+
+15.4. Clear cache
+
+   gFTP keeps a cache of data from remote sites.  It is possible that while you
+are working with a remote site other people are making changes to that site.  To
+get rid of stale copies of the remote directory tree in the cache click on
+Tools->Clear Cache.
+
+15.5. Compare Windows
+
+   An easy way to check which files have been transferred and which files have
+not is to click on Tools->Compare Windows.  gFTP will highlight any file names
+which appear in either the local directory or the remote directory but not both.
+
+15.6. Disconnect
+
+   You can disconnect from a remote site at any time.  Disconnecting does not
+stop any transfers already in prograss.  You can disconnect by:
+
+  clicking on the red button when it is lit up
+Or
+  clicking on Remote->Disconnect
+Or
+  clicking on Local->Disconnect
+
+
+16. Using gftp-text (the command line version of gftp)
+
+   The gFTP package includes a completely functional command line version of
+gFTP.  You can launch the command line version by typing in the command,
+gftp-text, at your console prompt.  The command gftp is actually a script which
+decides whether, under the circumstances, to launch gftp-text or gftp-gtk.  If
+gftp does not start the version that you want you can finesse that problem by
+using gftp-text or gftp-gtk instead of gftp.
+
+16.1. Downloading entire directories and subdirectories
+
+   If you want to download entire directories including subdirectories you
+should look at using gftp-text.  Some downloads are simpler to invoke using
+gftp-text.  For example:
+
+   gftp-text -d ftp://ftp.somesite.com/someplace
+
+   If someplace is a directory, it'll automatically download all its
+subdirectories as well. If you want to transfer a file through SSH instead of
+FTP then change the ftp:// to ssh://
+
+16.2. Documentation for gftp-text
+
+   gftp-text will give you a prompt: ftp>
+You can learn more about gftp-text by typing in help at the ftp> prompt.  You
+can also get instructions in how to use gftp-text by typing in "man gftp" or
+"info gftp" at the console prompt.
+
+
+17. Using gftp-gtk
+
+   gftp-gtk is the name of the GUI version of gFTP.  The gftp command is
+actually a script which decides whether, under the circumstances, to launch
+gftp-text or gftp-gtk.
+
+
+18. Configuring gFTP
+
+   All of the gFTP configuration options are specified in the file
+/home/user/.gftp/gftprc.
+
+18.1. Proxy host setup
+
+   If your computer is on a local network then you are probably connected to the
+internet through a proxy host.  A proxy host can connect several users to the
+internet.  A proxy host often also acts as a firewall, possibly filtering
+messages in both directions.  If you are connected to the internet through a
+proxy host then gFTP needs passwords and other configuration information to
+make a connection through the proxy host to the internet.
+
+   To set up your proxy host and/or firewall configuration, click on
+FTP->Options.  You can click on HTTP Proxy and FTP Proxy to set up your
+proxy hosts, user names, and passwords.  In the FTP Proxy form, you can set up
+how you want gFTP to log into the proxy host.  I have many of the common types
+of proxy hosts that you will encounter already descried in gFTP.  If you are
+using a very complex proxy host configuration then you may have to use a text
+editor to edit the config file (/home/user/.gftp/gftprc).  The fields in the
+config file that pertain to proxy host and/or firewall configuration are:
+
+    # Firewall hostname
+    firewall_host=
+
+    # Port to connect to on the firewall
+    firewall_port=21
+
+    # Your firewall username
+    firewall_username=
+
+    # Your firewall password
+    firewall_password=
+
+    # Your firewall account (optional)
+    firewall_account=
+
+    # This specifies how your proxy server expects us to log in
+    proxy_config=
+
+    # Firewall hostname
+    http_proxy_host=
+
+    # Port to connect to on the firewall
+    http_proxy_port=80
+
+    # Your firewall username
+    http_proxy_username=
+
+    # Your firewall password
+    http_proxy_password=
+
+18.2. Proxy security concerns
+
+   When you have gFTP save a proxy password you are creating a potential
+security vulnerabilty.  gFTP does not encrypt stored passwords.  They are kept
+in plain text in the file, /home/user/.gftp/gftprc.  Any cracker could write
+a program to extract passwords from the gftprc file.  You should weigh the
+chances of a malicious attack on your machine and the value of the proxy
+passwords versus the convenience of storing the passwords before deciding
+whether or not have gFTP store proxy passwords.  Also if you are on a local
+network then you are probably a member of a beaurocracy, lucky you.  In that
+case you should give a passing thought to your organization's security rules.
+
+18.3. Configuring file extensions
+
+   gFTP has the ability to use mime types.  Some mime types come pre-configured
+with gFTP and you have complete control to configure the gFTP mime types any way
+that you want.
+
+   Towards the bottom of the config file (/home/user/.gftp/gftprc), there is a
+section that has some ext= lines.  Here you can control via a file extension,
+the icon in the listbox for it, the default transfer method (ascii or binary),
+and a default view/edit program.  For example, let's take the line:
+
+ext=.xcf:gimp.xpm:B:gimp
+
+The first token, .xcf, is the file extension.  The next token, gimp.xpm, is
+the default icon to use in the listboxes.  You don't have to specify one if
+you don't want to.  By default, gFTP will search ~/.gftp, $(PREFIX)/share/gftp
+(where prefix is your installation prefix), and then /usr/share/icons in that
+order.  The files must be valid xpm files.  The next token, B, specifies
+whether or not to transfer a file as Binary or Ascii.  If you want to have
+something transfer as Ascii, put an A there.  If you omit this field, then gFTP
+will transfer the file according to whether ascii or binary is selected in
+the FTP menu.  The final token, gimp, specifies the name of the program to run
+to view or edit a file with that extension.  You can omit this as well if you
+like.
+
+18.4. Desktop icon
+
+   You can set up gFTP to be started from your Gnome or KDE desktop.  The
+program name can be either gftp or gftp-gtk.  Some suitable gFTP icons are
+available in /usr/share/gftp:  gftp.xpm  down.xpm  world.xpm
+
+
+19.  Staying in touch
+
+19.1. gFTP bugs
+
+   gFTP is released under the GNU General Public License.  As such there is
+ABSOLUTELY NO WARRENTY with gFTP.  That said, if you run into ANY bugs in gFTP
+please let me know.  I take pride in making gFTP as bug free as possible.  Since
+gFTP is used on a wide variety of hardware and software configurations bugs will
+sometimes crop up that I never could have anticipated on the configuration I use
+to develop gFTP.  Please include as much information as possible in your bug
+description.  It is better to report too much detail than to report too little
+detail in your bug report.  Basically, I need enough information to be able to
+recreate the bug on my machine.  The information that might be useful to me
+could include:
+
+The  gFTP version number you are using and what installation method (tarball
+or rpm).  For example:
+
+   I am using gFTP-2.0.13.tar.gz.
+
+Please tell me your hardware and software configuration.  For example:
+
+Configuration:
+   AMD 1.2G CPU with 256M ram
+   Mandrake 8.1 distribution
+   KDE 2.2 desktop
+   KWvDial 0.10 -> dial up modem
+   kernel 2.2.10
+
+   Please tell me enough about the problem so that I can try to recreate it.
+For example:
+
+  I was connected to jungle.metalab.unc.edu, which is a Mandrake mirror, to do
+some downloads.  I connected OK using the Remote->Open URL window.  I went to
+a directory called /pub/Linux/distributions/mandrake/Mandrake/8.1/SRPMS/ and
+double clicked on the file alien-7.27-1mdk.src.rpm.  gFTP entered this file
+name in the queue twice and downloaded it twice.  I think gFTP should have
+only downloaded it once.  This happens intermittently.  Sometimes gFTP downloads
+files once and sometimes it downloads files twice.  gFTP always downloads
+alien-7.27-1mdk.src.rpm twice.
+
+Please attach the gFTP log file (/home/user/.gftp/gftp.log) to your report.
+
+If you are having trouble with gFTP bookmarks please attach the gFTP bookmark
+file (/home/user/.gftp/bookmarks) to your report.
+
+If you are having trouble with the gFTP configuration please attach the gFTP
+configuration file (/home/user/.gftp/gftprc) to your report.
+
+If you keep passwords in your bookmark file or your configuration file you might
+want to x out the passwords before you send the file to me.
+
+Please send your bug report to:
+
+Brian Masney   masneyb@gftp.org
+Elkview, WV USA
+
+If you find a bug in an older version of gFTP, that bug might already be fixed
+in the latest version of gFTP.  You can find the latest version at the gFTP
+download site by clicking on Bookmarks->General Sites->gFTP.
+
+19.2. gFTP mailing list
+
+   There is a mailing list available where you can receive announcements about
+new versions of gFTP.  It is an extremely quiet mailing list and I promise not
+to spam you.  To subscribe to the gFTP mailing list, send a message to
+majordomo@seul.org with the words subscribe gftp-announce in the body.
+
+19.3. gFTP home page and FAQ
+
+   You can find the latest information about gFTP at the gFTP home page or on
+the gFTP Frequently Asked Questions.
+
+gFTP home page:  http://www.gftp.org/
+
+gFTP FAQ:  http://www.gftp.org/faq.html
+
+
+20. Legal section
+
+   Click on Help->About->License Agreement to find a copy of the GNU General
+   Public License
+
+20.1. Copying gFTP
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to:
+
+      Free Software Foundation, Inc.
+      59 Temple Place - Suite 330
+      Boston, MA 02111
+      USA
+
+20.2. Warrenty
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+20.3. Source code
+
+   gFTP is open source software under the terms of the GNU General Public
+License.  You can find the gFTP source code by clicking on
+Bookmarks->General Sites->gFTP.  The tarballs on the gFTP web site contain both
+source and binary.  The rpm packages are split into binary rpms and source
+rpms.  The Debian packages contain both binary and source.  You may use the
+gFTP source code in any way that you wish as long as you conform to the terms
+of the GNU General Public License.  If you fix any bugs or add any useful
+features to gFTP you might consider sending your changes to me to be
+incorporated into a future release of gFTP.  I welcome any help you might give
+me in improving gFTP.

@@ -1,0 +1,2604 @@
+# gFTP Korean message catalog
+# Copyright (C) 1999,2000 Free Software Foundation, Inc.
+# Sung-Hyun Nam <namsh@kldp.org>, 1999, 2000
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gftp 2.0.9\n"
+"POT-Creation-Date: 2002-07-19 14:50-0400\n"
+"PO-Revision-Date: 2001-11-21 04:36+0900\n"
+"Last-Translator: Nam SungHyun <namsh@kldp.org>\n"
+"Language-Team: Korean <ko@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=euc-kr\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: lib/bookmark.c:82
+#, fuzzy, c-format
+msgid "Error: Could not find bookmark %s\n"
+msgstr "에러: 소켓에 쓸 수 없습니다: %s\n"
+
+#: lib/bookmark.c:89 src/gtk/bookmarks.c:86
+msgid ""
+"Bookmarks Error: There are some missing entries in this bookmark. Make sure "
+"you have a hostname and username\n"
+msgstr ""
+"책갈피 에러: 북마크에 몇몇 잘못된 엔트리가 있습니다. 호스트명과 사용자명이 있"
+"는 지 확인해 보시기 바랍니다\n"
+
+#: lib/cache.c:173 lib/cache.c:225
+#, c-format
+msgid "Error: Invalid line %s in cache index file\n"
+msgstr ""
+
+#: lib/config_file.c:32
+msgid "General"
+msgstr "일반"
+
+#: lib/config_file.c:34
+msgid "Email address:"
+msgstr "전자우편 주소:"
+
+#: lib/config_file.c:35
+msgid "Enter your email address here"
+msgstr "전자우편 주소 입력"
+
+#: lib/config_file.c:36
+msgid "View program:"
+msgstr "보기 프로그램:"
+
+#: lib/config_file.c:37
+msgid ""
+"The default program used to view files. If this is blank, the internal file "
+"viewer will be used"
+msgstr ""
+"파일을 볼 때 사용할 기본 프로그램. 여기가 비어있으면 내장된 기능을 사용하여 "
+"보여줍니다"
+
+#: lib/config_file.c:38
+msgid "Edit program:"
+msgstr "편집기:"
+
+#: lib/config_file.c:39
+msgid "The default program used to edit files."
+msgstr "파일을 편집할 기본 프로그램."
+
+#: lib/config_file.c:40
+msgid "Startup Directory:"
+msgstr "시작 디렉토리:"
+
+#: lib/config_file.c:42
+msgid "The default directory gFTP will go to on startup"
+msgstr "gFTP가 시작시에 갈 기본 디렉토리"
+
+#: lib/config_file.c:43
+msgid "Max Log Window Size:"
+msgstr "최대 로그 창 크기:"
+
+#: lib/config_file.c:44
+msgid "The maximum size of the log window in bytes for the GTK+ port"
+msgstr "GTK+ 버전에서 로그 창의 바이트 단위의 최대 크기"
+
+#: lib/config_file.c:46
+msgid "Append file transfers"
+msgstr "파일 전송 추가"
+
+#: lib/config_file.c:48
+msgid "Append new file transfers onto existing ones"
+msgstr "전송할 새 파일을 추가"
+
+#: lib/config_file.c:49
+msgid "Do one transfer at a time"
+msgstr "한번에 하나씩 전송"
+
+#: lib/config_file.c:49
+msgid "Do only one transfer at a time?"
+msgstr "한번에 하나만 전송할까요?"
+
+#: lib/config_file.c:50
+msgid "Overwrite by Default"
+msgstr "기본적으로 덮어쓰기"
+
+#: lib/config_file.c:52
+msgid "Overwrite files by default or set to resume file transfers"
+msgstr "기본적으로 파일을 덮어쓰거나 재전송하도록 설정"
+
+#: lib/config_file.c:53
+msgid "Refresh after each file transfer"
+msgstr "매 파일 전송후 갱신"
+
+#: lib/config_file.c:55
+msgid "Refresh the listbox after each file is transfered"
+msgstr "각각의 파일이 전송된 후에 목록상자를 갱신"
+
+#: lib/config_file.c:56
+msgid "Sort directories first"
+msgstr "디렉토리를 처음에 위치"
+
+#: lib/config_file.c:57
+msgid "Put the directories first then the files"
+msgstr "디렉토리들을 파일보다 앞에 위치"
+
+#: lib/config_file.c:58
+msgid "Start file transfers"
+msgstr "파일 전송 시작"
+
+#: lib/config_file.c:60
+msgid "Automatically start the file transfers when they get queued?"
+msgstr "파일이 큐에서 얻어졌을 때 자동으로 파일전송을 시작"
+
+#: lib/config_file.c:61
+msgid "Show hidden files"
+msgstr "숨김 파일 보여주기"
+
+#: lib/config_file.c:62
+msgid "Show hidden files in the listboxes"
+msgstr "목록상자에서 숨김 파일 보여주기"
+
+#: lib/config_file.c:64 src/gtk/options_dialog.c:316
+#: src/gtk/options_dialog.c:563
+msgid "Network"
+msgstr "네트워크"
+
+#: lib/config_file.c:66
+#, fuzzy
+msgid "Network timeout:"
+msgstr "읽기 시간제한:"
+
+#: lib/config_file.c:67
+msgid ""
+"The timeout waiting for network input/output. This is NOT an idle timeout."
+msgstr ""
+
+#: lib/config_file.c:68
+msgid "Connect retries:"
+msgstr "연결 재시도:"
+
+#: lib/config_file.c:69
+msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
+msgstr "자동으로 재시도할 횟수. 무한히 시도하려면 이 값을 0으로 설정하십시요."
+
+#: lib/config_file.c:70
+msgid "Retry sleep time:"
+msgstr "재시도 수면 시간:"
+
+#: lib/config_file.c:71
+msgid "The number of seconds to wait between retries"
+msgstr "재시도 사이에 기다릴 초단위의 시간"
+
+#: lib/config_file.c:72
+msgid "Max KB/S:"
+msgstr "최대 KB/S:"
+
+#: lib/config_file.c:73
+msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
+msgstr "파일 전송시 얻을 수 있는 최대 KB/s (사용않하려면 0으로 설정)"
+
+#: lib/config_file.c:74 lib/config_file.c:75
+msgid "Default Protocol"
+msgstr "기본 프로토콜"
+
+#: lib/config_file.c:76
+msgid "This specifies the default protocol to use"
+msgstr "사용할 기본 프로토콜 명시"
+
+#: lib/config_file.c:78
+msgid "FTP"
+msgstr "FTP"
+
+#: lib/config_file.c:80 lib/config_file.c:115
+msgid "Proxy hostname:"
+msgstr "프록시 호스트명:"
+
+#: lib/config_file.c:81 lib/config_file.c:116
+msgid "Firewall hostname"
+msgstr "방화벽 호스트명"
+
+#: lib/config_file.c:82 lib/config_file.c:117
+msgid "Proxy port:"
+msgstr "프록시 포트:"
+
+#: lib/config_file.c:83 lib/config_file.c:118
+msgid "Port to connect to on the firewall"
+msgstr "방화벽에 연결할 포트"
+
+#: lib/config_file.c:84 lib/config_file.c:119
+msgid "Proxy username:"
+msgstr "프록시 사용자명:"
+
+#: lib/config_file.c:85 lib/config_file.c:120
+msgid "Your firewall username"
+msgstr "당신의 방화벽 사용자명"
+
+#: lib/config_file.c:86 lib/config_file.c:121
+msgid "Proxy password:"
+msgstr "프록시 비밀번호:"
+
+#: lib/config_file.c:87 lib/config_file.c:122
+msgid "Your firewall password"
+msgstr "당신의 방화벽 비밀번호"
+
+#: lib/config_file.c:88
+msgid "Proxy account:"
+msgstr "프록시 어카운트:"
+
+#: lib/config_file.c:88
+msgid "Your firewall account (optional)"
+msgstr "당신의 방화벽 어카운트 (optional)"
+
+#: lib/config_file.c:91
+msgid "Passive file transfers"
+msgstr "수동 파일 전송"
+
+#: lib/config_file.c:93
+msgid "Send PASV command or PORT command for data transfers"
+msgstr "자료 전송을 위해 PASV 혹은 PORT 명령을 보냄"
+
+#: lib/config_file.c:94
+#, fuzzy
+msgid "Resolve Remote Symlinks (LIST -L)"
+msgstr "원격 심볼릭링크 분석"
+
+#: lib/config_file.c:96
+msgid ""
+"If you disable this feature, then gFTP will only send LIST to the remote "
+"server instead of LIST -L"
+msgstr ""
+"이 기능을 사용하지 않을 경우 gFTP는 원격 서버로 LIST -L 대신에 LIST 명령을 보"
+"냅니다."
+
+#: lib/config_file.c:99
+msgid "Proxy server type"
+msgstr "프록시 서버 종류"
+
+#: lib/config_file.c:100
+msgid "Proxy config"
+msgstr "프록시 환경"
+
+#: lib/config_file.c:101
+msgid "This specifies how your proxy server expects us to log in"
+msgstr "우리가 어떻게 프록시 서버에 로그인할 것인지를 명시"
+
+#: lib/config_file.c:102
+#, c-format
+msgid "%pu = proxy user"
+msgstr "%pu = 프록시 사용자"
+
+#: lib/config_file.c:103
+#, c-format
+msgid "%hu = host user"
+msgstr "%hu = 호스트 사용자"
+
+#: lib/config_file.c:104
+#, c-format
+msgid "%pp = proxy pass"
+msgstr "%pp = 프록시 비밀번호"
+
+#: lib/config_file.c:105
+#, c-format
+msgid "%hp = host pass"
+msgstr "%hp = 호스트 비밀번호"
+
+#: lib/config_file.c:106
+#, c-format
+msgid "%ph = proxy host"
+msgstr "%ph = 프록시 호스트"
+
+#: lib/config_file.c:107
+msgid "%hh = host"
+msgstr "%hh = 호스트"
+
+#: lib/config_file.c:108
+#, c-format
+msgid "%po = proxy port"
+msgstr "%po = 프록시 포트"
+
+#: lib/config_file.c:109
+#, c-format
+msgid "%ho = host port"
+msgstr "%ho = 호스트 포트"
+
+#: lib/config_file.c:110
+#, c-format
+msgid "%pa = proxy account"
+msgstr "%pa = 프록시 어카운트"
+
+#: lib/config_file.c:111
+msgid "%ha = host account"
+msgstr "%ha = 호스트 어카운트"
+
+#: lib/config_file.c:113
+msgid "HTTP"
+msgstr "HTTP"
+
+#: lib/config_file.c:124
+msgid "Use HTTP/1.1"
+msgstr "HTTP/1.1 사용"
+
+#: lib/config_file.c:125
+msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
+msgstr "HTTP/1.1 혹은 HTTP/1.0을 사용하기를 원하십니까"
+
+#: lib/config_file.c:127
+msgid "SSH"
+msgstr "SSH"
+
+#: lib/config_file.c:129
+msgid "SSH Prog Name:"
+msgstr "SSH 프로그램명:"
+
+#: lib/config_file.c:130
+msgid "The path to the SSH executable"
+msgstr "SSH 실행파일에 대한 경로"
+
+#: lib/config_file.c:131
+msgid "SSH Extra Params:"
+msgstr "SSH 추가 파라미터:"
+
+#: lib/config_file.c:132
+msgid "Extra parameters to pass to the SSH program"
+msgstr "SSH 프로그램에 추가로 넘길 파라미터"
+
+#: lib/config_file.c:133
+msgid "SSH sftpserv path:"
+msgstr "SSH sftpserv 경로:"
+
+#: lib/config_file.c:134
+msgid "Default remote SSH sftpserv path"
+msgstr "기본적인 원격 SSH sftpserv 경로"
+
+#: lib/config_file.c:135
+msgid "SSH2 sftp-server path:"
+msgstr "SSH2 sftp-server 경로:"
+
+#: lib/config_file.c:136
+msgid "Default remote SSH2 sftp-server path"
+msgstr "기본적인 원격 SSH2 sftp-server 경로"
+
+#: lib/config_file.c:138
+msgid "Need SSH User/Pass"
+msgstr ""
+
+#: lib/config_file.c:140
+msgid "Require a username/password for SSH connections"
+msgstr ""
+
+#: lib/config_file.c:141
+msgid "Use ssh-askpass util"
+msgstr ""
+
+#: lib/config_file.c:143
+msgid "Use the ssh-askpass utility to grab the users password"
+msgstr ""
+
+#: lib/config_file.c:144
+msgid "Use SSH2 SFTP subsys"
+msgstr ""
+
+#: lib/config_file.c:146
+msgid ""
+"Call ssh with the -s sftp flag. This is helpful because you won't have to "
+"know the remote path to the remote sftp-server"
+msgstr ""
+
+#: lib/config_file.c:147
+msgid "Enable old SSH protocol"
+msgstr ""
+
+#: lib/config_file.c:149
+msgid ""
+"Enable the old SSH protocol. You will need to download the sftp server from "
+"http:///www.xbill.org/sftp"
+msgstr ""
+
+#: lib/config_file.c:152
+msgid ""
+"This defines what will happen when you double click a file in the file "
+"listboxes. 0=View file 1=Edit file 2=Transfer file"
+msgstr ""
+"파일 목록 상자에서 파일을 더블클릭시에 어떤 동작을 수행할 것인지를 정의합니"
+"다. 0=파일 보기 1=파일 편집 2=파일 전송"
+
+#: lib/config_file.c:154
+msgid ""
+"(*) If this is set, and there is a ext= line below for the file extension, "
+"it will download the file as specified below"
+msgstr ""
+"(*) 이것이 설정되어있고, 파일확장자 밑에 ext= 라인이 있으면, 밑에서 명시된 대"
+"로 파일을 내려받습니다"
+
+#: lib/config_file.c:156
+msgid "The default width of the local files listbox"
+msgstr "지역 파일 목록상자의 기본 넓이"
+
+#: lib/config_file.c:158
+msgid "The default width of the remote files listbox"
+msgstr "원격 파일 목록상자의 기본 넓이"
+
+#: lib/config_file.c:160
+msgid "The default height of the local/remote files listboxes"
+msgstr "지역/원격 파일 목록상자의 기본 높이"
+
+#: lib/config_file.c:162
+msgid "The default height of the transfer listbox"
+msgstr "전송 목록상자의 기본 높이"
+
+#: lib/config_file.c:164
+msgid "The default height of the logging window"
+msgstr "로깅 창의 기본 높이"
+
+#: lib/config_file.c:166
+msgid ""
+"The width of the filename column in the transfer window. Set this to 0 to "
+"have this column automagically resize."
+msgstr ""
+"전송 창의 파일명 열의 넓이. 0으로 설정하면 자동으로 열의 넓이가 바뀝니다"
+
+#: lib/config_file.c:168 lib/config_file.c:180
+msgid ""
+"The width of the filename column in the file listboxes. Set this to 0 to "
+"have this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"파일 목록상자의 파일명 열의 넓이. 0으로 설정하시면 자동으로 열의 넓이가 바뀝"
+"니다. -1로 설정하시면 이 열은 않보이게 됩니다"
+
+#: lib/config_file.c:170 lib/config_file.c:182
+msgid ""
+"The width of the size column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"파일 목록상자의 크기 열의 넓이. 0으로 설정하시면 자동으로 열의 넓이가 바뀝니"
+"다. -1로 설정하시면 이 열은 않보이게 됩니다"
+
+#: lib/config_file.c:172 lib/config_file.c:184
+msgid ""
+"The width of the user column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"파일 목록상자의 사용자 열의 넓이. 0으로 설정하시면 자동으로 열의 넓이가 바뀝"
+"니다. -1로 설정하시면 이 열은 않보이게 됩니다"
+
+#: lib/config_file.c:174 lib/config_file.c:186
+msgid ""
+"The width of the group column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"파일 목록상자의 그룹 열의 넓이. 0으로 설정하시면 자동으로 열의 넓이가 바뀝니"
+"다. -1로 설정하시면 이 열은 않보이게 됩니다"
+
+#: lib/config_file.c:176 lib/config_file.c:188
+msgid ""
+"The width of the date column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"파일 목록상자의 날짜 열의 넓이. 0으로 설정하시면 자동으로 열의 넓이가 바뀝니"
+"다. -1로 설정하시면 이 열은 않보이게 됩니다"
+
+#: lib/config_file.c:178 lib/config_file.c:190
+msgid ""
+"The width of the attribs column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"파일 목록상자의 속성 열의 넓이. 0으로 설정하시면 자동으로 열의 넓이가 바뀝니"
+"다. -1로 설정하시면 이 열은 않보이게 됩니다"
+
+#: lib/config_file.c:192
+msgid "The color of the commands that are sent to the server"
+msgstr "서버로 보내질 명령의 색"
+
+#: lib/config_file.c:194
+msgid "The color of the commands that are received from the server"
+msgstr "서버에서 받을 명령의 색"
+
+#: lib/config_file.c:196
+msgid "The color of the error messages"
+msgstr "에러 메시지의 색"
+
+#: lib/config_file.c:198
+msgid "The color of the rest of the log messages"
+msgstr "나머지 로그 메시지의 색"
+
+#: lib/config_file.c:241 lib/config_file.c:784
+#, c-format
+msgid "gFTP Error: Bad config file name %s\n"
+msgstr "gFTP 에러: 잘못된 설정 파일 이름 %s\n"
+
+#: lib/config_file.c:252 lib/config_file.c:553
+#, c-format
+msgid "gFTP Error: Could not make directory %s: %s\n"
+msgstr "gFTP 에러: %s 디렉토리를 만들 수 없습니다: %s\n"
+
+#: lib/config_file.c:262
+#, c-format
+msgid "gFTP Error: Cannot find master config file %s\n"
+msgstr "gFTP 에러: 주 설정 파일 %s를 찾을 수 없습니다\n"
+
+#: lib/config_file.c:264
+msgid "Did you do a make install?\n"
+msgstr "인스톨을 하셨습니까?\n"
+
+#: lib/config_file.c:273 lib/config_file.c:789
+#, c-format
+msgid "gFTP Error: Cannot open config file %s: %s\n"
+msgstr "gFTP 에러: 설정 파일 %s를 열 수 없습니다: %s\n"
+
+#: lib/config_file.c:431
+#, c-format
+msgid "gFTP Warning: Skipping line %d in config file: %s\n"
+msgstr "gFTP 경고: 설정 파일의 %d 라인 무시: %s\n"
+
+#: lib/config_file.c:452
+#, c-format
+msgid "gFTP Error: Bad log file name %s\n"
+msgstr "gFTP 에러: 잘못된 로그 파일 이름 %s\n"
+
+#: lib/config_file.c:458
+#, c-format
+msgid "gFTP Warning: Cannot open %s for writing: %s\n"
+msgstr "gFTP 경고: %s를 쓰기위해 열 수 없습니다: %s\n"
+
+#: lib/config_file.c:542 lib/config_file.c:800
+#, c-format
+msgid "gFTP Error: Bad bookmarks file name %s\n"
+msgstr "gFTP 에러: 잘못된 책갈피 파일 이름 %s\n"
+
+#: lib/config_file.c:563
+#, c-format
+msgid "Warning: Cannot find master bookmark file %s\n"
+msgstr "경고: 주 책갈피 파일 %s를 찾을 수 없습니다\n"
+
+#: lib/config_file.c:574 lib/config_file.c:805
+#, c-format
+msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
+msgstr "gFTP 에러: 책갈피 파일 %s를 열 수 없습니다: %s\n"
+
+#: lib/config_file.c:668
+#, c-format
+msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
+msgstr "gFTP 경고: 책갈피 파일의 %d 라인 무시: %s\n"
+
+#: lib/config_file.c:776
+#, fuzzy
+msgid ""
+"Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten. "
+"If a entry has a (*) in it's comment, you can't change it inside gFTP"
+msgstr ""
+"gFTP 설정 파일. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>. 경"
+"고: 당신이 이 파일에 추가하는 어떤 코멘트도 *덮어써질* 것입니다. 코멘트에 (*)"
+"를 포함하고 있는 항목은 gFTP안에서 바꿀 수 없습니다."
+
+#: lib/config_file.c:777
+#, fuzzy
+msgid ""
+"Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten"
+msgstr ""
+"gFTP 책갈피 파일. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>. 경"
+"고: 당신이 이 파일에 추가하는 어떤 코멘트도 *덮어써질* 것입니다."
+
+#: lib/config_file.c:778
+msgid ""
+"This section specifies which hosts are on the local subnet and won't need to "
+"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
+"dont_use_proxy=network number/netmask"
+msgstr ""
+"이 섹션은 지역 하위네트에 연결된 호스트를 명시합니다. 이것은 (가능하다면) 프"
+"록시 서버를 사용하지 않을 것을 의미합니다. 형식: dont_use_proxy=.domain 혹는 "
+"dont_use_proxy=네트워크 번호/네트마스크"
+
+#: lib/config_file.c:779
+msgid ""
+"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
+"All arguments except the file extension are optional"
+msgstr ""
+"ext=파일 확장자:XPM 파일:Ascii 혹은 Binary (A 혹은 B):보기 프로그램. 참고: 파"
+"일 확장자를 제외한 나머지 인자들은 없어도 됩니다"
+
+#: lib/config_file.c:780
+msgid "This section contains the data that is in the history"
+msgstr "이 섹션은 히스토리에 있을 자료를 포함합니다"
+
+#: lib/config_file.c:1005
+#, c-format
+msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
+msgstr "gFTP 경고: %d 라인은 충분한 인자를 가지고 있지 않습니다\n"
+
+#: lib/local.c:160 lib/local.c:505
+#, c-format
+msgid "Could not change local directory to %s: %s\n"
+msgstr "로컬 디렉토리를 %s로 바꿀 수 없습니다: %s\n"
+
+#: lib/local.c:175 lib/local.c:493 lib/ssh.c:333 lib/ssh.c:752
+#, c-format
+msgid "Could not get current working directory: %s\n"
+msgstr "현재 작업 디렉토리를 알 수 없습니다: %s\n"
+
+#: lib/local.c:192 lib/local.c:327
+#, c-format
+msgid "Error closing file descriptor: %s\n"
+msgstr "파일 서술자 닫기 에러: %s\n"
+
+#: lib/local.c:215 lib/local.c:271
+#, c-format
+msgid "Error: Cannot open local file %s: %s\n"
+msgstr "에러: 지역 파일 %s를 열 수 없습니다: %s\n"
+
+#: lib/local.c:226 lib/local.c:235 lib/local.c:244 lib/local.c:301
+#, c-format
+msgid "Error: Cannot seek on file %s: %s\n"
+msgstr "에러: 파일 %s에서 찾을 수 없습니다: %s\n"
+
+#: lib/local.c:279
+#, c-format
+msgid "Cannot fdopen() socket for %s: %s\n"
+msgstr "%s에 대한 소켓을 fdopen() 할 수 없습니다: %s\n"
+
+#: lib/local.c:291
+#, c-format
+msgid "Error: Cannot truncate local file %s: %s\n"
+msgstr "에러: 지역 파일 %s를 자를 수 없습니다: %s\n"
+
+#: lib/local.c:452
+#, c-format
+msgid "Could not get local directory listing %s: %s\n"
+msgstr "로컬 디렉토리 목록 %s를 얻을 수 없습니다: %s\n"
+
+#: lib/local.c:486
+#, c-format
+msgid "Successfully changed local directory to %s\n"
+msgstr "성공적으로 로컬 디렉토리를 %s로 바꾸었습니다\n"
+
+#: lib/local.c:521 lib/local.c:544 lib/ssh.c:853 lib/ssh.c:885
+#: src/gtk/transfer.c:2249 src/gtk/view_dialog.c:236
+#, c-format
+msgid "Successfully removed %s\n"
+msgstr "성공적으로 %s를 지웠습니다\n"
+
+#: lib/local.c:527 lib/ssh.c:845
+#, c-format
+msgid "Error: Could not remove directory %s: %s\n"
+msgstr "에러: 디렉토리 %s를 삭제할 수 없습니다: %s\n"
+
+#: lib/local.c:550 lib/ssh.c:877 src/gtk/transfer.c:2253
+#: src/gtk/view_dialog.c:240
+#, c-format
+msgid "Error: Could not remove file %s: %s\n"
+msgstr "에러: 파일 %s를 삭제할 수 없습니다: %s\n"
+
+#: lib/local.c:567 lib/ssh.c:917
+#, c-format
+msgid "Successfully made directory %s\n"
+msgstr "디렉토리 %s를 성공적으로 만들었습니다\n"
+
+#: lib/local.c:574 lib/ssh.c:909
+#, c-format
+msgid "Error: Could not make directory %s: %s\n"
+msgstr "에러: 디렉토리 %s를 만들 수 없습니다: %s\n"
+
+#: lib/local.c:593 lib/ssh.c:951
+#, c-format
+msgid "Successfully renamed %s to %s\n"
+msgstr "%s를 %s로 성공적으로 바꾸었습니다\n"
+
+#: lib/local.c:600 lib/ssh.c:943
+#, c-format
+msgid "Error: Could not rename %s to %s: %s\n"
+msgstr "에러: %s를 %s로 바꿀 수 없습니다: %s\n"
+
+#: lib/local.c:623 lib/ssh.c:985
+#, c-format
+msgid "Successfully changed mode of %s to %d\n"
+msgstr "%s의 모드를 %d로 성공적으로 바꾸었습니다\n"
+
+#: lib/local.c:630 lib/ssh.c:977
+#, c-format
+msgid "Error: Could not change mode of %s to %d: %s\n"
+msgstr "에러: %s의 모드를 %d로 바꿀 수 없습니다: %s\n"
+
+#: lib/misc.c:345
+msgid "usage: gftp [[ftp://][user:[pass]@]ftp-site[:port][/directory]]\n"
+msgstr "usage: gftp [[ftp://][user:[pass]@]ftp-site[:port][/directory]]\n"
+
+#: lib/misc.c:373
+#, c-format
+msgid "gFTP Error: Cannot find file %s in %s or %s\n"
+msgstr "gFTP 에러: 파일 %s를 %s 혹은 %s에서 찾을 수 없습니다\n"
+
+#: lib/misc.c:828
+#, c-format
+msgid "Running program %s\n"
+msgstr "프로그램 실행: %s\n"
+
+#: lib/options.h:34
+msgid "none"
+msgstr "없음"
+
+#: lib/options.h:35
+msgid "SITE command"
+msgstr "SITE 명령"
+
+#: lib/options.h:36
+msgid "user@host"
+msgstr ""
+
+#: lib/options.h:37
+msgid "user@host:port"
+msgstr ""
+
+#: lib/options.h:38
+msgid "AUTHENTICATE"
+msgstr ""
+
+#: lib/options.h:39
+msgid "user@host port"
+msgstr ""
+
+#: lib/options.h:40
+msgid "user@host NOAUTH"
+msgstr ""
+
+#: lib/options.h:41
+msgid "HTTP Proxy"
+msgstr "HTTP 프록시"
+
+#: lib/options.h:42
+msgid "Custom"
+msgstr ""
+
+#: lib/protocols.c:255 lib/protocols.c:301 lib/rfc2068.c:239 lib/rfc959.c:821
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "%s로의 연결 제한 시간 초과\n"
+
+#: lib/protocols.c:264 lib/rfc2068.c:252
+#, c-format
+msgid "Error reading from host %s: %s\n"
+msgstr "호스트 %s에서 읽기 에러: %s\n"
+
+#: lib/protocols.c:310
+#, c-format
+msgid "Error writing to host %s: %s\n"
+msgstr "호스트 %s에 쓰기 에러: %s\n"
+
+#: lib/protocols.c:366
+#, c-format
+msgid "Loading directory listing %s from cache\n"
+msgstr "%s 디렉토리 목록을 캐쉬에서 읽는 중\n"
+
+#: lib/protocols.c:415
+#, c-format
+msgid "Error: Cannot write to cache: %s\n"
+msgstr "에러: 캐쉬에 쓸 수 없습니다: %s\n"
+
+#: lib/protocols.c:855 lib/protocols.c:878 lib/protocols.c:1711
+#: lib/protocols.c:1803
+#, c-format
+msgid "Looking up %s\n"
+msgstr "%s 찾는 중\n"
+
+#: lib/protocols.c:861 lib/protocols.c:884 lib/protocols.c:1716
+#: lib/protocols.c:1808
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "호스트명 %s를 찾을 수 없습니다: %s\n"
+
+#: lib/protocols.c:1200 lib/protocols.c:1202 lib/protocols.c:1233
+#: lib/protocols.c:1242 lib/protocols.c:1322 lib/protocols.c:1324
+#: lib/protocols.c:1361
+msgid "unknown"
+msgstr "모름"
+
+#: lib/protocols.c:1731 lib/protocols.c:1773 lib/rfc959.c:632
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "소켓을 생성할 수 없습니다: %s\n"
+
+#: lib/protocols.c:1737 lib/protocols.c:1822
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "%s 시도 중:%d\n"
+
+#: lib/protocols.c:1742 lib/protocols.c:1829
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "%s로 연결할 수 없습니다: %s\n"
+
+#: lib/protocols.c:1852
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "%s로 연결되었습니다:%d\n"
+
+#: lib/rfc2068.c:137 lib/rfc959.c:267 lib/ssh.c:359 lib/sshv2.c:411
+#, c-format
+msgid "Disconnecting from site %s\n"
+msgstr "%s 사이트에서 연결 끊는 중\n"
+
+#: lib/rfc2068.c:190
+#, c-format
+msgid "Starting the file transfer at offset %ld\n"
+msgstr "옵셋 %ld에서 파일 전송을 시작합니다\n"
+
+#: lib/rfc2068.c:209
+#, c-format
+msgid "Cannot retrieve file %s\n"
+msgstr "파일 %s를 받을 수 없습니다\n"
+
+#: lib/rfc2068.c:281
+msgid "Finished retrieving data\n"
+msgstr "데이타를 모두 받았습니다\n"
+
+#: lib/rfc2068.c:329 lib/ssh.c:566 lib/sshv2.c:839
+msgid "Retrieving directory listing...\n"
+msgstr "디렉토리 목록 받는 중...\n"
+
+#: lib/rfc959.c:130 lib/rfc959.c:139 lib/rfc959.c:728 lib/rfc959.c:766
+#: src/gtk/view_dialog.c:79 src/gtk/view_dialog.c:148
+#, c-format
+msgid "Cannot fdopen() socket: %s\n"
+msgstr "소켓을 fdopen()할 수 없습니다: %s\n"
+
+#: lib/rfc959.c:546 lib/ssh.c:687
+msgid "total"
+msgstr "합계"
+
+#: lib/rfc959.c:548 lib/ssh.c:690
+#, c-format
+msgid "Warning: Cannot parse listing %s\n"
+msgstr "경고: 목록 %s를 해석할 수 없습니다\n"
+
+#: lib/rfc959.c:676
+#, c-format
+msgid "Cannot create a data connection: %s\n"
+msgstr "데이타 연결을 생성할 수 없습니다: %s\n"
+
+#: lib/rfc959.c:691
+#, c-format
+msgid "Cannot bind a port: %s\n"
+msgstr "포트를 사용할 수 없습니다: %s\n"
+
+#: lib/rfc959.c:702
+#, c-format
+msgid "Cannot listen on port %d: %s\n"
+msgstr "포트 %d에서 들을 수 없습니다: %s\n"
+
+#: lib/rfc959.c:755
+#, fuzzy, c-format
+msgid "Cannot accept connection from server: %s\n"
+msgstr "%s로 연결할 수 없습니다: %s\n"
+
+#: lib/rfc959.c:831 lib/rfc959.c:841 lib/ssh.c:1015 lib/ssh.c:1028
+#: lib/sshv2.c:515 lib/sshv2.c:525
+#, c-format
+msgid "Error: Could not write to socket: %s\n"
+msgstr "에러: 소켓에 쓸 수 없습니다: %s\n"
+
+#: lib/ssh.c:202 lib/sshv2.c:251
+#, c-format
+msgid "Opening SSH connection to %s\n"
+msgstr "%s로 SSH 연결을 하는 중\n"
+
+#: lib/ssh.c:227 lib/sshv2.c:281
+#, fuzzy, c-format
+msgid "Cannot create a socket pair: %s\n"
+msgstr "소켓을 생성할 수 없습니다: %s\n"
+
+#: lib/ssh.c:238 lib/sshv2.c:292
+#, c-format
+msgid "Cannot open master pty %s: %s\n"
+msgstr "마스터 pty %s를 열 수 없습니다: %s\n"
+
+#: lib/ssh.c:271 lib/sshv2.c:326
+msgid "Error: Cannot execute ssh: "
+msgstr "에러: ssh를 실행할 수 없습니다: "
+
+#: lib/ssh.c:292 lib/sshv2.c:349
+msgid "Error: Received wrong init string from server\n"
+msgstr "에러: 서버로부터 잘못된 초기화 문자열 수신\n"
+
+#: lib/ssh.c:313 lib/sshv2.c:378
+#, c-format
+msgid "Successfully logged into SSH server %s\n"
+msgstr "성공적으로 SSH 서버 %s에 접속하였습니다\n"
+
+#: lib/ssh.c:319 lib/sshv2.c:384
+#, c-format
+msgid "Cannot fork another process: %s\n"
+msgstr "보기: 다른 프로세스를 생성(fork)할 수 없습니다: %s\n"
+
+#: lib/ssh.c:397
+#, c-format
+msgid "Remote host could not find file %s\n"
+msgstr "원격 호스트가 %s 파일을 찾을 수 없습니다\n"
+
+#: lib/ssh.c:510 lib/ssh.c:582 lib/ssh.c:705
+msgid "Received unexpected response from server\n"
+msgstr "서버로 부터 생각지 못한 응답을 받았습니다\n"
+
+#: lib/ssh.c:618
+msgid "Finished retrieving directory listing\n"
+msgstr "디렉토리 목록 받기가 끝났습니다\n"
+
+#: lib/ssh.c:736
+#, c-format
+msgid "Could not change remote directory to %s: %s\n"
+msgstr "원격 디렉토리를 %s로 바꿀 수 없습니다: %s\n"
+
+#: lib/ssh.c:1052 lib/sshv2.c:566 lib/sshv2.c:870 lib/sshv2.c:1741
+#: lib/sshv2.c:1825 lib/sshv2.c:1909
+#, c-format
+msgid "Error: Message size %d too big from server\n"
+msgstr "에러: 서버로부터 메시지 크기가 %d로 너무 긴 걸 받았습니다\n"
+
+#: lib/ssh.c:1082 lib/sshv2.c:548 lib/sshv2.c:582
+#, c-format
+msgid "Error: Could not read from socket: %s\n"
+msgstr "에러: 소켓을 읽을 수 없습니다: %s\n"
+
+#: lib/sshv2.c:370 lib/sshv2.c:431 lib/sshv2.c:444 lib/sshv2.c:466
+#: lib/sshv2.c:805 lib/sshv2.c:861 lib/sshv2.c:974 lib/sshv2.c:987
+#: lib/sshv2.c:1000 lib/sshv2.c:1013 lib/sshv2.c:1069 lib/sshv2.c:1126
+#: lib/sshv2.c:1194 lib/sshv2.c:1639 lib/sshv2.c:1732 lib/sshv2.c:1816
+#: lib/sshv2.c:1897 lib/sshv2.c:1979
+#, fuzzy
+msgid "Received wrong response from server, disconnecting\n"
+msgstr "서버로 부터 생각지 못한 응답을 받았습니다\n"
+
+#: lib/sshv2.c:491
+#, fuzzy, c-format
+msgid "Error: Message size %d too big\n"
+msgstr "에러: 서버로부터 메시지 크기가 %d로 너무 긴 걸 받았습니다\n"
+
+#: lib/sshv2.c:627
+#, c-format
+msgid "%d: Protocol Initialization\n"
+msgstr ""
+
+#: lib/sshv2.c:633
+#, c-format
+msgid "%d: Protocol version %d\n"
+msgstr ""
+
+#: lib/sshv2.c:642
+#, c-format
+msgid "%d: Open %s\n"
+msgstr ""
+
+#: lib/sshv2.c:647
+#, fuzzy, c-format
+msgid "%d: Close\n"
+msgstr "  닫기  "
+
+#: lib/sshv2.c:653
+#, fuzzy, c-format
+msgid "%d: Open Directory %s\n"
+msgstr "디렉토리 생성"
+
+#: lib/sshv2.c:658
+#, fuzzy, c-format
+msgid "%d: Read Directory\n"
+msgstr "디렉토리 생성"
+
+#: lib/sshv2.c:662
+#, fuzzy, c-format
+msgid "%d: Remove file %s\n"
+msgstr "파일 %s를 받을 수 없습니다\n"
+
+#: lib/sshv2.c:667
+#, fuzzy, c-format
+msgid "%d: Make directory %s\n"
+msgstr "디렉토리 생성"
+
+#: lib/sshv2.c:672
+#, fuzzy, c-format
+msgid "%d: Remove directory %s\n"
+msgstr "원격 디렉토리:"
+
+#: lib/sshv2.c:677
+#, c-format
+msgid "%d: Realpath %s\n"
+msgstr ""
+
+#: lib/sshv2.c:682
+#, c-format
+msgid "%d: File attributes\n"
+msgstr ""
+
+#: lib/sshv2.c:686
+#, c-format
+msgid "%d: Stat %s\n"
+msgstr ""
+
+#: lib/sshv2.c:703
+#, c-format
+msgid "%d: Chmod %s %o\n"
+msgstr ""
+
+#: lib/sshv2.c:708
+#, c-format
+msgid "%d: Utime %s %d\n"
+msgstr ""
+
+#: lib/sshv2.c:721 src/gtk/bookmarks.c:333 src/gtk/bookmarks.c:996
+#: src/gtk/menu-items.c:317 src/gtk/options_dialog.c:273
+#: src/gtk/options_dialog.c:620 src/gtk/transfer.c:1747
+msgid "OK"
+msgstr "확인"
+
+#: lib/sshv2.c:724
+msgid "EOF"
+msgstr ""
+
+#: lib/sshv2.c:727
+#, fuzzy
+msgid "No such file or directory"
+msgstr "사용법: chdir <디렉토리>\n"
+
+#: lib/sshv2.c:730
+msgid "Permission denied"
+msgstr ""
+
+#: lib/sshv2.c:733
+#, fuzzy
+msgid "Failure"
+msgstr "/파일"
+
+#: lib/sshv2.c:736
+msgid "Bad message"
+msgstr ""
+
+#: lib/sshv2.c:739
+#, fuzzy
+msgid "No connection"
+msgstr "연결 않됨"
+
+#: lib/sshv2.c:742
+#, fuzzy
+msgid "Connection lost"
+msgstr "%s로의 연결 제한 시간 초과\n"
+
+#: lib/sshv2.c:745
+#, fuzzy
+msgid "Operation unsupported"
+msgstr "동작이 취소되었습니다\n"
+
+#: lib/sshv2.c:748
+msgid "Unknown message returned from server"
+msgstr ""
+
+#: src/text/gftp-text.c:29
+msgid "about"
+msgstr "이 프로그램은"
+
+#: src/text/gftp-text.c:30
+msgid "Shows gFTP information"
+msgstr ""
+
+#: src/text/gftp-text.c:31
+msgid "ascii"
+msgstr "아스키"
+
+#: src/text/gftp-text.c:32
+msgid "Sets the current file transfer mode to Ascii (only for FTP)"
+msgstr ""
+
+#: src/text/gftp-text.c:33
+msgid "binary"
+msgstr "이진"
+
+#: src/text/gftp-text.c:34
+msgid "Sets the current file transfer mode to Binary (only for FTP)"
+msgstr ""
+
+#: src/text/gftp-text.c:35
+msgid "cd"
+msgstr "cd"
+
+#: src/text/gftp-text.c:36 src/text/gftp-text.c:38
+#, fuzzy
+msgid "Changes the remote working directory"
+msgstr "현재 작업 디렉토리를 알 수 없습니다: %s\n"
+
+#: src/text/gftp-text.c:37
+msgid "chdir"
+msgstr "chdir"
+
+#: src/text/gftp-text.c:39
+msgid "chmod"
+msgstr "chmod"
+
+#: src/text/gftp-text.c:40
+#, fuzzy
+msgid "Changes the permissions of a remote file"
+msgstr "전송된 파일의 속성을 저장"
+
+#: src/text/gftp-text.c:41
+msgid "close"
+msgstr "close"
+
+#: src/text/gftp-text.c:42
+#, fuzzy
+msgid "Disconnects from the remote site"
+msgstr "%s: 리모트 사이트에 연결되지 않았습니다\n"
+
+#: src/text/gftp-text.c:43
+msgid "delete"
+msgstr "delete"
+
+#: src/text/gftp-text.c:44
+msgid "Removes a remote file"
+msgstr ""
+
+#: src/text/gftp-text.c:45
+msgid "get"
+msgstr "get"
+
+#: src/text/gftp-text.c:46 src/text/gftp-text.c:70
+#, fuzzy
+msgid "Downloads remote file(s)"
+msgstr "파일 내려받기"
+
+#: src/text/gftp-text.c:47
+msgid "help"
+msgstr "도움말"
+
+#: src/text/gftp-text.c:48
+msgid "Shows this help screen"
+msgstr ""
+
+#: src/text/gftp-text.c:49
+msgid "lcd"
+msgstr "lcd"
+
+#: src/text/gftp-text.c:50 src/text/gftp-text.c:52
+#, fuzzy
+msgid "Changes the local working directory"
+msgstr "현재 작업 디렉토리를 알 수 없습니다: %s\n"
+
+#: src/text/gftp-text.c:51
+msgid "lchdir"
+msgstr "lchdir"
+
+#: src/text/gftp-text.c:53
+msgid "lchmod"
+msgstr "lchmod"
+
+#: src/text/gftp-text.c:54
+#, fuzzy
+msgid "Changes the permissions of a local file"
+msgstr "전송된 파일의 속성을 저장"
+
+#: src/text/gftp-text.c:55
+msgid "ldelete"
+msgstr "ldelete"
+
+#: src/text/gftp-text.c:56
+msgid "Removes a local file"
+msgstr ""
+
+#: src/text/gftp-text.c:57
+msgid "lls"
+msgstr "lls"
+
+#: src/text/gftp-text.c:58
+msgid "Shows the directory listing for the current local directory"
+msgstr ""
+
+#: src/text/gftp-text.c:59
+msgid "lmkdir"
+msgstr "lmkdir"
+
+#: src/text/gftp-text.c:60
+#, fuzzy
+msgid "Creates a local directory"
+msgstr "지역 디렉토리:"
+
+#: src/text/gftp-text.c:61
+msgid "lpwd"
+msgstr "lpwd"
+
+#: src/text/gftp-text.c:62
+msgid "Show current local directory"
+msgstr ""
+
+#: src/text/gftp-text.c:63
+msgid "lrename"
+msgstr "lrename"
+
+#: src/text/gftp-text.c:64
+msgid "Rename a local file"
+msgstr ""
+
+#: src/text/gftp-text.c:65
+msgid "lrmdir"
+msgstr "lrmdir"
+
+#: src/text/gftp-text.c:66
+#, fuzzy
+msgid "Remove a local directory"
+msgstr "원격 디렉토리:"
+
+#: src/text/gftp-text.c:67
+msgid "ls"
+msgstr "ls"
+
+#: src/text/gftp-text.c:68
+msgid "Shows the directory listing for the current remote directory"
+msgstr ""
+
+#: src/text/gftp-text.c:69
+msgid "mget"
+msgstr "mget"
+
+#: src/text/gftp-text.c:71
+msgid "mkdir"
+msgstr "mkdir"
+
+#: src/text/gftp-text.c:72
+#, fuzzy
+msgid "Creates a remote directory"
+msgstr "원격 디렉토리:"
+
+#: src/text/gftp-text.c:73
+msgid "mput"
+msgstr "mput"
+
+#: src/text/gftp-text.c:74 src/text/gftp-text.c:78
+#, fuzzy
+msgid "Uploads local file(s)"
+msgstr "파일 올리기"
+
+#: src/text/gftp-text.c:75
+msgid "open"
+msgstr "open"
+
+#: src/text/gftp-text.c:76
+#, fuzzy
+msgid "Opens a connection to a remote site"
+msgstr "%s: 리모트 사이트에 연결되지 않았습니다\n"
+
+#: src/text/gftp-text.c:77
+msgid "put"
+msgstr "put"
+
+#: src/text/gftp-text.c:79
+msgid "pwd"
+msgstr "pwd"
+
+#: src/text/gftp-text.c:80
+#, fuzzy
+msgid "Show current remote directory"
+msgstr "원격 디렉토리:"
+
+#: src/text/gftp-text.c:81
+msgid "quit"
+msgstr "종료"
+
+#: src/text/gftp-text.c:82
+msgid "Exit from gFTP"
+msgstr ""
+
+#: src/text/gftp-text.c:83
+msgid "rename"
+msgstr "rename"
+
+#: src/text/gftp-text.c:84
+msgid "Rename a remote file"
+msgstr ""
+
+#: src/text/gftp-text.c:85
+msgid "rmdir"
+msgstr "rmdir"
+
+#: src/text/gftp-text.c:86
+#, fuzzy
+msgid "Remove a remote directory"
+msgstr "원격 디렉토리:"
+
+#: src/text/gftp-text.c:87
+#, fuzzy
+msgid "set"
+msgstr "get"
+
+#: src/text/gftp-text.c:88
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
+msgstr ""
+
+#: src/text/gftp-text.c:134
+msgid ""
+">.\n"
+"If you have any questions, comments, or suggestions about this program, "
+"please feel free to email them to me. You can always find out the latest "
+"news about gFTP from my website at http://www.gftp.org/\n"
+msgstr ""
+">.\n"
+"이 프로그램에 대해 어떤 질문이나 제안등이 있으시면, 저에게 주저없이 편지를 보"
+"내시기 바랍니다. gFTP에 대한 최근의 소식들은 제 웹 사이트 http://gftp.seul."
+"org/에서 항상 보실 수 있습니다\n"
+
+#: src/gtk/gftp-gtk.c:128 src/text/gftp-text.c:136
+msgid ""
+"gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
+"This is free software, and you are welcome to redistribute it under certain "
+"conditions; for details, see the COPYING file\n"
+msgstr ""
+"gFTP는 어떤 보증도 하지 않습니다; 자세한 것은 COPYING 파일을 보십시요. 이것"
+"은 자유 소프트웨어입니다, 그리고 특정한 조건하에서 재배포하시는 것은 좋습니"
+"다; 자세한 것은 COPYING 파일을 보십시요\n"
+
+#: src/text/gftp-text.c:217
+msgid "Error: Command not recognized\n"
+msgstr "에러: 모르는 명령입니다\n"
+
+#: src/text/gftp-text.c:312
+msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
+msgstr "사용법: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
+
+#: src/gtk/dnd.c:43 src/gtk/menu-items.c:139 src/text/gftp-text.c:319
+#, c-format
+msgid "Could not parse URL %s\n"
+msgstr "URL %s를 해석할 수 없습니다\n"
+
+#: src/gtk/menu-items.c:722 src/text/gftp-text.c:367
+msgid "Translated by"
+msgstr "번역자: 남성현 <namsh@kldp.org>"
+
+#: src/text/gftp-text.c:390 src/text/gftp-text.c:406 src/text/gftp-text.c:436
+#: src/text/gftp-text.c:459 src/text/gftp-text.c:481 src/text/gftp-text.c:505
+#: src/text/gftp-text.c:533 src/text/gftp-text.c:564 src/text/gftp-text.c:610
+#: src/text/gftp-text.c:626 src/text/gftp-text.c:645 src/text/gftp-text.c:718
+msgid "Error: Not connected to a remote site\n"
+msgstr "에러: 리모트 사이트에 연결되지 않았습니다\n"
+
+#: src/text/gftp-text.c:411 src/text/gftp-text.c:417
+msgid "usage: chdir <directory>\n"
+msgstr "사용법: chdir <디렉토리>\n"
+
+#: src/text/gftp-text.c:443
+msgid "usage: mkdir <new directory>\n"
+msgstr "사용법: mkdir <새 디렉토리>\n"
+
+#: src/text/gftp-text.c:465
+msgid "usage: rmdir <directory>\n"
+msgstr "사용법: rmdir <디렉토리>\n"
+
+#: src/text/gftp-text.c:487
+msgid "usage: delete <file>\n"
+msgstr "사용법: delete <파일>\n"
+
+#: src/text/gftp-text.c:515
+msgid "usage: rename <old name> <new name>\n"
+msgstr "사용법: rename <이전 이름> <새 이름>\n"
+
+#: src/text/gftp-text.c:543
+msgid "usage: chmod <mode> <file>\n"
+msgstr "사용법: chmod <모드> <파일>\n"
+
+#: src/text/gftp-text.c:651
+msgid "usage: mget <filespec>\n"
+msgstr "사용법: mget <파일스펙>\n"
+
+#: src/text/gftp-text.c:724
+msgid "usage: mput <filespec>\n"
+msgstr "사용법: mput <파일스펙>\n"
+
+#: src/gtk/transfer.c:613 src/text/gftp-text.c:808
+#, c-format
+msgid "File transfer will be throttled to %.2f KB/s\n"
+msgstr "파일 전송은 %.2f KB/s로 제한될 겁니다.\n"
+
+#: src/text/gftp-text.c:875
+#, c-format
+msgid "Could not download %s\n"
+msgstr "%s를 내려받지 못했습니다\n"
+
+#: src/text/gftp-text.c:882
+#, c-format
+msgid "Successfully transferred %s\n"
+msgstr "성공적으로 %s가 보내졌습니다\n"
+
+#: src/text/gftp-text.c:917
+msgid ""
+"Supported commands:\n"
+"\n"
+msgstr ""
+
+#: src/text/gftp-text.c:970
+msgid "usage: set [variable = value]\n"
+msgstr ""
+
+#: src/text/gftp-text.c:990
+#, c-format
+msgid "Error: Variable %s is not a valid configuration variable.\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1013
+msgid "Error: You cannot change this variable\n"
+msgstr ""
+
+#: src/gtk/bookmarks.c:72 src/gtk/gftp-gtk.c:963 src/gtk/menu-items.c:74
+#: src/gtk/menu-items.c:115 src/gtk/misc-gtk.c:461 src/gtk/misc-gtk.c:469
+#, c-format
+msgid "%s: Please hit the stop button first to do anything else\n"
+msgstr "%s: 어떤 일이든 하시려면 일단 멈춤 버튼을 누르십시요\n"
+
+#: src/gtk/bookmarks.c:73
+msgid "Run Bookmark"
+msgstr "책갈피 실행"
+
+#: src/gtk/bookmarks.c:80
+msgid ""
+"Internal gFTP Error: Could not look up bookmark entry. This is definately a "
+"bug. Please email masneyb@gftp.org about it. Please be sure to include the "
+"version number and how you can reproduce it\n"
+msgstr ""
+"gFTP 내부 에러: 책갈피 엔트리를 찾을 수 없습니다. 이것은 명백하게 버그입니"
+"다. masneyb@gftp.org로 이에 대해 편지를 보내주십시요. 버젼 번호와 이 버그를 "
+"어떻게 만들어낼 수 있는 지를 알려주시기 바랍니다.\n"
+
+#: src/gtk/bookmarks.c:134 src/gtk/bookmarks.c:145
+msgid "Add Bookmark"
+msgstr "책갈피 추가"
+
+#: src/gtk/bookmarks.c:141
+msgid "Add Bookmark: You must enter a hostname\n"
+msgstr "책갈피 추가: 호스트 이름을 입력하셔야만 합니다\n"
+
+#: src/gtk/bookmarks.c:145
+msgid ""
+"Enter the name of the bookmark you want to add\n"
+"You can separate items by a / to put it into a submenu\n"
+"(ex: Linux Sites/Debian)"
+msgstr ""
+"추가하고싶은 책갈피의 이름을 입력하세요\n"
+"항목들을 하위메뉴에 집어넣으려면 / 로 분리하세요\n"
+"(가령: Linux Sites/Debian)"
+
+#: src/gtk/bookmarks.c:145
+msgid "Remember password"
+msgstr "비밀번호 기억"
+
+#: src/gtk/bookmarks.c:145 src/gtk/options_dialog.c:343
+msgid "Add"
+msgstr "추가"
+
+#: src/gtk/bookmarks.c:145 src/gtk/bookmarks.c:343 src/gtk/bookmarks.c:721
+#: src/gtk/bookmarks.c:731 src/gtk/bookmarks.c:1008 src/gtk/chmod_dialog.c:162
+#: src/gtk/menu-items.c:101 src/gtk/menu-items.c:168 src/gtk/menu-items.c:317
+#: src/gtk/mkdir_dialog.c:42 src/gtk/options_dialog.c:284
+#: src/gtk/options_dialog.c:631 src/gtk/rename_dialog.c:53
+#: src/gtk/transfer.c:253 src/gtk/transfer.c:1112 src/gtk/transfer.c:1122
+#: src/gtk/transfer.c:1759 src/gtk/transfer.c:2010
+msgid "  Cancel  "
+msgstr "  취소  "
+
+#: src/gtk/bookmarks.c:161
+msgid "Add Bookmark: You must enter a name for the bookmark\n"
+msgstr "책갈피 추가: 책갈피의 이름을 입력하셔야만 합니다\n"
+
+#: src/gtk/bookmarks.c:168
+#, c-format
+msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
+msgstr "책갈피 추가: %s 책갈피가 이미 있어서 추가할 수 없습니다\n"
+
+#: src/gtk/bookmarks.c:226 src/gtk/bookmarks.c:243
+msgid "/Bookmarks/"
+msgstr "/책갈피(B)/"
+
+#: src/gtk/bookmarks.c:276
+msgid "/_File"
+msgstr "/파일"
+
+#: src/gtk/bookmarks.c:277
+msgid "/File/tearoff"
+msgstr "/파일/tearoff"
+
+#: src/gtk/bookmarks.c:278
+msgid "/File/New Folder..."
+msgstr "/파일/새 폴더..."
+
+#: src/gtk/bookmarks.c:279
+msgid "/File/New Item..."
+msgstr "/파일/새 항목..."
+
+#: src/gtk/bookmarks.c:280
+msgid "/File/Delete"
+msgstr "/파일/삭제"
+
+#: src/gtk/bookmarks.c:281
+msgid "/File/Properties..."
+msgstr "/파일/속성..."
+
+#: src/gtk/bookmarks.c:282
+msgid "/File/sep"
+msgstr "/파일/sep"
+
+#: src/gtk/bookmarks.c:283
+msgid "/File/Close"
+msgstr "/파일/닫기"
+
+#: src/gtk/bookmarks.c:291
+msgid "Edit Bookmarks"
+msgstr "책갈피 편집"
+
+#: src/gtk/bookmarks.c:379 src/gtk/bookmarks.c:411 src/gtk/bookmarks.c:424
+#, c-format
+msgid "/Bookmarks/%s"
+msgstr "/책갈피(B)/%s"
+
+#: src/gtk/bookmarks.c:719 src/gtk/bookmarks.c:729
+msgid "New Folder"
+msgstr "새 폴더"
+
+#: src/gtk/bookmarks.c:720
+msgid "Enter the name of the new folder to create"
+msgstr "생성하고자 하는 새로운 폴더의 이름을 입력하세요"
+
+#: src/gtk/bookmarks.c:721 src/gtk/bookmarks.c:731 src/gtk/mkdir_dialog.c:41
+msgid "Create"
+msgstr "생성"
+
+#: src/gtk/bookmarks.c:730
+msgid "Enter the name of the new item to create"
+msgstr "생성하고자 하는 새로운 항목의 이름을 입력하세요"
+
+#: src/gtk/bookmarks.c:812
+msgid "Edit Entry"
+msgstr "엔트리 편집"
+
+#: src/gtk/bookmarks.c:830
+msgid "Description:"
+msgstr "설명:"
+
+#: src/gtk/bookmarks.c:845
+msgid "Hostname:"
+msgstr "호스트명:"
+
+#: src/gtk/bookmarks.c:858
+msgid "Port:"
+msgstr "포트:"
+
+#: src/gtk/bookmarks.c:875
+msgid "Protocol:"
+msgstr "프로토콜:"
+
+#: src/gtk/bookmarks.c:899
+msgid "Remote Directory:"
+msgstr "원격 디렉토리:"
+
+#: src/gtk/bookmarks.c:912
+msgid "Local Directory:"
+msgstr "지역 디렉토리:"
+
+#: src/gtk/bookmarks.c:925
+msgid "Remote SSH sftp path:"
+msgstr "원격 SSH sftp 경로:"
+
+#: src/gtk/bookmarks.c:942
+msgid "Username:"
+msgstr "사용자명:"
+
+#: src/gtk/bookmarks.c:955
+msgid "Password:"
+msgstr "비밀번호:"
+
+#: src/gtk/bookmarks.c:969
+msgid "Account:"
+msgstr "어카운트:"
+
+#: src/gtk/bookmarks.c:983
+msgid "Log in as ANONYMOUS"
+msgstr "익명으로 로그인"
+
+#: src/gtk/bookmarks.c:1018 src/gtk/options_dialog.c:295
+msgid "Apply"
+msgstr "적용"
+
+#: src/gtk/bookmarks.c:1056
+#, c-format
+msgid ""
+"Are you sure you want to erase the bookmark\n"
+"%s and all it's children?"
+msgstr ""
+"책갈피 %s와 그 하위 항목들을\n"
+"정말로 지우고 싶으십니까?"
+
+#: src/gtk/bookmarks.c:1057
+msgid "Delete Bookmark"
+msgstr "책갈피 삭제"
+
+#: src/gtk/bookmarks.c:1057 src/gtk/delete_dialog.c:121
+msgid "Yes"
+msgstr "예"
+
+#: src/gtk/bookmarks.c:1058 src/gtk/delete_dialog.c:122
+msgid "No"
+msgstr "아니오"
+
+#: src/gtk/bookmarks.c:1270
+msgid "Bookmarks"
+msgstr "책갈피"
+
+#: src/gtk/chmod_dialog.c:43 src/gtk/chmod_dialog.c:48
+msgid "Chmod"
+msgstr "Chmod"
+
+#: src/gtk/chmod_dialog.c:60
+msgid ""
+"You can now adjust the attributes of your file(s)\n"
+"Note: Not all ftp servers support the chmod feature"
+msgstr ""
+"이제 당신의 파일들의 속성을 바꾸실 수 있습니다\n"
+"주의: 모든 ftp 서버가 chmod 기능을 지원하지는 않습니다"
+
+#: src/gtk/chmod_dialog.c:70
+msgid "Special"
+msgstr "Special"
+
+#: src/gtk/chmod_dialog.c:78
+msgid "SUID"
+msgstr "SUID"
+
+#: src/gtk/chmod_dialog.c:82
+msgid "SGID"
+msgstr "SGID"
+
+#: src/gtk/chmod_dialog.c:86
+msgid "Sticky"
+msgstr "Sticky"
+
+#: src/gtk/chmod_dialog.c:90 src/gtk/gftp-gtk.c:740
+msgid "User"
+msgstr "사용자"
+
+#: src/gtk/chmod_dialog.c:98 src/gtk/chmod_dialog.c:118
+#: src/gtk/chmod_dialog.c:138
+msgid "Read"
+msgstr "읽기"
+
+#: src/gtk/chmod_dialog.c:102 src/gtk/chmod_dialog.c:122
+#: src/gtk/chmod_dialog.c:142
+msgid "Write"
+msgstr "쓰기"
+
+#: src/gtk/chmod_dialog.c:106 src/gtk/chmod_dialog.c:126
+#: src/gtk/chmod_dialog.c:146
+msgid "Execute"
+msgstr "실행"
+
+#: src/gtk/chmod_dialog.c:110 src/gtk/gftp-gtk.c:741
+msgid "Group"
+msgstr "그룹"
+
+#: src/gtk/chmod_dialog.c:130
+msgid "Other"
+msgstr "Other"
+
+#: src/gtk/chmod_dialog.c:150 src/gtk/menu-items.c:167
+msgid "Change"
+msgstr "수정"
+
+#: src/gtk/chmod_dialog.c:302 src/gtk/delete_dialog.c:242
+#: src/gtk/menu-items.c:496 src/gtk/mkdir_dialog.c:103
+#: src/gtk/rename_dialog.c:112 src/gtk/transfer.c:535
+msgid "Operation canceled\n"
+msgstr "동작이 취소되었습니다\n"
+
+#: src/gtk/delete_dialog.c:46 src/gtk/options_dialog.c:357
+msgid "Delete"
+msgstr "삭제"
+
+#: src/gtk/delete_dialog.c:119
+#, c-format
+msgid "Are you sure you want to delete these %ld files and %ld directories"
+msgstr "이 %ld 파일들과 %ld 디렉토리들을 정말로 지우고 싶으십니까?"
+
+#: src/gtk/delete_dialog.c:121
+msgid "Delete Files/Directories"
+msgstr "파일/디렉토리 삭제"
+
+#: src/gtk/dnd.c:65 src/gtk/dnd.c:149
+msgid "Drag-N-Drop"
+msgstr "드래그앤드롭"
+
+#: src/gtk/dnd.c:162
+#, c-format
+msgid "Received URL %s\n"
+msgstr "URL %s를 받았습니다\n"
+
+#: src/gtk/dnd.c:212
+#, c-format
+msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
+msgstr "드래그앤드롭: url %s를 무시합니다: 잘못된 url입니다\n"
+
+#: src/gtk/gftp-gtk.c:113
+msgid "gFTP Icon"
+msgstr ""
+
+#: src/gtk/gftp-gtk.c:126
+msgid ""
+">. If you have any questions, comments, or suggestions about this program, "
+"please feel free to email them to me. You can always find out the latest "
+"news about gFTP from my website at http://www.gftp.org/\n"
+msgstr ""
+">. 이 프로그램에 대해 어떤 질문이나 제안등이 있으시면, 저에게 주저없이 편지"
+"를 보내시기 바랍니다. gFTP에 대한 최근의 소식들은 제 웹 사이트 http://gftp."
+"gftp.org/에서 항상 보실 수 있습니다\n"
+
+#: src/gtk/gftp-gtk.c:150 src/gtk/gftp-gtk.c:152
+msgid "Exit"
+msgstr "종료"
+
+#: src/gtk/gftp-gtk.c:151
+msgid ""
+"There are file transfers in progress.\n"
+"Are you sure you want to exit?"
+msgstr ""
+"전송중인 파일이 있습니다.\n"
+"정말로 종료하기를 원하십니까?"
+
+#: src/gtk/gftp-gtk.c:152
+msgid "Don't Exit"
+msgstr "종료 취소"
+
+#: src/gtk/gftp-gtk.c:241 src/gtk/gftp-gtk.c:738 src/gtk/transfer.c:1602
+msgid "Filename"
+msgstr "파일명"
+
+#: src/gtk/gftp-gtk.c:242
+msgid "Progress"
+msgstr "진행"
+
+#: src/gtk/gftp-gtk.c:339
+msgid "/_FTP"
+msgstr "/_FTP"
+
+#: src/gtk/gftp-gtk.c:340
+msgid "/FTP/tearoff"
+msgstr "/FTP/tearoff"
+
+#: src/gtk/gftp-gtk.c:341 src/gtk/gftp-gtk.c:342
+msgid "/FTP/Window 1"
+msgstr "/FTP/창 1"
+
+#: src/gtk/gftp-gtk.c:342
+msgid "/FTP/Window 2"
+msgstr "/FTP/창 2"
+
+#: src/gtk/gftp-gtk.c:343 src/gtk/gftp-gtk.c:346 src/gtk/gftp-gtk.c:348
+msgid "/FTP/sep"
+msgstr "/FTP/sep"
+
+#: src/gtk/gftp-gtk.c:344 src/gtk/gftp-gtk.c:345
+msgid "/FTP/Ascii"
+msgstr "/FTP/아스키"
+
+#: src/gtk/gftp-gtk.c:345
+msgid "/FTP/Binary"
+msgstr "/FTP/이진"
+
+#: src/gtk/gftp-gtk.c:347
+msgid "/FTP/_Options..."
+msgstr "/FTP/옵션(_O)..."
+
+#: src/gtk/gftp-gtk.c:349
+msgid "/FTP/_Quit"
+msgstr "/FTP/종료(_Q)"
+
+#: src/gtk/gftp-gtk.c:350
+msgid "/_Local"
+msgstr "/지역(_L)"
+
+#: src/gtk/gftp-gtk.c:351
+msgid "/Local/tearoff"
+msgstr "/지역(L)/tearoff"
+
+#: src/gtk/gftp-gtk.c:352
+msgid "/Local/Open _URL..."
+msgstr "/지역(L)/URL 열기(_U)..."
+
+#: src/gtk/gftp-gtk.c:353
+msgid "/Local/Disconnect"
+msgstr "/지역(L)/연결끊기"
+
+#: src/gtk/gftp-gtk.c:354 src/gtk/gftp-gtk.c:360
+msgid "/Local/sep"
+msgstr "/지역(L)/sep"
+
+#: src/gtk/gftp-gtk.c:355
+msgid "/Local/Change Filespec..."
+msgstr "/지역(L)/파일스펙 바꾸기..."
+
+#: src/gtk/gftp-gtk.c:356
+#, fuzzy
+msgid "/Local/Show selected"
+msgstr "/지역(L)/모두 선택"
+
+#: src/gtk/gftp-gtk.c:357
+msgid "/Local/Select All"
+msgstr "/지역(L)/모두 선택"
+
+#: src/gtk/gftp-gtk.c:358
+msgid "/Local/Select All Files"
+msgstr "/지역(L)/모든 파일 선택"
+
+#: src/gtk/gftp-gtk.c:359
+msgid "/Local/Deselect All"
+msgstr "/지역(L)/모두 선택해제"
+
+#: src/gtk/gftp-gtk.c:361
+msgid "/Local/Send SITE Command..."
+msgstr "/지역(L)/SITE 명령 보내기..."
+
+#: src/gtk/gftp-gtk.c:362
+msgid "/Local/Change Directory"
+msgstr "/지역(L)/디렉토리 바꾸기"
+
+#: src/gtk/gftp-gtk.c:363
+msgid "/Local/Chmod..."
+msgstr "/지역(L)/모드바꾸기..."
+
+#: src/gtk/gftp-gtk.c:364
+msgid "/Local/Make Directory..."
+msgstr "/지역(L)/디렉토리 생성..."
+
+#: src/gtk/gftp-gtk.c:365
+msgid "/Local/Rename..."
+msgstr "/지역(L)/이름바꾸기..."
+
+#: src/gtk/gftp-gtk.c:366
+msgid "/Local/Delete..."
+msgstr "/지역(L)/삭제..."
+
+#: src/gtk/gftp-gtk.c:367
+msgid "/Local/Edit..."
+msgstr "/지역(L)/편집..."
+
+#: src/gtk/gftp-gtk.c:368
+msgid "/Local/View..."
+msgstr "/지역(L)/보기..."
+
+#: src/gtk/gftp-gtk.c:369
+msgid "/Local/Refresh"
+msgstr "/지역(L)/재생"
+
+#: src/gtk/gftp-gtk.c:370
+msgid "/_Remote"
+msgstr "/원격(_R)"
+
+#: src/gtk/gftp-gtk.c:371
+msgid "/Remote/tearoff"
+msgstr "/원격(R)/tearoff"
+
+#: src/gtk/gftp-gtk.c:372
+msgid "/Remote/Open _URL..."
+msgstr "/원격(R)/URL 열기(_O)..."
+
+#: src/gtk/gftp-gtk.c:373
+msgid "/Remote/Disconnect"
+msgstr "/원격(R)/연결끊기"
+
+#: src/gtk/gftp-gtk.c:374 src/gtk/gftp-gtk.c:380
+msgid "/Remote/sep"
+msgstr "/원격(R)/sep"
+
+#: src/gtk/gftp-gtk.c:375
+msgid "/Remote/Change Filespec..."
+msgstr "/원격(R)/파일스펙 바꾸기..."
+
+#: src/gtk/gftp-gtk.c:376
+#, fuzzy
+msgid "/Remote/Show selected"
+msgstr "/지역(L)/모두 선택"
+
+#: src/gtk/gftp-gtk.c:377
+msgid "/Remote/Select All"
+msgstr "/원격(R)/모두 선택"
+
+#: src/gtk/gftp-gtk.c:378
+msgid "/Remote/Select All Files"
+msgstr "/원격(R)/모든 파일 선택"
+
+#: src/gtk/gftp-gtk.c:379
+msgid "/Remote/Deselect All"
+msgstr "/원격(R)/모두 선택해제"
+
+#: src/gtk/gftp-gtk.c:381
+msgid "/Remote/Send SITE Command..."
+msgstr "/원격(R)/SITE 명령 보내기..."
+
+#: src/gtk/gftp-gtk.c:382
+msgid "/Remote/Change Directory"
+msgstr "/원격(R)/디렉토리 바꾸기"
+
+#: src/gtk/gftp-gtk.c:383
+msgid "/Remote/Chmod..."
+msgstr "/원격(R)/모드바꾸기..."
+
+#: src/gtk/gftp-gtk.c:384
+msgid "/Remote/Make Directory..."
+msgstr "/원격(R)/디렉토리 생성..."
+
+#: src/gtk/gftp-gtk.c:385
+msgid "/Remote/Rename..."
+msgstr "/원격(R)/이름바꾸기..."
+
+#: src/gtk/gftp-gtk.c:386
+msgid "/Remote/Delete..."
+msgstr "/원격(R)/삭제..."
+
+#: src/gtk/gftp-gtk.c:387
+msgid "/Remote/Edit..."
+msgstr "/원격(R)/편집..."
+
+#: src/gtk/gftp-gtk.c:388
+msgid "/Remote/View..."
+msgstr "/원격(R)/보기..."
+
+#: src/gtk/gftp-gtk.c:389
+msgid "/Remote/Refresh"
+msgstr "/원격(R)/재생"
+
+#: src/gtk/gftp-gtk.c:390
+msgid "/_Bookmarks"
+msgstr "/책갈피(_B)"
+
+#: src/gtk/gftp-gtk.c:391
+msgid "/Bookmarks/tearoff"
+msgstr "/책갈피(B)/tearoff"
+
+#: src/gtk/gftp-gtk.c:392
+msgid "/Bookmarks/Add bookmark"
+msgstr "/책갈피(B)/책갈피 추가"
+
+#: src/gtk/gftp-gtk.c:393
+msgid "/Bookmarks/Edit bookmarks"
+msgstr "/책갈피(B)/책갈피 편집"
+
+#: src/gtk/gftp-gtk.c:394
+msgid "/Bookmarks/sep"
+msgstr "/책갈피(B)/sep"
+
+#: src/gtk/gftp-gtk.c:395
+msgid "/_Transfers"
+msgstr "/전송(_T)"
+
+#: src/gtk/gftp-gtk.c:396
+msgid "/Transfers/tearoff"
+msgstr "/전송(T)/tearoff"
+
+#: src/gtk/gftp-gtk.c:397
+msgid "/Transfers/Start Transfer"
+msgstr "/전송(T)/파일 보내기"
+
+#: src/gtk/gftp-gtk.c:398
+msgid "/Transfers/Stop Transfer"
+msgstr "/전송(T)/전송 중단"
+
+#: src/gtk/gftp-gtk.c:399 src/gtk/gftp-gtk.c:404
+msgid "/Transfers/sep"
+msgstr "/전송(T)/sep"
+
+#: src/gtk/gftp-gtk.c:400
+msgid "/Transfers/Skip Current File"
+msgstr "/전송(T)/현재파일 건너뛰기"
+
+#: src/gtk/gftp-gtk.c:401
+msgid "/Transfers/Remove File"
+msgstr "/전송(T)/파일 삭제"
+
+#: src/gtk/gftp-gtk.c:402
+msgid "/Transfers/Move File _Up"
+msgstr "/전송(T)/파일 위로 이동(_U)"
+
+#: src/gtk/gftp-gtk.c:403
+msgid "/Transfers/Move File _Down"
+msgstr "/전송(T)/파일 아래로 이동(_D)"
+
+#: src/gtk/gftp-gtk.c:405
+msgid "/Transfers/Retrieve Files"
+msgstr "/전송(T)/파일 받기"
+
+#: src/gtk/gftp-gtk.c:406
+msgid "/Transfers/Put Files"
+msgstr "/전송(T)/파일 보내기"
+
+#: src/gtk/gftp-gtk.c:407
+msgid "/L_ogging"
+msgstr "/로깅(_o)"
+
+#: src/gtk/gftp-gtk.c:408
+msgid "/Logging/tearoff"
+msgstr "/로깅(o)/tearoff"
+
+#: src/gtk/gftp-gtk.c:409
+msgid "/Logging/Clear"
+msgstr "/로깅(o)/지우기"
+
+#: src/gtk/gftp-gtk.c:410
+msgid "/Logging/View log..."
+msgstr "/로깅(o)/로그 보기..."
+
+#: src/gtk/gftp-gtk.c:411
+msgid "/Logging/Save log..."
+msgstr "/로깅(o)/로그 저장..."
+
+#: src/gtk/gftp-gtk.c:412
+msgid "/Tool_s"
+msgstr "/도구(_s)"
+
+#: src/gtk/gftp-gtk.c:413
+msgid "/Tools/tearoff"
+msgstr "/도구(s)/tearoff"
+
+#: src/gtk/gftp-gtk.c:414
+msgid "/Tools/Compare Windows"
+msgstr "/도구(s)/창 비교"
+
+#: src/gtk/gftp-gtk.c:415
+msgid "/Tools/Clear Cache"
+msgstr "/도구(s)/캐쉬 비우기"
+
+#: src/gtk/gftp-gtk.c:416
+msgid "/_Help"
+msgstr "/도움말(_H)"
+
+#: src/gtk/gftp-gtk.c:417
+msgid "/Help/tearoff"
+msgstr "/도움말(H)/tearoff"
+
+#: src/gtk/gftp-gtk.c:418
+msgid "/Help/About..."
+msgstr "/도움말(H)/이 프로그램은..."
+
+#: src/gtk/gftp-gtk.c:555
+msgid "Host: "
+msgstr "호스트: "
+
+#: src/gtk/gftp-gtk.c:570
+msgid "Port: "
+msgstr "포트: "
+
+#: src/gtk/gftp-gtk.c:585
+msgid "User: "
+msgstr "사용자: "
+
+#: src/gtk/gftp-gtk.c:600
+msgid "Pass: "
+msgstr "비밀번호: "
+
+#: src/gtk/gftp-gtk.c:739
+msgid "Size"
+msgstr "크기"
+
+#: src/gtk/gftp-gtk.c:742
+msgid "Date"
+msgstr "날짜"
+
+#: src/gtk/gftp-gtk.c:743
+msgid "Attribs"
+msgstr "속성"
+
+#: src/gtk/gftp-gtk.c:964 src/gtk/menu-items.c:100 src/gtk/transfer.c:252
+#: src/gtk/transfer.c:1111 src/gtk/transfer.c:1121
+msgid "Connect"
+msgstr "연결"
+
+#: src/gtk/gftp-gtk.c:983
+msgid "Error: You must type in a host to connect to\n"
+msgstr "에러: 연결하려면 호스트명을 입력하셔야 합니다\n"
+
+#: src/gtk/gftp-gtk.c:1042
+msgid "Sort"
+msgstr "정렬"
+
+#: src/gtk/gftp-gtk.c:1045
+msgid "Sorting..."
+msgstr "정렬중..."
+
+#: src/gtk/menu-items.c:75 src/gtk/menu-items.c:116
+msgid "OpenURL"
+msgstr "OpenURL"
+
+#: src/gtk/menu-items.c:83 src/gtk/menu-items.c:124
+msgid "OpenURL: Operation canceled...you must enter a string\n"
+msgstr "OpenURL: 동작이 취소되었읍니다...문자열을 입력하셔야 합니다\n"
+
+#: src/gtk/menu-items.c:99
+msgid "Connect via URL"
+msgstr "URL 통해 연결"
+
+#: src/gtk/menu-items.c:99
+msgid "Enter ftp url to connect to"
+msgstr "연결할 ftp url을 입력하십시요"
+
+#: src/gtk/menu-items.c:163 src/gtk/menu-items.c:166
+msgid "Change Filespec"
+msgstr "파일스펙 바꾸기"
+
+#: src/gtk/menu-items.c:166
+msgid "Enter the new file specification"
+msgstr "새로운 파일 명세를 입력하십시요"
+
+#: src/gtk/menu-items.c:188
+msgid "Change Filespec: Operation canceled...you must enter a string\n"
+msgstr "파일스펙 바꾸기: 동작이 취소되었습니다...문자열을 입력하셔야 합니다\n"
+
+#: src/gtk/menu-items.c:313 src/gtk/menu-items.c:316
+msgid "Site"
+msgstr "사이트"
+
+#: src/gtk/menu-items.c:316
+msgid "Enter site-specific command"
+msgstr "사이트 명령 입력"
+
+#: src/gtk/menu-items.c:332
+msgid "SITE: Operation canceled...you must enter a string\n"
+msgstr "SITE: 동작이 취소되었습니다...문자열을 입력하셔야 합니다\n"
+
+#: src/gtk/menu-items.c:360 src/gtk/menu-items.c:394
+msgid "Chdir"
+msgstr "Chdir"
+
+#: src/gtk/menu-items.c:555 src/gtk/menu-items.c:630 src/gtk/view_dialog.c:69
+#: src/gtk/view_dialog.c:138
+#, c-format
+msgid "Error: Cannot open %s: %s\n"
+msgstr "에러: %s를 열 수 없습니다: %s\n"
+
+#: src/gtk/menu-items.c:578 src/gtk/menu-items.c:653
+#, c-format
+msgid "Error: Error writing to %s: %s\n"
+msgstr "에러: %s에 쓸 수 없습니다: %s\n"
+
+#: src/gtk/menu-items.c:598
+msgid "Save Log"
+msgstr "로그 저장"
+
+#: src/gtk/menu-items.c:663
+#, c-format
+msgid "Successfully wrote the log file to %s\n"
+msgstr "로그파일을 %s에 성공적으로 저장했습니다\n"
+
+#: src/gtk/menu-items.c:691
+#, c-format
+msgid ""
+"Cannot find the license agreement file COPYING. Please make sure it is in "
+"either %s or in %s"
+msgstr ""
+"라이선스 동의 파일 COPYING을 찾을 수 없습니다. 이 파일이 %s 혹은 %s에 있어야 "
+"합니다"
+
+#: src/gtk/menu-items.c:694
+msgid "About gFTP"
+msgstr "gFTP에 대하여"
+
+#: src/gtk/menu-items.c:720
+#, c-format
+msgid ""
+"%s\n"
+"Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\n"
+"Official Homepage: http://www.gftp.org/\n"
+"Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
+msgstr ""
+"%s\n"
+"Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\n"
+"공적인 홈페이지: http://www.gftp.org/\n"
+"로고 만든이: Aaron Worley <planet_hoth@yahoo.com>\n"
+
+#: src/gtk/menu-items.c:733
+msgid "About"
+msgstr "이 프로그램은"
+
+#: src/gtk/menu-items.c:782
+msgid "License Agreement"
+msgstr "라이선스 동의"
+
+#: src/gtk/menu-items.c:787 src/gtk/view_dialog.c:299
+msgid "  Close  "
+msgstr "  닫기  "
+
+#: src/gtk/menu-items.c:864
+msgid "Compare Windows"
+msgstr "창 비교"
+
+#: src/gtk/misc-gtk.c:191
+msgid "Refresh"
+msgstr "재생"
+
+#: src/gtk/misc-gtk.c:258
+msgid "All Files"
+msgstr "모든 파일"
+
+#: src/gtk/misc-gtk.c:264
+msgid "] (Cached) ["
+msgstr "] (캐쉬됨) ["
+
+#: src/gtk/misc-gtk.c:278
+msgid "Not connected"
+msgstr "연결 않됨"
+
+#: src/gtk/misc-gtk.c:387
+#, c-format
+msgid "Error opening file %s: %s\n"
+msgstr "파일 %s를 열 수 없습니다: %s\n"
+
+#: src/gtk/misc-gtk.c:477
+#, c-format
+msgid "%s: Not connected to a remote site\n"
+msgstr "%s: 리모트 사이트에 연결되지 않았습니다\n"
+
+#: src/gtk/misc-gtk.c:484
+#, c-format
+msgid "%s: This feature is not available using this protocol\n"
+msgstr "%s: 이 기능은 이 프로토콜을 사용할 수 없습니다\n"
+
+#: src/gtk/misc-gtk.c:492
+#, c-format
+msgid "%s: You must only have one item selected\n"
+msgstr "%s: 한 항목만 선택하셔야 합니다\n"
+
+#: src/gtk/misc-gtk.c:499
+#, c-format
+msgid "%s: You must have at least one item selected\n"
+msgstr "%s: 적어도 한 항목은 선택하셔야 합니다\n"
+
+#: src/gtk/misc-gtk.c:937
+msgid "Getting directory listings"
+msgstr "디렉토리 목록을 받는 중"
+
+#: src/gtk/misc-gtk.c:957
+msgid "  Stop  "
+msgstr "  중지  "
+
+#: src/gtk/misc-gtk.c:967
+#, c-format
+msgid ""
+"Received %ld directories\n"
+"and %ld files"
+msgstr ""
+"%ld 디렉토리들과 %ld 파일들을\n"
+"받았습니다"
+
+#: src/gtk/mkdir_dialog.c:36
+msgid "Mkdir"
+msgstr "Mkdir"
+
+#: src/gtk/mkdir_dialog.c:40
+msgid "Make Directory"
+msgstr "디렉토리 생성"
+
+#: src/gtk/mkdir_dialog.c:40
+msgid "Enter name of directory to create"
+msgstr "생성할 디렉토리명을 입력하십시요"
+
+#: src/gtk/mkdir_dialog.c:56
+msgid "Mkdir: Operation canceled...you must enter a string\n"
+msgstr "Mkdir: 동작이 취소되었습니다...문자열을 입력하셔야 합니다\n"
+
+#: src/gtk/options_dialog.c:57
+msgid "Options"
+msgstr "옵션"
+
+#: src/gtk/options_dialog.c:317 src/gtk/options_dialog.c:517
+msgid "Netmask"
+msgstr "넷마스크"
+
+#: src/gtk/options_dialog.c:323
+msgid "Local Hosts"
+msgstr "로컬 호스트"
+
+#: src/gtk/options_dialog.c:350 src/gtk/view_dialog.c:104
+msgid "Edit"
+msgstr "편집"
+
+#: src/gtk/options_dialog.c:440
+msgid "Edit Host"
+msgstr "호스트 편집"
+
+#: src/gtk/options_dialog.c:440
+msgid "Add Host"
+msgstr "호스트 추가"
+
+#: src/gtk/options_dialog.c:464 src/gtk/options_dialog.c:555
+msgid "Domain"
+msgstr "도메인"
+
+#: src/gtk/options_dialog.c:484
+msgid "Network Address"
+msgstr "네트워크 주소"
+
+#: src/gtk/rename_dialog.c:40 src/gtk/rename_dialog.c:52
+#: src/gtk/rename_dialog.c:53
+msgid "Rename"
+msgstr "이름변경"
+
+#: src/gtk/rename_dialog.c:50
+#, c-format
+msgid "What would you like to rename %s to?"
+msgstr "%s를 어떤 이름으로 바꾸고 싶으세요?"
+
+#: src/gtk/rename_dialog.c:68
+msgid "Rename: Operation canceled...you must enter a string\n"
+msgstr "이름바꿈: 동작이 취소되었읍니다...문자열을 입력하셔야 합니다\n"
+
+#: src/gtk/transfer.c:80
+msgid "Receiving file names..."
+msgstr "파일명 받는 중..."
+
+#: src/gtk/transfer.c:234 src/gtk/transfer.c:1211
+msgid "Connecting..."
+msgstr "연결중..."
+
+#: src/gtk/transfer.c:250 src/gtk/transfer.c:1109 src/gtk/transfer.c:1119
+msgid "Enter Password"
+msgstr "비밀번호 입력"
+
+#: src/gtk/transfer.c:251 src/gtk/transfer.c:1110 src/gtk/transfer.c:1120
+msgid "Please enter your password for this site"
+msgstr "이 사이트에 대한 비밀번호를 입력하세요"
+
+#: src/gtk/transfer.c:364
+#, c-format
+msgid "Waiting %d seconds until trying to connect again\n"
+msgstr "다시 연결을 시도하기 전에 %d 초를 기다리는 중\n"
+
+#: src/gtk/transfer.c:409
+msgid "Transfer Files"
+msgstr "파일 보내기"
+
+#: src/gtk/transfer.c:417
+msgid "Retrieve Files: Not connected to a remote site\n"
+msgstr "파일 받기: 리모트 사이트에 연결되지 않았습니다\n"
+
+#: src/gtk/transfer.c:660
+msgid "Error: Remote site disconnected after trying to transfer file\n"
+msgstr "에러: 파일 전송 시도후에 리모트 사이트로의 연결이 끊겼습니다\n"
+
+#: src/gtk/transfer.c:721
+#, c-format
+msgid "Could not download %s from %s\n"
+msgstr "%s를 %s에서 내려받지 못했습니다\n"
+
+#: src/gtk/transfer.c:756
+#, c-format
+msgid "Successfully transferred %s at %.2f KB/s\n"
+msgstr "성공적으로 %s가 %.2f KB/s 속도로 보내졌습니다\n"
+
+#: src/gtk/transfer.c:859 src/gtk/transfer.c:1039 src/gtk/transfer.c:1089
+#: src/gtk/transfer.c:1458
+msgid "Skipped"
+msgstr "건너뛰었습니다"
+
+#: src/gtk/transfer.c:863 src/gtk/transfer.c:1066 src/gtk/transfer.c:1093
+msgid "Waiting..."
+msgstr "기다리는 중..."
+
+#: src/gtk/transfer.c:948
+#, c-format
+msgid "Retrieving file names...%s bytes"
+msgstr "파일명 받는 중...%s 바이트"
+
+#: src/gtk/transfer.c:1042
+msgid "Finished"
+msgstr "종료됨"
+
+#: src/gtk/transfer.c:1251
+#, c-format
+msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %d of %ld)"
+msgstr "%d%% 끝남, %02d:%02d:%02d est. 시간 남음. (파일 %d / %ld)"
+
+#: src/gtk/transfer.c:1276
+#, c-format
+msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "받기 %s of %s at %.2fKB/s, %02d:%02d:%02d est. 시간 남음"
+
+#: src/gtk/transfer.c:1285
+#, c-format
+msgid "Recv %s of %s, transfer stalled, unknown time remaining"
+msgstr "받기 %s of %s, 전송 잠시 중단, 모르는 시간 남음"
+
+#: src/gtk/transfer.c:1327
+#, c-format
+msgid "Stopping the transfer of %s\n"
+msgstr "%s의 전송을 중단하는 중\n"
+
+#: src/gtk/transfer.c:1342 src/gtk/transfer.c:1364 src/gtk/transfer.c:1394
+#: src/gtk/transfer.c:1428 src/gtk/transfer.c:1479 src/gtk/transfer.c:1539
+msgid "There are no file transfers selected\n"
+msgstr "전송할 선택된 파일이 없습니다\n"
+
+#: src/gtk/transfer.c:1378
+#, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "%s 호스트로의 전송을 중단하는 중입니다\n"
+
+#: src/gtk/transfer.c:1411 src/gtk/transfer.c:1462
+#, c-format
+msgid "Skipping file %s on host %s\n"
+msgstr "%s 파일을 %s 호스트로 전송 취소하는 중입니다\n"
+
+#: src/gtk/transfer.c:1603
+msgid "Local Size"
+msgstr "로컬 크기"
+
+#: src/gtk/transfer.c:1604
+msgid "Remote Size"
+msgstr "리모트 크기"
+
+#: src/gtk/transfer.c:1605
+msgid "Action"
+msgstr "동작"
+
+#: src/gtk/transfer.c:1610
+msgid "Download Files"
+msgstr "파일 내려받기"
+
+#: src/gtk/transfer.c:1610
+msgid "Upload Files"
+msgstr "파일 올리기"
+
+#: src/gtk/transfer.c:1623
+msgid ""
+"The following file(s) exist on both the local and remote computer\n"
+"Please select what you would like to do"
+msgstr ""
+"다음 파일(들)이 로컬과 리모트 컴퓨터에 모두 존재합니다\n"
+"원하는 것을 선택하십시요"
+
+#: src/gtk/transfer.c:1674 src/gtk/transfer.c:1713 src/gtk/transfer.c:1812
+msgid "Overwrite"
+msgstr "덮어쓰기"
+
+#: src/gtk/transfer.c:1679 src/gtk/transfer.c:1856
+msgid "Skip"
+msgstr "건너뛰기"
+
+#: src/gtk/transfer.c:1684 src/gtk/transfer.c:1719 src/gtk/transfer.c:1834
+msgid "Resume"
+msgstr "이어받기"
+
+#: src/gtk/transfer.c:1725
+msgid "Skip File"
+msgstr "파일 건너뛰기"
+
+#: src/gtk/transfer.c:1735
+msgid "Select All"
+msgstr "모두 선택"
+
+#: src/gtk/transfer.c:1741
+msgid "Deselect All"
+msgstr "모두 선택해제"
+
+#: src/gtk/transfer.c:1982
+#, c-format
+msgid "Error: Child %d returned %d\n"
+msgstr "에러: 자식 %d가 %d를 되돌렸습니다\n"
+
+#: src/gtk/transfer.c:1985
+#, c-format
+msgid "Child %d returned successfully\n"
+msgstr "자식 %d가 성공적으로 수행되었습니다\n"
+
+#: src/gtk/transfer.c:1992
+#, c-format
+msgid "Error: Cannot get information about file %s: %s\n"
+msgstr "에러: 파일 %s에 대한 정보를 얻을 수 없습니다: %s\n"
+
+#: src/gtk/transfer.c:1997
+#, c-format
+msgid "File %s was not changed\n"
+msgstr "%s 파일이 바뀌지 않았습니다\n"
+
+#: src/gtk/transfer.c:2005
+#, c-format
+msgid ""
+"File %s has changed.\n"
+"What would you like to do?"
+msgstr ""
+"%s 파일이 바뀌었습니다.\n"
+"어떻게 하기를 원하십니까?"
+
+#: src/gtk/transfer.c:2008
+msgid "Edit File"
+msgstr "파일 편집"
+
+#: src/gtk/transfer.c:2009
+msgid "Upload"
+msgstr "올리기"
+
+#: src/gtk/transfer.c:2095
+#, c-format
+msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
+msgstr "에러: 원격 사이트 %s에서 끊겼습니다. 최대 재시도에 도달...포기\n"
+
+#: src/gtk/transfer.c:2103
+#, c-format
+msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
+msgstr "에러: 원격 사이트 %s에서 끊겼습니다. %d초 후에 재연결할 겁니다\n"
+
+#: src/gtk/view_dialog.c:43
+msgid "View"
+msgstr "보기"
+
+#: src/gtk/view_dialog.c:55
+#, c-format
+msgid "View: %s is a directory. Cannot view it.\n"
+msgstr "보기: %s는 디렉토리입니다. 볼 수 없습니다.\n"
+
+#: src/gtk/view_dialog.c:110
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "편집: 옵션 대화상자에서 편집기를 명시하셔야 합니다\n"
+
+#: src/gtk/view_dialog.c:123
+#, c-format
+msgid "Edit: %s is a directory. Cannot edit it.\n"
+msgstr "편집: %s는 디렉토리입니다. 편집할 수 없습니다.\n"
+
+#: src/gtk/view_dialog.c:190
+#, c-format
+msgid "Opening %s with %s\n"
+msgstr "%s를 %s와 함께 여는 중\n"
+
+#: src/gtk/view_dialog.c:214
+#, c-format
+msgid "Viewing file %s\n"
+msgstr "%s 파일 보는 중\n"
+
+#: src/gtk/view_dialog.c:221
+#, c-format
+msgid "View: Cannot open file %s: %s\n"
+msgstr "보기: 파일 %s를 열 수 없습니다: %s\n"
+
+#: src/gtk/view_dialog.c:372
+#, c-format
+msgid "View: Cannot fork another process: %s\n"
+msgstr "보기: 다른 프로세스를 생성(fork)할 수 없습니다: %s\n"
+
+#: src/gtk/view_dialog.c:375
+#, c-format
+msgid "Running program: %s %s\n"
+msgstr "프로그램 실행: %s %s\n"
+
+#~ msgid "Log file:"
+#~ msgstr "로그 파일:"
+
+#~ msgid "If this is set, gftp will automagically write a log to this file"
+#~ msgstr "설정된 경우 gftp는 자동으로 이 파일에 로깅 정보를 쓸 겁니다."
+
+#~ msgid "Bring up reconnect dialog"
+#~ msgstr "재연결 대화상자 열기"
+
+#~ msgid "Bring up the reconnect dialog after login failure"
+#~ msgstr "로그인 실패후에 재연결 대화상자를 열어드립니다"
+
+#~ msgid "Confirm delete"
+#~ msgstr "삭제 확인"
+
+#~ msgid "Confirm when deleting files"
+#~ msgstr "파일을 삭제시 확인합니다"
+
+#~ msgid "Preserve permissions"
+#~ msgstr "파일 속성 보존"
+
+#~ msgid "Save geometry"
+#~ msgstr "크기 및 위치 저장"
+
+#~ msgid "Save the size of each widget for next startup"
+#~ msgstr "각 위젯의 크기를 저장"
+
+#~ msgid "Use cache"
+#~ msgstr "캐쉬 사용"
+
+#~ msgid "Do you want to use the cache?"
+#~ msgstr "캐쉬를 사용할까요?"
+
+#~ msgid "Connect timeout:"
+#~ msgstr "연결 시간제한:"
+
+#~ msgid "The max timeout for the connection"
+#~ msgstr "연결하기 위한 최대 시간제한"
+
+#~ msgid "The timeout for the read()s and write()s"
+#~ msgstr "읽기와 쓰기에 대한 시간제한"

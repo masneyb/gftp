@@ -1,0 +1,72 @@
+#!/usr/bin/make -f
+# Derived from dh_make example.
+
+arch := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+#export DH_VERBOSE=1
+export DH_COMPAT=2
+
+ggtmp := $(CURDIR)/debian/gftp-gtk
+gttmp := $(CURDIR)/debian/gftp-text
+
+CFLAGS := -O2
+ifneq "$(findstring debug,$(DEB_BUILD_OPTIONS))" ""
+CFLAGS += -g
+endif
+ifeq "$(arch)" "alpha"
+CFLAGS += -mieee
+endif
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+	CFLAGS="$(CFLAGS)" ./configure --prefix=/usr --mandir='$${prefix}/share/man'
+	$(MAKE) 
+	touch $@
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f debian/dirs debian/docs
+	[ ! -f Makefile ] || $(MAKE) distclean
+	dh_clean build-stamp
+
+install: build-stamp
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	$(MAKE) install prefix=$(ggtmp)/usr
+	ln -s gftp.1.gz $(ggtmp)/usr/share/man/man1/gftp-gtk.1.gz
+	dh_movefiles --sourcedir=debian/gftp-gtk -pgftp-common \
+          usr/share/locale usr/share/gftp/gftprc usr/share/gftp/bookmarks \
+          usr/share/man/man1/gftp.1 usr/bin/gftp
+	dh_movefiles --sourcedir=debian/gftp-gtk -pgftp-text usr/bin/gftp-text
+	dh_installdirs -pgftp-text usr/share/man/man1
+	ln -s gftp.1.gz $(gttmp)/usr/share/man/man1/gftp-text.1.gz
+	rm -f $(ggtmp)/usr/share/gftp/COPYING # we have the GPL elsewhere
+	find $(ggtmp)/usr -type d -empty | xargs -r rmdir -p --ignore-fail-on-non-empty
+
+binary-indep:
+# Nothing to do, no architecture independent packages here.
+# locales (gftp-common) have endianness
+
+binary-arch: install
+	dh_testdir
+	dh_testroot
+	dh_installdocs -a
+	dh_installdocs -An -pgftp-gtk -pgftp-text README TODO
+#	dh_installchangelogs -a ChangeLog
+	dh_installmenu -a
+ifeq "$(findstring nostrip,$(DEB_BUILD_OPTIONS))" ""
+	dh_strip -a
+endif
+	dh_compress -a
+	dh_fixperms -a
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

@@ -1,0 +1,58 @@
+.TH GFTP 1 "FEBURARY 2001"
+.SH NAME
+gftp - a graphical ftp client
+.SH SYNOPSIS
+.B gftp [options] [[proto://][
+.I user
+.B :
+.I [pass]
+.B @]
+.I site
+.B [:
+.I port
+.B ][/
+.I directory
+.B ]]
+.SH DESCRIPTION
+gFTP is a multiprotocol file transfer program for X Windows and the console. It features support for the FTP, SSH, HTTP, and local file system protocols, simultaneous downloads, resuming of interrupted file transfers, file transfer queues, downloading of entire directores, ftp and http proxy support, remote directory caching, bookmarks menu, stop button and many more features
+.SH OPTIONS
+You may enter a url on the command line that gFTP will automatically connect
+to when it starts up.
+.IP "\-\-help, \-h"
+Display program usage, and quit
+.IP "\-\-version, \-v"
+This will display the current version of gFTP, and exit
+.IP "\-\-download, \-d"
+This tells gFTP to download the files and directories specified in the url passed on the command line. 
+.IP user
+This is the username that you will login as to the remote site. If no username
+is supplied, the default is to login as anonymous.
+.IP pass
+This is the password you will use to login to the remotesite. If you do not
+enter a password, then gFTP will ask you for one when it starts up. I do not
+recommend entering your password on the command prompt. Anyone that has
+access to your machine will be able to see your username and password with
+the
+.BR ps(1)
+command. If you are logging in as anonymous, you do not need to pass a password since gFTP will automatically send your email address as your password.
+.IP site
+This is the remote site you want to connect to
+.IP port
+This is the port that the remote server is listening on. If you do not
+enter a port, it will default to using the ftp port listed in the
+.BR services(5)
+file. If the entry doesn't exist there, it will default to port
+21.
+.IP directory
+This is the default directory to change to once you are connected to the
+remote server.
+.SH FILES
+.I ~/.gftp/gftprc
+.RS
+Per user configuration file. This file is commented very well, so that is
+why there isn't a manpage for it. Most of the options in here can be set
+inside gFTP itself.
+.SH BUGS
+If you find any bugs in gFTP, please report them directly to the author.
+.SH AUTHOR
+Brian Masney <masneyb@gftp.org> - http://www.gftp.org/

@@ -1,0 +1,247 @@
+gftp (2.0.13) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Fri, 19 Jul 2002 06:19:46 -0500
+
+gftp (2.0.12) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Tue, 21 May 2002 22:33:23 -0500
+
+gftp (2.0.11) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Thu, 03 Jan 2002 15:32:37 -0500
+
+gftp (2.0.10) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Thu, 20 Dec 2001 19:32:42 -0500
+
+gftp (2.0.9) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Fri, 23 Nov 2001 13:36:10 -0500
+
+gftp (2.0.9pre3) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Thu, 15 Nov 2001 20:26:33 -0500
+
+gftp (2.0.9pre2) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Sat, 3 Nov 2001 08:11:15 -0500
+
+gftp (2.0.9pre1) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Thu, 1 Nov 2001 22:24:32 -0500
+
+gftp (2.0.8-2) unstable; urgency=low
+
+  * Removed remnant /usr/bin/X11/ in the path for gftp in its menu entry,
+    closes: #95483.
+  * Applied patch from John Daily for gftp-text anonymous, thank you,
+    closes: #95967.
+  * Put the wrapper script into gftp-common since we have a Depends: on them
+    anyway, ditched alternatives and added temporary preinsts and Conflicts:
+    to cleanly remove the alternative, closes: #95968.
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Thu,  3 May 2001 23:13:57 +0200
+
+gftp (2.0.8-1) unstable; urgency=low
+
+  * New upstream version:
+    + no longer vulnerable to format string bugs, closes: #94394.
+    + no longer crashes when downloading multiple files, closes: #89577.
+    + fixed problem with domains in local hosts, closes: #77032.
+    + fixed corruption of ASCII files, closes: #81629.
+    + no longer stores passwords in index.db, closes: #84319.
+  * Split package into three parts:
+    + gftp-gtk: contains the version of the program that needs X and
+                GTK+/Glib
+    + gftp-text: contains the version of the program that only needs
+                 console and GLib
+    + gftp-common: contains the shared stuff, namely the locales and the
+                   manpage.
+    The `gftp' binary is handled using alternatives (that script checking
+    $DISPLAY looks nice, but it'd be a conflict).
+  * gftp is a dummy package now, and it will install all three of these.
+  * Standards-Version: 3.5.2.
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Tue, 20 Mar 2001 14:12:44 +0100
+
+gftp (2.0.8) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Mon, 4 Apr 2001 22:35:27 -0500
+
+gftp (2.0.7b-1) unstable; urgency=low
+
+  * New upstream version.
+  * Added debhelper to build-dependencies, closes: #66338.
+  * Standards-Version: 3.2.0:
+    + added DEB_BUILD_OPTIONS checks in debian/rules
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Mon, 21 Aug 2000 00:29:30 +0200
+
+gftp (2.0.7a) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Mon, 24 Jul 2000 22:12:34 -0500
+
+gftp (2.0.7-1) unstable; urgency=low
+
+  * New upstream version.
+  * Moved stuff out of X11R6/.
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Mon, 10 Jul 2000 20:16:00 +0200
+
+gftp (2.0.7) unstable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Sun, 9 Jul 2000 17:24:41 -0500
+
+gftp (2.0.6a-3) frozen unstable; urgency=low
+
+  * Argh. Forgot to add `frozen' to the distributions, and that's necessary
+    since the bug below is release-critical... doing it now.
+    + Added -mieee to $CFLAGS when compiling on Alpha, closes: #64508.
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Mon, 22 May 2000 23:01:47 +0200
+
+gftp (2.0.6a-2) unstable; urgency=low
+
+  * Added -mieee to $CFLAGS when compiling on Alpha, closes: #64508.
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Mon, 22 May 2000 23:01:47 +0200
+
+gftp (2.0.6a-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Sun, 19 Dec 1999 02:25:31 +0100
+
+gftp (2.0.6) stable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Sun, 05 Dec 1999 22:23:36 -0500
+
+gftp (2.0.5a-1) unstable; urgency=low
+
+  * New upstream version.
+  * New maintainer (nobody appears to have wanted this package enough
+    to actually upload it, so I'm taking it).
+  * Policy 3.1.1 compliance.
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Sun, 28 Nov 1999 14:01:31 +0100
+
+gftp (2.0.5a-1) stable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this release
+
+ -- Brian Masney <masneyb@seul.org>  Wed, 29 Sep 1999 21:45:40 -0500
+
+gftp (2.0.5-1) stable; urgency=low
+
+  * New release. See CHANGELOG for details on changes in this version.
+
+ -- Brian Masney <masneyb@seul.org>  Thu, 23 Sep 1999 18:51:08 -0500
+
+gftp (2.0.4-1) stable; urgency=low
+
+gftp (2.0.2-1) unstable; urgency=low
+
+  * New upstream releases
+
+ -- Brian E. Ermovick <talon@debian.org>  Sun,  4 Jul 1999 03:18:42 -0500
+
+gftp (2.0.0-2) unstable; urgency=low
+
+  * Fixed minor build release, closing bug #37849 
+
+ -- Brian E. Ermovick <talon@debian.org>  Thu, 20 May 1999 17:37:46 -0500
+
+gftp (2.0.0-1) unstable; urgency=low
+
+  * New Upstream Release.  Also closed bug #37750
+
+ -- Brian E. Ermovick <talon@debian.org>  Mon, 17 May 1999 00:36:44 -0500
+
+gftp (1.13-1) unstable; urgency=low
+
+  * New Upstream Release.
+
+ -- Brian E. Ermovick <talon@debian.org>  Sat,  8 May 1999 00:19:15 -0500
+
+gftp (1.12-2) unstable; urgency=low
+
+  * First release with new maintainer
+  * Compiled against gtk 1.2
+
+ -- Brian E. Ermovick <talon@debian.org>  Tue, 13 Apr 1999 01:15:34 -0500
+
+gftp (1.12-1) unstable; urgency=low
+
+  * New upstream version
+  * Added postinst/postrm to call update-menus
+
+ -- Martin Schulze <joey@finlandia.infodrom.north.de>  Fri,  5 Mar 1999 00:04:58 +0100
+
+gftp (1.11-1) unstable; urgency=low, closes=32772
+
+  * New upstream version, said to fix some crash bugs
+
+ -- Martin Schulze <joey@finlandia.infodrom.north.de>  Tue,  9 Feb 1999 11:46:24 +0100
+
+gftp (1.1-1) unstable; urgency=low, closes=32772
+
+  * New upstream version (closes: Bug#32772)
+
+ -- Martin Schulze <joey@finlandia.infodrom.north.de>  Mon,  8 Feb 1999 22:26:44 +0100
+
+gftp (1.0.4-1) unstable; urgency=low
+
+  * New upstream version
+  * Removed -DDEBUG
+
+ -- Martin Schulze <joey@finlandia.infodrom.north.de>  Wed, 27 Jan 1999 23:27:13 +0100
+
+gftp (0.21-2) unstable; urgency=low
+
+  * Corrected section to net
+
+ -- Martin Schulze <joey@finlandia.infodrom.north.de>  Mon, 11 Jan 1999 23:01:05 +0100
+
+gftp (0.21-1) unstable; urgency=low
+
+  * New upstream source
+  * Removed superflous message on the console if no .gftp directory is provided
+  * Changed automatic password creation from "user@host" to "user@host.domain"
+  * Changed "X Windows" to "X11 Sites" since the X Consortium doesn't like
+    their product to be called like a similar named crappy piece of [zensored].
+	
+ -- Martin Schulze <joey@finlandia.infodrom.north.de>  Thu,  7 Jan 1999 20:41:16 +0100
+
+gftp (0.2-1) unstable; urgency=low
+
+  * First trial
+
+ -- Martin Schulze <joey@finlandia.infodrom.north.de>  Tue,  5 Jan 1999 12:31:13 +0100
+													   
+Local variables:
+mode: debian-changelog
+End:
