@@ -57,3 +57,26 @@ gftpui_check_reconnect (gftpui_callback_data * cdata)
   return (1);
 }
 
+
+char *
+gftpui_prompt_username (void *uidata, gftp_request * request)
+{
+  char tempstr[256], *ret;
+
+  ret = g_strdup (gftp_text_ask_question (_("Username [anonymous]:"), 1,
+                                          tempstr, sizeof (tempstr)));
+  return (ret);
+}
+
+
+
+char *
+gftpui_prompt_password (void *uidata, gftp_request * request)
+{
+  char tempstr[256], *ret;
+
+  ret = g_strdup (gftp_text_ask_question (_("Password:"), 0,
+                                          tempstr, sizeof (tempstr)));
+  return (ret);
+}
+

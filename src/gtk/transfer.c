@@ -38,7 +38,6 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
   gftpui_common_run_callback_function (cdata);
 
   wdata->files = cdata->files;
-  cdata->files = NULL;
   g_free (cdata);
   
   if (wdata->files == NULL || !GFTP_IS_CONNECTED (wdata->request))

@@ -119,4 +119,10 @@ void gftpui_refresh 			( void *uidata );
 void *gftpui_generic_thread 		( void *(*run_function)(void *data),
 					  void *data);
 
+char *gftpui_prompt_username		( void *uidata,
+					  gftp_request * request );
+
+char *gftpui_prompt_password 		( void *uidata,
+					  gftp_request * request );
+
 #endif

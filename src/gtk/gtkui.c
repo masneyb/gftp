@@ -61,6 +61,82 @@ gftpui_refresh (void *uidata)
 }
 
 
+#define _GFTPUI_GTK_USER_PW_SIZE	256
+
+static void 
+_gftpui_gtk_try_connect_again (char *tempstr, gftp_dialog_data * ddata)
+{
+  strncpy (tempstr, gtk_entry_get_text (GTK_ENTRY (ddata->edit)),
+           _GFTPUI_GTK_USER_PW_SIZE);
+  /* FIXME request->stopable = 0; */
+}
+
+
+static void
+_gftpui_gtk_dont_connect_again (char *tempstr, gftp_dialog_data * ddata)
+{
+  /* FIXME request->stopable = 0; */
+}
+
+
+char *
+gftpui_prompt_username (void *uidata, gftp_request * request)
+{
+  char tempstr[_GFTPUI_GTK_USER_PW_SIZE];
+
+  MakeEditDialog (_("Enter Username"),
+                  _("Please enter your username for this site"), NULL,
+                  0, NULL, gftp_dialog_button_connect,
+                  _gftpui_gtk_try_connect_again, tempstr,
+                  _gftpui_gtk_dont_connect_again, tempstr);
+
+  *tempstr = '\0';
+  while (*tempstr == '\0') /* FIXME */
+    {
+      GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1
+      g_main_iteration (TRUE);
+#else
+      g_main_context_iteration (NULL, TRUE);
+#endif
+    }
+
+  if (*tempstr == '\0')
+    return (NULL);
+  else
+    return (g_strdup (tempstr));
+}
+
+
+char *
+gftpui_prompt_password (void *uidata, gftp_request * request)
+{
+  char tempstr[_GFTPUI_GTK_USER_PW_SIZE];
+
+  MakeEditDialog (_("Enter Password"),
+                  _("Please enter your password for this site"), NULL,
+                  0, NULL, gftp_dialog_button_connect,
+                  _gftpui_gtk_try_connect_again, tempstr,
+                  _gftpui_gtk_dont_connect_again, tempstr);
+
+  *tempstr = '\0';
+  while (*tempstr == '\0') /* FIXME */
+    {
+      GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1
+      g_main_iteration (TRUE);
+#else
+      g_main_context_iteration (NULL, TRUE);
+#endif
+    }
+
+  if (*tempstr == '\0')
+    return (NULL);
+  else
+    return (g_strdup (tempstr));
+}
+
+
 /* The wakeup main thread functions are so that after the thread terminates
    there won't be a delay in updating the GUI */
 static void

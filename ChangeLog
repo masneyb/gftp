@@ -1,4 +1,20 @@
 2003-1-5 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/misc.c src/gtk/gftpui.c - added GFTP_URL_USAGE
+	that is the sytax for a valid URL.
+
+	* lib/protocols.c (gftp_set_password) - allow the password to be NULL
+
+	* src/gtk/gtkui.c src/text/textui.c src/uicommon/gftpui.h - added
+	gftpui_prompt_username() and gftpui_promot_password() to each UI
+
+	* src/text/gftp-text.c (gftp_text_ask_question) - don't display a
+	: at the end of the question here.
+
+	* src/text/gftp-text.h - added declaration of gftp_text_ask_question()
+
+	* src/uicommon/gftpui.c - added gftpui_common_cmd_open(). This still
+	needs a little bit more work done to it.
+
 	* src/gtk/gftp-gtk.h src/gtk/gtkui.c - when spawning a thread,
 	make sure that the GUI will be updated properly as soon as the thread
 	is finished.

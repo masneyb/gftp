@@ -546,6 +546,56 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request, char *command)
 
 
 static int
+gftpui_common_cmd_open (void *uidata, gftp_request * request, char *command)
+{
+  char *tempstr;
+
+  if (GFTP_IS_CONNECTED (request))
+    {
+      gftp_disconnect (request); /* FIXME */
+    }
+  
+  if (*command == '\0')
+    {
+      request->logging_function (gftp_logging_error, request,
+          _("usage: open " GFTP_URL_USAGE "\n"));
+      return (1);
+    }
+    
+  if (gftp_parse_url (request, command) < 0)
+    return (1);
+
+  if (request->need_userpass)
+    {
+      if (request->username == NULL || *request->username == '\0')
+        {
+          if ((tempstr = gftpui_prompt_username (uidata, request)) != NULL)
+            {
+              gftp_set_username (request, tempstr);
+              gftp_set_password (request, NULL);
+              g_free (tempstr);
+            }
+        }
+
+      if (request->username != NULL &&
+          strcmp (request->username, "anonymous") != 0 &&
+          (request->password == NULL || *request->password == '\0'))
+        {
+          if ((tempstr = gftpui_prompt_password (uidata, request)) != NULL)
+            {
+              gftp_set_password (request, tempstr);
+              g_free (tempstr);               
+            }
+        }
+    }
+
+  /* FIXME gftp_connect (request); */
+
+  return (1);
+}
+
+
+static int
 gftpui_common_cmd_set (void *uidata, gftp_request * request, char *command)
 {
   gftp_config_vars * cv, newcv;
@@ -749,8 +799,10 @@ gftpui_common_methods gftpui_common_commands[] = {
 /* FIXME
         {N_("mput"),    2, gftp_text_mput_file, gftpui_common_request_none,
          N_("Uploads local file(s)"), NULL},
-        {N_("open"),    1, gftp_text_open,      gftpui_common_request_remote,
+*/
+        {N_("open"),    1, gftpui_common_cmd_open, gftpui_common_request_remote,
          N_("Opens a connection to a remote site"), NULL},
+/* FIXME
         {N_("put"),     2, gftp_text_mput_file, gftpui_common_request_none,
          N_("Uploads local file(s)"), NULL},
 */

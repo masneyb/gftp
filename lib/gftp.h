@@ -167,6 +167,7 @@
 #define BOOKMARKS_FILE		BASE_CONF_DIR "/bookmarks"
 #define LOG_FILE		BASE_CONF_DIR "/gftp.log"
 #define MAX_HIST_LEN		10
+#define GFTP_URL_USAGE		"[[protocol://][user[:pass]@]site[:port][/directory]]"
 
 typedef enum gftp_logging_level_tag 
 {

@@ -30,5 +30,10 @@
 #include <readline/history.h>
 #endif
 
+char * gftp_text_ask_question 			( const char *question,
+						  int echo,
+						  char *buf,
+						  size_t size );
+
 #endif
 

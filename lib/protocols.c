@@ -821,7 +821,6 @@ void
 gftp_set_password (gftp_request * request, const char *password)
 {
   g_return_if_fail (request != NULL);
-  g_return_if_fail (password != NULL);
 
   if (request->password)
     g_free (request->password);

@@ -155,7 +155,7 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
   else
     infd = stdin;
 
-  printf ("%s%s%s: ", GFTPUI_COMMON_COLOR_BLUE, question, GFTPUI_COMMON_COLOR_DEFAULT);
+  printf ("%s%s%s ", GFTPUI_COMMON_COLOR_BLUE, question, GFTPUI_COMMON_COLOR_DEFAULT);
 
   if (fgets (buf, size, infd) == NULL)
     return (NULL);
@@ -274,7 +274,6 @@ main (int argc, char **argv)
  
   return (0);
 }
-
 
 #if 0
 int
