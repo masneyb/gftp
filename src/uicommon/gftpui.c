@@ -606,9 +606,7 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request,
   intptr_t retries;
 
   if (GFTP_IS_CONNECTED (request))
-    {
-      gftp_disconnect (request); /* FIXME */
-    }
+    gftpui_disconnect (uidata);
   
   if (command != NULL)
     {
@@ -655,8 +653,8 @@ gftpui_common_cmd_set (void *uidata, gftp_request * request,
                        void *other_uidata, gftp_request * other_request,
                        const char *command)
 {
+  char *pos, *backpos, buf[256];
   gftp_config_vars * cv, newcv;
-  char *pos, *backpos;
   GList * templist;
   int i;
   
@@ -677,9 +675,11 @@ gftpui_common_cmd_set (void *uidata, gftp_request * request,
                   gftp_option_types[cv[i].otype].write_function == NULL)
                 continue;
 
-              printf ("%s = ", cv[i].key);
-              gftp_option_types[cv[i].otype].write_function (&cv[i], stdout, 0);
-              printf ("\n");
+              gftp_option_types[cv[i].otype].write_function (&cv[i], buf,
+                                                             sizeof (buf), 0);
+
+              gftpui_common_logfunc (gftp_logging_misc_nolog, request,
+                                     "%s = %s\n", cv[i].key, buf);
             }
         }
     }
@@ -722,6 +722,12 @@ gftpui_common_cmd_set (void *uidata, gftp_request * request,
 
           gftp_set_global_option (command, newcv.value);
 
+          gftp_option_types[newcv.otype].write_function (&newcv, buf,
+                                                         sizeof (buf), 0);
+
+          gftpui_common_logfunc (gftp_logging_misc_nolog, request,
+                                 "%s = %s\n", newcv.key, buf);
+
           if (newcv.flags & GFTP_CVARS_FLAGS_DYNMEM)
             g_free (newcv.value);
         }
@@ -738,6 +744,7 @@ gftpui_common_cmd_help (void *uidata, gftp_request * request,
 {
   int i, j, ele, numrows, numcols = 6, handled, number_commands, cmdlen,
       found;
+  char commands[128], cmdstr[30];
   const char *pos;
 
   for (number_commands=0;
@@ -766,7 +773,8 @@ gftpui_common_cmd_help (void *uidata, gftp_request * request,
             handled = 0;
 
           if (!handled)
-            printf ("%s\n", _(gftpui_common_commands[i].cmd_description));
+            gftpui_common_logfunc (gftp_logging_misc_nolog, request, "%s\n",
+                                 _(gftpui_common_commands[i].cmd_description));
         }
       else
         found = 0;
@@ -780,21 +788,26 @@ gftpui_common_cmd_help (void *uidata, gftp_request * request,
       if (number_commands % numcols != 0)
         numrows++;
 
-      printf (_("Supported commands:\n\n"));
+      gftpui_common_logfunc (gftp_logging_misc_nolog, request,
+                             _("Supported commands:\n\n"));
+      
       for (i=0; i<numrows; i++)
         {
-          printf ("     ");
+          strncpy (commands, "\t", sizeof (commands));
+
           for (j=0; j<numcols; j++)
             {
               ele = i + j * numrows;
               if (ele >= number_commands)
                 break;
-              printf ("%-10s", gftpui_common_commands[ele].command);
-            }
-         printf ("\n");
-        }
 
-      printf ("\n");
+              g_snprintf (cmdstr, sizeof (cmdstr), "%-10s",
+                          gftpui_common_commands[ele].command);
+              strncat (commands, cmdstr, sizeof (commands));
+            }
+          gftpui_common_logfunc (gftp_logging_misc_nolog, request, "%s\n",
+                                 commands);
+        }
     }
   return (1);
 }
@@ -1052,7 +1065,7 @@ gftpui_common_process_command (void *locui, gftp_request * locreq,
       ret = gftpui_common_commands[i].func (uidata, request,
                                             other_uidata, other_request, pos);
 
-      if (!GFTP_IS_CONNECTED (request))
+      if (request != NULL && !GFTP_IS_CONNECTED (request))
         gftpui_disconnect (uidata);
     }
   else
@@ -1443,6 +1456,6 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
     }
   tdata->done = 1;
 
-  return (1); /* FIXME */
+  return (1);
 }
 

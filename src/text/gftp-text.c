@@ -38,13 +38,57 @@ gftp_text_get_win_size (void)
 }
 
 
+static void
+gftp_text_write_string (char *string)
+{
+  char *stpos, *endpos, savechar;
+  int sw;
+
+  sw = gftp_text_get_win_size ();
+
+  stpos = string;
+  do
+    {
+      if ((endpos = strchr (stpos, '\n')) == NULL)
+        endpos = stpos + strlen (stpos);
+
+      savechar = *endpos;
+      *endpos = '\0';
+
+      if (strlen (stpos) <= sw)
+        {
+          printf ("%s%c", stpos, savechar);
+          *endpos = savechar;
+          if (savechar == '\0')
+            break;
+          stpos = endpos + 1;
+        }
+      else
+        {
+          *endpos = savechar;
+          for (endpos = stpos + sw - 1;
+               *endpos != ' ' && endpos > stpos;
+               endpos--);
+
+          if (endpos != stpos)
+            *endpos = '\0';
+
+          printf ("%s\n", stpos);
+          stpos = endpos + 1;
+        }
+
+      sw = sw;
+    }
+  while (stpos != endpos);
+}
+
+
 void
 gftp_text_log (gftp_logging_level level, gftp_request * request, 
                const char *string, ...)
 {
-  char tempstr[512], *stpos, *endpos, *utf8_str = NULL, *outstr;
+  char tempstr[512], *utf8_str = NULL, *outstr;
   va_list argp;
-  int sw;
 
   g_return_if_fail (string != NULL);
 
@@ -90,25 +134,10 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
         fflush (gftp_logfd);
     }
 
-  sw = gftp_text_get_win_size ();
-  stpos = outstr;
-  endpos = outstr + 1;
-  do
-    {
-      if (strlen (stpos) <= sw)
-        {
-          printf ("%s", stpos);
-          break;
-        }
-      for (endpos = stpos + sw - 1; *endpos != ' ' && endpos > stpos; endpos--);
-      if (endpos != stpos)
-        {
-          *endpos = '\0';
-        }
-      printf ("%s\n", stpos);
-      stpos = endpos + 1;
-    }
-  while (stpos != endpos);
+  if (level == gftp_logging_misc_nolog)
+    printf ("%s\n", outstr);
+  else
+    gftp_text_write_string (outstr);
   
   printf ("%s", GFTPUI_COMMON_COLOR_DEFAULT);
 

@@ -293,7 +293,8 @@ typedef struct gftp_config_vars_tag
 typedef struct gftp_option_type_tag
 {
   int (*read_function) (char *str, gftp_config_vars * cv, int line);
-  int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
+  int (*write_function) (gftp_config_vars * cv, char *buf, size_t buflen,
+                         int to_config_file);
   void (*copy_function) (gftp_config_vars * cv, gftp_config_vars * dest_cv);
   int (*compare_function) (gftp_config_vars * cv1, gftp_config_vars * cv2);
   void *(*ui_print_function) (gftp_config_vars * cv, void *user_data, void *value);

@@ -110,7 +110,7 @@ $AUTOCONF
 cd $ORIGDIR
 
 if test -z "$AUTOGEN_SUBDIR_MODE"; then
-        CFLAGS="-Wall -ansi -D_GNU_SOURCE -O -g" $srcdir/configure --enable-maintainer-mode "$@"
+        CFLAGS="-Wall -ansi -D_GNU_SOURCE -O -g" $srcdir/configure "$@"
 
         echo 
         echo "Now type 'make' to compile $PROJECT."

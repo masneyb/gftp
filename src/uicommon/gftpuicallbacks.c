@@ -62,6 +62,7 @@ int
 gftpui_common_run_ls (gftpui_callback_data * cdata)
 {
   int got, matched_filespec, have_dotdot;
+  char *sortcol_var, *sortasds_var;
   intptr_t sortcol, sortasds;
   gftp_file * fle;
 
@@ -112,8 +113,19 @@ gftpui_common_run_ls (gftpui_callback_data * cdata)
 
   if (cdata->files != NULL)
     {
-      gftp_lookup_global_option ("local_sortcol", &sortcol); /* FIXME */
-      gftp_lookup_global_option ("local_sortasds", &sortasds);
+      if (cdata->request->protonum == GFTP_LOCAL_NUM)
+        {
+          sortasds_var = "local_sortasds";
+          sortcol_var = "local_sortcol";
+        }
+      else
+        {
+          sortasds_var = "remote_sortasds";
+          sortcol_var = "remote_sortcol";
+        }
+
+      gftp_lookup_global_option (sortcol_var, &sortcol);
+      gftp_lookup_global_option (sortasds_var, &sortasds);
     
       cdata->files = gftp_sort_filelist (cdata->files, sortcol, sortasds);
     }

@@ -1189,12 +1189,13 @@ gftp_gtk_config_file_read_color (char *str, gftp_config_vars * cv, int line)
 
 
 static int
-gftp_gtk_config_file_write_color (gftp_config_vars * cv, FILE * fd, int to_config_file)
+gftp_gtk_config_file_write_color (gftp_config_vars * cv, char *buf,
+                                  size_t buflen, int to_config_file)
 {
   GdkColor * color;
 
   color = cv->value;
-  fprintf (fd, "%x:%x:%x", color->red, color->green, color->blue);
+  g_snprintf (buf, buflen, "%x:%x:%x", color->red, color->green, color->blue);
   return (0);
 }
 

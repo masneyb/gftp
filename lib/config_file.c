@@ -717,8 +717,8 @@ write_comment (FILE * fd, const char *comment)
 void
 gftp_write_bookmarks_file (void)
 {
+  char *bmhdr, *pwhdr, *tempstr, *password, buf[256];
   gftp_bookmarks_var * tempentry;
-  char *bmhdr, *pwhdr, *tempstr, *password;
   FILE * bmfile;
   int i;
 
@@ -781,9 +781,10 @@ gftp_write_bookmarks_file (void)
         {
           for (i=0; i<tempentry->num_local_options_vars; i++)
             {
-              fprintf (bmfile, "%s=", tempentry->local_options_vars[i].key);
-              gftp_option_types[tempentry->local_options_vars[i].otype].write_function (&tempentry->local_options_vars[i], bmfile, 1);
-              fprintf (bmfile, "\n");
+              gftp_option_types[tempentry->local_options_vars[i].otype].write_function (&tempentry->local_options_vars[i], buf, sizeof (buf), 1);
+
+              fprintf (bmfile, "%s=%s\n", tempentry->local_options_vars[i].key,
+                       buf);
             }
         }
 
@@ -807,10 +808,10 @@ gftp_write_bookmarks_file (void)
 void
 gftp_write_config_file (void)
 {
+  char *tempstr, buf[256];
   gftp_config_vars * cv;
   GList *templist;
   FILE *conffile;
-  char *tempstr;
   int i;
 
   if ((tempstr = expand_path (CONFIG_FILE)) == NULL)
@@ -846,9 +847,9 @@ gftp_write_config_file (void)
           if (cv[i].comment != NULL)
             write_comment (conffile, _(cv[i].comment));
 
-          fprintf (conffile, "%s=", cv[i].key);
-          gftp_option_types[cv[i].otype].write_function (&cv[i], conffile, 1);
-          fprintf (conffile, "\n");
+          gftp_option_types[cv[i].otype].write_function (&cv[i], buf,
+                                                         sizeof (buf), 1);
+          fprintf (conffile, "%s=%s\n", cv[i].key, buf);
         }
     }
     
@@ -949,15 +950,15 @@ gftp_config_file_read_text (char *str, gftp_config_vars * cv, int line)
 
 
 static int
-gftp_config_file_write_text (gftp_config_vars * cv, FILE * fd, int to_config_file)
+gftp_config_file_write_text (gftp_config_vars * cv, char *buf, size_t buflen,
+                             int to_config_file)
 {
   char *outstr;
 
   if (cv->value != NULL)
     {
       outstr = cv->value;
-      if (*outstr != '\0')
-        fprintf (fd, "%s", outstr);
+      g_snprintf (buf, buflen, "%s", outstr);
       return (0);
     }
   else
@@ -966,7 +967,8 @@ gftp_config_file_write_text (gftp_config_vars * cv, FILE * fd, int to_config_fil
 
 
 static int
-gftp_config_file_write_hidetext (gftp_config_vars * cv, FILE * fd, int to_config_file)
+gftp_config_file_write_hidetext (gftp_config_vars * cv, char *buf,
+                                 size_t buflen, int to_config_file)
 {
   char *outstr;
 
@@ -976,9 +978,9 @@ gftp_config_file_write_hidetext (gftp_config_vars * cv, FILE * fd, int to_config
       if (*outstr != '\0')
         {
           if (to_config_file)
-            fprintf (fd, "%s", outstr);
+            g_snprintf (buf, buflen, "%s", outstr);
           else
-            fprintf (fd, "*****");
+            g_snprintf (buf, buflen, "*****");
         }
       return (0);
     }
@@ -1037,9 +1039,10 @@ gftp_config_file_read_int (char *str, gftp_config_vars * cv, int line)
 
 
 static int
-gftp_config_file_write_int (gftp_config_vars * cv, FILE * fd, int to_config_file)
+gftp_config_file_write_int (gftp_config_vars * cv, char *buf, size_t buflen,
+                            int to_config_file)
 {
-  fprintf (fd, "%d", GPOINTER_TO_INT(cv->value));
+  g_snprintf (buf, buflen, "%d", GPOINTER_TO_INT (cv->value));
   return (0);
 }
 
@@ -1071,12 +1074,13 @@ gftp_config_file_read_float (char *str, gftp_config_vars * cv, int line)
 
 
 static int
-gftp_config_file_write_float (gftp_config_vars * cv, FILE * fd, int to_config_file)
+gftp_config_file_write_float (gftp_config_vars * cv, char *buf, size_t buflen,
+                              int to_config_file)
 {
   float f;
 
   memcpy (&f, &cv->value, sizeof (f));
-  fprintf (fd, "%.2f", f);
+  g_snprintf (buf, buflen, "%.2f", f);
   return (0);
 }
 
@@ -1119,12 +1123,13 @@ gftp_config_file_read_color (char *str, gftp_config_vars * cv, int line)
 
 
 static int
-gftp_config_file_write_color (gftp_config_vars * cv, FILE * fd, int to_config_file)
+gftp_config_file_write_color (gftp_config_vars * cv, char *buf, size_t buflen,
+                              int to_config_file)
 {
   gftp_color * color;
 
   color = cv->value;
-  fprintf (fd, "%x:%x:%x", color->red, color->green, color->blue);
+  g_snprintf (buf, buflen, "%x:%x:%x", color->red, color->green, color->blue);
   return (0);
 }
 
@@ -1179,15 +1184,16 @@ gftp_config_file_read_intcombo (char *str, gftp_config_vars * cv, int line)
 
 
 static int
-gftp_config_file_write_intcombo (gftp_config_vars * cv, FILE * fd, int to_config_file)
+gftp_config_file_write_intcombo (gftp_config_vars * cv, char *buf,
+                                 size_t buflen, int to_config_file)
 {
   char **clist;
 
   clist = cv->listdata;
   if (clist != NULL)
-    fprintf (fd, "%s", clist[GPOINTER_TO_INT(cv->value)]);
+    g_snprintf (buf, buflen, "%s", clist[GPOINTER_TO_INT(cv->value)]);
   else
-    fprintf (fd, _("<unknown>"));
+    g_snprintf (buf, buflen, _("<unknown>"));
 
   return (0);
 }

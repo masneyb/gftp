@@ -238,5 +238,9 @@ gftpui_start_transfer (gftp_transfer * tdata)
 void
 gftpui_disconnect (void *uidata)
 {
+  gftp_request * request;
+
+  request = uidata; /* Note: uidata is set to the request in gftp_text.c */
+  gftp_disconnect (request);
 }
 

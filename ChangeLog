@@ -1,3 +1,25 @@
+2003-2-2 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/gftp.h src/uicommon/gftpui.c 
+	src/gtk/gftp-gtk.c - updated the format of the config file
+	write_functions so that the value isn't written to a file descriptor.
+	Instead, it is written to a buffer.
+
+	* src/text/gftp-text.c (gftp_text_log) - search for newlines in the
+	string and split on those characters first
+
+	* src/text/textui.c (gftpui_disconnect) - disconnect from the host
+
+	* src/uicommon/gftpui.c - removed calls to printf() functions. Instead
+	print the values out using the logging function
+
+	* src/uicommon/gftpuicallbacks.c (gftpui_common_run_ls) - if we are
+	connected to a local site, lookup the options local_sortasds and
+	local_sortcol. Otherwise, lookup remove_sortasds and remote_sortcol.
+
+	* autogen.sh - disable maintainer mode
+
+	* TODO - updated
+
 2004-02-01 Alastair McKinstry <mckinstry@computer.org>
 	
 	* configure.in: Add Irish ("ga") to ALL_LINGUAS
