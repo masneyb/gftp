@@ -46,7 +46,6 @@ do_delete_thread (void *data)
   int success, sj;
 
   transfer = data;
-  transfer->fromreq->user_data = (void *) 0x01;
 
   if (transfer->fromreq->use_threads)
     {
@@ -98,7 +97,6 @@ do_delete_thread (void *data)
                                         _("Operation canceled\n"));
     }
 
-  transfer->fromreq->user_data = NULL;
   transfer->fromreq->stopable = 0;
 
   if (transfer->fromreq->use_threads)

@@ -1,5 +1,33 @@
-2002-11-11 Andras Timar <timar@gnome.hu>
+2002-11-11 Brian Masney <masneyb@gftp.org>
+	* src/gtk/dnd.c - fixes to DnD code
 
+	* src/gtk/gftp-gtk.[ch] - added main_thread_id variable
+
+	* src/gtk/misc-gtk.c (ftp_log) - don't check the user_data to see if 
+	we're in a child thread, instead compare the value of pthread_self()
+	with main_thread_id
+
+	* src/gtk/chmod_dialog.c src/gtk/delete_dialog.c src/gtk/menu-items.c
+	src/gtk/mkdir_dialog.c src/gtk/rename_dialog.c src/gtk/transfer.c -
+	don't set user_data to 0x1 if we're in a child thread
+
+	* lib/gftp.h src/gtk/misc-gtk.c src/text/gftp-text.c - make 
+	r_getservbyname() available even if HAVE_GERADDRINFO is defined
+	
+	* lib/misc.c (make_ssh_exec_args) - if port is zero, lookup the default
+	port for the ssh service
+
+	* lib/protocols.c (gftp_connect_server) - if the port is zero, store
+	the default port for that protocol there
+
+	* src/gtk/transfer.c - added function update_window_transfer_bytes().
+	Be able to update the directory download progress in window1 now
+
+	* lib/config_file.c lib/misc.c lib/protocols.c lib/ssh.c lib/sshv2.c
+	src/text/gftp-text.c - use g_strdup() instead of g_strconcat() where
+	needed
+
+2002-11-11 Andras Timar <timar@gnome.hu>
 	* configure.in: added 'hu' to ALL_LINGUAS
 
 2002-11-6 Brian Masney <masneyb@gftp.org>

@@ -109,13 +109,14 @@ gftp_connect (gftp_request * request)
 
   if (request->sftpserv_path == NULL)
     {
+      /* FIXME - move this to per protocol files */
       switch (request->protonum)
         {
           case GFTP_SSH_NUM:
-            request->sftpserv_path = g_strconcat (ssh1_sftp_path, NULL);
+            request->sftpserv_path = g_strdup (ssh1_sftp_path);
             break;
           case GFTP_SSHV2_NUM:
-            request->sftpserv_path = g_strconcat (ssh2_sftp_path, NULL);
+            request->sftpserv_path = g_strdup (ssh2_sftp_path);
             break;
         }
     }
@@ -1792,6 +1793,9 @@ gftp_connect_server (gftp_request * request, char *service)
     {
       disphost = res->ai_canonname ? res->ai_canonname : connect_host;
       port = get_port (res);
+      if (!request->use_proxy)
+        request->port = port;
+
       if ((sock = socket (res->ai_family, res->ai_socktype, 
                           res->ai_protocol)) < 0)
         {
@@ -1862,6 +1866,9 @@ gftp_connect_server (gftp_request * request, char *service)
           port = serv_struct.s_port;
           request->port = ntohs (serv_struct.s_port);
         }
+
+      if (!request->use_proxy)
+        request->port = ntohs (port);
     }
   remote_address.sin_port = port;
 
@@ -1917,6 +1924,7 @@ gftp_connect_server (gftp_request * request, char *service)
 void
 gftp_set_config_options (gftp_request * request)
 {
+  /* FIXME - move this to per protocol files */
   request->transfer_type = passive_transfer ? gftp_transfer_passive : gftp_transfer_active;
   request->network_timeout = network_timeout;
   request->retries = retries;

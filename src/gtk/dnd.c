@@ -24,13 +24,19 @@ static const char cvsid[] = "$Id$";
 static int
 dnd_remote_file (char *url, gftp_window_data * wdata)
 {
+  gftp_window_data * other_wdata, * fromwdata;
   gftp_request * current_ftpdata;
   gftp_file * newfle;
-  char *str, *pos;
-  GList templist;
-  int i;
+  GList * templist;
+  char *pos;
 
-  printf ("FIXME - in dnd_remote file\n");
+  if (wdata == &window1)
+    other_wdata = &window2;
+  else if (wdata == &window2)
+    other_wdata = &window1;
+  else 
+    other_wdata = NULL;
+    
   newfle = g_malloc0 (sizeof (*newfle));
   newfle->shown = 1;
   if (url[strlen (url) - 1] == '/') 
@@ -42,7 +48,9 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   current_ftpdata = gftp_request_new ();
   current_ftpdata->logging_function = ftp_log;
 
-  if (gftp_parse_url (current_ftpdata, url) != 0) 
+  if (gftp_parse_url (current_ftpdata, url) != 0 ||
+      current_ftpdata->directory == NULL ||
+      (pos = strrchr (current_ftpdata->directory, '/')) == NULL) 
     {
       ftp_log (gftp_logging_misc, NULL, 
                _("Drag-N-Drop: Ignoring url %s: Not a valid url\n"), url);
@@ -51,53 +59,42 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
       return (0);
     }
 
-  if ((str = GFTP_GET_DIRECTORY (current_ftpdata)) != NULL) 
-    {
-      if ((pos = strrchr (str, '/')) == NULL) 
-        pos = str;
-      else pos++;
-      *(pos - 1) = '\0';
-      i = 1;
-    }
-  else 
-    {
-      pos = str = GFTP_GET_DIRECTORY (current_ftpdata);
-      i = 0;
-    }
-
+  *pos++ = '\0';
   if (compare_request (current_ftpdata, wdata->request, 1))
     {
       gftp_request_destroy (current_ftpdata);
       return (0);
     }
 
-  if (i)
+  if (other_wdata != NULL && 
+      compare_request (current_ftpdata, other_wdata->request, 1))
     {
-      *(pos - 1) = '/';
-      newfle->file = g_malloc (strlen (str) + 1);
-      strcpy (newfle->file, str);
-      *(pos - 1) = '\0';
+      gftp_set_password (current_ftpdata, other_wdata->request->password);
+      fromwdata = other_wdata;
     }
   else
-    {
-      newfle->file = g_malloc (strlen (str) + 1);
-      strcpy (newfle->file, str);
-    }
+    fromwdata = NULL;
+
+  *(pos - 1) = '/';
+  newfle->file = g_malloc (strlen (current_ftpdata->directory) + 1);
+  strcpy (newfle->file, current_ftpdata->directory);
+  *(pos - 1) = '\0';
   
   newfle->destfile = g_strconcat (GFTP_GET_DIRECTORY (wdata->request),
                                      "/", pos, NULL);
   newfle->ascii = gftp_get_file_transfer_mode (newfle->file, 
                                 wdata->request->data_type) == GFTP_TYPE_ASCII;
 
-  templist.data = newfle;
-  templist.next = NULL;
-  add_file_transfer (current_ftpdata, wdata->request, NULL,
-                     wdata, &templist, 1);
+  templist = g_malloc0 (sizeof (*templist));
+  templist->data = newfle;
+  templist->next = NULL;
+  add_file_transfer (current_ftpdata, wdata->request, fromwdata,
+                     wdata, templist, 1);
   gftp_request_destroy (current_ftpdata);
 
   if (newfle->isdir)
     {
-/* FIXME - need to fix this
+/* FIXME - need to fix this 
       add_entire_directory (tdata, newfle, 
 		            GFTP_GET_DIRECTORY (tdata->fromhdata->ftpdata), 
 			    GFTP_GET_DIRECTORY (tdata->tohdata->ftpdata), 
@@ -164,36 +161,45 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
       oldlen = totlen;
       if (GFTP_GET_HOSTNAME (wdata->request) == NULL)
         {
-          tempstr = g_strdup_printf ("%s://%s/%s%c", 
+          tempstr = g_strdup_printf ("%s://%s/%s ", 
                                  GFTP_GET_URL_PREFIX (wdata->request),
                                  GFTP_GET_DIRECTORY (wdata->request), 
-                                 tempfle->file, tempfle->isdir ? '/' : '\0');
+                                 tempfle->file);
         }
       else if (GFTP_GET_USERNAME (wdata->request) == NULL 
                || *GFTP_GET_USERNAME (wdata->request) == '\0')
         {
-          tempstr = g_strdup_printf ("%s://%s:%d%s/%s%c", 
+          tempstr = g_strdup_printf ("%s://%s:%d%s/%s ", 
                                  GFTP_GET_URL_PREFIX (wdata->request),
                                  GFTP_GET_HOSTNAME (wdata->request),
                                  GFTP_GET_PORT (wdata->request),
                                  GFTP_GET_DIRECTORY (wdata->request), 
-                                 tempfle->file, tempfle->isdir ? '/' : '\0');
+                                 tempfle->file);
         }
       else
         {
-          tempstr = g_strdup_printf ("%s://%s@%s:%d%s/%s%c", 
+          tempstr = g_strdup_printf ("%s://%s@%s:%d%s/%s ", 
                                  GFTP_GET_URL_PREFIX (wdata->request),
                                  GFTP_GET_USERNAME (wdata->request), 
                                  GFTP_GET_HOSTNAME (wdata->request),
                                  GFTP_GET_PORT (wdata->request),
                                  GFTP_GET_DIRECTORY (wdata->request), 
-                                 tempfle->file, tempfle->isdir ? '/' : '\0');
+                                 tempfle->file);
         }
+
       if ((pos = strchr (tempstr, ':')) != NULL)
         pos += 2;
       else
         pos = tempstr;
       remove_double_slashes (pos);
+
+      /* Note, I am allocating memory for this byte above. Note the extra space
+         at the end of the g_strdup_printf() format argument */
+      if (tempfle->isdir)
+        tempstr[strlen (tempstr) - 1] = '/';
+      else
+        tempstr[strlen (tempstr) - 1] = '\0';
+
       totlen += strlen (tempstr);
       if (str != NULL)
         {
@@ -236,7 +242,6 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
       oldpos = (char *) selection_data->data;
-      printf ("FIXME - got data %s\n", oldpos);
       while ((newpos = strchr (oldpos, '\n')) || 
              (newpos = strchr (oldpos, '\0'))) 
         {

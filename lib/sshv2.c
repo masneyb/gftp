@@ -1351,7 +1351,7 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   if (*oldname == '/')
     {
       oldlen = strlen (oldname); 
-      oldstr = g_strconcat (oldname, NULL);
+      oldstr = g_strdup (oldname);
     }
   else
     {
@@ -1362,7 +1362,7 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   if (*newname == '/')
     {
       newlen = strlen (newname); 
-      newstr = g_strconcat (newname, NULL);
+      newstr = g_strdup (newname);
     }
   else
     {

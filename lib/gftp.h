@@ -799,12 +799,12 @@ struct hostent *r_gethostbyname 	( const char *name,
 					  struct hostent *result_buf, 
 					  int *h_errnop );
 
+#endif
+
 struct servent *r_getservbyname 	( const char *name, 
 					  const char *proto,
 					  struct servent *result_buf, 
 					  int *h_errnop );
-#endif
-
 void gftp_set_config_options 		( gftp_request * request );
 
 void print_file_list 			( GList * list );

@@ -20,6 +20,7 @@
 #include <gftp-gtk.h>
 static const char cvsid[] = "$Id$";
 
+static pthread_mutex_t netfunclock = PTHREAD_MUTEX_INITIALIZER;
 static GtkWidget * statuswid;
 
 
@@ -77,7 +78,7 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
   char *tempstr;
 #endif
 
-  if (ptr == (void *) 0x1)
+  if (pthread_self () != main_thread_id)
     {
       newlog = g_malloc0 (sizeof (*newlog));
       newlog->type = level;
@@ -1260,8 +1261,6 @@ signal_handler (int signo)
 
 #if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
 
-static pthread_mutex_t netfunclock = PTHREAD_MUTEX_INITIALIZER;
-
 struct hostent *
 r_gethostbyname (const char *name, struct hostent *result_buf, int *h_errnop)
 {
@@ -1282,6 +1281,7 @@ r_gethostbyname (const char *name, struct hostent *result_buf, int *h_errnop)
   return (hent);
 }
 
+#endif /* !HAVE_GETADDRINFO */
 
 struct servent *
 r_getservbyname (const char *name, const char *proto,
@@ -1303,6 +1303,4 @@ r_getservbyname (const char *name, const char *proto,
   pthread_mutex_unlock (&netfunclock);
   return (sent);
 }
-
-#endif /* !HAVE_GETADDRINFO */
 

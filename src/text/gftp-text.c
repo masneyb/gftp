@@ -1297,6 +1297,8 @@ r_gethostbyname (const char *name, struct hostent *result_buf, int *h_errnop)
   return (hent);
 }
 
+#endif /* HAVE_GETADDRINFO */
+
 
 struct servent *
 r_getservbyname (const char *name, const char *proto,
@@ -1316,6 +1318,4 @@ r_getservbyname (const char *name, const char *proto,
     }
   return (sent);
 }
-
-#endif /* HAVE_GETADDRINFO */
 

@@ -474,8 +474,7 @@ gftp_read_config_file (char **argv, int get_xpms)
           ssh_extra_params_list = g_realloc (ssh_extra_params_list,
                                              (num_ssh_extra_params + 1) * 
                                              sizeof (char *));
-          ssh_extra_params_list[num_ssh_extra_params - 1] = 
-                                                  g_strconcat (curpos, NULL);
+          ssh_extra_params_list[num_ssh_extra_params - 1] = g_strdup (curpos);
           ssh_extra_params_list[num_ssh_extra_params] = NULL;
           *endpos = ' ';
           curpos = endpos + 1;
@@ -487,8 +486,7 @@ gftp_read_config_file (char **argv, int get_xpms)
           ssh_extra_params_list = g_realloc (ssh_extra_params_list,
                                              (num_ssh_extra_params + 1) * 
                                              sizeof (char *));
-          ssh_extra_params_list[num_ssh_extra_params - 1] = 
-                                                  g_strconcat (curpos, NULL);
+          ssh_extra_params_list[num_ssh_extra_params - 1] = g_strdup (curpos);
           ssh_extra_params_list[num_ssh_extra_params] = NULL;
         }
     }

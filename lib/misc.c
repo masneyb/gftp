@@ -29,14 +29,14 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
 
   if (dest_str != NULL)
     *dest_str = '\0';
-  len = (number > 0 ? log10 (number) : 0) + 1;
+  len = (number > 0 ? log10 (number) : 0) + 2;
 
   if (len <= 0) 
     {
       if (dest_str != NULL)
         strncpy (dest_str, "0", dest_len);
       else
-        dest_str = g_strconcat ("0", NULL);
+        dest_str = g_strdup ("0");
       return (dest_str);
     }
 
@@ -186,7 +186,7 @@ expand_path (const char *src)
       else if (strcmp (pos, ".") != 0)
 	{
 	  if (newstr == NULL)
-	    newstr = g_strconcat (pos - 1, NULL);
+	    newstr = g_strdup (pos - 1);
 	  else
 	    {
 	      tempstr = g_strconcat (newstr, pos - 1, NULL);
@@ -564,15 +564,15 @@ copy_request (gftp_request * req)
   memcpy (newreq, req, sizeof (*newreq));
 
   if (req->hostname)
-    newreq->hostname = g_strconcat (req->hostname, NULL);
+    newreq->hostname = g_strdup (req->hostname);
   if (req->username)
-    newreq->username = g_strconcat (req->username, NULL);
+    newreq->username = g_strdup (req->username);
   if (req->password)
-    newreq->password = g_strconcat (req->password, NULL);
+    newreq->password = g_strdup (req->password);
   if (req->account)
-    newreq->account = g_strconcat (req->account, NULL);
+    newreq->account = g_strdup (req->account);
   if (req->directory)
-    newreq->directory = g_strconcat (req->directory, NULL);
+    newreq->directory = g_strdup (req->directory);
 
   newreq->url_prefix = NULL;
   newreq->protocol_name = NULL;
@@ -592,7 +592,7 @@ copy_request (gftp_request * req)
   newreq->protocol_data = NULL;
   
   if (req->proxy_config != NULL)
-    newreq->proxy_config = g_strconcat (req->proxy_config, NULL);
+    newreq->proxy_config = g_strdup (req->proxy_config);
 
   req->init (newreq);
 
@@ -763,14 +763,15 @@ make_ssh_exec_args (gftp_request * request, char *execname,
                     int use_sftp_subsys, char *portstring)
 {
   char **args, *oldstr, *tempstr;
+  struct servent serv_struct;
   int i, j;
 
-  args = g_malloc (sizeof (char *) * (num_ssh_extra_params + 10));
+  args = g_malloc (sizeof (char *) * (num_ssh_extra_params + 15));
 
   args[0] = ssh_prog_name != NULL && *ssh_prog_name != '\0' ? 
             ssh_prog_name : "ssh";
   i = 1;
-  tempstr = g_strconcat (args[0], NULL);
+  tempstr = g_strdup (args[0]);
 
   if (ssh_extra_params_list != NULL)
     {
@@ -806,6 +807,13 @@ make_ssh_exec_args (gftp_request * request, char *execname,
       g_free (oldstr);
       args[i++] = "-p";
       args[i++] = portstring;
+    }
+  else
+    {
+      if (!r_getservbyname ("ssh", "tcp", &serv_struct, NULL))
+        request->port = 22;
+      else
+        request->port = ntohs (serv_struct.s_port);
     }
 
   if (use_sftp_subsys)

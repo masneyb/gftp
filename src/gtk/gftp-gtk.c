@@ -41,6 +41,7 @@ gftp_graphic * gftp_icon;
 int gftp_is_started = 0;
 sigjmp_buf jmp_environment;
 volatile int use_jmp_environment = 0;
+pthread_t main_thread_id;
 
 static int
 get_column (GtkCListColumn * col)
@@ -985,6 +986,7 @@ main (int argc, char **argv)
 #endif
 
   g_thread_init (NULL);
+  main_thread_id = pthread_self ();
   gtk_set_locale ();
   gtk_init (&argc, &argv);
 

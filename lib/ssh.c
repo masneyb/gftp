@@ -763,7 +763,7 @@ ssh_list_files (gftp_request * request)
   request->logging_function (gftp_logging_misc, request->user_data,
 			     _("Retrieving directory listing...\n"));
 
-  tempstr = g_strconcat ("/bin/ls -al", NULL);
+  tempstr = g_strdup ("/bin/ls -al");
   len = ssh_remove_spaces (tempstr);
 
   if (ssh_send_command (request, EXEC, tempstr, len) < 0) 

@@ -31,7 +31,6 @@ do_rename_thread (void * data)
   int success, sj;
 
   wdata = data;
-  wdata->request->user_data = (void *) 0x01;
 
   if (wdata->request->use_threads)
     { 
@@ -60,7 +59,6 @@ do_rename_thread (void * data)
   if (wdata->request->use_threads)
     use_jmp_environment = 0;
 
-  wdata->request->user_data = NULL;
   wdata->request->stopable = 0;
   return ((void *) success);
 }

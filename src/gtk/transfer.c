@@ -79,7 +79,6 @@ getdir_thread (void * data)
   GList * files;
 
   request = data;
-  request->user_data = (void *) 0x1;
   
   if (request->use_threads)
     {
@@ -97,7 +96,6 @@ getdir_thread (void * data)
           if (request->use_threads)
             use_jmp_environment = 0;
 
-          request->user_data = NULL;
           request->stopable = 0;
           if (request->wakeup_main_thread[1] > 0)
             write (request->wakeup_main_thread[1], " ", 1);
@@ -128,7 +126,6 @@ getdir_thread (void * data)
           if (request->use_threads)
             use_jmp_environment = 0;
 
-          request->user_data = NULL;
           request->stopable = 0;
           if (request->wakeup_main_thread[1] > 0)
             write (request->wakeup_main_thread[1], " ", 1);
@@ -152,7 +149,6 @@ getdir_thread (void * data)
         }
     }
 
-  request->user_data = NULL;
   if (request->use_threads)
     use_jmp_environment = 0;
 
@@ -245,7 +241,6 @@ connect_thread (void *data)
   int ret, sj;
 
   request = data;
-  request->user_data = (void *) 0x1;
 
   conn_num = 0;
   if (request->use_threads)
@@ -286,7 +281,6 @@ connect_thread (void *data)
   if (request->use_threads)
     use_jmp_environment = 0;
 
-  request->user_data = NULL;
   request->stopable = 0;
   if (request->wakeup_main_thread[1] > 0)
     write (request->wakeup_main_thread[1], " ", 1);
@@ -514,9 +508,6 @@ do_getdir_thread (void * data)
   int success, sj;
 
   transfer = data;
-  transfer->fromreq->user_data = (void *) 0x01;
-  if (transfer->toreq)
-    transfer->toreq->user_data = (void *) 0x01;
 
   if (transfer->fromreq->use_threads || 
       (transfer->toreq && transfer->toreq->use_threads))
@@ -544,9 +535,6 @@ do_getdir_thread (void * data)
       (transfer->toreq && transfer->toreq->use_threads))
     use_jmp_environment = 0;
 
-  transfer->fromreq->user_data = NULL;
-  if (transfer->toreq)
-    transfer->toreq->user_data = NULL;
   transfer->fromreq->stopable = 0;
   return ((void *) success);
 }
@@ -753,8 +741,6 @@ gftp_gtk_transfer_files (void *data)
 
   pthread_detach (pthread_self ());
   transfer = data;
-  transfer->fromreq->user_data = (void *) 0x1;
-  transfer->toreq->user_data = (void *) 0x1;
   transfer->curfle = transfer->files;
   gettimeofday (&transfer->starttime, NULL);
   memcpy (&transfer->lasttime, &transfer->starttime, 
@@ -979,8 +965,6 @@ gftp_gtk_transfer_files (void *data)
       transfer->toreq->cancel = 0;
     }
   transfer->done = 1; 
-  transfer->fromreq->user_data = NULL;
-  transfer->toreq->user_data = NULL;
   return (NULL);
 }
 
@@ -1423,7 +1407,7 @@ transfer_done (GList * node)
   tdata = node->data;
   if (tdata->started)
     {
-      fromreq = ((gftp_window_data *) tdata->fromwdata)->request;
+      fromreq = tdata->fromwdata != NULL ? ((gftp_window_data *) tdata->fromwdata)->request : NULL;
       if (!tdata->fromreq->stopable && tdata->fromwdata &&
           ((fromreq->sockfd == NULL && fromreq->cached) ||
            fromreq->always_connected) && tdata->fromreq->sockfd != NULL &&
@@ -1581,32 +1565,41 @@ update_file_status (gftp_transfer * tdata)
     gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->node, 1, dlstr);
 }
 
+static void
+update_window_transfer_bytes (gftp_window_data * wdata)
+{
+  char *tempstr, *temp1str;
+
+  if (wdata->request->gotbytes == -1)
+    {
+      update_window_info ();
+      wdata->request->gotbytes = 0;
+    }
+  else
+    {
+      tempstr = insert_commas (wdata->request->gotbytes, NULL, 0);
+      temp1str = g_strdup_printf (_("Retrieving file names...%s bytes"), 
+                                  tempstr);
+      gtk_label_set (GTK_LABEL (wdata->hoststxt), temp1str);
+      g_free (tempstr);
+      g_free (temp1str);
+    }
+}
+
 
 gint
 update_downloads (gpointer data)
 {
-  char tempstr[50], temp1str[127];
   GList * templist, * next;
   gftp_transfer * tdata;
 
   if (file_transfer_logs != NULL)
     display_cached_logs ();
 
+  if (window1.request->gotbytes != 0)
+    update_window_transfer_bytes (&window1);
   if (window2.request->gotbytes != 0)
-    {
-      if (window2.request->gotbytes == -1)
-	{
-	  update_window_info ();
-	  window2.request->gotbytes = 0;
-	}
-      else
-	{
-	  insert_commas (window2.request->gotbytes, tempstr, sizeof (tempstr));
-          g_snprintf (temp1str, sizeof (temp1str),
-	              _("Retrieving file names...%s bytes"), tempstr);
-	  gtk_label_set (GTK_LABEL (window2.hoststxt), temp1str);
-	}
-    }
+    update_window_transfer_bytes (&window2);
 
   if (viewedit_process_done)
     check_done_process ();
