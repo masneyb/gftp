@@ -532,8 +532,7 @@ show_transfer (gftp_transfer * tdata)
                                    transdata);
     }
 
-  if (!tdata->toreq->stopable && tdata->toreq->need_userpass &&
-      (tdata->toreq->password == NULL || *tdata->toreq->password == '\0'))
+  if (!tdata->toreq->stopable && gftp_need_password (tdata->toreq))
     {
       tdata->toreq->stopable = 1;
       MakeEditDialog (_("Enter Password"),
@@ -543,8 +542,7 @@ show_transfer (gftp_transfer * tdata)
 		      cancel_get_trans_password, tdata);
     }
 
-  if (!tdata->fromreq->stopable && tdata->fromreq->need_userpass &&
-      (tdata->fromreq->password == NULL || *tdata->fromreq->password == '\0'))
+  if (!tdata->fromreq->stopable && gftp_need_password (tdata->fromreq))
     {
       tdata->fromreq->stopable = 1;
       MakeEditDialog (_("Enter Password"),

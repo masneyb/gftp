@@ -2006,7 +2006,7 @@ sshv2_set_config_options (gftp_request * request)
   intptr_t ssh_need_userpass;
 
   gftp_lookup_request_option (request, "ssh_need_userpass", &ssh_need_userpass);
-  request->need_userpass = ssh_need_userpass;
+  request->need_username = ssh_need_userpass;
   return (0);
 }
 
@@ -2111,7 +2111,8 @@ sshv2_init (gftp_request * request)
   request->swap_socks = sshv2_swap_socks;
   request->url_prefix = "ssh2";
   request->need_hostport = 1;
-  request->need_userpass = 1;
+  request->need_username = 1;
+  request->need_password = 1;
   request->use_cache = 1;
   request->always_connected = 0;
   request->protocol_data = g_malloc0 (sizeof (sshv2_params));

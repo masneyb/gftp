@@ -667,16 +667,11 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request,
         return (1);
     }
 
-  if (request->need_userpass)
-    {
-      if (request->username == NULL || *request->username == '\0')
-        gftpui_prompt_username (uidata, request);
+  if (gftp_need_username (request))
+    gftpui_prompt_username (uidata, request);
 
-      if (request->username != NULL &&
-          strcmp (request->username, "anonymous") != 0 &&
-          (request->password == NULL || *request->password == '\0'))
-        gftpui_prompt_password (uidata, request);
-    }
+  if (gftp_need_password (request))
+    gftpui_prompt_password (uidata, request);
 
   gftp_lookup_request_option (request, "retries", &retries);
 

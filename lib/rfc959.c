@@ -1900,7 +1900,8 @@ rfc959_init (gftp_request * request)
   request->set_config_options = rfc959_set_config_options;
   request->url_prefix = "ftp";
   request->need_hostport = 1;
-  request->need_userpass = 1;
+  request->need_username = 0;
+  request->need_password = 1;
   request->use_cache = 1;
   request->always_connected = 0;
 

@@ -608,7 +608,8 @@ local_init (gftp_request * request)
   request->swap_socks = NULL;
   request->url_prefix = "file";
   request->need_hostport = 0;
-  request->need_userpass = 0;
+  request->need_username = 0;
+  request->need_password = 0;
   request->use_cache = 0;
   request->always_connected = 1;
 

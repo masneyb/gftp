@@ -927,7 +927,8 @@ rfc2068_init (gftp_request * request)
   request->set_config_options = rfc2068_set_config_options;
   request->url_prefix = g_strdup ("http");
   request->need_hostport = 1;
-  request->need_userpass = 0;
+  request->need_username = 0;
+  request->need_password = 0;
   request->use_cache = 1;
   request->always_connected = 1;
 

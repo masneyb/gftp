@@ -1,3 +1,11 @@
+2004-9-14 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/bookmark.c lib/local.c lib/rfc2068.c lib/rfc959.c
+	lib/sshv2.c src/gtk/transfer.c src/uicommon/gftpui.c - removed
+	need_userpass from the gftp_request structure. Added need_username and
+	need_password in it's place
+
+	* autogen.sh - updated CFLAGS variable that is passed to configure
+
 2004-9-6 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h - make sure the _GNU_SOURCE is always defined.
 
