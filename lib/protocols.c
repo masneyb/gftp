@@ -187,12 +187,36 @@ int
 gftp_put_file (gftp_request * request, const char *filename, int fd,
                off_t startsize, off_t totalsize)
 {
+  char *tempstr, *enc_filename;
+  gsize bread, bwrite;
+  GError * error;
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->cached = 0;
   if (request->put_file == NULL)
     return (GFTP_EFATAL);
-  return (request->put_file (request, filename, fd, startsize, totalsize));
+
+  if (g_utf8_validate (filename, -1, NULL))
+    enc_filename = g_filename_from_utf8 (filename, -1, &bread, &bwrite, &error);
+  else
+    {
+      tempstr = gftp_string_to_utf8 (request, filename);
+      enc_filename = g_filename_from_utf8 (tempstr, -1, &bread, &bwrite,
+                                           &error);
+      g_free (tempstr);
+    }
+
+  if (enc_filename)
+    {
+      ret = request->put_file (request, enc_filename, fd, startsize, totalsize);
+      g_free (enc_filename);
+    }
+  else
+    ret = request->put_file (request, filename, fd, startsize, totalsize);
+
+  return (ret);
 }
 
 
