@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-04 14:53+0100\n"
-"PO-Revision-Date: 2004-02-04 18:32+0100\n"
+"POT-Creation-Date: 2004-02-17 14:40+0100\n"
+"PO-Revision-Date: 2004-02-17 16:46+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "Chyba při zavírání deskriptoru souboru: %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Chyba: Nemohu se posunout v souboru %s: %s\n"
 
-#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2743
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2750
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Chyba: Nemohu otevřít místní soubor %s: %s\n"
@@ -194,6 +194,12 @@ msgstr ""
 "Fatální chyba gFTP: Možnost konfigurace '%s' nenalezena v globální hašovací "
 "tabulce\n"
 
+#: lib/ftps.c:138
+msgid ""
+"FTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
+msgstr "Podpora FTPS není k dispozici, protože podpora SSL nebyla zakompilována. Přerušuji spojení.\n"
+
 #: lib/https.c:89
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
@@ -228,7 +234,7 @@ msgid "Successfully changed local directory to %s\n"
 msgstr "Místní adresář úspěšně změněn na %s\n"
 
 #: lib/local.c:481 lib/local.c:504 src/gtk/transfer.c:229
-#: src/gtk/view_dialog.c:302
+#: src/gtk/view_dialog.c:316
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "Úspěšně odstraněn %s\n"
@@ -238,7 +244,7 @@ msgstr "Úspěšně odstraněn %s\n"
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Chyba: Nemohu odstranit adresář %s: %s\n"
 
-#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:306
+#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:320
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Chyba: Nemohu odstranit soubor %s: %s\n"
@@ -716,7 +722,7 @@ msgstr ""
 "Nemohu vyhledat název služby %s/tcp. Zkontrolujte prosím svůj soubor "
 "services\n"
 
-#: lib/protocols.c:2126 lib/protocols.c:2752 lib/rfc959.c:639 lib/rfc959.c:786
+#: lib/protocols.c:2126 lib/protocols.c:2759 lib/rfc959.c:639 lib/rfc959.c:786
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Chyba: Nemohu nastavit příznak zavření při exec: %s\n"
@@ -741,14 +747,14 @@ msgstr "Nemohu získat nastavení socketu: %s\n"
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Nemohu nastavit socket na neblokující: %s\n"
 
-#: lib/protocols.c:2646
+#: lib/protocols.c:2653
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Chyba: Vzdálený počítač %s odpojen. Max. počet opakování vyčerpán...vzdávám "
 "to\n"
 
-#: lib/protocols.c:2654
+#: lib/protocols.c:2661
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Chyba: Vzdálený počítač %s odpojen. Připojím se znovu za %d sekund\n"
@@ -1195,7 +1201,8 @@ msgstr "%d: Utime %s %d\n"
 
 #: lib/sshv2.c:512 src/gtk/bookmarks.c:1017 src/gtk/bookmarks.c:1263
 #: src/gtk/chmod_dialog.c:281 src/gtk/gtkui_transfer.c:361
-#: src/gtk/options_dialog.c:1109 src/gtk/options_dialog.c:1311
+#: src/gtk/misc-gtk.c:956 src/gtk/options_dialog.c:1109
+#: src/gtk/options_dialog.c:1311
 msgid "OK"
 msgstr "OK"
 
@@ -1699,16 +1706,16 @@ msgstr "Spustit příkaz specifický pro server"
 msgid "Error: Command not recognized\n"
 msgstr "Chyba: Příkaz nerozpoznán\n"
 
-#: src/uicommon/gftpui.c:1330
+#: src/uicommon/gftpui.c:1324
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr "Chyba: Vzdálený počítač odpojen po pokusu o přenést soubor\n"
 
-#: src/uicommon/gftpui.c:1396
+#: src/uicommon/gftpui.c:1390
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Nelze stáhnout %s z %s\n"
 
-#: src/uicommon/gftpui.c:1419
+#: src/uicommon/gftpui.c:1413
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "Úspěšně přeneseno %s rychlostí %.2f KB/s\n"
@@ -2327,7 +2334,7 @@ msgstr "Průběh"
 msgid "Connect"
 msgstr "Spojeno"
 
-#: src/gtk/gftp-gtk.c:1032
+#: src/gtk/gftp-gtk.c:1040
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Chyba: Musíte zadat hostitele, ke kterému se připojit\n"
 
@@ -2343,11 +2350,11 @@ msgstr "Zadejte jméno uživatele"
 msgid "Please enter your username for this site"
 msgstr "Vložte prosím své jméno uživatele pro tento počítač"
 
-#: src/gtk/gtkui.c:115 src/gtk/transfer.c:511 src/gtk/transfer.c:522
+#: src/gtk/gtkui.c:115 src/gtk/transfer.c:508 src/gtk/transfer.c:519
 msgid "Enter Password"
 msgstr "Vložte heslo"
 
-#: src/gtk/gtkui.c:116 src/gtk/transfer.c:512 src/gtk/transfer.c:523
+#: src/gtk/gtkui.c:116 src/gtk/transfer.c:509 src/gtk/transfer.c:520
 msgid "Please enter your password for this site"
 msgstr "Vložte prosím své heslo pro tento počítač"
 
@@ -2389,12 +2396,12 @@ msgstr "Vložte site-specific příkaz"
 msgid "Chdir"
 msgstr "Změnit adresář"
 
-#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:403 src/gtk/transfer.c:489
-#: src/gtk/transfer.c:966
+#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:403 src/gtk/transfer.c:486
+#: src/gtk/transfer.c:963
 msgid "Skipped"
 msgstr "Přeskočeno"
 
-#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:465 src/gtk/transfer.c:493
+#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:465 src/gtk/transfer.c:490
 msgid "Waiting..."
 msgstr "Čekám..."
 
@@ -2458,7 +2465,7 @@ msgid "Enter the new file specification"
 msgstr "Vložte novou masku souborů"
 
 #: src/gtk/menu-items.c:105 src/gtk/menu-items.c:313 src/gtk/menu-items.c:371
-#: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:129
+#: src/gtk/view_dialog.c:76 src/gtk/view_dialog.c:143
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Varování: Nemohu otevřít %s pro zápis: %s\n"
@@ -2515,7 +2522,7 @@ msgstr "O programu"
 msgid "License Agreement"
 msgstr "Licenční ujednání"
 
-#: src/gtk/menu-items.c:561 src/gtk/view_dialog.c:378
+#: src/gtk/menu-items.c:561 src/gtk/view_dialog.c:392
 msgid "  Close  "
 msgstr "  Zavřít  "
 
@@ -2626,7 +2633,7 @@ msgstr "Síťová maska"
 msgid "Local Hosts"
 msgstr "Místní hostitelé"
 
-#: src/gtk/options_dialog.c:1187 src/gtk/view_dialog.c:91
+#: src/gtk/options_dialog.c:1187 src/gtk/view_dialog.c:105
 msgid "Edit"
 msgstr "Upravit"
 
@@ -2638,7 +2645,7 @@ msgstr "Možnosti"
 msgid "Receiving file names..."
 msgstr "Přijímám jména souborů..."
 
-#: src/gtk/transfer.c:62 src/gtk/transfer.c:642
+#: src/gtk/transfer.c:62 src/gtk/transfer.c:639
 msgid "Connecting..."
 msgstr "Připojuji se..."
 
@@ -2688,80 +2695,80 @@ msgstr "Dokončeno"
 msgid "Stopping the transfer of %s\n"
 msgstr "Zastavuji přenos %s\n"
 
-#: src/gtk/transfer.c:686
+#: src/gtk/transfer.c:683
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% kompletní, %02d:%02d:%02d odhadem zbývá. (Soubor %ld z %ld)"
 
-#: src/gtk/transfer.c:716
+#: src/gtk/transfer.c:713
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Přeneseno %s z %s rychlostí %.2fKB/s, %02d:%02d:%02d odhadem zbývá"
 
-#: src/gtk/transfer.c:725
+#: src/gtk/transfer.c:722
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Přeneseno %s z %s, přenos pozastaven, nelze odhadnout zbývající čas"
 
-#: src/gtk/transfer.c:760
+#: src/gtk/transfer.c:757
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Přenáším jména souborů...%s bajtů"
 
-#: src/gtk/transfer.c:838 src/gtk/transfer.c:860 src/gtk/transfer.c:894
-#: src/gtk/transfer.c:934 src/gtk/transfer.c:987 src/gtk/transfer.c:1047
+#: src/gtk/transfer.c:835 src/gtk/transfer.c:857 src/gtk/transfer.c:891
+#: src/gtk/transfer.c:931 src/gtk/transfer.c:984 src/gtk/transfer.c:1044
 msgid "There are no file transfers selected\n"
 msgstr "Není vybrán žádný přenos souborů\n"
 
-#: src/gtk/transfer.c:878
+#: src/gtk/transfer.c:875
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Zastavuji přenos s hostitelem %s\n"
 
-#: src/gtk/transfer.c:919 src/gtk/transfer.c:972
+#: src/gtk/transfer.c:916 src/gtk/transfer.c:969
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Přeskakuji soubor %s na hostiteli %s\n"
 
-#: src/gtk/view_dialog.c:35
+#: src/gtk/view_dialog.c:36
 msgid "View"
 msgstr "Zobrazit"
 
-#: src/gtk/view_dialog.c:47
+#: src/gtk/view_dialog.c:48
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "Zobrazit: %s je adresář. Nemohu jej zobrazit.\n"
 
-#: src/gtk/view_dialog.c:100
+#: src/gtk/view_dialog.c:114
 msgid "Edit: You must specify an editor in the options dialog\n"
 msgstr "Upravit: Musíte zadat editor v dialogu Možnosti\n"
 
-#: src/gtk/view_dialog.c:113
+#: src/gtk/view_dialog.c:127
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "Upravit: %s je adresář. Nemohu jej upravit.\n"
 
-#: src/gtk/view_dialog.c:184
+#: src/gtk/view_dialog.c:198
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Zobrazit: Nelze vytvořit další proces: %s\n"
 
-#: src/gtk/view_dialog.c:187
+#: src/gtk/view_dialog.c:201
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "Spouštím program: %s %s\n"
 
-#: src/gtk/view_dialog.c:245
+#: src/gtk/view_dialog.c:259
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "Otevírám %s pomocí %s\n"
 
-#: src/gtk/view_dialog.c:280
+#: src/gtk/view_dialog.c:294
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "Zobrazuji soubor %s\n"
 
-#: src/gtk/view_dialog.c:287
+#: src/gtk/view_dialog.c:301
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Zobrazit: Nemohu otevřít soubor %s: %s\n"
@@ -2775,7 +2782,7 @@ msgstr "Nemohu otevřít řídicí terminál %s\n"
 msgid "Username [anonymous]:"
 msgstr "Jméno uživatele [anonymous]:"
 
-#: src/text/textui.c:140
+#: src/text/textui.c:139
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
