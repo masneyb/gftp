@@ -561,13 +561,16 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
       case SSH_FXP_SETSTAT:
         memcpy (&num, message + 4, 4);
         num = ntohl (num);
-        pos = message + 12 + num - 1;
-        oldchar = *pos;
-        *pos = '\0';
+
         memcpy (&stattype, message + 8 + num, 4);
         stattype = ntohl (stattype);
         memcpy (&attr, message + 12 + num, 4);
         attr = ntohl (attr);
+
+        pos = message + 8 + num;
+        oldchar = *pos;
+        *pos = '\0';
+
         switch (stattype)
           {
             case SSH_FILEXFER_ATTR_PERMISSIONS:
@@ -580,6 +583,7 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
                                          _("%d: Utime %s %d\n"), id,
                                          message + 8, attr);
           }
+
         *pos = oldchar;
         break;
       case SSH_FXP_STATUS:
@@ -1493,7 +1497,7 @@ sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
   num = htonl (SSH_FILEXFER_ATTR_PERMISSIONS);
   memcpy (endpos, &num, 4);
 
-  g_snprintf (buf, sizeof (buf), "%d", mode);
+  g_snprintf (buf, sizeof (buf), "%o", mode);
   num = htonl (strtol (buf, NULL, 8));
   memcpy (endpos + 4, &num, 4);
 
