@@ -100,14 +100,12 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 {
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
+      if (GFTP_IS_CONNECTED (current_wdata->request))
+        disconnect (current_wdata);
+
       if (gftp_parse_url (current_wdata->request, 
                           (char *) selection_data->data) == 0)
-        {
-          if (GFTP_IS_CONNECTED (current_wdata->request))
-            disconnect (current_wdata);
-
-          ftp_connect (current_wdata, current_wdata->request, 1);
-        }
+        ftp_connect (current_wdata, current_wdata->request, 1);
     }
 }
 

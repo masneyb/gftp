@@ -1,4 +1,9 @@
 2003-12-7 Brian Masney <masneyb@gftp.org>
+	* src/gtk/dnd.c (openurl_get_drag_data) - if we are connected to a
+	remote site, disconnect before parsing the URL. This fixes a bug where
+	the directory was not being refreshed properly (from Aurelien Jarno
+	<lists@aurel32.net>)
+	
 	* configure.in acinclude.m4 lib/misc.c - added AC_INTL_PRINTF macro.
 	If the printf family of functions supports %'ld, then HAVE_INTL_PRINTF
 	will be defined. The appropriate version of insert_commas() can be
