@@ -105,6 +105,60 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
 }
 
 
+static int
+copyfile (char *source, char *dest)
+{
+  int srcfd, destfd;
+  char buf[8192];
+  ssize_t n;
+
+  if ((srcfd = gftp_fd_open (NULL, source, O_RDONLY, 0)) == -1)
+    {
+      printf (_("Error: Cannot open local file %s: %s\n"),
+              source, g_strerror (errno));
+      exit (1);
+    }
+
+  if ((destfd = gftp_fd_open (NULL, dest, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)) == -1)
+    {
+      printf (_("Error: Cannot open local file %s: %s\n"),
+              dest, g_strerror (errno));
+      close (srcfd);
+      exit (1);
+    }
+
+  while ((n = read (srcfd, buf, sizeof (buf))) > 0)
+    {
+      if (write (destfd, buf, n) == -1)
+        {
+          printf (_("Error: Could not write to socket: %s\n"), 
+                  g_strerror (errno));
+          exit (1);
+        }
+    }
+
+  if (n == -1)
+    {
+      printf (_("Error: Could not read from socket: %s\n"), g_strerror (errno));
+      exit (1);
+    }
+
+  if (close (srcfd) == -1)
+    {
+      printf (_("Error closing file descriptor: %s\n"), g_strerror (errno));
+      exit (1);
+    }
+
+  if (close (destfd) == -1)
+    {
+      printf (_("Error closing file descriptor: %s\n"), g_strerror (errno));
+      exit (1);
+    }
+
+  return (1);
+}
+
+
 static void
 gftp_read_bookmarks (char *global_data_path)
 {

@@ -1,3 +1,17 @@
+2003-11-30 Brian Masney <masneyb@gftp.org>
+	* src/gtk/transfer.c - shows status information in title bar. (patch
+	from Jamil Geor <jamil_geor@yahoo.co.nz>, cleaned up by me some)
+
+	* lib/options.h - added show_trans_in_title option.
+	
+2003-11-25 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (gftp_locale_init) - call bindtextdomain() so that the
+	directory is setup properly
+
+	* lib/misc.c lib/gftp.h lib/config_file.c - move copyfile() to 
+	config_file.c and declare it to be static. On the destination file,
+	set the flag O_EXCL
+
 2003-11-23 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c - when transfering a file, if the file being
 	transfered is greater in the destination than in the source, overwrite

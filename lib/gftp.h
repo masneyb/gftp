@@ -656,9 +656,6 @@ char *expand_path 			( const char *src );
 
 void make_nonnull 			( char **str );
 
-int copyfile				( char *source,
-					  char *dest );
-
 int gftp_match_filespec 		( char *filename, 
 					  char *filespec );
 

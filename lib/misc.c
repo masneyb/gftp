@@ -260,60 +260,6 @@ make_nonnull (char **str)
 }
 
 
-int
-copyfile (char *source, char *dest)
-{
-  int srcfd, destfd;
-  char buf[8192];
-  ssize_t n;
-
-  if ((srcfd = gftp_fd_open (NULL, source, O_RDONLY, 0)) == -1)
-    {
-      printf (_("Error: Cannot open local file %s: %s\n"),
-              source, g_strerror (errno));
-      exit (1);
-    }
-
-  if ((destfd = gftp_fd_open (NULL, dest, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
-    {
-      printf (_("Error: Cannot open local file %s: %s\n"),
-              dest, g_strerror (errno));
-      close (srcfd);
-      exit (1);
-    }
-
-  while ((n = read (srcfd, buf, sizeof (buf))) > 0)
-    {
-      if (write (destfd, buf, n) == -1)
-        {
-          printf (_("Error: Could not write to socket: %s\n"), 
-                  g_strerror (errno));
-          exit (1);
-        }
-    }
-
-  if (n == -1)
-    {
-      printf (_("Error: Could not read from socket: %s\n"), g_strerror (errno));
-      exit (1);
-    }
-
-  if (close (srcfd) == -1)
-    {
-      printf (_("Error closing file descriptor: %s\n"), g_strerror (errno));
-      exit (1);
-    }
-
-  if (close (destfd) == -1)
-    {
-      printf (_("Error closing file descriptor: %s\n"), g_strerror (errno));
-      exit (1);
-    }
-
-  return (1);
-}
-
-
 /* FIXME - is there a replacement for this */
 int
 gftp_match_filespec (char *filename, char *filespec)
@@ -1281,13 +1227,12 @@ gftp_locale_init (void)
 
   setlocale (LC_ALL, "");
   textdomain ("gftp");
+  bindtextdomain ("gftp", LOCALE_DIR);
 
 #if GLIB_MAJOR_VERSION > 1
   bind_textdomain_codeset ("gftp", "UTF-8");
 #endif
 
-  textdomain ("gftp");
-
-#endif
+#endif /* HAVE_GETTEXT */
 }
 

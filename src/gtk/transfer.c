@@ -1275,6 +1275,8 @@ transfer_done (GList * node)
 
   pthread_mutex_lock (&transfer_mutex);
   gftp_file_transfers = g_list_remove_link (gftp_file_transfers, node);
+  gdk_window_set_title (gtk_widget_get_parent_window (GTK_WIDGET(dlwdw)),
+                        gftp_version);
   pthread_mutex_unlock (&transfer_mutex);
 
   free_tdata (tdata);
@@ -1317,12 +1319,12 @@ create_transfer (gftp_transfer * tdata)
 static void
 update_file_status (gftp_transfer * tdata)
 {
-  char totstr[100], dlstr[100], gotstr[50], ofstr[50];
-  int hours, mins, secs, pcent, st;
+  char totstr[100], dlstr[100], winstr[150], gotstr[50], ofstr[50];
+  int hours, mins, secs, pcent, st, show_trans_in_title;
   unsigned long remaining_secs, lkbs;
   gftp_file * tempfle;
   struct timeval tv;
-
+  
   g_static_mutex_lock (&tdata->statmutex);
   tempfle = tdata->curfle->data;
 
@@ -1399,6 +1401,14 @@ update_file_status (gftp_transfer * tdata)
   g_static_mutex_unlock (&tdata->statmutex);
 
   gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1, totstr);
+  
+  gftp_lookup_global_option ("show_trans_in_title", &show_trans_in_title);
+  if (gftp_file_transfers->data == tdata && show_trans_in_title)
+    {
+      g_snprintf (winstr, sizeof(winstr),  "%s: %s", gftp_version, totstr);
+      gdk_window_set_title (gtk_widget_get_parent_window (GTK_WIDGET(dlwdw)),
+                            winstr);
+    }
 
   if (*dlstr != '\0')
     gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1, dlstr);
