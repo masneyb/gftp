@@ -22,6 +22,10 @@
 #ifndef __GFTP_H
 #define __GFTP_H
 
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
