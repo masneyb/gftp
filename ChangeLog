@@ -1,3 +1,26 @@
+2003-4-27 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c (gftp_config_file_read_float) - use strtod instead
+	of strtof(). ANSI C describes strtod, and C99 describes strtof(). Some
+	older systems don't have strtof() 
+
+	* lib/gftp.h - if HAVE_OPENPTY is defined, include pty.h. Fix for
+	GFTP_GET_AI_FAMILY when request or request->hostp is NULL. Added
+	free_hostp boolean to struct gftp_request
+
+	* lib/misc.c src/gtk/delete_dialog.c src/gtk/transfer.c - added 
+	copy_local_options parameter. Add a pointer to newreq->hostp from the 
+	source request structure
+
+	* lib/protocols.c - honor free_hostp 
+
+	* lib/rfc959.c - fix for IPV4/IPV6 detection
+
+	* src/gtk/misc-gtk.c src/gtk/options_dialog.c - fixed compiler errors
+	when compiling against GTK+ 1.2
+
+	* src/gtk/transfer.c - lookup option one_transfer instead of 
+	do_one_transfer_at_a_time
+
 2003-04-27  Christian Rose  <menthos@menthos.com>
 
 	* lib/rfc959.c: Fix bug #111090 by adding

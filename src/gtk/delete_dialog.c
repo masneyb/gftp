@@ -185,7 +185,7 @@ delete_dialog (gpointer data)
     return;
 
   transfer = g_malloc0 (sizeof (*transfer));
-  transfer->fromreq = copy_request (wdata->request);
+  transfer->fromreq = copy_request (wdata->request, 0);
   transfer->fromwdata = wdata;
   transfer->transfer_direction = GFTP_DIRECTION_DOWNLOAD;
 

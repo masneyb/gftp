@@ -80,9 +80,13 @@
 #define AF_LOCAL AF_UNIX
 #endif
 
+#ifdef HAVE_OPENPTY
+#include <pty.h>
+#endif
+
 #ifdef HAVE_GETADDRINFO
 #define HAVE_IPV6
-#define GFTP_GET_AI_FAMILY(request)	(request->hostp->ai_family)
+#define GFTP_GET_AI_FAMILY(request)	(request != NULL && request->hostp != NULL ? request->hostp->ai_family : -1)
 #else
 #define GFTP_GET_AI_FAMILY(request)	AF_INET
 #endif
@@ -308,7 +312,9 @@ struct gftp_request_tag
 
   int server_type;		/* The type of server we are connected to.
                                    See GFTP_DIRTYPE_* above */
-  unsigned int use_proxy : 1,
+  unsigned int free_hostp : 1, 		/* Should we free the hostp structure 
+					   in gftp_destroy_request() */
+               use_proxy : 1,
                always_connected : 1,
                need_hostport : 1,
                need_userpass : 1,
@@ -615,7 +621,8 @@ void free_tdata 			( gftp_transfer * tdata );
 void gftp_copy_local_options 		( gftp_request * dest, 
 					  gftp_request * source );
 
-gftp_request * copy_request 		( gftp_request * req );
+gftp_request * copy_request 		( gftp_request * req,
+					  int copy_local_options );
 
 GList * gftp_sort_filelist 		( GList * filelist, 
 					  int column, 

@@ -109,16 +109,16 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
   switch (level)
     {
       case gftp_logging_send:
-        color = &send_color;
+        gftp_lookup_global_option ("send_color", &color);
         break;
       case gftp_logging_recv:
-        color = &recv_color;
+        gftp_lookup_global_option ("recv_color", &color);
         break;
       case gftp_logging_error:
-        color = &error_color;
+        gftp_lookup_global_option ("error_color", &color);
         break;
       default:
-        color = &misc_color;
+        gftp_lookup_global_option ("misc_color", &color);
         break;
     }
 

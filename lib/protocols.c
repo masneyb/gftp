@@ -123,7 +123,7 @@ gftp_disconnect (gftp_request * request)
   g_return_if_fail (request != NULL);
 
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-  if (request->hostp)
+  if (request->free_hostp && request->hostp != NULL)
     freeaddrinfo (request->hostp);
 #endif
   request->hostp = NULL;
@@ -773,6 +773,7 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
 
   request->hostp = NULL;
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
+  request->free_hostp = 1;
   memset (&hints, 0, sizeof (hints));
   hints.ai_flags = AI_CANONNAME;
   hints.ai_family = PF_UNSPEC;
@@ -1573,6 +1574,7 @@ gftp_connect_server (gftp_request * request, char *service,
   else if (request->use_proxy == 1)
     request->hostp = NULL;
 
+  request->free_hostp = 1;
   memset (&hints, 0, sizeof (hints));
   hints.ai_flags = AI_CANONNAME;
   hints.ai_family = PF_UNSPEC;

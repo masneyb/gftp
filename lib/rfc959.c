@@ -848,18 +848,13 @@ rfc959_data_connection_new (gftp_request * request)
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
 
-  if (GFTP_GET_AI_FAMILY(request) == AF_INET)
-    return (rfc959_ipv4_data_connection_new (request));
 #ifdef HAVE_IPV6
-  else
+  if (GFTP_GET_AI_FAMILY(request) == AF_INET6)
     return (rfc959_ipv6_data_connection_new (request));
-#else /* Shouldn't happen */
   else
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-				 _("Error: IPV6 support was not completely compiled in\n"));
-      return (GFTP_EFATAL);
-    }
+    return (rfc959_ipv4_data_connection_new (request));
+#else
+  return (rfc959_ipv4_data_connection_new (request));
 #endif
 }
 

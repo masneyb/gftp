@@ -581,7 +581,7 @@ gftp_copy_local_options (gftp_request * dest, gftp_request * source)
 
 
 gftp_request * 
-copy_request (gftp_request * req)
+copy_request (gftp_request * req, int copy_local_options)
 {
   gftp_request * newreq;
 
@@ -600,7 +600,11 @@ copy_request (gftp_request * req)
   newreq->port = req->port;
   newreq->use_proxy = req->use_proxy;
   newreq->logging_function = req->logging_function;
-  gftp_copy_local_options (newreq, req);
+  newreq->free_hostp = 0;
+  newreq->hostp = req->hostp;
+
+  if (copy_local_options)
+    gftp_copy_local_options (newreq, req);
 
   req->init (newreq);
 

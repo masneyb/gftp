@@ -422,8 +422,8 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
     return;
 
   transfer = g_malloc0 (sizeof (*transfer));
-  transfer->fromreq = copy_request (fromwdata->request);
-  transfer->toreq = copy_request (towdata->request);
+  transfer->fromreq = copy_request (fromwdata->request, 0);
+  transfer->toreq = copy_request (towdata->request, 0);
   transfer->transfer_direction = fromwdata == &window2 ? 
                            GFTP_DIRECTION_DOWNLOAD : GFTP_DIRECTION_UPLOAD;
   transfer->fromwdata = fromwdata;
@@ -862,8 +862,8 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
       tdata = gftp_tdata_new ();
       if (copy_req)
         {
-          tdata->fromreq = copy_request (fromreq);
-          tdata->toreq = copy_request (toreq); 
+          tdata->fromreq = copy_request (fromreq, 0);
+          tdata->toreq = copy_request (toreq, 0); 
         }
       else
         {
@@ -1427,7 +1427,7 @@ update_downloads (gpointer data)
 
 	  if (tdata->curfle != NULL)
 	    {
-              gftp_lookup_global_option ("do_one_transfer_at_a_time", 
+              gftp_lookup_global_option ("one_transfer", 
                                          &do_one_transfer_at_a_time);
               start_file_transfers = 1; /* FIXME */
 

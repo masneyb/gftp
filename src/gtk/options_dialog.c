@@ -1152,6 +1152,9 @@ options_dialog (gpointer data)
   gftp_config_vars * cv;
   GList * templist;
   int i;
+#if GTK_MAJOR_VERSION == 1
+  GtkWidget * tempwid;
+#endif
 
   memset (&option_data, 0, sizeof (option_data));
   _setup_option (gftp_option_type_text, &option_data, 

@@ -905,7 +905,7 @@ gftp_config_file_read_float (char *str, gftp_config_vars * cv, int line)
 {
   float f;
 
-  f = strtof (str, NULL);
+  f = strtod (str, NULL);
   memcpy (&cv->value, &f, sizeof (cv->value));
   return (0);
 }
