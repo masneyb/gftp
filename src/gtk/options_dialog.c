@@ -25,23 +25,30 @@ static GtkWidget * proxy_list, * new_proxy_domain, * network1,
                  * netmask3, * netmask4, * domain_active;
 static GList * new_proxy_hosts;
 
+/* FIXME - use cancel function */
+
 static void
 _setup_option (gftp_option_type_enum otype,
                gftp_options_dialog_data * option_data, 
                void * (*ui_print_function) (gftp_config_vars * cv,
                                                  void *user_data),
                void (*ui_save_function) (gftp_config_vars * cv,
-                                         void *user_data))
+                                         void *user_data),
+               void (*ui_cancel_function) (gftp_config_vars * cv,
+                                           void *user_data))
+
 {
   gftp_option_types[otype].user_data = option_data;
   gftp_option_types[otype].ui_print_function = ui_print_function;
   gftp_option_types[otype].ui_save_function = ui_save_function;
+  gftp_option_types[otype].ui_cancel_function = ui_cancel_function;
 }
 
 
 static void *
-_gen_input_widget (gftp_options_dialog_data * option_data, char *label)
+_gen_input_widget (gftp_options_dialog_data * option_data, char *label, char *tiptxt)
 {
+  GtkTooltips * tooltip;
   GtkWidget * tempwid;
 
   option_data->tbl_row_num++;
@@ -60,6 +67,13 @@ _gen_input_widget (gftp_options_dialog_data * option_data, char *label)
                              option_data->tbl_row_num - 1, 
                              option_data->tbl_row_num);
   gtk_widget_show (tempwid);
+
+  if (tiptxt != NULL)
+    {
+      tooltip = gtk_tooltips_new ();
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), tempwid, tiptxt, NULL);
+    }
+
   return (tempwid);
 }
 
@@ -92,7 +106,7 @@ _print_option_type_text (gftp_config_vars * cv, void *user_data)
 
   option_data = user_data;
 
-  tempwid = _gen_input_widget (option_data, cv->description);
+  tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
   gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) cv->value);
   return (tempwid);
 }
@@ -143,8 +157,9 @@ static void *
 _print_option_type_textcombo (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
-  GList * widget_list;
   GtkWidget * tempwid, * combo;
+  GList * widget_list;
+  GtkTooltips * tooltip;
   int selitem, i;
   char **clist;
 
@@ -173,6 +188,13 @@ _print_option_type_textcombo (gftp_config_vars * cv, void *user_data)
     }
 
   gtk_widget_show (combo);
+
+  if (cv->comment != NULL)
+    {
+      tooltip = gtk_tooltips_new ();
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), combo, cv->comment, NULL);
+    }
+
   return (combo);
 }
 
@@ -209,6 +231,7 @@ _textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
 {
   gftp_textcomboedt_widget_data * widdata;
   gftp_textcomboedt_data * tedata;
+  char *insert_text;
   int num, isedit;
 #if GTK_MAJOR_VERSION > 1
   GtkTextIter iter, iter2;
@@ -228,7 +251,9 @@ _textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
 #endif
 
   if (isedit)
-    return;
+    insert_text = widdata->custom_edit_value;
+  else
+    insert_text = tedata[num].text;
 
 #if GTK_MAJOR_VERSION == 1
   gtk_text_set_point (GTK_TEXT (widdata->text), 0);
@@ -236,7 +261,7 @@ _textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
 			   gtk_text_get_length (GTK_TEXT (widdata->text)));
 
   gtk_text_insert (GTK_TEXT (widdata->text), NULL, NULL, NULL, 
-                   tedata[num].text, -1);
+                   insert_text, -1);
 #else
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widdata->text));
   len = gtk_text_buffer_get_char_count (textbuf);
@@ -246,8 +271,62 @@ _textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
 
   len = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len - 1);
-  gtk_text_buffer_insert (textbuf, &iter, tedata[num].text, -1);
+  gtk_text_buffer_insert (textbuf, &iter, insert_text, -1);
 #endif
+}
+
+
+static char *
+_gftp_convert_to_newlines (char *str)
+{
+  char *stpos, *endpos, *ret, savechar;
+  size_t len;
+
+  ret = g_strdup ("");
+  len = 0;
+  for (stpos = str; 
+       (endpos = strstr (stpos, "%n")) != NULL;
+       stpos = endpos + 2)
+    { 
+      savechar = *endpos;
+      *endpos = '\0';
+
+      len += strlen (stpos) + 1;
+      ret = g_realloc (ret, len + 1);
+      strcat (ret, stpos);
+      strcat (ret, "\n");
+
+      *endpos = savechar;
+    }
+
+  return (ret);
+}
+
+
+static char *
+_gftp_convert_from_newlines (char *str)
+{
+  char *stpos, *endpos, *ret, savechar;
+  size_t len;
+
+  ret = g_strdup ("");
+  len = 0;
+  for (stpos = str; 
+       (endpos = strchr (stpos, '\n')) != NULL;
+       stpos = endpos + 1)
+    { 
+      savechar = *endpos;
+      *endpos = '\0';
+
+      len += strlen (stpos) + 2;
+      ret = g_realloc (ret, len + 1);
+      strcat (ret, stpos);
+      strcat (ret, "%n");
+
+      *endpos = savechar;
+    }
+
+  return (ret);
 }
 
 
@@ -259,21 +338,23 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
   gftp_options_dialog_data * option_data;
   gftp_textcomboedt_data * tedata;
   int i, selitem, edititem;
+  GtkTooltips * tooltip;
   GList * widget_list;
   char *tempstr;
 
   option_data = user_data;
   combo = _gen_combo_widget (option_data, cv->description);
+ 
+  tempstr = NULL;
+  if (cv->value != NULL)
+    tempstr = _gftp_convert_to_newlines (cv->value);
+  if (tempstr == NULL)
+    tempstr = g_strdup ("");
 
   edititem = selitem = -1;
   if (cv->listdata != NULL)
     {
       widget_list = NULL;
-
-      if (cv->value == NULL)
-        tempstr = "";
-      else
-        tempstr = cv->value;
 
       tedata = cv->listdata;
       for (i=0; tedata[i].description != NULL; i++)
@@ -281,7 +362,8 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
           if (tedata[i].flags & GFTP_TEXTCOMBOEDT_EDITABLE)
             edititem = i;
 
-          if (strcasecmp (tempstr, tedata[i].text) == 0)
+          if (selitem == -1 &&
+              strcasecmp (tempstr, tedata[i].text) == 0)
             selitem = i;
 
           tempwid = gtk_list_item_new_with_label (tedata[i].description);
@@ -291,12 +373,11 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
 
       gtk_list_prepend_items (GTK_LIST (GTK_COMBO (combo)->list), widget_list); 
 
-      gtk_list_select_item (GTK_LIST (GTK_COMBO (combo)->list), selitem);
+      if (selitem == -1 && edititem != -1)
+        selitem = edititem;
     }
 
-  if (selitem == -1 && edititem != -1)
-    selitem = edititem;
-  else if (selitem == -1)
+  if (selitem == -1)
     selitem = 0;
 
   option_data->tbl_row_num++;
@@ -305,10 +386,8 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
 
 #if GTK_MAJOR_VERSION == 1
   textwid = gtk_text_new (NULL, NULL);
-  gtk_text_set_editable (GTK_TEXT (textwid), TRUE);
 #else
   textwid = gtk_text_view_new ();
-  gtk_text_view_set_editable (GTK_TEXT_VIEW (textwid), TRUE);
 #endif
   gtk_widget_set_size_request (textwid, -1, 75);
   gtk_table_attach_defaults (GTK_TABLE (option_data->table), textwid, 0, 2,
@@ -320,6 +399,7 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
   widdata->combo = combo;
   widdata->text = textwid;
   widdata->cv = cv;
+  widdata->custom_edit_value = tempstr;
 
   gtk_signal_connect (GTK_OBJECT (GTK_COMBO (combo)->list),
                       "select_child", 
@@ -327,16 +407,40 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
   gtk_list_select_item (GTK_LIST (GTK_COMBO (combo)->list), selitem);
   gtk_widget_show (combo);
 
-  return (textwid);
+  if (cv->comment != NULL)
+    {
+      tooltip = gtk_tooltips_new ();
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), combo, cv->comment, NULL);
+
+      tooltip = gtk_tooltips_new ();
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), textwid, cv->comment, NULL);
+    }
+
+  return (widdata);
+}
+
+
+static void
+_cancel_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
+{
+  gftp_textcomboedt_widget_data * widdata;
+
+  widdata = cv->user_data;
+  if (widdata != NULL)
+    {
+      if (widdata->custom_edit_value != NULL)
+        g_free (widdata->custom_edit_value);
+      g_free (widdata);
+    }
 }
 
 
 static void
 _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
 {
-  gftp_options_dialog_data * option_data;
-  const char *textstr;
+  gftp_textcomboedt_widget_data * widdata;
   char *newstr;
+  int freeit;
 #if GTK_MAJOR_VERSION == 1
   char tmp[128];
 #else
@@ -345,7 +449,7 @@ _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
   size_t len;
 #endif
 
-  option_data = user_data;
+  widdata = cv->user_data;
 
 #if GTK_MAJOR_VERSION == 1
   /*
@@ -353,25 +457,36 @@ _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
      locale (ex Japanese),  so we must convert from wide character 
      to multibyte charator....   Yasuyuki Furukawa (yasu@on.cs.keio.ac.jp)
    */
-  if (GTK_TEXT (cv->user_data)->use_wchar)
+  if (GTK_TEXT (widdata->text)->use_wchar)
     {
-      wcstombs (tmp, (wchar_t *) GTK_TEXT (cv->user_data)->text.wc, sizeof (tmp));
-      newstr = g_strdup (tmp);
+      wcstombs (tmp, (wchar_t *) GTK_TEXT (widdata->text)->text.wc, sizeof (tmp));
+      newstr = tmp;
+      freeit = 0;
     }
   else
     {
-      textstr = (char *) GTK_TEXT (cv->user_data)->text.ch; 
-      newstr = g_strdup (textstr);
+      newstr = (char *) GTK_TEXT (widdata->text)->text.ch; 
+      freeit = 0;
     }
 #else
-  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (cv->user_data));
+  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widdata->text));
   len = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len - 1);
   newstr = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
+  freeit = 1;
 #endif
 
-  cv->value = newstr;
+  if (cv->flags & GFTP_CVARS_FLAGS_DYNMEM)
+    g_free (cv->value);
+
+  cv->value = _gftp_convert_from_newlines (newstr);
+  cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
+
+  if (freeit)
+    g_free (newstr);
+
+  _cancel_option_type_textcomboedt (cv, user_data);
 }
 
 
@@ -383,7 +498,7 @@ _print_option_type_hidetext (gftp_config_vars * cv, void *user_data)
 
   option_data = user_data;
 
-  tempwid = _gen_input_widget (option_data, cv->description);
+  tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
   gtk_entry_set_visibility (GTK_ENTRY (tempwid), 0);
   gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) cv->value);
   return (tempwid);
@@ -399,7 +514,7 @@ _print_option_type_int (gftp_config_vars * cv, void *user_data)
 
   option_data = user_data;
 
-  tempwid = _gen_input_widget (option_data, cv->description);
+  tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
   g_snprintf (tempstr, sizeof (tempstr), "%d", GPOINTER_TO_INT(cv->value));
   gtk_entry_set_text (GTK_ENTRY (tempwid), tempstr);
   return (tempwid);
@@ -422,6 +537,7 @@ static void *
 _print_option_type_checkbox (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
+  GtkTooltips * tooltip;
   GtkWidget * tempwid;
 
   option_data = user_data;
@@ -447,6 +563,13 @@ _print_option_type_checkbox (gftp_config_vars * cv, void *user_data)
   gtk_widget_show (tempwid);
 
   option_data->tbl_col_num = (option_data->tbl_col_num + 1) % 2;
+
+  if (cv->comment != NULL)
+    {
+      tooltip = gtk_tooltips_new ();
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), tempwid, cv->comment, NULL);
+    }
+
   return (tempwid);
 }
 
@@ -471,7 +594,7 @@ _print_option_type_float (gftp_config_vars * cv, void *user_data)
 
   option_data = user_data;
 
-  tempwid = _gen_input_widget (option_data, cv->description);
+  tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
   memcpy (&f, &cv->value, sizeof (f));
   g_snprintf (tempstr, sizeof (tempstr), "%.2f", f);
   gtk_entry_set_text (GTK_ENTRY (tempwid), tempstr);
@@ -1032,22 +1155,24 @@ options_dialog (gpointer data)
 
   memset (&option_data, 0, sizeof (option_data));
   _setup_option (gftp_option_type_text, &option_data, 
-                 _print_option_type_text, _save_option_type_text);
+                 _print_option_type_text, _save_option_type_text, NULL);
   _setup_option (gftp_option_type_textcombo, &option_data, 
-                 _print_option_type_textcombo, _save_option_type_textcombo);
+                 _print_option_type_textcombo, _save_option_type_textcombo, 
+                 NULL);
   _setup_option (gftp_option_type_textcomboedt, &option_data, 
                  _print_option_type_textcomboedt, 
-                 _save_option_type_textcomboedt);
+                 _save_option_type_textcomboedt,
+                 _cancel_option_type_textcomboedt);
   _setup_option (gftp_option_type_hidetext, &option_data, 
-                 _print_option_type_hidetext, _save_option_type_text);
+                 _print_option_type_hidetext, _save_option_type_text, NULL);
   _setup_option (gftp_option_type_int, &option_data, 
-                 _print_option_type_int, _save_option_type_int);
+                 _print_option_type_int, _save_option_type_int, NULL);
   _setup_option (gftp_option_type_checkbox, &option_data, 
-                 _print_option_type_checkbox, _save_option_type_checkbox);
+                 _print_option_type_checkbox, _save_option_type_checkbox, NULL);
   _setup_option (gftp_option_type_float, &option_data, 
-                 _print_option_type_float, _save_option_type_float);
+                 _print_option_type_float, _save_option_type_float, NULL);
   _setup_option (gftp_option_type_notebook, &option_data, 
-                 _print_option_type_notebook, NULL);
+                 _print_option_type_notebook, NULL, NULL);
 
 #if GTK_MAJOR_VERSION == 1
   option_data.dialog = gtk_dialog_new ();

@@ -139,6 +139,7 @@ typedef struct gftp_textcomboedt_widget_data_tag
   GtkWidget * combo,
             * text;
   gftp_config_vars * cv;
+  char * custom_edit_value;
 } gftp_textcomboedt_widget_data;
 
 

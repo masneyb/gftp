@@ -1,3 +1,16 @@
+2003-4-21 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h - added ui_cancel_function to struct gftp_option_type_var
+
+	* src/gtk/gftp-gtk.c - added custom_edit_value to struct
+	gftp_textcomboedt_widget_data
+
+	* src/gtk/options_dialog.c - fixups for gftp_option_type_textcomboedt.
+	The value will always convert %n to \n when reading in and then do the 
+	opposite conversion when saving the variable. Also, added tooltips to 
+	the options
+
+	* lib/rfc959.c - remove FIXME comment
+
 2003-4-18 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - removed gftp_option_type_subtree,
 	gftp_option_type_table and gftp_option_type_newtable

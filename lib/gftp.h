@@ -252,6 +252,7 @@ typedef struct gftp_option_type_tag
   int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
   void * (*ui_print_function) (gftp_config_vars * cv, void *user_data);
   void (*ui_save_function) (gftp_config_vars * cv, void *user_data);
+  void (*ui_cancel_function) (gftp_config_vars * cv, void *user_data);
   void *user_data;
 } gftp_option_type_var;
 
