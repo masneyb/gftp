@@ -1874,7 +1874,7 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
   char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
        tempstr[50], temp1str[50], *pos, *title;
   GtkWidget * tempwid, * scroll, * hbox;
-  int i, overwrite_by_default;
+  int i, overwrite_default;
   gftp_file * tempfle;
   GList * templist;
   size_t len;
@@ -1943,8 +1943,8 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
   gtk_widget_show (tdata->clist);
   gtk_widget_show (scroll);
 
-  gftp_lookup_request_option (tdata->fromreq, "overwrite_by_default",
-                              &overwrite_by_default);
+  gftp_lookup_request_option (tdata->fromreq, "overwrite_default",
+                              &overwrite_default);
 
   for (templist = tdata->files; templist != NULL; 
        templist = templist->next)
@@ -1963,7 +1963,7 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
         pos = tempfle->destfile + len + 1;
       add_data[0] = pos;
 
-      if (overwrite_by_default)
+      if (overwrite_default)
         add_data[3] = _("Overwrite");
       else
         {

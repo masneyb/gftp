@@ -24,7 +24,7 @@
 
 #include "../../lib/gftp.h"
 
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
 #include <readline/readline.h>
 #include <readline/history.h>
 #endif

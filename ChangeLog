@@ -1,4 +1,11 @@
 2003-7-25 Brian Masney <masneyb@gftp.org>
+	* src/gtk/transfer.c - changed looking up of overwrite_by_default to
+	overwrite_default
+
+	* src/text/gftp-text.h - fix for when the readline library was not 
+	found on the local system
+
+2003-7-25 Brian Masney <masneyb@gftp.org>
         * lib/pty.c - prefer to use openpty() instead of grantpt() if it is
         available (for FreeBSD)
 
