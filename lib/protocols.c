@@ -204,7 +204,8 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
                     gftp_request * toreq, const char *tofile,
                     int tofd, off_t tosize)
 {
-  float maxkbs;
+  /* Needed for systems that size(float) < size(void *) */
+  union { intptr_t i; float f; } maxkbs;
   off_t size;
   int ret;
 
@@ -213,13 +214,13 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
   g_return_val_if_fail (toreq != NULL, GFTP_EFATAL);
   g_return_val_if_fail (tofile != NULL, GFTP_EFATAL);
 
-  gftp_lookup_request_option (toreq, "maxkbs", &maxkbs);
+  gftp_lookup_request_option (toreq, "maxkbs", &maxkbs.f);
 
-  if (maxkbs > 0)
+  if (maxkbs.f > 0)
     {
       toreq->logging_function (gftp_logging_misc, toreq,
                     _("File transfer will be throttled to %.2f KB/s\n"), 
-                    maxkbs);
+                    maxkbs.f);
     }
 
   if (fromreq->protonum == toreq->protonum &&
@@ -1685,16 +1686,16 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
 
 
 static GHashTable *
-gftp_gen_dir_hash (gftp_request * request)
+gftp_gen_dir_hash (gftp_request * request, int *ret)
 {
   unsigned long *newsize;
   GHashTable * dirhash;
   gftp_file * fle;
   char * newname;
 
-
   dirhash = g_hash_table_new (string_hash_function, string_hash_compare);
-  if (gftp_list_files (request) == 0)
+  *ret = gftp_list_files (request);
+  if (*ret == 0)
     {
       fle = g_malloc0 (sizeof (*fle));
       while (gftp_get_next_file (request, NULL, fle) > 0)
@@ -1736,7 +1737,7 @@ gftp_destroy_dir_hash (GHashTable * dirhash)
 
 
 static GList *
-gftp_get_dir_listing (gftp_transfer * transfer, int getothdir)
+gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
 {
   unsigned long *newsize;
   GHashTable * dirhash;
@@ -1745,7 +1746,11 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir)
   char *newname;
 
   if (getothdir && transfer->toreq)
-    dirhash = gftp_gen_dir_hash (transfer->toreq);
+    {
+      dirhash = gftp_gen_dir_hash (transfer->toreq, ret);
+      if (*ret < 0)
+        return (NULL);
+    }
   else 
     dirhash = NULL; 
 
@@ -1803,8 +1808,8 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
                       void (*update_func) (gftp_transfer * transfer))
 {
   char *oldfromdir, *oldtodir, *newname, *pos;
+  int forcecd, remotechanged, ret;
   GList * templist, * lastlist;
-  int forcecd, remotechanged;
   unsigned long *newsize;
   GHashTable * dirhash;
   gftp_file * curfle;
@@ -1814,7 +1819,12 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
   g_return_val_if_fail (transfer->files != NULL, GFTP_EFATAL);
 
   if (transfer->toreq != NULL)
-    dirhash = gftp_gen_dir_hash (transfer->toreq);
+    {
+      ret = 0;
+      dirhash = gftp_gen_dir_hash (transfer->toreq, &ret);
+      if (ret < 0)
+        return (ret);
+    }
   else
     dirhash = NULL;
 
@@ -1884,8 +1894,17 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
                     curfle->startsize = 0;
                 } 
 
+              ret = 0;
               lastlist->next = gftp_get_dir_listing (transfer, 
-                                                     curfle->startsize > 0);
+                                                     curfle->startsize > 0,
+                                                     &ret);
+              if (ret < 0)
+                {
+                  if (!GFTP_IS_CONNECTED (transfer->fromreq) ||
+                      !GFTP_IS_CONNECTED (transfer->toreq))
+                    return (ret);
+                }
+
               if (lastlist->next != NULL)
                 {
                   lastlist->next->prev = lastlist;
@@ -2570,14 +2589,15 @@ gftp_swap_socks (gftp_request * dest, gftp_request * source)
 void
 gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 {
+  /* Needed for systems that size(float) < size(void *) */
+  union { intptr_t i; float f; } maxkbs;
   unsigned long waitusecs;
   double start_difftime;
   gftp_file * tempfle;
   struct timeval tv;
-  float maxkbs;
   int waited;
 
-  gftp_lookup_request_option (tdata->fromreq, "maxkbs", &maxkbs);
+  gftp_lookup_request_option (tdata->fromreq, "maxkbs", &maxkbs.f);
 
   if (g_thread_supported ())
     g_static_mutex_lock (&tdata->statmutex);
@@ -2597,9 +2617,9 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
     tdata->kbs = tdata->trans_bytes / 1024.0 / start_difftime;
 
   waited = 0;
-  if (maxkbs > 0 && tdata->kbs > maxkbs)
+  if (maxkbs.f > 0 && tdata->kbs > maxkbs.f)
     {
-      waitusecs = num_read / 1024.0 / maxkbs * 1000000.0 - start_difftime;
+      waitusecs = num_read / 1024.0 / maxkbs.f * 1000000.0 - start_difftime;
 
       if (waitusecs > 0)
         {

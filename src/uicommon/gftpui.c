@@ -1465,3 +1465,15 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
   return (1);
 }
 
+
+void
+gftpui_protocol_update_timeout (gftp_request * request)
+{
+  intptr_t network_timeout;
+
+  gftp_lookup_request_option (request, "network_timeout", &network_timeout);
+
+  if (network_timeout > 0)
+    alarm (network_timeout);
+}
+
