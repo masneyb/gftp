@@ -475,12 +475,8 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
 static int
 parse_html_line (char *tempstr, gftp_file * fle)
 {
-  char months[13][3] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-                        "Sep", "Oct", "Nov", "Dec"};
-  char *stpos, *pos, month[4];
-  struct tm t;
+  char *stpos, *pos;
   long units;
-  int i;
 
   memset (fle, 0, sizeof (*fle));
 
@@ -555,68 +551,10 @@ parse_html_line (char *tempstr, gftp_file * fle)
       pos++;
     }
 
-  /* Now get the date */
-  memset (&t, 0, sizeof (t));
-  memset (month, 0, sizeof (month));
-  if (strchr (pos, ':') != NULL)
-    {
-      if (*pos == '[')
-	pos++;
-      sscanf (pos, "%02d-%3s-%04d %02d:%02d", &t.tm_mday, month, &t.tm_year,
-	      &t.tm_hour, &t.tm_min);
-      while (*pos != ' ' && *pos != '\0')
-	pos++;
-      if (*pos == '\0')
-	return (1);
+  if (*pos == '[')
+    pos++;
 
-      while (*pos == ' ')
-	pos++;
-
-      while (*pos != ' ' && *pos != '\0')
-	pos++;
-      if (*pos == '\0')
-	return (1);
-
-      t.tm_year -= 1900;
-    }
-  else
-    {
-      pos++;
-      strncpy (month, pos, 3);
-      for (i=0; i<3 && *pos != '\0'; i++)
-        pos++;
-      if (*pos == '\0')
-	return (1);
-
-      while (*pos == ' ')
-	pos++;
-
-      t.tm_mday = strtol (pos, NULL, 10);
-      while (*pos != ' ' && *pos != '\0')
-	pos++;
-      if (*pos == '\0')
-	return (1);
-
-      while (*pos == ' ')
-	pos++;
-
-      t.tm_year = strtol (pos, NULL, 10) - 1900;
-      while (*pos != ' ' && *pos != '\0')
-	pos++;
-      if (*pos == '\0')
-	return (1);
-    }
-
-  for (i=0; i<12; i++)
-    {
-      if (strncmp (month, months[i], 3) == 0)
-        {
-          t.tm_mon = i;
-          break;
-        }
-    }
-
-  fle->datetime = mktime (&t);
+  fle->datetime = parse_time (pos, &pos);
 
   while (*pos == ' ' || *pos == ']')
     pos++;

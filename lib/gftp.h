@@ -790,6 +790,9 @@ char *gftp_convert_ascii 		( char *buf,
 void gftp_calc_kbs 			( gftp_transfer * tdata, 
 				 	  ssize_t num_read );
 
+time_t parse_time 			( char *str,
+					  char **endpos );
+
 int gftp_parse_ls 			( gftp_request * request,
 					  const char *lsoutput, 
 					  gftp_file *fle );

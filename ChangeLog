@@ -1,4 +1,10 @@
 2003-2-6 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/protocols.c lib/rfc2068.c - put in new 
+	parse_time() function that should work across all locales.
+	It uses strptime() internally.
+
+	* lib/misc.c - remove note from close statement
+
 	* lib/config_file.c lib/gftp.h lib/options.h - remove ssh1_sftp_path
 	option
 

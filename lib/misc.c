@@ -17,9 +17,10 @@
 /*  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA      */
 /*****************************************************************************/
 
+static const char cvsid[] = "$Id$";
+
 #include "gftp.h"
 #include "options.h"
-static const char cvsid[] = "$Id$";
 
 /* FIXME - this isn't right for all locales. Use glib's printf instead */
 char *
@@ -448,7 +449,7 @@ free_fdata (gftp_file * fle)
   if (fle->destfile)
     g_free (fle->destfile);
   if (fle->fd > 0)
-    close (fle->fd); /* FIXME - need to log a failure */
+    close (fle->fd);
   g_free (fle);
 }
 

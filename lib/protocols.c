@@ -339,7 +339,7 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
       ret = request->get_next_file (request, fle, fd);
 
 #if GLIB_MAJOR_VERSION > 1
-      if (fle->file != NULL && !g_utf8_validate (fle->file, -1, NULL))
+      if (ret >= 0 && fle->file != NULL && !g_utf8_validate (fle->file, -1, NULL))
         {
           error = NULL;
           if ((tempstr = g_locale_to_utf8 (fle->file, -1, &bread, 
@@ -1024,126 +1024,42 @@ goto_next_token (char *pos)
 }
 
 
-static time_t
-parse_time (char **str)
+time_t
+parse_time (char *str, char **endpos)
 {
-  /* FIXME - doesn't work with all locales */
-  const char *months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-    "Aug", "Sep", "Oct", "Nov", "Dec" };
-  char *startpos, *endpos, *datepos;
-  struct tm curtime, tt;
+  struct tm curtime, *loctime;
+  char *tmppos;
   time_t t;
-  int i;
 
-  startpos = *str;
-  memset (&tt, 0, sizeof (tt));
-  tt.tm_isdst = -1;
-  if (isdigit ((int) startpos[0]) && startpos[2] == '-')
+  memset (&curtime, 0, sizeof (curtime));
+  curtime.tm_isdst = -1;
+  if (isdigit ((int) str[0]) && str[2] == '-')
     {
       /* This is how DOS will return the date/time */
       /* 07-06-99  12:57PM */
-      if ((endpos = strchr (startpos, '-')) == NULL)
-	{
-	  g_free (str);
-	  return (0);
-	}
-      tt.tm_mon = strtol (startpos, NULL, 10) - 1;
 
-      startpos = endpos + 1;
-      if ((endpos = strchr (startpos, '-')) == NULL)
-	{
-	  g_free (str);
-	  return (0);
-	}
-      tt.tm_mday = strtol (startpos, NULL, 10);
-
-      startpos = endpos + 1;
-      if ((endpos = strchr (startpos, ' ')) == NULL)
-	{
-	  g_free (str);
-	  return (0);
-	}
-      tt.tm_year = strtol (startpos, NULL, 10);
-
-      while (*endpos == ' ')
-	endpos++;
-
-      startpos = endpos + 1;
-      if ((endpos = strchr (startpos, ':')) == NULL)
-	{
-	  g_free (str);
-	  return (0);
-	}
-      tt.tm_hour = strtol (startpos, NULL, 10);
-
-      startpos = endpos + 1;
-      while ((*endpos != 'A') && (*endpos != 'P'))
-	endpos++;
-      if (*endpos == 'P')
-	{
-	  if (tt.tm_hour == 12)
-	    tt.tm_hour = 0;
-	  else
-	    tt.tm_hour += 12;
-	}
-      tt.tm_min = strtol (startpos, NULL, 10);
+      tmppos = strptime (str, "%m-%d-%y %I:%M%p", &curtime);
     }
   else
     {
       /* This is how most UNIX, Novell, and MacOS ftp servers send their time */
-      /* Jul 06 12:57 */
-      t = time (NULL);
-      curtime = *localtime (&t);
+      /* Jul 06 12:57 or Jul  6  1999 */
 
-      /* Get the month */
-      if ((endpos = strchr (startpos, ' ')) == NULL)
-	return (0);
-      for (i = 0; i < 12; i++)
-	{
-	  if (strncmp (months[i], startpos, 3) == 0)
-	    {
-	      tt.tm_mon = i;
-	      break;
-	    }
-	}
-
-      /* Skip the blanks till we get to the next entry */
-      startpos = endpos + 1;
-      while (*startpos == ' ')
-	startpos++;
-
-      /* Get the day */
-      if ((endpos = strchr (startpos, ' ')) == NULL)
-	return (0);
-      tt.tm_mday = strtol (startpos, NULL, 10);
-
-      /* Skip the blanks till we get to the next entry */
-      startpos = endpos + 1;
-      while (*startpos == ' ')
-	startpos++;
-
-      if ((datepos = strchr (startpos, ':')) != NULL)
-	{
-	  /* No year was specified. We will use the current year */
-	  tt.tm_year = curtime.tm_year;
-
-	  /* If the date is in the future, than the year is from last year */
-	  if ((tt.tm_mon > curtime.tm_mon) ||
-	      ((tt.tm_mon == curtime.tm_mon) && tt.tm_mday > curtime.tm_mday))
-	    tt.tm_year--;
-
-	  /* Get the hours and the minutes */
-	  tt.tm_hour = strtol (startpos, NULL, 10);
-	  tt.tm_min = strtol (datepos + 1, NULL, 10);
-	}
+      if (strchr (str, ':') != NULL)
+        {
+          tmppos = strptime (str, "%h %d %H:%M", &curtime);
+          t = time (NULL);
+          loctime = localtime (&t);
+          curtime.tm_year = loctime->tm_year;
+        }
       else
-	{
-	  /* Get the year. The hours and minutes will be assumed to be 0 */
-	  tt.tm_year = strtol (startpos, NULL, 10) - 1900;
-	}
+        tmppos = strptime (str, "%h %d %Y", &curtime);
     }
-  *str = startpos;
-  return (mktime (&tt));
+
+  if (endpos != NULL)
+    *endpos = tmppos;
+
+  return (mktime (&curtime));
 }
 
 
@@ -1295,7 +1211,7 @@ gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
   while (*startpos == ' ')
     startpos++;
 
-  if ((fle->datetime = parse_time (&startpos)) == 0)
+  if ((fle->datetime = parse_time (startpos, &startpos)) == 0)
     return (GFTP_EFATAL);
 
   /* Skip the blanks till we get to the next entry */
@@ -1327,7 +1243,7 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
   char *startpos;
 
   startpos = str;
-  if ((fle->datetime = parse_time (&startpos)) == 0)
+  if ((fle->datetime = parse_time (startpos, &startpos)) == 0)
     return (GFTP_EFATAL);
 
   /* No such thing on Windoze.. */
@@ -1376,7 +1292,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
   fle->size = strtol (startpos, NULL, 10);
 
   startpos = goto_next_token (startpos);
-  if ((fle->datetime = parse_time (&startpos)) == 0)
+  if ((fle->datetime = parse_time (startpos, &startpos)) == 0)
     return (GFTP_EFATAL);
 
   startpos = goto_next_token (startpos);
