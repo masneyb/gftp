@@ -427,21 +427,6 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
 
 
 static void
-_cancel_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
-{
-  gftp_textcomboedt_widget_data * widdata;
-
-  widdata = cv->user_data;
-  if (widdata != NULL)
-    {
-      if (widdata->custom_edit_value != NULL)
-        g_free (widdata->custom_edit_value);
-      g_free (widdata);
-    }
-}
-
-
-static void
 _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
 {
   gftp_textcomboedt_widget_data * widdata;
@@ -492,8 +477,6 @@ _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
 
   if (freeit)
     g_free (newstr);
-
-  _cancel_option_type_textcomboedt (cv, user_data);
 }
 
 
@@ -669,6 +652,30 @@ _print_option_type_notebook (gftp_config_vars * cv, void *user_data, void *value
 static void
 clean_old_changes (GtkWidget * widget, gpointer data)
 {
+  gftp_textcomboedt_widget_data * widdata;
+  gftp_config_vars * cv;
+  GList * templist;
+  int i;
+
+  for (templist = gftp_options_list;
+       templist != NULL;
+       templist = templist->next)
+    {
+      cv = templist->data;
+
+      for (i=0; cv[i].key != NULL; i++)
+        {
+          widdata = cv->user_data;
+          if (widdata != NULL)
+            {
+              if (widdata->custom_edit_value != NULL)
+                g_free (widdata->custom_edit_value);
+              g_free (widdata);
+              cv->user_data = NULL;
+            }
+        }
+    }
+
   if (new_proxy_hosts != NULL)
     {
       gftp_free_proxy_hosts (new_proxy_hosts);
@@ -1205,7 +1212,7 @@ _init_option_data (void)
   _setup_option (gftp_option_type_textcomboedt, option_data, 
                  _print_option_type_textcomboedt, 
                  _save_option_type_textcomboedt,
-                 _cancel_option_type_textcomboedt);
+                 NULL);
   _setup_option (gftp_option_type_hidetext, option_data, 
                  _print_option_type_hidetext, _save_option_type_text, NULL);
   _setup_option (gftp_option_type_int, option_data, 
