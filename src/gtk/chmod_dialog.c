@@ -77,14 +77,14 @@ do_chmod_thread (void * data)
     use_jmp_environment = 0;
 
   wdata->request->stopable = 0;
-  return ((void *) success);
+  return (GINT_TO_POINTER (success));
 }
 
 
 static void
 dochmod (GtkWidget * widget, gftp_window_data * wdata)
 {
-  int cur;
+  int cur, ret;
 
   mode = 0;
   if (GTK_TOGGLE_BUTTON (suid)->active)
@@ -124,7 +124,8 @@ dochmod (GtkWidget * widget, gftp_window_data * wdata)
   if (check_reconnect (wdata) < 0)
     return;
 
-   if ((int) generic_thread (do_chmod_thread, wdata))
+  ret = GPOINTER_TO_INT (generic_thread (do_chmod_thread, wdata));
+  if (ret)
     refresh (wdata);
 }
 

@@ -63,13 +63,15 @@ do_rename_thread (void * data)
     use_jmp_environment = 0;
 
   wdata->request->stopable = 0;
-  return ((void *) success);
+  return (GINT_TO_POINTER (success));
 }
 
 
 static void
 dorenCB (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
+  int ret;
+
   edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (*edttext == '\0')
     {
@@ -81,7 +83,8 @@ dorenCB (gftp_window_data * wdata, gftp_dialog_data * ddata)
   if (check_reconnect (wdata) < 0) 
     return;
 
-  if ((int) generic_thread (do_rename_thread, wdata))
+  ret = GPOINTER_TO_INT (generic_thread (do_rename_thread, wdata));
+  if (ret)
     refresh ((gpointer) wdata);
 }
 

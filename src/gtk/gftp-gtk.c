@@ -909,7 +909,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
     disconnect (current_wdata);
 
   tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
-  num = (int) gtk_object_get_user_data (GTK_OBJECT (tempwid));
+  num = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid)));
   init = gftp_protocols[num].init;
   if (init (current_wdata->request) < 0)
     return;

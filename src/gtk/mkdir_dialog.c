@@ -62,13 +62,15 @@ do_make_dir_thread (void * data)
     use_jmp_environment = 0;
 
   wdata->request->stopable = 0;
-  return ((void *) success);
+  return (GINT_TO_POINTER (success));
 }
 
 
 static void
 domkdir (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
+  int ret;
+
   edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (*edttext == '\0')
     {
@@ -80,7 +82,8 @@ domkdir (gftp_window_data * wdata, gftp_dialog_data * ddata)
   if (check_reconnect (wdata) < 0)
     return;
 
-  if ((int) generic_thread (do_make_dir_thread, wdata))
+  ret = GPOINTER_TO_INT (generic_thread (do_make_dir_thread, wdata));
+  if (ret)
     {
       gftp_delete_cache_entry (wdata->request, NULL, 0);
       refresh (wdata);

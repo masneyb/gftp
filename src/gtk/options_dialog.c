@@ -844,7 +844,7 @@ delete_proxy_host (GtkWidget * widget, gpointer data)
 
   if ((templist = GTK_CLIST (proxy_list)->selection) == NULL)
     return;
-  num = (int) templist->data;
+  num = GPOINTER_TO_INT (templist->data);
   templist = gtk_clist_get_row_data (GTK_CLIST (proxy_list), num);
   new_proxy_hosts = g_list_remove_link (new_proxy_hosts, templist);
   gtk_clist_remove (GTK_CLIST (proxy_list), num);
@@ -864,7 +864,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
       if ((templist = GTK_CLIST (proxy_list)->selection) == NULL)
 	return;
       templist = gtk_clist_get_row_data (GTK_CLIST (proxy_list), 
-                                         (int) templist->data);
+                                         GPOINTER_TO_INT (templist->data));
       hosts = templist->data;
     }
   else

@@ -1,3 +1,19 @@
+2003-6-19 Brian Masney <masneyb@gftp.org>
+	* autogen.sh - updated to hopefully make it more portable across
+	various systems
+
+	* lib/rfc959.c - change variable type of data_addr_len from size_t
+	to socklen_t (fixed warnings on 64 bit machines)
+
+	* src/gtk/chmod_dialog.c src/gtk/gftp-gtk.c src/gtk/menu-items.c
+	src/gtk/misc-gtk.c src/gtk/mkdir_dialog.c src/gtk/options_dialog.c
+	src/gtk/rename_dialog.c src/gtk/transfer.c - rather than casting
+	from integer to pointer and vice versa, use GINT_TO_POINTER and
+	GPOINTER_TO_INT. These macros do the exact same thing and I'm 
+	still getting compiler warnings on Debian Sparc64 with -m64, but at
+	least I'll be able to fix the define in glib and then these warnings
+	will be fixed then
+
 2003-6-18 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c - send right parameters to the logging function
 	(from Nam SungHyun <namsh@kldp.org>)

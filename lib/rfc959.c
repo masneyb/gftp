@@ -574,7 +574,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
   struct sockaddr_in data_addr;
   int i, passive_transfer;
   rfc959_parms * parms;
-  size_t data_addr_len;
+  socklen_t data_addr_len;
   unsigned int temp[6];
   unsigned char ad[6];
 
@@ -722,7 +722,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   char *pos, resp, buf[64], *command;
   struct sockaddr_in6 data_addr;
   int passive_transfer;
-  size_t data_addr_len;
+  socklen_t data_addr_len;
   rfc959_parms * parms;
   unsigned int port;
 
@@ -897,7 +897,7 @@ rfc959_accept_active_connection (gftp_request * request)
 #else
   struct sockaddr_in6 cli_addr;
 #endif
-  size_t cli_addr_len;
+  socklen_t cli_addr_len;
 
   parms = request->protocol_data;
 

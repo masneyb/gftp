@@ -592,7 +592,7 @@ get_next_selection (GList * selection, GList ** list, int *curnum)
   gftp_file * tempfle;
   int i, newpos;
 
-  newpos = (int) selection->data;
+  newpos = GPOINTER_TO_INT (selection->data);
   i = *curnum - newpos;
 
   if (i < 0)

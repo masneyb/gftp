@@ -9,10 +9,27 @@ cd $srcdir
 PROJECT=gFTP
 TEST_TYPE=-f
 FILE=lib/gftp.h
+GETTEXTIZE=gettextize
 
 DIE=0
 
-(autoconf --version) < /dev/null > /dev/null 2>&1 || {
+if [ `whereis -b automake-1.4 > /dev/null 2>&1` ] ; then
+	AUTOMAKE=automake-1.4
+	ACLOCAL=aclocal-1.4
+else
+	AUTOMAKE=automake
+	ACLOCAL=aclocal
+fi
+
+if [ `whereis -b autoconf2.13 > /dev/null 2>&1` ] ; then
+	AUTOCONF=autoconf2.13
+	AUTOHEADER=autoheader2.13
+else
+	AUTOCONF=autoconf
+	AUTOHEADER=autoheader
+fi
+
+($AUTOCONF --version) < /dev/null > /dev/null 2>&1 || {
 	echo
 	echo "You must have autoconf installed to compile $PROJECT."
 	echo "libtool the appropriate package for your distribution,"
@@ -21,7 +38,7 @@ DIE=0
 }
 
 have_automake=false
-if automake --version < /dev/null > /dev/null 2>&1 ; then
+if $AUTOMAKE --version < /dev/null > /dev/null 2>&1 ; then
 	automake_version=`automake --version | grep 'automake (GNU automake)' | sed 's/^[^0-9]*\(.*\)/\1/'`
 	case $automake_version in
 	   1.2*|1.3*|1.4) 
@@ -39,12 +56,8 @@ if $have_automake ; then : ; else
 	DIE=1
 fi
 
-have_gettext=false
-if xgettext --version 2>/dev/null | grep 'GNU' > /dev/null ; then 
-        have_gettext=true
-fi
-
-if $have_gettext ; then : ; else
+gettext_version=`$GETTEXTIZE --version 2>/dev/null | grep 'GNU'`
+if [ "x$gettext_version" = "x" ] ; then 
        echo
        echo "GNU gettext must be installed to build GLib from CVS"
        echo "GNU gettext is available from http://www.gnu.org/software/gettext/"
@@ -71,15 +84,29 @@ case $CC in
 *xlc | *xlc\ * | *lcc | *lcc\ *) am_opt=--include-deps;;
 esac
 
-gettextize -f -c --intl
+intl=`$GETTEXTIZE --help 2>/dev/null | grep -- '--intl'`
+if test -z "$intl"; then
+	GETTEXTIZE_FLAGS="-f -c"
+else
+	GETTEXTIZE_FLAGS="-f -c --intl"
+fi
 
-aclocal $ACLOCAL_FLAGS
+echo "$GETTEXTIZE $GETTEXTIZE_FLAGS"
+$GETTEXTIZE $GETTEXTIZE_FLAGS
+
+echo "$ACLOCAL $ACLOCAL_FLAGS"
+$ACLOCAL $ACLOCAL_FLAGS
 
 # optionally feature autoheader
-(autoheader --version)  < /dev/null > /dev/null 2>&1 && autoheader
+($AUTOHEADER --version)  < /dev/null > /dev/null 2>&1 && $AUTOHEADER
 
-automake -a -c $am_opt
-autoconf
+AUTOMAKE_FLAGS="-a -c $am_opt"
+echo "$AUTOMAKE $AUTOMAKE_FLAGS"
+$AUTOMAKE $AUTOMAKE_FLAGS
+
+echo $AUTOCONF
+$AUTOCONF
+
 cd $ORIGDIR
 
 if test -z "$AUTOGEN_SUBDIR_MODE"; then

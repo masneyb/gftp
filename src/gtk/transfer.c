@@ -292,7 +292,7 @@ connect_thread (void *data)
   request->stopable = 0;
   if (request->wakeup_main_thread[1] > 0)
     write (request->wakeup_main_thread[1], " ", 1);
-  return ((void *) ret);
+  return (GINT_TO_POINTER (ret));
 }
 
 
@@ -366,7 +366,8 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
     }
   else
     ret = connect_thread (request);
-  success = (int) ret;
+
+  success = GPOINTER_TO_INT (ret);
   memset (&wdata->tid, 0, sizeof (wdata->tid));
 
   if (!GFTP_IS_CONNECTED (wdata->request))
@@ -537,7 +538,7 @@ do_getdir_thread (void * data)
     use_jmp_environment = 0;
 
   transfer->fromreq->stopable = 0;
-  return ((void *) success);
+  return (GINT_TO_POINTER (success));
 }
 
 

@@ -434,7 +434,7 @@ do_change_dir_thread (void * data)
     use_jmp_environment = 0;
 
   wdata->request->stopable = 0;
-  return ((void *) success);
+  return (GINT_TO_POINTER (success));
 }
 
 
@@ -452,7 +452,7 @@ do_change_dir (gftp_window_data * wdata, char *directory)
   else
     olddir = NULL;
 
-  ret = (int) generic_thread (do_change_dir_thread, wdata);
+  ret = GPOINTER_TO_INT (generic_thread (do_change_dir_thread, wdata));
 
   if (!GFTP_IS_CONNECTED (wdata->request))
     {
