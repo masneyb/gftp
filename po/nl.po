@@ -1,19 +1,22 @@
+# translation of gftp.HEAD.po to Dutch
 # gFTP Dutch .po file
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 # First Translator: Hein-Jan Leliveld <h.j.leliveld@student.tn.tudelft.nl>, 1999.
 # Second Translator: Myckel Habets <myckelhabets@netscape.net>, 2002.
-# 
+# Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>, 2003.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: gftp-2.0.14\n"
+"Project-Id-Version: gftp.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-10 19:51+0100\n"
-"PO-Revision-Date: 2003-11-11 00:57+0100\n"
+"POT-Creation-Date: 2003-12-04 03:31+0100\n"
+"PO-Revision-Date: 2003-12-05 00:18+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.2\n"
 
 #: lib/bookmark.c:39
 #, c-format
@@ -35,8 +38,8 @@ msgstr "Fout: kan map %s niet aanmaken: %s\n"
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Fout: kan tijdelijk bestand niet aanmaken: %s\n"
 
-#: lib/cache.c:182 lib/cache.c:231 lib/local.c:98 lib/local.c:213
-#: lib/misc.c:303 lib/misc.c:309 lib/rfc2068.c:263 lib/sshv2.c:999
+#: lib/cache.c:182 lib/cache.c:231 lib/config_file.c:148 lib/config_file.c:154
+#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:263 lib/sshv2.c:999
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Fout bij het sluiten van bestandsbeschrijver %s\n"
@@ -46,32 +49,47 @@ msgstr "Fout bij het sluiten van bestandsbeschrijver %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Fout: kan niet naar bestand %s zoeken: %s\n"
 
-#: lib/config_file.c:120 lib/config_file.c:672
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2632
+#, c-format
+msgid "Error: Cannot open local file %s: %s\n"
+msgstr "Fout: kan lokaal bestand %s: niet openen: %s\n"
+
+#: lib/config_file.c:134 lib/protocols.c:2345 lib/sslcommon.c:467
+#, c-format
+msgid "Error: Could not write to socket: %s\n"
+msgstr "Fout: kan niet naar buis schrijven: %s\n"
+
+#: lib/config_file.c:142 lib/protocols.c:2273 lib/sslcommon.c:421
+#, c-format
+msgid "Error: Could not read from socket: %s\n"
+msgstr "Fout: kan niet van buis lezen: %s\n"
+
+#: lib/config_file.c:174 lib/config_file.c:726
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP Fout: verkeerd bladwijzerbestand %s\n"
 
-#: lib/config_file.c:129
+#: lib/config_file.c:183
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Waarschuwing: kan bladwijzerbestand %s niet vinden\n"
 
-#: lib/config_file.c:140 lib/config_file.c:678
+#: lib/config_file.c:194 lib/config_file.c:732
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP Fout: kan bladwijzerbestand %s niet openen: %s\n"
 
-#: lib/config_file.c:229 lib/config_file.c:251
+#: lib/config_file.c:283 lib/config_file.c:305
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP Waarschuwing: regel %d in bladwijzerbestand overgeslagen: %s\n"
 
-#: lib/config_file.c:281
+#: lib/config_file.c:335
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP Waarschuwing: Regel %d heeft niet genoeg argumenten\n"
 
-#: lib/config_file.c:442
+#: lib/config_file.c:496
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
@@ -81,7 +99,7 @@ msgstr ""
 "de proxy server (indien aanwezig) hoeven te gaan. Standaard: dont_use_proxy=."
 "domein of dont_use_proxy=netwerk nummer/netmasker"
 
-#: lib/config_file.c:445
+#: lib/config_file.c:499
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
@@ -89,51 +107,51 @@ msgstr ""
 "ext=bestandsextensie:XPM bestand:Ascii of Binair (A of B):weergaveprogramma. "
 "NB: Alle argumenten behalve de bestandsextensie zijn optioneel"
 
-#: lib/config_file.c:523 lib/config_file.c:750
+#: lib/config_file.c:577 lib/config_file.c:804
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP Fout: verkeerd configuratiebestand %s\n"
 
-#: lib/config_file.c:534
+#: lib/config_file.c:588
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP Fout: kan map %s niet aanmaken: %s\n"
 
-#: lib/config_file.c:544
+#: lib/config_file.c:598
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP Fout: kan configuratie bestand %s niet vinden\n"
 
-#: lib/config_file.c:546
+#: lib/config_file.c:600
 msgid "Did you do a make install?\n"
 msgstr "Is make install wel uitgevoerd?\n"
 
-#: lib/config_file.c:555 lib/config_file.c:756
+#: lib/config_file.c:609 lib/config_file.c:810
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP Fout: kan configuratiebestand %s niet openen: %s\n"
 
-#: lib/config_file.c:594
+#: lib/config_file.c:648
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr "Afgebroken door fouten op regel %d in configuratiebestand \n"
 
-#: lib/config_file.c:600
+#: lib/config_file.c:654
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP Waarschuwing: regel %d in configuratiebestand overgeslagen: %s\n"
 
-#: lib/config_file.c:607
+#: lib/config_file.c:661
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP Fout: verkeerd logbestand %s\n"
 
-#: lib/config_file.c:613
+#: lib/config_file.c:667
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP Waarschuwing: kan niet naar %s schrijven: %s\n"
 
-#: lib/config_file.c:668
+#: lib/config_file.c:722
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
@@ -142,7 +160,7 @@ msgstr ""
 "<masneyb@gftp.org>. Waarschuwing: al het toegevoegde commentaar ZAL "
 "overschreven worden."
 
-#: lib/config_file.c:763
+#: lib/config_file.c:817
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
@@ -153,12 +171,12 @@ msgstr ""
 "overschreven worden. Een veld met (*) in het commentaar is niet binnen gFTP "
 "te veranderen"
 
-#: lib/config_file.c:1122 lib/rfc2068.c:561 lib/rfc2068.c:562
+#: lib/config_file.c:1176 lib/rfc2068.c:561 lib/rfc2068.c:562
 msgid "<unknown>"
 msgstr "<onbekend>"
 
-#: lib/config_file.c:1198 lib/config_file.c:1259 lib/config_file.c:1300
-#: lib/config_file.c:1332
+#: lib/config_file.c:1252 lib/config_file.c:1313 lib/config_file.c:1354
+#: lib/config_file.c:1386
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
@@ -243,22 +261,7 @@ msgstr "Fout: kan de modus niet veranderen van %s naar %d: %s\n"
 msgid "local filesystem"
 msgstr "lokaal bestandsysteem"
 
-#: lib/misc.c:272 lib/misc.c:279 lib/protocols.c:2632
-#, c-format
-msgid "Error: Cannot open local file %s: %s\n"
-msgstr "Fout: kan lokaal bestand %s: niet openen: %s\n"
-
-#: lib/misc.c:289 lib/protocols.c:2345 lib/sslcommon.c:467
-#, c-format
-msgid "Error: Could not write to socket: %s\n"
-msgstr "Fout: kan niet naar buis schrijven: %s\n"
-
-#: lib/misc.c:297 lib/protocols.c:2273 lib/sslcommon.c:421
-#, c-format
-msgid "Error: Could not read from socket: %s\n"
-msgstr "Fout: kan niet van buis lezen: %s\n"
-
-#: lib/misc.c:461
+#: lib/misc.c:407
 msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
 msgstr "gebruik: gftp [[protocol://][naam[:wachtw]@]server[:poort][/map]]\n"
 
@@ -416,63 +419,71 @@ msgstr "Verborgen bestanden tonen"
 msgid "Show hidden files in the listboxes"
 msgstr "Verborgen bestanden tonen in de lijsten"
 
-#: lib/options.h:89 src/gtk/options_dialog.c:1050
+#: lib/options.h:88
+msgid "Show transfer status in title"
+msgstr "Overdrachtstatus in titel tonen"
+
+#: lib/options.h:90
+msgid "Show the file transfer status in the titlebar"
+msgstr "De status van de overdracht in de venstertitel tonen"
+
+#: lib/options.h:92 src/gtk/options_dialog.c:1050
 #: src/gtk/options_dialog.c:1143
 msgid "Network"
 msgstr "Netwerk"
 
-#: lib/options.h:91
+#: lib/options.h:94
 msgid "Network timeout:"
 msgstr "Netwerk timeout:"
 
-#: lib/options.h:94
+#: lib/options.h:97
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "De tijd hoe lang gewacht moet worden op netwerk invoer/uitvoer. Dit is NIET "
 "een inactief timeout."
 
-#: lib/options.h:96
+#: lib/options.h:99
 msgid "Connect retries:"
 msgstr "Aantal herverbindingen:"
 
-#: lib/options.h:99
+#: lib/options.h:102
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
 msgstr ""
 "Het aantal keren opnieuw  proberen in te loggen. Geef een 0 om oneindig "
 "keren te proberen"
 
-#: lib/options.h:101
+#: lib/options.h:104
 msgid "Retry sleep time:"
 msgstr "Tijd tussen herverbindingen:"
 
-#: lib/options.h:104
+#: lib/options.h:107
 msgid "The number of seconds to wait between retries"
 msgstr "Aantal seconden wachten tussen herverbindingen"
 
-#: lib/options.h:105
+#: lib/options.h:108
 msgid "Max KB/S:"
 msgstr "Max KB/s:"
 
-#: lib/options.h:108
+#: lib/options.h:111
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr ""
 "Het maximum KB/s die een bestandsoverdracht kan krijgen. (Geef een 0 om uit "
 "te schakelen)"
 
-#: lib/options.h:111
+#: lib/options.h:114
 msgid "Default Protocol:"
 msgstr "Standaardprotocol:"
 
-#: lib/options.h:113
+#: lib/options.h:116
 msgid "This specifies the default protocol to use"
 msgstr "Dit geeft het standaardprotocol aan om te gebruiken"
 
-#: lib/options.h:115 lib/options.h:118
+#: lib/options.h:118 lib/options.h:121
 msgid "Enable IPv6 support"
 msgstr "IPv6-ondersteuning inschakelen"
 
-#: lib/options.h:123
+#: lib/options.h:126
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -480,27 +491,27 @@ msgstr ""
 "Dit geeft aan wat gebeurt als u op een bestand in de lijsten dubbelklikt. "
 "0=Bestand weergeven 1=Bestand bewerken 2=Bestand overdragen"
 
-#: lib/options.h:126
+#: lib/options.h:129
 msgid "The default width of the local files listbox"
 msgstr "De standaard breedte van lokale bestanden lijst"
 
-#: lib/options.h:129
+#: lib/options.h:132
 msgid "The default width of the remote files listbox"
 msgstr "De standaard breedte van de externe bestanden lijst"
 
-#: lib/options.h:132
+#: lib/options.h:135
 msgid "The default height of the local/remote files listboxes"
 msgstr "De standaard hoogte van de lokale/externe bestanden lijst"
 
-#: lib/options.h:135
+#: lib/options.h:138
 msgid "The default height of the transfer listbox"
 msgstr "De standaard hoogte van de overdrachtslijst"
 
-#: lib/options.h:138
+#: lib/options.h:141
 msgid "The default height of the logging window"
 msgstr "De standaard hoogte van het log-venster"
 
-#: lib/options.h:141
+#: lib/options.h:144
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -508,15 +519,15 @@ msgstr ""
 "De breedte van de bestandsnaam-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen."
 
-#: lib/options.h:145 lib/options.h:151
+#: lib/options.h:148 lib/options.h:154
 msgid "The default column to sort by"
 msgstr "De standaard kolom sorteren op"
 
-#: lib/options.h:148 lib/options.h:154
+#: lib/options.h:151 lib/options.h:157
 msgid "Sort ascending or descending"
 msgstr "Aflopend of oplopend sorteren"
 
-#: lib/options.h:158 lib/options.h:176
+#: lib/options.h:161 lib/options.h:179
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -524,7 +535,7 @@ msgstr ""
 "De breedte van de bestandsnaam-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:161 lib/options.h:179
+#: lib/options.h:164 lib/options.h:182
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -532,7 +543,7 @@ msgstr ""
 "De breedte van de bestandsgrootte-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:164 lib/options.h:182
+#: lib/options.h:167 lib/options.h:185
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -540,7 +551,7 @@ msgstr ""
 "De breedte van de gebruikersnaam-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:167 lib/options.h:185
+#: lib/options.h:170 lib/options.h:188
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -548,7 +559,7 @@ msgstr ""
 "De breedte van de groeps-kolom. Geef een 0 om deze kolom de breedte zelf te "
 "laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:170 lib/options.h:188
+#: lib/options.h:173 lib/options.h:191
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -556,7 +567,7 @@ msgstr ""
 "De breedte van de datum-kolom. Geef een 0 om deze kolom de breedte zelf te "
 "laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:173 lib/options.h:191
+#: lib/options.h:176 lib/options.h:194
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -564,43 +575,43 @@ msgstr ""
 "De breedte van de eigenschappen-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:194
+#: lib/options.h:197
 msgid "The color of the commands that are sent to the server"
 msgstr "De kleur van de commando's die naar de server gezonden zijn"
 
-#: lib/options.h:197
+#: lib/options.h:200
 msgid "The color of the commands that are received from the server"
 msgstr "De kleur van de commando's die van de server ontvangen zijn"
 
-#: lib/options.h:200
+#: lib/options.h:203
 msgid "The color of the error messages"
 msgstr "De kleur van de foutmeldingen"
 
-#: lib/options.h:203
+#: lib/options.h:206
 msgid "The color of the rest of the log messages"
 msgstr "De kleur van de overige logberichten"
 
-#: lib/options.h:209 lib/rfc959.c:38
+#: lib/options.h:212 lib/rfc959.c:38
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:210 lib/rfc2068.c:27
+#: lib/options.h:213 lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:212 lib/options.h:214
+#: lib/options.h:215 lib/options.h:217
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: lib/options.h:216
+#: lib/options.h:219
 msgid "Local"
 msgstr "Lokaal"
 
-#: lib/options.h:217
+#: lib/options.h:220
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:218 src/gtk/bookmarks.c:858
+#: lib/options.h:221 src/gtk/bookmarks.c:858
 msgid "Bookmark"
 msgstr "Bladwijzer"
 
@@ -812,8 +823,8 @@ msgstr "Bestandenlijst aan het ontvangen...\n"
 #: lib/rfc2068.c:840 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
 #: lib/sshv2.c:819 lib/sshv2.c:950 lib/sshv2.c:1041 lib/sshv2.c:1109
 #: lib/sshv2.c:1222 lib/sshv2.c:1235 lib/sshv2.c:1248 lib/sshv2.c:1261
-#: lib/sshv2.c:1317 lib/sshv2.c:1382 lib/sshv2.c:1842 lib/sshv2.c:1944
-#: lib/sshv2.c:2037 lib/sshv2.c:2122 lib/sshv2.c:2207
+#: lib/sshv2.c:1317 lib/sshv2.c:1382 lib/sshv2.c:1842 lib/sshv2.c:1945
+#: lib/sshv2.c:2039 lib/sshv2.c:2124 lib/sshv2.c:2210
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Ontving verkeerd antwoord van server, verbinding wordt verbroken\n"
 
@@ -1161,7 +1172,7 @@ msgstr "%d: Utime %s %d\n"
 
 #: lib/sshv2.c:512 src/gtk/bookmarks.c:1017 src/gtk/bookmarks.c:1254
 #: src/gtk/chmod_dialog.c:281 src/gtk/options_dialog.c:1108
-#: src/gtk/options_dialog.c:1310 src/gtk/transfer.c:2060
+#: src/gtk/options_dialog.c:1310 src/gtk/transfer.c:2075
 msgid "OK"
 msgstr "OK"
 
@@ -1206,8 +1217,8 @@ msgstr "Onbekend bericht ontavngen van server"
 msgid "Error: Message size %d too big\n"
 msgstr "Fout: Berichtgrootte %d te groot\n"
 
-#: lib/sshv2.c:634 lib/sshv2.c:1118 lib/sshv2.c:1953 lib/sshv2.c:2046
-#: lib/sshv2.c:2134
+#: lib/sshv2.c:634 lib/sshv2.c:1118 lib/sshv2.c:1954 lib/sshv2.c:2048
+#: lib/sshv2.c:2136
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Fout: Berichtgrootte %d van server te groot\n"
@@ -1425,7 +1436,7 @@ msgstr "Aanmelden als ANONYMOUS"
 
 #: src/gtk/bookmarks.c:1029 src/gtk/bookmarks.c:1264
 #: src/gtk/chmod_dialog.c:293 src/gtk/options_dialog.c:1119
-#: src/gtk/options_dialog.c:1321 src/gtk/transfer.c:2072
+#: src/gtk/options_dialog.c:1321 src/gtk/transfer.c:2087
 msgid "  Cancel  "
 msgstr "  Annuleren  "
 
@@ -1889,7 +1900,7 @@ msgstr "Naam: "
 msgid "Pass: "
 msgstr "Wachtwoord: "
 
-#: src/gtk/gftp-gtk.c:598 src/gtk/gftp-gtk.c:802 src/gtk/transfer.c:1913
+#: src/gtk/gftp-gtk.c:598 src/gtk/gftp-gtk.c:802 src/gtk/transfer.c:1923
 msgid "Filename"
 msgstr "Bestandsnaam"
 
@@ -2206,7 +2217,7 @@ msgstr "Bestandsnamen aan het ontvangen..."
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "Wacht %d seconden om opnieuw te proberen verbinden\n"
 
-#: src/gtk/transfer.c:316 src/gtk/transfer.c:1311
+#: src/gtk/transfer.c:316 src/gtk/transfer.c:1313
 msgid "Connecting..."
 msgstr "Verbinding maken..."
 
@@ -2218,7 +2229,7 @@ msgstr "Geef wachtwoord"
 msgid "Please enter your password for this site"
 msgstr "Geef uw wachtwoord voor deze site"
 
-#: src/gtk/transfer.c:417 src/gtk/transfer.c:1921 src/gtk/transfer.c:1930
+#: src/gtk/transfer.c:417 src/gtk/transfer.c:1931 src/gtk/transfer.c:1940
 msgid "Transfer Files"
 msgstr "Bestanden Overdragen"
 
@@ -2243,7 +2254,7 @@ msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "%s is succesvol overgedragen met %.2f KB/s\n"
 
 #: src/gtk/transfer.c:844 src/gtk/transfer.c:1086 src/gtk/transfer.c:1172
-#: src/gtk/transfer.c:1626
+#: src/gtk/transfer.c:1636
 msgid "Skipped"
 msgstr "Overgeslagen"
 
@@ -2293,58 +2304,59 @@ msgstr "Klaar"
 msgid "Stopping the transfer of %s\n"
 msgstr "Stop de overdracht van %s\n"
 
-#: src/gtk/transfer.c:1355
+#: src/gtk/transfer.c:1357
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% compleet, %02d:%02d:%02d resterende tijd. (Bestand %ld van %ld)"
 
-#: src/gtk/transfer.c:1385
+#: src/gtk/transfer.c:1387
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Ontv %s van %s met %.2fKB/s %02d:%02d:%02d resterende tijd"
 
-#: src/gtk/transfer.c:1394
+#: src/gtk/transfer.c:1396
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Ontv %s van %s, overdracht gestremd, eindtijd onbekend"
 
-#: src/gtk/transfer.c:1420
+#: src/gtk/transfer.c:1430
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Bestandsnamen ontvangen...%s bytes"
 
-#: src/gtk/transfer.c:1498 src/gtk/transfer.c:1520 src/gtk/transfer.c:1554
-#: src/gtk/transfer.c:1594 src/gtk/transfer.c:1647 src/gtk/transfer.c:1706
+#: src/gtk/transfer.c:1508 src/gtk/transfer.c:1530 src/gtk/transfer.c:1564
+#: src/gtk/transfer.c:1604 src/gtk/transfer.c:1657 src/gtk/transfer.c:1716
 msgid "There are no file transfers selected\n"
 msgstr "Er zijn geen bestandsoverdrachten geselecteerd\n"
 
-#: src/gtk/transfer.c:1538
+#: src/gtk/transfer.c:1548
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Stop de overdracht op host %s\n"
 
-#: src/gtk/transfer.c:1579 src/gtk/transfer.c:1632
+#: src/gtk/transfer.c:1589 src/gtk/transfer.c:1642
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Bestand %s overgeslagen op host %s\n"
 
-#: src/gtk/transfer.c:1793 src/gtk/transfer.c:1996 src/gtk/transfer.c:2025
+#: src/gtk/transfer.c:1803 src/gtk/transfer.c:2007 src/gtk/transfer.c:2017
+#: src/gtk/transfer.c:2040
 msgid "Overwrite"
 msgstr "Overschrijven"
 
-#: src/gtk/transfer.c:1815 src/gtk/transfer.c:2006 src/gtk/transfer.c:2031
+#: src/gtk/transfer.c:1825 src/gtk/transfer.c:2022 src/gtk/transfer.c:2046
 msgid "Resume"
 msgstr "Hervatten"
 
-#: src/gtk/transfer.c:1837 src/gtk/transfer.c:2001
+#: src/gtk/transfer.c:1847 src/gtk/transfer.c:2012
 msgid "Skip"
 msgstr "Overslaan"
 
-#: src/gtk/transfer.c:1916
+#: src/gtk/transfer.c:1926
 msgid "Action"
 msgstr "Actie"
 
-#: src/gtk/transfer.c:1942
+#: src/gtk/transfer.c:1952
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2352,15 +2364,15 @@ msgstr ""
 "De volgende bestanden bestaan zowel op de lokale als de externe computer\n"
 "Selecteer wat er moet gebeuren"
 
-#: src/gtk/transfer.c:2037
+#: src/gtk/transfer.c:2052
 msgid "Skip File"
 msgstr "Bestand overslaan"
 
-#: src/gtk/transfer.c:2047
+#: src/gtk/transfer.c:2062
 msgid "Select All"
 msgstr "Alles selecteren"
 
-#: src/gtk/transfer.c:2053
+#: src/gtk/transfer.c:2068
 msgid "Deselect All"
 msgstr "Alles deselecteren"
 
