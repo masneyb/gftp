@@ -1,4 +1,7 @@
 2003-11-2 Brian Masney <masneyb@gftp.org>
+	* lib/rfc2068.c (rfc2068_get_file) - if there is any data in the current
+	read buffer, grab that data first. Otherwise, read from the socket.
+
 	* lib/rfc2068.c (rfc2068_chunked_read) - more improvements to this
 	function so that it will parse more chunked file transfers correctly.
 
