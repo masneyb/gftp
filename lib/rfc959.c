@@ -933,9 +933,9 @@ rfc959_accept_active_connection (gftp_request * request)
   intptr_t passive_transfer;
   rfc959_parms * parms;
 #ifdef HAVE_IPV6
-  struct sockaddr_in cli_addr;
-#else
   struct sockaddr_in6 cli_addr;
+#else
+  struct sockaddr_in cli_addr;
 #endif
   socklen_t cli_addr_len;
 
