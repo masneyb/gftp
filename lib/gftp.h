@@ -168,6 +168,9 @@
 #define GFTP_ERETRYABLE_NO_WAIT	-3		/* Temporary failure. The GUI
 						   should not wait and should
 						   reconnect */
+#define GFTP_ENOTRANS		-4		/* Custom error. This is
+						   returned when a FXP transfer
+						   is requested */
 
 /* Some general settings */
 #define BASE_CONF_DIR		"~/.gftp"

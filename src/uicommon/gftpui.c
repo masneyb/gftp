@@ -1372,6 +1372,9 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
                 }
             }
 
+          if (num_read == GFTP_ENOTRANS)
+            num_read = 0;
+
           gftpui_finish_current_file_in_transfer (tdata);
         }
 

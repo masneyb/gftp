@@ -1107,7 +1107,6 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
   else
     tempstr++;
 
-  parms->sent_retr = 1;
   return (gftp_parse_file_size (tempstr) + startsize);
 }
 
@@ -1117,9 +1116,9 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
                  off_t startsize, off_t totalsize)
 {
   char *command, *tempstr, resp;
-  int ret;
   intptr_t passive_transfer;
   rfc959_parms * parms;
+  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
@@ -1181,6 +1180,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
                       const char *tofile, off_t tosize)
 {
   char *tempstr, *pos, *endpos;
+  rfc959_parms * parms;
   int ret;
 
   g_return_val_if_fail (fromreq != NULL, GFTP_EFATAL);
@@ -1189,9 +1189,6 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_return_val_if_fail (tofile != NULL, GFTP_EFATAL);
   g_return_val_if_fail (fromreq->datafd > 0, GFTP_EFATAL);
   g_return_val_if_fail (toreq->datafd > 0, GFTP_EFATAL);
-
-  gftp_set_request_option (fromreq, "passive_transfer", GINT_TO_POINTER(1));
-  gftp_set_request_option (toreq, "passive_transfer", GINT_TO_POINTER(0));
 
   if ((ret = rfc959_send_command (fromreq, "PASV\r\n", 1)) != '2')
     return (ret);
@@ -1238,6 +1235,12 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   if ((ret = rfc959_read_response (toreq, 1)) < 0)
     return (ret);
 
+  parms = fromreq->protocol_data;
+  parms->is_fxp_transfer = 1;
+
+  parms = toreq->protocol_data;
+  parms->is_fxp_transfer = 1;
+
   return (0);
 }
 
@@ -1252,7 +1255,7 @@ rfc959_end_transfer (gftp_request * request)
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   parms = request->protocol_data;
-  parms->sent_retr = 0;
+  parms->is_fxp_transfer = 0;
 
   if (parms->data_connection > 0)
     {
@@ -1351,6 +1354,8 @@ rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   int i, j;
 
   parms = request->protocol_data;
+  if (parms->is_fxp_transfer)
+    return (GFTP_ENOTRANS);
 
   num_read = parms->data_conn_read (request, buf, size, parms->data_connection);
   if (num_read < 0)
@@ -1385,6 +1390,9 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
     return (0);
 
   parms = request->protocol_data;
+
+  if (parms->is_fxp_transfer)
+    return (GFTP_ENOTRANS);
 
   if (parms->is_ascii_transfer)
     {
