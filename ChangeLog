@@ -1,4 +1,8 @@
 2004-3-18 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h configure.in - #define _LARGEFILE_SOURCE if sizeof(off_t)
+	is greater than 4 and _LARGEFILE_SOURCE is not defined.
+	_LARGEFILE_SOURCE does not get defined under *BSD
+
 	* lib/local.c (local_{get,put}_file) - compiling fix for FreeBSD.
 	_LARGEFILE_SOURCE is defined, but O_LARGEFILE is not defined
 

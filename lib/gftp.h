@@ -26,10 +26,8 @@
 #include "config.h"
 #endif
 
-/* FreeBSD and OpenBSD both include 64bit off_t but _LARGEFILE_SOURCE does not
-   get defined. */
-#if defined (_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS > 32 && \
-    !defined (_LARGEFILE_SOURCE)
+/* *BSD include 64bit off_t but _LARGEFILE_SOURCE is not defined. */
+#if defined (SIZEOF_OFF_T) && SIZEOF_OFF_T > 4 && !defined (_LARGEFILE_SOURCE)
 #define _LARGEFILE_SOURCE 1
 #endif
 
