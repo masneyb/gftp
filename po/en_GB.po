@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-30 23:02-0500\n"
-"PO-Revision-Date: 2004-03-30 23:14-0500\n"
+"POT-Creation-Date: 2004-04-16 12:25-0400\n"
+"PO-Revision-Date: 2004-04-16 12:26-0400\n"
 "Last-Translator: Gareth Owen <gowen72@yahoo.comg>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Error: Cannot create temporary file: %s\n"
 
 #: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:148 lib/config_file.c:154
-#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:262 lib/sshv2.c:1000
+#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:262 lib/sshv2.c:1038
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Error closing file descriptor: %s\n"
@@ -46,17 +46,18 @@ msgstr "Error closing file descriptor: %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Error: Cannot seek on file %s: %s\n"
 
-#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2757
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2766
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Error: Cannot open local file %s: %s\n"
 
-#: lib/config_file.c:134 lib/protocols.c:2462 lib/sslcommon.c:480
+#: lib/config_file.c:134 lib/protocols.c:2471 lib/sslcommon.c:480
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Error: Could not write to socket: %s\n"
 
-#: lib/config_file.c:142 lib/protocols.c:2390 lib/sslcommon.c:434
+#: lib/config_file.c:142 lib/protocols.c:2399 lib/sshv2.c:316
+#: lib/sslcommon.c:434
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Error: Could not read from socket: %s\n"
@@ -274,11 +275,11 @@ msgstr "Error: Could not change mode of %s to %d: %s\n"
 msgid "local filesystem"
 msgstr "local filesystem"
 
-#: lib/misc.c:415
+#: lib/misc.c:418
 msgid "usage: gftp "
 msgstr "usage: gftp "
 
-#: lib/misc.c:415 src/uicommon/gftpui.c:624
+#: lib/misc.c:418 src/uicommon/gftpui.c:624
 msgid "\n"
 msgstr "\n"
 
@@ -677,103 +678,103 @@ msgstr "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "The protocol '%s' is currently not supported.\n"
 
-#: lib/protocols.c:1046 lib/protocols.c:1061 lib/protocols.c:1984
-#: lib/protocols.c:2091
+#: lib/protocols.c:1047 lib/protocols.c:1062 lib/protocols.c:1993
+#: lib/protocols.c:2100
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Looking up %s\n"
 
-#: lib/protocols.c:1052 lib/protocols.c:1067 lib/protocols.c:1989
-#: lib/protocols.c:2096
+#: lib/protocols.c:1053 lib/protocols.c:1068 lib/protocols.c:1998
+#: lib/protocols.c:2105
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Cannot look up hostname %s: %s\n"
 
-#: lib/protocols.c:1358 lib/protocols.c:1359 lib/protocols.c:1400
-#: lib/protocols.c:1401 lib/protocols.c:1460 lib/protocols.c:1467
-#: lib/protocols.c:1546 lib/protocols.c:1547 lib/protocols.c:1581
+#: lib/protocols.c:1365 lib/protocols.c:1366 lib/protocols.c:1407
+#: lib/protocols.c:1408 lib/protocols.c:1468 lib/protocols.c:1475
+#: lib/protocols.c:1554 lib/protocols.c:1555 lib/protocols.c:1589
 msgid "unknown"
 msgstr "unknown"
 
-#: lib/protocols.c:2007
+#: lib/protocols.c:2016
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Failed to create a socket: %s\n"
 
-#: lib/protocols.c:2013 lib/protocols.c:2110
+#: lib/protocols.c:2022 lib/protocols.c:2119
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Trying %s:%d\n"
 
-#: lib/protocols.c:2018 lib/protocols.c:2117
+#: lib/protocols.c:2027 lib/protocols.c:2126
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Cannot connect to %s: %s\n"
 
-#: lib/protocols.c:2050 lib/rfc959.c:628
+#: lib/protocols.c:2059 lib/rfc959.c:628
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Failed to create a IPv4 socket: %s\n"
 
-#: lib/protocols.c:2074 lib/sshv2.c:898
+#: lib/protocols.c:2083 lib/sshv2.c:947
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr "Cannot look up service name %s/tcp. Please check your services file\n"
 
-#: lib/protocols.c:2133 lib/protocols.c:2766 lib/rfc959.c:637 lib/rfc959.c:791
+#: lib/protocols.c:2142 lib/protocols.c:2775 lib/rfc959.c:637 lib/rfc959.c:791
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Error: Cannot set close on exec flag: %s\n"
 
-#: lib/protocols.c:2140
+#: lib/protocols.c:2149
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Connected to %s:%d\n"
 
-#: lib/protocols.c:2370 lib/protocols.c:2441
+#: lib/protocols.c:2379 lib/protocols.c:2450 lib/sshv2.c:307
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Connection to %s timed out\n"
 
-#: lib/protocols.c:2510
+#: lib/protocols.c:2519
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Cannot get socket flags: %s\n"
 
-#: lib/protocols.c:2524
+#: lib/protocols.c:2533
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Cannot set socket to non-blocking: %s\n"
 
-#: lib/protocols.c:2660
+#: lib/protocols.c:2669
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 
-#: lib/protocols.c:2668
+#: lib/protocols.c:2677
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 
-#: lib/pty.c:288
+#: lib/pty.c:296
+#, c-format
+msgid "Cannot open master pty %s: %s\n"
+msgstr "Cannot open master pty %s: %s\n"
+
+#: lib/pty.c:304
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "Cannot create a socket pair: %s\n"
 
-#: lib/pty.c:307 lib/pty.c:364
+#: lib/pty.c:332
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "Error: Cannot execute ssh: %s\n"
 
-#: lib/pty.c:320 lib/pty.c:375
+#: lib/pty.c:348
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "Cannot fork another process: %s\n"
-
-#: lib/pty.c:338
-#, c-format
-msgid "Cannot open master pty %s: %s\n"
-msgstr "Cannot open master pty %s: %s\n"
 
 #: lib/rfc2068.c:30 lib/rfc959.c:47
 msgid "Proxy hostname:"
@@ -824,17 +825,17 @@ msgstr ""
 "Received wrong response from server, disconnecting\n"
 "Invalid chunk size '%s' returned by the remote server\n"
 
-#: lib/rfc2068.c:257 lib/rfc959.c:597 lib/sshv2.c:995
+#: lib/rfc2068.c:257 lib/rfc959.c:597 lib/sshv2.c:1033
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Disconnecting from site %s\n"
 
-#: lib/rfc2068.c:306
+#: lib/rfc2068.c:307
 #, c-format
 msgid "Starting the file transfer at offset %lld\n"
 msgstr "Starting the file transfer at offset %lld\n"
 
-#: lib/rfc2068.c:314
+#: lib/rfc2068.c:315
 #, c-format
 msgid "Starting the file transfer at offset %ld\n"
 msgstr "Starting the file transfer at offset %ld\n"
@@ -844,15 +845,15 @@ msgstr "Starting the file transfer at offset %ld\n"
 msgid "Cannot retrieve file %s\n"
 msgstr "Cannot retrieve file %s\n"
 
-#: lib/rfc2068.c:435 lib/sshv2.c:1080
+#: lib/rfc2068.c:435 lib/sshv2.c:1118
 msgid "Retrieving directory listing...\n"
 msgstr "Retrieving directory listing...\n"
 
-#: lib/rfc2068.c:834 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
-#: lib/sshv2.c:819 lib/sshv2.c:951 lib/sshv2.c:1042 lib/sshv2.c:1110
-#: lib/sshv2.c:1223 lib/sshv2.c:1236 lib/sshv2.c:1249 lib/sshv2.c:1262
-#: lib/sshv2.c:1318 lib/sshv2.c:1383 lib/sshv2.c:1843 lib/sshv2.c:1946
-#: lib/sshv2.c:2040 lib/sshv2.c:2125 lib/sshv2.c:2211
+#: lib/rfc2068.c:834 lib/sshv2.c:771 lib/sshv2.c:784 lib/sshv2.c:806
+#: lib/sshv2.c:874 lib/sshv2.c:989 lib/sshv2.c:1080 lib/sshv2.c:1148
+#: lib/sshv2.c:1261 lib/sshv2.c:1274 lib/sshv2.c:1287 lib/sshv2.c:1300
+#: lib/sshv2.c:1356 lib/sshv2.c:1421 lib/sshv2.c:1881 lib/sshv2.c:1984
+#: lib/sshv2.c:2078 lib/sshv2.c:2163 lib/sshv2.c:2249
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Received wrong response from server, disconnecting\n"
 
@@ -1086,18 +1087,10 @@ msgid "Require a username/password for SSH connections"
 msgstr "Require a username/password for SSH connections"
 
 #: lib/sshv2.c:45
-msgid "Use ssh-askpass utility"
-msgstr "Use ssh-askpass utility"
-
-#: lib/sshv2.c:48
-msgid "Use the ssh-askpass utility to supply the remote password"
-msgstr "Use the ssh-askpass utility to supply the remote password"
-
-#: lib/sshv2.c:50
 msgid "Use SSH2 SFTP subsys"
 msgstr "Use SSH2 SFTP subsys"
 
-#: lib/sshv2.c:53
+#: lib/sshv2.c:48
 msgid ""
 "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 "know the remote path to the remote sftp-server"
@@ -1105,156 +1098,148 @@ msgstr ""
 "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 "know the remote path to the remote sftp-server"
 
-#: lib/sshv2.c:259
+#: lib/sshv2.c:254
 #, c-format
 msgid "Running program %s\n"
 msgstr "Running program %s\n"
 
-#: lib/sshv2.c:306 lib/sshv2.c:331
+#: lib/sshv2.c:350 lib/sshv2.c:374
 msgid "WARNING"
 msgstr "WARNING"
 
-#: lib/sshv2.c:373
+#: lib/sshv2.c:431
 msgid "Error: An incorrect password was entered\n"
 msgstr "Error: An incorrect password was entered\n"
 
-#: lib/sshv2.c:376
-msgid ""
-"Please connect to this host with the command line SSH utility and answer "
-"this question appropriately.\n"
-msgstr ""
-"Please connect to this host with the command line SSH utility and answer "
-"this question appropriately.\n"
-
-#: lib/sshv2.c:379
+#: lib/sshv2.c:434
 msgid "Please correct the above warning to connect to this host.\n"
 msgstr "Please correct the above warning to connect to this host.\n"
 
-#: lib/sshv2.c:418
+#: lib/sshv2.c:473
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: Protocol Initialization\n"
 
-#: lib/sshv2.c:424
+#: lib/sshv2.c:479
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: Protocol version %d\n"
 
-#: lib/sshv2.c:433
+#: lib/sshv2.c:488
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: Open %s\n"
 
-#: lib/sshv2.c:438
+#: lib/sshv2.c:493
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: Close\n"
 
-#: lib/sshv2.c:444
+#: lib/sshv2.c:499
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: Open Directory %s\n"
 
-#: lib/sshv2.c:449
+#: lib/sshv2.c:504
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: Read Directory\n"
 
-#: lib/sshv2.c:453
+#: lib/sshv2.c:508
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: Remove file %s\n"
 
-#: lib/sshv2.c:458
+#: lib/sshv2.c:513
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: Make directory %s\n"
 
-#: lib/sshv2.c:463
+#: lib/sshv2.c:518
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: Remove directory %s\n"
 
-#: lib/sshv2.c:468
+#: lib/sshv2.c:523
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: Realpath %s\n"
 
-#: lib/sshv2.c:473
+#: lib/sshv2.c:528
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: File attributes\n"
 
-#: lib/sshv2.c:477
+#: lib/sshv2.c:532
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Stat %s\n"
 
-#: lib/sshv2.c:494
+#: lib/sshv2.c:549
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: lib/sshv2.c:499
+#: lib/sshv2.c:554
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: lib/sshv2.c:512 src/gtk/bookmarks.c:1042 src/gtk/bookmarks.c:1296
+#: lib/sshv2.c:567 src/gtk/bookmarks.c:1042 src/gtk/bookmarks.c:1296
 #: src/gtk/chmod_dialog.c:260 src/gtk/gtkui_transfer.c:361
 #: src/gtk/misc-gtk.c:970 src/gtk/options_dialog.c:1109
 #: src/gtk/options_dialog.c:1311
 msgid "OK"
 msgstr "OK"
 
-#: lib/sshv2.c:515
+#: lib/sshv2.c:570
 msgid "EOF"
 msgstr "EOF"
 
-#: lib/sshv2.c:518
+#: lib/sshv2.c:573
 msgid "No such file or directory"
 msgstr "No such file or directory"
 
-#: lib/sshv2.c:521
+#: lib/sshv2.c:576
 msgid "Permission denied"
 msgstr "Permission denied"
 
-#: lib/sshv2.c:524
+#: lib/sshv2.c:579
 msgid "Failure"
 msgstr "Failure"
 
-#: lib/sshv2.c:527
+#: lib/sshv2.c:582
 msgid "Bad message"
 msgstr "Bad message"
 
-#: lib/sshv2.c:530
+#: lib/sshv2.c:585
 msgid "No connection"
 msgstr "No connection"
 
-#: lib/sshv2.c:533
+#: lib/sshv2.c:588
 msgid "Connection lost"
 msgstr "Connection lost"
 
-#: lib/sshv2.c:536
+#: lib/sshv2.c:591
 msgid "Operation unsupported"
 msgstr "Operation unsupported"
 
-#: lib/sshv2.c:539
+#: lib/sshv2.c:594
 msgid "Unknown message returned from server"
 msgstr "Unknown message returned from server"
 
-#: lib/sshv2.c:576
+#: lib/sshv2.c:631
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Error: Message size %d too big\n"
 
-#: lib/sshv2.c:634 lib/sshv2.c:1119 lib/sshv2.c:1955 lib/sshv2.c:2049
-#: lib/sshv2.c:2137
+#: lib/sshv2.c:689 lib/sshv2.c:1157 lib/sshv2.c:1993 lib/sshv2.c:2087
+#: lib/sshv2.c:2175
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Error: Message size %d too big from server\n"
 
-#: lib/sshv2.c:640
+#: lib/sshv2.c:695
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
@@ -1262,12 +1247,12 @@ msgstr ""
 "There was an error initialising a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 
-#: lib/sshv2.c:869
+#: lib/sshv2.c:924
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "Opening SSH connection to %s\n"
 
-#: lib/sshv2.c:962
+#: lib/sshv2.c:1000
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Successfully logged into SSH server %s\n"
@@ -1323,8 +1308,8 @@ msgstr ""
 "connected to (%s). Aborting connection.\n"
 
 #: lib/sslcommon.c:295
-msgid "Cannot initialized the OpenSSL library\n"
-msgstr "Cannot initialised the OpenSSL library\n"
+msgid "Cannot initialize the OpenSSL library\n"
+msgstr "Cannot initialise the OpenSSL library\n"
 
 #: lib/sslcommon.c:310
 msgid "Error loading default SSL certificates\n"
@@ -1736,7 +1721,8 @@ msgstr "Add Bookmark: You must enter a name for the bookmark\n"
 #: src/gtk/bookmarks.c:78
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
-msgstr "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
+msgstr ""
+"Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 
 #: src/gtk/bookmarks.c:135 src/gtk/bookmarks.c:146
 msgid "Add Bookmark"
@@ -2396,7 +2382,7 @@ msgid "Chdir"
 msgstr "Chdir"
 
 #: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:403 src/gtk/transfer.c:486
-#: src/gtk/transfer.c:964
+#: src/gtk/transfer.c:965
 msgid "Skipped"
 msgstr "Skipped"
 
@@ -2694,37 +2680,37 @@ msgstr "Finished"
 msgid "Stopping the transfer of %s\n"
 msgstr "Stopping the transfer of %s\n"
 
-#: src/gtk/transfer.c:683
+#: src/gtk/transfer.c:684
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 
-#: src/gtk/transfer.c:713
+#: src/gtk/transfer.c:714
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 
-#: src/gtk/transfer.c:722
+#: src/gtk/transfer.c:723
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Recv %s of %s, transfer stalled, unknown time remaining"
 
-#: src/gtk/transfer.c:757
+#: src/gtk/transfer.c:758
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Retrieving file names...%s bytes"
 
-#: src/gtk/transfer.c:836 src/gtk/transfer.c:858 src/gtk/transfer.c:892
-#: src/gtk/transfer.c:932 src/gtk/transfer.c:985 src/gtk/transfer.c:1045
+#: src/gtk/transfer.c:837 src/gtk/transfer.c:859 src/gtk/transfer.c:893
+#: src/gtk/transfer.c:933 src/gtk/transfer.c:986 src/gtk/transfer.c:1046
 msgid "There are no file transfers selected\n"
 msgstr "There are no file transfers selected\n"
 
-#: src/gtk/transfer.c:876
+#: src/gtk/transfer.c:877
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Stopping the transfer on host %s\n"
 
-#: src/gtk/transfer.c:917 src/gtk/transfer.c:970
+#: src/gtk/transfer.c:918 src/gtk/transfer.c:971
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Skipping file %s on host %s\n"
@@ -2791,3 +2777,16 @@ msgstr ""
 "%s already exists. (%s source size, %s destination size):\n"
 "(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
 "c)"
+
+#~ msgid "Use ssh-askpass utility"
+#~ msgstr "Use ssh-askpass utility"
+
+#~ msgid "Use the ssh-askpass utility to supply the remote password"
+#~ msgstr "Use the ssh-askpass utility to supply the remote password"
+
+#~ msgid ""
+#~ "Please connect to this host with the command line SSH utility and answer "
+#~ "this question appropriately.\n"
+#~ msgstr ""
+#~ "Please connect to this host with the command line SSH utility and answer "
+#~ "this question appropriately.\n"
