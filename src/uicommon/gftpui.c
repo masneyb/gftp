@@ -1280,12 +1280,15 @@ _gftpui_common_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
 int
 gftpui_common_transfer_files (gftp_transfer * tdata)
 {
-  intptr_t preserve_permissions;
+  intptr_t preserve_permissions, trans_blksize;
   struct timeval updatetime;
   ssize_t num_read, ret;
   gftp_file * curfle; 
   int tofd, fromfd;
-  char buf[8192];
+  char *buf;
+
+  gftp_lookup_request_option (tdata->fromreq, "trans_blksize", &trans_blksize);
+  buf = g_malloc (trans_blksize);
 
   tdata->curfle = tdata->files;
   gettimeofday (&tdata->starttime, NULL);
@@ -1400,7 +1403,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
 
           while (!tdata->cancel &&
                  (num_read = gftp_get_next_file_chunk (tdata->fromreq,
-                                                       buf, sizeof (buf))) > 0)
+                                                       buf, trans_blksize)) > 0)
             {
               gftp_calc_kbs (tdata, num_read);
               if (tdata->lasttime.tv_sec - updatetime.tv_sec >= 1 ||
@@ -1494,7 +1497,9 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
       tdata->fromreq->cancel = 0;
       tdata->toreq->cancel = 0;
     }
+
   tdata->done = 1;
+  g_free (buf);
 
   return (1);
 }

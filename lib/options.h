@@ -121,6 +121,11 @@ gftp_config_vars gftp_global_config_vars[] =
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("The maximum KB/s a file transfer can get. (Set to 0 to disable)"),  
    GFTP_PORT_ALL, NULL},
+  {"trans_blksize", N_("Transfer Block Size:"), 
+   gftp_option_type_int, GINT_TO_POINTER(20480), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
+   N_("The block size that is used when transfering files. This should be a multiple of 1024."),  
+   GFTP_PORT_ALL, NULL},
 
   {"default_protocol", N_("Default Protocol:"),
    gftp_option_type_textcombo, "FTP", NULL, 0,
