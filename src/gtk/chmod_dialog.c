@@ -25,66 +25,40 @@ static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow,
 static int mode; 
 
 
-static void *
-do_chmod_thread (void * data)
+static int
+do_chmod_thread (gftpui_callback_data * cdata)
 {
-  int success, num, sj;
-  intptr_t network_timeout;
   GList * filelist, * templist;
   gftp_window_data * wdata;
   gftp_file * tempfle;
+  int error, num;
 
-  wdata = data;
+  wdata = cdata->uidata;
+  error = 0;
 
-  gftp_lookup_request_option (wdata->request, "network_timeout", 
-                              &network_timeout);
-
-  if (gftpui_common_use_threads (wdata->request))
+  filelist = wdata->files;
+  templist = GTK_CLIST (wdata->listbox)->selection;
+  num = 0;
+  while (templist != NULL)
     {
-      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
-      gftpui_common_use_jmp_environment = 1;
-    }
-  else
-    sj = 0;
+      templist = get_next_selection (templist, &filelist, &num);
+      tempfle = filelist->data;
 
-  success = 0;
-  if (sj == 0)
-    { 
-      filelist = wdata->files;
-      templist = GTK_CLIST (wdata->listbox)->selection;
-      num = 0;
-      while (templist != NULL)
-        {
-          templist = get_next_selection (templist, &filelist, &num);
-          tempfle = filelist->data;
-          if (network_timeout > 0)
-            alarm (network_timeout);
-          if (gftp_chmod (wdata->request, tempfle->file, mode) == 0)
-            success = 1;
-          if (!GFTP_IS_CONNECTED (wdata->request))
-            break;
-        }
-      alarm (0);
-    }
-  else
-    {
-      gftp_disconnect (wdata->request);
-      wdata->request->logging_function (gftp_logging_error, 
-                                        wdata->request,
-                                        _("Operation canceled\n"));
+      if (gftp_chmod (wdata->request, tempfle->file, mode) != 0)
+        error = 1;
+
+      if (!GFTP_IS_CONNECTED (wdata->request))
+        break;
     }
 
-  if (gftpui_common_use_threads (wdata->request))
-    gftpui_common_use_jmp_environment = 0;
-
-  wdata->request->stopable = 0;
-  return (GINT_TO_POINTER (success));
+  return (error);
 }
 
 
 static void
 dochmod (GtkWidget * widget, gftp_window_data * wdata)
 {
+  gftpui_callback_data * cdata;
   int cur, ret;
 
   mode = 0;
@@ -125,9 +99,14 @@ dochmod (GtkWidget * widget, gftp_window_data * wdata)
   if (check_reconnect (wdata) < 0)
     return;
 
-  ret = GPOINTER_TO_INT (gftpui_generic_thread (do_chmod_thread, wdata));
-  if (ret)
-    gftpui_refresh (wdata);
+  cdata = g_malloc0 (sizeof (*cdata));
+  cdata->request = wdata->request;
+  cdata->uidata = wdata;
+  cdata->run_function = do_chmod_thread;
+
+  ret = gftpui_common_run_callback_function (cdata);
+
+  g_free (cdata);
 }
 
 

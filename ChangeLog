@@ -1,4 +1,7 @@
-2004-3-19 Brian Masney <masneyb@gftp.org>
+2004-3-20 Brian Masney <masneyb@gftp.org>
+	* src/gtk/chmod_dialog.c - use gftpui_common_run_callback_function()
+	to do the chmod operation. This will spawn a thread if necessary
+
 	* debian/gftp-text.prerm - missing debian package file
 
 	* Makefile.am - updated with EXTRA_DIST variable with the list of the
@@ -7,6 +10,7 @@
 	* debian/* - updated Debian package files from
 	Aurelien Jarno <aurelien@aurel32.net>
 
+2004-3-19 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h - if _LARGEFILE_SOURCE is defined, but _LARGEFILE64_SOURCE
 	is not defined, define it
 
