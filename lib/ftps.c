@@ -89,6 +89,11 @@ ftps_auth_tls_start (gftp_request * request)
       ret = rfc959_send_command (request, "PROT C\r\n", 1);
       if (ret < 0)
         return (ret);
+      else if (ret != '2')
+        {
+          gftp_disconnect (request);
+          return (GFTP_ERETRYABLE);
+        }
 
       params->data_conn_read = gftp_fd_read;
       params->data_conn_write = gftp_fd_write;
