@@ -1,4 +1,13 @@
 2003-6-8 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/sslcommon.c - added ssl_register_module(). This
+	function registers the configuration variables for the SSL engine.
+	Right now, the only variable is the entropy source
+
+	* lib/https.c (https_register_module) - call ssl_register_module().
+	Multiple protocols will be able to call this function, it will only 
+	be initialized once
+
+2003-6-8 Brian Masney <masneyb@gftp.org>
 	* lib/bookmark.c lib/gftp.h lib/https.c lib/local.c lib/misc.c 
 	lib/protocols.c lib/rfc2068.c lib/rfc959.c lib/sshv2.c
 	src/text/gftp-text.c src/gtk/gftp-gtk.c - made the init function for 

@@ -26,9 +26,33 @@ static const char cvsid[] = "$Id$";
 
 #ifdef USE_SSL
 
+static gftp_config_vars config_vars[] =
+{
+  {"", N_("SSL Engine"), gftp_option_type_notebook, NULL, NULL, 0, NULL,
+   GFTP_PORT_GTK, NULL},
+
+  {"entropy_source", N_("SSL Entropy File:"), 
+   gftp_option_type_text, "/dev/urandom", NULL, 0, 
+   N_("SSL entropy file"), GFTP_PORT_ALL, 0},
+  {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
+};  
+
 static SSL_CTX * ctx = NULL;
 
 static volatile int gftp_ssl_initialized = 0;
+
+void
+ssl_register_module (void)
+{
+  static volatile int module_registered = 0;
+
+  if (!module_registered)
+    {
+      gftp_register_config_vars (config_vars);
+      module_registered = 1;
+    }
+}
+
 
 static int 
 gftp_ssl_verify_callback (int ok, X509_STORE_CTX *store)
@@ -138,13 +162,14 @@ gftp_ssl_post_connection_check (gftp_request * request)
 int
 gftp_ssl_startup (gftp_request * request)
 {
+  char *entropy_source;
+
   if (gftp_ssl_initialized)
     return (0);
 
   gftp_ssl_initialized = 1;
 
   /* FIXME _ thread setup */
-  /* FIXME - only call this from one place */
   if (!SSL_library_init ())
     {
       request->logging_function (gftp_logging_error, request->user_data,
@@ -153,7 +178,9 @@ gftp_ssl_startup (gftp_request * request)
     }
 
   SSL_load_error_strings (); 
-  RAND_load_file ("/dev/urandom", 1024); /* FIXME - be able to specify this file */
+
+  gftp_lookup_request_option (request, "entropy_source", &entropy_source);
+  RAND_load_file (entropy_source, 1024);
 
   ctx = SSL_CTX_new (SSLv23_method ());
 

@@ -693,6 +693,8 @@ int sshv2_init 				( gftp_request * request );
 
 void sshv2_register_module		( void );
 
+void ssl_register_module		( void );
+
 int bookmark_init 			( gftp_request * request );
 
 void bookmark_register_module		( void );

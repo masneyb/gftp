@@ -54,6 +54,9 @@ https_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 void
 https_register_module (void)
 {
+#ifdef USE_SSL
+  ssl_register_module ();
+#endif
 }
 
 
