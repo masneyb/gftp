@@ -765,7 +765,7 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
                    gftp_window_data * fromwdata, gftp_window_data * towdata, 
                    GList * files, int copy_req)
 {
-  int dialog, append_file_transfers;
+  int dialog, append_transfers;
   gftp_curtrans_data * transdata;
   GList * templist, *curfle;
   gftp_transfer * tdata;
@@ -780,10 +780,10 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
     }
   dialog = templist != NULL;
 
-  gftp_lookup_request_option (fromreq, "append_file_transfers", 
-                              &append_file_transfers);
+  gftp_lookup_request_option (fromreq, "append_transfers", 
+                              &append_transfers);
 
-  if (append_file_transfers)
+  if (append_transfers)
     {
       pthread_mutex_lock (&transfer_mutex);
       for (templist = gftp_file_transfers; templist != NULL; templist = templist->next)
@@ -1429,8 +1429,7 @@ update_downloads (gpointer data)
 	    {
               gftp_lookup_global_option ("do_one_transfer_at_a_time", 
                                          &do_one_transfer_at_a_time);
-              gftp_lookup_global_option ("start_file_transfers",  /* FIXME - this is gone now */
-                                         &start_file_transfers);
+              start_file_transfers = 1; /* FIXME */
 
 	      if (!tdata->started && start_file_transfers &&
                  (num_transfers_in_progress == 0 || !do_one_transfer_at_a_time))

@@ -1063,7 +1063,14 @@ gftp_lookup_global_option (char * key, void *value)
 void
 gftp_lookup_request_option (gftp_request * request, char * key, void *value)
 {
-  gftp_lookup_global_option (key, value);
+  gftp_config_vars * tmpconfigvar;
+
+  if (request != NULL && request->local_options_hash != NULL &&
+      (tmpconfigvar = g_hash_table_lookup (request->local_options_hash,
+                                           key)) != NULL)
+    memcpy (value, &tmpconfigvar->value, sizeof (value));
+  else
+    gftp_lookup_global_option (key, value);
 }
 
 
@@ -1095,10 +1102,10 @@ gftp_set_request_option (gftp_request * request, char * key, void *value)
 
   if ((tmpconfigvar = g_hash_table_lookup (request->local_options_hash,
                                            key)) != NULL)
-    memcpy (&tmpconfigvar->value, value, sizeof (tmpconfigvar->value));
+    memcpy (&tmpconfigvar->value, &value, sizeof (tmpconfigvar->value));
   else
     {
-      if (gftp_global_options_htable == NULL &&
+      if (gftp_global_options_htable == NULL ||
           (tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
                                                key)) == NULL)
         {
@@ -1110,10 +1117,13 @@ gftp_set_request_option (gftp_request * request, char * key, void *value)
       request->local_options_vars = g_realloc (request->local_options_vars, 
                                                sizeof (gftp_config_vars) * (request->num_local_options_vars + 1));
 
-      memcpy (&request->local_options_vars[request->num_local_options_vars],
+      memcpy (&request->local_options_vars[request->num_local_options_vars - 1],
               tmpconfigvar, sizeof (*tmpconfigvar));
-      memcpy (&request->local_options_vars[request->num_local_options_vars].value, value, sizeof (value));
-      
+      memcpy (&request->local_options_vars[request->num_local_options_vars - 1].value, &value, sizeof (value));
+
+      memset (&request->local_options_vars[request->num_local_options_vars].value, 0, sizeof (value));
+
+      g_hash_table_insert (request->local_options_hash, request->local_options_vars[request->num_local_options_vars - 1].key, &request->local_options_vars[request->num_local_options_vars - 1]);
     }
 }
 

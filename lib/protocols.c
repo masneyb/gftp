@@ -76,8 +76,11 @@ gftp_request_destroy (gftp_request * request, int free_request)
       request->cachefd = -1;
     }
 
-  g_free (request->local_options_vars);
-  g_hash_table_destroy (request->local_options_hash);
+  if (request->local_options_vars != NULL)
+    {
+      g_free (request->local_options_vars);
+      g_hash_table_destroy (request->local_options_hash);
+    }
 }
 
 
