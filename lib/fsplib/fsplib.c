@@ -591,13 +591,15 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
     if (rc != 0)
 	return rc;
 
+#ifdef HAVE_DIRENT_TYPE
     /* convert FSP dirent to OS dirent */
 
     if (fentry.type == FSP_RDTYPE_DIR )
 	entry->d_type=DT_DIR;
     else
 	entry->d_type=DT_REG;
-	
+#endif
+
     /* remove symlink destination */
     c=strchr(fentry.name,'\n');
     if (c)
@@ -608,14 +610,16 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
 	fentry.namlen-=rc;
     }
 
+#ifdef HAVE_DIRENT_FILENO
     entry->d_fileno = 10;
+#endif    
     entry->d_reclen = fentry.reclen;
     strncpy(entry->d_name,fentry.name,MAXNAMLEN);
 
     if (fentry.namlen > MAXNAMLEN)
     {
 	entry->d_name[MAXNAMLEN + 1 ] = '\0';
-#ifdef HAVE_NAMLEN
+#ifdef HAVE_DIRENT_NAMLEN
 	entry->d_namlen = MAXNAMLEN;
     } else
     {
