@@ -248,7 +248,7 @@ gftp_read_config_file (char **argv, int get_xpms)
       temp1str = expand_path (BASE_CONF_DIR);
       if (access (temp1str, F_OK) == -1)
 	{
-	  if (mkdir (temp1str, 0700) != 0)
+	  if (mkdir (temp1str, S_IRUSR | S_IWUSR | S_IXUSR) != 0)
 	    {
 	      printf (_("gFTP Error: Could not make directory %s: %s\n"),
 		      temp1str, g_strerror (errno));
@@ -268,7 +268,7 @@ gftp_read_config_file (char **argv, int get_xpms)
       copyfile (temp1str, tempstr);
       g_free (temp1str);
     }
-  chmod (tempstr, S_IRUSR | S_IWUSR);
+
   if ((conffile = fopen (tempstr, "r")) == NULL)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
@@ -539,18 +539,6 @@ gftp_read_bookmarks (void)
 
   if (access (tempstr, F_OK) == -1)
     {
-      temp1str = expand_path (BASE_CONF_DIR);
-      if (access (temp1str, F_OK) == -1)
-	{
-	  if (mkdir (temp1str, 0700) != 0)
-	    {
-	      printf (_("gFTP Error: Could not make directory %s: %s\n"),
-		      temp1str, g_strerror (errno));
-	      exit (-1);
-	    }
-	}
-      g_free (temp1str);
-
       temp1str = g_strdup_printf ("%s/bookmarks", SHARE_DIR);
       if (access (temp1str, F_OK) == -1)
 	{
@@ -562,7 +550,7 @@ gftp_read_bookmarks (void)
       copyfile (temp1str, tempstr);
       g_free (temp1str);
     }
-  chmod (tempstr, S_IRUSR | S_IWUSR);
+
   if ((bmfile = fopen (tempstr, "r")) == NULL)
     {
       printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"), tempstr,

@@ -176,7 +176,7 @@ ssh_send_command (gftp_request * request, int cmdnum, const char *command,
     memcpy (&buf[6], command, len);
   ssh_log_command (request, params->channel, cmdnum, command, len, 1);
 
-  if (gftp_fwrite (request, buf, len + 6, request->sockfd_write) < 0)
+  if (gftp_write (request, buf, len + 6, request->sockfd) < 0)
     return (-2);
 
   return 0;
@@ -185,27 +185,20 @@ ssh_send_command (gftp_request * request, int cmdnum, const char *command,
 
 
 static char *
-ssh_read_message (gftp_request * request, char *buf, size_t len, FILE * fd)
+ssh_read_message (gftp_request * request, char *buf, size_t len, int fd)
 {
-  if (fd == NULL)
+  if (fd <= 0)
     fd = request->sockfd;
 
-  fread (buf, len, 1, fd);
-  if (ferror (fd))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Could not read from socket: %s\n"),
-                                 g_strerror (errno));
-      gftp_disconnect (request);
-      return (NULL);
-    }
+  if (gftp_read (request, buf, len, fd) < 0)
+    return (NULL);
 
   return (buf);
 }
 
 
 static int
-ssh_read_response (gftp_request * request, ssh_message *message, FILE * fd)
+ssh_read_response (gftp_request * request, ssh_message *message, int fd)
 {
   char buf[6];
 
@@ -313,7 +306,7 @@ ssh_chdir (gftp_request * request, const char *directory)
                             strlen (directory) + 1) < 0) 
         return (-1);
 
-      if ((ret = ssh_read_response (request, &message, NULL)) != SUCCESS)
+      if ((ret = ssh_read_response (request, &message, -1)) != SUCCESS)
         {
           request->logging_function (gftp_logging_error, request->user_data,
 			    _("Could not change remote directory to %s: %s\n"),
@@ -329,7 +322,7 @@ ssh_chdir (gftp_request * request, const char *directory)
       if (ssh_send_command (request, GETDIR, NULL, 0) < 0)
         return (-1);
 
-      if (ssh_read_response (request, &message, NULL) != TELLDIR)
+      if (ssh_read_response (request, &message, -1) != TELLDIR)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                             _("Could not get current working directory: %s\n"),
@@ -353,7 +346,6 @@ ssh_connect (gftp_request * request)
   char **args, *tempstr, pts_name[20], *p1, p2, *exepath, port[6];
   int version, fdm, fds, s[2];
   ssh_message message;
-  const gchar *errstr;
   ssh_parms *params;
   pid_t child;
 
@@ -362,7 +354,7 @@ ssh_connect (gftp_request * request)
   g_return_val_if_fail (request->hostname != NULL, -2);
   
   params = request->protocol_data;
-  if (request->sockfd != NULL)
+  if (request->sockfd > 0)
     return (0);
 
   request->logging_function (gftp_logging_misc, request->user_data,
@@ -435,11 +427,7 @@ ssh_connect (gftp_request * request)
       execvp (ssh_prog_name != NULL && *ssh_prog_name != '\0' ?
               ssh_prog_name : "ssh", args);  
 
-      tempstr = _("Error: Cannot execute ssh: ");
-      write (1, tempstr, strlen (tempstr));
-      errstr = g_strerror (errno);
-      write (1, errstr, strlen (errstr));
-      write (1, "\n", 1);
+      printf (_("Error: Cannot execute ssh: %s\n"), g_strerror (errno));
       return (-1);
     }
   else if (child > 0)
@@ -465,29 +453,13 @@ ssh_connect (gftp_request * request)
       g_free (exepath);
       g_free (tempstr);
 
-      if ((request->sockfd = fdopen (fdm, "rb+")) == NULL)
-        {
-          request->logging_function (gftp_logging_error, request->user_data,
-                                     _("Cannot fdopen() socket: %s\n"),
-                                     g_strerror (errno));
-          close (fdm);
-          return (-2);
-        }
-
-      if ((request->sockfd_write = fdopen (fdm, "wb+")) == NULL)
-        {
-          request->logging_function (gftp_logging_error, request->user_data,
-                                     _("Cannot fdopen() socket: %s\n"),
-                                     g_strerror (errno));
-          gftp_disconnect (request);
-          return (-2);
-        }
+      request->sockfd = fdm;
 
       params->channel = 0;
       version = htonl (7 << 4);
       if (ssh_send_command (request, SSH_VERSION, (char *) &version, 4) < 0)
         return (-2);
-      if (ssh_read_response (request, &message, NULL) != SSH_VERSION)
+      if (ssh_read_response (request, &message, -1) != SSH_VERSION)
         return (-2);
       g_free (message.data);
 
@@ -509,7 +481,7 @@ ssh_connect (gftp_request * request)
   if (ssh_send_command (request, GETDIR, NULL, 0) < 0)
     return (-1);
 
-  if (ssh_read_response (request, &message, NULL) != TELLDIR)
+  if (ssh_read_response (request, &message, -1) != TELLDIR)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                             _("Could not get current working directory: %s\n"),
@@ -522,9 +494,6 @@ ssh_connect (gftp_request * request)
     g_free (request->directory);
   request->directory = message.data;
 
-  if (request->sockfd == NULL)
-    return (-2);
-
   return (0);
 }
 
@@ -535,19 +504,24 @@ ssh_disconnect (gftp_request * request)
   g_return_if_fail (request != NULL);
   g_return_if_fail (request->protonum == GFTP_SSH_NUM);
 
-  if (request->sockfd != NULL)
+  if (request->sockfd > 0)
     {
       request->logging_function (gftp_logging_misc, request->user_data,
 			         _("Disconnecting from site %s\n"),
                                  request->hostname);
-      fclose (request->sockfd);
-      request->sockfd = request->sockfd_write = NULL;
+
+      if (close (request->sockfd) < 0)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error closing file descriptor: %s\n"),
+                                   g_strerror (errno));
+
+      request->sockfd = -1;
     }
 }
 
 
-static long
-ssh_get_file (gftp_request * request, const char *filename, FILE * fd,
+static off_t 
+ssh_get_file (gftp_request * request, const char *filename, int fd,
               off_t startsize)
 {
   ssh_message message;
@@ -568,7 +542,7 @@ ssh_get_file (gftp_request * request, const char *filename, FILE * fd,
   retsize = 0;
   while (1)
     {
-      ret = ssh_read_response (request, &message, NULL);
+      ret = ssh_read_response (request, &message, -1);
       switch (ret)
         {
           case FILESIZE:
@@ -604,7 +578,7 @@ ssh_get_file (gftp_request * request, const char *filename, FILE * fd,
 
 
 static int
-ssh_put_file (gftp_request * request, const char *filename, FILE * fd,
+ssh_put_file (gftp_request * request, const char *filename, int fd,
               off_t startsize, off_t totalsize)
 {
   ssh_message message;
@@ -626,7 +600,7 @@ ssh_put_file (gftp_request * request, const char *filename, FILE * fd,
   if (ssh_send_command (request, FILENAME, filename, strlen (filename) + 1) < 0)
     return (-1);
 
-  if (ssh_read_response (request, &message, NULL) < 0)
+  if (ssh_read_response (request, &message, -1) < 0)
     {
       g_free (message.data);
       return (-1);
@@ -663,13 +637,13 @@ ssh_put_file (gftp_request * request, const char *filename, FILE * fd,
 }
 
 
-static size_t 
+static ssize_t 
 ssh_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   ssh_message message;
   size_t len;
 
-  switch (ssh_read_response (request, &message, NULL))
+  switch (ssh_read_response (request, &message, -1))
     {
       case DATA:
         len = size > message.len ? message.len : size;
@@ -678,7 +652,7 @@ ssh_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
         return (len);
       case ENDDATA:
         g_free (message.data);
-        if (ssh_read_response (request, &message, NULL) < 0)
+        if (ssh_read_response (request, &message, -1) < 0)
           {
             g_free (message.data);
             return (-1);
@@ -698,7 +672,7 @@ ssh_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 }
 
 
-static size_t 
+static ssize_t 
 ssh_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   if (size == 0)
@@ -773,7 +747,7 @@ ssh_list_files (gftp_request * request)
     }
   g_free (tempstr);
 
-  if (ssh_read_response (request, &message, NULL) != STREAM)
+  if (ssh_read_response (request, &message, -1) != STREAM)
     {
       g_free (message.data);
       request->logging_function (gftp_logging_misc, request->user_data,
@@ -788,7 +762,7 @@ ssh_list_files (gftp_request * request)
 
 
 static int
-ssh_get_next_file (gftp_request * request, gftp_file * fle, FILE * fd)
+ssh_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   char *tempstr, *pos;
   ssh_message message;
@@ -930,7 +904,7 @@ ssh_exec (gftp_request * request, const char *command, size_t len)
 
   while (1)
     {
-      ret = ssh_read_response (request, &message, NULL);
+      ret = ssh_read_response (request, &message, -1);
       switch (ret)
         {
           case -1: 
@@ -1138,6 +1112,26 @@ ssh_chmod (gftp_request * request, const char *file, int mode)
 }
 
 
+static void
+ssh_set_config_options (gftp_request * request)
+{
+  if (request->sftpserv_path != NULL)
+    {
+      if (ssh1_sftp_path != NULL &&
+          strcmp (ssh1_sftp_path, request->sftpserv_path) == 0)
+        return;
+
+      g_free (request->sftpserv_path);
+      request->sftpserv_path = NULL;
+    }
+
+  if (ssh1_sftp_path != NULL)
+    request->sftpserv_path = g_strdup (ssh1_sftp_path);
+
+  request->need_userpass = ssh_need_userpass;
+}
+
+
 void
 ssh_init (gftp_request * request)
 {
@@ -1168,6 +1162,7 @@ ssh_init (gftp_request * request)
   request->set_file_time = NULL;
   request->site = NULL;
   request->parse_url = NULL;
+  request->set_config_options = ssh_set_config_options;
   request->url_prefix = "ssh";
   request->protocol_name = "SSH";
   request->need_hostport = 1;

@@ -708,7 +708,7 @@ add_history (GtkWidget * widget, GList ** history, unsigned int *histlen,
 int
 check_reconnect (gftp_window_data *wdata)
 {
-  return (wdata->request->cached && wdata->request->sockfd == NULL && 
+  return (wdata->request->cached && wdata->request->sockfd < 0 && 
 	  !ftp_connect (wdata, wdata->request, 0) ? -1 : 0);
 }
 

@@ -588,6 +588,9 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
     }
   g_free (fle);
 
+  if (files == NULL)
+    return (1);
+
   if (request == gftp_text_locreq)
     {
       sortcol = local_sortcol;
@@ -863,9 +866,9 @@ gftp_text_transfer_files (gftp_transfer * transfer)
         }
 
       transfer->curtrans = curfle->startsize;
-      fromsize = gftp_transfer_file (transfer->fromreq, curfle->file, NULL,
+      fromsize = gftp_transfer_file (transfer->fromreq, curfle->file, -1,
                                      curfle->startsize, transfer->toreq, curfle->destfile, 
-                                     NULL, curfle->startsize);
+                                     -1, curfle->startsize);
       if (fromsize < 0)
         return (1);
 

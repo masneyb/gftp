@@ -28,7 +28,7 @@ view_dialog (gpointer data)
   GList * templist, * filelist, * newfile;
   gftp_window_data * fromwdata, * towdata;
   gftp_file * new_fle;
-  int num, fd;
+  int num;
 
   fromwdata = data;
   towdata = fromwdata == &window1 ? &window2 : &window1;
@@ -56,7 +56,7 @@ view_dialog (gpointer data)
       if (new_fle->destfile)
         g_free (new_fle->destfile);
       new_fle->destfile = g_strconcat (g_get_tmp_dir (), "/gftp-view.XXXXXX", NULL);
-      if ((fd = mkstemp (new_fle->destfile)) < 0)
+      if ((new_fle->fd = mkstemp (new_fle->destfile)) < 0)
         {
           ftp_log (gftp_logging_misc, NULL, 
                    _("Error: Cannot open %s for writing: %s\n"),  
@@ -65,14 +65,7 @@ view_dialog (gpointer data)
           return;
         }
 
-      chmod (new_fle->destfile, S_IRUSR | S_IWUSR);
-      if ((new_fle->fd = fdopen (fd, "rw+")) == NULL)
-        {
-          ftp_log (gftp_logging_error, NULL,
-                   _("Cannot fdopen() socket: %s\n"),
-                   g_strerror (errno));
-          return;
-        }
+      fchmod (new_fle->fd, S_IRUSR | S_IWUSR);
 
       new_fle->is_fd = 1;
       new_fle->done_view = 1;
@@ -90,7 +83,7 @@ edit_dialog (gpointer data)
   gftp_window_data * fromwdata, * towdata;
   GList * templist, * filelist, * newfile;
   gftp_file * new_fle;
-  int num, fd;
+  int num;
 
   fromwdata = data;
   towdata = fromwdata == &window1 ? &window2 : &window1;
@@ -126,7 +119,7 @@ edit_dialog (gpointer data)
         g_free (new_fle->destfile);
       new_fle->destfile = g_strconcat (g_get_tmp_dir (), "/gftp-view.XXXXXX",
                                        NULL);
-      if ((fd = mkstemp (new_fle->destfile)) < 0)
+      if ((new_fle->fd = mkstemp (new_fle->destfile)) < 0)
         {
           ftp_log (gftp_logging_misc, NULL, 
                    _("Error: Cannot open %s for writing: %s\n"),
@@ -135,14 +128,7 @@ edit_dialog (gpointer data)
           return;
         }
 
-      chmod (new_fle->destfile, S_IRUSR | S_IWUSR);
-      if ((new_fle->fd = fdopen (fd, "rw+")) == NULL)
-        {
-          ftp_log (gftp_logging_error, NULL,
-                   _("Cannot fdopen() socket: %s\n"),
-                   g_strerror (errno));
-          return;
-        }
+      fchmod (new_fle->fd, S_IRUSR | S_IWUSR);
 
       new_fle->is_fd = 1;
       new_fle->done_edit = 1;

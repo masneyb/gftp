@@ -31,65 +31,90 @@ gftp_cache_get_url_prefix (gftp_request * request)
 }
 
 
-FILE *
+int
 gftp_new_cache_entry (gftp_request * request)
 {
-  char *cachedir, tempstr[BUFSIZ];
-  int cache_fd;
-  FILE *fd;
+  char *cachedir, *tempstr, *temp1str;
+  int cache_fd, fd;
+  ssize_t ret;
 
-  if ((fd = gftp_find_cache_entry (request)) != NULL)
+  if ((fd = gftp_find_cache_entry (request)) > 0)
     return (fd);
 
   cachedir = expand_path (BASE_CONF_DIR "/cache");
   if (access (cachedir, F_OK) == -1)
     {
-      if (mkdir (cachedir, 0x1C0) < 0)
-        return (NULL);
+      if (mkdir (cachedir, S_IRUSR | S_IWUSR | S_IXUSR) < 0)
+        {
+          if (request != NULL)
+            request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Error: Could not make directory %s: %s\n"),
+                                 cachedir, g_strerror (errno));
+
+          return (-1);
+        }
     }
 
-  g_snprintf (tempstr, sizeof (tempstr), "%s/index.db", cachedir);
-  if ((fd = fopen (tempstr, "ab+")) == NULL)
+  tempstr = g_strdup_printf ("%s/index.db", cachedir);
+  if ((fd = open (tempstr, O_WRONLY | O_APPEND | O_CREAT, 
+                  S_IRUSR | S_IWUSR)) == -1)
     {
-      g_free (cachedir);
-      return (NULL);
-    }
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error: Cannot open local file %s: %s\n"),
+                                   tempstr, g_strerror (errno));
 
-  g_snprintf (tempstr, sizeof (tempstr), "%s/cache.XXXXXX", cachedir);
+      g_free (tempstr);
+      g_free (cachedir);
+      return (-1);
+    }
+  g_free (tempstr);
+
+  tempstr = g_strdup_printf ("%s/cache.XXXXXX", cachedir);
   if ((cache_fd = mkstemp (tempstr)) < 0)
-    return (NULL);
+    {
+      g_free (tempstr);
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Error: Cannot create temporary file: %s\n"),
+                                 g_strerror (errno));
+      return (-1);
+    }
   g_free (cachedir);
 
-  fseek (fd, 0, SEEK_END);
-  fprintf (fd, "%s://%s@%s:%d%s\t%s\n", 
-              gftp_cache_get_url_prefix (request),
-              request->username == NULL ? "" : request->username,
-              request->hostname == NULL ? "" : request->hostname,
-              request->port, 
-              request->directory == NULL ? "" : request->directory,
-              tempstr);
+  lseek (fd, 0, SEEK_END);
+  temp1str = g_strdup_printf ("%s://%s@%s:%d%s\t%s\n", 
+                           gftp_cache_get_url_prefix (request),
+                           request->username == NULL ? "" : request->username,
+                           request->hostname == NULL ? "" : request->hostname,
+                           request->port, 
+                           request->directory == NULL ? "" : request->directory,
+                           tempstr);
+  g_free (tempstr);
+  ret = gftp_write (NULL, temp1str, strlen (temp1str), fd);
+  g_free (temp1str);
 
-  if (fclose (fd) != 0)
+  if (close (fd) != 0 || ret < 0)
     {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error closing file descriptor: %s\n"),
+                                   g_strerror (errno));
+
       close (cache_fd);
-      return (NULL);
+      return (-1);
     }
 
-  if ((fd = fdopen (cache_fd, "wb+")) == NULL)
-    {
-      close (cache_fd);
-      return (NULL);
-    }
-
-  return (fd);
+  return (cache_fd);
 }
 
 
-FILE *
+int
 gftp_find_cache_entry (gftp_request * request)
 {
   char *indexfile, *pos, buf[BUFSIZ], description[BUFSIZ];
-  FILE *indexfd, *cachefd;
+  gftp_getline_buffer * rbuf;
+  int indexfd, cachefd;
   size_t len;
 
   g_snprintf (description, sizeof (description), "%s://%s@%s:%d%s",
@@ -100,14 +125,20 @@ gftp_find_cache_entry (gftp_request * request)
               request->directory == NULL ? "" : request->directory);
 
   indexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
-  if ((indexfd = fopen (indexfile, "rb")) == NULL)
+  if ((indexfd = open (indexfile, O_RDONLY)) == -1)
     {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error: Cannot open local file %s: %s\n"),
+                                   indexfile, g_strerror (errno));
+
       g_free (indexfile);
-      return (NULL);
+      return (-1);
     }
   g_free (indexfile);
 
-  while (fgets (buf, sizeof (buf), indexfd))
+  rbuf = NULL;
+  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf) - 1, indexfd) > 0)
     {
       len = strlen (buf);
       if (buf[len - 1] == '\n')
@@ -125,24 +156,47 @@ gftp_find_cache_entry (gftp_request * request)
       if (strncmp (buf, description, len) == 0)
 	{
 	  pos++;
-	  if (fclose (indexfd) != 0)
-            return (NULL);
+	  if (close (indexfd) != 0)
+            {
+              if (request != NULL)
+                request->logging_function (gftp_logging_error, 
+                                       request->user_data,
+                                       _("Error closing file descriptor: %s\n"),
+                                       g_strerror (errno));
+              return (-1);
+            }
 
-	  if ((cachefd = fopen (pos, "rb+")) == NULL)
-            return (NULL);
+	  if ((cachefd = open (pos, O_RDONLY)) == -1)
+            {
+              if (request != NULL)
+                request->logging_function (gftp_logging_error, 
+                                   request->user_data,
+                                   _("Error: Cannot open local file %s: %s\n"),
+                                   pos, g_strerror (errno));
+              return (-1);
+            }
 
-          fseek (cachefd, 0, SEEK_END);
-          if (ftell (cachefd) == 0)
+          if (lseek (cachefd, 0, SEEK_END) == 0)
             { 
-              fclose (cachefd); 
-              return (NULL);
+              close (cachefd); 
+              return (-1);
             } 
-          fseek (cachefd, 0, SEEK_SET);
+
+          if (lseek (cachefd, 0, SEEK_SET) == -1)
+            {
+              if (request != NULL)
+                request->logging_function (gftp_logging_error, 
+                                       request->user_data,
+                                       _("Error: Cannot seek on file %s: %s\n"),
+                                       pos, g_strerror (errno));
+
+            }
+
 	  return (cachefd);
 	}
     }
-  fclose (indexfd);
-  return (NULL);
+  close (indexfd);
+  return (-1);
 }
 
 
@@ -150,17 +204,19 @@ void
 gftp_clear_cache_files (void)
 {
   char *indexfile, buf[BUFSIZ], *pos;
-  FILE *indexfd;
+  gftp_getline_buffer * rbuf;
+  int indexfd;
   size_t len;
 
   indexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
-  if ((indexfd = fopen (indexfile, "rb")) == NULL)
+  if ((indexfd = open (indexfile, O_RDONLY)) == -1)
     {
       g_free (indexfile);
       return;
     }
 
-  while (fgets (buf, sizeof (buf), indexfd))
+  rbuf = NULL;
+  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf) - 1, indexfd) > 0)
     {
       len = strlen (buf);
       if (buf[len - 1] == '\n')
@@ -169,14 +225,11 @@ gftp_clear_cache_files (void)
         buf[--len] = '\0';
 
       if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
-        {
-          printf (_("Error: Invalid line %s in cache index file\n"), buf);
-	  continue;
-        }
+	continue;
       unlink (pos + 1);
     }
 
-  fclose (indexfd);
+  close (indexfd);
   unlink (indexfile);
   g_free (indexfile);
 }
@@ -186,7 +239,8 @@ void
 gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
 {
   char *oldindexfile, *newindexfile, *pos, buf[BUFSIZ], description[BUFSIZ];
-  FILE *indexfd, *newfd;
+  gftp_getline_buffer * rbuf;
+  int indexfd, newfd;
   size_t len, buflen;
   int remove;
 
@@ -198,22 +252,34 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
               ignore_directory || request->directory == NULL ? "" : request->directory);
 
   oldindexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
-  if ((indexfd = fopen (oldindexfile, "rb")) == NULL)
+  if ((indexfd = open (oldindexfile, O_RDONLY)) == -1)
     {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error: Cannot open local file %s: %s\n"),
+                                   oldindexfile, g_strerror (errno));
+
       g_free (oldindexfile);
       return;
     }
 
   newindexfile = expand_path (BASE_CONF_DIR "/cache/index.db.new");
-  if ((newfd = fopen (newindexfile, "wb")) == NULL)
+  if ((newfd = open (newindexfile, O_WRONLY | O_CREAT, 
+                     S_IRUSR | S_IWUSR)) == -1)
     {
+      if (request != NULL)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error: Cannot open local file %s: %s\n"),
+                                   newindexfile, g_strerror (errno));
+
       g_free (oldindexfile);
       g_free (newindexfile);
       return;
     }
 
+  rbuf = NULL;
   buflen = strlen (description);
-  while (fgets (buf, sizeof (buf) - 1, indexfd))
+  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf) - 1, indexfd) > 0)
     {
       len = strlen (buf);
       if (buf[len - 1] == '\n')
@@ -223,7 +289,11 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
 
       if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
         {
-          printf (_("Error: Invalid line %s in cache index file\n"), buf);
+          if (request != NULL)
+            request->logging_function (gftp_logging_error, request->user_data,
+                            _("Error: Invalid line %s in cache index file\n"), 
+                            buf);
+
           continue;
         }
 
@@ -245,12 +315,13 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
       else
         {
           buf[strlen (buf)] = '\n';
-          fwrite (buf, 1, strlen (buf), newfd);
+          if (gftp_write (NULL, buf, strlen (buf), newfd) < 0)
+            break;
         }
     }
 
-  fclose (indexfd);
-  fclose (newfd);
+  close (indexfd);
+  close (newfd);
 
   unlink (oldindexfile);
   rename (newindexfile, oldindexfile);

@@ -259,24 +259,43 @@ make_nonnull (char **str)
 int
 copyfile (char *source, char *dest)
 {
-  FILE *srcfd, *destfd;
+  int srcfd, destfd;
   char buf[8192];
-  size_t n;
+  ssize_t n;
 
-  if ((srcfd = fopen (source, "rb")) == NULL)
-    return (0);
-
-  if ((destfd = fopen (dest, "wb")) == NULL)
+  if ((srcfd = open (source, O_RDONLY)) == -1)
     {
-      fclose (srcfd);
-      return (0);
+      printf (_("Error: Cannot open local file %s: %s\n"),
+              source, g_strerror (errno));
+      exit (1);
     }
 
-  while ((n = fread (buf, 1, sizeof (buf), srcfd)) > 0)
-    fwrite (buf, 1, n, destfd);
+  if ((destfd = open (dest, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
+    {
+      printf (_("Error: Cannot open local file %s: %s\n"),
+              dest, g_strerror (errno));
+      close (srcfd);
+      exit (1);
+    }
 
-  fclose (srcfd);
-  fclose (destfd);
+  while ((n = read (srcfd, buf, sizeof (buf))) > 0)
+    {
+      if (write (destfd, buf, n) == -1)
+        {
+          printf (_("Error: Could not write to socket: %s\n"), 
+                  g_strerror (errno));
+          exit (1);
+        }
+    }
+
+  if (n == -1)
+    {
+      printf (_("Error: Could not read from socket: %s\n"), g_strerror (errno));
+      exit (1);
+    }
+
+  close (srcfd);
+  close (destfd);
 
   return (1);
 }
@@ -429,8 +448,8 @@ free_fdata (gftp_file * fle)
     g_free (fle->attribs);
   if (fle->destfile)
     g_free (fle->destfile);
-  if (fle->fd)
-    fclose (fle->fd);
+  if (fle->fd > 0)
+    close (fle->fd);
   g_free (fle);
 }
 
@@ -481,13 +500,11 @@ swap_socks (gftp_request * dest, gftp_request * source)
 {
   dest->sockfd = source->sockfd;
   dest->datafd = source->datafd;
-  dest->sockfd_write = source->sockfd_write;
   dest->cached = 0;
   if (!source->always_connected)
     {
-      source->sockfd = NULL;
-      source->datafd = NULL;
-      source->sockfd_write = NULL;
+      source->sockfd = -1;
+      source->datafd = -1;
       source->cached = 1;
     }
 }
@@ -584,12 +601,10 @@ copy_request (gftp_request * req)
   newreq->proxy_account = NULL;
   newreq->last_ftp_response = NULL;
   newreq->last_dir_entry = NULL;
-  newreq->sockfd = NULL;
-  newreq->sockfd_write = NULL;
-  newreq->datafd = NULL;
-  newreq->cachefd = NULL;
+  newreq->sockfd = -1;
+  newreq->datafd = -1;
+  newreq->cachefd = -1;
   newreq->hostp = NULL;
-  newreq->protocol_data = NULL;
   
   if (req->proxy_config != NULL)
     newreq->proxy_config = g_strdup (req->proxy_config);
@@ -848,10 +863,8 @@ char *
 ssh_start_login_sequence (gftp_request * request, int fd)
 {
   size_t rem, len, diff, lastdiff;
-  int flags, wrotepw, ok;
-  struct timeval tv;
-  char *tempstr;
-  fd_set rdfds;
+  int wrotepw, ok;
+  char *tempstr, *pwstr;
   ssize_t rd;
 
   rem = len = 100;
@@ -860,42 +873,16 @@ ssh_start_login_sequence (gftp_request * request, int fd)
   wrotepw = 0;
   ok = 1;
 
-  if ((flags = fcntl (fd, F_GETFL, 0)) < 0) 
-    {
-      g_free (tempstr);
-      return (NULL);
-    }
+  if (gftp_set_sockblocking (request, request->datafd, 1) == -1)
+    return (NULL);
 
-  if (fcntl (fd, F_SETFL, flags | O_NONBLOCK) < 0)
-    {
-      g_free (tempstr);
-      return (NULL);
-    }
+  pwstr = g_strconcat (request->password, "\n", NULL);
 
   errno = 0;
   while (1)
     {
-      FD_ZERO (&rdfds);
-      FD_SET (fd, &rdfds);
-      tv.tv_sec = 5;
-      tv.tv_usec = 0;
-      if (select (fd + 1, &rdfds, NULL, NULL, &tv) < 0)
+      if ((rd = gftp_read (request, tempstr + diff, rem -1, fd)) <= 0)
         {
-          if (errno == EINTR && !request->cancel)
-            continue;
-          ok = 0;
-          break;
-        }
-
-      if ((rd = read (fd, tempstr + diff, rem - 1)) < 0)
-        {
-          if (errno == EINTR && !request->cancel)
-            continue;
-          ok = 0;
-          break;
-        }
-      else if (rd == 0)
-        { 
           ok = 0;
           break;
         }
@@ -918,8 +905,11 @@ ssh_start_login_sequence (gftp_request * request, int fd)
                                            "password: ") == 0)
         {
           wrotepw = 1;
-          write (fd, request->password, strlen (request->password));
-          write (fd, "\n", 1);
+          if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
+            {
+              ok = 0;
+              break;
+            }
         }
 
       else if (!wrotepw && 
@@ -927,20 +917,21 @@ ssh_start_login_sequence (gftp_request * request, int fd)
                strstr (tempstr, "Enter passphrase for key '") != NULL))
         {
           wrotepw = 1;
-          write (fd, request->password, strlen (request->password));
-          write (fd, "\n", 1);
+          if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
+            {
+              ok = 0;
+              break;
+            }
         }
       else if (strlen (tempstr) >= 5 && 
                strcmp (tempstr + strlen (tempstr) - 5, "xsftp") == 0)
         break;
     }
 
+  g_free (pwstr);
   tempstr[diff] = '\0';
   request->logging_function (gftp_logging_recv, request->user_data,
                              "%s\n", tempstr + lastdiff);
-
-  if (ok && fcntl (fd, F_SETFL, flags) < 0)
-    ok = 0;
 
   if (!ok)
     {

@@ -59,9 +59,6 @@ local_connect (gftp_request * request)
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
 
-  /* Just to simulate that we are actually connected */
-  request->sockfd = (void *) 1;
-
   if (request->directory)
     {
       if (chdir (request->directory) != 0)
@@ -95,81 +92,62 @@ local_disconnect (gftp_request * request)
   g_return_if_fail (request != NULL);
   g_return_if_fail (request->protonum == GFTP_LOCAL_NUM);
 
-  if (request->datafd != NULL)
+  if (request->datafd != -1)
     {
-      if (fclose (request->datafd) < 0)
+      if (close (request->datafd) < 0)
         request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
-      request->datafd = NULL;
+      request->datafd = -1;
     }
-  request->sockfd = NULL;
 }
 
 
-static long 
-local_get_file (gftp_request * request, const char *filename, FILE * fd,
+static off_t
+local_get_file (gftp_request * request, const char *filename, int fd,
                 off_t startsize)
 {
-  size_t size;
-  int sock, flags;
+  off_t size;
+  int flags;
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
   g_return_val_if_fail (filename != NULL, -2);
 
-  if (fd == NULL)
+  if (fd > 0)
     {
       flags = O_RDONLY;
 #if defined (_LARGEFILE_SOURCE)
       flags |= O_LARGEFILE;
 #endif
 
-      if ((sock = open (filename, flags)) < 0)
+      if ((request->datafd = open (filename, flags)) < 0)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),
                                    filename, g_strerror (errno));
           return (-2);
         }
-
-      if ((request->datafd = fdopen (sock, "rb")) == NULL)
-        {
-          request->logging_function (gftp_logging_error, request->user_data,
-                                     _("Cannot fdopen() socket for %s: %s\n"),
-                                     filename, g_strerror (errno));
-          close (sock);
-          return (-2);
-        }
     }
   else
     request->datafd = fd;
 
-  if (lseek (fileno (request->datafd), 0, SEEK_END) == -1)
+  if ((size = lseek (request->datafd, 0, SEEK_END)) == -1)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
-      fclose (request->datafd);
-      request->datafd = NULL;
+      gftp_disconnect (request);
+      return (-1);
     }
 
-  if ((size = ftell (request->datafd)) == -1)
+  if (lseek (request->datafd, startsize, SEEK_SET) == -1)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
-      fclose (request->datafd);
-      request->datafd = NULL;
-    }
-
-  if (lseek (fileno (request->datafd), startsize, SEEK_SET) == -1)
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Cannot seek on file %s: %s\n"),
-                                 filename, g_strerror (errno));
-      fclose (request->datafd);
-      request->datafd = NULL;
+      gftp_disconnect (request);
+      return (-1);
     }
 
   return (size);
@@ -177,16 +155,16 @@ local_get_file (gftp_request * request, const char *filename, FILE * fd,
 
 
 static int
-local_put_file (gftp_request * request, const char *filename, FILE * fd,
+local_put_file (gftp_request * request, const char *filename, int fd,
                 off_t startsize, off_t totalsize)
 {
-  int sock, flags;
+  int flags;
 
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
   g_return_val_if_fail (filename != NULL, -2);
 
-  if (fd == NULL)
+  if (fd > 0)
     {
       flags = O_WRONLY | O_CREAT;
       if (startsize > 0)
@@ -195,43 +173,32 @@ local_put_file (gftp_request * request, const char *filename, FILE * fd,
       flags |= O_LARGEFILE;
 #endif
 
-      if ((sock = open (filename, flags, S_IRUSR | S_IWUSR)) < 0)
+      if ((request->datafd = open (filename, flags, S_IRUSR | S_IWUSR)) < 0)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),
                                    filename, g_strerror (errno));
           return (-2);
         }
-
-      if ((request->datafd = fdopen (sock, "ab")) == NULL)
-        {
-          request->logging_function (gftp_logging_error, request->user_data,
-                                     _("Cannot fdopen() socket for %s: %s\n"),
-                                     filename, g_strerror (errno));
-          close (sock);
-          return (-2);
-        }
     }
   else
     request->datafd = fd;
 
-  if (ftruncate (fileno (request->datafd), startsize) == -1)
+  if (ftruncate (request->datafd, startsize) == -1)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                _("Error: Cannot truncate local file %s: %s\n"),
                                filename, g_strerror (errno));
-      fclose (request->datafd);
-      request->datafd = NULL;
-      return (-2);
+      gftp_disconnect (request);
+      return (-1);
     }
     
-  if (fseek (request->datafd, startsize, SEEK_SET) == -1)
+  if (lseek (request->datafd, startsize, SEEK_SET) == -1)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
-      fclose (request->datafd);
-      request->datafd = NULL;
+      gftp_disconnect (request);
       return (-2);
     }
   return (0);
@@ -250,14 +217,14 @@ local_end_transfer (gftp_request * request)
       lpd->dir = NULL;
     }
 
-  if (request->datafd != NULL)
+  if (request->datafd > 0)
     {
-      if (fclose (request->datafd) < 0)
+      if (close (request->datafd) < 0)
         request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
 
-      request->datafd = NULL;
+      request->datafd = -1;
     }
 
   return (0);
@@ -351,7 +318,7 @@ make_text_mode (gftp_file * fle, mode_t mode)
 
 
 static int
-local_get_next_file (gftp_request * request, gftp_file * fle, FILE * fd)
+local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   local_protocol_data * lpd;
   struct dirent *dirp;
@@ -503,7 +470,7 @@ local_chdir (gftp_request * request, const char *directory)
 
   if (chdir (directory) == 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_misc, request->user_data,
                           _("Successfully changed local directory to %s\n"),
                           directory);
       if (request->directory != directory)
@@ -538,7 +505,7 @@ local_rmdir (gftp_request * request, const char *directory)
 
   if (rmdir (directory) == 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_misc, request->user_data,
                                  _("Successfully removed %s\n"), directory);
       return (0);
     }
@@ -561,7 +528,7 @@ local_rmfile (gftp_request * request, const char *file)
 
   if (unlink (file) == 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_misc, request->user_data,
                                  _("Successfully removed %s\n"), file);
       return (0);
     }
@@ -584,7 +551,7 @@ local_mkdir (gftp_request * request, const char *directory)
 
   if (mkdir (directory, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH) == 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_misc, request->user_data,
                                  _("Successfully made directory %s\n"),
                                  directory);
       return (0);
@@ -610,7 +577,7 @@ local_rename (gftp_request * request, const char *oldname,
 
   if (rename (oldname, newname) == 0)
     {
-      request->logging_function (gftp_logging_error, request->user_data,
+      request->logging_function (gftp_logging_misc, request->user_data,
                                  _("Successfully renamed %s to %s\n"),
                                  oldname, newname);
       return (0);
@@ -640,7 +607,7 @@ local_chmod (gftp_request * request, const char *file, int mode)
 
   if (chmod (file, newmode) == 0) 
     {
-      request->logging_function (gftp_logging_error, request->user_data, 
+      request->logging_function (gftp_logging_misc, request->user_data, 
                                  _("Successfully changed mode of %s to %d\n"),
                                  file, mode);
       return (0);
@@ -716,6 +683,7 @@ local_init (gftp_request * request)
   request->set_file_time = local_set_file_time;
   request->site = NULL;
   request->parse_url = NULL;
+  request->set_config_options = NULL;
   request->url_prefix = "file";
   request->protocol_name = "Local";
   request->need_hostport = 0;

@@ -92,15 +92,8 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
                      wdata, templist, 1);
   gftp_request_destroy (current_ftpdata);
 
-  if (newfle->isdir)
-    {
-/* FIXME - need to fix this 
-      add_entire_directory (tdata, newfle, 
-		            GFTP_GET_DIRECTORY (tdata->fromhdata->ftpdata), 
-			    GFTP_GET_DIRECTORY (tdata->tohdata->ftpdata), 
-			    tdata->fromhdata->ftpdata);
-*/
-    }
+  /* FIXME  resume files and download entire directories */
+
   return (1);
 }
 

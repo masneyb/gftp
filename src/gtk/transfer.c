@@ -41,7 +41,6 @@ setup_wakeup_main_thread (gftp_request * request)
 
   if (socketpair (AF_UNIX, SOCK_STREAM, 0, request->wakeup_main_thread) == 0)
     {
-      /* FIXME - depreciated in GDK 2.0 */
       handler = gdk_input_add (request->wakeup_main_thread[0], 
                                GDK_INPUT_READ, wakeup_main_thread, request);
     }
@@ -60,7 +59,6 @@ teardown_wakeup_main_thread (gftp_request * request, gint handler)
 {
   if (request->wakeup_main_thread[0] > 0 && request->wakeup_main_thread[1] > 0)
     {
-      /* FIXME - depreciated in GDK 2.0 */
       gdk_input_remove (handler);
       close (request->wakeup_main_thread[0]);
       close (request->wakeup_main_thread[1]);
@@ -733,7 +731,7 @@ gftp_gtk_transfer_files (void *data)
 {
   gftp_transfer * transfer;
   char *tempstr, buf[8192];
-  FILE * tofd, * fromfd;
+  int tofd, fromfd;
   off_t fromsize, total;
   gftp_file * curfle; 
   ssize_t num_read;
@@ -794,18 +792,18 @@ gftp_gtk_transfer_files (void *data)
               if (transfer->transfer_direction == GFTP_DIRECTION_DOWNLOAD)
                 {
                   tofd = curfle->fd;
-                  fromfd = NULL;
+                  fromfd = -1;
                 }
               else
                 {
-                  tofd = NULL;
+                  tofd = -1;
                   fromfd = curfle->fd;
                 }
             }
           else
             {
-              tofd = NULL;
-              fromfd = NULL;
+              tofd = -1;
+              fromfd = -1;
             }
 
           if (curfle->size == 0)
@@ -840,9 +838,9 @@ gftp_gtk_transfer_files (void *data)
           if (curfle->is_fd)
             {
               if (transfer->transfer_direction == GFTP_DIRECTION_DOWNLOAD)
-                transfer->toreq->datafd = NULL;
+                transfer->toreq->datafd = -1;
               else
-                transfer->fromreq->datafd = NULL;
+                transfer->fromreq->datafd = -1;
             }
 
           pthread_mutex_lock (transfer->structmutex);
@@ -917,9 +915,9 @@ gftp_gtk_transfer_files (void *data)
           if (curfle->is_fd)
             {
               if (transfer->transfer_direction == GFTP_DIRECTION_DOWNLOAD)
-                transfer->toreq->datafd = NULL;
+                transfer->toreq->datafd = -1;
               else
-                transfer->fromreq->datafd = NULL;
+                transfer->fromreq->datafd = -1;
             }
 
           if (gftp_end_transfer (transfer->fromreq) != 0)
@@ -1239,7 +1237,7 @@ on_next_transfer (gftp_transfer * tdata)
       tempfle = tdata->updfle->data;
 
       if (tempfle->is_fd)
-        fd = fileno (tempfle->fd);
+        fd = tempfle->fd;
       else
         fd = 0;
 
@@ -1251,8 +1249,8 @@ on_next_transfer (gftp_transfer * tdata)
 
           if (tempfle->is_fd)
             {
-              fclose (tempfle->fd);
-              tempfle->fd = NULL;
+              close (tempfle->fd);
+              tempfle->fd = -1;
             }
         }
       else if (tempfle->done_edit)
@@ -1263,8 +1261,8 @@ on_next_transfer (gftp_transfer * tdata)
 
           if (tempfle->is_fd)
             {
-              fclose (tempfle->fd);
-              tempfle->fd = NULL;
+              close (tempfle->fd);
+              tempfle->fd = -1;
             }
         }
       else if (tempfle->done_rm)
@@ -1409,8 +1407,8 @@ transfer_done (GList * node)
     {
       fromreq = tdata->fromwdata != NULL ? ((gftp_window_data *) tdata->fromwdata)->request : NULL;
       if (!tdata->fromreq->stopable && tdata->fromwdata &&
-          ((fromreq->sockfd == NULL && fromreq->cached) ||
-           fromreq->always_connected) && tdata->fromreq->sockfd != NULL &&
+          ((fromreq->sockfd < 0 && fromreq->cached) ||
+           fromreq->always_connected) && tdata->fromreq->sockfd > 0 &&
           compare_request (tdata->fromreq, fromreq, 0))
 	{
           swap_socks (((gftp_window_data *) tdata->towdata)->request, 
@@ -1464,7 +1462,7 @@ create_transfer (gftp_transfer * tdata)
   if (!tdata->fromreq->stopable)
     {
       if (tdata->fromwdata && 
-          ((gftp_window_data *) tdata->fromwdata)->request->sockfd != NULL && 
+          ((gftp_window_data *) tdata->fromwdata)->request->sockfd > 0 && 
           !((gftp_window_data *) tdata->fromwdata)->request->stopable &&
           compare_request (tdata->fromreq, ((gftp_window_data *) tdata->fromwdata)->request, 0))
 	{

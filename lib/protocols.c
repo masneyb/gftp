@@ -26,8 +26,7 @@ gftp_request_new (void)
   gftp_request *request;
 
   request = g_malloc0 (sizeof (*request));
-  request->sockfd = NULL;
-  request->datafd = NULL;
+  request->sockfd = -1;
   request->data_type = GFTP_TYPE_BINARY;
   return (request);
 }
@@ -107,20 +106,6 @@ gftp_connect (gftp_request * request)
   if (request->connect == NULL)
     return (-2);
 
-  if (request->sftpserv_path == NULL)
-    {
-      /* FIXME - move this to per protocol files */
-      switch (request->protonum)
-        {
-          case GFTP_SSH_NUM:
-            request->sftpserv_path = g_strdup (ssh1_sftp_path);
-            break;
-          case GFTP_SSHV2_NUM:
-            request->sftpserv_path = g_strdup (ssh2_sftp_path);
-            break;
-        }
-    }
-
   gftp_set_config_options (request);
 
   return (request->connect (request));
@@ -151,8 +136,8 @@ gftp_disconnect (gftp_request * request)
 }
 
 
-size_t
-gftp_get_file (gftp_request * request, const char *filename, FILE * fd,
+off_t
+gftp_get_file (gftp_request * request, const char *filename, int fd,
                size_t startsize)
 {
   g_return_val_if_fail (request != NULL, -2);
@@ -165,7 +150,7 @@ gftp_get_file (gftp_request * request, const char *filename, FILE * fd,
 
 
 int
-gftp_put_file (gftp_request * request, const char *filename, FILE * fd,
+gftp_put_file (gftp_request * request, const char *filename, int fd,
                size_t startsize, size_t totalsize)
 {
   g_return_val_if_fail (request != NULL, -2);
@@ -179,9 +164,9 @@ gftp_put_file (gftp_request * request, const char *filename, FILE * fd,
 
 long
 gftp_transfer_file (gftp_request * fromreq, const char *fromfile, 
-                    FILE * fromfd, size_t fromsize, 
+                    int fromfd, size_t fromsize, 
                     gftp_request * toreq, const char *tofile,
-                    FILE * tofd, size_t tosize)
+                    int tofd, size_t tosize)
 {
   long size;
 
@@ -215,150 +200,32 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
 }
 
 
-size_t 
+ssize_t 
 gftp_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
-  struct timeval tv;
-  fd_set fset;
-  size_t len;
-  int ret;
-  
   g_return_val_if_fail (request != NULL, -2);
   g_return_val_if_fail (buf != NULL, -2);
 
   if (request->get_next_file_chunk != NULL)
     return (request->get_next_file_chunk (request, buf, size));
 
-  errno = 0;
-  len = 0;
-  do 
-    {
-      FD_ZERO (&fset);
-      FD_SET (fileno (request->datafd), &fset);
-      tv.tv_sec = request->network_timeout;
-      tv.tv_usec = 0;
-      ret = select (fileno (request->datafd) + 1, &fset, NULL, NULL, &tv);
-      if (ret == -1 && errno == EINTR)
-        {
-          if (request->cancel)
-            break;
-          else
-            continue;
-        }
-      else if (ret <= 0)
-        {
-          request->logging_function (gftp_logging_error, request->user_data,
-                                     _("Connection to %s timed out\n"),
-                                     request->hostname);
-          gftp_disconnect (request);
-          return (-1);
-        }
-
-      if ((len = read (fileno (request->datafd), buf, size)) == -1)
-        {
-          if (errno == EINTR)
-            {
-              if (request->cancel)
-                break;
-              else
-                continue;
-            }
-
-          request->logging_function (gftp_logging_error, request->user_data,
-                                     _("Error reading from host %s: %s\n"),
-                                     request->hostname,
-                                     g_strerror (errno));
-          gftp_disconnect (request);
-          return (-1);
-        }
-    }
-  while (errno == EINTR && !request->cancel);
-
-  if (errno == EINTR && request->cancel)
-    {
-      gftp_disconnect (request);
-      return (-1);
-    }
-
-  return (len);
+  return (gftp_read (request, buf, size, request->datafd));
 }
 
 
-size_t 
+ssize_t 
 gftp_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
-  struct timeval tv;
-  size_t len, ret;
-  fd_set fset;
-  char *pos;
-  int sret;
-  
   g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (buf != NULL, -2);
 
-  ret = size;
   if (request->put_next_file_chunk != NULL)
     return (request->put_next_file_chunk (request, buf, size));
 
   if (size == 0)
     return (0);
 
-  pos = buf;
-  while (size > 0)
-    {
-      errno = 0;
-      do 
-        {
-          FD_ZERO (&fset);
-          FD_SET (fileno (request->datafd), &fset);
-          tv.tv_sec = request->network_timeout;
-          tv.tv_usec = 0;
-          sret = select (fileno (request->datafd) + 1, NULL, &fset, NULL, &tv);
-          if (sret == -1 && errno == EINTR)
-            {
-              if (request->cancel)
-                break;
-              else
-                continue;
-            }
-          else if (sret <= 0)
-            {
-              request->logging_function (gftp_logging_error, request->user_data,
-                                         _("Connection to %s timed out\n"),
-                                         request->hostname);
-              gftp_disconnect (request);
-              return (-1);
-            }
-
-          if ((len = write (fileno (request->datafd), pos, size)) < 0)
-            {
-              if (sret == -1 && errno == EINTR)
-                {
-                  if (request->cancel)
-                    break;
-                  else
-                    continue;
-                }
-
-              request->logging_function (gftp_logging_error, request->user_data,
-                                         _("Error writing to host %s: %s\n"),
-                                         request->hostname,
-                                         g_strerror (errno));
-              gftp_disconnect (request);
-              return (-1);
-            }
-          size -= len;
-          pos += len;
-        }
-      while (errno == EINTR && !request->cancel);
-    }
-
-  if (errno == EINTR && request->cancel)
-    {
-      gftp_disconnect (request);
-      return (-1);
-    }
-
-  return (ret); 
+  return (gftp_write (request, buf, size, request->datafd));
 }
 
 
@@ -375,10 +242,10 @@ gftp_end_transfer (gftp_request * request)
   else
     ret = 0;
 
-  if (request->cachefd != NULL)
+  if (request->cachefd > 0)
     {
-      fclose (request->cachefd);
-      request->cachefd = NULL;
+      close (request->cachefd);
+      request->cachefd = -1;
     }
 
   if (request->last_dir_entry)
@@ -407,12 +274,12 @@ gftp_abort_transfer (gftp_request * request)
 int
 gftp_list_files (gftp_request * request)
 {
-  FILE * fd;
+  int fd;
 
   g_return_val_if_fail (request != NULL, -2);
 
   request->cached = 0;
-  if (request->use_cache && (fd = gftp_find_cache_entry (request)) != NULL)
+  if (request->use_cache && (fd = gftp_find_cache_entry (request)) > 0)
     {
       request->logging_function (gftp_logging_misc, request->user_data,
                                  _("Loading directory listing %s from cache\n"),
@@ -437,8 +304,7 @@ gftp_list_files (gftp_request * request)
 int
 gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
 {
-  FILE * fd;
-  int ret;
+  int fd, ret;
 #if GLIB_MAJOR_VERSION > 1
   gsize bread, bwrite;
   char *tempstr;
@@ -450,7 +316,7 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
   if (request->get_next_file == NULL)
     return (-2);
 
-  if (request->cached && request->cachefd != NULL)
+  if (request->cached && request->cachefd > 0)
     fd = request->cachefd;
   else
     fd = request->datafd;
@@ -477,18 +343,15 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
         }
 #endif
 
-      if (ret >= 0 && !request->cached && request->cachefd != NULL && 
+      if (ret >= 0 && !request->cached && request->cachefd > 0&& 
           request->last_dir_entry != NULL)
         {
-          fwrite (request->last_dir_entry, 1, request->last_dir_entry_len, 
-                  request->cachefd);
-          if (ferror (request->cachefd))
+          if (gftp_writefmt (request, request->cachefd, "%s\n",
+                             request->last_dir_entry) < 0)
             {
               request->logging_function (gftp_logging_error, request->user_data,
                                         _("Error: Cannot write to cache: %s\n"),
                                         g_strerror (errno));
-              fclose (request->cachefd);
-              request->cachefd = NULL;
             }
         }
     } while (ret > 0 && !gftp_match_filespec (fle->file, filespec));
@@ -678,7 +541,7 @@ gftp_set_directory (gftp_request * request, const char *directory)
   g_return_val_if_fail (directory != NULL, -2);
 
 
-  if (request->sockfd == NULL)
+  if (request->sockfd <= 0 && !request->always_connected)
     {
       if (directory != request->directory)
 	{
@@ -871,7 +734,7 @@ gftp_set_proxy_config (gftp_request * request, const char *proxy_config)
 }
 
 
-long
+off_t
 gftp_get_file_size (gftp_request * request, const char *filename)
 {
   g_return_val_if_fail (request != NULL, 0);
@@ -1917,6 +1780,13 @@ gftp_connect_server (gftp_request * request, char *service)
 
   request->logging_function (gftp_logging_misc, request->user_data,
 			     _("Connected to %s:%d\n"), connect_host, port);
+
+  if (gftp_set_sockblocking (request, sock, 1) == -1)
+    {
+      close (sock);
+      return (-1);
+    }
+
   return (sock);
 }
 
@@ -1924,57 +1794,13 @@ gftp_connect_server (gftp_request * request, char *service)
 void
 gftp_set_config_options (gftp_request * request)
 {
-  /* FIXME - move this to per protocol files */
-  request->transfer_type = passive_transfer ? gftp_transfer_passive : gftp_transfer_active;
   request->network_timeout = network_timeout;
   request->retries = retries;
   request->sleep_time = sleep_time;
   request->maxkbs = maxkbs;
 
-  if (request->protonum == GFTP_SSHV2_NUM || 
-      request->protonum == GFTP_SSH_NUM)
-    request->need_userpass = ssh_need_userpass;
-
-  /* Set up the proxy server settings. If we are using a HTTP proxy for FTP,
-     then set up the HTTP proxy settings */
-  if ((strcmp (request->protocol_name, "FTP") == 0 ||
-       strcmp (request->protocol_name, "HTTP") == 0) &&
-      proxy_config != NULL)
-    {
-      if (strcmp (request->protocol_name, "FTP") == 0 &&
-          strcmp (proxy_config, "http") != 0)
-        {
-          gftp_set_proxy_hostname (request, firewall_host);
-          gftp_set_proxy_port (request, firewall_port);
-          gftp_set_proxy_username (request, firewall_username);
-          gftp_set_proxy_password (request, firewall_password);
-          gftp_set_proxy_account (request, firewall_account);
-          gftp_set_proxy_config (request, proxy_config);
-        }
-      else 
-        {
-          gftp_set_proxy_hostname (request, http_proxy_host);
-          gftp_set_proxy_port (request, http_proxy_port);
-          gftp_set_proxy_username (request, http_proxy_username);
-          gftp_set_proxy_password (request, http_proxy_password);
-
-          
-          if (request->proxy_config == NULL)
-            {
-              if (strcmp (GFTP_GET_PROTOCOL_NAME (request), "FTP") == 0)
-                {
-                  gftp_protocols[GFTP_HTTP_NUM].init (request);
-                  request->proxy_config = g_malloc (4);
-                  strcpy (request->proxy_config, "ftp");
-                }
-              else
-                {
-                  request->proxy_config = g_malloc (5);
-                  strcpy (request->proxy_config, "http");
-                }
-            }
-        }
-    }
+  if (request->set_config_options != NULL)
+    request->set_config_options (request);
 }
 
 
@@ -2037,99 +1863,169 @@ print_file_list (GList * list)
 }
 
 
-char *
-gftp_fgets (gftp_request * request, char * str, size_t len, FILE * fd)
+static void
+gftp_free_getline_buffer (gftp_getline_buffer ** rbuf)
 {
-  char * ret = NULL;
-
-  errno = 0;
-  do 
-    {
-      ret = fgets (str, len, fd);
-      if (ferror (fd))
-        {
-          if (errno == EINTR)
-            {
-              clearerr (fd);
-              if (request->cancel)
-                break;
-              else
-                continue;
-            }
-
-          request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Error: Could not read from socket: %s\n"),
-                                   g_strerror (errno));
-          gftp_disconnect (request);
-          return (NULL);
-        }
-    }
-  while (errno == EINTR && !request->cancel);
-
-  if (errno == EINTR && request->cancel)
-    {
-      gftp_disconnect (request);
-      return (NULL);
-    }
-
-  return (ret);
+  g_free ((*rbuf)->buffer);
+  g_free (*rbuf);
+  *rbuf = NULL;
 }
 
 
-size_t 
-gftp_fwrite (gftp_request * request, const void *ptr, size_t size, FILE * fd)
+ssize_t
+gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf, 
+               char * str, size_t len, int fd)
 {
-  size_t ret;
+  ssize_t ret, retval, rlen, copysize;
+  char *pos, *nextpos;
+
+  if (*rbuf == NULL)
+    {
+      *rbuf = g_malloc0 (sizeof (**rbuf));
+      (*rbuf)->max_bufsize = len;
+      (*rbuf)->buffer = g_malloc ((*rbuf)->max_bufsize);
+      if ((ret = gftp_read (request, (*rbuf)->buffer, (*rbuf)->max_bufsize, 
+                            fd)) <= 0)
+        {
+          gftp_free_getline_buffer (rbuf);
+          return (ret);
+        }
+      (*rbuf)->cur_bufsize = ret;
+      (*rbuf)->curpos = (*rbuf)->buffer;
+    }
+
+  retval = -2;
+
+  do
+    {
+      if ((*rbuf)->cur_bufsize > 0 &&
+          ((pos = strchr ((*rbuf)->curpos, '\n')) != NULL ||
+           ((*rbuf)->curpos == (*rbuf)->buffer && 
+            (*rbuf)->max_bufsize == (*rbuf)->cur_bufsize)))
+        {
+          if (pos != NULL)
+            {
+              nextpos = pos + 1;
+              if (pos > (*rbuf)->curpos && *(pos - 1) == '\r')
+                pos--;
+              *pos = '\0';
+
+              if (len > pos - (*rbuf)->curpos + 1)
+                len = pos - (*rbuf)->curpos + 1;
+            }
+          else
+            {
+              nextpos = NULL;
+              if (len > (*rbuf)->cur_bufsize)
+                len = (*rbuf)->cur_bufsize;
+            }
+
+          strncpy (str, (*rbuf)->curpos, len);
+          str[len] = '\0';
+          retval = len;
+
+          if (pos != NULL)
+            {
+              if (nextpos - (*rbuf)->buffer >= (*rbuf)->cur_bufsize)
+                (*rbuf)->cur_bufsize = 0;
+              else
+                (*rbuf)->curpos = nextpos;
+            }
+
+          break;
+        }
+      else
+        {
+          if ((*rbuf)->cur_bufsize == 0 || *(*rbuf)->curpos == '\0')
+            {
+              rlen = (*rbuf)->max_bufsize;
+              pos = (*rbuf)->buffer;
+              copysize = 0;
+            }
+          else
+            {
+              copysize = (*rbuf)->cur_bufsize - ((*rbuf)->curpos - (*rbuf)->buffer);
+              memmove ((*rbuf)->buffer, (*rbuf)->curpos, copysize);
+              pos = (*rbuf)->buffer + copysize;
+              rlen = (*rbuf)->max_bufsize - copysize;
+            }
+          (*rbuf)->curpos = (*rbuf)->buffer;
+
+          if ((ret = gftp_read (request, pos, rlen, fd)) <= 0)
+            {
+              gftp_free_getline_buffer (rbuf);
+              return (ret);
+            }
+          (*rbuf)->cur_bufsize = ret + copysize;
+        }
+    }
+  while (retval == -2);
+
+  return (retval);
+}
+
+
+ssize_t 
+gftp_read (gftp_request * request, void *ptr, size_t size, int fd)
+{
+  struct timeval tv;
+  fd_set fset;
+  ssize_t ret;
 
   errno = 0;
   ret = 0;
   do
     {
-      ret = fwrite (ptr, size, 1, fd);
-      if (ferror (fd))
+      FD_ZERO (&fset);
+      FD_SET (fd, &fset);
+      if (request != NULL)
+        tv.tv_sec = request->network_timeout;
+      else
+        tv.tv_sec = network_timeout;
+      tv.tv_usec = 0;
+      ret = select (fd + 1, &fset, NULL, NULL, &tv);
+      if (ret == -1 && errno == EINTR)
         {
-          if (errno == EINTR)
+          if (request && request->cancel)
+            break;
+          else
+            continue;
+        }
+      else if (ret <= 0)
+        {
+          if (request != NULL)
             {
-              if (request->cancel)
-                break;
-              else
-                {
-                  clearerr (fd);
-                  continue;
-                }
-             }
- 
-          request->logging_function (gftp_logging_error, request->user_data,
-                                    _("Error: Could not write to socket: %s\n"),
-                                    g_strerror (errno));
-          gftp_disconnect (request);
+              request->logging_function (gftp_logging_error, request->user_data,
+                                         _("Connection to %s timed out\n"),
+                                         request->hostname);
+              gftp_disconnect (request);
+            }
           return (-1);
         }
 
-      fflush (request->sockfd_write);
-      if (ferror (fd))
+      if ((ret = read (fd, ptr, size)) < 0)
         {
           if (errno == EINTR)
             {
-              if (request->cancel)
+              if (request != NULL && request->cancel)
                 break;
               else
-                {
-                  clearerr (fd);
-                  continue;
-                }
+                continue;
              }
  
-          request->logging_function (gftp_logging_error, request->user_data,
-                                    _("Error: Could not write to socket: %s\n"),
+          if (request != NULL)
+            {
+              request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Error: Could not read from socket: %s\n"),
                                     g_strerror (errno));
-          gftp_disconnect (request);
+              gftp_disconnect (request);
+            }
           return (-1);
         }
     }
-  while (errno == EINTR && !request->cancel);
+  while (errno == EINTR && !(request != NULL && request->cancel));
 
-  if (errno == EINTR && request->cancel)
+  if (errno == EINTR && request != NULL && request->cancel)
     {
       gftp_disconnect (request);
       return (-1);
@@ -2137,4 +2033,128 @@ gftp_fwrite (gftp_request * request, const void *ptr, size_t size, FILE * fd)
 
   return (ret);
 }
+
+
+ssize_t 
+gftp_write (gftp_request * request, const char *ptr, size_t size, int fd)
+{
+  struct timeval tv;
+  size_t ret, w_ret;
+  fd_set fset;
+
+  errno = 0;
+  ret = 0;
+  do
+    {
+      FD_ZERO (&fset);
+      FD_SET (fd, &fset);
+      if (request != NULL)
+        tv.tv_sec = request->network_timeout;
+      else
+        tv.tv_sec = network_timeout;
+      tv.tv_usec = 0;
+      ret = select (fd + 1, NULL, &fset, NULL, &tv);
+      if (ret == -1 && errno == EINTR)
+        {
+          if (request != NULL && request->cancel)
+            break;
+          else
+            continue;
+        }
+      else if (ret <= 0)
+        {
+          if (request != NULL)
+            {
+              request->logging_function (gftp_logging_error, request->user_data,
+                                         _("Connection to %s timed out\n"),
+                                         request->hostname);
+              gftp_disconnect (request);
+            }
+          return (-1);
+        }
+
+      if ((w_ret = write (fd, ptr, size)) < 0)
+        {
+          if (errno == EINTR)
+            {
+              if (request != NULL && request->cancel)
+                break;
+              else
+                continue;
+             }
+ 
+          if (request != NULL)
+            {
+              request->logging_function (gftp_logging_error, request->user_data,
+                                    _("Error: Could not write to socket: %s\n"),
+                                    g_strerror (errno));
+              gftp_disconnect (request);
+            }
+          return (-1);
+        }
+
+      ptr += w_ret;
+      size -= w_ret;
+      ret += w_ret;
+    }
+  while (size > 0);
+
+  if (errno == EINTR && request != NULL && request->cancel)
+    {
+      gftp_disconnect (request);
+      return (-1);
+    }
+
+  return (ret);
+}
+
+
+ssize_t 
+gftp_writefmt (gftp_request * request, int fd, const char *fmt, ...)
+{
+  char *tempstr;
+  va_list argp;
+  ssize_t ret;
+
+  va_start (argp, fmt);
+  tempstr = g_strdup_vprintf (fmt, argp);
+  va_end (argp);
+
+  ret = gftp_write (request, tempstr, strlen (tempstr), fd);
+  g_free (tempstr);
+  return (ret);
+}
+
+
+int
+gftp_set_sockblocking (gftp_request * request, int fd, int non_blocking)
+{
+  int flags;
+
+  if ((flags = fcntl (fd, F_GETFL, 0)) == -1)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Cannot get socket flags: %s\n"),
+                                 g_strerror (errno));
+      gftp_disconnect (request);
+      return (-1);
+    }
+
+  if (non_blocking)
+    flags |= O_NONBLOCK;
+  else
+    flags &= ~O_NONBLOCK;
+
+  if (fcntl (fd, F_SETFL, flags) == -1)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Cannot set socket to non-blocking: %s\n"),
+                                 g_strerror (errno));
+      gftp_disconnect (request);
+      return (-1);
+    }
+
+  return (0);
+}
+
 
