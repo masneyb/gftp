@@ -356,7 +356,7 @@ gftp_info (void)
   printf ("PTY implementation: %s\n", gftp_get_pty_impl ());
 
 #ifdef USE_SSL
-  printf ("OpenSSL version: 0x%lx\n", OPENSSL_VERSION_NUMBER);
+  printf ("OpenSSL version: %s\n", OPENSSL_VERSION_TEXT);
 #endif
 
   printf ("Enabled protocols: ");

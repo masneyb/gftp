@@ -1,4 +1,11 @@
 2004-12-31 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (gftp_info) - when displaying the OpenSSL information,
+	display OPENSSL_VERSION_TEXT instead of OPENSSL_VERSION_NUMBER
+
+	* src/gtk/transfer.c (update_file_status) - expand the length of the
+	total transfered buffer. The total transfered was being truncated in
+	some languages by g_snprintf() (from Pavel Vainerman <pv@etersoft.ru>)
+
 	* src/uicommon/gftpui.c (gftpui_common_transfer_files) - check the
 	return status of gftp_end_transfer() to see if there was an error
 	closing the remote file
