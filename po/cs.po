@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-02 10:55+0100\n"
-"PO-Revision-Date: 2005-01-02 14:52+0100\n"
+"POT-Creation-Date: 2005-01-20 18:57+0100\n"
+"PO-Revision-Date: 2005-01-20 19:52+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,17 +47,17 @@ msgstr "Chyba při zavírání deskriptoru souboru: %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Chyba: Nemohu se posunout v souboru %s: %s\n"
 
-#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:2980
+#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:3001
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Chyba: Nemohu otevřít místní soubor %s: %s\n"
 
-#: lib/config_file.c:143 lib/protocols.c:2687 lib/sslcommon.c:486
+#: lib/config_file.c:143 lib/protocols.c:2708 lib/sslcommon.c:486
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Chyba: Nemohu zapisovat do socketu: %s\n"
 
-#: lib/config_file.c:151 lib/protocols.c:2611 lib/sshv2.c:364
+#: lib/config_file.c:151 lib/protocols.c:2632 lib/sshv2.c:364
 #: lib/sslcommon.c:439
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -690,6 +690,10 @@ msgstr "SSH2"
 msgid "Bookmark"
 msgstr "Záložka"
 
+#: lib/options.h:258
+msgid "FSP"
+msgstr "FSP"
+
 #: lib/protocols.c:225
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
@@ -732,104 +736,111 @@ msgstr "Chyba při převodu řetězce '%s' z aktuálního locale do UTF-8: %s\n"
 msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
 msgstr "Chyba při převodu řetězce '%s' z UTF-8 do aktuálního locale: %s\n"
 
-#: lib/protocols.c:626
+#: lib/protocols.c:629
+#, c-format
+msgid ""
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
+msgstr "Varování: Odstraňuji cestu ze souboru '%s'. Oříznutá cesta (%s) neodpovídá aktuálnímu adresáři (%s)\n"
+
+#: lib/protocols.c:647
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Chyba: Nemohu zapisovat do cache: %s\n"
 
-#: lib/protocols.c:659
+#: lib/protocols.c:680
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Chyba: Nemohu najít záložku %s\n"
 
-#: lib/protocols.c:666
+#: lib/protocols.c:687
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Chyba záložek: Položka záložek %s nemá jméno počítače\n"
 
-#: lib/protocols.c:801
+#: lib/protocols.c:822
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Protokol '%s' není momentálně podporován.\n"
 
-#: lib/protocols.c:1147 lib/protocols.c:1162 lib/protocols.c:2194
-#: lib/protocols.c:2304
+#: lib/protocols.c:1168 lib/protocols.c:1183 lib/protocols.c:2215
+#: lib/protocols.c:2325
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Vyhledávám %s\n"
 
-#: lib/protocols.c:1153 lib/protocols.c:1168 lib/protocols.c:2199
-#: lib/protocols.c:2309
+#: lib/protocols.c:1174 lib/protocols.c:1189 lib/protocols.c:2220
+#: lib/protocols.c:2330
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Nemohu vyhledat jméno počítače %s: %s\n"
 
-#: lib/protocols.c:1521 lib/protocols.c:1522 lib/protocols.c:1563
-#: lib/protocols.c:1564 lib/protocols.c:1627 lib/protocols.c:1634
-#: lib/protocols.c:1710 lib/protocols.c:1711 lib/protocols.c:1747
+#: lib/protocols.c:1542 lib/protocols.c:1543 lib/protocols.c:1584
+#: lib/protocols.c:1585 lib/protocols.c:1648 lib/protocols.c:1655
+#: lib/protocols.c:1731 lib/protocols.c:1732 lib/protocols.c:1768
 msgid "unknown"
 msgstr "neznámý"
 
-#: lib/protocols.c:2217
+#: lib/protocols.c:2238
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Nemohu vytvořit socket: %s\n"
 
-#: lib/protocols.c:2223 lib/protocols.c:2326
+#: lib/protocols.c:2244 lib/protocols.c:2347
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Zkouším %s:%d\n"
 
-#: lib/protocols.c:2228 lib/protocols.c:2333
+#: lib/protocols.c:2249 lib/protocols.c:2354
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Nemohu se připojit k %s: %s\n"
 
-#: lib/protocols.c:2263 lib/rfc959.c:640
+#: lib/protocols.c:2284 lib/rfc959.c:640
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Nemohu vytvořit socket IPv4: %s\n"
 
-#: lib/protocols.c:2287 lib/sshv2.c:1046
+#: lib/protocols.c:2308 lib/sshv2.c:1046
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Nemohu vyhledat název služby %s/tcp. Zkontrolujte prosím svůj soubor "
 "services\n"
 
-#: lib/protocols.c:2349 lib/protocols.c:2989 lib/rfc959.c:649 lib/rfc959.c:826
+#: lib/protocols.c:2370 lib/protocols.c:3010 lib/rfc959.c:649 lib/rfc959.c:826
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Chyba: Nemohu nastavit příznak zavření při exec: %s\n"
 
-#: lib/protocols.c:2356
+#: lib/protocols.c:2377
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Připojen k %s:%d\n"
 
-#: lib/protocols.c:2587 lib/protocols.c:2662 lib/sshv2.c:355
+#: lib/protocols.c:2608 lib/protocols.c:2683 lib/sshv2.c:355
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Spojení s %s vypršel čas\n"
 
-#: lib/protocols.c:2730
+#: lib/protocols.c:2751
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Nemohu získat nastavení socketu: %s\n"
 
-#: lib/protocols.c:2744
+#: lib/protocols.c:2765
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Nemohu nastavit socket na neblokující: %s\n"
 
-#: lib/protocols.c:2879
+#: lib/protocols.c:2900
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Chyba: Vzdálený počítač %s odpojen. Max. počet opakování vyčerpán...vzdávám "
 "to\n"
 
-#: lib/protocols.c:2887
+#: lib/protocols.c:2908
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Chyba: Vzdálený počítač %s odpojen. Připojím se znovu za %d sekund\n"
@@ -1808,8 +1819,8 @@ msgstr "Úspěšně přeneseno %s rychlostí %.2f KB/s\n"
 msgid "There was an error transfering the file %s"
 msgstr "Při přenosu souboru %s došlo k chybě"
 
-#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:213 src/gtk/gftp-gtk.c:1063
-#: src/gtk/misc-gtk.c:512 src/gtk/misc-gtk.c:520
+#: src/gtk/bookmarks.c:40 src/gtk/dnd.c:122 src/gtk/gftp-gtk.c:213
+#: src/gtk/gftp-gtk.c:1063 src/gtk/misc-gtk.c:512 src/gtk/misc-gtk.c:520
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: Před jinou činností prosím nejdříve stiskněte tlačítko stop\n"
@@ -2047,12 +2058,17 @@ msgstr "Odstranit soubory/adresáře"
 msgid "Delete"
 msgstr "Odstranit"
 
-#: src/gtk/dnd.c:128 src/gtk/dnd.c:261
+#: src/gtk/dnd.c:123 src/gtk/gftp-gtk.c:1064 src/gtk/misc-gtk.c:946
+#: src/gtk/misc-gtk.c:1020
+msgid "Connect"
+msgstr "Spojeno"
+
+#: src/gtk/dnd.c:136 src/gtk/dnd.c:269
 #, c-format
 msgid "Received URL %s\n"
 msgstr "Přijato URL %s\n"
 
-#: src/gtk/dnd.c:151 src/gtk/dnd.c:239
+#: src/gtk/dnd.c:159 src/gtk/dnd.c:247
 msgid "Drag-N-Drop"
 msgstr "Táhni a pusť"
 
@@ -2435,10 +2451,6 @@ msgstr "Atributy"
 #: src/gtk/gftp-gtk.c:953
 msgid "Progress"
 msgstr "Průběh"
-
-#: src/gtk/gftp-gtk.c:1064 src/gtk/misc-gtk.c:946 src/gtk/misc-gtk.c:1020
-msgid "Connect"
-msgstr "Spojeno"
 
 #: src/gtk/gftp-gtk.c:1094
 msgid "Error: You must type in a host to connect to\n"
