@@ -20,10 +20,10 @@
 #include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
-static GtkWidget * bm_dialog = NULL, * bm_hostedit, * bm_portedit,
-                 * bm_localdiredit, * bm_remotediredit, * bm_useredit,
-                 * bm_passedit, * bm_acctedit, * anon_chk, * bm_pathedit,
-                 * bm_protocol, * tree, * edit_bookmarks_dialog;
+static GtkWidget * bm_dialog = NULL, * edit_bookmarks_dialog = NULL;
+static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
+                 * bm_remotediredit, * bm_useredit, * bm_passedit, * tree,
+                 * bm_acctedit, * anon_chk, * bm_pathedit, * bm_protocol;
 static GHashTable * new_bookmarks_htable = NULL;
 static gftp_bookmarks_var * new_bookmarks = NULL;
 static GtkItemFactory * edit_factory;
