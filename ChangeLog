@@ -1,4 +1,9 @@
 2003-9-21 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_parse_bookmark) lib/gftp.h lib/bookmark.c 
+	src/gtk/bookmarks.c - added pointer to refresh_local variable that is
+	enabled if the local directory was changed. In src/gtk/bookmarks.c, if
+	the local directory was changed, refresh the directory listing.
+
 	* lib/local.c src/gtk/transfer.c src/text/gftp-text.c - if there is a
 	dangling symlink in the current directory, don't bail out. This was 
 	causing directory listings to appear truncated.

@@ -478,7 +478,7 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
 
 int
 gftp_parse_bookmark (gftp_request * request, gftp_request * local_request, 
-                     const char * bookmark)
+                     const char * bookmark, int *refresh_local)
 {
   gftp_logging_func logging_function;
   gftp_bookmarks_var * tempentry;
@@ -523,7 +523,12 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
   if (local_request != NULL &&
       tempentry->local_dir != NULL &&
       *tempentry->local_dir != '\0')
-    gftp_set_directory (local_request, tempentry->local_dir);
+    {
+      gftp_set_directory (local_request, tempentry->local_dir);
+      *refresh_local = 1;
+    }
+  else
+    *refresh_local = 0;
 
   for (i = 0; gftp_protocols[i].name; i++)
     {

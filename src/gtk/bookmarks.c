@@ -31,6 +31,8 @@ static GtkItemFactory * edit_factory;
 void
 run_bookmark (gpointer data)
 {
+  int refresh_local;
+
   if (window1.request->stopable || window2.request->stopable)
     {
       ftp_log (gftp_logging_misc, NULL,
@@ -40,8 +42,11 @@ run_bookmark (gpointer data)
     }
 
   if (gftp_parse_bookmark (current_wdata->request, other_wdata->request,
-                           (char *) data) < 0)
+                           (char *) data, &refresh_local) < 0)
     return;
+
+  if (refresh_local)
+    refresh (other_wdata);
 
   if (GFTP_IS_CONNECTED (current_wdata->request))
     disconnect (current_wdata);

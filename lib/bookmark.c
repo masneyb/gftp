@@ -25,6 +25,7 @@ static int
 bookmark_parse_url (gftp_request * request, const char * url)
 {
   const char * pos;
+  int update_local;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (url != NULL, GFTP_EFATAL);
@@ -42,7 +43,7 @@ bookmark_parse_url (gftp_request * request, const char * url)
   else
     pos = url;
 
-  return (gftp_parse_bookmark (request, NULL, pos));
+  return (gftp_parse_bookmark (request, NULL, pos, &update_local));
 }
 
 

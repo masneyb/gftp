@@ -816,7 +816,8 @@ char * gftp_string_to_utf8		( gftp_request * request,
 
 int gftp_parse_bookmark 		( gftp_request * request, 
 					  gftp_request * local_request,
-					  const char * bookmark );
+					  const char * bookmark,
+					  int *refresh_local );
 
 int gftp_parse_url 			( gftp_request * request, 
 					  const char *url );
