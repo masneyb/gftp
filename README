@@ -3,10 +3,12 @@ gFTP README
 
 [Requirements]
 
-* gtk+ 1.2.3 or higher. You will also need to download glib as well. You can
-  download them directly from my website or from the gtk+ ftp site at
-  ftp://ftp.gtk.org/pub/gtk/v1.2. 
-* X11R6 or later.
+* GTK+ 1.2.3 or higher. GTK+/Glib is included with most systems now. If you 
+  don't have it installed, you may want to check to see if your vendor has a 
+  package available. If not, you can download the latest version of GTK+ and 
+  Glib from ftp://ftp.gtk.org/pub/gtk. gFTP will work with version 1.2 or 2.0 
+  of GTK+, I would suggest using GTK+ 2.0, but installing GTK+ 2.0 does 
+  require installing more packages onto your system.
 * pthread libraries. If you have a libc6 based machine (Debian >= 2.x, Red Hat 
   >= 5.x), you should already have the pthread libraries installed. If you 
   have a libc5 based machine (Slackware < 7.0), you will need to install 
@@ -23,7 +25,8 @@ gFTP README
 [Installation Instructions]
 
 * If you do not want to compile this program yourself, you can check my
-  webpage for some precompiled Linux binaries.
+  webpage. I have DEBs for Debian and RPMs for RedHat available. If you're 
+  looking for Solaris binaries, check out http://www.sunfreeware.com
 * If you are compiling gFTP yourself, extract the files from the distribution 
   with tar -zxvf gftp-<version>.tar.gz
 * Go to the gftp-<version> directory and type 

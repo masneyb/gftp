@@ -20,7 +20,7 @@ endif
 build: build-stamp
 build-stamp:
 	dh_testdir
-	CFLAGS="$(CFLAGS)" ./configure --prefix=/usr --mandir='$${prefix}/share/man' --enable-textport=yes
+	CFLAGS="$(CFLAGS)" ./configure --prefix=/usr --mandir='$${prefix}/share/man' 
 	$(MAKE) 
 	touch $@
 
@@ -67,7 +67,7 @@ binary-arch: install
 	dh_testdir
 	dh_testroot
 	dh_installdocs -a
-	dh_installdocs -An -pgftp-gtk -pgftp-text README TODO
+	dh_installdocs -An -pgftp-gtk -pgftp-text README
 	dh_installchangelogs -a ChangeLog
 	#dh_installmenu -a --package=gftp-common
 ifeq "$(findstring nostrip,$(DEB_BUILD_OPTIONS))" ""

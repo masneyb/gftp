@@ -91,11 +91,6 @@ run_bookmark (gpointer data)
   if (!gftp_protocols[i].name)
     gftp_protocols[0].init (current_wdata->request);
 
-  /* If we're using one of the SSH protocols, override the value of 
-     ssh_need_userpass in the config file */
-  if (strncmp (tempentry->protocol, "SSH", 3) == 0)
-    current_wdata->request->need_userpass = 1;
-
   ftp_connect (current_wdata, current_wdata->request, 1);
 }
 
