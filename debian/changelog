@@ -1,3 +1,48 @@
+gftp (2.0.16-7) unstable; urgency=low
+
+  * Added a patch to keep the filename's extension in the temporary
+    filename created when viewing a remote file  (closes: bug#232053).
+  * Patch pulled from CVS: ability to enable/disable IPv6 (closes: bug#232274).
+  * Added an alternative for the ftp command which point to gftp-text.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 14 Feb 2004 08:35:13 +0100
+
+gftp (2.0.16-6) unstable; urgency=low
+
+  * Replace latest patch (anonymous FTP connections) with the one from the 
+    CVS. 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 20 Jan 2004 01:16:11 +0100
+
+gftp (2.0.16-5) unstable; urgency=low
+
+  * Allow password to be specified for anonymous FTP connections 
+    (closes: bug#226924).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 12 Jan 2004 00:00:54 +0100
+
+gftp (2.0.16-4) unstable; urgency=low
+
+  * Doesn't double slashes in HTTP GET requests (closes: bug#224401).
+  * Updated copyright. 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 18 Dec 2003 23:15:02 +0100
+
+gftp (2.0.16-3) unstable; urgency=low
+
+  * Don't allow dropping a bookmark onto the root node, or onto a node
+    which is not a folder. (closes: bug#223996).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 15 Dec 2003 00:59:21 +0100
+
+gftp (2.0.16-2) unstable; urgency=low
+
+  * Patch pulled from CVS: default action is overwrite when the destination
+    file is greater than the source file (closes: bug#173158).
+  * Added a patch to store password in scrambled form (closes: bug#196784).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Wed, 10 Dec 2003 23:25:08 +0100
+
 gftp (2.0.16-1) unstable; urgency=low
 
   * New upstream release. 
