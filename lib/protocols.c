@@ -1733,6 +1733,9 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
 
   fle->group = g_strdup (_("unknown"));
 
+  while (*startpos != '\0' && !isdigit (*startpos))
+    startpos++;
+
   fle->size = gftp_parse_file_size (startpos);
 
   startpos = goto_next_token (startpos);
