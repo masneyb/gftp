@@ -1,3 +1,9 @@
+2005-1-16 Brian Masney <masneyb@gftp.org>
+	* src/gtk/misc-gtk.c (MakeEditDialog, MakeYesNoDialog) - use
+	g_malloc0() instead of g_malloc() to allocate the structures. This
+	ensures that all of the pointers are initialized to NULL (closes
+	#162762)
+
 2004-12-31 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c (sshv2_read_response) - added debugging messages if
 	compiled with -DDEBUG. Added sshv2_response_return_code()

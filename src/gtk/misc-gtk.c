@@ -916,7 +916,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   gftp_dialog_data * ddata;
   const gchar * yes_text;
 
-  ddata = g_malloc (sizeof (*ddata));
+  ddata = g_malloc0 (sizeof (*ddata));
   ddata->yesfunc = okfunc;
   ddata->yespointer = okptr;
   ddata->nofunc = cancelfunc;
@@ -1065,7 +1065,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   GtkWidget * tempwid;
 #endif
 
-  ddata = g_malloc (sizeof (*ddata));
+  ddata = g_malloc0 (sizeof (*ddata));
   ddata->yesfunc = yesfunc;
   ddata->yespointer = yespointer;
   ddata->nofunc = nofunc;
