@@ -286,6 +286,12 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
   gftp_bookmarks_var * tempentry, * delentry;
   char *tempstr;
 
+  if (bm_dialog != NULL)
+    {
+      gtk_widget_grab_focus (bm_dialog);
+      return;
+    }
+
   if (gftp_bookmarks != NULL)
     {
       tempentry = gftp_bookmarks->children;
@@ -372,10 +378,7 @@ static void
 bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
 {
   if (bm_dialog != NULL)
-    {
-      gtk_widget_grab_focus (bm_dialog);
-      return;
-    }
+    return;
 
   if (new_bookmarks_htable != NULL)
     {
@@ -612,32 +615,46 @@ build_bookmarks_tree (void)
 	}
       else
 	{
-	  pos = tempentry->path;
-	  while ((pos = strchr (pos, '/')) != NULL)
-	    {
-	      *pos = '\0';
-              str = g_strdup (tempentry->path);
-	      *pos = '/';
-	      preventry = g_hash_table_lookup (new_bookmarks_htable, str);
-	      if (preventry->cnode == NULL)
-		{
-		  if ((prevpos = strrchr (str, '/')) == NULL)
-		    prevpos = str;
-		  else
-		    prevpos++;
-		  text[0] = text[1] = prevpos;
-		  preventry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree),
-					   preventry->prev->cnode, NULL, text,
-					   5, closedir_pixmap, closedir_bitmap,
-					   opendir_pixmap, opendir_bitmap,
-					   FALSE, FALSE);
-		  gtk_ctree_node_set_row_data (GTK_CTREE (tree),
-					       preventry->cnode, preventry);
-		}
-
-	      g_free (str);
-	      pos++;
-	    }
+          if (strchr (tempentry->path, '/') == NULL && tempentry->isfolder)
+            {
+              text[0] = text[1] = tempentry->path;
+              tempentry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree),
+            				   tempentry->prev->cnode, NULL, text,
+            				   5, closedir_pixmap, closedir_bitmap,
+            				   opendir_pixmap, opendir_bitmap,
+            				   FALSE, FALSE);
+              gtk_ctree_node_set_row_data (GTK_CTREE (tree), tempentry->cnode,
+                                           tempentry);
+            }
+          else
+            {
+              pos = tempentry->path;
+              while ((pos = strchr (pos, '/')) != NULL)
+                {
+                  *pos = '\0';
+                  str = g_strdup (tempentry->path);
+                  *pos = '/';
+                  preventry = g_hash_table_lookup (new_bookmarks_htable, str);
+                  if (preventry->cnode == NULL)
+                    {
+                      if ((prevpos = strrchr (str, '/')) == NULL)
+                        prevpos = str;
+                      else
+                        prevpos++;
+                      text[0] = text[1] = prevpos;
+                      preventry->cnode = gtk_ctree_insert_node (GTK_CTREE (tree),
+            				   preventry->prev->cnode, NULL, text,
+            				   5, closedir_pixmap, closedir_bitmap,
+            				   opendir_pixmap, opendir_bitmap,
+            				   FALSE, FALSE);
+                      gtk_ctree_node_set_row_data (GTK_CTREE (tree),
+                                                   preventry->cnode, preventry);
+                    }
+    
+                  g_free (str);
+                  pos++;
+                }
+            }
 	}
 
       if ((pos = strrchr (tempentry->path, '/')) == NULL)

@@ -1,4 +1,8 @@
 2004-11-1 Brian Masney <masneyb@gftp.org>
+	* src/gtk/bookmarks.c - don't allow the main bookmarks dialog to be
+	closed if a child entry is being edited. Fixes for a toplevel folder
+	that has no children
+
 	* src/gtk/transfer.c (update_file_status) - if the % transferred goes
 	over 100%, then set the update string to unknown percentage transfered.
 	This will occur whenever the reported transfer size is different than
