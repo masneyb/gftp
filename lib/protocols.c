@@ -496,7 +496,7 @@ gftp_set_data_type (gftp_request * request, int data_type)
   g_return_val_if_fail (request != NULL, -2);
 
   if (request->set_data_type == NULL)
-    return (-2);
+    return (0);
   return (request->set_data_type (request, data_type));
 }
 

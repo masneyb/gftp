@@ -1,4 +1,11 @@
-2002-12-333 Brian Masney <masneyb@gftp.org>
+2002-12-4 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_set_data_type) - return 0 if there is no
+	protocol specific set_data_type function
+
+	* src/gtk/transfer.c (gftp_gtk_transfer_files) - ascii/binary automatic
+	switching fixes
+
+2002-12-3 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h lib/protocols.c - removed 
 	use_default_dl_types option. This is always enabled by default now.
 
