@@ -111,6 +111,12 @@ gftp_config_vars gftp_global_config_vars[] =
   {"default_protocol", N_("Default Protocol:"),
    gftp_option_type_textcombo, "FTP", NULL, 0,
    N_("This specifies the default protocol to use"), GFTP_PORT_ALL, NULL},
+#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
+  {"enable_ipv6", N_("Enable IPv6 support"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
+   N_("Enable IPv6 support"), GFTP_PORT_ALL, NULL},
+#endif
 
   {"list_dblclk_action", "", 
    gftp_option_type_int, GINT_TO_POINTER(0), NULL, 0,

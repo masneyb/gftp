@@ -1826,8 +1826,8 @@ gftp_connect_server (gftp_request * request, char *service,
   int port, sock;
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   struct addrinfo hints, *res;
+  int errnum, enable_ipv6;
   char serv[8];
-  int errnum;
 
   if ((request->use_proxy = gftp_need_proxy (request, service,
                                              proxy_hostname, proxy_port)) < 0)
@@ -1835,10 +1835,17 @@ gftp_connect_server (gftp_request * request, char *service,
   else if (request->use_proxy == 1)
     request->hostp = NULL;
 
+  gftp_lookup_request_option (request, "enable_ipv6", &enable_ipv6);
+
   request->free_hostp = 1;
   memset (&hints, 0, sizeof (hints));
   hints.ai_flags = AI_CANONNAME;
-  hints.ai_family = PF_UNSPEC;
+
+  if (enable_ipv6)
+    hints.ai_family = PF_UNSPEC;
+  else
+    hints.ai_family = AF_INET;
+
   hints.ai_socktype = SOCK_STREAM;
 
   if (request->use_proxy)
@@ -1926,7 +1933,7 @@ gftp_connect_server (gftp_request * request, char *service,
   if ((sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
       request->logging_function (gftp_logging_error, request,
-                                 _("Failed to create a socket: %s\n"),
+                                 _("Failed to create a IPv4 socket: %s\n"),
                                  g_strerror (errno));
       return (GFTP_ERETRYABLE);
     }

@@ -620,7 +620,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
   if ((parms->data_connection = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
       request->logging_function (gftp_logging_error, request,
-				 _("Failed to create a socket: %s\n"),
+				 _("Failed to create a IPv4 socket: %s\n"),
 				 g_strerror (errno));
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
@@ -767,7 +767,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   if ((parms->data_connection = socket (AF_INET6, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
       request->logging_function (gftp_logging_error, request,
-				 _("Failed to create a socket: %s\n"),
+				 _("Failed to create a IPv6 socket: %s\n"),
 				 g_strerror (errno));
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
