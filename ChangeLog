@@ -1,3 +1,36 @@
+2003-1-11 Brian Masney <masneyb@gftp.org>
+	* autogen.sh - removed --intl and --no-changelog flags to gettextize
+
+	* aclocal.m4 - updated
+
+	* configure.in - and intl and po directories to AC_OUTPUT
+
+	* cvsclean - remove more stuff
+
+	* lib/bookmark.c (bookmark_parse_url) - use gftp_parse_bookmark
+	  function
+
+	* lib/cache.c - remove gftp_cache_get_url_prefix(). Use
+	request->url_prefix instead
+
+	* lib/config_file.c - use proper exit codes. Also complain if the 
+	default protocol specified in the config file is invalid
+
+	* lib/gftp.h lib/local.c lib/protocols.c - removed isblock, ischar,
+	issocket and isfifo in struct gftp_file (not used anymore)
+
+	* lib/gftp.h lib/misc.c - removed file_countlf (not used anymore)
+
+	* lib/local.c lib/misc.c lib/protocols.c - various small cleanups
+
+	* lib/misc.c (string_hash_function) - check key[i] instead of key[0]
+
+	* lib/protocols.c lib/gftp.h - added gftp_parse_bookmark()
+
+	* lib/rfc2068.c - if we are connected to a FTP url via a proxy, set
+	request->url_prefix to be ftp. Added rfc2068_destroy() to free
+	url_prefix whenever the structure is to be freed
+
 2002-12-29 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h - don't include sys/sysmacros.h
 
