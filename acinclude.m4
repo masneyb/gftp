@@ -28,7 +28,11 @@ AC_DEFUN([AC_INTL_PRINTF],
 
                int main(void) {
                  char buf[20];
+#if defined (_LARGEFILE_SOURCE)
+                 sprintf (buf, "%'lld", (long) 1);
+#else
                  sprintf (buf, "%'ld", (long) 1);
+#endif
                  if (strchr (buf, '1') == NULL)
                    return (1);
                  return (0);

@@ -27,9 +27,9 @@ char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
   if (dest_str != NULL)
-    g_snprintf (dest_str, dest_len, GFTP_OFF_T_PRINTF_MOD, number);
+    g_snprintf (dest_str, dest_len, GFTP_OFF_T_INTL_PRINTF_MOD, number);
   else
-    dest_str = g_strdup_printf (GFTP_OFF_T_PRINTF_MOD, number);
+    dest_str = g_strdup_printf (GFTP_OFF_T_INTL_PRINTF_MOD, number);
 
   return (dest_str);
 }
@@ -871,13 +871,7 @@ gftp_gen_ls_string (gftp_file * fle, char *file_prefixstr, char *file_suffixstr)
   if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))
     tempstr2 = g_strdup_printf ("%d, %d", major (fle->size), minor (fle->size));
   else
-    {
-#if defined (_LARGEFILE_SOURCE)
-      tempstr2 = g_strdup_printf ("%11lld", fle->size);
-#else
-      tempstr2 = g_strdup_printf ("%11ld", fle->size);
-#endif
-    }
+    tempstr2 = g_strdup_printf (GFTP_OFF_T_11PRINTF_MOD, fle->size);
 
   time (&t);
 
@@ -1173,17 +1167,6 @@ gftp_build_path (const char *first_element, ...)
     }
 
   return (ret);
-}
-
-
-off_t
-gftp_parse_file_size (char *str)
-{
-#if defined (_LARGEFILE_SOURCE)
-  return (strtoll (str, NULL, 10));
-#else
-  return (strtol (str, NULL, 10));
-#endif
 }
 
 

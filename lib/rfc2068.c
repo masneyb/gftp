@@ -144,13 +144,7 @@ rfc2068_read_response (gftp_request * request)
                                 sizeof (tempstr), request->datafd)) < 0)
         return (ret);
 
-#ifdef _LARGEFILE_SOURCE
-      ret = sscanf (tempstr, "%llx", &params->chunk_size);
-#else
-      ret = sscanf (tempstr, "%lx", &params->chunk_size);
-#endif
-
-      if (ret != 1)
+      if (sscanf (tempstr, GFTP_OFF_T_HEX_PRINTF_MOD, &params->chunk_size) != 1)
         {
           request->logging_function (gftp_logging_recv, request,
                                      _("Received wrong response from server, disconnecting\nInvalid chunk size '%s' returned by the remote server\n"), 
@@ -305,23 +299,14 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
 
   if (use_http11 && startsize > 0)
     {
-#if defined (_LARGEFILE_SOURCE)
       request->logging_function (gftp_logging_misc, request,
-                              _("Starting the file transfer at offset %lld\n"),
+                              _("Starting the file transfer at offset " GFTP_OFF_T_PRINTF_MOD "\n"),
                               startsize);
 
       oldstr = tempstr;
-      tempstr = g_strdup_printf ("%sRange: bytes=%lld-\n", tempstr, startsize);
+      tempstr = g_strdup_printf ("%sRange: bytes=" GFTP_OFF_T_PRINTF_MOD "-\n",
+                                 tempstr, startsize);
       g_free (oldstr);
-#else
-      request->logging_function (gftp_logging_misc, request,
-			       _("Starting the file transfer at offset %ld\n"), 
-                               startsize);
-
-      oldstr = tempstr;
-      tempstr = g_strdup_printf ("%sRange: bytes=%ld-\n", tempstr, startsize);
-      g_free (oldstr);
-#endif
     }
 
   size = rfc2068_send_command (request, tempstr, strlen (tempstr));
@@ -852,13 +837,8 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
       *crlfpos = '\0';
       crlfpos++; /* advance to line feed */
 
-#ifdef _LARGEFILE_SOURCE
-      ret = sscanf (stpos + 2, "%llx", &params->chunk_size);
-#else
-      ret = sscanf (stpos + 2, "%lx", &params->chunk_size);
-#endif
-
-      if (ret != 1)
+      if (sscanf (stpos + 2, GFTP_OFF_T_HEX_PRINTF_MOD,
+                  &params->chunk_size) != 1)
         {
           request->logging_function (gftp_logging_recv, request,
                                      _("Received wrong response from server, disconnecting\nInvalid chunk size '%s' returned by the remote server\n"), 

@@ -2318,17 +2318,10 @@ print_file_list (GList * list)
       tempfle = templist->data;
       attribs = gftp_convert_attributes_from_mode_t (tempfle->st_mode);
 
-#if defined (_LARGEFILE_SOURCE)
-      printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
+      printf ("%s:%s:" GFTP_OFF_T_PRINTF_MOD ":" GFTP_OFF_T_PRINTF_MOD ":%s:%s:%s\n", 
               tempfle->file, tempfle->destfile, 
               tempfle->size, tempfle->startsize, 
               tempfle->user, tempfle->group, attribs);
-#else
-      printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
-              tempfle->file, tempfle->destfile, 
-              tempfle->size, tempfle->startsize, 
-              tempfle->user, tempfle->group, attribs);
-#endif
 
       g_free (attribs);
       if (templist->next == NULL)
@@ -2341,17 +2334,10 @@ print_file_list (GList * list)
       tempfle = templist->data;
       attribs = gftp_convert_attributes_from_mode_t (tempfle->st_mode);
 
-#if defined (_LARGEFILE_SOURCE)
-      printf ("%s:%s:%lld:%lld:%s:%s:%s\n", 
+      printf ("%s:%s:" GFTP_OFF_T_PRINTF_MOD ":" GFTP_OFF_T_PRINTF_MOD ":%s:%s:%s\n", 
               tempfle->file, tempfle->destfile, 
               tempfle->size, tempfle->startsize, 
               tempfle->user, tempfle->group, attribs);
-#else
-      printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
-              tempfle->file, tempfle->destfile, 
-              tempfle->size, tempfle->startsize, 
-              tempfle->user, tempfle->group, attribs);
-#endif
 
       g_free (attribs);
       if (templist == list)

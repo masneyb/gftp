@@ -1,4 +1,15 @@
 2004-8-17 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/misc.c lib/protocols.c lib/rfc2068.c lib/rfc959.c -
+	added #defines for encoding and decoding file sizes that will work
+	properly for large files (GFTP_OFF_T_HEX_PRINTF_MOD,
+	GFTP_OFF_T_INTL_PRINTF_MOD, GFTP_OFF_T_PRINTF_MOD,
+	GFTP_OFF_T_11PRINTF_MOD and gftp_parse_file_size). Fixed file size
+	not being displayed properly when the system does not support the '
+	printf formatter
+
+	* acinclude.m4 (AC_INTL_PRINTF) - check to see if _LARGEFILE_SOURCE
+	is defined. If so, use %'lld instead of %'ld
+
 	* lib/rfc959.c lib/sshv2.c - removed unneeded code in the *_chmod()
 	functions
 

@@ -1079,11 +1079,8 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
 
   if (startsize > 0)
     {
-#if defined (_LARGEFILE_SOURCE)
-      command = g_strdup_printf ("REST %lld\r\n", startsize); 
-#else
-      command = g_strdup_printf ("REST %ld\r\n", startsize); 
-#endif
+      command = g_strdup_printf ("REST " GFTP_OFF_T_PRINTF_MOD "\r\n",
+                                 startsize);
       ret = rfc959_send_command (request, command, 1);
       g_free (command);
 
@@ -1157,11 +1154,8 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
 
   if (startsize > 0)
     {
-#if defined (_LARGEFILE_SOURCE)
-      command = g_strdup_printf ("REST %lld\r\n", startsize); 
-#else
-      command = g_strdup_printf ("REST %ld\r\n", startsize); 
-#endif
+      command = g_strdup_printf ("REST " GFTP_OFF_T_PRINTF_MOD "\r\n",
+                                 startsize);
       ret = rfc959_send_command (request, command, 1);
       g_free (command);
       if (ret < 0)
