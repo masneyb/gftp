@@ -501,7 +501,7 @@ rfc959_connect (gftp_request * request)
   if (resp != '2')
     {
       gftp_disconnect (request);
-      return (GFTP_EFATAL);
+      return (GFTP_ERETRYABLE);
     }
 
   if ((ret = rfc959_syst (request)) < 0 && request->datafd < 0)
