@@ -752,6 +752,17 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
 }
 
 
+void
+destroy_dialog (gftp_dialog_data * ddata)
+{
+  if (ddata->dialog != NULL)
+    {
+      gtk_widget_destroy (ddata->dialog);
+      ddata->dialog = NULL;
+    }
+}
+
+
 #if GTK_MAJOR_VERSION == 1
 static void
 ok_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
@@ -766,7 +777,8 @@ ok_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
   if (ddata->yesfunc != NULL)
     ddata->yesfunc (ddata->yespointer, ddata);
 
-  if (ddata->edit != NULL)
+  if (ddata->edit != NULL &&
+      ddata->dialog != NULL)
     gtk_widget_destroy (ddata->dialog);
 
   g_free (ddata);
@@ -786,7 +798,8 @@ cancel_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
   if (ddata->nofunc != NULL)
     ddata->nofunc (ddata->nopointer, ddata);
 
-  if (ddata->edit != NULL)
+  if (ddata->edit != NULL &&
+      ddata->dialog != NULL)
     gtk_widget_destroy (ddata->dialog);
 
   g_free (ddata);
@@ -814,7 +827,8 @@ dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
         break;
     }
 
-  if (ddata->edit != NULL)
+  if (ddata->edit != NULL &&
+      ddata->dialog != NULL)
     gtk_widget_destroy (ddata->dialog);
 
   g_free (ddata);

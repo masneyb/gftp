@@ -1,3 +1,10 @@
+2004-3-16 Brian Masney <masneyb@gftp.org>
+	* src/gtk/misc-gtk.c src/gtk/gftp-gtk.h - added destroy_dialog()
+	function
+
+	* src/gtk/gftp-gtk.c - destroy the openurl dialog before attempting to
+	connect to the server
+
 2004-3-15 Brian Masney <masneyb@gftp.org>
 	* src/gtk/misc-gtk.c (update_directory_download_progress) - center the
 	progress dialog (closes #136370)
@@ -5,7 +12,8 @@
 	* lib/gftp.h - if _FILE_OFFSET_BITS is > 32 and _LARGEFILE_SOURCE is 
 	not defined, define it
 
-	* lib/protocols.c (gftp_string_{to|from}_utf8 - don't alter the contents	of the remote_charsets option. Instead, make a copy of that and alter
+	* lib/protocols.c (gftp_string_{to|from}_utf8 - don't alter the contents
+	of the remote_charsets option. Instead, make a copy of that and alter
 	that copy
 
 2004-3-14 Brian Masney <masneyb@gftp.org>

@@ -348,6 +348,8 @@ int check_reconnect 				( gftp_window_data * wdata );
 void add_file_listbox 				( gftp_window_data * wdata, 
 						  gftp_file * fle );
 
+void destroy_dialog 				( gftp_dialog_data * ddata );
+
 void MakeEditDialog 				( char *diagtxt, 
 						  char *infotxt, 
 						  char *deftext, 

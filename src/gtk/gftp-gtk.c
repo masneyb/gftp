@@ -162,11 +162,17 @@ change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
 static void
 _gftpui_gtk_do_openurl (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
-  const char *str;
+  const char *tempstr;
+  char *buf;
 
-  str = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
-  if (str != NULL && *str != '\0')
-    gftpui_common_cmd_open (wdata, wdata->request, NULL, NULL, str);
+  tempstr = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
+  if (tempstr != NULL && *tempstr != '\0')
+    {
+      buf = g_strdup (tempstr);
+      destroy_dialog (ddata);
+      gftpui_common_cmd_open (wdata, wdata->request, NULL, NULL, buf);
+      g_free (buf);
+    }
 }
 
 
