@@ -113,6 +113,19 @@ ftps_register_module (void)
 }
 
 
+static int
+ftps_connect (gftp_request * request)
+{
+  if (request->datafd > 0)
+    return (0);
+
+  request->read_function = gftp_fd_read;
+  request->write_function = gftp_fd_write;
+
+  return (rfc959_connect (request));
+}
+
+
 int
 ftps_init (gftp_request * request)
 {
@@ -128,6 +141,7 @@ ftps_init (gftp_request * request)
   params = request->protocol_data;
   request->protonum = GFTP_FTPS_NUM;
   request->init = ftps_init;
+  request->connect = ftps_connect;
   params->auth_tls_start = ftps_auth_tls_start;
   request->get_next_file = ftps_get_next_file;
   request->post_connect = NULL;

@@ -2076,16 +2076,14 @@ gftp_connect_server (gftp_request * request, char *service,
           close (sock);
           return (GFTP_EFATAL);
         }
-      else
-        {
-          port = serv_struct.s_port;
-          request->port = ntohs (serv_struct.s_port);
-        }
+
+      port = ntohs (serv_struct.s_port);
 
       if (!request->use_proxy)
-        request->port = ntohs (port);
+        request->port = port;
     }
-  remote_address.sin_port = port;
+
+  remote_address.sin_port = htons (port);
 
   if (request->hostp == NULL)
     {
@@ -2110,7 +2108,7 @@ gftp_connect_server (gftp_request * request, char *service,
               request->host.h_length);
       request->logging_function (gftp_logging_misc, request,
                                  _("Trying %s:%d\n"),
-                                 request->host.h_name, ntohs (port));
+                                 request->host.h_name, port);
 
       if (connect (sock, (struct sockaddr *) &remote_address,
                    sizeof (remote_address)) == -1)
@@ -2127,7 +2125,6 @@ gftp_connect_server (gftp_request * request, char *service,
       close (sock);
       return (GFTP_ERETRYABLE);
     }
-  port = ntohs (port);
 #endif /* HAVE_GETADDRINFO */
 
   if (fcntl (sock, F_SETFD, 1) == -1)

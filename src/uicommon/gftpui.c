@@ -92,7 +92,7 @@ gftpui_common_run_callback_function (gftpui_callback_data * cdata)
 {
   int ret;
 
-  if (gftpui_check_reconnect (cdata) < 0)
+  if (!cdata->dont_check_connection && gftpui_check_reconnect (cdata) < 0)
     return (0);
 
   if (gftp_protocols[cdata->request->protonum].use_threads)
@@ -647,6 +647,7 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request,
   cdata->uidata = uidata;
   cdata->run_function = gftpui_common_run_connect;
   cdata->retries = retries;
+  cdata->dont_check_connection = 1;
 
   gftpui_common_run_callback_function (cdata);
 

@@ -1,3 +1,23 @@
+2004-3-26 Brian Masney <masneyb@gftp.org>
+	* lib/ftps.c lib/gftp.h lib/rfc959.c - when reestablishing a connection
+	to a FTPS host, make sure the initial commands are sent over in
+	plaintext
+
+	* lib/protocols.c - make sure the port is displayed to the user in the
+	proper byte order when getaddrinfo() is not included on the system
+
+	* lib/misc.c (gftp_copy_request) - make sure req->init is not NULL
+	before attempting to initialize the new request structure. This fixes
+	a segfault that happened when viewing/editing a local file
+	(from Chelban Vasile <mail4509@pochtamt.ru>)
+
+	* docs/website/generate-gftp-website.pl - updated the STABLE_I386DEB
+	filename
+
+	* docs/website/index.html.in - updated the main website
+
+	* docs/website/announce.txt - announcement for the 2.0.17 release
+
 2004-3-21 Brian Masney <masneyb@gftp.org>
 	* lib/ftps.c (ftps_auth_tls_start) - if the server rejects the
 	PROT C command, disconnect from the server

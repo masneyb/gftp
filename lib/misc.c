@@ -615,7 +615,7 @@ gftp_copy_request (gftp_request * req)
                            req->local_options_vars,
                            req->num_local_options_vars);
 
-  if (req->init (newreq) < 0)
+  if (req->init != NULL && req->init (newreq) < 0)
     {
       gftp_request_destroy (newreq, 1);
       return (NULL);

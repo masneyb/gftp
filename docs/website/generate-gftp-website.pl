@@ -14,7 +14,7 @@ my %rep = ("STABLE_BZ2" => "gftp-" . $version . ".tar.bz2",
            "STABLE_GZ" => "gftp-" . $version . ".tar.gz",
            "STABLE_I386RPM" => "gftp-" . $version . "-1.i386.rpm",
            "STABLE_SRCRPM" => "gftp-" . $version . "-1.src.rpm",
-           "STABLE_I386DEB" => "gftp_" . $version . "-1_i386.deb",
+           "STABLE_I386DEB" => "gftp_" . $version . "-1_all.deb",
            "STABLE_I386DEB_COMMON" => "gftp-common_" . $version . "-1_i386.deb",
            "STABLE_I386DEB_GTK" => "gftp-gtk_" . $version . "-1_i386.deb",
            "STABLE_I386DEB_TEXT" => "gftp-text_" . $version . "-1_i386.deb"); 

@@ -35,6 +35,7 @@ struct _gftpui_callback_data
   GList * files;
   int retries;
   int (*run_function) (gftpui_callback_data * cdata);
+  unsigned int dont_check_connection : 1;
 };
 
 

@@ -786,6 +786,8 @@ int rfc959_get_next_file 		( gftp_request * request,
 					  gftp_file *fle, 
 					  int fd );
 
+int rfc959_connect 			( gftp_request * request );
+
 int ftps_init 				( gftp_request * request );
 
 void ftps_register_module		( void );

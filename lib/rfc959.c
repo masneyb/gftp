@@ -426,7 +426,7 @@ rfc959_syst (gftp_request * request)
 }
 
 
-static int
+int
 rfc959_connect (gftp_request * request)
 {
   char tempchar, *startpos, *endpos, *tempstr, *email, *proxy_hostname, *utf8;
