@@ -1,4 +1,13 @@
 2004-3-20 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h src/uicommon/gftpui.c lib/rfc959.c - if the connection
+	timed out to the server, return GFTP_ETIMEDOUT. In the UI, if this
+	error code is returned, immediately reconnect to the server and retry
+	the operation
+
+	* lib/rfc959.c - if the return value from rfc959_send_command() is
+	< 0, then make sure the exact value is returned instead of
+	GFTP_ERETRYABLE
+
 	* src/gtk/chmod_dialog.c - use gftpui_common_run_callback_function()
 	to do the chmod operation. This will spawn a thread if necessary
 
