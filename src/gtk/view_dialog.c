@@ -415,7 +415,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
 #endif
 
   buf[sizeof (buf) - 1] = '\0';
-  while ((n = read (fd, buf, sizeof (buf) - 1)))
+  while ((n = read (fd, buf, sizeof (buf) - 1)) > 0)
     {
       buf[n] = '\0';
 #if GTK_MAJOR_VERSION == 1
@@ -423,8 +423,8 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
 #else
       textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
       len = gtk_text_buffer_get_char_count (textbuf);
-      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len - 1);
-      gtk_text_buffer_insert (textbuf, &iter, buf, -1);
+      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len);
+      gtk_text_buffer_insert (textbuf, &iter, buf, n);
 #endif
     }
 

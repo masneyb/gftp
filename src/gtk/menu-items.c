@@ -288,7 +288,7 @@ clearlog (gpointer data)
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
   len = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len - 1);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len);
   gtk_text_buffer_delete (textbuf, &iter, &iter2);
 #endif
 }
@@ -316,7 +316,6 @@ viewlog (gpointer data)
       return;
     }
   chmod (tempstr, S_IRUSR | S_IWUSR);
-  unlink (tempstr);
   
 #if GTK_MAJOR_VERSION == 1
   textlen = gtk_text_get_length (GTK_TEXT (logwdw));
@@ -325,11 +324,12 @@ viewlog (gpointer data)
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
   textlen = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, textlen - 1);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, textlen);
   txt = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
 #endif
   pos = txt;
-  do 
+
+  while (textlen > 0)
     {
       if ((len = write (fd, pos, textlen)) == -1)
         { 
@@ -340,11 +340,13 @@ viewlog (gpointer data)
         }
       textlen -= len;
       pos += len;
-    } while (textlen > 0);
+    }
 
+  fsync (fd);
   lseek (fd, 0, SEEK_SET);
-  view_file (tempstr, fd, 1, 0, 0, 1, NULL, NULL);
+  view_file (tempstr, fd, 1, 1, 0, 1, NULL, NULL);
   close (fd);
+
   g_free (tempstr);
   g_free (txt);
 }
@@ -380,7 +382,7 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
   textlen = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, textlen - 1);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, textlen);
   txt = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
 #endif
 
@@ -589,7 +591,7 @@ about_dialog (gpointer data)
 			       no_license_agreement, -1);
 #else
               textlen = gtk_text_buffer_get_char_count (textbuf);
-              gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen - 1);
+              gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
               gtk_text_buffer_insert (textbuf, &iter, no_license_agreement, -1);
 #endif
 	      gtk_widget_show (dialog);
@@ -605,7 +607,7 @@ about_dialog (gpointer data)
 		       no_license_agreement, -1);
 #else
       textlen = gtk_text_buffer_get_char_count (textbuf);
-      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen - 1);
+      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
       gtk_text_buffer_insert (textbuf, &iter, no_license_agreement, -1);
 #endif
       gtk_widget_show (dialog);
@@ -622,7 +624,7 @@ about_dialog (gpointer data)
       gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL, buf, -1);
 #else
       textlen = gtk_text_buffer_get_char_count (textbuf);
-      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen - 1);
+      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
       gtk_text_buffer_insert (textbuf, &iter, buf, -1);
 #endif
     }
