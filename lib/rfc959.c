@@ -1143,6 +1143,7 @@ rfc959_init (gftp_request * request)
   request->set_file_time = NULL;
   request->site = rfc959_site;
   request->parse_url = NULL;
+  request->swap_socks = NULL;
   request->set_config_options = rfc959_set_config_options;
   request->url_prefix = "ftp";
   request->protocol_name = "FTP";

@@ -1161,6 +1161,7 @@ ssh_init (gftp_request * request)
   request->site = NULL;
   request->parse_url = NULL;
   request->set_config_options = ssh_set_config_options;
+  request->swap_socks = NULL;
   request->url_prefix = "ssh";
   request->protocol_name = "SSH";
   request->need_hostport = 1;

@@ -1,3 +1,18 @@
+2002-11-2333 Brian Masney <masneyb@gftp.org>
+	* lib/local.c lib/rfc959.c lib/rfc2068.c lib/ssh.c lib/sshv2.c
+	lib/gftp.h - added swap_socks function to gftp_request structure
+
+	* lib/misc.c lib/protocols.c - move swap_socks() from misc.c to 
+	protocols.c (renamed to gftp_swap_socks)
+
+	* src/gtk/misc-gtk.c src/gtk/transfer.c - removed fix_display() 
+
+	* src/gtk/delete_dialog.c src/gtk/transfer.c - changed all occurances of
+	swap_socks() to gftp_swap_socks()
+
+	* src/gtk/gftp-gtk.c src/gtk/gftp-gtk.h - removed gftp_is_started 
+	variable
+
 2002-11-21 Brian Masney <masneyb@gftp.org>
 	* lib/local.c (local_put_file) - small fix
 

@@ -2154,3 +2154,24 @@ gftp_set_sockblocking (gftp_request * request, int fd, int non_blocking)
 }
 
 
+void
+gftp_swap_socks (gftp_request * dest, gftp_request * source)
+{
+  g_return_if_fail (dest != NULL);
+  g_return_if_fail (source != NULL);
+  g_return_if_fail (dest->protonum == source->protonum);
+
+  dest->sockfd = source->sockfd;
+  dest->datafd = source->datafd;
+  dest->cached = 0;
+  if (!source->always_connected)
+    {
+      source->sockfd = -1;
+      source->datafd = -1;
+      source->cached = 1;
+    }
+
+  if (dest->swap_socks)
+    dest->swap_socks (dest, source);
+}
+

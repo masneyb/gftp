@@ -164,8 +164,6 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
   void *success;
 
   gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Receiving file names..."));
-  if (gftp_is_started)
-    fix_display ();
 
   wdata->show_selected = 0;
   if (wdata->files == NULL)
@@ -436,8 +434,8 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
 
   if (transfer->files != NULL)
     {
-      swap_socks (transfer->fromreq, fromwdata->request);
-      swap_socks (transfer->toreq, towdata->request);
+      gftp_swap_socks (transfer->fromreq, fromwdata->request);
+      gftp_swap_socks (transfer->toreq, towdata->request);
 
       if (transfer->fromreq->use_threads || 
           (transfer->toreq && transfer->toreq->use_threads))
@@ -478,8 +476,8 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
           return;
         } 
 
-      swap_socks (fromwdata->request, transfer->fromreq);
-      swap_socks (towdata->request, transfer->toreq);
+      gftp_swap_socks (fromwdata->request, transfer->fromreq);
+      gftp_swap_socks (towdata->request, transfer->toreq);
     }
 
   if (transfer->files != NULL)
@@ -1411,10 +1409,10 @@ transfer_done (GList * node)
            fromreq->always_connected) && tdata->fromreq->sockfd > 0 &&
           compare_request (tdata->fromreq, fromreq, 0))
 	{
-          swap_socks (((gftp_window_data *) tdata->towdata)->request, 
-                      tdata->toreq);
-          swap_socks (((gftp_window_data *) tdata->fromwdata)->request, 
-                      tdata->fromreq);
+          gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
+                           tdata->toreq);
+          gftp_swap_socks (((gftp_window_data *) tdata->fromwdata)->request, 
+                           tdata->fromreq);
 	}
       else
         {
@@ -1466,10 +1464,10 @@ create_transfer (gftp_transfer * tdata)
           !((gftp_window_data *) tdata->fromwdata)->request->stopable &&
           compare_request (tdata->fromreq, ((gftp_window_data *) tdata->fromwdata)->request, 0))
 	{
-          swap_socks (tdata->toreq, 
-                      ((gftp_window_data *) tdata->towdata)->request);
-          swap_socks (tdata->fromreq, 
-                      ((gftp_window_data *) tdata->fromwdata)->request);
+          gftp_swap_socks (tdata->toreq, 
+                           ((gftp_window_data *) tdata->towdata)->request);
+          gftp_swap_socks (tdata->fromreq, 
+                           ((gftp_window_data *) tdata->fromwdata)->request);
 	  update_window_info ();
 	}
       transfer_in_progress++;

@@ -780,6 +780,7 @@ rfc2068_init (gftp_request * request)
   request->chmod = NULL;
   request->site = NULL;
   request->parse_url = NULL;
+  request->swap_socks = NULL;
   request->set_config_options = rfc2068_set_config_options;
   request->url_prefix = "http";
   request->protocol_name = "HTTP";

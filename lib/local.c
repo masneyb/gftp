@@ -684,6 +684,7 @@ local_init (gftp_request * request)
   request->site = NULL;
   request->parse_url = NULL;
   request->set_config_options = NULL;
+  request->swap_socks = NULL;
   request->url_prefix = "file";
   request->protocol_name = "Local";
   request->need_hostport = 0;

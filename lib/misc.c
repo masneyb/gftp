@@ -502,21 +502,6 @@ copy_fdata (gftp_file * fle)
 }
 
 
-void
-swap_socks (gftp_request * dest, gftp_request * source)
-{
-  dest->sockfd = source->sockfd;
-  dest->datafd = source->datafd;
-  dest->cached = 0;
-  if (!source->always_connected)
-    {
-      source->sockfd = -1;
-      source->datafd = -1;
-      source->cached = 1;
-    }
-}
-
-
 int
 compare_request (gftp_request * request1, gftp_request * request2,
                  int compare_dirs)

@@ -38,7 +38,6 @@ GtkItemFactory * factory = NULL;
 pthread_mutex_t transfer_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 gftp_graphic * gftp_icon;
-int gftp_is_started = 0;
 sigjmp_buf jmp_environment;
 volatile int use_jmp_environment = 0;
 pthread_t main_thread_id;
@@ -1045,7 +1044,6 @@ main (int argc, char **argv)
   sortrows (GTK_CLIST (window2.listbox), *window2.sortcol, &window2);
 
   init_gftp (argc, argv, window);
-  gftp_is_started = 1;
 
   GDK_THREADS_ENTER ();
   gtk_main ();

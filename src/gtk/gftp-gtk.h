@@ -148,7 +148,6 @@ extern GtkItemFactoryEntry * menus;
 extern GtkItemFactory * factory;
 extern pthread_mutex_t transfer_mutex, log_mutex;
 extern gftp_graphic * gftp_icon;
-extern int gftp_is_started;
 extern sigjmp_buf jmp_environment;
 extern volatile int use_jmp_environment;
 extern pthread_t main_thread_id;

@@ -291,6 +291,8 @@ struct gftp_request_tag
   int (*parse_url)			( gftp_request * request,
 					  const char *url );
   void (*set_config_options)		( gftp_request * request );
+  void (*swap_socks)			( gftp_request * dest,
+					  gftp_request * source );
 
   /* Options */
   gftp_transfer_type transfer_type;	/* Passive or non-passive (FTP only) */
@@ -561,9 +563,6 @@ void free_file_list			( GList * filelist );
 void free_fdata				( gftp_file * fle );
 
 gftp_file * copy_fdata 			( gftp_file * fle );
-
-void swap_socks 			( gftp_request * dest, 
-					  gftp_request * source );
 
 int compare_request 			( gftp_request * request1, 
 					  gftp_request * request2, 
@@ -841,6 +840,9 @@ ssize_t gftp_writefmt 			( gftp_request * request,
 int gftp_set_sockblocking 		( gftp_request * request, 
 					  int fd, 
 					  int non_blocking );
+
+void gftp_swap_socks 			( gftp_request * dest, 
+					  gftp_request * source );
 
 #endif
 

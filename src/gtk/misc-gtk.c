@@ -25,28 +25,6 @@ static GtkWidget * statuswid;
 
 
 void
-fix_display (void)
-{
-  int ret;
-
-  if (!gftp_is_started)
-    return;
-
-  ret = 1;
-  while (ret)
-    {
-      GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-      ret = g_main_iteration (FALSE);
-#else
-      ret = g_main_context_iteration (NULL, FALSE);
-#endif
-
-    }
-}
-
-
-void
 remove_files_window (gftp_window_data * wdata)
 {
   wdata->show_selected = 0;

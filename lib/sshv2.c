@@ -1868,6 +1868,17 @@ sshv2_set_config_options (gftp_request * request)
 }
 
 
+static void
+sshv2_swap_socks (gftp_request * dest, gftp_request * source)
+{
+  sshv2_params * sparams, * dparams;
+
+  sparams = source->protocol_data;
+  dparams = dest->protocol_data;
+  dparams->id = sparams->id;
+}
+
+
 void
 sshv2_init (gftp_request * request)
 {
@@ -1901,6 +1912,7 @@ sshv2_init (gftp_request * request)
   request->site = NULL;
   request->parse_url = NULL;
   request->set_config_options = sshv2_set_config_options;
+  request->swap_socks = sshv2_swap_socks;
   request->url_prefix = "ssh2";
   request->protocol_name = "SSH2";
   request->need_hostport = 1;

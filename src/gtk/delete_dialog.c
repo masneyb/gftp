@@ -120,7 +120,7 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
     return;
 
   gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-  swap_socks (transfer->fromreq, wdata->request);
+  gftp_swap_socks (transfer->fromreq, wdata->request);
   if (wdata->request->use_threads)
     {
       wdata->request->stopable = 1;
@@ -144,7 +144,7 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
     }
   else
     ret = do_delete_thread (transfer);
-  swap_socks (wdata->request, transfer->fromreq);
+  gftp_swap_socks (wdata->request, transfer->fromreq);
   free_tdata (transfer);
 
   if (!GFTP_IS_CONNECTED (wdata->request))
@@ -209,7 +209,7 @@ delete_dialog (gpointer data)
       return;
     }
 
-  swap_socks (transfer->fromreq, wdata->request);
+  gftp_swap_socks (transfer->fromreq, wdata->request);
 
   if (transfer->fromreq->use_threads)
     {
@@ -250,7 +250,7 @@ delete_dialog (gpointer data)
       return;
     }
 
-  swap_socks (wdata->request, transfer->fromreq);
+  gftp_swap_socks (wdata->request, transfer->fromreq);
 
   askdel (transfer);
 }
