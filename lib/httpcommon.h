@@ -31,6 +31,7 @@ typedef struct rfc2068_params_tag
                                   void *ptr,
                                   size_t size,
                                   int fd );
+  int read_ref_cnt;
 
   char * extra_read_buffer;
   size_t extra_read_buffer_len;

@@ -746,7 +746,6 @@ gftp_text_mget_file (gftp_request * request, char *command, gpointer *data)
   transfer = gftp_tdata_new ();
   transfer->fromreq = gftp_text_remreq;
   transfer->toreq = gftp_text_locreq;
-  transfer->transfer_direction = GFTP_DIRECTION_DOWNLOAD;
 
   /* FIXME - ask whether to resume/skip/overwrite */
   if (gftp_list_files (transfer->fromreq) != 0)
@@ -820,7 +819,6 @@ gftp_text_mput_file (gftp_request * request, char *command, gpointer *data)
   transfer = gftp_tdata_new ();
   transfer->fromreq = gftp_text_locreq;
   transfer->toreq = gftp_text_remreq;
-  transfer->transfer_direction = GFTP_DIRECTION_UPLOAD;
 
   if (gftp_list_files (transfer->fromreq) != 0)
     {

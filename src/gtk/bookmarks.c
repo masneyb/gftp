@@ -692,9 +692,9 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
       tempchar = *pos;
       *pos = '\0';
     }
-  origpath = newpath = g_strconcat (entry->path, "/",
-                         gtk_entry_get_text (GTK_ENTRY (bm_pathedit)), NULL);
-  remove_double_slashes (newpath);
+
+  origpath = newpath = gftp_build_path (entry->path, gtk_entry_get_text (GTK_ENTRY (bm_pathedit)), NULL);
+
   for (; *newpath == '/'; newpath++);
   *pos = tempchar;
 
@@ -757,9 +757,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
       while (tempentry != NULL)
 	{
 	  g_hash_table_remove (new_bookmarks_htable, tempentry->path);
-	  tempstr = g_strconcat (newpath, "/", tempentry->path + oldpathlen, 
-                                 NULL);
-	  remove_double_slashes (tempstr);
+	  tempstr = gftp_build_path (newpath, tempentry->path + oldpathlen, NULL);
 	  g_free (tempentry->path);
 	  tempentry->path = tempstr;
 	  g_hash_table_insert (new_bookmarks_htable, tempentry->path,

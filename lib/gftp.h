@@ -149,13 +149,6 @@
 #define LOG_FILE		BASE_CONF_DIR "/gftp.log"
 #define MAX_HIST_LEN		10
 
-typedef enum gftp_transfer_type_tag 
-{
-  gftp_transfer_passive,
-  gftp_transfer_active
-} gftp_transfer_type;
-
-
 typedef enum gftp_logging_level_tag 
 {
   gftp_logging_send,
@@ -216,7 +209,7 @@ struct gftp_file_tag
 
 typedef struct gftp_proxy_hosts_tag 
 {
-  /* FIXME - add IPV4 stuff here */
+  /* FIXME - add IPV6 stuff here */
 
   gint32 ipv4_network_address, 
          ipv4_netmask;
@@ -452,6 +445,7 @@ typedef struct gftp_transfer_tag
                done : 1,
                show : 1,
                stalled : 1,
+               conn_error_no_timeout : 1,
                next_file : 1,
                skip_file : 1;
 
@@ -661,8 +655,6 @@ char *insert_commas 			( off_t number,
 char *alltrim 				( char *str );
 
 char *expand_path 			( const char *src );
-
-void remove_double_slashes 		( char *string );
 
 void make_nonnull 			( char **str );
 

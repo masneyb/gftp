@@ -407,7 +407,7 @@ void transfer_window_files 			( gftp_window_data * fromwdata,
 
 void *do_getdir_thread 				( void * data );
 
-void add_file_transfer 				( gftp_request * fromreq, 
+gftp_transfer * add_file_transfer 		( gftp_request * fromreq, 
 						  gftp_request * toreq, 
 						  gftp_window_data * fromwdata,
 						  gftp_window_data * towdata, 

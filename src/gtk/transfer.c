@@ -772,7 +772,7 @@ gftp_gtk_transfer_files (void *data)
 }
 
 
-void
+gftp_transfer *
 add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
                    gftp_window_data * fromwdata, gftp_window_data * towdata, 
                    GList * files, int copy_req)
@@ -795,6 +795,7 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
   gftp_lookup_request_option (fromreq, "append_transfers", 
                               &append_transfers);
 
+  tdata = NULL;
   if (append_transfers)
     {
       pthread_mutex_lock (&transfer_mutex);
@@ -905,6 +906,8 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
       if (dialog)
         gftp_gtk_ask_transfer (tdata);
     }
+
+  return (tdata);
 }
 
 
@@ -950,6 +953,7 @@ dont_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 static void
 do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 {
+  gftp_transfer * tdata;
   gftp_file * tempfle;
   GList * newfile;
 
@@ -961,9 +965,12 @@ do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
   ve_proc->filename = NULL;
   tempfle->done_rm = 1;
   newfile = g_list_append (NULL, tempfle);
-  add_file_transfer (ve_proc->fromwdata->request, ve_proc->torequest,
-                     ve_proc->fromwdata, ve_proc->towdata, newfile, 1);
+  tdata = add_file_transfer (ve_proc->fromwdata->request, ve_proc->torequest,
+                             ve_proc->fromwdata, ve_proc->towdata, newfile, 1);
   free_edit_data (ve_proc);
+
+  if (tdata != NULL)
+    tdata->conn_error_no_timeout = 1;
 }
 
 

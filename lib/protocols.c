@@ -2503,33 +2503,38 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
     {
       if (num_read == GFTP_EFATAL)
         return (GFTP_EFATAL);
-      else if (retries != 0 && 
-               tdata->current_file_retries >= retries)
+      else if (!tdata->conn_error_no_timeout)
         {
-          tdata->fromreq->logging_function (gftp_logging_error, tdata->fromreq,
-                   _("Error: Remote site %s disconnected. Max retries reached...giving up\n"),
-                   tdata->fromreq->hostname != NULL ? 
-                         tdata->fromreq->hostname : tdata->toreq->hostname);
-          return (GFTP_EFATAL);
-        }
-      else
-        {
-          tdata->fromreq->logging_function (gftp_logging_error, tdata->fromreq,
-                     _("Error: Remote site %s disconnected. Will reconnect in %d seconds\n"),
-                     tdata->fromreq->hostname != NULL ? 
-                           tdata->fromreq->hostname : tdata->toreq->hostname, 
-                     sleep_time);
+          if (retries != 0 && 
+              tdata->current_file_retries >= retries)
+            {
+              tdata->fromreq->logging_function (gftp_logging_error, tdata->fromreq,
+                       _("Error: Remote site %s disconnected. Max retries reached...giving up\n"),
+                       tdata->fromreq->hostname != NULL ? 
+                             tdata->fromreq->hostname : tdata->toreq->hostname);
+              return (GFTP_EFATAL);
+            }
+          else
+            {
+              tdata->fromreq->logging_function (gftp_logging_error, tdata->fromreq,
+                         _("Error: Remote site %s disconnected. Will reconnect in %d seconds\n"),
+                         tdata->fromreq->hostname != NULL ? 
+                             tdata->fromreq->hostname : tdata->toreq->hostname, 
+                         sleep_time);
+            }
         }
 
       while (retries == 0 || 
              tdata->current_file_retries <= retries)
         {
-          if (!tdata->skip_file)
+          if (!tdata->conn_error_no_timeout && !tdata->skip_file)
             {
               tv.tv_sec = sleep_time;
               tv.tv_usec = 0;
               select (0, NULL, NULL, NULL, &tv);
             }
+          else
+            tdata->conn_error_no_timeout = 0;
 
           if ((ret1 = gftp_connect (tdata->fromreq)) == 0 &&
               (ret2 = gftp_connect (tdata->toreq)) == 0)

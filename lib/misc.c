@@ -246,29 +246,6 @@ expand_path (const char *src)
 
 
 void
-remove_double_slashes (char *string)
-{
-  char *newpos, *oldpos;
-  size_t len;
-
-  oldpos = newpos = string;
-  while (*oldpos != '\0')
-    {
-      *newpos++ = *oldpos++;
-      if (*oldpos == '\0')
-	break;
-      while (*(newpos - 1) == '/' && *(oldpos) == '/')
-	oldpos++;
-    }
-  *newpos = '\0';
-
-  len = strlen (string);
-  if (string[len - 1] == '/')
-    string[len - 1] = '\0';
-}
-
-
-void
 make_nonnull (char **str)
 {
   if (*str == NULL)

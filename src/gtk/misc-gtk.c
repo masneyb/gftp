@@ -1119,7 +1119,10 @@ update_directory_download_progress (gftp_transfer * transfer)
 
   if (dialog == NULL)
     {
-      dialog = gtk_window_new (GTK_WINDOW_POPUP);
+      dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+#if GTK_MAJOR_VERSION > 1
+      gtk_window_set_decorated (GTK_WINDOW (dialog), 0);
+#endif
       gtk_grab_add (dialog);
       gtk_signal_connect (GTK_OBJECT (dialog), "delete_event",
                           GTK_SIGNAL_FUNC (delete_event), NULL);

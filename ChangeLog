@@ -1,3 +1,30 @@
+2003-11-2 Brian Masney <masneyb@gftp.org>
+	* lib/rfc2068.c (rfc2068_chunked_read) - more improvements to this
+	function so that it will parse more chunked file transfers correctly.
+
+	* lib/misc.c lib/gftp.h lib/rfc2068.c src/gtk/bookmarks.c 
+	src/gtk/dnd.c - removed remove_double_slashes(). Call gftp_build_path()
+	to build the paths. This now allows Novell directory listings with 
+	//server
+
+	* lib/protocols.c src/gtk/transfer.c lib/gftp.h - added variable
+	conn_error_no_timeout to gftp_transfer structure. If this is enabled,
+	if the remote connection to the server timed out, don't wait and
+	immediately reconnect. So far, the only time this is used is when the
+	user was editing a file and it is to be uploaded back to the server.
+
+	* src/gtk/gftp-gtk.h src/gtk/transfer.c - add_file_transfer() now
+	returns the struct gftp_transfer that was just added.
+
+	* src/gtk/misc-gtk.c (update_directory_download_progress) - don't
+	make the window a popup and remove the window decorations
+
+	* src/text/gftp-text.c - don't populate the transfer_direction variable
+	in struct gftp_transfer. This is only needed by the GTK+ port and will
+	hopefully be taken out soon.
+
+	* lib/gftp.h - remove gftp_transfer_type enum. It wasn't used anymore.
+	
 2003-10-27 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c (gftp_get_next_file_chunk) - fixed ASCII file corruption
 	bug.

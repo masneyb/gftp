@@ -118,7 +118,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
 	      gpointer data)
 {
   GList * templist, * filelist;
-  char *tempstr, *str, *pos;
+  char *tempstr, *str, *df;
   gftp_window_data * wdata;
   size_t totlen, oldlen;
   gftp_file * tempfle;
@@ -142,40 +142,32 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
         continue;
 
       oldlen = totlen;
+      df = gftp_build_path (wdata->request->directory, tempfle->file, NULL);
+
       if (wdata->request->hostname == NULL || 
           wdata->request->protonum == GFTP_LOCAL_NUM)
         {
-          tempstr = g_strdup_printf ("%s://%s/%s ", 
-                                 wdata->request->url_prefix,
-                                 wdata->request->directory, 
-                                 tempfle->file);
+          tempstr = g_strdup_printf ("%s://%s ", 
+                                 wdata->request->url_prefix, df);
         }
-      else if (wdata->request->username == NULL 
-               || *wdata->request->username == '\0')
+      else if (wdata->request->username == NULL || 
+               *wdata->request->username == '\0')
         {
-          tempstr = g_strdup_printf ("%s://%s:%d%s/%s ", 
+          tempstr = g_strdup_printf ("%s://%s:%d%s ", 
                                  wdata->request->url_prefix,
                                  wdata->request->hostname,
-                                 wdata->request->port,
-                                 wdata->request->directory, 
-                                 tempfle->file);
+                                 wdata->request->port, df);
         }
       else
         {
-          tempstr = g_strdup_printf ("%s://%s@%s:%d%s/%s ", 
+          tempstr = g_strdup_printf ("%s://%s@%s:%d%s ", 
                                  wdata->request->url_prefix,
                                  wdata->request->username, 
                                  wdata->request->hostname,
-                                 wdata->request->port,
-                                 wdata->request->directory, 
-                                 tempfle->file);
+                                 wdata->request->port, df);
         }
 
-      if ((pos = strchr (tempstr, ':')) != NULL)
-        pos += 3;
-      else
-        pos = tempstr;
-      remove_double_slashes (pos);
+      g_free (df);
 
       /* Note, I am allocating memory for this byte above. Note the extra space
          at the end of the g_strdup_printf() format argument */
