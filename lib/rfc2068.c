@@ -69,7 +69,7 @@ rfc2068_read_response (gftp_request * request)
   do
     {
       if ((ret = gftp_get_line (request, &params->rbuf, tempstr, 
-                                sizeof (tempstr), request->sockfd)) < 0)
+                                sizeof (tempstr), request->datafd)) < 0)
         return (ret);
 
       if (request->last_ftp_response == NULL)
@@ -91,7 +91,7 @@ rfc2068_read_response (gftp_request * request)
   if (chunked)
     {
       if ((ret = gftp_get_line (request, &params->rbuf, tempstr, 
-                                sizeof (tempstr), request->sockfd)) < 0)
+                                sizeof (tempstr), request->datafd)) < 0)
         return (ret);
 
       if (sscanf ((char *) tempstr, "%lx", &params->chunk_size) != 1)
@@ -139,7 +139,7 @@ rfc2068_send_command (gftp_request * request, const void *command, size_t len)
                              "%s", tempstr);
 
   ret = request->write_function (request, tempstr, strlen (tempstr), 
-                                 request->sockfd);
+                                 request->datafd);
   g_free (tempstr);
 
   if (ret < 0)
@@ -158,7 +158,7 @@ rfc2068_send_command (gftp_request * request, const void *command, size_t len)
 
       request->logging_function (gftp_logging_send, request->user_data,
                                  "Proxy-authorization: Basic xxxx:xxxx\n");
-      ret = gftp_writefmt (request, request->sockfd, 
+      ret = gftp_writefmt (request, request->datafd, 
                            "Proxy-authorization: Basic %s\n", str);
       g_free (str);
       if (ret < 0)
@@ -173,14 +173,14 @@ rfc2068_send_command (gftp_request * request, const void *command, size_t len)
 
       request->logging_function (gftp_logging_send, request->user_data,
                                  "Authorization: Basic xxxx\n");
-      ret = gftp_writefmt (request, request->sockfd, 
+      ret = gftp_writefmt (request, request->datafd, 
                            "Authorization: Basic %s\n", str);
       g_free (str);
       if (ret < 0)
         return (ret);
     }
 
-  if ((ret = request->write_function (request, "\n", 1, request->sockfd)) < 0)
+  if ((ret = request->write_function (request, "\n", 1, request->datafd)) < 0)
     return (ret);
 
   return (rfc2068_read_response (request));
@@ -200,7 +200,7 @@ rfc2068_connect (gftp_request * request)
 
   params = request->protocol_data;
 
-  if (request->sockfd > 0)
+  if (request->datafd > 0)
     return (0);
 
   gftp_lookup_request_option (request, "proxy_config", &proxy_config);
@@ -236,18 +236,18 @@ rfc2068_disconnect (gftp_request * request)
   g_return_if_fail (request != NULL);
   g_return_if_fail (request->protonum == GFTP_HTTP_NUM);
 
-  if (request->sockfd > 0)
+  if (request->datafd > 0)
     {
       request->logging_function (gftp_logging_misc, request->user_data,
 				 _("Disconnecting from site %s\n"),
 				 request->hostname);
 
-      if (close (request->sockfd) < 0)
+      if (close (request->datafd) < 0)
         request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
 
-      request->sockfd = -1;
+      request->datafd = -1;
     }
 }
 
@@ -270,9 +270,9 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
   gftp_lookup_request_option (request, "use_http11", &use_http11);
 
   if (fd > 0)
-    request->sockfd = fd;
+    request->datafd = fd;
 
-  if (request->sockfd < 0 && (ret = rfc2068_connect (request)) != 0)
+  if (request->datafd < 0 && (ret = rfc2068_connect (request)) != 0)
     return (ret);
 
   if (request->username == NULL || *request->username == '\0')
@@ -344,7 +344,7 @@ rfc2068_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
   params = request->protocol_data;
 
-  if ((len = request->read_function (request, buf, size, request->sockfd)) < 0)
+  if ((len = request->read_function (request, buf, size, request->datafd)) < 0)
     return ((ssize_t) len);
 
   return (len);
@@ -359,14 +359,14 @@ rfc2068_end_transfer (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
 
-  if (request->sockfd < 0)
+  if (request->datafd < 0)
     return (GFTP_EFATAL);
 
-  if (close (request->sockfd) < 0)
+  if (close (request->datafd) < 0)
     request->logging_function (gftp_logging_error, request->user_data,
                                _("Error closing file descriptor: %s\n"),
                                g_strerror (errno));
-  request->sockfd = -1;
+  request->datafd = -1;
 
   params = request->protocol_data;
   params->content_length = 0;
@@ -393,7 +393,7 @@ rfc2068_list_files (gftp_request * request)
   params = request->protocol_data;
   gftp_lookup_request_option (request, "use_http11", &use_http11);
 
-  if (request->sockfd < 0 && (r = rfc2068_connect (request)) < 0)
+  if (request->datafd < 0 && (r = rfc2068_connect (request)) < 0)
     return (r);
 
   if (request->username == NULL || *request->username == '\0')
@@ -444,7 +444,7 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
   params = request->protocol_data;
   gftp_lookup_request_option (request, "use_http11", &use_http11);
 
-  if (request->sockfd < 0 && (ret = rfc2068_connect (request)) != 0)
+  if (request->datafd < 0 && (ret = rfc2068_connect (request)) != 0)
     return (ret);
 
   if (request->username == NULL || *request->username == '\0')
@@ -611,7 +611,7 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
     }
 
   if (fd < 0)
-    fd = request->sockfd;
+    fd = request->datafd;
 
   while (1)
     {

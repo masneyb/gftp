@@ -304,8 +304,7 @@ struct gftp_request_tag
 
   unsigned int port;		/* Port of remote site */
 
-  int sockfd,			/* Control connection (read) */
-      datafd,			/* Data connection */
+  int datafd,			/* Data connection */
       cachefd;			/* For the directory cache */
   int wakeup_main_thread[2];	/* FD that gets written to by the threads
                                    to wakeup the parent */
@@ -665,7 +664,7 @@ char * base64_encode 			( char *str );
 #define GFTP_BOOKMARK_NUM			5
 
 #define GFTP_IS_CONNECTED(request)		((request) != NULL && \
-                                                 ((request)->sockfd > 0 || \
+                                                 ((request)->datafd > 0 || \
                                                   (request)->cached || \
                                                   (request)->always_connected))
 

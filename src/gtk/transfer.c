@@ -1206,8 +1206,8 @@ transfer_done (GList * node)
     {
       fromreq = tdata->fromwdata != NULL ? ((gftp_window_data *) tdata->fromwdata)->request : NULL;
       if (!tdata->fromreq->stopable && tdata->fromwdata &&
-          ((fromreq->sockfd < 0 && fromreq->cached) || fromreq->always_connected) &&
-          (tdata->fromreq->sockfd > 0 || tdata->fromreq->always_connected) &&
+          ((fromreq->datafd < 0 && fromreq->cached) || fromreq->always_connected) &&
+          (tdata->fromreq->datafd > 0 || tdata->fromreq->always_connected) &&
           compare_request (tdata->fromreq, fromreq, 0))
 	{
           gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
@@ -1263,7 +1263,7 @@ create_transfer (gftp_transfer * tdata)
   if (!tdata->fromreq->stopable)
     {
       if (tdata->fromwdata && 
-          (((gftp_window_data *) tdata->fromwdata)->request->sockfd > 0 ||
+          (((gftp_window_data *) tdata->fromwdata)->request->datafd > 0 ||
            ((gftp_window_data *) tdata->fromwdata)->request->always_connected) && 
           !((gftp_window_data *) tdata->fromwdata)->request->stopable &&
           compare_request (tdata->fromreq, ((gftp_window_data *) tdata->fromwdata)->request, 0))

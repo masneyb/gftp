@@ -24,9 +24,9 @@ static const char cvsid[] = "$Id$";
 /* Some of the functions in here was taken either entirely or partially from
  * the O'Reilly book Network Security with OpenSSL */
 
-static SSL_CTX * ctx = NULL;
- 
 #ifdef USE_SSL
+
+static SSL_CTX * ctx = NULL;
 
 static volatile int gftp_ssl_initialized = 0;
 
@@ -184,7 +184,7 @@ gftp_ssl_session_setup (gftp_request * request)
   BIO * bio;
   long ret;
 
-  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   if (!gftp_ssl_initialized)
     {
@@ -193,7 +193,7 @@ gftp_ssl_session_setup (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
-  if (gftp_fd_set_sockblocking (request, request->sockfd, 0) < 0) /* FIXME */
+  if (gftp_fd_set_sockblocking (request, request->datafd, 0) < 0) /* FIXME */
     {
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
@@ -206,7 +206,7 @@ gftp_ssl_session_setup (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
-  BIO_set_fd (bio, request->sockfd, BIO_NOCLOSE);
+  BIO_set_fd (bio, request->datafd, BIO_NOCLOSE);
 
   if ((request->ssl = SSL_new (ctx)) == NULL)
     {

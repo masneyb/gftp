@@ -585,7 +585,7 @@ sshv2_send_command (gftp_request * request, char type, char *command,
 
   sshv2_log_command (request, gftp_logging_send, type, buf + 5, len);
 
-  if ((ret = gftp_fd_write (request, buf, len + 5, request->sockfd)) < 0)
+  if ((ret = gftp_fd_write (request, buf, len + 5, request->datafd)) < 0)
     return (ret);
 
   return (0);
@@ -600,7 +600,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
   char buf[5], *pos;
 
   if (fd <= 0)
-    fd = request->sockfd;
+    fd = request->datafd;
 
   pos = buf;
   rem = 5;
@@ -823,7 +823,7 @@ sshv2_connect (gftp_request * request)
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->hostname != NULL, GFTP_EFATAL);
   
-  if (request->sockfd > 0)
+  if (request->datafd > 0)
     return (0);
 
   request->logging_function (gftp_logging_misc, request->user_data,
@@ -917,7 +917,7 @@ sshv2_connect (gftp_request * request)
       sshv2_free_args (args);
       g_free (exepath);
 
-      request->sockfd = s[0];
+      request->datafd = s[0];
 
       version = htonl (SSH_MY_VERSION);
       if ((ret = sshv2_send_command (request, SSH_FXP_INIT, (char *) 
@@ -979,18 +979,18 @@ sshv2_disconnect (gftp_request * request)
 
   params = request->protocol_data;
 
-  if (request->sockfd > 0)
+  if (request->datafd > 0)
     {
       request->logging_function (gftp_logging_misc, request->user_data,
 			         _("Disconnecting from site %s\n"),
                                  request->hostname);
 
-      if (close (request->sockfd) < 0)
+      if (close (request->datafd) < 0)
         request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
 
-      request->sockfd = -1;
+      request->datafd = -1;
     }
 
   if (params->message.buffer != NULL)
@@ -1062,7 +1062,7 @@ sshv2_list_files (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1882,7 +1882,7 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
   /* fd ignored for this protocol */
 
   params = request->protocol_data;
@@ -1972,7 +1972,7 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
   /* fd ignored for this protocol */
 
   params = request->protocol_data;
@@ -2068,7 +2068,7 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
   g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
@@ -2155,7 +2155,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
   g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
   g_return_val_if_fail (size <= 32500, GFTP_EFATAL);
 

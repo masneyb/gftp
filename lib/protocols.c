@@ -26,7 +26,6 @@ gftp_request_new (void)
   gftp_request *request;
 
   request = g_malloc0 (sizeof (*request));
-  request->sockfd = -1;
   request->datafd = -1;
   request->cachefd = -1;
   request->server_type = GFTP_DIRTYPE_OTHER;
@@ -71,7 +70,6 @@ gftp_request_destroy (gftp_request * request, int free_request)
     g_free (request);
   else
     {
-      request->sockfd = -1;
       request->datafd = -1;
       request->cachefd = -1;
     }
@@ -611,7 +609,11 @@ gftp_set_username (gftp_request * request, const char *username)
 
   if (request->username)
     g_free (request->username);
-  request->username = g_strdup (username);
+
+  if (username != NULL)
+    request->username = g_strdup (username);
+  else
+    request->username = NULL;
 }
 
 
@@ -623,7 +625,11 @@ gftp_set_password (gftp_request * request, const char *password)
 
   if (request->password)
     g_free (request->password);
-  request->password = g_strdup (password);
+
+  if (password != NULL)
+    request->password = g_strdup (password);
+  else
+    request->password = NULL;
 }
 
 
@@ -646,7 +652,7 @@ gftp_set_directory (gftp_request * request, const char *directory)
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
 
-  if (request->sockfd <= 0 && !request->always_connected)
+  if (request->datafd <= 0 && !request->always_connected)
     {
       if (directory != request->directory)
         {
@@ -1773,7 +1779,7 @@ gftp_connect_server (gftp_request * request, char *service,
       return (GFTP_ERETRYABLE);
     }
 
-  request->sockfd = sock;
+  request->datafd = sock;
 
   if (request->post_connect != NULL)
     return (request->post_connect (request));
@@ -2141,12 +2147,10 @@ gftp_swap_socks (gftp_request * dest, gftp_request * source)
   g_return_if_fail (source != NULL);
   g_return_if_fail (dest->protonum == source->protonum);
 
-  dest->sockfd = source->sockfd;
   dest->datafd = source->datafd;
   dest->cached = 0;
   if (!source->always_connected)
     {
-      source->sockfd = -1;
       source->datafd = -1;
       source->cached = 1;
     }
