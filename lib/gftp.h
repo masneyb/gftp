@@ -173,7 +173,8 @@ typedef enum gftp_logging_level_tag
   gftp_logging_send,
   gftp_logging_recv,
   gftp_logging_error,
-  gftp_logging_misc
+  gftp_logging_misc,
+  gftp_logging_misc_nolog 	/* Log to the screen, but don't log to disk */
 } gftp_logging_level;
 
 typedef struct gftp_file_tag gftp_file;

@@ -96,7 +96,7 @@ ftp_log (gftp_logging_level level, gftp_request * request,
       return;
     }
 
-  if (gftp_logfd != NULL)
+  if (gftp_logfd != NULL && level != gftp_logging_misc_nolog)
     {
       if (fwrite (logstr, strlen (logstr), 1, gftp_logfd) != 1)
         {

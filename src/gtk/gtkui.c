@@ -73,7 +73,7 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
 
   wdata->request->stopable = 1;
   gtk_widget_set_sensitive (stop_btn, 1);
-  pthread_create (&wdata->tid, NULL, func, wdata);
+  pthread_create (&wdata->tid, NULL, func, cdata);
 
   while (wdata->request->stopable)
     {

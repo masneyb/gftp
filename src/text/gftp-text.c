@@ -84,7 +84,7 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
   else
     outstr = tempstr;
 
-  if (gftp_logfd != NULL)
+  if (gftp_logfd != NULL && level != gftp_logging_misc_nolog)
     {
       fwrite (outstr, 1, strlen (outstr), gftp_logfd);
       if (ferror (gftp_logfd))
