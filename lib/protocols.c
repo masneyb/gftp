@@ -113,10 +113,10 @@ gftp_file_destroy (gftp_file * file)
 int
 gftp_connect (gftp_request * request)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->connect == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
 
   gftp_set_config_options (request);
 
@@ -152,11 +152,11 @@ off_t
 gftp_get_file (gftp_request * request, const char *filename, int fd,
                size_t startsize)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->cached = 0;
   if (request->get_file == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->get_file (request, filename, fd, startsize));
 }
 
@@ -165,11 +165,11 @@ int
 gftp_put_file (gftp_request * request, const char *filename, int fd,
                size_t startsize, size_t totalsize)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->cached = 0;
   if (request->put_file == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->put_file (request, filename, fd, startsize, totalsize));
 }
 
@@ -181,31 +181,29 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
                     int tofd, size_t tosize)
 {
   long size;
+  int ret;
 
-  g_return_val_if_fail (fromreq != NULL, -2);
-  g_return_val_if_fail (fromfile != NULL, -2);
-  g_return_val_if_fail (toreq != NULL, -2);
-  g_return_val_if_fail (tofile != NULL, -2);
+  g_return_val_if_fail (fromreq != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (fromfile != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (toreq != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (tofile != NULL, GFTP_EFATAL);
 
-  if (strcmp (fromreq->protocol_name, toreq->protocol_name) == 0)
-    {
-      if (fromreq->transfer_file == NULL)
-	return (-2);
-      return (fromreq->transfer_file (fromreq, fromfile, fromsize, toreq, 
-                                      tofile, tosize));
-    }
+  if (strcmp (fromreq->protocol_name, toreq->protocol_name) == 0 &&
+      fromreq->transfer_file != NULL)
+    return (fromreq->transfer_file (fromreq, fromfile, fromsize, toreq, 
+                                    tofile, tosize));
 
   fromreq->cached = 0;
   toreq->cached = 0;
   if ((size = gftp_get_file (fromreq, fromfile, fromfd, tosize)) < 0)
-    return (-2);
+    return (size);
 
-  if (gftp_put_file (toreq, tofile, tofd, tosize, size) != 0)
+  if ((ret = gftp_put_file (toreq, tofile, tofd, tosize, size)) != 0)
     {
       if (gftp_abort_transfer (fromreq) != 0)
         gftp_end_transfer (fromreq);
 
-      return (-2);
+      return (ret);
     }
 
   return (size);
@@ -215,8 +213,8 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
 ssize_t 
 gftp_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (buf != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
 
   if (request->get_next_file_chunk != NULL)
     return (request->get_next_file_chunk (request, buf, size));
@@ -228,8 +226,8 @@ gftp_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 ssize_t 
 gftp_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (buf != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
 
   if (request->put_next_file_chunk != NULL)
     return (request->put_next_file_chunk (request, buf, size));
@@ -246,7 +244,7 @@ gftp_end_transfer (gftp_request * request)
 {
   int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (!request->cached && 
       request->end_transfer != NULL)
@@ -274,10 +272,10 @@ gftp_end_transfer (gftp_request * request)
 int
 gftp_abort_transfer (gftp_request * request)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->abort_transfer == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
 
   return (request->abort_transfer (request));
 }
@@ -288,7 +286,7 @@ gftp_list_files (gftp_request * request)
 {
   int fd;
 
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->cached = 0;
   if (request->use_cache && (fd = gftp_find_cache_entry (request)) > 0)
@@ -308,7 +306,7 @@ gftp_list_files (gftp_request * request)
     }
 
   if (request->list_files == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->list_files (request));
 }
 
@@ -323,10 +321,10 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
   GError * error;
 #endif
 
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->get_next_file == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
 
   if (request->cached && request->cachefd > 0)
     fd = request->cachefd;
@@ -382,8 +380,8 @@ gftp_parse_url (gftp_request * request, const char *url)
   const char *stpos;
   int len, i;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (url != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (url != NULL, GFTP_EFATAL);
 
   logging_function = request->logging_function;
   gftp_request_destroy (request, 0);
@@ -402,7 +400,7 @@ gftp_parse_url (gftp_request * request, const char *url)
         }
 
       if (gftp_protocols[i].url_prefix == NULL)
-        return (-2);
+        return (GFTP_EFATAL);
       *pos = ':';
     }
   else
@@ -493,7 +491,7 @@ gftp_parse_url (gftp_request * request, const char *url)
 int
 gftp_set_data_type (gftp_request * request, int data_type)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->set_data_type == NULL)
     return (0);
@@ -556,8 +554,8 @@ gftp_set_account (gftp_request * request, const char *account)
 int
 gftp_set_directory (gftp_request * request, const char *directory)
 {
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (directory != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
 
   if (request->sockfd <= 0 && !request->always_connected)
@@ -572,7 +570,7 @@ gftp_set_directory (gftp_request * request, const char *directory)
       return (0);
     }
   else if (request->chdir == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->chdir (request, directory));
 }
 
@@ -650,10 +648,10 @@ gftp_set_proxy_port (gftp_request * request, unsigned int port)
 int
 gftp_remove_directory (gftp_request * request, const char *directory)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->rmdir == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->rmdir (request, directory));
 }
 
@@ -661,10 +659,10 @@ gftp_remove_directory (gftp_request * request, const char *directory)
 int
 gftp_remove_file (gftp_request * request, const char *file)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->rmfile == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->rmfile (request, file));
 }
 
@@ -672,10 +670,10 @@ gftp_remove_file (gftp_request * request, const char *file)
 int
 gftp_make_directory (gftp_request * request, const char *directory)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->mkdir == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->mkdir (request, directory));
 }
 
@@ -684,10 +682,10 @@ int
 gftp_rename_file (gftp_request * request, const char *oldname,
 		  const char *newname)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->rename == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->rename (request, oldname, newname));
 }
 
@@ -695,10 +693,10 @@ gftp_rename_file (gftp_request * request, const char *oldname,
 int
 gftp_chmod (gftp_request * request, const char *file, int mode)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->chmod == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->chmod (request, file, mode));
 }
 
@@ -706,10 +704,10 @@ gftp_chmod (gftp_request * request, const char *file, int mode)
 int
 gftp_set_file_time (gftp_request * request, const char *file, time_t datetime)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->set_file_time == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->set_file_time (request, file, datetime));
 }
 
@@ -717,10 +715,10 @@ gftp_set_file_time (gftp_request * request, const char *file, time_t datetime)
 char
 gftp_site_cmd (gftp_request * request, const char *command)
 {
-  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->site == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   return (request->site (request, command));
 }
 
@@ -810,7 +808,7 @@ gftp_need_proxy (gftp_request * request, char *service)
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Cannot look up hostname %s: %s\n"),
                                  request->hostname, gai_strerror (errnum));
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   addr = request->hostp->ai_addr;
@@ -833,7 +831,7 @@ gftp_need_proxy (gftp_request * request, char *service)
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Cannot look up hostname %s: %s\n"),
                                  request->hostname, g_strerror (errno));
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   addr = (struct sockaddr *) request->host.h_addr_list[0];
@@ -1100,7 +1098,7 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
       startpos = strchr (startpos, ',');
     }
   if ((startpos = strchr (str, 9)) == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
   fle->file = g_malloc (strlen (startpos));
   strcpy (fle->file, startpos + 1);
   fle->user = g_malloc (8);
@@ -1119,7 +1117,7 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
   startpos = str;
   /* Copy file attributes */
   if ((startpos = copy_token (&fle->attribs, startpos)) == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
 
   if (cols >= 9)
     {
@@ -1128,11 +1126,11 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
 
       /* Copy the user that owns this file */
       if ((startpos = copy_token (&fle->user, startpos)) == NULL)
-	return (-2);
+	return (GFTP_EFATAL);
 
       /* Copy the group that owns this file */
       if ((startpos = copy_token (&fle->group, startpos)) == NULL)
-	return (-2);
+	return (GFTP_EFATAL);
     }
   else
     {
@@ -1141,7 +1139,7 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
       if (cols == 8)
 	{
 	  if ((startpos = copy_token (&fle->user, startpos)) == NULL)
-	    return (-2);
+	    return (GFTP_EFATAL);
 	}
       else
 	{
@@ -1174,14 +1172,14 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
 
       /* Get the minor number */
       if ((endpos = strchr (startpos, ' ')) == NULL)
-	return (-2);
+	return (GFTP_EFATAL);
       fle->size |= strtol (startpos, NULL, 10) & 0xFF;
     }
   else
     {
       /* This is a regular file  */
       if ((endpos = strchr (startpos, ' ')) == NULL)
-	return (-2);
+	return (GFTP_EFATAL);
       fle->size = strtol (startpos, NULL, 10);
     }
 
@@ -1191,7 +1189,7 @@ gftp_parse_ls_unix (char *str, int cols, gftp_file * fle)
     startpos++;
 
   if ((fle->datetime = parse_time (&startpos)) == 0)
-    return (-2);
+    return (GFTP_EFATAL);
 
   /* Skip the blanks till we get to the next entry */
   startpos = goto_next_token (startpos);
@@ -1223,7 +1221,7 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
 
   startpos = str;
   if ((fle->datetime = parse_time (&startpos)) == 0)
-    return (-2);
+    return (GFTP_EFATAL);
 
   /* No such thing on Windoze.. */
   fle->user = g_malloc (8);
@@ -1253,7 +1251,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
   char *startpos;
 
   if (str[12] != ' ')
-    return (-2);
+    return (GFTP_EFATAL);
   str[12] = '\0';
   fle->attribs = g_malloc (13);
   strcpy (fle->attribs, str);
@@ -1263,7 +1261,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
     startpos++;
 
   if ((startpos = copy_token (&fle->user, startpos)) == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
 
   fle->group = g_malloc (8);
   strcpy (fle->group, _("unknown"));
@@ -1272,7 +1270,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
 
   startpos = goto_next_token (startpos);
   if ((fle->datetime = parse_time (&startpos)) == 0)
-    return (-2);
+    return (GFTP_EFATAL);
 
   startpos = goto_next_token (startpos);
   fle->file = g_malloc (strlen (startpos) + 1);
@@ -1287,8 +1285,8 @@ gftp_parse_ls (const char *lsoutput, gftp_file * fle)
   int result, cols;
   char *str, *pos;
 
-  g_return_val_if_fail (lsoutput != NULL, -2);
-  g_return_val_if_fail (fle != NULL, -2);
+  g_return_val_if_fail (lsoutput != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
   str = g_malloc (strlen (lsoutput) + 1);
   strcpy (str, lsoutput);
@@ -1339,7 +1337,7 @@ gftp_parse_ls (const char *lsoutput, gftp_file * fle)
       if (cols > 6)
 	result = gftp_parse_ls_unix (str, cols, fle);
       else
-	result = -2;
+	result = GFTP_EFATAL;
     }
   g_free (str);
 
@@ -1482,9 +1480,9 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
   GHashTable * dirhash;
   gftp_file * curfle;
 
-  g_return_val_if_fail (transfer != NULL, -1);
-  g_return_val_if_fail (transfer->fromreq != NULL, -1);
-  g_return_val_if_fail (transfer->files != NULL, -1);
+  g_return_val_if_fail (transfer != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (transfer->fromreq != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (transfer->files != NULL, GFTP_EFATAL);
 
   if (transfer->toreq != NULL)
     dirhash = gftp_gen_dir_hash (transfer->toreq);
@@ -1640,7 +1638,7 @@ gftp_connect_server (gftp_request * request, char *service)
   int errnum;
 
   if ((request->use_proxy = gftp_need_proxy (request, service)) < 0)
-    return (-1);
+    return (request->use_proxy);
   else if (request->use_proxy == 1)
     request->hostp = NULL;
 
@@ -1668,7 +1666,7 @@ gftp_connect_server (gftp_request * request, char *service)
 	  request->logging_function (gftp_logging_error, request->user_data,
 				     _("Cannot look up hostname %s: %s\n"),
 				     connect_host, gai_strerror (errnum));
-	  return (-1);
+	  return (GFTP_ERETRYABLE);
 	}
     }
 
@@ -1710,7 +1708,7 @@ gftp_connect_server (gftp_request * request, char *service)
           freeaddrinfo (request->hostp);
           request->hostp = NULL;
         }
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
 #else /* !HAVE_GETADDRINFO */
@@ -1719,7 +1717,7 @@ gftp_connect_server (gftp_request * request, char *service)
   int curhost;
 
   if ((request->use_proxy = gftp_need_proxy (request, service)) < 0)
-    return (-1);
+    return (request->use_proxy);
   else if (request->use_proxy == 1)
     request->hostp = NULL;
 
@@ -1728,7 +1726,7 @@ gftp_connect_server (gftp_request * request, char *service)
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Failed to create a socket: %s\n"),
                                  g_strerror (errno));
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   memset (&remote_address, 0, sizeof (remote_address));
@@ -1767,7 +1765,7 @@ gftp_connect_server (gftp_request * request, char *service)
                                      _("Cannot look up hostname %s: %s\n"),
                                      connect_host, g_strerror (errno));
           close (sock);
-          return (-1);
+          return (GFTP_ERETRYABLE);
         }
     }
 
@@ -1794,7 +1792,7 @@ gftp_connect_server (gftp_request * request, char *service)
   if (request->host.h_addr_list[curhost] == NULL)
     {
       close (sock);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
   port = ntohs (port);
 #endif /* HAVE_GETADDRINFO */
@@ -1802,10 +1800,10 @@ gftp_connect_server (gftp_request * request, char *service)
   request->logging_function (gftp_logging_misc, request->user_data,
 			     _("Connected to %s:%d\n"), connect_host, port);
 
-  if (gftp_set_sockblocking (request, sock, 1) == -1)
+  if (gftp_set_sockblocking (request, sock, 1) < 0)
     {
       close (sock);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   return (sock);
@@ -1916,7 +1914,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
       (*rbuf)->curpos = (*rbuf)->buffer;
     }
 
-  retval = -2;
+  retval = GFTP_ERETRYABLE;
 
   do
     {
@@ -1974,7 +1972,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
           (*rbuf)->cur_bufsize = ret + copysize;
         }
     }
-  while (retval == -2);
+  while (retval == GFTP_ERETRYABLE);
 
   return (retval);
 }
@@ -2015,7 +2013,7 @@ gftp_read (gftp_request * request, void *ptr, size_t size, int fd)
                                          request->hostname);
               gftp_disconnect (request);
             }
-          return (-1);
+          return (GFTP_ERETRYABLE);
         }
 
       if ((ret = read (fd, ptr, size)) < 0)
@@ -2035,7 +2033,7 @@ gftp_read (gftp_request * request, void *ptr, size_t size, int fd)
                                     g_strerror (errno));
               gftp_disconnect (request);
             }
-          return (-1);
+          return (GFTP_ERETRYABLE);
         }
     }
   while (errno == EINTR && !(request != NULL && request->cancel));
@@ -2043,7 +2041,7 @@ gftp_read (gftp_request * request, void *ptr, size_t size, int fd)
   if (errno == EINTR && request != NULL && request->cancel)
     {
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   return (ret);
@@ -2085,7 +2083,7 @@ gftp_write (gftp_request * request, const char *ptr, size_t size, int fd)
                                          request->hostname);
               gftp_disconnect (request);
             }
-          return (-1);
+          return (GFTP_ERETRYABLE);
         }
 
       if ((w_ret = write (fd, ptr, size)) < 0)
@@ -2105,7 +2103,7 @@ gftp_write (gftp_request * request, const char *ptr, size_t size, int fd)
                                     g_strerror (errno));
               gftp_disconnect (request);
             }
-          return (-1);
+          return (GFTP_ERETRYABLE);
         }
 
       ptr += w_ret;
@@ -2117,7 +2115,7 @@ gftp_write (gftp_request * request, const char *ptr, size_t size, int fd)
   if (errno == EINTR && request != NULL && request->cancel)
     {
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   return (ret);
@@ -2146,13 +2144,13 @@ gftp_set_sockblocking (gftp_request * request, int fd, int non_blocking)
 {
   int flags;
 
-  if ((flags = fcntl (fd, F_GETFL, 0)) == -1)
+  if ((flags = fcntl (fd, F_GETFL, 0)) < 0)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Cannot get socket flags: %s\n"),
                                  g_strerror (errno));
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   if (non_blocking)
@@ -2160,13 +2158,13 @@ gftp_set_sockblocking (gftp_request * request, int fd, int non_blocking)
   else
     flags &= ~O_NONBLOCK;
 
-  if (fcntl (fd, F_SETFL, flags) == -1)
+  if (fcntl (fd, F_SETFL, flags) < 0)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Cannot set socket to non-blocking: %s\n"),
                                  g_strerror (errno));
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   return (0);

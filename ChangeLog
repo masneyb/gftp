@@ -1,3 +1,17 @@
+2002-12-29 Brian Masney <masneyb@gftp.org>
+	* lib/ssh.c lib/config_file.c lib/Makefile.am lib/gftp.h lib/options.h -
+	removed old legacy SSH protocol and option to enable this protocol
+
+	* lib/gftp.h - added GFTP_ERETRYABLE and GFTP_EFATAL error codes
+
+	* lib/bookmark.c lib/local.c lib/protocols.c lib/rfc959.c lib/rfc2068.c
+	lib/sshv2.c - return new error codes instead of -1 or -2
+
+	* lib/misc.c (gftp_*_sort_function_ds) - changed return values
+
+	* src/gtk/transfer.c (connect_thread) - if return value of 
+	gftp_connect() is GFTP_EFATAL, don't attempt to retry the connection
+
 2002-12-11 Brian Masney <masneyb@gftp.org>
 	* configure.in - fix for enable/disable gtkport, textport and gtk20
 

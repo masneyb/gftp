@@ -28,7 +28,6 @@ supported_gftp_protocols gftp_protocols[] =
   {"Local", 	local_init, 	"file",		1},
   {"SSH2",	sshv2_init,	"ssh2", 	1},
   {"Bookmark", 	bookmark_init, 	"bookmark", 	0},
-  {"SSH", 	ssh_init, 	"ssh", 		1},
   {NULL, 	NULL, 		NULL,		0}
 };
 
@@ -121,7 +120,6 @@ int do_one_transfer_at_a_time = 1, 	/* Only allow one transfer at a time.
     append_file_transfers = 1,		/* Append new file transfers onto 
                                            existing ones for the same 
                                            hostname */
-    enable_old_ssh = 0,			/* Enable older SSH protocol */
     ssh_need_userpass = 0,		/* Require a user/pass for SSH
                                            connections */
     ssh_use_askpass = 0,		/* Use the ssh-askpass tool to

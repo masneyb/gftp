@@ -82,14 +82,15 @@ rfc2068_read_response (gftp_request * request)
   gftp_getline_buffer * rbuf;
   rfc2068_params * params;
   char tempstr[255];
+  int ret;
 
   params = request->protocol_data;
   params->max_bytes = 0;
 
   rbuf = NULL;
-  if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), 
-                     request->sockfd) < 0)
-    return (-1);
+  if ((ret = gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), 
+                            request->sockfd)) < 0)
+    return (ret);
 
   if (request->last_ftp_response)
     g_free (request->last_ftp_response);
@@ -103,9 +104,9 @@ rfc2068_read_response (gftp_request * request)
   while (1) 
     {
       /* Read rest of proxy header */
-      if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), 
-                         request->sockfd) < 0)
-	return (-1);
+      if ((ret = gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), 
+                                request->sockfd)) < 0)
+	return (ret);
 
       if (*tempstr == '\r' || *tempstr == '\n')
         break;
@@ -130,9 +131,9 @@ rfc2068_send_command (gftp_request * request, const char *command,
   char *tempstr, *str;
   ssize_t ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
-  g_return_val_if_fail (command != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (command != NULL, GFTP_EFATAL);
 
   tempstr = g_strdup_printf ("%sUser-Agent: %s\nHost: %s\n", command,
                              version, request->hostname);
@@ -144,7 +145,7 @@ rfc2068_send_command (gftp_request * request, const char *command,
   g_free (tempstr);
 
   if (ret < 0)
-    return (-1);
+    return (ret);
 
   if (request->use_proxy && request->proxy_username != NULL &&
       *request->proxy_username != '\0')
@@ -160,7 +161,7 @@ rfc2068_send_command (gftp_request * request, const char *command,
                            "Proxy-authorization: Basic %s\n", str);
       g_free (str);
       if (ret < 0)
-	return (-2);
+	return (ret);
     }
 
   if (request->username != NULL && *request->username != '\0')
@@ -175,19 +176,20 @@ rfc2068_send_command (gftp_request * request, const char *command,
                            "Authorization: Basic %s\n", str);
       g_free (str);
       if (ret < 0)
-	return (-2);
+	return (ret);
     }
 
   if (extrahdr)
     {
       request->logging_function (gftp_logging_send, request->user_data, "%s",
                                  extrahdr);
-      if (gftp_write (request, extrahdr, strlen (extrahdr), request->sockfd) < 0)
-        return (-1);
+      if ((ret = gftp_write (request, extrahdr, strlen (extrahdr), 
+                             request->sockfd)) < 0)
+        return (ret);
     }
 
-  if (gftp_write (request, "\n", 1, request->sockfd) < 0)
-    return (-1);
+  if ((ret = gftp_write (request, "\n", 1, request->sockfd)) < 0)
+    return (ret);
 
   return (rfc2068_read_response (request));
 }
@@ -198,9 +200,9 @@ rfc2068_connect (gftp_request * request)
 {
   char *service;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
-  g_return_val_if_fail (request->hostname != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->hostname != NULL, GFTP_EFATAL);
 
   if (request->sockfd > 0)
     return (0);
@@ -208,7 +210,7 @@ rfc2068_connect (gftp_request * request)
   service = request->use_proxy && request->proxy_config != NULL && 
             *request->proxy_config != '\0' ? request->proxy_config : "http";
   if ((request->sockfd = gftp_connect_server (request, service)) < 0)
-    return (-1);
+    return (GFTP_ERETRYABLE);
 
   if (request->directory && *request->directory == '\0')
     {
@@ -253,18 +255,18 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
                   off_t startsize)
 {
   char *tempstr, *extrahdr, *pos, *proto;
-  int restarted;
+  int restarted, ret;
   off_t size;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
-  g_return_val_if_fail (filename != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   if (fd > 0)
     request->sockfd = fd;
 
-  if (request->sockfd < 0 && rfc2068_connect (request) != 0)
-    return (-2);
+  if (request->sockfd < 0 && (ret = rfc2068_connect (request)) != 0)
+    return (ret);
 
   if (request->proxy_config != NULL && *request->proxy_config != '\0')
     proto = request->proxy_config;
@@ -307,7 +309,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
   if (extrahdr)
     g_free (extrahdr);
   if (size < 0)
-    return (-1);
+    return (size);
 
   restarted = 0;
   if (strlen (request->last_ftp_response) > 9 
@@ -318,7 +320,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
     {
       request->logging_function (gftp_logging_error, request->user_data,
 			         _("Cannot retrieve file %s\n"), filename);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   return (restarted ? size + startsize : size);
@@ -331,8 +333,8 @@ rfc2068_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   rfc2068_params * params;
   size_t len;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
 
   params = request->protocol_data;
   if (params->max_bytes == params->read_bytes)
@@ -343,7 +345,7 @@ rfc2068_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
     size = params->max_bytes - params->read_bytes;
 
   if ((len = gftp_read (request, buf, size, request->sockfd)) < 0)
-    return (-2);
+    return ((ssize_t) len);
 
   return (len);
 }
@@ -354,11 +356,11 @@ rfc2068_end_transfer (gftp_request * request)
 {
   rfc2068_params * params;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
 
   if (request->sockfd < 0)
-    return (-2);
+    return (GFTP_EFATAL);
 
   if (close (request->sockfd) < 0)
     request->logging_function (gftp_logging_error, request->user_data,
@@ -381,13 +383,14 @@ rfc2068_list_files (gftp_request * request)
   char *tempstr, *pos, *proto;
   rfc2068_params *params;
   off_t ret;
+  int r;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
 
   params = request->protocol_data;
-  if (request->sockfd < 0 && rfc2068_connect (request) != 0)
-    return (-2);
+  if (request->sockfd < 0 && (r = rfc2068_connect (request)) < 0)
+    return (r);
 
   if (request->proxy_config != NULL && *request->proxy_config != '\0')
     proto = request->proxy_config;
@@ -411,7 +414,7 @@ rfc2068_list_files (gftp_request * request)
   ret = rfc2068_send_command (request, tempstr, NULL);
   g_free (tempstr);
   if (ret < 0)
-    return (-1);
+    return ((int) ret);
 
   params->read_bytes = 0;
   if (strlen (request->last_ftp_response) > 9 &&
@@ -422,7 +425,7 @@ rfc2068_list_files (gftp_request * request)
       return (0);
     }
   
-  return (-2);
+  return (GFTP_ERETRYABLE);
 }
 
 
@@ -431,13 +434,14 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
 {
   char *tempstr, *pos, *proto;
   off_t size;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
-  g_return_val_if_fail (filename != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
-  if (request->sockfd < 0 && rfc2068_connect (request) != 0)
-    return (-2);
+  if (request->sockfd < 0 && (ret = rfc2068_connect (request)) != 0)
+    return (ret);
 
   if (request->proxy_config != NULL && *request->proxy_config != '\0')
     proto = request->proxy_config;
@@ -459,9 +463,6 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
 
   size = rfc2068_send_command (request, tempstr, NULL);
   g_free (tempstr);
-  if (size < 0)
-    return (-2);
-
   return (size);
 }
 
@@ -654,10 +655,11 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   rfc2068_params * params;
   char tempstr[255];
   size_t len;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
-  g_return_val_if_fail (fle != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
   if (request->last_dir_entry)
@@ -669,8 +671,9 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   rbuf = NULL;
   while (1)
     {
-      if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), fd) < 0)
-        return (-2);
+      if ((ret = gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), 
+                                fd)) < 0)
+        return (ret);
 
       tempstr[sizeof (tempstr) - 1] = '\0';
       params->read_bytes += strlen (tempstr);
@@ -686,7 +689,7 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 	  gftp_file_destroy (fle);
 
           if (len < 0)
-            return (-1);
+            return (len);
 
           return (0);
         }
@@ -703,7 +706,7 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   if (fle->file == NULL)
     {
       gftp_file_destroy (fle);
-      return (-2);
+      return (GFTP_ERETRYABLE); /* FIXME is this correct? */
     }
 
   len = strlen (tempstr);
@@ -719,9 +722,9 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 static int
 rfc2068_chdir (gftp_request * request, const char *directory)
 {
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, -2);
-  g_return_val_if_fail (directory != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   if (request->directory != directory)
     {

@@ -28,8 +28,8 @@ bookmark_parse_url (gftp_request * request, const char * url)
   const char * pos;
   int i;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (url != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (url != NULL, GFTP_EFATAL);
   
   if ((pos = strstr (url, "://")) != NULL)
     pos += 3;
@@ -40,14 +40,14 @@ bookmark_parse_url (gftp_request * request, const char * url)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Could not find bookmark %s\n"), pos);
-      return (-2);
+      return (GFTP_EFATAL);
     }
   else if (tempentry->hostname == NULL || *tempentry->hostname == '\0' ||
            tempentry->user == NULL || *tempentry->user == '\0')
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Bookmarks Error: There are some missing entries in this bookmark. Make sure you have a hostname and username\n"));
-      return (-2);
+      return (GFTP_EFATAL);
     }
 
   gftp_set_username (request, tempentry->user);

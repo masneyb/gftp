@@ -281,13 +281,14 @@ sshv2_send_command (gftp_request * request, char type, char *command,
 {
   char buf[34000];
   gint32 clen;
+  int ret;
 
   if (len > 33995)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                              _("Error: Message size %d too big\n"), len);
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_EFATAL);
     }
 
   clen = htonl (len + 1);
@@ -305,10 +306,10 @@ sshv2_send_command (gftp_request * request, char type, char *command,
 
   sshv2_log_command (request, gftp_logging_send, type, buf + 5, len);
 
-  if (gftp_write (request, buf, len + 5, request->sockfd) < 0)
-    return (-2);
+  if ((ret = gftp_write (request, buf, len + 5, request->sockfd)) < 0)
+    return (ret);
 
-  return 0;
+  return (0);
 }
 
 
@@ -327,7 +328,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
   while (rem > 0)
     {
       if ((numread = gftp_read (request, pos, rem, fd)) < 0)
-        return (-2);
+        return ((int) numread);
       rem -= numread;
       pos += numread;
     }
@@ -341,7 +342,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
                              message->length);
       memset (message, 0, sizeof (*message));
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_EFATAL);
     }
 
   message->command = buf[4];
@@ -355,7 +356,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
   while (rem > 0)
     {
       if ((numread = gftp_read (request, pos, rem, fd)) < 0)
-        return (-2);
+        return ((int) numread);
       rem -= numread;
       pos += numread;
     }
@@ -401,7 +402,7 @@ sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (message);
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_EFATAL);
     }
 
   memcpy (&ret, message->pos, 4);
@@ -414,7 +415,7 @@ sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (message);
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_EFATAL);
     }
 
   return (ret);
@@ -457,8 +458,8 @@ sshv2_getcwd (gftp_request * request)
   size_t len;
   int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
 
   if (request->directory == NULL || *request->directory == '\0')
     dir = ".";
@@ -475,10 +476,11 @@ sshv2_getcwd (gftp_request * request)
 
   num = htonl (len);
   memcpy (tempstr + 4, &num, 4);
-  if (sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len + 8) < 0)
+  if ((ret = sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, 
+                                 len + 8)) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (ret);
     }
 
   g_free (tempstr);
@@ -490,10 +492,12 @@ sshv2_getcwd (gftp_request * request)
 
   memset (&message, 0, sizeof (message));
   ret = sshv2_read_response (request, &message, -1);
-  if (ret == SSH_FXP_STATUS)
+  if (ret < 0)
+    return (ret);
+  else if (ret == SSH_FXP_STATUS)
     {
       sshv2_message_free (&message);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   else if (ret != SSH_FXP_NAME)
     {
@@ -501,15 +505,15 @@ sshv2_getcwd (gftp_request * request)
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_EFATAL);
     }
 
   message.pos += 4;
-  if (sshv2_buffer_get_int32 (request, &message, 1) < 0)
-    return (-2);
+  if ((ret = sshv2_buffer_get_int32 (request, &message, 1)) < 0)
+    return (ret);
 
   if ((request->directory = sshv2_buffer_get_string (request, &message)) == NULL)
-    return (-2);
+    return (GFTP_EFATAL);
 
   sshv2_message_free (&message);
   return (0);
@@ -520,13 +524,13 @@ static int
 sshv2_connect (gftp_request * request)
 {
   char **args, *tempstr, pts_name[20], *p1, p2, *exepath, port[6];
-  int version, fdm, fds, s[2];
+  int version, fdm, fds, s[2], ret;
   sshv2_message message;
   pid_t child;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->hostname != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->hostname != NULL, GFTP_EFATAL);
   
   if (request->sockfd > 0)
     return (0);
@@ -564,7 +568,7 @@ sshv2_connect (gftp_request * request)
           request->logging_function (gftp_logging_error, request->user_data,
                                      _("Cannot create a socket pair: %s\n"),
                                      g_strerror (errno));
-          return (-2);
+          return (GFTP_ERETRYABLE);
         }
     }
   else
@@ -575,7 +579,7 @@ sshv2_connect (gftp_request * request)
           request->logging_function (gftp_logging_error, request->user_data,
                                 _("Cannot open master pty %s: %s\n"), pts_name,
                                 g_strerror (errno));
-          return (-2);
+          return (GFTP_ERETRYABLE);
         }
     }
  
@@ -593,7 +597,7 @@ sshv2_connect (gftp_request * request)
             {
               printf ("Cannot open slave pts %s: %s\n", pts_name, 
                       g_strerror (errno));
-              return (-1);
+              return (GFTP_ERETRYABLE);
             }
           close (fdm);
         }
@@ -608,7 +612,7 @@ sshv2_connect (gftp_request * request)
               ssh_prog_name : "ssh", args);
 
       printf (_("Error: Cannot execute ssh: %s\n"), g_strerror (errno));
-      return (-1);
+      exit (1);
     }
   else if (child > 0)
     {
@@ -627,7 +631,7 @@ sshv2_connect (gftp_request * request)
             {
               g_free (args);
               g_free (exepath);
-              return (-2);
+              return (GFTP_EFATAL);
             }
           g_free (tempstr);
         }
@@ -637,17 +641,22 @@ sshv2_connect (gftp_request * request)
       request->sockfd = fdm;
 
       version = htonl (SSH_MY_VERSION);
-      if (sshv2_send_command (request, SSH_FXP_INIT, (char *) &version, 4) < 0)
-        return (-2);
+      if ((ret = sshv2_send_command (request, SSH_FXP_INIT, (char *) 
+                                     &version, 4)) < 0)
+        return (ret);
 
       memset (&message, 0, sizeof (message));
-      if (sshv2_read_response (request, &message, -1) != SSH_FXP_VERSION)
+      if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_VERSION)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                    _("Received wrong response from server, disconnecting\n"));
           sshv2_message_free (&message);
           gftp_disconnect (request);
-          return (-2);
+
+          if (ret < 0)
+            return (ret);
+          else
+            return (GFTP_ERETRYABLE);
         }
       sshv2_message_free (&message);
 
@@ -661,7 +670,7 @@ sshv2_connect (gftp_request * request)
                                  _("Cannot fork another process: %s\n"),
                                  g_strerror (errno));
       g_free (args);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   if (sshv2_getcwd (request) < 0)
@@ -670,10 +679,10 @@ sshv2_connect (gftp_request * request)
         g_free (request->directory);
 
       request->directory = g_strdup (".");
-      if (sshv2_getcwd (request) < 0)
+      if ((ret = sshv2_getcwd (request)) < 0)
         {
           gftp_disconnect (request);
-          return (-2);
+          return (ret);
         }
     }
 
@@ -716,9 +725,10 @@ sshv2_end_transfer (gftp_request * request)
   sshv2_params * params;
   sshv2_message message;
   gint32 len;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
 
   params = request->protocol_data;
   if (params->message.buffer != NULL)
@@ -732,18 +742,21 @@ sshv2_end_transfer (gftp_request * request)
       len = htonl (params->id++);
       memcpy (params->handle, &len, 4);
 
-      if (sshv2_send_command (request, SSH_FXP_CLOSE, params->handle, 
-                              params->handle_len) < 0)
-        return (-2);
+      if ((ret = sshv2_send_command (request, SSH_FXP_CLOSE, params->handle, 
+                                     params->handle_len)) < 0)
+        return (ret);
 
       memset (&message, 0, sizeof (message));
-      if (sshv2_read_response (request, &message, -1) != SSH_FXP_STATUS)
+      if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_STATUS)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                      _("Received wrong response from server, disconnecting\n"));
           sshv2_message_free (&message);
           gftp_disconnect (request);
-          return (-2);
+          if (ret < 0)
+            return (ret);
+          else
+            return (GFTP_ERETRYABLE);
         }
       sshv2_message_free (&message);
       params->handle_len = 0;
@@ -768,9 +781,9 @@ sshv2_list_files (gftp_request * request)
   gint32 len;
   int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->sockfd > 0, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -785,20 +798,22 @@ sshv2_list_files (gftp_request * request)
   len = htonl (strlen (request->directory));
   memcpy (tempstr + 4, &len, 4);
   strcpy (tempstr + 8, request->directory);
-  if (sshv2_send_command (request, SSH_FXP_OPENDIR, tempstr, 
-                          strlen (request->directory) + 8) < 0)
+  if ((ret = sshv2_send_command (request, SSH_FXP_OPENDIR, tempstr, 
+                                 strlen (request->directory) + 8)) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (ret);
     }
   g_free (tempstr);
 
   memset (&message, 0, sizeof (message));
   ret = sshv2_read_response (request, &message, -1);
-  if (ret == SSH_FXP_STATUS)
+  if (ret < 0)
+    return (ret);
+  else if (ret == SSH_FXP_STATUS)
     {
       sshv2_message_free (&message);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   else if (ret != SSH_FXP_HANDLE)
     {
@@ -806,7 +821,7 @@ sshv2_list_files (gftp_request * request)
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_EFATAL);
     }
 
   if (message.length - 4 > SSH_MAX_HANDLE_SIZE)
@@ -816,7 +831,7 @@ sshv2_list_files (gftp_request * request)
                              message.length - 4);
       sshv2_message_free (&message);
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_EFATAL);
         
     }
 
@@ -837,9 +852,9 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   sshv2_params *params;
   char *longname;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (fle != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -863,13 +878,14 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           len = htonl (params->id++);
           memcpy (params->handle, &len, 4);
 
-          if (sshv2_send_command (request, SSH_FXP_READDIR, params->handle,
-                                  params->handle_len) < 0)
-            return (-2);
+          if ((ret = sshv2_send_command (request, SSH_FXP_READDIR,  
+                                         params->handle,
+                                         params->handle_len)) < 0)
+            return (ret);
         }
 
       if ((ret = sshv2_read_response (request, &params->message, fd)) < 0)
-        return (-2);
+        return (ret);
 
       if (!request->cached)
         {
@@ -887,7 +903,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           params->message.pos = params->message.buffer + 4;
           if ((params->count = sshv2_buffer_get_int32 (request, 
                        &params->message, -1)) < 0)
-            return (-2);
+            return (params->count);
         }
     }
 
@@ -895,20 +911,20 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
     {
       if ((len = sshv2_buffer_get_int32 (request, &params->message, -1)) < 0 ||
           params->message.pos + len > params->message.end)
-        return (-2);
+        return (GFTP_EFATAL);
 
       params->message.pos += len;
 
       if ((longnamelen = sshv2_buffer_get_int32 (request, 
                                                  &params->message, -1)) < 0 || 
            params->message.pos + longnamelen > params->message.end)
-        return (-2);
+        return (GFTP_EFATAL);
 
       longname = params->message.pos;
       params->message.pos += longnamelen;
 
       if ((attrs = sshv2_buffer_get_int32 (request, &params->message, -1)) < 0)
-        return (-2);
+        return (attrs);
 
       if (attrs & SSH_FILEXFER_ATTR_SIZE)
         {
@@ -919,7 +935,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
                      _("Received wrong response from server, disconnecting\n"));
               sshv2_message_free (&params->message);
               gftp_disconnect (request);
-              return (-2);
+              return (GFTP_EFATAL);
             }
         }
 
@@ -932,7 +948,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
                      _("Received wrong response from server, disconnecting\n"));
               sshv2_message_free (&params->message);
               gftp_disconnect (request);
-              return (-2);
+              return (GFTP_EFATAL);
             }
         }
 
@@ -945,7 +961,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
                      _("Received wrong response from server, disconnecting\n"));
               sshv2_message_free (&params->message);
               gftp_disconnect (request);
-              return (-2);
+              return (GFTP_EFATAL);
             }
         }
 
@@ -958,7 +974,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
                      _("Received wrong response from server, disconnecting\n"));
               sshv2_message_free (&params->message);
               gftp_disconnect (request);
-              return (-2);
+              return (GFTP_EFATAL);
             }
         }
 
@@ -966,21 +982,21 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
         {
           if ((count = sshv2_buffer_get_int32 (request,
                                                &params->message, -1)) < 0)
-            return (-2);
+            return (GFTP_EFATAL);
 
           for (i=0; i<count; i++)
             {
               if ((len = sshv2_buffer_get_int32 (request, 
                                                  &params->message, -1)) < 0 ||
                   params->message.pos + len + 4 > params->message.end)
-                return (-2);
+                return (GFTP_EFATAL);
 
               params->message.pos += len + 4;
 
               if ((len = sshv2_buffer_get_int32 (request, 
                                                  &params->message, -1)) < 0 ||
                   params->message.pos + len + 4 > params->message.end)
-                return (-2);
+                return (GFTP_EFATAL);
            
               params->message.pos += len + 4;
             }
@@ -994,10 +1010,10 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       if (longname[longnamelen - 1] == '/')
         longname[--longnamelen] = '\0';
 
-      if (gftp_parse_ls (longname, fle) != 0)
+      if ((ret = gftp_parse_ls (longname, fle)) < 0)
         {
           gftp_file_destroy (fle);
-          return (-2);
+          return (ret);
         }
       retsize = strlen (longname);
 
@@ -1014,7 +1030,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&params->message);
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_EFATAL);
     }
 
   return (retsize);
@@ -1031,8 +1047,8 @@ sshv2_chdir (gftp_request * request, const char *directory)
   size_t len;
   int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
 
   params = request->protocol_data;
   if (request->directory != directory)
@@ -1057,19 +1073,21 @@ sshv2_chdir (gftp_request * request, const char *directory)
 
       num = htonl (len - 8);
       memcpy (tempstr + 4, &num, 4);
-      if (sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len) < 0)
+      if ((ret = sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len)) < 0)
         {
           g_free (tempstr);
-          return (-2);
+          return (ret);
         }
       g_free (tempstr);
 
       memset (&message, 0, sizeof (message));
       ret = sshv2_read_response (request, &message, -1);
-      if (ret == SSH_FXP_STATUS)
+      if (ret < 0)
+        return (ret);
+      else if (ret == SSH_FXP_STATUS)
         {
           sshv2_message_free (&message);
-          return (-2);
+          return (GFTP_ERETRYABLE);
         }
       else if (ret != SSH_FXP_NAME)
         {
@@ -1077,15 +1095,15 @@ sshv2_chdir (gftp_request * request, const char *directory)
                      _("Received wrong response from server, disconnecting\n"));
           sshv2_message_free (&message);
           gftp_disconnect (request);
-          return (-2);
+          return (GFTP_EFATAL);
         }
 
       message.pos += 4;
       if (sshv2_buffer_get_int32 (request, &message, 1) != 1)
-        return (-2);
+        return (GFTP_EFATAL);
 
       if ((dir = sshv2_buffer_get_string (request, &message)) == NULL)
-        return (-2);
+        return (GFTP_EFATAL);
 
       if (request->directory)
         g_free (request->directory);
@@ -1106,10 +1124,11 @@ sshv2_rmdir (gftp_request * request, const char *directory)
   char *tempstr;
   gint32 num;
   size_t len;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (directory != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1137,17 +1156,17 @@ sshv2_rmdir (gftp_request * request, const char *directory)
   if (sshv2_send_command (request, SSH_FXP_RMDIR, tempstr, len) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   g_free (tempstr);
 
   memset (&message, 0, sizeof (message));
-  if (sshv2_read_response (request, &message, -1) < 0)
-    return (-2);
+  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
+    return (ret);
 
   message.pos += 4;
-  if (sshv2_buffer_get_int32 (request, &message, SSH_FX_OK) < 0)
-    return (-2);
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+    return (ret);
 
   sshv2_message_free (&message);
 
@@ -1163,10 +1182,11 @@ sshv2_rmfile (gftp_request * request, const char *file)
   char *tempstr;
   gint32 num;
   size_t len;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (file != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1194,17 +1214,17 @@ sshv2_rmfile (gftp_request * request, const char *file)
   if (sshv2_send_command (request, SSH_FXP_REMOVE, tempstr, len) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   g_free (tempstr);
 
   memset (&message, 0, sizeof (message));
-  if (sshv2_read_response (request, &message, -1) < 0)
-    return (-2);
+  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
+    return (ret);
 
   message.pos += 4;
-  if (sshv2_buffer_get_int32 (request, &message, SSH_FX_OK) < 0)
-    return (-2);
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+    return (ret);
 
   sshv2_message_free (&message);
 
@@ -1220,10 +1240,11 @@ sshv2_chmod (gftp_request * request, const char *file, int mode)
   sshv2_message message;
   gint32 num;
   size_t len;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (file != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1258,17 +1279,17 @@ sshv2_chmod (gftp_request * request, const char *file, int mode)
   if (sshv2_send_command (request, SSH_FXP_SETSTAT, tempstr, len) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   g_free (tempstr);
 
   memset (&message, 0, sizeof (message));
-  if (sshv2_read_response (request, &message, -1) < 0)
-    return (-2);
+  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
+    return (ret);
 
   message.pos += 4;
-  if (sshv2_buffer_get_int32 (request, &message, SSH_FX_OK) < 0)
-    return (-2);
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+    return (ret);
 
   sshv2_message_free (&message);
 
@@ -1284,10 +1305,11 @@ sshv2_mkdir (gftp_request * request, const char *newdir)
   char *tempstr;
   gint32 num;
   size_t len;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (newdir != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (newdir != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1316,17 +1338,17 @@ sshv2_mkdir (gftp_request * request, const char *newdir)
   if (sshv2_send_command (request, SSH_FXP_MKDIR, tempstr, len) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   g_free (tempstr);
 
   memset (&message, 0, sizeof (message));
-  if (sshv2_read_response (request, &message, -1) < 0)
-    return (-2);
+  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
+    return (ret);
 
   message.pos += 4;
-  if (sshv2_buffer_get_int32 (request, &message, SSH_FX_OK) < 0)
-    return (-2);
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+    return (ret);
 
   sshv2_message_free (&message);
 
@@ -1340,13 +1362,14 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   char *tempstr, *oldstr, *newstr;
   sshv2_params * params;
   sshv2_message message;
-  gint32 num;
   size_t oldlen, newlen;
+  gint32 num;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (oldname != NULL, -2);
-  g_return_val_if_fail (newname != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (oldname != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1387,17 +1410,17 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   if (sshv2_send_command (request, SSH_FXP_RENAME, tempstr, oldlen + newlen + 12) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   g_free (tempstr);
 
   memset (&message, 0, sizeof (message));
-  if (sshv2_read_response (request, &message, -1) < 0)
-    return (-2);
+  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
+    return (ret);
 
   message.pos += 4;
-  if (sshv2_buffer_get_int32 (request, &message, SSH_FX_OK) < 0)
-    return (-2);
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+    return (ret);
 
   sshv2_message_free (&message);
 
@@ -1413,10 +1436,11 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
   char *tempstr;
   gint32 num;
   size_t len;
+  int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (file != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1453,17 +1477,17 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
   if (sshv2_send_command (request, SSH_FXP_SETSTAT, tempstr, len) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   g_free (tempstr);
 
   memset (&message, 0, sizeof (message));
-  if (sshv2_read_response (request, &message, -1) < 0)
-    return (-2);
+  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
+    return (ret);
 
   message.pos += 4;
-  if (sshv2_buffer_get_int32 (request, &message, SSH_FX_OK) < 0)
-    return (-2);
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
+    return (ret);
 
   sshv2_message_free (&message);
 
@@ -1482,9 +1506,9 @@ sshv2_get_file_size (gftp_request * request, const char *file)
   gint64 ret;
 #endif
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (file != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1512,16 +1536,18 @@ sshv2_get_file_size (gftp_request * request, const char *file)
   if (sshv2_send_command (request, SSH_FXP_STAT, tempstr, len + 8) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   g_free (tempstr);
 
   memset (&params->message, 0, sizeof (params->message));
   serv_ret = sshv2_read_response (request, &params->message, -1);
-  if (serv_ret == SSH_FXP_STATUS)
+  if (serv_ret < 0)
+    return (serv_ret);
+  else if (serv_ret == SSH_FXP_STATUS)
     {
       sshv2_message_free (&params->message);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   else if (serv_ret != SSH_FXP_ATTRS)
     {
@@ -1529,23 +1555,23 @@ sshv2_get_file_size (gftp_request * request, const char *file)
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&params->message);
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   if (params->message.length < 5)
-    return (-2);
+    return (GFTP_ERETRYABLE);
   params->message.pos += 4;
 
   if ((attrs = sshv2_buffer_get_int32 (request, &params->message, -1)) < 0)
-    return (-2);
+    return (GFTP_ERETRYABLE);
 
   if (attrs & SSH_FILEXFER_ATTR_SIZE)
     {
       if ((highnum = sshv2_buffer_get_int32 (request, &params->message, -1)) < 0)
-        return (-2);
+        return (GFTP_ERETRYABLE);
 
       if ((lownum = sshv2_buffer_get_int32 (request, &params->message, -1)) < 0)
-        return (-2);
+        return (GFTP_ERETRYABLE);
 
       sshv2_message_free (&params->message);
 
@@ -1575,9 +1601,9 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
   gint32 num;
   int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->sockfd > 0, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
   /* fd ignored for this protocol */
 
   params = request->protocol_data;
@@ -1612,16 +1638,18 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
   if (sshv2_send_command (request, SSH_FXP_OPEN, tempstr, stlen + 16) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   g_free (tempstr);
   memset (&message, 0, sizeof (message));
   ret = sshv2_read_response (request, &message, -1);
-  if (ret == SSH_FXP_STATUS)
+  if (ret < 0)
+    return (ret);
+  else if (ret == SSH_FXP_STATUS)
     {
       sshv2_message_free (&message);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   else if (ret != SSH_FXP_HANDLE)
     {
@@ -1629,7 +1657,7 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   if (message.length - 4 > SSH_MAX_HANDLE_SIZE)
@@ -1639,7 +1667,7 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
                              message.length - 4);
       sshv2_message_free (&message);
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
         
     }
 
@@ -1663,9 +1691,9 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
   gint32 num;
   int ret;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->sockfd > 0, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
   /* fd ignored for this protocol */
 
   params = request->protocol_data;
@@ -1703,16 +1731,18 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
   if (sshv2_send_command (request, SSH_FXP_OPEN, tempstr, stlen + 16) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   g_free (tempstr);
   memset (&message, 0, sizeof (message));
   ret = sshv2_read_response (request, &message, -1);
-  if (ret == SSH_FXP_STATUS)
+  if (ret < 0)
+    return (ret);
+  else if (ret == SSH_FXP_STATUS)
     {
       sshv2_message_free (&message);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   else if (ret != SSH_FXP_HANDLE)
     {
@@ -1720,7 +1750,7 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
                      _("Received wrong response from server, disconnecting\n"));
       sshv2_message_free (&message);
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   if (message.length - 4 > SSH_MAX_HANDLE_SIZE)
@@ -1730,7 +1760,7 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
                              message.length - 4);
       sshv2_message_free (&message);
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
         
     }
 
@@ -1749,6 +1779,7 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   sshv2_params * params;
   sshv2_message message;
   gint32 num;
+  int ret;
 
 #ifdef G_HAVE_GINT64
   gint64 offset;
@@ -1756,10 +1787,10 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   gint32 offset;
 #endif
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->sockfd > 0, -2);
-  g_return_val_if_fail (buf != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1786,21 +1817,24 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   memcpy (params->read_buffer + params->handle_len + 8, &num, 4);
   
   if (sshv2_send_command (request, SSH_FXP_READ, params->read_buffer, params->handle_len + 12) < 0)
-    return (-2);
+    return (GFTP_ERETRYABLE);
 
   memset (&message, 0, sizeof (message));
-  if (sshv2_read_response (request, &message, -1) != SSH_FXP_DATA)
+  if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_DATA)
     {
+      if (ret < 0)
+        return (ret);
+
       message.pos += 4;
       if ((num = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
-        return (-2);
+        return (num);
       sshv2_message_free (&message);
       if (num != SSH_FX_EOF)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                      _("Received wrong response from server, disconnecting\n"));
           gftp_disconnect (request);
-          return (-2);
+          return (GFTP_ERETRYABLE);
         }
       return (0);
     }
@@ -1814,7 +1848,7 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
                              num);
       sshv2_message_free (&message);
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
         
     }
 
@@ -1840,11 +1874,11 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   gint32 offset;
 #endif
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, -2);
-  g_return_val_if_fail (request->sockfd > 0, -2);
-  g_return_val_if_fail (buf != NULL, -2);
-  g_return_val_if_fail (size <= 32500, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (size <= 32500, GFTP_EFATAL);
 
   params = request->protocol_data;
 
@@ -1870,12 +1904,15 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   if (sshv2_send_command (request, SSH_FXP_WRITE, tempstr, params->handle_len + size + 12) < 0)
     {
       g_free (tempstr);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   memset (&message, 0, sizeof (message));
   params->dont_log_status = 1;
   ret = sshv2_read_response (request, &message, -1);
+  if (ret < 0)
+    return (ret);
+
   params->dont_log_status = 0;
   if (ret != SSH_FXP_STATUS)
    {
@@ -1883,18 +1920,18 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
                      _("Received wrong response from server, disconnecting\n"));
      sshv2_message_free (&message);
      gftp_disconnect (request);
-     return (-2);
+     return (GFTP_ERETRYABLE);
    }
 
   message.pos += 4;
   if ((num = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
-    return (-2);
+    return (GFTP_ERETRYABLE);
   sshv2_message_free (&message);
 
   if (num == SSH_FX_EOF)
     return (0);
   else if (num != SSH_FX_OK)
-    return (-1);
+    return (GFTP_ERETRYABLE);
 
   params->offset += size;
   return (size);

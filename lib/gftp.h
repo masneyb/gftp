@@ -97,6 +97,10 @@
 #include <dmalloc.h>
 #endif
 
+/* Error types */
+#define GFTP_ERETRYABLE		-1
+#define GFTP_EFATAL		-2
+
 /* Some general settings */
 #define BASE_CONF_DIR		"~/.gftp"
 #define CONFIG_FILE		BASE_CONF_DIR "/gftprc"
@@ -487,7 +491,7 @@ extern int do_one_transfer_at_a_time, start_file_transfers,
            log_height, retries, sleep_time, network_timeout, use_http11, 
            listbox_dblclick_action, file_trans_column, local_columns[6], 
            remote_columns[6], resolve_symlinks, firewall_port, http_proxy_port,
-           overwrite_by_default, append_file_transfers, enable_old_ssh, 
+           overwrite_by_default, append_file_transfers, 
            ssh_need_userpass, ssh_use_askpass, sshv2_use_sftp_subsys, 
            local_sortcol, local_sortasds, remote_sortcol, remote_sortasds;
 extern guint max_log_window_size;
@@ -629,7 +633,6 @@ GList * gftp_sort_filelist 		( GList * filelist,
 #define GFTP_LOCAL_NUM				2
 #define GFTP_SSHV2_NUM				3
 #define GFTP_BOOKMARK_NUM			4
-#define GFTP_SSH_NUM				5
 #define GFTP_TYPE_BINARY			1
 #define GFTP_TYPE_ASCII				2   
 #define GFTP_IS_CONNECTED(request)		((request) != NULL && \
@@ -647,8 +650,6 @@ int rfc959_get_next_file 		( gftp_request * request,
 void rfc2068_init 			( gftp_request * request );
 
 void local_init 			( gftp_request * request );
-
-void ssh_init 				( gftp_request * request );
 
 void sshv2_init 			( gftp_request * request );
 

@@ -138,8 +138,6 @@ gftp_config_vars config_file_vars[] =
         N_("Use the ssh-askpass utility to grab the users password"), NULL, GFTP_PORT_GTK},
   {"sshv2_use_sftp_subsys", N_("Use SSH2 SFTP subsys"), &sshv2_use_sftp_subsys, CONFIG_CHECKBOX, 
         N_("Call ssh with the -s sftp flag. This is helpful because you won't have to know the remote path to the remote sftp-server"), NULL, GFTP_PORT_GTK},
-  {"enable_old_ssh", N_("Enable old SSH protocol"), &enable_old_ssh, CONFIG_CHECKBOX, 
-        N_("Enable the old SSH protocol. You will need to download the sftp server from http:///www.xbill.org/sftp"), NULL, GFTP_PORT_ALL},
 
   {"list_dblclk_action", "", &listbox_dblclick_action, CONFIG_HIDEINT, 
 	N_("This defines what will happen when you double click a file in the file listboxes. 0=View file 1=Edit file 2=Transfer file"), NULL, 0},
@@ -436,14 +434,6 @@ gftp_read_config_file (char **argv, int get_xpms)
     {
       default_protocol = g_malloc (4);
       strcpy (default_protocol, "FTP");
-    }
-
-  if (!enable_old_ssh)
-    {
-      gftp_protocols[GFTP_SSH_NUM].name = NULL;
-      gftp_protocols[GFTP_SSH_NUM].init = NULL;
-      gftp_protocols[GFTP_SSH_NUM].url_prefix = NULL;
-      gftp_protocols[GFTP_SSH_NUM].shown = 0;
     }
 
   if ((tempstr = expand_path (LOG_FILE)) == NULL)

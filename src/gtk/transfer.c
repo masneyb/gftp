@@ -259,11 +259,19 @@ connect_thread (void *data)
       conn_num++;
       if (request->network_timeout > 0)
         alarm (request->network_timeout);
-      ret = gftp_connect (request) == 0;
+      ret = gftp_connect (request);
       alarm (0);
 
-      if (ret)
-        break;
+      if (ret == GFTP_EFATAL)
+        {
+          ret = 0;
+          break;
+        }
+      else if (ret == 0)
+        {
+          ret = 1;
+          break;
+        }
       else if (request->retries == 0 || conn_num < request->retries)
         {
           request->logging_function (gftp_logging_misc, request->user_data,

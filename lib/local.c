@@ -56,8 +56,8 @@ local_connect (gftp_request * request)
 {
   char tempstr[PATH_MAX];
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
 
   if (request->directory)
     {
@@ -110,9 +110,9 @@ local_get_file (gftp_request * request, const char *filename, int fd,
   off_t size;
   int flags;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (filename != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   if (fd <= 0)
     {
@@ -126,28 +126,28 @@ local_get_file (gftp_request * request, const char *filename, int fd,
           request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),
                                    filename, g_strerror (errno));
-          return (-2);
+          return (GFTP_ERETRYABLE); /* should this be fatal? */
         }
     }
   else
     request->datafd = fd;
 
-  if ((size = lseek (request->datafd, 0, SEEK_END)) == -1)
+  if ((size = lseek (request->datafd, 0, SEEK_END)) < 0)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
-  if (lseek (request->datafd, startsize, SEEK_SET) == -1)
+  if (lseek (request->datafd, startsize, SEEK_SET) < 0)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   return (size);
@@ -160,9 +160,9 @@ local_put_file (gftp_request * request, const char *filename, int fd,
 {
   int flags;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (filename != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   if (fd <= 0)
     {
@@ -178,28 +178,28 @@ local_put_file (gftp_request * request, const char *filename, int fd,
           request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),
                                    filename, g_strerror (errno));
-          return (-2);
+          return (GFTP_ERETRYABLE);
         }
     }
   else
     request->datafd = fd;
 
-  if (ftruncate (request->datafd, startsize) == -1)
+  if (ftruncate (request->datafd, startsize) < 0)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                _("Error: Cannot truncate local file %s: %s\n"),
                                filename, g_strerror (errno));
       gftp_disconnect (request);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
     
-  if (lseek (request->datafd, startsize, SEEK_SET) == -1)
+  if (lseek (request->datafd, startsize, SEEK_SET) < 0)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
                                  filename, g_strerror (errno));
       gftp_disconnect (request);
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
   return (0);
 }
@@ -330,9 +330,9 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   /* the struct passwd and struct group are not thread safe. But,
      we're ok here because I have threading turned off for the local
      protocol (see use_threads in local_init above) */
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (fle != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
   lpd = request->protocol_data;
   memset (fle, 0, sizeof (*fle));
@@ -341,7 +341,7 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
     {
       closedir (lpd->dir);
       lpd->dir = NULL;
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   fle->file = g_malloc (strlen (dirp->d_name) + 1);
@@ -350,7 +350,7 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
     {
       closedir (lpd->dir);
       lpd->dir = NULL;
-      return (-2);
+      return (GFTP_ERETRYABLE);
     }
 
   if ((user = g_hash_table_lookup (lpd->userhash, 
@@ -428,8 +428,8 @@ local_list_files (gftp_request * request)
   local_protocol_data *lpd;
   char *tempstr;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   lpd = request->protocol_data;
 
   tempstr = g_strconcat (request->directory, "/", NULL);
@@ -440,7 +440,7 @@ local_list_files (gftp_request * request)
                            _("Could not get local directory listing %s: %s\n"),
                            tempstr, g_strerror (errno));
       g_free (tempstr);
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 
   g_free (tempstr);
@@ -453,8 +453,8 @@ local_get_file_size (gftp_request * request, const char *filename)
 {
   struct stat st;
 
-  if (stat (filename, &st) == -1)
-    return (-1);
+  if (stat (filename, &st) < 0)
+    return (GFTP_ERETRYABLE);
   return (st.st_size);
 }
 
@@ -464,9 +464,9 @@ local_chdir (gftp_request * request, const char *directory)
 {
   char tempstr[255];
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (directory != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   if (chdir (directory) == 0)
     {
@@ -480,7 +480,7 @@ local_chdir (gftp_request * request, const char *directory)
               request->logging_function (gftp_logging_error, request->user_data,
                             _("Could not get current working directory: %s\n"),
                             g_strerror (errno));
-	      return (-1);
+	      return (GFTP_ERETRYABLE);
 	    }
           if (request->directory)
 	    g_free (request->directory);
@@ -492,16 +492,16 @@ local_chdir (gftp_request * request, const char *directory)
   request->logging_function (gftp_logging_error, request->user_data,
                              _("Could not change local directory to %s: %s\n"),
                              directory, g_strerror (errno));
-  return (-1);
+  return (GFTP_ERETRYABLE);
 }
 
 
 static int
 local_rmdir (gftp_request * request, const char *directory)
 {
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (directory != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   if (rmdir (directory) == 0)
     {
@@ -514,7 +514,7 @@ local_rmdir (gftp_request * request, const char *directory)
       request->logging_function (gftp_logging_error, request->user_data,
                               _("Error: Could not remove directory %s: %s\n"),
                               directory, g_strerror (errno));
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 }
 
@@ -522,9 +522,9 @@ local_rmdir (gftp_request * request, const char *directory)
 static int
 local_rmfile (gftp_request * request, const char *file)
 {
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (file != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   if (unlink (file) == 0)
     {
@@ -537,7 +537,7 @@ local_rmfile (gftp_request * request, const char *file)
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Could not remove file %s: %s\n"),
                                  file, g_strerror (errno));
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 }
 
@@ -545,9 +545,9 @@ local_rmfile (gftp_request * request, const char *file)
 static int
 local_mkdir (gftp_request * request, const char *directory)
 {
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (directory != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   if (mkdir (directory, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH) == 0)
     {
@@ -561,7 +561,7 @@ local_mkdir (gftp_request * request, const char *directory)
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Could not make directory %s: %s\n"),
                                  directory, g_strerror (errno));
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 }
 
@@ -570,10 +570,10 @@ static int
 local_rename (gftp_request * request, const char *oldname,
 	      const char *newname)
 {
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (oldname != NULL, -2);
-  g_return_val_if_fail (newname != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (oldname != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
 
   if (rename (oldname, newname) == 0)
     {
@@ -587,7 +587,7 @@ local_rename (gftp_request * request, const char *oldname,
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Could not rename %s to %s: %s\n"),
                                  oldname, newname, g_strerror (errno));
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 }
 
@@ -598,9 +598,9 @@ local_chmod (gftp_request * request, const char *file, int mode)
   char buf[10];
   int newmode;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (file != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   g_snprintf (buf, sizeof (buf), "%d", mode);
   newmode = strtol (buf, NULL, 8);
@@ -617,7 +617,7 @@ local_chmod (gftp_request * request, const char *file, int mode)
       request->logging_function (gftp_logging_error, request->user_data, 
                           _("Error: Could not change mode of %s to %d: %s\n"),
                           file, mode, g_strerror (errno));
-      return (-1);
+      return (GFTP_ERETRYABLE);
     }
 }
 
@@ -628,12 +628,12 @@ local_set_file_time (gftp_request * request, const char *file,
 {
   struct utimbuf time_buf;
 
-  g_return_val_if_fail (request != NULL, -2);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, -2);
-  g_return_val_if_fail (file != NULL, -2);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   time_buf.modtime = time_buf.actime = datetime;
-  return (utime (file, &time_buf));
+  return (utime (file, &time_buf) == 0 ? 0 : GFTP_ERETRYABLE);
 }
 
 
