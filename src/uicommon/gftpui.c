@@ -631,8 +631,7 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request,
       g_free (tempstr);
 
       templist = templist->next;
-      gftp_file_destroy (fle);
-      g_free (fle);
+      gftp_file_destroy (fle, 1);
     }
 
 
@@ -897,7 +896,7 @@ _gftpui_common_transfer_files (void *fromuidata, gftp_request * fromrequest,
     {
       if (strcmp (fle->file, ".") == 0 || strcmp (fle->file, "..") == 0)
         {
-          gftp_file_destroy (fle);
+          gftp_file_destroy (fle, 0);
           continue;
         }
 

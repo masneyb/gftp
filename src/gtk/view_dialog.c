@@ -75,7 +75,7 @@ view_dialog (gpointer data)
           ftp_log (gftp_logging_misc, NULL, 
                    _("Error: Cannot open %s for writing: %s\n"),  
                    new_fle->destfile, g_strerror (errno));
-          free_fdata (new_fle);
+          gftp_file_destroy (new_fle, 1);
           return;
         }
 
@@ -154,7 +154,7 @@ edit_dialog (gpointer data)
           ftp_log (gftp_logging_misc, NULL, 
                    _("Error: Cannot open %s for writing: %s\n"),
                    new_fle->destfile, g_strerror (errno));
-          free_fdata (new_fle);
+          gftp_file_destroy (new_fle, 1);
           return;
         }
 

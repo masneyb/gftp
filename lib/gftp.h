@@ -749,8 +749,6 @@ guint string_hash_function		( gconstpointer key );
 
 void free_file_list			( GList * filelist );
 
-void free_fdata				( gftp_file * fle );
-
 gftp_file * copy_fdata 			( gftp_file * fle );
 
 int compare_request 			( gftp_request * request1, 
@@ -859,7 +857,8 @@ void gftp_request_destroy 		( gftp_request * request,
 void gftp_copy_param_options		( gftp_request * dest_request,
 					  gftp_request * src_request );
 
-void gftp_file_destroy 			( gftp_file *file );
+void gftp_file_destroy 			( gftp_file *file,
+					  int free_it );
 
 int gftp_connect 			( gftp_request * request );
 

@@ -100,7 +100,7 @@ gftp_copy_param_options (gftp_request * dest_request,
 
 
 void
-gftp_file_destroy (gftp_file * file)
+gftp_file_destroy (gftp_file * file, int free_it)
 {
   g_return_if_fail (file != NULL);
 
@@ -114,7 +114,11 @@ gftp_file_destroy (gftp_file * file)
     g_free (file->group);
   if (file->destfile)
     g_free (file->destfile);
-  memset (file, 0, sizeof (*file));
+
+  if (free_it)
+    g_free (file);
+  else
+    memset (file, 0, sizeof (*file));
 }
 
 
@@ -442,8 +446,8 @@ char *
 gftp_string_to_utf8 (gftp_request * request, const char *str)
 {
   char *ret, *remote_charsets, *stpos, *cur_charset, *tempstr;
+  GError * error = NULL;
   gsize bread, bwrite;
-  GError * error;
 
   if (request == NULL)
     return (NULL);
@@ -511,8 +515,8 @@ char *
 gftp_string_from_utf8 (gftp_request * request, const char *str)
 {
   char *ret, *remote_charsets, *stpos, *cur_charset, *tempstr;
+  GError * error = NULL;
   gsize bread, bwrite;
-  GError * error;
 
   if (request == NULL)
     return (NULL);
@@ -614,7 +618,7 @@ gftp_get_next_file (gftp_request * request, const char *filespec,
   memset (fle, 0, sizeof (*fle));
   do
     {
-      gftp_file_destroy (fle);
+      gftp_file_destroy (fle, 0);
       ret = request->get_next_file (request, fle, fd);
 
       if (ret >= 0 && fle->file != NULL)
@@ -1847,7 +1851,7 @@ gftp_gen_dir_hash (gftp_request * request, int *ret)
           *newsize = fle->size;
           g_hash_table_insert (dirhash, newname, newsize);
           fle->file = NULL;
-          gftp_file_destroy (fle);
+          gftp_file_destroy (fle, 0);
         }
       gftp_end_transfer (request);
       g_free (fle);
@@ -1907,7 +1911,7 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
     {
       if (strcmp (fle->file, ".") == 0 || strcmp (fle->file, "..") == 0)
         {
-          gftp_file_destroy (fle);
+          gftp_file_destroy (fle, 0);
           continue;
         }
 
@@ -1938,8 +1942,7 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
     }
   gftp_end_transfer (transfer->fromreq);
 
-  gftp_file_destroy (fle);
-  g_free (fle);
+  gftp_file_destroy (fle, 1);
 
   if (dirhash != NULL)
     gftp_destroy_dir_hash (dirhash);

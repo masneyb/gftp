@@ -1351,14 +1351,14 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
                                      _("Warning: Cannot parse listing %s\n"),
                                      longname);
 
-          gftp_file_destroy (fle);
+          gftp_file_destroy (fle, 0);
           return (ret);
         }
 
       if ((ret = sshv2_decode_file_attributes (request, &params->message,
                                                fle)) < 0)
         {
-          gftp_file_destroy (fle);
+          gftp_file_destroy (fle, 0);
           return (ret);
         }
 
@@ -1704,7 +1704,7 @@ sshv2_send_stat_command (gftp_request * request, const char *filename,
   message.pos += 4;
   if ((ret = sshv2_decode_file_attributes (request, &message, fle)) < 0)
     {
-      gftp_file_destroy (fle);
+      gftp_file_destroy (fle, 0);
       return (ret);
     }
 
@@ -1727,7 +1727,7 @@ sshv2_stat_filename (gftp_request * request, const char *filename,
     return (ret);
 
   *mode = fle.st_mode;
-  gftp_file_destroy (&fle);
+  gftp_file_destroy (&fle, 0);
 
   return (0);
 }
@@ -1746,7 +1746,7 @@ sshv2_get_file_size (gftp_request * request, const char *file)
     return (ret);
 
   size = fle.size;
-  gftp_file_destroy (&fle);
+  gftp_file_destroy (&fle, 0);
 
   return (size);
 }

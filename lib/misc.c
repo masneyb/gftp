@@ -434,29 +434,10 @@ free_file_list (GList * filelist)
   while (templist != NULL)
     {
       tempfle = templist->data;
-      free_fdata (tempfle);
+      gftp_file_destroy (tempfle, 1);
       templist = templist->next;
     }
   g_list_free (filelist);
-}
-
-
-void
-free_fdata (gftp_file * fle)
-{
-  if (fle->file)
-    g_free (fle->file);
-  if (fle->utf8_file)
-    g_free (fle->utf8_file);
-  if (fle->user)
-    g_free (fle->user);
-  if (fle->group)
-    g_free (fle->group);
-  if (fle->destfile)
-    g_free (fle->destfile);
-  if (fle->fd > 0)
-    close (fle->fd);
-  g_free (fle);
 }
 
 

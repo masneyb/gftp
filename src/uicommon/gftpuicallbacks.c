@@ -85,7 +85,7 @@ gftpui_common_run_ls (gftpui_callback_data * cdata)
 
       if (got < 0 || strcmp (fle->file, ".") == 0 || !matched_filespec)
         {
-          gftp_file_destroy (fle);
+          gftp_file_destroy (fle, 0);
           continue;
         }
       else if (strcmp (fle->file, "..") == 0)

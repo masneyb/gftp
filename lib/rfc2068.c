@@ -614,14 +614,14 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
         return (ret);
 
       if (parse_html_line (tempstr, fle) == 0 || fle->file == NULL)
-	gftp_file_destroy (fle);
+	gftp_file_destroy (fle, 0);
       else
 	break;
     }
 
   if (fle->file == NULL)
     {
-      gftp_file_destroy (fle);
+      gftp_file_destroy (fle, 0);
       return (0);
     }
 

@@ -1509,7 +1509,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
                                           sizeof (tempstr));
       if (len <= 0)
 	{
-          gftp_file_destroy (fle);
+          gftp_file_destroy (fle, 0);
 	  return (len);
 	} 
 
@@ -1520,7 +1520,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 	    request->logging_function (gftp_logging_error, request,
 				       _("Warning: Cannot parse listing %s\n"),
 				       tempstr);
-	  gftp_file_destroy (fle);
+	  gftp_file_destroy (fle, 0);
 	  continue;
 	}
       else

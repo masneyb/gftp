@@ -54,7 +54,7 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
       (pos = strrchr (current_ftpdata->directory, '/')) == NULL) 
     {
       gftp_request_destroy (current_ftpdata, 1);
-      free_fdata (newfle);
+      gftp_file_destroy (newfle, 1);
       return (0);
     }
 
@@ -62,7 +62,7 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
   if (compare_request (current_ftpdata, wdata->request, 1))
     {
       gftp_request_destroy (current_ftpdata, 1);
-      free_fdata (newfle);
+      gftp_file_destroy (newfle, 1);
       return (0);
     }
 
