@@ -42,11 +42,6 @@ static gftp_config_vars config_vars[] =
    gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Require a username/password for SSH connections"), GFTP_PORT_ALL, NULL},
-  {"ssh_use_askpass", N_("Use ssh-askpass utility"),
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
-   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("Use the ssh-askpass utility to supply the remote password"), GFTP_PORT_GTK,
-        NULL},
   {"sshv2_use_sftp_subsys", N_("Use SSH2 SFTP subsys"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
@@ -253,7 +248,7 @@ sshv2_gen_exec_args (gftp_request * request, char *execname,
                          " %s -s sftp", request->hostname);
   else
     sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
-                         " %s \"%s\"", request->hostname, execname);
+                         " %s %s", request->hostname, execname);
 
   request->logging_function (gftp_logging_misc, request, 
                              _("Running program %s\n"), logstr);
@@ -262,33 +257,81 @@ sshv2_gen_exec_args (gftp_request * request, char *execname,
 }
 
 
-static char *
-sshv2_start_login_sequence (gftp_request * request, int fd)
+static int
+sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
 {
+  size_t rem, len, diff, lastdiff;
   char *tempstr, *pwstr, *tmppos;
-  size_t rem, len, diff, lastdiff, key_pos;
-  int wrotepw, ok;
+  int wrotepw, ok, maxfd, ret;
+  fd_set rset, eset;
   ssize_t rd;
 
   rem = len = SSH_LOGIN_BUFSIZE;
   tempstr = g_malloc0 (len + 1);
-  key_pos = diff = lastdiff = 0;
+  diff = lastdiff = 0;
   wrotepw = 0;
   ok = 1;
 
-  if (gftp_fd_set_sockblocking (request, fd, 1) == -1)
-    return (NULL);
+  if (gftp_fd_set_sockblocking (request, fdm, 1) == -1)
+    return (GFTP_ERETRYABLE);
 
-  pwstr = g_strconcat (request->password, "\n", NULL);
+  if (gftp_fd_set_sockblocking (request, ptymfd, 1) == -1)
+    return (GFTP_ERETRYABLE);
+
+  if (request->password == NULL)
+    pwstr = g_strdup ("\n");
+  else
+    pwstr = g_strconcat (request->password, "\n", NULL);
+
+  FD_ZERO (&rset);
+  FD_ZERO (&eset);
+  maxfd = fdm > ptymfd ? fdm : ptymfd;
 
   errno = 0;
   while (1)
     {
-      if ((rd = gftp_fd_read (request, tempstr + diff, rem - 1, fd)) <= 0)
+      FD_SET (fdm, &rset);
+      FD_SET (ptymfd, &rset);
+
+      FD_SET (fdm, &eset);
+      FD_SET (ptymfd, &eset);
+
+      ret = select (maxfd + 1, &rset, NULL, &eset, NULL);
+      if (ret < 0 && errno == EINTR)
+        continue;
+
+      if (ret < 0)
         {
-          ok = 0;
+          request->logging_function (gftp_logging_error, request,
+                                     _("Connection to %s timed out\n"),
+                                     request->hostname);
+          gftp_disconnect (request);
+          return (GFTP_ERETRYABLE);
+        }
+
+      if (FD_ISSET (fdm, &eset) || FD_ISSET (ptymfd, &eset))
+        {
+          request->logging_function (gftp_logging_error, request,
+                               _("Error: Could not read from socket: %s\n"),
+                                g_strerror (errno));
+          gftp_disconnect (request);
+          return (GFTP_ERETRYABLE);
+        }
+        
+      if (FD_ISSET (fdm, &rset))
+        {
+          ok = 1;
           break;
         }
+      else if (!FD_ISSET (ptymfd, &rset))
+        continue;
+
+      rd = gftp_fd_read (request, tempstr + diff, rem - 1, ptymfd);
+      if (rd < 0)
+        return (rd);
+      else if (rd == 0)
+        continue;
+
       rem -= rd;
       diff += rd;
       tempstr[diff] = '\0'; 
@@ -310,17 +353,16 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
             }
               
           wrotepw = 1;
-          if (gftp_fd_write (request, pwstr, strlen (pwstr), fd) < 0)
+          if (gftp_fd_write (request, pwstr, strlen (pwstr), ptymfd) < 0)
             {
               ok = 0;
               break;
             }
         }
       else if (diff > 2 && strcmp (tempstr + diff - 2, ": ") == 0 &&
-               ((tmppos = strstr (tempstr + key_pos, "Enter passphrase for RSA key")) != NULL ||
-                ((tmppos = strstr (tempstr + key_pos, "Enter passphrase for key '")) != NULL)))
+               ((tmppos = strstr (tempstr, "Enter passphrase for RSA key")) != NULL ||
+                ((tmppos = strstr (tempstr, "Enter passphrase for key '")) != NULL)))
         {
-          key_pos = diff;
           if (wrotepw)
             {
               ok = SSH_ERROR_BADPASS;
@@ -335,7 +377,7 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
             }
 
           wrotepw = 1;
-          if (gftp_fd_write (request, pwstr, strlen (pwstr), fd) < 0)
+          if (gftp_fd_write (request, pwstr, strlen (pwstr), ptymfd) < 0)
             {
               ok = 0;
               break;
@@ -346,8 +388,6 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
           ok = SSH_ERROR_QUESTION;
           break;
         }
-      else if (diff >= 5 && strcmp (tempstr + diff - 5, "xsftp") == 0)
-        break;
       else if (rem <= 1)
         {
           request->logging_function (gftp_logging_recv, request,
@@ -366,6 +406,8 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
     request->logging_function (gftp_logging_recv, request,
                                "%s\n", tempstr + lastdiff);
 
+  g_free (tempstr);
+
   if (ok <= 0)
     {
       if (ok == SSH_ERROR_BADPASS)
@@ -378,11 +420,10 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
         request->logging_function (gftp_logging_error, request,
                                    _("Please correct the above warning to connect to this host.\n"));
 
-      g_free (tempstr);
-      return (NULL);
+      return (GFTP_EFATAL);
     }
  
-  return (tempstr);
+  return (0);
 }
 
 
@@ -585,7 +626,7 @@ sshv2_send_command (gftp_request * request, char type, char *command,
   buf[len + 5] = '\0';
 
 #ifdef DEBUG
-  printf ("\rSending: ");
+  printf ("\rSending to FD %d: ", request->datafd);
   for (clen=0; clen<len + 5; clen++)
     printf ("%x ", buf[clen] & 0xff);
   printf ("\n");
@@ -848,9 +889,9 @@ sshv2_free_args (char **args)
 static int
 sshv2_connect (gftp_request * request)
 {
-  int version, ret, fdm;
-  intptr_t ssh_use_askpass, sshv2_use_sftp_subsys;
-  char **args, *tempstr, *p1, p2, *exepath, *ssh2_sftp_path;
+  char **args, *p1, p2, *exepath, *ssh2_sftp_path;
+  intptr_t sshv2_use_sftp_subsys;
+  int version, ret, fdm, ptymfd;
   struct servent serv_struct;
   sshv2_params * params;
   sshv2_message message;
@@ -869,13 +910,7 @@ sshv2_connect (gftp_request * request)
 			     _("Opening SSH connection to %s\n"),
                              request->hostname);
 
-  /* Ugh!! We don't get a login banner from sftp-server, and if we are
-     using ssh-agent to cache a users password, then we won't receive
-     any initial text from the server, and we'll block. So I just send a 
-     xsftp server banner over. I hope this works on most Unices */
-
   gftp_lookup_request_option (request, "ssh2_sftp_path", &ssh2_sftp_path);
-  gftp_lookup_request_option (request, "ssh_use_askpass", &ssh_use_askpass);
   gftp_lookup_request_option (request, "sshv2_use_sftp_subsys", 
                               &sshv2_use_sftp_subsys);
 
@@ -902,40 +937,29 @@ sshv2_connect (gftp_request * request)
         request->port = ntohs (serv_struct.s_port);
     }
 
-  exepath = g_strdup_printf ("echo -n xsftp ; %s%csftp-server", p1, p2);
+  exepath = g_strdup_printf ("%s%csftp-server", p1, p2);
   args = sshv2_gen_exec_args (request, exepath, sshv2_use_sftp_subsys);
 
-  if (ssh_use_askpass || sshv2_use_sftp_subsys)
-    child = gftp_exec_without_new_pty (request, &fdm, args);
-  else
-    child = gftp_exec_with_new_pty (request, &fdm, args);
+  child = gftp_exec (request, &fdm, &ptymfd, args);
 
   if (child == 0)
     exit (0);
-  else if (child < 0)
-    return (GFTP_ERETRYABLE);
-
-  if (!sshv2_use_sftp_subsys)
-    {
-      tempstr = sshv2_start_login_sequence (request, fdm);
-      if (!tempstr || !(strlen (tempstr) > 4 && strcmp (tempstr + strlen (tempstr) - 5,
-                                                        "xsftp") == 0))
-        {
-          sshv2_free_args (args);
-          g_free (exepath);
-          return (GFTP_EFATAL);
-        }
-      g_free (tempstr);
-    }
 
   sshv2_free_args (args);
   g_free (exepath);
+
+  if (child < 0)
+    return (GFTP_ERETRYABLE);
 
   request->datafd = fdm;
 
   version = htonl (SSH_MY_VERSION);
   if ((ret = sshv2_send_command (request, SSH_FXP_INIT, (char *) 
                                  &version, 4)) < 0)
+    return (ret);
+
+  ret = sshv2_start_login_sequence (request, fdm, ptymfd);
+  if (ret < 0)
     return (ret);
 
   memset (&message, 0, sizeof (message));

@@ -1,3 +1,16 @@
+2004-4-10 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/pty.c lib/sshv2.c - added gftp_exec() that will always
+	open a pseudo terminal and a separate socket pair for the stdin/stdout
+	file descriptors. The banner and password request will come through the
+	pseudo terminal while the sftp protocol specific data will always come
+	through the socket pair. This allows for a much cleaner SSH login
+	sequence that does not require echo xsftp to capture a login banner. 
+	Removed option ssh_use_askpass since it is no longer needed.
+	This code is based off of a suggestion from Gertjan Halkes
+
+	* src/text/gftp-text.c - removed setting the options ssh_use_askpass
+	and sshv2_use_sftp_subsys
+
 2004-03-30  Gareth Owen  <gowen72@yahoo,com>
 
 	* configure.in: Added en_GB to ALL_LINGUAS

@@ -238,20 +238,12 @@ main (int argc, char **argv)
 
   gftp_text_remreq = gftp_request_new ();
   remuidata = gftp_text_remreq;
-  gftp_set_request_option (gftp_text_remreq, "ssh_use_askpass", 
-                           GINT_TO_POINTER(0));
-  gftp_set_request_option (gftp_text_remreq, "sshv2_use_sftp_subsys", 
-                           GINT_TO_POINTER(0));
   gftp_text_remreq->logging_function = gftp_text_log;
 
   gftp_text_locreq = gftp_request_new ();
   locuidata = gftp_text_locreq;
-  gftp_set_request_option (gftp_text_locreq, "ssh_use_askpass", 
-                           GINT_TO_POINTER(0));
-  gftp_set_request_option (gftp_text_locreq, "sshv2_use_sftp_subsys", 
-                           GINT_TO_POINTER(0));
-
   gftp_text_locreq->logging_function = gftp_text_log;
+
   if (gftp_protocols[GFTP_LOCAL_NUM].init (gftp_text_locreq) == 0)
     {
       gftp_setup_startup_directory (gftp_text_locreq);

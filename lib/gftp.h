@@ -1007,12 +1007,9 @@ void gftp_setup_startup_directory 	( gftp_request * request );
 /* pty.c */
 char * gftp_get_pty_impl 		( void );
 
-pid_t gftp_exec_with_new_pty 		( gftp_request * request, 
-					  int *fdm, 
-					  char **args );
-
-pid_t gftp_exec_without_new_pty 	( gftp_request * request, 
-					  int *fdm, 
+pid_t gftp_exec 			( gftp_request * request,
+					  int *fdm,
+					  int *ptymfd,
 					  char **args );
 
 #ifdef USE_SSL
