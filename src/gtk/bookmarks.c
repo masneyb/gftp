@@ -183,7 +183,6 @@ copy_bookmarks (gftp_bookmarks_var * bookmarks)
                  * tentry;
 
   new_bm = g_malloc0 (sizeof (*new_bm));
-  /* FIXME - memory leak */
   new_bm->path = g_malloc0 (1);
   new_bm->isfolder = bookmarks->isfolder;
   preventry = new_bm;
@@ -1196,7 +1195,6 @@ edit_bookmarks (gpointer data)
       gdk_window_set_icon_name (dialog->window, gftp_version);
     }
 
-  /* FIXME - memory leak */
   ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", NULL, NULL);
   create_item_factory (ifactory, 7, menu_items, NULL);
   create_item_factory (ifactory, 1, menu_items + 7, dialog);
@@ -1214,7 +1212,6 @@ edit_bookmarks (gpointer data)
   gtk_container_border_width (GTK_CONTAINER (scroll), 3);
   gtk_widget_show (scroll);
 
-  /* FIXME - memory leak */
   edit_factory = item_factory_new (GTK_TYPE_MENU, "<edit_bookmark>", NULL, "/File");
 
   create_item_factory (edit_factory, 6, menu_items + 2, dialog);

@@ -1,3 +1,33 @@
+2003-07-01  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl.
+	(EXTRA_DIST): Add config.rpath mkinstalldirs.
+	* configure.in (AC_OUTPUT): Add intl/Makefile,
+
+2003-7-1 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (base64_encode) - alphabet fix (+ wasn't a valid
+	character, it should have been /) (thanks to Holger Kiehl
+	<Holger.Kiehl@dwd.de> for pointing this out)
+
+	* lib/config_file.c lib/gftp.h - added copy function for options
+	variables. The functions gftp_config_file_copy_text(), 
+	gftp_config_file_copy_ptr_contents() and gftp_config_file_copy_color()
+	were added
+
+	* lib/protocols.c - make sure the remote_charsets string is restored
+	properly after it is used
+
+	* src/gtk/bookmarks.c - remove memory leak comments, these are fixed
+	now
+
+	* src/gtk/transfer.c - removed start_file_transfers variable
+
+	* src/gtk/misc-gtk.c src/gtk/gftp-gtk.h lib/misc.c lib/gftp.h - moved
+	get_next_selection() to lib
+
+	* acinclude.h (AC_TYPE_SOCKLEN_T) - AC_DEFINE fix (from
+	Nathan Robertson <nathanr@nathanr.net>)
+
 2003-6-25 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (expand_path) - small improvements
 

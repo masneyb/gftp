@@ -23,14 +23,16 @@ typedef struct rfc2068_params_tag
 {
   gftp_getline_buffer * rbuf;
   unsigned long read_bytes,
-                content_length,
-                chunk_size;
+                content_length;
+  long chunk_size;
   unsigned int chunked_transfer : 1;
   ssize_t (*real_read_function) ( gftp_request * request,
                                   void *ptr,
                                   size_t size,
                                   int fd );
 
+  char * extra_read_buffer;
+  size_t extra_read_buffer_len;
 } rfc2068_params;
 
 int rfc2068_get_next_file 			( gftp_request * request,

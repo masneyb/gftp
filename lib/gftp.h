@@ -294,6 +294,7 @@ typedef struct gftp_option_type_tag
 {
   int (*read_function) (char *str, gftp_config_vars * cv, int line);
   int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
+  void (*copy_function) (gftp_config_vars * cv, gftp_config_vars * dest_cv);
   void * (*ui_print_function) (gftp_config_vars * cv, void *user_data);
   void (*ui_save_function) (gftp_config_vars * cv, void *user_data);
   void (*ui_cancel_function) (gftp_config_vars * cv, void *user_data);
@@ -712,6 +713,10 @@ char * base64_encode 			( char *str );
 void gftp_free_bookmark 		( gftp_bookmarks_var * entry );
 
 void gftp_shutdown			( void );
+
+GList * get_next_selection 		( GList * selection, 
+					  GList ** list, 
+					  int *curnum );
 
 /* protocols.c */
 #define GFTP_FTP_NUM				0

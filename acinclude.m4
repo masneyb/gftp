@@ -125,7 +125,7 @@ AC_DEFUN(AC_TYPE_SOCKLEN_T,
    #include <sys/types.h>
    #include <sys/socket.h>], [socklen_t x = 5;],
      [AC_MSG_RESULT(yes)],
-     [AC_DEFINE(socklen_t,int)
+     [AC_DEFINE(socklen_t,int,Need to define socklen_t as an int because it should be in sys/socket.h)
       AC_MSG_RESULT(no)])
   ])
 

@@ -915,6 +915,28 @@ gftp_config_file_write_hidetext (gftp_config_vars * cv, FILE * fd, int to_config
 }
 
 
+static void
+gftp_config_file_copy_text (gftp_config_vars * cv, gftp_config_vars * dest_cv)
+{
+  if (dest_cv->flags & GFTP_CVARS_FLAGS_DYNMEM && dest_cv->value != NULL)
+    g_free (dest_cv->value);
+
+  if (cv->value != NULL)
+    {
+      dest_cv->value = g_strdup ((char *) cv->value);
+      dest_cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
+    }
+  else
+    dest_cv->value = NULL;
+}
+
+
+static void
+gftp_config_file_copy_ptr_contents (gftp_config_vars * cv, gftp_config_vars * dest_cv)
+{
+  memcpy (&dest_cv->value, &cv->value, sizeof (dest_cv->value));
+}
+
 static int
 gftp_config_file_read_int (char *str, gftp_config_vars * cv, int line)
 {
@@ -998,6 +1020,18 @@ gftp_config_file_write_color (gftp_config_vars * cv, FILE * fd, int to_config_fi
 }
 
 
+static void
+gftp_config_file_copy_color (gftp_config_vars * cv, gftp_config_vars * dest_cv)
+{
+  if (dest_cv->flags & GFTP_CVARS_FLAGS_DYNMEM && dest_cv->value != NULL)
+    g_free (dest_cv->value);
+
+  dest_cv->value = g_malloc (sizeof (gftp_color));
+  memcpy (dest_cv->value, cv->value, sizeof (gftp_color));
+  dest_cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
+}
+
+
 static int
 gftp_config_file_read_intcombo (char *str, gftp_config_vars * cv, int line)
 {
@@ -1064,15 +1098,15 @@ gftp_config_file_read_textcombo (char *str, gftp_config_vars * cv, int line)
 /* Note, the index numbers of this array must match up to the numbers in
    gftp_option_type_enum in gftp.h */
 gftp_option_type_var gftp_option_types[] = {
-  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL, NULL},
-  {gftp_config_file_read_textcombo, gftp_config_file_write_text, NULL, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_hidetext, NULL, NULL, NULL},
-  {gftp_config_file_read_int, gftp_config_file_write_int, NULL, NULL, NULL},
-  {gftp_config_file_read_checkbox, gftp_config_file_write_int, NULL, NULL, NULL},
-  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, NULL, NULL, NULL},
-  {gftp_config_file_read_float, gftp_config_file_write_float, NULL, NULL, NULL},
-  {gftp_config_file_read_color, gftp_config_file_write_color, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_text, gftp_config_file_copy_text, NULL, NULL, NULL},
+  {gftp_config_file_read_textcombo, gftp_config_file_write_text, gftp_config_file_copy_text, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_text, gftp_config_file_copy_text, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_hidetext, gftp_config_file_copy_text, NULL, NULL, NULL},
+  {gftp_config_file_read_int, gftp_config_file_write_int, gftp_config_file_copy_ptr_contents, NULL, NULL, NULL},
+  {gftp_config_file_read_checkbox, gftp_config_file_write_int, gftp_config_file_copy_ptr_contents, NULL, NULL, NULL},
+  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, gftp_config_file_copy_ptr_contents, NULL, NULL, NULL},
+  {gftp_config_file_read_float, gftp_config_file_write_float, gftp_config_file_copy_ptr_contents, NULL, NULL, NULL},
+  {gftp_config_file_read_color, gftp_config_file_write_color, gftp_config_file_copy_color, NULL, NULL, NULL},
   {NULL, NULL, NULL, NULL, NULL},
   {NULL, NULL, NULL, NULL, NULL}
 };
@@ -1204,8 +1238,11 @@ gftp_copy_local_options (gftp_config_vars ** new_options_vars,
     {
       g_hash_table_insert (*new_options_hash, (*new_options_vars)[i].key,
                            &(*new_options_vars)[i]);
+      
+      (*new_options_vars)[i].value = NULL;
+      (*new_options_vars)[i].flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
 
-      /* FIXME 2.0.15 - copy option values */
+      gftp_option_types[(*new_options_vars)[i].otype].copy_function (&(orig_options)[i], &(*new_options_vars)[i]);
     }
 }
 
@@ -1285,5 +1322,7 @@ gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks)
       tempentry = tempentry->next;
       g_free (delentry);
     }
+
+  g_free (bookmarks);
 }
 

@@ -51,7 +51,7 @@ static off_t
 rfc2068_read_response (gftp_request * request)
 {
   rfc2068_params * params;
-  char tempstr[512];
+  char tempstr[8192];
   int ret, chunked;
 
   params = request->protocol_data;
@@ -60,10 +60,17 @@ rfc2068_read_response (gftp_request * request)
   params->rbuf = NULL;
   *tempstr = '\0';
   params->content_length = 0;
+
   if (request->last_ftp_response)
     {
       g_free (request->last_ftp_response); 
       request->last_ftp_response = NULL;
+    }
+
+  if (params->extra_read_buffer != NULL)
+    {
+      g_free (params->extra_read_buffer);
+      params->extra_read_buffer = NULL;
     }
 
   do
@@ -97,7 +104,7 @@ rfc2068_read_response (gftp_request * request)
       if (sscanf ((char *) tempstr, "%lx", &params->chunk_size) != 1)
         {
           request->logging_function (gftp_logging_recv, request,
-                                     _("Received wrong response from server, disconnecting\n"));
+                                     _("Received wrong response from server, disconnecting.\nExpecting a chunk size in the response from the remote server\n"));
           gftp_disconnect (request);
           return (GFTP_EFATAL);
         }
@@ -106,14 +113,18 @@ rfc2068_read_response (gftp_request * request)
         return (0);
 
       params->chunk_size -= params->rbuf->cur_bufsize;
-
       if (params->chunk_size < 0)
         {
-          request->logging_function (gftp_logging_recv, request, "FIXME 2.0.15 - the chunk size is negative. aborting directory listing\n");
-          return (GFTP_EFATAL);
+          params->extra_read_buffer_len = params->chunk_size * -1;
+          params->extra_read_buffer = g_malloc (params->extra_read_buffer_len + 1);
+          memcpy (params->extra_read_buffer, params->rbuf->curpos + (params->rbuf->cur_bufsize - params->extra_read_buffer_len), params->extra_read_buffer_len);
+          params->extra_read_buffer[params->extra_read_buffer_len] = '\0';
+          params->rbuf->cur_bufsize -= params->extra_read_buffer_len;
+          params->chunk_size = 0;
         }
 
-        
+
+        params->chunk_size = 0;
     }
 
   params->chunked_transfer = chunked;
@@ -362,19 +373,13 @@ rfc2068_end_transfer (gftp_request * request)
   if (request->datafd < 0)
     return (GFTP_EFATAL);
 
-  if (close (request->datafd) < 0)
-    request->logging_function (gftp_logging_error, request,
-                               _("Error closing file descriptor: %s\n"),
-                               g_strerror (errno));
-  request->datafd = -1;
+  gftp_disconnect (request);
 
   params = request->protocol_data;
   params->content_length = 0;
   params->chunked_transfer = 0;
   params->chunk_size = 0;
 
-  request->logging_function (gftp_logging_misc, request,
-                             _("Finished retrieving data\n"));
   return (0);
 }
 
@@ -425,6 +430,8 @@ rfc2068_list_files (gftp_request * request)
       return (0);
     }
 
+  gftp_end_transfer (request);
+
   return (GFTP_ERETRYABLE);
 }
 
@@ -470,7 +477,7 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
 static int
 parse_html_line (char *tempstr, gftp_file * fle)
 {
-  char *stpos, *pos;
+  char *stpos, *kpos, *mpos, *pos;
   long units;
 
   memset (fle, 0, sizeof (*fle));
@@ -559,15 +566,22 @@ parse_html_line (char *tempstr, gftp_file * fle)
     pos++;
 
   /* Get the size */
-  /* This gets confusing on lines like "... 1.1M RedHat RPM package" */
-  /* We need to avoid finding the 'k' in package */
- 
-  stpos = strchr (pos, 'k');
-  if (stpos == NULL || !isdigit (*(stpos - 1)))
-     stpos = strchr (pos, 'M');
+
+  kpos = strchr (pos, 'k');
+  mpos = strchr (pos, 'M');
+  if (kpos == NULL)
+    stpos = mpos;
+  else if (mpos == NULL)
+    stpos = kpos;
+  else if (kpos < stpos)
+    stpos = kpos;
+  else
+    stpos = mpos;
+
   if (stpos == NULL || !isdigit (*(stpos - 1)))
      return (1);			/* Return successfully
 					   since we got the file */
+
   if (*stpos == 'k')
     units = 1024;
   else
@@ -578,10 +592,9 @@ parse_html_line (char *tempstr, gftp_file * fle)
   while (*(stpos - 1) != ' ' && *(stpos - 1) != '\t' && stpos > tempstr) 
     {
       stpos--;
-      if ((*stpos == '.') && isdigit (*(stpos + 1)) ) 
+      if ((*stpos == '.') && isdigit (*(stpos + 1))) 
         {  /* found decimal point */
-          fle->size = units * strtol (stpos + 1, NULL, 10);
-          fle->size /= 10; /* FIXME */
+          fle->size = units * strtol (stpos + 1, NULL, 10) / 10;;
         }
     }
 
@@ -679,10 +692,23 @@ rfc2068_set_config_options (gftp_request * request)
 static void
 rfc2068_destroy (gftp_request * request)
 {
+  rfc2068_params * params;
+
+  params = request->protocol_data;
+
   if (request->url_prefix)
     {
       g_free (request->url_prefix);
       request->url_prefix = NULL;
+    }
+
+  if (params->rbuf != NULL)
+    gftp_free_getline_buffer (&params->rbuf);
+
+  if (params->extra_read_buffer != NULL)
+    {
+      g_free (params->extra_read_buffer);
+      params->extra_read_buffer = NULL;
     }
 }
 
@@ -697,20 +723,30 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
 
   params = request->protocol_data;
 
-  read_size = size;
-  if (params->content_length > 0)
+  /* FIXME - left off here */
+  if (params->extra_read_buffer != NULL)
     {
-      if (params->content_length == params->read_bytes)
-        return (0);
-
-      if (read_size + params->read_bytes > params->content_length)
-        read_size = params->content_length - params->read_bytes;
+      read_size = params->extra_read_buffer_len > size ? size : params->extra_read_buffer_len;
+      memcpy (ptr, params->extra_read_buffer, read_size);
+      retval = read_size;
     }
-  else if (params->chunked_transfer && params->chunk_size > 0 &&
-           params->chunk_size < read_size)
-    read_size = params->chunk_size;
+  else
+    {
+      read_size = size;
+      if (params->content_length > 0)
+        {
+          if (params->content_length == params->read_bytes)
+            return (0);
 
-  retval = params->real_read_function (request, ptr, read_size, fd);
+          if (read_size + params->read_bytes > params->content_length)
+            read_size = params->content_length - params->read_bytes;
+        }
+      else if (params->chunked_transfer && params->chunk_size > 0 &&
+               params->chunk_size < read_size)
+        read_size = params->chunk_size;
+
+      retval = params->real_read_function (request, ptr, read_size, fd);
+    }
 
   if (retval > 0)
     params->read_bytes += retval;
@@ -727,16 +763,22 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           if (*stpos != '\r' || *(stpos + 1) != '\n')
             {
               request->logging_function (gftp_logging_recv, request,
-                                         _("Received wrong response from server, disconnecting\n"));
+                                         _("Received wrong response from server, disconnecting\nExpecting a carriage return and line feed before the chunk size in the server response\n"));
               gftp_disconnect (request);
               return (GFTP_EFATAL);
             }
 
           for (endpos = stpos + 2; 
-               *endpos != '\n'; 
+               *endpos != '\n' && endpos < stpos + retval;
                endpos++);
-    
-          /* FIXME 2.0.15 extra checks */
+
+          if (*endpos != '\n')
+            {
+              request->logging_function (gftp_logging_recv, request,
+                                         "FIXME 2.0.15 - disconnecting, chunk size is in next packet\n");
+              gftp_disconnect (request);
+              return (GFTP_EFATAL);
+            }
 
           *endpos = '\0';
           if (*(endpos - 1) == '\r')
@@ -745,7 +787,8 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           if (sscanf (stpos + 2, "%lx", &params->chunk_size) != 1)
             {
               request->logging_function (gftp_logging_recv, request,
-                                         _("Received wrong response from server, disconnecting\n"));
+                                         _("Received wrong response from server, disconnecting\nInvalid chunk size '%s' returned by the remote server\n"), 
+                                         params->chunk_size);
               gftp_disconnect (request);
               return (GFTP_EFATAL);
             }

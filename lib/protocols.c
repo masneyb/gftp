@@ -339,7 +339,7 @@ gftp_list_files (gftp_request * request)
 
 #if GLIB_MAJOR_VERSION > 1
 static char *
-_gftp_get_next_charset (char *remote_charsets, char **curpos)
+_gftp_get_next_charset (char *remote_charsets, char *orig_str, char **curpos)
 {
   char *ret, *endpos;
 
@@ -348,24 +348,39 @@ _gftp_get_next_charset (char *remote_charsets, char **curpos)
 
   ret = *curpos;
   if (*curpos != remote_charsets)
-    *(*curpos - 1) = ',';
+    {
+      *orig_str = *(*curpos - 1);
+      *(*curpos - 1) = ',';
+    }
 
   if ((endpos = strchr (*curpos, ',')) == NULL)
     *curpos += strlen (*curpos);
   else
     {
       *endpos = '\0';
-      *curpos = endpos + 1;
+
+      if (*orig_str != '\0')
+        *curpos = endpos + 1;
+      else
+        *curpos = endpos;
     }
 
   return (ret);
 }
 
 
+static void
+_gftp_restore_charset_string (char **remote_charsets, char orig_str, char **curpos)
+{
+  if (*curpos != *remote_charsets)
+    *(*curpos - 1) = orig_str;
+}
+
+
 char *
 gftp_string_to_utf8 (gftp_request * request, char *str)
 {
-  char *ret, *remote_charsets, *stpos, *cur_charset;
+  char *ret, *remote_charsets, *stpos, *cur_charset, orig_str;
   gsize bread, bwrite;
   GError * error;
 
@@ -388,7 +403,7 @@ gftp_string_to_utf8 (gftp_request * request, char *str)
 
   ret = NULL;
   stpos = remote_charsets;
-  while ((cur_charset = _gftp_get_next_charset (remote_charsets, 
+  while ((cur_charset = _gftp_get_next_charset (remote_charsets, &orig_str,
                                                 &stpos)) != NULL)
     {
       if ((request->iconv = g_iconv_open ("UTF-8", cur_charset)) == (GIConv) -1)
@@ -405,10 +420,9 @@ gftp_string_to_utf8 (gftp_request * request, char *str)
       else
         {
           request->iconv_initialized = 1;
+          _gftp_restore_charset_string (&remote_charsets, *cur_charset, &stpos);
           break;
         }
-
-      /* FIXME 2.0.15 - fix NUL character in remote_charsets */
     }
 
   return (ret);

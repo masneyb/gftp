@@ -315,10 +315,6 @@ void create_item_factory 			( GtkItemFactory * ifactory,
 						  GtkItemFactoryEntry * entries,
 						  gpointer callback_data );
 
-GList * get_next_selection 			( GList * selection, 
-						  GList ** list, 
-						  int *curnum );
-
 void add_history 				( GtkWidget * widget, 
 						  GList ** history, 
 						  unsigned int *histlen, 
