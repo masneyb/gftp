@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 static int rfc959_connect 			( gftp_request * request );
 static void rfc959_disconnect 			( gftp_request * request );

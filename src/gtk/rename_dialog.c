@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
+static const char cvsid[] = "$Id$";
 
 static sigjmp_buf renenvir;
 static const char *edttext;

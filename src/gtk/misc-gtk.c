@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include <gftp-gtk.h>
+static const char cvsid[] = "$Id$";
 
 static void set_menu_sensitive 			( gftp_window_data * wdata,
 						  char *path, 
@@ -36,12 +37,14 @@ fix_display (void)
 {
   int ret;
 
+  if (!gftp_is_started)
+    return;
+
   ret = 1;
   while (ret)
     {
-      gdk_threads_leave ();
+      GDK_THREADS_LEAVE ();
       ret = g_main_iteration (FALSE);
-      gdk_threads_enter ();
     }
 }
 
@@ -187,7 +190,7 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
     }
 #endif
 
-  if (ptr == NULL)
+  if (ptr == NULL) 
     fix_display ();
 }
 
@@ -1133,9 +1136,8 @@ generic_thread (void * (*func) (void *), gftp_window_data * wdata)
 
       while (wdata->request->stopable)
         {
-          gdk_threads_leave ();
+          GDK_THREADS_LEAVE ();
           g_main_iteration (TRUE);
-          gdk_threads_enter ();
         }
 
       pthread_join (wdata->tid, &ret);

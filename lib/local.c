@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 static void local_destroy 			( gftp_request * request );
 static void local_remove_key 			( gpointer key, 

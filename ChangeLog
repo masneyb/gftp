@@ -1,3 +1,23 @@
+2002-10-06 Brian Masney <masneyb@gftp.org>
+	* src/gtk/delete_dialog.c, src/gtk/gftp-gtk.c, src/gtk/misc-gtk.c, 
+	src/gtk/transfer.c - Fixed dead-locks with GDK_THREADS_{ENTER,LEAVE}
+
+	* configure.in, src/gtk/Makefile.am - Use GTHREAD_LIBS
+
+2002-10-03 Brian Masney <masneyb@gftp.org>
+	* Makefile.am - remove intl and m4 directory from subdirs. autogen.sh
+	will automagically add these for me.
+
+	* autogen.sh - remove check for libtool
+
+	* configure.in - link in gthread
+
+	* cvsclean - added this script
+
+	* *.[ch] - added $Id$ tags
+
+	* debian/* - updated files from Debian maintainer
+
 2002-10-03 Brian Masney <masneyb@gftp.org>
 	* src/gtk/gftp-gtk.c - call g_thread_init (NULL)
 

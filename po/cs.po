@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gFTP 2.0.8pre4\n"
-"POT-Creation-Date: 2002-09-18 08:26-0400\n"
+"POT-Creation-Date: 2002-09-26 15:25-0400\n"
 "PO-Revision-Date: 2001-04-10 18:52+02:00\n"
 "Last-Translator: Petr Domansky <doman@atlas.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -503,7 +503,7 @@ msgstr ""
 msgid "The color of the rest of the log messages"
 msgstr ""
 
-#: lib/config_file.c:241 lib/config_file.c:784
+#: lib/config_file.c:241 lib/config_file.c:782
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "Chyba gFTP: ©patné jméno konfiguraèního souboru %s\n"
@@ -522,7 +522,7 @@ msgstr "Chyba gFTP: Nelze najít hlavní konfiguraèní soubor %s\n"
 msgid "Did you do a make install?\n"
 msgstr "Chcete spustit instalaci?\n"
 
-#: lib/config_file.c:273 lib/config_file.c:789
+#: lib/config_file.c:273 lib/config_file.c:788
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "Chyba gFTP: Nelze otevøít konfiguraèní soubor %s: %s\n"
@@ -542,7 +542,7 @@ msgstr "Chyba gFTP: ©patné jméno logovacího souboru %s\n"
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "Varování: Nelze otevøít %s pro zápis: %s\n"
 
-#: lib/config_file.c:542 lib/config_file.c:800
+#: lib/config_file.c:542 lib/config_file.c:904
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "Chyba gFTP: ©patné jméno souboru zálo¾ek %s\n"
@@ -552,7 +552,7 @@ msgstr "Chyba gFTP: ©patné jméno souboru zálo¾ek %s\n"
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Varování: Nelze najít hlavní soubor zálo¾ek %s\n"
 
-#: lib/config_file.c:574 lib/config_file.c:805
+#: lib/config_file.c:574 lib/config_file.c:910
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "Chyba gFTP: Nelze otevøít soubor zálo¾ek %s: %s\n"
@@ -562,7 +562,7 @@ msgstr "Chyba gFTP: Nelze otevøít soubor zálo¾ek %s: %s\n"
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "Varování gFTP: Vynechávám øádek %d v souboru zálo¾ek: %s\n"
 
-#: lib/config_file.c:776
+#: lib/config_file.c:775
 #, fuzzy
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -577,7 +577,30 @@ msgstr ""
 "gFTP\n"
 "\n"
 
+#: lib/config_file.c:776
+msgid ""
+"This section specifies which hosts are on the local subnet and won't need to "
+"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
+"dont_use_proxy=network number/netmask"
+msgstr ""
+"Tato sekce specifikuje jména hostitelù lokální podsítì , kteøí nemusí "
+"pou¾ívat proxy server (pokud je k dispozici). Syntaxe: dont_use_proxy=."
+"doména nebo dont_use_proxy=èíslo sí»ì/netmask"
+
 #: lib/config_file.c:777
+msgid ""
+"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
+"All arguments except the file extension are optional"
+msgstr ""
+"ext=roz¹íøení názvu souboru:XPM soubor:Ascii nebo binární (A nebo B):"
+"prohlí¾ecí program. Poznámka: V¹echny parametry pro ro¹íøené názvy souborù "
+"jsou volitelné"
+
+#: lib/config_file.c:778
+msgid "This section contains the data that is in the history"
+msgstr "Tato sekce obsahuje data s historií pøístupù"
+
+#: lib/config_file.c:900
 #, fuzzy
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -589,30 +612,7 @@ msgstr ""
 "pøepsány\n"
 "\n"
 
-#: lib/config_file.c:778
-msgid ""
-"This section specifies which hosts are on the local subnet and won't need to "
-"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
-"dont_use_proxy=network number/netmask"
-msgstr ""
-"Tato sekce specifikuje jména hostitelù lokální podsítì , kteøí nemusí "
-"pou¾ívat proxy server (pokud je k dispozici). Syntaxe: dont_use_proxy=."
-"doména nebo dont_use_proxy=èíslo sí»ì/netmask"
-
-#: lib/config_file.c:779
-msgid ""
-"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
-"All arguments except the file extension are optional"
-msgstr ""
-"ext=roz¹íøení názvu souboru:XPM soubor:Ascii nebo binární (A nebo B):"
-"prohlí¾ecí program. Poznámka: V¹echny parametry pro ro¹íøené názvy souborù "
-"jsou volitelné"
-
-#: lib/config_file.c:780
-msgid "This section contains the data that is in the history"
-msgstr "Tato sekce obsahuje data s historií pøístupù"
-
-#: lib/config_file.c:1005
+#: lib/config_file.c:1019
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "Varování gFTP: Øádek %d neobsahuje ¾ádné argumenty\n"

@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
+static const char cvsid[] = "$Id$";
 
 static gint delete_event 			( GtkWidget * widget, 
 						  GdkEvent * event, 
@@ -72,6 +73,7 @@ GtkItemFactory * factory = NULL;
 pthread_mutex_t transfer_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 gftp_graphic * gftp_icon;
+int gftp_is_started = 0;
 
 int
 main (int argc, char **argv)
@@ -138,10 +140,11 @@ main (int argc, char **argv)
     gftp_set_directory (window1.request, startup_directory);
   gftp_connect (window1.request);
   ftp_list_files (&window1, 0);
+  gftp_is_started = 1;
 
-  gdk_threads_enter ();
+  GDK_THREADS_ENTER ();
   gtk_main ();
-  gdk_threads_leave ();
+  GDK_THREADS_LEAVE ();
   return (0);
 }
 

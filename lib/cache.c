@@ -18,7 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-
+static const char cvsid[] = "$Id$";
 
 char *
 gftp_cache_get_url_prefix (gftp_request * request)

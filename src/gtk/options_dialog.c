@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include <gftp-gtk.h>
+static const char cvsid[] = "$Id$";
 
 static void make_proxy_hosts_tab 		( GtkWidget * notebook );
 static void add_host_to_listbox 		( GList * templist );

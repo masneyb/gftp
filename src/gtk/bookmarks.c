@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
+static const char cvsid[] = "$Id$";
 
 static void doadd_bookmark 			( gpointer * data,
 						  gftp_dialog_data * ddata);

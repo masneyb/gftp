@@ -17,6 +17,8 @@
 /*  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                */
 /*****************************************************************************/
 
+/* $Id$ */
+
 #ifndef __GFTP_GTK_H
 #define __GFTP_GTK_H
 
@@ -146,6 +148,7 @@ extern GtkItemFactoryEntry * menus;
 extern GtkItemFactory * factory;
 extern pthread_mutex_t transfer_mutex, log_mutex;
 extern gftp_graphic * gftp_icon;
+extern int gftp_is_started;
 
 /* bookmarks.c */
 void run_bookmark 				( gpointer data );

@@ -4,7 +4,7 @@
 arch := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
 #export DH_VERBOSE=1
-export DH_COMPAT=2
+export DH_COMPAT=3
 
 ggtmp := $(CURDIR)/debian/gftp-gtk
 gttmp := $(CURDIR)/debian/gftp-text
@@ -20,14 +20,15 @@ endif
 build: build-stamp
 build-stamp:
 	dh_testdir
-	CFLAGS="$(CFLAGS)" ./configure --prefix=/usr --mandir='$${prefix}/share/man'
+	CFLAGS="$(CFLAGS)" ./configure --prefix=/usr --mandir='$${prefix}/share/man' --enable-textport=yes
 	$(MAKE) 
 	touch $@
 
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f debian/dirs debian/docs
+#	rm -f debian/dirs debian/docs
+	rm -f debian/dirs
 	[ ! -f Makefile ] || $(MAKE) distclean
 	dh_clean build-stamp
 
@@ -40,6 +41,18 @@ install: build-stamp
 	dh_movefiles --sourcedir=debian/gftp-gtk -pgftp-common \
           usr/share/locale usr/share/gftp/gftprc usr/share/gftp/bookmarks \
           usr/share/man/man1/gftp.1 usr/bin/gftp
+	dh_installdirs -pgftp-common usr/lib/menu
+
+	# Install menu file manualy into the gftp-common file because
+	# dh_installmenu cannot do it for me
+	install -p -m644 debian/menu debian/gftp-common/usr/lib/menu/gftp
+	echo "# Automatically added by dh_installmenu">> debian/gftp-common.postinst.debhelper
+	sed "" /usr/share/debhelper/autoscripts/postinst-menu >> debian/gftp-common.postinst.debhelper
+	echo '# End automatically added section' >> debian/gftp-common.postinst.debhelper
+	echo "# Automatically added by dh_installmenu">> debian/gftp-common.postrm.debhelper
+	sed "" /usr/share/debhelper/autoscripts/postrm-menu >> debian/gftp-common.postrm.debhelper
+	echo '# End automatically added section' >> debian/gftp-common.postrm.debhelper
+
 	dh_movefiles --sourcedir=debian/gftp-gtk -pgftp-text usr/bin/gftp-text
 	dh_installdirs -pgftp-text usr/share/man/man1
 	ln -s gftp.1.gz $(gttmp)/usr/share/man/man1/gftp-text.1.gz
@@ -55,8 +68,8 @@ binary-arch: install
 	dh_testroot
 	dh_installdocs -a
 	dh_installdocs -An -pgftp-gtk -pgftp-text README TODO
-#	dh_installchangelogs -a ChangeLog
-	dh_installmenu -a
+	dh_installchangelogs -a ChangeLog
+	#dh_installmenu -a --package=gftp-common
 ifeq "$(findstring nostrip,$(DEB_BUILD_OPTIONS))" ""
 	dh_strip -a
 endif

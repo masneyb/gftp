@@ -19,6 +19,7 @@
 
 #include "gftp.h"
 #include "options.h"
+static const char cvsid[] = "$Id$";
 
 char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)

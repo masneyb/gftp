@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include <gftp-gtk.h>
+static const char cvsid[] = "$Id$";
 
 static void *getdir_thread			( void *data );
 static void *connect_thread 			( void *data );
@@ -70,7 +71,9 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
   void *success;
 
   gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Receiving file names..."));
-  fix_display ();
+  if (gftp_is_started)
+    fix_display ();
+
   wdata->show_selected = 0;
   if (wdata->files == NULL)
     {
@@ -87,9 +90,8 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
           pthread_create (&wdata->tid, NULL, getdir_thread, wdata->request);
           while (wdata->request->stopable)
             {
-              gdk_threads_leave ();
+              GDK_THREADS_LEAVE ();
               g_main_iteration (TRUE);
-              gdk_threads_enter ();
             }
           teardown_wakeup_main_thread (wdata->request, handler);
 
@@ -260,9 +262,8 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
 
           while (request->stopable)
             {
-              gdk_threads_leave ();
+              GDK_THREADS_LEAVE ();
               g_main_iteration (TRUE);
-              gdk_threads_enter ();
             }
 
           if (GFTP_GET_PASSWORD (request) == NULL || 
@@ -284,9 +285,8 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
       handler = setup_wakeup_main_thread (wdata->request);
       while (request->stopable)
         {
-          gdk_threads_leave ();
+          GDK_THREADS_LEAVE ();
           g_main_iteration (TRUE);
-          gdk_threads_enter ();
         }
       pthread_join (wdata->tid, &ret);
       teardown_wakeup_main_thread (wdata->request, handler);
@@ -450,9 +450,8 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
 
           while (transfer->fromreq->stopable)
             {
-              gdk_threads_leave ();
+              GDK_THREADS_LEAVE ();
               g_main_iteration (TRUE);
-              gdk_threads_enter ();
             }
 
           gtk_timeout_remove (timeout_num);
@@ -1208,7 +1207,6 @@ transfer_done (GList * node)
   pthread_mutex_destroy (tdata->structmutex);
   pthread_mutex_destroy (tdata->statmutex);
   free_tdata (tdata);
-  fix_display ();
 }
 
 

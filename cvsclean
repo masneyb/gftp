@@ -1,0 +1,14 @@
+#!/bin/sh
+
+make distclean
+find . -name Makefile.in -exec rm -f {} \;
+find . -name Makefile -exec rm -f {} \;
+find . -name "*~" -exec rm -f {} \;
+rm -rf intl
+rm -f po/Makefile.in.in po/*.gmo po/Makevars.template po/Rules-quot po/boldquot.sed po/en@boldquot.header po/en@quot.header po/insert-header.sin po/quot.sed po/remove-potcdate.sin config.log config.cache config.status config.h gftp.spec stamp-h stamp-h.in ABOUT-NLS INSTALL config.guess config.rpath config.status config.sub configure install-sh missing mkinstalldirs
+
+cat configure.in | sed s/\ intl\\/Makefile\ //g | sed s/po\\/Makefile.in\ //g > configure.in.new
+mv configure.in.new configure.in
+
+cat Makefile.am | sed s/\ intl\ //g | sed s/\ config\.rpath//g | sed s/mkinstalldirs//g > Makefile.am.new
+mv Makefile.am.new Makefile.am

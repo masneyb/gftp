@@ -1,9 +1,9 @@
 Source: gftp
 Section: net
 Priority: optional
-Maintainer: Josip Rodin <jrodin@jagor.srce.hr>
-Build-Depends: debhelper (>= 2), libglib1.2-dev, libgtk1.2-dev
-Standards-Version: 3.5.2
+Maintainer: Aurelien Beaujean <aure@debian.org>
+Build-Depends: debhelper (>= 3), libglib1.2-dev, libgtk1.2-dev
+Standards-Version: 3.5.6.0
 
 Package: gftp
 Architecture: any
@@ -17,8 +17,8 @@ Description: X/GTK+ FTP client
 
 Package: gftp-gtk
 Architecture: any
-Depends: ${shlibs:Depends}, gftp-common (>= 2.0.8-2)
-Replaces: gftp (<< 2.0.8)
+Depends: ${shlibs:Depends}, gftp-common (>= 2.0.13-1)
+Replaces: gftp (<< 2.0.13)
 Description: X/GTK+ FTP client
  gFTP is a multithreaded FTP client. This version of it runs under X
  and was written using GLib/GTK+.
@@ -33,11 +33,13 @@ Description: X/GTK+ FTP client
    * passive and non-passive file transfers,
    * drag-n-drop support,
    * bookmarks menu,
+   * support for SSH and SSH2 file transfers,
+   * support FXP transferts,
    * stop button, and many more features.
 
 Package: gftp-text
 Architecture: any
-Depends: ${shlibs:Depends}, gftp-common (>= 2.0.8-2)
+Depends: ${shlibs:Depends}, gftp-common (>= 2.0.13-1)
 Description: a colored FTP client using GLib
  gFTP is a multithreaded FTP client. This version of it runs under console
  and was written using GLib.
@@ -52,13 +54,15 @@ Description: a colored FTP client using GLib
    * passive and non-passive file transfers,
    * drag-n-drop support,
    * bookmarks menu,
+   * support for SSH and SSH2 file transfers,
+   * support FXP transferts,
    * stop button, and many more features.
 
 Package: gftp-common
 Architecture: any
 Depends: gftp-gtk | gftp-text
-Replaces: gftp (<< 2.0.8)
-Conflicts: gftp-gtk (<< 2.0.8-2), gftp-text (<< 2.0.8-2)
+Replaces: gftp (<< 2.0.13)
+Conflicts: gftp-gtk (<< 2.0.13-1), gftp-text (<< 2.0.13-1)
 Description: shared files for other gFTP packages
  gFTP is a multithreaded FTP client. This package contains the locale data
  used by both gftp-gtk and gftp-text, along with a common manual page.
@@ -73,4 +77,6 @@ Description: shared files for other gFTP packages
    * passive and non-passive file transfers,
    * drag-n-drop support,
    * bookmarks menu,
+   * support for SSH and SSH2 file transfers,
+   * support FXP transferts,
    * stop button, and many more features.

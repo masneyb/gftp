@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/*  local.c - functions that will use the local system                       */
+/*  bookmark.c - functions for connecting to a site via a bookmark           */
 /*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 static int bookmark_parse_url 			( gftp_request * request, 
 						  const char * url );

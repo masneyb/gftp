@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
+static const char cvsid[] = "$Id$";
 
 static void askdel 				( gftp_transfer * transfer );
 static void yesCB 				( gftp_transfer * transfer,
@@ -82,9 +83,8 @@ delete_dialog (gpointer data)
       timeout_num = gtk_timeout_add (100, progress_timeout, transfer);
       while (transfer->fromreq->stopable)
         {
-          gdk_threads_leave ();
+          GDK_THREADS_LEAVE ();
           g_main_iteration (TRUE);
-          gdk_threads_enter ();
         }
 
       gtk_widget_set_sensitive (stop_btn, 0);
@@ -151,9 +151,8 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
 
       while (transfer->fromreq->stopable)
         {
-          gdk_threads_leave ();
+          GDK_THREADS_LEAVE ();
           g_main_iteration (TRUE);
-          gdk_threads_enter ();
         }
 
       gtk_widget_set_sensitive (stop_btn, 0);

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
-"POT-Creation-Date: 2002-09-18 08:26-0400\n"
+"POT-Creation-Date: 2002-09-26 15:25-0400\n"
 "PO-Revision-Date: 2000-03-09 15:20-0500\n"
 "Last-Translator: Görkem Çetin <gorkem@gelecek.com.tr>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -487,7 +487,7 @@ msgstr "Hata mesajlarýnýn renkleri"
 msgid "The color of the rest of the log messages"
 msgstr "Kalan kayýt mesajlarýnýn renkleri"
 
-#: lib/config_file.c:241 lib/config_file.c:784
+#: lib/config_file.c:241 lib/config_file.c:782
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP Hatasý: Hatalý yapýlandýrma dosyasý %s\n"
@@ -506,7 +506,7 @@ msgstr "gFTP Hatasý: %s yapýlandýrma dosyasý bulunamadý\n"
 msgid "Did you do a make install?\n"
 msgstr "Bir kurulum yaptýnýz mý?\n"
 
-#: lib/config_file.c:273 lib/config_file.c:789
+#: lib/config_file.c:273 lib/config_file.c:788
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP Hatasý: Yapýlandýrma dosyasý açýlamadý %s: %s\n"
@@ -526,7 +526,7 @@ msgstr "gFTP Hatasý: Hatalý kayýt dosyasý %s\n"
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP Uyarýsý: %s dosyasý yazmak için açýlamadý: %s\n"
 
-#: lib/config_file.c:542 lib/config_file.c:800
+#: lib/config_file.c:542 lib/config_file.c:904
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP Hatasý: %s dosyasýnda hatalý yer imleri\n"
@@ -536,7 +536,7 @@ msgstr "gFTP Hatasý: %s dosyasýnda hatalý yer imleri\n"
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Uyarý: Ana yer imi dosyasý bulunamadý: %s\n"
 
-#: lib/config_file.c:574 lib/config_file.c:805
+#: lib/config_file.c:574 lib/config_file.c:910
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP Hatasý: Yer imi dosyasý %s açýlamadý: %s\n"
@@ -546,7 +546,7 @@ msgstr "gFTP Hatasý: Yer imi dosyasý %s açýlamadý: %s\n"
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP Uyarýsý: Yer imi dosyasýnda %d satýr atlanýyor: %s\n"
 
-#: lib/config_file.c:776
+#: lib/config_file.c:775
 #, fuzzy
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -558,7 +558,24 @@ msgstr ""
 "silinecektir. Eðer bir bir satýr içinde (*) varsa, bunu gFTP içinden "
 "deðiþtiremezsiniz."
 
+#: lib/config_file.c:776
+msgid ""
+"This section specifies which hosts are on the local subnet and won't need to "
+"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
+"dont_use_proxy=network number/netmask"
+msgstr ""
+
 #: lib/config_file.c:777
+msgid ""
+"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
+"All arguments except the file extension are optional"
+msgstr ""
+
+#: lib/config_file.c:778
+msgid "This section contains the data that is in the history"
+msgstr "Bu bölüm tarihçede bulunan verileri kapsar."
+
+#: lib/config_file.c:900
 #, fuzzy
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -567,24 +584,7 @@ msgstr ""
 "gFTP için yer imi dosyasý. (C) 1998-2002 Brian Masney <masneyb@gftp.org> "
 "Uyarý: Bu dosyaya ekleyeceðiniz açýklama satýrlarý silinecektir. "
 
-#: lib/config_file.c:778
-msgid ""
-"This section specifies which hosts are on the local subnet and won't need to "
-"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
-"dont_use_proxy=network number/netmask"
-msgstr ""
-
-#: lib/config_file.c:779
-msgid ""
-"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
-"All arguments except the file extension are optional"
-msgstr ""
-
-#: lib/config_file.c:780
-msgid "This section contains the data that is in the history"
-msgstr "Bu bölüm tarihçede bulunan verileri kapsar."
-
-#: lib/config_file.c:1005
+#: lib/config_file.c:1019
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP Uyarýsý: %d satýrý yeterli argümana sahip deðil\n"

@@ -17,6 +17,8 @@
 /*  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                */
 /*****************************************************************************/
 
+/* $Id$ */
+
 #ifndef __GFTP_H
 #define __GFTP_H
 

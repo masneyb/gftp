@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gFTP 2.0.5\n"
-"POT-Creation-Date: 2002-09-18 08:26-0400\n"
+"POT-Creation-Date: 2002-09-26 15:25-0400\n"
 "PO-Revision-Date:\n"
 "Last-Translator:Tuomo Lukka <Luigi@iki.fi>\n"
 "Language-Team:Finnish\n"
@@ -544,7 +544,7 @@ msgstr ""
 msgid "The color of the rest of the log messages"
 msgstr ""
 
-#: lib/config_file.c:241 lib/config_file.c:784
+#: lib/config_file.c:241 lib/config_file.c:782
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP Virhe: Virheellinen konfigurointitiedoston nimi %s\n"
@@ -563,7 +563,7 @@ msgstr "gFTP Virhe: Pääkonfigurointitiedostoa ei löydy %s \n"
 msgid "Did you do a make install?\n"
 msgstr "Oletko asentanut ohjelman komennolla \"make install\"?\n"
 
-#: lib/config_file.c:273 lib/config_file.c:789
+#: lib/config_file.c:273 lib/config_file.c:788
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP Virhe: Konfigurointitiedoston %s avaaminen epäonnistui: %s\n"
@@ -583,7 +583,7 @@ msgstr "gFTP Virhe: Virheellinen konfigurointitiedoston nimi %s\n"
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP Virhe: Pääkonfigurointitiedostoa ei löydy %s \n"
 
-#: lib/config_file.c:542 lib/config_file.c:800
+#: lib/config_file.c:542 lib/config_file.c:904
 #, fuzzy, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP Virhe: Virheellinen konfigurointitiedoston nimi %s\n"
@@ -593,7 +593,7 @@ msgstr "gFTP Virhe: Virheellinen konfigurointitiedoston nimi %s\n"
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "gFTP Virhe: Pääkonfigurointitiedostoa ei löydy %s \n"
 
-#: lib/config_file.c:574 lib/config_file.c:805
+#: lib/config_file.c:574 lib/config_file.c:910
 #, fuzzy, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP Virhe: Konfigurointitiedoston %s avaaminen epäonnistui: %s\n"
@@ -603,7 +603,7 @@ msgstr "gFTP Virhe: Konfigurointitiedoston %s avaaminen epäonnistui: %s\n"
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP Varoitus: Rivi %d ohitettu konfigurointitiedostossa: %s\n"
 
-#: lib/config_file.c:776
+#: lib/config_file.c:775
 #, fuzzy
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -617,7 +617,29 @@ msgstr ""
 "# Jos optio on merkitty merkillä (*), sitä ei voi muuttaa gFTP ohjelmasta.\n"
 "\n"
 
+#: lib/config_file.c:776
+msgid ""
+"This section specifies which hosts are on the local subnet and won't need to "
+"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
+"dont_use_proxy=network number/netmask"
+msgstr ""
+
 #: lib/config_file.c:777
+#, fuzzy
+msgid ""
+"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
+"All arguments except the file extension are optional"
+msgstr ""
+"\n"
+"ext=tiedostopääte:XPM tiedosto:Ascii tai Binääri (A tai B):katselu "
+"ohjelmaKaikki argumentit tiedostopäätettä lukuunottamatta ovat "
+"vapaaehtoisia.\n"
+
+#: lib/config_file.c:778
+msgid "This section contains the data that is in the history"
+msgstr ""
+
+#: lib/config_file.c:900
 #, fuzzy
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -630,29 +652,7 @@ msgstr ""
 "# Jos optio on merkitty merkillä (*), sitä ei voi muuttaa gFTP ohjelmasta.\n"
 "\n"
 
-#: lib/config_file.c:778
-msgid ""
-"This section specifies which hosts are on the local subnet and won't need to "
-"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
-"dont_use_proxy=network number/netmask"
-msgstr ""
-
-#: lib/config_file.c:779
-#, fuzzy
-msgid ""
-"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
-"All arguments except the file extension are optional"
-msgstr ""
-"\n"
-"ext=tiedostopääte:XPM tiedosto:Ascii tai Binääri (A tai B):katselu "
-"ohjelmaKaikki argumentit tiedostopäätettä lukuunottamatta ovat "
-"vapaaehtoisia.\n"
-
-#: lib/config_file.c:780
-msgid "This section contains the data that is in the history"
-msgstr ""
-
-#: lib/config_file.c:1005
+#: lib/config_file.c:1019
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP Varoitus: Rivillä %d ei ole tarpeeksi argumentteja\n"

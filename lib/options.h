@@ -17,6 +17,8 @@
 /*  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA      */
 /*****************************************************************************/
 
+/* $Id$ */
+
 #include "gftp.h"
 
 supported_gftp_protocols gftp_protocols[] =

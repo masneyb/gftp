@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 static void write_comment 			( FILE * fd, 
 						  const char *comment );

@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 static time_t parse_time 			( char **str );
 static int gftp_parse_ls_eplf 			( char *str, 

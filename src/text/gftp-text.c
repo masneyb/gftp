@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-text.h"
+static const char cvsid[] = "$Id$";
 
 static gftp_request * gftp_text_locreq = NULL;
 static gftp_request * gftp_text_remreq = NULL;

@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include <gftp-gtk.h>
+static const char cvsid[] = "$Id$";
 
 static int do_change_dir			( gftp_window_data * wdata,
 						  char * directory );

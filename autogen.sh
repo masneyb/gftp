@@ -12,23 +12,6 @@ FILE=lib/gftp.h
 
 DIE=0
 
-have_libtool=false
-if libtool --version < /dev/null > /dev/null 2>&1 ; then
-	libtool_version=`libtoolize --version |  libtoolize --version | sed 's/^[^0-9]*\([0-9.][0-9.]*\).*/\1/'`
-	case $libtool_version in
-	    1.4*)
-		have_libtool=true
-		;;
-	esac
-fi
-if $have_libtool ; then : ; else
-	echo
-	echo "You must have libtool 1.4 installed to compile $PROJECT."
-	echo "Install the appropriate package for your distribution,"
-	echo "or get the source tarball at ftp://ftp.gnu.org/pub/gnu/"
-	DIE=1
-fi
-
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
 	echo
 	echo "You must have autoconf installed to compile $PROJECT."
@@ -100,7 +83,7 @@ autoconf
 cd $ORIGDIR
 
 if test -z "$AUTOGEN_SUBDIR_MODE"; then
-        $srcdir/configure --enable-maintainer-mode "$@"
+        CFLAGS="-Wall -ansi -D_GNU_SOURCE -O -g" $srcdir/configure --enable-maintainer-mode "$@"
 
         echo 
         echo "Now type 'make' to compile $PROJECT."

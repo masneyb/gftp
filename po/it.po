@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp-2.0.7b\n"
-"POT-Creation-Date: 2002-09-18 08:26-0400\n"
+"POT-Creation-Date: 2002-09-26 15:25-0400\n"
 "PO-Revision-Date: 2001-03-20 23:50+0100\n"
 "Last-Translator: Gabriele Stella <gstella@libero.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -505,7 +505,7 @@ msgstr ""
 msgid "The color of the rest of the log messages"
 msgstr ""
 
-#: lib/config_file.c:241 lib/config_file.c:784
+#: lib/config_file.c:241 lib/config_file.c:782
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "Errore gFTP: Nome file configurazione non valido %s\n"
@@ -524,7 +524,7 @@ msgstr "Errore gFTP: Manca il file di configurazione principale %s\n"
 msgid "Did you do a make install?\n"
 msgstr "Avete eseguito un make install?\n"
 
-#: lib/config_file.c:273 lib/config_file.c:789
+#: lib/config_file.c:273 lib/config_file.c:788
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "Errore gFTP: Impossibile aprire il file di configurazione %s: %s\n"
@@ -544,7 +544,7 @@ msgstr "Errore gFTP: Nome file di log non valido %s\n"
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "Attenzione: Impossibile aprire %s in scrittura: %s\n"
 
-#: lib/config_file.c:542 lib/config_file.c:800
+#: lib/config_file.c:542 lib/config_file.c:904
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "Errore gFTP: Nome file bookmarks errato %s\n"
@@ -554,7 +554,7 @@ msgstr "Errore gFTP: Nome file bookmarks errato %s\n"
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Attenzione: Non trovato il file dei bookmark principale %s\n"
 
-#: lib/config_file.c:574 lib/config_file.c:805
+#: lib/config_file.c:574 lib/config_file.c:910
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "Errore gFTP: Impossibile aprire il file dei bookmark %s: %s\n"
@@ -564,7 +564,7 @@ msgstr "Errore gFTP: Impossibile aprire il file dei bookmark %s: %s\n"
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "Avviso gFTP: Salto la riga %d nel file dei bookmarks: %s\n"
 
-#: lib/config_file.c:776
+#: lib/config_file.c:775
 #, fuzzy
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -577,7 +577,29 @@ msgstr ""
 "# Se una voce ha un (*) nel commento, non potete cambiarla usando gFTP\n"
 "\n"
 
+#: lib/config_file.c:776
+msgid ""
+"This section specifies which hosts are on the local subnet and won't need to "
+"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
+"dont_use_proxy=network number/netmask"
+msgstr ""
+"Questa sezione elenca gli hosts della rete locale che non debbono essere "
+"raggiunti tramite server proxy (se esiste). Sintassi: dont_use_proxy=."
+"dominio o dont_use_proxy=indirizzo di rete/netmask"
+
 #: lib/config_file.c:777
+msgid ""
+"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
+"All arguments except the file extension are optional"
+msgstr ""
+"ext=estensione file:XPM file:Ascii o Binario (A or B):programma di "
+"visualizzazione. Nota: Tutti gli argomenti tranne l'estensione sono opzionali"
+
+#: lib/config_file.c:778
+msgid "This section contains the data that is in the history"
+msgstr "Questa sezione contiene i dati dell' history"
+
+#: lib/config_file.c:900
 #, fuzzy
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -588,29 +610,7 @@ msgstr ""
 "# Attenzione: Qualsiasi commento aggiunto a questo file SARA' sovrascritto\n"
 "\n"
 
-#: lib/config_file.c:778
-msgid ""
-"This section specifies which hosts are on the local subnet and won't need to "
-"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
-"dont_use_proxy=network number/netmask"
-msgstr ""
-"Questa sezione elenca gli hosts della rete locale che non debbono essere "
-"raggiunti tramite server proxy (se esiste). Sintassi: dont_use_proxy=."
-"dominio o dont_use_proxy=indirizzo di rete/netmask"
-
-#: lib/config_file.c:779
-msgid ""
-"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
-"All arguments except the file extension are optional"
-msgstr ""
-"ext=estensione file:XPM file:Ascii o Binario (A or B):programma di "
-"visualizzazione. Nota: Tutti gli argomenti tranne l'estensione sono opzionali"
-
-#: lib/config_file.c:780
-msgid "This section contains the data that is in the history"
-msgstr "Questa sezione contiene i dati dell' history"
-
-#: lib/config_file.c:1005
+#: lib/config_file.c:1019
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "Avviso gFTP: La riga %d non ha abbastanza argomenti\n"

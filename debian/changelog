@@ -1,46 +1,66 @@
-gftp (2.0.13) unstable; urgency=low
+gftp (2.0.13-1) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * Added a gftp mini logo (gftp-mini-logo.xpm) and using it in the menu file
+    which closes: #153468.
+  * New upstream release, it fix gftp-text problem, so closes: #153836.
 
- -- Brian Masney <masneyb@seul.org>  Fri, 19 Jul 2002 06:19:46 -0500
+ -- Aurelien Beaujean <aure@debian.org>  Mon, 22 Jul 2002 10:21:44 +0200
 
-gftp (2.0.12) unstable; urgency=low
+gftp (2.0.12-1) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * Moving menu file into gftp-common: closes: #135042.
+  * Forgot to close the german translation mistake warning in the pervious
+    release so: closes: #125384.
+  * Changing maintainer's email.
+  * New upstream release, so closes segfault bug: closes: #146836.
 
- -- Brian Masney <masneyb@seul.org>  Tue, 21 May 2002 22:33:23 -0500
+ -- Aurelien Beaujean <aure@debian.org>  Sat, 13 Jul 2002 13:47:13 +0200
 
-gftp (2.0.11) unstable; urgency=low
+gftp (2.0.11-1) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * New release.
 
- -- Brian Masney <masneyb@seul.org>  Thu, 03 Jan 2002 15:32:37 -0500
+ -- Aurelien Beaujean <beaujean@efrei.fr>  Thu, 17 Jan 2002 20:52:36 +0100
 
-gftp (2.0.10) unstable; urgency=low
+gftp (2.0.10-2) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * Added ABOUT-NLS, THANKS and docs/USERS-GUIDE in debian/docs file.
+  * Added an icon entry in the debian/menu file.
+  * Change of the debhelper version to 3.
+  * Checked and changed Standards-Version to 3.5.6.0.
 
- -- Brian Masney <masneyb@seul.org>  Thu, 20 Dec 2001 19:32:42 -0500
+ -- Aurelien Beaujean <beaujean@efrei.fr>  Fri, 28 Dec 2001 12:16:09 +0100
 
-gftp (2.0.9) unstable; urgency=low
+gftp (2.0.10-1) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * New release, closes: #126134.
+  * Included a new docs/sample.gftp/deb.xpm icon that best represent Debian,
+    closes: #123932.
+  * Correct spelling mistake SSG instead of SSH in german lang files,
+    closes: #116619.
 
- -- Brian Masney <masneyb@seul.org>  Fri, 23 Nov 2001 13:36:10 -0500
+ -- Aurelien Beaujean <beaujean@efrei.fr>  Wed, 26 Dec 2001 13:02:33 +0100
 
-gftp (2.0.9pre3) unstable; urgency=low
+gftp (2.0.9-1) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * New release.
+  * Added SSH file transfert and FXP support in the package description.
 
- -- Brian Masney <masneyb@seul.org>  Thu, 15 Nov 2001 20:26:33 -0500
+ -- Aurelien Beaujean <beaujean@efrei.fr>  Sat, 01 Dec 2001 23:08:31 +0100
 
-gftp (2.0.9pre2) unstable; urgency=low
+gftp (2.0.9pre3-1) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * New upstream version.
 
- -- Brian Masney <masneyb@seul.org>  Sat, 3 Nov 2001 08:11:15 -0500
+ -- Aurelien Beaujean <beaujean@efrei.fr>  Wed, 21 Nov 2001 19:42:18 +0100
 
-gftp (2.0.9pre1) unstable; urgency=low
+gftp (2.0.9pre2-1) unstable; urgency=low
+
+  * New maintainer, Closes: #109220.
+
+ -- Aurelien Beaujean <beaujean@efrei.fr>  Sat, 3 Nov 2001 18:11:15 -0200
+
+gftp (2.0.9pre1-1) unstable; urgency=low
 
   * New release. See CHANGELOG for details on changes in this release
 
@@ -233,7 +253,7 @@ gftp (0.21-1) unstable; urgency=low
   * Changed automatic password creation from "user@host" to "user@host.domain"
   * Changed "X Windows" to "X11 Sites" since the X Consortium doesn't like
     their product to be called like a similar named crappy piece of [zensored].
-	
+
  -- Martin Schulze <joey@finlandia.infodrom.north.de>  Thu,  7 Jan 1999 20:41:16 +0100
 
 gftp (0.2-1) unstable; urgency=low
@@ -241,7 +261,4 @@ gftp (0.2-1) unstable; urgency=low
   * First trial
 
  -- Martin Schulze <joey@finlandia.infodrom.north.de>  Tue,  5 Jan 1999 12:31:13 +0100
-													   
-Local variables:
-mode: debian-changelog
-End:
+

@@ -160,6 +160,11 @@ AC_SUBST(GFTP_TEXT)
 GFTP_GTK=""
 PTHREAD_CFLAGS=""
 PTHREAD_LIBS=""
+
+# I don't have PKG_CHECK_MODULES or AM_PATH_GLIB check for gthread because
+# the text port doesn't need to be compiled against the thread libraries
+GTHREAD_LIBS=""
+
 if test "x$enable_gtkport" = "x1" ; then
   if test "x$enable_gtk20" = "x1" ; then
     PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 1.3.8, GFTP_GTK=gftp-gtk)
@@ -167,6 +172,9 @@ if test "x$enable_gtkport" = "x1" ; then
 
   if test "x$GFTP_GTK" = "x" ; then
     AM_PATH_GTK(1.2.3, GFTP_GTK=gftp-gtk, AC_MSG_WARN(gFTP needs GTK+ 1.2.3 or higher for the graphical version. Only building the text version))
+    GTHREAD_LIBS="-lgthread"
+  else
+    GTHREAD_LIBS="-lgthread-2.0"
   fi
 
   if test "x$GFTP_GTK" = xgftp-gtk; then
@@ -232,6 +240,7 @@ if test "x$enable_gtkport" = "x1" ; then
 fi
 AC_SUBST(PTHREAD_CFLAGS)
 AC_SUBST(PTHREAD_LIBS)
+AC_SUBST(GTHREAD_LIBS)
 AC_SUBST(GFTP_GTK)
 
 AM_GNU_GETTEXT

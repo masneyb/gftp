@@ -21,6 +21,7 @@
 /* on the remote. Some of this code is derived from the sftp client */
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 #define CHDIR		10
 #define GETDIR		11
