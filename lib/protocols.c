@@ -104,12 +104,15 @@ gftp_file_destroy (gftp_file * file)
 int
 gftp_connect (gftp_request * request)
 {
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->connect == NULL)
     return (GFTP_EFATAL);
 
-  gftp_set_config_options (request);
+  if ((ret = gftp_set_config_options (request)) < 0)
+    return (ret);
 
   return (request->connect (request));
 }
@@ -1804,11 +1807,13 @@ gftp_connect_server (gftp_request * request, char *service,
 }
 
 
-void
+int
 gftp_set_config_options (gftp_request * request)
 {
   if (request->set_config_options != NULL)
-    request->set_config_options (request);
+    return (request->set_config_options (request));
+  else
+    return (0);
 }
 
 

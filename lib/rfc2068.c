@@ -192,7 +192,7 @@ rfc2068_connect (gftp_request * request)
 {
   char *proxy_hostname, *proxy_config;
   rfc2068_params * params;
-  int proxy_port;
+  int proxy_port, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
@@ -213,9 +213,9 @@ rfc2068_connect (gftp_request * request)
       request->url_prefix = g_strdup ("ftp");
     }
 
-  if (gftp_connect_server (request, request->url_prefix, proxy_hostname, 
-                           proxy_port) < 0)
-    return (GFTP_ERETRYABLE);
+  if ((ret = gftp_connect_server (request, request->url_prefix, proxy_hostname, 
+                                  proxy_port)) < 0)
+    return (ret);
 
   if (request->directory && *request->directory == '\0')
     {
@@ -657,9 +657,10 @@ rfc2068_chdir (gftp_request * request, const char *directory)
 }
 
 
-static void
+static int
 rfc2068_set_config_options (gftp_request * request)
 {
+  return (0);
 }
 
 
@@ -812,8 +813,6 @@ rfc2068_init (gftp_request * request)
   params = request->protocol_data;
   params->real_read_function = gftp_fd_read;
 
-  gftp_set_config_options (request);
-
-  return (0);
+  return (gftp_set_config_options (request));
 }
 

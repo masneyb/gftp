@@ -1,3 +1,15 @@
+2003-6-9 Brian Masney <masneyb@gftp.org>
+	* lib/bookmark.c lib/gftp.h lib/local.c lib/protocols.c lib/rfc2068.c
+	lib/rfc959.c lib/sshv2.c - make return value of *_set_config_options()
+	be an integer
+
+	* lib/rfc2068.c lib/rfc959.c - return the error code of
+	gftp_connect_server() if there was a connection problem
+
+2003-6-8 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c lib/rfc2068.c - if gftp_connect_server() returns an
+	error, make sure the exact error code is returned
+
 2003-6-8 Brian Masney <masneyb@gftp.org>
 	* lib/sslcommon.c - added entropy_len option. Added
 	gftp_ssl_get_index(). Use SSL_get_ex_data() so that we can get the

@@ -2217,13 +2217,14 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 }
 
 
-static void
+static int
 sshv2_set_config_options (gftp_request * request)
 {
   int ssh_need_userpass;
 
   gftp_lookup_request_option (request, "ssh_need_userpass", &ssh_need_userpass);
   request->need_userpass = ssh_need_userpass;
+  return (0);
 }
 
 
@@ -2289,11 +2290,10 @@ sshv2_init (gftp_request * request)
   request->always_connected = 0;
   request->protocol_data = g_malloc0 (sizeof (sshv2_params));
   request->server_type = GFTP_DIRTYPE_UNIX;
-  gftp_set_config_options (request);
 
   params = request->protocol_data;
   params->id = 1;
 
-  return (0);
+  return (gftp_set_config_options (request));
 }
 

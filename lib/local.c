@@ -679,7 +679,6 @@ local_init (gftp_request * request)
   request->use_cache = 0;
   request->use_threads = 0;
   request->always_connected = 1;
-  gftp_set_config_options (request);
 
   lpd = g_malloc0 (sizeof (*lpd));
   request->protocol_data = lpd;
@@ -690,6 +689,6 @@ local_init (gftp_request * request)
     g_free (request->hostname);
   request->hostname = g_strdup (_("local filesystem"));
 
-  return (0);
+  return (gftp_set_config_options (request));
 }
 

@@ -436,8 +436,8 @@ rfc959_connect (gftp_request * request)
   else if (strcasecmp (request->username, "anonymous") == 0)
     gftp_set_password (request, email);
    
-  if (gftp_connect_server (request, "ftp", proxy_hostname, proxy_port) < 0)
-    return (request->datafd);
+  if ((ret = gftp_connect_server (request, "ftp", proxy_hostname, proxy_port)) < 0)
+    return (ret);
 
   /* Get the banner */
   if ((ret = rfc959_read_response (request)) != '2')
@@ -1590,18 +1590,22 @@ rfc959_site (gftp_request * request, const char *command)
 }
 
 
-static void
+static int
 rfc959_set_config_options (gftp_request * request)
 {
   char *proxy_config;
+  int ret;
 
   gftp_lookup_request_option (request, "proxy_config", &proxy_config);
   if (strcmp (proxy_config, "http") == 0)
     {
-      gftp_protocols[GFTP_HTTP_NUM].init (request); /* FIXME - check return value */
+      if ((ret = gftp_protocols[GFTP_HTTP_NUM].init (request)) < 0)
+        return (ret);
 
       gftp_set_request_option (request, "proxy_config", "ftp");
     }
+
+  return (0);
 }
 
 
@@ -1679,8 +1683,6 @@ rfc959_init (gftp_request * request)
   parms = request->protocol_data;
   parms->data_connection = -1; 
 
-  gftp_set_config_options (request);
-
-  return (0);
+  return (gftp_set_config_options (request));
 }
 

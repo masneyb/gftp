@@ -89,8 +89,7 @@ bookmark_init (gftp_request * request)
   request->use_threads = 0;
   request->use_cache = 0;
   request->always_connected = 0;
-  gftp_set_config_options (request);
 
-  return (0);
+  return (gftp_set_config_options (request));
 }
 

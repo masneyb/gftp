@@ -403,7 +403,7 @@ struct gftp_request_tag
 					  const char *filename );
   int (*parse_url)			( gftp_request * request,
 					  const char *url );
-  void (*set_config_options)		( gftp_request * request );
+  int (*set_config_options)		( gftp_request * request );
   void (*swap_socks)			( gftp_request * dest,
 					  gftp_request * source );
 
@@ -831,7 +831,7 @@ struct servent *r_getservbyname 	( const char *name,
 					  struct servent *result_buf, 
 					  int *h_errnop );
 
-void gftp_set_config_options 		( gftp_request * request );
+int gftp_set_config_options 		( gftp_request * request );
 
 void print_file_list 			( GList * list );
 
