@@ -1,18 +1,23 @@
+2003-1-18 Brian Masney <masneyb@gftp.org>
+	* src/gtk/bookmarks.c - don't allow an item to be dropped onto the root
+	node or items that are not a folder
+	(from Aurelien Jarno <aurel32@debian.org>)
+
 2003-1-7 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (parse_time) - insert the right year for files that
 	are from last year and the year is not shown in the ls output.
 
-        * src/uicommon/gftpui.c (_gftpui_common_thread_callback)
-        src/uicommon/gftpui.h - added a retries variable to the cdata structure
+	* src/uicommon/gftpui.c (_gftpui_common_thread_callback)
+	src/uicommon/gftpui.h - added a retries variable to the cdata structure
 
-        * src/uicommon/gftpui.c (gftpui_common_cmd_open) src/uicommon/gftpui.c
-        - actually connect to the remote server
+	* src/uicommon/gftpui.c (gftpui_common_cmd_open) src/uicommon/gftpui.c
+	- actually connect to the remote server
 
-        * src/uicommon/gftpuicallbacks.c src/uicommon/gftpui.c - in the
-        callback functions, don't change the return value
+	* src/uicommon/gftpuicallbacks.c src/uicommon/gftpui.c - in the
+	callback functions, don't change the return value
 
-        * src/text/textui.c (gftpui_generic_thread) - don't spawn a thread,
-        just call the function directly
+	* src/text/textui.c (gftpui_generic_thread) - don't spawn a thread,
+	just call the function directly
 
 2003-1-6 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/protocols.c lib/rfc959.c - added MVS directory parsing

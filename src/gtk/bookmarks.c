@@ -1075,6 +1075,14 @@ bm_enter (GtkWidget * widget, GdkEventKey * event, gpointer data)
 }
 
 
+static inline gboolean 
+move_possible (GtkCTree *ctree, GtkCTreeNode *child, GtkCTreeNode *parent,
+               GtkCTreeNode *sibling)
+{
+  return (parent != NULL && sibling != NULL);
+}
+
+
 static void
 after_move (GtkCTree * ctree, GtkCTreeNode * child, GtkCTreeNode * parent,
 	    GtkCTreeNode * sibling, gpointer data)
@@ -1248,6 +1256,7 @@ edit_bookmarks (gpointer data)
 			    GTK_SIGNAL_FUNC (after_move), NULL);
   gtk_signal_connect_after (GTK_OBJECT (tree), "button_press_event",
 			    GTK_SIGNAL_FUNC (bm_dblclick), (gpointer) tree);
+  gtk_ctree_set_drag_compare_func (GTK_CTREE(tree), &move_possible);
   gtk_widget_show (tree);
 
 #if GTK_MAJOR_VERSION == 1
