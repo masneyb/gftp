@@ -86,8 +86,9 @@ main (int argc, char **argv)
 #endif
   textdomain ("gftp");
 #endif
-  gtk_set_locale ();
 
+  g_thread_init (NULL);
+  gtk_set_locale ();
   gtk_init (&argc, &argv);
   signal (SIGCHLD, sig_child);
   signal (SIGPIPE, SIG_IGN);
@@ -138,7 +139,9 @@ main (int argc, char **argv)
   gftp_connect (window1.request);
   ftp_list_files (&window1, 0);
 
+  gdk_threads_enter ();
   gtk_main ();
+  gdk_threads_leave ();
   return (0);
 }
 

@@ -86,7 +86,11 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
           handler = setup_wakeup_main_thread (wdata->request);
           pthread_create (&wdata->tid, NULL, getdir_thread, wdata->request);
           while (wdata->request->stopable)
-            g_main_iteration (TRUE);
+            {
+              gdk_threads_leave ();
+              g_main_iteration (TRUE);
+              gdk_threads_enter ();
+            }
           teardown_wakeup_main_thread (wdata->request, handler);
 
           pthread_join (wdata->tid, &success);
@@ -253,8 +257,13 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
                           0, NULL, gftp_dialog_button_connect, 
                           try_connect_again, request, 
                           dont_connect_again, request);
+
           while (request->stopable)
-            g_main_iteration (TRUE);
+            {
+              gdk_threads_leave ();
+              g_main_iteration (TRUE);
+              gdk_threads_enter ();
+            }
 
           if (GFTP_GET_PASSWORD (request) == NULL || 
               *GFTP_GET_PASSWORD (request) == '\0')
@@ -274,7 +283,11 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
 
       handler = setup_wakeup_main_thread (wdata->request);
       while (request->stopable)
-        g_main_iteration (TRUE); 
+        {
+          gdk_threads_leave ();
+          g_main_iteration (TRUE);
+          gdk_threads_enter ();
+        }
       pthread_join (wdata->tid, &ret);
       teardown_wakeup_main_thread (wdata->request, handler);
 
@@ -436,7 +449,11 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
           timeout_num = gtk_timeout_add (100, progress_timeout, transfer);
 
           while (transfer->fromreq->stopable)
-            g_main_iteration (TRUE);
+            {
+              gdk_threads_leave ();
+              g_main_iteration (TRUE);
+              gdk_threads_enter ();
+            }
 
           gtk_timeout_remove (timeout_num);
           transfer->numfiles = transfer->numdirs = -1; 

@@ -34,7 +34,15 @@ static GtkWidget * statuswid;
 void
 fix_display (void)
 {
-  while (g_main_iteration (FALSE));
+  int ret;
+
+  ret = 1;
+  while (ret)
+    {
+      gdk_threads_leave ();
+      ret = g_main_iteration (FALSE);
+      gdk_threads_enter ();
+    }
 }
 
 
@@ -1124,7 +1132,11 @@ generic_thread (void * (*func) (void *), gftp_window_data * wdata)
       pthread_create (&wdata->tid, NULL, func, wdata);
 
       while (wdata->request->stopable)
-        g_main_iteration (TRUE);
+        {
+          gdk_threads_leave ();
+          g_main_iteration (TRUE);
+          gdk_threads_enter ();
+        }
 
       pthread_join (wdata->tid, &ret);
       gtk_widget_set_sensitive (stop_btn, 0);

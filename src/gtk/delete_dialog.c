@@ -81,7 +81,11 @@ delete_dialog (gpointer data)
 
       timeout_num = gtk_timeout_add (100, progress_timeout, transfer);
       while (transfer->fromreq->stopable)
-        g_main_iteration (TRUE);
+        {
+          gdk_threads_leave ();
+          g_main_iteration (TRUE);
+          gdk_threads_enter ();
+        }
 
       gtk_widget_set_sensitive (stop_btn, 0);
       gtk_timeout_remove (timeout_num);
@@ -146,7 +150,11 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
       pthread_create (&wdata->tid, NULL, do_delete_thread, transfer);
 
       while (transfer->fromreq->stopable)
-        g_main_iteration (TRUE);
+        {
+          gdk_threads_leave ();
+          g_main_iteration (TRUE);
+          gdk_threads_enter ();
+        }
 
       gtk_widget_set_sensitive (stop_btn, 0);
       pthread_join (wdata->tid, &ret);
