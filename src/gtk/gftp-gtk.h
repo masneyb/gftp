@@ -385,8 +385,7 @@ void gftp_gtk_setup_bookmark_options 		( GtkWidget * notebook,
 void gftp_gtk_save_bookmark_options 		( gftp_bookmarks_var * bm );
 
 /* transfer.c */
-int ftp_list_files				( gftp_window_data * wdata,
-						  int usecache );
+int ftp_list_files				( gftp_window_data * wdata );
 
 int ftp_connect					( gftp_window_data * wdata,
 						  gftp_request * request,

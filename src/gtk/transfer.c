@@ -23,7 +23,7 @@ static const char cvsid[] = "$Id$";
 static int num_transfers_in_progress = 0;
 
 int
-ftp_list_files (gftp_window_data * wdata, int usecache)
+ftp_list_files (gftp_window_data * wdata)
 {
   gftpui_callback_data * cdata;
 

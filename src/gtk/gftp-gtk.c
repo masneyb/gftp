@@ -1228,7 +1228,10 @@ main (int argc, char **argv)
   gftpui_common_init (&argc, &argv, ftp_log);
 
   g_thread_init (NULL);
+
+#if GTK_MAJOR_VERSION > 1
   gdk_threads_init();
+#endif
 
   main_thread_id = pthread_self ();
   gtk_set_locale ();
@@ -1269,7 +1272,7 @@ main (int argc, char **argv)
     {
       gftp_setup_startup_directory (window1.request);
       gftp_connect (window1.request);
-      ftp_list_files (&window1, 0);
+      ftp_list_files (&window1);
     }
 
   /* On the remote window, even though we aren't connected, draw the sort

@@ -57,7 +57,7 @@ gftpui_refresh (void *uidata)
   gtk_clist_freeze (GTK_CLIST (wdata->listbox));
   remove_files_window (wdata);
   gftp_delete_cache_entry (wdata->request, NULL, 0);
-  ftp_list_files (wdata, 0);
+  ftp_list_files (wdata);
   gtk_clist_thaw (GTK_CLIST (wdata->listbox));
 }
 
