@@ -1,0 +1,6 @@
+#!/bin/sh
+
+update-alternatives \
+        --install /usr/bin/ftp ftp /usr/bin/gftp-text 100 \
+        --slave /usr/share/man/man1/ftp.1.gz ftp.1.gz /usr/share/man/man1/gftp.1.gz
+
