@@ -517,8 +517,6 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
   if (request->iconv_initialized)
     return (g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
                                   &error));
-  else if (g_utf8_validate (str, -1, NULL))
-    return (NULL);
 
   gftp_lookup_request_option (request, "remote_charsets", &tempstr);
   if (*tempstr == '\0')
