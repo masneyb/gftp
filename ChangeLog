@@ -1,3 +1,9 @@
+2002-10-03 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.c - call g_thread_init (NULL)
+
+	* src/gtk/delete_dialog.c, src/gtk/misc-gtk.c, src/gtk/transfer.c -
+	call gdk_threads_enter() and gdk_threads_leave()
+
 2002-09-24 Brian Masney <masneyb@gftp.org>
 	* configure.in - take [external] off of AM_GNU_GETTEXT
 
