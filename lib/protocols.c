@@ -368,6 +368,9 @@ gftp_string_to_utf8 (gftp_request * request, char *str)
   gsize bread, bwrite;
   GError * error;
 
+  if (request == NULL)
+    return (NULL);
+
   if (request->iconv_initialized)
     return (g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
                                   &error));
