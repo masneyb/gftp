@@ -1,42 +1,51 @@
-I am pleased to announce the availability of gFTP 2.0.18rc1. Here is a
-summarized list of changes since version 2.0.17. For a full list of changes,
+I am pleased to announce the availability of gFTP 2.0.18. Here is a
+summarized list of changes since version 2.0.18rc1. For a full list of changes,
 please see the ChangeLog file that is included with the source distribution.
 
-* SSH2: Improved the login code. You no longer need to specify in gFTP the
-  path to the sftp-server binary on the remote server. It will now just work
-  out of the box for most sites. Also, if the SSH binary is asking a
-  question, this question will be relayed back through the gFTP user interface
-  so the user can answer it appropriately.
-* SSH2: Added support for RSA SecurID passwords
-* FTP, SSH2: Added support for preserving the file date/time
-* FTP: Fixed IPv6 connection problem
-* More 64 bit cleanups
-* More largefile fixes
-* Fixed detection of SIGCHLD signal when viewing/editing files
-* Added remote_lc_time option. The value of LC_TIME can now be overridden on
-  a per site basis. This will fix problems parsing the dates in the remote
-  directory listings
-* Some more GNOME HIG fixes
-* Fixed several segfaults in the bookmarks editor
-* Save the state of the host, user and port fields in the toolbar
-* Fixed compiler errors on OpenBSD and HPUX
+* Added support for the FSP protocol (http://fsp.sourceforge.net/)
+* SSH2: Fixed segfault that could occur when renaming a file (bug introduced
+  in 2.0.18rc1)
+* SSH2: Fixes for parsing the directory listing from the commercial SSH server
+* FTP: added pasv_behind_router option. If this is enabled, then the IP
+  address that is in the PASV response will be ignored. Instead the IP
+  address of the remote host will be used
+* FTP: removed the quote filename functionality in the SITE CHMOD and
+  SITE UTIME commands
+* Chmod: Fixes for setting the group execute bit (bug introduced in 2.0.18rc1)
+* Fixes so that the text port will prompt you for your password when a URL is
+  entered on the command line
+* In the text port, convert the string from UTF8 to the users' current locale
+  before it is displayed
+* Fixes for when the host system does not have getaddrinfo() (bug introduced in
+  2.0.18rc1)
+* Rewrote and improved the URL parser so that the :, @ characters are allowed
+  in directories and passwords
+* Security Fix: Ignore the file paths that are returned by the remote server
+* FreeBSD and HP/UX fixes
+* GNOME HIG fixes
 * Many other small changes and improvements. See the ChangeLog file in the
   distribution for a detailed list of changes.
-* New language translations and updates (bg cs en_CA en_GB es fi he hu ja nl pa
-                                         pt_BR ru sq)
+* Updated language translations (cs de en_CA en_GB es hu nl zh_CN)
 
 MD5SUMs:
 
-2f58001ee8eacd21fedc1302f9245648  gftp-2.0.18rc1.tar.gz
-9adeff8fdaac88c7403b37bab8234e14  gftp-gtk_2.0.18rc1-1_i386.deb
-b4842eb5b6c38b490d0134e69352a4c6  gftp-common_2.0.18rc1-1_i386.deb
-5307e8ce935482176d10143b06294c38  gftp_2.0.18rc1-1_all.deb
-a229ed83509e2971062a770ed18f8ad5  gftp-text_2.0.18rc1-1_i386.deb
-0ce29a6ff3a645fe493bac002680aea9  gftp-2.0.18rc1.tar.bz2
+44b19442d06f6dc68c7211d66029d826  gftp-2.0.18.tar.bz2
+4d449f79b225b0831692e9caa39a2028  gftp-2.0.18.tar.gz
+d269b91a8f4cdee51377e9d54890ce45  gftp_2.0.18-1_all.deb
+36735f5377eaa31e1bd858791a37da39  gftp-common_2.0.18-1_i386.deb
+25f4c29856b4ddd793856e7f410b3427  gftp-gtk_2.0.18-1_i386.deb
+7f7e44a309396fda006ce70623233763  gftp-text_2.0.18-1_i386.deb
 
-I plan on releasing the final 2.0.18 sometime after 11/23/2004. This is mainly
-to give the translators time to update their translations. If you find any bugs
-in this release, please report them using GNOME's Bugzilla.
+I would like to thank everyone that has contributed to this release by sending
+bug reports, suggestions, patches and translations. The following people have
+submitted patches or translations since 2.0.18rc1 was released:
+
+Vincent van Adrighem, Frank Arnold, H.Merijn Brand, Laszlo Dvornik, Radim Kolar,
+Aurelien Jarno, Bernd Leibing, David Lodge, Francisco Javier F. Serrador,
+Miloslav Trmac, Pavel Vainerman, Jasper van Veghel, Adam Weinberger and
+Funda Wang
+
+If you find any bugs in this release, please report them using GNOME's Bugzilla.
 
 Brian Masney
 http://www.gftp.org/
