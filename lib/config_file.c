@@ -534,7 +534,7 @@ gftp_read_config_file (char *global_data_path)
   gftp_config_vars * tmpconfigvar;
   char **protocol_list;
   FILE *conffile;
-  int line, i;
+  int line, i, j;
   size_t len;
 
   gftp_global_options_htable = g_hash_table_new (string_hash_function, 
@@ -543,13 +543,14 @@ gftp_read_config_file (char *global_data_path)
   gftp_register_config_vars (gftp_global_config_vars);
 
   protocol_list = NULL;
-  for (i=0; gftp_protocols[i].register_options != NULL; i++)
+  for (i=0, j=0; gftp_protocols[i].register_options != NULL; i++)
     {
       if (gftp_protocols[i].shown)
         {
-          protocol_list = g_realloc (protocol_list, sizeof (char *) * (i + 2));
-          protocol_list[i] = gftp_protocols[i].name;
-          protocol_list[i + 1] = NULL;
+          protocol_list = g_realloc (protocol_list, sizeof (char *) * (j + 2));
+          protocol_list[j] = gftp_protocols[i].name;
+          protocol_list[j + 1] = NULL;
+          j++;
         }
 
       if (gftp_protocols[i].register_options != NULL)
