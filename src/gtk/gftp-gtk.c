@@ -1211,7 +1211,6 @@ gftp_gtk_config_file_write_color (gftp_config_vars * cv, char *buf,
 int
 main (int argc, char **argv)
 {
-  char *startup_directory;
   GtkWidget *window, *ui;
 
   gftpui_common_init (&argc, &argv, ftp_log);
@@ -1260,11 +1259,7 @@ main (int argc, char **argv)
   gtk_timeout_add (1000, update_downloads, NULL);
   if (gftp_protocols[GFTP_LOCAL_NUM].init (window1.request) == 0)
     {
-      gftp_lookup_request_option (window1.request, "startup_directory", 
-                                  &startup_directory);
-      if (*startup_directory != '\0')
-        gftp_set_directory (window1.request, startup_directory);
-
+      gftp_setup_startup_directory (window1.request);
       gftp_connect (window1.request);
       ftp_list_files (&window1, 0);
     }

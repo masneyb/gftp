@@ -2764,3 +2764,20 @@ gftp_fd_open (gftp_request * request, const char *pathname, int flags, mode_t mo
 
   return (fd);
 }
+
+
+void
+gftp_setup_startup_directory (gftp_request * request)
+{
+  char *startup_directory, *tempstr;
+
+  gftp_lookup_request_option (request, "startup_directory", &startup_directory);
+
+  if (*startup_directory != '\0' &&
+      (tempstr = expand_path (startup_directory)) != NULL)
+    {
+      gftp_set_directory (request, tempstr);
+      g_free (tempstr);
+    }
+}
+

@@ -223,8 +223,8 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
 int
 main (int argc, char **argv)
 {
-  char *startup_directory, *pos;
   void *locuidata, *remuidata;
+  char *pos;
 #if HAVE_LIBREADLINE
   char *tempstr, prompt[20];
 #else
@@ -254,11 +254,7 @@ main (int argc, char **argv)
   gftp_text_locreq->logging_function = gftp_text_log;
   if (gftp_protocols[GFTP_LOCAL_NUM].init (gftp_text_locreq) == 0)
     {
-      gftp_lookup_request_option (gftp_text_locreq, "startup_directory", 
-                                  &startup_directory);
-      if (*startup_directory != '\0')
-        gftp_set_directory (gftp_text_locreq, startup_directory);
-
+      gftp_setup_startup_directory (gftp_text_locreq);
       gftp_connect (gftp_text_locreq);
     }
 

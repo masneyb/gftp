@@ -530,9 +530,6 @@ rfc959_connect (gftp_request * request)
 
   if (resp != '2')
     {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Invalid response '%c' received from server.\n"),
-                                 resp);
       gftp_disconnect (request);
 
       if (resp == '5')

@@ -1,3 +1,32 @@
+2004-3-14 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (expand_path) - skip over paths that are empty
+
+	* lib/misc.c (gftp_sort_filelist) - fixed NULL pointer dereference
+	that would occur when attempting to sort an empty filelist
+	(from Hans-J?rgen Sch?ler <hjschaeler@t-online.de>)
+
+	* src/uicommon/gftpui.c (_gftpui_common_thread_callback) - fix so that
+	retries would occur properly after a timeout
+	(from Nam SungHyun <namsh@kldp.org>)
+
+	* src/gtk/Makefile.am - removed unneeded localedir defination
+	(from Nam SungHyun <namsh@kldp.org>)
+
+	* lib/gftp.h lib/protocols.c src/gtk/gftp-gtk.c src/text/gftp-text.c -
+	added gftp_setup_startup_directory(). This function will expand the
+	startup directory so that ~ directories will work properly
+
+	* lib/rfc959.c - removed invalid response error message if the user
+	enters an invalid password
+
+	* src/gtk/bookmarks.c - only allow one bookmark entry to be edited at a
+	time. This is a design flaw in my code and I'll remove this restriction
+	until I have time to recode this. Also, fixed segfault that would occur
+	when renaming a bookmark
+
+	* src/gtk/view_dialog.c - when editing a file, make sure the file has
+	the right suffix so that syntax highlighting works
+
 2004-3-1 Brian Masney <masneyb@gftp.org>
 	* lib/sslcommon.c - added verify_ssl_peer option
 

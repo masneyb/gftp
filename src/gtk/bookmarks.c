@@ -20,9 +20,10 @@
 #include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
-static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
-  * bm_remotediredit, * bm_useredit, * bm_passedit, * bm_acctedit, * anon_chk,
-  * bm_pathedit, * bm_protocol, * tree;
+static GtkWidget * bm_dialog = NULL, * bm_hostedit, * bm_portedit,
+                 * bm_localdiredit, * bm_remotediredit, * bm_useredit,
+                 * bm_passedit, * bm_acctedit, * anon_chk, * bm_pathedit,
+                 * bm_protocol, * tree;
 static GHashTable * new_bookmarks_htable = NULL;
 static gftp_bookmarks_var * new_bookmarks = NULL;
 static GtkItemFactory * edit_factory;
@@ -694,8 +695,6 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
     }
 
   origpath = newpath = gftp_build_path (entry->path, gtk_entry_get_text (GTK_ENTRY (bm_pathedit)), NULL);
-
-  for (; *newpath == '/'; newpath++);
   *pos = tempchar;
 
   str = gtk_entry_get_text (GTK_ENTRY (bm_hostedit));
@@ -757,7 +756,12 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
       while (tempentry != NULL)
 	{
 	  g_hash_table_remove (new_bookmarks_htable, tempentry->path);
-	  tempstr = gftp_build_path (newpath, tempentry->path + oldpathlen, NULL);
+
+          if (tempentry->path + oldpathlen == '\0')
+	    tempstr = g_strdup (newpath);
+          else
+	    tempstr = gftp_build_path (newpath, tempentry->path + oldpathlen, NULL);
+
 	  g_free (tempentry->path);
 	  tempentry->path = tempstr;
 	  g_hash_table_insert (new_bookmarks_htable, tempentry->path,
@@ -782,7 +786,18 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
 }
 
 
-#if GTK_MAJOR_VERSION > 1
+#if GTK_MAJOR_VERSION == 1
+
+static void
+entry_close_dialog (void * data)
+{
+  gtk_widget_destroy (bm_dialog);
+  bm_dialog = NULL;
+}
+
+
+#else
+
 static void
 bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
 {
@@ -796,6 +811,7 @@ bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
         /* no break */
       default:
         gtk_widget_destroy (widget);
+        bm_dialog = NULL;
     }
 }   
 #endif
@@ -804,10 +820,16 @@ bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
 static void
 edit_entry (gpointer data)
 {
-  GtkWidget * table, * tempwid, * dialog, * menu, * notebook;
+  GtkWidget * table, * tempwid, * menu, * notebook;
   gftp_bookmarks_var * entry;
   int i, num;
   char *pos;
+
+  if (bm_dialog != NULL)
+    {
+      gtk_widget_grab_focus (bm_dialog);
+      return;
+    }
 
   if (GTK_CLIST (tree)->selection == NULL)
     return;
@@ -819,33 +841,34 @@ edit_entry (gpointer data)
     return;
 
 #if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Entry"));
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
+  bm_dialog = gtk_dialog_new ();
+  gtk_window_set_title (GTK_WINDOW (bm_dialog), _("Edit Entry"));
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (bm_dialog)->action_area), 15);
 #else
-  dialog = gtk_dialog_new_with_buttons (_("Edit Entry"), NULL, 0,
-                                        GTK_STOCK_SAVE,
-                                        GTK_RESPONSE_OK,
-                                        GTK_STOCK_CANCEL,
-                                        GTK_RESPONSE_CANCEL,
-                                        GTK_STOCK_APPLY,
-                                        GTK_RESPONSE_APPLY,
-                                        NULL);
+  bm_dialog = gtk_dialog_new_with_buttons (_("Edit Entry"), NULL, 0,
+                                           GTK_STOCK_SAVE,
+                                           GTK_RESPONSE_OK,
+                                           GTK_STOCK_CANCEL,
+                                           GTK_RESPONSE_CANCEL,
+                                           GTK_STOCK_APPLY,
+                                           GTK_RESPONSE_APPLY,
+                                           NULL);
 #endif
-  gtk_window_set_wmclass (GTK_WINDOW (dialog), "Edit Bookmark Entry", "gFTP");
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
-  gtk_widget_realize (dialog);
+  gtk_window_set_wmclass (GTK_WINDOW (bm_dialog), "Edit Bookmark Entry",
+                          "gFTP");
+  gtk_window_set_position (GTK_WINDOW (bm_dialog), GTK_WIN_POS_MOUSE);
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (bm_dialog)->vbox), 10);
+  gtk_widget_realize (bm_dialog);
 
   if (gftp_icon != NULL)
     {
-      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
+      gdk_window_set_icon (bm_dialog->window, NULL, gftp_icon->pixmap,
                            gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, gftp_version);
+      gdk_window_set_icon_name (bm_dialog->window, gftp_version);
     }
 
   notebook = gtk_notebook_new ();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (bm_dialog)->vbox), notebook, TRUE,
 		      TRUE, 0);
   gtk_widget_show (notebook);
 
@@ -1015,29 +1038,28 @@ edit_entry (gpointer data)
 
 #if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (bm_dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
 		      GTK_SIGNAL_FUNC (entry_apply_changes),
 		      (gpointer) entry);
   gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+			     GTK_SIGNAL_FUNC (entry_close_dialog), NULL);
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("  Cancel  "));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (bm_dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
   gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+			     GTK_OBJECT (bm_dialog));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_widget_grab_focus (tempwid);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Apply"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (bm_dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
 		      GTK_SIGNAL_FUNC (entry_apply_changes),
@@ -1045,13 +1067,13 @@ edit_entry (gpointer data)
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_widget_show (tempwid);
 #else
-  g_signal_connect (GTK_OBJECT (dialog), "response",
+  g_signal_connect (GTK_OBJECT (bm_dialog), "response",
                     G_CALLBACK (bmedit_action), (gpointer) entry);
 #endif
 
   gftp_gtk_setup_bookmark_options (notebook, entry);
 
-  gtk_widget_show (dialog);
+  gtk_widget_show (bm_dialog);
 }
 
 

@@ -45,7 +45,7 @@ _gftpui_common_thread_callback (void * data)
   gftpui_common_use_jmp_environment = 1;
 
   success = GFTP_ERETRYABLE;
-  if (sj == 0)
+  if (sj != 1)
     {
       while (1)
         {
@@ -57,12 +57,12 @@ _gftpui_common_thread_callback (void * data)
           if (success == GFTP_EFATAL || success == 0 || cdata->retries == 0)
             break;
 
+          cdata->retries--;
           cdata->request->logging_function (gftp_logging_misc, cdata->request,
                        _("Waiting %d seconds until trying to connect again\n"),
                        sleep_time);
           alarm (sleep_time);
           pause ();
-          cdata->retries--;
         }
     }
   else
@@ -579,7 +579,7 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request,
 
       gftpui_lookup_file_colors (fle, &startcolor, &endcolor);
       tempstr = gftp_gen_ls_string (fle, startcolor, endcolor);
-      request->logging_function (gftp_logging_misc_nolog, request, "%s\n",
+      request->logging_function (gftp_logging_misc_nolog, request, "%s",
                                  tempstr);
       g_free (tempstr);
 

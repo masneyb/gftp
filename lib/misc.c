@@ -794,6 +794,9 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
   gftp_file * tempfle;
   intptr_t sort_dirs_first;
 
+  if (filelist == NULL) /* nothing to sort */
+    return (filelist);
+
   files = dirs = dotdot = NULL;
 
   if (column == GFTP_SORT_COL_FILE)
@@ -1194,6 +1197,9 @@ gftp_build_path (const char *first_element, ...)
        element = va_arg (args, char *))
     {
       len = strlen (element);
+
+      if (len == 0)
+        continue;
 
       if (retlen > 0 && (ret[retlen - 1] == '/' || element[0] == '/'))
         add_separator = 0;

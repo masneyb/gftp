@@ -986,6 +986,8 @@ int gftp_fd_open 			( gftp_request * request,
 					  int flags,
 					  mode_t perms );
 
+void gftp_setup_startup_directory 	( gftp_request * request );
+
 /* pty.c */
 char * gftp_get_pty_impl 		( void );
 
