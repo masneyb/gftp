@@ -436,13 +436,6 @@ gftp_text_cd (gftp_request * request, char *command, gpointer *data)
                      _("usage: chdir <directory>\n"));
       return (1);
     }
-  else if (request->protonum == GFTP_LOCAL_NUM &&
-           (newdir = expand_path (command)) == NULL)
-    {
-      gftp_text_log (gftp_logging_error, request, 
-                     _("usage: chdir <directory>\n"));
-      return (1);
-    }
 
   gftp_set_directory (request, newdir != NULL ? newdir : command);
 

@@ -1016,8 +1016,10 @@ gftp_free_bookmark (gftp_bookmarks_var * entry)
 void
 gftp_shutdown (void)
 {
+#ifdef WITH_DMALLOC
   gftp_config_vars * cv;
   GList * templist;
+#endif
 
   if (gftp_logfd != NULL)
     fclose (gftp_logfd);
