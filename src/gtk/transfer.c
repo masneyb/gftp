@@ -706,8 +706,6 @@ gftp_gtk_transfer_files (void *data)
         }
       else
         {
-          /* FIXME - this needs cleaned up. NOTE: view/edit file will be 
-             broken if the file has to be resumed */
           if (curfle->is_fd)
             {
               if (transfer->transfer_direction == GFTP_DIRECTION_DOWNLOAD)

@@ -31,8 +31,7 @@ static float gftp_maxkbs = 0.0;
 
 gftp_config_vars gftp_global_config_vars[] =
 {
-  {"", N_("General"), gftp_option_type_notebook, NULL, 
-   NULL, GFTP_PORT_GTK, NULL},
+  {"", N_("General"), gftp_option_type_notebook, NULL, NULL, 0, NULL, GFTP_PORT_GTK, NULL},
 
   {"view_program", N_("View program:"), gftp_option_type_text, "", NULL, 0,
    N_("The default program used to view files. If this is blank, the internal file viewer will be used"), 
@@ -86,7 +85,7 @@ gftp_config_vars gftp_global_config_vars[] =
    N_("The maximum KB/s a file transfer can get. (Set to 0 to disable)"),  
    GFTP_PORT_ALL, NULL},
 
-  {"default_protocol", N_("Default Protocol"),
+  {"default_protocol", N_("Default Protocol:"),
    gftp_option_type_textcombo, "FTP", NULL, 0,
    N_("This specifies the default protocol to use"), GFTP_PORT_ALL, NULL},
 

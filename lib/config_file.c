@@ -437,9 +437,7 @@ gftp_setup_global_options (gftp_config_vars * cvars)
 
   for (i=0; cvars[i].key != NULL; i++)
     {
-      if (cvars[i].otype == gftp_option_type_subtree)
-        gftp_setup_global_options (cvars[i].value);
-      else if (cvars[i].key != NULL && *cvars[i].key != '\0')
+      if (cvars[i].key != NULL && *cvars[i].key != '\0')
         g_hash_table_insert (gftp_global_options_htable, 
                              cvars[i].key, &cvars[i]);
     }
@@ -821,13 +819,21 @@ print_bookmarks (gftp_bookmarks_var * bookmarks)
 static int
 gftp_config_file_read_text (char *str, gftp_config_vars * cv, int line)
 {
+  if (cv->flags & GFTP_CVARS_FLAGS_DYNMEM && cv->value != NULL)
+    g_free (cv->value);
+
   if (str != NULL)
     {
       cv->value = g_strdup (str);
+      cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
       return (0);
     }
   else
-    return (-1);
+    {
+      cv->value = NULL;
+      cv->flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
+      return (-1);
+    }
 }
 
 
@@ -922,6 +928,9 @@ gftp_config_file_read_color (char *str, gftp_config_vars * cv, int line)
   char *red, *green, *blue;
   gftp_color * color;
 
+  if (cv->flags & GFTP_CVARS_FLAGS_DYNMEM && cv->value != NULL)
+    g_free (cv->value);
+
   parse_args (str, 3, line, &red, &green, &blue);
 
   color = g_malloc (sizeof (*color));
@@ -933,6 +942,7 @@ gftp_config_file_read_color (char *str, gftp_config_vars * cv, int line)
   g_free (blue);
 
   cv->value = color;
+  cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
 
   return (0);
 }
@@ -1015,20 +1025,17 @@ gftp_config_file_read_textcombo (char *str, gftp_config_vars * cv, int line)
 /* Note, the index numbers of this array must match up to the numbers in
    gftp_option_type_enum in gftp.h */
 gftp_option_type_var gftp_option_types[] = {
-  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
-  {gftp_config_file_read_textcombo, gftp_config_file_write_text, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_hidetext, NULL, NULL},
-  {gftp_config_file_read_int, gftp_config_file_write_int, NULL, NULL},
-  {gftp_config_file_read_checkbox, gftp_config_file_write_int, NULL, NULL},
-  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, NULL, NULL},
-  {gftp_config_file_read_float, gftp_config_file_write_float, NULL, NULL},
-  {gftp_config_file_read_color, gftp_config_file_write_color, NULL, NULL},
-  {NULL, NULL, NULL, NULL},
-  {NULL, NULL, NULL, NULL},
-  {NULL, NULL, NULL, NULL},
-  {NULL, NULL, NULL, NULL},
-  {NULL, NULL, NULL, NULL}
+  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL, NULL},
+  {gftp_config_file_read_textcombo, gftp_config_file_write_text, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_hidetext, NULL, NULL, NULL},
+  {gftp_config_file_read_int, gftp_config_file_write_int, NULL, NULL, NULL},
+  {gftp_config_file_read_checkbox, gftp_config_file_write_int, NULL, NULL, NULL},
+  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, NULL, NULL, NULL},
+  {gftp_config_file_read_float, gftp_config_file_write_float, NULL, NULL, NULL},
+  {gftp_config_file_read_color, gftp_config_file_write_color, NULL, NULL, NULL},
+  {NULL, NULL, NULL, NULL, NULL},
+  {NULL, NULL, NULL, NULL, NULL}
 };
 
 
@@ -1080,6 +1087,34 @@ gftp_set_global_option (char * key, void *value)
 void
 gftp_set_request_option (gftp_request * request, char * key, void *value)
 {
+  gftp_config_vars * tmpconfigvar;
+
+  if (request->local_options_hash == NULL)
+    request->local_options_hash = g_hash_table_new (string_hash_function,
+                                                    string_hash_compare);
+
+  if ((tmpconfigvar = g_hash_table_lookup (request->local_options_hash,
+                                           key)) != NULL)
+    memcpy (&tmpconfigvar->value, value, sizeof (tmpconfigvar->value));
+  else
+    {
+      if (gftp_global_options_htable == NULL &&
+          (tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
+                                               key)) == NULL)
+        {
+          fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);
+          exit (1);
+        }
+      
+      request->num_local_options_vars++;
+      request->local_options_vars = g_realloc (request->local_options_vars, 
+                                               sizeof (gftp_config_vars) * (request->num_local_options_vars + 1));
+
+      memcpy (&request->local_options_vars[request->num_local_options_vars],
+              tmpconfigvar, sizeof (*tmpconfigvar));
+      memcpy (&request->local_options_vars[request->num_local_options_vars].value, value, sizeof (value));
+      
+    }
 }
 
 

@@ -192,6 +192,80 @@ typedef struct gftp_proxy_hosts_tag
   char *domain;
 } gftp_proxy_hosts;
 
+
+/* Note, these numbers must match up to the index number in config_file.c
+   in the declaration of gftp_option_types */
+typedef enum 
+{
+  gftp_option_type_text		= 0,
+  gftp_option_type_textcombo	= 1,
+  gftp_option_type_textcomboedt = 2,
+  gftp_option_type_hidetext	= 3,
+  gftp_option_type_int		= 4,
+  gftp_option_type_checkbox	= 5,
+  gftp_option_type_intcombo	= 6,
+  gftp_option_type_float	= 7,
+  gftp_option_type_color	= 8,
+  gftp_option_type_notebook	= 9
+} gftp_option_type_enum;
+
+
+#define GFTP_PORT_GTK			(1 << 1)
+#define GFTP_PORT_TEXT			(1 << 2)
+#define GFTP_PORT_ALL			(GFTP_PORT_GTK | GFTP_PORT_TEXT)
+
+
+typedef struct gftp_config_list_vars_tag
+{
+  char *key;
+  void * (*read_func) (char *buf, int line);
+  void (*write_func) (FILE *fd, void *data);
+  GList * list;
+  unsigned int num_items;
+  char *header;
+} gftp_config_list_vars;
+
+
+#define GFTP_CVARS_FLAGS_DYNMEM		(1 << 1)
+
+
+typedef struct gftp_config_vars_tag
+{
+  char *key,			/* variable name */
+       *description;		/* How this field will show up in the dialog */
+  int otype;			/* Type of option this is */
+  void *value;
+  void *listdata;		/* For options that have several different 
+				   options, this is a list of all the options.
+				   Each option_type that uses this will use this
+				   field differently */
+  int flags;			/* See GFTP_CVARS_FLAGS_* above */
+  char *comment;                /* Comment to write out to the config file */
+  int ports_shown;		/* What ports of gFTP is this option shown in */
+  void *user_data;		/* Data that the GUI can store here (Widget in gtk+) */
+} gftp_config_vars;
+
+
+typedef struct gftp_option_type_tag
+{
+  int (*read_function) (char *str, gftp_config_vars * cv, int line);
+  int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
+  void * (*ui_print_function) (gftp_config_vars * cv, void *user_data);
+  void (*ui_save_function) (gftp_config_vars * cv, void *user_data);
+  void *user_data;
+} gftp_option_type_var;
+
+
+#define GFTP_TEXTCOMBOEDT_EDITABLE 	(1 << 0)
+
+typedef struct gftp_textcomboedt_data_tag
+{
+  char *description,
+       *text;
+  int flags;
+} gftp_textcomboedt_data;
+
+
 typedef struct gftp_request_tag gftp_request;
 
 struct gftp_request_tag 
@@ -303,13 +377,13 @@ struct gftp_request_tag
   void (*swap_socks)			( gftp_request * dest,
 					  gftp_request * source );
 
-  GHashTable * local_options;
+  gftp_config_vars * local_options_vars;
+  int num_local_options_vars;
+  GHashTable * local_options_hash;
 };
 
 
-typedef struct gftp_transfer_tag gftp_transfer;
-
-struct gftp_transfer_tag
+typedef struct gftp_transfer_tag
 {
   gftp_request * fromreq,
                * toreq;
@@ -354,7 +428,7 @@ struct gftp_transfer_tag
 
   void *user_data;
   void *clist;
-};
+} gftp_transfer;
 
 
 typedef struct gftp_log_tag
@@ -419,79 +493,6 @@ typedef struct gftp_color_tag
           green,
           blue;
 } gftp_color;
-
-
-/* Note, these numbers must match up to the index number in config_file.c
-   in the declaration of gftp_option_types */
-typedef enum 
-{
-  gftp_option_type_text		= 0,
-  gftp_option_type_textcombo	= 1,
-  gftp_option_type_textcomboedt = 2,
-  gftp_option_type_hidetext	= 3,
-  gftp_option_type_int		= 4,
-  gftp_option_type_checkbox	= 5,
-  gftp_option_type_intcombo	= 6,
-  gftp_option_type_float	= 7,
-  gftp_option_type_color	= 8,
-  gftp_option_type_notebook	= 9,
-  gftp_option_type_newtable	= 10,
-  gftp_option_type_label	= 11,
-  gftp_option_type_subtree	= 12,
-  gftp_option_type_table	= 13
-} gftp_option_type_enum;
-
-
-#define GFTP_PORT_GTK			(1 << 1)
-#define GFTP_PORT_TEXT			(1 << 2)
-#define GFTP_PORT_ALL			(GFTP_PORT_GTK | GFTP_PORT_TEXT)
-
-
-typedef struct gftp_config_list_vars_tag
-{
-  char *key;
-  void * (*read_func) (char *buf, int line);
-  void (*write_func) (FILE *fd, void *data);
-  GList * list;
-  unsigned int num_items;
-  char *header;
-} gftp_config_list_vars;
-
-
-#define GFTP_CVARS_FLAGS_DYNMEM		(1 << 1)
-
-
-typedef struct gftp_config_vars_tag
-{
-  char *key,			/* variable name */
-       *description;		/* How this field will show up in the dialog */
-  int otype;			/* Type of option this is */
-  void *value;
-  void *listdata;		/* For options that have several different 
-				   options, this is a list of all the options.
-				   Each option_type that uses this will use this
-				   field differently */
-  int flags;			/* See GFTP_CVARS_FLAGS_* above */
-  char *comment;                /* Comment to write out to the config file */
-  int ports_shown;		/* What ports of gFTP is this option shown in */
-  void *user_data;		/* Data that the GUI can store here (Widget in gtk+) */
-} gftp_config_vars;
-
-
-typedef struct gftp_option_type_tag
-{
-  int (*read_function) (char *str, gftp_config_vars * cv, int line);
-  int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
-  int (*ui_print_function) (char *label, void *ptr, void *user_data);
-  void *user_data;
-} gftp_option_type_var;
-
-
-typedef struct gftp_textcomboedt_data_tag
-{
-  char *key,
-       *description;
-} gftp_textcomboedt_data;
 
 
 typedef struct gftp_getline_buffer_tag
@@ -602,6 +603,9 @@ int compare_request 			( gftp_request * request1,
 gftp_transfer * gftp_tdata_new 		( void );
 
 void free_tdata 			( gftp_transfer * tdata );
+
+void gftp_copy_local_options 		( gftp_request * dest, 
+					  gftp_request * source );
 
 gftp_request * copy_request 		( gftp_request * req );
 

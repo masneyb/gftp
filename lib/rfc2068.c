@@ -223,8 +223,8 @@ rfc2068_send_command (gftp_request * request, const char *command,
 static int
 rfc2068_connect (gftp_request * request)
 {
+  char *proxy_hostname, *proxy_config;
   rfc2068_params * params;
-  char *proxy_hostname;
   int proxy_port;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -236,12 +236,17 @@ rfc2068_connect (gftp_request * request)
   if (request->sockfd > 0)
     return (0);
 
+  gftp_lookup_request_option (request, "proxy_config", &proxy_config);
   gftp_lookup_request_option (request, "http_proxy_host", &proxy_hostname);
   gftp_lookup_request_option (request, "http_proxy_port", &proxy_port);
 
   if (request->url_prefix != NULL)
     g_free (request->url_prefix);
-  request->url_prefix = g_strdup ("http"); /* FIXME _ can be FTP */
+
+  if (proxy_config != NULL && strcmp (proxy_config, "ftp") == 0)
+    request->url_prefix = g_strdup ("ftp");
+  else
+    request->url_prefix = g_strdup ("http");
 
   if ((request->sockfd = gftp_connect_server (request, request->url_prefix, 
                                               proxy_hostname, proxy_port)) < 0)

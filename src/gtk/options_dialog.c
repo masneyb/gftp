@@ -20,12 +20,500 @@
 #include <gftp-gtk.h>
 static const char cvsid[] = "$Id$";
 
-static GtkWidget * proxy_text, * proxy_list, * new_proxy_domain, * network1,
+static GtkWidget * proxy_list, * new_proxy_domain, * network1,
                  * network2, * network3, * network4, * netmask1, * netmask2, 
-                 * netmask3, * netmask4, * domain_active, * proxy_combo,
-                 * def_proto_combo;
+                 * netmask3, * netmask4, * domain_active;
 static GList * new_proxy_hosts;
-static char *custom_proxy;
+
+static void
+_setup_option (gftp_option_type_enum otype,
+               gftp_options_dialog_data * option_data, 
+               void * (*ui_print_function) (gftp_config_vars * cv,
+                                                 void *user_data),
+               void (*ui_save_function) (gftp_config_vars * cv,
+                                         void *user_data))
+{
+  gftp_option_types[otype].user_data = option_data;
+  gftp_option_types[otype].ui_print_function = ui_print_function;
+  gftp_option_types[otype].ui_save_function = ui_save_function;
+}
+
+
+static void *
+_gen_input_widget (gftp_options_dialog_data * option_data, char *label)
+{
+  GtkWidget * tempwid;
+
+  option_data->tbl_row_num++;
+  gtk_table_resize (GTK_TABLE (option_data->table), 
+                    option_data->tbl_row_num, 2);
+
+  tempwid = gtk_label_new (_(label));
+  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_table_attach_defaults (GTK_TABLE (option_data->table), tempwid, 0, 1,
+                             option_data->tbl_row_num - 1, 
+                             option_data->tbl_row_num);
+  gtk_widget_show (tempwid);
+
+  tempwid = gtk_entry_new ();
+  gtk_table_attach_defaults (GTK_TABLE (option_data->table), tempwid, 1, 2,
+                             option_data->tbl_row_num - 1, 
+                             option_data->tbl_row_num);
+  gtk_widget_show (tempwid);
+  return (tempwid);
+}
+
+
+static void *
+_print_option_type_newtable (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+
+  option_data = user_data;
+
+  option_data->table = gtk_table_new (1, 2, FALSE);
+  gtk_table_set_row_spacings (GTK_TABLE (option_data->table), 5);
+  gtk_table_set_col_spacings (GTK_TABLE (option_data->table), 5);
+  gtk_box_pack_start (GTK_BOX (option_data->box), option_data->table, FALSE, 
+                      FALSE, 0);
+  gtk_widget_show (option_data->table);
+  option_data->tbl_row_num = 0;
+  option_data->tbl_col_num = 0;
+
+  return (NULL);
+}
+
+
+static void *
+_print_option_type_text (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  GtkWidget * tempwid;
+
+  option_data = user_data;
+
+  tempwid = _gen_input_widget (option_data, cv->description);
+  gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) cv->value);
+  return (tempwid);
+}
+
+
+static void
+_save_option_type_text (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  const char *tempstr;
+
+  option_data = user_data;
+  tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
+
+  if (cv->flags & GFTP_CVARS_FLAGS_DYNMEM)
+    g_free (cv->value);
+
+  cv->value = g_strdup (tempstr);
+  cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
+}
+
+
+static GtkWidget *
+_gen_combo_widget (gftp_options_dialog_data * option_data, char *label)
+{
+  GtkWidget * tempwid, * combo;
+
+  option_data->tbl_row_num++;
+  gtk_table_resize (GTK_TABLE (option_data->table), 
+                               option_data->tbl_row_num, 2);
+
+  tempwid = gtk_label_new (_(label));
+  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_table_attach_defaults (GTK_TABLE (option_data->table), tempwid, 0, 1,
+                             option_data->tbl_row_num - 1, 
+                             option_data->tbl_row_num);
+  gtk_widget_show (tempwid);
+
+  combo = gtk_combo_new ();
+  gtk_table_attach_defaults (GTK_TABLE (option_data->table), combo, 1, 2,
+                             option_data->tbl_row_num - 1, 
+                             option_data->tbl_row_num);
+  return (combo);
+}
+
+
+static void *
+_print_option_type_textcombo (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  GList * widget_list;
+  GtkWidget * tempwid, * combo;
+  int selitem, i;
+  char **clist;
+
+  option_data = user_data;
+  combo = _gen_combo_widget (option_data, cv->description);
+
+  if (cv->listdata != NULL)
+    {
+      selitem = 0;
+      widget_list = NULL;
+
+      clist = cv->listdata;
+      for (i=0; clist[i] != NULL; i++)
+        {
+          if (cv->value != NULL &&
+              strcasecmp ((char *) cv->value, clist[i]) == 0)
+            selitem = i;
+
+          tempwid = gtk_list_item_new_with_label (clist[i]);
+          gtk_widget_show (tempwid);
+          widget_list = g_list_append (widget_list, tempwid);
+        }
+
+      gtk_list_prepend_items (GTK_LIST (GTK_COMBO (combo)->list), widget_list); 
+      gtk_list_select_item (GTK_LIST (GTK_COMBO (combo)->list), selitem);
+    }
+
+  gtk_widget_show (combo);
+  return (combo);
+}
+
+
+static void
+_save_option_type_textcombo (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  const char *tempstr;
+  char **clist;
+  int i;
+
+  option_data = user_data;
+
+  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cv->user_data)->entry));
+
+  if (cv->listdata != NULL && tempstr != NULL)
+    {
+      clist = cv->listdata;
+      for (i=0; clist[i] != NULL; i++)
+        {
+          if (strcasecmp (tempstr, clist[i]) == 0)
+            {
+              cv->value = clist[i];
+              break;
+            }
+        }
+    }
+}
+
+
+static void
+_textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
+{
+  gftp_textcomboedt_widget_data * widdata;
+  gftp_textcomboedt_data * tedata;
+  int num, isedit;
+#if GTK_MAJOR_VERSION > 1
+  GtkTextIter iter, iter2;
+  GtkTextBuffer * textbuf;
+  guint len;
+#endif
+
+  widdata = data;
+  tedata = widdata->cv->listdata;
+
+  num = gtk_list_child_position (list, child);
+  isedit = tedata[num].flags & GFTP_TEXTCOMBOEDT_EDITABLE;
+#if GTK_MAJOR_VERSION == 1
+  gtk_text_set_editable (GTK_TEXT (widdata->text), isedit);
+#else
+  gtk_text_view_set_editable (GTK_TEXT_VIEW (widdata->text), isedit);
+#endif
+
+  if (isedit)
+    return;
+
+#if GTK_MAJOR_VERSION == 1
+  gtk_text_set_point (GTK_TEXT (widdata->text), 0);
+  gtk_text_forward_delete (GTK_TEXT (widdata->text),
+			   gtk_text_get_length (GTK_TEXT (widdata->text)));
+
+  gtk_text_insert (GTK_TEXT (widdata->text), NULL, NULL, NULL, 
+                   tedata[num].text, -1);
+#else
+  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widdata->text));
+  len = gtk_text_buffer_get_char_count (textbuf);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len - 1);
+  gtk_text_buffer_delete (textbuf, &iter, &iter2);
+
+  len = gtk_text_buffer_get_char_count (textbuf);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len - 1);
+  gtk_text_buffer_insert (textbuf, &iter, tedata[num].text, -1);
+#endif
+}
+
+
+static void *
+_print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
+{
+  gftp_textcomboedt_widget_data * widdata;
+  GtkWidget * combo, * textwid, * tempwid;
+  gftp_options_dialog_data * option_data;
+  gftp_textcomboedt_data * tedata;
+  int i, selitem, edititem;
+  GList * widget_list;
+  char *tempstr;
+
+  option_data = user_data;
+  combo = _gen_combo_widget (option_data, cv->description);
+
+  edititem = selitem = -1;
+  if (cv->listdata != NULL)
+    {
+      widget_list = NULL;
+
+      if (cv->value == NULL)
+        tempstr = "";
+      else
+        tempstr = cv->value;
+
+      tedata = cv->listdata;
+      for (i=0; tedata[i].description != NULL; i++)
+        {
+          if (tedata[i].flags & GFTP_TEXTCOMBOEDT_EDITABLE)
+            edititem = i;
+
+          if (strcasecmp (tempstr, tedata[i].text) == 0)
+            selitem = i;
+
+          tempwid = gtk_list_item_new_with_label (tedata[i].description);
+          gtk_widget_show (tempwid);
+          widget_list = g_list_append (widget_list, tempwid);
+        }
+
+      gtk_list_prepend_items (GTK_LIST (GTK_COMBO (combo)->list), widget_list); 
+
+      gtk_list_select_item (GTK_LIST (GTK_COMBO (combo)->list), selitem);
+    }
+
+  if (selitem == -1 && edititem != -1)
+    selitem = edititem;
+  else if (selitem == -1)
+    selitem = 0;
+
+  option_data->tbl_row_num++;
+  gtk_table_resize (GTK_TABLE (option_data->table), 
+                               option_data->tbl_row_num, 2);
+
+#if GTK_MAJOR_VERSION == 1
+  textwid = gtk_text_new (NULL, NULL);
+  gtk_text_set_editable (GTK_TEXT (textwid), TRUE);
+#else
+  textwid = gtk_text_view_new ();
+  gtk_text_view_set_editable (GTK_TEXT_VIEW (textwid), TRUE);
+#endif
+  gtk_widget_set_size_request (textwid, -1, 75);
+  gtk_table_attach_defaults (GTK_TABLE (option_data->table), textwid, 0, 2,
+                             option_data->tbl_row_num - 1, 
+                             option_data->tbl_row_num);
+  gtk_widget_show (textwid);
+
+  widdata = g_malloc0 (sizeof (*widdata));
+  widdata->combo = combo;
+  widdata->text = textwid;
+  widdata->cv = cv;
+
+  gtk_signal_connect (GTK_OBJECT (GTK_COMBO (combo)->list),
+                      "select_child", 
+                      GTK_SIGNAL_FUNC (_textcomboedt_toggle), widdata);
+  gtk_list_select_item (GTK_LIST (GTK_COMBO (combo)->list), selitem);
+  gtk_widget_show (combo);
+
+  return (textwid);
+}
+
+
+static void
+_save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  const char *textstr;
+  char *newstr;
+#if GTK_MAJOR_VERSION == 1
+  char tmp[128];
+#else
+  GtkTextBuffer * textbuf;
+  GtkTextIter iter, iter2;
+  size_t len;
+#endif
+
+  option_data = user_data;
+
+#if GTK_MAJOR_VERSION == 1
+  /*
+     GTK_TEXT uses wchar_t instead of char in environment of multibyte encoding
+     locale (ex Japanese),  so we must convert from wide character 
+     to multibyte charator....   Yasuyuki Furukawa (yasu@on.cs.keio.ac.jp)
+   */
+  if (GTK_TEXT (cv->user_data)->use_wchar)
+    {
+      wcstombs (tmp, (wchar_t *) GTK_TEXT (cv->user_data)->text.wc, sizeof (tmp));
+      newstr = g_strdup (tmp);
+    }
+  else
+    {
+      textstr = (char *) GTK_TEXT (cv->user_data)->text.ch; 
+      newstr = g_strdup (textstr);
+    }
+#else
+  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (cv->user_data));
+  len = gtk_text_buffer_get_char_count (textbuf);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len - 1);
+  newstr = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
+#endif
+
+  cv->value = newstr;
+}
+
+
+static void *
+_print_option_type_hidetext (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  GtkWidget * tempwid;
+
+  option_data = user_data;
+
+  tempwid = _gen_input_widget (option_data, cv->description);
+  gtk_entry_set_visibility (GTK_ENTRY (tempwid), 0);
+  gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) cv->value);
+  return (tempwid);
+}
+
+
+static void *
+_print_option_type_int (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  GtkWidget * tempwid;
+  char tempstr[20];
+
+  option_data = user_data;
+
+  tempwid = _gen_input_widget (option_data, cv->description);
+  g_snprintf (tempstr, sizeof (tempstr), "%d", GPOINTER_TO_INT(cv->value));
+  gtk_entry_set_text (GTK_ENTRY (tempwid), tempstr);
+  return (tempwid);
+}
+
+
+static void
+_save_option_type_int (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  const char *tempstr;
+
+  option_data = user_data;
+  tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
+  cv->value = GINT_TO_POINTER(strtol (tempstr, NULL, 10));
+}
+
+
+static void *
+_print_option_type_checkbox (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  GtkWidget * tempwid;
+
+  option_data = user_data;
+
+  if (option_data->last_option != gftp_option_type_checkbox)
+    _print_option_type_newtable (NULL, user_data);
+
+  if (option_data->tbl_col_num == 0)
+    {
+      option_data->tbl_row_num++;
+      gtk_table_resize (GTK_TABLE (option_data->table), 
+                        option_data->tbl_row_num + 1, 2);
+    }
+
+  tempwid = gtk_check_button_new_with_label (_(cv->description));
+  gtk_table_attach_defaults (GTK_TABLE (option_data->table), tempwid, 
+                             option_data->tbl_col_num, 
+                             option_data->tbl_col_num + 1, 
+                             option_data->tbl_row_num, 
+                             option_data->tbl_row_num + 1);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tempwid),
+                                GPOINTER_TO_INT(cv->value));
+  gtk_widget_show (tempwid);
+
+  option_data->tbl_col_num = (option_data->tbl_col_num + 1) % 2;
+  return (tempwid);
+}
+
+
+static void
+_save_option_type_checkbox (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+
+  option_data = user_data;
+  cv->value = GINT_TO_POINTER (GTK_TOGGLE_BUTTON (cv->user_data)->active);
+}
+
+
+static void *
+_print_option_type_float (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  GtkWidget * tempwid;
+  char tempstr[20];
+  float f;
+
+  option_data = user_data;
+
+  tempwid = _gen_input_widget (option_data, cv->description);
+  memcpy (&f, &cv->value, sizeof (f));
+  g_snprintf (tempstr, sizeof (tempstr), "%.2f", f);
+  gtk_entry_set_text (GTK_ENTRY (tempwid), tempstr);
+  return (tempwid);
+}
+
+
+static void
+_save_option_type_float (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  const char *tempstr;
+  float f;
+
+  option_data = user_data;
+  tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
+  f = strtod (tempstr, NULL);
+  memcpy (&cv->value, &f, sizeof (cv->value));
+}
+
+
+static void *
+_print_option_type_notebook (gftp_config_vars * cv, void *user_data)
+{
+  gftp_options_dialog_data * option_data;
+  GtkWidget * tempwid;
+
+  option_data = user_data;
+
+  option_data->box = gtk_vbox_new (FALSE, 0);
+  gtk_container_border_width (GTK_CONTAINER (option_data->box), 10);
+  gtk_widget_show (option_data->box);
+
+  tempwid = gtk_label_new (_(cv->description));
+  gtk_widget_show (tempwid);
+  gtk_notebook_append_page (GTK_NOTEBOOK (option_data->notebook), 
+                            option_data->box, tempwid);
+
+  _print_option_type_newtable (NULL, user_data);
+  
+  return (NULL);
+}
 
 
 static void
@@ -45,160 +533,33 @@ clean_old_changes (GtkWidget * widget, gpointer data)
     }
   g_list_free (new_proxy_hosts);
   new_proxy_hosts = NULL;
-
-  if (custom_proxy != NULL)
-    {
-      g_free (custom_proxy);
-      custom_proxy = NULL;
-    }
-}
-
-
-static char *
-get_proxy_config (void)
-{
-  char *newstr, *oldstr, *pos, *endpos, *textstr;
-  guint len;
-#if GTK_MAJOR_VERSION == 1
-  char tmp[128];
-#else
-  GtkTextBuffer * textbuf;
-  GtkTextIter iter, iter2;
-#endif
-
-  textstr = NULL;
-  newstr = g_malloc (1);
-  *newstr = '\0';
-
-#if GTK_MAJOR_VERSION == 1
-  /*
-     GTK_TEXT uses wchar_t instead of char in environment of multibyte encoding
-     locale (ex Japanese),  so we must convert from wide character 
-     to multibyte charator....   Yasuyuki Furukawa (yasu@on.cs.keio.ac.jp)
-   */
-  if (GTK_TEXT (proxy_text)->use_wchar)
-    {
-      wcstombs (tmp, (wchar_t *) GTK_TEXT (proxy_text)->text.wc,
-                sizeof (tmp));
-      pos = tmp;
-    }
-  else
-    {
-      oldstr = (char *) GTK_TEXT (proxy_text)->text.ch; 
-      len = gtk_text_get_length (GTK_TEXT (proxy_text));
-      textstr = g_malloc (len + 1);
-      strncpy (textstr, oldstr, len);
-      textstr[len] = '\0';
-      pos = textstr;
-    }
-#else
-  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (proxy_text));
-  len = gtk_text_buffer_get_char_count (textbuf);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len - 1);
-  pos = textstr = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
-#endif
-
-  do
-    {
-      if ((endpos = strchr (pos, '\n')) != NULL)
-        *endpos = '\0';
-      oldstr = newstr;
-      if (endpos != NULL)
-        newstr = g_strconcat (newstr, pos, "%n", NULL);
-      else
-        newstr = g_strconcat (newstr, pos, NULL);
-      g_free (oldstr);
-      if (endpos != NULL)
-        {
-          *endpos = '\n';
-          pos = endpos + 1;
-        }
-    }
-  while (endpos != NULL);
-
-#if GTK_MAJOR_VERSION == 1
-  if (!GTK_TEXT (proxy_text)->use_wchar)
-    g_free (textstr);
-#else
-  g_free (textstr);
-#endif
-
-  return (newstr);
 }
 
 
 static void
 apply_changes (GtkWidget * widget, gpointer data)
 {
-#if 0
-FIXME
-  const char *tempstr;
-  int num, found, i;
-  GList *templist;
+  gftp_config_vars * cv;
+  GList * templist;
+  int i;
 
-  for (num = 0; config_file_vars[num].var != NULL; num++)
+  for (templist = gftp_options_list; 
+       templist != NULL; 
+       templist = templist->next)
     {
-      if (config_file_vars[num].widget != NULL)
+      cv = templist->data;
+
+      for (i=0; cv[i].key != NULL; i++)
         {
-          switch (config_file_vars[num].type)
-            {
-              case CONFIG_CHECKBOX:
-                *(int *) config_file_vars[num].var =
-                      GTK_TOGGLE_BUTTON (config_file_vars[num].widget)->active;
-                break;
-              case CONFIG_INTTEXT:
-              case CONFIG_UINTTEXT:
-                tempstr = gtk_entry_get_text ( 
-                               GTK_ENTRY (config_file_vars[num].widget));
-                *(int *) config_file_vars[num].var = strtol (tempstr, NULL, 10);
-                break;
-              case CONFIG_FLOATTEXT:
-                tempstr = gtk_entry_get_text ( 
-                               GTK_ENTRY (config_file_vars[num].widget));
-                *(double *) config_file_vars[num].var = strtod (tempstr, NULL);
-                break;
-              case CONFIG_CHARTEXT:
-              case CONFIG_CHARPASS:
-                tempstr = gtk_entry_get_text ( 
-                               GTK_ENTRY (config_file_vars[num].widget));
-                g_free (*(char **) config_file_vars[num].var);
-                *(char **) config_file_vars[num].var = 
-                                                g_malloc (strlen (tempstr) + 1);
-                strcpy (*(char **) config_file_vars[num].var, tempstr);
-                break;
-            }
+          if (!(cv[i].ports_shown & GFTP_PORT_GTK))
+            continue;
+
+          if (gftp_option_types[cv[i].otype].ui_save_function == NULL)
+            continue;
+
+          gftp_option_types[cv[i].otype].ui_save_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
         }
     }
-
-  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (def_proto_combo)->entry));
-  found = 0;
-  for (i = 0; gftp_protocols[i].name; i++)
-    {
-      if (strcmp (gftp_protocols[i].name, tempstr) == 0)
-        {
-          found = 1;
-          break;
-        }
-    }
-
-  if (found)
-    {
-      g_free (default_protocol);
-      default_protocol = g_strconcat (tempstr, NULL);
-    }
-
-  templist = proxy_hosts;
-  proxy_hosts = new_proxy_hosts;
-  new_proxy_hosts = templist;
-  clean_old_changes (NULL, NULL);
-
-  if (proxy_config != NULL)
-    g_free (proxy_config);
-  proxy_config = get_proxy_config ();
-
-  gftp_write_config_file ();
-#endif
 }
 
 
@@ -219,47 +580,6 @@ options_action (GtkWidget * widget, gint response, gpointer user_data)
     }
 }
 #endif
-
-
-static void
-proxy_toggle (GtkList * list, GtkWidget * child, gpointer data)
-{
-#if 0
-FIXME
-  int proxy_num;
-  char *str;
-
-#if GTK_MAJOR_VERSION > 1
-  GtkTextIter iter, iter2;
-  GtkTextBuffer * textbuf;
-  guint len;
-#endif
-
-  proxy_num = gtk_list_child_position (list, child);
-  if (proxy_num == GFTP_CUSTOM_PROXY_NUM)
-    str = custom_proxy;
-  else
-    str = proxy_type[proxy_num].description;
-
-#if GTK_MAJOR_VERSION == 1
-  gtk_text_set_point (GTK_TEXT (proxy_text), 0);
-  gtk_text_forward_delete (GTK_TEXT (proxy_text),
-			   gtk_text_get_length (GTK_TEXT (proxy_text)));
-
-  gtk_text_insert (GTK_TEXT (proxy_text), NULL, NULL, NULL, str, -1);
-#else
-  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (proxy_text));
-  len = gtk_text_buffer_get_char_count (textbuf);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len - 1);
-  gtk_text_buffer_delete (textbuf, &iter, &iter2);
-
-  len = gtk_text_buffer_get_char_count (textbuf);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len - 1);
-  gtk_text_buffer_insert (textbuf, &iter, str, -1);
-#endif
-#endif
-}
 
 
 static void
@@ -650,9 +970,7 @@ static void
 make_proxy_hosts_tab (GtkWidget * notebook)
 {
   GtkWidget *tempwid, *box, *hbox, *scroll;
-  gftp_proxy_hosts *hosts, *newhosts;
   char *add_data[2];
-  GList *templist;
 
   add_data[0] = _("Network");
   add_data[1] = _("Netmask");
@@ -701,46 +1019,45 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
 		      GTK_SIGNAL_FUNC (delete_proxy_host), NULL);
   gtk_widget_show (tempwid);
-
-#if 0
-FIXME
-  new_proxy_hosts = NULL;
-  for (templist = proxy_hosts; templist != NULL;
-       templist = templist->next)
-    {
-      hosts = templist->data;
-      newhosts = g_malloc (sizeof (*newhosts));
-      memcpy (newhosts, hosts, sizeof (*newhosts));
-      if (newhosts->domain)
-	{
-	  newhosts->domain = g_malloc (strlen (hosts->domain) + 1);
-	  strcpy (newhosts->domain, hosts->domain);
-	}
-      new_proxy_hosts = g_list_prepend (new_proxy_hosts, newhosts);
-      add_host_to_listbox (new_proxy_hosts);
-    }
-#endif
 }
 
 
 void
 options_dialog (gpointer data)
 {
-  GtkWidget * dialog, * tempwid, * notebook, * table, * box;
-  char tempstr[20], *pos, *endpos, *oldstr;
-  int i, tbl_col, tbl_num, combo_num;
-  GList * combo_list;
+  gftp_options_dialog_data option_data;
+  gftp_config_vars * cv;
+  GList * templist;
+  int i;
+
+  memset (&option_data, 0, sizeof (option_data));
+  _setup_option (gftp_option_type_text, &option_data, 
+                 _print_option_type_text, _save_option_type_text);
+  _setup_option (gftp_option_type_textcombo, &option_data, 
+                 _print_option_type_textcombo, _save_option_type_textcombo);
+  _setup_option (gftp_option_type_textcomboedt, &option_data, 
+                 _print_option_type_textcomboedt, 
+                 _save_option_type_textcomboedt);
+  _setup_option (gftp_option_type_hidetext, &option_data, 
+                 _print_option_type_hidetext, _save_option_type_text);
+  _setup_option (gftp_option_type_int, &option_data, 
+                 _print_option_type_int, _save_option_type_int);
+  _setup_option (gftp_option_type_checkbox, &option_data, 
+                 _print_option_type_checkbox, _save_option_type_checkbox);
+  _setup_option (gftp_option_type_float, &option_data, 
+                 _print_option_type_float, _save_option_type_float);
+  _setup_option (gftp_option_type_notebook, &option_data, 
+                 _print_option_type_notebook, NULL);
 
 #if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Options"));
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
-                              5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
+  option_data.dialog = gtk_dialog_new ();
+  gtk_window_set_title (GTK_WINDOW (option_data.dialog), _("Options"));
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (option_data.dialog)->action_area), 5);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), 15);
+  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), TRUE);
 #else
-  dialog = gtk_dialog_new_with_buttons (_("Options"), NULL, 0,
-                                        GTK_STOCK_SAVE,
+  option_data.dialog = gtk_dialog_new_with_buttons (_("Options"), NULL, 0,
+                                        GTK_STOCK_OK,
                                         GTK_RESPONSE_OK,
                                         GTK_STOCK_CANCEL,
                                         GTK_RESPONSE_CANCEL,
@@ -748,265 +1065,82 @@ options_dialog (gpointer data)
                                         GTK_RESPONSE_APPLY,
                                         NULL);
 #endif
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "options", "gFTP");
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 2);
-  gtk_widget_realize (dialog);
+  gtk_window_set_wmclass (GTK_WINDOW(option_data.dialog), "options", "gFTP");
+  gtk_window_set_position (GTK_WINDOW (option_data.dialog), GTK_WIN_POS_MOUSE);
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (option_data.dialog)->vbox), 10);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (option_data.dialog)->vbox), 2);
+  gtk_widget_realize (option_data.dialog);
 
   if (gftp_icon != NULL)
     {
-      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
+      gdk_window_set_icon (option_data.dialog->window, NULL, gftp_icon->pixmap,
                            gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+      gdk_window_set_icon_name (option_data.dialog->window, _("gFTP Icon"));
     }
 
-  notebook = gtk_notebook_new ();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
-                      TRUE, 0);
-  gtk_widget_show (notebook);
+  option_data.notebook = gtk_notebook_new ();
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data.dialog)->vbox), 
+                      option_data.notebook, TRUE, TRUE, 0);
+  gtk_widget_show (option_data.notebook);
 
-  tbl_num = tbl_col = 0;
-  table = box = NULL;
-
-#if 0
-FIXME
-  for (i=0; config_file_vars[i].key != NULL; i++)
+  cv = gftp_options_list->data;
+  option_data.last_option = cv[0].otype;
+  for (templist = gftp_options_list; 
+       templist != NULL; 
+       templist = templist->next)
     {
-      if (!(config_file_vars[i].ports_shown & GFTP_PORT_GTK))
-        continue;
+      cv = templist->data;
 
-      switch (config_file_vars[i].type)
+      for (i=0; cv[i].key != NULL; i++)
         {
-          case CONFIG_NOTEBOOK:
-            box = gtk_vbox_new (FALSE, 0);
-            gtk_container_border_width (GTK_CONTAINER (box), 10);
-            gtk_widget_show (box);
+          if (!(cv[i].ports_shown & GFTP_PORT_GTK))
+            continue;
 
-            tempwid = gtk_label_new (_(config_file_vars[i].description));
-            gtk_widget_show (tempwid);
-            gtk_notebook_append_page (GTK_NOTEBOOK (notebook), box, tempwid);
-            break;
-          case CONFIG_TABLE:
-            table = gtk_table_new (1, 2, FALSE);
-            gtk_table_set_row_spacings (GTK_TABLE (table), 5);
-            gtk_table_set_col_spacings (GTK_TABLE (table), 5);
-            gtk_box_pack_start (GTK_BOX (box), table, FALSE, FALSE, 0);
-            gtk_widget_show (table);
-            tbl_num = 1;
-            tbl_col = 0;
-            break;
-          case CONFIG_COMBO:
-            gtk_table_resize (GTK_TABLE (table), tbl_num, 2);
+          if (gftp_option_types[cv[i].otype].ui_print_function == NULL)
+            continue;
 
-            tempwid = gtk_label_new (_(config_file_vars[i].description));
-            gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
-            gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1,
-                                       tbl_num - 1, tbl_num);
-            gtk_widget_show (tempwid);
+          cv[i].user_data = gftp_option_types[cv[i].otype].ui_print_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
 
-            tempwid = gtk_combo_new ();
-            gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 1, 2,
-                                       tbl_num - 1, tbl_num);
-            gtk_widget_show (tempwid);
-            config_file_vars[i].widget = tempwid;
-
-            /* We only have Default Protocol and the Proxy type as the two
-               combo types. If I add more later on, I'll work on a better
-               interface for all this stuff */
-            if (strcmp (config_file_vars[i].comment, "DP") == 0)
-              def_proto_combo = tempwid;
-            else
-              proxy_combo = tempwid;
-
-            tbl_num++;
-            break;
-          case CONFIG_TEXT:
-#if GTK_MAJOR_VERSION == 1
-            proxy_text = gtk_text_new (NULL, NULL);
-            gtk_text_set_editable (GTK_TEXT (proxy_text), TRUE);
-#else
-            proxy_text = gtk_text_view_new ();
-            gtk_text_view_set_editable (GTK_TEXT_VIEW (proxy_text), TRUE);
-#endif
-            gtk_widget_set_size_request (proxy_text, -1, 75);
-            gtk_table_attach_defaults (GTK_TABLE (table), proxy_text, 0, 2, 
-                                       tbl_num - 1, tbl_num);
-            gtk_widget_show (proxy_text);
-            config_file_vars[i].widget = proxy_text;
-
-            tbl_num++;
-            break;
-          case CONFIG_CHARTEXT:
-          case CONFIG_CHARPASS:
-          case CONFIG_INTTEXT:
-          case CONFIG_UINTTEXT:
-          case CONFIG_FLOATTEXT:
-            gtk_table_resize (GTK_TABLE (table), tbl_num, 2);
-
-            tempwid = gtk_label_new (_(config_file_vars[i].description));
-            gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
-            gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1,
-                                       tbl_num - 1, tbl_num);
-            gtk_widget_show (tempwid);
-
-            tempwid = gtk_entry_new ();
-            gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 1, 2,
-                                       tbl_num - 1, tbl_num);
-
-            switch (config_file_vars[i].type)
-              {
-                case CONFIG_INTTEXT:
-                case CONFIG_UINTTEXT:
-                  g_snprintf (tempstr, sizeof (tempstr), "%d",
-                              *(int *) config_file_vars[i].var);
-                  gtk_entry_set_text (GTK_ENTRY (tempwid), tempstr);
-                  break;
-                case CONFIG_FLOATTEXT:
-                  g_snprintf (tempstr, sizeof (tempstr), "%.2f",
-                              *(double *) config_file_vars[i].var);
-                  gtk_entry_set_text (GTK_ENTRY (tempwid), tempstr);
-                  break;
-                case CONFIG_CHARTEXT:
-                  gtk_entry_set_text (GTK_ENTRY (tempwid),
-                                      *(char **) config_file_vars[i].var);
-                  break;
-                case CONFIG_CHARPASS:
-                  gtk_entry_set_text (GTK_ENTRY (tempwid),
-                                      *(char **) config_file_vars[i].var);
-                  gtk_entry_set_visibility (GTK_ENTRY (tempwid), 0);
-                  break;
-              }
-            gtk_widget_show (tempwid);
-            config_file_vars[i].widget = tempwid;
-            tbl_num++;
-            break;
-          case CONFIG_CHECKBOX:
-            tempwid = gtk_check_button_new_with_label (
-                                    _(config_file_vars[i].description));
-            gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 
-                                    tbl_col, tbl_col + 1, tbl_num, tbl_num + 1);
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tempwid),
-                                    *(int *) config_file_vars[i].var);
-            gtk_widget_show (tempwid);
-            config_file_vars[i].widget = tempwid;
-            tbl_col++;
-            if (tbl_col == 2)
-              {
-                tbl_col = 0;
-                tbl_num++;
-                gtk_table_resize (GTK_TABLE (table), tbl_num + 1, 2);
-              }
-            break; 
-          case CONFIG_LABEL:
-            tempwid = gtk_label_new (_(config_file_vars[i].description));
-            gtk_misc_set_alignment (GTK_MISC (tempwid), tbl_col, 0.5);
-            gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 
-                                    tbl_col, tbl_col + 1, tbl_num, tbl_num + 1);
-            gtk_widget_show (tempwid);
-            config_file_vars[i].widget = tempwid;
-            tbl_col++;
-            if (tbl_col == 2)
-              {
-                tbl_col = 0;
-                tbl_num++;
-                gtk_table_resize (GTK_TABLE (table), tbl_num + 1, 2);
-              }
-            break;
+          option_data.last_option = cv[i].otype;
         }
     }
-
-  combo_num = 0;
-  combo_list = NULL;
-  for (i = 0; gftp_protocols[i].name != NULL; i++)
-    {
-      if (strcmp (default_protocol, gftp_protocols[i].name) == 0)
-        combo_num = i;
-      tempwid = gtk_list_item_new_with_label (gftp_protocols[i].name);
-      gtk_widget_show (tempwid);
-      combo_list = g_list_append (combo_list, tempwid);
-    }
-  gtk_list_prepend_items (GTK_LIST (GTK_COMBO (def_proto_combo)->list), 
-                          combo_list); 
-  gtk_list_select_item (GTK_LIST (GTK_COMBO (def_proto_combo)->list), 
-                        combo_num);
-
-  combo_list = NULL;
-  for (i = 0; proxy_type[i].key != NULL; i++)
-    {
-      tempwid = gtk_list_item_new_with_label (_(proxy_type[i].key));
-      gtk_widget_show (tempwid);
-      combo_list = g_list_append (combo_list, tempwid);
-    }
-  gtk_list_prepend_items (GTK_LIST (GTK_COMBO (proxy_combo)->list), combo_list);
-  combo_list = NULL;
-
-  custom_proxy = g_malloc0 (1);
-  if (proxy_config == NULL || *proxy_config == '\0')
-    combo_num = 0;
-  else
-    {
-      pos = proxy_config;
-      while ((endpos = strstr (pos, "%n")))
-        {
-          *endpos = '\0';
-          oldstr = custom_proxy;
-          custom_proxy = g_strconcat (custom_proxy, pos, "\n", NULL);
-          g_free (oldstr);
-          *endpos = '%';
-          pos = endpos + 2;
-        }
-
-      for (combo_num = 1; combo_num < GFTP_CUSTOM_PROXY_NUM; combo_num++)
-        {
-          if (strcmp (proxy_type[combo_num].description, custom_proxy) == 0)
-            break;
-        }
-    }
-
-  gtk_signal_connect (GTK_OBJECT (GTK_COMBO (proxy_combo)->list),
-                      "select_child", GTK_SIGNAL_FUNC (proxy_toggle), NULL);
-  gtk_list_select_item (GTK_LIST (GTK_COMBO (proxy_combo)->list), combo_num);
-
-  make_proxy_hosts_tab (notebook);
-#endif
 
 #if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-                      TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), 
+                      tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
                       GTK_SIGNAL_FUNC (apply_changes), NULL);
   gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
                              GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                             GTK_OBJECT (dialog));
+                             GTK_OBJECT (option_data.dialog));
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("  Cancel  "));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-                      TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), 
+                      tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
                       GTK_SIGNAL_FUNC (clean_old_changes), NULL);
   gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
                              GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                             GTK_OBJECT (dialog));
+                             GTK_OBJECT (option_data.dialog));
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Apply"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-                      TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (option_data.dialog)->action_area), 
+                      tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
                       GTK_SIGNAL_FUNC (apply_changes), NULL);
   gtk_widget_grab_default (tempwid);
   gtk_widget_show (tempwid);
 #else
-  g_signal_connect (GTK_OBJECT (dialog), "response",
+  g_signal_connect (GTK_OBJECT (option_data.dialog), "response",
                     G_CALLBACK (options_action), NULL);
 #endif
 
-  gtk_widget_show (dialog);
+  gtk_widget_show (option_data.dialog);
 }
 

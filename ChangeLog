@@ -1,3 +1,38 @@
+2003-4-18 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/gftp.h - removed gftp_option_type_subtree,
+	gftp_option_type_table and gftp_option_type_newtable
+
+	* lib/config_file.c - implemented gftp_set_request_option()
+
+	* lib/gftp.h lib/config_file.c - changed declaration of
+	ui_print_function in struct gftp_option_type. Also added
+	ui_save_function field to this structure
+
+	* lib/gftp.h added local_options_vars num_local_options_vars variables
+	to gftp_request
+
+	* lib/local.c (local_set_directory) - small improvements to this
+	function
+
+	* lib/misc.c - added gftp_copy_local_options()
+
+	* lib/options.h - fix declaration of General tab
+
+	* lib/protocols.c - free local options
+
+	* lib/rfc2068.c - check to see if we're connecting to a FTP site via
+	proxy
+
+	* lib/rfc959.c lib/protocols.c - changes for CRAY directory listings
+
+	* src/gtk/gftp-gtk.h - added struct gftp_options_dialog_data and
+	struct gftp_textcomboedt_widget_data
+
+	* src/gtk/options_dialog.c - start to use new configuration interface
+
+	* src/gtk/transfer.c - remove FIXME note. This is already in
+	lib/gftp.h
+
 2003-4-13 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c - fixed float config type
 

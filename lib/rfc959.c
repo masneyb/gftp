@@ -20,16 +20,18 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
+/* FIXME - add coversion functios for %n to \n */
+
 static gftp_textcomboedt_data gftp_proxy_type[] = {
-  {N_("none"), ""},
-  {N_("SITE command"), "USER %pu\nPASS %pp\nSITE %hh\nUSER %hu\nPASS %hp\n"},
-  {N_("user@host"), "USER %pu\nPASS %pp\nUSER %hu@%hh\nPASS %hp\n"},
-  {N_("user@host:port"), "USER %hu@%hh:%ho\nPASS %hp\n"},
-  {N_("AUTHENTICATE"), "USER %hu@%hh\nPASS %hp\nSITE AUTHENTICATE %pu\nSITE RESPONSE %pp\n"},
-  {N_("user@host port"), "USER %hu@%hh %ho\nPASS %hp\n"},
-  {N_("user@host NOAUTH"), "USER %hu@%hh\nPASS %hp\n"},
-  {N_("HTTP Proxy"), "http"},
-  {N_("Custom"), ""},
+  {N_("none"), "", 0},
+  {N_("SITE command"), "USER %pu\nPASS %pp\nSITE %hh\nUSER %hu\nPASS %hp\n", 0},
+  {N_("user@host"), "USER %pu\nPASS %pp\nUSER %hu@%hh\nPASS %hp\n", 0},
+  {N_("user@host:port"), "USER %hu@%hh:%ho\nPASS %hp\n", 0},
+  {N_("AUTHENTICATE"), "USER %hu@%hh\nPASS %hp\nSITE AUTHENTICATE %pu\nSITE RESPONSE %pp\n", 0},
+  {N_("user@host port"), "USER %hu@%hh %ho\nPASS %hp\n", 0},
+  {N_("user@host NOAUTH"), "USER %hu@%hh\nPASS %hp\n", 0},
+  {N_("HTTP Proxy"), "http", 0},
+  {N_("Custom"), "", GFTP_TEXTCOMBOEDT_EDITABLE},
   {NULL, NULL}
 };
 
@@ -41,18 +43,6 @@ static gftp_config_vars config_vars[] =
   {"email", N_("Email address:"), 
    gftp_option_type_text, "", NULL, 0,
    N_("This is the password that will be used whenever you log into a remote FTP server as anonymous"), 
-   GFTP_PORT_ALL, NULL},
-  {"passive_transfer", N_("Passive file transfers"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
-   N_("If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."),
-   GFTP_PORT_ALL, NULL},
-  {"resolve_symlinks", N_("Resolve Remote Symlinks (LIST -L)"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
-   N_("The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"), 
-   GFTP_PORT_ALL, NULL},
-  {"ascii_transfers", N_("Transfer files in ASCII mode"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
-   N_("If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."), 
    GFTP_PORT_ALL, NULL},
   {"ftp_proxy_host", N_("Proxy hostname:"), 
    gftp_option_type_text, "", NULL, 0,
@@ -70,11 +60,22 @@ static gftp_config_vars config_vars[] =
    gftp_option_type_text, "", NULL, 0,
    N_("Your firewall account (optional)"), GFTP_PORT_ALL, NULL},
   
-  {"", "", gftp_option_type_newtable, "", NULL, 0, "", GFTP_PORT_GTK, NULL},
-
   {"proxy_config", N_("Proxy server type:"),
    gftp_option_type_textcomboedt, "", gftp_proxy_type, 0,
    N_("This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"), 
+   GFTP_PORT_ALL, NULL},
+
+  {"passive_transfer", N_("Passive file transfers"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   N_("If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."),
+   GFTP_PORT_ALL, NULL},
+  {"resolve_symlinks", N_("Resolve Remote Symlinks (LIST -L)"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   N_("The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"), 
+   GFTP_PORT_ALL, NULL},
+  {"ascii_transfers", N_("Transfer files in ASCII mode"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   N_("If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."), 
    GFTP_PORT_ALL, NULL},
 
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
@@ -398,6 +399,8 @@ rfc959_syst (gftp_request * request)
     request->server_type = GFTP_DIRTYPE_UNIX;
   else if (strcmp (stpos, "VMS") == 0)
     request->server_type = GFTP_DIRTYPE_VMS;
+  else if (strcmp (stpos, "CRAY") == 0)
+    request->server_type = GFTP_DIRTYPE_CRAY;
   else
     request->server_type = GFTP_DIRTYPE_OTHER;
 

@@ -134,6 +134,26 @@ typedef struct gftp_save_dir_struct_tag
 } gftp_save_dir_struct;
 
 
+typedef struct gftp_textcomboedt_widget_data_tag
+{
+  GtkWidget * combo,
+            * text;
+  gftp_config_vars * cv;
+} gftp_textcomboedt_widget_data;
+
+
+typedef struct gftp_options_dialog_data_tag
+{
+  GtkWidget * dialog,
+            * notebook,
+            * box,
+            * table;
+  int tbl_col_num,
+      tbl_row_num;
+  gftp_option_type_enum last_option;
+} gftp_options_dialog_data;
+
+
 extern gftp_window_data window1, window2, * other_wdata, * current_wdata;
 extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
                  * portedit, * logwdw, * dlwdw, * protocol_menu, * optionmenu;

@@ -549,6 +549,37 @@ free_tdata (gftp_transfer * tdata)
 }
 
 
+void
+gftp_copy_local_options (gftp_request * dest, gftp_request * source)
+{
+  int i;
+
+  if (source->local_options_vars == NULL)
+    {
+      dest->local_options_vars = NULL;
+      dest->num_local_options_vars = 0;
+      dest->local_options_hash = NULL;
+      return;
+    }
+
+  dest->local_options_hash = g_hash_table_new (string_hash_function,
+                                               string_hash_compare);
+
+  for (i=0; source->local_options_vars[i].key != NULL; i++);
+
+  dest->local_options_vars = g_malloc (sizeof (gftp_config_vars) * (i + 1));
+  memcpy (dest, source, sizeof (gftp_config_vars) * (i + 1));
+  dest->num_local_options_vars = i;
+
+  for (i=0; dest->local_options_vars[i].key != NULL; i++)
+    {
+      g_hash_table_insert (dest->local_options_hash, 
+                           dest->local_options_vars[i].key,
+                           &dest->local_options_vars[i]);
+    }
+}
+
+
 gftp_request * 
 copy_request (gftp_request * req)
 {
@@ -569,7 +600,7 @@ copy_request (gftp_request * req)
   newreq->port = req->port;
   newreq->use_proxy = req->use_proxy;
   newreq->logging_function = req->logging_function;
-  newreq->local_options = NULL; /* FIXME */
+  gftp_copy_local_options (newreq, req);
 
   req->init (newreq);
 

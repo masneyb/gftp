@@ -20,7 +20,6 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
-/* {{{ gftp_request_new */
 gftp_request *
 gftp_request_new (void)
 {
@@ -33,7 +32,7 @@ gftp_request_new (void)
   request->server_type = GFTP_DIRTYPE_OTHER;
   return (request);
 }
-/* }}} */
+
 
 void
 gftp_request_destroy (gftp_request * request, int free_request)
@@ -76,7 +75,9 @@ gftp_request_destroy (gftp_request * request, int free_request)
       request->datafd = -1;
       request->cachefd = -1;
     }
-  /* FIXME - free local_options */
+
+  g_free (request->local_options_vars);
+  g_hash_table_destroy (request->local_options_hash);
 }
 
 
@@ -1115,8 +1116,7 @@ gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
       startpos = goto_next_token (startpos);
     }
 
-  /* FIXME - make this GFTP_DIRTYPE_CRAY */
-  if (request->server_type != GFTP_DIRTYPE_UNIX)
+  if (request->server_type != GFTP_DIRTYPE_CRAY)
     {
       /* See if this is a Cray directory listing. It has the following format:
       drwx------     2 feiliu    g913     DK  common      4096 Sep 24  2001 wv */
