@@ -838,7 +838,6 @@ void
 gftp_set_username (gftp_request * request, const char *username)
 {
   g_return_if_fail (request != NULL);
-  g_return_if_fail (username != NULL);
 
   if (request->username)
     g_free (request->username);

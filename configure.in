@@ -202,6 +202,12 @@ if test "x$enable_gtkport" = "xyes" ; then
   fi
 
   if test "x$GFTP_GTK" = xgftp-gtk; then
+    case $host in
+      *-hpux*)
+        AC_CHECK_LIB(rt, sem_init)
+        ;;
+    esac
+
     AC_CHECK_LIB(pthread, pthread_create, PTHREAD_LIBS="-lpthread")
 
     if test "x$PTHREAD_LIBS" = x ; then
