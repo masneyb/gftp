@@ -1,4 +1,7 @@
 2003-6-16 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c - run g_iconv_close() in gftp_disconnect() instead
+	of gftp_end_transfer()
+
 	* lib/gftp.h src/text/gftp-text.c src/gtk/misc-gtk.c - changed 2nd
 	parameter of logging function to be a request structure, instead of
 	request->user_data. In the logging functions, if the string isn't in

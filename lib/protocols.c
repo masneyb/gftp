@@ -137,6 +137,14 @@ gftp_disconnect (gftp_request * request)
     }
 #endif
 
+#if GLIB_MAJOR_VERSION > 1
+  if (request->iconv_initialized)
+    {
+      g_iconv_close (request->iconv);
+      request->iconv_initialized = 0;
+    }
+#endif
+
   request->cached = 0;
   if (request->disconnect == NULL)
     return;
@@ -280,12 +288,6 @@ gftp_end_transfer (gftp_request * request)
       g_free (request->last_dir_entry);
       request->last_dir_entry = NULL;
       request->last_dir_entry_len = 0;
-    }
-
-  if (request->iconv_initialized)
-    {
-      g_iconv_close (request->iconv);
-      request->iconv_initialized = 0;
     }
 
   return (ret);
