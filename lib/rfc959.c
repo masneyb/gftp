@@ -617,7 +617,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       if ((resp = rfc959_send_command (request, "PASV\r\n")) != '2')
 	{
           if (request->datafd < 0)
-            return (resp);
+            return (GFTP_ERETRYABLE);
 
           gftp_set_request_option (request, "passive_transfer", GINT_TO_POINTER(0));
 	  return (rfc959_ipv4_data_connection_new (request));
@@ -773,7 +773,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       if ((resp = rfc959_send_command (request, "EPSV\r\n")) != '2')
 	{
           if (request->datafd < 0)
-            return (resp);
+            return (GFTP_ERETRYABLE);
 
           gftp_set_request_option (request, "passive_transfer", 
                                    GINT_TO_POINTER(0));

@@ -1,3 +1,8 @@
+2003-10-17 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c (rfc959_ipv[46]_data_connection_new) - when there is an
+	error establishing a connection to the remote server, make sure that
+	GFTP_ERETRYABLE is returned.
+
 2003-10-13 Brian Masney <masneyb@gftp.org>
 	* src/gtk/options_dialog.c - when specifying a FTP proxy config in the 
 	GTK+ 2.0 port, the last character was getting chopped off.
