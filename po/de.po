@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-19 15:16+0100\n"
-"PO-Revision-Date: 2005-01-19 15:16+0100\n"
+"POT-Creation-Date: 2005-01-23 22:27+0100\n"
+"PO-Revision-Date: 2005-01-23 22:26+0100\n"
 "Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Ungültige URL %s\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Fehler: Ungültige Zeile %s in der cache index Datei\n"
 
-#: lib/cache.c:137 lib/local.c:477
+#: lib/cache.c:137 lib/fsp.c:537 lib/local.c:477
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Fehler: Konnte Verzeichnis %s nicht erstellen: %s\n"
@@ -44,7 +44,8 @@ msgstr "Fehler: Kann Zwischendatei nicht erzeugen: %s\n"
 msgid "Error closing file descriptor: %s\n"
 msgstr "Fehler beim Dateischließen: %s\n"
 
-#: lib/cache.c:250 lib/local.c:136 lib/local.c:145 lib/local.c:192
+#: lib/cache.c:250 lib/fsp.c:128 lib/fsp.c:208 lib/local.c:136 lib/local.c:145
+#: lib/local.c:192
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Fehler: Kann in Datei %s kein seek ausführen: %s\n"
@@ -199,6 +200,80 @@ msgstr ""
 "FATALER gFTP Fehler: Konfigurationsoption '%s' nicht in der global hash "
 "Tabelle gefunden\n"
 
+#: lib/fsp.c:190
+#, c-format
+msgid "Error: Cannot upload file %s\n"
+msgstr "Fehler: Die Datei %s konnte nicht hochgeladen werden\n"
+
+#: lib/fsp.c:200
+#, c-format
+msgid "Error: Cannot write to file %s: %s\n"
+msgstr "Fehler: In die Datei %s konnte nicht geschrieben werden: %s\n"
+
+#: lib/fsp.c:238
+#, c-format
+msgid "Error: Error closing file: %s\n"
+msgstr "Fehler: Fehler beim Schließen der Datei: %s\n"
+
+#: lib/fsp.c:326
+#, c-format
+msgid "Corrupted file listing from FSP server %s\n"
+msgstr "Fehlerhafte Dateiliste vom FSP-Server %s\n"
+
+#: lib/fsp.c:338 lib/fsp.c:339 lib/protocols.c:1542 lib/protocols.c:1543
+#: lib/protocols.c:1584 lib/protocols.c:1585 lib/protocols.c:1648
+#: lib/protocols.c:1655 lib/protocols.c:1731 lib/protocols.c:1732
+#: lib/protocols.c:1768
+msgid "unknown"
+msgstr "Unbekannt"
+
+#: lib/fsp.c:376
+#, c-format
+msgid "Could not get FSP directory listing %s: %s\n"
+msgstr "Abrufen der FSP-Verzeichnisliste %s fehlgeschlagen: %s\n"
+
+#: lib/fsp.c:438
+#, c-format
+msgid "Successfully changed directory to %s\n"
+msgstr "Verzeichnis erfolgreich nach %s gewechselt\n"
+
+#: lib/fsp.c:448
+#, c-format
+msgid "Could not change directory to %s\n"
+msgstr "Verzeichnis konnte nicht nach %s gewechselt werden\n"
+
+#: lib/fsp.c:473 lib/fsp.c:502 lib/local.c:424 lib/local.c:447
+#: src/gtk/transfer.c:260 src/gtk/view_dialog.c:328
+#, c-format
+msgid "Successfully removed %s\n"
+msgstr "%s erfolgreich gelöscht\n"
+
+#: lib/fsp.c:479 lib/local.c:430
+#, c-format
+msgid "Error: Could not remove directory %s: %s\n"
+msgstr "Fehler: Konnte Verzeichnis %s nicht löschen: %s\n"
+
+#: lib/fsp.c:508 lib/local.c:453 src/gtk/transfer.c:264
+#: src/gtk/view_dialog.c:332
+#, c-format
+msgid "Error: Could not remove file %s: %s\n"
+msgstr "Fehler: Konnte Datei %s nicht löschen: %s\n"
+
+#: lib/fsp.c:530 lib/local.c:470
+#, c-format
+msgid "Successfully made directory %s\n"
+msgstr "Verzeichnis %s erfolgreich angelegt\n"
+
+#: lib/fsp.c:565 lib/local.c:496
+#, c-format
+msgid "Successfully renamed %s to %s\n"
+msgstr "%s erfolgreich in %s umbenannt\n"
+
+#: lib/fsp.c:577 lib/local.c:503
+#, c-format
+msgid "Error: Could not rename %s to %s: %s\n"
+msgstr "Fehler: Konnte %s nicht in %s umbenennen: %s\n"
+
 #: lib/ftps.c:157
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
@@ -239,37 +314,6 @@ msgstr "Konnte lokale Verzeichnisliste %s nicht erhalten: %s\n"
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "Lokales Verzeichnis erfolgreich nach %s gewechselt\n"
-
-#: lib/local.c:424 lib/local.c:447 src/gtk/transfer.c:260
-#: src/gtk/view_dialog.c:328
-#, c-format
-msgid "Successfully removed %s\n"
-msgstr "%s erfolgreich gelöscht\n"
-
-#: lib/local.c:430
-#, c-format
-msgid "Error: Could not remove directory %s: %s\n"
-msgstr "Fehler: Konnte Verzeichnis %s nicht löschen: %s\n"
-
-#: lib/local.c:453 src/gtk/transfer.c:264 src/gtk/view_dialog.c:332
-#, c-format
-msgid "Error: Could not remove file %s: %s\n"
-msgstr "Fehler: Konnte Datei %s nicht löschen: %s\n"
-
-#: lib/local.c:470
-#, c-format
-msgid "Successfully made directory %s\n"
-msgstr "Verzeichnis %s erfolgreich angelegt\n"
-
-#: lib/local.c:496
-#, c-format
-msgid "Successfully renamed %s to %s\n"
-msgstr "%s erfolgreich in %s umbenannt\n"
-
-#: lib/local.c:503
-#, c-format
-msgid "Error: Could not rename %s to %s: %s\n"
-msgstr "Fehler: Konnte %s nicht in %s umbenennen: %s\n"
 
 #: lib/local.c:520
 #, c-format
@@ -804,12 +848,6 @@ msgstr "Suche IP Adresse von %s\n"
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Kann IP Adresse von Rechnername %s nicht finden: %s\n"
-
-#: lib/protocols.c:1542 lib/protocols.c:1543 lib/protocols.c:1584
-#: lib/protocols.c:1585 lib/protocols.c:1648 lib/protocols.c:1655
-#: lib/protocols.c:1731 lib/protocols.c:1732 lib/protocols.c:1768
-msgid "unknown"
-msgstr "Unbekannt"
 
 #: lib/protocols.c:2238
 #, c-format
