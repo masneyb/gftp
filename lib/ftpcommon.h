@@ -27,7 +27,6 @@ struct rfc959_params_tag
                       * dataconn_rbuf;
   int data_connection;
   unsigned int is_ascii_transfer : 1,
-               encrypted_connection : 1,
                is_fxp_transfer : 1;
   int (*auth_tls_start) (gftp_request * request);
   ssize_t (*data_conn_read) (gftp_request * request, void *ptr, size_t size,

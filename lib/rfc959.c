@@ -1713,7 +1713,15 @@ rfc959_copy_param_options (gftp_request * dest_request,
   dparms = dest_request->protocol_data;
   sparms = src_request->protocol_data;
 
+  dparms->data_connection = -1;
   dparms->is_ascii_transfer = sparms->is_ascii_transfer;
+  dparms->is_fxp_transfer = sparms->is_fxp_transfer;
+  dparms->auth_tls_start = sparms->auth_tls_start;
+  dparms->data_conn_read = sparms->data_conn_read;
+  dparms->data_conn_write = sparms->data_conn_write;
+
+  dest_request->read_function = src_request->read_function;
+  dest_request->write_function = src_request->write_function;
 }
 
 

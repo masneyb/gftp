@@ -83,7 +83,6 @@ ftps_auth_tls_start (gftp_request * request)
     {
       params->data_conn_read = gftp_ssl_read;
       params->data_conn_write = gftp_ssl_write;
-      params->encrypted_connection = 1;
     }
   else
     {
@@ -93,7 +92,6 @@ ftps_auth_tls_start (gftp_request * request)
 
       params->data_conn_read = gftp_fd_read;
       params->data_conn_write = gftp_fd_write;
-      params->encrypted_connection = 0;
     }
 
   return (0);
@@ -124,9 +122,9 @@ ftps_init (gftp_request * request)
 
   params = request->protocol_data;
   request->protonum = GFTP_FTPS_NUM;
+  request->init = ftps_init;
   params->auth_tls_start = ftps_auth_tls_start;
   request->get_next_file = ftps_get_next_file;
-  request->init = ftps_init;
   request->post_connect = NULL;
   request->url_prefix = g_strdup ("ftps");
 
