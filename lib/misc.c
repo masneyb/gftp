@@ -848,6 +848,7 @@ make_ssh_exec_args (gftp_request * request, char *execname,
 #define SSH_LOGIN_BUFSIZE	200
 #define SSH_ERROR_BADPASS	-1
 #define SSH_ERROR_QUESTION	-2
+#define SSH_WARNING 		-3
 
 char *
 ssh_start_login_sequence (gftp_request * request, int fd)
@@ -887,6 +888,13 @@ ssh_start_login_sequence (gftp_request * request, int fd)
               ok = SSH_ERROR_BADPASS;
               break;
             }
+
+          if (strstr (tempstr, "WARNING") != NULL ||
+              strstr (tempstr, _("WARNING")) != NULL)
+            {
+              ok = SSH_WARNING;
+              break;
+            }
               
           wrotepw = 1;
           if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
@@ -903,6 +911,13 @@ ssh_start_login_sequence (gftp_request * request, int fd)
           if (wrotepw)
             {
               ok = SSH_ERROR_BADPASS;
+              break;
+            }
+
+          if (strstr (tempstr, "WARNING") != NULL ||
+              strstr (tempstr, _("WARNING")) != NULL)
+            {
+              ok = SSH_WARNING;
               break;
             }
 
@@ -946,6 +961,9 @@ ssh_start_login_sequence (gftp_request * request, int fd)
       else if (ok == SSH_ERROR_QUESTION)
         request->logging_function (gftp_logging_error, request->user_data,
                                _("Please connect to this host with the command line SSH utility and answer this question appropriately.\n"));
+      else if (ok == SSH_WARNING)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Please correct the above warning to connect to this host.\n"));
 
       g_free (tempstr);
       return (NULL);
