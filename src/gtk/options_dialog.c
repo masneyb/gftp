@@ -1002,7 +1002,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_widget_show (box);
   
 #if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_label_new (_("Type:"))
+  tempwid = gtk_label_new (_("Type:"));
 #else
   tempwid = gtk_label_new_with_mnemonic (_("_Type:"));
 #endif

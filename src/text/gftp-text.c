@@ -185,7 +185,12 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
   else
     infd = stdin;
 
+#if GLIB_MAJOR_VERSION > 1
   locale_question = g_locale_from_utf8 (question, -1, NULL, NULL, NULL);
+#else
+  locale_question = NULL;
+#endif
+
   if (locale_question != NULL)
     {
       printf ("%s%s%s ", GFTPUI_COMMON_COLOR_BLUE, locale_question,
