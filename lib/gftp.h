@@ -31,6 +31,10 @@
 #define _LARGEFILE_SOURCE 1
 #endif
 
+#if defined (_LARGEFILE_SOURCE) && !defined (_LARGEFILE64_SOURCE)
+#define _LARGEFILE64_SOURCE 1
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
