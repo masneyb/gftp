@@ -1338,17 +1338,17 @@ rfc959_list_files (gftp_request * request)
 static ssize_t
 rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
-  int i, j, ascii_transfers;
   rfc959_parms * parms;
   ssize_t num_read;
+  int i, j;
 
   parms = request->protocol_data;
+
   num_read = gftp_fd_read (request, buf, size, parms->data_connection);
   if (num_read < 0)
     return (num_read);
 
-  gftp_lookup_request_option (request, "ascii_transfers", &ascii_transfers);
-  if (ascii_transfers)
+  if (parms->is_ascii_transfer)
     {
       for (i = 0, j = 0; i < num_read; i++)
         {
@@ -1366,19 +1366,18 @@ rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 static ssize_t
 rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
-  int i, j, ascii_transfers;
   rfc959_parms * parms;
   ssize_t num_wrote;
   char *tempstr;
   size_t rsize;
+  int i, j;
 
   if (size == 0)
     return (0);
 
   parms = request->protocol_data;
 
-  gftp_lookup_request_option (request, "ascii_transfers", &ascii_transfers);
-  if (ascii_transfers)
+  if (parms->is_ascii_transfer)
     {
       rsize = 0;
       for (i = 0; i < size; i++)
