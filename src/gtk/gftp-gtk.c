@@ -53,7 +53,7 @@ get_column (GtkCListColumn * col)
 
 
 static void
-doexit (GtkWidget * widget, gpointer data)
+_gftp_exit (GtkWidget * widget, gpointer data)
 {
   intptr_t ret;
 
@@ -103,31 +103,33 @@ doexit (GtkWidget * widget, gpointer data)
 
 
 static gint
-delete_event (GtkWidget * widget, GdkEvent * event, gpointer data)
+_gftp_try_close (GtkWidget * widget, GdkEvent * event, gpointer data)
 {
   if (gftp_file_transfers == NULL)
-    doexit (NULL, NULL);
+    {
+      _gftp_exit (NULL, NULL);
+      return (0);
+    }
   else
     {
-      MakeYesNoDialog (_("Exit"), _("There are file transfers in progress.\nAre you sure you want to exit?"), doexit, NULL, NULL, NULL);
-      return (TRUE);
+      MakeYesNoDialog (_("Exit"), _("There are file transfers in progress.\nAre you sure you want to exit?"), _gftp_exit, NULL, NULL, NULL);
+      return (1);
     }
-  return (FALSE);
 }
 
 
 static void
-destroy (GtkWidget * widget, gpointer data)
+_gftp_force_close (GtkWidget * widget, gpointer data)
 {
   exit (0);
 }
 
 
 static void
-menu_exit (GtkWidget * widget, gpointer data)
+_gftp_menu_exit (GtkWidget * widget, gpointer data)
 {
-  if (!delete_event (widget, NULL, data))
-    doexit (widget, data);
+  if (!_gftp_try_close (widget, NULL, data))
+    _gftp_exit (widget, data);
 }
 
 
@@ -136,22 +138,22 @@ change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
 {
   switch (menuitem)
     {
-    case 1:
+    case GFTP_MENU_ITEM_ASCII:
       gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(1));
       break;
-    case 2:
+    case GFTP_MENU_ITEM_BINARY:
       gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(0));
       break;
-    case 3:
+    case GFTP_MENU_ITEM_WIN1:
       current_wdata = &window1;
       other_wdata = &window2;
-      if (wdata->request)
+      if (wdata->request != NULL)
         update_window_info ();
       break;
-    case 4:
+    case GFTP_MENU_ITEM_WIN2:
       current_wdata = &window2;
       other_wdata = &window1;
-      if (wdata->request)
+      if (wdata->request != NULL)
         update_window_info ();
       break;
     }
@@ -215,23 +217,27 @@ tb_openurl_dialog (gpointer data)
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
-  intptr_t local_len, remote_len, len, i, trans_len, log_len, tools_len,
-      ascii_transfers;
+  int local_len, remote_len, len, i, trans_len, log_len, tools_len;
   GtkAccelGroup *accel_group;
+  intptr_t ascii_transfers;
   GtkWidget * tempwid;
   static GtkItemFactoryEntry menu_items[] = {
     {N_("/_FTP"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/FTP/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/FTP/Window 1"), NULL, change_setting, 3, MN_("<RadioItem>")},
-    {N_("/FTP/Window 2"), NULL, change_setting, 4, MN_("/FTP/Window 1")},
+    {N_("/FTP/Window 1"), NULL, change_setting, GFTP_MENU_ITEM_WIN1,
+     MN_("<RadioItem>")},
+    {N_("/FTP/Window 2"), NULL, change_setting, GFTP_MENU_ITEM_WIN2,
+     MN_("/FTP/Window 1")},
     {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/FTP/Ascii"), NULL, change_setting, 1, MN_("<RadioItem>")},
-    {N_("/FTP/Binary"), NULL, change_setting, 2, MN_("/FTP/Ascii")},
+    {N_("/FTP/Ascii"), NULL, change_setting, GFTP_MENU_ITEM_ASCII,
+     MN_("<RadioItem>")},
+    {N_("/FTP/Binary"), NULL, change_setting, GFTP_MENU_ITEM_BINARY,
+     MN_("/FTP/Ascii")},
     {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
     {N_("/FTP/_Options..."), "<control>O", options_dialog, 0,
 	MS_(GTK_STOCK_PREFERENCES)},
     {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/FTP/_Quit"), "<control>Q", menu_exit, 0, MS_(GTK_STOCK_QUIT)},
+    {N_("/FTP/_Quit"), "<control>Q", _gftp_menu_exit, 0, MS_(GTK_STOCK_QUIT)},
     {N_("/_Local"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Local/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Local/Open _URL..."), NULL, openurl_dialog, 0, MS_(GTK_STOCK_OPEN)},
@@ -1096,9 +1102,11 @@ sortrows (GtkCList * clist, gint column, gpointer data)
   int swap_col;
 
   wdata = data;
-  g_snprintf (sortcol_name, sizeof (sortcol_name), "%s_sortcol", wdata->prefix_col_str);
+  g_snprintf (sortcol_name, sizeof (sortcol_name), "%s_sortcol",
+              wdata->prefix_col_str);
   gftp_lookup_global_option (sortcol_name, &sortcol);
-  g_snprintf (sortasds_name, sizeof (sortasds_name), "%s_sortasds", wdata->prefix_col_str);
+  g_snprintf (sortasds_name, sizeof (sortasds_name), "%s_sortasds",
+              wdata->prefix_col_str);
   gftp_lookup_global_option (sortasds_name, &sortasds);
 
   if (column == -1)
@@ -1241,9 +1249,9 @@ main (int argc, char **argv)
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_signal_connect (GTK_OBJECT (window), "delete_event",
-		      GTK_SIGNAL_FUNC (delete_event), NULL);
+		      GTK_SIGNAL_FUNC (_gftp_try_close), NULL);
   gtk_signal_connect (GTK_OBJECT (window), "destroy",
-		      GTK_SIGNAL_FUNC (destroy), NULL);
+		      GTK_SIGNAL_FUNC (_gftp_force_close), NULL);
   gtk_window_set_title (GTK_WINDOW (window), gftp_version);
   gtk_window_set_wmclass (GTK_WINDOW(window), "main", "gFTP");
   gtk_widget_set_name (window, gftp_version);

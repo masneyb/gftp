@@ -28,6 +28,11 @@
 #include <gdk/gdkkeysyms.h>
 #include <pthread.h>
 
+#define GFTP_MENU_ITEM_ASCII	1
+#define GFTP_MENU_ITEM_BINARY	2
+#define GFTP_MENU_ITEM_WIN1	3
+#define GFTP_MENU_ITEM_WIN2	4
+
 #define IS_ONE_SELECTED(wdata)		(GTK_CLIST ((wdata)->listbox)->selection && GTK_CLIST ((wdata)->listbox)->selection->next == NULL)
 #define IS_NONE_SELECTED(wdata)		(GTK_CLIST ((wdata)->listbox)->selection == NULL)
 
