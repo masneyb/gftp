@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP 2.0.8pre4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-03 04:14+0200\n"
-"PO-Revision-Date: 2003-07-03 10:27+0200\n"
+"POT-Creation-Date: 2003-07-08 12:15+0200\n"
+"PO-Revision-Date: 2003-07-08 19:58+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Chyba: Nemohu vytvořit dočasný soubor: %s\n"
 
 #: lib/cache.c:159 lib/cache.c:201 lib/local.c:98 lib/local.c:213
-#: lib/misc.c:288 lib/misc.c:294 lib/rfc2068.c:258 lib/sshv2.c:990
+#: lib/misc.c:288 lib/misc.c:294 lib/rfc2068.c:258 lib/sshv2.c:956
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Chyba při zavírání deskriptoru souboru: %s\n"
@@ -153,7 +153,7 @@ msgstr ""
 "souboru, BUDOU přepsány. Pokud má položka ve svém komentáři (*), nemůžete ji "
 "změnit v gFTP"
 
-#: lib/config_file.c:1068 lib/rfc2068.c:559 lib/rfc2068.c:560
+#: lib/config_file.c:1068 lib/rfc2068.c:560 lib/rfc2068.c:561
 msgid "<unknown>"
 msgstr "<neznámý>"
 
@@ -242,17 +242,17 @@ msgstr "Chyba: Nemohu změnit práva %s na %d: %s\n"
 msgid "local filesystem"
 msgstr "místní systém souborů"
 
-#: lib/misc.c:257 lib/misc.c:264 lib/protocols.c:2489
+#: lib/misc.c:257 lib/misc.c:264 lib/protocols.c:2498
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Chyba: Nemohu otevřít místní soubor %s: %s\n"
 
-#: lib/misc.c:274 lib/protocols.c:2198 lib/sslcommon.c:458
+#: lib/misc.c:274 lib/protocols.c:2207 lib/sslcommon.c:467
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Chyba: Nemohu zapisovat do socketu: %s\n"
 
-#: lib/misc.c:282 lib/protocols.c:2128 lib/sslcommon.c:410
+#: lib/misc.c:282 lib/protocols.c:2137 lib/sslcommon.c:421
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Chyba: Nemohu číst ze socketu: %s\n"
@@ -618,14 +618,14 @@ msgstr "Chyba záložek: Položka záložek %s nemá jméno počítače\n"
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Protokol '%s' není momentálně podporován.\n"
 
-#: lib/protocols.c:919 lib/protocols.c:934 lib/protocols.c:1734
-#: lib/protocols.c:1843
+#: lib/protocols.c:919 lib/protocols.c:934 lib/protocols.c:1738
+#: lib/protocols.c:1847
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Vyhledávám %s\n"
 
-#: lib/protocols.c:925 lib/protocols.c:940 lib/protocols.c:1739
-#: lib/protocols.c:1848
+#: lib/protocols.c:925 lib/protocols.c:940 lib/protocols.c:1743
+#: lib/protocols.c:1852
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Nemohu vyhledat jméno počítače %s: %s\n"
@@ -636,64 +636,84 @@ msgstr "Nemohu vyhledat jméno počítače %s: %s\n"
 msgid "unknown"
 msgstr "neznámý"
 
-#: lib/protocols.c:1757 lib/protocols.c:1800 lib/rfc959.c:586 lib/rfc959.c:733
+#: lib/protocols.c:1761 lib/protocols.c:1804 lib/rfc959.c:586 lib/rfc959.c:733
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Nemohu vytvořit socket: %s\n"
 
-#: lib/protocols.c:1763 lib/protocols.c:1862
+#: lib/protocols.c:1767 lib/protocols.c:1866
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Zkouším %s:%d\n"
 
-#: lib/protocols.c:1768 lib/protocols.c:1869
+#: lib/protocols.c:1772 lib/protocols.c:1873
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Nemohu se připojit k %s: %s\n"
 
-#: lib/protocols.c:1824 lib/sshv2.c:859
+#: lib/protocols.c:1828 lib/sshv2.c:859
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Nemohu vyhledat název služby %s/tcp. Zkontrolujte prosím svůj soubor "
 "services\n"
 
-#: lib/protocols.c:1886 lib/protocols.c:2498 lib/rfc959.c:595 lib/rfc959.c:742
+#: lib/protocols.c:1890 lib/protocols.c:2507 lib/rfc959.c:595 lib/rfc959.c:742
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Chyba: Nemohu nastavit příznak zavření při exec: %s\n"
 
-#: lib/protocols.c:1893
+#: lib/protocols.c:1897
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Připojen k %s:%d\n"
 
-#: lib/protocols.c:2108 lib/protocols.c:2178
+#: lib/protocols.c:2117 lib/protocols.c:2187
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Spojení s %s vypršel čas\n"
 
-#: lib/protocols.c:2246
+#: lib/protocols.c:2255
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Nemohu získat nastavení socketu: %s\n"
 
-#: lib/protocols.c:2260
+#: lib/protocols.c:2269
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Nemohu nastavit socket na neblokující: %s\n"
 
-#: lib/protocols.c:2392
+#: lib/protocols.c:2401
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Chyba: Vzdálený počítač %s odpojen. Max. počet opakování vyčerpán...vzdávám "
 "to\n"
 
-#: lib/protocols.c:2400
+#: lib/protocols.c:2409
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Chyba: Vzdálený počítač %s odpojen. Připojím se znovu za %d sekund\n"
+
+#: lib/pty.c:271
+#, c-format
+msgid "Cannot create a socket pair: %s\n"
+msgstr "Nemohu vytvořit dvojici socketů: %s\n"
+
+#: lib/pty.c:290 lib/pty.c:347
+#, c-format
+msgid "Error: Cannot execute ssh: %s\n"
+msgstr "Chyba: Nemohu spustit ssh: %s\n"
+
+#: lib/pty.c:303 lib/pty.c:358
+#, c-format
+msgid "Cannot fork another process: %s\n"
+msgstr "Nemohu vytvořit další proces: %s\n"
+
+#: lib/pty.c:321
+#, c-format
+msgid "Cannot open master pty %s: %s\n"
+msgstr "Nemohu otevřít master pty %s: %s\n"
 
 #: lib/rfc2068.c:30 lib/rfc959.c:45
 msgid "Proxy hostname:"
@@ -735,15 +755,16 @@ msgstr "Používat HTTP/1.1"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Chcete používat HTTP/1.1 nebo HTTP/1.0"
 
-#: lib/rfc2068.c:107
+#: lib/rfc2068.c:108 lib/rfc2068.c:837
+#, c-format
 msgid ""
-"Received wrong response from server, disconnecting.\n"
-"Expecting a chunk size in the response from the remote server\n"
+"Received wrong response from server, disconnecting\n"
+"Invalid chunk size '%s' returned by the remote server\n"
 msgstr ""
-"Přijal jsem špatnou odpověď od serveru, odpojuji se.\n"
-"V odpovědi od vzdáleného serveru očekávám velikost úseku\n"
+"Přijal jsem špatnou odpověď od serveru, odpojuji se\n"
+"Vzdáleným serverem vrácena neplatná velikost úseku '%s'\n"
 
-#: lib/rfc2068.c:253 lib/rfc959.c:556 lib/sshv2.c:985
+#: lib/rfc2068.c:253 lib/rfc959.c:556 lib/sshv2.c:951
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Odpojuji se od %s\n"
@@ -763,11 +784,11 @@ msgstr "Zahajuji přenos souboru s posunutím %ld\n"
 msgid "Cannot retrieve file %s\n"
 msgstr "Nemohu získat soubor %s\n"
 
-#: lib/rfc2068.c:429 lib/sshv2.c:1070
+#: lib/rfc2068.c:430 lib/sshv2.c:1036
 msgid "Retrieving directory listing...\n"
 msgstr "Získávám výpis adresáře...\n"
 
-#: lib/rfc2068.c:766
+#: lib/rfc2068.c:818
 msgid ""
 "Received wrong response from server, disconnecting\n"
 "Expecting a carriage return and line feed before the chunk size in the "
@@ -777,14 +798,14 @@ msgstr ""
 "V odpovědi serveru očekávám návrat vozíku a posun řádku před velikostí "
 "úseku\n"
 
-#: lib/rfc2068.c:790
-#, c-format
+#: lib/rfc2068.c:826
 msgid ""
 "Received wrong response from server, disconnecting\n"
-"Invalid chunk size '%s' returned by the remote server\n"
+"Expecting a carriage return and line feed after the chunk size in the server "
+"response\n"
 msgstr ""
 "Přijal jsem špatnou odpověď od serveru, odpojuji se\n"
-"Vzdáleným serverem vrácena neplatná velikost úseku '%s'\n"
+"V odpovědi serveru očekávám po velikosti úseku návrat vozíku a posun řádku\n"
 
 #: lib/rfc959.c:25
 msgid "SITE command"
@@ -1168,17 +1189,17 @@ msgstr "Ze serveru vrácena neznámá zpráva"
 msgid "Error: Message size %d too big\n"
 msgstr "Chyba: Velikost zprávy %d je příliš velká\n"
 
-#: lib/sshv2.c:620 lib/sshv2.c:1109 lib/sshv2.c:1945 lib/sshv2.c:2038
-#: lib/sshv2.c:2126
+#: lib/sshv2.c:620 lib/sshv2.c:1075 lib/sshv2.c:1913 lib/sshv2.c:2006
+#: lib/sshv2.c:2094
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Chyba: Velikost zprávy ze serveru %d je příliš velká\n"
 
 #: lib/sshv2.c:681 lib/sshv2.c:694 lib/sshv2.c:716 lib/sshv2.c:784
-#: lib/sshv2.c:931 lib/sshv2.c:1032 lib/sshv2.c:1100 lib/sshv2.c:1214
-#: lib/sshv2.c:1227 lib/sshv2.c:1240 lib/sshv2.c:1253 lib/sshv2.c:1309
-#: lib/sshv2.c:1374 lib/sshv2.c:1834 lib/sshv2.c:1936 lib/sshv2.c:2029
-#: lib/sshv2.c:2114 lib/sshv2.c:2199
+#: lib/sshv2.c:906 lib/sshv2.c:998 lib/sshv2.c:1066 lib/sshv2.c:1180
+#: lib/sshv2.c:1193 lib/sshv2.c:1206 lib/sshv2.c:1219 lib/sshv2.c:1275
+#: lib/sshv2.c:1340 lib/sshv2.c:1802 lib/sshv2.c:1904 lib/sshv2.c:1997
+#: lib/sshv2.c:2082 lib/sshv2.c:2167
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Přijal jsem špatnou odpověď od serveru, odpojuji se\n"
 
@@ -1187,25 +1208,10 @@ msgstr "Přijal jsem špatnou odpověď od serveru, odpojuji se\n"
 msgid "Opening SSH connection to %s\n"
 msgstr "Otevírám spojení SSH s %s\n"
 
-#: lib/sshv2.c:874
-#, c-format
-msgid "Cannot create a socket pair: %s\n"
-msgstr "Nemohu vytvořit dvojici socketů: %s\n"
-
-#: lib/sshv2.c:896
-#, c-format
-msgid "Error: Cannot execute ssh: %s\n"
-msgstr "Chyba: Nemohu spustit ssh: %s\n"
-
-#: lib/sshv2.c:943
+#: lib/sshv2.c:918
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Úspěšně přihlášen k SSH serveru %s\n"
-
-#: lib/sshv2.c:949
-#, c-format
-msgid "Cannot fork another process: %s\n"
-msgstr "Nemohu vytvořit další proces: %s\n"
 
 #: lib/sslcommon.c:31
 msgid "SSL Engine"
@@ -1254,31 +1260,31 @@ msgstr ""
 "se připojili (%s). Přerušuji spojení.\n"
 
 # FIXME: s/initialized/initialize/
-#: lib/sslcommon.c:281
+#: lib/sslcommon.c:287
 msgid "Cannot initialized the OpenSSL library\n"
 msgstr "Nemohu inicializovat knihovnu OpenSSL\n"
 
-#: lib/sslcommon.c:296
+#: lib/sslcommon.c:302
 msgid "Error loading default SSL certificates\n"
 msgstr "Chyba při načítání implicitních certifikátů SSL\n"
 
-#: lib/sslcommon.c:307
+#: lib/sslcommon.c:313
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "Chyba při získávání seznamu šifer (žádné platné šifry)\n"
 
-#: lib/sslcommon.c:326 lib/sslcommon.c:388 lib/sslcommon.c:437
+#: lib/sslcommon.c:332 lib/sslcommon.c:401 lib/sslcommon.c:448
 msgid "Error: SSL engine was not initialized\n"
 msgstr "Chyba: Engine SSL nebyl inicializován\n"
 
-#: lib/sslcommon.c:342
+#: lib/sslcommon.c:349
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "Chyba při vytváření spojení SSL (objekt BIO)\n"
 
-#: lib/sslcommon.c:351
+#: lib/sslcommon.c:359
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "Chyba při vytváření spojení SSL (objekt SSL)\n"
 
-#: lib/sslcommon.c:365
+#: lib/sslcommon.c:377
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "Chyba v certifikátu protistrany: %s\n"
@@ -1518,11 +1524,11 @@ msgstr "Odstranit soubory/adresáře"
 msgid "Delete"
 msgstr "Odstranit"
 
-#: src/gtk/dnd.c:130 src/gtk/dnd.c:222
+#: src/gtk/dnd.c:131 src/gtk/dnd.c:223
 msgid "Drag-N-Drop"
 msgstr "Táhni a pusť"
 
-#: src/gtk/dnd.c:234
+#: src/gtk/dnd.c:235
 #, c-format
 msgid "Received URL %s\n"
 msgstr "Přijato URL %s\n"
@@ -1940,7 +1946,7 @@ msgstr "Změnit masku"
 msgid "Enter the new file specification"
 msgstr "Vložte novou masku souborů"
 
-#: src/gtk/menu-items.c:228 src/gtk/menu-items.c:596 src/gtk/menu-items.c:654
+#: src/gtk/menu-items.c:228 src/gtk/menu-items.c:601 src/gtk/menu-items.c:659
 #: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:129
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
@@ -1966,21 +1972,21 @@ msgstr "Vložte site-specific příkaz"
 msgid "Chdir"
 msgstr "Změnit adresář"
 
-#: src/gtk/menu-items.c:620 src/gtk/menu-items.c:678
+#: src/gtk/menu-items.c:625 src/gtk/menu-items.c:683
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Chyba: Chyba při zápisu do %s\" %s\n"
 
-#: src/gtk/menu-items.c:689
+#: src/gtk/menu-items.c:694
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Úspěšně zapsán soubor záznamu do %s\n"
 
-#: src/gtk/menu-items.c:701
+#: src/gtk/menu-items.c:706
 msgid "Save Log"
 msgstr "Uložit záznam"
 
-#: src/gtk/menu-items.c:737
+#: src/gtk/menu-items.c:742
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
@@ -1989,11 +1995,11 @@ msgstr ""
 "Nemohu najít soubor s licenčním ujednáním COPYING. Přesvědčte se prosím, že "
 "je v %s nebo %s"
 
-#: src/gtk/menu-items.c:741 src/gtk/menu-items.c:746
+#: src/gtk/menu-items.c:746 src/gtk/menu-items.c:751
 msgid "About gFTP"
 msgstr "O programu gFTP"
 
-#: src/gtk/menu-items.c:777
+#: src/gtk/menu-items.c:782
 #, c-format
 msgid ""
 "%s\n"
@@ -2006,24 +2012,24 @@ msgstr ""
 "Oficiální domovská stránka: http://www.gftp.org/\n"
 "Logo vytvořil: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: src/gtk/menu-items.c:778 src/text/gftp-text.c:390
+#: src/gtk/menu-items.c:783 src/text/gftp-text.c:390
 msgid "Translated by"
 msgstr ""
 "Přeložili: Domanský Petr <doman@atlas.cz>, Miloslav Trmač <mitr@volny.cz>"
 
-#: src/gtk/menu-items.c:789
+#: src/gtk/menu-items.c:794
 msgid "About"
 msgstr "O programu"
 
-#: src/gtk/menu-items.c:838
+#: src/gtk/menu-items.c:843
 msgid "License Agreement"
 msgstr "Licenční ujednání"
 
-#: src/gtk/menu-items.c:844 src/gtk/view_dialog.c:377
+#: src/gtk/menu-items.c:849 src/gtk/view_dialog.c:377
 msgid "  Close  "
 msgstr "  Zavřít  "
 
-#: src/gtk/menu-items.c:926
+#: src/gtk/menu-items.c:931
 msgid "Compare Windows"
 msgstr "Porovnat okna"
 
@@ -2735,6 +2741,13 @@ msgstr "Nemohu otevřít řídicí terminál %s\n"
 #: src/text/gftp-text.c:1228
 msgid "Clear the directory cache\n"
 msgstr "Vymazat cache adresářů\n"
+
+#~ msgid ""
+#~ "Received wrong response from server, disconnecting.\n"
+#~ "Expecting a chunk size in the response from the remote server\n"
+#~ msgstr ""
+#~ "Přijal jsem špatnou odpověď od serveru, odpojuji se.\n"
+#~ "V odpovědi od vzdáleného serveru očekávám velikost úseku\n"
 
 #~ msgid "Finished retrieving data\n"
 #~ msgstr "Dokončen přenos dat\n"
