@@ -1,3 +1,15 @@
+2003-11-3 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h src/gtk/transfer.c src/gtk/delete_dialog.c - removed
+	transfer_direction variable from gftp_transfer structure. Cleaned
+	up the code that did checks based on the value of this variable.
+
+	* lib/rfc959.c (rfc959_syst) - added a check for Novell FTP servers
+
+	* src/gtk/transfer.c (add_file_transfer) - check the value of the option
+	one_transfer and if that is disabled, do not append the file transfers.
+	(transfer_done) - refresh the destination window correctly after a
+	transfer is completed.
+
 2003-11-2 Brian Masney <masneyb@gftp.org>
 	* lib/rfc2068.c (rfc2068_get_file) - if there is any data in the current
 	read buffer, grab that data first. Otherwise, read from the socket.

@@ -432,8 +432,6 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
   transfer = g_malloc0 (sizeof (*transfer));
   transfer->fromreq = copy_request (fromwdata->request, 0);
   transfer->toreq = copy_request (towdata->request, 0);
-  transfer->transfer_direction = fromwdata == &window2 ? 
-                           GFTP_DIRECTION_DOWNLOAD : GFTP_DIRECTION_UPLOAD;
   transfer->fromwdata = fromwdata;
   transfer->towdata = towdata;
 
@@ -549,6 +547,36 @@ do_getdir_thread (void * data)
 }
 
 
+static void
+_gftp_setup_fds (gftp_transfer * tdata, gftp_file * curfle, 
+                 int *fromfd, int *tofd)
+{
+  *tofd = -1;
+  *fromfd = -1;
+
+  if (curfle->is_fd)
+    {
+      if (tdata->toreq->protonum == GFTP_LOCAL_NUM)
+        *tofd = curfle->fd;
+      else if (tdata->fromreq->protonum == GFTP_LOCAL_NUM)
+        *fromfd = curfle->fd;
+    }
+}
+
+
+static void
+_gftp_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
+{
+  if (curfle->is_fd)
+    {
+      if (tdata->toreq->protonum == GFTP_LOCAL_NUM)
+        tdata->toreq->datafd = -1;
+      else
+        tdata->fromreq->datafd = -1;
+    }
+}
+
+
 void * 
 gftp_gtk_transfer_files (void *data)
 {
@@ -606,24 +634,7 @@ gftp_gtk_transfer_files (void *data)
               continue;
             }
 
-          if (curfle->is_fd)
-            {
-              if (transfer->transfer_direction == GFTP_DIRECTION_DOWNLOAD)
-                {
-                  tofd = curfle->fd;
-                  fromfd = -1;
-                }
-              else
-                {
-                  tofd = -1;
-                  fromfd = curfle->fd;
-                }
-            }
-          else
-            {
-              tofd = -1;
-              fromfd = -1;
-            }
+          _gftp_setup_fds (transfer, curfle, &fromfd, &tofd);
 
           if (curfle->size == 0)
             {
@@ -653,14 +664,6 @@ gftp_gtk_transfer_files (void *data)
         }
       else if (fromsize < 0)
         {
-          if (curfle->is_fd)
-            {
-              if (transfer->transfer_direction == GFTP_DIRECTION_DOWNLOAD)
-                transfer->toreq->datafd = -1;
-              else
-                transfer->fromreq->datafd = -1;
-            }
-
           g_static_mutex_lock (&transfer->structmutex);
           curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
           transfer->next_file = 1;
@@ -717,14 +720,7 @@ gftp_gtk_transfer_files (void *data)
         }
       else
         {
-          if (curfle->is_fd)
-            {
-              if (transfer->transfer_direction == GFTP_DIRECTION_DOWNLOAD)
-                transfer->toreq->datafd = -1;
-              else
-                transfer->fromreq->datafd = -1;
-            }
-
+          _gftp_done_with_fds (transfer, curfle);
           if (gftp_end_transfer (transfer->fromreq) != 0)
             {
               if (gftp_get_transfer_status (transfer, -1) == GFTP_ERETRYABLE)
@@ -777,7 +773,7 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
                    gftp_window_data * fromwdata, gftp_window_data * towdata, 
                    GList * files, int copy_req)
 {
-  int dialog, append_transfers;
+  int dialog, append_transfers, one_transfer;
   gftp_curtrans_data * transdata;
   GList * templist, *curfle;
   gftp_transfer * tdata;
@@ -794,9 +790,11 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
 
   gftp_lookup_request_option (fromreq, "append_transfers", 
                               &append_transfers);
+  gftp_lookup_request_option (fromreq, "one_transfer", 
+                              &one_transfer);
 
   tdata = NULL;
-  if (append_transfers)
+  if (append_transfers && one_transfer)
     {
       pthread_mutex_lock (&transfer_mutex);
       for (templist = gftp_file_transfers; templist != NULL; templist = templist->next)
@@ -883,8 +881,7 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
           tdata->fromreq = fromreq;
           tdata->toreq = toreq; 
         } 
-      tdata->transfer_direction = fromwdata && fromwdata == &window1 ?
-                            GFTP_DIRECTION_UPLOAD : GFTP_DIRECTION_DOWNLOAD;
+
       tdata->fromwdata = fromwdata;
       tdata->towdata = towdata;
       if (!dialog)
@@ -1230,23 +1227,21 @@ transfer_done (GList * node)
 
       if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->fromwdata,
                                          tdata->fromreq))
-        {
-          gftp_swap_socks (((gftp_window_data *) tdata->fromwdata)->request, 
-                           tdata->fromreq);
-	  refresh (tdata->fromwdata);
-        }
+        gftp_swap_socks (((gftp_window_data *) tdata->fromwdata)->request, 
+                         tdata->fromreq);
       else
 	gftp_disconnect (tdata->fromreq);
 
       if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->towdata,
                                          tdata->toreq))
-        {
-          gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
-                           tdata->toreq);
-	  refresh (tdata->towdata);
-        }
+        gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
+                         tdata->toreq);
       else
 	gftp_disconnect (tdata->toreq);
+
+      if (tdata->towdata != NULL && compare_request (tdata->toreq,
+                           ((gftp_window_data *) tdata->towdata)->request, 1))
+        refresh (tdata->towdata);
 
       num_transfers_in_progress--;
     }
@@ -1900,7 +1895,7 @@ void
 gftp_gtk_ask_transfer (gftp_transfer * tdata)
 {
   char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
-       tempstr[50], temp1str[50], *pos, *title;
+       tempstr[50], temp1str[50], *pos;
   GtkWidget * tempwid, * scroll, * hbox;
   int i, overwrite_default;
   gftp_file * tempfle;
@@ -1908,16 +1903,14 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
   size_t len;
 
   dltitles[0] = _("Filename");
-  dltitles[1] = _("Local Size");
-  dltitles[2] = _("Remote Size");
+  dltitles[1] = tdata->fromreq->hostname;
+  dltitles[2] = tdata->toreq->hostname;
   dltitles[3] = _("Action");
-  title = tdata->transfer_direction == GFTP_DIRECTION_DOWNLOAD ?  
-                               _("Download Files") : _("Upload Files");
 
 #if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_grab_add (dialog);
-  gtk_window_set_title (GTK_WINDOW (dialog), title);
+  gtk_window_set_title (GTK_WINDOW (dialog), _("Transfer Files"));
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 5);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 35);
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
@@ -1926,7 +1919,7 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
                              GTK_SIGNAL_FUNC (gtk_widget_destroy),
                              GTK_OBJECT (dialog));
 #else
-  dialog = gtk_dialog_new_with_buttons (title, NULL, 0, 
+  dialog = gtk_dialog_new_with_buttons (_("Transfer Files"), NULL, 0, 
                                         GTK_STOCK_OK,
                                         GTK_RESPONSE_OK,
                                         GTK_STOCK_CANCEL,
@@ -2007,20 +2000,10 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
             }
         }
 
-      if (tdata->transfer_direction == GFTP_DIRECTION_DOWNLOAD)
-        {
-          add_data[2] = insert_commas (tempfle->size, tempstr,
-                                       sizeof (tempstr));
-          add_data[1] = insert_commas (tempfle->startsize, temp1str,
-                                       sizeof (temp1str));
-        }
-      else
-        {
-          add_data[1] = insert_commas (tempfle->size, tempstr,
-                                       sizeof (tempstr));
-          add_data[2] = insert_commas (tempfle->startsize, temp1str,
-                                       sizeof (temp1str));
-        }
+      add_data[1] = insert_commas (tempfle->size, tempstr, sizeof (tempstr));
+      add_data[2] = insert_commas (tempfle->startsize, temp1str,
+                                   sizeof (temp1str));
+
       i = gtk_clist_append (GTK_CLIST (tdata->clist), add_data);
       gtk_clist_set_row_data (GTK_CLIST (tdata->clist), i, tempfle);
     }

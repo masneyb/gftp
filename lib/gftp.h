@@ -163,9 +163,6 @@ typedef struct gftp_file_tag gftp_file;
 #define GFTP_TRANS_ACTION_RESUME		2
 #define GFTP_TRANS_ACTION_SKIP			3
 
-#define GFTP_DIRECTION_DOWNLOAD			0
-#define GFTP_DIRECTION_UPLOAD			1
-
 #define GFTP_SORT_COL_FILE			1
 #define GFTP_SORT_COL_SIZE			2
 #define GFTP_SORT_COL_USER			3
@@ -438,8 +435,7 @@ typedef struct gftp_transfer_tag
   gftp_request * fromreq,
                * toreq;
 
-  unsigned int transfer_direction : 1, /* FIXME - take out */
-               cancel : 1,
+  unsigned int cancel : 1,
                ready : 1,
                started : 1,
                done : 1,

@@ -179,7 +179,6 @@ delete_dialog (gpointer data)
   transfer = g_malloc0 (sizeof (*transfer));
   transfer->fromreq = copy_request (wdata->request, 0);
   transfer->fromwdata = wdata;
-  transfer->transfer_direction = GFTP_DIRECTION_DOWNLOAD;
 
   num = 0;
   templist = GTK_CLIST (wdata->listbox)->selection;
