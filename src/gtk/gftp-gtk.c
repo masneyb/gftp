@@ -1066,7 +1066,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
     }
 
   if (GFTP_IS_CONNECTED (current_wdata->request))
-    gftpui_disconnect (current_wdata);
+    gftp_disconnect (current_wdata->request);
 
   tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
   num = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid)));
