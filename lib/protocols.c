@@ -1172,7 +1172,11 @@ parse_time (char *str, char **endpos)
           tmppos = strptime (str, "%h %d %H:%M", &curtime);
           t = time (NULL);
           loctime = localtime (&t);
-          curtime.tm_year = loctime->tm_year;
+
+          if (curtime.tm_mon > loctime->tm_mon)
+            curtime.tm_year = loctime->tm_year - 1;
+          else
+            curtime.tm_year = loctime->tm_year;
         }
       else
         tmppos = strptime (str, "%h %d %Y", &curtime);
