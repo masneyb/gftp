@@ -149,6 +149,8 @@ extern GtkItemFactory * factory;
 extern pthread_mutex_t transfer_mutex, log_mutex;
 extern gftp_graphic * gftp_icon;
 extern int gftp_is_started;
+extern sigjmp_buf jmp_environment;
+extern volatile int use_jmp_environment;
 
 /* bookmarks.c */
 void run_bookmark 				( gpointer data );
@@ -331,6 +333,8 @@ void *generic_thread 				( void * (*func)
 int progress_timeout 				( gpointer data );
 
 void display_cached_logs			( void );
+
+RETSIGTYPE signal_handler			(int signo);
 
 /* mkdir_dialog.c */
 void mkdir_dialog 				( gpointer data );

@@ -74,6 +74,9 @@ pthread_mutex_t transfer_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 gftp_graphic * gftp_icon;
 int gftp_is_started = 0;
+sigjmp_buf jmp_environment;
+volatile int use_jmp_environment = 0;
+
 
 int
 main (int argc, char **argv)
@@ -92,9 +95,12 @@ main (int argc, char **argv)
   g_thread_init (NULL);
   gtk_set_locale ();
   gtk_init (&argc, &argv);
+
   signal (SIGCHLD, sig_child);
   signal (SIGPIPE, SIG_IGN);
-  signal (SIGALRM, SIG_IGN);
+  signal (SIGALRM, signal_handler);
+  signal (SIGINT, signal_handler);
+
   graphic_hash_table = g_hash_table_new (string_hash_function, string_hash_compare);
   gftp_read_config_file (argv, 1);
   if (gftp_parse_command_line (&argc, &argv) != 0)

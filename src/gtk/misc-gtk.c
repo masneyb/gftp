@@ -1221,6 +1221,17 @@ display_cached_logs (void)
   pthread_mutex_unlock (&log_mutex);
 }
 
+
+RETSIGTYPE 
+signal_handler (int signo)
+{
+  signal (signo, signal_handler);
+
+  if (use_jmp_environment)
+    siglongjmp (jmp_environment, signo == SIGINT ? 1 : 2);
+}
+
+
 #if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
 
 static pthread_mutex_t netfunclock = PTHREAD_MUTEX_INITIALIZER;

@@ -23,8 +23,6 @@ static const char cvsid[] = "$Id$";
 static int do_change_dir			( gftp_window_data * wdata,
 						  char * directory );
 static void *do_change_dir_thread 		( void * data );
-static RETSIGTYPE sig_chdirquit                 ( int signo );
-static sigjmp_buf chdirenvir;
 
 void
 change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
@@ -554,9 +552,8 @@ do_change_dir_thread (void * data)
 
   if (wdata->request->use_threads)
     {
-      sj = sigsetjmp (chdirenvir, 1);
-      signal (SIGINT, sig_chdirquit);
-      signal (SIGALRM, sig_chdirquit);
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -578,22 +575,11 @@ do_change_dir_thread (void * data)
     }
 
   if (wdata->request->use_threads)
-    {
-      signal (SIGINT, SIG_DFL);
-      signal (SIGALRM, SIG_IGN);
-    }
+    use_jmp_environment = 0;
 
   wdata->request->user_data = NULL;
   wdata->request->stopable = 0;
   return ((void *) success);
-}
-
-
-static RETSIGTYPE
-sig_chdirquit (int signo)
-{
-  signal (signo, sig_chdirquit);
-  siglongjmp (chdirenvir, signo == SIGINT ? 1 : 2);
 }
 
 

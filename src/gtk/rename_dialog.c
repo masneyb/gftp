@@ -20,17 +20,8 @@
 #include "gftp-gtk.h"
 static const char cvsid[] = "$Id$";
 
-static sigjmp_buf renenvir;
 static const char *edttext;
 static gftp_file * curfle;
-
-
-static RETSIGTYPE
-sig_renquit (int signo)
-{
-  signal (signo, sig_renquit);
-  siglongjmp (renenvir, signo == SIGINT ? 1 : 2);
-}
 
 
 static void *
@@ -44,9 +35,8 @@ do_rename_thread (void * data)
 
   if (wdata->request->use_threads)
     { 
-      sj = sigsetjmp (renenvir, 1);
-      signal (SIGINT, sig_renquit);
-      signal (SIGALRM, sig_renquit);
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -68,10 +58,7 @@ do_rename_thread (void * data)
     }
 
   if (wdata->request->use_threads)
-    {
-      signal (SIGINT, SIG_DFL);
-      signal (SIGALRM, SIG_IGN);
-    }
+    use_jmp_environment = 0;
 
   wdata->request->user_data = NULL;
   wdata->request->stopable = 0;

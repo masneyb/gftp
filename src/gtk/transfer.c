@@ -59,9 +59,7 @@ static void teardown_wakeup_main_thread 	( gftp_request * request,
 						  gint handler );
 static mode_t parse_attribs 			( char *attribs );
 static void remove_file 			( char *filename );
-static RETSIGTYPE sig_connquit			( int signo );
 
-static sigjmp_buf connenvir;
 static GtkWidget * dialog;
 
 int
@@ -136,9 +134,8 @@ getdir_thread (void * data)
   
   if (request->use_threads)
     {
-      sj = sigsetjmp (connenvir, 1);
-      signal (SIGINT, sig_connquit);
-      signal (SIGALRM, sig_connquit);
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -149,10 +146,8 @@ getdir_thread (void * data)
       if (gftp_list_files (request) != 0 || !GFTP_IS_CONNECTED (request))
         {
           if (request->use_threads)
-            {
-              signal (SIGINT, SIG_DFL);
-              signal (SIGALRM, SIG_IGN);
-            }
+            use_jmp_environment = 0;
+
           request->user_data = NULL;
           request->stopable = 0;
           if (request->wakeup_main_thread[1] > 0)
@@ -182,10 +177,8 @@ getdir_thread (void * data)
       if (!GFTP_IS_CONNECTED (request))
         {
           if (request->use_threads)
-            {
-              signal (SIGINT, SIG_DFL);
-              signal (SIGALRM, SIG_IGN);
-            }
+            use_jmp_environment = 0;
+
           request->user_data = NULL;
           request->stopable = 0;
           if (request->wakeup_main_thread[1] > 0)
@@ -212,10 +205,8 @@ getdir_thread (void * data)
 
   request->user_data = NULL;
   if (request->use_threads)
-    {
-      signal (SIGINT, SIG_DFL);
-      signal (SIGALRM, SIG_IGN);
-    }
+    use_jmp_environment = 1;
+
   request->stopable = 0;
   if (request->wakeup_main_thread[1] > 0)
     write (request->wakeup_main_thread[1], " ", 1);
@@ -338,9 +329,8 @@ connect_thread (void *data)
   conn_num = 0;
   if (request->use_threads)
     {
-      sj = sigsetjmp (connenvir, 1);
-      signal (SIGINT, sig_connquit);
-      signal (SIGALRM, sig_connquit);
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -373,10 +363,7 @@ connect_thread (void *data)
     }
 
   if (request->use_threads)
-    {
-      signal (SIGINT, SIG_DFL);
-      signal (SIGALRM, SIG_IGN);
-    }
+    use_jmp_environment = 0;
 
   request->user_data = NULL;
   request->stopable = 0;
@@ -526,9 +513,8 @@ do_getdir_thread (void * data)
   if (transfer->fromreq->use_threads || 
       (transfer->toreq && transfer->toreq->use_threads))
     {
-      sj = sigsetjmp (connenvir, 1);
-      signal (SIGINT, sig_connquit);
-      signal (SIGALRM, sig_connquit);
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -548,10 +534,7 @@ do_getdir_thread (void * data)
 
   if (transfer->fromreq->use_threads || 
       (transfer->toreq && transfer->toreq->use_threads))
-    {
-      signal (SIGINT, SIG_DFL);
-      signal (SIGALRM, SIG_IGN);
-    }
+    use_jmp_environment = 0;
 
   transfer->fromreq->user_data = NULL;
   if (transfer->toreq)
@@ -797,6 +780,8 @@ gftp_gtk_transfer_files (void *data)
       if (transfer->cancel && !transfer->skip_file)
         break;
       transfer->cancel = 0;
+      transfer->fromreq->cancel = 0;
+      transfer->toreq->cancel = 0;
     }
   transfer->done = 1; 
   transfer->fromreq->user_data = NULL;
@@ -1081,7 +1066,11 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
 
   pthread_mutex_lock (tdata->structmutex);
   if (tdata->started)
-    tdata->cancel = 1;
+    {
+      tdata->cancel = 1;
+      tdata->fromreq->cancel = 1;
+      tdata->toreq->cancel = 1;
+    }
   else
     tdata->done = 1;
 
@@ -1383,6 +1372,8 @@ stop_transfer (gpointer data)
   if (transdata->transfer->started)
     {
       transdata->transfer->cancel = 1;
+      transdata->transfer->fromreq->cancel = 1;
+      transdata->transfer->toreq->cancel = 1;
       transdata->transfer->skip_file = 0;
     }
   else
@@ -1418,6 +1409,8 @@ skip_transfer (gpointer data)
       if (transdata->transfer->started)
         {
           transdata->transfer->cancel = 1;
+          transdata->transfer->fromreq->cancel = 1;
+          transdata->transfer->toreq->cancel = 1;
           transdata->transfer->skip_file = 1;
         }
 
@@ -1467,6 +1460,8 @@ remove_file_transfer (gpointer data)
       transdata->curfle == transdata->transfer->curfle)
     {
       transdata->transfer->cancel = 1;
+      transdata->transfer->fromreq->cancel = 1;
+      transdata->transfer->toreq->cancel = 1;
       transdata->transfer->skip_file = 1;
     }
   else if (transdata->curfle != transdata->transfer->curfle &&
@@ -2145,6 +2140,8 @@ get_status (gftp_transfer * tdata, ssize_t num_read)
                   tdata->next_file = 1;
                   tdata->skip_file = 0;
                   tdata->cancel = 0;
+                  tdata->fromreq->cancel = 0;
+                  tdata->toreq->cancel = 0;
                 }
               else
                 {
@@ -2270,13 +2267,5 @@ remove_file (char *filename)
     ftp_log (gftp_logging_error, NULL,
              _("Error: Could not remove file %s: %s\n"), filename,
              g_strerror (errno));
-}
-
-
-static RETSIGTYPE
-sig_connquit (int signo)
-{
-  signal (signo, sig_connquit);
-  siglongjmp (connenvir, signo == SIGINT ? 1 : 2);
 }
 

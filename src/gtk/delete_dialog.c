@@ -27,9 +27,6 @@ static void * do_delete_thread 			( void *data );
 static void delete_purge_cache 			( gpointer key, 
 						  gpointer value, 
 						  gpointer user_data );
-static RETSIGTYPE sig_delquit                 	( int signo );
-
-static sigjmp_buf delenvir;
 
 void
 delete_dialog (gpointer data)
@@ -196,9 +193,8 @@ do_delete_thread (void *data)
 
   if (transfer->fromreq->use_threads)
     {
-      sj = sigsetjmp (delenvir, 1);
-      signal (SIGINT, sig_delquit);
-      signal (SIGALRM, sig_delquit);
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -249,10 +245,7 @@ do_delete_thread (void *data)
   transfer->fromreq->stopable = 0;
 
   if (transfer->fromreq->use_threads)
-    {
-      signal (SIGINT, SIG_DFL);
-      signal (SIGALRM, SIG_IGN);
-    }
+    use_jmp_environment = 0;
 
   return (NULL);
 }
@@ -270,13 +263,5 @@ delete_purge_cache (gpointer key, gpointer value, gpointer user_data)
   gftp_delete_cache_entry (request);
   request->directory = olddir;
   g_free (key);
-}
-
-
-static RETSIGTYPE
-sig_delquit (int signo)
-{
-  signal (signo, sig_delquit);
-  siglongjmp (delenvir, signo == SIGINT ? 1 : 2);
 }
 

@@ -23,12 +23,9 @@ static const char cvsid[] = "$Id$";
 static void dochmod 				( GtkWidget * widget, 
 						  gftp_window_data * wdata );
 static void *do_chmod_thread 			( void * data );
-static RETSIGTYPE sig_chmodquit                 ( int signo );
-
 
 static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow,
                  *ox;
-static sigjmp_buf chmodenvir;
 static int mode; 
 
 #if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
@@ -304,9 +301,8 @@ do_chmod_thread (void * data)
 
   if (wdata->request->use_threads)
     {
-      sj = sigsetjmp (chmodenvir, 1);
-      signal (SIGINT, sig_chmodquit);
-      signal (SIGALRM, sig_chmodquit);
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -339,21 +335,10 @@ do_chmod_thread (void * data)
     }
 
   if (wdata->request->use_threads)
-    {
-      signal (SIGINT, SIG_DFL);
-      signal (SIGALRM, SIG_IGN);
-    }
+    use_jmp_environment = 0;
 
   wdata->request->user_data = NULL;
   wdata->request->stopable = 0;
   return ((void *) success);
-}
-
-
-static RETSIGTYPE
-sig_chmodquit (int signo)
-{
-  signal (signo, sig_chmodquit);
-  siglongjmp (chmodenvir, signo == SIGINT ? 1 : 2);
 }
 

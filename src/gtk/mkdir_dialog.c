@@ -21,15 +21,6 @@
 static const char cvsid[] = "$Id$";
 
 static const char *edttext;
-static sigjmp_buf mkdirenvir;
-
-
-static RETSIGTYPE
-sig_mkdirquit (int signo)
-{
-  signal (signo, sig_mkdirquit);
-  siglongjmp (mkdirenvir, signo == SIGINT ? 1 : 2);
-}
 
 
 static void *
@@ -43,9 +34,8 @@ do_make_dir_thread (void * data)
 
   if (wdata->request->use_threads)
     {
-      sj = sigsetjmp (mkdirenvir, 1);
-      signal (SIGINT, sig_mkdirquit);
-      signal (SIGALRM, sig_mkdirquit);
+      sj = sigsetjmp (jmp_environment, 1);
+      use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -67,10 +57,7 @@ do_make_dir_thread (void * data)
     }
 
   if (wdata->request->use_threads)
-    {
-      signal (SIGINT, SIG_DFL);
-      signal (SIGALRM, SIG_IGN);
-    }
+    use_jmp_environment = 0;
 
   wdata->request->user_data = NULL;
   wdata->request->stopable = 0;
