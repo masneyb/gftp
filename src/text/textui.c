@@ -40,12 +40,14 @@ gftpui_lookup_file_colors (gftp_file * fle, char **start_color,
 
 
 void
-gftpui_refresh (void *uidata)
+gftpui_refresh (void *uidata, int clear_cache)
 {
   gftp_request * request;
 
   request = uidata; /* Note: uidata is set to the request in gftp_text.c */
-  gftp_delete_cache_entry (request, NULL, 0);
+
+  if (clear_cache)
+    gftp_delete_cache_entry (request, NULL, 0);
 }
 
 

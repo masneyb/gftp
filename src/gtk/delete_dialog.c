@@ -36,7 +36,6 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
   cdata->files = transfer->files;
   cdata->uidata = wdata;
   cdata->run_function = gftpui_common_run_delete;
-  cdata->dont_refresh = 1;
 
   gftpui_common_run_callback_function (cdata);
 

@@ -122,7 +122,7 @@ gftpui_common_run_callback_function (gftpui_callback_data * cdata)
     ret = GPOINTER_TO_INT (cdata->run_function (cdata));
 
   if (ret == 0 && !cdata->dont_refresh)
-    gftpui_refresh (cdata->uidata);
+    gftpui_refresh (cdata->uidata, !cdata->dont_clear_cache);
 
   return (ret == 0);
 }
@@ -493,6 +493,7 @@ gftpui_common_cmd_chdir (void *uidata, gftp_request * request,
   cdata->uidata = uidata;
   cdata->input_string = newdir != NULL ? newdir : (char *) command;
   cdata->run_function = gftpui_common_run_chdir;
+  cdata->dont_clear_cache = 1;
 
   gftpui_common_run_callback_function (cdata);
 

@@ -1,4 +1,15 @@
 2004-7-25 Brian Masney <masneyb@gftp.org>
+	* src/gtk/bookmarks.c src/gtk/gftp-gtk.c src/gtk/gtkui.c
+	src/gtk/transfer.c src/text/textui.c src/uicommon/gftpui.c 
+	src/uicommon/gftpui.h - added clear_cache argument to gftpui_refresh()
+	Don't clear the cache when changing directories
+
+	* src/uicommon/gftpuicallbacks.c (_gftpui_common_rm_list) - return
+	0 on success
+
+	* src/gtk/delete_dialog.c - refresh the directory listing after the
+	operation was successful
+
 	* lib/rfc959.c - added rfc959_set_file_time(). This uses the SITE UTIME
 	command. Not many FTP servers appear to support this extension
 

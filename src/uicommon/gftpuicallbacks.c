@@ -160,7 +160,7 @@ _gftpui_common_rm_list (gftpui_callback_data * cdata)
   else
     rmhash = NULL;
 
-  ret = 1;
+  ret = 0;
   for (; templist != NULL; templist = templist->prev)
     { 
       tempfle = templist->data;

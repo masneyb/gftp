@@ -39,7 +39,8 @@ struct _gftpui_callback_data
   int (*connect_function) (gftpui_callback_data * cdata);
   void (*disconnect_function) (gftpui_callback_data * cdata);
   unsigned int dont_check_connection : 1,
-               dont_refresh : 1;
+               dont_refresh : 1,
+               dont_clear_cache : 1;
 };
 
 
@@ -159,7 +160,8 @@ void gftpui_lookup_file_colors 		( gftp_file * fle,
 
 int gftpui_check_reconnect		( gftpui_callback_data * cdata );
 
-void gftpui_refresh 			( void *uidata );
+void gftpui_refresh 			( void *uidata,
+					  int clear_cache );
 
 void *gftpui_generic_thread 		( void *(*run_function)(void *data),
 					  void *data);

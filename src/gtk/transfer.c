@@ -442,7 +442,7 @@ on_next_transfer (gftp_transfer * tdata)
   if (refresh_files && tdata->curfle && tdata->curfle->next &&
       compare_request (tdata->toreq, 
                        ((gftp_window_data *) tdata->towdata)->request, 1))
-    gftpui_refresh (tdata->towdata);
+    gftpui_refresh (tdata->towdata, 1);
 }
 
 
@@ -594,7 +594,7 @@ transfer_done (GList * node)
 
       if (tdata->towdata != NULL && compare_request (tdata->toreq,
                            ((gftp_window_data *) tdata->towdata)->request, 1))
-        gftpui_refresh (tdata->towdata);
+        gftpui_refresh (tdata->towdata, 1);
 
       num_transfers_in_progress--;
     }

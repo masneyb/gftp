@@ -214,6 +214,13 @@ tb_openurl_dialog (gpointer data)
 }
 
 
+static void
+gftp_gtk_refresh (gftp_window_data * wdata)
+{
+  gftpui_refresh (wdata, 1);
+}
+
+
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
@@ -258,7 +265,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Local/Delete..."), NULL, delete_dialog, 0, MN_(NULL)},
     {N_("/Local/Edit..."), NULL, edit_dialog, 0, MN_(NULL)},
     {N_("/Local/View..."), NULL, view_dialog, 0, MN_(NULL)},
-    {N_("/Local/Refresh"), NULL, gftpui_refresh, 0, MS_(GTK_STOCK_REFRESH)},
+    {N_("/Local/Refresh"), NULL, gftp_gtk_refresh, 0, MS_(GTK_STOCK_REFRESH)},
     {N_("/_Remote"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Remote/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Remote/Open _URL..."), "<control>U", openurl_dialog, 0,
@@ -281,7 +288,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Remote/Delete..."), NULL, delete_dialog, 0, MN_(NULL)},
     {N_("/Remote/Edit..."), NULL, edit_dialog, 0, MN_(NULL)},
     {N_("/Remote/View..."), NULL, view_dialog, 0, MN_(NULL)},
-    {N_("/Remote/Refresh"), NULL, gftpui_refresh, 0, MS_(GTK_STOCK_REFRESH)},
+    {N_("/Remote/Refresh"), NULL, gftp_gtk_refresh, 0, MS_(GTK_STOCK_REFRESH)},
     {N_("/_Bookmarks"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Bookmarks/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Bookmarks/Add bookmark"), "<control>A", add_bookmark, 0,
