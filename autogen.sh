@@ -21,8 +21,8 @@ DIE=0
 }
 
 have_automake=false
-if automake-1.4 --version < /dev/null > /dev/null 2>&1 ; then
-	automake_version=`automake-1.4 --version | grep 'automake (GNU automake)' | sed 's/^[^0-9]*\(.*\)/\1/'`
+if automake --version < /dev/null > /dev/null 2>&1 ; then
+	automake_version=`automake --version | grep 'automake (GNU automake)' | sed 's/^[^0-9]*\(.*\)/\1/'`
 	case $automake_version in
 	   1.2*|1.3*|1.4) 
 		;;
@@ -73,12 +73,12 @@ esac
 
 gettextize -f -c --intl
 
-aclocal-1.4 $ACLOCAL_FLAGS
+aclocal $ACLOCAL_FLAGS
 
 # optionally feature autoheader
 (autoheader --version)  < /dev/null > /dev/null 2>&1 && autoheader
 
-automake-1.4 -a -c $am_opt
+automake -a -c $am_opt
 autoconf
 cd $ORIGDIR
 
