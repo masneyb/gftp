@@ -2,6 +2,19 @@ This is a list of some of the things I plan to work on for future releases
 of gFTP. If there is something you feel should be included in a future
 version of gFTP, please email me about it.
 
+Items to fix for 2.0.16:
+
+* Edit, if there is a timeout on the remote side hwen you go to upload, it waits
+  for 30 secs
+* ASCII transfers corrupt the file
+* FreeBSD SSHV2 upload crash. I can't reproduce this under Linux
+* HTTP Support: The following directory listing does not work:
+  http://ftp.redhat.com/pub/redhat/linux/updates/9/en/os/i386
+* When getting the list of files/directories, don't make the window always
+  stay on top. It's annoying for large directory listings
+
+Other items for a later version:
+
 * I need to be able to send an event from the core library to the presentation
   layer to have it ask the user a question. I need this for the SSL layer so 
   that if an unknown certificate authority signed the certificate, the user
