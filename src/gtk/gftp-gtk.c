@@ -133,13 +133,18 @@ main (int argc, char **argv)
   ftp_log (gftp_logging_misc, NULL,
 	   _("gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"));
 
-  init_gftp (argc, argv, window);
   gtk_timeout_add (1000, update_downloads, NULL);
   gftp_protocols[GFTP_LOCAL_NUM].init (window1.request);
   if (startup_directory != NULL && *startup_directory != '\0')
     gftp_set_directory (window1.request, startup_directory);
   gftp_connect (window1.request);
   ftp_list_files (&window1, 0);
+
+  /* On the remote window, even though we aren't connected, draw the sort
+     icon on that side */
+  sortrows (GTK_CLIST (window2.listbox), *window2.sortcol, &window2);
+
+  init_gftp (argc, argv, window);
   gftp_is_started = 1;
 
   GDK_THREADS_ENTER ();
@@ -210,6 +215,8 @@ CreateFTPWindows (GtkWidget * ui)
   box = gtk_hbox_new (FALSE, 0);
 
   local_frame = CreateFTPWindow (&window1, listbox_local_width, local_columns);
+  window1.sortcol = &local_sortcol;
+  window1.sortasds = &local_sortasds;
   gtk_box_pack_start (GTK_BOX (box), local_frame, TRUE, TRUE, 0);
 
   dlbox = gtk_vbox_new (FALSE, 0);
@@ -246,6 +253,8 @@ CreateFTPWindows (GtkWidget * ui)
 
   remote_frame = CreateFTPWindow (&window2, listbox_remote_width, 
                                   remote_columns);
+  window2.sortcol = &remote_sortcol;
+  window2.sortasds = &remote_sortasds;
   gtk_paned_pack2 (GTK_PANED (winpane), remote_frame, 1, 1);
 
   dlpane = gtk_vpaned_new ();
@@ -740,8 +749,6 @@ CreateFTPWindow (gftp_window_data * wdata, int width, int columns[6])
   wdata->request->logging_function = ftp_log;
   wdata->filespec = g_malloc0 (2);
   *wdata->filespec = '*';
-  wdata->sortcol = 1; 
-  wdata->sortasds = 1;
 
   parent = gtk_frame_new (NULL);
   gtk_widget_set_size_request (parent, width, listbox_file_height);
@@ -1021,9 +1028,9 @@ sortrows (GtkCList * clist, gint column, gpointer data)
   int swap_col;
 
   wdata = data;
-  if (column == 0 || (column == wdata->sortcol && wdata->sorted))
+  if (column == 0 || (column == *wdata->sortcol && wdata->sorted))
     {
-      wdata->sortasds = !wdata->sortasds;
+      *wdata->sortasds = !(*wdata->sortasds);
       swap_col = 1;
     }
   else
@@ -1034,12 +1041,12 @@ sortrows (GtkCList * clist, gint column, gpointer data)
       sort_wid = gtk_clist_get_column_widget (clist, 0);
       gtk_widget_destroy (sort_wid);
 #if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
-      if (wdata->sortasds)
+      if (*wdata->sortasds)
 	sort_wid = toolbar_pixmap (wdata->listbox, "down.xpm");
       else
 	sort_wid = toolbar_pixmap (wdata->listbox, "up.xpm");
 #else
-      if (wdata->sortasds)
+      if (*wdata->sortasds)
         sort_wid = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, 
                                              GTK_ICON_SIZE_SMALL_TOOLBAR);
       else
@@ -1050,13 +1057,16 @@ sortrows (GtkCList * clist, gint column, gpointer data)
       gtk_clist_set_column_widget (clist, 0, sort_wid);
     }
   else
-    wdata->sortcol = column;
+    *wdata->sortcol = column;
+
+  if (!GFTP_IS_CONNECTED (wdata->request))
+    return;
 
   gtk_clist_freeze (clist);
   gtk_clist_clear (clist);
 
-  wdata->files = gftp_sort_filelist (wdata->files, wdata->sortcol, 
-                                     wdata->sortasds);
+  wdata->files = gftp_sort_filelist (wdata->files, *wdata->sortcol, 
+                                     *wdata->sortasds);
 
   templist = wdata->files; 
   while (templist != NULL)

@@ -65,9 +65,9 @@ typedef struct gftp_window_data_tag
    				   a directory */
             *hoststxt, 		/* Show which directory we're in */
             *listbox; 		/* Our listbox showing the files */
-  unsigned int sortcol, 	/* Which column we are sorting by */
-               sortasds : 1, 	/* Sorted ascending or descending */
-               sorted : 1,	/* Is the output sorted? */
+  unsigned int *sortcol, 	/* Which column we are sorting by */
+               *sortasds; 	/* Sorted ascending or descending */
+  unsigned int sorted : 1,	/* Is the output sorted? */
                show_selected : 1, /* Show only selected files */
                *histlen;	/* Pointer to length of history */
   char *filespec;		/* Filespec for the listbox */

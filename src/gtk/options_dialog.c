@@ -112,7 +112,7 @@ options_dialog (gpointer data)
   table = box = NULL;
   for (i=0; config_file_vars[i].key != NULL; i++)
     {
-      if (!config_file_vars[i].shown)
+      if (!(config_file_vars[i].ports_shown & GFTP_PORT_GTK))
         continue;
 
       switch (config_file_vars[i].type)

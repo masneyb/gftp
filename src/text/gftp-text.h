@@ -47,6 +47,7 @@ struct _gftp_text_methods
   int (*func)(gftp_request * request, char *command, gpointer *data);
   gftp_request ** request;
   char *cmd_description;
+  int (*subhelp_func) (char *topic);
 };
 
 /* gftp-text.h */
@@ -108,6 +109,9 @@ int gftp_text_help				( gftp_request * request,
 int gftp_text_set				( gftp_request * request, 
 						  char *command, 
 						  gpointer *data);
+int gftp_text_clear				( gftp_request * request, 
+						  char *command, 
+						  gpointer *data);
 char *gftp_text_ask_question 			( const char *question, 
 						  int echo,
 						  char *buf,
@@ -116,6 +120,8 @@ int gftp_text_get_win_size 			( void );
 void gftp_text_calc_kbs 			( gftp_transfer * tdata, 
 						  ssize_t num_read );
 void sig_child 					( int signo );
+int gftp_text_set_show_subhelp			( char *topic );
+int gftp_text_clear_show_subhelp		( char *topic );
 
 #endif
 

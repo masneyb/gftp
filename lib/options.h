@@ -137,9 +137,14 @@ int do_one_transfer_at_a_time = 1, 	/* Only allow one transfer at a time.
 					   grab the password. I personally
 					   don't like this, but some people
 					   do */
-    sshv2_use_sftp_subsys = 0;		/* Call ssh -s sftp. If you set this
+    sshv2_use_sftp_subsys = 0,		/* Call ssh -s sftp. If you set this
 					   it'll automatically use the askpass
 					   utility above */
+    local_sortcol = 1,			
+    local_sortasds = 1,
+    remote_sortcol = 1,
+    remote_sortasds = 1;
+
 
 guint max_log_window_size = 5000;	/* Max size of the log window for the 
                                            GTK port */

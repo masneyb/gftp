@@ -403,10 +403,10 @@ typedef struct gftp_config_vars_tag
   char *key,			/* variable name */
        *description;		/* How this field will show up in the dialog */
   gpointer var;			/* Pointer to our variable */
-  int type,			/* See defines below */
-      shown;			/* Is this shown in the options dialog? */
+  int type;			/* See defines below */
   char *comment;                /* Comment to write out to the config file */
   gpointer widget;
+  int ports_shown;		/* What ports of gFTP is this option shown in */
 } gftp_config_vars;
 
 #define CONFIG_INTTEXT                  1
@@ -422,6 +422,10 @@ typedef struct gftp_config_vars_tag
 #define CONFIG_COLOR			11
 #define CONFIG_UINTTEXT                 12
 #define CONFIG_CHARPASS			13
+
+#define GFTP_PORT_GTK			(1 << 1)
+#define GFTP_PORT_TEXT			(1 << 2)
+#define GFTP_PORT_ALL			(GFTP_PORT_GTK | GFTP_PORT_TEXT)
 
 typedef struct gftp_proxy_type_tag
 {
@@ -455,7 +459,8 @@ extern int do_one_transfer_at_a_time, start_file_transfers,
            local_columns[6], remote_columns[6], resolve_symlinks, 
            firewall_port, http_proxy_port, overwrite_by_default, 
            append_file_transfers, enable_old_ssh, ssh_need_userpass, 
-           ssh_use_askpass, sshv2_use_sftp_subsys;
+           ssh_use_askpass, sshv2_use_sftp_subsys, local_sortcol, 
+           local_sortasds, remote_sortcol, remote_sortasds;
 extern guint max_log_window_size;
 extern GHashTable * bookmarks_htable, * config_htable;
 extern GList * localhistory, * remotehistory, * host_history, * port_history, 

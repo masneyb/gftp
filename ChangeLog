@@ -1,3 +1,27 @@
+2002-10-13 Brian Masney <masneyb@gftp.org>
+        * lib/gftp.h (struct gftp_config_vars_tag) - remove shown flag and
+        added ports_shown flag. Added GFTP_PORTS_TEXT, GFTP_PORTS_GTK,
+        and GFTP_PORTS_ALL flags
+
+        * lib/config_file.c - update to use new fields.
+
+        * lib/config_file.c, lib/options.h, lib/gftp.h - added new global
+        options: local_sortcol, local_sortasds, remote_sortcol, remote_sortasds
+
+        * src/gtk/gftp-gtk.c - sort based on parameters above. Also, if a url
+        was given on the command line, don't connect to it until the local side
+        has been setup
+
+        * src/gtk/options_dialog.c - only show variables that have GFTP_PORT_GTK
+        set
+
+        * src/text/gftp-text.c - add help screen for set command. Added command
+        clear cache. Sort the filelist based on the configuration options.
+
+        * configure.in - update to version 2.0.14
+
+        * cvsclean - clean up the Makefile.am file better
+
 2002-10-07 Brian Masney <masneyb@gftp.org>
 	* lib/local.c - fixed file uploads
 

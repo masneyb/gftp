@@ -28,65 +28,67 @@ static int configuration_changed = 0,
 
 struct _gftp_text_methods gftp_text_methods[] = {
         {N_("about"), 	2, gftp_text_about,	NULL,
-         N_("Shows gFTP information")},
+         N_("Shows gFTP information"), NULL},
         {N_("ascii"),	2, gftp_text_ascii,	&gftp_text_remreq,
-         N_("Sets the current file transfer mode to Ascii (only for FTP)")},
+         N_("Sets the current file transfer mode to Ascii (only for FTP)"), NULL},
 	{N_("binary"),	1, gftp_text_binary,	&gftp_text_remreq,
-         N_("Sets the current file transfer mode to Binary (only for FTP)")},
+         N_("Sets the current file transfer mode to Binary (only for FTP)"), NULL},
         {N_("cd"), 	2, gftp_text_cd, 	&gftp_text_remreq,
-         N_("Changes the remote working directory")},
+         N_("Changes the remote working directory"), NULL},
         {N_("chdir"), 	3, gftp_text_cd, 	&gftp_text_remreq,
-         N_("Changes the remote working directory")},
+         N_("Changes the remote working directory"), NULL},
         {N_("chmod"), 	3, gftp_text_chmod,	&gftp_text_remreq,
-         N_("Changes the permissions of a remote file")},
-        {N_("close"), 	2, gftp_text_close, 	&gftp_text_remreq,
-         N_("Disconnects from the remote site")},
+         N_("Changes the permissions of a remote file"), NULL},
+        {N_("clear"),	3, gftp_text_clear,	NULL,
+         N_("Available options: cache"), 	gftp_text_clear_show_subhelp},
+        {N_("close"), 	3, gftp_text_close, 	&gftp_text_remreq,
+         N_("Disconnects from the remote site"), NULL},
         {N_("delete"), 	1, gftp_text_delete,	&gftp_text_remreq,
-         N_("Removes a remote file")},
+         N_("Removes a remote file"), NULL},
         {N_("get"),	1, gftp_text_mget_file,	NULL,
-         N_("Downloads remote file(s)")},
+         N_("Downloads remote file(s)"), NULL},
         {N_("help"), 	1, gftp_text_help, 	NULL,
-         N_("Shows this help screen")},
+         N_("Shows this help screen"), NULL},
         {N_("lcd"), 	3, gftp_text_cd, 	&gftp_text_locreq,
-         N_("Changes the local working directory")},
+         N_("Changes the local working directory"), NULL},
         {N_("lchdir"), 	4, gftp_text_cd, 	&gftp_text_locreq,
-         N_("Changes the local working directory")},
+         N_("Changes the local working directory"), NULL},
         {N_("lchmod"), 	4, gftp_text_chmod, 	&gftp_text_locreq,
-         N_("Changes the permissions of a local file")},
+         N_("Changes the permissions of a local file"), NULL},
         {N_("ldelete"), 2, gftp_text_delete, 	&gftp_text_locreq,
-         N_("Removes a local file")},
+         N_("Removes a local file"), NULL},
 	{N_("lls"), 	2, gftp_text_ls, 	&gftp_text_locreq,
-         N_("Shows the directory listing for the current local directory")},
+         N_("Shows the directory listing for the current local directory"), NULL},
         {N_("lmkdir"), 	2, gftp_text_mkdir, 	&gftp_text_locreq,
-         N_("Creates a local directory")},
+         N_("Creates a local directory"), NULL},
         {N_("lpwd"), 	2, gftp_text_pwd, 	&gftp_text_locreq,
-         N_("Show current local directory")},
+         N_("Show current local directory"), NULL},
         {N_("lrename"), 3, gftp_text_rename, 	&gftp_text_locreq,
-         N_("Rename a local file")},
+         N_("Rename a local file"), NULL},
         {N_("lrmdir"), 	3, gftp_text_rmdir, 	&gftp_text_locreq,
-         N_("Remove a local directory")},
+         N_("Remove a local directory"), NULL},
 	{N_("ls"), 	2, gftp_text_ls,	&gftp_text_remreq,
-         N_("Shows the directory listing for the current remote directory")},
+         N_("Shows the directory listing for the current remote directory"), NULL},
         {N_("mget"),	2, gftp_text_mget_file,	NULL,
-         N_("Downloads remote file(s)")},
+         N_("Downloads remote file(s)"), NULL},
         {N_("mkdir"), 	2, gftp_text_mkdir,	&gftp_text_remreq,
-         N_("Creates a remote directory")},
+         N_("Creates a remote directory"), NULL},
         {N_("mput"),	2, gftp_text_mput_file,	NULL,
-         N_("Uploads local file(s)")},
+         N_("Uploads local file(s)"), NULL},
         {N_("open"), 	1, gftp_text_open, 	&gftp_text_remreq,
-         N_("Opens a connection to a remote site")},
+         N_("Opens a connection to a remote site"), NULL},
         {N_("put"),	2, gftp_text_mput_file,	NULL,
-         N_("Uploads local file(s)")},
+         N_("Uploads local file(s)"), NULL},
         {N_("pwd"), 	2, gftp_text_pwd, 	&gftp_text_remreq,
-         N_("Show current remote directory")},
+         N_("Show current remote directory"), NULL},
         {N_("quit"), 	1, gftp_text_quit, 	NULL,
-         N_("Exit from gFTP")},
+         N_("Exit from gFTP"), NULL},
         {N_("rename"), 	2, gftp_text_rename,	&gftp_text_remreq,
-         N_("Rename a remote file")},
+         N_("Rename a remote file"), NULL},
         {N_("rmdir"), 	2, gftp_text_rmdir,	&gftp_text_remreq,
-         N_("Remove a remote directory")},
+         N_("Remove a remote directory"), NULL},
         {N_("set"), 	1, gftp_text_set, 	NULL,
-         N_("Show configuration file variables. You can also set variables by set var=val")},
+         N_("Show configuration file variables. You can also set variables by set var=val"), gftp_text_set_show_subhelp},
         {NULL, 		0, NULL,		NULL, 	NULL}};
 
 int
@@ -554,9 +556,11 @@ gftp_text_chmod (gftp_request * request, char *command, gpointer *data)
 int
 gftp_text_ls (gftp_request * request, char *command, gpointer *data)
 {
+  GList * files, * templist, * delitem;
   char *color, buf[20], *filespec;
+  int sortcol, sortasds;
+  gftp_file * fle;
   time_t curtime;
-  gftp_file fle;
 
   time (&curtime);
   if (!GFTP_IS_CONNECTED (request))
@@ -570,39 +574,82 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
   if (gftp_list_files (request) != 0)
     return (1);
 
-  while (gftp_get_next_file (request, filespec, &fle) > 0)
+  files = NULL;
+  fle = g_malloc0 (sizeof (*fle));
+  while (gftp_get_next_file (request, NULL, fle) > 0)
     {
-      if (strcmp (fle.file, ".") == 0)
+      if (strcmp (fle->file, ".") == 0)
         {
-          gftp_file_destroy (&fle);
+          gftp_file_destroy (fle);
           continue;
         }
+      files = g_list_prepend (files, fle);
+      fle = g_malloc0 (sizeof (*fle));
+    }
+  g_free (fle);
 
-      if (*fle.attribs == 'd')
+  if (request == gftp_text_locreq)
+    {
+      sortcol = local_sortcol;
+      sortasds = local_sortasds;
+    }
+  else
+    {
+      sortcol = remote_sortcol;
+      sortasds = remote_sortasds;
+    }
+
+  files = gftp_sort_filelist (files, sortcol, sortasds);
+  delitem = NULL;
+  for (templist = files; templist != NULL; templist = templist->next)
+    {
+      if (delitem != NULL)
+        {
+          fle = delitem->data;
+          gftp_file_destroy (fle);
+          g_free (fle);
+          delitem = NULL;
+        }
+
+      fle = templist->data;
+
+      if (*fle->attribs == 'd')
         color = COLOR_BLUE;
-      else if (*fle.attribs == 'l')
+      else if (*fle->attribs == 'l')
         color = COLOR_WHITE;
-      else if (strchr (fle.attribs, 'x') != NULL)
+      else if (strchr (fle->attribs, 'x') != NULL)
         color = COLOR_GREEN;
       else
         color = COLOR_DEFAULT;
 
-      if (curtime > fle.datetime + 6 * 30 * 24 * 60 * 60 ||
-          curtime < fle.datetime - 60 * 60)
-        strftime (buf, sizeof (buf), "%b %d  %Y", localtime (&fle.datetime));
+      if (curtime > fle->datetime + 6 * 30 * 24 * 60 * 60 ||
+          curtime < fle->datetime - 60 * 60)
+        strftime (buf, sizeof (buf), "%b %d  %Y", localtime (&fle->datetime));
       else
-        strftime (buf, sizeof (buf), "%b %d %H:%M", localtime (&fle.datetime));
+        strftime (buf, sizeof (buf), "%b %d %H:%M", localtime (&fle->datetime));
       
 #if defined (_LARGEFILE_SOURCE)
       printf ("%s %8s %8s %10lld %s %s%s%s\n", 
 #else
       printf ("%s %8s %8s %10ld %s %s%s%s\n", 
 #endif
-              fle.attribs, fle.user, fle.group,
-              fle.size, buf, color, fle.file, COLOR_DEFAULT);
-      gftp_file_destroy (&fle);
+              fle->attribs, fle->user, fle->group,
+              fle->size, buf, color, fle->file, COLOR_DEFAULT);
+      delitem = templist;
     }
   gftp_end_transfer (request);
+
+  if (delitem != NULL)
+    {
+      fle = delitem->data;
+      gftp_file_destroy (fle);
+      g_free (fle);
+      delitem = NULL;
+    }
+
+  if (files != NULL)
+    g_list_free (files);
+
   return (1);
 }
 
@@ -898,10 +945,21 @@ gftp_text_transfer_files (gftp_transfer * transfer)
 int
 gftp_text_help (gftp_request * request, char *command, gpointer *data)
 {
-  int i, j, ele, numrows, numcols = 6;
+  int i, j, ele, numrows, numcols = 6, handled;
+  char *pos;
 
   if (command != NULL && *command != '\0')
     {
+      for (pos = command; *pos != ' ' && *pos != '\0'; pos++);
+      if (*pos == ' ')
+        {
+          *pos++ = '\0';
+          if (*pos == '\0')
+            pos = NULL;
+        }
+      else
+        pos = NULL;
+
       for (i=0; gftp_text_methods[i].command != NULL; i++)
         {
           if (strcmp (gftp_text_methods[i].command, command) == 0)
@@ -909,7 +967,15 @@ gftp_text_help (gftp_request * request, char *command, gpointer *data)
         }
 
       if (gftp_text_methods[i].cmd_description != NULL)
-        printf ("%s\n", _(gftp_text_methods[i].cmd_description));
+        {
+          if (pos != NULL && gftp_text_methods[i].subhelp_func != NULL)
+            handled = gftp_text_methods[i].subhelp_func (pos);
+          else
+            handled = 0;
+
+          if (!handled)
+            printf ("%s\n", _(gftp_text_methods[i].cmd_description));
+        }
       else
         *command = '\0';
     }
@@ -950,6 +1016,9 @@ gftp_text_set (gftp_request * request, char *command, gpointer *data)
     {
       for (i=0; config_file_vars[i].key != NULL; i++)
         {
+          if (!(config_file_vars[i].ports_shown & GFTP_PORT_TEXT))
+            continue;
+
           switch (config_file_vars[i].type)
             {
               case CONFIG_CHARTEXT:
@@ -988,12 +1057,20 @@ gftp_text_set (gftp_request * request, char *command, gpointer *data)
         {
           if (strcmp (config_file_vars[i].key, command) == 0)
             break;
+           
         }
 
       if (config_file_vars[i].key == NULL)
         {
           gftp_text_log (gftp_logging_error, NULL,
                          _("Error: Variable %s is not a valid configuration variable.\n"), command);
+          return (1);
+        }
+
+      if (!(config_file_vars[i].ports_shown & GFTP_PORT_TEXT))
+        {
+          gftp_text_log (gftp_logging_error, NULL,
+                         _("Error: Variable %s is not available in the text port of gFTP\n"), command);
           return (1);
         }
 
@@ -1021,6 +1098,17 @@ gftp_text_set (gftp_request * request, char *command, gpointer *data)
         }
     }
 
+  return (1);
+}
+
+
+int
+gftp_text_clear (gftp_request * request, char *command, gpointer *data)
+{
+  if (strcasecmp (command, "cache") == 0)
+    gftp_clear_cache_files ();
+  else
+    gftp_text_log (gftp_logging_error, NULL, "Invalid argument\n");
   return (1);
 }
 
@@ -1155,6 +1243,37 @@ gftp_text_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 void
 sig_child (int signo)
 {
+}
+
+
+int
+gftp_text_set_show_subhelp (char *topic)
+{
+  int i;
+
+  for (i=0; config_file_vars[i].key != NULL; i++)
+    {
+      if (strcmp (topic, config_file_vars[i].key) == 0)
+        {
+          printf ("%s\n", config_file_vars[i].comment);
+          return (1);
+        }
+    }
+
+  return (0);
+}
+
+
+int
+gftp_text_clear_show_subhelp (char *topic)
+{
+  if (strcmp (topic, "cache") == 0)
+    {
+      printf (_("Clear the directory cache\n"));
+      return (1);
+    }
+
+  return (0);
 }
 
 

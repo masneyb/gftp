@@ -10,5 +10,6 @@ rm -f po/Makefile.in.in po/*.gmo po/Makevars.template po/Rules-quot po/boldquot.
 cat configure.in | sed s/\ intl\\/Makefile\ //g | sed s/po\\/Makefile.in\ //g > configure.in.new
 mv configure.in.new configure.in
 
-cat Makefile.am | sed s/\ intl\ //g | sed s/\ config\.rpath//g | sed s/mkinstalldirs//g > Makefile.am.new
+
+cat Makefile.am | sed s/\ intl\ //g | sed s/\ config\.rpath\ //g | sed s/mkinstalldirs\ // > Makefile.am.new
 mv Makefile.am.new Makefile.am
