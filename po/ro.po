@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp-2.0.13\n"
-"POT-Creation-Date: 2002-09-26 15:25-0400\n"
+"POT-Creation-Date: 2002-12-05 21:30-0500\n"
 "PO-Revision-Date: 2002-09-10 18:44+0300\n"
 "Last-Translator: Mugurel Tudor <mugurelu@go.ro>\n"
 "Language-Team: românã <ro@li.org>\n"
@@ -14,12 +14,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
 
-#: lib/bookmark.c:82
+#: lib/bookmark.c:42
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Eroare: Nu am putut gãsi semnul de carte %s\n"
 
-#: lib/bookmark.c:89 src/gtk/bookmarks.c:86
+#: lib/bookmark.c:49 src/gtk/bookmarks.c:54
 msgid ""
 "Bookmarks Error: There are some missing entries in this bookmark. Make sure "
 "you have a hostname and username\n"
@@ -27,28 +27,55 @@ msgstr ""
 "Eroare semne de carte: Sunt câteva intrãri greºite în acest semn de carte. "
 "Asiguraþi-vã cã aveþi specificate o gazdã ºi un utilizator\n"
 
-#: lib/cache.c:173 lib/cache.c:225
+#: lib/cache.c:48 lib/local.c:562 lib/ssh.c:1030
+#, c-format
+msgid "Error: Could not make directory %s: %s\n"
+msgstr "Eroare: Nu am putut crea directorul %s: %s\n"
+
+#: lib/cache.c:61 lib/cache.c:162 lib/cache.c:251 lib/local.c:127
+#: lib/local.c:179 lib/misc.c:268 lib/misc.c:275
+#, c-format
+msgid "Error: Cannot open local file %s: %s\n"
+msgstr "Eroare: Nu am putut deschide fiºierul local %s: %s\n"
+
+#: lib/cache.c:76
+#, fuzzy, c-format
+msgid "Error: Cannot create temporary file: %s\n"
+msgstr "Eroare: Nu am putut trunchia fiºierul local %s: %s\n"
+
+#: lib/cache.c:98 lib/cache.c:152 lib/local.c:99 lib/local.c:224
+#: lib/rfc2068.c:243 lib/rfc2068.c:365 lib/ssh.c:513 lib/sshv2.c:702
+#, c-format
+msgid "Error closing file descriptor: %s\n"
+msgstr "Eroare la închiderea descriptorului de fiºier: %s\n"
+
+#: lib/cache.c:178 lib/local.c:138 lib/local.c:147 lib/local.c:199
+#, c-format
+msgid "Error: Cannot seek on file %s: %s\n"
+msgstr "Eroare: Nu am putut cãuta în fiºierul %s: %s\n"
+
+#: lib/cache.c:269
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Eroare: Linie invalidã %s în fiºierul index din cache\n"
 
-#: lib/config_file.c:32
+#: lib/config_file.c:33
 msgid "General"
 msgstr "General"
 
-#: lib/config_file.c:34
+#: lib/config_file.c:35
 msgid "Email address:"
 msgstr "Adresa email:"
 
-#: lib/config_file.c:35
+#: lib/config_file.c:36
 msgid "Enter your email address here"
 msgstr "Introduceþi adresa dumneavoastrã email aici"
 
-#: lib/config_file.c:36
+#: lib/config_file.c:37
 msgid "View program:"
 msgstr "Program vizualizare:"
 
-#: lib/config_file.c:37
+#: lib/config_file.c:38
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
@@ -56,15 +83,15 @@ msgstr ""
 "Programul implicit pentru a vizualiza fiºiere. Dacã este gol, vizualizatorul "
 "intern va fi folosit"
 
-#: lib/config_file.c:38
+#: lib/config_file.c:39
 msgid "Edit program:"
 msgstr "Program editare:"
 
-#: lib/config_file.c:39
+#: lib/config_file.c:40
 msgid "The default program used to edit files."
 msgstr "Programul implicit pentru editarea fiºierelor."
 
-#: lib/config_file.c:40
+#: lib/config_file.c:41
 msgid "Startup Directory:"
 msgstr "Director de pornire:"
 
@@ -92,11 +119,11 @@ msgstr "Adaugã transferurile noi de fiºiere la cele existente"
 msgid "Do one transfer at a time"
 msgstr "Transferã un sigur fiºier odatã"
 
-#: lib/config_file.c:49
+#: lib/config_file.c:50
 msgid "Do only one transfer at a time?"
 msgstr "Transfer un singur fiºier odatã ?"
 
-#: lib/config_file.c:50
+#: lib/config_file.c:51
 msgid "Overwrite by Default"
 msgstr "Implicit suprascrie"
 
@@ -109,143 +136,143 @@ msgstr ""
 msgid "Refresh after each file transfer"
 msgstr "Actualizare dupã fiecare transfer de fiºier"
 
-#: lib/config_file.c:55
+#: lib/config_file.c:54
 msgid "Refresh the listbox after each file is transfered"
 msgstr "Reactualizeazã lista dupã fiecare transfer de fiºier"
 
-#: lib/config_file.c:56
+#: lib/config_file.c:55
 msgid "Sort directories first"
 msgstr "Afiºeazã directoarele mai întâi"
 
-#: lib/config_file.c:57
+#: lib/config_file.c:56
 msgid "Put the directories first then the files"
 msgstr "Afiºeazã mai întâi directoarele apoi fiºierele"
 
-#: lib/config_file.c:58
+#: lib/config_file.c:57
 msgid "Start file transfers"
 msgstr "Porneºte transferul de fiºiere"
 
-#: lib/config_file.c:60
+#: lib/config_file.c:58
 msgid "Automatically start the file transfers when they get queued?"
 msgstr "Porneºte automat transferul de fiºiere când sunt puse în coadã ?"
 
-#: lib/config_file.c:61
+#: lib/config_file.c:59
 msgid "Show hidden files"
 msgstr "Aratã fiºierele ascunse"
 
-#: lib/config_file.c:62
+#: lib/config_file.c:60
 msgid "Show hidden files in the listboxes"
 msgstr "Aratã fiºierele ascunse în listã"
 
-#: lib/config_file.c:64 src/gtk/options_dialog.c:359
-#: src/gtk/options_dialog.c:628
+#: lib/config_file.c:62 src/gtk/options_dialog.c:558
+#: src/gtk/options_dialog.c:651
 msgid "Network"
 msgstr "Reþea"
 
-#: lib/config_file.c:66
+#: lib/config_file.c:64
 msgid "Network timeout:"
 msgstr "Timp expirat reþea:"
 
-#: lib/config_file.c:67
+#: lib/config_file.c:65
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "Timpul în care expirã aºteptarea pentru activitate în reþea. Acesta NU este "
 "o expirare pentru reþea neutilizatã. "
 
-#: lib/config_file.c:68
+#: lib/config_file.c:66
 msgid "Connect retries:"
 msgstr "Reîncercãri conectare:"
 
-#: lib/config_file.c:69
+#: lib/config_file.c:67
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
 msgstr ""
 "Numãrul de auto-încercãri pentru conectare. O valoare de 0 va duce la un "
 "numãr infinit de reîncercãri. "
 
-#: lib/config_file.c:70
+#: lib/config_file.c:68
 msgid "Retry sleep time:"
 msgstr "Pauza dintre reîncercãri:"
 
-#: lib/config_file.c:71
+#: lib/config_file.c:69
 msgid "The number of seconds to wait between retries"
 msgstr "Numãrul de secunde de aºteptat între reîncercãri"
 
-#: lib/config_file.c:72
+#: lib/config_file.c:70
 msgid "Max KB/S:"
 msgstr "KB/s max:"
 
-#: lib/config_file.c:73
+#: lib/config_file.c:71
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr ""
 "Maximul de KB/s pe care îl poate obþine un transfer de fiºiere. (setaþi-l la "
 "0 pentru dezactivare)"
 
-#: lib/config_file.c:74 lib/config_file.c:75
+#: lib/config_file.c:72 lib/config_file.c:73
 msgid "Default Protocol"
 msgstr "Protocol implicit"
 
-#: lib/config_file.c:76
+#: lib/config_file.c:74
 msgid "This specifies the default protocol to use"
 msgstr "Specificã protocolul implicit care va fi folosit"
 
-#: lib/config_file.c:78
+#: lib/config_file.c:76
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/config_file.c:80 lib/config_file.c:115
+#: lib/config_file.c:78 lib/config_file.c:112
 msgid "Proxy hostname:"
 msgstr "Nume gazdã proxy:"
 
-#: lib/config_file.c:81 lib/config_file.c:116
+#: lib/config_file.c:79 lib/config_file.c:113
 msgid "Firewall hostname"
 msgstr "Nume gazdã firewall"
 
-#: lib/config_file.c:82 lib/config_file.c:117
+#: lib/config_file.c:80 lib/config_file.c:114
 msgid "Proxy port:"
 msgstr "Port proxy:"
 
-#: lib/config_file.c:83 lib/config_file.c:118
+#: lib/config_file.c:81 lib/config_file.c:115
 msgid "Port to connect to on the firewall"
 msgstr "Portul pentru conectarea la firewall"
 
-#: lib/config_file.c:84 lib/config_file.c:119
+#: lib/config_file.c:82 lib/config_file.c:116
 msgid "Proxy username:"
 msgstr "Nume utilizator proxy:"
 
-#: lib/config_file.c:85 lib/config_file.c:120
+#: lib/config_file.c:83 lib/config_file.c:117
 msgid "Your firewall username"
 msgstr "Numele de utilizator pentru firewall"
 
-#: lib/config_file.c:86 lib/config_file.c:121
+#: lib/config_file.c:84 lib/config_file.c:118
 msgid "Proxy password:"
 msgstr "Parola proxy:"
 
-#: lib/config_file.c:87 lib/config_file.c:122
+#: lib/config_file.c:85 lib/config_file.c:119
 msgid "Your firewall password"
 msgstr "Parola pentru firewall"
 
-#: lib/config_file.c:88
+#: lib/config_file.c:86
 msgid "Proxy account:"
 msgstr "Cont proxy:"
 
-#: lib/config_file.c:88
+#: lib/config_file.c:87
 msgid "Your firewall account (optional)"
 msgstr "Contul pentru firewall (opþional)"
 
-#: lib/config_file.c:91
+#: lib/config_file.c:90
 msgid "Passive file transfers"
 msgstr "Transferuri de fiºiere pasive"
 
-#: lib/config_file.c:93
+#: lib/config_file.c:91
 msgid "Send PASV command or PORT command for data transfers"
 msgstr "Trimite comanda PASV sau PORT pentru transferul de date"
 
-#: lib/config_file.c:94
+#: lib/config_file.c:92
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "Rezolvã legãturile simbolice la distanþã (LIST -L)"
 
-#: lib/config_file.c:96
+#: lib/config_file.c:93
 msgid ""
 "If you disable this feature, then gFTP will only send LIST to the remote "
 "server instead of LIST -L"
@@ -253,137 +280,137 @@ msgstr ""
 "Dacã dezactivaþi aceastã opþiune, atunci gFTP va trimite doar LIST cãtre "
 "serverul la distanþã în loc de LIST -L"
 
-#: lib/config_file.c:99
+#: lib/config_file.c:96
 msgid "Proxy server type"
 msgstr "Tipul serverului proxy"
 
-#: lib/config_file.c:100
+#: lib/config_file.c:97
 msgid "Proxy config"
 msgstr "Configurare proxy"
 
-#: lib/config_file.c:101
+#: lib/config_file.c:98
 msgid "This specifies how your proxy server expects us to log in"
 msgstr "Acesta specificã cum se aºteaptã serverul proxy sã vã logaþi"
 
-#: lib/config_file.c:102
+#: lib/config_file.c:99
 #, c-format
 msgid "%pu = proxy user"
 msgstr "%pu = utilizator proxy"
 
-#: lib/config_file.c:103
+#: lib/config_file.c:100
 #, c-format
 msgid "%hu = host user"
 msgstr "%hu = utilizator gazdã"
 
-#: lib/config_file.c:104
+#: lib/config_file.c:101
 #, c-format
 msgid "%pp = proxy pass"
 msgstr "%pp = parola proxy"
 
-#: lib/config_file.c:105
+#: lib/config_file.c:102
 #, c-format
 msgid "%hp = host pass"
 msgstr "%hp = parola gazdã"
 
-#: lib/config_file.c:106
+#: lib/config_file.c:103
 #, c-format
 msgid "%ph = proxy host"
 msgstr "%ph = gazdã proxy"
 
-#: lib/config_file.c:107
+#: lib/config_file.c:104
 msgid "%hh = host"
 msgstr "%hh = gazdã"
 
-#: lib/config_file.c:108
+#: lib/config_file.c:105
 #, c-format
 msgid "%po = proxy port"
 msgstr "%po = port proxy"
 
-#: lib/config_file.c:109
+#: lib/config_file.c:106
 #, c-format
 msgid "%ho = host port"
 msgstr "%ho = port gazdã"
 
-#: lib/config_file.c:110
+#: lib/config_file.c:107
 #, c-format
 msgid "%pa = proxy account"
 msgstr "%pa = cont proxy"
 
-#: lib/config_file.c:111
+#: lib/config_file.c:108
 #, c-format
 msgid "%ha = host account"
 msgstr "%ha = cont gazdã"
 
-#: lib/config_file.c:113
+#: lib/config_file.c:110
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/config_file.c:124
+#: lib/config_file.c:121
 msgid "Use HTTP/1.1"
 msgstr "Foloseºte HTTP/1.1"
 
-#: lib/config_file.c:125
+#: lib/config_file.c:122
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Vreþi sã folosiþi HTTP/1.1 sau HTTP/1.0"
 
-#: lib/config_file.c:127
+#: lib/config_file.c:124
 msgid "SSH"
 msgstr "SSH"
 
-#: lib/config_file.c:129
+#: lib/config_file.c:126
 msgid "SSH Prog Name:"
 msgstr "Nume program SSH:"
 
-#: lib/config_file.c:130
+#: lib/config_file.c:127
 msgid "The path to the SSH executable"
 msgstr "Calea cãtre executabilul SSH"
 
-#: lib/config_file.c:131
+#: lib/config_file.c:128
 msgid "SSH Extra Params:"
 msgstr "Parametri suplimentari SSH:"
 
-#: lib/config_file.c:132
+#: lib/config_file.c:129
 msgid "Extra parameters to pass to the SSH program"
 msgstr "Parametri suplimentari trimiºi cãtre programul SSH"
 
-#: lib/config_file.c:133
+#: lib/config_file.c:130
 msgid "SSH sftpserv path:"
 msgstr "Calea sftpserv SSH:"
 
-#: lib/config_file.c:134
+#: lib/config_file.c:131
 msgid "Default remote SSH sftpserv path"
 msgstr "Calea cãtre sftpserv SSH la distanþã"
 
-#: lib/config_file.c:135
+#: lib/config_file.c:132
 msgid "SSH2 sftp-server path:"
 msgstr "Calea sftp-server SSH2:"
 
-#: lib/config_file.c:136
+#: lib/config_file.c:133
 msgid "Default remote SSH2 sftp-server path"
 msgstr "Calea implicitã pentru sftp-server SSH2 la distanþã"
 
-#: lib/config_file.c:138
+#: lib/config_file.c:135
 msgid "Need SSH User/Pass"
 msgstr "E nevoie de utilizator/parolã SSH"
 
-#: lib/config_file.c:140
+#: lib/config_file.c:136
 msgid "Require a username/password for SSH connections"
 msgstr "Necesitã un utilizator/parolã pentru conectãrile SSH"
 
-#: lib/config_file.c:141
+#: lib/config_file.c:137
 msgid "Use ssh-askpass util"
 msgstr "Foloseºte utilitarul ssh-askpass"
 
-#: lib/config_file.c:143
+#: lib/config_file.c:138
 msgid "Use the ssh-askpass utility to grab the users password"
 msgstr ""
 "Foloseºte utilitarul ssh-askpass pentru a intercepta parola utilizatorului"
 
-#: lib/config_file.c:144
+#: lib/config_file.c:139
 msgid "Use SSH2 SFTP subsys"
 msgstr "Foloseºte subsistemul SFTP SSH2"
 
-#: lib/config_file.c:146
+#: lib/config_file.c:140
 msgid ""
 "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 "know the remote path to the remote sftp-server"
@@ -391,11 +418,11 @@ msgstr ""
 "Foloseºte ssh cu fanionul sftp -s. Acest lucru este util deoarece nu trebuie "
 "sã cunoaºteþi calea la distanþã catre severul de la distanþã sftp."
 
-#: lib/config_file.c:147
+#: lib/config_file.c:141
 msgid "Enable old SSH protocol"
 msgstr "Activeazã vechiul protocol SSH"
 
-#: lib/config_file.c:149
+#: lib/config_file.c:142
 msgid ""
 "Enable the old SSH protocol. You will need to download the sftp server from "
 "http:///www.xbill.org/sftp"
@@ -403,7 +430,7 @@ msgstr ""
 "Activeazã vechiul protocil SSH. Va trebui sã descãrcaþi serverul sftp de la "
 "http:///www.xbill.org/sftp"
 
-#: lib/config_file.c:152
+#: lib/config_file.c:145
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -412,36 +439,28 @@ msgstr ""
 "fiºier din lista de fiºiere. 0=Vizualizeazã fiºierul 1=Editeazã fiºierul "
 "2=Transferã fiºierul"
 
-#: lib/config_file.c:154
-msgid ""
-"(*) If this is set, and there is a ext= line below for the file extension, "
-"it will download the file as specified below"
-msgstr ""
-"(*) Dacã acesta este setat, ºi existã o linie ext= mai jos pentru extensia "
-"fiºierului, va transfera fiºierul aºa cum se specificã mai jos"
-
-#: lib/config_file.c:156
+#: lib/config_file.c:147
 msgid "The default width of the local files listbox"
 msgstr "Lãþimea implicitã pentru caseta cu lista fiºierelor locale"
 
-#: lib/config_file.c:158
+#: lib/config_file.c:149
 msgid "The default width of the remote files listbox"
 msgstr "Lãþimea implicitã pentru caseta cu lista fiºierelor la distanþã"
 
-#: lib/config_file.c:160
+#: lib/config_file.c:151
 msgid "The default height of the local/remote files listboxes"
 msgstr ""
 "Înãlþimea implicitã pentru casetele cu lista fiºierelor locale/la distanþã"
 
-#: lib/config_file.c:162
+#: lib/config_file.c:153
 msgid "The default height of the transfer listbox"
 msgstr "Înãlþimea implicitã pentru caseta cu lista fiºierelor transferate"
 
-#: lib/config_file.c:164
+#: lib/config_file.c:155
 msgid "The default height of the logging window"
 msgstr "Înãlþimea implicitã pentru fereastra de logare"
 
-#: lib/config_file.c:166
+#: lib/config_file.c:157
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -449,7 +468,15 @@ msgstr ""
 "Lãþimea coloanei numelor de fiºiere din ferestra de transfer. Setaþi-o la 0 "
 "pentru adaptarea automatã a lãþimii coloanei."
 
-#: lib/config_file.c:168 lib/config_file.c:180
+#: lib/config_file.c:159 lib/config_file.c:163
+msgid "The default column to sort by"
+msgstr ""
+
+#: lib/config_file.c:161 lib/config_file.c:165
+msgid "Sort ascending or descending"
+msgstr ""
+
+#: lib/config_file.c:167 lib/config_file.c:179
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -458,7 +485,7 @@ msgstr ""
 "o la 0 pentru adaptarea automatã a lãþimii coloanei. Setaþi-o la -1 pentru a "
 "dezactiva aceastã coloanã."
 
-#: lib/config_file.c:170 lib/config_file.c:182
+#: lib/config_file.c:169 lib/config_file.c:181
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -467,7 +494,7 @@ msgstr ""
 "la 0 pentru adaptarea automatã a lãþimii coloanei. Setaþi-o la -1 pentru a "
 "dezactiva aceastã coloanã."
 
-#: lib/config_file.c:172 lib/config_file.c:184
+#: lib/config_file.c:171 lib/config_file.c:183
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -476,7 +503,7 @@ msgstr ""
 "o la 0 pentru adaptarea automatã a lãþimii coloanei. Setaþi-o la -1 pentru a "
 "dezactiva aceastã coloanã."
 
-#: lib/config_file.c:174 lib/config_file.c:186
+#: lib/config_file.c:173 lib/config_file.c:185
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -485,7 +512,7 @@ msgstr ""
 "o la 0 pentru adaptarea automatã a lãþimii coloanei. Setaþi-o la -1 pentru a "
 "dezactiva aceastã coloanã."
 
-#: lib/config_file.c:176 lib/config_file.c:188
+#: lib/config_file.c:175 lib/config_file.c:187
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -494,7 +521,7 @@ msgstr ""
 "la 0 pentru adaptarea automatã a lãþimii coloanei. Setaþi-o la -1 pentru a "
 "dezactiva aceastã coloanã."
 
-#: lib/config_file.c:178 lib/config_file.c:190
+#: lib/config_file.c:177 lib/config_file.c:189
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -503,83 +530,83 @@ msgstr ""
 "o la 0 pentru adaptarea automatã a lãþimii coloanei. Setaþi-o la -1 pentru a "
 "dezactiva aceastã coloanã."
 
-#: lib/config_file.c:192
+#: lib/config_file.c:191
 msgid "The color of the commands that are sent to the server"
 msgstr "Culoarea comenzilor care sunt trimise serverului"
 
-#: lib/config_file.c:194
+#: lib/config_file.c:193
 msgid "The color of the commands that are received from the server"
 msgstr "Culoarea comenzilor care sunt recepþionate de server"
 
-#: lib/config_file.c:196
+#: lib/config_file.c:195
 msgid "The color of the error messages"
 msgstr "Culoarea mesajelor de eroare"
 
-#: lib/config_file.c:198
+#: lib/config_file.c:197
 msgid "The color of the rest of the log messages"
 msgstr "Culoarea restului de mesaje de logare"
 
-#: lib/config_file.c:241 lib/config_file.c:782
+#: lib/config_file.c:240 lib/config_file.c:762
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "Eroare gFTP: Nume greºit pentru fiºierul de configurare %s\n"
 
-#: lib/config_file.c:252 lib/config_file.c:553
+#: lib/config_file.c:251
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "Eroare gFTP: Nu am putut crea directorul %s: %s\n"
 
-#: lib/config_file.c:262
+#: lib/config_file.c:261
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "Eroare gFTP: Nu am putut crea fiºierul de configurare principal %s\n"
 
-#: lib/config_file.c:264
+#: lib/config_file.c:263
 msgid "Did you do a make install?\n"
 msgstr "Aþi fãcut un make install ?\n"
 
-#: lib/config_file.c:273 lib/config_file.c:788
+#: lib/config_file.c:272 lib/config_file.c:768
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "Eroare gFTP: Nu am putut deschide fiºierul de configurare %s: %s\n"
 
-#: lib/config_file.c:431
+#: lib/config_file.c:430
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "Avertisment gFTP: Ignor linia %d din fiºierul de configurare: %s\n"
 
-#: lib/config_file.c:452
+#: lib/config_file.c:451
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "Eroare gFTP: Nume greºit pentru fiºierul log %s\n"
 
-#: lib/config_file.c:458
+#: lib/config_file.c:457
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "Avertisment gFTP: Nu am putut deschide %s pentru scriere: %s\n"
 
-#: lib/config_file.c:542 lib/config_file.c:904
+#: lib/config_file.c:534 lib/config_file.c:884
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "Eroare gFTP: Nume greºit pentru fiºierul cu semne de carte %s\n"
 
-#: lib/config_file.c:563
+#: lib/config_file.c:543
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr ""
 "Avertisment: Nu am putut gãsi fiºierul principal cu semne de carte %s\n"
 
-#: lib/config_file.c:574 lib/config_file.c:910
+#: lib/config_file.c:554 lib/config_file.c:890
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "Eroare gFTP: Nu am putut deschide fiºierul cu semne de carte %s: %s\n"
 
-#: lib/config_file.c:668
+#: lib/config_file.c:648
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "Avertisment gFTP: Ignor linia %d din fiºierul semnelor de carte: %s\n"
 
-#: lib/config_file.c:775
+#: lib/config_file.c:755
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
@@ -590,7 +617,7 @@ msgstr ""
 "SUPRASCRISE. Dacã o intrare are un (*) în comentariul sãu, nu o puteþi "
 "schimba din interiorul gFTP"
 
-#: lib/config_file.c:776
+#: lib/config_file.c:756
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
@@ -600,7 +627,7 @@ msgstr ""
 "nevoie sã iasã prin serverul proxy (dacã e disponibil). Sintaxa: "
 "dont_use_proxy=.domeniu sau dont_use_proxy=numãr reþea/mascã reþea"
 
-#: lib/config_file.c:777
+#: lib/config_file.c:757
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
@@ -608,11 +635,11 @@ msgstr ""
 "ext=extensie fiºier:fiºier XPM:Ascii sau Binar (A sau B):program "
 "vizualizare. Toate argumentele în afara extensiei fiºierului sunt opþionale."
 
-#: lib/config_file.c:778
+#: lib/config_file.c:758
 msgid "This section contains the data that is in the history"
 msgstr "Aceastã secþiune conþine date care sunt în istoric"
 
-#: lib/config_file.c:900
+#: lib/config_file.c:880
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
@@ -621,703 +648,712 @@ msgstr ""
 "<masneyb@gftp.org>. Avertisment: orice comentarii adãugate acestui fiºier "
 "VOR FI suprascrise"
 
-#: lib/config_file.c:1019
+#: lib/config_file.c:996
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "Avertisment gFTP: Linia %d nu are destule argumente\n"
 
-#: lib/local.c:161 lib/local.c:538
+#: lib/local.c:67 lib/local.c:493
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
 msgstr "Nu am putut schimba directorul local la %s: %s\n"
 
-#: lib/local.c:176 lib/local.c:526 lib/ssh.c:348 lib/ssh.c:768
+#: lib/local.c:82 lib/local.c:481 lib/ssh.c:328 lib/ssh.c:485
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "Nu am putut obþine directorul de lucru curent: %s\n"
 
-#: lib/local.c:193 lib/local.c:348
-#, c-format
-msgid "Error closing file descriptor: %s\n"
-msgstr "Eroare la închiderea descriptorului de fiºier: %s\n"
-
-#: lib/local.c:222 lib/local.c:292
-#, c-format
-msgid "Error: Cannot open local file %s: %s\n"
-msgstr "Eroare: Nu am putut deschide fiºierul local %s: %s\n"
-
-#: lib/local.c:230 lib/local.c:300
-#, c-format
-msgid "Cannot fdopen() socket for %s: %s\n"
-msgstr "Nu am putut fdopen() socketul pentru %s: %s\n"
-
-#: lib/local.c:242 lib/local.c:251 lib/local.c:260 lib/local.c:322
-#, c-format
-msgid "Error: Cannot seek on file %s: %s\n"
-msgstr "Eroare: Nu am putut cãuta în fiºierul %s: %s\n"
-
-#: lib/local.c:312
+#: lib/local.c:190
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "Eroare: Nu am putut trunchia fiºierul local %s: %s\n"
 
-#: lib/local.c:485
+#: lib/local.c:440
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "Nu am putut obþine listarea directorului local %s: %s\n"
 
-#: lib/local.c:519
+#: lib/local.c:474
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "Am schimbat cu succes directorul local la %s\n"
 
-#: lib/local.c:554 lib/local.c:577 lib/ssh.c:869 lib/ssh.c:901
-#: src/gtk/transfer.c:2219 src/gtk/view_dialog.c:238
+#: lib/local.c:509 lib/local.c:532 lib/ssh.c:974 lib/ssh.c:1006
+#: src/gtk/transfer.c:1131 src/gtk/view_dialog.c:291
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "Am ºters cu succes %s\n"
 
-#: lib/local.c:560 lib/ssh.c:861
+#: lib/local.c:515 lib/ssh.c:966
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Eroare: Nu am putut ºterge directorul %s: %s\n"
 
-#: lib/local.c:583 lib/ssh.c:893 src/gtk/transfer.c:2223
-#: src/gtk/view_dialog.c:242
+#: lib/local.c:538 lib/ssh.c:998 src/gtk/transfer.c:1135
+#: src/gtk/view_dialog.c:295
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Eroare: Nu am putut ºterge fiºierul %s: %s\n"
 
-#: lib/local.c:600 lib/ssh.c:933
+#: lib/local.c:555 lib/ssh.c:1038
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "Am creat cu succes directorul %s\n"
 
-#: lib/local.c:607 lib/ssh.c:925
-#, c-format
-msgid "Error: Could not make directory %s: %s\n"
-msgstr "Eroare: Nu am putut crea directorul %s: %s\n"
-
-#: lib/local.c:626 lib/ssh.c:967
+#: lib/local.c:581 lib/ssh.c:1072
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "Am redenumit cu succes %s în %s\n"
 
-#: lib/local.c:633 lib/ssh.c:959
+#: lib/local.c:588 lib/ssh.c:1064
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Eroare: Nu am putut redenumi %s în %s: %s\n"
 
-#: lib/local.c:656 lib/ssh.c:1001
+#: lib/local.c:611 lib/ssh.c:1106
 #, c-format
 msgid "Successfully changed mode of %s to %d\n"
 msgstr "Am schimbat cu succes modul din %s în %d\n"
 
-#: lib/local.c:663 lib/ssh.c:993
+#: lib/local.c:618 lib/ssh.c:1098
 #, c-format
 msgid "Error: Could not change mode of %s to %d: %s\n"
 msgstr "Eroare: Nu am putut schimba modul din %s în %d: %s\n"
 
-#: lib/misc.c:349
-msgid "usage: gftp [[ftp://][user:[pass]@]ftp-site[:port][/directory]]\n"
+#: lib/local.c:704
+msgid "local filesystem"
 msgstr ""
-"utilizare: gftp [[ftp://][utilizator:[parola]@]ftp-site[:port][/director]]\n"
 
-#: lib/misc.c:377
-#, c-format
-msgid "gFTP Error: Cannot find file %s in %s or %s\n"
-msgstr "Eroare gFTP: Nu am putut gãsi fiºierul %s în %s sau %s\n"
-
-#: lib/misc.c:832
-#, c-format
-msgid "Running program %s\n"
-msgstr "Rulez programul %s\n"
-
-#: lib/options.h:34
-msgid "none"
-msgstr "nici unul"
-
-#: lib/options.h:35
-msgid "SITE command"
-msgstr "comandã SITE"
-
-#: lib/options.h:36
-msgid "user@host"
-msgstr "utilizator@gazdã"
-
-#: lib/options.h:37
-msgid "user@host:port"
-msgstr "utilizator@gazdã:port"
-
-#: lib/options.h:38
-msgid "AUTHENTICATE"
-msgstr "AUTHENTICATE"
-
-#: lib/options.h:39
-msgid "user@host port"
-msgstr "utilizator@gazdã port"
-
-#: lib/options.h:40
-msgid "user@host NOAUTH"
-msgstr "utilizator@gazdã NOAUTH"
-
-#: lib/options.h:41
-msgid "HTTP Proxy"
-msgstr "Proxy HTTP"
-
-#: lib/options.h:42
-msgid "Custom"
-msgstr "Personalizat"
-
-#: lib/protocols.c:255 lib/protocols.c:301 lib/rfc2068.c:268 lib/rfc959.c:845
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "Conexiunea la %s a expirat\n"
-
-#: lib/protocols.c:264 lib/rfc2068.c:281
-#, c-format
-msgid "Error reading from host %s: %s\n"
-msgstr "Eroare la citire din gazda %s: %s\n"
-
-#: lib/protocols.c:310
-#, c-format
-msgid "Error writing to host %s: %s\n"
-msgstr "Eroare la scriere pe gazda %s: %s\n"
-
-#: lib/protocols.c:366
-#, c-format
-msgid "Loading directory listing %s from cache\n"
-msgstr "Încarc listarea directorului %s din cache\n"
-
-#: lib/protocols.c:415
-#, c-format
-msgid "Error: Cannot write to cache: %s\n"
-msgstr "Eroare: Nu pot scrie în cache: %s\n"
-
-#: lib/protocols.c:845 lib/protocols.c:868 lib/protocols.c:1700
-#: lib/protocols.c:1792
-#, c-format
-msgid "Looking up %s\n"
-msgstr "Caut %s\n"
-
-#: lib/protocols.c:851 lib/protocols.c:874 lib/protocols.c:1705
-#: lib/protocols.c:1797
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "Nu am putut cãuta gazda %s: %s\n"
-
-#: lib/protocols.c:1189 lib/protocols.c:1191 lib/protocols.c:1222
-#: lib/protocols.c:1231 lib/protocols.c:1311 lib/protocols.c:1313
-#: lib/protocols.c:1350
-msgid "unknown"
-msgstr "necunoscut"
-
-#: lib/protocols.c:1720 lib/protocols.c:1762 lib/rfc959.c:656
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "Nu am putut crea un socket: %s\n"
-
-#: lib/protocols.c:1726 lib/protocols.c:1811
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "Încerc %s:%d\n"
-
-#: lib/protocols.c:1731 lib/protocols.c:1818
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "Nu mã pot conecta la %s: %s\n"
-
-#: lib/protocols.c:1833
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "Conectat la %s:%d\n"
-
-#: lib/rfc2068.c:127 lib/rfc2068.c:136 lib/rfc959.c:137 lib/rfc959.c:146
-#: lib/rfc959.c:752 lib/rfc959.c:790 lib/ssh.c:304 lib/ssh.c:313
-#: lib/sshv2.c:362 lib/sshv2.c:371 src/gtk/view_dialog.c:80
-#: src/gtk/view_dialog.c:150
-#, c-format
-msgid "Cannot fdopen() socket: %s\n"
-msgstr "Nu am putut face fdopen() pe socket: %s\n"
-
-#: lib/rfc2068.c:155 lib/rfc959.c:274 lib/ssh.c:374 lib/sshv2.c:426
-#, c-format
-msgid "Disconnecting from site %s\n"
-msgstr "Mã deconectez de la site-ul %s\n"
-
-#: lib/rfc2068.c:213
-#, fuzzy, c-format
-msgid "Starting the file transfer at offset %lld\n"
-msgstr "Pornesc transferul de fiºiere de la %ld\n"
-
-#: lib/rfc2068.c:218
-#, c-format
-msgid "Starting the file transfer at offset %ld\n"
-msgstr "Pornesc transferul de fiºiere de la %ld\n"
-
-#: lib/rfc2068.c:238
-#, c-format
-msgid "Cannot retrieve file %s\n"
-msgstr "Nu am putut primi fiºierul %s\n"
-
-#: lib/rfc2068.c:314
-msgid "Finished retrieving data\n"
-msgstr "Am terminat de primit date\n"
-
-#: lib/rfc2068.c:361 lib/ssh.c:582 lib/sshv2.c:853
-msgid "Retrieving directory listing...\n"
-msgstr "Primesc listarea directorului...\n"
-
-#: lib/rfc959.c:570 lib/ssh.c:703
-msgid "total"
-msgstr "total"
-
-#: lib/rfc959.c:572 lib/ssh.c:706
-#, c-format
-msgid "Warning: Cannot parse listing %s\n"
-msgstr "Avertisment: Nu am putut parcurge listarea %s\n"
-
-#: lib/rfc959.c:700
-#, c-format
-msgid "Cannot create a data connection: %s\n"
-msgstr "Nu am putut crea o conexiune de date: %s\n"
-
-#: lib/rfc959.c:715
-#, c-format
-msgid "Cannot bind a port: %s\n"
-msgstr "Nu am putut lega un port: %s\n"
-
-#: lib/rfc959.c:726
-#, c-format
-msgid "Cannot listen on port %d: %s\n"
-msgstr "Nu am putut asculta la portul %d: %s\n"
-
-#: lib/rfc959.c:779
-#, c-format
-msgid "Cannot accept connection from server: %s\n"
-msgstr "Nu pot accepta conexiune de la server: %s\n"
-
-#: lib/rfc959.c:855 lib/rfc959.c:865 lib/ssh.c:1031 lib/ssh.c:1044
-#: lib/sshv2.c:530 lib/sshv2.c:540
+#: lib/misc.c:285 lib/protocols.c:2104
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Eroare: Nu am putut scrie cãtre socket: %s\n"
 
-#: lib/ssh.c:202 lib/sshv2.c:251
-#, c-format
-msgid "Opening SSH connection to %s\n"
-msgstr "Deschid conexiunea SSH cãtre %s\n"
-
-#: lib/ssh.c:227 lib/sshv2.c:281
-#, c-format
-msgid "Cannot create a socket pair: %s\n"
-msgstr "Nu pot crea un socket pereche: %s\n"
-
-#: lib/ssh.c:238 lib/sshv2.c:292
-#, c-format
-msgid "Cannot open master pty %s: %s\n"
-msgstr "Nu pot deschide pty %s principal: %s\n"
-
-#: lib/ssh.c:271 lib/sshv2.c:326
-msgid "Error: Cannot execute ssh: "
-msgstr "Eroare: Nu pot executa ssh: "
-
-#: lib/ssh.c:292 lib/sshv2.c:349
-msgid "Error: Received wrong init string from server\n"
-msgstr "Eroare: ªir de iniþializare greºit primit de la server\n"
-
-#: lib/ssh.c:328 lib/sshv2.c:393
-#, c-format
-msgid "Successfully logged into SSH server %s\n"
-msgstr "Logare cu succes la serverul SSH %s\n"
-
-#: lib/ssh.c:334 lib/sshv2.c:399
-#, c-format
-msgid "Cannot fork another process: %s\n"
-msgstr "Nu pot bifurca un alt proces: %s\n"
-
-#: lib/ssh.c:412
-#, c-format
-msgid "Remote host could not find file %s\n"
-msgstr "Gazda de la distanþã nu a gãsit fiºierul %s\n"
-
-#: lib/ssh.c:527 lib/ssh.c:598 lib/ssh.c:721
-msgid "Received unexpected response from server\n"
-msgstr "Am primit un rãspuns neaºteptat din partea serverului\n"
-
-#: lib/ssh.c:634
-msgid "Finished retrieving directory listing\n"
-msgstr "Am terminat de primit listarea directorului\n"
-
-#: lib/ssh.c:752
-#, c-format
-msgid "Could not change remote directory to %s: %s\n"
-msgstr "Nu am putut schimba directorul la distanþã în %s: %s\n"
-
-#: lib/ssh.c:1068 lib/sshv2.c:581 lib/sshv2.c:884 lib/sshv2.c:1746
-#: lib/sshv2.c:1830 lib/sshv2.c:1914
-#, c-format
-msgid "Error: Message size %d too big from server\n"
-msgstr "Eroare: Mãrimea mesajului de la server %d este prea mare\n"
-
-#: lib/ssh.c:1098 lib/sshv2.c:563 lib/sshv2.c:597
+#: lib/misc.c:293 lib/protocols.c:2034
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Eroare: Nu am putut citi din socket: %s\n"
 
-#: lib/sshv2.c:385 lib/sshv2.c:446 lib/sshv2.c:459 lib/sshv2.c:481
-#: lib/sshv2.c:819 lib/sshv2.c:875 lib/sshv2.c:988 lib/sshv2.c:1001
-#: lib/sshv2.c:1014 lib/sshv2.c:1027 lib/sshv2.c:1083 lib/sshv2.c:1139
-#: lib/sshv2.c:1206 lib/sshv2.c:1644 lib/sshv2.c:1737 lib/sshv2.c:1821
-#: lib/sshv2.c:1902 lib/sshv2.c:1984
-msgid "Received wrong response from server, disconnecting\n"
-msgstr "Am primit rãspuns greºit de la server, mã deconectez\n"
+#: lib/misc.c:369
+msgid "usage: gftp [[ftp://][user:[pass]@]ftp-site[:port][/directory]]\n"
+msgstr ""
+"utilizare: gftp [[ftp://][utilizator:[parola]@]ftp-site[:port][/director]]\n"
 
-#: lib/sshv2.c:506
+#: lib/misc.c:397
 #, c-format
-msgid "Error: Message size %d too big\n"
-msgstr "Eroare: Mãrimea mesajului %d este prea mare\n"
+msgid "gFTP Error: Cannot find file %s in %s or %s\n"
+msgstr "Eroare gFTP: Nu am putut gãsi fiºierul %s în %s sau %s\n"
 
-#: lib/sshv2.c:642
+#: lib/misc.c:843
+#, c-format
+msgid "Running program %s\n"
+msgstr "Rulez programul %s\n"
+
+#: lib/misc.c:893 lib/misc.c:918
+msgid "WARNING"
+msgstr ""
+
+#: lib/misc.c:960
+msgid "Error: An incorrect password was entered\n"
+msgstr ""
+
+#: lib/misc.c:963
+msgid ""
+"Please connect to this host with the command line SSH utility and answer "
+"this question appropriately.\n"
+msgstr ""
+
+#: lib/misc.c:966
+msgid "Please correct the above warning to connect to this host.\n"
+msgstr ""
+
+#: lib/options.h:36
+msgid "none"
+msgstr "nici unul"
+
+#: lib/options.h:37
+msgid "SITE command"
+msgstr "comandã SITE"
+
+#: lib/options.h:38
+msgid "user@host"
+msgstr "utilizator@gazdã"
+
+#: lib/options.h:39
+msgid "user@host:port"
+msgstr "utilizator@gazdã:port"
+
+#: lib/options.h:40
+msgid "AUTHENTICATE"
+msgstr "AUTHENTICATE"
+
+#: lib/options.h:41
+msgid "user@host port"
+msgstr "utilizator@gazdã port"
+
+#: lib/options.h:42
+msgid "user@host NOAUTH"
+msgstr "utilizator@gazdã NOAUTH"
+
+#: lib/options.h:43
+msgid "HTTP Proxy"
+msgstr "Proxy HTTP"
+
+#: lib/options.h:44
+msgid "Custom"
+msgstr "Personalizat"
+
+#: lib/protocols.c:297
+#, c-format
+msgid "Loading directory listing %s from cache\n"
+msgstr "Încarc listarea directorului %s din cache\n"
+
+#: lib/protocols.c:365
+#, c-format
+msgid "Error: Cannot write to cache: %s\n"
+msgstr "Eroare: Nu pot scrie în cache: %s\n"
+
+#: lib/protocols.c:805 lib/protocols.c:828 lib/protocols.c:1664
+#: lib/protocols.c:1762
+#, c-format
+msgid "Looking up %s\n"
+msgstr "Caut %s\n"
+
+#: lib/protocols.c:811 lib/protocols.c:834 lib/protocols.c:1669
+#: lib/protocols.c:1767
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "Nu am putut cãuta gazda %s: %s\n"
+
+#: lib/protocols.c:1107 lib/protocols.c:1109 lib/protocols.c:1140
+#: lib/protocols.c:1149 lib/protocols.c:1230 lib/protocols.c:1232
+#: lib/protocols.c:1269
+msgid "unknown"
+msgstr "necunoscut"
+
+#: lib/protocols.c:1687 lib/protocols.c:1729 lib/rfc959.c:446
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "Nu am putut crea un socket: %s\n"
+
+#: lib/protocols.c:1693 lib/protocols.c:1781
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "Încerc %s:%d\n"
+
+#: lib/protocols.c:1698 lib/protocols.c:1788
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "Nu mã pot conecta la %s: %s\n"
+
+#: lib/protocols.c:1803
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "Conectat la %s:%d\n"
+
+#: lib/protocols.c:2014 lib/protocols.c:2084
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "Conexiunea la %s a expirat\n"
+
+#: lib/protocols.c:2152
+#, fuzzy, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "Nu pot crea un socket pereche: %s\n"
+
+#: lib/protocols.c:2166
+#, fuzzy, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "Nu pot crea un socket pereche: %s\n"
+
+#: lib/rfc2068.c:238 lib/rfc959.c:416 lib/ssh.c:508 lib/sshv2.c:697
+#, c-format
+msgid "Disconnecting from site %s\n"
+msgstr "Mã deconectez de la site-ul %s\n"
+
+#: lib/rfc2068.c:295
+#, fuzzy, c-format
+msgid "Starting the file transfer at offset %lld\n"
+msgstr "Pornesc transferul de fiºiere de la %ld\n"
+
+#: lib/rfc2068.c:300
+#, c-format
+msgid "Starting the file transfer at offset %ld\n"
+msgstr "Pornesc transferul de fiºiere de la %ld\n"
+
+#: lib/rfc2068.c:320
+#, c-format
+msgid "Cannot retrieve file %s\n"
+msgstr "Nu am putut primi fiºierul %s\n"
+
+#: lib/rfc2068.c:373
+msgid "Finished retrieving data\n"
+msgstr "Am terminat de primit date\n"
+
+#: lib/rfc2068.c:421 lib/ssh.c:736 lib/sshv2.c:778
+msgid "Retrieving directory listing...\n"
+msgstr "Primesc listarea directorului...\n"
+
+#: lib/rfc959.c:224 lib/rfc959.c:233 lib/rfc959.c:244
+#, c-format
+msgid "Received invalid response to PWD command: '%s'\n"
+msgstr ""
+
+#: lib/rfc959.c:474 lib/rfc959.c:484
+#, c-format
+msgid "Cannot find an IP address in PASV response '%s'\n"
+msgstr ""
+
+#: lib/rfc959.c:499
+#, c-format
+msgid "Cannot create a data connection: %s\n"
+msgstr "Nu am putut crea o conexiune de date: %s\n"
+
+#: lib/rfc959.c:511 lib/rfc959.c:532
+#, fuzzy, c-format
+msgid "Cannot get socket name: %s\n"
+msgstr "Nu pot crea un socket pereche: %s\n"
+
+#: lib/rfc959.c:522
+#, c-format
+msgid "Cannot bind a port: %s\n"
+msgstr "Nu am putut lega un port: %s\n"
+
+#: lib/rfc959.c:541
+#, c-format
+msgid "Cannot listen on port %d: %s\n"
+msgstr "Nu am putut asculta la portul %d: %s\n"
+
+#: lib/rfc959.c:588
+#, c-format
+msgid "Cannot accept connection from server: %s\n"
+msgstr "Nu pot accepta conexiune de la server: %s\n"
+
+#: lib/rfc959.c:906 lib/ssh.c:857
+msgid "total"
+msgstr "total"
+
+#: lib/rfc959.c:908 lib/ssh.c:860
+#, c-format
+msgid "Warning: Cannot parse listing %s\n"
+msgstr "Avertisment: Nu am putut parcurge listarea %s\n"
+
+#: lib/ssh.c:215 lib/sshv2.c:340 lib/sshv2.c:815 lib/sshv2.c:1638
+#: lib/sshv2.c:1729 lib/sshv2.c:1813
+#, c-format
+msgid "Error: Message size %d too big from server\n"
+msgstr "Eroare: Mãrimea mesajului de la server %d este prea mare\n"
+
+#: lib/ssh.c:312
+#, c-format
+msgid "Could not change remote directory to %s: %s\n"
+msgstr "Nu am putut schimba directorul la distanþã în %s: %s\n"
+
+#: lib/ssh.c:361 lib/sshv2.c:535
+#, c-format
+msgid "Opening SSH connection to %s\n"
+msgstr "Deschid conexiunea SSH cãtre %s\n"
+
+#: lib/ssh.c:386 lib/sshv2.c:565
+#, c-format
+msgid "Cannot create a socket pair: %s\n"
+msgstr "Nu pot crea un socket pereche: %s\n"
+
+#: lib/ssh.c:397 lib/sshv2.c:576
+#, c-format
+msgid "Cannot open master pty %s: %s\n"
+msgstr "Nu pot deschide pty %s principal: %s\n"
+
+#: lib/ssh.c:430 lib/sshv2.c:610
+#, fuzzy, c-format
+msgid "Error: Cannot execute ssh: %s\n"
+msgstr "Eroare: Nu pot executa ssh: "
+
+#: lib/ssh.c:465 lib/sshv2.c:655
+#, c-format
+msgid "Successfully logged into SSH server %s\n"
+msgstr "Logare cu succes la serverul SSH %s\n"
+
+#: lib/ssh.c:471 lib/sshv2.c:661
+#, c-format
+msgid "Cannot fork another process: %s\n"
+msgstr "Nu pot bifurca un alt proces: %s\n"
+
+#: lib/ssh.c:551
+#, c-format
+msgid "Remote host could not find file %s\n"
+msgstr "Gazda de la distanþã nu a gãsit fiºierul %s\n"
+
+#: lib/ssh.c:666 lib/ssh.c:752 lib/ssh.c:875
+msgid "Received unexpected response from server\n"
+msgstr "Am primit un rãspuns neaºteptat din partea serverului\n"
+
+#: lib/ssh.c:788
+msgid "Finished retrieving directory listing\n"
+msgstr "Am terminat de primit listarea directorului\n"
+
+#: lib/sshv2.c:131
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: Protocol de iniþializare\n"
 
-#: lib/sshv2.c:648
+#: lib/sshv2.c:137
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: Versiune protocol %d\n"
 
-#: lib/sshv2.c:657
+#: lib/sshv2.c:146
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: Deschid %s\n"
 
-#: lib/sshv2.c:662
+#: lib/sshv2.c:151
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: Închid\n"
 
-#: lib/sshv2.c:668
+#: lib/sshv2.c:157
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: Dechid directorul %s\n"
 
-#: lib/sshv2.c:673
+#: lib/sshv2.c:162
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: Citesc directorul\n"
 
-#: lib/sshv2.c:677
+#: lib/sshv2.c:166
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: ªterg fiºierul %s\n"
 
-#: lib/sshv2.c:682
+#: lib/sshv2.c:171
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: Creez directorul %s\n"
 
-#: lib/sshv2.c:687
+#: lib/sshv2.c:176
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: ªterg directorul %s\n"
 
-#: lib/sshv2.c:692
+#: lib/sshv2.c:181
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: Calea realã %s\n"
 
-#: lib/sshv2.c:697
+#: lib/sshv2.c:186
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: Atribute fiºier\n"
 
-#: lib/sshv2.c:701
+#: lib/sshv2.c:190
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Status %s\n"
 
-#: lib/sshv2.c:718
+#: lib/sshv2.c:207
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: lib/sshv2.c:723
+#: lib/sshv2.c:212
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: lib/sshv2.c:736 src/gtk/bookmarks.c:364 src/gtk/bookmarks.c:1081
-#: src/gtk/chmod_dialog.c:181 src/gtk/options_dialog.c:312
-#: src/gtk/options_dialog.c:686 src/gtk/transfer.c:1722
+#: lib/sshv2.c:225 src/gtk/bookmarks.c:1157 src/gtk/bookmarks.c:1395
+#: src/gtk/chmod_dialog.c:277 src/gtk/options_dialog.c:616
+#: src/gtk/options_dialog.c:962 src/gtk/transfer.c:2249
 msgid "OK"
 msgstr "OK"
 
-#: lib/sshv2.c:739
+#: lib/sshv2.c:228
 msgid "EOF"
 msgstr "EOF"
 
-#: lib/sshv2.c:742
+#: lib/sshv2.c:231
 msgid "No such file or directory"
 msgstr "Nu existã un asemenea fiºier sau director"
 
-#: lib/sshv2.c:745
+#: lib/sshv2.c:234
 msgid "Permission denied"
 msgstr "Permisiune refuzatã"
 
-#: lib/sshv2.c:748
+#: lib/sshv2.c:237
 msgid "Failure"
 msgstr "Eºuare"
 
-#: lib/sshv2.c:751
+#: lib/sshv2.c:240
 msgid "Bad message"
 msgstr "Mesaj greºit"
 
-#: lib/sshv2.c:754
+#: lib/sshv2.c:243
 msgid "No connection"
 msgstr "Nici o conexiune"
 
-#: lib/sshv2.c:757
+#: lib/sshv2.c:246
 msgid "Connection lost"
 msgstr "Conexiune pierdutã"
 
-#: lib/sshv2.c:760
+#: lib/sshv2.c:249
 msgid "Operation unsupported"
 msgstr "Operaþiune nesuportatã"
 
-#: lib/sshv2.c:763
+#: lib/sshv2.c:252
 msgid "Unknown message returned from server"
 msgstr "Mesaj necunoscut returnat de server"
 
-#: src/text/gftp-text.c:29
+#: lib/sshv2.c:288
+#, c-format
+msgid "Error: Message size %d too big\n"
+msgstr "Eroare: Mãrimea mesajului %d este prea mare\n"
+
+#: lib/sshv2.c:401 lib/sshv2.c:414 lib/sshv2.c:436 lib/sshv2.c:501
+#: lib/sshv2.c:647 lib/sshv2.c:743 lib/sshv2.c:806 lib/sshv2.c:919
+#: lib/sshv2.c:932 lib/sshv2.c:945 lib/sshv2.c:958 lib/sshv2.c:1014
+#: lib/sshv2.c:1077 lib/sshv2.c:1529 lib/sshv2.c:1629 lib/sshv2.c:1720
+#: lib/sshv2.c:1801 lib/sshv2.c:1883
+msgid "Received wrong response from server, disconnecting\n"
+msgstr "Am primit rãspuns greºit de la server, mã deconectez\n"
+
+#: src/text/gftp-text.c:30
 msgid "about"
 msgstr "about"
 
-#: src/text/gftp-text.c:30
+#: src/text/gftp-text.c:31
 msgid "Shows gFTP information"
 msgstr "Aratã informaþii gFTP"
 
-#: src/text/gftp-text.c:31
+#: src/text/gftp-text.c:32
 msgid "ascii"
 msgstr "ascii"
 
-#: src/text/gftp-text.c:32
+#: src/text/gftp-text.c:33
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "Seteazã modul curent de transfer fiºiere la Ascii (doar pentru FTP)"
 
-#: src/text/gftp-text.c:33
+#: src/text/gftp-text.c:34
 msgid "binary"
 msgstr "binary"
 
-#: src/text/gftp-text.c:34
+#: src/text/gftp-text.c:35
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "Seteazã modul curent de transfer fiºiere la Binar (doar pentru FTP)"
 
-#: src/text/gftp-text.c:35
+#: src/text/gftp-text.c:36
 msgid "cd"
 msgstr "cd"
 
-#: src/text/gftp-text.c:36 src/text/gftp-text.c:38
+#: src/text/gftp-text.c:37 src/text/gftp-text.c:39
 msgid "Changes the remote working directory"
 msgstr "Schimbã directorul de lucru de la distanþã"
 
-#: src/text/gftp-text.c:37
+#: src/text/gftp-text.c:38
 msgid "chdir"
 msgstr "chdir"
 
-#: src/text/gftp-text.c:39
+#: src/text/gftp-text.c:40
 msgid "chmod"
 msgstr "chmod"
 
-#: src/text/gftp-text.c:40
+#: src/text/gftp-text.c:41
 msgid "Changes the permissions of a remote file"
 msgstr "Schimbã permisiunile asupra unui fiºier de la distanþã"
 
-#: src/text/gftp-text.c:41
+#: src/text/gftp-text.c:42
+#, fuzzy
+msgid "clear"
+msgstr "close"
+
+#: src/text/gftp-text.c:43
+msgid "Available options: cache"
+msgstr ""
+
+#: src/text/gftp-text.c:44
 msgid "close"
 msgstr "close"
 
-#: src/text/gftp-text.c:42
+#: src/text/gftp-text.c:45
 msgid "Disconnects from the remote site"
 msgstr "Deconecteazã de la site-ul la distanþã"
 
-#: src/text/gftp-text.c:43
+#: src/text/gftp-text.c:46
 msgid "delete"
 msgstr "delete"
 
-#: src/text/gftp-text.c:44
+#: src/text/gftp-text.c:47
 msgid "Removes a remote file"
 msgstr "ªterge un fiºier de la distanþã"
 
-#: src/text/gftp-text.c:45
+#: src/text/gftp-text.c:48
 msgid "get"
 msgstr "get"
 
-#: src/text/gftp-text.c:46 src/text/gftp-text.c:70
+#: src/text/gftp-text.c:49 src/text/gftp-text.c:73
 msgid "Downloads remote file(s)"
 msgstr "Transferã fiºierul(e) de la distanþã"
 
-#: src/text/gftp-text.c:47
+#: src/text/gftp-text.c:50
 msgid "help"
 msgstr "help"
 
-#: src/text/gftp-text.c:48
+#: src/text/gftp-text.c:51
 msgid "Shows this help screen"
 msgstr "Aratã acest ecran de ajutor"
 
-#: src/text/gftp-text.c:49
+#: src/text/gftp-text.c:52
 msgid "lcd"
 msgstr "lcd"
 
-#: src/text/gftp-text.c:50 src/text/gftp-text.c:52
+#: src/text/gftp-text.c:53 src/text/gftp-text.c:55
 msgid "Changes the local working directory"
 msgstr "Schimbã directorul de lucru local"
 
-#: src/text/gftp-text.c:51
+#: src/text/gftp-text.c:54
 msgid "lchdir"
 msgstr "lchdir"
 
-#: src/text/gftp-text.c:53
+#: src/text/gftp-text.c:56
 msgid "lchmod"
 msgstr "lchmod"
 
-#: src/text/gftp-text.c:54
+#: src/text/gftp-text.c:57
 msgid "Changes the permissions of a local file"
 msgstr "Schimbã permisiunile unui fiºier local"
 
-#: src/text/gftp-text.c:55
+#: src/text/gftp-text.c:58
 msgid "ldelete"
 msgstr "ldelete"
 
-#: src/text/gftp-text.c:56
+#: src/text/gftp-text.c:59
 msgid "Removes a local file"
 msgstr "ªterge un fiºier local"
 
-#: src/text/gftp-text.c:57
+#: src/text/gftp-text.c:60
 msgid "lls"
 msgstr "lls"
 
-#: src/text/gftp-text.c:58
+#: src/text/gftp-text.c:61
 msgid "Shows the directory listing for the current local directory"
 msgstr "Listeazã directorul local curent"
 
-#: src/text/gftp-text.c:59
+#: src/text/gftp-text.c:62
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: src/text/gftp-text.c:60
+#: src/text/gftp-text.c:63
 msgid "Creates a local directory"
 msgstr "Creazã un director local"
 
-#: src/text/gftp-text.c:61
+#: src/text/gftp-text.c:64
 msgid "lpwd"
 msgstr "lpwd"
 
-#: src/text/gftp-text.c:62
+#: src/text/gftp-text.c:65
 msgid "Show current local directory"
 msgstr "Aratã directorul local curent"
 
-#: src/text/gftp-text.c:63
+#: src/text/gftp-text.c:66
 msgid "lrename"
 msgstr "lrename"
 
-#: src/text/gftp-text.c:64
+#: src/text/gftp-text.c:67
 msgid "Rename a local file"
 msgstr "Redenumeºte un fiºier local"
 
-#: src/text/gftp-text.c:65
+#: src/text/gftp-text.c:68
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: src/text/gftp-text.c:66
+#: src/text/gftp-text.c:69
 msgid "Remove a local directory"
 msgstr "ªterge un director local"
 
-#: src/text/gftp-text.c:67
+#: src/text/gftp-text.c:70
 msgid "ls"
 msgstr "ls"
 
-#: src/text/gftp-text.c:68
+#: src/text/gftp-text.c:71
 msgid "Shows the directory listing for the current remote directory"
 msgstr "Listeazã directorul curent de la distanþã"
 
-#: src/text/gftp-text.c:69
+#: src/text/gftp-text.c:72
 msgid "mget"
 msgstr "mget"
 
-#: src/text/gftp-text.c:71
+#: src/text/gftp-text.c:74
 msgid "mkdir"
 msgstr "mkdir"
 
-#: src/text/gftp-text.c:72
+#: src/text/gftp-text.c:75
 msgid "Creates a remote directory"
 msgstr "Creazã un director la distanþã"
 
-#: src/text/gftp-text.c:73
+#: src/text/gftp-text.c:76
 msgid "mput"
 msgstr "mput"
 
-#: src/text/gftp-text.c:74 src/text/gftp-text.c:78
+#: src/text/gftp-text.c:77 src/text/gftp-text.c:81
 msgid "Uploads local file(s)"
 msgstr "Încarcã fiºierul(e) local(e)"
 
-#: src/text/gftp-text.c:75
+#: src/text/gftp-text.c:78
 msgid "open"
 msgstr "open"
 
-#: src/text/gftp-text.c:76
+#: src/text/gftp-text.c:79
 msgid "Opens a connection to a remote site"
 msgstr "Deschide o conexiune cãtre un site la distanþã"
 
-#: src/text/gftp-text.c:77
+#: src/text/gftp-text.c:80
 msgid "put"
 msgstr "put"
 
-#: src/text/gftp-text.c:79
+#: src/text/gftp-text.c:82
 msgid "pwd"
 msgstr "pwd"
 
-#: src/text/gftp-text.c:80
+#: src/text/gftp-text.c:83
 msgid "Show current remote directory"
 msgstr "Aratã directorul curent la distanþã"
 
-#: src/text/gftp-text.c:81
+#: src/text/gftp-text.c:84
 msgid "quit"
 msgstr "quit"
 
-#: src/text/gftp-text.c:82
+#: src/text/gftp-text.c:85
 msgid "Exit from gFTP"
 msgstr "Pãrãseºte gFTP"
 
-#: src/text/gftp-text.c:83
+#: src/text/gftp-text.c:86
 msgid "rename"
 msgstr "rename"
 
-#: src/text/gftp-text.c:84
+#: src/text/gftp-text.c:87
 msgid "Rename a remote file"
 msgstr "Redenumeºte un fiºier la distanþã"
 
-#: src/text/gftp-text.c:85
+#: src/text/gftp-text.c:88
 msgid "rmdir"
 msgstr "rmdir"
 
-#: src/text/gftp-text.c:86
+#: src/text/gftp-text.c:89
 msgid "Remove a remote directory"
 msgstr "ªterge un director la distanþã"
 
-#: src/text/gftp-text.c:87
+#: src/text/gftp-text.c:90
 msgid "set"
 msgstr "set"
 
-#: src/text/gftp-text.c:88
+#: src/text/gftp-text.c:91
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
 "Aratã variabilele fiºierului de configurare. Puteþi seta variabilele prin "
 "setarea set=valoare"
 
-#: src/text/gftp-text.c:134
+#: src/text/gftp-text.c:137
 msgid ""
 ">.\n"
 "If you have any questions, comments, or suggestions about this program, "
@@ -1329,7 +1365,7 @@ msgstr ""
 "sã ni le trimiteþi prin email. Puteþi afla întotdeauna ultimele ºtiri despre "
 "gFTP de pe site-ul nostru la http://www.gftp.org/\n"
 
-#: src/text/gftp-text.c:136 src/gtk/gftp-gtk.c:131
+#: src/text/gftp-text.c:139 src/gtk/gftp-gtk.c:1033
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1339,81 +1375,81 @@ msgstr ""
 "COPYING. Acesta este un software liber, ºi îl puteþi redistribui în anumite "
 "condiþii; pentru detalii, citiþi fiºierul COPYING\n"
 
-#: src/text/gftp-text.c:217
+#: src/text/gftp-text.c:220
 msgid "Error: Command not recognized\n"
 msgstr "Eroare: Comanda nu este recunoscutã\n"
 
-#: src/text/gftp-text.c:312
+#: src/text/gftp-text.c:315
 msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
 msgstr ""
 "folosire: open [[ftp://][utilizator:parolã@]ftp-site[:port][/director]]\n"
 
-#: src/text/gftp-text.c:319 src/gtk/dnd.c:43 src/gtk/menu-items.c:119
+#: src/text/gftp-text.c:322 src/gtk/dnd.c:117 src/gtk/menu-items.c:114
 #, c-format
 msgid "Could not parse URL %s\n"
 msgstr "Nu am putut parcurge URL %s\n"
 
-#: src/text/gftp-text.c:367 src/gtk/menu-items.c:815
+#: src/text/gftp-text.c:372 src/gtk/menu-items.c:797
 msgid "Translated by"
 msgstr ""
 "Tradus în românã de:\n"
 "Mugurel Tudor <mugurelu@go.ro>"
 
-#: src/text/gftp-text.c:390 src/text/gftp-text.c:406 src/text/gftp-text.c:436
-#: src/text/gftp-text.c:459 src/text/gftp-text.c:481 src/text/gftp-text.c:505
-#: src/text/gftp-text.c:533 src/text/gftp-text.c:564 src/text/gftp-text.c:615
-#: src/text/gftp-text.c:631 src/text/gftp-text.c:650 src/text/gftp-text.c:723
+#: src/text/gftp-text.c:395 src/text/gftp-text.c:411 src/text/gftp-text.c:441
+#: src/text/gftp-text.c:464 src/text/gftp-text.c:486 src/text/gftp-text.c:510
+#: src/text/gftp-text.c:538 src/text/gftp-text.c:571 src/text/gftp-text.c:668
+#: src/text/gftp-text.c:684 src/text/gftp-text.c:703 src/text/gftp-text.c:776
 msgid "Error: Not connected to a remote site\n"
 msgstr "Eroare: Nu sunt conectat la un site la distanþã\n"
 
-#: src/text/gftp-text.c:411 src/text/gftp-text.c:417
+#: src/text/gftp-text.c:416 src/text/gftp-text.c:422
 msgid "usage: chdir <directory>\n"
 msgstr "utilizare: chdir <director>\n"
 
-#: src/text/gftp-text.c:443
+#: src/text/gftp-text.c:448
 msgid "usage: mkdir <new directory>\n"
 msgstr "utilizare: mkdir <director nou>\n"
 
-#: src/text/gftp-text.c:465
+#: src/text/gftp-text.c:470
 msgid "usage: rmdir <directory>\n"
 msgstr "utilizare: rmdir <director>\n"
 
-#: src/text/gftp-text.c:487
+#: src/text/gftp-text.c:492
 msgid "usage: delete <file>\n"
 msgstr "utilizare: delete <fiºier>\n"
 
-#: src/text/gftp-text.c:515
+#: src/text/gftp-text.c:520
 msgid "usage: rename <old name> <new name>\n"
 msgstr "utilizare: rename <nume vechi> <nume nou>\n"
 
-#: src/text/gftp-text.c:543
+#: src/text/gftp-text.c:548
 msgid "usage: chmod <mode> <file>\n"
 msgstr "utilizare: chmod <mod> <fisier>\n"
 
-#: src/text/gftp-text.c:656
+#: src/text/gftp-text.c:709
 msgid "usage: mget <filespec>\n"
 msgstr "utilizare: mget <specificã fiºier>\n"
 
-#: src/text/gftp-text.c:729
+#: src/text/gftp-text.c:782
 msgid "usage: mput <filespec>\n"
 msgstr "utilizare: mput <specificã fiºier>\n"
 
-#: src/text/gftp-text.c:813 src/gtk/transfer.c:592
+#: src/text/gftp-text.c:866 src/gtk/transfer.c:787
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Transferul de fiºiere va fi fãcut la %.2f KB/s\n"
 
-#: src/text/gftp-text.c:880
+#: src/text/gftp-text.c:933
 #, c-format
 msgid "Could not download %s\n"
 msgstr "Nu am putut transfera %s\n"
 
-#: src/text/gftp-text.c:887
+#: src/text/gftp-text.c:940
 #, c-format
 msgid "Successfully transferred %s\n"
 msgstr "Am transferat cu succes %s\n"
 
-#: src/text/gftp-text.c:922
+#: src/text/gftp-text.c:994
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1421,30 +1457,40 @@ msgstr ""
 "Comenzi suportate:\n"
 "\n"
 
-#: src/text/gftp-text.c:975
+#: src/text/gftp-text.c:1050
 msgid "usage: set [variable = value]\n"
 msgstr "utilizare: set [variabilã = valoare]\n"
 
-#: src/text/gftp-text.c:995
+#: src/text/gftp-text.c:1071
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "Eroare: Variabila %s nu este o variabilã validã de configurare.\n"
 
-#: src/text/gftp-text.c:1018
+#: src/text/gftp-text.c:1078
+#, fuzzy, c-format
+msgid "Error: Variable %s is not available in the text port of gFTP\n"
+msgstr "Eroare: Variabila %s nu este o variabilã validã de configurare.\n"
+
+#: src/text/gftp-text.c:1101
 msgid "Error: You cannot change this variable\n"
 msgstr "Eroare: Nu puteþi schimba aceastã variabilã\n"
 
-#: src/gtk/bookmarks.c:72 src/gtk/gftp-gtk.c:951 src/gtk/menu-items.c:65
-#: src/gtk/menu-items.c:95 src/gtk/misc-gtk.c:461 src/gtk/misc-gtk.c:469
+#: src/text/gftp-text.c:1277
+#, fuzzy
+msgid "Clear the directory cache\n"
+msgstr "Creazã un director la distanþã"
+
+#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:840 src/gtk/menu-items.c:60
+#: src/gtk/menu-items.c:90 src/gtk/misc-gtk.c:480 src/gtk/misc-gtk.c:488
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: Vã rugãm apãsaþi butonul stop înainte de a face altceva\n"
 
-#: src/gtk/bookmarks.c:73
+#: src/gtk/bookmarks.c:41
 msgid "Run Bookmark"
 msgstr "Conecteazã la semn de carte"
 
-#: src/gtk/bookmarks.c:80
+#: src/gtk/bookmarks.c:48
 msgid ""
 "Internal gFTP Error: Could not look up bookmark entry. This is definately a "
 "bug. Please email masneyb@gftp.org about it. Please be sure to include the "
@@ -1455,15 +1501,28 @@ msgstr ""
 "detalii despre aceastã eroare. Vã rugãm sã includeþi numãrul versiunii ºi "
 "cum poate fi reprodusã eroarea\n"
 
-#: src/gtk/bookmarks.c:139 src/gtk/bookmarks.c:150
+#: src/gtk/bookmarks.c:110
+msgid "Add Bookmark: You must enter a name for the bookmark\n"
+msgstr ""
+"Adãugare semn de carte: Trebuie sã introduceþi un nume pentru semnul de "
+"carte\n"
+
+#: src/gtk/bookmarks.c:117
+#, c-format
+msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
+msgstr ""
+"Adãugare semn de carte: Nu pot adãuga semnul de carte %s pentru cã numele "
+"existã deja.\n"
+
+#: src/gtk/bookmarks.c:180 src/gtk/bookmarks.c:191
 msgid "Add Bookmark"
 msgstr "Adaugã semn de carte"
 
-#: src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:187
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "Adaugare semn de carte: Trebuie sã introduceþi numele gazdei\n"
 
-#: src/gtk/bookmarks.c:150
+#: src/gtk/bookmarks.c:191
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
@@ -1473,137 +1532,23 @@ msgstr ""
 "sã-l adãugaþi. Puteþi separa elementele punând un / într-un submeniu (ex: "
 "Situri Linux/Debian)"
 
-#: src/gtk/bookmarks.c:150
+#: src/gtk/bookmarks.c:191
 msgid "Remember password"
 msgstr "Memoreazã parola"
 
-#: src/gtk/bookmarks.c:166
-msgid "Add Bookmark: You must enter a name for the bookmark\n"
-msgstr ""
-"Adãugare semn de carte: Trebuie sã introduceþi un nume pentru semnul de "
-"carte\n"
-
-#: src/gtk/bookmarks.c:173
-#, c-format
-msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
-msgstr ""
-"Adãugare semn de carte: Nu pot adãuga semnul de carte %s pentru cã numele "
-"existã deja.\n"
-
-#: src/gtk/bookmarks.c:289
-msgid "/_File"
-msgstr "/_Fiºier"
-
-#: src/gtk/bookmarks.c:290
-msgid "/File/tearoff"
-msgstr "/Fiºier/tearoff"
-
-#: src/gtk/bookmarks.c:291
-msgid "/File/New Folder..."
-msgstr "/Fiºier/Director nou..."
-
-#: src/gtk/bookmarks.c:292
-msgid "/File/New Item..."
-msgstr "/Fiºier/Element nou..."
-
-#: src/gtk/bookmarks.c:293
-msgid "/File/Delete"
-msgstr "/Fiºier/ªterge"
-
-#: src/gtk/bookmarks.c:294
-msgid "/File/Properties..."
-msgstr "/Fiºier/Proprietãþi..."
-
-#: src/gtk/bookmarks.c:295
-msgid "/File/sep"
-msgstr "/Fiºier/sep"
-
-#: src/gtk/bookmarks.c:296
-msgid "/File/Close"
-msgstr "/Fiºier/Închide"
-
-#: src/gtk/bookmarks.c:307 src/gtk/bookmarks.c:310
-msgid "Edit Bookmarks"
-msgstr "Editeazã semnele de carte"
-
-#: src/gtk/bookmarks.c:325 src/gtk/bookmarks.c:899 src/gtk/chmod_dialog.c:87
-#: src/gtk/gftp-gtk.c:116 src/gtk/menu-items.c:797 src/gtk/misc-gtk.c:898
-#: src/gtk/misc-gtk.c:1019 src/gtk/options_dialog.c:102
-#: src/gtk/view_dialog.c:267
-msgid "gFTP Icon"
-msgstr "Iconiþã gFTP"
-
-#: src/gtk/bookmarks.c:374 src/gtk/bookmarks.c:1093 src/gtk/chmod_dialog.c:193
-#: src/gtk/options_dialog.c:323 src/gtk/options_dialog.c:697
-#: src/gtk/transfer.c:1734
-msgid "  Cancel  "
-msgstr "  Anuleazã  "
-
-#: src/gtk/bookmarks.c:765 src/gtk/bookmarks.c:775
+#: src/gtk/bookmarks.c:572 src/gtk/bookmarks.c:582
 msgid "New Folder"
 msgstr "Director nou"
 
-#: src/gtk/bookmarks.c:766
+#: src/gtk/bookmarks.c:573
 msgid "Enter the name of the new folder to create"
 msgstr "Introduceþi numele noului director care va fi creat"
 
-#: src/gtk/bookmarks.c:776
+#: src/gtk/bookmarks.c:583
 msgid "Enter the name of the new item to create"
 msgstr "Introduceþi numele noului element care va fi creat"
 
-#: src/gtk/bookmarks.c:878 src/gtk/bookmarks.c:881
-msgid "Edit Entry"
-msgstr "Editeazã intrarea"
-
-#: src/gtk/bookmarks.c:914
-msgid "Description:"
-msgstr "Descriere:"
-
-#: src/gtk/bookmarks.c:929
-msgid "Hostname:"
-msgstr "Nume gazdã:"
-
-#: src/gtk/bookmarks.c:942
-msgid "Port:"
-msgstr "Port:"
-
-#: src/gtk/bookmarks.c:959
-msgid "Protocol:"
-msgstr "Protocol:"
-
-#: src/gtk/bookmarks.c:983
-msgid "Remote Directory:"
-msgstr "Director la distanþã:"
-
-#: src/gtk/bookmarks.c:996
-msgid "Local Directory:"
-msgstr "Director local:"
-
-#: src/gtk/bookmarks.c:1009
-msgid "Remote SSH sftp path:"
-msgstr "Cale sftp SSH la distanþã:"
-
-#: src/gtk/bookmarks.c:1026
-msgid "Username:"
-msgstr "Nume utilizator:"
-
-#: src/gtk/bookmarks.c:1039
-msgid "Password:"
-msgstr "Parolã:"
-
-#: src/gtk/bookmarks.c:1053
-msgid "Account:"
-msgstr "Cont:"
-
-#: src/gtk/bookmarks.c:1067
-msgid "Log in as ANONYMOUS"
-msgstr "Logare ca ANONYMOUS"
-
-#: src/gtk/bookmarks.c:1103 src/gtk/options_dialog.c:334
-msgid "Apply"
-msgstr "Aplicã"
-
-#: src/gtk/bookmarks.c:1143
+#: src/gtk/bookmarks.c:667
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1612,20 +1557,127 @@ msgstr ""
 "Sunteþi sigur cã doriþi sã ºtergeþi semnul de carte\n"
 "%s ºi toþi descendenþii ?"
 
-#: src/gtk/bookmarks.c:1144
+#: src/gtk/bookmarks.c:668
 msgid "Delete Bookmark"
 msgstr "ªterge semn de carte"
 
-#: src/gtk/bookmarks.c:1355
+#: src/gtk/bookmarks.c:695
 msgid "Bookmarks"
 msgstr "Semne de carte"
 
-#: src/gtk/chmod_dialog.c:59 src/gtk/chmod_dialog.c:65
-#: src/gtk/chmod_dialog.c:70
+#: src/gtk/bookmarks.c:954 src/gtk/bookmarks.c:957
+msgid "Edit Entry"
+msgstr "Editeazã intrarea"
+
+#: src/gtk/bookmarks.c:975 src/gtk/bookmarks.c:1356 src/gtk/chmod_dialog.c:183
+#: src/gtk/gftp-gtk.c:1018 src/gtk/menu-items.c:779 src/gtk/misc-gtk.c:947
+#: src/gtk/misc-gtk.c:1071 src/gtk/options_dialog.c:752
+#: src/gtk/view_dialog.c:320
+msgid "gFTP Icon"
+msgstr "Iconiþã gFTP"
+
+#: src/gtk/bookmarks.c:990
+msgid "Description:"
+msgstr "Descriere:"
+
+#: src/gtk/bookmarks.c:1005
+msgid "Hostname:"
+msgstr "Nume gazdã:"
+
+#: src/gtk/bookmarks.c:1018
+msgid "Port:"
+msgstr "Port:"
+
+#: src/gtk/bookmarks.c:1035
+msgid "Protocol:"
+msgstr "Protocol:"
+
+#: src/gtk/bookmarks.c:1059
+msgid "Remote Directory:"
+msgstr "Director la distanþã:"
+
+#: src/gtk/bookmarks.c:1072
+msgid "Local Directory:"
+msgstr "Director local:"
+
+#: src/gtk/bookmarks.c:1085
+msgid "Remote SSH sftp path:"
+msgstr "Cale sftp SSH la distanþã:"
+
+#: src/gtk/bookmarks.c:1102
+msgid "Username:"
+msgstr "Nume utilizator:"
+
+#: src/gtk/bookmarks.c:1115
+msgid "Password:"
+msgstr "Parolã:"
+
+#: src/gtk/bookmarks.c:1129
+msgid "Account:"
+msgstr "Cont:"
+
+#: src/gtk/bookmarks.c:1143
+msgid "Log in as ANONYMOUS"
+msgstr "Logare ca ANONYMOUS"
+
+#: src/gtk/bookmarks.c:1169 src/gtk/bookmarks.c:1405
+#: src/gtk/chmod_dialog.c:289 src/gtk/options_dialog.c:627
+#: src/gtk/options_dialog.c:973 src/gtk/transfer.c:2261
+msgid "  Cancel  "
+msgstr "  Anuleazã  "
+
+#: src/gtk/bookmarks.c:1179 src/gtk/options_dialog.c:984
+msgid "Apply"
+msgstr "Aplicã"
+
+#: src/gtk/bookmarks.c:1320
+msgid "/_File"
+msgstr "/_Fiºier"
+
+#: src/gtk/bookmarks.c:1321
+msgid "/File/tearoff"
+msgstr "/Fiºier/tearoff"
+
+#: src/gtk/bookmarks.c:1322
+msgid "/File/New Folder..."
+msgstr "/Fiºier/Director nou..."
+
+#: src/gtk/bookmarks.c:1323
+msgid "/File/New Item..."
+msgstr "/Fiºier/Element nou..."
+
+#: src/gtk/bookmarks.c:1324
+msgid "/File/Delete"
+msgstr "/Fiºier/ªterge"
+
+#: src/gtk/bookmarks.c:1325
+msgid "/File/Properties..."
+msgstr "/Fiºier/Proprietãþi..."
+
+#: src/gtk/bookmarks.c:1326
+msgid "/File/sep"
+msgstr "/Fiºier/sep"
+
+#: src/gtk/bookmarks.c:1327
+msgid "/File/Close"
+msgstr "/Fiºier/Închide"
+
+#: src/gtk/bookmarks.c:1338 src/gtk/bookmarks.c:1341
+msgid "Edit Bookmarks"
+msgstr "Editeazã semnele de carte"
+
+#: src/gtk/chmod_dialog.c:70 src/gtk/delete_dialog.c:97
+#: src/gtk/menu-items.c:450 src/gtk/mkdir_dialog.c:55
+#: src/gtk/rename_dialog.c:56 src/gtk/transfer.c:527
+msgid "Operation canceled\n"
+msgstr "Operaþiune anulatã\n"
+
+#: src/gtk/chmod_dialog.c:155 src/gtk/chmod_dialog.c:161
+#: src/gtk/chmod_dialog.c:166
 msgid "Chmod"
 msgstr "Chmod"
 
-#: src/gtk/chmod_dialog.c:90
+#: src/gtk/chmod_dialog.c:186
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
@@ -1633,84 +1685,444 @@ msgstr ""
 "Puteþi acum ajusta atributele fiºierului(lor)\n"
 "Notã: Nu toate serverele ftp suportã opþiunea chmod"
 
-#: src/gtk/chmod_dialog.c:100
+#: src/gtk/chmod_dialog.c:196
 msgid "Special"
 msgstr "Special"
 
-#: src/gtk/chmod_dialog.c:108
+#: src/gtk/chmod_dialog.c:204
 msgid "SUID"
 msgstr "SUID"
 
-#: src/gtk/chmod_dialog.c:112
+#: src/gtk/chmod_dialog.c:208
 msgid "SGID"
 msgstr "SGID"
 
-#: src/gtk/chmod_dialog.c:116
+#: src/gtk/chmod_dialog.c:212
 msgid "Sticky"
 msgstr "Persistent"
 
-#: src/gtk/chmod_dialog.c:120 src/gtk/gftp-gtk.c:728
+#: src/gtk/chmod_dialog.c:216 src/gtk/gftp-gtk.c:552
 msgid "User"
 msgstr "Utilizator"
 
-#: src/gtk/chmod_dialog.c:128 src/gtk/chmod_dialog.c:148
-#: src/gtk/chmod_dialog.c:168
+#: src/gtk/chmod_dialog.c:224 src/gtk/chmod_dialog.c:244
+#: src/gtk/chmod_dialog.c:264
 msgid "Read"
 msgstr "Citire"
 
-#: src/gtk/chmod_dialog.c:132 src/gtk/chmod_dialog.c:152
-#: src/gtk/chmod_dialog.c:172
+#: src/gtk/chmod_dialog.c:228 src/gtk/chmod_dialog.c:248
+#: src/gtk/chmod_dialog.c:268
 msgid "Write"
 msgstr "Scriere"
 
-#: src/gtk/chmod_dialog.c:136 src/gtk/chmod_dialog.c:156
-#: src/gtk/chmod_dialog.c:176
+#: src/gtk/chmod_dialog.c:232 src/gtk/chmod_dialog.c:252
+#: src/gtk/chmod_dialog.c:272
 msgid "Execute"
 msgstr "Execuþie"
 
-#: src/gtk/chmod_dialog.c:140 src/gtk/gftp-gtk.c:729
+#: src/gtk/chmod_dialog.c:236 src/gtk/gftp-gtk.c:553
 msgid "Group"
 msgstr "Grup"
 
-#: src/gtk/chmod_dialog.c:160
+#: src/gtk/chmod_dialog.c:256
 msgid "Other"
 msgstr "Alþii"
 
-#: src/gtk/chmod_dialog.c:337 src/gtk/delete_dialog.c:230
-#: src/gtk/menu-items.c:576 src/gtk/mkdir_dialog.c:65
-#: src/gtk/rename_dialog.c:66 src/gtk/transfer.c:514
-msgid "Operation canceled\n"
-msgstr "Operaþiune anulatã\n"
-
-#: src/gtk/delete_dialog.c:45 src/gtk/options_dialog.c:400
-msgid "Delete"
-msgstr "ªterge"
-
-#: src/gtk/delete_dialog.c:118
+#: src/gtk/delete_dialog.c:164
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr ""
 "Sunteþi sigur cã doriþi sã ºtergeþi aceste %ld fiºiere ºi %ld directoare"
 
-#: src/gtk/delete_dialog.c:120
+#: src/gtk/delete_dialog.c:166
 msgid "Delete Files/Directories"
 msgstr "ªterge fiºiere/directoare"
 
-#: src/gtk/dnd.c:65 src/gtk/dnd.c:149
-msgid "Drag-N-Drop"
-msgstr "Tragere ºi plasare"
+#: src/gtk/delete_dialog.c:184 src/gtk/options_dialog.c:692
+msgid "Delete"
+msgstr "ªterge"
 
-#: src/gtk/dnd.c:162
-#, c-format
-msgid "Received URL %s\n"
-msgstr "URL primit %s\n"
-
-#: src/gtk/dnd.c:212
+#: src/gtk/dnd.c:56
 #, c-format
 msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
 msgstr "Tragere ºi plasare: Ignor URl %s: Nu este un url valid\n"
 
-#: src/gtk/gftp-gtk.c:129
+#: src/gtk/dnd.c:139 src/gtk/dnd.c:231
+msgid "Drag-N-Drop"
+msgstr "Tragere ºi plasare"
+
+#: src/gtk/dnd.c:243
+#, c-format
+msgid "Received URL %s\n"
+msgstr "URL primit %s\n"
+
+#: src/gtk/gftp-gtk.c:95
+msgid "Exit"
+msgstr "Ieºire"
+
+#: src/gtk/gftp-gtk.c:95
+msgid ""
+"There are file transfers in progress.\n"
+"Are you sure you want to exit?"
+msgstr ""
+"Existã transferuri de fiºiere în desfãºurare.\n"
+"Sunteþi sigur cã doriþi sã ieºiþi ?"
+
+#: src/gtk/gftp-gtk.c:138
+msgid "/_FTP"
+msgstr "/_FTP"
+
+#: src/gtk/gftp-gtk.c:139
+msgid "/FTP/tearoff"
+msgstr "/FTP/tearoff"
+
+#: src/gtk/gftp-gtk.c:140
+msgid "/FTP/Window 1"
+msgstr "/FTP/Fereastra 1"
+
+#: src/gtk/gftp-gtk.c:141
+msgid "/FTP/Window 2"
+msgstr "/FTP/Fereastra 2"
+
+#: src/gtk/gftp-gtk.c:142 src/gtk/gftp-gtk.c:145 src/gtk/gftp-gtk.c:148
+msgid "/FTP/sep"
+msgstr "/FTP/sep"
+
+#: src/gtk/gftp-gtk.c:143
+msgid "/FTP/Ascii"
+msgstr "/FTP/Ascii"
+
+#: src/gtk/gftp-gtk.c:144
+msgid "/FTP/Binary"
+msgstr "/FTP/Binar"
+
+#: src/gtk/gftp-gtk.c:146
+msgid "/FTP/_Options..."
+msgstr "/FTP/_Opþiuni..."
+
+#: src/gtk/gftp-gtk.c:149
+msgid "/FTP/_Quit"
+msgstr "/FTP/_Ieºire"
+
+#: src/gtk/gftp-gtk.c:150
+msgid "/_Local"
+msgstr "/_Local"
+
+#: src/gtk/gftp-gtk.c:151
+msgid "/Local/tearoff"
+msgstr "/Local/tearoff"
+
+#: src/gtk/gftp-gtk.c:152
+msgid "/Local/Open _URL..."
+msgstr "/Local/Deschide _URL..."
+
+#: src/gtk/gftp-gtk.c:153
+msgid "/Local/Disconnect"
+msgstr "/Local/Deconecteazã"
+
+#: src/gtk/gftp-gtk.c:154 src/gtk/gftp-gtk.c:160
+msgid "/Local/sep"
+msgstr "/Local/sep"
+
+#: src/gtk/gftp-gtk.c:155
+msgid "/Local/Change Filespec..."
+msgstr "/Local/ Schimbã filtrul..."
+
+#: src/gtk/gftp-gtk.c:156
+msgid "/Local/Show selected"
+msgstr "/Local/Aratã selecþia"
+
+#: src/gtk/gftp-gtk.c:157
+msgid "/Local/Select All"
+msgstr "/Local/Selecteazã tot"
+
+#: src/gtk/gftp-gtk.c:158
+msgid "/Local/Select All Files"
+msgstr "/Local/Selecteazã toate fiºierele"
+
+#: src/gtk/gftp-gtk.c:159
+msgid "/Local/Deselect All"
+msgstr "/Local/Deselecteazã tot"
+
+#: src/gtk/gftp-gtk.c:161
+#, fuzzy
+msgid "/Local/Save Directory Listing..."
+msgstr "/Local/Creazã director..."
+
+#: src/gtk/gftp-gtk.c:162
+msgid "/Local/Send SITE Command..."
+msgstr "/Local/Trimite comandã SITE..."
+
+#: src/gtk/gftp-gtk.c:163
+msgid "/Local/Change Directory"
+msgstr "/Local/Schimbã directorul"
+
+#: src/gtk/gftp-gtk.c:164
+msgid "/Local/Chmod..."
+msgstr "/Local/Chmod..."
+
+#: src/gtk/gftp-gtk.c:165
+msgid "/Local/Make Directory..."
+msgstr "/Local/Creazã director..."
+
+#: src/gtk/gftp-gtk.c:166
+msgid "/Local/Rename..."
+msgstr "/Local/Redenumeºte..."
+
+#: src/gtk/gftp-gtk.c:167
+msgid "/Local/Delete..."
+msgstr "/Local/ªterge..."
+
+#: src/gtk/gftp-gtk.c:168
+msgid "/Local/Edit..."
+msgstr "/Local/Editeazã..."
+
+#: src/gtk/gftp-gtk.c:169
+msgid "/Local/View..."
+msgstr "/Local/Vizualizeazã..."
+
+#: src/gtk/gftp-gtk.c:170
+msgid "/Local/Refresh"
+msgstr "/Local/Actualizeazã"
+
+#: src/gtk/gftp-gtk.c:171
+msgid "/_Remote"
+msgstr "/_La distanþã"
+
+#: src/gtk/gftp-gtk.c:172
+msgid "/Remote/tearoff"
+msgstr "/La distanþã/tearoff"
+
+#: src/gtk/gftp-gtk.c:173
+msgid "/Remote/Open _URL..."
+msgstr "/La distanþã/Deschide _URL..."
+
+#: src/gtk/gftp-gtk.c:175
+msgid "/Remote/Disconnect"
+msgstr "/La distanþã/Deconecteazã"
+
+#: src/gtk/gftp-gtk.c:177 src/gtk/gftp-gtk.c:183
+msgid "/Remote/sep"
+msgstr "/La distanþã/sep"
+
+#: src/gtk/gftp-gtk.c:178
+msgid "/Remote/Change Filespec..."
+msgstr "/La distanþã/Schimbã filtrul..."
+
+#: src/gtk/gftp-gtk.c:179
+msgid "/Remote/Show selected"
+msgstr "/La distanþã/Aratã selecþia"
+
+#: src/gtk/gftp-gtk.c:180
+msgid "/Remote/Select All"
+msgstr "/La distanþã/Selecteazã tot"
+
+#: src/gtk/gftp-gtk.c:181
+msgid "/Remote/Select All Files"
+msgstr "/La distanþã/Selecteazã toate fiºierele"
+
+#: src/gtk/gftp-gtk.c:182
+msgid "/Remote/Deselect All"
+msgstr "/La distanþã/Deselecteazã tot"
+
+#: src/gtk/gftp-gtk.c:184
+#, fuzzy
+msgid "/Remote/Save Directory Listing..."
+msgstr "/La distanþã/Creazã director..."
+
+#: src/gtk/gftp-gtk.c:185
+msgid "/Remote/Send SITE Command..."
+msgstr "/La distanþã/Trimite comandã SITE..."
+
+#: src/gtk/gftp-gtk.c:186
+msgid "/Remote/Change Directory"
+msgstr "/La distanþã/Schimbã director"
+
+#: src/gtk/gftp-gtk.c:187
+msgid "/Remote/Chmod..."
+msgstr "/La distanþã/Chmod..."
+
+#: src/gtk/gftp-gtk.c:188
+msgid "/Remote/Make Directory..."
+msgstr "/La distanþã/Creazã director..."
+
+#: src/gtk/gftp-gtk.c:189
+msgid "/Remote/Rename..."
+msgstr "/La distanþã/Redenumeºte..."
+
+#: src/gtk/gftp-gtk.c:190
+msgid "/Remote/Delete..."
+msgstr "/La distanþã/ªterge..."
+
+#: src/gtk/gftp-gtk.c:191
+msgid "/Remote/Edit..."
+msgstr "/La distanþã/Editeazã..."
+
+#: src/gtk/gftp-gtk.c:192
+msgid "/Remote/View..."
+msgstr "/La distanþã/Vizualizeazã..."
+
+#: src/gtk/gftp-gtk.c:193
+msgid "/Remote/Refresh"
+msgstr "/La distanþã/Actualizeazã"
+
+#: src/gtk/gftp-gtk.c:194
+msgid "/_Bookmarks"
+msgstr "/_Semne de carte"
+
+#: src/gtk/gftp-gtk.c:195
+msgid "/Bookmarks/tearoff"
+msgstr "/Semne de carte/tearoff"
+
+#: src/gtk/gftp-gtk.c:196
+msgid "/Bookmarks/Add bookmark"
+msgstr "/Semne de carte/Adaugã semn de carte"
+
+#: src/gtk/gftp-gtk.c:198
+msgid "/Bookmarks/Edit bookmarks"
+msgstr "/Semne de carte/Editeazã semnele de carte"
+
+#: src/gtk/gftp-gtk.c:199
+msgid "/Bookmarks/sep"
+msgstr "/Semne de carte/sep"
+
+#: src/gtk/gftp-gtk.c:200
+msgid "/_Transfers"
+msgstr "/_Transferuri"
+
+#: src/gtk/gftp-gtk.c:201
+msgid "/Transfers/tearoff"
+msgstr "/Transferuri/tearoff"
+
+#: src/gtk/gftp-gtk.c:202
+msgid "/Transfers/Start Transfer"
+msgstr "/Transferuri/Porneºte transfer"
+
+#: src/gtk/gftp-gtk.c:203
+msgid "/Transfers/Stop Transfer"
+msgstr "/Transferuri/Opreºte transfer"
+
+#: src/gtk/gftp-gtk.c:205 src/gtk/gftp-gtk.c:213
+msgid "/Transfers/sep"
+msgstr "/Transferuri/sep"
+
+#: src/gtk/gftp-gtk.c:206
+msgid "/Transfers/Skip Current File"
+msgstr "/Transferuri/Renunþã la fiºierul curent"
+
+#: src/gtk/gftp-gtk.c:207
+msgid "/Transfers/Remove File"
+msgstr "/Transferuri/ªterge fiºierul"
+
+#: src/gtk/gftp-gtk.c:209
+msgid "/Transfers/Move File _Up"
+msgstr "/Transferuri/Mutã fiºierul _sus"
+
+#: src/gtk/gftp-gtk.c:211
+msgid "/Transfers/Move File _Down"
+msgstr "/Transferuri/Mutã fiºierul _jos"
+
+#: src/gtk/gftp-gtk.c:214
+msgid "/Transfers/Retrieve Files"
+msgstr "/Transferuri/Transfer fiºiere"
+
+#: src/gtk/gftp-gtk.c:215
+msgid "/Transfers/Put Files"
+msgstr "/Transferuri/Pune fiºiere"
+
+#: src/gtk/gftp-gtk.c:216
+msgid "/L_ogging"
+msgstr "/L_ogare"
+
+#: src/gtk/gftp-gtk.c:217
+msgid "/Logging/tearoff"
+msgstr "/Logare/tearoff"
+
+#: src/gtk/gftp-gtk.c:218
+msgid "/Logging/Clear"
+msgstr "/Logare/ªterge"
+
+#: src/gtk/gftp-gtk.c:219
+msgid "/Logging/View log..."
+msgstr "/Logare/Vizualizeazã log..."
+
+#: src/gtk/gftp-gtk.c:220
+msgid "/Logging/Save log..."
+msgstr "/Logare/Salveazã log..."
+
+#: src/gtk/gftp-gtk.c:221
+msgid "/Tool_s"
+msgstr "/_Unelte"
+
+#: src/gtk/gftp-gtk.c:222
+msgid "/Tools/tearoff"
+msgstr "/Unelte/tearoff"
+
+#: src/gtk/gftp-gtk.c:223
+msgid "/Tools/Compare Windows"
+msgstr "/Unelte/Comparã ferestrele"
+
+#: src/gtk/gftp-gtk.c:224
+msgid "/Tools/Clear Cache"
+msgstr "/Unelte/ªterge cache"
+
+#: src/gtk/gftp-gtk.c:225
+msgid "/_Help"
+msgstr "/_Ajutor"
+
+#: src/gtk/gftp-gtk.c:226
+msgid "/Help/tearoff"
+msgstr "/Ajutor/tearoff"
+
+#: src/gtk/gftp-gtk.c:227
+msgid "/Help/About..."
+msgstr "/Ajutor/Despre..."
+
+#: src/gtk/gftp-gtk.c:334
+msgid "Host: "
+msgstr "Gazdã:"
+
+#: src/gtk/gftp-gtk.c:349
+msgid "Port: "
+msgstr "Port:"
+
+#: src/gtk/gftp-gtk.c:364
+msgid "User: "
+msgstr "Utilizator:"
+
+#: src/gtk/gftp-gtk.c:379
+msgid "Pass: "
+msgstr "Parolã:"
+
+#: src/gtk/gftp-gtk.c:550 src/gtk/gftp-gtk.c:725 src/gtk/transfer.c:2093
+msgid "Filename"
+msgstr "Nume fiºier"
+
+#: src/gtk/gftp-gtk.c:551
+msgid "Size"
+msgstr "Mãrime"
+
+#: src/gtk/gftp-gtk.c:554
+msgid "Date"
+msgstr "Datã"
+
+#: src/gtk/gftp-gtk.c:555
+msgid "Attribs"
+msgstr "Atribute"
+
+#: src/gtk/gftp-gtk.c:726
+msgid "Progress"
+msgstr "Progres"
+
+#: src/gtk/gftp-gtk.c:841 src/gtk/misc-gtk.c:920 src/gtk/misc-gtk.c:991
+msgid "Connect"
+msgstr "Conecteazã"
+
+#: src/gtk/gftp-gtk.c:860
+msgid "Error: You must type in a host to connect to\n"
+msgstr "Eroare: Trebuie sã introduceþi o gazdã pentru conectare\n"
+
+#: src/gtk/gftp-gtk.c:1031
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
@@ -1720,443 +2132,77 @@ msgstr ""
 "rugãm sã ni le trimiteþi prin email. Puteþi afla întotdeauna ultimele ºtiri "
 "despre gFTP de pe site-ul nostru la http://www.gftp.org/\n"
 
-#: src/gtk/gftp-gtk.c:153
-msgid "Exit"
-msgstr "Ieºire"
-
-#: src/gtk/gftp-gtk.c:153
-msgid ""
-"There are file transfers in progress.\n"
-"Are you sure you want to exit?"
-msgstr ""
-"Existã transferuri de fiºiere în desfãºurare.\n"
-"Sunteþi sigur cã doriþi sã ieºiþi ?"
-
-#: src/gtk/gftp-gtk.c:253 src/gtk/gftp-gtk.c:726 src/gtk/transfer.c:1577
-msgid "Filename"
-msgstr "Nume fiºier"
-
-#: src/gtk/gftp-gtk.c:254
-msgid "Progress"
-msgstr "Progres"
-
-#: src/gtk/gftp-gtk.c:351
-msgid "/_FTP"
-msgstr "/_FTP"
-
-#: src/gtk/gftp-gtk.c:352
-msgid "/FTP/tearoff"
-msgstr "/FTP/tearoff"
-
-#: src/gtk/gftp-gtk.c:353
-msgid "/FTP/Window 1"
-msgstr "/FTP/Fereastra 1"
-
-#: src/gtk/gftp-gtk.c:354
-msgid "/FTP/Window 2"
-msgstr "/FTP/Fereastra 2"
-
-#: src/gtk/gftp-gtk.c:355 src/gtk/gftp-gtk.c:358 src/gtk/gftp-gtk.c:361
-msgid "/FTP/sep"
-msgstr "/FTP/sep"
-
-#: src/gtk/gftp-gtk.c:356
-msgid "/FTP/Ascii"
-msgstr "/FTP/Ascii"
-
-#: src/gtk/gftp-gtk.c:357
-msgid "/FTP/Binary"
-msgstr "/FTP/Binar"
-
-#: src/gtk/gftp-gtk.c:359
-msgid "/FTP/_Options..."
-msgstr "/FTP/_Opþiuni..."
-
-#: src/gtk/gftp-gtk.c:362
-msgid "/FTP/_Quit"
-msgstr "/FTP/_Ieºire"
-
-#: src/gtk/gftp-gtk.c:363
-msgid "/_Local"
-msgstr "/_Local"
-
-#: src/gtk/gftp-gtk.c:364
-msgid "/Local/tearoff"
-msgstr "/Local/tearoff"
-
-#: src/gtk/gftp-gtk.c:365
-msgid "/Local/Open _URL..."
-msgstr "/Local/Deschide _URL..."
-
-#: src/gtk/gftp-gtk.c:366
-msgid "/Local/Disconnect"
-msgstr "/Local/Deconecteazã"
-
-#: src/gtk/gftp-gtk.c:367 src/gtk/gftp-gtk.c:373
-msgid "/Local/sep"
-msgstr "/Local/sep"
-
-#: src/gtk/gftp-gtk.c:368
-msgid "/Local/Change Filespec..."
-msgstr "/Local/ Schimbã filtrul..."
-
-#: src/gtk/gftp-gtk.c:369
-msgid "/Local/Show selected"
-msgstr "/Local/Aratã selecþia"
-
-#: src/gtk/gftp-gtk.c:370
-msgid "/Local/Select All"
-msgstr "/Local/Selecteazã tot"
-
-#: src/gtk/gftp-gtk.c:371
-msgid "/Local/Select All Files"
-msgstr "/Local/Selecteazã toate fiºierele"
-
-#: src/gtk/gftp-gtk.c:372
-msgid "/Local/Deselect All"
-msgstr "/Local/Deselecteazã tot"
-
-#: src/gtk/gftp-gtk.c:374
-#, fuzzy
-msgid "/Local/Save Directory Listing..."
-msgstr "/Local/Creazã director..."
-
-#: src/gtk/gftp-gtk.c:375
-msgid "/Local/Send SITE Command..."
-msgstr "/Local/Trimite comandã SITE..."
-
-#: src/gtk/gftp-gtk.c:376
-msgid "/Local/Change Directory"
-msgstr "/Local/Schimbã directorul"
-
-#: src/gtk/gftp-gtk.c:377
-msgid "/Local/Chmod..."
-msgstr "/Local/Chmod..."
-
-#: src/gtk/gftp-gtk.c:378
-msgid "/Local/Make Directory..."
-msgstr "/Local/Creazã director..."
-
-#: src/gtk/gftp-gtk.c:379
-msgid "/Local/Rename..."
-msgstr "/Local/Redenumeºte..."
-
-#: src/gtk/gftp-gtk.c:380
-msgid "/Local/Delete..."
-msgstr "/Local/ªterge..."
-
-#: src/gtk/gftp-gtk.c:381
-msgid "/Local/Edit..."
-msgstr "/Local/Editeazã..."
-
-#: src/gtk/gftp-gtk.c:382
-msgid "/Local/View..."
-msgstr "/Local/Vizualizeazã..."
-
-#: src/gtk/gftp-gtk.c:383
-msgid "/Local/Refresh"
-msgstr "/Local/Actualizeazã"
-
-#: src/gtk/gftp-gtk.c:384
-msgid "/_Remote"
-msgstr "/_La distanþã"
-
-#: src/gtk/gftp-gtk.c:385
-msgid "/Remote/tearoff"
-msgstr "/La distanþã/tearoff"
-
-#: src/gtk/gftp-gtk.c:386
-msgid "/Remote/Open _URL..."
-msgstr "/La distanþã/Deschide _URL..."
-
-#: src/gtk/gftp-gtk.c:388
-msgid "/Remote/Disconnect"
-msgstr "/La distanþã/Deconecteazã"
-
-#: src/gtk/gftp-gtk.c:390 src/gtk/gftp-gtk.c:396
-msgid "/Remote/sep"
-msgstr "/La distanþã/sep"
-
-#: src/gtk/gftp-gtk.c:391
-msgid "/Remote/Change Filespec..."
-msgstr "/La distanþã/Schimbã filtrul..."
-
-#: src/gtk/gftp-gtk.c:392
-msgid "/Remote/Show selected"
-msgstr "/La distanþã/Aratã selecþia"
-
-#: src/gtk/gftp-gtk.c:393
-msgid "/Remote/Select All"
-msgstr "/La distanþã/Selecteazã tot"
-
-#: src/gtk/gftp-gtk.c:394
-msgid "/Remote/Select All Files"
-msgstr "/La distanþã/Selecteazã toate fiºierele"
-
-#: src/gtk/gftp-gtk.c:395
-msgid "/Remote/Deselect All"
-msgstr "/La distanþã/Deselecteazã tot"
-
-#: src/gtk/gftp-gtk.c:397
-#, fuzzy
-msgid "/Remote/Save Directory Listing..."
-msgstr "/La distanþã/Creazã director..."
-
-#: src/gtk/gftp-gtk.c:398
-msgid "/Remote/Send SITE Command..."
-msgstr "/La distanþã/Trimite comandã SITE..."
-
-#: src/gtk/gftp-gtk.c:399
-msgid "/Remote/Change Directory"
-msgstr "/La distanþã/Schimbã director"
-
-#: src/gtk/gftp-gtk.c:400
-msgid "/Remote/Chmod..."
-msgstr "/La distanþã/Chmod..."
-
-#: src/gtk/gftp-gtk.c:401
-msgid "/Remote/Make Directory..."
-msgstr "/La distanþã/Creazã director..."
-
-#: src/gtk/gftp-gtk.c:402
-msgid "/Remote/Rename..."
-msgstr "/La distanþã/Redenumeºte..."
-
-#: src/gtk/gftp-gtk.c:403
-msgid "/Remote/Delete..."
-msgstr "/La distanþã/ªterge..."
-
-#: src/gtk/gftp-gtk.c:404
-msgid "/Remote/Edit..."
-msgstr "/La distanþã/Editeazã..."
-
-#: src/gtk/gftp-gtk.c:405
-msgid "/Remote/View..."
-msgstr "/La distanþã/Vizualizeazã..."
-
-#: src/gtk/gftp-gtk.c:406
-msgid "/Remote/Refresh"
-msgstr "/La distanþã/Actualizeazã"
-
-#: src/gtk/gftp-gtk.c:407
-msgid "/_Bookmarks"
-msgstr "/_Semne de carte"
-
-#: src/gtk/gftp-gtk.c:408
-msgid "/Bookmarks/tearoff"
-msgstr "/Semne de carte/tearoff"
-
-#: src/gtk/gftp-gtk.c:409
-msgid "/Bookmarks/Add bookmark"
-msgstr "/Semne de carte/Adaugã semn de carte"
-
-#: src/gtk/gftp-gtk.c:411
-msgid "/Bookmarks/Edit bookmarks"
-msgstr "/Semne de carte/Editeazã semnele de carte"
-
-#: src/gtk/gftp-gtk.c:412
-msgid "/Bookmarks/sep"
-msgstr "/Semne de carte/sep"
-
-#: src/gtk/gftp-gtk.c:413
-msgid "/_Transfers"
-msgstr "/_Transferuri"
-
-#: src/gtk/gftp-gtk.c:414
-msgid "/Transfers/tearoff"
-msgstr "/Transferuri/tearoff"
-
-#: src/gtk/gftp-gtk.c:415
-msgid "/Transfers/Start Transfer"
-msgstr "/Transferuri/Porneºte transfer"
-
-#: src/gtk/gftp-gtk.c:416
-msgid "/Transfers/Stop Transfer"
-msgstr "/Transferuri/Opreºte transfer"
-
-#: src/gtk/gftp-gtk.c:418 src/gtk/gftp-gtk.c:426
-msgid "/Transfers/sep"
-msgstr "/Transferuri/sep"
-
-#: src/gtk/gftp-gtk.c:419
-msgid "/Transfers/Skip Current File"
-msgstr "/Transferuri/Renunþã la fiºierul curent"
-
-#: src/gtk/gftp-gtk.c:420
-msgid "/Transfers/Remove File"
-msgstr "/Transferuri/ªterge fiºierul"
-
-#: src/gtk/gftp-gtk.c:422
-msgid "/Transfers/Move File _Up"
-msgstr "/Transferuri/Mutã fiºierul _sus"
-
-#: src/gtk/gftp-gtk.c:424
-msgid "/Transfers/Move File _Down"
-msgstr "/Transferuri/Mutã fiºierul _jos"
-
-#: src/gtk/gftp-gtk.c:427
-msgid "/Transfers/Retrieve Files"
-msgstr "/Transferuri/Transfer fiºiere"
-
-#: src/gtk/gftp-gtk.c:428
-msgid "/Transfers/Put Files"
-msgstr "/Transferuri/Pune fiºiere"
-
-#: src/gtk/gftp-gtk.c:429
-msgid "/L_ogging"
-msgstr "/L_ogare"
-
-#: src/gtk/gftp-gtk.c:430
-msgid "/Logging/tearoff"
-msgstr "/Logare/tearoff"
-
-#: src/gtk/gftp-gtk.c:431
-msgid "/Logging/Clear"
-msgstr "/Logare/ªterge"
-
-#: src/gtk/gftp-gtk.c:432
-msgid "/Logging/View log..."
-msgstr "/Logare/Vizualizeazã log..."
-
-#: src/gtk/gftp-gtk.c:433
-msgid "/Logging/Save log..."
-msgstr "/Logare/Salveazã log..."
-
-#: src/gtk/gftp-gtk.c:434
-msgid "/Tool_s"
-msgstr "/_Unelte"
-
-#: src/gtk/gftp-gtk.c:435
-msgid "/Tools/tearoff"
-msgstr "/Unelte/tearoff"
-
-#: src/gtk/gftp-gtk.c:436
-msgid "/Tools/Compare Windows"
-msgstr "/Unelte/Comparã ferestrele"
-
-#: src/gtk/gftp-gtk.c:437
-msgid "/Tools/Clear Cache"
-msgstr "/Unelte/ªterge cache"
-
-#: src/gtk/gftp-gtk.c:438
-msgid "/_Help"
-msgstr "/_Ajutor"
-
-#: src/gtk/gftp-gtk.c:439
-msgid "/Help/tearoff"
-msgstr "/Ajutor/tearoff"
-
-#: src/gtk/gftp-gtk.c:440
-msgid "/Help/About..."
-msgstr "/Ajutor/Despre..."
-
-#: src/gtk/gftp-gtk.c:551
-msgid "Host: "
-msgstr "Gazdã:"
-
-#: src/gtk/gftp-gtk.c:566
-msgid "Port: "
-msgstr "Port:"
-
-#: src/gtk/gftp-gtk.c:581
-msgid "User: "
-msgstr "Utilizator:"
-
-#: src/gtk/gftp-gtk.c:596
-msgid "Pass: "
-msgstr "Parolã:"
-
-#: src/gtk/gftp-gtk.c:727
-msgid "Size"
-msgstr "Mãrime"
-
-#: src/gtk/gftp-gtk.c:730
-msgid "Date"
-msgstr "Datã"
-
-#: src/gtk/gftp-gtk.c:731
-msgid "Attribs"
-msgstr "Atribute"
-
-#: src/gtk/gftp-gtk.c:952 src/gtk/misc-gtk.c:871 src/gtk/misc-gtk.c:939
-msgid "Connect"
-msgstr "Conecteazã"
-
-#: src/gtk/gftp-gtk.c:971
-msgid "Error: You must type in a host to connect to\n"
-msgstr "Eroare: Trebuie sã introduceþi o gazdã pentru conectare\n"
-
-#: src/gtk/menu-items.c:66 src/gtk/menu-items.c:96
+#: src/gtk/menu-items.c:61 src/gtk/menu-items.c:91
 msgid "OpenURL"
 msgstr "DeschideURL"
 
-#: src/gtk/menu-items.c:74 src/gtk/menu-items.c:104
+#: src/gtk/menu-items.c:69 src/gtk/menu-items.c:99
 msgid "OpenURL: Operation canceled...you must enter a string\n"
 msgstr "DeschideURL: Operaþiune anulatã...trebuie sã introduceþi un text\n"
 
-#: src/gtk/menu-items.c:128
+#: src/gtk/menu-items.c:123
 msgid "Connect via URL"
 msgstr "Conecteazã via URL"
 
-#: src/gtk/menu-items.c:128
+#: src/gtk/menu-items.c:123
 msgid "Enter ftp url to connect to"
 msgstr "Introduceþi url ftp pentru conectare"
 
-#: src/gtk/menu-items.c:160
+#: src/gtk/menu-items.c:156
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
 "Schimbã filtrul: Operaþiunea anulatã...trebuie sã introduceþi un text\n"
 
-#: src/gtk/menu-items.c:198 src/gtk/menu-items.c:201
+#: src/gtk/menu-items.c:194 src/gtk/menu-items.c:197
 msgid "Change Filespec"
 msgstr "Schimbã filtrul"
 
-#: src/gtk/menu-items.c:201
+#: src/gtk/menu-items.c:197
 msgid "Enter the new file specification"
 msgstr "Introduceþi noul filtru pentru fiºiere "
 
-#: src/gtk/menu-items.c:231 src/gtk/menu-items.c:636 src/gtk/menu-items.c:692
-#: src/gtk/view_dialog.c:70 src/gtk/view_dialog.c:140
+#: src/gtk/menu-items.c:227 src/gtk/menu-items.c:618 src/gtk/menu-items.c:674
+#: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:125
 #, fuzzy, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Avertisment gFTP: Nu am putut deschide %s pentru scriere: %s\n"
 
-#: src/gtk/menu-items.c:281
+#: src/gtk/menu-items.c:277
 #, fuzzy
 msgid "Save Directory Listing"
 msgstr "Obþin listarea directorului"
 
-#: src/gtk/menu-items.c:398
+#: src/gtk/menu-items.c:394
 msgid "SITE: Operation canceled...you must enter a string\n"
 msgstr "SITE: Operaþiune anulatã...trebuie sã introduceþi un text\n"
 
-#: src/gtk/menu-items.c:417 src/gtk/menu-items.c:420
+#: src/gtk/menu-items.c:413 src/gtk/menu-items.c:416
 msgid "Site"
 msgstr "Site"
 
-#: src/gtk/menu-items.c:420
+#: src/gtk/menu-items.c:416
 msgid "Enter site-specific command"
 msgstr "Introduceþi comanda specificã site"
 
-#: src/gtk/menu-items.c:440 src/gtk/menu-items.c:474
+#: src/gtk/menu-items.c:513 src/gtk/menu-items.c:547
 msgid "Chdir"
 msgstr "Chdir"
 
-#: src/gtk/menu-items.c:659 src/gtk/menu-items.c:715
+#: src/gtk/menu-items.c:641 src/gtk/menu-items.c:697
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Eroare: Eroare la scrierea %s: %s\n"
 
-#: src/gtk/menu-items.c:725
+#: src/gtk/menu-items.c:707
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Am scris cu succes fiºierul log cãtre %s\n"
 
-#: src/gtk/menu-items.c:737
+#: src/gtk/menu-items.c:719
 msgid "Save Log"
 msgstr "Salveazã log"
 
-#: src/gtk/menu-items.c:773
+#: src/gtk/menu-items.c:755
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
@@ -2165,11 +2211,11 @@ msgstr ""
 "Nu am putut gãsi fiºierul licenþã COPYING. Asiguraþi-vã cã este fie în %s "
 "fie în %s"
 
-#: src/gtk/menu-items.c:777 src/gtk/menu-items.c:782
+#: src/gtk/menu-items.c:759 src/gtk/menu-items.c:764
 msgid "About gFTP"
 msgstr "Despre gFTP"
 
-#: src/gtk/menu-items.c:813
+#: src/gtk/menu-items.c:795
 #, c-format
 msgid ""
 "%s\n"
@@ -2182,100 +2228,100 @@ msgstr ""
 "Pagina oficialã: http://www.gftp.org/\n"
 "Logo de: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: src/gtk/menu-items.c:826
+#: src/gtk/menu-items.c:808
 msgid "About"
 msgstr "Despre"
 
-#: src/gtk/menu-items.c:875
+#: src/gtk/menu-items.c:857
 msgid "License Agreement"
 msgstr "Licenþa de folosire"
 
-#: src/gtk/menu-items.c:881 src/gtk/view_dialog.c:314
+#: src/gtk/menu-items.c:863 src/gtk/view_dialog.c:367
 msgid "  Close  "
 msgstr "  Închide  "
 
-#: src/gtk/menu-items.c:963
+#: src/gtk/menu-items.c:945
 msgid "Compare Windows"
 msgstr "Comparã ferestrele"
 
-#: src/gtk/misc-gtk.c:190
+#: src/gtk/misc-gtk.c:210
 msgid "Refresh"
 msgstr "Actualizeazã"
 
-#: src/gtk/misc-gtk.c:257
+#: src/gtk/misc-gtk.c:299
 msgid "All Files"
 msgstr "Toate fiºierele"
 
-#: src/gtk/misc-gtk.c:263
+#: src/gtk/misc-gtk.c:306
 msgid "] (Cached) ["
 msgstr "] (în cache) ["
 
-#: src/gtk/misc-gtk.c:277
+#: src/gtk/misc-gtk.c:320
 msgid "Not connected"
 msgstr "Nu sunt conectat"
 
-#: src/gtk/misc-gtk.c:387
+#: src/gtk/misc-gtk.c:406
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "Eroare la deschiderea fiºierului %s: %s\n"
 
-#: src/gtk/misc-gtk.c:477
+#: src/gtk/misc-gtk.c:496
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: Nu sunt conectat la un site la distanþã\n"
 
-#: src/gtk/misc-gtk.c:484
+#: src/gtk/misc-gtk.c:503
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s: Aceastã facilitate nu este disponibilã folosind acest protocol\n"
 
-#: src/gtk/misc-gtk.c:492
+#: src/gtk/misc-gtk.c:511
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: Trebuie sã aveþi doar un element selectat\n"
 
-#: src/gtk/misc-gtk.c:499
+#: src/gtk/misc-gtk.c:518
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: Trebuie sã aveþi cel puþin un element selectat\n"
 
-#: src/gtk/misc-gtk.c:868 src/gtk/misc-gtk.c:936
+#: src/gtk/misc-gtk.c:917 src/gtk/misc-gtk.c:988
 msgid "Change"
 msgstr "Schimbã"
 
-#: src/gtk/misc-gtk.c:874 src/gtk/misc-gtk.c:942 src/gtk/rename_dialog.c:109
-#: src/gtk/rename_dialog.c:121
+#: src/gtk/misc-gtk.c:923 src/gtk/misc-gtk.c:994 src/gtk/rename_dialog.c:95
+#: src/gtk/rename_dialog.c:107
 msgid "Rename"
 msgstr "Redenumeºte"
 
-#: src/gtk/misc-gtk.c:933 src/gtk/options_dialog.c:386
+#: src/gtk/misc-gtk.c:985 src/gtk/options_dialog.c:678
 msgid "Add"
 msgstr "Adaugã"
 
-#: src/gtk/misc-gtk.c:959
+#: src/gtk/misc-gtk.c:1011
 #, fuzzy
 msgid "Cancel"
 msgstr "  Anuleazã  "
 
-#: src/gtk/misc-gtk.c:1029
+#: src/gtk/misc-gtk.c:1081
 #, fuzzy
 msgid "  Yes  "
 msgstr "  Închide  "
 
-#: src/gtk/misc-gtk.c:1039
+#: src/gtk/misc-gtk.c:1091
 #, fuzzy
 msgid "  No  "
 msgstr "  Stop  "
 
-#: src/gtk/misc-gtk.c:1079
+#: src/gtk/misc-gtk.c:1147
 msgid "Getting directory listings"
 msgstr "Obþin listarea directorului"
 
-#: src/gtk/misc-gtk.c:1099
+#: src/gtk/misc-gtk.c:1167
 msgid "  Stop  "
 msgstr "  Stop  "
 
-#: src/gtk/misc-gtk.c:1109
+#: src/gtk/misc-gtk.c:1177
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2284,235 +2330,151 @@ msgstr ""
 "Am recepþionat %ld directoare\n"
 "ºi %ld fiºiere"
 
-#: src/gtk/mkdir_dialog.c:87
+#: src/gtk/mkdir_dialog.c:73
 msgid "Mkdir: Operation canceled...you must enter a string\n"
 msgstr "Mkdir: Operaþiune anulatã...trebuie sã introduceþi un ºir\n"
 
-#: src/gtk/mkdir_dialog.c:108
+#: src/gtk/mkdir_dialog.c:94
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: src/gtk/mkdir_dialog.c:112
+#: src/gtk/mkdir_dialog.c:98
 msgid "Make Directory"
 msgstr "Creazã director"
 
-#: src/gtk/mkdir_dialog.c:112
+#: src/gtk/mkdir_dialog.c:98
 msgid "Enter name of directory to create"
 msgstr "Introduceþi numele directorului care va fi creat"
 
-#: src/gtk/options_dialog.c:77 src/gtk/options_dialog.c:83
-msgid "Options"
-msgstr "Opþiuni"
-
-#: src/gtk/options_dialog.c:360 src/gtk/options_dialog.c:582
-msgid "Netmask"
-msgstr "Mascã reþea"
-
-#: src/gtk/options_dialog.c:366
-msgid "Local Hosts"
-msgstr "Gazde locale"
-
-#: src/gtk/options_dialog.c:393 src/gtk/view_dialog.c:105
-msgid "Edit"
-msgstr "Editare"
-
-#: src/gtk/options_dialog.c:497
+#: src/gtk/options_dialog.c:427
 msgid "Edit Host"
 msgstr "Editeazã gazda"
 
-#: src/gtk/options_dialog.c:497
+#: src/gtk/options_dialog.c:427
 msgid "Add Host"
 msgstr "Adaugã gazdã"
 
-#: src/gtk/options_dialog.c:529 src/gtk/options_dialog.c:620
+#: src/gtk/options_dialog.c:459 src/gtk/options_dialog.c:550
 msgid "Domain"
 msgstr "Domeniu"
 
-#: src/gtk/options_dialog.c:549
+#: src/gtk/options_dialog.c:479
 msgid "Network Address"
 msgstr "Adresã reþea"
 
-#: src/gtk/rename_dialog.c:88
+#: src/gtk/options_dialog.c:512 src/gtk/options_dialog.c:652
+msgid "Netmask"
+msgstr "Mascã reþea"
+
+#: src/gtk/options_dialog.c:658
+msgid "Local Hosts"
+msgstr "Gazde locale"
+
+#: src/gtk/options_dialog.c:685 src/gtk/view_dialog.c:90
+msgid "Edit"
+msgstr "Editare"
+
+#: src/gtk/options_dialog.c:727 src/gtk/options_dialog.c:733
+msgid "Options"
+msgstr "Opþiuni"
+
+#: src/gtk/rename_dialog.c:74
 msgid "Rename: Operation canceled...you must enter a string\n"
 msgstr "Redenumire: Operaþiune anulatã...trebuie sã introduceþi un text\n"
 
-#: src/gtk/rename_dialog.c:119
+#: src/gtk/rename_dialog.c:105
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "Cum vreþi sã redenumiþi %s ?"
 
-#: src/gtk/transfer.c:72
+#: src/gtk/transfer.c:166
 msgid "Receiving file names..."
 msgstr "Primesc numele fiºierelor..."
 
-#: src/gtk/transfer.c:241 src/gtk/transfer.c:1220
-msgid "Connecting..."
-msgstr "Mã conectez..."
-
-#: src/gtk/transfer.c:251 src/gtk/transfer.c:1116 src/gtk/transfer.c:1127
-msgid "Enter Password"
-msgstr "Introduceþi parola"
-
-#: src/gtk/transfer.c:252 src/gtk/transfer.c:1117 src/gtk/transfer.c:1128
-msgid "Please enter your password for this site"
-msgstr "Vã rugãm introduceþi parola pentru acest site"
-
-#: src/gtk/transfer.c:343
+#: src/gtk/transfer.c:270
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "Aºtept %d secunde înainte de a mã reconecta\n"
 
-#: src/gtk/transfer.c:388
+#: src/gtk/transfer.c:297 src/gtk/transfer.c:1502
+msgid "Connecting..."
+msgstr "Mã conectez..."
+
+#: src/gtk/transfer.c:307 src/gtk/transfer.c:1398 src/gtk/transfer.c:1409
+msgid "Enter Password"
+msgstr "Introduceþi parola"
+
+#: src/gtk/transfer.c:308 src/gtk/transfer.c:1399 src/gtk/transfer.c:1410
+msgid "Please enter your password for this site"
+msgstr "Vã rugãm introduceþi parola pentru acest site"
+
+#: src/gtk/transfer.c:398
 msgid "Transfer Files"
 msgstr "Transfer fiºierele"
 
-#: src/gtk/transfer.c:396
+#: src/gtk/transfer.c:406
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "Transferã fiºiere: Nu sunt conectat la un site la distanþã\n"
 
-#: src/gtk/transfer.c:639
+#: src/gtk/transfer.c:618
+#, c-format
+msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
+msgstr ""
+"Eroare: Site-ul la distanþã %s este deconectat. Numãrul maxim de reîncercãri "
+"atins...renunþ\n"
+
+#: src/gtk/transfer.c:627
+#, c-format
+msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
+msgstr ""
+"EroareL Site-ul la distanþã %s deconectat. Mã reconectez în %d secunde\n"
+
+#: src/gtk/transfer.c:855
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr ""
 "Eroare: Deconectat de la site-ul la distanþã dupã ce am încercat sã transfer "
 "fiºierul\n"
 
-#: src/gtk/transfer.c:700
+#: src/gtk/transfer.c:924
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Nu am putut transfera %s de la %s\n"
 
-#: src/gtk/transfer.c:735
+#: src/gtk/transfer.c:956
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "Am transferat cu succes %s la %.2f KB/s\n"
 
-#: src/gtk/transfer.c:838 src/gtk/transfer.c:1018 src/gtk/transfer.c:1096
-#: src/gtk/transfer.c:1433
+#: src/gtk/transfer.c:1059 src/gtk/transfer.c:1295 src/gtk/transfer.c:1378
+#: src/gtk/transfer.c:1804
 msgid "Skipped"
 msgstr "Sãrit"
 
-#: src/gtk/transfer.c:842 src/gtk/transfer.c:1073 src/gtk/transfer.c:1100
+#: src/gtk/transfer.c:1063 src/gtk/transfer.c:1355 src/gtk/transfer.c:1382
 msgid "Waiting..."
 msgstr "Aºtept..."
 
-#: src/gtk/transfer.c:927
-#, c-format
-msgid "Retrieving file names...%s bytes"
-msgstr "Primesc numele fiºierelor...%s bytes"
-
-#: src/gtk/transfer.c:1021
-msgid "Finished"
-msgstr "Terminat"
-
-#: src/gtk/transfer.c:1053
-#, c-format
-msgid "Stopping the transfer of %s\n"
-msgstr "Opresc transferul lui %s\n"
-
-#: src/gtk/transfer.c:1260
-#, fuzzy, c-format
-msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
-msgstr "%d%% complet, %02d:%02d:%02d timp estimat rãmas. (Fiºier %d din %ld)"
-
-#: src/gtk/transfer.c:1285
-#, c-format
-msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
-msgstr "Am primit %s din %s la %.2fKB/s, %02d:%02d:%02d timp estimat rãmas"
-
-#: src/gtk/transfer.c:1294
-#, c-format
-msgid "Recv %s of %s, transfer stalled, unknown time remaining"
-msgstr "Am primit %s din %s, transfer împotmolit, timp rãmas necunoscut"
-
-#: src/gtk/transfer.c:1317 src/gtk/transfer.c:1339 src/gtk/transfer.c:1369
-#: src/gtk/transfer.c:1403 src/gtk/transfer.c:1454 src/gtk/transfer.c:1514
-msgid "There are no file transfers selected\n"
-msgstr "Nici un transfer de fiºiere nu este selectat\n"
-
-#: src/gtk/transfer.c:1353
-#, c-format
-msgid "Stopping the transfer on host %s\n"
-msgstr "Opresc transferul de pe gazda %s\n"
-
-#: src/gtk/transfer.c:1386 src/gtk/transfer.c:1437
-#, c-format
-msgid "Skipping file %s on host %s\n"
-msgstr "Sar fiºierul %s de pe gazda %s\n"
-
-#: src/gtk/transfer.c:1578
-msgid "Local Size"
-msgstr "Mãrime localã"
-
-#: src/gtk/transfer.c:1579
-msgid "Remote Size"
-msgstr "Mãrime la distanþã"
-
-#: src/gtk/transfer.c:1580
-msgid "Action"
-msgstr "Acþiune"
-
-#: src/gtk/transfer.c:1585
-msgid "Download Files"
-msgstr "Transferã fiºiere"
-
-#: src/gtk/transfer.c:1585
-msgid "Upload Files"
-msgstr "Trimite fiºiere"
-
-#: src/gtk/transfer.c:1598
-msgid ""
-"The following file(s) exist on both the local and remote computer\n"
-"Please select what you would like to do"
-msgstr ""
-"Urmãtorul fiºier(e) existã atât pe calculatorul local cât ºi pe cel la "
-"distanþã\n"
-"Vã rugãm selectaþi ce doriþi sã faceþi"
-
-#: src/gtk/transfer.c:1649 src/gtk/transfer.c:1688 src/gtk/transfer.c:1787
-msgid "Overwrite"
-msgstr "Suprascriere"
-
-#: src/gtk/transfer.c:1654 src/gtk/transfer.c:1831
-msgid "Skip"
-msgstr "Sare"
-
-#: src/gtk/transfer.c:1659 src/gtk/transfer.c:1694 src/gtk/transfer.c:1809
-msgid "Resume"
-msgstr "Reluare"
-
-#: src/gtk/transfer.c:1700
-msgid "Skip File"
-msgstr "Sare fiºier"
-
-#: src/gtk/transfer.c:1710
-msgid "Select All"
-msgstr "Selecteazã tot"
-
-#: src/gtk/transfer.c:1716
-msgid "Deselect All"
-msgstr "Deselecteazã tot"
-
-#: src/gtk/transfer.c:1957
+#: src/gtk/transfer.c:1208
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "Eroare: Copilul %d a returnat %d\n"
 
-#: src/gtk/transfer.c:1960
+#: src/gtk/transfer.c:1211
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "Copilul %d s-a terminat cu succes\n"
 
-#: src/gtk/transfer.c:1967
+#: src/gtk/transfer.c:1218
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "Eroare: Nu am putut obþine informaþii despre fiºierul %s: %s\n"
 
-#: src/gtk/transfer.c:1972
+#: src/gtk/transfer.c:1223
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "Fiºierul %s nu a fost schimbat\n"
 
-#: src/gtk/transfer.c:1980
+#: src/gtk/transfer.c:1231
 #, fuzzy, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2521,65 +2483,171 @@ msgstr ""
 "Fiºierul %s a fost modificat.\n"
 "Ce doriþi sã faceþi ?"
 
-#: src/gtk/transfer.c:1983
+#: src/gtk/transfer.c:1234
 msgid "Edit File"
 msgstr "Editeazã fiºier"
 
-#: src/gtk/transfer.c:2065
-#, c-format
-msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
-msgstr ""
-"Eroare: Site-ul la distanþã %s este deconectat. Numãrul maxim de reîncercãri "
-"atins...renunþ\n"
+#: src/gtk/transfer.c:1298
+msgid "Finished"
+msgstr "Terminat"
 
-#: src/gtk/transfer.c:2073
+#: src/gtk/transfer.c:1336
 #, c-format
-msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
-msgstr ""
-"EroareL Site-ul la distanþã %s deconectat. Mã reconectez în %d secunde\n"
+msgid "Stopping the transfer of %s\n"
+msgstr "Opresc transferul lui %s\n"
 
-#: src/gtk/view_dialog.c:43
+#: src/gtk/transfer.c:1542
+#, fuzzy, c-format
+msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
+msgstr "%d%% complet, %02d:%02d:%02d timp estimat rãmas. (Fiºier %d din %ld)"
+
+#: src/gtk/transfer.c:1567
+#, c-format
+msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "Am primit %s din %s la %.2fKB/s, %02d:%02d:%02d timp estimat rãmas"
+
+#: src/gtk/transfer.c:1576
+#, c-format
+msgid "Recv %s of %s, transfer stalled, unknown time remaining"
+msgstr "Am primit %s din %s, transfer împotmolit, timp rãmas necunoscut"
+
+#: src/gtk/transfer.c:1602
+#, c-format
+msgid "Retrieving file names...%s bytes"
+msgstr "Primesc numele fiºierelor...%s bytes"
+
+#: src/gtk/transfer.c:1676 src/gtk/transfer.c:1698 src/gtk/transfer.c:1732
+#: src/gtk/transfer.c:1772 src/gtk/transfer.c:1825 src/gtk/transfer.c:1885
+msgid "There are no file transfers selected\n"
+msgstr "Nici un transfer de fiºiere nu este selectat\n"
+
+#: src/gtk/transfer.c:1716
+#, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "Opresc transferul de pe gazda %s\n"
+
+#: src/gtk/transfer.c:1757 src/gtk/transfer.c:1810
+#, c-format
+msgid "Skipping file %s on host %s\n"
+msgstr "Sar fiºierul %s de pe gazda %s\n"
+
+#: src/gtk/transfer.c:1973 src/gtk/transfer.c:2175 src/gtk/transfer.c:2214
+msgid "Overwrite"
+msgstr "Suprascriere"
+
+#: src/gtk/transfer.c:1995 src/gtk/transfer.c:2185 src/gtk/transfer.c:2220
+msgid "Resume"
+msgstr "Reluare"
+
+#: src/gtk/transfer.c:2017 src/gtk/transfer.c:2180
+msgid "Skip"
+msgstr "Sare"
+
+#: src/gtk/transfer.c:2094
+msgid "Local Size"
+msgstr "Mãrime localã"
+
+#: src/gtk/transfer.c:2095
+msgid "Remote Size"
+msgstr "Mãrime la distanþã"
+
+#: src/gtk/transfer.c:2096
+msgid "Action"
+msgstr "Acþiune"
+
+#: src/gtk/transfer.c:2098
+msgid "Download Files"
+msgstr "Transferã fiºiere"
+
+#: src/gtk/transfer.c:2098
+msgid "Upload Files"
+msgstr "Trimite fiºiere"
+
+#: src/gtk/transfer.c:2124
+msgid ""
+"The following file(s) exist on both the local and remote computer\n"
+"Please select what you would like to do"
+msgstr ""
+"Urmãtorul fiºier(e) existã atât pe calculatorul local cât ºi pe cel la "
+"distanþã\n"
+"Vã rugãm selectaþi ce doriþi sã faceþi"
+
+#: src/gtk/transfer.c:2226
+msgid "Skip File"
+msgstr "Sare fiºier"
+
+#: src/gtk/transfer.c:2236
+msgid "Select All"
+msgstr "Selecteazã tot"
+
+#: src/gtk/transfer.c:2242
+msgid "Deselect All"
+msgstr "Deselecteazã tot"
+
+#: src/gtk/view_dialog.c:35
 msgid "View"
 msgstr "Vizualizare"
 
-#: src/gtk/view_dialog.c:55
+#: src/gtk/view_dialog.c:47
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "Vizualizare: %s este un director. Nu îl pot vizualiza.\n"
 
-#: src/gtk/view_dialog.c:111
+#: src/gtk/view_dialog.c:96
 msgid "Edit: You must specify an editor in the options dialog\n"
 msgstr "Editare: Trebuie sã specificaþi un editor în dialogul de opþiuni\n"
 
-#: src/gtk/view_dialog.c:124
+#: src/gtk/view_dialog.c:109
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "Editare: %s este un director. Nu îl pot edita.\n"
 
-#: src/gtk/view_dialog.c:192
-#, c-format
-msgid "Opening %s with %s\n"
-msgstr "Deschid %s cu %s\n"
-
-#: src/gtk/view_dialog.c:216
-#, c-format
-msgid "Viewing file %s\n"
-msgstr "Vizualizez fiºierul %s\n"
-
-#: src/gtk/view_dialog.c:223
-#, c-format
-msgid "View: Cannot open file %s: %s\n"
-msgstr "Vizualizare: Nu pot deschide fiºierul %s: %s\n"
-
-#: src/gtk/view_dialog.c:392
+#: src/gtk/view_dialog.c:183
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Vizualizare: Nu pot bifurca un alt proces: %s\n"
 
-#: src/gtk/view_dialog.c:395
+#: src/gtk/view_dialog.c:186
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "Rulez programul: %s %s\n"
+
+#: src/gtk/view_dialog.c:245
+#, c-format
+msgid "Opening %s with %s\n"
+msgstr "Deschid %s cu %s\n"
+
+#: src/gtk/view_dialog.c:269
+#, c-format
+msgid "Viewing file %s\n"
+msgstr "Vizualizez fiºierul %s\n"
+
+#: src/gtk/view_dialog.c:276
+#, c-format
+msgid "View: Cannot open file %s: %s\n"
+msgstr "Vizualizare: Nu pot deschide fiºierul %s: %s\n"
+
+#~ msgid ""
+#~ "(*) If this is set, and there is a ext= line below for the file "
+#~ "extension, it will download the file as specified below"
+#~ msgstr ""
+#~ "(*) Dacã acesta este setat, ºi existã o linie ext= mai jos pentru "
+#~ "extensia fiºierului, va transfera fiºierul aºa cum se specificã mai jos"
+
+#~ msgid "Cannot fdopen() socket for %s: %s\n"
+#~ msgstr "Nu am putut fdopen() socketul pentru %s: %s\n"
+
+#~ msgid "Error reading from host %s: %s\n"
+#~ msgstr "Eroare la citire din gazda %s: %s\n"
+
+#~ msgid "Error writing to host %s: %s\n"
+#~ msgstr "Eroare la scriere pe gazda %s: %s\n"
+
+#~ msgid "Cannot fdopen() socket: %s\n"
+#~ msgstr "Nu am putut face fdopen() pe socket: %s\n"
+
+#~ msgid "Error: Received wrong init string from server\n"
+#~ msgstr "Eroare: ªir de iniþializare greºit primit de la server\n"
 
 #~ msgid "/Bookmarks/"
 #~ msgstr "/Semne de carte/"

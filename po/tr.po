@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
-"POT-Creation-Date: 2002-09-26 15:25-0400\n"
+"POT-Creation-Date: 2002-12-05 21:30-0500\n"
 "PO-Revision-Date: 2000-03-09 15:20-0500\n"
 "Last-Translator: Görkem Çetin <gorkem@gelecek.com.tr>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -13,12 +13,12 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-9\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: lib/bookmark.c:82
+#: lib/bookmark.c:42
 #, fuzzy, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Hata: Sokete yazýlamadý: %s\n"
 
-#: lib/bookmark.c:89 src/gtk/bookmarks.c:86
+#: lib/bookmark.c:49 src/gtk/bookmarks.c:54
 msgid ""
 "Bookmarks Error: There are some missing entries in this bookmark. Make sure "
 "you have a hostname and username\n"
@@ -26,28 +26,55 @@ msgstr ""
 "Yer Ými Hatasý: Bu yer iminde bazý hatalý veriler var. Lütfen bir kullanýcý "
 "adý ve makine adý verdiðinize emin olun.\n"
 
-#: lib/cache.c:173 lib/cache.c:225
+#: lib/cache.c:48 lib/local.c:562 lib/ssh.c:1030
+#, c-format
+msgid "Error: Could not make directory %s: %s\n"
+msgstr "Hata: %s dizini oluþturulamadý: %s\n"
+
+#: lib/cache.c:61 lib/cache.c:162 lib/cache.c:251 lib/local.c:127
+#: lib/local.c:179 lib/misc.c:268 lib/misc.c:275
+#, c-format
+msgid "Error: Cannot open local file %s: %s\n"
+msgstr "Hata: Yerel dosya %s açýlamadý: %s\n"
+
+#: lib/cache.c:76
+#, fuzzy, c-format
+msgid "Error: Cannot create temporary file: %s\n"
+msgstr "Hata: Yerel dosya %s silinemedi: %s\n"
+
+#: lib/cache.c:98 lib/cache.c:152 lib/local.c:99 lib/local.c:224
+#: lib/rfc2068.c:243 lib/rfc2068.c:365 lib/ssh.c:513 lib/sshv2.c:702
+#, c-format
+msgid "Error closing file descriptor: %s\n"
+msgstr "Dosya belirteci kapatýlýrken hata: %s\n"
+
+#: lib/cache.c:178 lib/local.c:138 lib/local.c:147 lib/local.c:199
+#, c-format
+msgid "Error: Cannot seek on file %s: %s\n"
+msgstr "Hata: %s dosyasý okunamadý: %s\n"
+
+#: lib/cache.c:269
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr ""
 
-#: lib/config_file.c:32
+#: lib/config_file.c:33
 msgid "General"
 msgstr "Genel"
 
-#: lib/config_file.c:34
+#: lib/config_file.c:35
 msgid "Email address:"
 msgstr "E-posta adresi:"
 
-#: lib/config_file.c:35
+#: lib/config_file.c:36
 msgid "Enter your email address here"
 msgstr "Buraya e-posta adresinizi girin."
 
-#: lib/config_file.c:36
+#: lib/config_file.c:37
 msgid "View program:"
 msgstr "Ýzleme programý:"
 
-#: lib/config_file.c:37
+#: lib/config_file.c:38
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
@@ -55,15 +82,15 @@ msgstr ""
 "Öntanýmlý program dosyalarý izlemek için kullanýlabilir. Eðer boþ "
 "býrakýlýrsa dahili izleyici kullanýlacaktýr."
 
-#: lib/config_file.c:38
+#: lib/config_file.c:39
 msgid "Edit program:"
 msgstr "Programý düzenle:"
 
-#: lib/config_file.c:39
+#: lib/config_file.c:40
 msgid "The default program used to edit files."
 msgstr "Dosyalarý düzenlemek için kullanýlan öntanýmlý program."
 
-#: lib/config_file.c:40
+#: lib/config_file.c:41
 msgid "Startup Directory:"
 msgstr "Baþlangýç Dizini:"
 
@@ -91,11 +118,11 @@ msgstr "Yeni dosya transferlerini daha öncekilerin üzerine ekle"
 msgid "Do one transfer at a time"
 msgstr "Bir seferde bir dosya iletimi"
 
-#: lib/config_file.c:49
+#: lib/config_file.c:50
 msgid "Do only one transfer at a time?"
 msgstr "Bir seferde sadece bir dosya mý taþýnsýn?"
 
-#: lib/config_file.c:50
+#: lib/config_file.c:51
 msgid "Overwrite by Default"
 msgstr "Üzerine Yaz"
 
@@ -107,291 +134,291 @@ msgstr "Dosyalarýn üzerine yaz"
 msgid "Refresh after each file transfer"
 msgstr "Her dosya transferinden sonra yenile"
 
-#: lib/config_file.c:55
+#: lib/config_file.c:54
 msgid "Refresh the listbox after each file is transfered"
 msgstr "Her dosya transferinden sonra liste kutusunu yeniler"
 
-#: lib/config_file.c:56
+#: lib/config_file.c:55
 msgid "Sort directories first"
 msgstr "Önce dizinleri göster"
 
-#: lib/config_file.c:57
+#: lib/config_file.c:56
 msgid "Put the directories first then the files"
 msgstr "Önce dizinleri gösterir."
 
-#: lib/config_file.c:58
+#: lib/config_file.c:57
 msgid "Start file transfers"
 msgstr "Dosya aktarýmýna baþla"
 
-#: lib/config_file.c:60
+#: lib/config_file.c:58
 msgid "Automatically start the file transfers when they get queued?"
 msgstr "Kuyruða aktarýlan dosyalarý otomatik almaya baþla"
 
-#: lib/config_file.c:61
+#: lib/config_file.c:59
 msgid "Show hidden files"
 msgstr "Gizli dosyalarý göster"
 
-#: lib/config_file.c:62
+#: lib/config_file.c:60
 msgid "Show hidden files in the listboxes"
 msgstr "Listedeki gizli dosyalarý gösterir."
 
-#: lib/config_file.c:64 src/gtk/options_dialog.c:359
-#: src/gtk/options_dialog.c:628
+#: lib/config_file.c:62 src/gtk/options_dialog.c:558
+#: src/gtk/options_dialog.c:651
 msgid "Network"
 msgstr "Að"
 
-#: lib/config_file.c:66
+#: lib/config_file.c:64
 #, fuzzy
 msgid "Network timeout:"
 msgstr "Okuma zaman aþýmý:"
 
-#: lib/config_file.c:67
+#: lib/config_file.c:65
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 
-#: lib/config_file.c:68
+#: lib/config_file.c:66
 msgid "Connect retries:"
 msgstr "Baðlantý tekrarlarý:"
 
-#: lib/config_file.c:69
+#: lib/config_file.c:67
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
 msgstr "Otomatik tekrar sayýsý. 0 girilirse sonsuz tekrar yapýlýr."
 
-#: lib/config_file.c:70
+#: lib/config_file.c:68
 msgid "Retry sleep time:"
 msgstr "Tekrardan sonra bekleme süresi:"
 
-#: lib/config_file.c:71
+#: lib/config_file.c:69
 msgid "The number of seconds to wait between retries"
 msgstr "Baðlantý tekrarlarý arasýndaki bekleme süresi"
 
-#: lib/config_file.c:72
+#: lib/config_file.c:70
 msgid "Max KB/S:"
 msgstr "Azami KB/S"
 
-#: lib/config_file.c:73
+#: lib/config_file.c:71
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr "Bir dosya transferinin en yüksek hýzý (kapatmak için 0 girin)"
 
-#: lib/config_file.c:74 lib/config_file.c:75
+#: lib/config_file.c:72 lib/config_file.c:73
 msgid "Default Protocol"
 msgstr "Öntanýmlý Protokol:"
 
-#: lib/config_file.c:76
+#: lib/config_file.c:74
 msgid "This specifies the default protocol to use"
 msgstr "Kullanýlacak öntanýmlý protokolü belirler"
 
-#: lib/config_file.c:78
+#: lib/config_file.c:76
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/config_file.c:80 lib/config_file.c:115
+#: lib/config_file.c:78 lib/config_file.c:112
 msgid "Proxy hostname:"
 msgstr "Vekil sunucu:"
 
-#: lib/config_file.c:81 lib/config_file.c:116
+#: lib/config_file.c:79 lib/config_file.c:113
 msgid "Firewall hostname"
 msgstr "Güvenlik duvarý"
 
-#: lib/config_file.c:82 lib/config_file.c:117
+#: lib/config_file.c:80 lib/config_file.c:114
 msgid "Proxy port:"
 msgstr "Vekil sunucu portu:"
 
-#: lib/config_file.c:83 lib/config_file.c:118
+#: lib/config_file.c:81 lib/config_file.c:115
 msgid "Port to connect to on the firewall"
 msgstr "Güvenlik duvarýnda baðlanýlacak port"
 
-#: lib/config_file.c:84 lib/config_file.c:119
+#: lib/config_file.c:82 lib/config_file.c:116
 msgid "Proxy username:"
 msgstr "Vekil sunucu kullanýcý adý:"
 
-#: lib/config_file.c:85 lib/config_file.c:120
+#: lib/config_file.c:83 lib/config_file.c:117
 msgid "Your firewall username"
 msgstr "Güvenlik duvarý kullanýcý adý"
 
-#: lib/config_file.c:86 lib/config_file.c:121
+#: lib/config_file.c:84 lib/config_file.c:118
 msgid "Proxy password:"
 msgstr "Vekil sunucu parolasý:"
 
-#: lib/config_file.c:87 lib/config_file.c:122
+#: lib/config_file.c:85 lib/config_file.c:119
 msgid "Your firewall password"
 msgstr "Güvenlik duvarý parolasý"
 
-#: lib/config_file.c:88
+#: lib/config_file.c:86
 msgid "Proxy account:"
 msgstr "Vekil sunucu hesabý:"
 
-#: lib/config_file.c:88
+#: lib/config_file.c:87
 msgid "Your firewall account (optional)"
 msgstr "Güvenlik duvarý hesabý (seçimlik)"
 
-#: lib/config_file.c:91
+#: lib/config_file.c:90
 msgid "Passive file transfers"
 msgstr "Pasif dosya transferi"
 
-#: lib/config_file.c:93
+#: lib/config_file.c:91
 msgid "Send PASV command or PORT command for data transfers"
 msgstr "Veri iletiþim için PASV ya da PORT komutunu kullanýr."
 
-#: lib/config_file.c:94
+#: lib/config_file.c:92
 #, fuzzy
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "Sembolik Baðlantýlarý Bul"
 
-#: lib/config_file.c:96
+#: lib/config_file.c:93
 msgid ""
 "If you disable this feature, then gFTP will only send LIST to the remote "
 "server instead of LIST -L"
 msgstr ""
 "Bu özelliði kapatýrsanýz, gFTP LIST -L yerine LIST komutunu gönderecektir."
 
-#: lib/config_file.c:99
+#: lib/config_file.c:96
 msgid "Proxy server type"
 msgstr "Vekil sunucu türü"
 
-#: lib/config_file.c:100
+#: lib/config_file.c:97
 msgid "Proxy config"
 msgstr "Vekil sunucu ayarlarý"
 
-#: lib/config_file.c:101
+#: lib/config_file.c:98
 msgid "This specifies how your proxy server expects us to log in"
 msgstr "Vekil sunucu ayarlarýný yapar"
 
-#: lib/config_file.c:102
+#: lib/config_file.c:99
 #, c-format
 msgid "%pu = proxy user"
 msgstr "%pu = vekil sunucu kullanýcýsý"
 
-#: lib/config_file.c:103
+#: lib/config_file.c:100
 #, c-format
 msgid "%hu = host user"
 msgstr "%hu = makinadaki kullanýcý adý"
 
-#: lib/config_file.c:104
+#: lib/config_file.c:101
 #, c-format
 msgid "%pp = proxy pass"
 msgstr "%pp = vekil sunucu parolasý"
 
-#: lib/config_file.c:105
+#: lib/config_file.c:102
 #, c-format
 msgid "%hp = host pass"
 msgstr "%hp = makinadaki kullanýcý parolasý"
 
-#: lib/config_file.c:106
+#: lib/config_file.c:103
 #, c-format
 msgid "%ph = proxy host"
 msgstr "%ph = vekil sunucu adý"
 
-#: lib/config_file.c:107
+#: lib/config_file.c:104
 msgid "%hh = host"
 msgstr "%hh = maki"
 
-#: lib/config_file.c:108
+#: lib/config_file.c:105
 #, c-format
 msgid "%po = proxy port"
 msgstr "%po = vekil sunucu portu"
 
-#: lib/config_file.c:109
+#: lib/config_file.c:106
 #, c-format
 msgid "%ho = host port"
 msgstr "%ho = makina portu"
 
-#: lib/config_file.c:110
+#: lib/config_file.c:107
 #, c-format
 msgid "%pa = proxy account"
 msgstr "%pa = vekil sunucu hesabý"
 
-#: lib/config_file.c:111
+#: lib/config_file.c:108
 #, c-format
 msgid "%ha = host account"
 msgstr "%ha = makinadaki hesap"
 
-#: lib/config_file.c:113
+#: lib/config_file.c:110
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/config_file.c:124
+#: lib/config_file.c:121
 msgid "Use HTTP/1.1"
 msgstr "HTTP/1.1 kullan"
 
-#: lib/config_file.c:125
+#: lib/config_file.c:122
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "HTTP/1.1 ya da HTTP/1.0 kullanmak istiyor musunuz?"
 
-#: lib/config_file.c:127
+#: lib/config_file.c:124
 msgid "SSH"
 msgstr "SSH"
 
-#: lib/config_file.c:129
+#: lib/config_file.c:126
 msgid "SSH Prog Name:"
 msgstr "SSH Program Adý:"
 
-#: lib/config_file.c:130
+#: lib/config_file.c:127
 msgid "The path to the SSH executable"
 msgstr "SSH programýnýn yolu"
 
-#: lib/config_file.c:131
+#: lib/config_file.c:128
 msgid "SSH Extra Params:"
 msgstr "SSH Ek Parametreleri:"
 
-#: lib/config_file.c:132
+#: lib/config_file.c:129
 msgid "Extra parameters to pass to the SSH program"
 msgstr "SSH programýna aktarýlacak ek parametreler"
 
-#: lib/config_file.c:133
+#: lib/config_file.c:130
 msgid "SSH sftpserv path:"
 msgstr "SSH sftpserv yolu:"
 
-#: lib/config_file.c:134
+#: lib/config_file.c:131
 msgid "Default remote SSH sftpserv path"
 msgstr "SSH sftpserv yolu"
 
-#: lib/config_file.c:135
+#: lib/config_file.c:132
 msgid "SSH2 sftp-server path:"
 msgstr "SSH2 sftp-server yolu:"
 
-#: lib/config_file.c:136
+#: lib/config_file.c:133
 msgid "Default remote SSH2 sftp-server path"
 msgstr "SSH2 sftp-server yolu"
 
-#: lib/config_file.c:138
+#: lib/config_file.c:135
 msgid "Need SSH User/Pass"
 msgstr ""
 
-#: lib/config_file.c:140
+#: lib/config_file.c:136
 msgid "Require a username/password for SSH connections"
 msgstr ""
 
-#: lib/config_file.c:141
+#: lib/config_file.c:137
 msgid "Use ssh-askpass util"
 msgstr ""
 
-#: lib/config_file.c:143
+#: lib/config_file.c:138
 msgid "Use the ssh-askpass utility to grab the users password"
 msgstr ""
 
-#: lib/config_file.c:144
+#: lib/config_file.c:139
 msgid "Use SSH2 SFTP subsys"
 msgstr ""
 
-#: lib/config_file.c:146
+#: lib/config_file.c:140
 msgid ""
 "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 "know the remote path to the remote sftp-server"
 msgstr ""
 
-#: lib/config_file.c:147
+#: lib/config_file.c:141
 msgid "Enable old SSH protocol"
 msgstr ""
 
-#: lib/config_file.c:149
+#: lib/config_file.c:142
 msgid ""
 "Enable the old SSH protocol. You will need to download the sftp server from "
 "http:///www.xbill.org/sftp"
 msgstr ""
 
-#: lib/config_file.c:152
+#: lib/config_file.c:145
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -399,33 +426,27 @@ msgstr ""
 "Dosya listesindeki bir dosya üzerine çift týklanmasý halinde hangi iþlemin "
 "gerçekleþtileceðini belirler. 0=Dosyayý Aç 1=Dosyayý Düzenle 2=Dosyayý Al."
 
-#: lib/config_file.c:154
-msgid ""
-"(*) If this is set, and there is a ext= line below for the file extension, "
-"it will download the file as specified below"
-msgstr ""
-
-#: lib/config_file.c:156
+#: lib/config_file.c:147
 msgid "The default width of the local files listbox"
 msgstr "Yerel dosya liste kutusunun öntanýmlý geniþliði"
 
-#: lib/config_file.c:158
+#: lib/config_file.c:149
 msgid "The default width of the remote files listbox"
 msgstr "Uzaktaki dosya liste kutusunun öntanýmlý geniþliði"
 
-#: lib/config_file.c:160
+#: lib/config_file.c:151
 msgid "The default height of the local/remote files listboxes"
 msgstr "Yerel/uzak dosya liste kutusu öntanýmlý boyutlarý"
 
-#: lib/config_file.c:162
+#: lib/config_file.c:153
 msgid "The default height of the transfer listbox"
 msgstr "Aktarma liste kutusunun öntanýmlý yüksekliði"
 
-#: lib/config_file.c:164
+#: lib/config_file.c:155
 msgid "The default height of the logging window"
 msgstr "Kayýt penceresinin öntanýmlý yüksekliði"
 
-#: lib/config_file.c:166
+#: lib/config_file.c:157
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -433,7 +454,15 @@ msgstr ""
 "Aktarma penceresinin dosya adý sütununun geniþliði. 0 yapýlýrsa otomatik "
 "olarak boyutlandýrýlýr."
 
-#: lib/config_file.c:168 lib/config_file.c:180
+#: lib/config_file.c:159 lib/config_file.c:163
+msgid "The default column to sort by"
+msgstr ""
+
+#: lib/config_file.c:161 lib/config_file.c:165
+msgid "Sort ascending or descending"
+msgstr ""
+
+#: lib/config_file.c:167 lib/config_file.c:179
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -441,112 +470,112 @@ msgstr ""
 "Dosya liste kutusundaki dosya adý sütununun geniþliði. 0 yapýlýrsa otomatik "
 "olarak boyutlandýrýlýr. -1 yapýlýrsa bu sütun gösterilmez."
 
-#: lib/config_file.c:170 lib/config_file.c:182
+#: lib/config_file.c:169 lib/config_file.c:181
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
 
-#: lib/config_file.c:172 lib/config_file.c:184
+#: lib/config_file.c:171 lib/config_file.c:183
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
 
-#: lib/config_file.c:174 lib/config_file.c:186
+#: lib/config_file.c:173 lib/config_file.c:185
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
 
-#: lib/config_file.c:176 lib/config_file.c:188
+#: lib/config_file.c:175 lib/config_file.c:187
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
 
-#: lib/config_file.c:178 lib/config_file.c:190
+#: lib/config_file.c:177 lib/config_file.c:189
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
 
-#: lib/config_file.c:192
+#: lib/config_file.c:191
 msgid "The color of the commands that are sent to the server"
 msgstr "Sunucuya gönderilecek komutlarýn renkleri"
 
-#: lib/config_file.c:194
+#: lib/config_file.c:193
 msgid "The color of the commands that are received from the server"
 msgstr "Sunucudan alýnacak komutlarýn renkleri"
 
-#: lib/config_file.c:196
+#: lib/config_file.c:195
 msgid "The color of the error messages"
 msgstr "Hata mesajlarýnýn renkleri"
 
-#: lib/config_file.c:198
+#: lib/config_file.c:197
 msgid "The color of the rest of the log messages"
 msgstr "Kalan kayýt mesajlarýnýn renkleri"
 
-#: lib/config_file.c:241 lib/config_file.c:782
+#: lib/config_file.c:240 lib/config_file.c:762
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP Hatasý: Hatalý yapýlandýrma dosyasý %s\n"
 
-#: lib/config_file.c:252 lib/config_file.c:553
+#: lib/config_file.c:251
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP Hatasý: %s dizini yaratýlamadý: %s\n"
 
-#: lib/config_file.c:262
+#: lib/config_file.c:261
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP Hatasý: %s yapýlandýrma dosyasý bulunamadý\n"
 
-#: lib/config_file.c:264
+#: lib/config_file.c:263
 msgid "Did you do a make install?\n"
 msgstr "Bir kurulum yaptýnýz mý?\n"
 
-#: lib/config_file.c:273 lib/config_file.c:788
+#: lib/config_file.c:272 lib/config_file.c:768
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP Hatasý: Yapýlandýrma dosyasý açýlamadý %s: %s\n"
 
-#: lib/config_file.c:431
+#: lib/config_file.c:430
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP Uyarýsý: Yapýlandýrma dosyasýndaki %d satýrý atlanýyor: %s\n"
 
-#: lib/config_file.c:452
+#: lib/config_file.c:451
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP Hatasý: Hatalý kayýt dosyasý %s\n"
 
-#: lib/config_file.c:458
+#: lib/config_file.c:457
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP Uyarýsý: %s dosyasý yazmak için açýlamadý: %s\n"
 
-#: lib/config_file.c:542 lib/config_file.c:904
+#: lib/config_file.c:534 lib/config_file.c:884
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP Hatasý: %s dosyasýnda hatalý yer imleri\n"
 
-#: lib/config_file.c:563
+#: lib/config_file.c:543
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Uyarý: Ana yer imi dosyasý bulunamadý: %s\n"
 
-#: lib/config_file.c:574 lib/config_file.c:910
+#: lib/config_file.c:554 lib/config_file.c:890
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP Hatasý: Yer imi dosyasý %s açýlamadý: %s\n"
 
-#: lib/config_file.c:668
+#: lib/config_file.c:648
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP Uyarýsý: Yer imi dosyasýnda %d satýr atlanýyor: %s\n"
 
-#: lib/config_file.c:775
+#: lib/config_file.c:755
 #, fuzzy
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -558,24 +587,24 @@ msgstr ""
 "silinecektir. Eðer bir bir satýr içinde (*) varsa, bunu gFTP içinden "
 "deðiþtiremezsiniz."
 
-#: lib/config_file.c:776
+#: lib/config_file.c:756
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
 
-#: lib/config_file.c:777
+#: lib/config_file.c:757
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
 msgstr ""
 
-#: lib/config_file.c:778
+#: lib/config_file.c:758
 msgid "This section contains the data that is in the history"
 msgstr "Bu bölüm tarihçede bulunan verileri kapsar."
 
-#: lib/config_file.c:900
+#: lib/config_file.c:880
 #, fuzzy
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
@@ -584,721 +613,730 @@ msgstr ""
 "gFTP için yer imi dosyasý. (C) 1998-2002 Brian Masney <masneyb@gftp.org> "
 "Uyarý: Bu dosyaya ekleyeceðiniz açýklama satýrlarý silinecektir. "
 
-#: lib/config_file.c:1019
+#: lib/config_file.c:996
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP Uyarýsý: %d satýrý yeterli argümana sahip deðil\n"
 
-#: lib/local.c:161 lib/local.c:538
+#: lib/local.c:67 lib/local.c:493
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
 msgstr "Yerel dizin %s'e deðiþtirilemedi: %s\n"
 
-#: lib/local.c:176 lib/local.c:526 lib/ssh.c:348 lib/ssh.c:768
+#: lib/local.c:82 lib/local.c:481 lib/ssh.c:328 lib/ssh.c:485
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "Çalýþma dizini bulunamýyor: %s\n"
 
-#: lib/local.c:193 lib/local.c:348
-#, c-format
-msgid "Error closing file descriptor: %s\n"
-msgstr "Dosya belirteci kapatýlýrken hata: %s\n"
-
-#: lib/local.c:222 lib/local.c:292
-#, c-format
-msgid "Error: Cannot open local file %s: %s\n"
-msgstr "Hata: Yerel dosya %s açýlamadý: %s\n"
-
-#: lib/local.c:230 lib/local.c:300
-#, c-format
-msgid "Cannot fdopen() socket for %s: %s\n"
-msgstr "%s için fdopen() çalýþtýrýlamadý: %s\n"
-
-#: lib/local.c:242 lib/local.c:251 lib/local.c:260 lib/local.c:322
-#, c-format
-msgid "Error: Cannot seek on file %s: %s\n"
-msgstr "Hata: %s dosyasý okunamadý: %s\n"
-
-#: lib/local.c:312
+#: lib/local.c:190
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "Hata: Yerel dosya %s silinemedi: %s\n"
 
-#: lib/local.c:485
+#: lib/local.c:440
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "Yerel dizin %s listesi alýnamadý: %s\n"
 
-#: lib/local.c:519
+#: lib/local.c:474
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "Yerel dizin baþarýyla deðiþtirildi: %s\n"
 
-#: lib/local.c:554 lib/local.c:577 lib/ssh.c:869 lib/ssh.c:901
-#: src/gtk/transfer.c:2219 src/gtk/view_dialog.c:238
+#: lib/local.c:509 lib/local.c:532 lib/ssh.c:974 lib/ssh.c:1006
+#: src/gtk/transfer.c:1131 src/gtk/view_dialog.c:291
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "%s baþarýyla silindi\n"
 
-#: lib/local.c:560 lib/ssh.c:861
+#: lib/local.c:515 lib/ssh.c:966
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Hata: %s dizini silinemedi: %s\n"
 
-#: lib/local.c:583 lib/ssh.c:893 src/gtk/transfer.c:2223
-#: src/gtk/view_dialog.c:242
+#: lib/local.c:538 lib/ssh.c:998 src/gtk/transfer.c:1135
+#: src/gtk/view_dialog.c:295
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Hata: %s dosyasý silinemedi: %s\n"
 
-#: lib/local.c:600 lib/ssh.c:933
+#: lib/local.c:555 lib/ssh.c:1038
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "%s dizini baþarýyla oluþturuldu\n"
 
-#: lib/local.c:607 lib/ssh.c:925
-#, c-format
-msgid "Error: Could not make directory %s: %s\n"
-msgstr "Hata: %s dizini oluþturulamadý: %s\n"
-
-#: lib/local.c:626 lib/ssh.c:967
+#: lib/local.c:581 lib/ssh.c:1072
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "%s dosyasýnýn adý %s'e baþarýyla deðiþtirildi.\n"
 
-#: lib/local.c:633 lib/ssh.c:959
+#: lib/local.c:588 lib/ssh.c:1064
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Hata: %s dosyasýnýn adý %s yapýlamadý: %s\n"
 
-#: lib/local.c:656 lib/ssh.c:1001
+#: lib/local.c:611 lib/ssh.c:1106
 #, c-format
 msgid "Successfully changed mode of %s to %d\n"
 msgstr "%s dosyasýnýn kipi baþarýyla %d yapýldý\n"
 
-#: lib/local.c:663 lib/ssh.c:993
+#: lib/local.c:618 lib/ssh.c:1098
 #, c-format
 msgid "Error: Could not change mode of %s to %d: %s\n"
 msgstr "Hata: %s dosyasýnýn özellikleri %d'ye deðiþtirilemedi: %s\n"
 
-#: lib/misc.c:349
-msgid "usage: gftp [[ftp://][user:[pass]@]ftp-site[:port][/directory]]\n"
+#: lib/local.c:704
+msgid "local filesystem"
 msgstr ""
-"kullaným: gftp [[ftp://][kullanýcý:parola@]ftp-adresi[:port][/dizin]]\n"
 
-#: lib/misc.c:377
-#, c-format
-msgid "gFTP Error: Cannot find file %s in %s or %s\n"
-msgstr "gFTP Hatasý: %s dosyasý %s ya da %s içinde bulunamadý\n"
-
-#: lib/misc.c:832
-#, c-format
-msgid "Running program %s\n"
-msgstr "Program çalýþtýrýlýyor: %s\n"
-
-#: lib/options.h:34
-msgid "none"
-msgstr "hiçbiri"
-
-#: lib/options.h:35
-msgid "SITE command"
-msgstr "SITE komutu"
-
-#: lib/options.h:36
-msgid "user@host"
-msgstr "kullanýcý@makina"
-
-#: lib/options.h:37
-msgid "user@host:port"
-msgstr "kullanýcý@makina:port"
-
-#: lib/options.h:38
-msgid "AUTHENTICATE"
-msgstr "AUTHENTICATE"
-
-#: lib/options.h:39
-msgid "user@host port"
-msgstr "kullanýcý@makina port"
-
-#: lib/options.h:40
-msgid "user@host NOAUTH"
-msgstr "kullanýcý@makina NOAHT"
-
-#: lib/options.h:41
-msgid "HTTP Proxy"
-msgstr "HTTP Vekil Sunucu"
-
-#: lib/options.h:42
-msgid "Custom"
-msgstr "Özel"
-
-#: lib/protocols.c:255 lib/protocols.c:301 lib/rfc2068.c:268 lib/rfc959.c:845
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "%s baðlantýsý zaman aþýmýna uðradý\n"
-
-#: lib/protocols.c:264 lib/rfc2068.c:281
-#, c-format
-msgid "Error reading from host %s: %s\n"
-msgstr "%s makinasýndan okuma sýrasýnda hata: %s\n"
-
-#: lib/protocols.c:310
-#, c-format
-msgid "Error writing to host %s: %s\n"
-msgstr "%s makinasýna yazma sýrasýnda hata: %s\n"
-
-#: lib/protocols.c:366
-#, c-format
-msgid "Loading directory listing %s from cache\n"
-msgstr "Dizin listesi (%s) arabellekten alýnýyor\n"
-
-#: lib/protocols.c:415
-#, c-format
-msgid "Error: Cannot write to cache: %s\n"
-msgstr "Hata: Arabelleðe yazýlamadý: %s\n"
-
-#: lib/protocols.c:845 lib/protocols.c:868 lib/protocols.c:1700
-#: lib/protocols.c:1792
-#, c-format
-msgid "Looking up %s\n"
-msgstr "%s makinasý bulunuyor\n"
-
-#: lib/protocols.c:851 lib/protocols.c:874 lib/protocols.c:1705
-#: lib/protocols.c:1797
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "%s makinasý bulunamadý: %s\n"
-
-#: lib/protocols.c:1189 lib/protocols.c:1191 lib/protocols.c:1222
-#: lib/protocols.c:1231 lib/protocols.c:1311 lib/protocols.c:1313
-#: lib/protocols.c:1350
-msgid "unknown"
-msgstr "bilinmeyen"
-
-#: lib/protocols.c:1720 lib/protocols.c:1762 lib/rfc959.c:656
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "Soket yaratýlamadý: %s\n"
-
-#: lib/protocols.c:1726 lib/protocols.c:1811
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "%s deneniyor:%d\n"
-
-#: lib/protocols.c:1731 lib/protocols.c:1818
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "%s makinasýna baðlantý kurulamadý: %s\n"
-
-#: lib/protocols.c:1833
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "%s makinasýna baðlantý kuruldu:%d\n"
-
-#: lib/rfc2068.c:127 lib/rfc2068.c:136 lib/rfc959.c:137 lib/rfc959.c:146
-#: lib/rfc959.c:752 lib/rfc959.c:790 lib/ssh.c:304 lib/ssh.c:313
-#: lib/sshv2.c:362 lib/sshv2.c:371 src/gtk/view_dialog.c:80
-#: src/gtk/view_dialog.c:150
-#, c-format
-msgid "Cannot fdopen() socket: %s\n"
-msgstr "fdopen() çalýþtýrýlamadý: %s\n"
-
-#: lib/rfc2068.c:155 lib/rfc959.c:274 lib/ssh.c:374 lib/sshv2.c:426
-#, c-format
-msgid "Disconnecting from site %s\n"
-msgstr "%s adresiyle baðlantý kesiliyor\n"
-
-#: lib/rfc2068.c:213
-#, fuzzy, c-format
-msgid "Starting the file transfer at offset %lld\n"
-msgstr "Dosya %ld baytýndan itibaren alýnýyor\n"
-
-#: lib/rfc2068.c:218
-#, c-format
-msgid "Starting the file transfer at offset %ld\n"
-msgstr "Dosya %ld baytýndan itibaren alýnýyor\n"
-
-#: lib/rfc2068.c:238
-#, c-format
-msgid "Cannot retrieve file %s\n"
-msgstr "%s dosyasý alýnamýyor\n"
-
-#: lib/rfc2068.c:314
-msgid "Finished retrieving data\n"
-msgstr "Dosya alýmý tamamlandý\n"
-
-#: lib/rfc2068.c:361 lib/ssh.c:582 lib/sshv2.c:853
-msgid "Retrieving directory listing...\n"
-msgstr "Dizin listesi alýnýyor...\n"
-
-#: lib/rfc959.c:570 lib/ssh.c:703
-msgid "total"
-msgstr "toplam"
-
-#: lib/rfc959.c:572 lib/ssh.c:706
-#, c-format
-msgid "Warning: Cannot parse listing %s\n"
-msgstr "Uyarý: Liste %s ayrýþtýrýlamadý\n"
-
-#: lib/rfc959.c:700
-#, c-format
-msgid "Cannot create a data connection: %s\n"
-msgstr "Veri baðlantýsý kurulamadý: %s\n"
-
-#: lib/rfc959.c:715
-#, c-format
-msgid "Cannot bind a port: %s\n"
-msgstr "Porta eriþim yapýlamadý: %s\n"
-
-#: lib/rfc959.c:726
-#, c-format
-msgid "Cannot listen on port %d: %s\n"
-msgstr "Port %d dinlemedi: %s\n"
-
-#: lib/rfc959.c:779
-#, fuzzy, c-format
-msgid "Cannot accept connection from server: %s\n"
-msgstr "%s makinasýna baðlantý kurulamadý: %s\n"
-
-#: lib/rfc959.c:855 lib/rfc959.c:865 lib/ssh.c:1031 lib/ssh.c:1044
-#: lib/sshv2.c:530 lib/sshv2.c:540
+#: lib/misc.c:285 lib/protocols.c:2104
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Hata: Sokete yazýlamadý: %s\n"
 
-#: lib/ssh.c:202 lib/sshv2.c:251
-#, c-format
-msgid "Opening SSH connection to %s\n"
-msgstr "%s makinasýna SSH baðlantýsý kuruluyor\n"
-
-#: lib/ssh.c:227 lib/sshv2.c:281
-#, fuzzy, c-format
-msgid "Cannot create a socket pair: %s\n"
-msgstr "Soket yaratýlamadý: %s\n"
-
-#: lib/ssh.c:238 lib/sshv2.c:292
-#, c-format
-msgid "Cannot open master pty %s: %s\n"
-msgstr "pty %s açýlamadý: %s\n"
-
-#: lib/ssh.c:271 lib/sshv2.c:326
-msgid "Error: Cannot execute ssh: "
-msgstr "Hata: ssh çalýþtýrýlamadý: "
-
-#: lib/ssh.c:292 lib/sshv2.c:349
-msgid "Error: Received wrong init string from server\n"
-msgstr "Hata: Sunucudan yanlýþ cevap geldi\n"
-
-#: lib/ssh.c:328 lib/sshv2.c:393
-#, c-format
-msgid "Successfully logged into SSH server %s\n"
-msgstr "%s SSH sunucusuna baþarýyla baðlantý kuruldu\n"
-
-#: lib/ssh.c:334 lib/sshv2.c:399
-#, c-format
-msgid "Cannot fork another process: %s\n"
-msgstr "Baþka süreç yaratýlamýyor: %s\n"
-
-#: lib/ssh.c:412
-#, c-format
-msgid "Remote host could not find file %s\n"
-msgstr "Uzak makine %s dosyasýný bulamadý\n"
-
-#: lib/ssh.c:527 lib/ssh.c:598 lib/ssh.c:721
-msgid "Received unexpected response from server\n"
-msgstr "Sunucudan beklenmeyen bir cevap geldi\n"
-
-#: lib/ssh.c:634
-msgid "Finished retrieving directory listing\n"
-msgstr "Dizin listesi alýmý tamamlandý\n"
-
-#: lib/ssh.c:752
-#, c-format
-msgid "Could not change remote directory to %s: %s\n"
-msgstr "Uzak dizin %s'e deðiþtirilemedi: %s\n"
-
-#: lib/ssh.c:1068 lib/sshv2.c:581 lib/sshv2.c:884 lib/sshv2.c:1746
-#: lib/sshv2.c:1830 lib/sshv2.c:1914
-#, c-format
-msgid "Error: Message size %d too big from server\n"
-msgstr "Hata: Sunucudan gelen mesaj boyu (%d) çok büyük\n"
-
-#: lib/ssh.c:1098 lib/sshv2.c:563 lib/sshv2.c:597
+#: lib/misc.c:293 lib/protocols.c:2034
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Hata: Soketten okunamadý: %s\n"
 
-#: lib/sshv2.c:385 lib/sshv2.c:446 lib/sshv2.c:459 lib/sshv2.c:481
-#: lib/sshv2.c:819 lib/sshv2.c:875 lib/sshv2.c:988 lib/sshv2.c:1001
-#: lib/sshv2.c:1014 lib/sshv2.c:1027 lib/sshv2.c:1083 lib/sshv2.c:1139
-#: lib/sshv2.c:1206 lib/sshv2.c:1644 lib/sshv2.c:1737 lib/sshv2.c:1821
-#: lib/sshv2.c:1902 lib/sshv2.c:1984
-#, fuzzy
-msgid "Received wrong response from server, disconnecting\n"
-msgstr "Sunucudan beklenmeyen bir cevap geldi\n"
+#: lib/misc.c:369
+msgid "usage: gftp [[ftp://][user:[pass]@]ftp-site[:port][/directory]]\n"
+msgstr ""
+"kullaným: gftp [[ftp://][kullanýcý:parola@]ftp-adresi[:port][/dizin]]\n"
 
-#: lib/sshv2.c:506
+#: lib/misc.c:397
+#, c-format
+msgid "gFTP Error: Cannot find file %s in %s or %s\n"
+msgstr "gFTP Hatasý: %s dosyasý %s ya da %s içinde bulunamadý\n"
+
+#: lib/misc.c:843
+#, c-format
+msgid "Running program %s\n"
+msgstr "Program çalýþtýrýlýyor: %s\n"
+
+#: lib/misc.c:893 lib/misc.c:918
+msgid "WARNING"
+msgstr ""
+
+#: lib/misc.c:960
+msgid "Error: An incorrect password was entered\n"
+msgstr ""
+
+#: lib/misc.c:963
+msgid ""
+"Please connect to this host with the command line SSH utility and answer "
+"this question appropriately.\n"
+msgstr ""
+
+#: lib/misc.c:966
+msgid "Please correct the above warning to connect to this host.\n"
+msgstr ""
+
+#: lib/options.h:36
+msgid "none"
+msgstr "hiçbiri"
+
+#: lib/options.h:37
+msgid "SITE command"
+msgstr "SITE komutu"
+
+#: lib/options.h:38
+msgid "user@host"
+msgstr "kullanýcý@makina"
+
+#: lib/options.h:39
+msgid "user@host:port"
+msgstr "kullanýcý@makina:port"
+
+#: lib/options.h:40
+msgid "AUTHENTICATE"
+msgstr "AUTHENTICATE"
+
+#: lib/options.h:41
+msgid "user@host port"
+msgstr "kullanýcý@makina port"
+
+#: lib/options.h:42
+msgid "user@host NOAUTH"
+msgstr "kullanýcý@makina NOAHT"
+
+#: lib/options.h:43
+msgid "HTTP Proxy"
+msgstr "HTTP Vekil Sunucu"
+
+#: lib/options.h:44
+msgid "Custom"
+msgstr "Özel"
+
+#: lib/protocols.c:297
+#, c-format
+msgid "Loading directory listing %s from cache\n"
+msgstr "Dizin listesi (%s) arabellekten alýnýyor\n"
+
+#: lib/protocols.c:365
+#, c-format
+msgid "Error: Cannot write to cache: %s\n"
+msgstr "Hata: Arabelleðe yazýlamadý: %s\n"
+
+#: lib/protocols.c:805 lib/protocols.c:828 lib/protocols.c:1664
+#: lib/protocols.c:1762
+#, c-format
+msgid "Looking up %s\n"
+msgstr "%s makinasý bulunuyor\n"
+
+#: lib/protocols.c:811 lib/protocols.c:834 lib/protocols.c:1669
+#: lib/protocols.c:1767
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "%s makinasý bulunamadý: %s\n"
+
+#: lib/protocols.c:1107 lib/protocols.c:1109 lib/protocols.c:1140
+#: lib/protocols.c:1149 lib/protocols.c:1230 lib/protocols.c:1232
+#: lib/protocols.c:1269
+msgid "unknown"
+msgstr "bilinmeyen"
+
+#: lib/protocols.c:1687 lib/protocols.c:1729 lib/rfc959.c:446
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "Soket yaratýlamadý: %s\n"
+
+#: lib/protocols.c:1693 lib/protocols.c:1781
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "%s deneniyor:%d\n"
+
+#: lib/protocols.c:1698 lib/protocols.c:1788
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "%s makinasýna baðlantý kurulamadý: %s\n"
+
+#: lib/protocols.c:1803
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "%s makinasýna baðlantý kuruldu:%d\n"
+
+#: lib/protocols.c:2014 lib/protocols.c:2084
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "%s baðlantýsý zaman aþýmýna uðradý\n"
+
+#: lib/protocols.c:2152
 #, fuzzy, c-format
-msgid "Error: Message size %d too big\n"
+msgid "Cannot get socket flags: %s\n"
+msgstr "Soket yaratýlamadý: %s\n"
+
+#: lib/protocols.c:2166
+#, fuzzy, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "Soket yaratýlamadý: %s\n"
+
+#: lib/rfc2068.c:238 lib/rfc959.c:416 lib/ssh.c:508 lib/sshv2.c:697
+#, c-format
+msgid "Disconnecting from site %s\n"
+msgstr "%s adresiyle baðlantý kesiliyor\n"
+
+#: lib/rfc2068.c:295
+#, fuzzy, c-format
+msgid "Starting the file transfer at offset %lld\n"
+msgstr "Dosya %ld baytýndan itibaren alýnýyor\n"
+
+#: lib/rfc2068.c:300
+#, c-format
+msgid "Starting the file transfer at offset %ld\n"
+msgstr "Dosya %ld baytýndan itibaren alýnýyor\n"
+
+#: lib/rfc2068.c:320
+#, c-format
+msgid "Cannot retrieve file %s\n"
+msgstr "%s dosyasý alýnamýyor\n"
+
+#: lib/rfc2068.c:373
+msgid "Finished retrieving data\n"
+msgstr "Dosya alýmý tamamlandý\n"
+
+#: lib/rfc2068.c:421 lib/ssh.c:736 lib/sshv2.c:778
+msgid "Retrieving directory listing...\n"
+msgstr "Dizin listesi alýnýyor...\n"
+
+#: lib/rfc959.c:224 lib/rfc959.c:233 lib/rfc959.c:244
+#, c-format
+msgid "Received invalid response to PWD command: '%s'\n"
+msgstr ""
+
+#: lib/rfc959.c:474 lib/rfc959.c:484
+#, c-format
+msgid "Cannot find an IP address in PASV response '%s'\n"
+msgstr ""
+
+#: lib/rfc959.c:499
+#, c-format
+msgid "Cannot create a data connection: %s\n"
+msgstr "Veri baðlantýsý kurulamadý: %s\n"
+
+#: lib/rfc959.c:511 lib/rfc959.c:532
+#, fuzzy, c-format
+msgid "Cannot get socket name: %s\n"
+msgstr "Soket yaratýlamadý: %s\n"
+
+#: lib/rfc959.c:522
+#, c-format
+msgid "Cannot bind a port: %s\n"
+msgstr "Porta eriþim yapýlamadý: %s\n"
+
+#: lib/rfc959.c:541
+#, c-format
+msgid "Cannot listen on port %d: %s\n"
+msgstr "Port %d dinlemedi: %s\n"
+
+#: lib/rfc959.c:588
+#, fuzzy, c-format
+msgid "Cannot accept connection from server: %s\n"
+msgstr "%s makinasýna baðlantý kurulamadý: %s\n"
+
+#: lib/rfc959.c:906 lib/ssh.c:857
+msgid "total"
+msgstr "toplam"
+
+#: lib/rfc959.c:908 lib/ssh.c:860
+#, c-format
+msgid "Warning: Cannot parse listing %s\n"
+msgstr "Uyarý: Liste %s ayrýþtýrýlamadý\n"
+
+#: lib/ssh.c:215 lib/sshv2.c:340 lib/sshv2.c:815 lib/sshv2.c:1638
+#: lib/sshv2.c:1729 lib/sshv2.c:1813
+#, c-format
+msgid "Error: Message size %d too big from server\n"
 msgstr "Hata: Sunucudan gelen mesaj boyu (%d) çok büyük\n"
 
-#: lib/sshv2.c:642
+#: lib/ssh.c:312
+#, c-format
+msgid "Could not change remote directory to %s: %s\n"
+msgstr "Uzak dizin %s'e deðiþtirilemedi: %s\n"
+
+#: lib/ssh.c:361 lib/sshv2.c:535
+#, c-format
+msgid "Opening SSH connection to %s\n"
+msgstr "%s makinasýna SSH baðlantýsý kuruluyor\n"
+
+#: lib/ssh.c:386 lib/sshv2.c:565
+#, fuzzy, c-format
+msgid "Cannot create a socket pair: %s\n"
+msgstr "Soket yaratýlamadý: %s\n"
+
+#: lib/ssh.c:397 lib/sshv2.c:576
+#, c-format
+msgid "Cannot open master pty %s: %s\n"
+msgstr "pty %s açýlamadý: %s\n"
+
+#: lib/ssh.c:430 lib/sshv2.c:610
+#, fuzzy, c-format
+msgid "Error: Cannot execute ssh: %s\n"
+msgstr "Hata: ssh çalýþtýrýlamadý: "
+
+#: lib/ssh.c:465 lib/sshv2.c:655
+#, c-format
+msgid "Successfully logged into SSH server %s\n"
+msgstr "%s SSH sunucusuna baþarýyla baðlantý kuruldu\n"
+
+#: lib/ssh.c:471 lib/sshv2.c:661
+#, c-format
+msgid "Cannot fork another process: %s\n"
+msgstr "Baþka süreç yaratýlamýyor: %s\n"
+
+#: lib/ssh.c:551
+#, c-format
+msgid "Remote host could not find file %s\n"
+msgstr "Uzak makine %s dosyasýný bulamadý\n"
+
+#: lib/ssh.c:666 lib/ssh.c:752 lib/ssh.c:875
+msgid "Received unexpected response from server\n"
+msgstr "Sunucudan beklenmeyen bir cevap geldi\n"
+
+#: lib/ssh.c:788
+msgid "Finished retrieving directory listing\n"
+msgstr "Dizin listesi alýmý tamamlandý\n"
+
+#: lib/sshv2.c:131
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr ""
 
-#: lib/sshv2.c:648
+#: lib/sshv2.c:137
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr ""
 
-#: lib/sshv2.c:657
+#: lib/sshv2.c:146
 #, c-format
 msgid "%d: Open %s\n"
 msgstr ""
 
-#: lib/sshv2.c:662
+#: lib/sshv2.c:151
 #, fuzzy, c-format
 msgid "%d: Close\n"
 msgstr "  Kapat  "
 
-#: lib/sshv2.c:668
+#: lib/sshv2.c:157
 #, fuzzy, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "Dizin Oluþtur"
 
-#: lib/sshv2.c:673
+#: lib/sshv2.c:162
 #, fuzzy, c-format
 msgid "%d: Read Directory\n"
 msgstr "Dizin Oluþtur"
 
-#: lib/sshv2.c:677
+#: lib/sshv2.c:166
 #, fuzzy, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%s dosyasý alýnamýyor\n"
 
-#: lib/sshv2.c:682
+#: lib/sshv2.c:171
 #, fuzzy, c-format
 msgid "%d: Make directory %s\n"
 msgstr "Dizin Oluþtur"
 
-#: lib/sshv2.c:687
+#: lib/sshv2.c:176
 #, fuzzy, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "Hedef Dizin:"
 
-#: lib/sshv2.c:692
+#: lib/sshv2.c:181
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr ""
 
-#: lib/sshv2.c:697
+#: lib/sshv2.c:186
 #, c-format
 msgid "%d: File attributes\n"
 msgstr ""
 
-#: lib/sshv2.c:701
+#: lib/sshv2.c:190
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr ""
 
-#: lib/sshv2.c:718
+#: lib/sshv2.c:207
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr ""
 
-#: lib/sshv2.c:723
+#: lib/sshv2.c:212
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr ""
 
-#: lib/sshv2.c:736 src/gtk/bookmarks.c:364 src/gtk/bookmarks.c:1081
-#: src/gtk/chmod_dialog.c:181 src/gtk/options_dialog.c:312
-#: src/gtk/options_dialog.c:686 src/gtk/transfer.c:1722
+#: lib/sshv2.c:225 src/gtk/bookmarks.c:1157 src/gtk/bookmarks.c:1395
+#: src/gtk/chmod_dialog.c:277 src/gtk/options_dialog.c:616
+#: src/gtk/options_dialog.c:962 src/gtk/transfer.c:2249
 msgid "OK"
 msgstr "Tamam"
 
-#: lib/sshv2.c:739
+#: lib/sshv2.c:228
 msgid "EOF"
 msgstr ""
 
-#: lib/sshv2.c:742
+#: lib/sshv2.c:231
 #, fuzzy
 msgid "No such file or directory"
 msgstr "kullaným: chdir <dizin>\n"
 
-#: lib/sshv2.c:745
+#: lib/sshv2.c:234
 msgid "Permission denied"
 msgstr ""
 
-#: lib/sshv2.c:748
+#: lib/sshv2.c:237
 #, fuzzy
 msgid "Failure"
 msgstr "/_Dosya"
 
-#: lib/sshv2.c:751
+#: lib/sshv2.c:240
 msgid "Bad message"
 msgstr ""
 
-#: lib/sshv2.c:754
+#: lib/sshv2.c:243
 #, fuzzy
 msgid "No connection"
 msgstr "Baðlý deðil"
 
-#: lib/sshv2.c:757
+#: lib/sshv2.c:246
 #, fuzzy
 msgid "Connection lost"
 msgstr "%s baðlantýsý zaman aþýmýna uðradý\n"
 
-#: lib/sshv2.c:760
+#: lib/sshv2.c:249
 #, fuzzy
 msgid "Operation unsupported"
 msgstr "Ýþlem iptal edildi\n"
 
-#: lib/sshv2.c:763
+#: lib/sshv2.c:252
 msgid "Unknown message returned from server"
 msgstr ""
 
-#: src/text/gftp-text.c:29
+#: lib/sshv2.c:288
+#, fuzzy, c-format
+msgid "Error: Message size %d too big\n"
+msgstr "Hata: Sunucudan gelen mesaj boyu (%d) çok büyük\n"
+
+#: lib/sshv2.c:401 lib/sshv2.c:414 lib/sshv2.c:436 lib/sshv2.c:501
+#: lib/sshv2.c:647 lib/sshv2.c:743 lib/sshv2.c:806 lib/sshv2.c:919
+#: lib/sshv2.c:932 lib/sshv2.c:945 lib/sshv2.c:958 lib/sshv2.c:1014
+#: lib/sshv2.c:1077 lib/sshv2.c:1529 lib/sshv2.c:1629 lib/sshv2.c:1720
+#: lib/sshv2.c:1801 lib/sshv2.c:1883
+#, fuzzy
+msgid "Received wrong response from server, disconnecting\n"
+msgstr "Sunucudan beklenmeyen bir cevap geldi\n"
+
+#: src/text/gftp-text.c:30
 msgid "about"
 msgstr "hakkýnda"
 
-#: src/text/gftp-text.c:30
+#: src/text/gftp-text.c:31
 msgid "Shows gFTP information"
 msgstr ""
 
-#: src/text/gftp-text.c:31
+#: src/text/gftp-text.c:32
 msgid "ascii"
 msgstr "ascii"
 
-#: src/text/gftp-text.c:32
+#: src/text/gftp-text.c:33
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr ""
 
-#: src/text/gftp-text.c:33
+#: src/text/gftp-text.c:34
 msgid "binary"
 msgstr "binary"
 
-#: src/text/gftp-text.c:34
+#: src/text/gftp-text.c:35
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr ""
 
-#: src/text/gftp-text.c:35
+#: src/text/gftp-text.c:36
 msgid "cd"
 msgstr "cd"
 
-#: src/text/gftp-text.c:36 src/text/gftp-text.c:38
+#: src/text/gftp-text.c:37 src/text/gftp-text.c:39
 #, fuzzy
 msgid "Changes the remote working directory"
 msgstr "Çalýþma dizini bulunamýyor: %s\n"
 
-#: src/text/gftp-text.c:37
+#: src/text/gftp-text.c:38
 msgid "chdir"
 msgstr "chdir"
 
-#: src/text/gftp-text.c:39
+#: src/text/gftp-text.c:40
 msgid "chmod"
 msgstr "chmod"
 
-#: src/text/gftp-text.c:40
+#: src/text/gftp-text.c:41
 #, fuzzy
 msgid "Changes the permissions of a remote file"
 msgstr "Aktarýlan dosyalarýn haklarýný korur."
 
-#: src/text/gftp-text.c:41
+#: src/text/gftp-text.c:42
+#, fuzzy
+msgid "clear"
+msgstr "kapat"
+
+#: src/text/gftp-text.c:43
+msgid "Available options: cache"
+msgstr ""
+
+#: src/text/gftp-text.c:44
 msgid "close"
 msgstr "kapat"
 
-#: src/text/gftp-text.c:42
+#: src/text/gftp-text.c:45
 #, fuzzy
 msgid "Disconnects from the remote site"
 msgstr "%s: Uzak makinaya baðlantý yapýlmadý\n"
 
-#: src/text/gftp-text.c:43
+#: src/text/gftp-text.c:46
 msgid "delete"
 msgstr "sil"
 
-#: src/text/gftp-text.c:44
+#: src/text/gftp-text.c:47
 msgid "Removes a remote file"
 msgstr ""
 
-#: src/text/gftp-text.c:45
+#: src/text/gftp-text.c:48
 msgid "get"
 msgstr "get"
 
-#: src/text/gftp-text.c:46 src/text/gftp-text.c:70
+#: src/text/gftp-text.c:49 src/text/gftp-text.c:73
 #, fuzzy
 msgid "Downloads remote file(s)"
 msgstr "Dosyalarý Ýndir"
 
-#: src/text/gftp-text.c:47
+#: src/text/gftp-text.c:50
 msgid "help"
 msgstr "yardým"
 
-#: src/text/gftp-text.c:48
+#: src/text/gftp-text.c:51
 msgid "Shows this help screen"
 msgstr ""
 
-#: src/text/gftp-text.c:49
+#: src/text/gftp-text.c:52
 msgid "lcd"
 msgstr "lcd"
 
-#: src/text/gftp-text.c:50 src/text/gftp-text.c:52
+#: src/text/gftp-text.c:53 src/text/gftp-text.c:55
 #, fuzzy
 msgid "Changes the local working directory"
 msgstr "Çalýþma dizini bulunamýyor: %s\n"
 
-#: src/text/gftp-text.c:51
+#: src/text/gftp-text.c:54
 msgid "lchdir"
 msgstr "lchdir"
 
-#: src/text/gftp-text.c:53
+#: src/text/gftp-text.c:56
 msgid "lchmod"
 msgstr "lchmod"
 
-#: src/text/gftp-text.c:54
+#: src/text/gftp-text.c:57
 #, fuzzy
 msgid "Changes the permissions of a local file"
 msgstr "Aktarýlan dosyalarýn haklarýný korur."
 
-#: src/text/gftp-text.c:55
+#: src/text/gftp-text.c:58
 msgid "ldelete"
 msgstr "ldelete"
 
-#: src/text/gftp-text.c:56
+#: src/text/gftp-text.c:59
 msgid "Removes a local file"
 msgstr ""
 
-#: src/text/gftp-text.c:57
+#: src/text/gftp-text.c:60
 msgid "lls"
 msgstr "lls"
 
-#: src/text/gftp-text.c:58
+#: src/text/gftp-text.c:61
 msgid "Shows the directory listing for the current local directory"
 msgstr ""
 
-#: src/text/gftp-text.c:59
+#: src/text/gftp-text.c:62
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: src/text/gftp-text.c:60
+#: src/text/gftp-text.c:63
 #, fuzzy
 msgid "Creates a local directory"
 msgstr "Yerel Dizin:"
 
-#: src/text/gftp-text.c:61
+#: src/text/gftp-text.c:64
 msgid "lpwd"
 msgstr "lpwd"
 
-#: src/text/gftp-text.c:62
+#: src/text/gftp-text.c:65
 msgid "Show current local directory"
 msgstr ""
 
-#: src/text/gftp-text.c:63
+#: src/text/gftp-text.c:66
 msgid "lrename"
 msgstr "lrename"
 
-#: src/text/gftp-text.c:64
+#: src/text/gftp-text.c:67
 msgid "Rename a local file"
 msgstr ""
 
-#: src/text/gftp-text.c:65
+#: src/text/gftp-text.c:68
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: src/text/gftp-text.c:66
+#: src/text/gftp-text.c:69
 #, fuzzy
 msgid "Remove a local directory"
 msgstr "Hedef Dizin:"
 
-#: src/text/gftp-text.c:67
+#: src/text/gftp-text.c:70
 msgid "ls"
 msgstr "ls"
 
-#: src/text/gftp-text.c:68
+#: src/text/gftp-text.c:71
 msgid "Shows the directory listing for the current remote directory"
 msgstr ""
 
-#: src/text/gftp-text.c:69
+#: src/text/gftp-text.c:72
 msgid "mget"
 msgstr "mget"
 
-#: src/text/gftp-text.c:71
+#: src/text/gftp-text.c:74
 msgid "mkdir"
 msgstr "mkdir"
 
-#: src/text/gftp-text.c:72
+#: src/text/gftp-text.c:75
 #, fuzzy
 msgid "Creates a remote directory"
 msgstr "Hedef Dizin:"
 
-#: src/text/gftp-text.c:73
+#: src/text/gftp-text.c:76
 msgid "mput"
 msgstr "mput"
 
-#: src/text/gftp-text.c:74 src/text/gftp-text.c:78
+#: src/text/gftp-text.c:77 src/text/gftp-text.c:81
 #, fuzzy
 msgid "Uploads local file(s)"
 msgstr "Dosyalarý Gönder"
 
-#: src/text/gftp-text.c:75
+#: src/text/gftp-text.c:78
 msgid "open"
 msgstr "aç"
 
-#: src/text/gftp-text.c:76
+#: src/text/gftp-text.c:79
 #, fuzzy
 msgid "Opens a connection to a remote site"
 msgstr "%s: Uzak makinaya baðlantý yapýlmadý\n"
 
-#: src/text/gftp-text.c:77
+#: src/text/gftp-text.c:80
 msgid "put"
 msgstr "put"
 
-#: src/text/gftp-text.c:79
+#: src/text/gftp-text.c:82
 msgid "pwd"
 msgstr "pwd"
 
-#: src/text/gftp-text.c:80
+#: src/text/gftp-text.c:83
 #, fuzzy
 msgid "Show current remote directory"
 msgstr "Hedef Dizin:"
 
-#: src/text/gftp-text.c:81
+#: src/text/gftp-text.c:84
 msgid "quit"
 msgstr "çýk"
 
-#: src/text/gftp-text.c:82
+#: src/text/gftp-text.c:85
 msgid "Exit from gFTP"
 msgstr ""
 
-#: src/text/gftp-text.c:83
+#: src/text/gftp-text.c:86
 msgid "rename"
 msgstr "yeniden adlandýr"
 
-#: src/text/gftp-text.c:84
+#: src/text/gftp-text.c:87
 msgid "Rename a remote file"
 msgstr ""
 
-#: src/text/gftp-text.c:85
+#: src/text/gftp-text.c:88
 msgid "rmdir"
 msgstr "rmdir"
 
-#: src/text/gftp-text.c:86
+#: src/text/gftp-text.c:89
 #, fuzzy
 msgid "Remove a remote directory"
 msgstr "Hedef Dizin:"
 
-#: src/text/gftp-text.c:87
+#: src/text/gftp-text.c:90
 #, fuzzy
 msgid "set"
 msgstr "get"
 
-#: src/text/gftp-text.c:88
+#: src/text/gftp-text.c:91
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
 
-#: src/text/gftp-text.c:134
+#: src/text/gftp-text.c:137
 msgid ""
 ">.\n"
 "If you have any questions, comments, or suggestions about this program, "
@@ -1310,7 +1348,7 @@ msgstr ""
 "gönderebilirsiniz. gFTP programýnýn son sürümü her zaman http://gftp.seul."
 "org adresinden alýnabilir.\n"
 
-#: src/text/gftp-text.c:136 src/gtk/gftp-gtk.c:131
+#: src/text/gftp-text.c:139 src/gtk/gftp-gtk.c:1033
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1319,108 +1357,118 @@ msgstr ""
 "gFTP serbest yazýlýmdýr. Belirli koþullar altýnda daðýtýlabilir. Kopyalama "
 "için gerekli bilgileri COPYING dosyasýnda bulabilirsiniz.\n"
 
-#: src/text/gftp-text.c:217
+#: src/text/gftp-text.c:220
 msgid "Error: Command not recognized\n"
 msgstr "Hata: Komut anlaþýlamadý\n"
 
-#: src/text/gftp-text.c:312
+#: src/text/gftp-text.c:315
 msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
 msgstr ""
 "kullaným: open [[ftp://][kullanýcý:parola@]ftp-adresi[:port][/dizin]]\n"
 
-#: src/text/gftp-text.c:319 src/gtk/dnd.c:43 src/gtk/menu-items.c:119
+#: src/text/gftp-text.c:322 src/gtk/dnd.c:117 src/gtk/menu-items.c:114
 #, c-format
 msgid "Could not parse URL %s\n"
 msgstr "%s satýrý ayrýþtýrýlamadý\n"
 
-#: src/text/gftp-text.c:367 src/gtk/menu-items.c:815
+#: src/text/gftp-text.c:372 src/gtk/menu-items.c:797
 msgid "Translated by"
 msgstr "Çeviri takýmý"
 
-#: src/text/gftp-text.c:390 src/text/gftp-text.c:406 src/text/gftp-text.c:436
-#: src/text/gftp-text.c:459 src/text/gftp-text.c:481 src/text/gftp-text.c:505
-#: src/text/gftp-text.c:533 src/text/gftp-text.c:564 src/text/gftp-text.c:615
-#: src/text/gftp-text.c:631 src/text/gftp-text.c:650 src/text/gftp-text.c:723
+#: src/text/gftp-text.c:395 src/text/gftp-text.c:411 src/text/gftp-text.c:441
+#: src/text/gftp-text.c:464 src/text/gftp-text.c:486 src/text/gftp-text.c:510
+#: src/text/gftp-text.c:538 src/text/gftp-text.c:571 src/text/gftp-text.c:668
+#: src/text/gftp-text.c:684 src/text/gftp-text.c:703 src/text/gftp-text.c:776
 msgid "Error: Not connected to a remote site\n"
 msgstr "Hata: Uzaktaki sisteme baðlantý yok\n"
 
-#: src/text/gftp-text.c:411 src/text/gftp-text.c:417
+#: src/text/gftp-text.c:416 src/text/gftp-text.c:422
 msgid "usage: chdir <directory>\n"
 msgstr "kullaným: chdir <dizin>\n"
 
-#: src/text/gftp-text.c:443
+#: src/text/gftp-text.c:448
 msgid "usage: mkdir <new directory>\n"
 msgstr "kullaným: mkdir <yeni dizin>\n"
 
-#: src/text/gftp-text.c:465
+#: src/text/gftp-text.c:470
 msgid "usage: rmdir <directory>\n"
 msgstr "kullaným: rmdir <dizin>\n"
 
-#: src/text/gftp-text.c:487
+#: src/text/gftp-text.c:492
 msgid "usage: delete <file>\n"
 msgstr "kullaným: delete <dizin>\n"
 
-#: src/text/gftp-text.c:515
+#: src/text/gftp-text.c:520
 msgid "usage: rename <old name> <new name>\n"
 msgstr "kullaným: rename <eski> <yeni>\n"
 
-#: src/text/gftp-text.c:543
+#: src/text/gftp-text.c:548
 msgid "usage: chmod <mode> <file>\n"
 msgstr "kullaným: chmod <kip> <dosya>\n"
 
-#: src/text/gftp-text.c:656
+#: src/text/gftp-text.c:709
 msgid "usage: mget <filespec>\n"
 msgstr "kullaným: mget <dosya adlarý>\n"
 
-#: src/text/gftp-text.c:729
+#: src/text/gftp-text.c:782
 msgid "usage: mput <filespec>\n"
 msgstr "kullaným: mput <dosya adlarý>\n"
 
-#: src/text/gftp-text.c:813 src/gtk/transfer.c:592
+#: src/text/gftp-text.c:866 src/gtk/transfer.c:787
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Dosya transfer hýzý %.2f Kb/s olarak ayarlandý\n"
 
-#: src/text/gftp-text.c:880
+#: src/text/gftp-text.c:933
 #, c-format
 msgid "Could not download %s\n"
 msgstr "%s dosyasý alýnamadý\n"
 
-#: src/text/gftp-text.c:887
+#: src/text/gftp-text.c:940
 #, c-format
 msgid "Successfully transferred %s\n"
 msgstr "%s baþarýyla aktarýldý\n"
 
-#: src/text/gftp-text.c:922
+#: src/text/gftp-text.c:994
 msgid ""
 "Supported commands:\n"
 "\n"
 msgstr ""
 
-#: src/text/gftp-text.c:975
+#: src/text/gftp-text.c:1050
 msgid "usage: set [variable = value]\n"
 msgstr ""
 
-#: src/text/gftp-text.c:995
+#: src/text/gftp-text.c:1071
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr ""
 
-#: src/text/gftp-text.c:1018
+#: src/text/gftp-text.c:1078
+#, c-format
+msgid "Error: Variable %s is not available in the text port of gFTP\n"
+msgstr ""
+
+#: src/text/gftp-text.c:1101
 msgid "Error: You cannot change this variable\n"
 msgstr ""
 
-#: src/gtk/bookmarks.c:72 src/gtk/gftp-gtk.c:951 src/gtk/menu-items.c:65
-#: src/gtk/menu-items.c:95 src/gtk/misc-gtk.c:461 src/gtk/misc-gtk.c:469
+#: src/text/gftp-text.c:1277
+#, fuzzy
+msgid "Clear the directory cache\n"
+msgstr "Hedef Dizin:"
+
+#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:840 src/gtk/menu-items.c:60
+#: src/gtk/menu-items.c:90 src/gtk/misc-gtk.c:480 src/gtk/misc-gtk.c:488
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: Herhangi bir iþlem yapmadan önce dur düðmesine týklayýn\n"
 
-#: src/gtk/bookmarks.c:73
+#: src/gtk/bookmarks.c:41
 msgid "Run Bookmark"
 msgstr "Yer Ýmini Çalýþtýr"
 
-#: src/gtk/bookmarks.c:80
+#: src/gtk/bookmarks.c:48
 msgid ""
 "Internal gFTP Error: Could not look up bookmark entry. This is definately a "
 "bug. Please email masneyb@gftp.org about it. Please be sure to include the "
@@ -1429,15 +1477,24 @@ msgstr ""
 "GFTP hatasý: yerimleri bulunamadý. Lütfen masneyb@gftp.org adresine bu "
 "hatayý bir e-postayla bildirin.\n"
 
-#: src/gtk/bookmarks.c:139 src/gtk/bookmarks.c:150
+#: src/gtk/bookmarks.c:110
+msgid "Add Bookmark: You must enter a name for the bookmark\n"
+msgstr "Yer Ými Ekle: Yer imi için bir isim vermelisiniz\n"
+
+#: src/gtk/bookmarks.c:117
+#, c-format
+msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
+msgstr "Yer Ými Ekle: %s yer imi eklenemedi, çünkü zaten var\n"
+
+#: src/gtk/bookmarks.c:180 src/gtk/bookmarks.c:191
 msgid "Add Bookmark"
 msgstr "Yer Ými Ekle"
 
-#: src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:187
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "Yer Ými Ekle: Bir makina adý belirtmelisiniz\n"
 
-#: src/gtk/bookmarks.c:150
+#: src/gtk/bookmarks.c:191
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
@@ -1447,133 +1504,23 @@ msgstr ""
 "Maddeleri / karakteriyle alt menülerine ayýrabilirsiniz.\n"
 "(Örnek: Linux sayfalarý/GNU"
 
-#: src/gtk/bookmarks.c:150
+#: src/gtk/bookmarks.c:191
 msgid "Remember password"
 msgstr "Parolayý hatýrla"
 
-#: src/gtk/bookmarks.c:166
-msgid "Add Bookmark: You must enter a name for the bookmark\n"
-msgstr "Yer Ými Ekle: Yer imi için bir isim vermelisiniz\n"
-
-#: src/gtk/bookmarks.c:173
-#, c-format
-msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
-msgstr "Yer Ými Ekle: %s yer imi eklenemedi, çünkü zaten var\n"
-
-#: src/gtk/bookmarks.c:289
-msgid "/_File"
-msgstr "/_Dosya"
-
-#: src/gtk/bookmarks.c:290
-msgid "/File/tearoff"
-msgstr "/Dosya/tearoff"
-
-#: src/gtk/bookmarks.c:291
-msgid "/File/New Folder..."
-msgstr "/Dosya/Yeni Dizin..."
-
-#: src/gtk/bookmarks.c:292
-msgid "/File/New Item..."
-msgstr "/Dosya/Yeni Madde..."
-
-#: src/gtk/bookmarks.c:293
-msgid "/File/Delete"
-msgstr "/Dosya/Sil"
-
-#: src/gtk/bookmarks.c:294
-msgid "/File/Properties..."
-msgstr "/Dosya/Özellikler..."
-
-#: src/gtk/bookmarks.c:295
-msgid "/File/sep"
-msgstr "/Dosya/sep"
-
-#: src/gtk/bookmarks.c:296
-msgid "/File/Close"
-msgstr "/Dosya/Kapat"
-
-#: src/gtk/bookmarks.c:307 src/gtk/bookmarks.c:310
-msgid "Edit Bookmarks"
-msgstr "Yer Ýmlerini Düzenle"
-
-#: src/gtk/bookmarks.c:325 src/gtk/bookmarks.c:899 src/gtk/chmod_dialog.c:87
-#: src/gtk/gftp-gtk.c:116 src/gtk/menu-items.c:797 src/gtk/misc-gtk.c:898
-#: src/gtk/misc-gtk.c:1019 src/gtk/options_dialog.c:102
-#: src/gtk/view_dialog.c:267
-msgid "gFTP Icon"
-msgstr ""
-
-#: src/gtk/bookmarks.c:374 src/gtk/bookmarks.c:1093 src/gtk/chmod_dialog.c:193
-#: src/gtk/options_dialog.c:323 src/gtk/options_dialog.c:697
-#: src/gtk/transfer.c:1734
-msgid "  Cancel  "
-msgstr "  Ýptal   "
-
-#: src/gtk/bookmarks.c:765 src/gtk/bookmarks.c:775
+#: src/gtk/bookmarks.c:572 src/gtk/bookmarks.c:582
 msgid "New Folder"
 msgstr "Yeni Dizin"
 
-#: src/gtk/bookmarks.c:766
+#: src/gtk/bookmarks.c:573
 msgid "Enter the name of the new folder to create"
 msgstr "Açýlacak olan dizinin adýný girin"
 
-#: src/gtk/bookmarks.c:776
+#: src/gtk/bookmarks.c:583
 msgid "Enter the name of the new item to create"
 msgstr "Oluþturulacak yeni öðenin adýný girin"
 
-#: src/gtk/bookmarks.c:878 src/gtk/bookmarks.c:881
-msgid "Edit Entry"
-msgstr "Girdiyi Düzenle"
-
-#: src/gtk/bookmarks.c:914
-msgid "Description:"
-msgstr "Taným:"
-
-#: src/gtk/bookmarks.c:929
-msgid "Hostname:"
-msgstr "Makina adý:"
-
-#: src/gtk/bookmarks.c:942
-msgid "Port:"
-msgstr "Port."
-
-#: src/gtk/bookmarks.c:959
-msgid "Protocol:"
-msgstr "Protokol:"
-
-#: src/gtk/bookmarks.c:983
-msgid "Remote Directory:"
-msgstr "Hedef Dizin:"
-
-#: src/gtk/bookmarks.c:996
-msgid "Local Directory:"
-msgstr "Yerel Dizin:"
-
-#: src/gtk/bookmarks.c:1009
-msgid "Remote SSH sftp path:"
-msgstr "Uzak SSH sftp yolu:"
-
-#: src/gtk/bookmarks.c:1026
-msgid "Username:"
-msgstr "Kullanýcý adý:"
-
-#: src/gtk/bookmarks.c:1039
-msgid "Password:"
-msgstr "Parola:"
-
-#: src/gtk/bookmarks.c:1053
-msgid "Account:"
-msgstr "Hesap:"
-
-#: src/gtk/bookmarks.c:1067
-msgid "Log in as ANONYMOUS"
-msgstr "Anonim hesapla gir"
-
-#: src/gtk/bookmarks.c:1103 src/gtk/options_dialog.c:334
-msgid "Apply"
-msgstr "Uygula"
-
-#: src/gtk/bookmarks.c:1143
+#: src/gtk/bookmarks.c:667
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1582,20 +1529,127 @@ msgstr ""
 "Bu yer imini (%s) ve tüm altýndakileri\n"
 "silmek istediðinizden emin misiniz?"
 
-#: src/gtk/bookmarks.c:1144
+#: src/gtk/bookmarks.c:668
 msgid "Delete Bookmark"
 msgstr "Yer Ýmini Sil"
 
-#: src/gtk/bookmarks.c:1355
+#: src/gtk/bookmarks.c:695
 msgid "Bookmarks"
 msgstr "Yer imleri"
 
-#: src/gtk/chmod_dialog.c:59 src/gtk/chmod_dialog.c:65
-#: src/gtk/chmod_dialog.c:70
+#: src/gtk/bookmarks.c:954 src/gtk/bookmarks.c:957
+msgid "Edit Entry"
+msgstr "Girdiyi Düzenle"
+
+#: src/gtk/bookmarks.c:975 src/gtk/bookmarks.c:1356 src/gtk/chmod_dialog.c:183
+#: src/gtk/gftp-gtk.c:1018 src/gtk/menu-items.c:779 src/gtk/misc-gtk.c:947
+#: src/gtk/misc-gtk.c:1071 src/gtk/options_dialog.c:752
+#: src/gtk/view_dialog.c:320
+msgid "gFTP Icon"
+msgstr ""
+
+#: src/gtk/bookmarks.c:990
+msgid "Description:"
+msgstr "Taným:"
+
+#: src/gtk/bookmarks.c:1005
+msgid "Hostname:"
+msgstr "Makina adý:"
+
+#: src/gtk/bookmarks.c:1018
+msgid "Port:"
+msgstr "Port."
+
+#: src/gtk/bookmarks.c:1035
+msgid "Protocol:"
+msgstr "Protokol:"
+
+#: src/gtk/bookmarks.c:1059
+msgid "Remote Directory:"
+msgstr "Hedef Dizin:"
+
+#: src/gtk/bookmarks.c:1072
+msgid "Local Directory:"
+msgstr "Yerel Dizin:"
+
+#: src/gtk/bookmarks.c:1085
+msgid "Remote SSH sftp path:"
+msgstr "Uzak SSH sftp yolu:"
+
+#: src/gtk/bookmarks.c:1102
+msgid "Username:"
+msgstr "Kullanýcý adý:"
+
+#: src/gtk/bookmarks.c:1115
+msgid "Password:"
+msgstr "Parola:"
+
+#: src/gtk/bookmarks.c:1129
+msgid "Account:"
+msgstr "Hesap:"
+
+#: src/gtk/bookmarks.c:1143
+msgid "Log in as ANONYMOUS"
+msgstr "Anonim hesapla gir"
+
+#: src/gtk/bookmarks.c:1169 src/gtk/bookmarks.c:1405
+#: src/gtk/chmod_dialog.c:289 src/gtk/options_dialog.c:627
+#: src/gtk/options_dialog.c:973 src/gtk/transfer.c:2261
+msgid "  Cancel  "
+msgstr "  Ýptal   "
+
+#: src/gtk/bookmarks.c:1179 src/gtk/options_dialog.c:984
+msgid "Apply"
+msgstr "Uygula"
+
+#: src/gtk/bookmarks.c:1320
+msgid "/_File"
+msgstr "/_Dosya"
+
+#: src/gtk/bookmarks.c:1321
+msgid "/File/tearoff"
+msgstr "/Dosya/tearoff"
+
+#: src/gtk/bookmarks.c:1322
+msgid "/File/New Folder..."
+msgstr "/Dosya/Yeni Dizin..."
+
+#: src/gtk/bookmarks.c:1323
+msgid "/File/New Item..."
+msgstr "/Dosya/Yeni Madde..."
+
+#: src/gtk/bookmarks.c:1324
+msgid "/File/Delete"
+msgstr "/Dosya/Sil"
+
+#: src/gtk/bookmarks.c:1325
+msgid "/File/Properties..."
+msgstr "/Dosya/Özellikler..."
+
+#: src/gtk/bookmarks.c:1326
+msgid "/File/sep"
+msgstr "/Dosya/sep"
+
+#: src/gtk/bookmarks.c:1327
+msgid "/File/Close"
+msgstr "/Dosya/Kapat"
+
+#: src/gtk/bookmarks.c:1338 src/gtk/bookmarks.c:1341
+msgid "Edit Bookmarks"
+msgstr "Yer Ýmlerini Düzenle"
+
+#: src/gtk/chmod_dialog.c:70 src/gtk/delete_dialog.c:97
+#: src/gtk/menu-items.c:450 src/gtk/mkdir_dialog.c:55
+#: src/gtk/rename_dialog.c:56 src/gtk/transfer.c:527
+msgid "Operation canceled\n"
+msgstr "Ýþlem iptal edildi\n"
+
+#: src/gtk/chmod_dialog.c:155 src/gtk/chmod_dialog.c:161
+#: src/gtk/chmod_dialog.c:166
 msgid "Chmod"
 msgstr "Chmod"
 
-#: src/gtk/chmod_dialog.c:90
+#: src/gtk/chmod_dialog.c:186
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
@@ -1603,83 +1657,445 @@ msgstr ""
 "Þimdi dosyanýn özelliklerini deðiþtirebilirsiniz.\n"
 "Not: Bazý ftp sunucularý chmod komutunu desteklemez"
 
-#: src/gtk/chmod_dialog.c:100
+#: src/gtk/chmod_dialog.c:196
 msgid "Special"
 msgstr "Özel"
 
-#: src/gtk/chmod_dialog.c:108
+#: src/gtk/chmod_dialog.c:204
 msgid "SUID"
 msgstr "SUID"
 
-#: src/gtk/chmod_dialog.c:112
+#: src/gtk/chmod_dialog.c:208
 msgid "SGID"
 msgstr "SGID"
 
-#: src/gtk/chmod_dialog.c:116
+#: src/gtk/chmod_dialog.c:212
 msgid "Sticky"
 msgstr "Sticky"
 
-#: src/gtk/chmod_dialog.c:120 src/gtk/gftp-gtk.c:728
+#: src/gtk/chmod_dialog.c:216 src/gtk/gftp-gtk.c:552
 msgid "User"
 msgstr "Kullanýcý"
 
-#: src/gtk/chmod_dialog.c:128 src/gtk/chmod_dialog.c:148
-#: src/gtk/chmod_dialog.c:168
+#: src/gtk/chmod_dialog.c:224 src/gtk/chmod_dialog.c:244
+#: src/gtk/chmod_dialog.c:264
 msgid "Read"
 msgstr "Okuma"
 
-#: src/gtk/chmod_dialog.c:132 src/gtk/chmod_dialog.c:152
-#: src/gtk/chmod_dialog.c:172
+#: src/gtk/chmod_dialog.c:228 src/gtk/chmod_dialog.c:248
+#: src/gtk/chmod_dialog.c:268
 msgid "Write"
 msgstr "Yazma"
 
-#: src/gtk/chmod_dialog.c:136 src/gtk/chmod_dialog.c:156
-#: src/gtk/chmod_dialog.c:176
+#: src/gtk/chmod_dialog.c:232 src/gtk/chmod_dialog.c:252
+#: src/gtk/chmod_dialog.c:272
 msgid "Execute"
 msgstr "Çalýþtýrma"
 
-#: src/gtk/chmod_dialog.c:140 src/gtk/gftp-gtk.c:729
+#: src/gtk/chmod_dialog.c:236 src/gtk/gftp-gtk.c:553
 msgid "Group"
 msgstr "Grup"
 
-#: src/gtk/chmod_dialog.c:160
+#: src/gtk/chmod_dialog.c:256
 msgid "Other"
 msgstr "Diðerleri"
 
-#: src/gtk/chmod_dialog.c:337 src/gtk/delete_dialog.c:230
-#: src/gtk/menu-items.c:576 src/gtk/mkdir_dialog.c:65
-#: src/gtk/rename_dialog.c:66 src/gtk/transfer.c:514
-msgid "Operation canceled\n"
-msgstr "Ýþlem iptal edildi\n"
-
-#: src/gtk/delete_dialog.c:45 src/gtk/options_dialog.c:400
-msgid "Delete"
-msgstr "Sil"
-
-#: src/gtk/delete_dialog.c:118
+#: src/gtk/delete_dialog.c:164
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr "%ld dosya ve %ld dizini silmek istiyor musunuz?"
 
-#: src/gtk/delete_dialog.c:120
+#: src/gtk/delete_dialog.c:166
 msgid "Delete Files/Directories"
 msgstr "Dosyalarý/Dizinleri Sil"
 
-#: src/gtk/dnd.c:65 src/gtk/dnd.c:149
-msgid "Drag-N-Drop"
-msgstr "Sürükle-Býrak"
+#: src/gtk/delete_dialog.c:184 src/gtk/options_dialog.c:692
+msgid "Delete"
+msgstr "Sil"
 
-#: src/gtk/dnd.c:162
-#, c-format
-msgid "Received URL %s\n"
-msgstr "Alýnan URL %s\n"
-
-#: src/gtk/dnd.c:212
+#: src/gtk/dnd.c:56
 #, c-format
 msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
 msgstr "Sürükle-Býrak: %s göz ardý ediliyor: Hatalý URL türü\n"
 
-#: src/gtk/gftp-gtk.c:129
+#: src/gtk/dnd.c:139 src/gtk/dnd.c:231
+msgid "Drag-N-Drop"
+msgstr "Sürükle-Býrak"
+
+#: src/gtk/dnd.c:243
+#, c-format
+msgid "Received URL %s\n"
+msgstr "Alýnan URL %s\n"
+
+#: src/gtk/gftp-gtk.c:95
+msgid "Exit"
+msgstr "Çýk"
+
+#: src/gtk/gftp-gtk.c:95
+msgid ""
+"There are file transfers in progress.\n"
+"Are you sure you want to exit?"
+msgstr ""
+"Halen dosyalar alýnýyor.\n"
+"Çýkmak istiyor musunuz?"
+
+#: src/gtk/gftp-gtk.c:138
+msgid "/_FTP"
+msgstr "/_FTP"
+
+#: src/gtk/gftp-gtk.c:139
+msgid "/FTP/tearoff"
+msgstr "/FTP/tearoff"
+
+#: src/gtk/gftp-gtk.c:140
+msgid "/FTP/Window 1"
+msgstr "/FTP/Pencere 1"
+
+#: src/gtk/gftp-gtk.c:141
+msgid "/FTP/Window 2"
+msgstr "/FTP/Pencere 3"
+
+#: src/gtk/gftp-gtk.c:142 src/gtk/gftp-gtk.c:145 src/gtk/gftp-gtk.c:148
+msgid "/FTP/sep"
+msgstr "/FTP/sep"
+
+#: src/gtk/gftp-gtk.c:143
+msgid "/FTP/Ascii"
+msgstr "/FTP/Ascii"
+
+#: src/gtk/gftp-gtk.c:144
+msgid "/FTP/Binary"
+msgstr "/FTP/Ýkili"
+
+#: src/gtk/gftp-gtk.c:146
+msgid "/FTP/_Options..."
+msgstr "/FTP/_Seçenekler..."
+
+#: src/gtk/gftp-gtk.c:149
+msgid "/FTP/_Quit"
+msgstr "/FTP/Çý_k"
+
+#: src/gtk/gftp-gtk.c:150
+msgid "/_Local"
+msgstr "/_Yerel"
+
+#: src/gtk/gftp-gtk.c:151
+msgid "/Local/tearoff"
+msgstr "/Yerel/tearoff"
+
+#: src/gtk/gftp-gtk.c:152
+msgid "/Local/Open _URL..."
+msgstr "/Yerel/_URL Aç..."
+
+#: src/gtk/gftp-gtk.c:153
+msgid "/Local/Disconnect"
+msgstr "/Yerel/Baðlantýyý Kes"
+
+#: src/gtk/gftp-gtk.c:154 src/gtk/gftp-gtk.c:160
+msgid "/Local/sep"
+msgstr "/Yerel/sep"
+
+#: src/gtk/gftp-gtk.c:155
+msgid "/Local/Change Filespec..."
+msgstr "/Yerel/Dosya Türünü Deðiþtir..."
+
+#: src/gtk/gftp-gtk.c:156
+#, fuzzy
+msgid "/Local/Show selected"
+msgstr "/Yerel/Tümünü Seç"
+
+#: src/gtk/gftp-gtk.c:157
+msgid "/Local/Select All"
+msgstr "/Yerel/Tümünü Seç"
+
+#: src/gtk/gftp-gtk.c:158
+msgid "/Local/Select All Files"
+msgstr "/Yerel/Tüm Dosyalarý Seç"
+
+#: src/gtk/gftp-gtk.c:159
+msgid "/Local/Deselect All"
+msgstr "/Yerel/Hiçbirini Seçme"
+
+#: src/gtk/gftp-gtk.c:161
+#, fuzzy
+msgid "/Local/Save Directory Listing..."
+msgstr "/Yerel/Dizin Oluþtur..."
+
+#: src/gtk/gftp-gtk.c:162
+msgid "/Local/Send SITE Command..."
+msgstr "/Yerel/SITE Komutunu Gönder..."
+
+#: src/gtk/gftp-gtk.c:163
+msgid "/Local/Change Directory"
+msgstr "/Yerel/Dizin Deðiþtir"
+
+#: src/gtk/gftp-gtk.c:164
+msgid "/Local/Chmod..."
+msgstr "/Yerel/Chmod..."
+
+#: src/gtk/gftp-gtk.c:165
+msgid "/Local/Make Directory..."
+msgstr "/Yerel/Dizin Oluþtur..."
+
+#: src/gtk/gftp-gtk.c:166
+msgid "/Local/Rename..."
+msgstr "/Yerel/Ýsim Deðiþtir..."
+
+#: src/gtk/gftp-gtk.c:167
+msgid "/Local/Delete..."
+msgstr "/Yerel/Sil..."
+
+#: src/gtk/gftp-gtk.c:168
+msgid "/Local/Edit..."
+msgstr "/Yerel/Düzenle..."
+
+#: src/gtk/gftp-gtk.c:169
+msgid "/Local/View..."
+msgstr "/Yerel/Görüntüle..."
+
+#: src/gtk/gftp-gtk.c:170
+msgid "/Local/Refresh"
+msgstr "/Yerel/Tazele"
+
+#: src/gtk/gftp-gtk.c:171
+msgid "/_Remote"
+msgstr "/_Uzak"
+
+#: src/gtk/gftp-gtk.c:172
+msgid "/Remote/tearoff"
+msgstr "/Uzak/tearoff"
+
+#: src/gtk/gftp-gtk.c:173
+msgid "/Remote/Open _URL..."
+msgstr "/Uzak/_URL Aç..."
+
+#: src/gtk/gftp-gtk.c:175
+msgid "/Remote/Disconnect"
+msgstr "/Uzak/Baðlantýyý Kes"
+
+#: src/gtk/gftp-gtk.c:177 src/gtk/gftp-gtk.c:183
+msgid "/Remote/sep"
+msgstr "/Uzak/sep"
+
+#: src/gtk/gftp-gtk.c:178
+msgid "/Remote/Change Filespec..."
+msgstr "/Uzak/Dosya Türünü Deðiþtir..."
+
+#: src/gtk/gftp-gtk.c:179
+#, fuzzy
+msgid "/Remote/Show selected"
+msgstr "/Yerel/Tümünü Seç"
+
+#: src/gtk/gftp-gtk.c:180
+msgid "/Remote/Select All"
+msgstr "/Uzak/Tümünü Seç"
+
+#: src/gtk/gftp-gtk.c:181
+msgid "/Remote/Select All Files"
+msgstr "/Uzak/Tüm Dosyalarý Seç"
+
+#: src/gtk/gftp-gtk.c:182
+msgid "/Remote/Deselect All"
+msgstr "/Uzak/Hiçbirini Seçme"
+
+#: src/gtk/gftp-gtk.c:184
+#, fuzzy
+msgid "/Remote/Save Directory Listing..."
+msgstr "/Uzak/Dizin Oluþtur..."
+
+#: src/gtk/gftp-gtk.c:185
+msgid "/Remote/Send SITE Command..."
+msgstr "/Uzak/SITE Komutu Gönder..."
+
+#: src/gtk/gftp-gtk.c:186
+msgid "/Remote/Change Directory"
+msgstr "/Uzak/Dizin Deðiþtir"
+
+#: src/gtk/gftp-gtk.c:187
+msgid "/Remote/Chmod..."
+msgstr "/Uzak/Chmod..."
+
+#: src/gtk/gftp-gtk.c:188
+msgid "/Remote/Make Directory..."
+msgstr "/Uzak/Dizin Oluþtur..."
+
+#: src/gtk/gftp-gtk.c:189
+msgid "/Remote/Rename..."
+msgstr "/Uzak/Yeniden Ýsimlendir..."
+
+#: src/gtk/gftp-gtk.c:190
+msgid "/Remote/Delete..."
+msgstr "/Uzak/Sil..."
+
+#: src/gtk/gftp-gtk.c:191
+msgid "/Remote/Edit..."
+msgstr "/Uzak/Düzenle..."
+
+#: src/gtk/gftp-gtk.c:192
+msgid "/Remote/View..."
+msgstr "/Uzak/Görüntüle..."
+
+#: src/gtk/gftp-gtk.c:193
+msgid "/Remote/Refresh"
+msgstr "/Uzak/Tazele"
+
+#: src/gtk/gftp-gtk.c:194
+msgid "/_Bookmarks"
+msgstr "/_Yer Ýmleri"
+
+#: src/gtk/gftp-gtk.c:195
+msgid "/Bookmarks/tearoff"
+msgstr "/Yer Ýmleri/tearoff"
+
+#: src/gtk/gftp-gtk.c:196
+msgid "/Bookmarks/Add bookmark"
+msgstr "/Yer Ýmleri/Ekle"
+
+#: src/gtk/gftp-gtk.c:198
+msgid "/Bookmarks/Edit bookmarks"
+msgstr "/Yer Ýmleri/Düzenle"
+
+#: src/gtk/gftp-gtk.c:199
+msgid "/Bookmarks/sep"
+msgstr "/Yer Ýmleri/sep"
+
+#: src/gtk/gftp-gtk.c:200
+msgid "/_Transfers"
+msgstr "/_Aktarma"
+
+#: src/gtk/gftp-gtk.c:201
+msgid "/Transfers/tearoff"
+msgstr "/Aktarma/tearoff"
+
+#: src/gtk/gftp-gtk.c:202
+msgid "/Transfers/Start Transfer"
+msgstr "/Aktarma/Baþla"
+
+#: src/gtk/gftp-gtk.c:203
+msgid "/Transfers/Stop Transfer"
+msgstr "/Aktarma/Bitir"
+
+#: src/gtk/gftp-gtk.c:205 src/gtk/gftp-gtk.c:213
+msgid "/Transfers/sep"
+msgstr "/Aktarma/sep"
+
+#: src/gtk/gftp-gtk.c:206
+msgid "/Transfers/Skip Current File"
+msgstr "/Aktarma/Güncel Dosyayý Geç"
+
+#: src/gtk/gftp-gtk.c:207
+msgid "/Transfers/Remove File"
+msgstr "/Aktarma/Dosyayý Sil"
+
+#: src/gtk/gftp-gtk.c:209
+msgid "/Transfers/Move File _Up"
+msgstr "/Aktarma/Dosyalarý _Yukarý Taþý"
+
+#: src/gtk/gftp-gtk.c:211
+msgid "/Transfers/Move File _Down"
+msgstr "/Aktarma/Dosyalarý _Aþaðý Taþý"
+
+#: src/gtk/gftp-gtk.c:214
+msgid "/Transfers/Retrieve Files"
+msgstr "/Aktarma/Dosyalarý Al"
+
+#: src/gtk/gftp-gtk.c:215
+msgid "/Transfers/Put Files"
+msgstr "/Aktarma/Dosyalarý Koy"
+
+#: src/gtk/gftp-gtk.c:216
+msgid "/L_ogging"
+msgstr "/_Kayýt"
+
+#: src/gtk/gftp-gtk.c:217
+msgid "/Logging/tearoff"
+msgstr "/Kayýt/tearoff"
+
+#: src/gtk/gftp-gtk.c:218
+msgid "/Logging/Clear"
+msgstr "/Kayýt/Temizle"
+
+#: src/gtk/gftp-gtk.c:219
+msgid "/Logging/View log..."
+msgstr "/Kayýt/Kaydý görüntüle..."
+
+#: src/gtk/gftp-gtk.c:220
+msgid "/Logging/Save log..."
+msgstr "/Kayýt/Kaydý kaydet..."
+
+#: src/gtk/gftp-gtk.c:221
+msgid "/Tool_s"
+msgstr "/_Araçlar"
+
+#: src/gtk/gftp-gtk.c:222
+msgid "/Tools/tearoff"
+msgstr "/Araçlar/tearoff"
+
+#: src/gtk/gftp-gtk.c:223
+msgid "/Tools/Compare Windows"
+msgstr "/Araçlar/Pencereleri Karþýlaþtýr"
+
+#: src/gtk/gftp-gtk.c:224
+msgid "/Tools/Clear Cache"
+msgstr "/Araçlar/Önbelleði Temizle"
+
+#: src/gtk/gftp-gtk.c:225
+msgid "/_Help"
+msgstr "/_Yardým"
+
+#: src/gtk/gftp-gtk.c:226
+msgid "/Help/tearoff"
+msgstr "/Yardým/tearoff"
+
+#: src/gtk/gftp-gtk.c:227
+msgid "/Help/About..."
+msgstr "/Yardým/Hakkýnda..."
+
+#: src/gtk/gftp-gtk.c:334
+msgid "Host: "
+msgstr "Makina: "
+
+#: src/gtk/gftp-gtk.c:349
+msgid "Port: "
+msgstr "Port: "
+
+#: src/gtk/gftp-gtk.c:364
+msgid "User: "
+msgstr "Kullanýcý: "
+
+#: src/gtk/gftp-gtk.c:379
+msgid "Pass: "
+msgstr "Parola: "
+
+#: src/gtk/gftp-gtk.c:550 src/gtk/gftp-gtk.c:725 src/gtk/transfer.c:2093
+msgid "Filename"
+msgstr "Dosya adý"
+
+#: src/gtk/gftp-gtk.c:551
+msgid "Size"
+msgstr "Büyüklük"
+
+#: src/gtk/gftp-gtk.c:554
+msgid "Date"
+msgstr "Tarih"
+
+#: src/gtk/gftp-gtk.c:555
+msgid "Attribs"
+msgstr "Özellikler"
+
+#: src/gtk/gftp-gtk.c:726
+msgid "Progress"
+msgstr "Süreç"
+
+#: src/gtk/gftp-gtk.c:841 src/gtk/misc-gtk.c:920 src/gtk/misc-gtk.c:991
+msgid "Connect"
+msgstr "Baðlan"
+
+#: src/gtk/gftp-gtk.c:860
+msgid "Error: You must type in a host to connect to\n"
+msgstr "Hata: Baðlantý kurmak için bir makine adý vermelisiniz\n"
+
+#: src/gtk/gftp-gtk.c:1031
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
@@ -1689,455 +2105,87 @@ msgstr ""
 "gönderebilirsiniz. gFTP programýnýn son sürümü her zaman http://gftp.seul."
 "org adresinden alýnabilir.\n"
 
-#: src/gtk/gftp-gtk.c:153
-msgid "Exit"
-msgstr "Çýk"
-
-#: src/gtk/gftp-gtk.c:153
-msgid ""
-"There are file transfers in progress.\n"
-"Are you sure you want to exit?"
-msgstr ""
-"Halen dosyalar alýnýyor.\n"
-"Çýkmak istiyor musunuz?"
-
-#: src/gtk/gftp-gtk.c:253 src/gtk/gftp-gtk.c:726 src/gtk/transfer.c:1577
-msgid "Filename"
-msgstr "Dosya adý"
-
-#: src/gtk/gftp-gtk.c:254
-msgid "Progress"
-msgstr "Süreç"
-
-#: src/gtk/gftp-gtk.c:351
-msgid "/_FTP"
-msgstr "/_FTP"
-
-#: src/gtk/gftp-gtk.c:352
-msgid "/FTP/tearoff"
-msgstr "/FTP/tearoff"
-
-#: src/gtk/gftp-gtk.c:353
-msgid "/FTP/Window 1"
-msgstr "/FTP/Pencere 1"
-
-#: src/gtk/gftp-gtk.c:354
-msgid "/FTP/Window 2"
-msgstr "/FTP/Pencere 3"
-
-#: src/gtk/gftp-gtk.c:355 src/gtk/gftp-gtk.c:358 src/gtk/gftp-gtk.c:361
-msgid "/FTP/sep"
-msgstr "/FTP/sep"
-
-#: src/gtk/gftp-gtk.c:356
-msgid "/FTP/Ascii"
-msgstr "/FTP/Ascii"
-
-#: src/gtk/gftp-gtk.c:357
-msgid "/FTP/Binary"
-msgstr "/FTP/Ýkili"
-
-#: src/gtk/gftp-gtk.c:359
-msgid "/FTP/_Options..."
-msgstr "/FTP/_Seçenekler..."
-
-#: src/gtk/gftp-gtk.c:362
-msgid "/FTP/_Quit"
-msgstr "/FTP/Çý_k"
-
-#: src/gtk/gftp-gtk.c:363
-msgid "/_Local"
-msgstr "/_Yerel"
-
-#: src/gtk/gftp-gtk.c:364
-msgid "/Local/tearoff"
-msgstr "/Yerel/tearoff"
-
-#: src/gtk/gftp-gtk.c:365
-msgid "/Local/Open _URL..."
-msgstr "/Yerel/_URL Aç..."
-
-#: src/gtk/gftp-gtk.c:366
-msgid "/Local/Disconnect"
-msgstr "/Yerel/Baðlantýyý Kes"
-
-#: src/gtk/gftp-gtk.c:367 src/gtk/gftp-gtk.c:373
-msgid "/Local/sep"
-msgstr "/Yerel/sep"
-
-#: src/gtk/gftp-gtk.c:368
-msgid "/Local/Change Filespec..."
-msgstr "/Yerel/Dosya Türünü Deðiþtir..."
-
-#: src/gtk/gftp-gtk.c:369
-#, fuzzy
-msgid "/Local/Show selected"
-msgstr "/Yerel/Tümünü Seç"
-
-#: src/gtk/gftp-gtk.c:370
-msgid "/Local/Select All"
-msgstr "/Yerel/Tümünü Seç"
-
-#: src/gtk/gftp-gtk.c:371
-msgid "/Local/Select All Files"
-msgstr "/Yerel/Tüm Dosyalarý Seç"
-
-#: src/gtk/gftp-gtk.c:372
-msgid "/Local/Deselect All"
-msgstr "/Yerel/Hiçbirini Seçme"
-
-#: src/gtk/gftp-gtk.c:374
-#, fuzzy
-msgid "/Local/Save Directory Listing..."
-msgstr "/Yerel/Dizin Oluþtur..."
-
-#: src/gtk/gftp-gtk.c:375
-msgid "/Local/Send SITE Command..."
-msgstr "/Yerel/SITE Komutunu Gönder..."
-
-#: src/gtk/gftp-gtk.c:376
-msgid "/Local/Change Directory"
-msgstr "/Yerel/Dizin Deðiþtir"
-
-#: src/gtk/gftp-gtk.c:377
-msgid "/Local/Chmod..."
-msgstr "/Yerel/Chmod..."
-
-#: src/gtk/gftp-gtk.c:378
-msgid "/Local/Make Directory..."
-msgstr "/Yerel/Dizin Oluþtur..."
-
-#: src/gtk/gftp-gtk.c:379
-msgid "/Local/Rename..."
-msgstr "/Yerel/Ýsim Deðiþtir..."
-
-#: src/gtk/gftp-gtk.c:380
-msgid "/Local/Delete..."
-msgstr "/Yerel/Sil..."
-
-#: src/gtk/gftp-gtk.c:381
-msgid "/Local/Edit..."
-msgstr "/Yerel/Düzenle..."
-
-#: src/gtk/gftp-gtk.c:382
-msgid "/Local/View..."
-msgstr "/Yerel/Görüntüle..."
-
-#: src/gtk/gftp-gtk.c:383
-msgid "/Local/Refresh"
-msgstr "/Yerel/Tazele"
-
-#: src/gtk/gftp-gtk.c:384
-msgid "/_Remote"
-msgstr "/_Uzak"
-
-#: src/gtk/gftp-gtk.c:385
-msgid "/Remote/tearoff"
-msgstr "/Uzak/tearoff"
-
-#: src/gtk/gftp-gtk.c:386
-msgid "/Remote/Open _URL..."
-msgstr "/Uzak/_URL Aç..."
-
-#: src/gtk/gftp-gtk.c:388
-msgid "/Remote/Disconnect"
-msgstr "/Uzak/Baðlantýyý Kes"
-
-#: src/gtk/gftp-gtk.c:390 src/gtk/gftp-gtk.c:396
-msgid "/Remote/sep"
-msgstr "/Uzak/sep"
-
-#: src/gtk/gftp-gtk.c:391
-msgid "/Remote/Change Filespec..."
-msgstr "/Uzak/Dosya Türünü Deðiþtir..."
-
-#: src/gtk/gftp-gtk.c:392
-#, fuzzy
-msgid "/Remote/Show selected"
-msgstr "/Yerel/Tümünü Seç"
-
-#: src/gtk/gftp-gtk.c:393
-msgid "/Remote/Select All"
-msgstr "/Uzak/Tümünü Seç"
-
-#: src/gtk/gftp-gtk.c:394
-msgid "/Remote/Select All Files"
-msgstr "/Uzak/Tüm Dosyalarý Seç"
-
-#: src/gtk/gftp-gtk.c:395
-msgid "/Remote/Deselect All"
-msgstr "/Uzak/Hiçbirini Seçme"
-
-#: src/gtk/gftp-gtk.c:397
-#, fuzzy
-msgid "/Remote/Save Directory Listing..."
-msgstr "/Uzak/Dizin Oluþtur..."
-
-#: src/gtk/gftp-gtk.c:398
-msgid "/Remote/Send SITE Command..."
-msgstr "/Uzak/SITE Komutu Gönder..."
-
-#: src/gtk/gftp-gtk.c:399
-msgid "/Remote/Change Directory"
-msgstr "/Uzak/Dizin Deðiþtir"
-
-#: src/gtk/gftp-gtk.c:400
-msgid "/Remote/Chmod..."
-msgstr "/Uzak/Chmod..."
-
-#: src/gtk/gftp-gtk.c:401
-msgid "/Remote/Make Directory..."
-msgstr "/Uzak/Dizin Oluþtur..."
-
-#: src/gtk/gftp-gtk.c:402
-msgid "/Remote/Rename..."
-msgstr "/Uzak/Yeniden Ýsimlendir..."
-
-#: src/gtk/gftp-gtk.c:403
-msgid "/Remote/Delete..."
-msgstr "/Uzak/Sil..."
-
-#: src/gtk/gftp-gtk.c:404
-msgid "/Remote/Edit..."
-msgstr "/Uzak/Düzenle..."
-
-#: src/gtk/gftp-gtk.c:405
-msgid "/Remote/View..."
-msgstr "/Uzak/Görüntüle..."
-
-#: src/gtk/gftp-gtk.c:406
-msgid "/Remote/Refresh"
-msgstr "/Uzak/Tazele"
-
-#: src/gtk/gftp-gtk.c:407
-msgid "/_Bookmarks"
-msgstr "/_Yer Ýmleri"
-
-#: src/gtk/gftp-gtk.c:408
-msgid "/Bookmarks/tearoff"
-msgstr "/Yer Ýmleri/tearoff"
-
-#: src/gtk/gftp-gtk.c:409
-msgid "/Bookmarks/Add bookmark"
-msgstr "/Yer Ýmleri/Ekle"
-
-#: src/gtk/gftp-gtk.c:411
-msgid "/Bookmarks/Edit bookmarks"
-msgstr "/Yer Ýmleri/Düzenle"
-
-#: src/gtk/gftp-gtk.c:412
-msgid "/Bookmarks/sep"
-msgstr "/Yer Ýmleri/sep"
-
-#: src/gtk/gftp-gtk.c:413
-msgid "/_Transfers"
-msgstr "/_Aktarma"
-
-#: src/gtk/gftp-gtk.c:414
-msgid "/Transfers/tearoff"
-msgstr "/Aktarma/tearoff"
-
-#: src/gtk/gftp-gtk.c:415
-msgid "/Transfers/Start Transfer"
-msgstr "/Aktarma/Baþla"
-
-#: src/gtk/gftp-gtk.c:416
-msgid "/Transfers/Stop Transfer"
-msgstr "/Aktarma/Bitir"
-
-#: src/gtk/gftp-gtk.c:418 src/gtk/gftp-gtk.c:426
-msgid "/Transfers/sep"
-msgstr "/Aktarma/sep"
-
-#: src/gtk/gftp-gtk.c:419
-msgid "/Transfers/Skip Current File"
-msgstr "/Aktarma/Güncel Dosyayý Geç"
-
-#: src/gtk/gftp-gtk.c:420
-msgid "/Transfers/Remove File"
-msgstr "/Aktarma/Dosyayý Sil"
-
-#: src/gtk/gftp-gtk.c:422
-msgid "/Transfers/Move File _Up"
-msgstr "/Aktarma/Dosyalarý _Yukarý Taþý"
-
-#: src/gtk/gftp-gtk.c:424
-msgid "/Transfers/Move File _Down"
-msgstr "/Aktarma/Dosyalarý _Aþaðý Taþý"
-
-#: src/gtk/gftp-gtk.c:427
-msgid "/Transfers/Retrieve Files"
-msgstr "/Aktarma/Dosyalarý Al"
-
-#: src/gtk/gftp-gtk.c:428
-msgid "/Transfers/Put Files"
-msgstr "/Aktarma/Dosyalarý Koy"
-
-#: src/gtk/gftp-gtk.c:429
-msgid "/L_ogging"
-msgstr "/_Kayýt"
-
-#: src/gtk/gftp-gtk.c:430
-msgid "/Logging/tearoff"
-msgstr "/Kayýt/tearoff"
-
-#: src/gtk/gftp-gtk.c:431
-msgid "/Logging/Clear"
-msgstr "/Kayýt/Temizle"
-
-#: src/gtk/gftp-gtk.c:432
-msgid "/Logging/View log..."
-msgstr "/Kayýt/Kaydý görüntüle..."
-
-#: src/gtk/gftp-gtk.c:433
-msgid "/Logging/Save log..."
-msgstr "/Kayýt/Kaydý kaydet..."
-
-#: src/gtk/gftp-gtk.c:434
-msgid "/Tool_s"
-msgstr "/_Araçlar"
-
-#: src/gtk/gftp-gtk.c:435
-msgid "/Tools/tearoff"
-msgstr "/Araçlar/tearoff"
-
-#: src/gtk/gftp-gtk.c:436
-msgid "/Tools/Compare Windows"
-msgstr "/Araçlar/Pencereleri Karþýlaþtýr"
-
-#: src/gtk/gftp-gtk.c:437
-msgid "/Tools/Clear Cache"
-msgstr "/Araçlar/Önbelleði Temizle"
-
-#: src/gtk/gftp-gtk.c:438
-msgid "/_Help"
-msgstr "/_Yardým"
-
-#: src/gtk/gftp-gtk.c:439
-msgid "/Help/tearoff"
-msgstr "/Yardým/tearoff"
-
-#: src/gtk/gftp-gtk.c:440
-msgid "/Help/About..."
-msgstr "/Yardým/Hakkýnda..."
-
-#: src/gtk/gftp-gtk.c:551
-msgid "Host: "
-msgstr "Makina: "
-
-#: src/gtk/gftp-gtk.c:566
-msgid "Port: "
-msgstr "Port: "
-
-#: src/gtk/gftp-gtk.c:581
-msgid "User: "
-msgstr "Kullanýcý: "
-
-#: src/gtk/gftp-gtk.c:596
-msgid "Pass: "
-msgstr "Parola: "
-
-#: src/gtk/gftp-gtk.c:727
-msgid "Size"
-msgstr "Büyüklük"
-
-#: src/gtk/gftp-gtk.c:730
-msgid "Date"
-msgstr "Tarih"
-
-#: src/gtk/gftp-gtk.c:731
-msgid "Attribs"
-msgstr "Özellikler"
-
-#: src/gtk/gftp-gtk.c:952 src/gtk/misc-gtk.c:871 src/gtk/misc-gtk.c:939
-msgid "Connect"
-msgstr "Baðlan"
-
-#: src/gtk/gftp-gtk.c:971
-msgid "Error: You must type in a host to connect to\n"
-msgstr "Hata: Baðlantý kurmak için bir makine adý vermelisiniz\n"
-
-#: src/gtk/menu-items.c:66 src/gtk/menu-items.c:96
+#: src/gtk/menu-items.c:61 src/gtk/menu-items.c:91
 msgid "OpenURL"
 msgstr "URLAç"
 
-#: src/gtk/menu-items.c:74 src/gtk/menu-items.c:104
+#: src/gtk/menu-items.c:69 src/gtk/menu-items.c:99
 msgid "OpenURL: Operation canceled...you must enter a string\n"
 msgstr "OpenURL: Ýþlem iptal edildi... bir dizi girmelisiniz\n"
 
-#: src/gtk/menu-items.c:128
+#: src/gtk/menu-items.c:123
 msgid "Connect via URL"
 msgstr "URL üzerinden baðlan"
 
-#: src/gtk/menu-items.c:128
+#: src/gtk/menu-items.c:123
 msgid "Enter ftp url to connect to"
 msgstr "Baðlanýlacak ftp url'sini verin"
 
-#: src/gtk/menu-items.c:160
+#: src/gtk/menu-items.c:156
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
 
-#: src/gtk/menu-items.c:198 src/gtk/menu-items.c:201
+#: src/gtk/menu-items.c:194 src/gtk/menu-items.c:197
 msgid "Change Filespec"
 msgstr "Dosya Tipini Deðiþtir"
 
-#: src/gtk/menu-items.c:201
+#: src/gtk/menu-items.c:197
 msgid "Enter the new file specification"
 msgstr "Yeni dosya tipini girin"
 
-#: src/gtk/menu-items.c:231 src/gtk/menu-items.c:636 src/gtk/menu-items.c:692
-#: src/gtk/view_dialog.c:70 src/gtk/view_dialog.c:140
+#: src/gtk/menu-items.c:227 src/gtk/menu-items.c:618 src/gtk/menu-items.c:674
+#: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:125
 #, fuzzy, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "gFTP Uyarýsý: %s dosyasý yazmak için açýlamadý: %s\n"
 
-#: src/gtk/menu-items.c:281
+#: src/gtk/menu-items.c:277
 #, fuzzy
 msgid "Save Directory Listing"
 msgstr "Dizin listesi alýnýyor"
 
-#: src/gtk/menu-items.c:398
+#: src/gtk/menu-items.c:394
 msgid "SITE: Operation canceled...you must enter a string\n"
 msgstr "SITE: Ýþlem iptal edildi..\n"
 
-#: src/gtk/menu-items.c:417 src/gtk/menu-items.c:420
+#: src/gtk/menu-items.c:413 src/gtk/menu-items.c:416
 msgid "Site"
 msgstr "Adres"
 
-#: src/gtk/menu-items.c:420
+#: src/gtk/menu-items.c:416
 msgid "Enter site-specific command"
 msgstr "Uzaktaki sistemde çalýþtýrýlacak komutu girin"
 
-#: src/gtk/menu-items.c:440 src/gtk/menu-items.c:474
+#: src/gtk/menu-items.c:513 src/gtk/menu-items.c:547
 msgid "Chdir"
 msgstr "Chdir"
 
-#: src/gtk/menu-items.c:659 src/gtk/menu-items.c:715
+#: src/gtk/menu-items.c:641 src/gtk/menu-items.c:697
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Hata: %s'e yazýlamadý: %s\n"
 
-#: src/gtk/menu-items.c:725
+#: src/gtk/menu-items.c:707
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Kayýt %s dosyasýna baþarýyla yazýldý\n"
 
-#: src/gtk/menu-items.c:737
+#: src/gtk/menu-items.c:719
 msgid "Save Log"
 msgstr "Kaydý Kaydet"
 
-#: src/gtk/menu-items.c:773
+#: src/gtk/menu-items.c:755
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr "COPYING dosyasý bulunamadý. %s ya da %s içinde bulunduðuna emin olun."
 
-#: src/gtk/menu-items.c:777 src/gtk/menu-items.c:782
+#: src/gtk/menu-items.c:759 src/gtk/menu-items.c:764
 msgid "About gFTP"
 msgstr "gFTP Hakkýnda"
 
-#: src/gtk/menu-items.c:813
+#: src/gtk/menu-items.c:795
 #, c-format
 msgid ""
 "%s\n"
@@ -2150,100 +2198,100 @@ msgstr ""
 "Ev sayfasý: http://www.gftp.org/\n"
 "Logo: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: src/gtk/menu-items.c:826
+#: src/gtk/menu-items.c:808
 msgid "About"
 msgstr "Hakkýnda"
 
-#: src/gtk/menu-items.c:875
+#: src/gtk/menu-items.c:857
 msgid "License Agreement"
 msgstr "Lisans Sözleþmesi"
 
-#: src/gtk/menu-items.c:881 src/gtk/view_dialog.c:314
+#: src/gtk/menu-items.c:863 src/gtk/view_dialog.c:367
 msgid "  Close  "
 msgstr "  Kapat  "
 
-#: src/gtk/menu-items.c:963
+#: src/gtk/menu-items.c:945
 msgid "Compare Windows"
 msgstr "Pencereleri Karþýlaþtýr"
 
-#: src/gtk/misc-gtk.c:190
+#: src/gtk/misc-gtk.c:210
 msgid "Refresh"
 msgstr "Tazele"
 
-#: src/gtk/misc-gtk.c:257
+#: src/gtk/misc-gtk.c:299
 msgid "All Files"
 msgstr "Tüm Dosyalar"
 
-#: src/gtk/misc-gtk.c:263
+#: src/gtk/misc-gtk.c:306
 msgid "] (Cached) ["
 msgstr "] (Bellekten) ["
 
-#: src/gtk/misc-gtk.c:277
+#: src/gtk/misc-gtk.c:320
 msgid "Not connected"
 msgstr "Baðlý deðil"
 
-#: src/gtk/misc-gtk.c:387
+#: src/gtk/misc-gtk.c:406
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "%s dosyasý açýlýrken hata: %s\n"
 
-#: src/gtk/misc-gtk.c:477
+#: src/gtk/misc-gtk.c:496
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: Uzak makinaya baðlantý yapýlmadý\n"
 
-#: src/gtk/misc-gtk.c:484
+#: src/gtk/misc-gtk.c:503
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s: Bu özellik kullanýlan protokol ile uyumsuzdur\n"
 
-#: src/gtk/misc-gtk.c:492
+#: src/gtk/misc-gtk.c:511
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: Sadece tek öðe seçmelisiniz\n"
 
-#: src/gtk/misc-gtk.c:499
+#: src/gtk/misc-gtk.c:518
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: En az tek öðe seçmelisiniz\n"
 
-#: src/gtk/misc-gtk.c:868 src/gtk/misc-gtk.c:936
+#: src/gtk/misc-gtk.c:917 src/gtk/misc-gtk.c:988
 msgid "Change"
 msgstr "Deðiþtir"
 
-#: src/gtk/misc-gtk.c:874 src/gtk/misc-gtk.c:942 src/gtk/rename_dialog.c:109
-#: src/gtk/rename_dialog.c:121
+#: src/gtk/misc-gtk.c:923 src/gtk/misc-gtk.c:994 src/gtk/rename_dialog.c:95
+#: src/gtk/rename_dialog.c:107
 msgid "Rename"
 msgstr "Yeniden Ýsimlendir"
 
-#: src/gtk/misc-gtk.c:933 src/gtk/options_dialog.c:386
+#: src/gtk/misc-gtk.c:985 src/gtk/options_dialog.c:678
 msgid "Add"
 msgstr "Ekle"
 
-#: src/gtk/misc-gtk.c:959
+#: src/gtk/misc-gtk.c:1011
 #, fuzzy
 msgid "Cancel"
 msgstr "  Ýptal   "
 
-#: src/gtk/misc-gtk.c:1029
+#: src/gtk/misc-gtk.c:1081
 #, fuzzy
 msgid "  Yes  "
 msgstr "  Kapat  "
 
-#: src/gtk/misc-gtk.c:1039
+#: src/gtk/misc-gtk.c:1091
 #, fuzzy
 msgid "  No  "
 msgstr "  Dur  "
 
-#: src/gtk/misc-gtk.c:1079
+#: src/gtk/misc-gtk.c:1147
 msgid "Getting directory listings"
 msgstr "Dizin listesi alýnýyor"
 
-#: src/gtk/misc-gtk.c:1099
+#: src/gtk/misc-gtk.c:1167
 msgid "  Stop  "
 msgstr "  Dur  "
 
-#: src/gtk/misc-gtk.c:1109
+#: src/gtk/misc-gtk.c:1177
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2252,230 +2300,150 @@ msgstr ""
 "%ld dizin ve\n"
 "%ld dosya alýndý."
 
-#: src/gtk/mkdir_dialog.c:87
+#: src/gtk/mkdir_dialog.c:73
 msgid "Mkdir: Operation canceled...you must enter a string\n"
 msgstr "Mkdir: Ýþlem iptal edildi. Bir dizge girmelisiniz\n"
 
-#: src/gtk/mkdir_dialog.c:108
+#: src/gtk/mkdir_dialog.c:94
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: src/gtk/mkdir_dialog.c:112
+#: src/gtk/mkdir_dialog.c:98
 msgid "Make Directory"
 msgstr "Dizin Oluþtur"
 
-#: src/gtk/mkdir_dialog.c:112
+#: src/gtk/mkdir_dialog.c:98
 msgid "Enter name of directory to create"
 msgstr "Oluþturulacak dizinin adýný girin"
 
-#: src/gtk/options_dialog.c:77 src/gtk/options_dialog.c:83
-msgid "Options"
-msgstr "Seçenekler"
-
-#: src/gtk/options_dialog.c:360 src/gtk/options_dialog.c:582
-msgid "Netmask"
-msgstr "Að maskesi"
-
-#: src/gtk/options_dialog.c:366
-msgid "Local Hosts"
-msgstr "Yerel Makinalar"
-
-#: src/gtk/options_dialog.c:393 src/gtk/view_dialog.c:105
-msgid "Edit"
-msgstr "Düzenle"
-
-#: src/gtk/options_dialog.c:497
+#: src/gtk/options_dialog.c:427
 msgid "Edit Host"
 msgstr "Makinayý Düzenle"
 
-#: src/gtk/options_dialog.c:497
+#: src/gtk/options_dialog.c:427
 msgid "Add Host"
 msgstr "Makina Ekle"
 
-#: src/gtk/options_dialog.c:529 src/gtk/options_dialog.c:620
+#: src/gtk/options_dialog.c:459 src/gtk/options_dialog.c:550
 msgid "Domain"
 msgstr "Alan"
 
-#: src/gtk/options_dialog.c:549
+#: src/gtk/options_dialog.c:479
 msgid "Network Address"
 msgstr "Að Adresi"
 
-#: src/gtk/rename_dialog.c:88
+#: src/gtk/options_dialog.c:512 src/gtk/options_dialog.c:652
+msgid "Netmask"
+msgstr "Að maskesi"
+
+#: src/gtk/options_dialog.c:658
+msgid "Local Hosts"
+msgstr "Yerel Makinalar"
+
+#: src/gtk/options_dialog.c:685 src/gtk/view_dialog.c:90
+msgid "Edit"
+msgstr "Düzenle"
+
+#: src/gtk/options_dialog.c:727 src/gtk/options_dialog.c:733
+msgid "Options"
+msgstr "Seçenekler"
+
+#: src/gtk/rename_dialog.c:74
 msgid "Rename: Operation canceled...you must enter a string\n"
 msgstr "Ýsimlendir: Ýþlem iptal edildi... Hatalý giriþ\n"
 
-#: src/gtk/rename_dialog.c:119
+#: src/gtk/rename_dialog.c:105
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "%s dosyasýný hangi isme dönüþtürmek istiyorsunuz?"
 
-#: src/gtk/transfer.c:72
+#: src/gtk/transfer.c:166
 msgid "Receiving file names..."
 msgstr "Dosya isimleri alýnýyor..."
 
-#: src/gtk/transfer.c:241 src/gtk/transfer.c:1220
-msgid "Connecting..."
-msgstr "Baðlanýyor..."
-
-#: src/gtk/transfer.c:251 src/gtk/transfer.c:1116 src/gtk/transfer.c:1127
-msgid "Enter Password"
-msgstr "Parolayý Girin"
-
-#: src/gtk/transfer.c:252 src/gtk/transfer.c:1117 src/gtk/transfer.c:1128
-msgid "Please enter your password for this site"
-msgstr "Bu adres için parolanýzý girin"
-
-#: src/gtk/transfer.c:343
+#: src/gtk/transfer.c:270
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "Yeniden baðlantý kurmak için %d saniye bekleniyor\n"
 
-#: src/gtk/transfer.c:388
+#: src/gtk/transfer.c:297 src/gtk/transfer.c:1502
+msgid "Connecting..."
+msgstr "Baðlanýyor..."
+
+#: src/gtk/transfer.c:307 src/gtk/transfer.c:1398 src/gtk/transfer.c:1409
+msgid "Enter Password"
+msgstr "Parolayý Girin"
+
+#: src/gtk/transfer.c:308 src/gtk/transfer.c:1399 src/gtk/transfer.c:1410
+msgid "Please enter your password for this site"
+msgstr "Bu adres için parolanýzý girin"
+
+#: src/gtk/transfer.c:398
 msgid "Transfer Files"
 msgstr "Dosyalarý Aktar"
 
-#: src/gtk/transfer.c:396
+#: src/gtk/transfer.c:406
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "Dosyalarý Al: Uzaktaki sisteme baðlantý yok\n"
 
-#: src/gtk/transfer.c:639
+#: src/gtk/transfer.c:618
+#, c-format
+msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
+msgstr ""
+"Hata: Uzak makine %s baðlantýyý kesti. Azami yeniden deneme sayýsýna "
+"ulaþýldý.\n"
+
+#: src/gtk/transfer.c:627
+#, c-format
+msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
+msgstr ""
+"Hata: Uzak makina %s baðlantýyý kesti. %d saniye içinde yeniden "
+"baðlanýlýyor.\n"
+
+#: src/gtk/transfer.c:855
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr "Hata: Uzak makine baðlantýyý kesti\n"
 
-#: src/gtk/transfer.c:700
+#: src/gtk/transfer.c:924
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "%s dosyasý %s'den alýnamadý\n"
 
-#: src/gtk/transfer.c:735
+#: src/gtk/transfer.c:956
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "%s baþarýyla aktarýldý (%.2f Kb/s)\n"
 
-#: src/gtk/transfer.c:838 src/gtk/transfer.c:1018 src/gtk/transfer.c:1096
-#: src/gtk/transfer.c:1433
+#: src/gtk/transfer.c:1059 src/gtk/transfer.c:1295 src/gtk/transfer.c:1378
+#: src/gtk/transfer.c:1804
 msgid "Skipped"
 msgstr "Atlandý"
 
-#: src/gtk/transfer.c:842 src/gtk/transfer.c:1073 src/gtk/transfer.c:1100
+#: src/gtk/transfer.c:1063 src/gtk/transfer.c:1355 src/gtk/transfer.c:1382
 msgid "Waiting..."
 msgstr "Bekleniyor..."
 
-#: src/gtk/transfer.c:927
-#, c-format
-msgid "Retrieving file names...%s bytes"
-msgstr "Dosya isimleri alýnýyor...%s bayt"
-
-#: src/gtk/transfer.c:1021
-msgid "Finished"
-msgstr "Tamamlandý"
-
-#: src/gtk/transfer.c:1053
-#, c-format
-msgid "Stopping the transfer of %s\n"
-msgstr "%s dosyasýnýn transferi durduruluyor\n"
-
-#: src/gtk/transfer.c:1260
-#, fuzzy, c-format
-msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
-msgstr "%%%d bitti, tahmini kalan süre %02d:%02d:%02d. (Dosya: %d/%d)"
-
-#: src/gtk/transfer.c:1285
-#, c-format
-msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
-msgstr "%s/%s dosya alýndý. Hýz: %.2fKB/s, %02d:%02d:%02d süre kaldý"
-
-#: src/gtk/transfer.c:1294
-#, c-format
-msgid "Recv %s of %s, transfer stalled, unknown time remaining"
-msgstr "%s/%s dosya alýndý, aktarým durakladý, bitiþ süresi bilinmiyor"
-
-#: src/gtk/transfer.c:1317 src/gtk/transfer.c:1339 src/gtk/transfer.c:1369
-#: src/gtk/transfer.c:1403 src/gtk/transfer.c:1454 src/gtk/transfer.c:1514
-msgid "There are no file transfers selected\n"
-msgstr "Aktarýlacak dosya seçilmedi\n"
-
-#: src/gtk/transfer.c:1353
-#, c-format
-msgid "Stopping the transfer on host %s\n"
-msgstr "%s makinesi üzerindeki aktarým durduruluyor\n"
-
-#: src/gtk/transfer.c:1386 src/gtk/transfer.c:1437
-#, c-format
-msgid "Skipping file %s on host %s\n"
-msgstr "%s makinesi üzerindeki %s dosyasý atlanýyor\n"
-
-#: src/gtk/transfer.c:1578
-msgid "Local Size"
-msgstr "Yerel Büyüklük"
-
-#: src/gtk/transfer.c:1579
-msgid "Remote Size"
-msgstr "Uzak Büyüklük"
-
-#: src/gtk/transfer.c:1580
-msgid "Action"
-msgstr "Ýþlem"
-
-#: src/gtk/transfer.c:1585
-msgid "Download Files"
-msgstr "Dosyalarý Ýndir"
-
-#: src/gtk/transfer.c:1585
-msgid "Upload Files"
-msgstr "Dosyalarý Gönder"
-
-#: src/gtk/transfer.c:1598
-msgid ""
-"The following file(s) exist on both the local and remote computer\n"
-"Please select what you would like to do"
-msgstr ""
-
-#: src/gtk/transfer.c:1649 src/gtk/transfer.c:1688 src/gtk/transfer.c:1787
-msgid "Overwrite"
-msgstr "Üzerine yaz"
-
-#: src/gtk/transfer.c:1654 src/gtk/transfer.c:1831
-msgid "Skip"
-msgstr "Atla"
-
-#: src/gtk/transfer.c:1659 src/gtk/transfer.c:1694 src/gtk/transfer.c:1809
-msgid "Resume"
-msgstr "Devam et"
-
-#: src/gtk/transfer.c:1700
-msgid "Skip File"
-msgstr "Dosyayý Atla"
-
-#: src/gtk/transfer.c:1710
-msgid "Select All"
-msgstr "Tümünü Seç"
-
-#: src/gtk/transfer.c:1716
-msgid "Deselect All"
-msgstr "Hiçbirisini Seçme"
-
-#: src/gtk/transfer.c:1957
+#: src/gtk/transfer.c:1208
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "Hata: %d'den alýnan: %d\n"
 
-#: src/gtk/transfer.c:1960
+#: src/gtk/transfer.c:1211
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "%d baþarýyla alýndý\n"
 
-#: src/gtk/transfer.c:1967
+#: src/gtk/transfer.c:1218
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "Hata: %s dosyasý hakkýnda bilgi alýnamadý: %s\n"
 
-#: src/gtk/transfer.c:1972
+#: src/gtk/transfer.c:1223
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "%s deðiþtirilmedi\n"
 
-#: src/gtk/transfer.c:1980
+#: src/gtk/transfer.c:1231
 #, fuzzy, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2484,66 +2452,161 @@ msgstr ""
 "%s dosyasý deðiþti.\n"
 "Ne yapmak istiyorsunuz?"
 
-#: src/gtk/transfer.c:1983
+#: src/gtk/transfer.c:1234
 msgid "Edit File"
 msgstr "Dosyayý Düzenle"
 
-#: src/gtk/transfer.c:2065
-#, c-format
-msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
-msgstr ""
-"Hata: Uzak makine %s baðlantýyý kesti. Azami yeniden deneme sayýsýna "
-"ulaþýldý.\n"
+#: src/gtk/transfer.c:1298
+msgid "Finished"
+msgstr "Tamamlandý"
 
-#: src/gtk/transfer.c:2073
+#: src/gtk/transfer.c:1336
 #, c-format
-msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
-msgstr ""
-"Hata: Uzak makina %s baðlantýyý kesti. %d saniye içinde yeniden "
-"baðlanýlýyor.\n"
+msgid "Stopping the transfer of %s\n"
+msgstr "%s dosyasýnýn transferi durduruluyor\n"
 
-#: src/gtk/view_dialog.c:43
+#: src/gtk/transfer.c:1542
+#, fuzzy, c-format
+msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
+msgstr "%%%d bitti, tahmini kalan süre %02d:%02d:%02d. (Dosya: %d/%d)"
+
+#: src/gtk/transfer.c:1567
+#, c-format
+msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "%s/%s dosya alýndý. Hýz: %.2fKB/s, %02d:%02d:%02d süre kaldý"
+
+#: src/gtk/transfer.c:1576
+#, c-format
+msgid "Recv %s of %s, transfer stalled, unknown time remaining"
+msgstr "%s/%s dosya alýndý, aktarým durakladý, bitiþ süresi bilinmiyor"
+
+#: src/gtk/transfer.c:1602
+#, c-format
+msgid "Retrieving file names...%s bytes"
+msgstr "Dosya isimleri alýnýyor...%s bayt"
+
+#: src/gtk/transfer.c:1676 src/gtk/transfer.c:1698 src/gtk/transfer.c:1732
+#: src/gtk/transfer.c:1772 src/gtk/transfer.c:1825 src/gtk/transfer.c:1885
+msgid "There are no file transfers selected\n"
+msgstr "Aktarýlacak dosya seçilmedi\n"
+
+#: src/gtk/transfer.c:1716
+#, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "%s makinesi üzerindeki aktarým durduruluyor\n"
+
+#: src/gtk/transfer.c:1757 src/gtk/transfer.c:1810
+#, c-format
+msgid "Skipping file %s on host %s\n"
+msgstr "%s makinesi üzerindeki %s dosyasý atlanýyor\n"
+
+#: src/gtk/transfer.c:1973 src/gtk/transfer.c:2175 src/gtk/transfer.c:2214
+msgid "Overwrite"
+msgstr "Üzerine yaz"
+
+#: src/gtk/transfer.c:1995 src/gtk/transfer.c:2185 src/gtk/transfer.c:2220
+msgid "Resume"
+msgstr "Devam et"
+
+#: src/gtk/transfer.c:2017 src/gtk/transfer.c:2180
+msgid "Skip"
+msgstr "Atla"
+
+#: src/gtk/transfer.c:2094
+msgid "Local Size"
+msgstr "Yerel Büyüklük"
+
+#: src/gtk/transfer.c:2095
+msgid "Remote Size"
+msgstr "Uzak Büyüklük"
+
+#: src/gtk/transfer.c:2096
+msgid "Action"
+msgstr "Ýþlem"
+
+#: src/gtk/transfer.c:2098
+msgid "Download Files"
+msgstr "Dosyalarý Ýndir"
+
+#: src/gtk/transfer.c:2098
+msgid "Upload Files"
+msgstr "Dosyalarý Gönder"
+
+#: src/gtk/transfer.c:2124
+msgid ""
+"The following file(s) exist on both the local and remote computer\n"
+"Please select what you would like to do"
+msgstr ""
+
+#: src/gtk/transfer.c:2226
+msgid "Skip File"
+msgstr "Dosyayý Atla"
+
+#: src/gtk/transfer.c:2236
+msgid "Select All"
+msgstr "Tümünü Seç"
+
+#: src/gtk/transfer.c:2242
+msgid "Deselect All"
+msgstr "Hiçbirisini Seçme"
+
+#: src/gtk/view_dialog.c:35
 msgid "View"
 msgstr "Görüntüle"
 
-#: src/gtk/view_dialog.c:55
+#: src/gtk/view_dialog.c:47
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "Görüntüle: %s bir dizindir ve görüntülenemez.\n"
 
-#: src/gtk/view_dialog.c:111
+#: src/gtk/view_dialog.c:96
 msgid "Edit: You must specify an editor in the options dialog\n"
 msgstr "Görüntüle: Seçenekler bölümünde bir düzenleyici belirtmelisiniz.\n"
 
-#: src/gtk/view_dialog.c:124
+#: src/gtk/view_dialog.c:109
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "Düzenle: %s bir dizindir. Düzenlenemez.\n"
 
-#: src/gtk/view_dialog.c:192
-#, c-format
-msgid "Opening %s with %s\n"
-msgstr "%s dosyasý %s ile açýlýyor\n"
-
-#: src/gtk/view_dialog.c:216
-#, c-format
-msgid "Viewing file %s\n"
-msgstr "%s dosyasý görüntüleniyor\n"
-
-#: src/gtk/view_dialog.c:223
-#, c-format
-msgid "View: Cannot open file %s: %s\n"
-msgstr "Görüntüle: %s dosyasý açýlamadý: %s\n"
-
-#: src/gtk/view_dialog.c:392
+#: src/gtk/view_dialog.c:183
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Görüntüle: Baþka süreç yaratýlamýyor: %s\n"
 
-#: src/gtk/view_dialog.c:395
+#: src/gtk/view_dialog.c:186
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "Çalýþan program: %s %s\n"
+
+#: src/gtk/view_dialog.c:245
+#, c-format
+msgid "Opening %s with %s\n"
+msgstr "%s dosyasý %s ile açýlýyor\n"
+
+#: src/gtk/view_dialog.c:269
+#, c-format
+msgid "Viewing file %s\n"
+msgstr "%s dosyasý görüntüleniyor\n"
+
+#: src/gtk/view_dialog.c:276
+#, c-format
+msgid "View: Cannot open file %s: %s\n"
+msgstr "Görüntüle: %s dosyasý açýlamadý: %s\n"
+
+#~ msgid "Cannot fdopen() socket for %s: %s\n"
+#~ msgstr "%s için fdopen() çalýþtýrýlamadý: %s\n"
+
+#~ msgid "Error reading from host %s: %s\n"
+#~ msgstr "%s makinasýndan okuma sýrasýnda hata: %s\n"
+
+#~ msgid "Error writing to host %s: %s\n"
+#~ msgstr "%s makinasýna yazma sýrasýnda hata: %s\n"
+
+#~ msgid "Cannot fdopen() socket: %s\n"
+#~ msgstr "fdopen() çalýþtýrýlamadý: %s\n"
+
+#~ msgid "Error: Received wrong init string from server\n"
+#~ msgstr "Hata: Sunucudan yanlýþ cevap geldi\n"
 
 #~ msgid "/Bookmarks/"
 #~ msgstr "/Yer Ýmleri/"
