@@ -214,9 +214,10 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 		       gint y, GtkSelectionData * selection_data, guint info,
 		       guint32 clk_time, gpointer data)
 {
-  char *newpos, *oldpos, tempchar;
+  char *newpos, *oldpos, *tempstr;
   gftp_window_data * wdata;
   int finish_drag;
+  size_t len;
 
   wdata = data;   
   if (!check_status (_("Drag-N-Drop"), wdata, 1, 0, 0, 1)) 
@@ -229,14 +230,26 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
       while ((newpos = strchr (oldpos, '\n')) || 
              (newpos = strchr (oldpos, '\0'))) 
         {
-          tempchar = *newpos;
-          *newpos = '\0';
-          ftp_log (gftp_logging_misc, NULL, _("Received URL %s\n"), oldpos);
-          if (dnd_remote_file (oldpos, wdata))
+          len = newpos - oldpos;
+          if (oldpos[len - 1] == '\r')
+            len--;
+
+          if (len == 0)
+            break;
+
+          tempstr = g_malloc (len + 1);
+          memcpy (tempstr, oldpos, len);
+          tempstr[len] = '\0';
+
+          ftp_log (gftp_logging_misc, NULL, _("Received URL %s\n"), tempstr);
+
+          if (dnd_remote_file (tempstr, wdata))
             finish_drag = 1;
-         
+          g_free (tempstr);
+
           if (*newpos == '\0') 
             break;
+
           oldpos = newpos + 1;
         }
     }

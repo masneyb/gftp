@@ -46,7 +46,7 @@ static gftp_config_vars config_vars[] =
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("Use the ssh-askpass utility to supply the remote password"), GFTP_PORT_GTK,
-   NULL},
+        NULL},
   {"sshv2_use_sftp_subsys", N_("Use SSH2 SFTP subsys"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
@@ -79,20 +79,22 @@ typedef struct sshv2_message_tag
 
 typedef struct sshv2_params_tag
 {
-  char handle[SSH_MAX_HANDLE_SIZE + 4]; /* We'll encode the ID in here too */
-  int handle_len,
-      dont_log_status : 1;              /* For uploading files */
+  char handle[SSH_MAX_HANDLE_SIZE + 4], /* We'll encode the ID in here too */
+       *read_buffer;
+
+  gint32 handle_len,
+         id,
+         count;
   sshv2_message message;
 
-  gint32 id,				
-         count;
-  unsigned int initialized : 1;
+  unsigned int initialized : 1,
+               dont_log_status : 1;              /* For uploading files */
+
 #ifdef G_HAVE_GINT64
   gint64 offset;
 #else
   gint32 offset;
 #endif
-  char *read_buffer;
 } sshv2_params;
 
 

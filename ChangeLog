@@ -1,3 +1,11 @@
+2003-10-26 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (copy_request) - don't copy over the hostp pointer. This
+	fixes a segfault in DnD
+
+	* lib/sshv2.c - cleaned up the ssh2_params structure some
+
+	* src/gtk/dnd.c - cleaned up the DND code some.
+
 2003-10-25 Brian Masney <masneyb@gftp.org>
 	* src/gtk/menu-items.c (dosave_directory_listing) - when saving the
 	directory listing, skip over the files that are not shown based on the
