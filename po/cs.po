@@ -1,15 +1,15 @@
 # Czech translation of gFTP.
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Copyright (C) 2003, 2004 Miloslav Trmac <mitr@volny.cz>
+# Copyright (C) 2003, 2004, 2005 Miloslav Trmac <mitr@volny.cz>
 # Petr Domansky <doman@atlas.cz>, 2000.
-# Miloslav Trmac <mitr@volny.cz>, 2003, 2004.
+# Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gFTP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-20 18:57+0100\n"
-"PO-Revision-Date: 2005-01-20 19:52+0100\n"
+"POT-Creation-Date: 2005-01-28 11:07+0100\n"
+"PO-Revision-Date: 2005-01-28 14:48+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr "Neplatné URL %s\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Chyba: Neplatný řádek %s v souboru indexu cache\n"
 
-#: lib/cache.c:137 lib/local.c:477
+#: lib/cache.c:137 lib/fsp.c:537 lib/local.c:477
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Chyba: Nemohu vytvořit adresář %s: %s\n"
@@ -42,22 +42,23 @@ msgstr "Chyba: Nemohu vytvořit dočasný soubor: %s\n"
 msgid "Error closing file descriptor: %s\n"
 msgstr "Chyba při zavírání deskriptoru souboru: %s\n"
 
-#: lib/cache.c:250 lib/local.c:136 lib/local.c:145 lib/local.c:192
+#: lib/cache.c:250 lib/fsp.c:128 lib/fsp.c:208 lib/local.c:136 lib/local.c:145
+#: lib/local.c:192
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Chyba: Nemohu se posunout v souboru %s: %s\n"
 
-#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:3001
+#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:3000
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Chyba: Nemohu otevřít místní soubor %s: %s\n"
 
-#: lib/config_file.c:143 lib/protocols.c:2708 lib/sslcommon.c:486
+#: lib/config_file.c:143 lib/protocols.c:2707 lib/sslcommon.c:486
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Chyba: Nemohu zapisovat do socketu: %s\n"
 
-#: lib/config_file.c:151 lib/protocols.c:2632 lib/sshv2.c:364
+#: lib/config_file.c:151 lib/protocols.c:2631 lib/sshv2.c:364
 #: lib/sslcommon.c:439
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -196,6 +197,80 @@ msgstr ""
 "Fatální chyba gFTP: Možnost konfigurace '%s' nenalezena v globální hašovací "
 "tabulce\n"
 
+#: lib/fsp.c:190
+#, c-format
+msgid "Error: Cannot upload file %s\n"
+msgstr "Chyba: Nemohu odeslat soubor %s\n"
+
+#: lib/fsp.c:200
+#, c-format
+msgid "Error: Cannot write to file %s: %s\n"
+msgstr "Chyba: Nemohu zapisovat do souboru %s: %s\n"
+
+#: lib/fsp.c:238
+#, c-format
+msgid "Error: Error closing file: %s\n"
+msgstr "Chyba: Chyba při zavírání souboru: %s\n"
+
+#: lib/fsp.c:326
+#, c-format
+msgid "Corrupted file listing from FSP server %s\n"
+msgstr "Poškozený seznam souborů od serveru FSP %s\n"
+
+#: lib/fsp.c:338 lib/fsp.c:339 lib/protocols.c:1541 lib/protocols.c:1542
+#: lib/protocols.c:1583 lib/protocols.c:1584 lib/protocols.c:1647
+#: lib/protocols.c:1654 lib/protocols.c:1730 lib/protocols.c:1731
+#: lib/protocols.c:1767
+msgid "unknown"
+msgstr "neznámý"
+
+#: lib/fsp.c:376
+#, c-format
+msgid "Could not get FSP directory listing %s: %s\n"
+msgstr "Nemohu získat výpis adresáře FSP %s: %s\n"
+
+#: lib/fsp.c:438
+#, c-format
+msgid "Successfully changed directory to %s\n"
+msgstr "Úspěšně změněn adresář na %s\n"
+
+#: lib/fsp.c:448
+#, c-format
+msgid "Could not change directory to %s\n"
+msgstr "Nemohu změnit adresář na %s\n"
+
+#: lib/fsp.c:473 lib/fsp.c:502 lib/local.c:424 lib/local.c:447
+#: src/gtk/transfer.c:260 src/gtk/view_dialog.c:328
+#, c-format
+msgid "Successfully removed %s\n"
+msgstr "Úspěšně odstraněn %s\n"
+
+#: lib/fsp.c:479 lib/local.c:430
+#, c-format
+msgid "Error: Could not remove directory %s: %s\n"
+msgstr "Chyba: Nemohu odstranit adresář %s: %s\n"
+
+#: lib/fsp.c:508 lib/local.c:453 src/gtk/transfer.c:264
+#: src/gtk/view_dialog.c:332
+#, c-format
+msgid "Error: Could not remove file %s: %s\n"
+msgstr "Chyba: Nemohu odstranit soubor %s: %s\n"
+
+#: lib/fsp.c:530 lib/local.c:470
+#, c-format
+msgid "Successfully made directory %s\n"
+msgstr "Úspěšně vytvořen adresář %s\n"
+
+#: lib/fsp.c:565 lib/local.c:496
+#, c-format
+msgid "Successfully renamed %s to %s\n"
+msgstr "Úspěšně přejmenováno %s na %s\n"
+
+#: lib/fsp.c:577 lib/local.c:503
+#, c-format
+msgid "Error: Could not rename %s to %s: %s\n"
+msgstr "Chyba: Nemohu přejmenovat %s na %s: %s\n"
+
 #: lib/ftps.c:157
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
@@ -236,37 +311,6 @@ msgstr "Nemohu získat výpis místního adresáře %s: %s\n"
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "Místní adresář úspěšně změněn na %s\n"
-
-#: lib/local.c:424 lib/local.c:447 src/gtk/transfer.c:260
-#: src/gtk/view_dialog.c:328
-#, c-format
-msgid "Successfully removed %s\n"
-msgstr "Úspěšně odstraněn %s\n"
-
-#: lib/local.c:430
-#, c-format
-msgid "Error: Could not remove directory %s: %s\n"
-msgstr "Chyba: Nemohu odstranit adresář %s: %s\n"
-
-#: lib/local.c:453 src/gtk/transfer.c:264 src/gtk/view_dialog.c:332
-#, c-format
-msgid "Error: Could not remove file %s: %s\n"
-msgstr "Chyba: Nemohu odstranit soubor %s: %s\n"
-
-#: lib/local.c:470
-#, c-format
-msgid "Successfully made directory %s\n"
-msgstr "Úspěšně vytvořen adresář %s\n"
-
-#: lib/local.c:496
-#, c-format
-msgid "Successfully renamed %s to %s\n"
-msgstr "Úspěšně přejmenováno %s na %s\n"
-
-#: lib/local.c:503
-#, c-format
-msgid "Error: Could not rename %s to %s: %s\n"
-msgstr "Chyba: Nemohu přejmenovat %s na %s: %s\n"
 
 #: lib/local.c:520
 #, c-format
@@ -741,7 +785,9 @@ msgstr "Chyba při převodu řetězce '%s' z UTF-8 do aktuálního locale: %s\n"
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
 "match the current directory (%s)\n"
-msgstr "Varování: Odstraňuji cestu ze souboru '%s'. Oříznutá cesta (%s) neodpovídá aktuálnímu adresáři (%s)\n"
+msgstr ""
+"Varování: Odstraňuji cestu ze souboru '%s'. Oříznutá cesta (%s) neodpovídá "
+"aktuálnímu adresáři (%s)\n"
 
 #: lib/protocols.c:647
 #, c-format
@@ -758,89 +804,83 @@ msgstr "Chyba: Nemohu najít záložku %s\n"
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Chyba záložek: Položka záložek %s nemá jméno počítače\n"
 
-#: lib/protocols.c:822
+#: lib/protocols.c:826 lib/protocols.c:853
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Protokol '%s' není momentálně podporován.\n"
 
-#: lib/protocols.c:1168 lib/protocols.c:1183 lib/protocols.c:2215
-#: lib/protocols.c:2325
+#: lib/protocols.c:1167 lib/protocols.c:1182 lib/protocols.c:2214
+#: lib/protocols.c:2324
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Vyhledávám %s\n"
 
-#: lib/protocols.c:1174 lib/protocols.c:1189 lib/protocols.c:2220
-#: lib/protocols.c:2330
+#: lib/protocols.c:1173 lib/protocols.c:1188 lib/protocols.c:2219
+#: lib/protocols.c:2329
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Nemohu vyhledat jméno počítače %s: %s\n"
 
-#: lib/protocols.c:1542 lib/protocols.c:1543 lib/protocols.c:1584
-#: lib/protocols.c:1585 lib/protocols.c:1648 lib/protocols.c:1655
-#: lib/protocols.c:1731 lib/protocols.c:1732 lib/protocols.c:1768
-msgid "unknown"
-msgstr "neznámý"
-
-#: lib/protocols.c:2238
+#: lib/protocols.c:2237
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Nemohu vytvořit socket: %s\n"
 
-#: lib/protocols.c:2244 lib/protocols.c:2347
+#: lib/protocols.c:2243 lib/protocols.c:2346
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Zkouším %s:%d\n"
 
-#: lib/protocols.c:2249 lib/protocols.c:2354
+#: lib/protocols.c:2248 lib/protocols.c:2353
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Nemohu se připojit k %s: %s\n"
 
-#: lib/protocols.c:2284 lib/rfc959.c:640
+#: lib/protocols.c:2283 lib/rfc959.c:640
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Nemohu vytvořit socket IPv4: %s\n"
 
-#: lib/protocols.c:2308 lib/sshv2.c:1046
+#: lib/protocols.c:2307 lib/sshv2.c:1046
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Nemohu vyhledat název služby %s/tcp. Zkontrolujte prosím svůj soubor "
 "services\n"
 
-#: lib/protocols.c:2370 lib/protocols.c:3010 lib/rfc959.c:649 lib/rfc959.c:826
+#: lib/protocols.c:2369 lib/protocols.c:3009 lib/rfc959.c:649 lib/rfc959.c:826
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Chyba: Nemohu nastavit příznak zavření při exec: %s\n"
 
-#: lib/protocols.c:2377
+#: lib/protocols.c:2376
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Připojen k %s:%d\n"
 
-#: lib/protocols.c:2608 lib/protocols.c:2683 lib/sshv2.c:355
+#: lib/protocols.c:2607 lib/protocols.c:2682 lib/sshv2.c:355
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Spojení s %s vypršel čas\n"
 
-#: lib/protocols.c:2751
+#: lib/protocols.c:2750
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Nemohu získat nastavení socketu: %s\n"
 
-#: lib/protocols.c:2765
+#: lib/protocols.c:2764
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Nemohu nastavit socket na neblokující: %s\n"
 
-#: lib/protocols.c:2900
+#: lib/protocols.c:2899
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Chyba: Vzdálený počítač %s odpojen. Max. počet opakování vyčerpán...vzdávám "
 "to\n"
 
-#: lib/protocols.c:2908
+#: lib/protocols.c:2907
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Chyba: Vzdálený počítač %s odpojen. Připojím se znovu za %d sekund\n"
@@ -2476,41 +2516,41 @@ msgstr "Vložte prosím své heslo pro tento počítač"
 msgid "Operation canceled...you must enter a string\n"
 msgstr "Operace zrušena...musíte vložit řetězec\n"
 
-#: src/gtk/gtkui.c:317
+#: src/gtk/gtkui.c:320
 msgid "Mkdir"
 msgstr "Vytvořit adresář"
 
-#: src/gtk/gtkui.c:320
+#: src/gtk/gtkui.c:323
 msgid "Make Directory"
 msgstr "Vytvořit adresář"
 
-#: src/gtk/gtkui.c:320
+#: src/gtk/gtkui.c:323
 msgid "Enter name of directory to create"
 msgstr "Zadej jméno vytvářeného adresáře"
 
-#: src/gtk/gtkui.c:343 src/gtk/gtkui.c:355 src/gtk/misc-gtk.c:949
+#: src/gtk/gtkui.c:346 src/gtk/gtkui.c:358 src/gtk/misc-gtk.c:949
 #: src/gtk/misc-gtk.c:1023
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: src/gtk/gtkui.c:353
+#: src/gtk/gtkui.c:356
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "Na co by jste chtěli přejmenovat %s?"
 
-#: src/gtk/gtkui.c:375 src/gtk/gtkui.c:378
+#: src/gtk/gtkui.c:378 src/gtk/gtkui.c:381
 msgid "Site"
 msgstr "Počítač"
 
-#: src/gtk/gtkui.c:378
+#: src/gtk/gtkui.c:381
 msgid "Enter site-specific command"
 msgstr "Vložte site-specific příkaz"
 
-#: src/gtk/gtkui.c:379
+#: src/gtk/gtkui.c:382
 msgid "Prepend with SITE"
 msgstr "Přidat za SITE"
 
-#: src/gtk/gtkui.c:422 src/gtk/menu-items.c:250
+#: src/gtk/gtkui.c:425 src/gtk/menu-items.c:250
 msgid "Chdir"
 msgstr "Změnit adresář"
 
@@ -2937,7 +2977,7 @@ msgstr "Zobrazuji soubor %s\n"
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Zobrazit: Nemohu otevřít soubor %s: %s\n"
 
-#: src/text/gftp-text.c:167
+#: src/text/gftp-text.c:176
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "Nemohu otevřít řídicí terminál %s\n"
