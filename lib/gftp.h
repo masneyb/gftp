@@ -554,6 +554,7 @@ typedef struct supported_gftp_protocols_tag
   int (*init) (gftp_request * request);		/* Init function */
   void (*register_options) (void);		/* Protocol options */
   char *url_prefix;				/* URL Prefix */
+  unsigned int default_port;			/* Default port */
   unsigned int shown : 1,			/* Whether this protocol is 
                                                    shown or not to the user in 
                                                    the protocol dropdown box */
@@ -1032,6 +1033,8 @@ int gftp_fd_open 			( gftp_request * request,
 					  mode_t perms );
 
 void gftp_setup_startup_directory 	( gftp_request * request );
+
+unsigned int gftp_protocol_default_port	( gftp_request * request );
 
 /* pty.c */
 char * gftp_get_pty_impl 		( void );

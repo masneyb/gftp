@@ -1,4 +1,17 @@
 2004-8-21 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/options.h lib/protocols.c - added
+	gftp_protocol_default_port() that will return the default port for
+	the current protocol
+
+	* src/gtk/misc-gtk.c (update_window_info) - when updating the toolbar
+	with the connection status, if the current connection is using the
+	default port for it's protocol, then leave the port field blank. This
+	should help users who want to reconnect to the current site using a
+	different protocol
+
+	* src/gtk/gftp-gtk.c (CreateConnectToolbar) - expanded the size of
+	the Port input box
+
 	* lib/rfc959.c lib/ftpcommon.h - added internal option to quote
 	the filename in the SITE command. This is only enabled for servers
 	that return UNIX in the SYST output. It is disabled if it is a BSD

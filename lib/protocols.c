@@ -3050,3 +3050,16 @@ gftp_convert_attributes_to_mode_t (char *attribs)
   return (mode);
 }
 
+
+unsigned int
+gftp_protocol_default_port (gftp_request * request)
+{
+  struct servent serv_struct;
+
+  if (r_getservbyname (gftp_protocols[request->protonum].url_prefix, "tcp",
+                       &serv_struct, NULL) == NULL)
+    return (gftp_protocols[request->protonum].default_port);
+  else
+    return (ntohs (serv_struct.s_port));
+}
+

@@ -210,6 +210,7 @@ update_window_info (void)
 {
   char *tempstr, empty[] = "";
   GtkWidget * tempwid;
+  unsigned int port;
   int i;
 
   if (current_wdata->request != NULL)
@@ -226,12 +227,16 @@ update_window_info (void)
         tempstr = empty;
       gtk_entry_set_text (GTK_ENTRY (passedit), tempstr);
 
-      if (current_wdata->request->port != 0)
+      port = gftp_protocol_default_port (current_wdata->request);
+      if (current_wdata->request->port != 0 &&
+          port != current_wdata->request->port)
         {
           tempstr = g_strdup_printf ("%d", current_wdata->request->port);
           gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), tempstr);
           g_free (tempstr);
         }
+      else
+        gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), "");
 
       for (i=0; gftp_protocols[i].init != NULL; i++)
         {

@@ -463,7 +463,7 @@ CreateConnectToolbar (GtkWidget * parent)
 
   portedit = gtk_combo_new ();
   gtk_combo_set_case_sensitive (GTK_COMBO (portedit), 1);
-  gtk_widget_set_size_request (portedit, 45, -1);
+  gtk_widget_set_size_request (portedit, 50, -1);
 
   gtk_signal_connect (GTK_OBJECT (GTK_COMBO (portedit)->entry), "activate",
 		      GTK_SIGNAL_FUNC (toolbar_hostedit), NULL);
