@@ -595,6 +595,7 @@ int
 gftp_get_next_file (gftp_request * request, const char *filespec,
                     gftp_file * fle)
 {
+  char *slashpos, *newfile;
   int fd, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -612,6 +613,26 @@ gftp_get_next_file (gftp_request * request, const char *filespec,
     {
       gftp_file_destroy (fle, 0);
       ret = request->get_next_file (request, fle, fd);
+      if (fle->file != NULL && (slashpos = strrchr (fle->file, '/')) != NULL)
+        {
+          if (*(slashpos + 1) == '\0')
+            {
+              gftp_file_destroy (fle, 0);
+              continue;
+            }
+
+          *slashpos = '\0';
+          newfile = g_strdup (slashpos + 1);
+
+          if (strcmp (fle->file, request->directory) != 0)
+            request->logging_function (gftp_logging_error, request,
+                                       _("Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't match the current directory (%s)\n"),
+                                       newfile, fle->file, request->directory,
+                                       g_strerror (errno));
+          
+          g_free (fle->file);
+          fle->file = newfile;
+        }
 
       if (ret >= 0 && fle->file != NULL)
         fle->utf8_file = gftp_string_to_utf8 (request, fle->file);

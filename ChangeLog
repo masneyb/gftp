@@ -1,3 +1,10 @@
+2005-1-18 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_next_file) - if the remote server sends a
+	path with the filename, then strip the path off of the filename. If the
+	path didn't match the current directory, then give the user a warning.
+	A malicious server could change the path of the downloaded by adding
+	/../ to the path
+
 2005-1-16 Brian Masney <masneyb@gftp.org>
 	* configure.in lib/Makefile.am src/gtk/Makefile.am src/text/Makefile.am
 	lib/fsp.c - added FSP to the build system
