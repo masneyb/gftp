@@ -350,37 +350,15 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 static void
 bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
 {
-  gftp_bookmarks_var * tempentry, * delentry;
-
-  if (new_bookmarks_htable)
-    g_hash_table_destroy (new_bookmarks_htable);
-
-  tempentry = new_bookmarks;
-  while (tempentry != NULL)
+  if (new_bookmarks_htable != NULL)
     {
-      gftp_free_bookmark (tempentry);
-      g_free (tempentry->path);
-
-      if (tempentry->children != NULL)
-	{
-	  tempentry = tempentry->children;
-	  continue;
-	}
-
-      while (tempentry->next == NULL && tempentry->prev != NULL)
-        {
-          delentry = tempentry;
-	  tempentry = tempentry->prev;
-          g_free (delentry);
-        }
-
-      delentry = tempentry;
-      tempentry = tempentry->next;
-      g_free (delentry);
+      g_hash_table_destroy (new_bookmarks_htable);
+      new_bookmarks_htable = NULL;
     }
 
+  gftp_bookmarks_destroy (new_bookmarks);
   new_bookmarks = NULL;
-  new_bookmarks_htable = NULL;
+
   gtk_widget_destroy (dialog);
 }
 

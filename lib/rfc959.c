@@ -1654,6 +1654,21 @@ rfc959_register_module (void)
 }
 
 
+void
+rfc959_request_destroy (gftp_request * request)
+{
+  rfc959_parms * parms;
+
+  parms = request->protocol_data;
+
+  if (parms->datafd_rbuf != NULL)
+    gftp_free_getline_buffer (&parms->datafd_rbuf);
+
+  if (parms->dataconn_rbuf != NULL)
+    gftp_free_getline_buffer (&parms->dataconn_rbuf);
+}
+
+
 int
 rfc959_init (gftp_request * request)
 {
@@ -1663,7 +1678,7 @@ rfc959_init (gftp_request * request)
 
   request->protonum = GFTP_FTP_NUM;
   request->init = rfc959_init;
-  request->destroy = NULL; 
+  request->destroy = rfc959_request_destroy; 
   request->read_function = gftp_fd_read;
   request->write_function = gftp_fd_write;
   request->connect = rfc959_connect;

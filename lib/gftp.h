@@ -103,6 +103,10 @@ extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp,
 #define GFTP_GET_AI_FAMILY(request)	AF_INET
 #endif
 
+#ifndef HAVE_SOCKLEN_T
+typedef int socklen_t;
+#endif 
+
 /* We need the major() and minor() macros in the user interface. If they aren't
    defined by the system, we'll just define them here. */
 #ifndef major
@@ -115,8 +119,30 @@ extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp,
 #define minor(dev) ((dev) & 0xff)
 #endif
 
-#ifdef HAVE_DMALLOC
+#ifdef WITH_DMALLOC
+
+#undef g_malloc
+#define g_malloc(size) \
+  _malloc_leap(__FILE__, __LINE__, size)
+
+#undef g_malloc0
+#define g_malloc0(size) \
+  _calloc_leap(__FILE__, __LINE__, 1, size)
+
+#undef g_realloc
+#define g_realloc(ptr, size) \
+  _realloc_leap(__FILE__, __LINE__, ptr, size)
+
+#undef g_strdup
+#define g_strdup(str) \
+  _strdup_leap(__FILE__, __LINE__, str)
+
+#undef g_free
+#define g_free(ptr) \
+  _free_leap(__FILE__, __LINE__, ptr)
+
 #include <dmalloc.h>
+
 #endif
 
 /* Server types (used by FTP protocol from SYST command) */
@@ -247,7 +273,8 @@ typedef struct gftp_config_list_vars_tag
 } gftp_config_list_vars;
 
 
-#define GFTP_CVARS_FLAGS_DYNMEM		(1 << 1)
+#define GFTP_CVARS_FLAGS_DYNMEM			(1 << 1)
+#define GFTP_CVARS_FLAGS_DYNLISTMEM		(1 << 2)
 
 
 typedef struct gftp_config_vars_tag
@@ -560,6 +587,7 @@ extern supported_gftp_protocols gftp_protocols[];
 extern gftp_bookmarks_var * gftp_bookmarks;
 extern char gftp_version[];
 extern FILE * gftp_logfd;
+extern int gftp_configuration_changed;
 
 /* This is defined in config_file.c */
 
@@ -616,6 +644,17 @@ void gftp_set_request_option 		( gftp_request * request,
 
 void gftp_register_config_vars 		( gftp_config_vars *config_vars );
 
+void gftp_copy_local_options 		( gftp_config_vars ** new_options_vars, 
+					  GHashTable ** new_options_hash,
+					  gftp_config_vars * orig_options,
+					  int num_local_options_vars );
+
+void gftp_config_free_options 		( gftp_config_vars * options_vars,
+					  GHashTable * options_hash,
+					  int num_options_vars );
+
+void gftp_bookmarks_destroy 		( gftp_bookmarks_var * bookmarks );
+
 /* misc.c */
 char *insert_commas 			( off_t number, 
 					  char *dest_str, 
@@ -631,9 +670,6 @@ void make_nonnull 			( char **str );
 
 int copyfile				( char *source,
 					  char *dest );
-
-char *get_xpm_path 			( char *filename, 
-					  int quit_on_err );
 
 int gftp_match_filespec 		( char *filename, 
 					  char *filespec );
@@ -679,10 +715,7 @@ char * base64_encode 			( char *str );
 
 void gftp_free_bookmark 		( gftp_bookmarks_var * entry );
 
-void gftp_copy_local_options 		( gftp_config_vars ** new_options_vars, 
-					  GHashTable ** new_options_hash,
-					  gftp_config_vars * orig_options,
-					  int num_local_options_vars );
+void gftp_shutdown			( void );
 
 /* protocols.c */
 #define GFTP_FTP_NUM				0
@@ -869,6 +902,7 @@ int gftp_set_config_options 		( gftp_request * request );
 
 void print_file_list 			( GList * list );
 
+void gftp_free_getline_buffer 		( gftp_getline_buffer ** rbuf );
 
 ssize_t gftp_get_line 			( gftp_request * request, 
 					  gftp_getline_buffer ** rbuf,

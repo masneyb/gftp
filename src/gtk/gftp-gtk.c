@@ -101,8 +101,7 @@ doexit (GtkWidget * widget, gpointer data)
   ret = get_column (&GTK_CLIST (window2.listbox)->column[6]);
   gftp_set_global_option ("remote_attribs_width", &ret);
 
-  gftp_write_config_file ();
-  gftp_clear_cache_files ();
+  gftp_shutdown ();
   exit (0);
 }
 

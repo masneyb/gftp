@@ -359,6 +359,9 @@ void display_cached_logs			( void );
 
 RETSIGTYPE signal_handler			(int signo);
 
+char * get_xpm_path 				( char *filename, 
+						  int quit_on_err );
+
 /* mkdir_dialog.c */
 void mkdir_dialog 				( gpointer data );
 

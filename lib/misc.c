@@ -359,40 +359,6 @@ gftp_usage (void)
 }
 
 
-char *
-get_xpm_path (char *filename, int quit_on_err)
-{
-  char *tempstr, *exfile;
-
-  tempstr = g_strconcat (BASE_CONF_DIR, "/", filename, NULL);
-  exfile = expand_path (tempstr);
-  g_free (tempstr);
-  if (access (exfile, F_OK) != 0)
-    {
-      g_free (exfile);
-      tempstr = g_strconcat (SHARE_DIR, "/", filename, NULL);
-      exfile = expand_path (tempstr);
-      g_free (tempstr);
-      if (access (exfile, F_OK) != 0)
-	{
-	  g_free (exfile);
-	  exfile = g_strconcat ("/usr/share/icons/", filename, NULL);
-	  if (access (exfile, F_OK) != 0)
-	    {
-	      g_free (exfile);
-	      if (!quit_on_err)
-		return (NULL);
-
-	      printf (_("gFTP Error: Cannot find file %s in %s or %s\n"),
-		      filename, SHARE_DIR, BASE_CONF_DIR);
-	      exit (1);
-	    }
-	}
-    }
-  return (exfile);
-}
-
-
 gint
 string_hash_compare (gconstpointer path1, gconstpointer path2)
 {
@@ -1036,13 +1002,54 @@ gftp_free_bookmark (gftp_bookmarks_var * entry)
 
   if (entry->local_options_vars != NULL)
     {
-      g_free (entry->local_options_vars);
+      gftp_config_free_options (entry->local_options_vars,
+                                entry->local_options_hash,
+                                entry->num_local_options_vars);
+
       entry->local_options_vars = NULL;
-
-      entry->num_local_options_vars = 0;
-
-      g_hash_table_destroy (entry->local_options_hash);
       entry->local_options_hash = NULL;
+      entry->num_local_options_vars = 0;
     }
+}
+
+
+void
+gftp_shutdown (void)
+{
+  gftp_config_vars * cv;
+  GList * templist;
+
+  if (gftp_logfd != NULL)
+    fclose (gftp_logfd);
+
+  gftp_clear_cache_files ();
+
+  if (gftp_configuration_changed)
+    gftp_write_config_file ();
+
+#ifdef WITH_DMALLOC
+  if (gftp_global_options_htable != NULL)
+    g_hash_table_destroy (gftp_global_options_htable);
+
+  if (gftp_config_list_htable != NULL)
+    g_hash_table_destroy (gftp_config_list_htable);
+
+  if (gftp_bookmarks_htable != NULL)
+    g_hash_table_destroy (gftp_bookmarks_htable);
+
+  for (templist = gftp_options_list; 
+       templist != NULL; 
+       templist = templist->next)
+    {
+      cv = templist->data;
+      gftp_config_free_options (cv, NULL, -1);
+    }
+
+  gftp_bookmarks_destroy (gftp_bookmarks);
+
+  dmalloc_shutdown ();
+#endif
+
+  exit (0);
 }
 

@@ -212,3 +212,5 @@ gftp_bookmarks_var * gftp_bookmarks = NULL;
 
 FILE * gftp_logfd = NULL;
 
+int gftp_configuration_changed = 0;
+

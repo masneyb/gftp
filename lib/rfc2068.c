@@ -109,7 +109,7 @@ rfc2068_read_response (gftp_request * request)
 
       if (params->chunk_size < 0)
         {
-          request->logging_function (gftp_logging_recv, request, "FIXME - the chunk size is negative. aborting directory listing\n");
+          request->logging_function (gftp_logging_recv, request, "FIXME 2.0.15 - the chunk size is negative. aborting directory listing\n");
           return (GFTP_EFATAL);
         }
 
@@ -724,7 +724,7 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
                *endpos != '\n'; 
                endpos++);
     
-          /* FIXME extra checks */
+          /* FIXME 2.0.15 extra checks */
 
           *endpos = '\0';
           if (*(endpos - 1) == '\r')

@@ -23,8 +23,7 @@ static const char cvsid[] = "$Id$";
 static gftp_request * gftp_text_locreq = NULL;
 static gftp_request * gftp_text_remreq = NULL;
 static volatile int cancel = 0;
-static int configuration_changed = 0,
-           number_commands = 30;
+static int number_commands = 30;
 
 struct _gftp_text_methods gftp_text_methods[] = {
         {N_("about"), 	2, gftp_text_about,	NULL,
@@ -107,7 +106,6 @@ main (int argc, char **argv)
 #ifdef HAVE_GETTEXT
   setlocale (LC_ALL, "");
   bindtextdomain ("gftp", LOCALE_DIR);
-  textdomain ("gftp");
 #endif
 
   signal (SIGCHLD, sig_child);
@@ -239,8 +237,6 @@ main (int argc, char **argv)
 #endif
     }
  
-  if (gftp_logfd != NULL)
-    fclose (gftp_logfd);
   gftp_text_quit (NULL, NULL, NULL);
 
   return (0);
@@ -401,9 +397,10 @@ gftp_text_about (gftp_request * request, char *command, gpointer *data)
 int
 gftp_text_quit (gftp_request * request, char *command, gpointer *data)
 {
-  gftp_clear_cache_files ();
-  if (configuration_changed)
-    gftp_write_config_file ();
+  gftp_request_destroy (gftp_text_locreq, 1);
+  gftp_request_destroy (gftp_text_remreq, 1);
+  gftp_shutdown();
+
   return (0);
 }
 
@@ -1097,10 +1094,7 @@ gftp_text_set (gftp_request * request, char *command, gpointer *data)
         }
 
       if (gftp_option_types[cv->otype].read_function != NULL)
-        {
-          configuration_changed = 1;
-          gftp_option_types[cv->otype].read_function (pos, cv, 1);
-        }
+        gftp_option_types[cv->otype].read_function (pos, cv, 1);
     }
 
   return (1);
@@ -1124,7 +1118,7 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
   struct termios term, oldterm;
   sigset_t sig, sigsave;
   char *pos, *termname;
-  FILE *infd, *outfd;
+  FILE *infd;
 
   if (!echo)
     {
@@ -1141,7 +1135,6 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
                          _("Cannot open controlling terminal %s\n"), termname);
           return (NULL);
         }
-      outfd = infd;
 
       tcgetattr (0, &term);
       oldterm = term;
@@ -1149,12 +1142,9 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
       tcsetattr (fileno (infd), TCSAFLUSH, &term);
     }
   else
-    {
-      infd = stdin;
-      outfd = stdout;
-    }
+    infd = stdin;
 
-  fprintf (outfd, "%s%s%s: ", COLOR_BLUE, question, COLOR_DEFAULT);
+  printf ("%s%s%s: ", COLOR_BLUE, question, COLOR_DEFAULT);
 
   if (fgets (buf, size, infd) == NULL)
     return (NULL);
@@ -1162,9 +1152,9 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
 
   if (!echo)
     {
-      fprintf (outfd, "\n");
+      printf ("\n");
       tcsetattr (fileno (infd), TCSAFLUSH, &oldterm);
-      fclose (outfd);
+      fclose (infd);
       sigprocmask (SIG_SETMASK, &sigsave, NULL);
     }
 

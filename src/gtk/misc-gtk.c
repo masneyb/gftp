@@ -525,7 +525,6 @@ check_status (char *name, gftp_window_data *wdata, int check_other_stop,
 }
 
 
-/* FIXME - check this */
 static gchar *
 gftp_item_factory_translate (const char *path, gpointer func_data)
 {
@@ -552,7 +551,7 @@ item_factory_new (GtkType container_type, const char *path,
 		  GtkAccelGroup *accel_group, const char *strip_prefix)
 {
   GtkItemFactory *result = gtk_item_factory_new (container_type, path, accel_group);
-  gchar *strip_prefix_dup = g_strdup (g_strdup (strip_prefix));
+  gchar *strip_prefix_dup = g_strdup (strip_prefix);
   
   gtk_item_factory_set_translate_func (result, gftp_item_factory_translate,
 				       strip_prefix_dup, NULL);
@@ -1286,5 +1285,39 @@ signal_handler (int signo)
     siglongjmp (jmp_environment, signo == SIGINT ? 1 : 2);
   else if (signo == SIGINT)
     exit (1);
+}
+
+
+char *
+get_xpm_path (char *filename, int quit_on_err)
+{
+  char *tempstr, *exfile;
+
+  tempstr = g_strconcat (BASE_CONF_DIR, "/", filename, NULL);
+  exfile = expand_path (tempstr);
+  g_free (tempstr);
+  if (access (exfile, F_OK) != 0)
+    {
+      g_free (exfile);
+      tempstr = g_strconcat (SHARE_DIR, "/", filename, NULL);
+      exfile = expand_path (tempstr);
+      g_free (tempstr);
+      if (access (exfile, F_OK) != 0)
+	{
+	  g_free (exfile);
+	  exfile = g_strconcat ("/usr/share/icons/", filename, NULL);
+	  if (access (exfile, F_OK) != 0)
+	    {
+	      g_free (exfile);
+	      if (!quit_on_err)
+		return (NULL);
+
+	      printf (_("gFTP Error: Cannot find file %s in %s or %s\n"),
+		      filename, SHARE_DIR, BASE_CONF_DIR);
+	      exit (1);
+	    }
+	}
+    }
+  return (exfile);
 }
 

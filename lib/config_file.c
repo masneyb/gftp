@@ -413,15 +413,11 @@ static void *
 gftp_config_read_ext (char *buf, int line)
 {
   gftp_file_extensions * tempext;
-  char *tempstr;
 
   tempext = g_malloc (sizeof (*tempext));
   gftp_config_parse_args (buf, 4, line, &tempext->ext, &tempext->filename,
                           &tempext->ascii_binary, &tempext->view_program);
  
-  if ((tempstr = get_xpm_path (tempext->filename, 1)) != NULL)
-    g_free (tempstr);
-
   tempext->stlen = strlen (tempext->ext);
 
   return (tempext);
@@ -508,7 +504,10 @@ gftp_read_config_file (char *global_data_path)
 
   if ((tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
                                            "default_protocol")) != NULL)
-    tmpconfigvar->listdata = protocol_list;
+    {
+      tmpconfigvar->listdata = protocol_list;
+      tmpconfigvar->flags |= GFTP_CVARS_FLAGS_DYNLISTMEM;
+    }
 
   gftp_config_list_htable = g_hash_table_new (string_hash_function, 
                                               string_hash_compare);
@@ -1122,7 +1121,12 @@ gftp_set_global_option (char * key, void *value)
   if (gftp_global_options_htable != NULL &&
       (tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
                                            key)) != NULL)
-    memcpy (&tmpconfigvar->value, value, sizeof (tmpconfigvar->value));
+    {
+      memcpy (&tmpconfigvar->value, value, sizeof (tmpconfigvar->value));
+
+      /* FIXME - only set this variable if the value has changed */
+      gftp_configuration_changed = 1;
+    }
   else
     {
       fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);
@@ -1201,7 +1205,85 @@ gftp_copy_local_options (gftp_config_vars ** new_options_vars,
       g_hash_table_insert (*new_options_hash, (*new_options_vars)[i].key,
                            &(*new_options_vars)[i]);
 
-      /* FIXME - copy option values */
+      /* FIXME 2.0.15 - copy option values */
+    }
+}
+
+
+void
+gftp_config_free_options (gftp_config_vars * options_vars,
+                          GHashTable * options_hash,
+                          int num_options_vars)
+{
+  int i;
+
+  if (num_options_vars == 0)
+    return;
+
+  if (num_options_vars > 0)
+    {
+      /* If num_options_vars is 0, then the options was allocated with malloc */
+
+      for (i=0; i<num_options_vars; i++)
+        {
+          if (options_vars[i].flags & GFTP_CVARS_FLAGS_DYNMEM &&
+              options_vars[i].value != NULL)
+            g_free (options_vars[i].value);
+        }
+
+      g_free (options_vars);
+    }
+  else if (num_options_vars < 0)
+    {
+      /* Otherwise we are freeing the global options */
+
+      for (i=0; options_vars[i].key != NULL; i++)
+        {
+          if (options_vars[i].flags & GFTP_CVARS_FLAGS_DYNMEM &&
+              options_vars[i].value != NULL)
+            g_free (options_vars[i].value);
+
+          if (options_vars[i].flags & GFTP_CVARS_FLAGS_DYNLISTMEM &&
+              options_vars[i].listdata != NULL)
+            g_free (options_vars[i].listdata);
+        }
+    }
+
+  if (options_hash != NULL)
+    g_hash_table_destroy (options_hash);
+}
+
+
+void
+gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks)
+{
+  gftp_bookmarks_var * tempentry, * delentry;
+  
+  if (bookmarks == NULL)
+    return;
+
+  tempentry = bookmarks;
+  while (tempentry != NULL)
+    {
+      gftp_free_bookmark (tempentry);
+      g_free (tempentry->path);
+
+      if (tempentry->children != NULL)
+        {
+          tempentry = tempentry->children;
+          continue;
+        }
+
+      while (tempentry->next == NULL && tempentry->prev != NULL)
+        {
+          delentry = tempentry;
+          tempentry = tempentry->prev;
+          g_free (delentry);
+        }
+
+      delentry = tempentry;
+      tempentry = tempentry->next;
+      g_free (delentry);
     }
 }
 

@@ -66,8 +66,9 @@ gftp_request_destroy (gftp_request * request, int free_request)
 
   if (request->local_options_vars != NULL)
     {
-      g_free (request->local_options_vars);
-      g_hash_table_destroy (request->local_options_hash);
+      gftp_config_free_options (request->local_options_vars,
+                                request->local_options_hash,
+                                request->num_local_options_vars);
     }
 
   memset (request, 0, sizeof (*request));
@@ -407,7 +408,7 @@ gftp_string_to_utf8 (gftp_request * request, char *str)
           break;
         }
 
-      /* FIXME - fix NUL character in remote_charsets */
+      /* FIXME 2.0.15 - fix NUL character in remote_charsets */
     }
 
   return (ret);
@@ -1943,7 +1944,7 @@ print_file_list (GList * list)
 }
 
 
-static void
+void
 gftp_free_getline_buffer (gftp_getline_buffer ** rbuf)
 {
   g_free ((*rbuf)->buffer);

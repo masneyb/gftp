@@ -1,3 +1,32 @@
+2003-6-25 Brian Masney <masneyb@gftp.org>
+	* configure.in - added mk to ALL_LINGUAS
+
+	* lib/gftp.h - added several macros for dmalloc
+
+	* lib/misc.c src/text/gftp-text.c src/gtk/gftp-gtk.c - added
+	gftp_shutdown() to misc.c. This will write out the configuration
+	file, clear the cache, and if dmalloc is enabled, free the memory
+	that was allocated on startup
+
+	* lib/config_file.c lib/gftp.h lib/misc.c lib/options.h - added
+	gftp_configuration_changed parameter
+
+	* lib/config_file.c lib/misc.c lib/protocols.c - added 
+	gftp_config_free_options()
+
+	* lib/config_file.c src/gtk/bookmarks.c - added gftp_bookmarks() which
+	is derived mostly from bm_close_dialog()
+
+	* lib/rfc959.c - added rfc959_request_destroy(). Free the getline
+	buffers in this function
+
+	* src/gtk/misc-gtk.c (gftp_item_factory_translate) - remove double 
+	g_strdup() call
+
+	* lib/config_file.c lib/gftp.h src/gtk/misc-gtk.c - moved
+	get_xpm_path() to GTK+ port. No longer call it startup when reading
+	the config file
+	
 2003-6-24 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h lib/protocols.c - added backend for 
 	overriding options on a per bookmark basis. Also added 
