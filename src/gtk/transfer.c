@@ -95,7 +95,7 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
   if (!GFTP_IS_CONNECTED (fromwdata->request) || 
       !GFTP_IS_CONNECTED (towdata->request))
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
                _("Retrieve Files: Not connected to a remote site\n"));
       return;
     }
@@ -879,7 +879,7 @@ start_transfer (gpointer data)
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("There are no file transfers selected\n"));
       return;
     }
@@ -901,7 +901,7 @@ stop_transfer (gpointer data)
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	      _("There are no file transfers selected\n"));
       return;
     }
@@ -935,7 +935,7 @@ skip_transfer (gpointer data)
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	      _("There are no file transfers selected\n"));
       return;
     }
@@ -975,7 +975,7 @@ remove_file_transfer (gpointer data)
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
               _("There are no file transfers selected\n"));
       return;
     }
@@ -1028,7 +1028,7 @@ move_transfer_up (gpointer data)
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	      _("There are no file transfers selected\n"));
       return;
     }
@@ -1088,7 +1088,7 @@ move_transfer_down (gpointer data)
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	      _("There are no file transfers selected\n"));
       return;
     }

@@ -270,7 +270,7 @@ gftpui_run_function_callback (gftp_window_data * wdata,
       edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
       if (*edttext == '\0')
         {
-          ftp_log (gftp_logging_misc, NULL,
+          ftp_log (gftp_logging_error, NULL,
                    _("Operation canceled...you must enter a string\n"));
           return;
         }

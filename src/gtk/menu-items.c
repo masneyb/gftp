@@ -33,7 +33,7 @@ dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
   edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (*edttext == '\0')
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
                _("Change Filespec: Operation canceled...you must enter a string\n"));
       return;
     }
@@ -101,7 +101,7 @@ dosave_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
   filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (str->filew));
   if ((fd = fopen (filename, "w")) == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL, 
+      ftp_log (gftp_logging_error, NULL, 
                _("Error: Cannot open %s for writing: %s\n"), filename, 
                g_strerror (errno));
       return;
@@ -309,7 +309,7 @@ viewlog (gpointer data)
   tempstr = g_strconcat (g_get_tmp_dir (), "/gftp-view.XXXXXXXXXX", NULL);
   if ((fd = mkstemp (tempstr)) < 0)
     {
-      ftp_log (gftp_logging_misc, NULL, 
+      ftp_log (gftp_logging_error, NULL, 
                _("Error: Cannot open %s for writing: %s\n"), tempstr, 
                g_strerror (errno));
       g_free (tempstr); 
@@ -337,7 +337,7 @@ viewlog (gpointer data)
     {
       if ((len = write (fd, pos, textlen)) == -1)
         { 
-          ftp_log (gftp_logging_misc, NULL, 
+          ftp_log (gftp_logging_error, NULL, 
                    _("Error: Error writing to %s: %s\n"), 
                    tempstr, g_strerror (errno));
           break;
@@ -373,7 +373,7 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
   filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
   if ((fd = fopen (filename, "w")) == NULL)
     {
-      ftp_log (gftp_logging_misc, NULL, 
+      ftp_log (gftp_logging_error, NULL, 
                _("Error: Cannot open %s for writing: %s\n"), filename, 
                g_strerror (errno));
       return;
@@ -401,7 +401,7 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
       if ((len = write (fileno (fd), pos, textlen)) == -1)
         {
           ok = 0;
-          ftp_log (gftp_logging_misc, NULL, 
+          ftp_log (gftp_logging_error, NULL, 
                    _("Error: Error writing to %s: %s\n"), 
                    filename, g_strerror (errno));
           break;

@@ -44,7 +44,7 @@ view_dialog (gpointer data)
 
   if (S_ISDIR (curfle->st_mode))
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("View: %s is a directory. Cannot view it.\n"), curfle->file);
       return;
     }
@@ -72,7 +72,7 @@ view_dialog (gpointer data)
 		
       if (new_fle->fd < 0)
         {
-          ftp_log (gftp_logging_misc, NULL, 
+          ftp_log (gftp_logging_error, NULL, 
                    _("Error: Cannot open %s for writing: %s\n"),  
                    new_fle->destfile, g_strerror (errno));
           gftp_file_destroy (new_fle, 1);
@@ -110,7 +110,7 @@ edit_dialog (gpointer data)
 
   if (*edit_program == '\0')
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("Edit: You must specify an editor in the options dialog\n"));
       return;
     }
@@ -123,7 +123,7 @@ edit_dialog (gpointer data)
 
   if (S_ISDIR (curfle->st_mode))
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("Edit: %s is a directory. Cannot edit it.\n"), curfle->file);
       return;
     }
@@ -151,7 +151,7 @@ edit_dialog (gpointer data)
 
       if (new_fle->fd < 0)
         {
-          ftp_log (gftp_logging_misc, NULL, 
+          ftp_log (gftp_logging_error, NULL, 
                    _("Error: Cannot open %s for writing: %s\n"),
                    new_fle->destfile, g_strerror (errno));
           gftp_file_destroy (new_fle, 1);
@@ -309,7 +309,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
     {
       if ((fd = open (filename, O_RDONLY)) < 0)
         {
-          ftp_log (gftp_logging_misc, NULL, 
+          ftp_log (gftp_logging_error, NULL, 
                    _("View: Cannot open file %s: %s\n"), filename, 
                    g_strerror (errno));
           return;

@@ -118,7 +118,7 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 {
   if (current_wdata->request->stopable)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
                _("%s: Please hit the stop button first to do anything else\n"),
                _("Connect"));
       return;

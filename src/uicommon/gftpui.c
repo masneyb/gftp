@@ -87,7 +87,7 @@ _gftpui_common_thread_callback (void * data)
             break;
 
           cdata->retries--;
-          cdata->request->logging_function (gftp_logging_misc, cdata->request,
+          cdata->request->logging_function (gftp_logging_error, cdata->request,
                        _("Waiting %d seconds until trying to connect again\n"),
                        sleep_time);
           alarm (sleep_time);
@@ -1370,7 +1370,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
       if (!GFTP_IS_CONNECTED (tdata->fromreq) ||
           !GFTP_IS_CONNECTED (tdata->toreq))
         {
-          tdata->fromreq->logging_function (gftp_logging_misc,
+          tdata->fromreq->logging_function (gftp_logging_error,
                          tdata->fromreq,
                          _("Error: Remote site disconnected after trying to transfer file\n"));
         }
@@ -1438,7 +1438,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
         }
       else if (num_read < 0)
         {
-          tdata->fromreq->logging_function (gftp_logging_misc,
+          tdata->fromreq->logging_function (gftp_logging_error,
                                         tdata->fromreq,
                                         _("Could not download %s from %s\n"),
                                         curfle->file,

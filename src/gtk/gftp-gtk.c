@@ -209,7 +209,7 @@ tb_openurl_dialog (gpointer data)
 
   if (current_wdata->request->stopable)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
                _("%s: Please hit the stop button first to do anything else\n"),
                _("OpenURL"));
       return;
@@ -1059,7 +1059,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
 
   if (current_wdata->request->stopable)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
                _("%s: Please hit the stop button first to do anything else\n"),
                _("Connect"));
       return;

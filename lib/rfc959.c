@@ -711,7 +711,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 #endif
 
           pos = (char *) &data_addr.sin_addr;
-          request->logging_function (gftp_logging_misc, request,
+          request->logging_function (gftp_logging_error, request,
                _("Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"),
                pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff, pos[3] & 0xff,
                ntohs (data_addr.sin_port));

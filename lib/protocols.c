@@ -375,7 +375,7 @@ gftp_list_files (gftp_request * request)
   if (locret == NULL)
     {
       locret = setlocale (LC_TIME, NULL);
-      request->logging_function (gftp_logging_misc, request,
+      request->logging_function (gftp_logging_error, request,
                                  _("Error setting LC_TIME to '%s'. Falling back to '%s'\n"),
                                  remote_lc_time, locret);
     }
@@ -822,7 +822,7 @@ gftp_parse_url (gftp_request * request, const char *url)
 
       if (gftp_protocols[i].url_prefix == NULL)
         {
-          request->logging_function (gftp_logging_misc, NULL, 
+          request->logging_function (gftp_logging_error, NULL, 
                                      _("The protocol '%s' is currently not supported.\n"),
                                      new_url);
           g_free (new_url);
@@ -849,7 +849,7 @@ gftp_parse_url (gftp_request * request, const char *url)
 
       if (gftp_protocols[i].url_prefix == NULL)
         {
-          request->logging_function (gftp_logging_misc, NULL, 
+          request->logging_function (gftp_logging_error, NULL, 
                                      _("The protocol '%s' is currently not supported.\n"),
                                      default_protocol);
           g_free (new_url);

@@ -508,7 +508,7 @@ check_status (char *name, gftp_window_data *wdata, int check_other_stop,
 
   if (wdata->request->stopable)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("%s: Please hit the stop button first to do anything else\n"),
 	       name);
       return (0);
@@ -516,7 +516,7 @@ check_status (char *name, gftp_window_data *wdata, int check_other_stop,
 
   if (check_other_stop && owdata->request->stopable)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("%s: Please hit the stop button first to do anything else\n"),
 	       name);
       return (0);
@@ -524,14 +524,14 @@ check_status (char *name, gftp_window_data *wdata, int check_other_stop,
 
   if (!GFTP_IS_CONNECTED (wdata->request))
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("%s: Not connected to a remote site\n"), name);
       return (0);
     }
 
   if (!func)
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("%s: This feature is not available using this protocol\n"),
 	       name);
       return (0);
@@ -539,14 +539,14 @@ check_status (char *name, gftp_window_data *wdata, int check_other_stop,
 
   if (only_one && !IS_ONE_SELECTED (wdata))
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("%s: You must only have one item selected\n"), name);
       return (0);
     }
 
   if (at_least_one && !only_one && IS_NONE_SELECTED (wdata))
     {
-      ftp_log (gftp_logging_misc, NULL,
+      ftp_log (gftp_logging_error, NULL,
 	       _("%s: You must have at least one item selected\n"), name);
       return (0);
     }
