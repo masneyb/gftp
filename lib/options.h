@@ -171,7 +171,8 @@ gftp_config_vars gftp_global_config_vars[] =
    N_("The color of the error messages"), 0, NULL},
   {"misc_color", "", 
    gftp_option_type_color, "a000:8d00:4600", NULL, 0,
-   N_("The color of the rest of the log messages"), 0, NULL}
+   N_("The color of the rest of the log messages"), 0, NULL},
+  {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
 
 supported_gftp_protocols gftp_protocols[] =

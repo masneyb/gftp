@@ -354,7 +354,7 @@ gftp_parse_command_line (int *argc, char ***argv)
 void
 gftp_usage (void)
 {
-  printf (_("usage: gftp [[protocol://][user:[pass]@]site[:port][/directory]]\n"));
+  printf (_("usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"));
   exit (0);
 }
 
