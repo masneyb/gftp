@@ -1448,11 +1448,13 @@ gftp_register_config_vars (gftp_config_vars * config_vars)
 void
 gftp_copy_local_options (gftp_config_vars ** new_options_vars, 
                          GHashTable ** new_options_hash,
+                         int *new_num_local_options_vars,
                          gftp_config_vars * orig_options,
                          int num_local_options_vars)
 {
   int i;
 
+  *new_num_local_options_vars = num_local_options_vars;
   if (orig_options == NULL || num_local_options_vars == 0)
     {
       *new_options_vars = NULL;

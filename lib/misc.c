@@ -611,6 +611,7 @@ gftp_copy_request (gftp_request * req)
 
   gftp_copy_local_options (&newreq->local_options_vars, 
                            &newreq->local_options_hash,
+                           &newreq->num_local_options_vars,
                            req->local_options_vars,
                            req->num_local_options_vars);
 

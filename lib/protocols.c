@@ -626,6 +626,7 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
 
   gftp_copy_local_options (&request->local_options_vars,
                            &request->local_options_hash,
+                           &request->num_local_options_vars,
                            tempentry->local_options_vars,
                            tempentry->num_local_options_vars);
 

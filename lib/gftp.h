@@ -668,6 +668,7 @@ void gftp_register_config_vars 		( gftp_config_vars *config_vars );
 
 void gftp_copy_local_options 		( gftp_config_vars ** new_options_vars, 
 					  GHashTable ** new_options_hash,
+					  int *new_num_local_options_vars,
 					  gftp_config_vars * orig_options,
 					  int num_local_options_vars );
 

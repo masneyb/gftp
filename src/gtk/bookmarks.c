@@ -229,6 +229,7 @@ copy_bookmarks (gftp_bookmarks_var * bookmarks)
 
       gftp_copy_local_options (&newentry->local_options_vars,
                                &newentry->local_options_hash,
+                               &newentry->num_local_options_vars,
                                tempentry->local_options_vars,
                                tempentry->num_local_options_vars);
       newentry->num_local_options_vars = tempentry->num_local_options_vars;
