@@ -324,8 +324,8 @@ check_done_process (void)
 {
   gftp_viewedit_data * ve_proc;
   GList * curdata, *deldata;
+  int ret, procret;
   struct stat st;
-  int ret;
   char *str;
   pid_t pid;
 
@@ -342,17 +342,27 @@ check_done_process (void)
 	    {
 	      viewedit_processes = g_list_remove_link (viewedit_processes, 
                                                        deldata);
-	      if (ret != 0)
-		ftp_log (gftp_logging_error, NULL,
-			 _("Error: Child %d returned %d\n"), pid, ret);
-	      else
-		ftp_log (gftp_logging_misc, NULL,
-			 _("Child %d returned successfully\n"), pid);
+              if (WIFEXITED (ret))
+                {
+                  procret = WEXITSTATUS (ret);
+                  if (procret != 0)
+                    ftp_log (gftp_logging_error, NULL,
+                             _("Error: Child %d returned %d\n"), pid, procret);
+                  else
+                    ftp_log (gftp_logging_misc, NULL,
+                             _("Child %d returned successfully\n"), pid);
+                }
+              else
+                ftp_log (gftp_logging_error, NULL,
+                         _("Error: Child %d did not terminate properly\n"),
+                         pid);
 
 	      if (!ve_proc->view && !ve_proc->dontupload)
 		{
 		  /* We was editing the file. Upload it */
-		  if (stat (ve_proc->filename, &st) == -1)
+		  ret = stat (ve_proc->filename, &st);
+
+                  if (ret == -1)
 		    ftp_log (gftp_logging_error, NULL,
 		         _("Error: Cannot get information about file %s: %s\n"),
 			 ve_proc->filename, g_strerror (errno));

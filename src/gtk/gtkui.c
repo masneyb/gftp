@@ -385,10 +385,10 @@ gftpui_run_chdir (gpointer uidata, char *directory)
   char *tempstr;
   int ret;
 
+  wdata = uidata;
   if ((tempstr = gftp_expand_path (wdata->request, directory)) == NULL)
     return (FALSE);	  
   
-  wdata = uidata;
   cdata = g_malloc0 (sizeof (*cdata));
   cdata->request = wdata->request;
   cdata->uidata = wdata;
