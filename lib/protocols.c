@@ -433,7 +433,7 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
       gftp_lookup_request_option (request, "default_protocol", 
                                   &default_protocol);
 
-      if (*default_protocol != '\0')
+      if (default_protocol != NULL && *default_protocol != '\0')
         {
           for (i = 0; gftp_protocols[i].url_prefix; i++)
             {
@@ -489,7 +489,7 @@ gftp_parse_url (gftp_request * request, const char *url)
       gftp_lookup_request_option (request, "default_protocol", 
                                   &default_protocol);
 
-      if (*default_protocol != '\0')
+      if (default_protocol != NULL && *default_protocol != '\0')
         {
           for (i = 0; gftp_protocols[i].url_prefix; i++)
             {
@@ -2177,5 +2177,125 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 
   if (g_thread_supported ())
     g_static_mutex_unlock (&tdata->statmutex);
+}
+
+
+int
+gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
+{
+  int ret1, ret2, retries, sleep_time;
+  gftp_file * tempfle;
+  struct timeval tv;
+
+  ret1 = ret2 = 0;
+  gftp_lookup_request_option (tdata->fromreq, "retries", &retries);
+  gftp_lookup_request_option (tdata->fromreq, "sleep_time", &sleep_time);
+
+  if (g_thread_supported ())
+    g_static_mutex_lock (&tdata->structmutex);
+
+  if (tdata->curfle == NULL)
+    {
+      if (g_thread_supported ())
+        g_static_mutex_unlock (&tdata->structmutex);
+
+      return (GFTP_EFATAL);
+    }
+
+  tempfle = tdata->curfle->data;
+
+  if (g_thread_supported ())
+    g_static_mutex_unlock (&tdata->structmutex);
+
+  gftp_disconnect (tdata->fromreq);
+  gftp_disconnect (tdata->toreq);
+
+  if (num_read < 0 || tdata->skip_file)
+    {
+      if (num_read == GFTP_EFATAL)
+        return (GFTP_EFATAL);
+      else if (retries != 0 && 
+               tdata->current_file_retries >= retries)
+        {
+          tdata->fromreq->logging_function (gftp_logging_error, 
+                   tdata->fromreq->user_data,
+                   _("Error: Remote site %s disconnected. Max retries reached...giving up\n"),
+                   tdata->fromreq->hostname != NULL ? 
+                         tdata->fromreq->hostname : tdata->toreq->hostname);
+          return (GFTP_EFATAL);
+        }
+      else
+        {
+          tdata->fromreq->logging_function (gftp_logging_error, 
+                     tdata->fromreq->user_data,
+                     _("Error: Remote site %s disconnected. Will reconnect in %d seconds\n"),
+                     tdata->fromreq->hostname != NULL ? 
+                           tdata->fromreq->hostname : tdata->toreq->hostname, 
+                     sleep_time);
+        }
+
+      while (retries == 0 || 
+             tdata->current_file_retries <= retries)
+        {
+          if (!tdata->skip_file)
+            {
+              tv.tv_sec = sleep_time;
+              tv.tv_usec = 0;
+              select (0, NULL, NULL, NULL, &tv);
+            }
+
+          if ((ret1 = gftp_connect (tdata->fromreq)) == 0 &&
+              (ret2 = gftp_connect (tdata->toreq)) == 0)
+            {
+              if (g_thread_supported ())
+                g_static_mutex_lock (&tdata->structmutex);
+
+              tdata->resumed_bytes = tdata->resumed_bytes + tdata->trans_bytes - tdata->curresumed - tdata->curtrans;
+              tdata->trans_bytes = 0;
+              if (tdata->skip_file)
+                {
+                  tdata->total_bytes -= tempfle->size;
+                  tdata->curtrans = 0;
+
+                  tdata->curfle = tdata->curfle->next;
+                  tdata->next_file = 1;
+                  tdata->skip_file = 0;
+                  tdata->cancel = 0;
+                  tdata->fromreq->cancel = 0;
+                  tdata->toreq->cancel = 0;
+                }
+              else
+                {
+                  tempfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
+                  tempfle->startsize = tdata->curtrans + tdata->curresumed;
+                  /* We decrement this here because it will be incremented in 
+                     the loop again */
+                  tdata->curresumed = 0;
+                  tdata->current_file_number--; /* Decrement this because it 
+                                                   will be incremented when we 
+                                                   continue in the loop */
+                }
+
+              gettimeofday (&tdata->starttime, NULL);
+
+              if (g_thread_supported ())
+                g_static_mutex_unlock (&tdata->structmutex);
+
+              return (GFTP_ERETRYABLE);
+            }
+          else if (ret1 == GFTP_EFATAL || ret2 == GFTP_EFATAL)
+            {
+              gftp_disconnect (tdata->fromreq);
+              gftp_disconnect (tdata->toreq);
+              return (GFTP_EFATAL);
+            }
+          else
+            tdata->current_file_retries++;
+        }
+    }
+  else if (tdata->cancel)
+    return (GFTP_EFATAL);
+
+  return (0);
 }
 

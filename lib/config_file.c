@@ -452,6 +452,7 @@ gftp_read_config_file (char *global_data_path)
   char *tempstr, *temp1str, *curpos, buf[255];
   gftp_config_list_vars * tmplistvar;
   gftp_config_vars * tmpconfigvar;
+  char **protocol_list;
   FILE *conffile;
   int line, i;
   size_t len;
@@ -461,11 +462,23 @@ gftp_read_config_file (char *global_data_path)
 
   gftp_register_config_vars (gftp_global_config_vars);
 
+  protocol_list = NULL;
   for (i=0; gftp_protocols[i].register_options != NULL; i++)
     {
+      if (gftp_protocols[i].shown)
+        {
+          protocol_list = g_realloc (protocol_list, sizeof (char *) * (i + 2));
+          protocol_list[i] = gftp_protocols[i].name;
+          protocol_list[i + 1] = NULL;
+        }
+
       if (gftp_protocols[i].register_options != NULL)
         gftp_protocols[i].register_options ();
     }
+
+  if ((tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
+                                           "default_protocol")) != NULL)
+    tmpconfigvar->listdata = protocol_list;
 
   gftp_config_list_htable = g_hash_table_new (string_hash_function, 
                                               string_hash_compare);
@@ -560,26 +573,6 @@ gftp_read_config_file (char *global_data_path)
 	}
     }
 
-/* FIXME
-  gftp_lookup_global_option ("default_protocol", &tempstr);
-  if (tempstr == NULL || *tempstr == '\0')
-    {
-      tempstr = "FTP";
-      gftp_set_global_option ("default_protocol", tempstr);
-    }
-
-  for (i = 0; gftp_protocols[i].name; i++)
-    {
-      if (strcmp (gftp_protocols[i].name, tempstr) == 0)
-        break;
-    }
-
-  if (gftp_protocols[i].name == NULL)
-    {
-      printf (_("gFTP Error: Default protocol %s is not a valid protocol\n"), tempstr);
-      exit (1);
-    }
-*/
   if ((tempstr = expand_path (LOG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad log file name %s\n"), LOG_FILE);
@@ -962,7 +955,7 @@ gftp_config_file_read_intcombo (char *str, gftp_config_vars * cv, int line)
       clist = cv->listdata;
       for (i=0; clist[i] != NULL; i++)
         {
-          if (strcasecmp (_(clist[i]), str) == 0)
+          if (strcasecmp (clist[i], str) == 0)
             {
               cv->value = GINT_TO_POINTER(i);
               break;
@@ -981,7 +974,7 @@ gftp_config_file_write_intcombo (gftp_config_vars * cv, FILE * fd, int to_config
 
   clist = cv->listdata;
   if (clist != NULL)
-    fprintf (fd, "%s", _(clist[GPOINTER_TO_INT(cv->value)]));
+    fprintf (fd, "%s", clist[GPOINTER_TO_INT(cv->value)]);
   else
     fprintf (fd, _("<unknown>"));
 
@@ -989,7 +982,31 @@ gftp_config_file_write_intcombo (gftp_config_vars * cv, FILE * fd, int to_config
 }
 
 
-/* *Note, the index numbers of this array must match up to the numbers in
+static int
+gftp_config_file_read_textcombo (char *str, gftp_config_vars * cv, int line)
+{
+  char **clist;
+  int i;
+
+  cv->value = NULL;
+  if (cv->listdata != NULL)
+    {
+      clist = cv->listdata;
+      for (i=0; clist[i] != NULL; i++)
+        {
+          if (strcasecmp (clist[i], str) == 0)
+            {
+              cv->value = clist[i];
+              break;
+            }
+        }
+    }
+
+  return (0);
+}
+
+
+/* Note, the index numbers of this array must match up to the numbers in
    gftp_option_type_enum in gftp.h */
 gftp_option_type_var gftp_option_types[] = {
   {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
@@ -1004,7 +1021,7 @@ gftp_option_type_var gftp_option_types[] = {
   {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
   {NULL, NULL, NULL, NULL},
   {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, NULL, NULL},
-  {NULL, NULL, NULL, NULL},
+  {gftp_config_file_read_textcombo, gftp_config_file_write_text, NULL, NULL},
   {NULL, NULL, NULL, NULL}
 };
 

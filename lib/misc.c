@@ -933,3 +933,100 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
   return (filelist);
 }
 
+
+mode_t
+gftp_parse_attribs (char *attribs)
+{
+  mode_t mode;
+  int cur;
+
+  cur = 0;
+  if (attribs[1] == 'r')
+    cur += 4;
+  if (attribs[2] == 'w')
+    cur += 2;
+  if (attribs[3] == 'x' ||
+      attribs[3] == 's')
+    cur += 1;
+  mode = cur;
+
+  cur = 0;
+  if (attribs[4] == 'r')
+    cur += 4;
+  if (attribs[5] == 'w')
+    cur += 2;
+  if (attribs[6] == 'x' ||
+      attribs[6] == 's')
+    cur += 1;
+  mode = (mode * 10) + cur;
+
+  cur = 0;
+  if (attribs[7] == 'r')
+    cur += 4;
+  if (attribs[8] == 'w')
+    cur += 2;
+  if (attribs[9] == 'x' ||
+      attribs[9] == 's')
+    cur += 1;
+  mode = (mode * 10) + cur;
+
+  return (mode);
+}
+
+
+#if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
+
+struct hostent *
+r_gethostbyname (const char *name, struct hostent *result_buf, int *h_errnop)
+{
+  static GStaticMutex hostfunclock = G_STATIC_MUTEX_INIT; 
+  struct hostent *hent;
+
+  if (g_thread_supported ())
+    g_static_mutex_lock (&hostfunclock);
+
+  if ((hent = gethostbyname (name)) == NULL)
+    {
+      if (h_errnop)
+        *h_errnop = h_errno;
+    }
+  else
+    {
+      *result_buf = *hent;
+      hent = result_buf;
+    }
+
+  if (g_thread_supported ())
+    g_static_mutex_unlock (&hostfunclock);
+
+  return (hent);
+}
+
+#endif /* !HAVE_GETADDRINFO */
+
+struct servent *
+r_getservbyname (const char *name, const char *proto,
+                 struct servent *result_buf, int *h_errnop)
+{
+  static GStaticMutex servfunclock = G_STATIC_MUTEX_INIT;
+  struct servent *sent;
+
+  if (g_thread_supported ())
+    g_static_mutex_lock (&servfunclock);
+
+  if ((sent = getservbyname (name, proto)) == NULL)
+    {
+      if (h_errnop)
+        *h_errnop = h_errno;
+    }
+  else
+    {
+      *result_buf = *sent;
+      sent = result_buf;
+    }
+
+  if (g_thread_supported ())
+    g_static_mutex_unlock (&servfunclock);
+  return (sent);
+}
+

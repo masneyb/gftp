@@ -352,7 +352,7 @@ struct gftp_transfer_tag
   GStaticMutex statmutex,
                structmutex;
 
-  void *node;
+  void *user_data;
   void *clist;
 };
 
@@ -437,7 +437,7 @@ typedef enum
   gftp_option_type_textbox	= 9,
   gftp_option_type_subtree	= 10,
   gftp_option_type_intcombo	= 11,
-  gftp_option_type_charcombo	= 12,
+  gftp_option_type_textcombo	= 12,
   gftp_option_type_table	= 13
 } gftp_option_type_enum;
 
@@ -615,6 +615,8 @@ int tty_raw 				( int fd );
 GList * gftp_sort_filelist 		( GList * filelist, 
 					  int column, 
 					  int asds );
+
+mode_t gftp_parse_attribs 		( char *attribs );
 
 /* protocols.c */
 #define GFTP_FTP_NUM				0
@@ -818,6 +820,9 @@ void gftp_swap_socks 			( gftp_request * dest,
 					  gftp_request * source );
 
 void gftp_calc_kbs 			( gftp_transfer * tdata, 
+					  ssize_t num_read );
+
+int gftp_get_transfer_status 		( gftp_transfer * tdata, 
 					  ssize_t num_read );
 
 #endif

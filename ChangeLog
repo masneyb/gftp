@@ -1,3 +1,46 @@
+2003-4-8 Brian Masney <masneyb@gftp.org>
+	* src/text/gftp-text.c lib/misc.c - moved r_gethostbyname() and 
+	r_getservbyname() to lib/misc.c. Now uses GMutex functions
+
+	* lib/config_file.c lib/gftp.h lib/options.h - added config 
+	variable type textcombo. default_protocol uses this
+
+	* lib/config_file.c (gftp_read_config_file) - when reading in the
+	list of supported protocols, add the protocol names to the list
+	associated with default_protocol. Also, don't try to have
+	default_protocol fall back to FTP. The code that uses this will fall
+	back properly
+
+	* lib/gftp.h (struct gftp_transfer) - renamed node to user_data
+
+	* lib/misc.c lib/gftp.h - moved parse_attribs() from
+	src/gtk/transfer.c to misc.c. Renamed to gftp_parse_attribs()
+
+	* lib/protocols.c lib/gftp.h - moved get_status() from
+	src/gtk/transfer.c to protocols.c. Renamed to
+	gftp_get_transfer_status(). Uses GMutex functions
+
+
+2003-4-7 Brian Masney <masneyb@gftp.org>
+	* src/gtk/bookmarks.c - renamed struct gftp_bookmarks to
+	gftp_bookmarks_var. In run_bookmark(), use gftp_parse_bookmark()
+
+	* src/gtk/bookmarks.c src/gtk/dnd.c src/gtk/menu-items.c
+	src/gtk/transfer.c - use g_strdup() instead of g_malloc()/strcpy()
+
+	* src/gtk/dnd.c src/gtk/menu-items.c - don't use depreciated macros 
+	to access the request structure 
+
+	* src/gtk/*.c - use new gftp_lookup_global_option() and
+	gftp_lookup_request_option() functions
+
+	* src/gtk/gftp-gtk.h src/gtk/gftp-gtk.c - moved viewedit_processes and
+	viewedit_process_done variables from lib/gftp.h and lib/options.h
+
+	* src/gtk/transfer.c - removed gftp_gtk_calc_kbs(). This is now in
+	lib/protocols.c. Removed Binary/Ascii conversion. This is all done in
+	lib/rfc959.c
+
 2003-4-6 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c src/text/gftp-text.c - changed arguments of 
 	gftp_read_config_file() and gftp_read_bookmarks() to take an argument

@@ -98,12 +98,11 @@ gftp_config_vars gftp_global_config_vars[] =
    gftp_option_type_float, &gftp_maxkbs, NULL, 0,
    N_("The maximum KB/s a file transfer can get. (Set to 0 to disable)"),  
    GFTP_PORT_ALL, NULL},
-/* FIXME
- {"", N_("Default Protocol"), (void *) 0x1, CONFIG_COMBO, "DP", NULL, GFTP_PORT_GTK},
-  {"default_protocol", N_("Default Protocol"), &default_protocol, 
-        CONFIG_CHARTEXT, N_("This specifies the default protocol to use"), NULL, 0},
 
-*/
+  {"default_protocol", N_("Default Protocol"),
+   gftp_option_type_textcombo, "FTP", NULL, 0,
+   N_("This specifies the default protocol to use"), GFTP_PORT_ALL, NULL},
+
   {"list_dblclk_action", "", 
    gftp_option_type_int, GINT_TO_POINTER(0), NULL, 0,
    N_("This defines what will happen when you double click a file in the file listboxes. 0=View file 1=Edit file 2=Transfer file"), 0, NULL},
