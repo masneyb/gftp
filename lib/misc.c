@@ -587,6 +587,7 @@ gftp_copy_request (gftp_request * req)
   newreq->port = req->port;
   newreq->use_proxy = req->use_proxy;
   newreq->logging_function = req->logging_function;
+  newreq->ai_family = req->ai_family;
   newreq->free_hostp = 0;
   newreq->hostp = NULL;
 

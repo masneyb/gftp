@@ -705,7 +705,6 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
   void *read_ptr_pos;
   ssize_t retval;
   size_t sret;
-  int ret;
 
   params = request->protocol_data;
   params->read_ref_cnt++;

@@ -379,6 +379,7 @@ struct gftp_request_tag
   struct hostent host, *hostp;
 #endif
 
+  int ai_family;
   int server_type;		/* The type of server we are connected to.
                                    See GFTP_DIRTYPE_* above */
   unsigned int free_hostp : 1, 		/* Should we free the hostp structure 

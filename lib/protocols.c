@@ -2159,6 +2159,8 @@ gftp_connect_server (gftp_request * request, char *service,
           close (sock);
           continue;
         }
+
+      request->ai_family = res->ai_family;
       break;
     }
 
@@ -2185,6 +2187,7 @@ gftp_connect_server (gftp_request * request, char *service,
 
   g_return_val_if_fail (sock != -1, GFTP_EFATAL);
 
+  request->ai_family = AF_INET;
   if ((sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
       request->logging_function (gftp_logging_error, request,

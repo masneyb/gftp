@@ -1,4 +1,10 @@
 2004-9-6 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/misc.c lib/protocols.c lib/rfc959.c - fixes for
+	hosts that have IPv6 and IPv4 hostnames and a IPv6 connection cannot
+	be made
+
+	* lib/rfc2068.c - removed unused variable
+
 	* lib/protocols.c lib/sshv2.c lib/sslcommon.c - cleanups to the
 	functions that write/read to/from the network. Retry the operation
 	if EAGAIN is returned

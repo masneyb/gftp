@@ -937,7 +937,7 @@ rfc959_data_connection_new (gftp_request * request)
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
 #ifdef HAVE_IPV6
-  if (GFTP_GET_AI_FAMILY(request) == AF_INET6)
+  if (request->ai_family == AF_INET6)
     return (rfc959_ipv6_data_connection_new (request));
   else
     return (rfc959_ipv4_data_connection_new (request));
