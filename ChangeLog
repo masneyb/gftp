@@ -1,3 +1,36 @@
+2004-11-18  Dennis Cranston <dennis_cranston@yahoo.com>
+	* src/gtk/options_dialog.c:  GNOME HIG fixes for the GTK+2 
+	version of the Options and Add/Edit dialogs.
+	
+	Changes for the Options dialog:
+	   *  Use proper GNOME HIG widget spacing and padding
+	   *  Use proper GNOME HIG button order for action area
+	   *  Remove dialog separator
+
+	   FTP tab:
+	   *  Indent the text view below the "Proxy server type" 
+	      entry and wrap it in a scrolled window
+
+	   Local Hosts tab:
+	   *  Use stock add, edit, and delete buttons
+	   *  Toggle sensitivity of edit and delete buttons
+
+	Changes for the Add/Edit Host dialog:
+	   *  Use proper GNOME HIG widget sapcing and padding
+	   *  Use proper GNOME HIG button order for action area
+	   *  Use proper GNOME HIG capitalization
+	   *  Remove dialog separator
+	   *  Add mnemonics to labels
+	   *  Set dialog's window icon
+	   *  Moved host type (i.e. Network or Domain radio 
+	      buttons) to top of dialog, because these toggle 
+	      the sensitivity of the other widgets
+	   *  Indent the Network address, Netmask, and Domain 
+	      entries, because the sensitivity of these widgets 
+	      is toggled by the host type radio buttons
+	   *  Toggle the sensitivity of the labels when 
+	      changing host type
+	
 2004-11-28 Brian Masney <masneyb@gftp.org>
 	* lib/pty.c - if HAVE_GRANTPT is defined, then don't include stropts.h
 	if it is being compiled on FreeBSD (from Radim Kolar <hsn@sendmail.cz>)
