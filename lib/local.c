@@ -116,7 +116,7 @@ local_get_file (gftp_request * request, const char *filename, int fd,
   if (fd <= 0)
     {
       flags = O_RDONLY;
-#if defined (_LARGEFILE_SOURCE)
+#if defined (_LARGEFILE_SOURCE) && defined (O_LARGEFILE)
       flags |= O_LARGEFILE;
 #endif
 
@@ -163,7 +163,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
       flags = O_WRONLY | O_CREAT;
       if (startsize > 0)
          flags |= O_APPEND;
-#if defined (_LARGEFILE_SOURCE)
+#if defined (_LARGEFILE_SOURCE) && defined (O_LARGEFILE)
       flags |= O_LARGEFILE;
 #endif
 
