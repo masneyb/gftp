@@ -80,7 +80,7 @@ dochmod (GtkWidget * widget, gftp_window_data * wdata)
   if (GTK_TOGGLE_BUTTON (gw)->active)
     mode |= S_IWGRP;
   if (GTK_TOGGLE_BUTTON (gx)->active)
-    mode |= S_IWOTH;
+    mode |= S_IXGRP;
 
   if (GTK_TOGGLE_BUTTON (or)->active)
     mode |= S_IROTH;
