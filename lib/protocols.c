@@ -225,7 +225,9 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
 
   if (gftp_put_file (toreq, tofile, tofd, tosize, size) != 0)
     {
-      gftp_end_transfer (fromreq);
+      if (gftp_abort_transfer (fromreq) != 0)
+        gftp_end_transfer (fromreq);
+
       return (-2);
     }
 
@@ -329,18 +331,17 @@ gftp_end_transfer (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, -2);
 
-  if (request->end_transfer == NULL)
-    return (-2);
+  if (!request->cached && 
+      request->end_transfer != NULL)
+    ret = request->end_transfer (request);
+  else
+    ret = 0;
 
-  ret = 0;
   if (request->cachefd != NULL)
     {
       fclose (request->cachefd);
       request->cachefd = NULL;
     }
-
-  if (!request->cached)
-    ret = request->end_transfer (request);
 
   if (request->last_dir_entry)
     {
@@ -350,6 +351,18 @@ gftp_end_transfer (gftp_request * request)
     }
 
   return (ret);
+}
+
+
+int
+gftp_abort_transfer (gftp_request * request)
+{
+  g_return_val_if_fail (request != NULL, -2);
+
+  if (request->abort_transfer == NULL)
+    return (-2);
+
+  return (request->abort_transfer (request));
 }
 
 

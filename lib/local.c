@@ -90,6 +90,7 @@ local_init (gftp_request * request)
   request->get_next_file_chunk = NULL;
   request->put_next_file_chunk = NULL;
   request->end_transfer = local_end_transfer;
+  request->abort_transfer = local_end_transfer; /* NOTE: uses end_transfer */
   request->list_files = local_list_files;
   request->get_next_file = local_get_next_file;
   request->set_data_type = NULL;

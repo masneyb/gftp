@@ -69,6 +69,7 @@ rfc2068_init (gftp_request * request)
   request->get_next_file_chunk = rfc2068_get_next_file_chunk;
   request->put_next_file_chunk = NULL;
   request->end_transfer = rfc2068_end_transfer;
+  request->abort_transfer = rfc2068_end_transfer; /* NOTE: uses end_transfer */
   request->list_files = rfc2068_list_files;
   request->get_next_file = rfc2068_get_next_file;
   request->set_data_type = NULL;

@@ -1,3 +1,18 @@
+2002-10-17 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c - add gftp_abort_transfer function. Also, in 
+	gftp_transfer_file, when we do a gftp_put_file, if that fails,
+	try to abort the transfer.
+
+	* lib/rfc959.c - add rfc959_abort_transfer function
+
+	* lib/rfc2068.c, lib/local.c - point abort_transfer pointer to 
+	rfc2068_end_transfer and local_end_transfer respectively
+
+	* lib/ssh.c, lib/sshv2.c - add FIXME to implement abort function
+
+	* src/gtk/transfer.c - when we stop a transfer, try to abort it 
+	first. If that fails, disconnect from the site completely
+
 2002-10-15 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c - enable combo in GTK port for Proxy server type
 

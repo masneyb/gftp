@@ -193,6 +193,7 @@ sshv2_init (gftp_request * request)
   request->get_next_file_chunk = sshv2_get_next_file_chunk;
   request->put_next_file_chunk = sshv2_put_next_file_chunk;
   request->end_transfer = sshv2_end_transfer;
+  request->abort_transfer = NULL; /* FIXME */
   request->list_files = sshv2_list_files;
   request->get_next_file = sshv2_get_next_file;
   request->set_data_type = NULL;

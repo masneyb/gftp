@@ -246,6 +246,7 @@ struct gftp_request_tag
 					  char *buf, 
 					  size_t size );
   int (*end_transfer) 			( gftp_request * request );
+  int (*abort_transfer) 		( gftp_request * request );
   int (*list_files) 			( gftp_request * request );
   int (*get_next_file)			( gftp_request * request, 
 					  gftp_file *fle, 
@@ -675,6 +676,8 @@ int gftp_get_next_file 			( gftp_request * request,
 					  gftp_file *fle );
 
 int gftp_end_transfer 			( gftp_request * request );
+
+int gftp_abort_transfer 		( gftp_request * request );
 
 int gftp_read_response 			( gftp_request * request );
 

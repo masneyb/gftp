@@ -139,6 +139,7 @@ ssh_init (gftp_request * request)
   request->get_next_file_chunk = ssh_get_next_file_chunk;
   request->put_next_file_chunk = ssh_put_next_file_chunk;
   request->end_transfer = ssh_end_transfer;
+  request->abort_transfer = NULL; /* FIXME */
   request->list_files = ssh_list_files;
   request->get_next_file = ssh_get_next_file;
   request->set_data_type = NULL;

@@ -709,7 +709,15 @@ gftp_gtk_transfer_files (void *data)
             }
         }
 
-      if (num_read < 0 || transfer->cancel)
+      if (transfer->cancel)
+        {
+          if (gftp_abort_transfer (transfer->fromreq) != 0)
+            gftp_disconnect (transfer->fromreq);
+
+          if (gftp_abort_transfer (transfer->toreq) != 0)
+            gftp_disconnect (transfer->toreq);
+        }
+      else if (num_read < 0)
         {
           transfer->fromreq->logging_function (gftp_logging_misc, 
                                         transfer->fromreq->user_data, 
@@ -718,15 +726,14 @@ gftp_gtk_transfer_files (void *data)
                                         transfer->fromreq->hostname);
 
           if (get_status (transfer, num_read) == 1)
-            {
-              transfer->cancel = 0;
-              continue;
-            }
+            continue;
+
           break;
         }
       else
         {
-          /* FIXME - this needs cleaned up. NOTE: view/edit file will be broken if the file hsa to be resumed */
+          /* FIXME - this needs cleaned up. NOTE: view/edit file will be 
+             broken if the file has to be resumed */
           if (curfle->is_fd)
             {
               if (transfer->transfer_direction == GFTP_DIRECTION_DOWNLOAD)
@@ -738,10 +745,8 @@ gftp_gtk_transfer_files (void *data)
           if (gftp_end_transfer (transfer->fromreq) != 0)
             {
               if (get_status (transfer, -1) == 1)
-                {
-                  transfer->cancel = 0;
-                  continue;
-                }
+                continue;
+
               break;
             }
           gftp_end_transfer (transfer->toreq);
@@ -1066,9 +1071,10 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
 
   tdata->fromreq->stopable = 0;
   tdata->toreq->stopable = 0;
+  pthread_mutex_unlock (tdata->structmutex);
+
   ftp_log (gftp_logging_misc, NULL, _("Stopping the transfer of %s\n"),
 	   ((gftp_file *) tdata->curfle->data)->file);
-  pthread_mutex_unlock (tdata->structmutex);
 }
 
 
@@ -1365,9 +1371,10 @@ stop_transfer (gpointer data)
     }
   else
     transdata->transfer->done = 1;
+  pthread_mutex_unlock (transdata->transfer->structmutex);
+
   ftp_log (gftp_logging_misc, NULL, _("Stopping the transfer on host %s\n"),
 	   transdata->transfer->fromreq->hostname);
-  pthread_mutex_unlock (transdata->transfer->structmutex);
 }
 
 
@@ -1377,6 +1384,7 @@ skip_transfer (gpointer data)
   gftp_curtrans_data * transdata;
   GtkCTreeNode * node;
   gftp_file * curfle;
+  char *file;
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
@@ -1398,10 +1406,14 @@ skip_transfer (gpointer data)
         }
 
       curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-      ftp_log (gftp_logging_misc, NULL, _("Skipping file %s on host %s\n"), 
-               curfle->file, transdata->transfer->fromreq->hostname);
+      file = curfle->file;
     }
+  else
+    file = NULL;
   pthread_mutex_unlock (transdata->transfer->structmutex);
+
+  ftp_log (gftp_logging_misc, NULL, _("Skipping file %s on host %s\n"), 
+           file, transdata->transfer->fromreq->hostname);
 }
 
 
@@ -1449,10 +1461,10 @@ remove_file_transfer (gpointer data)
       transdata->transfer->total_bytes -= curfle->size;
     }
 
+  pthread_mutex_unlock (transdata->transfer->structmutex);
+
   ftp_log (gftp_logging_misc, NULL, _("Skipping file %s on host %s\n"),
            curfle->file, transdata->transfer->fromreq->hostname);
-
-  pthread_mutex_unlock (transdata->transfer->structmutex);
 }
 
 

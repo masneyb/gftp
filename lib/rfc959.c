@@ -38,6 +38,7 @@ static long rfc959_transfer_file 		( gftp_request *fromreq,
 						  const char *tofile, 
 						  off_t tosize );
 static int rfc959_end_transfer 			( gftp_request * request );
+static int rfc959_abort_transfer 		( gftp_request * request );
 static int rfc959_list_files 			( gftp_request * request );
 static int rfc959_set_data_type 		( gftp_request * request, 
 						  int data_type );
@@ -84,6 +85,7 @@ rfc959_init (gftp_request * request)
   request->get_next_file_chunk = NULL;
   request->put_next_file_chunk = NULL;
   request->end_transfer = rfc959_end_transfer;
+  request->abort_transfer = rfc959_abort_transfer;
   request->list_files = rfc959_list_files;
   request->get_next_file = rfc959_get_next_file;
   request->set_data_type = rfc959_set_data_type;
@@ -336,14 +338,7 @@ rfc959_get_file (gftp_request * request, const char *filename, FILE * fd,
   g_free (tempstr);
 
   if (ret != '1')
-    {
-      if (request->datafd != NULL)
-        {
-          fclose (request->datafd);
-          request->datafd = NULL;
-        }
-      return (-2);
-    }
+    return (-2);
 
   if (request->transfer_type == gftp_transfer_active &&
       (ret = rfc959_accept_active_connection (request)) < 0)
@@ -410,14 +405,7 @@ rfc959_put_file (gftp_request * request, const char *filename, FILE * fd,
   ret = rfc959_send_command (request, tempstr);
   g_free (tempstr);
   if (ret != '1')
-    {
-      if (request->datafd != NULL)
-        {
-          fclose (request->datafd);
-          request->datafd = NULL;
-        }
-      return (-2);
-    }
+    return (-2);
 
   if (request->transfer_type == gftp_transfer_active && 
       (ret = rfc959_accept_active_connection (request)) < 0)
@@ -505,6 +493,37 @@ rfc959_end_transfer (gftp_request * request)
       request->datafd = NULL;
     }
   return (rfc959_read_response (request) == '2' ? 0 : -2);
+}
+
+
+static int
+rfc959_abort_transfer (gftp_request * request)
+{
+  int ret;
+
+  g_return_val_if_fail (request != NULL, -2);
+  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, -2);
+  g_return_val_if_fail (request->sockfd != NULL, -2);
+
+  if (request->datafd)
+    {
+      fclose (request->datafd);
+      request->datafd = NULL;
+    }
+
+  /* We need to read two lines of output. The first one is acknowleging
+     the transfer and the second line acknowleges the ABOR command */
+  rfc959_send_command (request, "ABOR\r\n");
+
+  if (request->sockfd != NULL)
+    {
+      ret = rfc959_read_response (request);
+
+      if (ret != '2')
+        gftp_disconnect (request);
+    }
+  
+  return (0);
 }
 
 
@@ -828,10 +847,7 @@ rfc959_send_command (gftp_request * request, const char *command)
     }
 
   if (write_to_socket (request, command) < 0)
-    {
-      gftp_disconnect (request);
-      return (-1);
-    }
+    return (-1);
 
   return (rfc959_read_response (request));
 }
@@ -929,7 +945,8 @@ rfc959_read_response (gftp_request * request)
   request->last_ftp_response = g_malloc (strlen (tempstr) + 1);
   strcpy (request->last_ftp_response, tempstr);
 
-  if (*request->last_ftp_response == '4')
+  if (request->last_ftp_response[0] == '4' &&
+      request->last_ftp_response[1] == '2')
     gftp_disconnect (request);
 
   return (*request->last_ftp_response);
