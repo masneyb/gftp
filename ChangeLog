@@ -1,4 +1,14 @@
 2004-9-29 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c (sshv2_set_config_options) set the request->need_password
+	to be the value of the option ssh_need_userpass
+
+	* src/text/gftp-text.c (main) - run gftp_shutdown() before the program
+	exits
+
+	* src/uicommon/gftpui.c (gftpui_common_cmd_set) - toggle
+	gftp_configuration_changed whenever the user changes a configuration
+	item
+
 	* src/text/gftp-text.c src/uicommon/gftpui.c - make sure that extra
 	newlines are not displayed to the user when certain commands are run
 	from the text console

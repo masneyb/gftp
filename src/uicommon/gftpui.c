@@ -773,6 +773,8 @@ gftpui_common_cmd_set (void *uidata, gftp_request * request,
 
           if (newcv.flags & GFTP_CVARS_FLAGS_DYNMEM)
             g_free (newcv.value);
+
+          gftp_configuration_changed = 1;
         }
     }
 

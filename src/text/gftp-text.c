@@ -301,6 +301,7 @@ main (int argc, char **argv)
     }
 #endif
  
+  gftp_shutdown ();
   return (0);
 }
 

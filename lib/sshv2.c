@@ -2011,6 +2011,7 @@ sshv2_set_config_options (gftp_request * request)
 
   gftp_lookup_request_option (request, "ssh_need_userpass", &ssh_need_userpass);
   request->need_username = ssh_need_userpass;
+  request->need_password = ssh_need_userpass;
   return (0);
 }
 
