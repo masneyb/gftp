@@ -639,7 +639,10 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
 
           request->logging_function (gftp_logging_error, request, "%s", buf);
 
-          while ((numread = gftp_fd_read (NULL, error_buffer, 
+          if (gftp_fd_set_sockblocking (request, fd, 0) == -1)
+            return (GFTP_EFATAL);
+
+          if ((numread = gftp_fd_read (NULL, error_buffer, 
                                           sizeof (error_buffer) - 1, 
                                           fd)) > 0)
             {

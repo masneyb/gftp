@@ -346,6 +346,64 @@ gftp_match_filespec (char *filename, char *filespec)
 }
 
 
+static void
+gftp_info (void)
+{
+  printf ("%s\n", gftp_version);
+
+#ifdef _LARGEFILE_SOURCE
+  printf ("#define_LARGEFILE_SOURCE\n");
+#endif
+
+#ifdef _FILE_OFFSET_BITS
+  printf ("#define _FILE_OFFSET_BITS %d\n", _FILE_OFFSET_BITS);
+#endif
+
+  printf ("sizeof (off_t) = %d\n", sizeof (off_t));
+
+#ifdef USE_SSL
+  printf ("#define USE_SSL\n");
+#endif
+
+#ifdef HAVE_GETADDRINFO
+  printf ("#define HAVE_GETADDRINFO\n");
+#endif
+
+#ifdef HAVE_GAI_STRERROR
+  printf ("#define HAVE_GAI_STRERROR\n");
+#endif
+
+#ifdef HAVE_GETDTABLESIZE
+  printf ("#define HAVE_GETDTABLESIZE\n");
+#endif
+
+#ifdef G_HAVE_GINT64
+  printf ("#define G_HAVE_GINT64\n");
+#endif
+
+#ifdef HAVE_LIBREADLINE
+  printf ("#define HAVE_LIBREADLINE\n");
+#endif
+
+#ifdef ENABLE_NLS
+  printf ("#define ENABLE_NLS\n");
+#endif
+
+#ifdef HAVE_GETTEXT
+  printf ("#define HAVE_GETTEXT\n");
+#endif
+
+  printf ("glib version: %d.%d.%d\n", GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION,
+          GLIB_MICRO_VERSION);
+
+  printf ("PTY implementation: %s\n", gftp_get_pty_impl ());
+
+#ifdef USE_SSL
+  printf ("OpenSSL version: 0x%lx\n", OPENSSL_VERSION_NUMBER);
+#endif
+}
+
+
 int
 gftp_parse_command_line (int *argc, char ***argv)
 {
@@ -358,6 +416,11 @@ gftp_parse_command_line (int *argc, char ***argv)
                strcmp (argv[0][1], "-v") == 0)
 	{
 	  printf ("%s\n", gftp_version);
+	  exit (0);
+	}
+      else if (strcmp (argv[0][1], "--info") == 0)
+	{
+          gftp_info ();
 	  exit (0);
 	}
     }
@@ -442,6 +505,9 @@ copy_fdata (gftp_file * fle)
 
   if (fle->file)
     newfle->file = g_strdup (fle->file);
+
+  if (fle->utf8_file)
+    newfle->utf8_file = g_strdup (fle->utf8_file);
 
   if (fle->user)
     newfle->user = g_strdup (fle->user);

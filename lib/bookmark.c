@@ -42,7 +42,7 @@ bookmark_parse_url (gftp_request * request, const char * url)
   else
     pos = url;
 
-  return (gftp_parse_bookmark (request, pos));
+  return (gftp_parse_bookmark (request, NULL, pos));
 }
 
 

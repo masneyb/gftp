@@ -1,3 +1,21 @@
+2003-7-31 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c - fix blocking problem reading the error message from the
+	remote server when there was an error establishing a connection
+
+	* lib/misc.c (copy_fdata) - copy utf8_file variable in gftp_file
+	structure. (fix double free that was only in development version)
+
+	* lib/misc.c - added --info argument to the command line. This will 
+	call gftp_info(), which will print out some information about how
+	gftp was compiled. 
+
+	* lib/protocols.c lib/bookmarks.c lib/gftp.h src/gtk/bookmarks.c -
+	added local_request parameter to gftp_parse_bookmark(). If this is not
+	NULL, and this bookmark specifies a local directory, it will change to
+	it.
+
+	* configure.in - increment version to 2.0.15rc2
+
 2003-07-30  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
 
 	* configure.in: Added Belarusian to ALL_LINGUAS.

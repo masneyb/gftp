@@ -39,7 +39,8 @@ run_bookmark (gpointer data)
       return;
     }
 
-  if (gftp_parse_bookmark (current_wdata->request, (char *) data) < 0)
+  if (gftp_parse_bookmark (current_wdata->request, other_wdata->request,
+                           (char *) data) < 0)
     return;
 
   if (GFTP_IS_CONNECTED (current_wdata->request))
