@@ -34,6 +34,11 @@ static gftp_config_vars config_vars[] =
   {"entropy_source", N_("SSL Entropy File:"), 
    gftp_option_type_text, "/dev/urandom", NULL, 0, 
    N_("SSL entropy file"), GFTP_PORT_ALL, 0},
+  {"entropy_len", N_("Entropy Seed Length:"), 
+   gftp_option_type_int, GINT_TO_POINTER(1024), NULL, 0, 
+   N_("The maximum number of bytes to seed the SSL engine with"), 
+   GFTP_PORT_ALL, 0},
+
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };  
 
@@ -54,10 +59,28 @@ ssl_register_module (void)
 }
 
 
+static int
+gftp_ssl_get_index (void)
+{
+  static volatile int index = -1;
+
+  if (index < 0)
+    index = SSL_get_ex_new_index (0, gftp_version, NULL, NULL, NULL);
+
+  return index;
+}
+
+
+
 static int 
 gftp_ssl_verify_callback (int ok, X509_STORE_CTX *store)
 {
-  char data[256];
+  char issuer[256], subject[256];
+  gftp_request * request;
+  SSL * ssl;
+
+  ssl = X509_STORE_CTX_get_ex_data (store, SSL_get_ex_data_X509_STORE_CTX_idx ());
+  request = SSL_get_ex_data (ssl, gftp_ssl_get_index ());
 
   if (!ok)
     {
@@ -65,12 +88,12 @@ gftp_ssl_verify_callback (int ok, X509_STORE_CTX *store)
       int depth = X509_STORE_CTX_get_error_depth (store);
       int err = X509_STORE_CTX_get_error (store);
 
-      fprintf (stderr, "-Error with certificate at depth: %i\n", depth);
-      X509_NAME_oneline (X509_get_issuer_name (cert), data, sizeof (data));
-      fprintf (stderr, "  issuer   = %s\n", data);
-      X509_NAME_oneline (X509_get_subject_name (cert), data, sizeof (data));
-      fprintf (stderr, "  subject  = %s\n", data);
-      fprintf (stderr, "  err %i:%s\n", err, X509_verify_cert_error_string (err));
+      X509_NAME_oneline (X509_get_issuer_name (cert), issuer, sizeof (issuer));
+      X509_NAME_oneline (X509_get_subject_name (cert), subject, sizeof (subject));
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 "Error with certificate at depth: %i\nIssuer = %s\nSubject = %s\nError %i:%s\n", 
+                                 depth, issuer, subject, err, 
+                                 X509_verify_cert_error_string (err));
     }
 
   return ok;
@@ -163,6 +186,7 @@ int
 gftp_ssl_startup (gftp_request * request)
 {
   char *entropy_source;
+  int entropy_len;
 
   if (gftp_ssl_initialized)
     return (0);
@@ -180,7 +204,8 @@ gftp_ssl_startup (gftp_request * request)
   SSL_load_error_strings (); 
 
   gftp_lookup_request_option (request, "entropy_source", &entropy_source);
-  RAND_load_file (entropy_source, 1024);
+  gftp_lookup_request_option (request, "entropy_len", &entropy_len);
+  RAND_load_file (entropy_source, entropy_len);
 
   ctx = SSL_CTX_new (SSLv23_method ());
 
@@ -192,7 +217,7 @@ gftp_ssl_startup (gftp_request * request)
     }
 
   SSL_CTX_set_verify (ctx, SSL_VERIFY_PEER, gftp_ssl_verify_callback);
-  SSL_CTX_set_verify_depth (ctx, 4);
+  SSL_CTX_set_verify_depth (ctx, 9);
   SSL_CTX_set_options (ctx, SSL_OP_ALL|SSL_OP_NO_SSLv2);
 
   if (SSL_CTX_set_cipher_list (ctx, "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH") != 1)
@@ -244,13 +269,10 @@ gftp_ssl_session_setup (gftp_request * request)
     }
 
   SSL_set_bio (request->ssl, bio, bio);
+  SSL_set_ex_data (request->ssl, gftp_ssl_get_index (), request);
 
   if (SSL_connect (request->ssl) <= 0)
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error connecting to SSL object\n"));
-      return (GFTP_EFATAL);
-    }
+    return (GFTP_EFATAL);
 
   if ((ret = gftp_ssl_post_connection_check (request)) != X509_V_OK)
     {
