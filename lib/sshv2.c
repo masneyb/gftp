@@ -848,7 +848,8 @@ sshv2_free_args (char **args)
 static int
 sshv2_connect (gftp_request * request)
 {
-  int version, ret, ssh_use_askpass, sshv2_use_sftp_subsys, fdm;
+  int version, ret, fdm;
+  intptr_t ssh_use_askpass, sshv2_use_sftp_subsys;
   char **args, *tempstr, *p1, p2, *exepath, *ssh2_sftp_path;
   struct servent serv_struct;
   sshv2_params * params;
@@ -2231,7 +2232,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 static int
 sshv2_set_config_options (gftp_request * request)
 {
-  int ssh_need_userpass;
+  intptr_t ssh_need_userpass;
 
   gftp_lookup_request_option (request, "ssh_need_userpass", &ssh_need_userpass);
   request->need_userpass = ssh_need_userpass;

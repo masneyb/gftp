@@ -271,7 +271,7 @@ int
 gftp_ssl_startup (gftp_request * request)
 {
   char *entropy_source;
-  int entropy_len;
+  intptr_t entropy_len;
 
   if (gftp_ssl_initialized)
     return (0);

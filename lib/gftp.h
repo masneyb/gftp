@@ -57,6 +57,10 @@
 #include <grp.h>
 #include <math.h>
 
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif
+
 #ifdef HAVE_STRING_H
 #include <string.h>
 #else

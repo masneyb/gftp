@@ -1,3 +1,23 @@
+2003-12-4 Brian Masney <masneyb@gftp.org>
+	* lib/cache.c lib/misc.c lib/protocols.c lib/rfc2068.c lib/rfc959.c 
+	lib/sshv2.c lib/sslcommon.c src/text/gftp-text.c src/gtk/chmod_dialog.c
+	src/gtk/gftp-gtk.c src/gtk/menu-items.c src/gtk/misc-gtk.c
+	src/gtk/mkdir_dialog.c src/gtk/rename_dialog.c src/gtk/transfer.c -
+	when calling gftp_lookup_global_option() or
+	gftp_lookup_request_option(), if the value is an integer, declare
+	the variable type to be intptr_t. This fixes a bug on 64bit platforms
+	(from Gwenole Beauchesne <gbeauchesne@mandrakesoft.com>)
+
+	* lib/config_file.c (gftp_config_file_read_float) - 64bit fixup
+
+	* configure.in - increment version to 2.0.17pre0. Undefine _GNU_SOURCE.
+	Check for stdint.h.
+
+	* lib/gftp.h - include stdint.h if it is found on the system.
+
+	* src/gtk/gftp-gtk.c (CreateToolbar) - on startup, have the host edit
+	box grab the keyboard focus
+
 2003-11-30 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - cleaned up some of the code. Added a temporary fix for
 	an upload crash that is happening on FreeBSD. 

@@ -1048,10 +1048,10 @@ gftp_config_file_read_checkbox (char *str, gftp_config_vars * cv, int line)
 static int
 gftp_config_file_read_float (char *str, gftp_config_vars * cv, int line)
 {
-  float f;
+  union { intptr_t i; float f; } r;
 
-  f = strtod (str, NULL);
-  memcpy (&cv->value, &f, sizeof (cv->value));
+  r.f = strtod (str, NULL);
+  memcpy (&cv->value, &r.i, sizeof (cv->value));
   return (0);
 }
 

@@ -54,7 +54,8 @@ rfc2068_connect (gftp_request * request)
 {
   char *proxy_hostname, *proxy_config;
   rfc2068_params * params;
-  int proxy_port, ret;
+  intptr_t proxy_port;
+  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
@@ -181,7 +182,8 @@ static off_t
 rfc2068_send_command (gftp_request * request, const void *command, size_t len)
 {
   char *tempstr, *str, *proxy_hostname, *proxy_username, *proxy_password;
-  int proxy_port, conn_ret;
+  intptr_t proxy_port;
+  int conn_ret;
   ssize_t ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -273,7 +275,8 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
                   off_t startsize)
 {
   char *tempstr, *oldstr, *hf;
-  int restarted, use_http11;
+  int restarted;
+  intptr_t use_http11;
   rfc2068_params * params;
   off_t size;
 
@@ -402,7 +405,7 @@ rfc2068_list_files (gftp_request * request)
 {
   rfc2068_params *params;
   char *tempstr, *hd;
-  int use_http11;
+  intptr_t use_http11;
   off_t ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -448,7 +451,7 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
 {
   rfc2068_params *params;
   char *tempstr, *hf;
-  int use_http11;
+  intptr_t use_http11;
   off_t size;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);

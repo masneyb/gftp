@@ -785,7 +785,7 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
   GList * files, * dirs, * dotdot, * tempitem, * insitem;
   GCompareFunc sortfunc;
   gftp_file * tempfle;
-  int sort_dirs_first;
+  intptr_t sort_dirs_first;
 
   files = dirs = dotdot = NULL;
 

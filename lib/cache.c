@@ -118,7 +118,8 @@ int
 gftp_new_cache_entry (gftp_request * request)
 {
   char *cachedir, *tempstr, *temp1str;
-  int cache_fd, fd, cache_ttl;
+  int cache_fd, fd;
+  intptr_t cache_ttl;
   ssize_t ret;
   time_t t;
 

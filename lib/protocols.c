@@ -212,6 +212,7 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
   g_return_val_if_fail (tofile != NULL, GFTP_EFATAL);
 
   gftp_lookup_request_option (toreq, "maxkbs", &maxkbs);
+
   if (maxkbs > 0)
     {
       toreq->logging_function (gftp_logging_misc, toreq,
@@ -2222,7 +2223,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
 ssize_t 
 gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
 {
-  long network_timeout;
+  intptr_t network_timeout;
   struct timeval tv;
   fd_set fset;
   ssize_t ret;
@@ -2292,7 +2293,7 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
 ssize_t 
 gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
 {
-  long network_timeout;
+  intptr_t network_timeout;
   struct timeval tv;
   ssize_t w_ret;
   fd_set fset;
@@ -2495,7 +2496,8 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 int
 gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
 {
-  int ret1, ret2, retries, sleep_time;
+  int ret1, ret2;
+  intptr_t retries, sleep_time;
   gftp_file * tempfle;
   struct timeval tv;
 
