@@ -1,3 +1,8 @@
+2004-9-22 Brian Masney <masneyb@gftp.org>
+	* src/gtk/transfer.c (check_done_process) - if the process returned an
+	error code, then remove the file and don't prompt the user to upload the
+	file if it was changed
+
 2004-9-17 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c (check_done_process) - make sure the return code
 	from the process is reported correctly to the user

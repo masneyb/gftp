@@ -346,8 +346,12 @@ check_done_process (void)
                 {
                   procret = WEXITSTATUS (ret);
                   if (procret != 0)
-                    ftp_log (gftp_logging_error, NULL,
-                             _("Error: Child %d returned %d\n"), pid, procret);
+                    {
+                      ftp_log (gftp_logging_error, NULL,
+                               _("Error: Child %d returned %d\n"), pid, procret);
+                      remove_file (ve_proc->filename);
+                      continue;
+                    }
                   else
                     ftp_log (gftp_logging_misc, NULL,
                              _("Child %d returned successfully\n"), pid);
