@@ -405,6 +405,9 @@ void put_files 					( gpointer data );
 void transfer_window_files 			( gftp_window_data * fromwdata,
 						  gftp_window_data * towdata );
 
+int gftp_gtk_get_subdirs 			( gftp_transfer * transfer,
+						  pthread_t *tid );
+
 void *do_getdir_thread 				( void * data );
 
 void start_transfer				( gpointer data );

@@ -85,9 +85,7 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
   gftp_file * tempfle, * newfle;
   GList * templist, * filelist;
   gftp_transfer * transfer;
-  guint timeout_num;
-  void *ret;
-  int num;
+  int num, ret, disconnect;
 
   if (!check_status (_("Transfer Files"), fromwdata, 1, 0, 1,
        towdata->request->put_file != NULL && fromwdata->request->get_file != NULL))
@@ -129,44 +127,29 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
       gftp_swap_socks (transfer->fromreq, fromwdata->request);
       gftp_swap_socks (transfer->toreq, towdata->request);
 
-      if (gftpui_common_use_threads (transfer->fromreq) || 
-          (transfer->toreq && gftpui_common_use_threads (transfer->toreq)))
-        {
-          transfer->fromreq->stopable = 1;
-          pthread_create (&fromwdata->tid, NULL, do_getdir_thread, transfer);
-
-          timeout_num = gtk_timeout_add (100, progress_timeout, transfer);
-
-          while (transfer->fromreq->stopable)
-            {
-              GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-              g_main_iteration (TRUE);
-#else
-              g_main_context_iteration (NULL, TRUE);
-#endif
-            }
-
-          gtk_timeout_remove (timeout_num);
-          transfer->numfiles = transfer->numdirs = -1; 
-          update_directory_download_progress (transfer);
-
-          pthread_join (fromwdata->tid, &ret);
-        }
+      ret = gftp_gtk_get_subdirs (transfer, &fromwdata->tid);
+      if (ret < 0)
+        disconnect = 1;
       else
-        ret = do_getdir_thread (transfer);
+        disconnect = 0;
 
       if (!GFTP_IS_CONNECTED (transfer->fromreq))
         {
           gftpui_disconnect (fromwdata);
-          return;
+          disconnect = 1;
         } 
 
       if (!GFTP_IS_CONNECTED (transfer->toreq))
         {
           gftpui_disconnect (towdata);
-          return;
+          disconnect = 1;
         } 
+
+      if (disconnect)
+        {
+          free_tdata (transfer);
+          return;
+        }
 
       gftp_swap_socks (fromwdata->request, transfer->fromreq);
       gftp_swap_socks (towdata->request, transfer->toreq);
@@ -183,8 +166,9 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
     free_tdata (transfer);
 }
 
-void *
-do_getdir_thread (void * data)
+
+static void *
+_gftp_getdir_thread (void * data)
 {
   gftp_transfer * transfer;
   int success, sj;
@@ -219,6 +203,52 @@ do_getdir_thread (void * data)
 
   transfer->fromreq->stopable = 0;
   return (GINT_TO_POINTER (success));
+}
+
+
+int
+gftp_gtk_get_subdirs (gftp_transfer * transfer, pthread_t *tid)
+{
+  long numfiles, numdirs;
+  guint timeout_num;
+  void *ret;
+
+  if (gftpui_common_use_threads (transfer->fromreq) || 
+      (transfer->toreq && gftpui_common_use_threads (transfer->toreq)))
+    {
+      transfer->fromreq->stopable = 1;
+      gtk_widget_set_sensitive (stop_btn, 1);
+
+      pthread_create (tid, NULL, _gftp_getdir_thread, transfer);
+
+      timeout_num = gtk_timeout_add (100, progress_timeout, transfer);
+
+      while (transfer->fromreq->stopable)
+        {
+          GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1
+          g_main_iteration (TRUE);
+#else
+          g_main_context_iteration (NULL, TRUE);
+#endif
+        }
+
+      gtk_widget_set_sensitive (stop_btn, 0);
+      gtk_timeout_remove (timeout_num);
+
+      numfiles = transfer->numfiles;
+      numdirs = transfer->numdirs;
+      transfer->numfiles = transfer->numdirs = -1; 
+      update_directory_download_progress (transfer);
+      transfer->numfiles = numfiles;
+      transfer->numdirs = numdirs;
+
+      pthread_join (*tid, &ret);
+    }
+  else
+    ret = _gftp_getdir_thread (transfer);
+
+  return (GPOINTER_TO_INT (ret));
 }
 
 

@@ -168,9 +168,7 @@ delete_dialog (gpointer data)
   GList * templist, * filelist;
   gftp_transfer * transfer;
   gftp_window_data * wdata;
-  long numfiles, numdirs;
-  int num, timeout_num;
-  void *ret;
+  int num, ret;
 
   wdata = data;
   if (!check_status (_("Delete"), wdata, gftpui_common_use_threads (wdata->request), 0, 1, 1))
@@ -202,38 +200,7 @@ delete_dialog (gpointer data)
 
   gftp_swap_socks (transfer->fromreq, wdata->request);
 
-  if (gftpui_common_use_threads (transfer->fromreq))
-    {
-      wdata->request->stopable = 1;
-      transfer->fromreq->stopable = 1;
-      gtk_widget_set_sensitive (stop_btn, 1);
-      pthread_create (&wdata->tid, NULL, do_getdir_thread, transfer);
-
-      timeout_num = gtk_timeout_add (100, progress_timeout, transfer);
-      while (transfer->fromreq->stopable)
-        {
-          GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-          g_main_iteration (TRUE);
-#else
-          g_main_context_iteration (NULL, TRUE);
-#endif
-        }
-
-      gtk_widget_set_sensitive (stop_btn, 0);
-      gtk_timeout_remove (timeout_num);
-      numfiles = transfer->numfiles;
-      numdirs = transfer->numdirs;
-      transfer->numfiles = transfer->numdirs = -1;
-      update_directory_download_progress (transfer);
-      transfer->numfiles = numfiles;
-      transfer->numdirs = numdirs;
-
-      pthread_join (wdata->tid, &ret);
-      wdata->request->stopable = 0;
-    }
-  else
-    ret = do_getdir_thread (transfer);
+  ret = gftp_gtk_get_subdirs (transfer, &wdata->tid);
 
   if (!GFTP_IS_CONNECTED (transfer->fromreq))
     {
@@ -242,6 +209,9 @@ delete_dialog (gpointer data)
     }
 
   gftp_swap_socks (wdata->request, transfer->fromreq);
+
+  if (!ret)
+    return;
 
   askdel (transfer);
 }
