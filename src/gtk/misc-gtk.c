@@ -1114,6 +1114,7 @@ update_directory_download_progress (gftp_transfer * transfer)
   if (dialog == NULL)
     {
       dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+      gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
 #if GTK_MAJOR_VERSION > 1
       gtk_window_set_decorated (GTK_WINDOW (dialog), 0);
 #endif
