@@ -1,5 +1,6 @@
 #!/bin/sh
 # Run this to generate all the initial makefiles, etc.
+# This was derived from Glib's autogen.sh
 
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
@@ -13,53 +14,31 @@ GETTEXTIZE=gettextize
 
 DIE=0
 
-if [ `whereis -b automake-1.4 > /dev/null 2>&1` ] ; then
-	AUTOMAKE=automake-1.4
-	ACLOCAL=aclocal-1.4
-else
-	AUTOMAKE=automake
-	ACLOCAL=aclocal
+AUTOMAKE=automake
+ACLOCAL=aclocal
+AUTOCONF=autoconf
+AUTOHEADER=autoheader
+
+autoconf_version=`$AUTOCONF --version 2>/dev/null`
+if [ "x$autoconf_version" = "x" ] ; then 
+       echo
+       echo "GNU autoconf must be installed to build gFTP"
+       echo "GNU autoconf is available from http://www.gnu.org/software/autoconf/"
+       DIE=1
 fi
 
-if [ `whereis -b autoconf2.13 > /dev/null 2>&1` ] ; then
-	AUTOCONF=autoconf2.13
-	AUTOHEADER=autoheader2.13
-else
-	AUTOCONF=autoconf
-	AUTOHEADER=autoheader
-fi
-
-($AUTOCONF --version) < /dev/null > /dev/null 2>&1 || {
-	echo
-	echo "You must have autoconf installed to compile $PROJECT."
-	echo "libtool the appropriate package for your distribution,"
-	echo "or get the source tarball at ftp://ftp.gnu.org/pub/gnu/"
-	DIE=1
-}
-
-have_automake=false
-if $AUTOMAKE --version < /dev/null > /dev/null 2>&1 ; then
-	automake_version=`automake --version | grep 'automake (GNU automake)' | sed 's/^[^0-9]*\(.*\)/\1/'`
-	case $automake_version in
-	   1.2*|1.3*|1.4) 
-		;;
-	   *)
-		have_automake=true
-		;;
-	esac
-fi
-if $have_automake ; then : ; else
-	echo
-	echo "You must have automake 1.4-p1 installed to compile $PROJECT."
-	echo "Get ftp://ftp.gnu.org/pub/gnu/automake/automake-1.4-p1.tar.gz"
-	echo "(or a newer version if it is available)"
-	DIE=1
+automake_version=`$AUTOMAKE --version 2>/dev/null`
+if [ "x$automake_version" = "x" ] ; then 
+       echo
+       echo "GNU automake must be installed to build gFTP"
+       echo "GNU automake is available from http://www.gnu.org/software/automake/"
+       DIE=1
 fi
 
 gettext_version=`$GETTEXTIZE --version 2>/dev/null | grep 'GNU'`
 if [ "x$gettext_version" = "x" ] ; then 
        echo
-       echo "GNU gettext must be installed to build GLib from CVS"
+       echo "GNU gettext must be installed to build gFTP"
        echo "GNU gettext is available from http://www.gnu.org/software/gettext/"
        DIE=1
 fi
@@ -86,9 +65,9 @@ esac
 
 intl=`$GETTEXTIZE --help 2>/dev/null | grep -- '--intl'`
 if test -z "$intl"; then
-	GETTEXTIZE_FLAGS="-f -c"
+	GETTEXTIZE_FLAGS="-c"
 else
-	GETTEXTIZE_FLAGS="-f -c --intl"
+	GETTEXTIZE_FLAGS="-c --intl"
 fi
 
 echo "$GETTEXTIZE $GETTEXTIZE_FLAGS"
