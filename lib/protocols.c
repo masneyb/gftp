@@ -534,6 +534,11 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
         i = GFTP_FTP_NUM;
     }
 
+  gftp_copy_local_options (&request->local_options_vars,
+                           &request->local_options_hash,
+                           tempentry->local_options_vars,
+                           tempentry->num_local_options_vars);
+
   if ((init_ret = gftp_protocols[i].init (request)) < 0)
     {
       gftp_request_destroy (request, 0);

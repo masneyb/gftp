@@ -516,8 +516,9 @@ struct gftp_bookmarks_tag
                      *next; 	/* The next sibling of this node */
   gpointer cnode; 
 
-  /* Site options */
-  char *sftpserv_path;		/* Path to the sftp server */
+  gftp_config_vars * local_options_vars;
+  int num_local_options_vars;
+  GHashTable * local_options_hash;
 };
 
 
@@ -661,9 +662,6 @@ gftp_transfer * gftp_tdata_new 		( void );
 
 void free_tdata 			( gftp_transfer * tdata );
 
-void gftp_copy_local_options 		( gftp_request * dest, 
-					  gftp_request * source );
-
 gftp_request * copy_request 		( gftp_request * req,
 					  int copy_local_options );
 
@@ -678,6 +676,13 @@ char * gftp_gen_ls_string 		( gftp_file * fle,
 					  char *file_suffixstr );
 
 char * base64_encode 			( char *str );
+
+void gftp_free_bookmark 		( gftp_bookmarks_var * entry );
+
+void gftp_copy_local_options 		( gftp_config_vars ** new_options_vars, 
+					  GHashTable ** new_options_hash,
+					  gftp_config_vars * orig_options,
+					  int num_local_options_vars );
 
 /* protocols.c */
 #define GFTP_FTP_NUM				0

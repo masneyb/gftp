@@ -42,9 +42,15 @@ static gftp_config_vars config_vars[] =
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };  
 
+static GMutex ** gftp_ssl_mutexes = NULL;
+static volatile int gftp_ssl_initialized = 0;
 static SSL_CTX * ctx = NULL;
 
-static volatile int gftp_ssl_initialized = 0;
+struct CRYPTO_dynlock_value
+{ 
+  GMutex * mutex;
+};
+
 
 void
 ssl_register_module (void)
@@ -69,7 +75,6 @@ gftp_ssl_get_index (void)
 
   return index;
 }
-
 
 
 static int 
@@ -126,60 +131,134 @@ gftp_ssl_post_connection_check (gftp_request * request)
  
           if (strcmp (extstr, "subjectAltName") == 0)
             {
-    unsigned char  *data;
-    STACK_OF(CONF_VALUE) *val;
-    CONF_VALUE   *nval;
-    X509V3_EXT_METHOD *meth;
-    void     *ext_str = NULL;
+              unsigned char  *data;
+              STACK_OF(CONF_VALUE) *val;
+              CONF_VALUE   *nval;
+              X509V3_EXT_METHOD *meth;
+              void *ext_str = NULL;
  
-    if (!(meth = X509V3_EXT_get(ext)))
-     break;
-    data = ext->value->data;
+              if (!(meth = X509V3_EXT_get (ext)))
+                break;
+
+              data = ext->value->data;
 
 #if (OPENSSL_VERSION_NUMBER > 0x00907000L)
-    if (meth->it)
-     ext_str = ASN1_item_d2i(NULL, &data, ext->value->length,
-           ASN1_ITEM_ptr(meth->it));
-    else
-     ext_str = meth->d2i(NULL, &data, ext->value->length);
+              if (meth->it)
+                ext_str = ASN1_item_d2i (NULL, &data, ext->value->length,
+                                        ASN1_ITEM_ptr (meth->it));
+              else
+                ext_str = meth->d2i (NULL, &data, ext->value->length);
 #else
-    ext_str = meth->d2i(NULL, &data, ext->value->length);
+              ext_str = meth->d2i(NULL, &data, ext->value->length);
 #endif
-    val = meth->i2v(meth, ext_str, NULL);
-    for (j = 0; j < sk_CONF_VALUE_num(val); j++)
-    {
-     nval = sk_CONF_VALUE_value(val, j);
-     if (strcmp(nval->name, "DNS") == 0 && strcmp(nval->value, request->hostname) == 0)
-     {
-      ok = 1;
-      break;
-     }
+              val = meth->i2v(meth, ext_str, NULL);
+
+              for (j = 0; j < sk_CONF_VALUE_num(val); j++)
+                {
+                  nval = sk_CONF_VALUE_value (val, j);
+                  if (strcmp (nval->name, "DNS") == 0 && 
+                      strcmp (nval->value, request->hostname) == 0)
+                    {
+                      ok = 1;
+                      break;
+                    }
+                }
+            }
+
+          if (ok)
+            break;
+        }
     }
-   }
-   if (ok)
-    break;
-  }
- }
  
-/* FIXME
- if (!ok && (subj = X509_get_subject_name (cert)) &&
-     X509_NAME_get_text_by_NID (subj, NID_commonName, data, 256) > 0)
-   {
-     data[sizeof (data) - 1] = '\0';
-     if (strcasecmp (data, request->hostname) != 0)
-       {
-         request->logging_function (gftp_logging_error, request,
-                                    _("The SSL certificate's host %s does not match the host %s that we connected to\n"),
-                                    data, request->hostname);
-         X509_free (cert);
-         return (X509_V_ERR_APPLICATION_VERIFICATION);
-       }
-   }
-*/
+  if (!ok && (subj = X509_get_subject_name (cert)) &&
+      X509_NAME_get_text_by_NID (subj, NID_commonName, data, 256) > 0)
+    {
+      data[sizeof (data) - 1] = '\0';
+      if (strcasecmp (data, request->hostname) != 0)
+        {
+          request->logging_function (gftp_logging_error, request,
+                                     _("ERROR: The host in the SSL certificate (%s) does not match the host that we connected to (%s). Aborting connection.\n"),
+                                     data, request->hostname);
+          X509_free (cert);
+          return (X509_V_ERR_APPLICATION_VERIFICATION);
+        }
+    }
  
   X509_free (cert);
+
   return (SSL_get_verify_result(request->ssl));
 }
+
+
+static void
+_gftp_ssl_locking_function (int mode, int n, const char * file, int line)
+{
+  if (mode & CRYPTO_LOCK)
+    g_mutex_lock (gftp_ssl_mutexes[n]);
+  else
+    g_mutex_unlock (gftp_ssl_mutexes[n]);
+}
+
+
+static unsigned long
+_gftp_ssl_id_function (void)
+{ 
+#if GLIB_MAJOR_VERSION > 1
+  return ((unsigned long) g_thread_self ());
+#else
+  /* FIXME _ call pthread version */
+  return (0);
+#endif
+} 
+
+
+static struct CRYPTO_dynlock_value *
+_gftp_ssl_create_dyn_mutex (const char *file, int line)
+{ 
+  struct CRYPTO_dynlock_value *value;
+
+  value = g_malloc (sizeof (*value));
+  value->mutex = g_mutex_new ();
+  return (value);
+}
+
+
+static void
+_gftp_ssl_dyn_mutex_lock (int mode, struct CRYPTO_dynlock_value *l,
+                          const char *file, int line)
+{
+  if (mode & CRYPTO_LOCK)
+    g_mutex_lock (l->mutex);
+  else
+    g_mutex_unlock (l->mutex);
+}
+
+
+static void
+_gftp_ssl_destroy_dyn_mutex (struct CRYPTO_dynlock_value *l,
+                             const char *file, int line)
+{
+  g_mutex_free (l->mutex);
+  g_free (l);
+}
+
+
+static void
+_gftp_ssl_thread_setup (void)
+{
+  int i;
+
+  gftp_ssl_mutexes = g_malloc (CRYPTO_num_locks( ) * sizeof (*gftp_ssl_mutexes));
+
+  for (i = 0; i < CRYPTO_num_locks ( ); i++)
+    gftp_ssl_mutexes[i] = g_mutex_new ();
+
+  CRYPTO_set_id_callback (_gftp_ssl_id_function);
+  CRYPTO_set_locking_callback (_gftp_ssl_locking_function);
+  CRYPTO_set_dynlock_create_callback (_gftp_ssl_create_dyn_mutex);
+  CRYPTO_set_dynlock_lock_callback (_gftp_ssl_dyn_mutex_lock);
+  CRYPTO_set_dynlock_destroy_callback (_gftp_ssl_destroy_dyn_mutex);
+} 
 
 
 int
@@ -193,7 +272,9 @@ gftp_ssl_startup (gftp_request * request)
 
   gftp_ssl_initialized = 1;
 
-  /* FIXME _ thread setup */
+  if (g_thread_supported ())
+    _gftp_ssl_thread_setup ();
+
   if (!SSL_library_init ())
     {
       request->logging_function (gftp_logging_error, request,
@@ -246,7 +327,10 @@ gftp_ssl_session_setup (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
-  if (gftp_fd_set_sockblocking (request, request->datafd, 0) < 0) /* FIXME */
+  /* FIXME - take this out. I need to find out how to do timeouts with the SSL
+     functions (a select() or poll() like function) */
+
+  if (gftp_fd_set_sockblocking (request, request->datafd, 0) < 0)
     {
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
@@ -276,9 +360,10 @@ gftp_ssl_session_setup (gftp_request * request)
 
   if ((ret = gftp_ssl_post_connection_check (request)) != X509_V_OK)
     {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Error with peer certificate: %s\n"),
-                                 X509_verify_cert_error_string (ret));
+      if (ret != X509_V_ERR_APPLICATION_VERIFICATION)
+        request->logging_function (gftp_logging_error, request,
+                                   _("Error with peer certificate: %s\n"),
+                                   X509_verify_cert_error_string (ret));
       return (GFTP_EFATAL);
     }
 
@@ -311,7 +396,6 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
       if ((ret = SSL_read (request->ssl, ptr, size)) < 0)
         { 
           err = SSL_get_error (request->ssl, ret);
-           printf ("error is %d\n", err);
           if (errno == EINTR)
             {
               if (request != NULL && request->cancel)

@@ -109,6 +109,7 @@ static void
 gftp_read_bookmarks (char *global_data_path)
 {
   char *tempstr, *temp1str, buf[255], *curpos;
+  gftp_config_vars * global_entry;
   gftp_bookmarks_var * newentry;
   FILE *bmfile;
   size_t len;
@@ -213,16 +214,47 @@ gftp_read_bookmarks (char *global_data_path)
 	    g_free (newentry->acct);
 	  newentry->acct = g_strdup (curpos);
 	}
-      else if (strncmp (buf, "sftpserv_path", 13) == 0 && newentry)
+      else if (*buf == '#' || *buf == '\0')
+        continue;
+      else
         {
-          curpos = buf + 14;
-          if (newentry->sftpserv_path)
-            g_free (newentry->sftpserv_path);
-          newentry->sftpserv_path = g_strdup (curpos);
+          if ((curpos = strchr (buf, '=')) == NULL)
+            continue;
+          *curpos = '\0';
+
+          if ((global_entry = g_hash_table_lookup (gftp_global_options_htable,
+                                                   buf)) == NULL ||
+               gftp_option_types[global_entry->otype].read_function == NULL)
+            {
+	      printf (_("gFTP Warning: Skipping line %d in bookmarks file: %s\n"),
+                      line, buf);
+              continue;
+            }
+
+          if (newentry->local_options_hash == NULL)
+            newentry->local_options_hash = g_hash_table_new (string_hash_function,
+                                                             string_hash_compare);
+
+          newentry->num_local_options_vars++;
+          newentry->local_options_vars = g_realloc (newentry->local_options_vars,
+                                                    sizeof (gftp_config_vars) * newentry->num_local_options_vars);
+
+          memcpy (&newentry->local_options_vars[newentry->num_local_options_vars - 1], global_entry, 
+                  sizeof (newentry->local_options_vars[newentry->num_local_options_vars - 1]));
+
+          newentry->local_options_vars[newentry->num_local_options_vars - 1].flags &= ~GFTP_CVARS_FLAGS_DYNMEM;
+          newentry->local_options_vars[newentry->num_local_options_vars - 1].value = NULL;
+
+          if (gftp_option_types[global_entry->otype].read_function (curpos + 1,
+                                &newentry->local_options_vars[newentry->num_local_options_vars - 1], line) != 0)
+            {
+	      printf (_("gFTP Warning: Skipping line %d in bookmarks file: %s\n"),
+                      line, buf);
+              continue;
+            }
+
+          g_hash_table_insert (newentry->local_options_hash, newentry->local_options_vars[newentry->num_local_options_vars - 1].key, &newentry->local_options_vars[newentry->num_local_options_vars - 1]);
         }
-      else if (*buf != '#' && *buf != '\0')
-	printf (_("gFTP Warning: Skipping line %d in bookmarks file: %s\n"),
-		line, buf);
     }
 }
 
@@ -632,6 +664,7 @@ gftp_write_bookmarks_file (void)
   gftp_bookmarks_var * tempentry;
   char *bmhdr, *tempstr;
   FILE * bmfile;
+  int i;
 
   bmhdr = N_("Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten");
 
@@ -677,8 +710,15 @@ gftp_write_bookmarks_file (void)
 	       || tempentry->pass == NULL ? "" : tempentry->pass,
 	       tempentry->acct == NULL ? "" : tempentry->acct);
 
-      if (tempentry->sftpserv_path)
-        fprintf (bmfile, "sftpserv_path=%s\n", tempentry->sftpserv_path);
+      if (tempentry->local_options_vars != NULL)
+        {
+          for (i=0; i<tempentry->num_local_options_vars; i++)
+            {
+              fprintf (bmfile, "%s=", tempentry->local_options_vars[i].key);
+              gftp_option_types[tempentry->local_options_vars[i].otype].write_function (&tempentry->local_options_vars[i], bmfile, 1);
+              fprintf (bmfile, "\n");
+            }
+        }
 
       fprintf (bmfile, "\n");
  
@@ -1115,13 +1155,11 @@ gftp_set_request_option (gftp_request * request, char * key, void *value)
       
       request->num_local_options_vars++;
       request->local_options_vars = g_realloc (request->local_options_vars, 
-                                               sizeof (gftp_config_vars) * (request->num_local_options_vars + 1));
+                                               sizeof (gftp_config_vars) * request->num_local_options_vars);
 
       memcpy (&request->local_options_vars[request->num_local_options_vars - 1],
               tmpconfigvar, sizeof (*tmpconfigvar));
       memcpy (&request->local_options_vars[request->num_local_options_vars - 1].value, &value, sizeof (value));
-
-      memset (&request->local_options_vars[request->num_local_options_vars].value, 0, sizeof (value));
 
       g_hash_table_insert (request->local_options_hash, request->local_options_vars[request->num_local_options_vars - 1].key, &request->local_options_vars[request->num_local_options_vars - 1]);
     }
@@ -1133,5 +1171,37 @@ gftp_register_config_vars (gftp_config_vars * config_vars)
 {
   gftp_options_list = g_list_append (gftp_options_list, config_vars);
   gftp_setup_global_options (config_vars);
+}
+
+
+void
+gftp_copy_local_options (gftp_config_vars ** new_options_vars, 
+                         GHashTable ** new_options_hash,
+                         gftp_config_vars * orig_options,
+                         int num_local_options_vars)
+{
+  int i;
+
+  if (orig_options == NULL || num_local_options_vars == 0)
+    {
+      *new_options_vars = NULL;
+      *new_options_hash = NULL;
+      return;
+    }
+
+  *new_options_hash = g_hash_table_new (string_hash_function,
+                                        string_hash_compare);
+
+  *new_options_vars = g_malloc (sizeof (gftp_config_vars) * num_local_options_vars);
+  memcpy (*new_options_vars, orig_options,
+          sizeof (gftp_config_vars) * num_local_options_vars);
+
+  for (i=0; i<num_local_options_vars; i++)
+    {
+      g_hash_table_insert (*new_options_hash, (*new_options_vars)[i].key,
+                           &(*new_options_vars)[i]);
+
+      /* FIXME - copy option values */
+    }
 }
 

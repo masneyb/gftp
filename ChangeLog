@@ -1,3 +1,15 @@
+2003-6-24 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/gftp.h lib/protocols.c - added backend for 
+	overriding options on a per bookmark basis. Also added 
+	gftp_copy_local_options() to config_file.c
+
+	* lib/gftp.h lib/misc.c src/gtk/bookmarks.c - added
+	gftp_free_bookmark() to misc.c. It was taken from the function
+	free_bookmark_entry_items() in bookmarks.c
+
+	* lib/sslcommon.c - formatting fixes. Added thread functions (mostly 
+	from the OReilly SSL book)
+
 2003-6-22 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - renamed parse_args to 
 	gftp_config_parse_args() and removed the static declaration

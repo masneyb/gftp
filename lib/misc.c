@@ -549,37 +549,6 @@ free_tdata (gftp_transfer * tdata)
 }
 
 
-void
-gftp_copy_local_options (gftp_request * dest, gftp_request * source)
-{
-  int i;
-
-  if (source->local_options_vars == NULL)
-    {
-      dest->local_options_vars = NULL;
-      dest->num_local_options_vars = 0;
-      dest->local_options_hash = NULL;
-      return;
-    }
-
-  dest->local_options_hash = g_hash_table_new (string_hash_function,
-                                               string_hash_compare);
-
-  for (i=0; source->local_options_vars[i].key != NULL; i++);
-
-  dest->local_options_vars = g_malloc (sizeof (gftp_config_vars) * (i + 1));
-  memcpy (dest, source, sizeof (gftp_config_vars) * (i + 1));
-  dest->num_local_options_vars = i;
-
-  for (i=0; dest->local_options_vars[i].key != NULL; i++)
-    {
-      g_hash_table_insert (dest->local_options_hash, 
-                           dest->local_options_vars[i].key,
-                           &dest->local_options_vars[i]);
-    }
-}
-
-
 gftp_request * 
 copy_request (gftp_request * req, int copy_local_options)
 {
@@ -604,7 +573,10 @@ copy_request (gftp_request * req, int copy_local_options)
   newreq->hostp = req->hostp;
 
   if (copy_local_options)
-    gftp_copy_local_options (newreq, req);
+    gftp_copy_local_options (&newreq->local_options_vars, 
+                             &newreq->local_options_hash,
+                             req->local_options_vars,
+                             req->num_local_options_vars);
 
   if (req->init (newreq) < 0)
     {
@@ -1041,5 +1013,36 @@ base64_encode (char *str)
 	fillpos[++i] = '=';
     }
   return (newstr);
+}
+
+
+void
+gftp_free_bookmark (gftp_bookmarks_var * entry)
+{
+  if (entry->hostname)
+    g_free (entry->hostname);
+  if (entry->remote_dir)
+    g_free (entry->remote_dir);
+  if (entry->local_dir)
+    g_free (entry->local_dir);
+  if (entry->user)
+    g_free (entry->user);
+  if (entry->pass)
+    g_free (entry->pass);
+  if (entry->acct)
+    g_free (entry->acct);
+  if (entry->protocol)
+    g_free (entry->protocol);
+
+  if (entry->local_options_vars != NULL)
+    {
+      g_free (entry->local_options_vars);
+      entry->local_options_vars = NULL;
+
+      entry->num_local_options_vars = 0;
+
+      g_hash_table_destroy (entry->local_options_hash);
+      entry->local_options_hash = NULL;
+    }
 }
 

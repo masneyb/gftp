@@ -22,7 +22,7 @@ static const char cvsid[] = "$Id$";
 
 static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
   * bm_remotediredit, * bm_useredit, * bm_passedit, * bm_acctedit, * anon_chk,
-  * bm_pathedit, * bm_protocol, * tree, *bm_sftppath;
+  * bm_pathedit, * bm_protocol, * tree;
 static GHashTable * new_bookmarks_htable;
 static gftp_bookmarks_var * new_bookmarks;
 static GtkItemFactory * edit_factory;
@@ -176,26 +176,6 @@ build_bookmarks_menu (void)
 }
 
 
-static void
-free_bookmark_entry_items (gftp_bookmarks_var * entry)
-{
-  if (entry->hostname)
-    g_free (entry->hostname);
-  if (entry->remote_dir)
-    g_free (entry->remote_dir);
-  if (entry->local_dir)
-    g_free (entry->local_dir);
-  if (entry->user)
-    g_free (entry->user);
-  if (entry->pass)
-    g_free (entry->pass);
-  if (entry->acct)
-    g_free (entry->acct);
-  if (entry->protocol)
-    g_free (entry->protocol);
-}
-
-
 static gftp_bookmarks_var *
 copy_bookmarks (gftp_bookmarks_var * bookmarks)
 {
@@ -303,7 +283,7 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 	  g_free (tempstr);
 	}
 
-      free_bookmark_entry_items (tempentry);
+      gftp_free_bookmark (tempentry);
 
       if (tempentry->children != NULL)
 	tempentry = tempentry->children;
@@ -378,7 +358,7 @@ bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
   tempentry = new_bookmarks;
   while (tempentry != NULL)
     {
-      free_bookmark_entry_items (tempentry);
+      gftp_free_bookmark (tempentry);
       g_free (tempentry->path);
 
       if (tempentry->children != NULL)
@@ -534,18 +514,7 @@ do_delete_entry (gftp_bookmarks_var * entry, gftp_dialog_data * ddata)
   tempentry = entry;
   while (tempentry != NULL)
     {
-      if (tempentry->path)
-	g_free (tempentry->path);
-      if (tempentry->hostname)
-	g_free (tempentry->hostname);
-      if (tempentry->remote_dir)
-	g_free (tempentry->remote_dir);
-      if (tempentry->user)
-	g_free (tempentry->user);
-      if (tempentry->pass)
-	g_free (tempentry->pass);
-      if (tempentry->sftpserv_path)
-        g_free (tempentry->sftpserv_path);
+      gftp_free_bookmark (tempentry);
 
       if (tempentry->children != NULL)
 	{
@@ -988,19 +957,6 @@ edit_entry (gpointer data)
   else if (entry->local_dir)
     gtk_entry_set_text (GTK_ENTRY (bm_localdiredit), entry->local_dir);
   gtk_widget_show (bm_localdiredit);
-
-  tempwid = gtk_label_new (_("Remote SSH sftp path:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
-  gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 6, 7);
-  gtk_widget_show (tempwid);
-
-  bm_sftppath = gtk_entry_new ();
-  gtk_table_attach_defaults (GTK_TABLE (table), bm_sftppath, 1, 2, 6, 7);
-  if (entry->isfolder)
-    gtk_widget_set_sensitive (bm_sftppath, 0);
-  else if (entry->sftpserv_path)
-    gtk_entry_set_text (GTK_ENTRY (bm_sftppath), entry->sftpserv_path);
-  gtk_widget_show (bm_sftppath);
 
   tempwid = gtk_hseparator_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 2, 7, 8);
