@@ -529,10 +529,8 @@ gftp_tdata_new (void)
   gftp_transfer * tdata;
 
   tdata = g_malloc0 (sizeof (*tdata));
-/* FIXME
-  tdata->statmutex = G_STATIC_MUTEX_INIT;
-  tdata->structmutex = G_STATIC_MUTEX_INIT;
-*/
+  g_static_mutex_init (&tdata->statmutex);
+  g_static_mutex_init (&tdata->structmutex);
   return (tdata);
 }
 
@@ -987,5 +985,53 @@ r_getservbyname (const char *name, const char *proto,
   if (g_thread_supported ())
     g_static_mutex_unlock (&servfunclock);
   return (sent);
+}
+
+
+char *
+base64_encode (char *str)
+{
+
+/* The standard to Base64 encoding can be found in RFC2045 */
+
+  char *newstr, *newpos, *fillpos, *pos;
+  unsigned char table[64], encode[3];
+  int i, num;
+
+  for (i = 0; i < 26; i++)
+    {
+      table[i] = 'A' + i;
+      table[i + 26] = 'a' + i;
+    }
+
+  for (i = 0; i < 10; i++)
+    table[i + 52] = '0' + i;
+
+  table[62] = '+';
+  table[63] = '-';
+
+  num = strlen (str) / 3;
+  if (strlen (str) % 3 > 0)
+    num++;
+  newstr = g_malloc (num * 4 + 1);
+  newstr[num * 4] = '\0';
+  newpos = newstr;
+
+  pos = str;
+  while (*pos != '\0')
+    {
+      memset (encode, 0, sizeof (encode));
+      for (i = 0; i < 3 && *pos != '\0'; i++)
+	encode[i] = *pos++;
+
+      fillpos = newpos;
+      *newpos++ = table[encode[0] >> 2];
+      *newpos++ = table[(encode[0] & 3) << 4 | encode[1] >> 4];
+      *newpos++ = table[(encode[1] & 0xF) << 2 | encode[2] >> 6];
+      *newpos++ = table[encode[2] & 0x3F];
+      while (i < 3)
+	fillpos[++i] = '=';
+    }
+  return (newstr);
 }
 

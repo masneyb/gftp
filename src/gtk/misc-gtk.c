@@ -523,9 +523,9 @@ check_status (char *name, gftp_window_data *wdata, int check_other_stop,
 }
 
 
+/* FIXME - check this */
 static gchar *
-gftp_item_factory_translate (const char *path,
-			     gpointer    func_data)
+gftp_item_factory_translate (const char *path, gpointer func_data)
 {
   const gchar *strip_prefix = func_data;
   const char *result;
@@ -535,7 +535,7 @@ gftp_item_factory_translate (const char *path,
       char *tmp_path = g_strconcat (strip_prefix, path, NULL);
       result = gettext (tmp_path);
       if (result == tmp_path)
-	result = path;
+        result = path;
       g_free (tmp_path);
     }
   else
@@ -946,7 +946,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
     {
       gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
                            gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+      gdk_window_set_icon_name (dialog->window, gftp_version);
     }
 
   ddata->dialog = dialog;
@@ -1070,7 +1070,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
     {
       gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
                            gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+      gdk_window_set_icon_name (dialog->window, gftp_version);
     }
 
   ddata->dialog = dialog;

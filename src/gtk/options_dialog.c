@@ -1203,7 +1203,7 @@ options_dialog (gpointer data)
     {
       gdk_window_set_icon (option_data.dialog->window, NULL, gftp_icon->pixmap,
                            gftp_icon->bitmap);
-      gdk_window_set_icon_name (option_data.dialog->window, _("gFTP Icon"));
+      gdk_window_set_icon_name (option_data.dialog->window, gftp_version);
     }
 
   option_data.notebook = gtk_notebook_new ();

@@ -1096,7 +1096,7 @@ main (int argc, char **argv)
     {
       gdk_window_set_icon (window->window, NULL, gftp_icon->pixmap,
                            gftp_icon->bitmap);
-      gdk_window_set_icon_name (window->window, _("gFTP Icon"));
+      gdk_window_set_icon_name (window->window, gftp_version);
     }
 
   other_wdata = &window1;

@@ -269,7 +269,7 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
   wrotepw = 0;
   ok = 1;
 
-  if (gftp_set_sockblocking (request, fd, 1) == -1)
+  if (gftp_fd_set_sockblocking (request, fd, 1) == -1)
     return (NULL);
 
   pwstr = g_strconcat (request->password, "\n", NULL);
@@ -277,7 +277,7 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
   errno = 0;
   while (1)
     {
-      if ((rd = gftp_read (request, tempstr + diff, rem - 1, fd)) <= 0)
+      if ((rd = gftp_fd_read (request, tempstr + diff, rem - 1, fd)) <= 0)
         {
           ok = 0;
           break;
@@ -302,7 +302,7 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
             }
               
           wrotepw = 1;
-          if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
+          if (gftp_fd_write (request, pwstr, strlen (pwstr), fd) < 0)
             {
               ok = 0;
               break;
@@ -327,7 +327,7 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
             }
 
           wrotepw = 1;
-          if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
+          if (gftp_fd_write (request, pwstr, strlen (pwstr), fd) < 0)
             {
               ok = 0;
               break;
@@ -585,7 +585,7 @@ sshv2_send_command (gftp_request * request, char type, char *command,
 
   sshv2_log_command (request, gftp_logging_send, type, buf + 5, len);
 
-  if ((ret = gftp_write (request, buf, len + 5, request->sockfd)) < 0)
+  if ((ret = gftp_fd_write (request, buf, len + 5, request->sockfd)) < 0)
     return (ret);
 
   return (0);
@@ -606,7 +606,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
   rem = 5;
   while (rem > 0)
     {
-      if ((numread = gftp_read (request, pos, rem, fd)) < 0)
+      if ((numread = gftp_fd_read (request, pos, rem, fd)) < 0)
         return ((int) numread);
       rem -= numread;
       pos += numread;
@@ -634,7 +634,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
   rem = message->length - 1;
   while (rem > 0)
     {
-      if ((numread = gftp_read (request, pos, rem, fd)) < 0)
+      if ((numread = gftp_fd_read (request, pos, rem, fd)) < 0)
         return ((int) numread);
       rem -= numread;
       pos += numread;
@@ -2255,7 +2255,10 @@ sshv2_init (gftp_request * request)
   request->protonum = GFTP_SSHV2_NUM;
   request->init = sshv2_init;
   request->destroy = sshv2_destroy;
+  request->read_function = gftp_fd_read;
+  request->write_function = gftp_fd_write;
   request->connect = sshv2_connect;
+  request->post_connect = NULL;
   request->disconnect = sshv2_disconnect;
   request->get_file = sshv2_get_file;
   request->put_file = sshv2_put_file;

@@ -67,6 +67,14 @@
 #include <strings.h>
 #endif
 
+#ifdef USE_SSL
+#include <openssl/bio.h>
+#include <openssl/err.h>
+#include <openssl/rand.h>
+#include <openssl/ssl.h>
+#include <openssl/x509v3.h>
+#endif
+
 #ifdef ENABLE_NLS
 #include <libintl.h>
 #include <locale.h>
@@ -334,8 +342,17 @@ struct gftp_request_tag
   void *user_data;
 
   void (*init)				( gftp_request * request );
+  ssize_t (*read_function)		( gftp_request * request,
+					  void *ptr, 
+					  size_t size, 
+					  int fd );
+  ssize_t (*write_function)		( gftp_request * request, 
+					  const char *ptr, 
+					  size_t size, 
+					  int fd );
   void (*destroy)			( gftp_request * request );
   int (*connect)			( gftp_request * request );
+  int (*post_connect)			( gftp_request * request );
   void (*disconnect) 			( gftp_request * request );
   off_t (*get_file) 			( gftp_request * request, 
 					  const char *filename, 
@@ -394,6 +411,9 @@ struct gftp_request_tag
   gftp_config_vars * local_options_vars;
   int num_local_options_vars;
   GHashTable * local_options_hash;
+#ifdef USE_SSL
+  SSL * ssl;
+#endif
 };
 
 
@@ -634,12 +654,15 @@ char * gftp_gen_ls_string 		( gftp_file * fle,
 					  char *file_prefixstr, 
 					  char *file_suffixstr );
 
+char * base64_encode 			( char *str );
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_HTTP_NUM				1
-#define GFTP_LOCAL_NUM				2
-#define GFTP_SSHV2_NUM				3
-#define GFTP_BOOKMARK_NUM			4
+#define GFTP_HTTPS_NUM				2
+#define GFTP_LOCAL_NUM				3
+#define GFTP_SSHV2_NUM				4
+#define GFTP_BOOKMARK_NUM			5
 
 #define GFTP_IS_CONNECTED(request)		((request) != NULL && \
                                                  ((request)->sockfd > 0 || \
@@ -658,6 +681,10 @@ int rfc959_get_next_file 		( gftp_request * request,
 void rfc2068_init 			( gftp_request * request );
 
 void rfc2068_register_module		( void );
+
+void https_init 			( gftp_request * request );
+
+void https_register_module		( void );
 
 void local_init 			( gftp_request * request );
 
@@ -807,18 +834,19 @@ void gftp_set_config_options 		( gftp_request * request );
 
 void print_file_list 			( GList * list );
 
+
 ssize_t gftp_get_line 			( gftp_request * request, 
 					  gftp_getline_buffer ** rbuf,
 					  char * str, 
 					  size_t len, 
 					  int fd );
 
-ssize_t gftp_read 			( gftp_request * request, 
+ssize_t gftp_fd_read 			( gftp_request * request, 
 					  void *ptr, 
 					  size_t size, 
 					  int fd );
 
-ssize_t gftp_write 			( gftp_request * request, 
+ssize_t gftp_fd_write 			( gftp_request * request, 
 					  const char *ptr, 
 					  size_t size, 
 					  int fd );
@@ -828,7 +856,7 @@ ssize_t gftp_writefmt 			( gftp_request * request,
 					  const char *fmt, 
 					  ... );
 
-int gftp_set_sockblocking 		( gftp_request * request, 
+int gftp_fd_set_sockblocking 		( gftp_request * request, 
 					  int fd, 
 					  int non_blocking );
 
@@ -847,6 +875,25 @@ int open_ptys 				( gftp_request * request,
 					  int *fds );
 
 int tty_raw 				( int fd );
+
+#ifdef USE_SSL
+/* sslcommon.c */
+int gftp_ssl_startup 			( gftp_request * request );
+
+int gftp_ssl_session_setup 		( gftp_request * request );
+
+void gftp_ssl_free 			( gftp_request * request );
+
+ssize_t gftp_ssl_read 			( gftp_request * request, 
+					  void *ptr, 
+					  size_t size, 
+					  int fd );
+
+ssize_t gftp_ssl_write 			( gftp_request * request, 
+					  const char *ptr, 
+					  size_t size, 
+					  int fd );
+#endif /* USE_SSL */
 
 #endif
 

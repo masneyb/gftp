@@ -647,7 +647,10 @@ local_init (gftp_request * request)
   request->protonum = GFTP_LOCAL_NUM;
   request->init = local_init;
   request->destroy = local_destroy;
+  request->read_function = gftp_fd_read;
+  request->write_function = gftp_fd_write;
   request->connect = local_connect;
+  request->post_connect = NULL;
   request->disconnect = local_disconnect;
   request->get_file = local_get_file;
   request->put_file = local_put_file;

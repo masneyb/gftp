@@ -756,7 +756,7 @@ about_dialog (gpointer data)
     {
       gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
                            gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
+      gdk_window_set_icon_name (dialog->window, gftp_version);
     }
 
   notebook = gtk_notebook_new ();

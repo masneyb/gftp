@@ -165,7 +165,7 @@ rfc959_send_command (gftp_request * request, const char *command)
                                  command);
     }
 
-  if ((ret = gftp_write (request, command, strlen (command), 
+  if ((ret = gftp_fd_write (request, command, strlen (command), 
                          request->sockfd)) < 0)
     return (ret);
 
@@ -435,8 +435,7 @@ rfc959_connect (gftp_request * request)
   else if (strcasecmp (request->username, "anonymous") == 0)
     gftp_set_password (request, email);
    
-  if ((request->sockfd = gftp_connect_server (request, "ftp", proxy_hostname,
-                                              proxy_port)) < 0)
+  if (gftp_connect_server (request, "ftp", proxy_hostname, proxy_port) < 0)
     return (request->sockfd);
 
   /* Get the banner */
@@ -879,7 +878,7 @@ rfc959_accept_active_connection (gftp_request * request)
 
   cli_addr_len = sizeof (cli_addr);
 
-  if ((ret = gftp_set_sockblocking (request, request->datafd, 0)) < 0)
+  if ((ret = gftp_fd_set_sockblocking (request, request->datafd, 0)) < 0)
     return (ret);
 
   if ((infd = accept (request->datafd, (struct sockaddr *) &cli_addr,
@@ -895,7 +894,7 @@ rfc959_accept_active_connection (gftp_request * request)
   close (request->datafd);
 
   request->datafd = infd;
-  if ((ret = gftp_set_sockblocking (request, request->datafd, 1)) < 0)
+  if ((ret = gftp_fd_set_sockblocking (request, request->datafd, 1)) < 0)
     return (ret);
 
   return (0);
@@ -985,7 +984,7 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
       (ret = rfc959_data_connection_new (request)) < 0)
     return (ret);
 
-  if ((ret = gftp_set_sockblocking (request, request->datafd, 1)) < 0)
+  if ((ret = gftp_fd_set_sockblocking (request, request->datafd, 1)) < 0)
     return (ret);
 
   if (startsize > 0)
@@ -1056,7 +1055,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
       (ret = rfc959_data_connection_new (request)) < 0)
     return (ret);
 
-  if ((ret = gftp_set_sockblocking (request, request->datafd, 1)) < 0)
+  if ((ret = gftp_fd_set_sockblocking (request, request->datafd, 1)) < 0)
     return (ret);
 
   if (startsize > 0)
@@ -1137,7 +1136,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_free (tempstr);
 
   tempstr = g_strconcat ("RETR ", fromfile, "\r\n", NULL);
-  if ((ret = gftp_write (fromreq, tempstr, strlen (tempstr), 
+  if ((ret = gftp_fd_write (fromreq, tempstr, strlen (tempstr), 
                          fromreq->sockfd)) < 0)
     {
       g_free (tempstr);
@@ -1146,7 +1145,8 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_free (tempstr);
 
   tempstr = g_strconcat ("STOR ", tofile, "\r\n", NULL);
-  if ((ret = gftp_write (toreq, tempstr, strlen (tempstr), toreq->sockfd)) < 0)
+  if ((ret = gftp_fd_write (toreq, tempstr, strlen (tempstr), 
+                            toreq->sockfd)) < 0)
     {
       g_free (tempstr);
       return (ret);
@@ -1262,7 +1262,7 @@ rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   int i, j, ascii_transfers;
   ssize_t num_read;
 
-  num_read = gftp_read (request, buf, size, request->datafd);
+  num_read = gftp_fd_read (request, buf, size, request->datafd);
   if (num_read < 0)
     return (num_read);
 
@@ -1324,7 +1324,7 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
       tempstr = buf;
     }
 
-  num_wrote = gftp_write (request, tempstr, rsize, request->datafd);
+  num_wrote = gftp_fd_write (request, tempstr, rsize, request->datafd);
 
   if (tempstr != buf)
     g_free (tempstr);
@@ -1381,7 +1381,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   if (!request->cached)
     {
       request->last_dir_entry = g_strdup_printf ("%s\n", tempstr);
-      request->last_dir_entry_len = len + 1;
+      request->last_dir_entry_len = strlen (tempstr) + 1;
     }
   return (len);
 }
@@ -1609,7 +1609,10 @@ rfc959_init (gftp_request * request)
   request->protonum = GFTP_FTP_NUM;
   request->init = rfc959_init;
   request->destroy = NULL; 
+  request->read_function = gftp_fd_read;
+  request->write_function = gftp_fd_write;
   request->connect = rfc959_connect;
+  request->post_connect = NULL;
   request->disconnect = rfc959_disconnect;
   request->get_file = rfc959_get_file;
   request->put_file = rfc959_put_file;

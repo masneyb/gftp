@@ -140,7 +140,7 @@ gftp_new_cache_entry (gftp_request * request)
                            request->directory == NULL ? "" : request->directory,
                            tempstr, request->server_type);
   g_free (tempstr);
-  ret = gftp_write (NULL, temp1str, strlen (temp1str), fd);
+  ret = gftp_fd_write (NULL, temp1str, strlen (temp1str), fd);
   g_free (temp1str);
 
   if (close (fd) != 0 || ret < 0)
@@ -333,7 +333,7 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
              as we read it */
           gftp_restore_cache_line (&centry, buf);
 
-          if (gftp_write (NULL, buf, strlen (buf), newfd) < 0)
+          if (gftp_fd_write (NULL, buf, strlen (buf), newfd) < 0)
             break;
         }
     }

@@ -59,8 +59,11 @@ bookmark_init (gftp_request * request)
 
   request->protonum = GFTP_BOOKMARK_NUM;
   request->init = bookmark_init;
+  request->read_function = NULL;
+  request->write_function = NULL;
   request->destroy = NULL;
   request->connect = NULL;
+  request->post_connect = NULL;
   request->disconnect = NULL;
   request->get_file = NULL;
   request->put_file = NULL;
