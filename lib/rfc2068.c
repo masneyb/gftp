@@ -414,7 +414,10 @@ rfc2068_list_files (gftp_request * request)
   params = request->protocol_data;
   gftp_lookup_request_option (request, "use_http11", &use_http11);
 
-  hd = gftp_build_path (request->hostname, request->directory, NULL);
+  if (strncmp (request->directory, "/", strlen (request->directory)) == 0)
+    hd = g_strdup (request->hostname);
+  else
+    hd = gftp_build_path (request->hostname, request->directory, NULL);
 
   if (request->username == NULL || *request->username == '\0')
     tempstr = g_strconcat ("GET ", request->url_prefix, "://", hd,

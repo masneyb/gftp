@@ -1194,7 +1194,7 @@ gftp_build_path (const char *first_element, ...)
     {
       len = strlen (element);
 
-      if (retlen > 0 && ret[retlen - 1] == '/')
+      if (retlen > 0 && (ret[retlen - 1] == '/' || element[0] == '/'))
         add_separator = 0;
       else
         {

@@ -1,4 +1,14 @@
 2003-1-18 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (gftp_build_path) - when checking for already existing
+	/'s, not only look at the end of the currently built string, but look
+	at the beginning of the token that is about to be added
+	(from Aurelien Jarno <aurel32@debian.org>)
+
+	* lib/rfc2068.c (rfc2068_list_files) - if the current directory is /,
+	just send the hostname over to the HTTP server. This was broken on some
+	HTTP servers.
+	(from Aurelien Jarno <aurel32@debian.org>)
+
 	* lib/gftp.h lib/misc.c src/gtk/delete_dialog.c src/gtk/transfer.c
 	src/gtk/view_dialog.c src/uicommon/gftpui.c - renamed all instances of
 	copy_request() to gftp_copy_request(). Removed second argument
