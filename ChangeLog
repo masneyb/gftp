@@ -1,3 +1,22 @@
+2003-10-25 Brian Masney <masneyb@gftp.org>
+	* src/gtk/transfer.c src/gtk/gftp-gtk.h src/gtk/view_dialog.c - when
+	editing a remote file, if the user chooses to upload the changes, make
+	sure the upload is not sent to the current directory on the remote
+	server.
+
+	* lib/rfc2068.c - set the shown attributes to be -rw------- instead of
+	----------. The HTTP server doesn't send the attributes over, so I just
+	have to make something up.
+
+	* src/gtk/options_dialog.c - make sure all of the tooltips text is
+	passed to gettext()
+
+	* lib/protocols.c - if the file transfer is to be throttled, only
+	display the throttle message once.
+
+	* lib/local.c (local_get_next_file) - if the file is a symlink, grab
+	file size and attributes from the file this symlink points to.
+
 2003-10-22 Brian Masney <masneyb@gftp.org>
 	* lib/rfc2068.c - fixed parsing some chunked file transfers
 

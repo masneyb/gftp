@@ -926,6 +926,8 @@ free_edit_data (gftp_viewedit_data * ve_proc)
 {
   int i;
 
+  if (ve_proc->torequest)
+    gftp_request_destroy (ve_proc->torequest, 1);
   if (ve_proc->filename)
     g_free (ve_proc->filename);
   if (ve_proc->remote_filename)
@@ -952,13 +954,14 @@ do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
   GList * newfile;
 
   tempfle = g_malloc0 (sizeof (*tempfle));
-  tempfle->destfile = ve_proc->remote_filename;
+  tempfle->destfile = gftp_build_path (ve_proc->torequest->directory,
+                                       ve_proc->remote_filename, NULL);
   ve_proc->remote_filename = NULL;
   tempfle->file = ve_proc->filename;
   ve_proc->filename = NULL;
   tempfle->done_rm = 1;
   newfile = g_list_append (NULL, tempfle);
-  add_file_transfer (ve_proc->fromwdata->request, ve_proc->towdata->request,
+  add_file_transfer (ve_proc->fromwdata->request, ve_proc->torequest,
                      ve_proc->fromwdata, ve_proc->towdata, newfile, 1);
   free_edit_data (ve_proc);
 }

@@ -353,14 +353,14 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       g_hash_table_insert (lpd->grouphash, GUINT_TO_POINTER (st.st_gid), group);
     }
 
-  fle->attribs = make_text_mode (st.st_mode);
+  fle->attribs = make_text_mode (fst.st_mode);
   fle->datetime = st.st_mtime;
 
   if ((fle->attribs[0] == 'b' || fle->attribs[0] == 'u' ||
        fle->attribs[0] == 'c'))
     fle->size = (off_t) st.st_rdev;
   else
-    fle->size = st.st_size;
+    fle->size = fst.st_size;
 
   fle->isdir = S_ISDIR (fst.st_mode);
   fle->islink = S_ISLNK (st.st_mode);

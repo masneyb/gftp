@@ -71,7 +71,7 @@ _gen_input_widget (gftp_options_dialog_data * option_data, char *label, char *ti
   if (tiptxt != NULL)
     {
       tooltip = gtk_tooltips_new ();
-      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), tempwid, tiptxt, NULL);
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), tempwid, _(tiptxt), NULL);
     }
 
   return (tempwid);
@@ -192,7 +192,7 @@ _print_option_type_textcombo (gftp_config_vars * cv, void *user_data, void *valu
   if (cv->comment != NULL)
     {
       tooltip = gtk_tooltips_new ();
-      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), combo, cv->comment, NULL);
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), combo, _(cv->comment), NULL);
     }
 
   return (combo);
@@ -416,10 +416,11 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
   if (cv->comment != NULL)
     {
       tooltip = gtk_tooltips_new ();
-      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), combo, cv->comment, NULL);
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), combo, _(cv->comment), NULL);
 
       tooltip = gtk_tooltips_new ();
-      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), textwid, cv->comment, NULL);
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), textwid, _(cv->comment), 
+                            NULL);
     }
 
   return (widdata);
@@ -564,7 +565,8 @@ _print_option_type_checkbox (gftp_config_vars * cv, void *user_data, void *value
   if (cv->comment != NULL)
     {
       tooltip = gtk_tooltips_new ();
-      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), tempwid, cv->comment, NULL);
+      gtk_tooltips_set_tip (GTK_TOOLTIPS(tooltip), tempwid, _(cv->comment),
+                            NULL);
     }
 
   return (tempwid);

@@ -116,6 +116,7 @@ typedef struct gftp_viewedit_data_tag
 				   editing it */
    gftp_window_data * fromwdata, /* The window we are viewing this file in */
                     * towdata;
+   gftp_request * torequest;
 } gftp_viewedit_data;
 
 

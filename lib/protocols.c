@@ -157,17 +157,7 @@ off_t
 gftp_get_file (gftp_request * request, const char *filename, int fd,
                off_t startsize)
 {
-  float maxkbs;
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-
-  gftp_lookup_request_option (request, "maxkbs", &maxkbs);
-  if (maxkbs > 0)
-    {
-      request->logging_function (gftp_logging_misc, request,
-                    _("File transfer will be throttled to %.2f KB/s\n"),
-                    maxkbs);
-    }
 
   request->cached = 0;
   if (request->get_file == NULL)
@@ -181,18 +171,7 @@ int
 gftp_put_file (gftp_request * request, const char *filename, int fd,
                off_t startsize, off_t totalsize)
 {
-  float maxkbs;
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-
-  gftp_lookup_request_option (request, "maxkbs", &maxkbs);
-
-  if (maxkbs > 0)
-    {
-      request->logging_function (gftp_logging_misc, request,
-                    _("File transfer will be throttled to %.2f KB/s\n"), 
-                    maxkbs);
-    }
 
   request->cached = 0;
   if (request->put_file == NULL)
@@ -207,6 +186,7 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
                     gftp_request * toreq, const char *tofile,
                     int tofd, off_t tosize)
 {
+  float maxkbs;
   off_t size;
   int ret;
 
@@ -214,6 +194,14 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
   g_return_val_if_fail (fromfile != NULL, GFTP_EFATAL);
   g_return_val_if_fail (toreq != NULL, GFTP_EFATAL);
   g_return_val_if_fail (tofile != NULL, GFTP_EFATAL);
+
+  gftp_lookup_request_option (toreq, "maxkbs", &maxkbs);
+  if (maxkbs > 0)
+    {
+      toreq->logging_function (gftp_logging_misc, toreq,
+                    _("File transfer will be throttled to %.2f KB/s\n"), 
+                    maxkbs);
+    }
 
   if (fromreq->protonum == toreq->protonum &&
       fromreq->transfer_file != NULL)

@@ -498,7 +498,7 @@ parse_html_line (char *tempstr, gftp_file * fle)
 
   /* Copy file attributes. Just about the only thing we can get is whether it
      is a directory or not */
-  fle->attribs = g_strdup ("----------");
+  fle->attribs = g_strdup ("-rw-------");
   if (*(pos - 1) == '/')
     {
       *(pos - 1) = '\0';
