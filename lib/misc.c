@@ -195,7 +195,7 @@ expand_path (const char *src)
       if (newstr != NULL)
 	g_free (newstr);
 
-      newstr = g_malloc0 (1);
+      newstr = g_strdup ("/");
     }
 
   g_free (str);
@@ -205,7 +205,7 @@ expand_path (const char *src)
       if ((pos = strchr (newstr, '/')) == NULL)
 	str = g_strdup (pw->pw_dir);
       else
-	str = g_strconcat (pw->pw_dir, pos, NULL);
+	str = gftp_build_path (pw->pw_dir, pos, NULL);
 
       g_free (newstr);
       newstr = str;
@@ -1203,11 +1203,11 @@ gftp_build_path (const char *first_element, ...)
 
   g_return_val_if_fail (first_element != NULL, NULL);
 
-  ret = g_malloc0 (1);
-  retlen = 0;
+  ret = g_strdup (first_element);
+  retlen = strlen (ret);
 
   va_start (args, first_element);
-  for (element = first_element;
+  for (element = va_arg (args, char *);
        element != NULL;
        element = va_arg (args, char *))
     {
