@@ -386,6 +386,7 @@ struct gftp_request_tag
                   *current_hostp;
 #else
   struct hostent host, *hostp;
+  int curhost;
 #endif
 
   int ai_family;

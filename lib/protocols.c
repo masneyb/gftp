@@ -2240,7 +2240,6 @@ gftp_connect_server (gftp_request * request, char *service,
 #else /* !HAVE_GETADDRINFO */
   struct sockaddr_in remote_address;
   struct servent serv_struct;
-  int curhost;
 
   if ((request->use_proxy = gftp_need_proxy (request, service,
                                              proxy_hostname, proxy_port)) < 0)
@@ -2306,10 +2305,13 @@ gftp_connect_server (gftp_request * request, char *service,
     }
 
   disphost = NULL;
-  for (curhost = 0; request->host.h_addr_list[curhost] != NULL; curhost++)
+  for (request->curhost = 0;
+       request->host.h_addr_list[request->curhost] != NULL;
+       request->curhost++)
     {
       disphost = request->host.h_name;
-      memcpy (&remote_address.sin_addr, request->host.h_addr_list[curhost],
+      memcpy (&remote_address.sin_addr,
+              request->host.h_addr_list[request->curhost],
               request->host.h_length);
       request->logging_function (gftp_logging_misc, request,
                                  _("Trying %s:%d\n"),
@@ -2325,7 +2327,7 @@ gftp_connect_server (gftp_request * request, char *service,
       break;
     }
 
-  if (request->host.h_addr_list[curhost] == NULL)
+  if (request->host.h_addr_list[request->curhost] == NULL)
     {
       close (sock);
       return (GFTP_ERETRYABLE);
