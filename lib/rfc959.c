@@ -60,6 +60,7 @@ static gftp_config_vars config_vars[] =
   
   {"proxy_config", N_("Proxy server type:"),
    gftp_option_type_textcomboedt, "", gftp_proxy_type, 0,
+   /* xgettext:no-c-format */
    N_("This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"), 
    GFTP_PORT_ALL, NULL},
 
