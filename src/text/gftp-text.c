@@ -305,7 +305,9 @@ main (int argc, char **argv)
   printf ("%sftp%s> ", GFTPUI_COMMON_COLOR_BLUE, GFTPUI_COMMON_COLOR_DEFAULT);
   while (fgets (tempstr, sizeof (tempstr), stdin) != NULL)
     {
-      if (gftpui_common_process_command (tempstr) == 0)
+      if (gftpui_common_process_command (locuidata, gftp_text_locreq,
+                                         remuidata, gftp_text_remreq,
+                                         tempstr) == 0)
         break;
 
       printf ("%sftp%s> ", GFTPUI_COMMON_COLOR_BLUE, GFTPUI_COMMON_COLOR_DEFAULT);

@@ -1986,7 +1986,7 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
   /* fd ignored for this protocol */
 
   params = request->protocol_data;
-  params->offset = 0;
+  params->offset = startsize;
 
   if (*file == '/')
     {
