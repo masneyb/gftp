@@ -599,6 +599,8 @@ int compare_request 			( gftp_request * request1,
 					  gftp_request * request2, 
 					  int compare_dirs );
 
+gftp_transfer * gftp_tdata_new 		( void );
+
 void free_tdata 			( gftp_transfer * tdata );
 
 gftp_request * copy_request 		( gftp_request * req );

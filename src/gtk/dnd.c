@@ -78,12 +78,10 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
     fromwdata = NULL;
 
   *(pos - 1) = '/';
-  newfle->file = g_malloc (strlen (current_ftpdata->directory) + 1);
-  strcpy (newfle->file, current_ftpdata->directory);
+  newfle->file = g_strdup (current_ftpdata->directory);
   *(pos - 1) = '\0';
   
-  newfle->destfile = g_strconcat (GFTP_GET_DIRECTORY (wdata->request),
-                                     "/", pos, NULL);
+  newfle->destfile = g_strconcat (wdata->request->directory, "/", pos, NULL);
   templist = g_malloc0 (sizeof (*templist));
   templist->data = newfle;
   templist->next = NULL;
@@ -151,32 +149,32 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
         continue;
 
       oldlen = totlen;
-      if (GFTP_GET_HOSTNAME (wdata->request) == NULL || 
+      if (wdata->request->hostname == NULL || 
           wdata->request->protonum == GFTP_LOCAL_NUM)
         {
           tempstr = g_strdup_printf ("%s://%s/%s ", 
-                                 GFTP_GET_URL_PREFIX (wdata->request),
-                                 GFTP_GET_DIRECTORY (wdata->request), 
+                                 wdata->request->url_prefix,
+                                 wdata->request->directory, 
                                  tempfle->file);
         }
-      else if (GFTP_GET_USERNAME (wdata->request) == NULL 
-               || *GFTP_GET_USERNAME (wdata->request) == '\0')
+      else if (wdata->request->username == NULL 
+               || *wdata->request->username == '\0')
         {
           tempstr = g_strdup_printf ("%s://%s:%d%s/%s ", 
-                                 GFTP_GET_URL_PREFIX (wdata->request),
-                                 GFTP_GET_HOSTNAME (wdata->request),
-                                 GFTP_GET_PORT (wdata->request),
-                                 GFTP_GET_DIRECTORY (wdata->request), 
+                                 wdata->request->url_prefix,
+                                 wdata->request->hostname,
+                                 wdata->request->port,
+                                 wdata->request->directory, 
                                  tempfle->file);
         }
       else
         {
           tempstr = g_strdup_printf ("%s://%s@%s:%d%s/%s ", 
-                                 GFTP_GET_URL_PREFIX (wdata->request),
-                                 GFTP_GET_USERNAME (wdata->request), 
-                                 GFTP_GET_HOSTNAME (wdata->request),
-                                 GFTP_GET_PORT (wdata->request),
-                                 GFTP_GET_DIRECTORY (wdata->request), 
+                                 wdata->request->url_prefix,
+                                 wdata->request->username, 
+                                 wdata->request->hostname,
+                                 wdata->request->port,
+                                 wdata->request->directory, 
                                  tempfle->file);
         }
 

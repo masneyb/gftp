@@ -65,8 +65,6 @@ typedef struct gftp_window_data_tag
    				   a directory */
             *hoststxt, 		/* Show which directory we're in */
             *listbox; 		/* Our listbox showing the files */
-  unsigned int *sortcol, 	/* Which column we are sorting by */
-               *sortasds; 	/* Sorted ascending or descending */
   unsigned int sorted : 1,	/* Is the output sorted? */
                show_selected : 1, /* Show only selected files */
                *histlen;	/* Pointer to length of history */
@@ -78,6 +76,7 @@ typedef struct gftp_window_data_tag
                                    come up when you right click */
   pthread_t tid;		/* Thread for the stop button */
   unsigned long gotbytes;
+  char *prefix_col_str;
 } gftp_window_data;
 
 
@@ -151,6 +150,9 @@ extern gftp_graphic * gftp_icon;
 extern sigjmp_buf jmp_environment;
 extern volatile int use_jmp_environment;
 extern pthread_t main_thread_id;
+extern GList * viewedit_processes;
+extern volatile sig_atomic_t viewedit_process_done;
+
 
 /* bookmarks.c */
 void run_bookmark 				( gpointer data );

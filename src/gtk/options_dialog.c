@@ -131,6 +131,8 @@ get_proxy_config (void)
 static void
 apply_changes (GtkWidget * widget, gpointer data)
 {
+#if 0
+FIXME
   const char *tempstr;
   int num, found, i;
   GList *templist;
@@ -196,6 +198,7 @@ apply_changes (GtkWidget * widget, gpointer data)
   proxy_config = get_proxy_config ();
 
   gftp_write_config_file ();
+#endif
 }
 
 
@@ -221,6 +224,8 @@ options_action (GtkWidget * widget, gint response, gpointer user_data)
 static void
 proxy_toggle (GtkList * list, GtkWidget * child, gpointer data)
 {
+#if 0
+FIXME
   int proxy_num;
   char *str;
 
@@ -252,6 +257,7 @@ proxy_toggle (GtkList * list, GtkWidget * child, gpointer data)
   len = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len - 1);
   gtk_text_buffer_insert (textbuf, &iter, str, -1);
+#endif
 #endif
 }
 
@@ -696,6 +702,8 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 		      GTK_SIGNAL_FUNC (delete_proxy_host), NULL);
   gtk_widget_show (tempwid);
 
+#if 0
+FIXME
   new_proxy_hosts = NULL;
   for (templist = proxy_hosts; templist != NULL;
        templist = templist->next)
@@ -711,6 +719,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
       new_proxy_hosts = g_list_prepend (new_proxy_hosts, newhosts);
       add_host_to_listbox (new_proxy_hosts);
     }
+#endif
 }
 
 
@@ -759,6 +768,9 @@ options_dialog (gpointer data)
 
   tbl_num = tbl_col = 0;
   table = box = NULL;
+
+#if 0
+FIXME
   for (i=0; config_file_vars[i].key != NULL; i++)
     {
       if (!(config_file_vars[i].ports_shown & GFTP_PORT_GTK))
@@ -957,6 +969,7 @@ options_dialog (gpointer data)
   gtk_list_select_item (GTK_LIST (GTK_COMBO (proxy_combo)->list), combo_num);
 
   make_proxy_hosts_tab (notebook);
+#endif
 
 #if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));

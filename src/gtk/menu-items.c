@@ -26,12 +26,18 @@ change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
   switch (menuitem)
     {
     case 1:
-      if (wdata->request != NULL)
-        gftp_set_data_type (wdata->request, GFTP_TYPE_ASCII);
+      if (window1.request != NULL)
+        gftp_set_request_option (window1.request, "ascii_transfers", GINT_TO_POINTER(1));
+
+      if (window2.request != NULL)
+        gftp_set_request_option (window2.request, "ascii_transfers", GINT_TO_POINTER(1));
       break;
     case 2:
-      if (wdata->request != NULL)
-        gftp_set_data_type (wdata->request, GFTP_TYPE_BINARY);
+      if (window1.request != NULL)
+        gftp_set_request_option (window1.request, "ascii_transfers", GINT_TO_POINTER(0));
+
+      if (window2.request != NULL)
+        gftp_set_request_option (window2.request, "ascii_transfers", GINT_TO_POINTER(0));
       break;
     case 3:
       current_wdata = &window1;
@@ -158,8 +164,7 @@ dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
     }
   if (wdata->filespec)
     g_free (wdata->filespec);
-  wdata->filespec = g_malloc (strlen (edttext) + 1);
-  strcpy (wdata->filespec, edttext);
+  wdata->filespec = g_strdup (edttext);
 
   filelist = wdata->files;
   templist = GTK_CLIST (wdata->listbox)->selection;
@@ -421,8 +426,8 @@ site_dialog (gpointer data)
 static void *
 do_change_dir_thread (void * data)
 {
+  int success, sj, network_timeout;
   gftp_window_data * wdata;
-  int success, sj;
 
   wdata = data;
 
@@ -434,11 +439,14 @@ do_change_dir_thread (void * data)
   else
     sj = 0;
 
+  gftp_lookup_request_option (wdata->request, "network_timeout", 
+                              &network_timeout);
+
   success = 0;
   if (sj == 0) 
     {
-      if (wdata->request->network_timeout > 0)
-        alarm (wdata->request->network_timeout);
+      if (network_timeout > 0)
+        alarm (network_timeout);
       success = gftp_set_directory (wdata->request, wdata->request->directory);
       alarm (0);
     }
@@ -467,8 +475,7 @@ do_change_dir (gftp_window_data * wdata, char *directory)
   if (directory != wdata->request->directory)
     {
       olddir = wdata->request->directory;
-      wdata->request->directory = g_malloc (strlen (directory) + 1);
-      strcpy (wdata->request->directory, directory);
+      wdata->request->directory = g_strdup (directory);
     }
   else
     olddir = NULL;
@@ -554,8 +561,7 @@ chdir_dialog (gpointer data)
   templist = get_next_selection (templist, &filelist, &num);
   tempfle = filelist->data;
 
-  newdir = g_strconcat (GFTP_GET_DIRECTORY (wdata->request), "/",
-		        tempfle->file, NULL);
+  newdir = g_strconcat (wdata->request->directory, "/", tempfle->file, NULL);
   remove_double_slashes (newdir);
   if ((tempstr = expand_path (newdir)) == NULL)
     return (0);
@@ -792,8 +798,7 @@ about_dialog (gpointer data)
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
 
-  tempstr = g_strdup_printf (_("%s\nCopyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\nOfficial Homepage: http://www.gftp.org/\nLogo by: Aaron Worley <planet_hoth@yahoo.com>\n"),
-version);
+  tempstr = g_strdup_printf (_("%s\nCopyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\nOfficial Homepage: http://www.gftp.org/\nLogo by: Aaron Worley <planet_hoth@yahoo.com>\n"), gftp_version);
   str = _("Translated by");
   if (strcmp (str, "Translated by") != 0)
     {

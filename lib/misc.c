@@ -523,6 +523,20 @@ compare_request (gftp_request * request1, gftp_request * request2,
 }
 
 
+gftp_transfer *
+gftp_tdata_new (void)
+{
+  gftp_transfer * tdata;
+
+  tdata = g_malloc0 (sizeof (*tdata));
+/* FIXME
+  tdata->statmutex = G_STATIC_MUTEX_INIT;
+  tdata->structmutex = G_STATIC_MUTEX_INIT;
+*/
+  return (tdata);
+}
+
+
 void
 free_tdata (gftp_transfer * tdata)
 {

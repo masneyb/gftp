@@ -28,12 +28,15 @@ static int mode;
 static void *
 do_chmod_thread (void * data)
 {
+  int success, num, sj, network_timeout;
   GList * filelist, * templist;
   gftp_window_data * wdata;
-  int success, num, sj;
   gftp_file * tempfle;
 
   wdata = data;
+
+  gftp_lookup_request_option (wdata->request, "network_timeout", 
+                              &network_timeout);
 
   if (wdata->request->use_threads)
     {
@@ -53,8 +56,8 @@ do_chmod_thread (void * data)
         {
           templist = get_next_selection (templist, &filelist, &num);
           tempfle = filelist->data;
-          if (wdata->request->network_timeout > 0)
-            alarm (wdata->request->network_timeout);
+          if (network_timeout > 0)
+            alarm (network_timeout);
           if (gftp_chmod (wdata->request, tempfle->file, mode) == 0)
             success = 1;
           if (!GFTP_IS_CONNECTED (wdata->request))

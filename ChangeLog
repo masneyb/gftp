@@ -1,3 +1,37 @@
+2003-4-13 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c - implemented gftp_set_global_option()
+
+	* lib/gftp.h lib/misc.c - added gftp_tdata_new()
+
+	* src/text/gftp-text.c src/gtk/transfer.c - use gftp_tdata_new()
+
+	* src/gtk/bookmarks.c - In run_bookmark(), use gftp_parse_bookmark()
+	function. Renamed all instances of gftp_bookmarks to
+	gftp_bookmarks_var
+
+	* src/gtk/gftp-gtk.[ch] - added global variables viewedit_processes
+	and viewedit_processes_done. These used to be declared in
+	lib/options.h
+
+	* src/gtk/gftp-gtk.h (struct gftp_window_data) - removed sortcol and
+	sortasds variables. Added prefix_col_str variable. This will either be
+	local or remote
+
+	* src/gtk/misc-gtk.c - removed r_gethostbyname() and r_getservbyname()
+
+	* src/gtk/transfer.c - removed gftp_gtk_calc_kbs(), get_status() and
+	parse_attribs(). These are in the lib/ directory now. Also, use
+	g_static_mutex_*() functions from glib instead of pthread_mutex_*()
+
+	* src/gtk/bookmark.c src/gtk/dnd.c src/gtk/menu-items.c
+	src/gtk/transfer.c - use g_strdup() instead of g_malloc()/strcpy()
+
+	* src/gtk/options_dialog.c - commented out large parts of this file.
+	This file is busted at the moment
+
+	* src/gtk/*.[ch] - Use new configuration interface in all source 
+	files. Updated copyright dates on all source files
+
 2003-4-9 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/config_file.c - reordered config option types. Added
 	gftp_option_type_textcomboedt type

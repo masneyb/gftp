@@ -48,7 +48,7 @@ view_dialog (gpointer data)
       return;
     }
 
-  if (strcmp (GFTP_GET_PROTOCOL_NAME (fromwdata->request), "Local") == 0)
+  if (strcmp (gftp_protocols[fromwdata->request->protonum].name, "Local") == 0)
     view_file (curfle->file, 0, 1, 0, 1, 1, NULL, fromwdata);
   else
     {
@@ -83,12 +83,16 @@ edit_dialog (gpointer data)
   gftp_window_data * fromwdata, * towdata;
   GList * templist, * filelist, * newfile;
   gftp_file * new_fle;
+  char *edit_program;
   int num;
 
   fromwdata = data;
   towdata = fromwdata == &window1 ? &window2 : &window1;
   if (!check_status (_("Edit"), fromwdata, 0, 1, 1, 1))
     return;
+
+  gftp_lookup_request_option (fromwdata->request, "edit_program", 
+                              &edit_program);
 
   if (*edit_program == '\0')
     {
@@ -110,7 +114,7 @@ edit_dialog (gpointer data)
       return;
     }
 
-  if (strcmp (GFTP_GET_PROTOCOL_NAME (fromwdata->request), "Local") == 0)
+  if (strcmp (gftp_protocols[fromwdata->request->protonum].name, "Local") == 0)
     view_file (curfle->file, 0, 0, 0, 1, 1, NULL, fromwdata);
   else
     {
@@ -157,16 +161,13 @@ fork_process (char *proc, char *filename, int fd, char *remote_filename,
       *endpos = '\0';
       n++;
       argv = g_realloc (argv, n * sizeof (char *));
-      argv[n - 1] = g_malloc (strlen (pos) + 1);
-      strcpy (argv[n - 1], pos);
+      argv[n - 1] = g_strdup (pos);
       *endpos = ' ';
       pos = endpos + 1;
     }
   argv = g_realloc (argv, (n + 3) * sizeof (char *));
-  argv[n] = g_malloc (strlen (pos) + 1);
-  strcpy (argv[n], pos);
-  argv[n + 1] = g_malloc (strlen (filename) + 1);
-  strcpy (argv[n + 1], filename);
+  argv[n] = g_strdup (pos);
+  argv[n + 1] = g_strdup (filename);
   argv[n + 2] = NULL;
 
   newproc = NULL;
@@ -198,13 +199,9 @@ fork_process (char *proc, char *filename, int fd, char *remote_filename,
           newproc->fromwdata = &window1;
           newproc->towdata = &window2;
         }
-      newproc->filename = g_malloc (strlen (filename) + 1);
-      strcpy (newproc->filename, filename);
+      newproc->filename = g_strdup (filename);
       if (remote_filename != NULL)
-	{
-	  newproc->remote_filename = g_malloc (strlen (remote_filename) + 1);
-	  strcpy (newproc->remote_filename, remote_filename);
-	}
+	newproc->remote_filename = g_strdup (remote_filename);
       newproc->view = viewedit;
       newproc->rm = del_file;
       newproc->dontupload = dontupload;
@@ -219,12 +216,13 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
 	   int dontupload, char *remote_filename, gftp_window_data * wdata)
 {
   GtkWidget * dialog, * view, * table, * tempwid;
+  char buf[8192], *view_program, *edit_program;
+  gftp_config_list_vars * tmplistvar;
   gftp_file_extensions * tempext;
   gftp_viewedit_data * newproc;
   GtkAdjustment * vadj;
   int stlen, doclose;
   GList * templist;
-  char buf[8192];
   ssize_t n;
 #if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
@@ -234,7 +232,8 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
 
   doclose = 1;
   stlen = strlen (filename);
-  for (templist = registered_exts; templist != NULL; templist = templist->next)
+  gftp_lookup_global_option ("ext", &tmplistvar);
+  for (templist = tmplistvar->list; templist != NULL; templist = templist->next)
     {
       tempext = templist->data;
       if (stlen >= tempext->stlen &&
@@ -250,6 +249,17 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
         }
     }
 
+  if (wdata != NULL)
+    {
+      gftp_lookup_request_option (wdata->request, "view_program", &view_program);
+      gftp_lookup_request_option (wdata->request, "edit_program", &edit_program);
+    }
+  else
+    {
+      gftp_lookup_global_option ("view_program", &view_program);
+      gftp_lookup_global_option ("edit_program", &edit_program);
+    }
+
   if (viewedit && *view_program != '\0')
     {
       /* Open the file with the default file viewer */
@@ -257,7 +267,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
                     del_file, dontupload, wdata);
       return;
     }
-  else if (!viewedit)
+  else if (!viewedit && *edit_program != '\0')
     {
       /* Open the file with the default file editor */
       newproc = fork_process (edit_program, filename, fd, remote_filename, 

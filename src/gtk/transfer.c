@@ -21,6 +21,7 @@
 static const char cvsid[] = "$Id$";
 
 static GtkWidget * dialog;
+static int num_transfers_in_progress = 0;
 
 static void 
 wakeup_main_thread (gpointer data, gint source, GdkInputCondition condition)
@@ -136,8 +137,7 @@ getdir_thread (void * data)
       if (!havedotdot)
         {
           fle = g_malloc0 (sizeof (*fle));
-          fle->file = g_malloc (3);
-          strcpy (fle->file, "..");
+          fle->file = g_strdup ("..");
           fle->user = g_malloc0 (1);
           fle->group = g_malloc0 (1);
           fle->attribs = g_malloc0 (1);
@@ -207,7 +207,7 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
     }
 
   wdata->sorted = 0;
-  sortrows (GTK_CLIST (wdata->listbox), *wdata->sortcol, (gpointer) wdata);
+  sortrows (GTK_CLIST (wdata->listbox), -1, (gpointer) wdata);
   if (IS_NONE_SELECTED (wdata))
     gtk_clist_select_row (GTK_CLIST (wdata->listbox), 0, 0);
   return (1);
@@ -232,11 +232,15 @@ dont_connect_again (gftp_request * request, gftp_dialog_data * ddata)
 static void *
 connect_thread (void *data)
 {
+  int ret, sj, retries, sleep_time, network_timeout;
   static int conn_num;
   gftp_request * request;
-  int ret, sj;
 
   request = data;
+
+  gftp_lookup_request_option (request, "retries", &retries);
+  gftp_lookup_request_option (request, "sleep_time", &sleep_time);
+  gftp_lookup_request_option (request, "network_timeout", &network_timeout);
 
   conn_num = 0;
   if (request->use_threads)
@@ -254,11 +258,11 @@ connect_thread (void *data)
       gftp_disconnect (request);
     }
 
-  while (sj != 1 && (request->retries == 0 || conn_num < request->retries))
+  while (sj != 1 && (retries == 0 || conn_num < retries))
     {
       conn_num++;
-      if (request->network_timeout > 0)
-        alarm (request->network_timeout);
+      if (network_timeout > 0)
+        alarm (network_timeout);
       ret = gftp_connect (request);
       alarm (0);
 
@@ -272,12 +276,12 @@ connect_thread (void *data)
           ret = 1;
           break;
         }
-      else if (request->retries == 0 || conn_num < request->retries)
+      else if (retries == 0 || conn_num < retries)
         {
           request->logging_function (gftp_logging_misc, request->user_data,
                      _("Waiting %d seconds until trying to connect again\n"),
-		     request->sleep_time);
-          alarm (request->sleep_time);
+		     sleep_time);
+          alarm (sleep_time);
           pause ();
         }  
     }
@@ -328,8 +332,7 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
 #endif
             }
 
-          if (GFTP_GET_PASSWORD (request) == NULL || 
-              *GFTP_GET_PASSWORD (request) == '\0')
+          if (request->password == NULL || *request->password == '\0')
             return (0);
         }
       else
@@ -496,13 +499,7 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
       g_free (transfer);
     }
   else
-    {
-      if (transfer->statmutex)
-        pthread_mutex_destroy (transfer->statmutex);
-      if (transfer->structmutex)
-        pthread_mutex_destroy (transfer->structmutex);
-      free_tdata (transfer);
-    }
+    free_tdata (transfer);
 }
 
 void *
@@ -544,211 +541,12 @@ do_getdir_thread (void * data)
 }
 
 
-static void
-gftp_gtk_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
-{
-  unsigned long waitusecs;
-  double difftime, curkbs;
-  gftp_file * tempfle;
-  struct timeval tv;
-  unsigned long toadd;
-
-  gettimeofday (&tv, NULL);
-  pthread_mutex_lock (tdata->statmutex);
-
-  tempfle = tdata->curfle->data;
-  tdata->trans_bytes += num_read;
-  tdata->curtrans += num_read;
-  tdata->stalled = 0;
-
-  difftime = (tv.tv_sec - tdata->starttime.tv_sec) + ((double) (tv.tv_usec - tdata->starttime.tv_usec) / 1000000.0);
-  if (difftime <= 0)
-    tdata->kbs = (double) tdata->trans_bytes / 1024.0;
-  else
-    tdata->kbs = (double) tdata->trans_bytes / 1024.0 / difftime;
-
-  difftime = (tv.tv_sec - tdata->lasttime.tv_sec) + ((double) (tv.tv_usec - tdata->lasttime.tv_usec) / 1000000.0);
-
-  if (difftime <= 0)
-    curkbs = (double) (num_read / 1024.0);
-  else
-    curkbs = (double) (num_read / 1024.0 / difftime);
-
-  if (tdata->fromreq->maxkbs > 0 &&
-      curkbs > tdata->fromreq->maxkbs)
-    {
-      waitusecs = (double) num_read / 1024.0 / tdata->fromreq->maxkbs * 1000000.0 - difftime;
-
-      if (waitusecs > 0)
-        {
-          pthread_mutex_unlock (tdata->statmutex);
-          difftime += ((double) waitusecs / 1000000.0);
-          usleep (waitusecs);
-          pthread_mutex_lock (tdata->statmutex);
-        }
-    }
-
-  /* I don't call gettimeofday (&tdata->lasttime) here because this will use
-     less system resources. This will be close enough for what we need */
-  difftime += tdata->lasttime.tv_usec / 1000000.0;
-  toadd = (long) difftime;
-  difftime -= toadd;
-  tdata->lasttime.tv_sec += toadd;
-  tdata->lasttime.tv_usec = difftime * 1000000.0;
-
-  pthread_mutex_unlock (tdata->statmutex);
-}
-
-
-static int
-get_status (gftp_transfer * tdata, ssize_t num_read)
-{
-  gftp_file * tempfle;
-  struct timeval tv;
-  int ret1 = 0, 
-      ret2 = 0;
-
-  pthread_mutex_lock (tdata->structmutex);
-  if (tdata->curfle == NULL)
-    {
-      pthread_mutex_unlock (tdata->structmutex);
-      return (-1);
-    }
-  tempfle = tdata->curfle->data;
-  pthread_mutex_unlock (tdata->structmutex);
-
-  gftp_disconnect (tdata->fromreq);
-  gftp_disconnect (tdata->toreq);
-  if (num_read < 0 || tdata->skip_file)
-    {
-      if (num_read == GFTP_EFATAL)
-        return (-1);
-      else if (tdata->fromreq->retries != 0 && 
-               tdata->current_file_retries >= tdata->fromreq->retries)
-        {
-          tdata->fromreq->logging_function (gftp_logging_error, 
-                   tdata->fromreq->user_data,
-                   _("Error: Remote site %s disconnected. Max retries reached...giving up\n"),
-                   tdata->fromreq->hostname != NULL ? 
-                         tdata->fromreq->hostname : tdata->toreq->hostname);
-          return (-1);
-        }
-      else
-        {
-          tdata->fromreq->logging_function (gftp_logging_error, 
-                     tdata->fromreq->user_data,
-                     _("Error: Remote site %s disconnected. Will reconnect in %d seconds\n"),
-                     tdata->fromreq->hostname != NULL ? 
-                           tdata->fromreq->hostname : tdata->toreq->hostname, 
-                     tdata->fromreq->sleep_time);
-        }
-
-      while (tdata->fromreq->retries == 0 || 
-             tdata->current_file_retries <= tdata->fromreq->retries)
-        {
-          if (!tdata->skip_file)
-            {
-              tv.tv_sec = tdata->fromreq->sleep_time;
-              tv.tv_usec = 0;
-              select (0, NULL, NULL, NULL, &tv);
-            }
-
-          if ((ret1 = gftp_connect (tdata->fromreq)) == 0 &&
-              (ret2 = gftp_connect (tdata->toreq)) == 0)
-            {
-              pthread_mutex_lock (tdata->structmutex);
-              tdata->resumed_bytes = tdata->resumed_bytes + tdata->trans_bytes - tdata->curresumed - tdata->curtrans;
-              tdata->trans_bytes = 0;
-              if (tdata->skip_file)
-                {
-                  tdata->total_bytes -= tempfle->size;
-                  tdata->curtrans = 0;
-
-                  tdata->curfle = tdata->curfle->next;
-                  tdata->next_file = 1;
-                  tdata->skip_file = 0;
-                  tdata->cancel = 0;
-                  tdata->fromreq->cancel = 0;
-                  tdata->toreq->cancel = 0;
-                }
-              else
-                {
-                  tempfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
-                  tempfle->startsize = tdata->curtrans + tdata->curresumed;
-                  /* We decrement this here because it will be incremented in 
-                     the loop again */
-                  tdata->curresumed = 0;
-                  tdata->current_file_number--; /* Decrement this because it 
-                                                   will be incremented when we 
-                                                   continue in the loop */
-                }
-              gettimeofday (&tdata->starttime, NULL);
-              pthread_mutex_unlock (tdata->structmutex);
-              return (1);
-            }
-          else if (ret1 == GFTP_EFATAL || ret2 == GFTP_EFATAL)
-            {
-              gftp_disconnect (tdata->fromreq);
-              gftp_disconnect (tdata->toreq);
-              return (-1);
-            }
-          else
-            tdata->current_file_retries++;
-        }
-    }
-  else if (tdata->cancel)
-    return (-1);
-
-  return (0);
-}
-
-
-static mode_t
-parse_attribs (char *attribs)
-{
-  mode_t mode;
-  int cur;
-
-  cur = 0;
-  if (attribs[1] == 'r')
-    cur += 4;
-  if (attribs[2] == 'w')
-    cur += 2;
-  if (attribs[3] == 'x' ||
-      attribs[3] == 's')
-    cur += 1;
-  mode = cur;
-
-  cur = 0;
-  if (attribs[4] == 'r')
-    cur += 4;
-  if (attribs[5] == 'w')
-    cur += 2;
-  if (attribs[6] == 'x' ||
-      attribs[6] == 's')
-    cur += 1;
-  mode = (mode * 10) + cur;
-
-  cur = 0;
-  if (attribs[7] == 'r')
-    cur += 4;
-  if (attribs[8] == 'w')
-    cur += 2;
-  if (attribs[9] == 'x' ||
-      attribs[9] == 's')
-    cur += 1;
-  mode = (mode * 10) + cur;
-
-  return (mode);
-}
-
-
 void * 
 gftp_gtk_transfer_files (void *data)
 {
-  int i, mode, dl_type, tofd, fromfd, old_from_datatype;
+  int i, mode, tofd, fromfd;
   gftp_transfer * transfer;
-  char *tempstr, buf[8192];
+  char buf[8192];
   off_t fromsize, total;
   gftp_file * curfle; 
   ssize_t num_read, ret;
@@ -760,22 +558,20 @@ gftp_gtk_transfer_files (void *data)
   memcpy (&transfer->lasttime, &transfer->starttime, 
           sizeof (transfer->lasttime));
 
-  dl_type = transfer->fromreq->data_type;
-  old_from_datatype = transfer->fromreq->data_type;
-
   while (transfer->curfle != NULL)
     {
-      pthread_mutex_lock (transfer->structmutex);
+      num_read = -1;
+      g_static_mutex_lock (&transfer->structmutex);
       curfle = transfer->curfle->data;
       transfer->current_file_number++; 
-      pthread_mutex_unlock (transfer->structmutex);
+      g_static_mutex_unlock (&transfer->structmutex);
  
       if (curfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
         {
-          pthread_mutex_lock (transfer->structmutex);
+          g_static_mutex_lock (&transfer->structmutex);
           transfer->next_file = 1;
           transfer->curfle = transfer->curfle->next;
-          pthread_mutex_unlock (transfer->structmutex);
+          g_static_mutex_unlock (&transfer->structmutex);
           continue;
         }
 
@@ -792,19 +588,11 @@ gftp_gtk_transfer_files (void *data)
                     break;
                 }
 
-              pthread_mutex_lock (transfer->structmutex);
+              g_static_mutex_lock (&transfer->structmutex);
               transfer->next_file = 1;
               transfer->curfle = transfer->curfle->next;
-              pthread_mutex_unlock (transfer->structmutex);
+              g_static_mutex_unlock (&transfer->structmutex);
               continue;
-            }
-
-          if (transfer->fromreq->maxkbs > 0)
-            {
-              transfer->fromreq->logging_function (gftp_logging_misc, 
-                            transfer->fromreq->user_data, 
-                            _("File transfer will be throttled to %.2f KB/s\n"),
-                            transfer->fromreq->maxkbs);
             }
 
           if (curfle->is_fd)
@@ -835,27 +623,6 @@ gftp_gtk_transfer_files (void *data)
           if (GFTP_IS_CONNECTED (transfer->fromreq) &&
               GFTP_IS_CONNECTED (transfer->toreq))
             {
-              if (!curfle->ascii && old_from_datatype == GFTP_TYPE_BINARY)
-                dl_type = GFTP_TYPE_BINARY;
-              else
-                dl_type = GFTP_GET_DATA_TYPE (transfer->fromreq) == GFTP_TYPE_ASCII || curfle->ascii ? GFTP_TYPE_ASCII : GFTP_TYPE_BINARY;
-
-              if (dl_type != transfer->fromreq->data_type)
-                {
-                   if (gftp_set_data_type (transfer->fromreq, dl_type) != 0)
-                     gftp_disconnect (transfer->fromreq);
-                 }
-
-              if (dl_type != transfer->toreq->data_type)
-                {
-                   if (gftp_set_data_type (transfer->toreq, dl_type) != 0)
-                     gftp_disconnect (transfer->toreq);
-                 }
-            }
-
-          if (GFTP_IS_CONNECTED (transfer->fromreq) &&
-              GFTP_IS_CONNECTED (transfer->toreq))
-            {
               fromsize = gftp_transfer_file (transfer->fromreq, curfle->file, 
                           fromfd,
                           curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
@@ -872,7 +639,6 @@ gftp_gtk_transfer_files (void *data)
           transfer->fromreq->logging_function (gftp_logging_misc, 
                          transfer->fromreq->user_data, 
                          _("Error: Remote site disconnected after trying to transfer file\n"));
-          num_read = -1;
         }
       else if (fromsize < 0)
         {
@@ -884,20 +650,20 @@ gftp_gtk_transfer_files (void *data)
                 transfer->fromreq->datafd = -1;
             }
 
-          pthread_mutex_lock (transfer->structmutex);
+          g_static_mutex_lock (&transfer->structmutex);
           curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
           transfer->next_file = 1;
           transfer->curfle = transfer->curfle->next;
-          pthread_mutex_unlock (transfer->structmutex);
+          g_static_mutex_unlock (&transfer->structmutex);
           continue;
         }
       else
         {
-          pthread_mutex_lock (transfer->structmutex);
+          g_static_mutex_lock (&transfer->structmutex);
           transfer->curtrans = 0;
           transfer->curresumed = curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ? curfle->startsize : 0;
           transfer->resumed_bytes += transfer->curresumed;
-          pthread_mutex_unlock (transfer->structmutex);
+          g_static_mutex_unlock (&transfer->structmutex);
   
           total = 0;
           i = 0;
@@ -906,25 +672,14 @@ gftp_gtk_transfer_files (void *data)
                                                        buf, sizeof (buf))) > 0)
             {
               total += num_read;
-              gftp_gtk_calc_kbs (transfer, num_read);
+              gftp_calc_kbs (transfer, num_read);
 
-              if (dl_type == GFTP_TYPE_ASCII)
-                tempstr = gftp_convert_ascii (buf, &num_read, 1);
-              else
-                tempstr = buf;
-
-              if ((ret = gftp_put_next_file_chunk (transfer->toreq, tempstr, 
+              if ((ret = gftp_put_next_file_chunk (transfer->toreq, buf, 
                                                    num_read)) < 0)
                 {
                   num_read = (int) ret;
                   break;
                 }
-
-              /* We don't have to free tempstr for a download because new 
-                 memory is not allocated for it in that case */
-              if (dl_type == GFTP_TYPE_ASCII &&
-                  transfer->transfer_direction == GFTP_DIRECTION_UPLOAD)
-                g_free (tempstr);
             }
         }
 
@@ -944,7 +699,7 @@ gftp_gtk_transfer_files (void *data)
                                         curfle->file,
                                         transfer->fromreq->hostname);
 
-          if (get_status (transfer, num_read) == 1)
+          if (gftp_get_transfer_status (transfer, num_read) == GFTP_ERETRYABLE)
             continue;
 
           break;
@@ -963,7 +718,7 @@ gftp_gtk_transfer_files (void *data)
 
           if (gftp_end_transfer (transfer->fromreq) != 0)
             {
-              if (get_status (transfer, -1) == 1)
+              if (gftp_get_transfer_status (transfer, -1) == GFTP_ERETRYABLE)
                 continue;
 
               break;
@@ -980,10 +735,9 @@ gftp_gtk_transfer_files (void *data)
         {
           if (curfle->attribs)
             {
-              mode = parse_attribs (curfle->attribs);
+              mode = gftp_parse_attribs (curfle->attribs);
               if (mode != 0)
-                gftp_chmod (transfer->toreq, curfle->destfile,
-                            parse_attribs (curfle->attribs));
+                gftp_chmod (transfer->toreq, curfle->destfile, mode);
             }
 
           if (curfle->datetime != 0)
@@ -991,11 +745,11 @@ gftp_gtk_transfer_files (void *data)
                                 curfle->datetime);
         }
 
-      pthread_mutex_lock (transfer->structmutex);
+      g_static_mutex_lock (&transfer->structmutex);
       transfer->next_file = 1;
       curfle->transfer_done = 1;
       transfer->curfle = transfer->curfle->next;
-      pthread_mutex_unlock (transfer->structmutex);
+      g_static_mutex_unlock (&transfer->structmutex);
 
       if (transfer->cancel && !transfer->skip_file)
         break;
@@ -1013,12 +767,12 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
                    gftp_window_data * fromwdata, gftp_window_data * towdata, 
                    GList * files, int copy_req)
 {
+  int dialog, append_file_transfers;
   gftp_curtrans_data * transdata;
   GList * templist, *curfle;
   gftp_transfer * tdata;
   gftp_file * tempfle;
   char *pos, *text[2];
-  int dialog;
 
   for (templist = files; templist != NULL; templist = templist->next)
     { 
@@ -1028,13 +782,16 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
     }
   dialog = templist != NULL;
 
+  gftp_lookup_request_option (fromreq, "append_file_transfers", 
+                              &append_file_transfers);
+
   if (append_file_transfers)
     {
       pthread_mutex_lock (&transfer_mutex);
-      for (templist = file_transfers; templist != NULL; templist = templist->next)
+      for (templist = gftp_file_transfers; templist != NULL; templist = templist->next)
         {
           tdata = templist->data;
-          pthread_mutex_lock (tdata->structmutex);
+          g_static_mutex_lock (&tdata->structmutex);
           if (compare_request (tdata->fromreq, fromreq, 0) &&
               compare_request (tdata->toreq, toreq, 0) &&
               tdata->curfle != NULL)
@@ -1082,20 +839,20 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
                       text[1] = _("Waiting...");
                     }
 
-                  tempfle->node = gtk_ctree_insert_node (GTK_CTREE (dlwdw),  
-                                                         tdata->node, NULL, text, 5,
-                                                         NULL, NULL, NULL, NULL, 
-                                                         FALSE, FALSE);
+                  tempfle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),  
+                                             tdata->user_data, NULL, text, 5,
+                                             NULL, NULL, NULL, NULL, 
+                                             FALSE, FALSE);
                   transdata = g_malloc (sizeof (*transdata));
                   transdata->transfer = tdata;
                   transdata->curfle = curfle;
-                  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->node, 
+                  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->user_data, 
                                                transdata);
                 }
-              pthread_mutex_unlock (tdata->structmutex);
+              g_static_mutex_unlock (&tdata->structmutex);
               break; 
             }
-          pthread_mutex_unlock (tdata->structmutex);
+          g_static_mutex_unlock (&tdata->structmutex);
         }
       pthread_mutex_unlock (&transfer_mutex);
     }
@@ -1104,7 +861,7 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
     
   if (templist == NULL)
     {
-      tdata = g_malloc0 (sizeof (*tdata));
+      tdata = gftp_tdata_new ();
       if (copy_req)
         {
           tdata->fromreq = copy_request (fromreq);
@@ -1130,13 +887,11 @@ add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
           else
             tdata->numfiles++;
         }
-      tdata->structmutex = g_malloc (sizeof (pthread_mutex_t));
-      pthread_mutex_init (tdata->structmutex, NULL);
-      tdata->statmutex = g_malloc (sizeof (pthread_mutex_t));
-      pthread_mutex_init (tdata->statmutex, NULL);
+
       pthread_mutex_lock (&transfer_mutex);
-      file_transfers = g_list_append (file_transfers, tdata);
+      gftp_file_transfers = g_list_append (gftp_file_transfers, tdata);
       pthread_mutex_unlock (&transfer_mutex);
+
       if (dialog)
         gftp_gtk_ask_transfer (tdata);
     }
@@ -1269,8 +1024,8 @@ check_done_process (void)
 static void
 on_next_transfer (gftp_transfer * tdata)
 {
+  int fd, refresh_files;
   gftp_file * tempfle;
-  int fd;
 
   tdata->next_file = 0;
   for (; tdata->updfle != tdata->curfle; tdata->updfle = tdata->updfle->next)
@@ -1310,12 +1065,14 @@ on_next_transfer (gftp_transfer * tdata)
 	tdata->fromreq->rmfile (tdata->fromreq, tempfle->file);
       
       if (tempfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
-        gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->node, 1,
+        gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1,
   			         _("Skipped"));
       else
-        gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->node, 1,
+        gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1,
   			         _("Finished"));
     }
+
+  gftp_lookup_request_option (tdata->fromreq, "refresh_files", &refresh_files);
 
   if (refresh_files && tdata->curfle && tdata->curfle->next &&
       compare_request (tdata->toreq, 
@@ -1338,7 +1095,7 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
   if (tdata->fromreq->stopable == 0)
     return;
 
-  pthread_mutex_lock (tdata->structmutex);
+  g_static_mutex_lock (&tdata->structmutex);
   if (tdata->started)
     {
       tdata->cancel = 1;
@@ -1350,7 +1107,7 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
 
   tdata->fromreq->stopable = 0;
   tdata->toreq->stopable = 0;
-  pthread_mutex_unlock (tdata->structmutex);
+  g_static_mutex_unlock (&tdata->structmutex);
 
   ftp_log (gftp_logging_misc, NULL, _("Stopping the transfer of %s\n"),
 	   ((gftp_file *) tdata->curfle->data)->file);
@@ -1370,9 +1127,10 @@ show_transfer (gftp_transfer * tdata)
   gftp_get_pixmap (dlwdw, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
   gftp_get_pixmap (dlwdw, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
 
-  text[0] = GFTP_GET_HOSTNAME (tdata->fromreq);
+  text[0] = tdata->fromreq->hostname;
   text[1] = _("Waiting...");
-  tdata->node = gtk_ctree_insert_node (GTK_CTREE (dlwdw), NULL, NULL, text, 5,
+  tdata->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw), NULL, NULL, 
+                                       text, 5,
                                        closedir_pixmap, closedir_bitmap, 
                                        opendir_pixmap, opendir_bitmap, 
                                        FALSE, 
@@ -1380,7 +1138,7 @@ show_transfer (gftp_transfer * tdata)
   transdata = g_malloc (sizeof (*transdata));
   transdata->transfer = tdata;
   transdata->curfle = NULL;
-  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tdata->node, transdata);
+  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tdata->user_data, transdata);
   tdata->show = 0;
   tdata->curfle = tdata->updfle = tdata->files;
 
@@ -1401,13 +1159,15 @@ show_transfer (gftp_transfer * tdata)
           text[1] = _("Waiting...");
         }
 
-      tempfle->node = gtk_ctree_insert_node (GTK_CTREE (dlwdw), tdata->node, 
+      tempfle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw), 
+                                             tdata->user_data, 
                                              NULL, text, 5, NULL, NULL, NULL, 
                                              NULL, FALSE, FALSE);
       transdata = g_malloc (sizeof (*transdata));
       transdata->transfer = tdata;
       transdata->curfle = templist;
-      gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->node, transdata);
+      gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->user_data, 
+                                   transdata);
     }
 
   if (!tdata->toreq->stopable && tdata->toreq->need_userpass &&
@@ -1467,30 +1227,32 @@ transfer_done (GList * node)
                            ((gftp_window_data *) tdata->towdata)->request, 1)) 
 	refresh (tdata->towdata);
 
-      transfer_in_progress--;
+      num_transfers_in_progress--;
     }
 
   if (!tdata->show && tdata->started)
     {
-      transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), tdata->node);
+      transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), 
+                                               tdata->user_data);
       if (transdata != NULL)
         g_free (transdata);
 
       for (templist = tdata->files; templist != NULL; templist = templist->next)
         {
           tempfle = templist->data;
-          transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), tempfle->node);
+          transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), 
+                                                   tempfle->user_data);
           if (transdata != NULL)
             g_free (transdata);
         }
           
-      gtk_ctree_remove_node (GTK_CTREE (dlwdw), tdata->node);
+      gtk_ctree_remove_node (GTK_CTREE (dlwdw), tdata->user_data);
     }
+
   pthread_mutex_lock (&transfer_mutex);
-  file_transfers = g_list_remove_link (file_transfers, node);
+  gftp_file_transfers = g_list_remove_link (gftp_file_transfers, node);
   pthread_mutex_unlock (&transfer_mutex);
-  pthread_mutex_destroy (tdata->structmutex);
-  pthread_mutex_destroy (tdata->statmutex);
+
   free_tdata (tdata);
 }
 
@@ -1514,10 +1276,10 @@ create_transfer (gftp_transfer * tdata)
                            ((gftp_window_data *) tdata->fromwdata)->request);
 	  update_window_info ();
 	}
-      transfer_in_progress++;
+      num_transfers_in_progress++;
       tdata->started = 1;
       tdata->stalled = 1;
-      gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->node, 1,
+      gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1,
 			       _("Connecting..."));
       pthread_create (&tid, NULL, gftp_gtk_transfer_files, tdata);
     }
@@ -1533,7 +1295,7 @@ update_file_status (gftp_transfer * tdata)
   gftp_file * tempfle;
   struct timeval tv;
 
-  pthread_mutex_lock (tdata->statmutex);
+  g_static_mutex_lock (&tdata->statmutex);
   tempfle = tdata->curfle->data;
 
   gettimeofday (&tv, NULL);
@@ -1549,7 +1311,7 @@ update_file_status (gftp_transfer * tdata)
 
   if (hours < 0 || mins < 0 || secs < 0)
     {
-      pthread_mutex_unlock (tdata->statmutex);
+      g_static_mutex_unlock (&tdata->statmutex);
       return;
     }
 
@@ -1597,12 +1359,12 @@ update_file_status (gftp_transfer * tdata)
         }
     }
 
-  pthread_mutex_unlock (tdata->statmutex);
+  g_static_mutex_unlock (&tdata->statmutex);
 
-  gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->node, 1, totstr);
+  gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1, totstr);
 
   if (*dlstr != '\0')
-    gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->node, 1, dlstr);
+    gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1, dlstr);
 }
 
 static void
@@ -1630,10 +1392,11 @@ update_window_transfer_bytes (gftp_window_data * wdata)
 gint
 update_downloads (gpointer data)
 {
+  int do_one_transfer_at_a_time, start_file_transfers;
   GList * templist, * next;
   gftp_transfer * tdata;
 
-  if (file_transfer_logs != NULL)
+  if (gftp_file_transfer_logs != NULL)
     display_cached_logs ();
 
   if (window1.request->gotbytes != 0)
@@ -1644,12 +1407,12 @@ update_downloads (gpointer data)
   if (viewedit_process_done)
     check_done_process ();
 
-  for (templist = file_transfers; templist != NULL;)
+  for (templist = gftp_file_transfers; templist != NULL;)
     {
       tdata = templist->data;
       if (tdata->ready)
         {
-          pthread_mutex_lock (tdata->structmutex);
+          g_static_mutex_lock (&tdata->structmutex);
 
 	  if (tdata->next_file)
 	    on_next_transfer (tdata);
@@ -1658,7 +1421,7 @@ update_downloads (gpointer data)
 	  else if (tdata->done)
 	    {
 	      next = templist->next;
-              pthread_mutex_unlock (tdata->structmutex);
+              g_static_mutex_unlock (&tdata->structmutex);
 	      transfer_done (templist);
 	      templist = next;
 	      continue;
@@ -1666,14 +1429,19 @@ update_downloads (gpointer data)
 
 	  if (tdata->curfle != NULL)
 	    {
+              gftp_lookup_global_option ("do_one_transfer_at_a_time", 
+                                         &do_one_transfer_at_a_time);
+              gftp_lookup_global_option ("start_file_transfers",  /* FIXME - this is gone now */
+                                         &start_file_transfers);
+
 	      if (!tdata->started && start_file_transfers &&
-                  (transfer_in_progress == 0 || !do_one_transfer_at_a_time))
+                 (num_transfers_in_progress == 0 || !do_one_transfer_at_a_time))
                 create_transfer (tdata);
 
 	      if (tdata->started)
                 update_file_status (tdata);
 	    }
-          pthread_mutex_unlock (tdata->structmutex);
+          g_static_mutex_unlock (&tdata->structmutex);
         }
       templist = templist->next;
     }
@@ -1698,10 +1466,10 @@ start_transfer (gpointer data)
   node = GTK_CLIST (dlwdw)->selection->data;
   transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
 
-  pthread_mutex_lock (transdata->transfer->structmutex);
+  g_static_mutex_lock (&transdata->transfer->structmutex);
   if (!transdata->transfer->started)
     create_transfer (transdata->transfer);
-  pthread_mutex_unlock (transdata->transfer->structmutex);
+  g_static_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 
@@ -1720,7 +1488,7 @@ stop_transfer (gpointer data)
   node = GTK_CLIST (dlwdw)->selection->data;
   transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
 
-  pthread_mutex_lock (transdata->transfer->structmutex);
+  g_static_mutex_lock (&transdata->transfer->structmutex);
   if (transdata->transfer->started)
     {
       transdata->transfer->cancel = 1;
@@ -1730,7 +1498,7 @@ stop_transfer (gpointer data)
     }
   else
     transdata->transfer->done = 1;
-  pthread_mutex_unlock (transdata->transfer->structmutex);
+  g_static_mutex_unlock (&transdata->transfer->structmutex);
 
   ftp_log (gftp_logging_misc, NULL, _("Stopping the transfer on host %s\n"),
 	   transdata->transfer->fromreq->hostname);
@@ -1754,7 +1522,7 @@ skip_transfer (gpointer data)
   node = GTK_CLIST (dlwdw)->selection->data;
   transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
 
-  pthread_mutex_lock (transdata->transfer->structmutex);
+  g_static_mutex_lock (&transdata->transfer->structmutex);
   if (transdata->transfer->curfle != NULL)
     {
       curfle = transdata->transfer->curfle->data;
@@ -1771,7 +1539,7 @@ skip_transfer (gpointer data)
     }
   else
     file = NULL;
-  pthread_mutex_unlock (transdata->transfer->structmutex);
+  g_static_mutex_unlock (&transdata->transfer->structmutex);
 
   ftp_log (gftp_logging_misc, NULL, _("Skipping file %s on host %s\n"), 
            file, transdata->transfer->fromreq->hostname);
@@ -1804,7 +1572,7 @@ remove_file_transfer (gpointer data)
   if (curfle->transfer_action & GFTP_TRANS_ACTION_SKIP)
     return;
 
-  pthread_mutex_lock (transdata->transfer->structmutex);
+  g_static_mutex_lock (&transdata->transfer->structmutex);
 
   curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
 
@@ -1819,12 +1587,12 @@ remove_file_transfer (gpointer data)
   else if (transdata->curfle != transdata->transfer->curfle &&
            !curfle->transfer_done)
     {
-      gtk_ctree_node_set_text (GTK_CTREE (dlwdw), curfle->node, 1,
+      gtk_ctree_node_set_text (GTK_CTREE (dlwdw), curfle->user_data, 1,
                                _("Skipped"));
       transdata->transfer->total_bytes -= curfle->size;
     }
 
-  pthread_mutex_unlock (transdata->transfer->structmutex);
+  g_static_mutex_unlock (&transdata->transfer->structmutex);
 
   ftp_log (gftp_logging_misc, NULL, _("Skipping file %s on host %s\n"),
            curfle->file, transdata->transfer->fromreq->hostname);
@@ -1850,7 +1618,7 @@ move_transfer_up (gpointer data)
   if (transdata->curfle == NULL)
     return;
 
-  pthread_mutex_lock (transdata->transfer->structmutex);
+  g_static_mutex_lock (&transdata->transfer->structmutex);
   if (transdata->curfle->prev != NULL && (!transdata->transfer->started ||
       (transdata->transfer->curfle != transdata->curfle && 
        transdata->transfer->curfle != transdata->curfle->prev)))
@@ -1882,13 +1650,12 @@ move_transfer_up (gpointer data)
         }
 
       gtk_ctree_move (GTK_CTREE (dlwdw), 
-                      ((gftp_file *) transdata->curfle->data)->node,
-                      transdata->transfer->node, 
+                      ((gftp_file *) transdata->curfle->data)->user_data,
+                      transdata->transfer->user_data, 
                       transdata->curfle->next != NULL ?
-                          ((gftp_file *) transdata->curfle->next->data)->node :
-                          NULL);
+                          ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
     }
-  pthread_mutex_unlock (transdata->transfer->structmutex);
+  g_static_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 void
@@ -1910,7 +1677,7 @@ move_transfer_down (gpointer data)
   if (transdata->curfle == NULL)
     return;
 
-  pthread_mutex_lock (transdata->transfer->structmutex);
+  g_static_mutex_lock (&transdata->transfer->structmutex);
   if (transdata->curfle->next != NULL && (!transdata->transfer->started ||
       (transdata->transfer->curfle != transdata->curfle && 
        transdata->transfer->curfle != transdata->curfle->next)))
@@ -1942,13 +1709,12 @@ move_transfer_down (gpointer data)
         }
 
       gtk_ctree_move (GTK_CTREE (dlwdw), 
-                      ((gftp_file *) transdata->curfle->data)->node,
-                      transdata->transfer->node, 
+                      ((gftp_file *) transdata->curfle->data)->user_data,
+                      transdata->transfer->user_data, 
                       transdata->curfle->next != NULL ?
-                          ((gftp_file *) transdata->curfle->next->data)->node :
-                          NULL);
+                          ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
     }
-  pthread_mutex_unlock (transdata->transfer->structmutex);
+  g_static_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 
@@ -2046,7 +1812,7 @@ ok (GtkWidget * widget, gpointer data)
   GList * templist;
 
   tdata = data;
-  pthread_mutex_lock ((pthread_mutex_t *) tdata->structmutex);
+  g_static_mutex_lock (&tdata->structmutex);
   for (templist = tdata->files; templist != NULL; templist = templist->next)
     {
       tempfle = templist->data;
@@ -2061,7 +1827,7 @@ ok (GtkWidget * widget, gpointer data)
     }
   else
     tdata->show = tdata->ready = 1;
-  pthread_mutex_unlock ((pthread_mutex_t *) tdata->structmutex);
+  g_static_mutex_unlock (&tdata->structmutex);
 }
 
 
@@ -2071,10 +1837,10 @@ cancel (GtkWidget * widget, gpointer data)
   gftp_transfer * tdata;
 
   tdata = data;
-  pthread_mutex_lock ((pthread_mutex_t *) tdata->structmutex);
+  g_static_mutex_lock (&tdata->structmutex);
   tdata->show = 0;
   tdata->done = tdata->ready = 1;
-  pthread_mutex_unlock ((pthread_mutex_t *) tdata->structmutex);
+  g_static_mutex_unlock (&tdata->structmutex);
 }
 
 
@@ -2104,10 +1870,10 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
   char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
        tempstr[50], temp1str[50], *pos, *title;
   GtkWidget * tempwid, * scroll, * hbox;
+  int i, overwrite_by_default;
   gftp_file * tempfle;
   GList * templist;
   size_t len;
-  int i;
 
   dltitles[0] = _("Filename");
   dltitles[1] = _("Local Size");
@@ -2173,6 +1939,9 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
   gtk_widget_show (tdata->clist);
   gtk_widget_show (scroll);
 
+  gftp_lookup_request_option (tdata->fromreq, "overwrite_by_default",
+                              &overwrite_by_default);
+
   for (templist = tdata->files; templist != NULL; 
        templist = templist->next)
     {
@@ -2185,8 +1954,8 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
       tempfle->shown = 1;
 
       pos = tempfle->destfile;
-      len = strlen (GFTP_GET_DIRECTORY (tdata->toreq));
-      if (strncmp (pos, GFTP_GET_DIRECTORY (tdata->toreq), len) == 0)
+      len = strlen (tdata->toreq->directory);
+      if (strncmp (pos, tdata->toreq->directory, len) == 0)
         pos = tempfle->destfile + len + 1;
       add_data[0] = pos;
 

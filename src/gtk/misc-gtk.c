@@ -20,7 +20,6 @@
 #include <gftp-gtk.h>
 static const char cvsid[] = "$Id$";
 
-static pthread_mutex_t netfunclock = PTHREAD_MUTEX_INITIALIZER;
 static GtkWidget * statuswid;
 
 
@@ -39,6 +38,7 @@ remove_files_window (gftp_window_data * wdata)
 void
 ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
 {
+  guint max_log_window_size;
   int upd, free_logstr;
   gftp_log * newlog;
   char *logstr;
@@ -65,7 +65,7 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
       va_end (argp);
 
       pthread_mutex_lock (&log_mutex);
-      file_transfer_logs = g_list_append (file_transfer_logs, newlog);
+      gftp_file_transfer_logs = g_list_append (gftp_file_transfer_logs, newlog);
       pthread_mutex_unlock (&log_mutex);
       return;
     }
@@ -83,25 +83,27 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
     }
   va_end (argp);
 
-  if (logfd != NULL)
+  if (gftp_logfd != NULL)
     {
-      if (fwrite (logstr, strlen (logstr), 1, logfd) != 1)
+      if (fwrite (logstr, strlen (logstr), 1, gftp_logfd) != 1)
         {
-          fclose (logfd);
-          logfd = NULL;
+          fclose (gftp_logfd);
+          gftp_logfd = NULL;
         }
       else
         {
-          fflush (logfd);
-          if (ferror (logfd))
+          fflush (gftp_logfd);
+          if (ferror (gftp_logfd))
             {
-              fclose (logfd);
-              logfd = NULL;
+              fclose (gftp_logfd);
+              gftp_logfd = NULL;
             }
         }
     }
 
   upd = logwdw_vadj->upper - logwdw_vadj->page_size == logwdw_vadj->value;
+
+  gftp_lookup_global_option ("max_log_window_size", &max_log_window_size);
 
 #if GTK_MAJOR_VERSION == 1
   switch (level)
@@ -226,21 +228,21 @@ update_window_info (void)
 
   if (current_wdata->request != NULL)
     {
-      if ((tempstr = GFTP_GET_HOSTNAME (current_wdata->request)) == NULL)
+      if ((tempstr = current_wdata->request->hostname) == NULL)
         tempstr = empty;
       gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry), tempstr);
 
-      if ((tempstr = GFTP_GET_USERNAME (current_wdata->request)) == NULL)
+      if ((tempstr = current_wdata->request->username) == NULL)
         tempstr = empty;
       gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (useredit)->entry), tempstr);
 
-      if ((tempstr = GFTP_GET_PASSWORD (current_wdata->request)) == NULL)
+      if ((tempstr = current_wdata->request->password) == NULL)
         tempstr = empty;
       gtk_entry_set_text (GTK_ENTRY (passedit), tempstr);
 
-      if (GFTP_GET_PORT (current_wdata->request) != 0)
+      if (current_wdata->request->port != 0)
         {
-          tempstr = g_strdup_printf ("%d", GFTP_GET_PORT (current_wdata->request));
+          tempstr = g_strdup_printf ("%d", current_wdata->request->port);
           gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), tempstr);
           g_free (tempstr);
         }
@@ -298,17 +300,17 @@ update_window (gftp_window_data * wdata)
     {
       fspec = wdata->show_selected ? "Selected" : strcmp (wdata->filespec, "*") == 0 ?  _("All Files") : wdata->filespec;
 
-      if ((temp1str = GFTP_GET_HOSTNAME (wdata->request)) == NULL ||
+      if ((temp1str = wdata->request->hostname) == NULL ||
           wdata->request->protonum == GFTP_LOCAL_NUM)
 	temp1str = "";
       tempstr = g_strconcat (temp1str, *temp1str == '\0' ? "[" : " [",
-		     GFTP_GET_PROTOCOL_NAME (wdata->request),
+		     gftp_protocols[wdata->request->protonum].name,
 		     wdata->request->cached ? _("] (Cached) [") : "] [",
                      fspec, "]", current_wdata == wdata ? "*" : "", NULL);
       gtk_label_set (GTK_LABEL (wdata->hoststxt), tempstr);
       g_free (tempstr);
 
-      if ((dir = GFTP_GET_DIRECTORY (wdata->request)) == NULL)
+      if ((dir = wdata->request->directory) == NULL)
         temp1str = "";
       else
         temp1str = dir;
@@ -408,8 +410,7 @@ open_xpm (GtkWidget * widget, char *filename)
       return (NULL);
     }
 
-  graphic->filename = g_malloc (strlen (filename) + 1);
-  strcpy (graphic->filename, filename);
+  graphic->filename = g_strdup (filename);
   g_hash_table_insert (graphic_hash_table, graphic->filename, graphic);
 
   return (graphic);
@@ -664,8 +665,7 @@ add_history (GtkWidget * widget, GList ** history, unsigned int *histlen,
 	    }
 	  g_list_free (node);
 	}
-      tempstr = g_malloc (strlen (str) + 1);
-      strcpy (tempstr, str);
+      tempstr = g_strdup (str);
       *history = g_list_prepend (*history, tempstr);
       ++*histlen;
     }
@@ -697,13 +697,17 @@ void
 add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
 {
   char *add_data[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL }, *pos;
+  gftp_config_list_vars * tmplistvar;
+  int clist_num, show_hidden_files;
   gftp_file_extensions * tempext;
   char *tempstr, *str;
   GdkBitmap * bitmap;
   GList * templist;
   GdkPixmap * pix;
-  int clist_num;
   size_t stlen;
+
+  gftp_lookup_request_option (wdata->request, "show_hidden_files", 
+                              &show_hidden_files);
 
   if (wdata->show_selected)
     {
@@ -745,16 +749,14 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
   else
     {
       stlen = strlen (fle->file);
-      templist = registered_exts;
+      gftp_lookup_global_option ("ext", &tmplistvar);
+      templist = tmplistvar->list;
       while (templist != NULL)
         {
           tempext = templist->data;
           if (stlen >= tempext->stlen &&
               strcmp (&fle->file[stlen - tempext->stlen], tempext->ext) == 0)
             {
-              if (toupper (*tempext->ascii_binary) == 'A')
-                fle->ascii = 1;
-
               gftp_get_pixmap (wdata->listbox, tempext->filename, &pix, 
                                &bitmap);
               break;
@@ -1242,7 +1244,7 @@ display_cached_logs (void)
   GList * templist; 
 
   pthread_mutex_lock (&log_mutex);
-  templist = file_transfer_logs;
+  templist = gftp_file_transfer_logs;
   while (templist != NULL)
     { 
       templog = (gftp_log *) templist->data;
@@ -1252,8 +1254,8 @@ display_cached_logs (void)
       templist->data = NULL;
       templist = templist->next;
     }
-  g_list_free (file_transfer_logs);
-  file_transfer_logs = NULL;
+  g_list_free (gftp_file_transfer_logs);
+  gftp_file_transfer_logs = NULL;
   pthread_mutex_unlock (&log_mutex);
 }
 
@@ -1267,51 +1269,5 @@ signal_handler (int signo)
     siglongjmp (jmp_environment, signo == SIGINT ? 1 : 2);
   else if (signo == SIGINT)
     exit (1);
-}
-
-
-#if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
-
-struct hostent *
-r_gethostbyname (const char *name, struct hostent *result_buf, int *h_errnop)
-{
-  struct hostent *hent;
-
-  pthread_mutex_lock (&netfunclock);
-  if ((hent = gethostbyname (name)) == NULL)
-    {
-      if (h_errnop)
-        *h_errnop = h_errno;
-    }
-  else
-    {
-      *result_buf = *hent;
-      hent = result_buf;
-    }
-  pthread_mutex_unlock (&netfunclock);
-  return (hent);
-}
-
-#endif /* !HAVE_GETADDRINFO */
-
-struct servent *
-r_getservbyname (const char *name, const char *proto,
-                 struct servent *result_buf, int *h_errnop)
-{
-  struct servent *sent;
-
-  pthread_mutex_lock (&netfunclock);
-  if ((sent = getservbyname (name, proto)) == NULL)
-    {
-      if (h_errnop)
-        *h_errnop = h_errno;
-    }
-  else
-    {
-      *result_buf = *sent;
-      sent = result_buf;
-    }
-  pthread_mutex_unlock (&netfunclock);
-  return (sent);
 }
 

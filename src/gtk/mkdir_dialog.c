@@ -26,10 +26,13 @@ static const char *edttext;
 static void *
 do_make_dir_thread (void * data)
 {
+  int success, sj, network_timeout;
   gftp_window_data * wdata;
-  int success, sj;
 
   wdata = data;
+
+  gftp_lookup_request_option (wdata->request, "network_timeout", 
+                              &network_timeout);
 
   if (wdata->request->use_threads)
     {
@@ -42,8 +45,8 @@ do_make_dir_thread (void * data)
   success = 0;
   if (sj == 0)
     {
-      if (wdata->request->network_timeout > 0)
-        alarm (wdata->request->network_timeout);
+      if (network_timeout > 0)
+        alarm (network_timeout);
       success = gftp_make_directory (wdata->request, edttext) == 0;
       alarm (0);
     }

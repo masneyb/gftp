@@ -24,16 +24,13 @@ static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
   * bm_remotediredit, * bm_useredit, * bm_passedit, * bm_acctedit, * anon_chk,
   * bm_pathedit, * bm_protocol, * tree, *bm_sftppath;
 static GHashTable * new_bookmarks_htable;
-static gftp_bookmarks * new_bookmarks;
+static gftp_bookmarks_var * new_bookmarks;
 static GtkItemFactory * edit_factory;
 
 
 void
 run_bookmark (gpointer data)
 {
-  gftp_bookmarks * tempentry;
-  int i;
-
   if (window1.request->stopable || window2.request->stopable)
     {
       ftp_log (gftp_logging_misc, NULL,
@@ -42,54 +39,11 @@ run_bookmark (gpointer data)
       return;
     }
 
-  if ((tempentry = g_hash_table_lookup (bookmarks_htable, (char *) data)) == NULL)
-    {
-      ftp_log (gftp_logging_misc, NULL,
-	       _("Internal gFTP Error: Could not look up bookmark entry. This is definately a bug. Please email masneyb@gftp.org about it. Please be sure to include the version number and how you can reproduce it\n"));
-      return;
-    }
-  else if (tempentry->hostname == NULL || *tempentry->hostname == '\0' ||
-	   tempentry->user == NULL || *tempentry->user == '\0')
-    {
-      ftp_log (gftp_logging_misc, NULL, _("Bookmarks Error: There are some missing entries in this bookmark. Make sure you have a hostname and username\n"));
-      return;
-    }
+  if (gftp_parse_bookmark (current_wdata->request, (char *) data) < 0)
+    return;
 
   if (GFTP_IS_CONNECTED (current_wdata->request))
     disconnect (current_wdata);
-
-  if (tempentry->local_dir && *tempentry->local_dir != '\0')
-    {
-      gftp_set_directory (other_wdata->request, tempentry->local_dir);
-      gtk_clist_freeze (GTK_CLIST (other_wdata->listbox));
-      remove_files_window (other_wdata);
-      ftp_list_files (other_wdata, 1);
-      gtk_clist_thaw (GTK_CLIST (other_wdata->listbox));
-    }
-
-  gftp_set_username (current_wdata->request, tempentry->user);
-  if (strncmp (tempentry->pass, "@EMAIL@", 7) == 0)
-    gftp_set_password (current_wdata->request, emailaddr);
-  else
-    gftp_set_password (current_wdata->request, tempentry->pass);
-  if (tempentry->acct != NULL)
-    gftp_set_account (current_wdata->request, tempentry->acct);
-  gftp_set_hostname (current_wdata->request, tempentry->hostname);
-  gftp_set_directory (current_wdata->request, tempentry->remote_dir);
-  gftp_set_port (current_wdata->request, tempentry->port);
-  gftp_set_sftpserv_path (current_wdata->request, tempentry->sftpserv_path);
-
-  for (i = 0; gftp_protocols[i].name; i++)
-    {
-      if (strcmp (gftp_protocols[i].name, tempentry->protocol) == 0)
-	{
-	  gftp_protocols[i].init (current_wdata->request);
-	  break;
-	}
-    }
-
-  if (!gftp_protocols[i].name)
-    gftp_protocols[0].init (current_wdata->request);
 
   ftp_connect (current_wdata, current_wdata->request, 1);
 }
@@ -100,8 +54,8 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 {
   GtkItemFactoryEntry test = { NULL, NULL, run_bookmark, 0 };
   const char *edttxt, *spos;
-  gftp_bookmarks * tempentry;
-  char *dpos;
+  gftp_bookmarks_var * tempentry;
+  char *dpos, *proto;
 
   edttxt = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (*edttxt == '\0')
@@ -111,7 +65,7 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
       return;
     }
 
-  if (g_hash_table_lookup (bookmarks_htable, edttxt) != NULL)
+  if (g_hash_table_lookup (gftp_bookmarks_htable, edttxt) != NULL)
     {
       ftp_log (gftp_logging_error, NULL,
 	       _("Add Bookmark: Cannot add bookmark %s because that name already exists\n"), edttxt);
@@ -133,36 +87,30 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
   *dpos = '\0';
 
   edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry));
-  tempentry->hostname = g_malloc (strlen (edttxt) + 1);
-  strcpy (tempentry->hostname, edttxt);
+  tempentry->hostname = g_strdup (edttxt);
 
   edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (portedit)->entry));
   tempentry->port = strtol (edttxt, NULL, 10);
 
-  tempentry->protocol =
-    g_malloc (strlen (GFTP_GET_PROTOCOL_NAME (current_wdata->request)) + 1);
-  strcpy (tempentry->protocol, GFTP_GET_PROTOCOL_NAME (current_wdata->request));
+  proto = gftp_protocols[current_wdata->request->protonum].name;
+  tempentry->protocol = g_strdup (proto);
 
   edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (other_wdata->combo)->entry));
-  tempentry->local_dir = g_malloc (strlen (edttxt) + 1);
-  strcpy (tempentry->local_dir, edttxt);
+  tempentry->local_dir = g_strdup (edttxt);
 
   edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (current_wdata->combo)->entry));
-  tempentry->remote_dir = g_malloc (strlen (edttxt) + 1);
-  strcpy (tempentry->remote_dir, edttxt);
+  tempentry->remote_dir = g_strdup (edttxt);
 
   if ((edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry))) != NULL)
     {
-      tempentry->user = g_malloc (strlen (edttxt) + 1);
-      strcpy (tempentry->user, edttxt);
+      tempentry->user = g_strdup (edttxt);
 
       edttxt = gtk_entry_get_text (GTK_ENTRY (passedit));
-      tempentry->pass = g_malloc (strlen (edttxt) + 1);
-      strcpy (tempentry->pass, edttxt);
+      tempentry->pass = g_strdup (edttxt);
       tempentry->save_password = GTK_TOGGLE_BUTTON (ddata->checkbox)->active;
     }
 
-  add_to_bookmark (tempentry);
+  gftp_add_bookmark (tempentry);
 
   test.path = g_strconcat ("/Bookmarks/", tempentry->path, NULL);
   gtk_item_factory_create_item (factory, &test, (gpointer) tempentry->path,
@@ -196,9 +144,9 @@ void
 build_bookmarks_menu (void)
 {
   GtkItemFactoryEntry test = { NULL, NULL, NULL, 0 };
-  gftp_bookmarks * tempentry;
+  gftp_bookmarks_var * tempentry;
 
-  tempentry = bookmarks->children;
+  tempentry = gftp_bookmarks->children;
   while (tempentry != NULL)
     {
       test.path = g_strconcat ("/Bookmarks/", tempentry->path, NULL);
@@ -229,7 +177,7 @@ build_bookmarks_menu (void)
 
 
 static void
-free_bookmark_entry_items (gftp_bookmarks * entry)
+free_bookmark_entry_items (gftp_bookmarks_var * entry)
 {
   if (entry->hostname)
     g_free (entry->hostname);
@@ -248,10 +196,10 @@ free_bookmark_entry_items (gftp_bookmarks * entry)
 }
 
 
-static gftp_bookmarks *
-copy_bookmarks (gftp_bookmarks * bookmarks)
+static gftp_bookmarks_var *
+copy_bookmarks (gftp_bookmarks_var * bookmarks)
 {
-  gftp_bookmarks * new_bm, * preventry, * tempentry, * sibling, * newentry,
+  gftp_bookmarks_var * new_bm, * preventry, * tempentry, * sibling, * newentry,
                  * tentry;
 
   new_bm = g_malloc0 (sizeof (*new_bm));
@@ -268,51 +216,29 @@ copy_bookmarks (gftp_bookmarks * bookmarks)
       newentry->save_password = tempentry->save_password;
       newentry->cnode = tempentry->cnode;
       if (tempentry->path)
-	{
-	  newentry->path = g_malloc (strlen (tempentry->path) + 1);
-	  strcpy (newentry->path, tempentry->path);
-	}
+	newentry->path = g_strdup (tempentry->path);
+
       if (tempentry->hostname)
-	{
-	  newentry->hostname = g_malloc (strlen (tempentry->hostname) + 1);
-	  strcpy (newentry->hostname, tempentry->hostname);
-	}
+	newentry->hostname = g_strdup (tempentry->hostname);
+
       if (tempentry->protocol)
-	{
-	  newentry->protocol = g_malloc (strlen (tempentry->protocol) + 1);
-	  strcpy (newentry->protocol, tempentry->protocol);
-	}
+	newentry->protocol = g_strdup (tempentry->protocol);
+
       if (tempentry->local_dir)
-	{
-	  newentry->local_dir = g_malloc (strlen (tempentry->local_dir) + 1);
-	  strcpy (newentry->local_dir, tempentry->local_dir);
-	}
+	newentry->local_dir = g_strdup (tempentry->local_dir);
+
       if (tempentry->remote_dir)
-	{
-	  newentry->remote_dir =
-	    g_malloc (strlen (tempentry->remote_dir) + 1);
-	  strcpy (newentry->remote_dir, tempentry->remote_dir);
-	}
+	newentry->remote_dir = g_strdup (tempentry->remote_dir);
+
       if (tempentry->user)
-	{
-	  newentry->user = g_malloc (strlen (tempentry->user) + 1);
-	  strcpy (newentry->user, tempentry->user);
-	}
+	newentry->user = g_strdup (tempentry->user);
+
       if (tempentry->pass)
-	{
-	  newentry->pass = g_malloc (strlen (tempentry->pass) + 1);
-	  strcpy (newentry->pass, tempentry->pass);
-	}
+	newentry->pass = g_strdup (tempentry->pass);
+
       if (tempentry->acct)
-	{
-	  newentry->acct = g_malloc (strlen (tempentry->acct) + 1);
-	  strcpy (newentry->acct, tempentry->acct);
-	}
-      if (tempentry->sftpserv_path)
-        {
-          newentry->sftpserv_path = g_malloc (strlen (tempentry->sftpserv_path) + 1);
-          strcpy (newentry->sftpserv_path, tempentry->sftpserv_path);
-        }
+	newentry->acct = g_strdup (tempentry->acct);
+
       newentry->port = tempentry->port;
 
       if (sibling == NULL)
@@ -363,10 +289,10 @@ copy_bookmarks (gftp_bookmarks * bookmarks)
 static void
 bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 {
-  gftp_bookmarks * tempentry, * delentry;
+  gftp_bookmarks_var * tempentry, * delentry;
   char *tempstr;
 
-  tempentry = bookmarks->children;
+  tempentry = gftp_bookmarks->children;
   while (tempentry != NULL)
     {
       if (tempentry->path && !tempentry->isfolder)
@@ -421,14 +347,14 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 	    }
 	}
     }
-  g_free (bookmarks);
-  g_hash_table_destroy (bookmarks_htable);
+  g_free (gftp_bookmarks);
+  g_hash_table_destroy (gftp_bookmarks_htable);
 
-  bookmarks = new_bookmarks;
-  bookmarks_htable = new_bookmarks_htable;
+  gftp_bookmarks = new_bookmarks;
+  gftp_bookmarks_htable = new_bookmarks_htable;
   if (backup_data)
     {
-      new_bookmarks = copy_bookmarks (bookmarks);
+      new_bookmarks = copy_bookmarks (gftp_bookmarks);
       new_bookmarks_htable = build_bookmarks_hash_table (new_bookmarks);
     }
   else
@@ -444,7 +370,7 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 static void
 bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
 {
-  gftp_bookmarks * tempentry, * delentry;
+  gftp_bookmarks_var * tempentry, * delentry;
 
   if (new_bookmarks_htable)
     g_hash_table_destroy (new_bookmarks_htable);
@@ -500,7 +426,7 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
 {
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
   GdkBitmap * closedir_bitmap, * opendir_bitmap;  
-  gftp_bookmarks * tempentry, * newentry;
+  gftp_bookmarks_var * tempentry, * newentry;
   GtkCTreeNode * sibling;
   char *pos, *text[2];
   const char *str;
@@ -587,9 +513,9 @@ new_item_entry (gpointer data)
 
 
 static void
-do_delete_entry (gftp_bookmarks * entry, gftp_dialog_data * ddata)
+do_delete_entry (gftp_bookmarks_var * entry, gftp_dialog_data * ddata)
 {
-  gftp_bookmarks * tempentry, * delentry;
+  gftp_bookmarks_var * tempentry, * delentry;
 
   g_hash_table_remove (new_bookmarks_htable, entry->path);
   gtk_ctree_remove_node (GTK_CTREE (tree), entry->cnode);
@@ -644,7 +570,7 @@ do_delete_entry (gftp_bookmarks * entry, gftp_dialog_data * ddata)
 static void
 delete_entry (gpointer data)
 {
-  gftp_bookmarks * entry;
+  gftp_bookmarks_var * entry;
   char *tempstr, *pos;
 
   if (GTK_CLIST (tree)->selection == NULL)
@@ -686,7 +612,7 @@ build_bookmarks_tree (void)
 {
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
   GdkBitmap * closedir_bitmap, * opendir_bitmap;  
-  gftp_bookmarks * tempentry, * preventry;
+  gftp_bookmarks_var * tempentry, * preventry;
   char *pos, *prevpos, *text[2], *str;
   GtkCTreeNode * parent;
 
@@ -714,8 +640,7 @@ build_bookmarks_tree (void)
 	  while ((pos = strchr (pos, '/')) != NULL)
 	    {
 	      *pos = '\0';
-	      str = g_malloc (strlen (tempentry->path) + 1);
-	      strcpy (str, tempentry->path);
+              str = g_strdup (tempentry->path);
 	      *pos = '/';
 	      preventry = g_hash_table_lookup (new_bookmarks_htable, str);
 	      if (preventry->cnode == NULL)
@@ -761,7 +686,7 @@ build_bookmarks_tree (void)
 static void
 clear_bookmarks_tree (void)
 {
-  gftp_bookmarks * tempentry;
+  gftp_bookmarks_var * tempentry;
 
   tempentry = new_bookmarks->children;
   while (tempentry != NULL)
@@ -785,10 +710,10 @@ clear_bookmarks_tree (void)
 
 
 static void
-entry_apply_changes (GtkWidget * widget, gftp_bookmarks * entry)
+entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
 {
   char *pos, *newpath, tempchar, *tempstr, *origpath;
-  gftp_bookmarks * tempentry, * nextentry;
+  gftp_bookmarks_var * tempentry, * nextentry;
   GtkWidget * tempwid;
   const char *str;
   int oldpathlen;
@@ -814,8 +739,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks * entry)
   str = gtk_entry_get_text (GTK_ENTRY (bm_hostedit));
   if (entry->hostname)
     g_free (entry->hostname);
-  entry->hostname = g_malloc (strlen (str) + 1);
-  strcpy (entry->hostname, str);
+  entry->hostname = g_strdup (str);
 
   str = gtk_entry_get_text (GTK_ENTRY (bm_portedit));
   entry->port = strtol (str, NULL, 10);
@@ -824,31 +748,17 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks * entry)
   str = gtk_object_get_user_data (GTK_OBJECT (tempwid));
   if (entry->protocol)
     g_free (entry->protocol);
-  entry->protocol = g_malloc (strlen (str) + 1);
-  strcpy (entry->protocol, str);
+  entry->protocol = g_strdup (str);
 
   str = gtk_entry_get_text (GTK_ENTRY (bm_remotediredit));
   if (entry->remote_dir)
     g_free (entry->remote_dir);
-  entry->remote_dir = g_malloc (strlen (str) + 1);
-  strcpy (entry->remote_dir, str);
+  entry->remote_dir = g_strdup (str);
 
   str = gtk_entry_get_text (GTK_ENTRY (bm_localdiredit));
   if (entry->local_dir)
     g_free (entry->local_dir);
-  entry->local_dir = g_malloc (strlen (str) + 1);
-  strcpy (entry->local_dir, str);
-
-  str = gtk_entry_get_text (GTK_ENTRY (bm_sftppath));
-  if (entry->sftpserv_path)
-    g_free (entry->sftpserv_path);
-  if (strlen (str) > 0)
-    {
-      entry->sftpserv_path = g_malloc (strlen (str) + 1);
-      strcpy (entry->sftpserv_path, str);
-    }
-  else
-    entry->sftpserv_path = NULL;
+  entry->local_dir = g_strdup (str);
 
   if (GTK_TOGGLE_BUTTON (anon_chk)->active)
     str = "anonymous";
@@ -856,8 +766,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks * entry)
     str = gtk_entry_get_text (GTK_ENTRY (bm_useredit));
   if (entry->user)
     g_free (entry->user);
-  entry->user = g_malloc (strlen (str) + 1);
-  strcpy (entry->user, str);
+  entry->user = g_strdup (str);
 
   if (GTK_TOGGLE_BUTTON (anon_chk)->active)
     str = "@EMAIL@";
@@ -865,8 +774,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks * entry)
     str = gtk_entry_get_text (GTK_ENTRY (bm_passedit));
   if (entry->pass)
     g_free (entry->pass);
-  entry->pass = g_malloc (strlen (str) + 1);
-  strcpy (entry->pass, str);
+  entry->pass = g_strdup (str);
   entry->save_password = *entry->pass != '\0';
 
   if (GTK_TOGGLE_BUTTON (anon_chk)->active)
@@ -875,8 +783,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks * entry)
     str = gtk_entry_get_text (GTK_ENTRY (bm_acctedit));
   if (entry->acct)
     g_free (entry->acct);
-  entry->acct = g_malloc (strlen (str) + 1);
-  strcpy (entry->acct, str);
+  entry->acct = g_strdup (str);
 
   if (strcmp (entry->path, newpath) != 0)
     {
@@ -936,7 +843,7 @@ static void
 edit_entry (gpointer data)
 {
   GtkWidget * table, * tempwid, * dialog, * menu;
-  gftp_bookmarks * entry;
+  gftp_bookmarks_var * entry;
   int i, num;
   char *pos;
 
@@ -1218,7 +1125,7 @@ after_move (GtkCTree * ctree, GtkCTreeNode * child, GtkCTreeNode * parent,
 	    GtkCTreeNode * sibling, gpointer data)
 {
 
-  gftp_bookmarks * childentry, * siblingentry, * parententry, * tempentry;
+  gftp_bookmarks_var * childentry, * siblingentry, * parententry, * tempentry;
   char *tempstr, *pos, *stpos;
 
   childentry = gtk_ctree_node_get_row_data (ctree, child);
@@ -1269,8 +1176,7 @@ after_move (GtkCTree * ctree, GtkCTreeNode * child, GtkCTreeNode * parent,
 	  tempstr = g_strdup_printf ("%s/%s", tempentry->prev->path, pos);
 	  for (stpos = tempstr; *stpos == '/'; stpos++);
 	  g_free (tempentry->path);
-	  tempentry->path = g_malloc (strlen (stpos) + 1);
-	  strcpy (tempentry->path, stpos);
+	  tempentry->path = g_strdup (stpos);
 	  g_free (tempstr);
 	  g_hash_table_insert (new_bookmarks_htable, tempentry->path,
 			       tempentry);
@@ -1330,7 +1236,7 @@ edit_bookmarks (gpointer data)
   GtkWidget * tempwid;
 #endif
 
-  new_bookmarks = copy_bookmarks (bookmarks);
+  new_bookmarks = copy_bookmarks (gftp_bookmarks);
   new_bookmarks_htable = build_bookmarks_hash_table (new_bookmarks);
 
 #if GTK_MAJOR_VERSION == 1

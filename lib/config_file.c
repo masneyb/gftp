@@ -1057,6 +1057,17 @@ gftp_lookup_request_option (gftp_request * request, char * key, void *value)
 void
 gftp_set_global_option (char * key, void *value)
 {
+  gftp_config_vars * tmpconfigvar;
+
+  if (gftp_global_options_htable != NULL &&
+      (tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
+                                           key)) != NULL)
+    memcpy (&tmpconfigvar->value, value, sizeof (tmpconfigvar->value));
+  else
+    {
+      fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);
+      exit (1);
+    }
 }
 
 
