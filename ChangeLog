@@ -1,4 +1,8 @@
 2004-9-22 Brian Masney <masneyb@gftp.org>
+	* lib/options.h src/uicommon/gftpui.c - added option to preserve the
+	file time. In the past, it would save the file time if saving the file
+	permissions was enabled.
+
 	* src/gtk/transfer.c (check_done_process) - if the process returned an
 	error code, then remove the file and don't prompt the user to upload the
 	file if it was changed

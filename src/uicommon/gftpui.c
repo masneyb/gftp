@@ -1276,7 +1276,7 @@ _gftpui_common_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
 int
 gftpui_common_transfer_files (gftp_transfer * tdata)
 {
-  intptr_t preserve_permissions, trans_blksize;
+  intptr_t preserve_permissions, preserve_time, trans_blksize;
   struct timeval updatetime;
   ssize_t num_read, ret;
   gftp_file * curfle; 
@@ -1464,14 +1464,16 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
 
       gftp_lookup_request_option (tdata->fromreq, "preserve_permissions",
                                   &preserve_permissions);
+      gftp_lookup_request_option (tdata->fromreq, "preserve_time",
+                                  &preserve_time);
 
-      if (!curfle->is_fd && preserve_permissions)
+      if (!curfle->is_fd)
         {
-          if (curfle->st_mode != 0)
+          if (preserve_permissions && curfle->st_mode != 0)
             gftp_chmod (tdata->toreq, curfle->destfile,
                         curfle->st_mode & (S_IRWXU | S_IRWXG | S_IRWXO));
 
-          if (curfle->datetime != 0)
+          if (preserve_time && curfle->datetime != 0)
             gftp_set_file_time (tdata->toreq, curfle->destfile,
                                 curfle->datetime);
         }
