@@ -2,24 +2,13 @@ This is a list of some of the things I plan to work on for future releases
 of gFTP. If there is something you feel should be included in a future
 version of gFTP, please email me about it.
 
-Items to fix for 2.0.16:
-
-* Edit, if there is a timeout on the remote side hwen you go to upload, it waits
-  for 30 secs
-* ASCII transfers corrupt the file
-* FreeBSD SSHV2 upload crash. I can't reproduce this under Linux
-* HTTP Support: The following directory listing does not work:
-  http://ftp.redhat.com/pub/redhat/linux/updates/9/en/os/i386
-* When getting the list of files/directories, don't make the window always
-  stay on top. It's annoying for large directory listings
-
-Other items for a later version:
-
 * I need to be able to send an event from the core library to the presentation
   layer to have it ask the user a question. I need this for the SSL layer so 
   that if an unknown certificate authority signed the certificate, the user
   can be prompted whether or not to accept it. Also, it would be handy to 
   prompt the user for their password if a bad password was entered. 
+* Text Port - resume transfers, add --mirror option, --continue option
+  and --background options to the command line.
 * DND - be able to resume transfers
 * HTTP - keepalive
 * Support tabbed interface in GTK+ port
@@ -40,9 +29,9 @@ Other items for a later version:
 * Make it execute a program on a url (say rpm -qpi ftp://site.com/file.rpm)
 * Full Gnome compatibility.
 * Add registered file extensions to options dialog
-* VMS directory listings
-* Add automatic refresh interval (maybe, this could be used to get around 
-  timeouts remote servers may set)
+* Multiline VMS directory listings
+  BIN.DIR;1               
+       2/35         24-JUL-2003 10:51:02  [TST,JAQUAY_TST]    (RWE,RWE,RWE,RE)
 * HTTP: Support CONNECT method in Squid proxy
 * Add support for SRP protocol (http://srp.stanford.edu/srp)
 * Add support for DAV protocol

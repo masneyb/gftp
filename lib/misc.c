@@ -151,7 +151,8 @@ alltrim (char *str)
 char *
 expand_path (const char *src)
 {
-  char *str, *pos, *endpos, *prevpos, *newstr, *tempstr, tempchar;
+  char *str, *pos, *endpos, *prevpos, *newstr, *tempstr, *ntoken,
+       tempchar;
   struct passwd *pw;
 
   pw = NULL;
@@ -178,22 +179,28 @@ expand_path (const char *src)
   while ((pos = strchr (endpos, '/')) != NULL)
     {
       pos++;
-      while (*pos == '/')
-        pos++;
 
-      if ((endpos = strchr (pos, '/')) == NULL)
+      for (ntoken = pos; *ntoken == '/'; ntoken++);
+
+      if ((endpos = strchr (ntoken, '/')) == NULL)
 	endpos = pos + strlen (pos);
 
       tempchar = *endpos;
       *endpos = '\0';
 
-      if (strcmp (pos, "..") == 0)
+      if (strcmp (ntoken, "..") == 0)
 	{
-	  *(pos - 1) = '\0';
 	  if (newstr != NULL && (prevpos = strrchr (newstr, '/')) != NULL)
-	    *prevpos = '\0';
+            {
+	      *prevpos = '\0';
+              if (*newstr == '\0')
+                {
+                  g_free (newstr);
+                  newstr = NULL;
+                }
+            }
 	}
-      else if (strcmp (pos, ".") != 0)
+      else if (strcmp (ntoken, ".") != 0)
 	{
 	  if (newstr == NULL)
 	    newstr = g_strdup (pos - 1);
@@ -215,7 +222,7 @@ expand_path (const char *src)
   if (endpos != NULL && *endpos != '\0' && newstr == NULL)
     {
       if (strcmp (endpos, "..") == 0)
-        newstr = g_malloc0 (1);
+        newstr = g_strdup ("/");
       else
         newstr = g_strdup (endpos);
     }
@@ -359,6 +366,10 @@ gftp_info (void)
   int i;
 
   printf ("%s\n", gftp_version);
+
+#ifdef _REENTRANT
+  printf ("#define _REENTRANT\n");
+#endif
 
 #ifdef _GNU_SOURCE
   printf ("#define _GNU_SOURCE\n");
@@ -1229,7 +1240,7 @@ gftp_build_path (const char *first_element, ...)
     {
       len = strlen (element);
 
-      if (len > 0 && element[len - 1] == '/')
+      if (retlen > 0 && ret[retlen - 1] == '/')
         add_separator = 0;
       else
         {
