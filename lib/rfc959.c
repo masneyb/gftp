@@ -451,17 +451,18 @@ rfc959_connect (gftp_request * request)
 
   parms = request->protocol_data;
 
-  gftp_lookup_request_option (request, "email", &email);
   gftp_lookup_request_option (request, "ftp_proxy_host", &proxy_hostname);
   gftp_lookup_request_option (request, "ftp_proxy_port", &proxy_port);
 
   if (request->username == NULL || *request->username == '\0')
+    gftp_set_username (request, "anonymous");
+
+  if (strcasecmp (request->username, "anonymous") == 0 &&
+      (request->password == NULL || *request->password == '\0'))
     {
-      gftp_set_username (request, "anonymous");
+      gftp_lookup_request_option (request, "email", &email);
       gftp_set_password (request, email);
     }
-  else if (strcasecmp (request->username, "anonymous") == 0)
-    gftp_set_password (request, email);
    
   if ((ret = gftp_connect_server (request, "ftp", proxy_hostname, proxy_port)) < 0)
     return (ret);
