@@ -90,10 +90,13 @@
 
 #ifdef HAVE_PTY_H
 #include <pty.h>
+#include <utmp.h> /* for login_tty */
 #elif HAVE_LIBUTIL_H
 #include <libutil.h>
+#include <utmp.h> /* for login_tty */
 #else
 extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp, struct winsize * winp);
+extern int login_tty(int fd);
 #endif
 
 #ifdef HAVE_GETADDRINFO
@@ -945,13 +948,15 @@ int gftp_fd_open 			( gftp_request * request,
 					  mode_t perms );
 
 /* pty.c */
-char * get_pty_impl 			( void );
+char * gftp_get_pty_impl 		( void );
 
-int open_ptys 				( gftp_request * request, 
+pid_t gftp_exec_with_new_pty 		( gftp_request * request, 
 					  int *fdm, 
-					  int *fds );
+					  char **args );
 
-int tty_raw 				( int fd );
+pid_t gftp_exec_without_new_pty 	( gftp_request * request, 
+					  int *fdm, 
+					  char **args );
 
 #ifdef USE_SSL
 /* sslcommon.c */

@@ -1,3 +1,17 @@
+2003-7-6 Brian Masney <masneyb@gftp.org>
+	* lib/pty.c lib/gftp.h - added gftp_exec_with_new_pty() and
+	gftp_exec_without_new_pty()
+
+	* lib/sshv2.c - use the 2 new functions above
+
+	* lib/pty.c lib/gftp.h - split open_ptys() to _gftp_ptym_open()
+	and _gftp_ptys_open()
+
+	* lib/sslcommon.c - don't do thread setup if we are compiling against
+	glib 1.2. I do not want to link against the pthread library because 
+	that would make the text port dependant on pthreads being installed on
+	the box
+
 2003-7-5 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_get_line) - fixed bug where the read function
 	was being called one extra time after the end of file was reached

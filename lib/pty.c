@@ -24,100 +24,134 @@ static const char cvsid[] = "$Id$";
 #ifdef __sgi
 
 char *
-get_pty_impl (void)
+gftp_get_pty_impl (void)
 {
   return ("sgi");
 }
 
 
-int
-open_ptys (gftp_request * request, int *fdm, int *fds)
+static int
+_gftp_ptym_open (char *pts_name, size_t len, int *fds)
 {
-  char *pts_name;
+  char *new_pts_name;
+  int fdm;
 
-  if ((pts_name = _getpty (fdm, O_RDWR, 0600, 0)) == NULL)
+  if ((new_pts_name = _getpty (&fdm, O_RDWR, 0600, 0)) == NULL)
     return (GFTP_ERETRYABLE);
 
-  if ((*fds = open (pts_name, O_RDWR)) < 0)
+  strncpy (pts_name, new_pts_name, len);
+
+  return (fdm);
+}
+
+
+static int
+_gftp_ptys_open (int fdm, int fds, char *pts_name)
+{
+  int new_fds;
+
+  if ((new_fds = open (pts_name, O_RDWR)) < 0)
     {
-      close (*fdm);
-      return (GFTP_ERETRYABLE);
+      close (fdm);
+      return (-1);
     }
 
-  return (0);
+  return (new_fds);
 }
 
 #elif HAVE_GRANTPT
 
 char *
-get_pty_impl (void)
+gftp_get_pty_impl (void)
 {
   return ("unix98");
 }
 
 
-int
-open_ptys (gftp_request * request, int *fdm, int *fds)
+static int
+_gftp_ptym_open (char *pts_name, size_t len, int *fds)
 {
-  char *pts_name;
+  char *new_pts_name;
+  int fdm;
 
-  if ((*fdm = open ("/dev/ptmx", O_RDWR)) < 0)
+  if ((fdm = open ("/dev/ptmx", O_RDWR)) < 0)
     return (GFTP_ERETRYABLE);
 
-  if (grantpt (*fdm) < 0)
+  if (grantpt (fdm) < 0)
     {
-      close (*fdm);
+      close (fdm);
       return (GFTP_ERETRYABLE);
     }
 
-  if (unlockpt (*fdm) < 0)
+  if (unlockpt (fdm) < 0)
     {
-      close (*fdm);
+      close (fdm);
       return (GFTP_ERETRYABLE);
     }
 
-  if ((pts_name = ptsname (*fdm)) == NULL)
+  if ((new_pts_name = ptsname (fdm)) == NULL)
     {
-      close (*fdm);
+      close (fdm);
       return (GFTP_ERETRYABLE);
     }
 
-  if ((*fds = open (pts_name, O_RDWR)) < 0)
+  strncpy (pts_name, new_pts_name, len);
+
+  return (fdm);
+}
+
+
+static int
+_gftp_ptys_open (int fdm, int fds, char *pts_name)
+{
+  int new_fds;
+
+  if ((new_fds = open (pts_name, O_RDWR)) < 0)
     {
-      close (*fdm);
-      return (GFTP_ERETRYABLE);
+      close (fdm);
+      return (-1);
     }
 
 #ifdef SYSV
   /* I intentionally ignore these errors */
-  ioctl (*fds, I_PUSH, "ptem");
-  ioctl (*fds, I_PUSH, "ldterm");
-  ioctl (*fds, I_PUSH, "ttcompat");
+  ioctl (new_fds, I_PUSH, "ptem");
+  ioctl (new_fds, I_PUSH, "ldterm");
+  ioctl (new_fds, I_PUSH, "ttcompat");
 #endif
 
-  return (0);
+  return (new_fds);
 }
 
 #elif HAVE_OPENPTY
 
 char *
-get_pty_impl (void)
+gftp_get_pty_impl (void)
 {
   return ("openpty");
 }
 
 
-int
-open_ptys (gftp_request * request, int *fdm, int *fds)
+static int
+_gftp_ptym_open (char *pts_name, size_t len, int *fds)
 {
-  char *pts_name;
+  int fdm;
 
-  if (openpty (fdm, fds, &pts_name, NULL, NULL ) < 0)
+  if (openpty (&fdm, fds, pts_name, NULL, NULL) < 0)
     return (GFTP_ERETRYABLE);
 
   ioctl (*fds, TIOCSCTTY, NULL);
 
-  return (0);
+  return (fdm);
+}
+
+
+static int
+_gftp_ptys_open (int fdm, int fds, char *pts_name)
+{
+  if (login_tty (fds) < 0)
+    return (GFTP_EFATAL);
+
+  return (fds);
 }
 
 #else /* !HAVE_OPENPTY */
@@ -125,53 +159,65 @@ open_ptys (gftp_request * request, int *fdm, int *fds)
 /* Fall back to *BSD... */
 
 char *
-get_pty_impl (void)
+gftp_get_pty_impl (void)
 {
   return ("bsd");
 }
 
 
-int
-open_ptys (gftp_request * request, int *fdm, int *fds)
+static int
+_gftp_ptym_open (char *pts_name, size_t len, int *fds)
 {
-  char pts_name[20], *pos1, *pos2;
+  char *pos1, *pos2;
+  int fdm;
 
-  strncpy (pts_name, "/dev/ptyXY", sizeof (pts_name));
+  g_return_val_if_fail (len >= 10, GFTP_EFATAL);
+
+  strncpy (pts_name, "/dev/ptyXY", len);
   for (pos1 = "pqrstuvwxyzPQRST"; *pos1 != '\0'; pos1++) 
     {
       pts_name[8] = *pos1;
       for (pos2 = "0123456789abcdef"; *pos2 != '\0'; pos2++)
         {
           pts_name[9] = *pos2;
-          if ((*fdm = open (pts_name, O_RDWR)) < 0)
+          if ((fdm = open (pts_name, O_RDWR)) < 0)
             continue;
 
           pts_name[5] = 't';
           chmod (pts_name, S_IRUSR | S_IWUSR);
           chown (pts_name, getuid (), -1);
 
-          if ((*fds = open (pts_name, O_RDWR)) < 0)
-            {
-              pts_name[5] = 'p';
-              continue;
-            }
-
-#if defined(TIOCSCTTY) && !defined(CIBAUD)
-          ioctl (*fds, TIOCSCTTY, NULL);
-#endif
-
-          return (0);
+          return (fdm);
         }
     }
 
   return (GFTP_ERETRYABLE);
 }
 
+
+static int
+_gftp_ptys_open (int fdm, int fds, char *pts_name)
+{
+  int new_fds;
+
+  if ((new_fds = open (pts_name, O_RDWR)) < 0)
+    {
+      close (fdm);
+      return (-1);
+    }
+
+#if defined(TIOCSCTTY) && !defined(CIBAUD)
+  ioctl (new_fds, TIOCSCTTY, NULL);
+#endif
+
+  return (new_fds);
+}
+
 #endif /* __sgi */
 
 
-int
-tty_raw (int fd)
+static int
+_gftp_tty_raw (int fd)
 {
   struct termios buf;
 
@@ -194,4 +240,124 @@ tty_raw (int fd)
   return (0);
 }
 
+
+static void
+_gftp_close_all_fds (void)
+{
+  int i, maxfds;
+
+#ifdef HAVE_GETDTABLESIZE
+  maxfds = getdtablesize () - 1;
+#elif defined (OPEN_MAX)
+  maxfds = OPEN_MAX;
+#else
+  maxfds = -1;
+#endif
+
+  for (i=3; i<maxfds; i++)
+    close (i);
+}
+
+
+pid_t
+gftp_exec_without_new_pty (gftp_request * request, int *fdm, char **args)
+{
+  pid_t child;
+  int s[2];
+
+  if (socketpair (AF_LOCAL, SOCK_STREAM, 0, s) < 0)
+    {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Cannot create a socket pair: %s\n"),
+                                 g_strerror (errno));
+      return (-1);
+    }
+
+  if ((child = fork ()) == 0)
+    {
+      setsid ();
+
+      close (s[0]);
+
+      _gftp_tty_raw (s[1]);
+      dup2 (s[1], 0);
+      dup2 (s[1], 1);
+      dup2 (s[1], 2);
+      _gftp_close_all_fds ();
+
+      execvp (args[0], args);
+
+      printf (_("Error: Cannot execute ssh: %s\n"), g_strerror (errno));
+      exit (1);
+    }
+  else if (child > 0)
+    {
+      close (s[1]);
+      _gftp_tty_raw (s[0]);
+      *fdm = s[0];
+      return (child);
+    }
+  else
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Cannot fork another process: %s\n"),
+                                 g_strerror (errno));
+      return (-1);
+    }
+}
+
+
+pid_t
+gftp_exec_with_new_pty (gftp_request * request, int *fdm, char **args)
+{
+  char pts_name[64];
+  pid_t child;
+  int fds;
+
+  *pts_name = '\0';
+  if ((*fdm = _gftp_ptym_open (pts_name, sizeof (pts_name), &fds)) < 0)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                _("Cannot open master pty %s: %s\n"), pts_name,
+                                g_strerror (errno));
+      return (-1);
+    }
+
+  if ((child = fork ()) == 0)
+    {
+      setsid ();
+
+      if ((fds = _gftp_ptys_open (*fdm, fds, pts_name)) < 0)
+        {
+          printf ("Cannot open slave pts %s: %s\n", pts_name, 
+                  g_strerror (errno));
+          return (-1);
+        }
+
+      close (*fdm);
+
+      _gftp_tty_raw (fds);
+      dup2 (fds, 0);
+      dup2 (fds, 1);
+      dup2 (fds, 2);
+      _gftp_close_all_fds ();
+
+      execvp (args[0], args);
+
+      printf (_("Error: Cannot execute ssh: %s\n"), g_strerror (errno));
+      exit (1);
+    }
+  else if (child > 0)
+    {
+      _gftp_tty_raw (*fdm);
+      return (child);
+    }
+  else
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Cannot fork another process: %s\n"),
+                                 g_strerror (errno));
+      return (-1);
+    }
+}
 

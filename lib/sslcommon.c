@@ -206,7 +206,8 @@ _gftp_ssl_id_function (void)
 #if GLIB_MAJOR_VERSION > 1
   return ((unsigned long) g_thread_self ());
 #else
-  /* FIXME _ call pthread version */
+  /* FIXME _ call pthread version. Once this is done, the #ifdef below can be
+     removed */
   return (0);
 #endif
 } 
@@ -247,6 +248,11 @@ static void
 _gftp_ssl_thread_setup (void)
 {
   int i;
+
+#ifdef G_MAJOR_VERSION == 1
+  /* Thread setup isn't supported in glib 1.2 yet */
+  return;
+#endif
 
   gftp_ssl_mutexes = g_malloc (CRYPTO_num_locks( ) * sizeof (*gftp_ssl_mutexes));
 

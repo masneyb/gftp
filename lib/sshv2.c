@@ -813,7 +813,7 @@ sshv2_free_args (char **args)
 static int
 sshv2_connect (gftp_request * request)
 {
-  int version, s[2], ret, ssh_use_askpass, sshv2_use_sftp_subsys;
+  int version, ret, ssh_use_askpass, sshv2_use_sftp_subsys, fdm;
   char **args, *tempstr, *p1, p2, *exepath, *ssh2_sftp_path;
   struct servent serv_struct;
   sshv2_message message;
@@ -867,90 +867,56 @@ sshv2_connect (gftp_request * request)
   args = sshv2_gen_exec_args (request, exepath, sshv2_use_sftp_subsys);
 
   if (ssh_use_askpass || sshv2_use_sftp_subsys)
-    {
-      if (socketpair (AF_LOCAL, SOCK_STREAM, 0, s) < 0)
-        {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Cannot create a socket pair: %s\n"),
-                                     g_strerror (errno));
-          return (GFTP_ERETRYABLE);
-        }
-    }
+    child = gftp_exec_without_new_pty (request, &fdm, args);
   else
-    {
-      if ((ret = open_ptys (request, &s[0], &s[1])) < 0)
-        return (ret);
-    }
- 
-  if ((child = fork ()) == 0)
-    {
-      setsid ();
-      close (s[0]);
+    child = gftp_exec_with_new_pty (request, &fdm, args);
 
-      tty_raw (s[1]);
-      dup2 (s[1], 0);
-      dup2 (s[1], 1);
-      dup2 (s[1], 2);
-      execvp (args[0], args);
+  if (child == 0)
+    exit (0);
+  else if (child < 0)
+    return (GFTP_ERETRYABLE);
 
-      printf (_("Error: Cannot execute ssh: %s\n"), g_strerror (errno));
-      exit (1);
-    }
-  else if (child > 0)
+  if (!sshv2_use_sftp_subsys)
     {
-      close (s[1]);
-      tty_raw (s[0]);
-
-      if (!sshv2_use_sftp_subsys)
+      tempstr = sshv2_start_login_sequence (request, fdm);
+      if (!tempstr || !(strlen (tempstr) > 4 && strcmp (tempstr + strlen (tempstr) - 5,
+                                                        "xsftp") == 0))
         {
-          tempstr = sshv2_start_login_sequence (request, s[0]);
-          if (!tempstr ||
-              !(strlen (tempstr) > 4 && strcmp (tempstr + strlen (tempstr) - 5,
-                                                "xsftp") == 0))
-            {
-              sshv2_free_args (args);
-              g_free (exepath);
-              return (GFTP_EFATAL);
-            }
-          g_free (tempstr);
+          sshv2_free_args (args);
+          g_free (exepath);
+          return (GFTP_EFATAL);
         }
-      sshv2_free_args (args);
-      g_free (exepath);
-
-      request->datafd = s[0];
-
-      version = htonl (SSH_MY_VERSION);
-      if ((ret = sshv2_send_command (request, SSH_FXP_INIT, (char *) 
-                                     &version, 4)) < 0)
-        return (ret);
-
-      memset (&message, 0, sizeof (message));
-      if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_VERSION)
-        {
-          request->logging_function (gftp_logging_error, request,
-                   _("Received wrong response from server, disconnecting\n"));
-          sshv2_message_free (&message);
-          gftp_disconnect (request);
-
-          if (ret < 0)
-            return (ret);
-          else
-            return (GFTP_ERETRYABLE);
-        }
-      sshv2_message_free (&message);
-
-      request->logging_function (gftp_logging_misc, request,
-			         _("Successfully logged into SSH server %s\n"),
-                                 request->hostname);
+      g_free (tempstr);
     }
-  else
+
+  sshv2_free_args (args);
+  g_free (exepath);
+
+  request->datafd = fdm;
+
+  version = htonl (SSH_MY_VERSION);
+  if ((ret = sshv2_send_command (request, SSH_FXP_INIT, (char *) 
+                                 &version, 4)) < 0)
+    return (ret);
+
+  memset (&message, 0, sizeof (message));
+  if ((ret = sshv2_read_response (request, &message, -1)) != SSH_FXP_VERSION)
     {
       request->logging_function (gftp_logging_error, request,
-                                 _("Cannot fork another process: %s\n"),
-                                 g_strerror (errno));
-      g_free (args);
-      return (GFTP_ERETRYABLE);
+               _("Received wrong response from server, disconnecting\n"));
+      sshv2_message_free (&message);
+      gftp_disconnect (request);
+
+      if (ret < 0)
+        return (ret);
+      else
+        return (GFTP_ERETRYABLE);
     }
+  sshv2_message_free (&message);
+
+  request->logging_function (gftp_logging_misc, request,
+                             _("Successfully logged into SSH server %s\n"),
+                             request->hostname);
 
   if (sshv2_getcwd (request) < 0)
     {
