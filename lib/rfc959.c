@@ -201,21 +201,21 @@ parse_ftp_proxy_string (gftp_request * request)
 	  switch (tolower ((int) *(endpos + 2)))
 	    {
 	    case 'u':
-              gftp_lookup_request_option (request, "firewall_username", &newval);
+              gftp_lookup_request_option (request, "ftp_proxy_username", &newval);
 	      break;
 	    case 'p':
-              gftp_lookup_request_option (request, "firewall_password", &newval);
+              gftp_lookup_request_option (request, "ftp_proxy_password", &newval);
 	      break;
 	    case 'h':
-              gftp_lookup_request_option (request, "firewall_host", &newval);
+              gftp_lookup_request_option (request, "ftp_proxy_host", &newval);
 	      break;
 	    case 'o':
-              gftp_lookup_request_option (request, "firewall_port", &tmp);
+              gftp_lookup_request_option (request, "ftp_proxy_port", &tmp);
 	      tempport = g_strdup_printf ("%d", tmp);
 	      newval = tempport;
 	      break;
 	    case 'a':
-              gftp_lookup_request_option (request, "firewall_account", &newval);
+              gftp_lookup_request_option (request, "ftp_proxy_account", &newval);
 	      break;
 	    default:
 	      endpos++;
@@ -416,8 +416,8 @@ rfc959_connect (gftp_request * request)
   parms = request->protocol_data;
 
   gftp_lookup_request_option (request, "email", &email);
-  gftp_lookup_request_option (request, "firewall_host", &proxy_hostname);
-  gftp_lookup_request_option (request, "firewall_port", &proxy_port);
+  gftp_lookup_request_option (request, "ftp_proxy_host", &proxy_hostname);
+  gftp_lookup_request_option (request, "ftp_proxy_port", &proxy_port);
 
   if (request->username == NULL || *request->username == '\0')
     {

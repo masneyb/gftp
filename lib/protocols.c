@@ -509,14 +509,12 @@ gftp_parse_url (gftp_request * request, const char *url)
 
   if (i == GFTP_LOCAL_NUM)
     {
-      request->directory = g_malloc (strlen (stpos + 6) + 1);
-      strcpy (request->directory, stpos + 7);
+      request->directory = g_strdup (stpos + 7);
       return (0);
     }
 
   for (; *stpos == ' '; stpos++);
-  str = g_malloc (strlen (stpos) + 1);
-  strcpy (str, stpos);
+  str = g_strdup (stpos);
   for (pos = str + strlen (str) - 1; *pos == ' '; pos--)
     *pos = '\0';
 
@@ -583,8 +581,7 @@ gftp_set_hostname (gftp_request * request, const char *hostname)
 
   if (request->hostname)
     g_free (request->hostname);
-  request->hostname = g_malloc (strlen (hostname) + 1);
-  strcpy (request->hostname, hostname);
+  request->hostname = g_strdup (hostname);
 }
 
 
@@ -596,8 +593,7 @@ gftp_set_username (gftp_request * request, const char *username)
 
   if (request->username)
     g_free (request->username);
-  request->username = g_malloc (strlen (username) + 1);
-  strcpy (request->username, username);
+  request->username = g_strdup (username);
 }
 
 
@@ -609,8 +605,7 @@ gftp_set_password (gftp_request * request, const char *password)
 
   if (request->password)
     g_free (request->password);
-  request->password = g_malloc (strlen (password) + 1);
-  strcpy (request->password, password);
+  request->password = g_strdup (password);
 }
 
 
@@ -622,8 +617,7 @@ gftp_set_account (gftp_request * request, const char *account)
 
   if (request->account)
     g_free (request->account);
-  request->account = g_malloc (strlen (account) + 1);
-  strcpy (request->account, account);
+  request->account = g_strdup (account);
 }
 
 
@@ -640,8 +634,7 @@ gftp_set_directory (gftp_request * request, const char *directory)
 	{
 	  if (request->directory)
 	    g_free (request->directory);
-	  request->directory = g_malloc (strlen (directory) + 1);
-	  strcpy (request->directory, directory);
+	  request->directory = g_strdup (directory);
 	}
       return (0);
     }
@@ -1030,8 +1023,7 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
   char *startpos;
 
   startpos = str;
-  fle->attribs = g_malloc (11);
-  strcpy (fle->attribs, "----------");
+  fle->attribs = g_strdup ("----------");
   while (startpos)
     {
       startpos++;
@@ -1051,12 +1043,9 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
     }
   if ((startpos = strchr (str, 9)) == NULL)
     return (GFTP_EFATAL);
-  fle->file = g_malloc (strlen (startpos));
-  strcpy (fle->file, startpos + 1);
-  fle->user = g_malloc (8);
-  strcpy (fle->user, _("unknown"));
-  fle->group = g_malloc (8);
-  strcpy (fle->group, _("unknown"));
+  fle->file = g_strdup (startpos + 1);
+  fle->user = g_strdup (_("unknown"));
+  fle->group = g_strdup (_("unknown"));
   return (0);
 }
 
@@ -1115,18 +1104,14 @@ gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
     }
   else
     {
-      fle->group = g_malloc (8);
-      strcpy (fle->group, _("unknown"));
+      fle->group = g_strdup (_("unknown"));
       if (cols == 8)
 	{
 	  if ((startpos = copy_token (&fle->user, startpos)) == NULL)
 	    return (GFTP_EFATAL);
 	}
       else
-	{
-	  fle->user = g_malloc (8);
-	  strcpy (fle->user, _("unknown"));
-	}
+        fle->user = g_strdup (_("unknown"));
       startpos = goto_next_token (startpos);
     }
 
@@ -1181,9 +1166,8 @@ gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
   /* Parse the filename. If this file is a symbolic link, remove the -> part */
   if (fle->attribs[0] == 'l' && ((endpos = strstr (startpos, "->")) != NULL))
     *(endpos - 1) = '\0';
-  fle->file = g_malloc (strlen (startpos) + 1);
 
-  strcpy (fle->file, startpos);
+  fle->file = g_strdup (startpos);
 
   /* Uncomment this if you want to strip the spaces off of the end of the file.
      I don't want to do this by default since there are valid filenames with
@@ -1207,24 +1191,20 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
   if ((fle->datetime = parse_time (startpos, &startpos)) == 0)
     return (GFTP_EFATAL);
 
-  /* No such thing on Windoze.. */
-  fle->user = g_malloc (8);
-  strcpy (fle->user, _("unknown"));
-  fle->group = g_malloc (8);
-  strcpy (fle->group, _("unknown"));
+  fle->user = g_strdup (_("unknown"));
+  fle->group = g_strdup (_("unknown"));
 
   startpos = goto_next_token (startpos);
-  fle->attribs = g_malloc (11);
   if (startpos[0] == '<')
-    strcpy (fle->attribs, "drwxrwxrwx");
+    fle->attribs = g_strdup ("drwxrwxrwx");
   else
     {
-      strcpy (fle->attribs, "-rw-rw-rw-");
+      fle->attribs = g_strdup ("-rw-rw-rw-");
       fle->size = strtol (startpos, NULL, 10);
     }
+
   startpos = goto_next_token (startpos);
-  fle->file = g_malloc (strlen (startpos) + 1);
-  strcpy (fle->file, startpos);
+  fle->file = g_strdup (startpos);
   return (0);
 }
 
@@ -1237,8 +1217,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
   if (str[12] != ' ')
     return (GFTP_EFATAL);
   str[12] = '\0';
-  fle->attribs = g_malloc (13);
-  strcpy (fle->attribs, str);
+  fle->attribs = g_strdup (str);
   startpos = str + 13;
 
   while ((*startpos == ' ' || *startpos == '\t') && *startpos != '\0')
@@ -1247,8 +1226,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
   if ((startpos = copy_token (&fle->user, startpos)) == NULL)
     return (GFTP_EFATAL);
 
-  fle->group = g_malloc (8);
-  strcpy (fle->group, _("unknown"));
+  fle->group = g_strdup (_("unknown"));
 
   fle->size = strtol (startpos, NULL, 10);
 
@@ -1257,8 +1235,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
     return (GFTP_EFATAL);
 
   startpos = goto_next_token (startpos);
-  fle->file = g_malloc (strlen (startpos) + 1);
-  strcpy (fle->file, startpos);
+  fle->file = g_strdup (startpos);
   return (0);
 }
 
@@ -1273,8 +1250,7 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
   g_return_val_if_fail (lsoutput != NULL, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
-  str = g_malloc (strlen (lsoutput) + 1);
-  strcpy (str, lsoutput);
+  str = g_strdup (lsoutput);
   memset (fle, 0, sizeof (*fle));
 
   len = strlen (str);

@@ -27,10 +27,7 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
   char *curpos;
 
   if (!newentry->protocol)
-    {
-      newentry->protocol = g_malloc (4);
-      strcpy (newentry->protocol, "FTP");
-    }
+    newentry->protocol = g_strdup ("FTP");
 
   /* We have to create the folders. For example, if we have 
      Debian Sites/Debian, we have to create a Debian Sites entry */
@@ -54,8 +51,7 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
 	  /* Allocate the individual folder. We have to do this for the edit 
 	     bookmarks feature */
 	  folderentry = g_malloc0 (sizeof (*folderentry));
-	  folderentry->path = g_malloc (strlen (newentry->path) + 1);
-	  strcpy (folderentry->path, newentry->path);
+	  folderentry->path = g_strdup (newentry->path);
 	  folderentry->prev = preventry;
 	  folderentry->isfolder = 1;
 	  g_hash_table_insert (gftp_bookmarks_htable, folderentry->path,
@@ -110,7 +106,7 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
 
 
 static void
-gftp_read_bookmarks (void)
+gftp_read_bookmarks (char *global_data_path)
 {
   char *tempstr, *temp1str, buf[255], *curpos;
   gftp_bookmarks_var * newentry;
@@ -126,7 +122,7 @@ gftp_read_bookmarks (void)
 
   if (access (tempstr, F_OK) == -1)
     {
-      temp1str = g_strdup_printf ("%s/bookmarks", SHARE_DIR);
+      temp1str = g_strdup_printf ("%s/bookmarks", global_data_path);
       if (access (temp1str, F_OK) == -1)
 	{
 	  printf (_("Warning: Cannot find master bookmark file %s\n"),
@@ -161,8 +157,7 @@ gftp_read_bookmarks (void)
 	{
 	  newentry = g_malloc0 (sizeof (*newentry));
 	  for (; buf[len - 1] == ' ' || buf[len - 1] == ']'; buf[--len] = '\0');
-	  newentry->path = g_malloc (len);
-	  strcpy (newentry->path, buf + 1);
+	  newentry->path = g_strdup (buf + 1);
 	  newentry->isfolder = 0;
 	  gftp_add_bookmark (newentry);
 	}
@@ -171,8 +166,7 @@ gftp_read_bookmarks (void)
 	  curpos = buf + 9;
 	  if (newentry->hostname)
 	    g_free (newentry->hostname);
-	  newentry->hostname = g_malloc (strlen (curpos) + 1);
-	  strcpy (newentry->hostname, curpos);
+	  newentry->hostname = g_strdup (curpos);
 	}
       else if (strncmp (buf, "port", 4) == 0 && newentry)
 	newentry->port = strtol (buf + 5, NULL, 10);
@@ -181,40 +175,35 @@ gftp_read_bookmarks (void)
 	  curpos = buf + 9;
 	  if (newentry->protocol)
 	    g_free (newentry->protocol);
-	  newentry->protocol = g_malloc (strlen (curpos) + 1);
-	  strcpy (newentry->protocol, curpos);
+	  newentry->protocol = g_strdup (curpos);
 	}
       else if (strncmp (buf, "remote directory", 16) == 0 && newentry)
 	{
 	  curpos = buf + 17;
 	  if (newentry->remote_dir)
 	    g_free (newentry->remote_dir);
-	  newentry->remote_dir = g_malloc (strlen (curpos) + 1);
-	  strcpy (newentry->remote_dir, curpos);
+	  newentry->remote_dir = g_strdup (curpos);
 	}
       else if (strncmp (buf, "local directory", 15) == 0 && newentry)
 	{
 	  curpos = buf + 16;
 	  if (newentry->local_dir)
 	    g_free (newentry->local_dir);
-	  newentry->local_dir = g_malloc (strlen (curpos) + 1);
-	  strcpy (newentry->local_dir, curpos);
+	  newentry->local_dir = g_strdup (curpos);
 	}
       else if (strncmp (buf, "username", 8) == 0 && newentry)
 	{
 	  curpos = buf + 9;
 	  if (newentry->user)
 	    g_free (newentry->user);
-	  newentry->user = g_malloc (strlen (curpos) + 1);
-	  strcpy (newentry->user, curpos);
+	  newentry->user = g_strdup (curpos);
 	}
       else if (strncmp (buf, "password", 8) == 0 && newentry)
 	{
 	  curpos = buf + 9;
 	  if (newentry->pass)
 	    g_free (newentry->pass);
-	  newentry->pass = g_malloc (strlen (curpos) + 1);
-	  strcpy (newentry->pass, curpos);
+	  newentry->pass = g_strdup (curpos);
 	  newentry->save_password = *newentry->pass != '\0';
 	}
       else if (strncmp (buf, "account", 7) == 0 && newentry)
@@ -222,16 +211,14 @@ gftp_read_bookmarks (void)
 	  curpos = buf + 8;
 	  if (newentry->acct)
 	    g_free (newentry->acct);
-	  newentry->acct = g_malloc (strlen (curpos) + 1);
-	  strcpy (newentry->acct, curpos);
+	  newentry->acct = g_strdup (curpos);
 	}
       else if (strncmp (buf, "sftpserv_path", 13) == 0 && newentry)
         {
           curpos = buf + 14;
           if (newentry->sftpserv_path)
             g_free (newentry->sftpserv_path);
-          newentry->sftpserv_path = g_malloc (strlen (curpos) + 1);
-          strcpy (newentry->sftpserv_path, curpos);
+          newentry->sftpserv_path = g_strdup (curpos);
         }
       else if (*buf != '#' && *buf != '\0')
 	printf (_("gFTP Warning: Skipping line %d in bookmarks file: %s\n"),
@@ -460,7 +447,7 @@ gftp_setup_global_options (gftp_config_vars * cvars)
 
 
 void
-gftp_read_config_file (char **argv, int get_xpms)
+gftp_read_config_file (char *global_data_path)
 {
   char *tempstr, *temp1str, *curpos, buf[255];
   gftp_config_list_vars * tmplistvar;
@@ -509,7 +496,7 @@ gftp_read_config_file (char **argv, int get_xpms)
 	}
       g_free (temp1str);
 
-      temp1str = g_strdup_printf ("%s/gftprc", SHARE_DIR);
+      temp1str = g_strdup_printf ("%s/gftprc", global_data_path);
       if (access (temp1str, F_OK) == -1)
 	{
 	  printf (_("gFTP Error: Cannot find master config file %s\n"),
@@ -611,7 +598,7 @@ gftp_read_config_file (char **argv, int get_xpms)
   gftp_bookmarks->path = g_malloc0 (1);
   gftp_bookmarks_htable = g_hash_table_new (string_hash_function, string_hash_compare);
 
-  gftp_read_bookmarks ();
+  gftp_read_bookmarks (global_data_path);
 }
 
 
@@ -891,14 +878,6 @@ gftp_config_file_write_hidetext (gftp_config_vars * cv, FILE * fd, int to_config
 
 
 static int
-gftp_config_file_copy_text (void *dest, void *src)
-{
-  *(char **) dest = src;
-  return (0);
-}
-
-
-static int
 gftp_config_file_read_int (char *str, gftp_config_vars * cv, int line)
 {
   cv->value = GINT_TO_POINTER(strtol (str, NULL, 10));
@@ -910,14 +889,6 @@ static int
 gftp_config_file_write_int (gftp_config_vars * cv, FILE * fd, int to_config_file)
 {
   fprintf (fd, "%d", GPOINTER_TO_INT(cv->value));
-  return (0);
-}
-
-
-static int
-gftp_config_file_copy_int (void *dest, void *src)
-{
-  *(int *) dest = GPOINTER_TO_INT(src);
   return (0);
 }
 
@@ -942,14 +913,6 @@ static int
 gftp_config_file_write_float (gftp_config_vars * cv, FILE * fd, int to_config_file)
 {
   fprintf (fd, "%.2f", 0.0); /* FIXME */
-  return (0);
-}
-
-
-static int
-gftp_config_file_copy_float (void *dest, void *src)
-{
-  *(float *) dest = 0.0; /* FIXME */
   return (0);
 }
 
@@ -983,14 +946,6 @@ gftp_config_file_write_color (gftp_config_vars * cv, FILE * fd, int to_config_fi
 
   color = cv->value;
   fprintf (fd, "%x:%x:%x", color->red, color->green, color->blue);
-  return (0);
-}
-
-
-static int
-gftp_config_file_copy_color (void *dest, void *src)
-{
-  *(gftp_color **) dest = src;
   return (0);
 }
 
@@ -1037,29 +992,20 @@ gftp_config_file_write_intcombo (gftp_config_vars * cv, FILE * fd, int to_config
 /* *Note, the index numbers of this array must match up to the numbers in
    gftp_option_type_enum in gftp.h */
 gftp_option_type_var gftp_option_types[] = {
-  {gftp_config_file_read_text, gftp_config_file_write_text,
-   NULL, gftp_config_file_copy_text, NULL},
-  {NULL, NULL, NULL, NULL, NULL}, /* FIXME _ textarray */
-  {gftp_config_file_read_int, gftp_config_file_write_int,
-   NULL, gftp_config_file_copy_int, NULL},
-  {gftp_config_file_read_float, gftp_config_file_write_float,
-   NULL, gftp_config_file_copy_float, NULL},
-  {gftp_config_file_read_checkbox, gftp_config_file_write_int,
-   NULL, gftp_config_file_copy_int, NULL},
-  {gftp_config_file_read_color, gftp_config_file_write_color,
-   NULL, gftp_config_file_copy_color, NULL},
-  {NULL, NULL, NULL, NULL, NULL},
-  {NULL, NULL, NULL, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_hidetext,
-   NULL, gftp_config_file_copy_text, NULL},
-  {NULL, NULL, NULL, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_text,
-   NULL, gftp_config_file_copy_text, NULL},
-  {NULL, NULL, NULL, NULL, NULL},
-  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, 
-   NULL, gftp_config_file_copy_int, NULL},
-  {NULL, NULL, NULL, NULL, NULL},
-  {NULL, NULL, NULL, NULL, NULL}
+  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
+  {gftp_config_file_read_int, gftp_config_file_write_int, NULL, NULL},
+  {gftp_config_file_read_float, gftp_config_file_write_float, NULL, NULL},
+  {gftp_config_file_read_checkbox, gftp_config_file_write_int, NULL, NULL},
+  {gftp_config_file_read_color, gftp_config_file_write_color, NULL, NULL},
+  {NULL, NULL, NULL, NULL},
+  {NULL, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_hidetext, NULL, NULL},
+  {NULL, NULL, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
+  {NULL, NULL, NULL, NULL},
+  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, NULL, NULL},
+  {NULL, NULL, NULL, NULL},
+  {NULL, NULL, NULL, NULL}
 };
 
 
@@ -1072,17 +1018,10 @@ gftp_lookup_global_option (char * key, void *value)
   if (gftp_global_options_htable != NULL &&
       (tmpconfigvar = g_hash_table_lookup (gftp_global_options_htable,
                                            key)) != NULL)
-    {
-      if (gftp_option_types[tmpconfigvar->otype].config_copy_function == NULL)
-        return;
-
-      gftp_option_types[tmpconfigvar->otype].config_copy_function (value, tmpconfigvar->value);
-    }
+    memcpy (value, &tmpconfigvar->value, sizeof (value));
   else if ((tmplistvar = g_hash_table_lookup (gftp_config_list_htable, 
                                               key)) != NULL)
-    {
-      *(gftp_config_list_vars **) value = tmplistvar;
-    }
+    *(gftp_config_list_vars **) value = tmplistvar;
   else
     {
       fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);

@@ -124,8 +124,7 @@ expand_path (const char *src)
   struct passwd *pw;
 
   pw = NULL;
-  str = g_malloc (strlen (src) + 1);
-  strcpy (str, src);
+  str = g_strdup (src);
 
   if (*str == '~')
     {
@@ -190,10 +189,7 @@ expand_path (const char *src)
   if (pw != NULL)
     {
       if ((pos = strchr (newstr, '/')) == NULL)
-	{
-	  str = g_malloc (strlen (pw->pw_dir) + 1);
-	  strcpy (str, pw->pw_dir);
-	}
+	str = g_strdup (pw->pw_dir);
       else
 	str = g_strconcat (pw->pw_dir, pos, NULL);
 
@@ -568,7 +564,7 @@ copy_request (gftp_request * req)
 
 
 int
-ptym_open (char *pts_name)
+ptym_open (char *pts_name, size_t len)
 {
   int fd;
 
@@ -578,7 +574,7 @@ ptym_open (char *pts_name)
   if ((tempstr = _getpty (&fd, O_RDWR, 0600, 0)) == NULL)
     return (-1);
 
-  strcpy (pts_name, tempstr);
+  strncpy (pts_name, tempstr, len);
   return (fd);
 
 #else /* !__sgi */
@@ -587,7 +583,7 @@ ptym_open (char *pts_name)
 
   char *tempstr;
 
-  strcpy (pts_name, "/dev/ptmx");
+  strncpy (pts_name, "/dev/ptmx", len);
   if ((fd = open (pts_name, O_RDWR)) < 0)
     return (-1);
 
@@ -609,14 +605,14 @@ ptym_open (char *pts_name)
       return (-1);
     }
 
-  strcpy (pts_name, tempstr);
+  strncpy (pts_name, tempstr, len);
   return (fd);
 
 #else /* !GRANTPT */
 
   char *pos1, *pos2;
 
-  strcpy (pts_name, "/dev/ptyXY");
+  strncpy (pts_name, "/dev/ptyXY", len);
   for (pos1 = "pqrstuvwxyzPQRST"; *pos1 != '\0'; pos1++) 
     {
       pts_name[8] = *pos1;

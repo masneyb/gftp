@@ -1,3 +1,76 @@
+2003-4-6 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c src/text/gftp-text.c - changed arguments of 
+	gftp_read_config_file() and gftp_read_bookmarks() to take an argument
+	to the path of the global config directory. The text/gtk+ port will
+	just pass SHARE_DIR. The native MacOS X port that is in the works
+	needs this (Nathan Robertson is currently working on this port)
+
+	* lib/gftp.h lib/config_file.c - removed config variable type
+	gftp_option_type_textarray
+
+	* lib/gftp.h lib/config_file.c - removed copy_function from
+	gftp_option_type_var. This is implemented with memcpy() instead
+
+	* lib/rfc959.c - remember to rename all instances of firewall_* to 
+	ftp_proxy_*
+
+	* lib/sshv2.c - improved generating the argument list for the ssh
+	client
+
+	* lib/sshv2.c lib/misc.c lib/gftp.h - added len argument to
+	ptym_open()
+
+	* lib/protocols.c lib/misc.c lib/config_file.c - use g_strdup() 
+	instead of g_malloc()/strcpy()
+
+2003-4-5 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/options.h lib/gftp.h lib/rfc959.c
+	lib/rfc2068.c lib/ssh.c - added new internal configuration interface. 
+	Rather than having a global variable for each option, I have a global 
+	hash table (gftp_global_options_htable) that I can look up option names
+	by name using gftp_lookup_global_option(). I also an options hash 
+	associated with a request structure, so I will be able to call 
+	gftp_lookup_request_option(). I will be able to override options with 
+	bookmarks or while transfers are in progress very easily now. Also, all
+	options no longer have to appear in config_file.c, the per protocol 
+	options can appear inside their own file
+
+	* lib/gftp.h lib/bookmarks.c lib/local.c lib/rfc959.c lib/rfc2068.c -
+	remove set_data_type and protocol name from struct gftp_request
+
+	* lib/rfc959.c - renamed all firewall_* variables to ftp_proxy_* in
+	the config file
+
+	* lib/gftp.h lib/protocols.c lib/rfc959.c - renamed all GFTP_TYPE_* 
+	vars to GFTP_DIRTYPE_*
+
+	* lib/gftp.h - removed ascii field and renamed the node pointer to 
+	user_data in struct gftp_file. In gftp_request, removed any setting 
+	that is now stored in the global/local hash tables. Added
+	register_module() pointer that will be called whenever the protocol is
+	first loaded into gftp
+
+	* lib/rfc959.c src/text/gftp-text.c - moved the ascii/binary 
+	translation to rfc959.c. Also, moved any instance of automatically 
+	setting the data type to rfc959.c as well.
+
+	* lib/misc.c lib/sshv2.c - moved all ssh functions from misc.c to
+	sshv2.c. I had these origionally in misc.c because I used to have 2 
+	different SSH protocols
+
+	* lib/protocols.c src/text/gftp-text.c - added gftp_calc_kbs() to 
+=	protocols.c. This no longer needs to be in the different ports
+
+	* src/text/gftp-text.c - read/write options based on new configuration
+	interface
+
+	* Use new configuration interface in all source files
+
+	* Updated copyright dates on all source files
+
+	* Note: GTK+ port is completely broken at the moment. I'll upload
+	those changes whenever I get them done
+
 2003-04-05  Duarte Loreto <happyguy_pt@hotmail.com>
 
         * configure.in: Added "pt" to ALL_LINGUAS.

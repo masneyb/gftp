@@ -426,20 +426,19 @@ typedef struct gftp_color_tag
 typedef enum 
 {
   gftp_option_type_text		= 0,
-  gftp_option_type_textarray	= 1,
-  gftp_option_type_int		= 2,
-  gftp_option_type_float	= 3,
-  gftp_option_type_checkbox	= 4,
-  gftp_option_type_color	= 5,
-  gftp_option_type_notebook	= 6,
-  gftp_option_type_newtable	= 7,
-  gftp_option_type_hidetext	= 8,
-  gftp_option_type_label	= 9,
-  gftp_option_type_textbox	= 10,
-  gftp_option_type_subtree	= 11,
-  gftp_option_type_intcombo	= 12,
-  gftp_option_type_charcombo	= 13,
-  gftp_option_type_table	= 14
+  gftp_option_type_int		= 1,
+  gftp_option_type_float	= 2,
+  gftp_option_type_checkbox	= 3,
+  gftp_option_type_color	= 4,
+  gftp_option_type_notebook	= 5,
+  gftp_option_type_newtable	= 6,
+  gftp_option_type_hidetext	= 7,
+  gftp_option_type_label	= 8,
+  gftp_option_type_textbox	= 9,
+  gftp_option_type_subtree	= 10,
+  gftp_option_type_intcombo	= 11,
+  gftp_option_type_charcombo	= 12,
+  gftp_option_type_table	= 13
 } gftp_option_type_enum;
 
 
@@ -484,7 +483,6 @@ typedef struct gftp_option_type_tag
   int (*read_function) (char *str, gftp_config_vars * cv, int line);
   int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
   int (*ui_print_function) (char *label, void *ptr, void *user_data);
-  int (*config_copy_function) (void *dest, void *src);
   void *user_data;
 } gftp_option_type_var;
 
@@ -534,8 +532,7 @@ void gftp_delete_cache_entry 		( gftp_request * request,
 /* config_file.c */
 void gftp_add_bookmark 			( gftp_bookmarks_var * newentry );
 
-void gftp_read_config_file 		( char **argv,
-					  int get_xpms );
+void gftp_read_config_file 		( char *global_data_path );
 
 void gftp_write_bookmarks_file 		( void );
 
@@ -607,7 +604,8 @@ void free_tdata 			( gftp_transfer * tdata );
 
 gftp_request * copy_request 		( gftp_request * req );
 
-int ptym_open 				( char *pts_name );
+int ptym_open 				( char *pts_name,
+					  size_t len );
 
 int ptys_open 				( int fdm, 
 					  char *pts_name );

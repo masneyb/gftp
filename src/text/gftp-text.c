@@ -113,13 +113,13 @@ main (int argc, char **argv)
   signal (SIGCHLD, sig_child);
   signal (SIGPIPE, SIG_IGN); 
 
-  gftp_read_config_file (argv, 0);
-
-  /* SSH doesn't support reading the password with askpass via the command 
-     line */
+  gftp_read_config_file (SHARE_DIR);
 
   if (gftp_parse_command_line (&argc, &argv) != 0)
     exit (0);
+
+  /* SSH doesn't support reading the password with askpass via the command 
+     line */
 
   gftp_text_remreq = gftp_request_new ();
   gftp_set_request_option (gftp_text_remreq, "ssh_use_askpass", 
@@ -136,7 +136,6 @@ main (int argc, char **argv)
   gftp_text_locreq->logging_function = gftp_text_log;
   gftp_protocols[GFTP_LOCAL_NUM].init (gftp_text_locreq);
 
-  startup_directory = "";
   gftp_lookup_request_option (gftp_text_locreq, "startup_directory", 
                               &startup_directory);
   if (*startup_directory != '\0')
