@@ -1,85 +1,140 @@
 #!/usr/bin/make -f
-# Derived from dh_make example.
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
 
-arch := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
-
+# Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
-export DH_COMPAT=2
 
-ggtmp := $(CURDIR)/debian/gftp-gtk
-gttmp := $(CURDIR)/debian/gftp-text
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_ARCH_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
-CFLAGS := -O2
-ifneq "$(findstring debug,$(DEB_BUILD_OPTIONS))" ""
-CFLAGS += -g
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -g
 endif
-ifeq "$(arch)" "alpha"
-CFLAGS += -mieee
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
 endif
+ifeq ($(DEB_ARCH_GNU_TYPE), "alpha")
+	CFLAGS += -mieee
+endif
+
+config.status: configure
+	dh_testdir
+	
+	-test -r /usr/share/misc/config.sub && \
+	cp -f /usr/share/misc/config.sub config.sub
+	-test -r /usr/share/misc/config.guess && \
+	cp -f /usr/share/misc/config.guess config.guess
+				
+	./configure \
+		--host=$(DEB_HOST_GNU_TYPE) \
+		--build=$(DEB_BUILD_GNU_TYPE) \
+		--prefix=/usr \
+		--mandir=\$${prefix}/share/man \
+		--infodir=\$${prefix}/share/info \
+		--enable-textport=yes 
 
 build: build-stamp
-build-stamp:
+build-stamp: config.status
 	dh_testdir
-	CFLAGS="$(CFLAGS)" ./configure --prefix=/usr --mandir='$${prefix}/share/man' --enable-textport=yes
 	$(MAKE) 
-	touch $@
+	touch build-stamp
 
-clean:
+clean: debian-clean
+	dh_clean
+
+debian-clean:
 	dh_testdir
 	dh_testroot
-#	rm -f debian/dirs debian/docs
-	rm -f debian/dirs
-	[ ! -f Makefile ] || $(MAKE) distclean
-	dh_clean build-stamp
+	-$(MAKE) distclean
+	-rm -f *-stamp
+	-rm -f config.sub config.guess
 
-install: build-stamp
+install: build
 	dh_testdir
 	dh_testroot
 	dh_clean -k
-	$(MAKE) install prefix=$(ggtmp)/usr
-	ln -s gftp.1.gz $(ggtmp)/usr/share/man/man1/gftp-gtk.1.gz
-	dh_movefiles --sourcedir=debian/gftp-gtk -pgftp-common \
-          usr/share/locale usr/share/gftp/gftprc usr/share/gftp/bookmarks \
-          usr/share/man/man1/gftp.1 usr/bin/gftp
-	dh_installdirs -pgftp-gtk usr/lib/menu
+	dh_installdirs
+	
+	# Main install.
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+	
+	# Install icon
+	convert -geometry 32x32 $(CURDIR)/debian/tmp/usr/share/pixmaps/gftp.png $(CURDIR)/debian/tmp/usr/share/pixmaps/gftp.xpm
 
-	# Install menu file manualy into the gftp-common file because
-	# dh_installmenu cannot do it for me
-	install -p -m644 debian/menu debian/gftp-gtk/usr/lib/menu/gftp
-	echo "# Automatically added by dh_installmenu">> debian/gftp-gtk.postinst.debhelper
-	sed "" /usr/share/debhelper/autoscripts/postinst-menu >> debian/gftp-gtk.postinst.debhelper
-	echo '# End automatically added section' >> debian/gftp-gtk.postinst.debhelper
-	echo "# Automatically added by dh_installmenu">> debian/gftp-gtk.postrm.debhelper
-	sed "" /usr/share/debhelper/autoscripts/postrm-menu >> debian/gftp-gtk.postrm.debhelper
-	echo '# End automatically added section' >> debian/gftp-gtk.postrm.debhelper
+	# Move all files in their corresponding package
+	dh_install --sourcedir=debian/tmp
 
-	dh_movefiles --sourcedir=debian/gftp-gtk -pgftp-text usr/bin/gftp-text
-	dh_installdirs -pgftp-text usr/share/man/man1
-	ln -s gftp.1.gz $(gttmp)/usr/share/man/man1/gftp-text.1.gz
-	rm -f $(ggtmp)/usr/share/gftp/COPYING # we have the GPL elsewhere
-	find $(ggtmp)/usr -type d -empty | xargs -r rmdir -p --ignore-fail-on-non-empty
+	# Install parse-netrc.pl
+	install -m 755 $(CURDIR)/docs/parse-netrc.pl $(CURDIR)/debian/gftp-common/usr/share/doc/gftp-common/examples
+	
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir -i
+	dh_testroot -i
+#	dh_installdebconf
+	dh_installdocs -i
+#	dh_installexamples
+#	dh_installmenu
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installman
+#	dh_installinfo
+	dh_installchangelogs -i ChangeLog
+	dh_link -i
+#	dh_strip
+	dh_compress -i
+	dh_fixperms -i
+#	dh_makeshlibs
+	dh_installdeb -i
+#	dh_perl
+#	dh_shlibdeps
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+	
 
-binary-indep:
-# Nothing to do, no architecture independent packages here.
-# locales (gftp-common) have endianness
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir -a
+	dh_testroot -a
 
-binary-arch: install
-	dh_testdir
-	dh_testroot
+	# Hack to remove files from the upstream tarball
+	-rm -f debian/dirs
+	-rm -f debian/docs
+	-rm -f debian/menu
+	
+	dh_installdebconf -a	
 	dh_installdocs -a
-	dh_installdocs -An -pgftp-gtk -pgftp-text README TODO
+#	dh_installexamples
+	dh_installmenu -a
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+	dh_installcron -a
+	dh_installman -a
+	dh_installinfo -a	
 	dh_installchangelogs -a ChangeLog
-	#dh_installmenu -a --package=gftp-gtk
-ifeq "$(findstring nostrip,$(DEB_BUILD_OPTIONS))" ""
+	dh_link -a
 	dh_strip -a
-endif
 	dh_compress -a
 	dh_fixperms -a
+#	dh_makeshlibs
 	dh_installdeb -a
+#	dh_perl
 	dh_shlibdeps -a
 	dh_gencontrol -a
 	dh_md5sums -a
 	dh_builddeb -a
-
+	
 binary: binary-indep binary-arch
 .PHONY: build clean binary-indep binary-arch binary install

@@ -1,14 +1,90 @@
 gftp (2.0.16-1) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * New upstream release. 
 
- -- Brian Masney <masneyb@gftp.org>  Sun, 09 Nov 2003 08:54:21 -0500
+ -- Aurelien Jarno <aurel32@debian.org>  Sun,  9 Nov 2003 16:01:01 +0100
+
+gftp (2.0.15-8) unstable; urgency=low
+
+  * Added a patch to fix a refresh distant files bug.
+  * Patch pulled from CVS: dont't attempt to log again, if the code 5xx
+    is returned.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 13 Oct 2003 12:18:38 +0200
+
+gftp (2.0.15-7) unstable; urgency=low
+
+  * Patch pulled from CVS: fix for CRAY directory listings. Some UNIX
+    directory listings with files containing spaces could be 
+    misinterpreted (closes: bug#190814).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun,  5 Oct 2003 15:05:28 +0200
+
+gftp (2.0.15-6) unstable; urgency=low
+
+  * Patch pulled from CVS: Zero-out the number of bytes of the next item 
+    in the download queue (closes: bug#201190).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu,  2 Oct 2003 18:35:10 +0200
+
+gftp (2.0.15-5) unstable; urgency=low
+
+  * Fixed file renaming (closes: bug#211311). 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 28 Sep 2003 21:06:02 +0200
+
+gftp (2.0.15-4) unstable; urgency=low
+
+  * Added a script call parse-netrc.pl to /usr/share/doc/gftp-{common,gtk,
+    text}/examples, which converts bookmarks from netrc to gftp format
+    (closes: bug#128883).
+  * Pulled a patch from CVS to fix a refresh files bug.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 25 Sep 2003 08:31:55 +0200
+
+gftp (2.0.15-3) unstable; urgency=low
+
+  * Applied patch from upstream to fix wrong directory entries.
+  * Fixed "Save directory listing" option (closes: bug#195136).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 22 Sep 2003 00:24:19 +0200
+
+gftp (2.0.15-2) unstable; urgency=low
+
+  * Oops, I forgot to change the maintainer in debian/control. Done.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 21 Sep 2003 20:42:00 +0200
 
 gftp (2.0.15-1) unstable; urgency=low
 
-  * New release. See CHANGELOG for details on changes in this release
+  * New maintainer (closes: bug#211998).
+  * Acknowledge previous NMU (closes: bug#157018, #167185, #176188, #176206,
+    #176337, #176682, #192598).
+  * Updated debian/copyright.
+  * Uses debian/compat instead of DH_COMPAT.
+  * debian/control:
+    + Added homepage and author to the description.
+    + Depends on ${misc:Depends}.
+    + Changed gftp to arch all as it is only a transitionnal package.
+  * debian/control:
+    + Uses dh_install instead of dh_movefiles.
+    + Uses autotools-dev to update config.{guess,sub}.
+    + Don't install README, THANKS, TODO and USERS-GUIDE in all three gftp-*
+      packages. Put them only in gftp-common and create links to them in
+      gftp-gtk and gftp-text.
 
- -- Brian Masney <masneyb@gftp.org>  Wed, 20 Aug 2003 19:41:35 -0400
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 21 Sep 2003 20:17:02 +0200
+
+gftp (2.0.15-0.1) unstable; urgency=low
+
+  * 0-day NMU.
+  * New upstream release:
+    - Fixes for transferring files greater than 2.1GB (closes: bug#157018).
+    - Filename with spaces are now correctly handled (closes: bug#161785).
+  * Create the menu icon from /usr/share/gftp/gftp.png (closes: bug#192598).
+  * Upgraded policy compliance to 3.6.1 (no changes).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 14 Sep 2003 22:08:31 +0200
 
 gftp (2.0.14-1.1) unstable; urgency=low
 
