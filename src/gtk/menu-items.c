@@ -26,18 +26,10 @@ change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
   switch (menuitem)
     {
     case 1:
-      if (window1.request != NULL)
-        gftp_set_request_option (window1.request, "ascii_transfers", GINT_TO_POINTER(1));
-
-      if (window2.request != NULL)
-        gftp_set_request_option (window2.request, "ascii_transfers", GINT_TO_POINTER(1));
+      gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(1));
       break;
     case 2:
-      if (window1.request != NULL)
-        gftp_set_request_option (window1.request, "ascii_transfers", GINT_TO_POINTER(0));
-
-      if (window2.request != NULL)
-        gftp_set_request_option (window2.request, "ascii_transfers", GINT_TO_POINTER(0));
+      gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(0));
       break;
     case 3:
       current_wdata = &window1;

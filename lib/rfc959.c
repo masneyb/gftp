@@ -88,8 +88,8 @@ typedef struct rfc959_params_tag
 {
   gftp_getline_buffer * datafd_rbuf,
                       * dataconn_rbuf;
-  int is_ascii_transfer;
   int data_connection;
+  unsigned int is_ascii_transfer : 1;
 } rfc959_parms;
 
 
@@ -937,16 +937,16 @@ rfc959_accept_active_connection (gftp_request * request)
 
 
 static int
-rfc959_is_ascii_transfer (const char *filename)
+rfc959_is_ascii_transfer (gftp_request * request, const char *filename)
 {
   gftp_config_list_vars * tmplistvar;
   gftp_file_extensions * tempext;
+  int stlen, ascii_transfers;
   GList * templist;
-  int stlen, ret;
   
   gftp_lookup_global_option ("ext", &tmplistvar);
+  gftp_lookup_request_option (request, "ascii_transfers", &ascii_transfers);
 
-  ret = 0; 
   stlen = strlen (filename);
   for (templist = tmplistvar->list; templist != NULL; templist = templist->next)
     {
@@ -956,12 +956,14 @@ rfc959_is_ascii_transfer (const char *filename)
           strcmp (&filename[stlen - tempext->stlen], tempext->ext) == 0)
         {
           if (toupper (*tempext->ascii_binary == 'A'))
-            ret = 1; 
+            ascii_transfers = 1; 
+          else if (toupper (*tempext->ascii_binary == 'B'))
+            ascii_transfers = 0; 
           break;
         }
     }
 
-  return (ret);
+  return (ascii_transfers);
 }
 
 
@@ -976,7 +978,7 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
   g_return_if_fail (request->protonum == GFTP_FTP_NUM);
 
   parms = request->protocol_data;
-  new_ascii = rfc959_is_ascii_transfer (filename);
+  new_ascii = rfc959_is_ascii_transfer (request, filename);
 
   if (request->datafd > 0 && new_ascii != parms->is_ascii_transfer)
     {
@@ -988,7 +990,7 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
       else
         {
 	  tempstr = "TYPE I\r\n";
-          parms->is_ascii_transfer = 1;
+          parms->is_ascii_transfer = 0;
         }
 
       rfc959_send_command (request, tempstr);
@@ -1241,6 +1243,7 @@ rfc959_abort_transfer (gftp_request * request)
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   parms = request->protocol_data;
+
   if (parms->data_connection > 0)
     {
       close (parms->data_connection);
