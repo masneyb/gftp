@@ -1191,6 +1191,7 @@ gftp_gtk_config_file_read_color (char *str, gftp_config_vars * cv, int line)
   color->red = strtol (red, NULL, 16);
   color->green = strtol (green, NULL, 16);
   color->blue = strtol (blue, NULL, 16);
+
   g_free (red);
   g_free (green);
   g_free (blue);
@@ -1219,6 +1220,12 @@ main (int argc, char **argv)
 {
   GtkWidget *window, *ui;
 
+  /* We override the read color functions because we are using a GdkColor 
+     structures to store the color. If I put this in lib/config_file.c, then 
+     the core library would be dependant on Gtk+ being present */
+  gftp_option_types[gftp_option_type_color].read_function = gftp_gtk_config_file_read_color;
+  gftp_option_types[gftp_option_type_color].write_function = gftp_gtk_config_file_write_color;
+
   gftpui_common_init (&argc, &argv, ftp_log);
 
   g_thread_init (NULL);
@@ -1228,12 +1235,6 @@ main (int argc, char **argv)
 
   graphic_hash_table = g_hash_table_new (string_hash_function,
                                          string_hash_compare);
- 
-  /* We override the read color functions because we are using a GdkColor 
-     structures to store the color. If I put this in lib/config_file.c, then 
-     the core library would be dependant on Gtk+ being present */
-  gftp_option_types[gftp_option_type_color].read_function = gftp_gtk_config_file_read_color;
-  gftp_option_types[gftp_option_type_color].write_function = gftp_gtk_config_file_write_color;
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_signal_connect (GTK_OBJECT (window), "delete_event",
