@@ -344,16 +344,31 @@ gftp_abort_transfer (gftp_request * request)
 int
 gftp_list_files (gftp_request * request)
 {
+  char *remote_lc_time, *locret;
   int fd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+
+  gftp_lookup_request_option (request, "remote_lc_time", &remote_lc_time);
+  if (remote_lc_time != NULL && *remote_lc_time != '\0')
+    locret = setlocale (LC_TIME, remote_lc_time);
+  else
+    locret = setlocale (LC_TIME, NULL);
+
+  if (locret == NULL)
+    {
+      locret = setlocale (LC_TIME, NULL);
+      request->logging_function (gftp_logging_misc, request,
+                                 _("Error setting LC_TIME to '%s'. Falling back to '%s'\n"),
+                                 remote_lc_time, locret);
+    }
 
   request->cached = 0;
   if (request->use_cache && (fd = gftp_find_cache_entry (request)) > 0)
     {
       request->logging_function (gftp_logging_misc, request,
-                                 _("Loading directory listing %s from cache\n"),
-                                 request->directory);
+                                 _("Loading directory listing %s from cache (LC_TIME=%s)\n"),
+                                 request->directory, locret);
 
       request->cachefd = fd;
       request->cached = 1;
@@ -361,12 +376,17 @@ gftp_list_files (gftp_request * request)
     }
   else if (request->use_cache)
     {
+      request->logging_function (gftp_logging_misc, request,
+                                 _("Loading directory listing %s from server (LC_TIME=%s)\n"),
+                                 request->directory, locret);
+
       request->cachefd = gftp_new_cache_entry (request);
       request->cached = 0; 
     }
 
   if (request->list_files == NULL)
     return (GFTP_EFATAL);
+
   return (request->list_files (request));
 }
 
