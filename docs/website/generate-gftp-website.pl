@@ -19,7 +19,7 @@ my %rep = ("STABLE_BZ2" => "gftp-" . $version . ".tar.bz2",
            "STABLE_I386DEB_GTK" => "gftp-gtk_" . $version . "-1_i386.deb",
            "STABLE_I386DEB_TEXT" => "gftp-text_" . $version . "-1_i386.deb"); 
 
-$tarfiles = "MD5SUMS changelog.html faq.html gftp-screenshot.png index.html install.html logo.jpg robots.txt screenshots.html";
+$tarfiles = "MD5SUMS changelog.html gftp-screenshot.png index.html logo.jpg readme.html robots.txt screenshots.html";
 
 print "Generating MD5SUMS...\n";
 
@@ -130,6 +130,10 @@ while (<I>)
   }
 close I;
 close N;
+
+$cmd = "cp ../gftp-faq/gftp-faq.html readme.html";
+print "$cmd\n";
+system ($cmd);
 
 $tarcmd = "tar -jcvf gftp-$version-website.tar.bz2 $tarfiles";
 print "Running $tarcmd...\n";

@@ -24,6 +24,9 @@ pdf:
 		(cd $(srcdir); db2pdf gftp-faq.sgml); \
 	fi
 
+clean:
+	rm -rf gftp-faq gftp-faq.junk gftp-faq.pdf
+
 dist-hook: html
 	cp $(srcdir)/gftp-faq/gftp-faq.html $(distdir)/../README.html
 	html2text -nobs -o $(distdir)/../README -style pretty $(srcdir)/gftp-faq/gftp-faq.html 

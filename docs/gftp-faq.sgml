@@ -6,7 +6,7 @@
 <book>
 
 <bookinfo>
-  <date>November 5th 2003</date>
+  <date>$Date$</date>
   <title>gFTP FAQ</title>
   <authorgroup>
     <author>
@@ -250,10 +250,29 @@ username blank, it will default to logging in as anonymous.</para>
 <title>Where does gFTP store it's options?</title>
 
 <para>gFTP will automatically create a ~/.gftp directory when it is first run.
-Your config file is ~/.gftp/gftprc, and this is where all of gFTP's
-settings are stored. The config file is well commented, so take a glance
-at it and see if there is anything you want to change. Your bookmarks are
-stored in the file ~/.gftp/bookmarks</para>
+Your config file is <emphasis>~/.gftp/gftprc</emphasis>, and this is where
+all of gFTP's settings are stored. The config file is well commented, so take
+a glance at it and see if there is anything you want to change. Your bookmarks
+are stored in the file <emphasis>~/.gftp/bookmarks</emphasis>.</para>
+
+<para>Every time gFTP is run, it will log the contents of the log window
+to <emphasis>~/.gftp/gftp.log</emphasis>. The contents of this file will be
+automatically purged this file when gFTP is started up.</para>
+
+</sect1>
+
+<!-- ----------------------------------------------------------------- -->
+
+<sect1>
+<title>Why aren't the file sizes comma separated?</title>
+
+<para>
+If gFTP was compiled with _GNU_SOURCE defined (run 
+<emphasis>gftp --info</emphasis>), then gFTP will use the printf() modifier
+%'ld. If your <emphasis>LANG</emphasis> environment is set to C, then no
+commas will be inserted. If you are in the US, change your 
+<emphasis>LANG</emphasis> environment variable to <emphasis>en_US</emphasis>.
+</para>
 
 </sect1>
 

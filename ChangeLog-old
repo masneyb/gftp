@@ -1,3 +1,35 @@
+Changes from 2.0.15 to 2.0.16
+
+* Fixed bug where the local directory listing was not updated when
+  connecting to a bookmarked site.
+* Fix for Novell directory paths (//share/directory)
+* Local: If there is a dangling symlink in the local directory, not all of
+  the files were being shown.
+* FTP: Fixed rename bug
+* FTP: Fixed editing the FTP proxy config in the FTP port.
+* FTP: Better error checking when establishing the data connection.
+* FTP: File transfers are aborted correctly. You will not lose your connection
+  to the remote server.
+* FTP: Ascii file transfers fix.
+* HTTP: Fixed parsing some chunked file transfers.
+* SSH: Fixed crash when deleting subdirectories.
+* When editing remote files, and if the current directory is changed on the
+  remote server, make sure the file is still uploaded to the proper location.
+* When editing a remote file, if the connection to the remote server times out,
+  immediately reconnect when the file is uploaded.
+* DND cleanups
+* If the source is compiled with -D_GNU_SOURCE, then use the current style
+  for the current locale to separate numbers.
+* In some cases, if the remote_charset is defined for the remote host, convert
+  the current string from UTF8 to the users remote character set.
+* Fixed Cray directory directory listings. Also, some UNIX directory listings
+  that had files with multiple spaces were being mistaken for Cray directory
+  listings.
+* The README/FAQ is now stored in Docbook format.
+* New language translations and updates (az bn el es hr it ja nl no pt ro sk sr)
+* Many other small changes and improvements. See the ChangeLog file in the
+  distribution for a detailed list of changes.
+
 Changes from 2.0.15rc2 to 2.0.15
 
 * FTP: Fixes for selecting ASCII/Binary transfers
