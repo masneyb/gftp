@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-17 15:57-0500\n"
-"PO-Revision-Date: 2005-01-17 16:37-0400\n"
+"POT-Creation-Date: 2005-01-19 17:51-0500\n"
+"PO-Revision-Date: 2005-01-19 16:37-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,17 +47,17 @@ msgstr "Error closing file descriptor: %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Error: Cannot seek on file %s: %s\n"
 
-#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:2980
+#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:3001
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Error: Cannot open local file %s: %s\n"
 
-#: lib/config_file.c:143 lib/protocols.c:2687 lib/sslcommon.c:486
+#: lib/config_file.c:143 lib/protocols.c:2708 lib/sslcommon.c:486
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Error: Could not write to socket: %s\n"
 
-#: lib/config_file.c:151 lib/protocols.c:2611 lib/sshv2.c:364
+#: lib/config_file.c:151 lib/protocols.c:2632 lib/sshv2.c:364
 #: lib/sslcommon.c:439
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -731,100 +731,109 @@ msgstr "Error converting string '%s' to UTF-8 from current locale: %s\n"
 msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
 msgstr "Error converting string '%s' to current locale from UTF-8: %s\n"
 
-#: lib/protocols.c:626
+#: lib/protocols.c:629
+#, c-format
+msgid ""
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
+msgstr ""
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
+
+#: lib/protocols.c:647
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Error: Cannot write to cache: %s\n"
 
-#: lib/protocols.c:659
+#: lib/protocols.c:680
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Error: Could not find bookmark %s\n"
 
-#: lib/protocols.c:666
+#: lib/protocols.c:687
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 
-#: lib/protocols.c:801
+#: lib/protocols.c:822
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "The protocol '%s' is currently not supported.\n"
 
-#: lib/protocols.c:1147 lib/protocols.c:1162 lib/protocols.c:2194
-#: lib/protocols.c:2304
+#: lib/protocols.c:1168 lib/protocols.c:1183 lib/protocols.c:2215
+#: lib/protocols.c:2325
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Looking up %s\n"
 
-#: lib/protocols.c:1153 lib/protocols.c:1168 lib/protocols.c:2199
-#: lib/protocols.c:2309
+#: lib/protocols.c:1174 lib/protocols.c:1189 lib/protocols.c:2220
+#: lib/protocols.c:2330
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Cannot look up hostname %s: %s\n"
 
-#: lib/protocols.c:1521 lib/protocols.c:1522 lib/protocols.c:1563
-#: lib/protocols.c:1564 lib/protocols.c:1627 lib/protocols.c:1634
-#: lib/protocols.c:1710 lib/protocols.c:1711 lib/protocols.c:1747
+#: lib/protocols.c:1542 lib/protocols.c:1543 lib/protocols.c:1584
+#: lib/protocols.c:1585 lib/protocols.c:1648 lib/protocols.c:1655
+#: lib/protocols.c:1731 lib/protocols.c:1732 lib/protocols.c:1768
 msgid "unknown"
 msgstr "unknown"
 
-#: lib/protocols.c:2217
+#: lib/protocols.c:2238
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Failed to create a socket: %s\n"
 
-#: lib/protocols.c:2223 lib/protocols.c:2326
+#: lib/protocols.c:2244 lib/protocols.c:2347
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Trying %s:%d\n"
 
-#: lib/protocols.c:2228 lib/protocols.c:2333
+#: lib/protocols.c:2249 lib/protocols.c:2354
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Cannot connect to %s: %s\n"
 
-#: lib/protocols.c:2263 lib/rfc959.c:640
+#: lib/protocols.c:2284 lib/rfc959.c:640
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Failed to create a IPv4 socket: %s\n"
 
-#: lib/protocols.c:2287 lib/sshv2.c:1046
+#: lib/protocols.c:2308 lib/sshv2.c:1046
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr "Cannot look up service name %s/tcp. Please check your services file\n"
 
-#: lib/protocols.c:2349 lib/protocols.c:2989 lib/rfc959.c:649 lib/rfc959.c:826
+#: lib/protocols.c:2370 lib/protocols.c:3010 lib/rfc959.c:649 lib/rfc959.c:826
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Error: Cannot set close on exec flag: %s\n"
 
-#: lib/protocols.c:2356
+#: lib/protocols.c:2377
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Connected to %s:%d\n"
 
-#: lib/protocols.c:2587 lib/protocols.c:2662 lib/sshv2.c:355
+#: lib/protocols.c:2608 lib/protocols.c:2683 lib/sshv2.c:355
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Connection to %s timed out\n"
 
-#: lib/protocols.c:2730
+#: lib/protocols.c:2751
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Cannot get socket flags: %s\n"
 
-#: lib/protocols.c:2744
+#: lib/protocols.c:2765
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Cannot set socket to non-blocking: %s\n"
 
-#: lib/protocols.c:2879
+#: lib/protocols.c:2900
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 
-#: lib/protocols.c:2887
+#: lib/protocols.c:2908
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
