@@ -60,49 +60,6 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
   return (new_fds);
 }
 
-#elif HAVE_OPENPTY
-
-#ifdef HAVE_PTY_H
-#include <pty.h>
-#include <utmp.h> /* for login_tty */
-#elif HAVE_LIBUTIL_H
-#include <libutil.h>
-#include <utmp.h> /* for login_tty */
-#else
-extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp, struct winsize * winp);
-extern int login_tty(int fd);
-#endif
-
-char *
-gftp_get_pty_impl (void)
-{
-  return ("openpty");
-}
-
-
-static int
-_gftp_ptym_open (char *pts_name, size_t len, int *fds)
-{
-  int fdm;
-
-  if (openpty (&fdm, fds, pts_name, NULL, NULL) < 0)
-    return (GFTP_ERETRYABLE);
-
-  ioctl (*fds, TIOCSCTTY, NULL);
-
-  return (fdm);
-}
-
-
-static int
-_gftp_ptys_open (int fdm, int fds, char *pts_name)
-{
-  if (login_tty (fds) < 0)
-    return (GFTP_EFATAL);
-
-  return (fds);
-}
-
 #elif HAVE_GRANTPT
 
 #include <stropts.h>
@@ -169,7 +126,50 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
   return (new_fds);
 }
 
-#else /* !HAVE_GRANTPT */
+#elif HAVE_OPENPTY
+
+#ifdef HAVE_PTY_H
+#include <pty.h>
+#include <utmp.h> /* for login_tty */
+#elif HAVE_LIBUTIL_H
+#include <libutil.h>
+#include <utmp.h> /* for login_tty */
+#else
+extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp, struct winsize * winp);
+extern int login_tty(int fd);
+#endif
+
+char *
+gftp_get_pty_impl (void)
+{
+  return ("openpty");
+}
+
+
+static int
+_gftp_ptym_open (char *pts_name, size_t len, int *fds)
+{
+  int fdm;
+
+  if (openpty (&fdm, fds, pts_name, NULL, NULL) < 0)
+    return (GFTP_ERETRYABLE);
+
+  ioctl (*fds, TIOCSCTTY, NULL);
+
+  return (fdm);
+}
+
+
+static int
+_gftp_ptys_open (int fdm, int fds, char *pts_name)
+{
+  if (login_tty (fds) < 0)
+    return (GFTP_EFATAL);
+
+  return (fds);
+}
+
+#else
 
 /* Fall back to *BSD... */
 
