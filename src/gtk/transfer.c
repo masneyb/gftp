@@ -766,7 +766,7 @@ update_window_transfer_bytes (gftp_window_data * wdata)
 gint
 update_downloads (gpointer data)
 {
-  intptr_t do_one_transfer_at_a_time;
+  intptr_t do_one_transfer_at_a_time, start_transfers;
   GList * templist, * next;
   gftp_transfer * tdata;
 
@@ -805,8 +805,9 @@ update_downloads (gpointer data)
 	    {
               gftp_lookup_global_option ("one_transfer", 
                                          &do_one_transfer_at_a_time);
+              gftp_lookup_global_option ("start_transfers", &start_transfers);
 
-	      if (!tdata->started && 
+	      if (!tdata->started && start_transfers &&
                  (num_transfers_in_progress == 0 || !do_one_transfer_at_a_time))
                 create_transfer (tdata);
 
