@@ -668,16 +668,20 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
   size_t oldpathlen;
   const char *str;
 
-  oldpathlen = strlen (entry->path);
+  tempstr = g_strdup (gtk_entry_get_text (GTK_ENTRY (bm_pathedit)));
+  while ((pos = strchr (tempstr, '/')) != NULL)
+    *pos = ' ';
 
+  oldpathlen = strlen (entry->path);
   if ((pos = strrchr (entry->path, '/')) == NULL)
     pos = entry->path;
 
   tempchar = *pos;
   *pos = '\0';
-  origpath = newpath = gftp_build_path (NULL, entry->path,
-                                        gtk_entry_get_text (GTK_ENTRY (bm_pathedit)), NULL);
+  origpath = newpath = gftp_build_path (NULL, entry->path, tempstr, NULL);
   *pos = tempchar;
+
+  g_free (tempstr);
 
   str = gtk_entry_get_text (GTK_ENTRY (bm_hostedit));
   if (entry->hostname != NULL)

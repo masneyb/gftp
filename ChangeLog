@@ -1,4 +1,8 @@
 2004-10-7 Brian Masney <masneyb@gftp.org>
+	* src/gtk/bookmarks.c (entry_apply_changes) - convert all /'s
+	in the entry description to spaces so that sub menus are not
+	created
+
 	* src/gtk/gftpuicallbacks.c (gftpui_common_run_ls) - if the ..
 	directory was not found and an entry is to be created, make sure
 	the attributes are set to drwx------ (previously it was d---------)
