@@ -35,7 +35,6 @@ int local_start, remote_start, trans_start, log_start, tools_start;
 GHashTable * graphic_hash_table = NULL;
 GtkItemFactoryEntry * menus = NULL;
 GtkItemFactory * factory = NULL;
-pthread_mutex_t transfer_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 gftp_graphic * gftp_icon;
 pthread_t main_thread_id;

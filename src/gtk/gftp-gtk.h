@@ -141,13 +141,6 @@ typedef struct gftp_viewedit_data_tag
 } gftp_viewedit_data;
 
 
-typedef struct gftp_curtrans_data_tag
-{
-  gftp_transfer * transfer;
-  GList * curfle;
-} gftp_curtrans_data;
-
-
 typedef struct gftp_save_dir_struct_tag
 {
   GtkWidget * filew;
@@ -189,7 +182,7 @@ extern int local_start, remote_start, trans_start, log_start, tools_start;
 extern GHashTable * graphic_hash_table;
 extern GtkItemFactoryEntry * menus;
 extern GtkItemFactory * factory;
-extern pthread_mutex_t transfer_mutex, log_mutex;
+extern pthread_mutex_t log_mutex;
 extern gftp_graphic * gftp_icon;
 extern pthread_t main_thread_id;
 extern GList * viewedit_processes;
@@ -408,8 +401,6 @@ int ftp_connect					( gftp_window_data * wdata,
 
 gint update_downloads 				( gpointer data );
 
-void * gftp_gtk_transfer_files 			( void *data );
-
 void get_files 					( gpointer data );
 
 void put_files 					( gpointer data );
@@ -418,13 +409,6 @@ void transfer_window_files 			( gftp_window_data * fromwdata,
 						  gftp_window_data * towdata );
 
 void *do_getdir_thread 				( void * data );
-
-gftp_transfer * add_file_transfer 		( gftp_request * fromreq, 
-						  gftp_request * toreq, 
-						  gftp_window_data * fromwdata,
-						  gftp_window_data * towdata, 
-						  GList * files,
-						  int copy_req );
 
 void start_transfer				( gpointer data );
 
@@ -437,8 +421,6 @@ void remove_file_transfer 			( gpointer data );
 void move_transfer_up				( gpointer data );
 
 void move_transfer_down				( gpointer data );
-
-void gftp_gtk_ask_transfer 			( gftp_transfer * tdata );
 
 /* view_dialog.c */
 void edit_dialog 				( gpointer data );

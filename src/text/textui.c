@@ -47,7 +47,7 @@ gftpui_refresh (void *uidata)
 void *
 gftpui_generic_thread (void * (*func) (void *), void *data)
 {
-  return (NULL);
+  return (func (data));
 }
 
 
@@ -78,5 +78,20 @@ gftpui_prompt_password (void *uidata, gftp_request * request)
   ret = g_strdup (gftp_text_ask_question (_("Password:"), 0,
                                           tempstr, sizeof (tempstr)));
   return (ret);
+}
+
+
+void
+gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
+                                  char *filepos )
+{
+  /* FIXME */
+}
+
+
+void
+gftpui_ask_transfer (gftp_transfer * tdata)
+{
+  /* FIXME */
 }
 

@@ -735,6 +735,7 @@ gftp_parse_url (gftp_request * request, const char *url)
 
   if (i == GFTP_LOCAL_NUM)
     {
+      for (; *pos == ' ' || *pos == '\t'; pos++);
       request->directory = g_strdup (pos);
       g_free (stpos);
       return (0);

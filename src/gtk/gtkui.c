@@ -248,6 +248,33 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
 }
 
 
+void
+gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
+                             char *filepos)
+{
+  gftpui_common_curtrans_data * transdata;
+  gftp_file * fle;
+  char *text[2];
+
+  fle = curfle->data;
+  text[0] = filepos;
+  if (fle->transfer_action == GFTP_TRANS_ACTION_SKIP)
+    text[1] = _("Skipped");
+  else
+    text[1] = _("Waiting...");
+
+  fle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),
+                                          tdata->user_data, NULL, text, 5,
+                                          NULL, NULL, NULL, NULL,
+                                          FALSE, FALSE);
+  transdata = g_malloc (sizeof (*transdata));
+  transdata->transfer = tdata;
+  transdata->curfle = curfle;
+
+  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), fle->user_data, transdata);
+}
+
+
 int
 gftpui_check_reconnect (gftpui_callback_data * cdata)
 {

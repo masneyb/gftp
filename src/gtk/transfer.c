@@ -20,7 +20,6 @@
 #include <gftp-gtk.h>
 static const char cvsid[] = "$Id$";
 
-static GtkWidget * dialog;
 static int num_transfers_in_progress = 0;
 
 int
@@ -56,170 +55,13 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
 }
 
 
-static void
-try_connect_again (gftp_request * request, gftp_dialog_data * ddata)
-{
-  gftp_set_password (request, gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
-  request->stopable = 0;
-}
-
-
-static void
-dont_connect_again (gftp_request * request, gftp_dialog_data * ddata)
-{
-  request->stopable = 0;
-}
-
-
-static void *
-connect_thread (void *data)
-{
-  int ret, sj;
-  intptr_t retries, sleep_time, network_timeout;
-  static int conn_num;
-  gftp_request * request;
-
-  request = data;
-
-  gftp_lookup_request_option (request, "retries", &retries);
-  gftp_lookup_request_option (request, "sleep_time", &sleep_time);
-  gftp_lookup_request_option (request, "network_timeout", &network_timeout);
-
-  conn_num = 0;
-  if (gftpui_common_use_threads (request))
-    {
-      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
-      gftpui_common_use_jmp_environment = 1;
-    }
-  else
-    sj = 0;
-
-  ret = 0;
-  if (sj != 0)
-    {
-      ret = 0;
-      gftp_disconnect (request);
-    }
-
-  while (sj != 1 && (retries == 0 || conn_num < retries))
-    {
-      conn_num++;
-      if (network_timeout > 0)
-        alarm (network_timeout);
-      ret = gftp_connect (request);
-      alarm (0);
-
-      if (ret == GFTP_EFATAL)
-        {
-          ret = 0;
-          break;
-        }
-      else if (ret == 0)
-        {
-          ret = 1;
-          break;
-        }
-      else if (retries == 0 || conn_num < retries)
-        {
-          request->logging_function (gftp_logging_misc, request,
-                     _("Waiting %d seconds until trying to connect again\n"),
-		     sleep_time);
-          alarm (sleep_time);
-          pause ();
-        }  
-    }
-
-  if (gftpui_common_use_threads (request))
-    gftpui_common_use_jmp_environment = 0;
-
-  request->stopable = 0;
-  if (request->wakeup_main_thread[1] > 0)
-    write (request->wakeup_main_thread[1], " ", 1);
-  return (GINT_TO_POINTER (ret));
-}
-
-
 int
 ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
 {
-  int success;
-  void *ret;
-
-  ret = 0;
   if (wdata->request == request)
-    {
-      gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Connecting..."));
-    }
+    gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Connecting..."));
 
-  if (request->need_userpass && request->username != NULL &&
-      *request->username != '\0' &&
-      (request->password == NULL || *request->password == '\0'))
-    {
-      if (wdata && wdata->request == request)
-        {
-          request->stopable = 1;
-          MakeEditDialog (_("Enter Password"),
-                          _("Please enter your password for this site"), NULL,
-                          0, NULL, gftp_dialog_button_connect, 
-                          try_connect_again, request, 
-                          dont_connect_again, request);
-
-          while (request->stopable)
-            {
-              GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-              g_main_iteration (TRUE);
-#else
-              g_main_context_iteration (NULL, TRUE);
-#endif
-            }
-
-          if (request->password == NULL || *request->password == '\0')
-            return (0);
-        }
-      else
-        gftp_set_password (request, "");
-    }
-
-  if (wdata && wdata->request == request && gftpui_common_use_threads (request))
-    {
-      request->stopable = 1;
-      if (wdata)       
-        gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-      gtk_widget_set_sensitive (stop_btn, 1);
-      pthread_create (&wdata->tid, NULL, connect_thread, request);
-
-      while (request->stopable)
-        {
-          GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-          g_main_iteration (TRUE);
-#else
-          g_main_context_iteration (NULL, TRUE);
-#endif
-        }
-      pthread_join (wdata->tid, &ret);
-
-      gtk_widget_set_sensitive (stop_btn, 0);
-      if (wdata)
-        gtk_clist_thaw (GTK_CLIST (wdata->listbox));
-    }
-  else
-    ret = connect_thread (request);
-
-  success = GPOINTER_TO_INT (ret);
-  memset (&wdata->tid, 0, sizeof (wdata->tid));
-
-  if (!GFTP_IS_CONNECTED (wdata->request))
-    disconnect (wdata);
-  else if (success)
-    {
-      ftp_list_files (wdata, 1);
-      if (!GFTP_IS_CONNECTED (wdata->request))
-        disconnect (wdata);
-    }
-
-  return (success);
+  return (gftpui_common_cmd_open (wdata, request, NULL));
 }
 
 
@@ -332,9 +174,9 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
 
   if (transfer->files != NULL)
     {
-      add_file_transfer (transfer->fromreq, transfer->toreq, 
-                         transfer->fromwdata, transfer->towdata, 
-                         transfer->files, 0);
+      gftpui_common_add_file_transfer (transfer->fromreq, transfer->toreq, 
+                                       transfer->fromwdata, transfer->towdata, 
+                                       transfer->files);
       g_free (transfer);
     }
   else
@@ -377,369 +219,6 @@ do_getdir_thread (void * data)
 
   transfer->fromreq->stopable = 0;
   return (GINT_TO_POINTER (success));
-}
-
-
-static void
-_gftp_setup_fds (gftp_transfer * tdata, gftp_file * curfle, 
-                 int *fromfd, int *tofd)
-{
-  *tofd = -1;
-  *fromfd = -1;
-
-  if (curfle->is_fd)
-    {
-      if (tdata->toreq->protonum == GFTP_LOCAL_NUM)
-        *tofd = curfle->fd;
-      else if (tdata->fromreq->protonum == GFTP_LOCAL_NUM)
-        *fromfd = curfle->fd;
-    }
-}
-
-
-static void
-_gftp_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
-{
-  if (curfle->is_fd)
-    {
-      if (tdata->toreq->protonum == GFTP_LOCAL_NUM)
-        tdata->toreq->datafd = -1;
-      else
-        tdata->fromreq->datafd = -1;
-    }
-}
-
-
-void * 
-gftp_gtk_transfer_files (void *data)
-{
-  int i, mode, tofd, fromfd;
-  intptr_t preserve_permissions;
-  gftp_transfer * transfer;
-  char buf[8192];
-  off_t fromsize, total;
-  gftp_file * curfle; 
-  ssize_t num_read, ret;
-
-  pthread_detach (pthread_self ());
-  transfer = data;
-  transfer->curfle = transfer->files;
-  gettimeofday (&transfer->starttime, NULL);
-  memcpy (&transfer->lasttime, &transfer->starttime, 
-          sizeof (transfer->lasttime));
-
-  gftp_lookup_request_option (transfer->fromreq, "preserve_permissions", 
-                              &preserve_permissions);
-
-  while (transfer->curfle != NULL)
-    {
-      num_read = -1;
-      g_static_mutex_lock (&transfer->structmutex);
-      curfle = transfer->curfle->data;
-      transfer->current_file_number++; 
-      g_static_mutex_unlock (&transfer->structmutex);
- 
-      if (curfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
-        {
-          g_static_mutex_lock (&transfer->structmutex);
-          transfer->next_file = 1;
-          transfer->curfle = transfer->curfle->next;
-          g_static_mutex_unlock (&transfer->structmutex);
-          continue;
-        }
-
-      fromsize = -1;
-      if (gftp_connect (transfer->fromreq) == 0 &&
-          gftp_connect (transfer->toreq) == 0)
-        {
-          if (curfle->isdir)
-            {
-              if (transfer->toreq->mkdir != NULL)
-                {
-                  transfer->toreq->mkdir (transfer->toreq, curfle->destfile);
-                  if (!GFTP_IS_CONNECTED (transfer->toreq))
-                    break;
-                }
-
-              g_static_mutex_lock (&transfer->structmutex);
-              transfer->next_file = 1;
-              transfer->curfle = transfer->curfle->next;
-              g_static_mutex_unlock (&transfer->structmutex);
-              continue;
-            }
-
-          _gftp_setup_fds (transfer, curfle, &fromfd, &tofd);
-
-          if (curfle->size == 0)
-            {
-              curfle->size = gftp_get_file_size (transfer->fromreq, curfle->file);
-              transfer->total_bytes += curfle->size;
-            }
-
-          if (GFTP_IS_CONNECTED (transfer->fromreq) &&
-              GFTP_IS_CONNECTED (transfer->toreq))
-            {
-              fromsize = gftp_transfer_file (transfer->fromreq, curfle->file, 
-                          fromfd,
-                          curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
-                                                    curfle->startsize : 0,
-                          transfer->toreq, curfle->destfile, tofd,
-                          curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
-                                                    curfle->startsize : 0);
-            }
-        }
-
-      if (!GFTP_IS_CONNECTED (transfer->fromreq) || 
-          !GFTP_IS_CONNECTED (transfer->toreq))
-        {
-          transfer->fromreq->logging_function (gftp_logging_misc, 
-                         transfer->fromreq, 
-                         _("Error: Remote site disconnected after trying to transfer file\n"));
-        }
-      else if (fromsize < 0)
-        {
-          g_static_mutex_lock (&transfer->structmutex);
-          curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-          transfer->next_file = 1;
-          transfer->curfle = transfer->curfle->next;
-          g_static_mutex_unlock (&transfer->structmutex);
-          continue;
-        }
-      else
-        {
-          g_static_mutex_lock (&transfer->structmutex);
-          transfer->curtrans = 0;
-          transfer->curresumed = curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ? curfle->startsize : 0;
-          transfer->resumed_bytes += transfer->curresumed;
-          g_static_mutex_unlock (&transfer->structmutex);
-  
-          total = 0;
-          i = 0;
-          while (!transfer->cancel && 
-                 (num_read = gftp_get_next_file_chunk (transfer->fromreq,
-                                                       buf, sizeof (buf))) > 0)
-            {
-              total += num_read;
-              gftp_calc_kbs (transfer, num_read);
-
-              if ((ret = gftp_put_next_file_chunk (transfer->toreq, buf, 
-                                                   num_read)) < 0)
-                {
-                  num_read = (int) ret;
-                  break;
-                }
-            }
-        }
-
-      if (transfer->cancel)
-        {
-          if (gftp_abort_transfer (transfer->fromreq) != 0)
-            gftp_disconnect (transfer->fromreq);
-
-          if (gftp_abort_transfer (transfer->toreq) != 0)
-            gftp_disconnect (transfer->toreq);
-        }
-      else if (num_read < 0)
-        {
-          transfer->fromreq->logging_function (gftp_logging_misc, 
-                                        transfer->fromreq, 
-                                        _("Could not download %s from %s\n"), 
-                                        curfle->file,
-                                        transfer->fromreq->hostname);
-
-          if (gftp_get_transfer_status (transfer, num_read) == GFTP_ERETRYABLE)
-            continue;
-
-          break;
-        }
-      else
-        {
-          _gftp_done_with_fds (transfer, curfle);
-          if (gftp_end_transfer (transfer->fromreq) != 0)
-            {
-              if (gftp_get_transfer_status (transfer, -1) == GFTP_ERETRYABLE)
-                continue;
-
-              break;
-            }
-          gftp_end_transfer (transfer->toreq);
-
-          transfer->fromreq->logging_function (gftp_logging_misc, 
-                         transfer->fromreq, 
-                         _("Successfully transferred %s at %.2f KB/s\n"),
-                         curfle->file, transfer->kbs);
-        }
-
-      if (!curfle->is_fd && preserve_permissions)
-        {
-          if (curfle->attribs)
-            {
-              mode = gftp_parse_attribs (curfle->attribs);
-              if (mode != 0)
-                gftp_chmod (transfer->toreq, curfle->destfile, mode);
-            }
-
-          if (curfle->datetime != 0)
-            gftp_set_file_time (transfer->toreq, curfle->destfile,
-                                curfle->datetime);
-        }
-
-      g_static_mutex_lock (&transfer->structmutex);
-      transfer->curtrans = 0;
-      transfer->next_file = 1;
-      curfle->transfer_done = 1;
-      transfer->curfle = transfer->curfle->next;
-      g_static_mutex_unlock (&transfer->structmutex);
-
-      if (transfer->cancel && !transfer->skip_file)
-        break;
-      transfer->cancel = 0;
-      transfer->fromreq->cancel = 0;
-      transfer->toreq->cancel = 0;
-    }
-  transfer->done = 1; 
-  return (NULL);
-}
-
-
-gftp_transfer *
-add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
-                   gftp_window_data * fromwdata, gftp_window_data * towdata, 
-                   GList * files, int copy_req)
-{
-  int dialog;
-  intptr_t  append_transfers, one_transfer;
-  gftp_curtrans_data * transdata;
-  GList * templist, *curfle;
-  gftp_transfer * tdata;
-  gftp_file * tempfle;
-  char *pos, *text[2];
-
-  for (templist = files; templist != NULL; templist = templist->next)
-    { 
-      tempfle = templist->data;
-      if (tempfle->startsize > 0)
-        break;
-    }
-  dialog = templist != NULL;
-
-  gftp_lookup_request_option (fromreq, "append_transfers", 
-                              &append_transfers);
-  gftp_lookup_request_option (fromreq, "one_transfer", 
-                              &one_transfer);
-
-  tdata = NULL;
-  if (append_transfers && one_transfer)
-    {
-      pthread_mutex_lock (&transfer_mutex);
-      for (templist = gftp_file_transfers; templist != NULL; templist = templist->next)
-        {
-          tdata = templist->data;
-          g_static_mutex_lock (&tdata->structmutex);
-          if (compare_request (tdata->fromreq, fromreq, 0) &&
-              compare_request (tdata->toreq, toreq, 0) &&
-              tdata->curfle != NULL)
-            {
-              if (!copy_req)
-                {
-                  gftp_request_destroy (fromreq, 1);
-                  gftp_request_destroy (toreq, 1);
-                }
-              fromreq = NULL;
-              toreq = NULL;
-
-              for (curfle = tdata->curfle; 
-                   curfle != NULL && curfle->next != NULL; 
-                   curfle = curfle->next);
-              if (curfle == NULL)
-                {
-                  curfle = files;
-                  files->prev = NULL;
-                }
-              else
-                {
-                  curfle->next = files;
-                  files->prev = curfle;
-                }
-
-              for (curfle = files; curfle != NULL; curfle = curfle->next)
-                {
-                  tempfle = curfle->data;
-                  if (tempfle->isdir)
-                    tdata->numdirs++;
-                  else
-                    tdata->numfiles++;
-                  if ((pos = strrchr (tempfle->file, '/')) == NULL)
-                    pos = tempfle->file;
-                  else
-                    pos++;
-
-                  text[0] = pos;
-                  if (tempfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
-                    text[1] = _("Skipped");
-                  else
-                    {
-                      tdata->total_bytes += tempfle->size;
-                      text[1] = _("Waiting...");
-                    }
-
-                  tempfle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),  
-                                             tdata->user_data, NULL, text, 5,
-                                             NULL, NULL, NULL, NULL, 
-                                             FALSE, FALSE);
-                  transdata = g_malloc (sizeof (*transdata));
-                  transdata->transfer = tdata;
-                  transdata->curfle = curfle;
-                  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->user_data, 
-                                               transdata);
-                }
-              g_static_mutex_unlock (&tdata->structmutex);
-              break; 
-            }
-          g_static_mutex_unlock (&tdata->structmutex);
-        }
-      pthread_mutex_unlock (&transfer_mutex);
-    }
-  else
-    templist = NULL;
-    
-  if (templist == NULL)
-    {
-      tdata = gftp_tdata_new ();
-      if (copy_req)
-        {
-          tdata->fromreq = copy_request (fromreq, 0);
-          tdata->toreq = copy_request (toreq, 0); 
-        }
-      else
-        {
-          tdata->fromreq = fromreq;
-          tdata->toreq = toreq; 
-        } 
-
-      tdata->fromwdata = fromwdata;
-      tdata->towdata = towdata;
-      if (!dialog)
-        tdata->show = tdata->ready = 1;
-      tdata->files = files;
-      for (curfle = files; curfle != NULL; curfle = curfle->next)
-        {
-          tempfle = curfle->data;
-          if (tempfle->isdir)
-            tdata->numdirs++;
-          else
-            tdata->numfiles++;
-        }
-
-      pthread_mutex_lock (&transfer_mutex);
-      gftp_file_transfers = g_list_append (gftp_file_transfers, tdata);
-      pthread_mutex_unlock (&transfer_mutex);
-
-      if (dialog)
-        gftp_gtk_ask_transfer (tdata);
-    }
-
-  return (tdata);
 }
 
 
@@ -797,8 +276,10 @@ do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
   ve_proc->filename = NULL;
   tempfle->done_rm = 1;
   newfile = g_list_append (NULL, tempfle);
-  tdata = add_file_transfer (ve_proc->fromwdata->request, ve_proc->torequest,
-                             ve_proc->fromwdata, ve_proc->towdata, newfile, 1);
+  tdata = gftpui_common_add_file_transfer (ve_proc->fromwdata->request,
+                                           ve_proc->torequest,
+                                           ve_proc->fromwdata,
+                                           ve_proc->towdata, newfile);
   free_edit_data (ve_proc);
 
   if (tdata != NULL)
@@ -972,7 +453,7 @@ show_transfer (gftp_transfer * tdata)
 {
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
   GdkBitmap * closedir_bitmap, * opendir_bitmap;
-  gftp_curtrans_data * transdata;
+  gftpui_common_curtrans_data * transdata;
   gftp_file * tempfle;
   char *pos, *text[2];
   GList * templist;
@@ -1050,7 +531,7 @@ show_transfer (gftp_transfer * tdata)
 static void
 transfer_done (GList * node)
 {
-  gftp_curtrans_data * transdata;
+  gftpui_common_curtrans_data * transdata;
   gftp_request * fromreq;
   gftp_transfer * tdata;
   gftp_file * tempfle;
@@ -1109,13 +590,25 @@ transfer_done (GList * node)
       gtk_ctree_remove_node (GTK_CTREE (dlwdw), tdata->user_data);
     }
 
-  pthread_mutex_lock (&transfer_mutex);
+  g_static_mutex_lock (&gftpui_common_transfer_mutex);
   gftp_file_transfers = g_list_remove_link (gftp_file_transfers, node);
+  g_static_mutex_unlock (&gftpui_common_transfer_mutex);
+
   gdk_window_set_title (gtk_widget_get_parent_window (GTK_WIDGET(dlwdw)),
                         gftp_version);
-  pthread_mutex_unlock (&transfer_mutex);
 
   free_tdata (tdata);
+}
+
+
+static void *
+_gftpui_transfer_files (void *data)
+{
+  int ret;
+
+  pthread_detach (pthread_self ());
+  ret = gftpui_common_transfer_files (data);
+  return (GINT_TO_POINTER(ret));
 }
 
 
@@ -1147,7 +640,7 @@ create_transfer (gftp_transfer * tdata)
       tdata->stalled = 1;
       gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1,
 			       _("Connecting..."));
-      pthread_create (&tid, NULL, gftp_gtk_transfer_files, tdata);
+      pthread_create (&tid, NULL, _gftpui_transfer_files, tdata);
     }
 }
 
@@ -1335,7 +828,7 @@ update_downloads (gpointer data)
 void
 start_transfer (gpointer data)
 {
-  gftp_curtrans_data * transdata;
+  gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
@@ -1357,7 +850,7 @@ start_transfer (gpointer data)
 void
 stop_transfer (gpointer data)
 {
-  gftp_curtrans_data * transdata;
+  gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
@@ -1389,7 +882,7 @@ stop_transfer (gpointer data)
 void
 skip_transfer (gpointer data)
 {
-  gftp_curtrans_data * transdata;
+  gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
   gftp_file * curfle;
   char *file;
@@ -1430,7 +923,7 @@ skip_transfer (gpointer data)
 void
 remove_file_transfer (gpointer data)
 {
-  gftp_curtrans_data * transdata;
+  gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
   gftp_file * curfle;
 
@@ -1484,7 +977,7 @@ void
 move_transfer_up (gpointer data)
 {
   GList * firstentry, * secentry, * lastentry;
-  gftp_curtrans_data * transdata;
+  gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
@@ -1539,11 +1032,12 @@ move_transfer_up (gpointer data)
   g_static_mutex_unlock (&transdata->transfer->structmutex);
 }
 
+
 void
 move_transfer_down (gpointer data)
 {
   GList * firstentry, * secentry, * lastentry;
-  gftp_curtrans_data * transdata;
+  gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
@@ -1596,347 +1090,5 @@ move_transfer_down (gpointer data)
                           ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
     }
   g_static_mutex_unlock (&transdata->transfer->structmutex);
-}
-
-
-static void
-trans_selectall (GtkWidget * widget, gpointer data)
-{
-  gftp_transfer * tdata;
-  tdata = data;
-
-  gtk_clist_select_all (GTK_CLIST (tdata->clist));
-}
-
-
-static void
-trans_unselectall (GtkWidget * widget, gpointer data)
-{
-  gftp_transfer * tdata;
-  tdata = data;
-
-  gtk_clist_unselect_all (GTK_CLIST (tdata->clist));
-}
-
-
-static void
-overwrite (GtkWidget * widget, gpointer data)
-{
-  GList * templist, * filelist;
-  gftp_transfer * tdata;
-  gftp_file * tempfle;
-  int curpos;
-
-  tdata = data;
-  curpos = 0;
-  filelist = tdata->files;
-  templist = GTK_CLIST (tdata->clist)->selection;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &curpos);
-      tempfle = filelist->data;
-      tempfle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
-      gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, _("Overwrite"));
-    }
-}
-
-
-static void
-resume (GtkWidget * widget, gpointer data)
-{
-  GList * templist, * filelist;
-  gftp_transfer * tdata;
-  gftp_file * tempfle;
-  int curpos;
-
-  tdata = data;
-  curpos = 0;
-  filelist = tdata->files;
-  templist = GTK_CLIST (tdata->clist)->selection;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &curpos);
-      tempfle = filelist->data;
-      tempfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
-      gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, _("Resume"));
-    }
-}
-
-
-static void
-skip (GtkWidget * widget, gpointer data)
-{
-  GList * templist, * filelist;
-  gftp_transfer * tdata;
-  gftp_file * tempfle;
-  int curpos;
-
-  tdata = data;
-  curpos = 0;
-  filelist = tdata->files;
-  templist = GTK_CLIST (tdata->clist)->selection;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &curpos);
-      tempfle = filelist->data;
-      tempfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-      gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, _("Skip"));
-    }
-}
-
-
-static void
-ok (GtkWidget * widget, gpointer data)
-{
-  gftp_transfer * tdata;
-  gftp_file * tempfle;
-  GList * templist;
-
-  tdata = data;
-  g_static_mutex_lock (&tdata->structmutex);
-  for (templist = tdata->files; templist != NULL; templist = templist->next)
-    {
-      tempfle = templist->data;
-      if (tempfle->transfer_action != GFTP_TRANS_ACTION_SKIP)
-        break;
-    }
-
-  if (templist == NULL)
-    {
-      tdata->show = 0; 
-      tdata->ready = tdata->done = 1;
-    }
-  else
-    tdata->show = tdata->ready = 1;
-  g_static_mutex_unlock (&tdata->structmutex);
-}
-
-
-static void
-cancel (GtkWidget * widget, gpointer data)
-{
-  gftp_transfer * tdata;
-
-  tdata = data;
-  g_static_mutex_lock (&tdata->structmutex);
-  tdata->show = 0;
-  tdata->done = tdata->ready = 1;
-  g_static_mutex_unlock (&tdata->structmutex);
-}
-
-
-#if GTK_MAJOR_VERSION > 1
-static void
-transfer_action (GtkWidget * widget, gint response, gpointer user_data)
-{
-  switch (response)
-    {
-      case GTK_RESPONSE_OK:
-        ok (widget, user_data);
-        gtk_widget_destroy (widget);
-        break;
-      case GTK_RESPONSE_CANCEL:
-        cancel (widget, user_data);
-        /* no break */
-      default:
-        gtk_widget_destroy (widget);
-    }
-}   
-#endif
-
-
-void
-gftp_gtk_ask_transfer (gftp_transfer * tdata)
-{
-  char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
-       tempstr[50], temp1str[50], *pos;
-  GtkWidget * tempwid, * scroll, * hbox;
-  int i;
-  intptr_t overwrite_default;
-  gftp_file * tempfle;
-  GList * templist;
-  size_t len;
-
-  dltitles[0] = _("Filename");
-  dltitles[1] = tdata->fromreq->hostname;
-  dltitles[2] = tdata->toreq->hostname;
-  dltitles[3] = _("Action");
-
-#if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_grab_add (dialog);
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Transfer Files"));
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 35);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-
-  gtk_signal_connect_object (GTK_OBJECT (dialog), "delete_event",
-                             GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                             GTK_OBJECT (dialog));
-#else
-  dialog = gtk_dialog_new_with_buttons (_("Transfer Files"), NULL, 0, 
-                                        GTK_STOCK_OK,
-                                        GTK_RESPONSE_OK,
-                                        GTK_STOCK_CANCEL,
-                                        GTK_RESPONSE_CANCEL,
-                                        NULL);
-#endif
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "transfer", "gFTP");
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
-
-  tempwid = gtk_label_new (_("The following file(s) exist on both the local and remote computer\nPlease select what you would like to do"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, FALSE,
-		      FALSE, 0);
-  gtk_widget_show (tempwid);
-
-  scroll = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_size_request (scroll, 450, 200);
-
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
-				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  tdata->clist = gtk_clist_new_with_titles (4, dltitles);
-  gtk_container_add (GTK_CONTAINER (scroll), tdata->clist);
-
-#if GTK_MAJOR_VERSION == 1
-  gtk_clist_set_selection_mode (GTK_CLIST (tdata->clist),
-				GTK_SELECTION_EXTENDED);
-#else
-  gtk_clist_set_selection_mode (GTK_CLIST (tdata->clist),
-				GTK_SELECTION_MULTIPLE);
-#endif
-  gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 0, 100);
-  gtk_clist_set_column_justification (GTK_CLIST (tdata->clist), 1,
-				      GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 1, 85);
-  gtk_clist_set_column_justification (GTK_CLIST (tdata->clist), 2,
-				      GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 2, 85);
-  gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 3, 85);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scroll, TRUE, TRUE,
-		      0);
-  gtk_widget_show (tdata->clist);
-  gtk_widget_show (scroll);
-
-  gftp_lookup_request_option (tdata->fromreq, "overwrite_default",
-                              &overwrite_default);
-
-  for (templist = tdata->files; templist != NULL; 
-       templist = templist->next)
-    {
-      tempfle = templist->data;
-      if (tempfle->startsize == 0 || tempfle->isdir)
-        {
-           tempfle->shown = 0;
-           continue;
-        }
-      tempfle->shown = 1;
-
-      pos = tempfle->destfile;
-      len = strlen (tdata->toreq->directory);
-      if (strncmp (pos, tdata->toreq->directory, len) == 0)
-        pos = tempfle->destfile + len + 1;
-      add_data[0] = pos;
-
-      if (overwrite_default)
-        {
-          add_data[3] = _("Overwrite");
-          tempfle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
-        }
-      else if (tempfle->startsize == tempfle->size)
-        {
-          add_data[3] = _("Skip");
-          tempfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-        }
-      else if (tempfle->startsize > tempfle->size)
-        {
-          add_data[3] = _("Overwrite");
-          tempfle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
-        }
-      else
-        {
-          add_data[3] = _("Resume");
-          tempfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
-        }
-
-      add_data[1] = insert_commas (tempfle->size, tempstr, sizeof (tempstr));
-      add_data[2] = insert_commas (tempfle->startsize, temp1str,
-                                   sizeof (temp1str));
-
-      i = gtk_clist_append (GTK_CLIST (tdata->clist), add_data);
-      gtk_clist_set_row_data (GTK_CLIST (tdata->clist), i, tempfle);
-    }
-
-  gtk_clist_select_all (GTK_CLIST (tdata->clist));
-
-  hbox = gtk_hbox_new (TRUE, 20);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
-  gtk_widget_show (hbox);
-
-  tempwid = gtk_button_new_with_label (_("Overwrite"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (overwrite), (gpointer) tdata);
-  gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("Resume"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (resume), (gpointer) tdata);
-  gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("Skip File"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked", GTK_SIGNAL_FUNC (skip),
-		      (gpointer) tdata);
-  gtk_widget_show (tempwid);
-
-  hbox = gtk_hbox_new (TRUE, 20);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
-  gtk_widget_show (hbox);
-
-  tempwid = gtk_button_new_with_label (_("Select All"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (trans_selectall), (gpointer) tdata);
-  gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("Deselect All"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (trans_unselectall), (gpointer) tdata);
-  gtk_widget_show (tempwid);
-
-#if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_button_new_with_label (_("OK"));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked", GTK_SIGNAL_FUNC (ok),
-		      (gpointer) tdata);
-  gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_grab_default (tempwid);
-  gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("  Cancel  "));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (cancel), (gpointer) tdata);
-  gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (tempwid);
-#else
-  g_signal_connect (GTK_OBJECT (dialog), "response",
-                    G_CALLBACK (transfer_action), (gpointer) tdata);
-#endif
-
-  gtk_widget_show (dialog);
-  dialog = NULL;
 }
 

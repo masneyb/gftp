@@ -24,57 +24,37 @@ static const char cvsid[] = "$Id$";
 int
 gftpui_common_run_mkdir (gftpui_callback_data * cdata)
 {
-  int ret;
-
-  ret = gftp_make_directory (cdata->request, cdata->input_string) == 0;
-
-  return (ret);
+  return (gftp_make_directory (cdata->request, cdata->input_string));
 }
 
 
 int
 gftpui_common_run_rename (gftpui_callback_data * cdata)
 {
-  int ret;
-
-  ret = gftp_rename_file (cdata->request, cdata->source_string,
-                          cdata->input_string) == 0;
-
-  return (ret);
+  return (gftp_rename_file (cdata->request, cdata->source_string,
+                            cdata->input_string));
 }
 
 
 int
 gftpui_common_run_site (gftpui_callback_data * cdata)
 {
-  int ret;
-
-  ret = gftp_site_cmd (cdata->request, cdata->input_string) == 0;
-
-  return (ret);
+  return (gftp_site_cmd (cdata->request, cdata->input_string));
 }
 
 
 int
 gftpui_common_run_chdir (gftpui_callback_data * cdata)
 {
-  int ret;
-
-  ret = gftp_set_directory (cdata->request, cdata->input_string) == 0;
-
-  return (ret);
+  return (gftp_set_directory (cdata->request, cdata->input_string));
 }
 
 
 int
 gftpui_common_run_chmod (gftpui_callback_data * cdata)
 {
-  int ret;
-
-  ret = gftp_chmod (cdata->request, cdata->source_string,
-                    strtol (cdata->input_string, NULL, 10)) == 0;
-
-  return (ret);
+  return (gftp_chmod (cdata->request, cdata->source_string,
+                      strtol (cdata->input_string, NULL, 10)));
 }
 
 
@@ -149,7 +129,7 @@ gftpui_common_run_delete (gftpui_callback_data * cdata)
 
   if (cdata->input_string != NULL)
     {
-      ret = gftp_remove_file (cdata->request, cdata->input_string) == 0;
+      ret = gftp_remove_file (cdata->request, cdata->input_string);
     }
   else
     ret = 0; /* FIXME */
@@ -165,11 +145,18 @@ gftpui_common_run_rmdir (gftpui_callback_data * cdata)
 
   if (cdata->input_string != NULL)
     {
-      ret = gftp_remove_directory (cdata->request, cdata->input_string) == 0;
+      ret = gftp_remove_directory (cdata->request, cdata->input_string);
     }
   else
     ret = 0; /* FIXME */
 
   return (ret);
+}
+
+
+int
+gftpui_common_run_connect (gftpui_callback_data * cdata)
+{ 
+  return (gftp_connect (cdata->request));
 }
 

@@ -24,7 +24,9 @@ sigjmp_buf gftpui_common_jmp_environment;
 volatile int gftpui_common_use_jmp_environment = 0;
 
 static void *gftpui_common_local_uidata, *gftpui_common_remote_uidata;
-static gftp_request * gftpui_common_local_request, * gftpui_common_remote_request;
+static gftp_request * gftpui_common_local_request,
+                    * gftpui_common_remote_request;
+GStaticMutex gftpui_common_transfer_mutex = G_STATIC_MUTEX_INIT;
 
 
 static gftp_logging_func
@@ -40,26 +42,39 @@ _gftpui_common_log (gftp_request * request)
 static void *
 _gftpui_common_thread_callback (void * data)
 { 
+  intptr_t network_timeout, sleep_time;
   gftpui_callback_data * cdata;
-  intptr_t network_timeout;
   int success, sj;
 
   cdata = data;
   gftp_lookup_request_option (cdata->request, "network_timeout",
                               &network_timeout);
+  gftp_lookup_request_option (cdata->request, "sleep_time",
+                              &sleep_time);
 
   sj = sigsetjmp (gftpui_common_jmp_environment, 1);
   gftpui_common_use_jmp_environment = 1;
 
-  success = 0;
+  success = GFTP_ERETRYABLE;
   if (sj == 0)
     {
-      if (network_timeout > 0)
-        alarm (network_timeout);
+      while (1)
+        {
+          if (network_timeout > 0)
+            alarm (network_timeout);
+          success = cdata->run_function (cdata);
+          alarm (0);
 
-      success = cdata->run_function (cdata);
+          if (success == GFTP_EFATAL || success == 0 || cdata->retries == 0)
+            break;
 
-      alarm (0);
+          cdata->request->logging_function (gftp_logging_misc, cdata->request,
+                       _("Waiting %d seconds until trying to connect again\n"),
+                       sleep_time);
+          alarm (sleep_time);
+          pause ();
+          cdata->retries--;
+        }
     }
   else
     {
@@ -88,10 +103,10 @@ gftpui_common_run_callback_function (gftpui_callback_data * cdata)
   else
     ret = GPOINTER_TO_INT (cdata->run_function (cdata));
 
-  if (ret && cdata->run_function != gftpui_common_run_ls)
+  if (ret == 0 && cdata->run_function != gftpui_common_run_ls)
     gftpui_refresh (cdata->uidata);
 
-  return (ret);
+  return (ret == 0);
 }
 
 
@@ -545,9 +560,11 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request, char *command)
 }
 
 
-static int
+int
 gftpui_common_cmd_open (void *uidata, gftp_request * request, char *command)
 {
+  gftpui_callback_data * cdata;
+  intptr_t retries;
   char *tempstr;
 
   if (GFTP_IS_CONNECTED (request))
@@ -555,15 +572,18 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request, char *command)
       gftp_disconnect (request); /* FIXME */
     }
   
-  if (*command == '\0')
+  if (command != NULL)
     {
-      request->logging_function (gftp_logging_error, request,
-          _("usage: open " GFTP_URL_USAGE "\n"));
-      return (1);
-    }
+      if (*command == '\0')
+        {
+          request->logging_function (gftp_logging_error, request,
+                                     _("usage: open " GFTP_URL_USAGE "\n"));
+          return (1);
+        }
     
-  if (gftp_parse_url (request, command) < 0)
-    return (1);
+      if (gftp_parse_url (request, command) < 0)
+        return (1);
+    }
 
   if (request->need_userpass)
     {
@@ -589,7 +609,17 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request, char *command)
         }
     }
 
-  /* FIXME gftp_connect (request); */
+  gftp_lookup_request_option (request, "retries", &retries);
+
+  cdata = g_malloc0 (sizeof (*cdata));
+  cdata->request = request;
+  cdata->uidata = uidata;
+  cdata->run_function = gftpui_common_run_connect;
+  cdata->retries = retries;
+
+  gftpui_common_run_callback_function (cdata);
+
+  g_free (cdata);
 
   return (1);
 }
@@ -916,5 +946,375 @@ gftpui_common_process_command (const char *command)
 
   g_free (newstr);
   return (ret);
+}
+
+
+gftp_transfer *
+gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
+                                 void *fromuidata, void *touidata,
+                                 GList * files)
+{
+  intptr_t append_transfers, one_transfer;
+  GList * templist, *curfle;
+  gftp_transfer * tdata;
+  gftp_file * tempfle;
+  int show_dialog;
+  char *pos;
+  
+  for (templist = files; templist != NULL; templist = templist->next)
+    { 
+      tempfle = templist->data;
+      if (tempfle->startsize > 0)
+        break;
+    }
+  show_dialog = templist != NULL;
+  
+  gftp_lookup_request_option (fromreq, "append_transfers",
+                              &append_transfers);
+  gftp_lookup_request_option (fromreq, "one_transfer",
+                              &one_transfer);
+
+  tdata = NULL;
+  if (append_transfers && one_transfer && !show_dialog)
+    {
+      if (g_thread_supported ())
+        g_static_mutex_lock (&gftpui_common_transfer_mutex);
+
+      for (templist = gftp_file_transfers;
+           templist != NULL;
+           templist = templist->next)
+        {
+          tdata = templist->data;
+
+          if (g_thread_supported ())
+            g_static_mutex_lock (&tdata->structmutex);
+
+          if (!compare_request (tdata->fromreq, fromreq, 0) ||
+              !compare_request (tdata->toreq, toreq, 0) ||
+              tdata->curfle == NULL)
+            {
+              if (g_thread_supported ())
+                g_static_mutex_unlock (&tdata->structmutex);
+
+              continue;
+            }
+
+          tdata->files = g_list_concat (tdata->files, files);
+
+          for (curfle = files; curfle != NULL; curfle = curfle->next)
+            {
+              tempfle = curfle->data;
+
+              if (tempfle->isdir)
+                tdata->numdirs++;
+              else
+                tdata->numfiles++;
+
+              if (tempfle->transfer_action != GFTP_TRANS_ACTION_SKIP)
+                tdata->total_bytes += tempfle->size;
+
+              if ((pos = strrchr (tempfle->file, '/')) == NULL)
+                pos = tempfle->file;
+              else
+                pos++;
+
+              gftpui_add_file_to_transfer (tdata, curfle, pos);
+            }
+
+          if (g_thread_supported ())
+            g_static_mutex_unlock (&tdata->structmutex);
+
+          break;
+        }
+
+      if (g_thread_supported ())
+        g_static_mutex_unlock (&gftpui_common_transfer_mutex);
+    }
+  else
+    templist = NULL;
+
+  if (templist == NULL)
+    {
+      tdata = gftp_tdata_new ();
+      tdata->fromreq = copy_request (fromreq, 0);
+      tdata->toreq = copy_request (toreq, 0);
+
+      tdata->fromwdata = fromuidata;
+      tdata->towdata = touidata;
+
+      if (!show_dialog)
+        tdata->show = tdata->ready = 1;
+
+      tdata->files = files;
+      for (curfle = files; curfle != NULL; curfle = curfle->next)
+        {
+          tempfle = curfle->data;
+          if (tempfle->isdir)
+            tdata->numdirs++;
+          else
+            tdata->numfiles++;
+
+          if (tempfle->transfer_action != GFTP_TRANS_ACTION_SKIP)
+            tdata->total_bytes += tempfle->size;
+        }
+
+      if (g_thread_supported ())
+        g_static_mutex_lock (&gftpui_common_transfer_mutex);
+
+      gftp_file_transfers = g_list_append (gftp_file_transfers, tdata);
+
+      if (g_thread_supported ())
+        g_static_mutex_unlock (&gftpui_common_transfer_mutex);
+
+      if (show_dialog)
+        gftpui_ask_transfer (tdata);
+    }
+
+  return (tdata);
+}
+
+
+static void
+_gftpui_common_setup_fds (gftp_transfer * tdata, gftp_file * curfle,
+                          int *fromfd, int *tofd)
+{
+  *tofd = -1;
+  *fromfd = -1;
+
+  if (curfle->is_fd)
+    {
+      if (tdata->toreq->protonum == GFTP_LOCAL_NUM)
+        *tofd = curfle->fd;
+      else if (tdata->fromreq->protonum == GFTP_LOCAL_NUM)
+        *fromfd = curfle->fd;
+    }
+}
+
+
+static void
+_gftpui_common_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
+{
+  if (curfle->is_fd)
+    {
+      if (tdata->toreq->protonum == GFTP_LOCAL_NUM)
+        tdata->toreq->datafd = -1;
+      else
+        tdata->fromreq->datafd = -1;
+    }
+}
+
+
+int
+gftpui_common_transfer_files (gftp_transfer * tdata)
+{
+  int i, mode, tofd, fromfd;
+  intptr_t preserve_permissions;
+  char buf[8192];
+  off_t fromsize, total;
+  gftp_file * curfle; 
+  ssize_t num_read, ret;
+
+  tdata->curfle = tdata->files;
+  gettimeofday (&tdata->starttime, NULL);
+  memcpy (&tdata->lasttime, &tdata->starttime,
+          sizeof (tdata->lasttime));
+
+  gftp_lookup_request_option (tdata->fromreq, "preserve_permissions",
+                              &preserve_permissions);
+
+  while (tdata->curfle != NULL)
+    {
+      num_read = -1;
+
+      if (g_thread_supported ())
+        g_static_mutex_lock (&tdata->structmutex);
+
+      curfle = tdata->curfle->data;
+      tdata->current_file_number++;
+
+      if (g_thread_supported ())
+        g_static_mutex_unlock (&tdata->structmutex);
+
+      if (curfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
+        {
+          if (g_thread_supported ())
+            g_static_mutex_lock (&tdata->structmutex);
+
+          tdata->next_file = 1;
+          tdata->curfle = tdata->curfle->next;
+
+          if (g_thread_supported ())
+            g_static_mutex_unlock (&tdata->structmutex);
+          continue;
+        }
+
+      fromsize = -1;
+      if (gftp_connect (tdata->fromreq) == 0 &&
+          gftp_connect (tdata->toreq) == 0)
+        {
+          if (curfle->isdir)
+            {
+              if (tdata->toreq->mkdir != NULL)
+                {
+                  tdata->toreq->mkdir (tdata->toreq, curfle->destfile);
+                  if (!GFTP_IS_CONNECTED (tdata->toreq))
+                    break;
+                }
+
+              if (g_thread_supported ())
+                g_static_mutex_lock (&tdata->structmutex);
+
+              tdata->next_file = 1;
+              tdata->curfle = tdata->curfle->next;
+
+              if (g_thread_supported ())
+                g_static_mutex_unlock (&tdata->structmutex);
+              continue;
+            }
+
+          _gftpui_common_setup_fds (tdata, curfle, &fromfd, &tofd);
+
+          if (curfle->size == 0)
+            {
+              curfle->size = gftp_get_file_size (tdata->fromreq, curfle->file);
+              tdata->total_bytes += curfle->size;
+            }
+
+          if (GFTP_IS_CONNECTED (tdata->fromreq) &&
+              GFTP_IS_CONNECTED (tdata->toreq))
+            {
+              fromsize = gftp_transfer_file (tdata->fromreq, curfle->file,
+                          fromfd,
+                          curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
+                                                    curfle->startsize : 0,
+                          tdata->toreq, curfle->destfile, tofd,
+                          curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
+                                                    curfle->startsize : 0);
+            }
+        }
+
+      if (!GFTP_IS_CONNECTED (tdata->fromreq) ||
+          !GFTP_IS_CONNECTED (tdata->toreq))
+        {
+          tdata->fromreq->logging_function (gftp_logging_misc,
+                         tdata->fromreq,
+                         _("Error: Remote site disconnected after trying to tdata file\n"));
+        }
+      else if (fromsize < 0)
+        {
+          if (g_thread_supported ())
+            g_static_mutex_lock (&tdata->structmutex);
+
+          curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
+          tdata->next_file = 1;
+          tdata->curfle = tdata->curfle->next;
+
+          if (g_thread_supported ())
+          g_static_mutex_unlock (&tdata->structmutex);
+          continue;
+        }
+      else
+        {
+          if (g_thread_supported ())
+            g_static_mutex_lock (&tdata->structmutex);
+
+          tdata->curtrans = 0;
+          tdata->curresumed = curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ? curfle->startsize : 0;
+          tdata->resumed_bytes += tdata->curresumed;
+
+          if (g_thread_supported ())
+            g_static_mutex_unlock (&tdata->structmutex);
+
+          total = 0;
+          i = 0;
+          while (!tdata->cancel &&
+                 (num_read = gftp_get_next_file_chunk (tdata->fromreq,
+                                                       buf, sizeof (buf))) > 0)
+            {
+              total += num_read;
+              gftp_calc_kbs (tdata, num_read);
+
+              if ((ret = gftp_put_next_file_chunk (tdata->toreq, buf,
+                                                   num_read)) < 0)
+                {
+                  num_read = (int) ret;
+                  break;
+                }
+            }
+        }
+
+      if (tdata->cancel)
+        {
+          if (gftp_abort_transfer (tdata->fromreq) != 0)
+            gftp_disconnect (tdata->fromreq);
+
+          if (gftp_abort_transfer (tdata->toreq) != 0)
+            gftp_disconnect (tdata->toreq);
+        }
+      else if (num_read < 0)
+        {
+          tdata->fromreq->logging_function (gftp_logging_misc,
+                                        tdata->fromreq,
+                                        _("Could not download %s from %s\n"),
+                                        curfle->file,
+                                        tdata->fromreq->hostname);
+
+          if (gftp_get_transfer_status (tdata, num_read) == GFTP_ERETRYABLE)
+            continue;
+
+          break;
+        }
+      else
+        {
+          _gftpui_common_done_with_fds (tdata, curfle);
+          if (gftp_end_transfer (tdata->fromreq) != 0)
+            {
+              if (gftp_get_transfer_status (tdata, -1) == GFTP_ERETRYABLE)
+                continue;
+
+              break;
+            }
+          gftp_end_transfer (tdata->toreq);
+
+          tdata->fromreq->logging_function (gftp_logging_misc,
+                         tdata->fromreq,
+                         _("Successfully tdatared %s at %.2f KB/s\n"),
+                         curfle->file, tdata->kbs);
+        }
+
+      if (!curfle->is_fd && preserve_permissions)
+        {
+          if (curfle->attribs)
+            {
+              mode = gftp_parse_attribs (curfle->attribs);
+              if (mode != 0)
+                gftp_chmod (tdata->toreq, curfle->destfile, mode);
+            }
+
+          if (curfle->datetime != 0)
+            gftp_set_file_time (tdata->toreq, curfle->destfile,
+                                curfle->datetime);
+        }
+
+      if (g_thread_supported ())
+        g_static_mutex_lock (&tdata->structmutex);
+
+      tdata->curtrans = 0;
+      tdata->next_file = 1;
+      curfle->transfer_done = 1;
+      tdata->curfle = tdata->curfle->next;
+
+      if (g_thread_supported ())
+        g_static_mutex_unlock (&tdata->structmutex);
+
+      if (tdata->cancel && !tdata->skip_file)
+        break;
+      tdata->cancel = 0;
+      tdata->fromreq->cancel = 0;
+      tdata->toreq->cancel = 0;
+    }
+  tdata->done = 1;
+
+  return (1); /* FIXME */
 }
 

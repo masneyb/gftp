@@ -71,8 +71,8 @@ view_dialog (gpointer data)
       new_fle->done_view = 1;
       new_fle->done_rm = 1;
       newfile = g_list_append (NULL, new_fle); 
-      add_file_transfer (fromwdata->request, towdata->request,
-                         fromwdata, towdata, newfile, 1);
+      gftpui_common_add_file_transfer (fromwdata->request, towdata->request,
+                                       fromwdata, towdata, newfile);
     }
 }
 
@@ -137,8 +137,8 @@ edit_dialog (gpointer data)
       new_fle->is_fd = 1;
       new_fle->done_edit = 1;
       newfile = g_list_append (NULL, new_fle); 
-      add_file_transfer (fromwdata->request, towdata->request,
-                         fromwdata, towdata, newfile, 1);
+      gftpui_common_add_file_transfer (fromwdata->request, towdata->request,
+                                       fromwdata, towdata, newfile);
     }
 }
 

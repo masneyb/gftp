@@ -33,6 +33,7 @@ struct _gftpui_callback_data
   char *input_string,
        *source_string;
   GList * files;
+  int retries;
   int (*run_function) (gftpui_callback_data * cdata);
 };
 
@@ -55,6 +56,12 @@ typedef struct _gftpui_common_methods
   int (*subhelp_func) (char *topic);
 } gftpui_common_methods;
 
+typedef struct _gftpui_common_curtrans_data
+{
+  gftp_transfer * transfer;
+  GList * curfle;
+} gftpui_common_curtrans_data;
+
 #define gftpui_common_use_threads(request)	(gftp_protocols[(request)->protonum].use_threads)
 
 #define GFTPUI_COMMON_COLOR_BLACK     "\033[30m"
@@ -72,6 +79,7 @@ typedef struct _gftpui_common_methods
 extern sigjmp_buf gftpui_common_jmp_environment;
 extern volatile int gftpui_common_use_jmp_environment;
 extern gftpui_common_methods gftpui_common_commands[];
+extern GStaticMutex gftpui_common_transfer_mutex;
 
 /* gftpui.c */
 int gftpui_run_callback_function	( gftpui_callback_data * cdata );
@@ -90,6 +98,18 @@ int gftpui_common_init			( void *locui,
 
 int gftpui_common_process_command 	( const char *command );
 
+int gftpui_common_cmd_open 		( void *uidata,
+					  gftp_request * request,
+					  char *command );
+
+gftp_transfer * gftpui_common_add_file_transfer ( gftp_request * fromreq,
+						  gftp_request * toreq,
+						  void *fromuidata,
+						  void *touidata,
+						  GList * files );
+
+int gftpui_common_transfer_files 	( gftp_transfer * tdata );
+
 /* gftpuicallback.c */
 int gftpui_common_run_mkdir 		( gftpui_callback_data * cdata );
 
@@ -106,6 +126,8 @@ int gftpui_common_run_ls 		( gftpui_callback_data * cdata );
 int gftpui_common_run_delete		( gftpui_callback_data * cdata );
 
 int gftpui_common_run_rmdir 		( gftpui_callback_data * cdata );
+
+int gftpui_common_run_connect 		( gftpui_callback_data * cdata );
 
 /* UI Functions that must be implemented by each distinct UI */
 void gftpui_lookup_file_colors 		( gftp_file * fle,
@@ -124,5 +146,11 @@ char *gftpui_prompt_username		( void *uidata,
 
 char *gftpui_prompt_password 		( void *uidata,
 					  gftp_request * request );
+
+void gftpui_add_file_to_transfer 	( gftp_transfer * tdata,
+					  GList * curfle,
+					  char *filepos );
+
+void gftpui_ask_transfer		( gftp_transfer * tdata );
 
 #endif

@@ -1,4 +1,28 @@
 2003-1-18 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_parse_url) - if the URL is the local filesystem,
+	skip over the whitespace at the beginning.
+
+	* lib/rfc959.c (rfc959_syst) - allow the string MVS and OS/MVS for the
+	MVS directory listings.
+
+	* src/gtk/gtkui_transfer.c src/gtk/transfer.c src/gtk/gftpui.c - 
+	started to move the transfer functionality into the uicommon directory.
+	Added the text and GTK+ UI specific transfer functions.
+
+	* src/gtk/Makefile.am po/POTFILES.in - added gtkui_transfer.c 
+
+	* src/gtk/dnd.c src/gtk/gtkui_transfer.c src/gtk/view_dialog.c -
+	s/add_file_transfer/gtkui_common_add_file_transfer/
+
+	* src/gtk/gftp-gtk.c src/gtk/gftp-gtk.h - removed transfer_mutex
+
+	* src/gtk/gtkui.c src/text/textui.c - added
+	gftpui_add_file_to_transfer() 
+
+	* src/uicommon/gftpui_callbacks.c src/uicommon/gftpui.c - in all of the
+	thread callback functions, don't alter the return value in the function.
+	Return it as is.
+
 	* src/gtk/bookmarks.c - don't allow an item to be dropped onto the root
 	node or items that are not a folder
 	(from Aurelien Jarno <aurel32@debian.org>)

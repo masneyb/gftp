@@ -83,8 +83,8 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
   templist = g_malloc0 (sizeof (*templist));
   templist->data = newfle;
   templist->next = NULL;
-  add_file_transfer (current_ftpdata, wdata->request, fromwdata,
-                     wdata, templist, 1);
+  gftpui_common_add_file_transfer (current_ftpdata, wdata->request, fromwdata,
+                                   wdata, templist);
   gftp_request_destroy (current_ftpdata, 1);
 
   /* FIXME  resume files and download entire directories */
