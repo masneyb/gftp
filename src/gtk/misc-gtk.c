@@ -270,13 +270,16 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
   if (tempwid)
     gtk_widget_set_sensitive (tempwid, sensitive);
 
-  if ((pos = strchr (path + 1, '/')) == NULL)
-    pos = path;
-
-  if (wdata->ifactory)
-    tempwid = gtk_item_factory_get_widget (wdata->ifactory, pos);
-  if (tempwid)
-    gtk_widget_set_sensitive (tempwid, sensitive);
+  if (wdata != NULL)
+    {
+      if ((pos = strchr (path + 1, '/')) == NULL)
+        pos = path;
+    
+      if (wdata->ifactory)
+        tempwid = gtk_item_factory_get_widget (wdata->ifactory, pos);
+      if (tempwid)
+        gtk_widget_set_sensitive (tempwid, sensitive);
+    }
 }
 
 
@@ -359,6 +362,20 @@ update_window (gftp_window_data * wdata)
   set_menu_sensitive (wdata, menus[start + 19].path, connected &&
                       wdata->request->get_file != NULL);
   set_menu_sensitive (wdata, menus[start + 20].path, connected);
+
+  connected = GFTP_IS_CONNECTED (window1.request) && GFTP_IS_CONNECTED (window2.request);
+
+  start = trans_start;
+  set_menu_sensitive (NULL, menus[start + 2].path, connected);
+  set_menu_sensitive (NULL, menus[start + 3].path, connected);
+  set_menu_sensitive (NULL, menus[start + 5].path, connected);
+  set_menu_sensitive (NULL, menus[start + 6].path, connected);
+
+  set_menu_sensitive (NULL, menus[start + 7].path, connected);
+  set_menu_sensitive (NULL, menus[start + 8].path, connected);
+
+  set_menu_sensitive (NULL, menus[start + 10].path, connected);
+  set_menu_sensitive (NULL, menus[start + 11].path, connected);
 }  
 
 
