@@ -1160,7 +1160,7 @@ transfer_done (GList * node)
       transfer_in_progress--;
     }
 
-  if (!tdata->show)
+  if (!tdata->show && tdata->started)
     {
       transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), tdata->node);
       if (transdata != NULL)

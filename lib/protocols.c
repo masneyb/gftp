@@ -1840,14 +1840,6 @@ gftp_connect_server (gftp_request * request, char *service)
   port = ntohs (port);
 #endif /* HAVE_GETADDRINFO */
 
-  if (!request->use_proxy && disphost != NULL)
-    {
-      g_free (request->hostname);
-      request->hostname = g_malloc (strlen (disphost) + 1);
-      strcpy (request->hostname, disphost);
-      connect_host = request->hostname;
-    }
-
   request->logging_function (gftp_logging_misc, request->user_data,
 			     _("Connected to %s:%d\n"), connect_host, port);
   return (sock);

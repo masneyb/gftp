@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gftp-2.0.12\n"
+"Project-Id-Version: gftp-2.0.13\n"
 "POT-Creation-Date: 2002-07-19 14:50-0400\n"
-"PO-Revision-Date: 2002-05-01 @880\n"
+"PO-Revision-Date: 2002-07-20 @835\n"
 "Last-Translator: Myckel Habets <myckelhabets@netscape.net>\n"
 "Language-Team: NL-Soft <nl-soft@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,9 +14,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: lib/bookmark.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Could not find bookmark %s\n"
-msgstr "Fout: Kan niet naar buis schrijven: %s\n"
+msgstr "Fout: Kan bladwijzer %s niet vinden\n"
 
 #: lib/bookmark.c:89 src/gtk/bookmarks.c:86
 msgid ""
@@ -142,14 +142,15 @@ msgid "Network"
 msgstr "Netwerk"
 
 #: lib/config_file.c:66
-#, fuzzy
 msgid "Network timeout:"
-msgstr "Lees timeout:"
+msgstr "Netwerk timeout:"
 
 #: lib/config_file.c:67
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
+"De tijd hoe lang gewacht moet worden op netwerk invoer/uitvoer. Dit is NIET "
+"een inactief timeout."
 
 #: lib/config_file.c:68
 msgid "Connect retries:"
@@ -240,9 +241,8 @@ msgid "Send PASV command or PORT command for data transfers"
 msgstr "Zend PASV commando of PORT commando voor dataoverdrachten"
 
 #: lib/config_file.c:94
-#, fuzzy
 msgid "Resolve Remote Symlinks (LIST -L)"
-msgstr "Volg Externe Symlinks"
+msgstr "Externe Symlinks Opzoeken (LIST -L)"
 
 #: lib/config_file.c:96
 msgid ""
@@ -391,13 +391,15 @@ msgstr ""
 
 #: lib/config_file.c:147
 msgid "Enable old SSH protocol"
-msgstr ""
+msgstr "Oud SSH protocol aan zetten"
 
 #: lib/config_file.c:149
 msgid ""
 "Enable the old SSH protocol. You will need to download the sftp server from "
 "http:///www.xbill.org/sftp"
 msgstr ""
+"Zet het oude SSH protocol aan. U zal de sftp server van http://www.xbill.org/"
+"sftpmoeten downloaden"
 
 #: lib/config_file.c:152
 msgid ""
@@ -567,26 +569,24 @@ msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP Waarschuwing: Regel %d in bookmarkbestand overgeslagen: %s\n"
 
 #: lib/config_file.c:776
-#, fuzzy
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
-"Configuratiebestand voor gFTPCopyright (C) 1998-2002 Brian Masney "
-"<masneyb@gftp.org>Waarschuwing: Al het toegevoegde commentaar ZAL "
-"overschreven wordenEen veld met (*) in het commentaar is niet in gFTP te "
-"veranderen"
+"Configuratiebestand voor gFTP. Copyright (C) 1998-2002 Brian Masney "
+"<masneyb@gftp.org>. Waarschuwing: Al het toegevoegde commentaar ZAL "
+"overschreven worden. Een veld met (*) in het commentaar is niet binnen gFTP "
+"te veranderen"
 
 #: lib/config_file.c:777
-#, fuzzy
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
-"Bladwijzerbestand voor gFTPCopyright (C) 1998-2002 Brian Masney "
-"<masneyb@gftp.org>Waarschuwing: Al het toegevoegde commentaar ZAL "
-"overschreven worden"
+"Bladwijzerbestand voor gFTP. Copyright (C) 1998-2002 Brian Masney "
+"<masneyb@gftp.org>. Waarschuwing: Al het toegevoegde commentaar ZAL "
+"overschreven worden."
 
 #: lib/config_file.c:778
 msgid ""
@@ -951,84 +951,83 @@ msgstr "Fout: Kan niet van buis lezen: %s\n"
 #: lib/sshv2.c:1000 lib/sshv2.c:1013 lib/sshv2.c:1069 lib/sshv2.c:1126
 #: lib/sshv2.c:1194 lib/sshv2.c:1639 lib/sshv2.c:1732 lib/sshv2.c:1816
 #: lib/sshv2.c:1897 lib/sshv2.c:1979
-#, fuzzy
 msgid "Received wrong response from server, disconnecting\n"
-msgstr "Ontving onverwacht antwoord van server\n"
+msgstr "Ontving verkeerd antwoord van server, verbinding wordt verbroken\n"
 
 #: lib/sshv2.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Message size %d too big\n"
-msgstr "Fout: Berichtgrootte %d van server te groot\n"
+msgstr "Fout: Berichtgrootte %d te groot\n"
 
 #: lib/sshv2.c:627
 #, c-format
 msgid "%d: Protocol Initialization\n"
-msgstr ""
+msgstr "%d: Protocol Initialisatie\n"
 
 #: lib/sshv2.c:633
 #, c-format
 msgid "%d: Protocol version %d\n"
-msgstr ""
+msgstr "%d: Protocol versie %d\n"
 
 #: lib/sshv2.c:642
 #, c-format
 msgid "%d: Open %s\n"
-msgstr ""
+msgstr "%d: %s openen\n"
 
 #: lib/sshv2.c:647
-#, fuzzy, c-format
+#, c-format
 msgid "%d: Close\n"
-msgstr "  Sluiten  "
+msgstr "%d: Sluiten\n"
 
 #: lib/sshv2.c:653
-#, fuzzy, c-format
+#, c-format
 msgid "%d: Open Directory %s\n"
-msgstr "Maak Directory"
+msgstr "%d: Directory %s openen\n"
 
 #: lib/sshv2.c:658
-#, fuzzy, c-format
+#, c-format
 msgid "%d: Read Directory\n"
-msgstr "Maak Directory"
+msgstr "%d: Directory Lezen\n"
 
 #: lib/sshv2.c:662
-#, fuzzy, c-format
+#, c-format
 msgid "%d: Remove file %s\n"
-msgstr "Kan bestand %s niet ontvangen\n"
+msgstr "%d: Kan bestand %s niet verwijderen\n"
 
 #: lib/sshv2.c:667
-#, fuzzy, c-format
+#, c-format
 msgid "%d: Make directory %s\n"
-msgstr "Maak Directory"
+msgstr "%d: Maak Directory %s\n"
 
 #: lib/sshv2.c:672
-#, fuzzy, c-format
+#, c-format
 msgid "%d: Remove directory %s\n"
-msgstr "Externe Directory:"
+msgstr "%d: Verwijder directory %s\n"
 
 #: lib/sshv2.c:677
 #, c-format
 msgid "%d: Realpath %s\n"
-msgstr ""
+msgstr "%d: Echtpath %s\n"
 
 #: lib/sshv2.c:682
 #, c-format
 msgid "%d: File attributes\n"
-msgstr ""
+msgstr "%d: Bestand attributen\n"
 
 #: lib/sshv2.c:686
 #, c-format
 msgid "%d: Stat %s\n"
-msgstr ""
+msgstr "%d: Stat %s\n"
 
 #: lib/sshv2.c:703
 #, c-format
 msgid "%d: Chmod %s %o\n"
-msgstr ""
+msgstr "%d: Chmod %s %o\n"
 
 #: lib/sshv2.c:708
 #, c-format
 msgid "%d: Utime %s %d\n"
-msgstr ""
+msgstr "%d: Utime %s %d\n"
 
 #: lib/sshv2.c:721 src/gtk/bookmarks.c:333 src/gtk/bookmarks.c:996
 #: src/gtk/menu-items.c:317 src/gtk/options_dialog.c:273
@@ -1038,44 +1037,39 @@ msgstr "OK"
 
 #: lib/sshv2.c:724
 msgid "EOF"
-msgstr ""
+msgstr "EOF"
 
 #: lib/sshv2.c:727
-#, fuzzy
 msgid "No such file or directory"
-msgstr "gebruik: chdir <directory>\n"
+msgstr "Bestand of directory bestaat niet"
 
 #: lib/sshv2.c:730
 msgid "Permission denied"
-msgstr ""
+msgstr "Toegang geweigerd"
 
 #: lib/sshv2.c:733
-#, fuzzy
 msgid "Failure"
-msgstr "Bestand"
+msgstr "Mislukt"
 
 #: lib/sshv2.c:736
 msgid "Bad message"
-msgstr ""
+msgstr "Slecht bericht"
 
 #: lib/sshv2.c:739
-#, fuzzy
 msgid "No connection"
-msgstr "Niet verbonden"
+msgstr "Geen verbinding"
 
 #: lib/sshv2.c:742
-#, fuzzy
 msgid "Connection lost"
-msgstr "Verbinding naar %s timeout\n"
+msgstr "Verbinding verloren"
 
 #: lib/sshv2.c:745
-#, fuzzy
 msgid "Operation unsupported"
-msgstr "Operatie geannuleerd\n"
+msgstr "Operatie niet ondersteund"
 
 #: lib/sshv2.c:748
 msgid "Unknown message returned from server"
-msgstr ""
+msgstr "Onbekend bericht ontavngen van server"
 
 #: src/text/gftp-text.c:29
 msgid "about"
@@ -1083,7 +1077,7 @@ msgstr "info"
 
 #: src/text/gftp-text.c:30
 msgid "Shows gFTP information"
-msgstr ""
+msgstr "Geef gFTP informatie"
 
 #: src/text/gftp-text.c:31
 msgid "ascii"
@@ -1091,7 +1085,7 @@ msgstr "ascii"
 
 #: src/text/gftp-text.c:32
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
-msgstr ""
+msgstr "Zet de huidige bestandsoverdracht modus naar Ascii (alleen voor FTP)"
 
 #: src/text/gftp-text.c:33
 msgid "binary"
@@ -1099,16 +1093,15 @@ msgstr "binair"
 
 #: src/text/gftp-text.c:34
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
-msgstr ""
+msgstr "Zet de huidige bestandsoverdracht modus naar Binair (alleen voor FTP)"
 
 #: src/text/gftp-text.c:35
 msgid "cd"
 msgstr "cd"
 
 #: src/text/gftp-text.c:36 src/text/gftp-text.c:38
-#, fuzzy
 msgid "Changes the remote working directory"
-msgstr "Kan niet naar huidige directory %s gaan: %s\n"
+msgstr "Verandert de externe werkdirectory"
 
 #: src/text/gftp-text.c:37
 msgid "chdir"
@@ -1119,18 +1112,16 @@ msgid "chmod"
 msgstr "chmod"
 
 #: src/text/gftp-text.c:40
-#, fuzzy
 msgid "Changes the permissions of a remote file"
-msgstr "Behoud de permissies na de bestandsoverdracht"
+msgstr "Verandert de permissies van een extern bestand"
 
 #: src/text/gftp-text.c:41
 msgid "close"
 msgstr "sluiten"
 
 #: src/text/gftp-text.c:42
-#, fuzzy
 msgid "Disconnects from the remote site"
-msgstr "Verbinding verbroken: Niet verbonden met externe site\n"
+msgstr "Verbreekt de verbinding met de externe site"
 
 #: src/text/gftp-text.c:43
 msgid "delete"
@@ -1138,16 +1129,15 @@ msgstr "verwijder"
 
 #: src/text/gftp-text.c:44
 msgid "Removes a remote file"
-msgstr ""
+msgstr "Verwijdert een extern bestand"
 
 #: src/text/gftp-text.c:45
 msgid "get"
 msgstr "get"
 
 #: src/text/gftp-text.c:46 src/text/gftp-text.c:70
-#, fuzzy
 msgid "Downloads remote file(s)"
-msgstr "Bestanden Downloaden"
+msgstr "Externe bestanden downloaden"
 
 #: src/text/gftp-text.c:47
 msgid "help"
@@ -1155,16 +1145,15 @@ msgstr "help"
 
 #: src/text/gftp-text.c:48
 msgid "Shows this help screen"
-msgstr ""
+msgstr "geeft dit help scherm"
 
 #: src/text/gftp-text.c:49
 msgid "lcd"
 msgstr "lcd"
 
 #: src/text/gftp-text.c:50 src/text/gftp-text.c:52
-#, fuzzy
 msgid "Changes the local working directory"
-msgstr "Kan niet naar huidige directory %s gaan: %s\n"
+msgstr "Verandert de lokale werkdirectory"
 
 #: src/text/gftp-text.c:51
 msgid "lchdir"
@@ -1175,18 +1164,16 @@ msgid "lchmod"
 msgstr "lchmod"
 
 #: src/text/gftp-text.c:54
-#, fuzzy
 msgid "Changes the permissions of a local file"
-msgstr "Behoud de permissies na de bestandsoverdracht"
+msgstr "Verandert de permissies van een lokaal bestand"
 
 #: src/text/gftp-text.c:55
 msgid "ldelete"
 msgstr "lverwijder"
 
 #: src/text/gftp-text.c:56
-#, fuzzy
 msgid "Removes a local file"
-msgstr "Alle bestanden selecteren"
+msgstr "Verwijdert een lokaal bestand"
 
 #: src/text/gftp-text.c:57
 msgid "lls"
@@ -1194,16 +1181,15 @@ msgstr "lls"
 
 #: src/text/gftp-text.c:58
 msgid "Shows the directory listing for the current local directory"
-msgstr ""
+msgstr "Geeft de directory-inhoud voor de huidige lokale werkdirectory"
 
 #: src/text/gftp-text.c:59
 msgid "lmkdir"
 msgstr "lmkdir"
 
 #: src/text/gftp-text.c:60
-#, fuzzy
 msgid "Creates a local directory"
-msgstr "Lokale Directory:"
+msgstr "Maakt een lokale directory"
 
 #: src/text/gftp-text.c:61
 msgid "lpwd"
@@ -1211,25 +1197,23 @@ msgstr "lpwd"
 
 #: src/text/gftp-text.c:62
 msgid "Show current local directory"
-msgstr ""
+msgstr "Geeft de huidige lokale directory"
 
 #: src/text/gftp-text.c:63
 msgid "lrename"
 msgstr "lhernoem"
 
 #: src/text/gftp-text.c:64
-#, fuzzy
 msgid "Rename a local file"
-msgstr "Alle bestanden selecteren"
+msgstr "Hernoem een lokaal bestand"
 
 #: src/text/gftp-text.c:65
 msgid "lrmdir"
 msgstr "lrmdir"
 
 #: src/text/gftp-text.c:66
-#, fuzzy
 msgid "Remove a local directory"
-msgstr "Externe Directory:"
+msgstr "Verwijdert een lokale directory"
 
 #: src/text/gftp-text.c:67
 msgid "ls"
@@ -1237,7 +1221,7 @@ msgstr "ls"
 
 #: src/text/gftp-text.c:68
 msgid "Shows the directory listing for the current remote directory"
-msgstr ""
+msgstr "Geeft de directory-inhoud voor de huidige externe directory"
 
 #: src/text/gftp-text.c:69
 msgid "mget"
@@ -1248,27 +1232,24 @@ msgid "mkdir"
 msgstr "mkdir"
 
 #: src/text/gftp-text.c:72
-#, fuzzy
 msgid "Creates a remote directory"
-msgstr "Externe Directory:"
+msgstr "Maakt een externe directory:"
 
 #: src/text/gftp-text.c:73
 msgid "mput"
 msgstr "mput"
 
 #: src/text/gftp-text.c:74 src/text/gftp-text.c:78
-#, fuzzy
 msgid "Uploads local file(s)"
-msgstr "Bestanden Uploaden"
+msgstr "Lokale bestanden uploaden"
 
 #: src/text/gftp-text.c:75
 msgid "open"
 msgstr "openen"
 
 #: src/text/gftp-text.c:76
-#, fuzzy
 msgid "Opens a connection to a remote site"
-msgstr "%s: Niet verbonden met externe site\n"
+msgstr "Opent een verbinding naar een externe site"
 
 #: src/text/gftp-text.c:77
 msgid "put"
@@ -1279,9 +1260,8 @@ msgid "pwd"
 msgstr "pwd"
 
 #: src/text/gftp-text.c:80
-#, fuzzy
 msgid "Show current remote directory"
-msgstr "Externe Directory:"
+msgstr "Geeft de huidige externe directory"
 
 #: src/text/gftp-text.c:81
 msgid "quit"
@@ -1289,7 +1269,7 @@ msgstr "afsluiten"
 
 #: src/text/gftp-text.c:82
 msgid "Exit from gFTP"
-msgstr ""
+msgstr "gFTP afsluiten"
 
 #: src/text/gftp-text.c:83
 msgid "rename"
@@ -1297,26 +1277,26 @@ msgstr "hernoem"
 
 #: src/text/gftp-text.c:84
 msgid "Rename a remote file"
-msgstr ""
+msgstr "Een extern bestand hernoemen"
 
 #: src/text/gftp-text.c:85
 msgid "rmdir"
 msgstr "rmdir"
 
 #: src/text/gftp-text.c:86
-#, fuzzy
 msgid "Remove a remote directory"
-msgstr "Externe Directory:"
+msgstr "Verwijdert een externe directory"
 
 #: src/text/gftp-text.c:87
-#, fuzzy
 msgid "set"
-msgstr "get"
+msgstr "set"
 
 #: src/text/gftp-text.c:88
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
+"Geeft configuratiebestand variabelen. U kan ook variabelen instellen met set "
+"var=wrd"
 
 #: src/text/gftp-text.c:134
 msgid ""
@@ -1416,19 +1396,21 @@ msgid ""
 "Supported commands:\n"
 "\n"
 msgstr ""
+"Ondersteunde commando's:\n"
+"\n"
 
 #: src/text/gftp-text.c:970
 msgid "usage: set [variable = value]\n"
-msgstr ""
+msgstr "gebruik: set [variabele = waarde]\n"
 
 #: src/text/gftp-text.c:990
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
-msgstr ""
+msgstr "Fout: Variabele %s is geen geldige configuratievariabele.\n"
 
 #: src/text/gftp-text.c:1013
 msgid "Error: You cannot change this variable\n"
-msgstr ""
+msgstr "Fout: U kan deze variabele niet veranderen\n"
 
 #: src/gtk/bookmarks.c:72 src/gtk/gftp-gtk.c:963 src/gtk/menu-items.c:74
 #: src/gtk/menu-items.c:115 src/gtk/misc-gtk.c:461 src/gtk/misc-gtk.c:469
