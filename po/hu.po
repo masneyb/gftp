@@ -1,22 +1,23 @@
-# Hungarian translations for gftp package.
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Hungarian translation of gftp
+# Copyright (C) 2002, 2004 Free Software Foundation, Inc.
 # Doome <doome@uhulinux.hu>, 2002.
 # Andras Timar <timar@gnome.hu>, 2002.
+# Laszlo Dvornik <dvornikl@mailbox.hu>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gftp 2.0.13\n"
+"Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-23 21:50-0400\n"
-"PO-Revision-Date: 2003-07-08 16:12+0200\n"
-"Last-Translator: Andras Timar <timar@gnome.hu>\n"
-"Language-Team: Hungarian <hu@gnome.hu>\n"
+"POT-Creation-Date: 2004-02-11 21:23+0100\n"
+"PO-Revision-Date: 2004-02-11 18:10+0100\n"
+"Last-Translator: Laszlo Dvornik <dvornikl@mailbox.hu>\n"
+"Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: lib/bookmark.c:38
+#: lib/bookmark.c:39
 #, c-format
 msgid "Invalid URL %s\n"
 msgstr "Érvénytelen URL %s\n"
@@ -26,63 +27,78 @@ msgstr "Érvénytelen URL %s\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Hiba: Érvénytelen sor a gyorsítótár indexfájljában: %s\n"
 
-#: lib/cache.c:136 lib/local.c:532
+#: lib/cache.c:137 lib/local.c:534
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Hiba: %s könyvtárat nem sikerült létrehozni: %s\n"
 
-#: lib/cache.c:160
+#: lib/cache.c:161
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Hiba: Ideiglenes fájl létrehozása sikertelen: %s\n"
 
-#: lib/cache.c:182 lib/cache.c:231 lib/local.c:98 lib/local.c:213
-#: lib/misc.c:289 lib/misc.c:295 lib/rfc2068.c:263 lib/sshv2.c:993
+#: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:148 lib/config_file.c:154
+#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:265 lib/sshv2.c:1000
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Hiba a fájlleíró bezárása közben: %s\n"
 
-#: lib/cache.c:249 lib/local.c:132 lib/local.c:141 lib/local.c:188
+#: lib/cache.c:250 lib/local.c:132 lib/local.c:141 lib/local.c:188
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Hiba: Nem lehet keresni a %s fájlban: %s\n"
 
-#: lib/config_file.c:120 lib/config_file.c:672
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2750
+#, c-format
+msgid "Error: Cannot open local file %s: %s\n"
+msgstr "Hiba: Nem sikerült megnyitni a(z) %s helyi fájlt: %s\n"
+
+#: lib/config_file.c:134 lib/protocols.c:2455 lib/sslcommon.c:467
+#, c-format
+msgid "Error: Could not write to socket: %s\n"
+msgstr "Hiba: Nem lehet írni a socketbe: %s\n"
+
+#: lib/config_file.c:142 lib/protocols.c:2383 lib/sslcommon.c:421
+#, c-format
+msgid "Error: Could not read from socket: %s\n"
+msgstr "Hiba: Nem lehet olvasni a socketből: %s\n"
+
+#: lib/config_file.c:174 lib/config_file.c:730
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP Hiba: Rossz könyvjelzőfájlnév: %s\n"
 
-#: lib/config_file.c:129
+#: lib/config_file.c:183
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Figyelem: A fő könyvjelzőfájl nem található: %s\n"
 
-#: lib/config_file.c:140 lib/config_file.c:678
+#: lib/config_file.c:194 lib/config_file.c:736
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP Hiba: Nem lehet megnyitni a(z) %s könyvjelzőfájlt: %s\n"
 
-#: lib/config_file.c:229 lib/config_file.c:251
+#: lib/config_file.c:286 lib/config_file.c:308
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP Figyelmeztetés: Könyvjelzőfájl %d. sorának mellőzése: %s\n"
 
-#: lib/config_file.c:281
+#: lib/config_file.c:338
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP Figyelmeztetés: %d. sornak nincs elég argumentuma\n"
 
-#: lib/config_file.c:442
+#: lib/config_file.c:499
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
 "Ez a rész adja meg, hogy mely gépek vannak a helyi alhálózaton, és nem kell "
-"a proxy az eléréséhez (ha létezik). Formátum: dont_user_proxy.domain vagy "
-"dont_user_proxy=hálózati szám/hálózati maszk"
+"a proxy az eléréséhez (ha létezik). Formátum: dont_use_proxy=domain vagy "
+"dont_use_proxy=hálózati szám/hálózati maszk"
 
-#: lib/config_file.c:445
+#: lib/config_file.c:502
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
@@ -90,75 +106,83 @@ msgstr ""
 "ext=fájlkiterjesztés:XPM fájl:ASCII vagy bináris (A v. B):nézőprogram. "
 "Megjegyzés: Minden argumentum opcionális, kivéve a fájlkiterjesztés."
 
-#: lib/config_file.c:523 lib/config_file.c:750
+#: lib/config_file.c:580 lib/config_file.c:819
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP Hiba: Rossz konfigurációsfájl-név: %s\n"
 
-#: lib/config_file.c:534
+#: lib/config_file.c:591
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
-msgstr "gFTP Hiba: Nem tudtam létrehozni a könyvtárat: %s: %s\n"
+msgstr "gFTP Hiba: Nem lehet létrehozni a(z) %s könyvtárat: %s\n"
 
-#: lib/config_file.c:544
+#: lib/config_file.c:601
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
-msgstr "gFTP Hiba: Nem találom a fő konfigurációs fájlt: %s\n"
+msgstr "gFTP Hiba: A fő konfigurációs fájl nem található: %s\n"
 
-#: lib/config_file.c:546
+#: lib/config_file.c:603
 msgid "Did you do a make install?\n"
-msgstr "Csináltál \"make install\"-t?\n"
+msgstr "Kiadta a \"make install\" parancsot?\n"
 
-#: lib/config_file.c:555 lib/config_file.c:756
+#: lib/config_file.c:612 lib/config_file.c:825
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP Hiba: A(z) %s konfigurációs fájl megnyitása sikertelen: %s\n"
 
-#: lib/config_file.c:594
+#: lib/config_file.c:651
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr ""
 
-#: lib/config_file.c:600
+#: lib/config_file.c:657
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP Figyelmeztetés: Konfigurációs fájl %d sorának mellőzése: %s\n"
 
-#: lib/config_file.c:607
+#: lib/config_file.c:664
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP Hiba: Rossz naplófájl név: %s\n"
 
-#: lib/config_file.c:613
+#: lib/config_file.c:670
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP Figyelmeztetés: %s fájl írásra megnyitása sikertelen: %s\n"
 
-#: lib/config_file.c:668
+#: lib/config_file.c:725
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
 "gFTP könyvjelzőfájl. Copyright © 1998-2003 Brian Masney <masneyb@gftp.org>. "
-"Figyelem: bármilyen megjegyzést adsz ehhez a fájlhoz, felülíródik. "
+"Figyelem: Bármilyen megjegyzést ad ehhez a fájlhoz, felülíródik."
 
-#: lib/config_file.c:763
+#: lib/config_file.c:726
+msgid ""
+"Note: The passwords contained inside this file are scrambled. This algorithm "
+"is not secure. This is to avoid your password being easily remembered by "
+"someone standing over your shoulder while you're editing this file. Prior to "
+"this, all passwords were stored in plaintext."
+msgstr ""
+
+#: lib/config_file.c:832
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
-"gFTP konfigurációs fájl. Copyright © 1998-2002 Brian Masney <masneyb@gftp."
-"org>. Figyelem: bármilyen megjegyzést adsz ehhez a fájlhoz, felülíródik. Ha "
+"gFTP konfigurációs fájl. Copyright © 1998-2003 Brian Masney <masneyb@gftp."
+"org>. Figyelem: Bármilyen megjegyzést ad ehhez a fájlhoz, felülíródik. Ha "
 "egy bejegyzésnek (*) van a megjegyzésében, akkor az a gFTP-n belül nem "
 "változtatható."
 
-#: lib/config_file.c:1122 lib/rfc2068.c:557 lib/rfc2068.c:558
+#: lib/config_file.c:1196 lib/rfc2068.c:568 lib/rfc2068.c:569
 msgid "<unknown>"
 msgstr "<ismeretlen>"
 
-#: lib/config_file.c:1198 lib/config_file.c:1259 lib/config_file.c:1300
-#: lib/config_file.c:1332
+#: lib/config_file.c:1272 lib/config_file.c:1335 lib/config_file.c:1377
+#: lib/config_file.c:1410
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
@@ -168,13 +192,15 @@ msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
+"HTTPS támogatás nem elérhető, mivel az SSL támogatás nem lett belefordítva a "
+"programba. Kapcsolat megszakítása.\n"
 
-#: lib/local.c:67 lib/local.c:462
+#: lib/local.c:67 lib/local.c:464
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
 msgstr "Nem sikerült a(z) %s helyi könyvtárba váltani: %s\n"
 
-#: lib/local.c:81 lib/local.c:448
+#: lib/local.c:81 lib/local.c:449
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "Nem sikerült lekérdezni az aktuális munkakönyvtárat: %s\n"
@@ -184,82 +210,70 @@ msgstr "Nem sikerült lekérdezni az aktuális munkakönyvtárat: %s\n"
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "Hiba: %s helyi fájl csonkítása sikertelen: %s\n"
 
-#: lib/local.c:405
+#: lib/local.c:404
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "%s helyi könyvtárlistájának lekérdezése sikertelen: %s\n"
 
-#: lib/local.c:442
+#: lib/local.c:441
 #, c-format
 msgid "Successfully changed local directory to %s\n"
-msgstr "Sikeresen könyvtárváltás a(z) %s helyi könyvtárba\n"
+msgstr "Sikeres könyvtárváltás a(z) %s helyi könyvtárba\n"
 
-#: lib/local.c:479 lib/local.c:502 src/gtk/transfer.c:907
-#: src/gtk/view_dialog.c:301
+#: lib/local.c:481 lib/local.c:504 src/gtk/transfer.c:229
+#: src/gtk/view_dialog.c:302
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "%s sikeresen törölve\n"
 
-#: lib/local.c:485
+#: lib/local.c:487
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Hiba: %s könyvtár törlése sikertelen: %s\n"
 
-#: lib/local.c:508 src/gtk/transfer.c:911 src/gtk/view_dialog.c:305
+#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:306
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Hiba: %s fájl törlése sikertelen: %s\n"
 
-#: lib/local.c:525
+#: lib/local.c:527
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "%s könyvtár sikeresen létrehozva\n"
 
-#: lib/local.c:551
+#: lib/local.c:553
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "%s sikeresen átnevezve, új név: %s\n"
 
-#: lib/local.c:558
+#: lib/local.c:560
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Hiba: %s -> %s átnevezés sikertelen: %s\n"
 
-#: lib/local.c:581
+#: lib/local.c:583
 #, c-format
 msgid "Successfully changed mode of %s to %d\n"
 msgstr "%s módjának megváltoztatása sikeres, új mód: %d\n"
 
-#: lib/local.c:588
+#: lib/local.c:590
 #, c-format
 msgid "Error: Could not change mode of %s to %d: %s\n"
 msgstr "Hiba: %s módjának beállítása (%d) sikertelen: %s\n"
 
-#: lib/local.c:680
+#: lib/local.c:682
 msgid "local filesystem"
 msgstr "helyi fájlrendszer"
 
-#: lib/misc.c:258 lib/misc.c:265 lib/protocols.c:2488
-#, c-format
-msgid "Error: Cannot open local file %s: %s\n"
-msgstr "Hiba: Nem sikerült megnyitni a(z) %s helyi fájlt: %s\n"
+#: lib/misc.c:415
+msgid "usage: gftp "
+msgstr "használat: gftp "
 
-#: lib/misc.c:275 lib/protocols.c:2206 lib/sslcommon.c:467
-#, c-format
-msgid "Error: Could not write to socket: %s\n"
-msgstr "Error: Nem lehet írni a socketbe: %s\n"
+#: lib/misc.c:415 src/uicommon/gftpui.c:616
+msgid "\n"
+msgstr "\n"
 
-#: lib/misc.c:283 lib/protocols.c:2136 lib/sslcommon.c:421
-#, c-format
-msgid "Error: Could not read from socket: %s\n"
-msgstr "Hiba: Nem lehet olvasni a socketből: %s\n"
-
-#: lib/misc.c:371
-msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
-msgstr ""
-"használat: gftp [[protokoll://][felh:[jelszó]@]ftp-gép[:port][/könyvtár]]\n"
-
-#: lib/options.h:24 lib/rfc959.c:24
+#: lib/options.h:24 lib/rfc959.c:26
 msgid "none"
 msgstr "nincs"
 
@@ -309,7 +323,7 @@ msgid ""
 "viewer will be used"
 msgstr ""
 "Az alapértelmezett program a fájlok megnézéséhez. Ha ez üres, akkor a belső "
-"nézőt lesz használva."
+"néző lesz használva."
 
 #: lib/options.h:40
 msgid "Edit program:"
@@ -360,7 +374,7 @@ msgstr "Fájlátvitel hozzáfűzése"
 
 #: lib/options.h:61
 msgid "Append new file transfers onto existing ones"
-msgstr "Új fájlkátvitelek hozzáfűzése a már meglévőkhöz"
+msgstr "Új fájlátvitelek hozzáfűzése a már meglévőkhöz"
 
 #: lib/options.h:62
 msgid "Do one transfer at a time"
@@ -410,347 +424,371 @@ msgstr "Rejtett fájlok megjelenítése"
 msgid "Show hidden files in the listboxes"
 msgstr "Rejtett fájlok megjelenítése a listamezőkben"
 
-#: lib/options.h:89 src/gtk/options_dialog.c:1041
-#: src/gtk/options_dialog.c:1134
+#: lib/options.h:88
+msgid "Show transfer status in title"
+msgstr "Átvitel állapotának mutatása a címsorban"
+
+#: lib/options.h:90
+msgid "Show the file transfer status in the titlebar"
+msgstr "Fájlátvitel állapotának mutatása a címsorban"
+
+#: lib/options.h:91
+msgid "Allow manual commands in GUI"
+msgstr ""
+
+#: lib/options.h:93
+msgid ""
+"Allow entering manual commands in the GUI (functions like the text port)"
+msgstr ""
+
+#: lib/options.h:95 src/gtk/options_dialog.c:1051
+#: src/gtk/options_dialog.c:1144
 msgid "Network"
 msgstr "Hálózat"
 
-#: lib/options.h:91
+#: lib/options.h:97
 msgid "Network timeout:"
 msgstr "Hálózati időtúllépés:"
 
-#: lib/options.h:94
+#: lib/options.h:100
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "A hálózati kimenet/bemenet időtúllépése. Ez NEM egy tétlen időtúllépés."
 
-#: lib/options.h:96
+#: lib/options.h:102
 msgid "Connect retries:"
 msgstr "Kapcsolódási próbálkozások:"
 
-#: lib/options.h:99
+#: lib/options.h:105
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
 msgstr ""
-"Az automatikus próbálkozások száma. Állítsd 0-ra a végtelen számú próbához"
+"Az automatikus próbálkozások száma. Állítsa 0-ra a végtelen számú próbához"
 
-#: lib/options.h:101
+#: lib/options.h:107
 msgid "Retry sleep time:"
 msgstr "Két újrapróbálkozás közti idő:"
 
-#: lib/options.h:104
+#: lib/options.h:110
 msgid "The number of seconds to wait between retries"
 msgstr "Két újrapróbálkozás közti várakozási idő másodpercben"
 
-#: lib/options.h:105
+#: lib/options.h:111
 msgid "Max KB/S:"
 msgstr "Max. KB/S:"
 
-#: lib/options.h:108
+#: lib/options.h:114
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr ""
-"A maximális KB/s amit egy fájlátvitel kaphat. (Állítsd 0-ra a korlátlanhoz)"
+"A maximális KB/s amit egy fájlátvitel kaphat. (Állítsa 0-ra a korlátlanhoz)"
 
-#: lib/options.h:111
+#: lib/options.h:117
 msgid "Default Protocol:"
 msgstr "Alapértelmezett protokoll:"
 
-#: lib/options.h:113
+#: lib/options.h:119
 msgid "This specifies the default protocol to use"
 msgstr "Ez megadja az alapértelmezettként használandó protokollt"
 
-#: lib/options.h:117
+#: lib/options.h:121 lib/options.h:124
+msgid "Enable IPv6 support"
+msgstr "IPv6 támogatás bekapcsolása"
+
+#: lib/options.h:129
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
 msgstr ""
-"Ez meghatározza, hogy mi fog történni, ha duplán kattintasz egy fájlra a "
-"fájl listamezőben. 0=Megtekintés 1=Szerkesztés 2=Átvitel"
+"Ez meghatározza, hogy mi fog történni, ha duplán kattint egy fájlra a fájl "
+"listamezőben. 0=Megtekintés 1=Szerkesztés 2=Átvitel"
 
-#: lib/options.h:120
+#: lib/options.h:132
 msgid "The default width of the local files listbox"
 msgstr "A helyi fájlok listájának alapértelmezett szélessége"
 
-#: lib/options.h:123
+#: lib/options.h:135
 msgid "The default width of the remote files listbox"
 msgstr "A távoli fájlok listájának alapértelmezett szélessége"
 
-#: lib/options.h:126
+#: lib/options.h:138
 msgid "The default height of the local/remote files listboxes"
 msgstr "A helyi/távoli fájllisták alapértelmezett magassága"
 
-#: lib/options.h:129
+#: lib/options.h:141
 msgid "The default height of the transfer listbox"
 msgstr "Az átviteli lista alapértelmezett magassága"
 
-#: lib/options.h:132
+#: lib/options.h:144
 msgid "The default height of the logging window"
 msgstr "A naplózó ablak alapértelmezett magassága"
 
-#: lib/options.h:135
+#: lib/options.h:147
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
 msgstr ""
-"A fájlnév oszlop szélessége az átviteli ablakban. Állítsd ezt 0-ra az "
-"oszlop  automatikus újraméretezéséhez."
+"A fájlnév oszlop szélessége az átviteli ablakban. Állítsa ezt 0-ra az oszlop "
+"automatikus újraméretezéséhez."
 
-#: lib/options.h:139 lib/options.h:145
+#: lib/options.h:151 lib/options.h:157
 msgid "The default column to sort by"
 msgstr "A rendezés alapjául szolgáló oszlop"
 
-#: lib/options.h:142 lib/options.h:148
+#: lib/options.h:154 lib/options.h:160
 msgid "Sort ascending or descending"
 msgstr "Rendezés növekvő vagy csökkenő sorrendben"
 
-#: lib/options.h:152 lib/options.h:170
+#: lib/options.h:164 lib/options.h:182
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"A fájlnév oszlop szélessége az fájl listamezőkben. Állítsd ezt 0-ra az "
-"oszlop  automatikus újraméretezéséhez. Állítsd -1-re az oszlop "
-"eltüntetéséhez."
+"A fájlnév oszlop szélessége a fájl listamezőkben. Állítsa ezt 0-ra az oszlop "
+"automatikus újraméretezéséhez. Állítsa -1-re az oszlop eltüntetéséhez."
 
-#: lib/options.h:155 lib/options.h:173
+#: lib/options.h:167 lib/options.h:185
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"A méret oszlop szélessége az fájl listamezőben. Állítsd ezt 0-ra az oszlop  "
-"automatikus újraméretezéséhez. Állítsd -1-re az oszlop eltüntetéséhez."
+"A méret oszlop szélessége a fájl listamezőben. Állítsa ezt 0-ra az oszlop "
+"automatikus újraméretezéséhez. Állítsa -1-re az oszlop eltüntetéséhez."
 
-#: lib/options.h:158 lib/options.h:176
+#: lib/options.h:170 lib/options.h:188
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"A felhasználó oszlop szélessége az fájl listamezőben. Állítsd ezt 0-ra az "
-"oszlop  automatikus újraméretezéséhez. Állítsd -1-re az oszlop "
-"eltüntetéséhez."
+"A felhasználó oszlop szélessége a fájl listamezőben. Állítsa ezt 0-ra az "
+"oszlop automatikus újraméretezéséhez. Állítsa -1-re az oszlop eltüntetéséhez."
 
-#: lib/options.h:161 lib/options.h:179
+#: lib/options.h:173 lib/options.h:191
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"A csoport oszlop szélessége az fájl listamezőben. Állítsd ezt 0-ra az "
-"oszlop  automatikus újraméretezéséhez. Állítsd -1-re az oszlop "
-"eltüntetéséhez."
+"A csoport oszlop szélessége a fájl listamezőben. Állítsa ezt 0-ra az oszlop "
+"automatikus újraméretezéséhez. Állítsa -1-re az oszlop eltüntetéséhez."
 
-#: lib/options.h:164 lib/options.h:182
+#: lib/options.h:176 lib/options.h:194
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"A dátum oszlop szélessége az fájl listamezőben. Állítsd ezt 0-ra az oszlop  "
-"automatikus újraméretezéséhez. Állítsd -1-re az oszlop eltüntetéséhez."
+"A dátum oszlop szélessége a fájl listamezőben. Állítsa ezt 0-ra az oszlop "
+"automatikus újraméretezéséhez. Állítsa -1-re az oszlop eltüntetéséhez."
 
-#: lib/options.h:167 lib/options.h:185
+#: lib/options.h:179 lib/options.h:197
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"Az attribútumok oszlop szélessége az fájl listamezőben. Állítsd ezt 0-ra az "
-"oszlop  automatikus újraméretezéséhez. Állítsd -1-re az oszlop "
-"eltüntetéséhez."
+"Az attribútumok oszlop szélessége a fájl listamezőben. Állítsa ezt 0-ra az "
+"oszlop automatikus újraméretezéséhez. Állítsa -1-re az oszlop eltüntetéséhez."
 
-#: lib/options.h:188
+#: lib/options.h:200
 msgid "The color of the commands that are sent to the server"
 msgstr "A kiszolgálónak küldött parancsok színe"
 
-#: lib/options.h:191
+#: lib/options.h:203
 msgid "The color of the commands that are received from the server"
 msgstr "A kiszolgálótól kapott parancsok színe"
 
-#: lib/options.h:194
+#: lib/options.h:206
 msgid "The color of the error messages"
 msgstr "A hibaüzenetek színe"
 
-#: lib/options.h:197
+#: lib/options.h:209
 msgid "The color of the rest of the log messages"
 msgstr "A többi naplóüzenet színe"
 
-#: lib/options.h:203 lib/rfc959.c:38
+#: lib/options.h:215 lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:204 lib/rfc2068.c:27
+#: lib/options.h:218 lib/options.h:220
+msgid "FTPS"
+msgstr "FTPS"
+
+#: lib/options.h:223 lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:206 lib/options.h:208
+#: lib/options.h:226 lib/options.h:228
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: lib/options.h:210
+#: lib/options.h:231
 msgid "Local"
 msgstr "Helyi"
 
-#: lib/options.h:211
+#: lib/options.h:233
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:212 src/gtk/bookmarks.c:854
+#: lib/options.h:235 src/gtk/bookmarks.c:858
 msgid "Bookmark"
 msgstr "Könyvjelző"
 
-#: lib/protocols.c:168 lib/protocols.c:192
+#: lib/protocols.c:221
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "A fájlátvitel %.2f KB/s sebességű lesz\n"
 
-#: lib/protocols.c:321
+#: lib/protocols.c:329
 #, c-format
 msgid "Loading directory listing %s from cache\n"
 msgstr "%s könyvtárlista betöltése a gyorsítótárból\n"
 
-#: lib/protocols.c:466
+#: lib/protocols.c:546
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Hiba: Nem lehet írni a gyorsítótárba: %s\n"
 
-#: lib/protocols.c:497
+#: lib/protocols.c:578
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Hiba: A könyvjelző nem található: %s\n"
 
-#: lib/protocols.c:504
-#, fuzzy, c-format
+#: lib/protocols.c:585
+#, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
-msgstr ""
-"Könyvjelzőhiba: hiányzó bejegyzések vannak ebben a könyvjelzőben. Győződj "
-"meg arról, hogy van gép- és felhasználóneved.\n"
+msgstr "Könyvjelzőhiba: A(z) %s könyvjelzőbejegyzés nem tartalmaz gépnevet.\n"
 
-#: lib/protocols.c:602
+#: lib/protocols.c:693
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
-msgstr ""
+msgstr "A(z) '%s' protokoll nem támogatott.\n"
 
-#: lib/protocols.c:919 lib/protocols.c:934 lib/protocols.c:1737
-#: lib/protocols.c:1846
+#: lib/protocols.c:1036 lib/protocols.c:1051 lib/protocols.c:1974
+#: lib/protocols.c:2083
 #, c-format
 msgid "Looking up %s\n"
 msgstr "%s kikeresése\n"
 
-#: lib/protocols.c:925 lib/protocols.c:940 lib/protocols.c:1742
-#: lib/protocols.c:1851
+#: lib/protocols.c:1042 lib/protocols.c:1057 lib/protocols.c:1979
+#: lib/protocols.c:2088
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "%s gépnév nem található: %s\n"
 
-#: lib/protocols.c:1184 lib/protocols.c:1185 lib/protocols.c:1244
-#: lib/protocols.c:1251 lib/protocols.c:1330 lib/protocols.c:1331
-#: lib/protocols.c:1365
+#: lib/protocols.c:1348 lib/protocols.c:1349 lib/protocols.c:1390
+#: lib/protocols.c:1391 lib/protocols.c:1450 lib/protocols.c:1457
+#: lib/protocols.c:1536 lib/protocols.c:1537 lib/protocols.c:1571
 msgid "unknown"
 msgstr "ismeretlen"
 
-#: lib/protocols.c:1760 lib/protocols.c:1803 lib/rfc959.c:589 lib/rfc959.c:736
+#: lib/protocols.c:1997
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Hiba a socket létrehozásakor: %s\n"
 
-#: lib/protocols.c:1766 lib/protocols.c:1865
+#: lib/protocols.c:2003 lib/protocols.c:2102
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Próba: %s:%d\n"
 
-#: lib/protocols.c:1771 lib/protocols.c:1872
+#: lib/protocols.c:2008 lib/protocols.c:2109
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Nem lehet a(z) %s géphez kapcsolódni: %s\n"
 
-#: lib/protocols.c:1827 lib/sshv2.c:891
+#: lib/protocols.c:2040 lib/rfc959.c:630
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "Hiba az IPv4 socket létrehozásakor: %s\n"
+
+#: lib/protocols.c:2064 lib/sshv2.c:898
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 
-#: lib/protocols.c:1889 lib/protocols.c:2497 lib/rfc959.c:598 lib/rfc959.c:745
-#, fuzzy, c-format
+#: lib/protocols.c:2126 lib/protocols.c:2759 lib/rfc959.c:639 lib/rfc959.c:786
+#, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "Hiba: Nem lehet keresni a %s fájlban: %s\n"
+msgstr ""
 
-#: lib/protocols.c:1896
+#: lib/protocols.c:2133
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Kapcsolódva: %s:%d\n"
 
-#: lib/protocols.c:2116 lib/protocols.c:2186
+#: lib/protocols.c:2363 lib/protocols.c:2434
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Kapcsolat a(z) %s géphez sikertelen.\n"
 
-#: lib/protocols.c:2254
+#: lib/protocols.c:2503
 #, fuzzy, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Nem lehet létrehozni a socketpárt: %s\n"
 
-#: lib/protocols.c:2268
+#: lib/protocols.c:2517
 #, fuzzy, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Nem lehet létrehozni a socketpárt: %s\n"
 
-#: lib/protocols.c:2394
+#: lib/protocols.c:2653
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Hiba: %s távoli gép szétkapcsolt. Újrapróbálkozások maximális száma elérve. "
 "Feladom!\n"
 
-#: lib/protocols.c:2402
+#: lib/protocols.c:2661
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Hiba: %s távoli gép szétkapcsolt. %d másodperc múlva újrakapcsolódás\n"
 
-#: lib/pty.c:271
+#: lib/pty.c:288
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "Nem lehet létrehozni a socketpárt: %s\n"
 
-#: lib/pty.c:290 lib/pty.c:347
+#: lib/pty.c:307 lib/pty.c:364
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "Hiba: Nem lehet végrehajtani az ssh-t: %s\n"
 
-#: lib/pty.c:303 lib/pty.c:358
+#: lib/pty.c:320 lib/pty.c:375
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "Nem sikerült másik folyamatot létrehozni: %s\n"
 
-#: lib/pty.c:321
+#: lib/pty.c:338
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "Nem lehet megnyitni a %s fő pty-t: %s\n"
 
-#: lib/rfc2068.c:30 lib/rfc959.c:45
+#: lib/rfc2068.c:30 lib/rfc959.c:47
 msgid "Proxy hostname:"
 msgstr "Proxy gépneve:"
 
-#: lib/rfc2068.c:32 lib/rfc959.c:47
+#: lib/rfc2068.c:32 lib/rfc959.c:49
 msgid "Firewall hostname"
 msgstr "Tűzfal gépneve"
 
-#: lib/rfc2068.c:33 lib/rfc959.c:48
+#: lib/rfc2068.c:33 lib/rfc959.c:50
 msgid "Proxy port:"
 msgstr "Proxy port:"
 
-#: lib/rfc2068.c:35 lib/rfc959.c:50
+#: lib/rfc2068.c:35 lib/rfc959.c:52
 msgid "Port to connect to on the firewall"
 msgstr "Tűzfalhoz kapcsolódás portja"
 
-#: lib/rfc2068.c:36 lib/rfc959.c:51
+#: lib/rfc2068.c:36 lib/rfc959.c:53
 msgid "Proxy username:"
 msgstr "Felhasználói név a proxyhoz:"
 
-#: lib/rfc2068.c:38 lib/rfc959.c:53
+#: lib/rfc2068.c:38 lib/rfc959.c:55
 msgid "Your firewall username"
 msgstr "Felhasználói név a tűzfalhoz"
 
-#: lib/rfc2068.c:39 lib/rfc959.c:54
+#: lib/rfc2068.c:39 lib/rfc959.c:56
 msgid "Proxy password:"
 msgstr "Jelszó a proxyhoz:"
 
-#: lib/rfc2068.c:41 lib/rfc959.c:56
+#: lib/rfc2068.c:41 lib/rfc959.c:58
 msgid "Your firewall password"
 msgstr "Jelszó a tűzfalhoz"
 
@@ -760,108 +798,102 @@ msgstr "HTTP/1.1 használata"
 
 #: lib/rfc2068.c:46
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
-msgstr "HTTP/1.1-et vagy HTTP/1.0 szeretnél használni?"
+msgstr "HTTP/1.1-et vagy HTTP/1.0 szeretne használni?"
 
-#: lib/rfc2068.c:153 lib/rfc2068.c:835
-#, fuzzy, c-format
+#: lib/rfc2068.c:154 lib/rfc2068.c:866
+#, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
 "Invalid chunk size '%s' returned by the remote server\n"
-msgstr "Hibás válasz érkezett a kiszolgálótól, szétkapcsolok\n"
+msgstr ""
 
-#: lib/rfc2068.c:258 lib/rfc959.c:559 lib/sshv2.c:988
+#: lib/rfc2068.c:260 lib/rfc959.c:599 lib/sshv2.c:995
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Lekapcsolódás a(z) %s helyről\n"
 
-#: lib/rfc2068.c:309
+#: lib/rfc2068.c:310
 #, c-format
 msgid "Starting the file transfer at offset %lld\n"
 msgstr "Fájlátvitel indítása %lld pozícióról\n"
 
-#: lib/rfc2068.c:317
+#: lib/rfc2068.c:318
 #, c-format
 msgid "Starting the file transfer at offset %ld\n"
 msgstr "Fájlátvitel indítása %ld pozícióról\n"
 
-#: lib/rfc2068.c:339
+#: lib/rfc2068.c:340
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "%s fájl letöltése sikertelen\n"
 
-#: lib/rfc2068.c:429 lib/sshv2.c:1073
+#: lib/rfc2068.c:442 lib/sshv2.c:1080
 msgid "Retrieving directory listing...\n"
 msgstr "Könyvtárlista letöltése...\n"
 
-#: lib/rfc2068.c:816
-msgid ""
-"Received wrong response from server, disconnecting\n"
-"Expecting a carriage return and line feed before the chunk size in the "
-"server response\n"
-msgstr ""
+#: lib/rfc2068.c:847 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
+#: lib/sshv2.c:819 lib/sshv2.c:951 lib/sshv2.c:1042 lib/sshv2.c:1110
+#: lib/sshv2.c:1223 lib/sshv2.c:1236 lib/sshv2.c:1249 lib/sshv2.c:1262
+#: lib/sshv2.c:1318 lib/sshv2.c:1383 lib/sshv2.c:1843 lib/sshv2.c:1946
+#: lib/sshv2.c:2040 lib/sshv2.c:2125 lib/sshv2.c:2211
+msgid "Received wrong response from server, disconnecting\n"
+msgstr "Hibás válasz érkezett a kiszolgálótól, szétkapcsolás\n"
 
-#: lib/rfc2068.c:824
-msgid ""
-"Received wrong response from server, disconnecting\n"
-"Expecting a carriage return and line feed after the chunk size in the server "
-"response\n"
-msgstr ""
-
-#: lib/rfc959.c:25
+#: lib/rfc959.c:27
 msgid "SITE command"
 msgstr "SITE parancs"
 
-#: lib/rfc959.c:26
+#: lib/rfc959.c:28
 msgid "user@host"
 msgstr "felh@gép"
 
-#: lib/rfc959.c:27
+#: lib/rfc959.c:29
 msgid "user@host:port"
 msgstr "felh@gép:port"
 
-#: lib/rfc959.c:28
+#: lib/rfc959.c:30
 msgid "AUTHENTICATE"
 msgstr "AUTHENTICATE"
 
-#: lib/rfc959.c:29
+#: lib/rfc959.c:31
 msgid "user@host port"
 msgstr "felh@gép port"
 
-#: lib/rfc959.c:30
+#: lib/rfc959.c:32
 msgid "user@host NOAUTH"
 msgstr "felh@gép NOAUTH"
 
-#: lib/rfc959.c:31
+#: lib/rfc959.c:33
 msgid "HTTP Proxy"
 msgstr "HTTP proxy"
 
-#: lib/rfc959.c:32
+#: lib/rfc959.c:34
 msgid "Custom"
 msgstr "Egyéni"
 
-#: lib/rfc959.c:41
+#: lib/rfc959.c:43
 msgid "Email address:"
 msgstr "E-mail cím:"
 
-#: lib/rfc959.c:43
+#: lib/rfc959.c:45
 msgid ""
 "This is the password that will be used whenever you log into a remote FTP "
 "server as anonymous"
 msgstr ""
 
-#: lib/rfc959.c:57
+#: lib/rfc959.c:59
 msgid "Proxy account:"
 msgstr "Proxy account:"
 
-#: lib/rfc959.c:59
-msgid "Your firewall account (optional)"
-msgstr "Az accountod a tűzfalon (opcionális)"
-
 #: lib/rfc959.c:61
+msgid "Your firewall account (optional)"
+msgstr "Az accountja a tűzfalon (opcionális)"
+
+#: lib/rfc959.c:63
 msgid "Proxy server type:"
 msgstr "Proxykiszolgáló típusa:"
 
-#: lib/rfc959.c:64
+#: lib/rfc959.c:66
 #, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
@@ -872,11 +904,11 @@ msgid ""
 "can you type in %pu"
 msgstr ""
 
-#: lib/rfc959.c:67
+#: lib/rfc959.c:69
 msgid "Passive file transfers"
 msgstr "Passzív fájlátvitel"
 
-#: lib/rfc959.c:70
+#: lib/rfc959.c:72
 msgid ""
 "If this is enabled, then the remote FTP server will open up a port for the "
 "data connection. If you are behind a firewall, you will need to enable this. "
@@ -886,11 +918,11 @@ msgid ""
 "attempt to connect to it."
 msgstr ""
 
-#: lib/rfc959.c:72
+#: lib/rfc959.c:74
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "Távoli szimbolikus linkek feloldása (LIST -L)"
 
-#: lib/rfc959.c:75
+#: lib/rfc959.c:77
 msgid ""
 "The remote FTP server will attempt to resolve symlinks in the directory "
 "listings. Generally, this is a good idea to leave enabled. The only time you "
@@ -898,11 +930,11 @@ msgid ""
 "option to LIST"
 msgstr ""
 
-#: lib/rfc959.c:77
+#: lib/rfc959.c:79
 msgid "Transfer files in ASCII mode"
 msgstr "Fájlok átvitele ASCII-módban"
 
-#: lib/rfc959.c:80
+#: lib/rfc959.c:82
 msgid ""
 "If you are transfering a text file from Windows to UNIX box or vice versa, "
 "then you should enable this. Each system represents newlines differently for "
@@ -911,61 +943,66 @@ msgid ""
 "this."
 msgstr ""
 
-#: lib/rfc959.c:307 lib/rfc959.c:316 lib/rfc959.c:327
+#: lib/rfc959.c:317 lib/rfc959.c:326 lib/rfc959.c:337
 #, c-format
 msgid "Received invalid response to PWD command: '%s'\n"
 msgstr ""
 
-#: lib/rfc959.c:627 lib/rfc959.c:637
+#: lib/rfc959.c:668 lib/rfc959.c:678
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr ""
 
-#: lib/rfc959.c:652 lib/rfc959.c:807
+#: lib/rfc959.c:693 lib/rfc959.c:848
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Adatkapcsolat létrehozása sikertelen: %s\n"
 
-#: lib/rfc959.c:664 lib/rfc959.c:685 lib/rfc959.c:832
+#: lib/rfc959.c:705 lib/rfc959.c:726 lib/rfc959.c:873
 #, fuzzy, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Nem lehet létrehozni a socketpárt: %s\n"
 
-#: lib/rfc959.c:675 lib/rfc959.c:822
+#: lib/rfc959.c:716 lib/rfc959.c:863
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Egy port lekötése sikertelen: %s\n"
 
-#: lib/rfc959.c:694 lib/rfc959.c:841
+#: lib/rfc959.c:735 lib/rfc959.c:882
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "%d porton nem lehet figyelni: %s\n"
 
-#: lib/rfc959.c:756
+#: lib/rfc959.c:777
+#, c-format
+msgid "Failed to create a IPv6 socket: %s\n"
+msgstr "Hiba az IPv6 socket létrehozásakor: %s\n"
+
+#: lib/rfc959.c:797
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 
-#: lib/rfc959.c:785 lib/rfc959.c:794
+#: lib/rfc959.c:826 lib/rfc959.c:835
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr ""
 
-#: lib/rfc959.c:851
+#: lib/rfc959.c:892
 #, fuzzy, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Nem lehet létrehozni a socketpárt: %s\n"
 
-#: lib/rfc959.c:923
+#: lib/rfc959.c:965
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Nem lehet elfogadni a kiszolgálótól a kapcsolatot: %s\n"
 
-#: lib/rfc959.c:1419
+#: lib/rfc959.c:1478
 msgid "total"
 msgstr "összesen"
 
-#: lib/rfc959.c:1421
+#: lib/rfc959.c:1480
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Figyelem: %s lista feldolgozása sikertelen\n"
@@ -1025,175 +1062,167 @@ msgid ""
 "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 "know the remote path to the remote sftp-server"
 msgstr ""
-"Az ssh meghívása a -s sftp jelzővel. Ez jó, mert nem kell tudnod a távoli "
+"Az ssh meghívása a -s sftp jelzővel. Ez jó, mert nem kell tudnia a távoli "
 "elérési utat a távoli sftp-szerverre"
 
-#: lib/sshv2.c:257
+#: lib/sshv2.c:259
 #, c-format
 msgid "Running program %s\n"
 msgstr "%s program futtatása\n"
 
-#: lib/sshv2.c:303 lib/sshv2.c:328
+#: lib/sshv2.c:306 lib/sshv2.c:331
 msgid "WARNING"
 msgstr "FIGYELEM"
 
-#: lib/sshv2.c:370
+#: lib/sshv2.c:373
 msgid "Error: An incorrect password was entered\n"
 msgstr "Hiba: Helytelen jelszó lett megadva\n"
 
-#: lib/sshv2.c:373
+#: lib/sshv2.c:376
 msgid ""
 "Please connect to this host with the command line SSH utility and answer "
 "this question appropriately.\n"
 msgstr ""
 
-#: lib/sshv2.c:376
+#: lib/sshv2.c:379
 msgid "Please correct the above warning to connect to this host.\n"
 msgstr ""
 
-#: lib/sshv2.c:415
+#: lib/sshv2.c:418
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: protokoll inicializálása\n"
 
-#: lib/sshv2.c:421
+#: lib/sshv2.c:424
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: protokoll verziója %d\n"
 
-#: lib/sshv2.c:430
+#: lib/sshv2.c:433
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: %s megnyitása\n"
 
-#: lib/sshv2.c:435
+#: lib/sshv2.c:438
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: Bezárás\n"
 
-#: lib/sshv2.c:441
+#: lib/sshv2.c:444
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: %s könyvtár megnyitása\n"
 
-#: lib/sshv2.c:446
+#: lib/sshv2.c:449
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: Könyvtár olvasása\n"
 
-#: lib/sshv2.c:450
+#: lib/sshv2.c:453
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: %s fájl törlése\n"
 
-#: lib/sshv2.c:455
+#: lib/sshv2.c:458
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: %s könyvtár létrehozása\n"
 
-#: lib/sshv2.c:460
+#: lib/sshv2.c:463
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: %s könyvtár törlése\n"
 
-#: lib/sshv2.c:465
+#: lib/sshv2.c:468
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: Valódi út %s\n"
 
-#: lib/sshv2.c:470
+#: lib/sshv2.c:473
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: Fájl attribútumai\n"
 
-#: lib/sshv2.c:474
+#: lib/sshv2.c:477
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Stat %s\n"
 
-#: lib/sshv2.c:491
+#: lib/sshv2.c:494
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: lib/sshv2.c:496
+#: lib/sshv2.c:499
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: lib/sshv2.c:509 src/gtk/bookmarks.c:1013 src/gtk/bookmarks.c:1250
-#: src/gtk/chmod_dialog.c:281 src/gtk/options_dialog.c:1099
-#: src/gtk/options_dialog.c:1301 src/gtk/transfer.c:2041
+#: lib/sshv2.c:512 src/gtk/bookmarks.c:1017 src/gtk/bookmarks.c:1263
+#: src/gtk/chmod_dialog.c:281 src/gtk/gtkui_transfer.c:361
+#: src/gtk/options_dialog.c:1109 src/gtk/options_dialog.c:1311
 msgid "OK"
 msgstr "OK"
 
-#: lib/sshv2.c:512
+#: lib/sshv2.c:515
 msgid "EOF"
 msgstr "EOF"
 
-#: lib/sshv2.c:515
+#: lib/sshv2.c:518
 msgid "No such file or directory"
 msgstr "Nincs ilyen fájl vagy könyvtár"
 
-#: lib/sshv2.c:518
+#: lib/sshv2.c:521
 msgid "Permission denied"
 msgstr "Hozzáférés megtagadva"
 
-#: lib/sshv2.c:521
+#: lib/sshv2.c:524
 msgid "Failure"
 msgstr "Sikertelen"
 
-#: lib/sshv2.c:524
+#: lib/sshv2.c:527
 msgid "Bad message"
 msgstr "Rossz üzenet"
 
-#: lib/sshv2.c:527
+#: lib/sshv2.c:530
 msgid "No connection"
 msgstr "Nincs kapcsolat"
 
-#: lib/sshv2.c:530
+#: lib/sshv2.c:533
 msgid "Connection lost"
 msgstr "Kapcsolat megszakadt"
 
-#: lib/sshv2.c:533
+#: lib/sshv2.c:536
 msgid "Operation unsupported"
 msgstr "Nem támogatott művelet"
 
-#: lib/sshv2.c:536
+#: lib/sshv2.c:539
 msgid "Unknown message returned from server"
 msgstr "Ismeretlen üzenet érkezett vissza a kiszolgálótól"
 
-#: lib/sshv2.c:573
+#: lib/sshv2.c:576
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Hiba: %d üzenetméret túl nagy\n"
 
-#: lib/sshv2.c:631 lib/sshv2.c:1112 lib/sshv2.c:1949 lib/sshv2.c:2042
-#: lib/sshv2.c:2130
+#: lib/sshv2.c:634 lib/sshv2.c:1119 lib/sshv2.c:1955 lib/sshv2.c:2049
+#: lib/sshv2.c:2137
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Hiba: %d üzenetméret túl nagy a kiszolgálótól\n"
 
-#: lib/sshv2.c:637
+#: lib/sshv2.c:640
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr ""
 
-#: lib/sshv2.c:710 lib/sshv2.c:723 lib/sshv2.c:745 lib/sshv2.c:813
-#: lib/sshv2.c:944 lib/sshv2.c:1035 lib/sshv2.c:1103 lib/sshv2.c:1216
-#: lib/sshv2.c:1229 lib/sshv2.c:1242 lib/sshv2.c:1255 lib/sshv2.c:1311
-#: lib/sshv2.c:1376 lib/sshv2.c:1838 lib/sshv2.c:1940 lib/sshv2.c:2033
-#: lib/sshv2.c:2118 lib/sshv2.c:2203
-msgid "Received wrong response from server, disconnecting\n"
-msgstr "Hibás válasz érkezett a kiszolgálótól, szétkapcsolok\n"
-
-#: lib/sshv2.c:862
+#: lib/sshv2.c:869
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "SSH-kapcsolat megnyitása a(z) %s gépre\n"
 
-#: lib/sshv2.c:955
+#: lib/sshv2.c:962
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Sikeres belépés a(z) %s SSH-kiszolgálóra\n"
@@ -1212,7 +1241,7 @@ msgstr "SSL-entrópiafájl"
 
 #: lib/sslcommon.c:37
 msgid "Entropy Seed Length:"
-msgstr "Entrópia-kezdőérték hossza"
+msgstr "Entrópia-kezdőérték hossza:"
 
 #: lib/sslcommon.c:39
 msgid "The maximum number of bytes to seed the SSL engine with"
@@ -1228,9 +1257,8 @@ msgid ""
 msgstr ""
 
 #: lib/sslcommon.c:121
-#, fuzzy
 msgid "Cannot get peer certificate\n"
-msgstr "Nem lehet létrehozni a socketpárt: %s\n"
+msgstr ""
 
 #: lib/sslcommon.c:180
 #, c-format
@@ -1268,175 +1296,543 @@ msgstr ""
 msgid "Error with peer certificate: %s\n"
 msgstr "Hiba: Nem lehet írni a gyorsítótárba: %s\n"
 
-#: src/gtk/bookmarks.c:37 src/gtk/gftp-gtk.c:902 src/gtk/menu-items.c:66
-#: src/gtk/menu-items.c:96 src/gtk/misc-gtk.c:483 src/gtk/misc-gtk.c:491
+#: src/uicommon/gftpui.c:61
+#, c-format
+msgid "Waiting %d seconds until trying to connect again\n"
+msgstr "%d másodperc várakozás az újrapróbálkozás előtt\n"
+
+#: src/uicommon/gftpui.c:72 src/gtk/chmod_dialog.c:74
+#: src/gtk/delete_dialog.c:89 src/gtk/transfer.c:213
+msgid "Operation canceled\n"
+msgstr "Művelet megszakítva\n"
+
+#: src/uicommon/gftpui.c:146
+msgid ""
+">. If you have any questions, comments, or suggestions about this program, "
+"please feel free to email them to me. You can always find out the latest "
+"news about gFTP from my website at http://www.gftp.org/\n"
+msgstr ""
+">. Ha bármilyen kérdése, megjegyzése, vagy javaslata van a programmal "
+"kapcsolatban, küldjön e-mailt nekem. A legfrissebb híreket mindig megtalálja "
+"a gFTP weboldalán a http://www.gftp.org/ címen.\n"
+
+#: src/uicommon/gftpui.c:147
+msgid ""
+"gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
+"This is free software, and you are welcome to redistribute it under certain "
+"conditions; for details, see the COPYING file\n"
+msgstr ""
+"gFTP programra nem vonatkozik ABSZOLÚT SEMMILYEN GARANCIA; a részletekért, "
+"lásd a COPYING fájlt. Ez egy szabad szoftver, megfelelő feltételek mellett "
+"bármikor továbbíthatod, a részletekért lásd a COPYING fájlt.\n"
+
+#: src/uicommon/gftpui.c:149 src/gtk/menu-items.c:495
+msgid "Translated by"
+msgstr "Fordította: Doome <doome@uhulinux.hu> és Tímár András <timar@gnome.hu>"
+
+#: src/uicommon/gftpui.c:196 src/uicommon/gftpui.c:238
+#: src/uicommon/gftpui.c:278 src/uicommon/gftpui.c:313
+#: src/uicommon/gftpui.c:348 src/uicommon/gftpui.c:383
+#: src/uicommon/gftpui.c:419 src/uicommon/gftpui.c:482
+#: src/uicommon/gftpui.c:563 src/uicommon/gftpui.c:828
+msgid "Error: Not connected to a remote site\n"
+msgstr "Hiba: Nincs kapcsolat távoli géppel\n"
+
+#: src/uicommon/gftpui.c:207
+msgid "usage: chmod <mode> <file>\n"
+msgstr "használat: chmod <mód> <fájl>\n"
+
+#: src/uicommon/gftpui.c:248
+msgid "usage: rename <old name> <new name>\n"
+msgstr "használat: rename <régi név> <új név>\n"
+
+#: src/uicommon/gftpui.c:284
+msgid "usage: delete <file>\n"
+msgstr "használat: delete <fájl>\n"
+
+#: src/uicommon/gftpui.c:319
+msgid "usage: rmdir <directory>\n"
+msgstr "használat: rmdir <könyvtár>\n"
+
+#: src/uicommon/gftpui.c:354
+#, fuzzy
+msgid "usage: site <site command>\n"
+msgstr "használat: delete <fájl>\n"
+
+#: src/uicommon/gftpui.c:389
+msgid "usage: mkdir <new directory>\n"
+msgstr "használat: mkdir <új könyvtár>\n"
+
+#: src/uicommon/gftpui.c:425 src/uicommon/gftpui.c:442
+msgid "usage: chdir <directory>\n"
+msgstr "használat: chdir <könyvtár>\n"
+
+#: src/uicommon/gftpui.c:514
+msgid "Invalid argument\n"
+msgstr ""
+
+#: src/uicommon/gftpui.c:527
+msgid "Clear the directory cache\n"
+msgstr "Könyvtár-gyorsítótár törlése\n"
+
+#: src/uicommon/gftpui.c:616
+msgid "usage: open "
+msgstr ""
+
+#: src/uicommon/gftpui.c:691
+msgid "usage: set [variable = value]\n"
+msgstr "használat: set [változó = érték]\n"
+
+#: src/uicommon/gftpui.c:705
+#, c-format
+msgid "Error: Variable %s is not a valid configuration variable.\n"
+msgstr "Hiba: %s változó nem egy lehetséges konfigurációs változó.\n"
+
+#: src/uicommon/gftpui.c:712
+#, c-format
+msgid "Error: Variable %s is not available in the text port of gFTP\n"
+msgstr "Hiba: A(z) %s változó nem elérhető a gFTP szöveges változatában.\n"
+
+#: src/uicommon/gftpui.c:792
+msgid ""
+"Supported commands:\n"
+"\n"
+msgstr ""
+"Támogatott parancsok:\n"
+"\n"
+
+#: src/uicommon/gftpui.c:835
+#, c-format
+msgid "usage: %s <filespec>\n"
+msgstr "használat: %s <fájlspec>\n"
+
+#: src/uicommon/gftpui.c:920
+msgid "about"
+msgstr "about"
+
+#: src/uicommon/gftpui.c:921
+msgid "Shows gFTP information"
+msgstr "A gFTP program névjegye"
+
+#: src/uicommon/gftpui.c:922
+msgid "ascii"
+msgstr "ascii"
+
+#: src/uicommon/gftpui.c:923
+msgid "Sets the current file transfer mode to Ascii (only for FTP)"
+msgstr "Az aktuális fájlátviteli módot ASCII-ra állítja (csak FTP)"
+
+#: src/uicommon/gftpui.c:924
+msgid "binary"
+msgstr "binary"
+
+#: src/uicommon/gftpui.c:925
+msgid "Sets the current file transfer mode to Binary (only for FTP)"
+msgstr "Az aktuális fájlátviteli módot binárisra állítja (csak FTP)"
+
+#: src/uicommon/gftpui.c:926
+msgid "cd"
+msgstr "cd"
+
+#: src/uicommon/gftpui.c:927 src/uicommon/gftpui.c:929
+msgid "Changes the remote working directory"
+msgstr "Megváltoztatja a távoli munkakönyvtárat"
+
+#: src/uicommon/gftpui.c:928
+msgid "chdir"
+msgstr "chdir"
+
+#: src/uicommon/gftpui.c:930
+msgid "chmod"
+msgstr "chmod"
+
+#: src/uicommon/gftpui.c:931
+msgid "Changes the permissions of a remote file"
+msgstr "Megváltoztatja egy távoli fájl jogait"
+
+#: src/uicommon/gftpui.c:932
+msgid "clear"
+msgstr "clear"
+
+#: src/uicommon/gftpui.c:933
+msgid "Available options: cache"
+msgstr "Lehetséges beállítások: gyorsítótár"
+
+#: src/uicommon/gftpui.c:934
+msgid "close"
+msgstr "close"
+
+#: src/uicommon/gftpui.c:935
+msgid "Disconnects from the remote site"
+msgstr "Lekapcsolódik a távoli szerverről"
+
+#: src/uicommon/gftpui.c:936
+msgid "delete"
+msgstr "delete"
+
+#: src/uicommon/gftpui.c:937
+msgid "Removes a remote file"
+msgstr "Távoli fájl törlése"
+
+#: src/uicommon/gftpui.c:938
+msgid "get"
+msgstr "get"
+
+#: src/uicommon/gftpui.c:939 src/uicommon/gftpui.c:963
+msgid "Downloads remote file(s)"
+msgstr "Távoli fájl(ok) letöltése"
+
+#: src/uicommon/gftpui.c:940
+msgid "help"
+msgstr "help"
+
+#: src/uicommon/gftpui.c:941
+msgid "Shows this help screen"
+msgstr "E segítőképernyő mutatása"
+
+#: src/uicommon/gftpui.c:942
+msgid "lcd"
+msgstr "lcd"
+
+#: src/uicommon/gftpui.c:943 src/uicommon/gftpui.c:945
+msgid "Changes the local working directory"
+msgstr "Megváltoztatja a helyi munkakönyvtárat"
+
+#: src/uicommon/gftpui.c:944
+msgid "lchdir"
+msgstr "lchdir"
+
+#: src/uicommon/gftpui.c:946
+msgid "lchmod"
+msgstr "lchmod"
+
+#: src/uicommon/gftpui.c:947
+msgid "Changes the permissions of a local file"
+msgstr "Megváltoztatja egy helyi fájl jogait"
+
+#: src/uicommon/gftpui.c:948
+msgid "ldelete"
+msgstr "ldelete"
+
+#: src/uicommon/gftpui.c:949
+msgid "Removes a local file"
+msgstr "Töröl egy helyi fájlt"
+
+#: src/uicommon/gftpui.c:950
+msgid "lls"
+msgstr "lls"
+
+#: src/uicommon/gftpui.c:951
+msgid "Shows the directory listing for the current local directory"
+msgstr "Az aktuális helyi könyvtár tartalmának mutatása"
+
+#: src/uicommon/gftpui.c:952
+msgid "lmkdir"
+msgstr "lmkdir"
+
+#: src/uicommon/gftpui.c:953
+msgid "Creates a local directory"
+msgstr "Helyi könyvtár létrehozása"
+
+#: src/uicommon/gftpui.c:954
+msgid "lpwd"
+msgstr "lpwd"
+
+#: src/uicommon/gftpui.c:955
+msgid "Show current local directory"
+msgstr "Aktuális helyi könyvtár mutatása"
+
+#: src/uicommon/gftpui.c:956
+msgid "lrename"
+msgstr "lrename"
+
+#: src/uicommon/gftpui.c:957
+msgid "Rename a local file"
+msgstr "Egy helyi fájl átnevezése"
+
+#: src/uicommon/gftpui.c:958
+msgid "lrmdir"
+msgstr "lrmdir"
+
+#: src/uicommon/gftpui.c:959
+msgid "Remove a local directory"
+msgstr "Egy helyi könyvtár törlése"
+
+#: src/uicommon/gftpui.c:960
+msgid "ls"
+msgstr "ls"
+
+#: src/uicommon/gftpui.c:961
+msgid "Shows the directory listing for the current remote directory"
+msgstr "Az aktuális távoli könyvtár tartalmának mutatása"
+
+#: src/uicommon/gftpui.c:962
+msgid "mget"
+msgstr "mget"
+
+#: src/uicommon/gftpui.c:964
+msgid "mkdir"
+msgstr "mkdir"
+
+#: src/uicommon/gftpui.c:965
+msgid "Creates a remote directory"
+msgstr "Távoli könyvtár létrehozása"
+
+#: src/uicommon/gftpui.c:966
+msgid "mput"
+msgstr "mput"
+
+#: src/uicommon/gftpui.c:967 src/uicommon/gftpui.c:971
+msgid "Uploads local file(s)"
+msgstr "Helyi fájl(ok) feltöltése"
+
+#: src/uicommon/gftpui.c:968
+msgid "open"
+msgstr "open"
+
+#: src/uicommon/gftpui.c:969
+msgid "Opens a connection to a remote site"
+msgstr "Kapcsolódás egy távoli géphez"
+
+#: src/uicommon/gftpui.c:970
+msgid "put"
+msgstr "put"
+
+#: src/uicommon/gftpui.c:972
+msgid "pwd"
+msgstr "pwd"
+
+#: src/uicommon/gftpui.c:973
+msgid "Show current remote directory"
+msgstr "Aktuális távoli könyvtár mutatása"
+
+#: src/uicommon/gftpui.c:974
+msgid "quit"
+msgstr "quit"
+
+#: src/uicommon/gftpui.c:975
+msgid "Exit from gFTP"
+msgstr "Kilépés a gFTP-ből"
+
+#: src/uicommon/gftpui.c:976
+msgid "rename"
+msgstr "rename"
+
+#: src/uicommon/gftpui.c:977
+msgid "Rename a remote file"
+msgstr "Távoli fájl átnevezése"
+
+#: src/uicommon/gftpui.c:978
+msgid "rmdir"
+msgstr "rmdir"
+
+#: src/uicommon/gftpui.c:979
+msgid "Remove a remote directory"
+msgstr "Távoli könyvtár törlése"
+
+#: src/uicommon/gftpui.c:980
+msgid "set"
+msgstr "set"
+
+#: src/uicommon/gftpui.c:981
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
+msgstr ""
+"Konfigurációs fájl változóinak mutatása. A set változó=érték paranccsal "
+"változót is be tud állítani."
+
+#: src/uicommon/gftpui.c:983
+#, fuzzy
+msgid "site"
+msgstr "méret"
+
+#: src/uicommon/gftpui.c:984
+#, fuzzy
+msgid "Run a site specific command"
+msgstr "Helyspecifikus parancs kiadása"
+
+#: src/uicommon/gftpui.c:1074
+msgid "Error: Command not recognized\n"
+msgstr "Hiba: Parancs nem értelmezhető\n"
+
+#: src/uicommon/gftpui.c:1324
+msgid "Error: Remote site disconnected after trying to transfer file\n"
+msgstr ""
+"Hiba: Távoli gép szétkapcsolt a fájlok átvitelének kezdeményezése után\n"
+
+#: src/uicommon/gftpui.c:1390
+#, c-format
+msgid "Could not download %s from %s\n"
+msgstr "Nem sikerült %s letöltése a(z) %s gépről\n"
+
+#: src/uicommon/gftpui.c:1413
+#, c-format
+msgid "Successfully transferred %s at %.2f KB/s\n"
+msgstr "%s sikeresen letöltve %.2f KB/s sebességgel\n"
+
+#: src/gtk/bookmarks.c:39 src/gtk/gftp-gtk.c:194 src/gtk/gftp-gtk.c:1009
+#: src/gtk/misc-gtk.c:478 src/gtk/misc-gtk.c:486
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
-msgstr "%s: Kattints a Leállítás gombra, mielőtt bármi mást csinálsz\n"
+msgstr "%s: Kattintson a Leállítás gombra, mielőtt bármi mást csinál\n"
 
-#: src/gtk/bookmarks.c:38
+#: src/gtk/bookmarks.c:40
 msgid "Run Bookmark"
 msgstr "Könyvjelző futtatása"
 
-#: src/gtk/bookmarks.c:64
+#: src/gtk/bookmarks.c:70
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
-msgstr "Könyvjelző hozzáadása: Írj be egy nevet a könyvjelzőnek\n"
+msgstr "Könyvjelző hozzáadása: Írjon be egy nevet a könyvjelzőnek\n"
 
-#: src/gtk/bookmarks.c:71
+#: src/gtk/bookmarks.c:77
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr ""
 "Könyvjelző hozzáadása: %s könyvjelzőnév már létezik, ezért nem lehet "
 "hozzáadni\n"
 
-#: src/gtk/bookmarks.c:128 src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:134 src/gtk/bookmarks.c:145
 msgid "Add Bookmark"
 msgstr "Könyvjelző hozzáadása"
 
-#: src/gtk/bookmarks.c:135
+#: src/gtk/bookmarks.c:141
 msgid "Add Bookmark: You must enter a hostname\n"
-msgstr "Könyvjelző hozzáadása: Írj be egy gépnevet\n"
+msgstr "Könyvjelző hozzáadása: Írjon be egy gépnevet\n"
 
-#: src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:145
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
 "(ex: Linux Sites/Debian)"
 msgstr ""
-"Írd be a hozzáadandó könyvjelző nevét.\n"
-"\"/\"-el almenübe tudod rakni a bejegyzést.\n"
+"Írja be a hozzáadandó könyvjelző nevét.\n"
+"\"/\"-el almenübe tudja rakni a bejegyzést.\n"
 "(pl.: Linuxos helyek/Debian)"
 
-#: src/gtk/bookmarks.c:139
+#: src/gtk/bookmarks.c:145
 msgid "Remember password"
 msgstr "Jelszó megjegyzése"
 
-#: src/gtk/bookmarks.c:465 src/gtk/bookmarks.c:475
+#: src/gtk/bookmarks.c:471 src/gtk/bookmarks.c:481
 msgid "New Folder"
 msgstr "Új mappa"
 
-#: src/gtk/bookmarks.c:466
+#: src/gtk/bookmarks.c:472
 msgid "Enter the name of the new folder to create"
-msgstr "Írd be a készítendő mappa nevét"
+msgstr "Írja be a készítendő mappa nevét"
 
-#: src/gtk/bookmarks.c:476
+#: src/gtk/bookmarks.c:482
 msgid "Enter the name of the new item to create"
-msgstr "Írd be a készítendő elem nevét"
+msgstr "Írja be a készítendő elem nevét"
 
-#: src/gtk/bookmarks.c:549
+#: src/gtk/bookmarks.c:555
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
 "%s and all it's children?"
 msgstr ""
-"Biztosan törölni szeretnéd a(z) %s könyvjelzőt\n"
+"Biztosan törölni szeretné a(z) %s könyvjelzőt\n"
 "és az összes gyermekét?"
 
-#: src/gtk/bookmarks.c:550
+#: src/gtk/bookmarks.c:556
 msgid "Delete Bookmark"
 msgstr "Könyvjelző törlése"
 
-#: src/gtk/bookmarks.c:577
+#: src/gtk/bookmarks.c:583
 msgid "Bookmarks"
 msgstr "Könyvjelzők"
 
-#: src/gtk/bookmarks.c:819 src/gtk/bookmarks.c:822
+#: src/gtk/bookmarks.c:823 src/gtk/bookmarks.c:826
 msgid "Edit Entry"
 msgstr "Bejegyzés szerkesztése"
 
-#: src/gtk/bookmarks.c:859
+#: src/gtk/bookmarks.c:863
 msgid "Description:"
 msgstr "Leírás:"
 
-#: src/gtk/bookmarks.c:874
+#: src/gtk/bookmarks.c:878
 msgid "Hostname:"
 msgstr "Gépnév:"
 
-#: src/gtk/bookmarks.c:887
+#: src/gtk/bookmarks.c:891
 msgid "Port:"
 msgstr "Port:"
 
-#: src/gtk/bookmarks.c:904
+#: src/gtk/bookmarks.c:908
 msgid "Protocol:"
 msgstr "Protokoll:"
 
-#: src/gtk/bookmarks.c:928
+#: src/gtk/bookmarks.c:932
 msgid "Remote Directory:"
 msgstr "Távoli könyvtár:"
 
-#: src/gtk/bookmarks.c:941
+#: src/gtk/bookmarks.c:945
 msgid "Local Directory:"
 msgstr "Helyi könyvtár:"
 
-#: src/gtk/bookmarks.c:958
+#: src/gtk/bookmarks.c:962
 msgid "Username:"
 msgstr "Felhasználói név:"
 
-#: src/gtk/bookmarks.c:971
+#: src/gtk/bookmarks.c:975 src/text/textui.c:82
 msgid "Password:"
 msgstr "Jelszó:"
 
-#: src/gtk/bookmarks.c:985
+#: src/gtk/bookmarks.c:989
 msgid "Account:"
 msgstr "Account:"
 
-#: src/gtk/bookmarks.c:999
+#: src/gtk/bookmarks.c:1003
 msgid "Log in as ANONYMOUS"
 msgstr "Belépés ANONYMOUS-ként"
 
-#: src/gtk/bookmarks.c:1025 src/gtk/bookmarks.c:1260
-#: src/gtk/chmod_dialog.c:293 src/gtk/options_dialog.c:1110
-#: src/gtk/options_dialog.c:1312 src/gtk/transfer.c:2053
+#: src/gtk/bookmarks.c:1029 src/gtk/bookmarks.c:1273
+#: src/gtk/chmod_dialog.c:293 src/gtk/gtkui_transfer.c:373
+#: src/gtk/options_dialog.c:1120 src/gtk/options_dialog.c:1322
 msgid "  Cancel  "
 msgstr "  Mégsem  "
 
-#: src/gtk/bookmarks.c:1035 src/gtk/options_dialog.c:1323
+#: src/gtk/bookmarks.c:1039 src/gtk/options_dialog.c:1333
 msgid "Apply"
 msgstr "Alkalmaz"
 
-#: src/gtk/bookmarks.c:1177
+#: src/gtk/bookmarks.c:1189
 msgid "/_File"
 msgstr "/_Fájl"
 
-#: src/gtk/bookmarks.c:1178
+#: src/gtk/bookmarks.c:1190
 msgid "/File/tearoff"
 msgstr "/Fájl/tearoff"
 
-#: src/gtk/bookmarks.c:1179
+#: src/gtk/bookmarks.c:1191
 msgid "/File/New Folder..."
 msgstr "/Fájl/Új mappa..."
 
-#: src/gtk/bookmarks.c:1180
+#: src/gtk/bookmarks.c:1192
 msgid "/File/New Item..."
 msgstr "/Fájl/Új elem..."
 
-#: src/gtk/bookmarks.c:1181
+#: src/gtk/bookmarks.c:1193
 msgid "/File/Delete"
 msgstr "/Fájl/Törlés"
 
-#: src/gtk/bookmarks.c:1182
+#: src/gtk/bookmarks.c:1194
 msgid "/File/Properties..."
 msgstr "/Fájl/Tulajdonságok..."
 
-#: src/gtk/bookmarks.c:1183
+#: src/gtk/bookmarks.c:1195
 msgid "/File/sep"
 msgstr "/Fájl/sep"
 
-#: src/gtk/bookmarks.c:1184
+#: src/gtk/bookmarks.c:1196
 msgid "/File/Close"
 msgstr "/Fájl/Bezárás"
 
-#: src/gtk/bookmarks.c:1195 src/gtk/bookmarks.c:1198
+#: src/gtk/bookmarks.c:1207 src/gtk/bookmarks.c:1210
 msgid "Edit Bookmarks"
 msgstr "Könyvjelzők szerkesztése"
 
-#: src/gtk/chmod_dialog.c:73 src/gtk/delete_dialog.c:90
-#: src/gtk/menu-items.c:430 src/gtk/mkdir_dialog.c:58
-#: src/gtk/rename_dialog.c:59 src/gtk/transfer.c:533
-msgid "Operation canceled\n"
-msgstr "Művelet megszakítva\n"
-
-#: src/gtk/chmod_dialog.c:159 src/gtk/chmod_dialog.c:165
+#: src/gtk/chmod_dialog.c:160 src/gtk/chmod_dialog.c:165
 #: src/gtk/chmod_dialog.c:170
 msgid "Chmod"
 msgstr "Chmod"
@@ -1446,7 +1842,7 @@ msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
 msgstr ""
-"Be tudod állítani a fájljaid attribútumait\n"
+"Be tudja állítani a fájljai attribútumait\n"
 "Megjegyzés: Nem minden FTP-kiszolgáló támogatja a chmod-ot"
 
 #: src/gtk/chmod_dialog.c:200
@@ -1465,7 +1861,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Ragadós"
 
-#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:590
+#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:693
 msgid "User"
 msgstr "Felhasználó"
 
@@ -1484,7 +1880,7 @@ msgstr "Írás"
 msgid "Execute"
 msgstr "Végrehajtás"
 
-#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:591
+#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:694
 msgid "Group"
 msgstr "Csoport"
 
@@ -1492,602 +1888,668 @@ msgstr "Csoport"
 msgid "Other"
 msgstr "Más"
 
-#: src/gtk/delete_dialog.c:157
+#: src/gtk/delete_dialog.c:156
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
-msgstr "Biztosan törölni szeretnéd ezt a(z) %ld fájlt és %ld könyvtárat"
+msgstr "Biztosan törölni szeretné ezt a(z) %ld fájlt és %ld könyvtárat"
 
-#: src/gtk/delete_dialog.c:159
+#: src/gtk/delete_dialog.c:158
 msgid "Delete Files/Directories"
 msgstr "Fájlok és könyvtárak törlése"
 
-#: src/gtk/delete_dialog.c:177 src/gtk/options_dialog.c:1184
+#: src/gtk/delete_dialog.c:176 src/gtk/options_dialog.c:1194
 msgid "Delete"
 msgstr "Törlés"
 
-#: src/gtk/dnd.c:130 src/gtk/dnd.c:222
+#: src/gtk/dnd.c:146 src/gtk/dnd.c:233
 msgid "Drag-N-Drop"
 msgstr "Húzd és ejtsd"
 
-#: src/gtk/dnd.c:234
+#: src/gtk/dnd.c:255
 #, c-format
 msgid "Received URL %s\n"
 msgstr "%s URL érkezett\n"
 
-#: src/gtk/gftp-gtk.c:116
+#: src/gtk/gftp-gtk.c:113
 msgid "Exit"
 msgstr "Kilépés"
 
-#: src/gtk/gftp-gtk.c:116
+#: src/gtk/gftp-gtk.c:113
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
 msgstr ""
 "Fájlátvitel folyamatban.\n"
-"Biztosan ki szeretnél lépni?"
-
-#: src/gtk/gftp-gtk.c:159
-msgid "/_FTP"
-msgstr "/_FTP"
-
-#: src/gtk/gftp-gtk.c:160
-msgid "/FTP/tearoff"
-msgstr "/FTP/tearoff"
-
-#: src/gtk/gftp-gtk.c:161
-msgid "/FTP/Window 1"
-msgstr "/FTP/Ablak 1"
-
-#: src/gtk/gftp-gtk.c:162
-msgid "/FTP/Window 2"
-msgstr "/FTP/Ablak 2"
-
-#: src/gtk/gftp-gtk.c:163 src/gtk/gftp-gtk.c:166 src/gtk/gftp-gtk.c:169
-msgid "/FTP/sep"
-msgstr "/FTP/sep"
-
-#: src/gtk/gftp-gtk.c:164
-msgid "/FTP/Ascii"
-msgstr "/FTP/ASCII"
-
-#: src/gtk/gftp-gtk.c:165
-msgid "/FTP/Binary"
-msgstr "/FTP/Bináris"
-
-#: src/gtk/gftp-gtk.c:167
-msgid "/FTP/_Options..."
-msgstr "/FTP/_Beállítások..."
-
-#: src/gtk/gftp-gtk.c:170
-msgid "/FTP/_Quit"
-msgstr "/FTP/_Kilépés"
-
-#: src/gtk/gftp-gtk.c:171
-msgid "/_Local"
-msgstr "/_Helyi"
-
-#: src/gtk/gftp-gtk.c:172
-msgid "/Local/tearoff"
-msgstr "/Helyi/tearoff"
-
-#: src/gtk/gftp-gtk.c:173
-msgid "/Local/Open _URL..."
-msgstr "/Helyi/_URL megnyitása..."
-
-#: src/gtk/gftp-gtk.c:174
-msgid "/Local/Disconnect"
-msgstr "/Helyi/Szétkapcsolás"
-
-#: src/gtk/gftp-gtk.c:175 src/gtk/gftp-gtk.c:181
-msgid "/Local/sep"
-msgstr "/Helyi/sep"
-
-#: src/gtk/gftp-gtk.c:176
-msgid "/Local/Change Filespec..."
-msgstr "/Helyi/Fájlspec megváltoztatása..."
-
-#: src/gtk/gftp-gtk.c:177
-msgid "/Local/Show selected"
-msgstr "/Helyi/Kiválasztott megjelenítése"
-
-#: src/gtk/gftp-gtk.c:178
-msgid "/Local/Select All"
-msgstr "/Helyi/Mindent kijelöl"
+"Biztosan ki szeretne lépni?"
 
 #: src/gtk/gftp-gtk.c:179
-msgid "/Local/Select All Files"
-msgstr "/Helyi/Minden fájl kijelölése"
-
-#: src/gtk/gftp-gtk.c:180
-msgid "/Local/Deselect All"
-msgstr "/Helyi/Kiválasztás leszedése mindről"
-
-#: src/gtk/gftp-gtk.c:182
-msgid "/Local/Save Directory Listing..."
-msgstr "/Helyi/Könyvtárlista mentése..."
-
-#: src/gtk/gftp-gtk.c:183
-msgid "/Local/Send SITE Command..."
-msgstr "/Helyi/SITE parancs küldése..."
-
-#: src/gtk/gftp-gtk.c:184
-msgid "/Local/Change Directory"
-msgstr "/Helyi/Könyvtárváltás"
-
-#: src/gtk/gftp-gtk.c:185
-msgid "/Local/Chmod..."
-msgstr "/Helyi/Chmod..."
-
-#: src/gtk/gftp-gtk.c:186
-msgid "/Local/Make Directory..."
-msgstr "/Helyi/Könyvtár létrehozása..."
-
-#: src/gtk/gftp-gtk.c:187
-msgid "/Local/Rename..."
-msgstr "/Helyi/Átnevezés..."
-
-#: src/gtk/gftp-gtk.c:188
-msgid "/Local/Delete..."
-msgstr "/Helyi/Törlés..."
-
-#: src/gtk/gftp-gtk.c:189
-msgid "/Local/Edit..."
-msgstr "/Helyi/Szerkesztés..."
-
-#: src/gtk/gftp-gtk.c:190
-msgid "/Local/View..."
-msgstr "/Helyi/Megtekintés..."
-
-#: src/gtk/gftp-gtk.c:191
-msgid "/Local/Refresh"
-msgstr "/Helyi/Frissítés"
-
-#: src/gtk/gftp-gtk.c:192
-msgid "/_Remote"
-msgstr "/_Távoli"
-
-#: src/gtk/gftp-gtk.c:193
-msgid "/Remote/tearoff"
-msgstr "/Távoli/tearoff"
-
-#: src/gtk/gftp-gtk.c:194
-msgid "/Remote/Open _URL..."
-msgstr "/Távoli/_URL megnyitása..."
-
-#: src/gtk/gftp-gtk.c:196
-msgid "/Remote/Disconnect"
-msgstr "/Távoli/Szétkapcsolás"
-
-#: src/gtk/gftp-gtk.c:198 src/gtk/gftp-gtk.c:204
-msgid "/Remote/sep"
-msgstr "/Távoli/sep"
-
-#: src/gtk/gftp-gtk.c:199
-msgid "/Remote/Change Filespec..."
-msgstr "/Távoli/Fájlspec megváltoztatása..."
-
-#: src/gtk/gftp-gtk.c:200
-msgid "/Remote/Show selected"
-msgstr "/Távoli/Kiválasztott mutatása"
-
-#: src/gtk/gftp-gtk.c:201
-msgid "/Remote/Select All"
-msgstr "/Távoli/Mindent kijelöl"
-
-#: src/gtk/gftp-gtk.c:202
-msgid "/Remote/Select All Files"
-msgstr "/Távoli/Minden fájl kijelölése"
-
-#: src/gtk/gftp-gtk.c:203
-msgid "/Remote/Deselect All"
-msgstr "/Távoli/Kiválasztás leszedése mindről"
-
-#: src/gtk/gftp-gtk.c:205
-msgid "/Remote/Save Directory Listing..."
-msgstr "/Távoli/Könyvtárlista mentése..."
-
-#: src/gtk/gftp-gtk.c:206
-msgid "/Remote/Send SITE Command..."
-msgstr "/Távoli/SITE parancs küldése..."
-
-#: src/gtk/gftp-gtk.c:207
-msgid "/Remote/Change Directory"
-msgstr "/Távoli/Könyvtárváltás"
-
-#: src/gtk/gftp-gtk.c:208
-msgid "/Remote/Chmod..."
-msgstr "/Távoli/Chmod..."
-
-#: src/gtk/gftp-gtk.c:209
-msgid "/Remote/Make Directory..."
-msgstr "/Távoli/Könyvtár létrehozása..."
-
-#: src/gtk/gftp-gtk.c:210
-msgid "/Remote/Rename..."
-msgstr "/Távoli/Átnevezés..."
-
-#: src/gtk/gftp-gtk.c:211
-msgid "/Remote/Delete..."
-msgstr "/Távoli/Törlés"
-
-#: src/gtk/gftp-gtk.c:212
-msgid "/Remote/Edit..."
-msgstr "/Távoli/Szerkesztés..."
-
-#: src/gtk/gftp-gtk.c:213
-msgid "/Remote/View..."
-msgstr "/Távoli/Megtekintés..."
-
-#: src/gtk/gftp-gtk.c:214
-msgid "/Remote/Refresh"
-msgstr "/Távoli/Frissítés"
-
-#: src/gtk/gftp-gtk.c:215
-msgid "/_Bookmarks"
-msgstr "/_Könyvjelzők"
-
-#: src/gtk/gftp-gtk.c:216
-msgid "/Bookmarks/tearoff"
-msgstr "/Könyvjelzők/tearoff"
-
-#: src/gtk/gftp-gtk.c:217
-msgid "/Bookmarks/Add bookmark"
-msgstr "/Könyvjelzők/Könyvjelző hozzáadása"
-
-#: src/gtk/gftp-gtk.c:219
-msgid "/Bookmarks/Edit bookmarks"
-msgstr "/Könyvjelzők/Könyvjelző szerkesztése"
-
-#: src/gtk/gftp-gtk.c:220
-msgid "/Bookmarks/sep"
-msgstr "/Könyvjelzők/sep"
-
-#: src/gtk/gftp-gtk.c:221
-msgid "/_Transfers"
-msgstr "/_Átvitelek"
-
-#: src/gtk/gftp-gtk.c:222
-msgid "/Transfers/tearoff"
-msgstr "/_Átvitelek/tearoff"
-
-#: src/gtk/gftp-gtk.c:223
-msgid "/Transfers/Start Transfer"
-msgstr "/Átvitelek/Átvitelek indítása"
-
-#: src/gtk/gftp-gtk.c:224
-msgid "/Transfers/Stop Transfer"
-msgstr "/Átvitelek/Átvitelek leállítása"
-
-#: src/gtk/gftp-gtk.c:226 src/gtk/gftp-gtk.c:234
-msgid "/Transfers/sep"
-msgstr "/Átvitelek/sep"
-
-#: src/gtk/gftp-gtk.c:227
-msgid "/Transfers/Skip Current File"
-msgstr "/Átvitelek/Aktuális fájl kihagyása"
-
-#: src/gtk/gftp-gtk.c:228
-msgid "/Transfers/Remove File"
-msgstr "/Átvitelek/Fájl törlése"
-
-#: src/gtk/gftp-gtk.c:230
-msgid "/Transfers/Move File _Up"
-msgstr "/Átvitelek/Fájl mozgatása _fel"
-
-#: src/gtk/gftp-gtk.c:232
-msgid "/Transfers/Move File _Down"
-msgstr "/Átvitelek/Fájl mozgatása _le"
-
-#: src/gtk/gftp-gtk.c:235
-msgid "/Transfers/Retrieve Files"
-msgstr "/Átvitelek/Fájlok letöltése"
-
-#: src/gtk/gftp-gtk.c:236
-msgid "/Transfers/Put Files"
-msgstr "/Átvitelek/Fájlok feltöltése"
-
-#: src/gtk/gftp-gtk.c:237
-msgid "/L_ogging"
-msgstr "/_Naplózás"
-
-#: src/gtk/gftp-gtk.c:238
-msgid "/Logging/tearoff"
-msgstr "/Naplózás/tearoff"
-
-#: src/gtk/gftp-gtk.c:239
-msgid "/Logging/Clear"
-msgstr "/Naplózás/Törlés"
-
-#: src/gtk/gftp-gtk.c:240
-msgid "/Logging/View log..."
-msgstr "/Naplózás/Napló megnézése"
-
-#: src/gtk/gftp-gtk.c:241
-msgid "/Logging/Save log..."
-msgstr "/Naplózás/Napló mentése..."
-
-#: src/gtk/gftp-gtk.c:242
-msgid "/Tool_s"
-msgstr "/_Eszközök"
-
-#: src/gtk/gftp-gtk.c:243
-msgid "/Tools/tearoff"
-msgstr "/Eszközök/tearoff"
-
-#: src/gtk/gftp-gtk.c:244
-msgid "/Tools/Compare Windows"
-msgstr "/Eszközök/Ablakok összehasonlítása"
-
-#: src/gtk/gftp-gtk.c:245
-msgid "/Tools/Clear Cache"
-msgstr "/Eszközök/Gyorsítótár törlése"
-
-#: src/gtk/gftp-gtk.c:246
-msgid "/_Help"
-msgstr "/_Súgó"
-
-#: src/gtk/gftp-gtk.c:247
-msgid "/Help/tearoff"
-msgstr "/Súgó/tearoff"
-
-#: src/gtk/gftp-gtk.c:248
-msgid "/Help/About..."
-msgstr "/Súgó/Névjegy..."
-
-#: src/gtk/gftp-gtk.c:357
-msgid "Host: "
-msgstr "Gép: "
-
-#: src/gtk/gftp-gtk.c:375
-msgid "Port: "
-msgstr "Port: "
-
-#: src/gtk/gftp-gtk.c:393
-msgid "User: "
-msgstr "Felhasználó: "
-
-#: src/gtk/gftp-gtk.c:411
-msgid "Pass: "
-msgstr "Jelszó: "
-
-#: src/gtk/gftp-gtk.c:588 src/gtk/gftp-gtk.c:792 src/gtk/transfer.c:1882
-msgid "Filename"
-msgstr "Fájlnév"
-
-#: src/gtk/gftp-gtk.c:589
-msgid "Size"
-msgstr "Méret"
-
-#: src/gtk/gftp-gtk.c:592
-msgid "Date"
-msgstr "Dátum"
-
-#: src/gtk/gftp-gtk.c:593
-msgid "Attribs"
-msgstr "Attribútumok"
-
-#: src/gtk/gftp-gtk.c:793
-msgid "Progress"
-msgstr "Folyamatjelző"
-
-#: src/gtk/gftp-gtk.c:903 src/gtk/misc-gtk.c:892 src/gtk/misc-gtk.c:963
-msgid "Connect"
-msgstr "Kapcsolódás"
-
-#: src/gtk/gftp-gtk.c:925
-msgid "Error: You must type in a host to connect to\n"
-msgstr "Hiba: Írd be a kapcsolat célgépének nevét\n"
-
-#: src/gtk/gftp-gtk.c:1160
-msgid ""
-">. If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ""
-">. Ha bármilyen kérdésed, megjegyzésed, vagy javaslatod van a programmal "
-"kapcsolatban, küldj e-mailt nekem. A legfrissebb híreket mindig megtalálod a "
-"gFTP weboldalán a http://www.gftp.org/ címen.\n"
-
-#: src/gtk/gftp-gtk.c:1162 src/text/gftp-text.c:150
-msgid ""
-"gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
-"This is free software, and you are welcome to redistribute it under certain "
-"conditions; for details, see the COPYING file\n"
-msgstr ""
-"gFTP programra nem vonatkozik ABSZOLÚT SEMMILYEN GARANCIA; a részletekért, "
-"lásd a COPYING fájlt. Ez egy szabad szoftver, megfelelő feltételek mellett "
-"bármikor továbbíthatod, a részletekért lásd a COPYING fájlt.\n"
-
-#: src/gtk/menu-items.c:67 src/gtk/menu-items.c:97
-msgid "OpenURL"
-msgstr "URLMegnyitás"
-
-#: src/gtk/menu-items.c:75 src/gtk/menu-items.c:105
-msgid "OpenURL: Operation canceled...you must enter a string\n"
-msgstr "URLMegnyitás: Művelet megszakítva... írj be egy karakterláncot\n"
-
-#: src/gtk/menu-items.c:127
 msgid "Connect via URL"
 msgstr "Kapcsolódás URL alapján"
 
-#: src/gtk/menu-items.c:127
-msgid "Enter ftp url to connect to"
-msgstr "Írd be célgép ftp url-jét"
+#: src/gtk/gftp-gtk.c:179
+msgid "Enter a URL to connect to"
+msgstr "Írja be célgép URL-jét"
 
-#: src/gtk/menu-items.c:160
+#: src/gtk/gftp-gtk.c:195
+msgid "OpenURL"
+msgstr "URLMegnyitás"
+
+#: src/gtk/gftp-gtk.c:218
+msgid "/_FTP"
+msgstr "/_FTP"
+
+#: src/gtk/gftp-gtk.c:219
+msgid "/FTP/tearoff"
+msgstr "/FTP/tearoff"
+
+#: src/gtk/gftp-gtk.c:220
+msgid "/FTP/Window 1"
+msgstr "/FTP/Ablak 1"
+
+#: src/gtk/gftp-gtk.c:221
+msgid "/FTP/Window 2"
+msgstr "/FTP/Ablak 2"
+
+#: src/gtk/gftp-gtk.c:222 src/gtk/gftp-gtk.c:225 src/gtk/gftp-gtk.c:228
+msgid "/FTP/sep"
+msgstr "/FTP/sep"
+
+#: src/gtk/gftp-gtk.c:223
+msgid "/FTP/Ascii"
+msgstr "/FTP/ASCII"
+
+#: src/gtk/gftp-gtk.c:224
+msgid "/FTP/Binary"
+msgstr "/FTP/Bináris"
+
+#: src/gtk/gftp-gtk.c:226
+msgid "/FTP/_Options..."
+msgstr "/FTP/_Beállítások..."
+
+#: src/gtk/gftp-gtk.c:229
+msgid "/FTP/_Quit"
+msgstr "/FTP/_Kilépés"
+
+#: src/gtk/gftp-gtk.c:230
+msgid "/_Local"
+msgstr "/_Helyi"
+
+#: src/gtk/gftp-gtk.c:231
+msgid "/Local/tearoff"
+msgstr "/Helyi/tearoff"
+
+#: src/gtk/gftp-gtk.c:232
+msgid "/Local/Open _URL..."
+msgstr "/Helyi/_URL megnyitása..."
+
+#: src/gtk/gftp-gtk.c:233
+msgid "/Local/Disconnect"
+msgstr "/Helyi/Szétkapcsolás"
+
+#: src/gtk/gftp-gtk.c:234 src/gtk/gftp-gtk.c:240
+msgid "/Local/sep"
+msgstr "/Helyi/sep"
+
+#: src/gtk/gftp-gtk.c:235
+msgid "/Local/Change Filespec..."
+msgstr "/Helyi/Fájlspec megváltoztatása..."
+
+#: src/gtk/gftp-gtk.c:236
+msgid "/Local/Show selected"
+msgstr "/Helyi/Kiválasztott megjelenítése"
+
+#: src/gtk/gftp-gtk.c:237
+msgid "/Local/Select All"
+msgstr "/Helyi/Mindent kijelöl"
+
+#: src/gtk/gftp-gtk.c:238
+msgid "/Local/Select All Files"
+msgstr "/Helyi/Minden fájl kijelölése"
+
+#: src/gtk/gftp-gtk.c:239
+msgid "/Local/Deselect All"
+msgstr "/Helyi/Kiválasztás leszedése mindről"
+
+#: src/gtk/gftp-gtk.c:241
+msgid "/Local/Save Directory Listing..."
+msgstr "/Helyi/Könyvtárlista mentése..."
+
+#: src/gtk/gftp-gtk.c:242
+msgid "/Local/Send SITE Command..."
+msgstr "/Helyi/SITE parancs küldése..."
+
+#: src/gtk/gftp-gtk.c:243
+msgid "/Local/Change Directory"
+msgstr "/Helyi/Könyvtárváltás"
+
+#: src/gtk/gftp-gtk.c:244
+msgid "/Local/Chmod..."
+msgstr "/Helyi/Chmod..."
+
+#: src/gtk/gftp-gtk.c:245
+msgid "/Local/Make Directory..."
+msgstr "/Helyi/Könyvtár létrehozása..."
+
+#: src/gtk/gftp-gtk.c:246
+msgid "/Local/Rename..."
+msgstr "/Helyi/Átnevezés..."
+
+#: src/gtk/gftp-gtk.c:247
+msgid "/Local/Delete..."
+msgstr "/Helyi/Törlés..."
+
+#: src/gtk/gftp-gtk.c:248
+msgid "/Local/Edit..."
+msgstr "/Helyi/Szerkesztés..."
+
+#: src/gtk/gftp-gtk.c:249
+msgid "/Local/View..."
+msgstr "/Helyi/Megtekintés..."
+
+#: src/gtk/gftp-gtk.c:250
+msgid "/Local/Refresh"
+msgstr "/Helyi/Frissítés"
+
+#: src/gtk/gftp-gtk.c:251
+msgid "/_Remote"
+msgstr "/_Távoli"
+
+#: src/gtk/gftp-gtk.c:252
+msgid "/Remote/tearoff"
+msgstr "/Távoli/tearoff"
+
+#: src/gtk/gftp-gtk.c:253
+msgid "/Remote/Open _URL..."
+msgstr "/Távoli/_URL megnyitása..."
+
+#: src/gtk/gftp-gtk.c:255
+msgid "/Remote/Disconnect"
+msgstr "/Távoli/Szétkapcsolás"
+
+#: src/gtk/gftp-gtk.c:257 src/gtk/gftp-gtk.c:263
+msgid "/Remote/sep"
+msgstr "/Távoli/sep"
+
+#: src/gtk/gftp-gtk.c:258
+msgid "/Remote/Change Filespec..."
+msgstr "/Távoli/Fájlspec megváltoztatása..."
+
+#: src/gtk/gftp-gtk.c:259
+msgid "/Remote/Show selected"
+msgstr "/Távoli/Kiválasztott mutatása"
+
+#: src/gtk/gftp-gtk.c:260
+msgid "/Remote/Select All"
+msgstr "/Távoli/Mindent kijelöl"
+
+#: src/gtk/gftp-gtk.c:261
+msgid "/Remote/Select All Files"
+msgstr "/Távoli/Minden fájl kijelölése"
+
+#: src/gtk/gftp-gtk.c:262
+msgid "/Remote/Deselect All"
+msgstr "/Távoli/Kiválasztás leszedése mindről"
+
+#: src/gtk/gftp-gtk.c:264
+msgid "/Remote/Save Directory Listing..."
+msgstr "/Távoli/Könyvtárlista mentése..."
+
+#: src/gtk/gftp-gtk.c:265
+msgid "/Remote/Send SITE Command..."
+msgstr "/Távoli/SITE parancs küldése..."
+
+#: src/gtk/gftp-gtk.c:266
+msgid "/Remote/Change Directory"
+msgstr "/Távoli/Könyvtárváltás"
+
+#: src/gtk/gftp-gtk.c:267
+msgid "/Remote/Chmod..."
+msgstr "/Távoli/Chmod..."
+
+#: src/gtk/gftp-gtk.c:268
+msgid "/Remote/Make Directory..."
+msgstr "/Távoli/Könyvtár létrehozása..."
+
+#: src/gtk/gftp-gtk.c:269
+msgid "/Remote/Rename..."
+msgstr "/Távoli/Átnevezés..."
+
+#: src/gtk/gftp-gtk.c:270
+msgid "/Remote/Delete..."
+msgstr "/Távoli/Törlés"
+
+#: src/gtk/gftp-gtk.c:271
+msgid "/Remote/Edit..."
+msgstr "/Távoli/Szerkesztés..."
+
+#: src/gtk/gftp-gtk.c:272
+msgid "/Remote/View..."
+msgstr "/Távoli/Megtekintés..."
+
+#: src/gtk/gftp-gtk.c:273
+msgid "/Remote/Refresh"
+msgstr "/Távoli/Frissítés"
+
+#: src/gtk/gftp-gtk.c:274
+msgid "/_Bookmarks"
+msgstr "/_Könyvjelzők"
+
+#: src/gtk/gftp-gtk.c:275
+msgid "/Bookmarks/tearoff"
+msgstr "/Könyvjelzők/tearoff"
+
+#: src/gtk/gftp-gtk.c:276
+msgid "/Bookmarks/Add bookmark"
+msgstr "/Könyvjelzők/Könyvjelző hozzáadása"
+
+#: src/gtk/gftp-gtk.c:278
+msgid "/Bookmarks/Edit bookmarks"
+msgstr "/Könyvjelzők/Könyvjelző szerkesztése"
+
+#: src/gtk/gftp-gtk.c:279
+msgid "/Bookmarks/sep"
+msgstr "/Könyvjelzők/sep"
+
+#: src/gtk/gftp-gtk.c:280
+msgid "/_Transfers"
+msgstr "/_Átvitelek"
+
+#: src/gtk/gftp-gtk.c:281
+msgid "/Transfers/tearoff"
+msgstr "/_Átvitelek/tearoff"
+
+#: src/gtk/gftp-gtk.c:282
+msgid "/Transfers/Start Transfer"
+msgstr "/Átvitelek/Átvitelek indítása"
+
+#: src/gtk/gftp-gtk.c:283
+msgid "/Transfers/Stop Transfer"
+msgstr "/Átvitelek/Átvitelek leállítása"
+
+#: src/gtk/gftp-gtk.c:285 src/gtk/gftp-gtk.c:293
+msgid "/Transfers/sep"
+msgstr "/Átvitelek/sep"
+
+#: src/gtk/gftp-gtk.c:286
+msgid "/Transfers/Skip Current File"
+msgstr "/Átvitelek/Aktuális fájl kihagyása"
+
+#: src/gtk/gftp-gtk.c:287
+msgid "/Transfers/Remove File"
+msgstr "/Átvitelek/Fájl törlése"
+
+#: src/gtk/gftp-gtk.c:289
+msgid "/Transfers/Move File _Up"
+msgstr "/Átvitelek/Fájl mozgatása _fel"
+
+#: src/gtk/gftp-gtk.c:291
+msgid "/Transfers/Move File _Down"
+msgstr "/Átvitelek/Fájl mozgatása _le"
+
+#: src/gtk/gftp-gtk.c:294
+msgid "/Transfers/Retrieve Files"
+msgstr "/Átvitelek/Fájlok letöltése"
+
+#: src/gtk/gftp-gtk.c:295
+msgid "/Transfers/Put Files"
+msgstr "/Átvitelek/Fájlok feltöltése"
+
+#: src/gtk/gftp-gtk.c:296
+msgid "/L_ogging"
+msgstr "/_Naplózás"
+
+#: src/gtk/gftp-gtk.c:297
+msgid "/Logging/tearoff"
+msgstr "/Naplózás/tearoff"
+
+#: src/gtk/gftp-gtk.c:298
+msgid "/Logging/Clear"
+msgstr "/Naplózás/Törlés"
+
+#: src/gtk/gftp-gtk.c:299
+msgid "/Logging/View log..."
+msgstr "/Naplózás/Napló megnézése"
+
+#: src/gtk/gftp-gtk.c:300
+msgid "/Logging/Save log..."
+msgstr "/Naplózás/Napló mentése..."
+
+#: src/gtk/gftp-gtk.c:301
+msgid "/Tool_s"
+msgstr "/_Eszközök"
+
+#: src/gtk/gftp-gtk.c:302
+msgid "/Tools/tearoff"
+msgstr "/Eszközök/tearoff"
+
+#: src/gtk/gftp-gtk.c:303
+msgid "/Tools/Compare Windows"
+msgstr "/Eszközök/Ablakok összehasonlítása"
+
+#: src/gtk/gftp-gtk.c:304
+msgid "/Tools/Clear Cache"
+msgstr "/Eszközök/Gyorsítótár törlése"
+
+#: src/gtk/gftp-gtk.c:305
+msgid "/_Help"
+msgstr "/_Súgó"
+
+#: src/gtk/gftp-gtk.c:306
+msgid "/Help/tearoff"
+msgstr "/Súgó/tearoff"
+
+#: src/gtk/gftp-gtk.c:307
+msgid "/Help/About..."
+msgstr "/Súgó/Névjegy..."
+
+#: src/gtk/gftp-gtk.c:425
+msgid "Host: "
+msgstr "Gép: "
+
+#: src/gtk/gftp-gtk.c:443
+msgid "Port: "
+msgstr "Port: "
+
+#: src/gtk/gftp-gtk.c:461
+msgid "User: "
+msgstr "Felhasználó: "
+
+#: src/gtk/gftp-gtk.c:479
+msgid "Pass: "
+msgstr "Jelszó: "
+
+#: src/gtk/gftp-gtk.c:548
+msgid "Command: "
+msgstr ""
+
+#: src/gtk/gftp-gtk.c:691 src/gtk/gftp-gtk.c:898 src/gtk/gtkui_transfer.c:216
+msgid "Filename"
+msgstr "Fájlnév"
+
+#: src/gtk/gftp-gtk.c:692
+msgid "Size"
+msgstr "Méret"
+
+#: src/gtk/gftp-gtk.c:695
+msgid "Date"
+msgstr "Dátum"
+
+#: src/gtk/gftp-gtk.c:696
+msgid "Attribs"
+msgstr "Attribútumok"
+
+#: src/gtk/gftp-gtk.c:899
+msgid "Progress"
+msgstr "Folyamatjelző"
+
+#: src/gtk/gftp-gtk.c:1010 src/gtk/misc-gtk.c:891 src/gtk/misc-gtk.c:965
+msgid "Connect"
+msgstr "Kapcsolódás"
+
+#: src/gtk/gftp-gtk.c:1040
+msgid "Error: You must type in a host to connect to\n"
+msgstr "Hiba: Írja be a kapcsolat célgépének nevét\n"
+
+#: src/gtk/gtkui.c:51
+msgid "Refresh"
+msgstr "Frissítés"
+
+#: src/gtk/gtkui.c:93
+msgid "Enter Username"
+msgstr "Adja meg a felhasználónevet"
+
+#: src/gtk/gtkui.c:94
+msgid "Please enter your username for this site"
+msgstr "Írja be a felhasználónevét erre a gépre"
+
+#: src/gtk/gtkui.c:115 src/gtk/transfer.c:508 src/gtk/transfer.c:519
+msgid "Enter Password"
+msgstr "Írja be a jelszót"
+
+#: src/gtk/gtkui.c:116 src/gtk/transfer.c:509 src/gtk/transfer.c:520
+msgid "Please enter your password for this site"
+msgstr "Írja be a jelszavát erre a gépre"
+
+#: src/gtk/gtkui.c:272
+msgid "Operation canceled...you must enter a string\n"
+msgstr "Művelet megszakítva...írjon be egy karakterláncot\n"
+
+#: src/gtk/gtkui.c:310
+msgid "Mkdir"
+msgstr "Mkdir"
+
+#: src/gtk/gtkui.c:313
+msgid "Make Directory"
+msgstr "Könyvtár létrehozása"
+
+#: src/gtk/gtkui.c:313
+msgid "Enter name of directory to create"
+msgstr "Írja be a létrehozandó könyvtár nevét"
+
+#: src/gtk/gtkui.c:336 src/gtk/gtkui.c:348 src/gtk/misc-gtk.c:894
+#: src/gtk/misc-gtk.c:968
+msgid "Rename"
+msgstr "Átnevezés"
+
+#: src/gtk/gtkui.c:346
+#, c-format
+msgid "What would you like to rename %s to?"
+msgstr "Mire szeretné átnevezni %s-t?"
+
+#: src/gtk/gtkui.c:368 src/gtk/gtkui.c:371
+msgid "Site"
+msgstr "Hely"
+
+#: src/gtk/gtkui.c:371
+msgid "Enter site-specific command"
+msgstr "Helyspecifikus parancs kiadása"
+
+#: src/gtk/gtkui.c:409 src/gtk/menu-items.c:250
+msgid "Chdir"
+msgstr "Chdir"
+
+#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:403 src/gtk/transfer.c:486
+#: src/gtk/transfer.c:963
+msgid "Skipped"
+msgstr "Kihagyva"
+
+#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:465 src/gtk/transfer.c:490
+msgid "Waiting..."
+msgstr "Várakozás..."
+
+#: src/gtk/gtkui_transfer.c:124 src/gtk/gtkui_transfer.c:299
+#: src/gtk/gtkui_transfer.c:326
+msgid "Overwrite"
+msgstr "Felülírás"
+
+#: src/gtk/gtkui_transfer.c:131 src/gtk/gtkui_transfer.c:305
+#: src/gtk/gtkui_transfer.c:332
+msgid "Resume"
+msgstr "Folytatás"
+
+#: src/gtk/gtkui_transfer.c:138 src/gtk/gtkui_transfer.c:302
+msgid "Skip"
+msgstr "Kihagyás"
+
+#: src/gtk/gtkui_transfer.c:219
+msgid "Action"
+msgstr "Művelet"
+
+#: src/gtk/gtkui_transfer.c:224 src/gtk/gtkui_transfer.c:233
+#: src/gtk/transfer.c:92
+msgid "Transfer Files"
+msgstr "Fájlok átvitele"
+
+#: src/gtk/gtkui_transfer.c:245
+msgid ""
+"The following file(s) exist on both the local and remote computer\n"
+"Please select what you would like to do"
+msgstr ""
+"A következő fájlok a helyi és a távoli számítógépen is léteznek\n"
+"Válassza ki, mit szeretne tenni"
+
+#: src/gtk/gtkui_transfer.c:308
+msgid "Error"
+msgstr "Hiba"
+
+#: src/gtk/gtkui_transfer.c:338
+msgid "Skip File"
+msgstr "Fájl kihagyása"
+
+#: src/gtk/gtkui_transfer.c:348
+msgid "Select All"
+msgstr "Mindent kijelöl"
+
+#: src/gtk/gtkui_transfer.c:354
+msgid "Deselect All"
+msgstr "Kijelölés megszüntetése"
+
+#: src/gtk/menu-items.c:37
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
-"Fájlspec megváltoztatása: Művelet megszakítva... Írj be egy karakterláncot\n"
+"Fájlspec megváltoztatása: Művelet megszakítva... Írjon be egy "
+"karakterláncot\n"
 
-#: src/gtk/menu-items.c:197 src/gtk/menu-items.c:200
+#: src/gtk/menu-items.c:74 src/gtk/menu-items.c:77
 msgid "Change Filespec"
 msgstr "Fájlspec megváltoztatása"
 
-#: src/gtk/menu-items.c:200
+#: src/gtk/menu-items.c:77
 msgid "Enter the new file specification"
-msgstr "Írd be az új fájlspecifikációt"
+msgstr "Írja be az új fájlspecifikációt"
 
-#: src/gtk/menu-items.c:228 src/gtk/menu-items.c:600 src/gtk/menu-items.c:658
+#: src/gtk/menu-items.c:105 src/gtk/menu-items.c:313 src/gtk/menu-items.c:371
 #: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:129
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Hiba: %s fájlt nem lehet írásra megnyitni: %s\n"
 
-#: src/gtk/menu-items.c:254
+#: src/gtk/menu-items.c:134
 msgid "Save Directory Listing"
 msgstr "Könyvtárlista mentése"
 
-#: src/gtk/menu-items.c:371
-msgid "SITE: Operation canceled...you must enter a string\n"
-msgstr "SITE: Művelet megszakítva...írj be egy karakterláncot\n"
-
-#: src/gtk/menu-items.c:390 src/gtk/menu-items.c:393
-msgid "Site"
-msgstr "Hely"
-
-#: src/gtk/menu-items.c:393
-msgid "Enter site-specific command"
-msgstr "Helyspecifikus parancs kiadása"
-
-#: src/gtk/menu-items.c:492 src/gtk/menu-items.c:526
-msgid "Chdir"
-msgstr "Chdir"
-
-#: src/gtk/menu-items.c:624 src/gtk/menu-items.c:682
+#: src/gtk/menu-items.c:337 src/gtk/menu-items.c:395
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Hiba: Nem sikerült írni %s-t: %s\n"
 
-#: src/gtk/menu-items.c:693
+#: src/gtk/menu-items.c:406
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Napló sikeresen elmentve %s fájlba\n"
 
-#: src/gtk/menu-items.c:705
+#: src/gtk/menu-items.c:418
 msgid "Save Log"
 msgstr "Napló mentése"
 
-#: src/gtk/menu-items.c:741
+#: src/gtk/menu-items.c:454
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr ""
-"Nem találom a COPYING licencfájlt. Bizonyosodj meg arról, hogy a %s vagy a %"
-"s könyvtárban legyen."
+"A COPYING licencfájl nem található. Bizonyosodjon meg arról, hogy a(z) %s "
+"vagy a(z) %s könyvtárban legyen."
 
-#: src/gtk/menu-items.c:745 src/gtk/menu-items.c:750
+#: src/gtk/menu-items.c:458 src/gtk/menu-items.c:463
 msgid "About gFTP"
 msgstr "A gFTP névjegye"
 
-#: src/gtk/menu-items.c:781
+#: src/gtk/menu-items.c:494
 #, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
 "Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
 "%s\n"
-"Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
 "Hivatalos honlap: http://www.gftp.org/\n"
 "Logó: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: src/gtk/menu-items.c:782 src/text/gftp-text.c:390
-msgid "Translated by"
-msgstr "Fordította: Doome <doome@uhulinux.hu> és Tímár András <timar@gnome.hu>"
-
-#: src/gtk/menu-items.c:793
+#: src/gtk/menu-items.c:506
 msgid "About"
 msgstr "Névjegy"
 
-#: src/gtk/menu-items.c:842
+#: src/gtk/menu-items.c:555
 msgid "License Agreement"
 msgstr "Licencszerződés"
 
-#: src/gtk/menu-items.c:848 src/gtk/view_dialog.c:377
+#: src/gtk/menu-items.c:561 src/gtk/view_dialog.c:378
 msgid "  Close  "
 msgstr "  Bezárás  "
 
-#: src/gtk/menu-items.c:930
+#: src/gtk/menu-items.c:643
 msgid "Compare Windows"
 msgstr "Ablakok összehasonlítása"
 
-#: src/gtk/misc-gtk.c:214
-msgid "Refresh"
-msgstr "Frissítés"
-
-#: src/gtk/misc-gtk.c:303
+#: src/gtk/misc-gtk.c:287
 msgid "All Files"
 msgstr "Minden fájl"
 
-#: src/gtk/misc-gtk.c:310
+#: src/gtk/misc-gtk.c:294
 msgid "] (Cached) ["
 msgstr "] (gyorsítótárból) ["
 
-#: src/gtk/misc-gtk.c:324
+#: src/gtk/misc-gtk.c:319
 msgid "Not connected"
 msgstr "Nincs kapcsolat"
 
-#: src/gtk/misc-gtk.c:410
+#: src/gtk/misc-gtk.c:405
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "Hiba %s fájl megnyitásakor: %s\n"
 
-#: src/gtk/misc-gtk.c:499
+#: src/gtk/misc-gtk.c:494
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: nincs kapcsolat távoli kiszolgálóval\n"
 
-#: src/gtk/misc-gtk.c:506
+#: src/gtk/misc-gtk.c:501
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s: Ez nem használható ezzel a protokollal\n"
 
-#: src/gtk/misc-gtk.c:514
+#: src/gtk/misc-gtk.c:509
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: csak egy elem lehet kiválasztva\n"
 
-#: src/gtk/misc-gtk.c:521
+#: src/gtk/misc-gtk.c:516
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: legalább egy elemet ki kell választani\n"
 
-#: src/gtk/misc-gtk.c:889 src/gtk/misc-gtk.c:960
+#: src/gtk/misc-gtk.c:888 src/gtk/misc-gtk.c:962
 msgid "Change"
 msgstr "Megváltoztatás"
 
-#: src/gtk/misc-gtk.c:895 src/gtk/misc-gtk.c:966 src/gtk/rename_dialog.c:101
-#: src/gtk/rename_dialog.c:113
-msgid "Rename"
-msgstr "Átnevezés"
-
-#: src/gtk/misc-gtk.c:957 src/gtk/options_dialog.c:1170
+#: src/gtk/misc-gtk.c:959 src/gtk/options_dialog.c:1180
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: src/gtk/misc-gtk.c:983
+#: src/gtk/misc-gtk.c:985
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: src/gtk/misc-gtk.c:1053
+#: src/gtk/misc-gtk.c:1055
 msgid "  Yes  "
 msgstr "  Igen  "
 
-#: src/gtk/misc-gtk.c:1063
+#: src/gtk/misc-gtk.c:1065
 msgid "  No  "
 msgstr "  Nem  "
 
-#: src/gtk/misc-gtk.c:1119
+#: src/gtk/misc-gtk.c:1124
 msgid "Getting directory listings"
 msgstr "Könyvtárlista lekérdezése"
 
-#: src/gtk/misc-gtk.c:1139
+#: src/gtk/misc-gtk.c:1144
 msgid "  Stop  "
 msgstr "  Leállítás  "
 
-#: src/gtk/misc-gtk.c:1149
+#: src/gtk/misc-gtk.c:1154
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2096,249 +2558,131 @@ msgstr ""
 "%ld könyvtár és %ld fájl\n"
 "jött."
 
-#: src/gtk/misc-gtk.c:1269
+#: src/gtk/misc-gtk.c:1228
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "gFTP Hiba: A(z) %s fájl nem található sem %s, sem %s alatt.\n"
 
-#: src/gtk/mkdir_dialog.c:78
-msgid "Mkdir: Operation canceled...you must enter a string\n"
-msgstr "Mkdir: Művelet megszakítva...írj be egy karakterláncot\n"
-
-#: src/gtk/mkdir_dialog.c:100
-msgid "Mkdir"
-msgstr "Mkdir"
-
-#: src/gtk/mkdir_dialog.c:104
-msgid "Make Directory"
-msgstr "Könyvtár létrehozása"
-
-#: src/gtk/mkdir_dialog.c:104
-msgid "Enter name of directory to create"
-msgstr "Írd be a létrehozandó könyvtár nevét"
-
-#: src/gtk/options_dialog.c:910
+#: src/gtk/options_dialog.c:920
 msgid "Edit Host"
 msgstr "Gép szerkesztése"
 
-#: src/gtk/options_dialog.c:910
+#: src/gtk/options_dialog.c:920
 msgid "Add Host"
 msgstr "Gép hozzáadása"
 
-#: src/gtk/options_dialog.c:942 src/gtk/options_dialog.c:1033
+#: src/gtk/options_dialog.c:952 src/gtk/options_dialog.c:1043
 msgid "Domain"
 msgstr "Tartomány"
 
-#: src/gtk/options_dialog.c:962
+#: src/gtk/options_dialog.c:972
 msgid "Network Address"
 msgstr "Hálózati cím"
 
-#: src/gtk/options_dialog.c:995 src/gtk/options_dialog.c:1135
+#: src/gtk/options_dialog.c:1005 src/gtk/options_dialog.c:1145
 msgid "Netmask"
 msgstr "Hálózati maszk"
 
-#: src/gtk/options_dialog.c:1141
+#: src/gtk/options_dialog.c:1151
 msgid "Local Hosts"
 msgstr "Helyi gépek"
 
-#: src/gtk/options_dialog.c:1177 src/gtk/view_dialog.c:91
+#: src/gtk/options_dialog.c:1187 src/gtk/view_dialog.c:91
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: src/gtk/options_dialog.c:1239 src/gtk/options_dialog.c:1244
+#: src/gtk/options_dialog.c:1249 src/gtk/options_dialog.c:1254
 msgid "Options"
 msgstr "Beállítások"
 
-#: src/gtk/rename_dialog.c:79
-msgid "Rename: Operation canceled...you must enter a string\n"
-msgstr "Átnevezés: Művelet megszakítva...írj be egy karakterláncot\n"
-
-#: src/gtk/rename_dialog.c:111
-#, c-format
-msgid "What would you like to rename %s to?"
-msgstr "Mire szeretnéd átnevezni %s-t?"
-
-#: src/gtk/transfer.c:166
+#: src/gtk/transfer.c:30
 msgid "Receiving file names..."
 msgstr "Fájlnevek letöltése..."
 
-#: src/gtk/transfer.c:282
-#, c-format
-msgid "Waiting %d seconds until trying to connect again\n"
-msgstr "%d másodperc várakozás az újrapróbálkozás előtt\n"
-
-#: src/gtk/transfer.c:309 src/gtk/transfer.c:1285
+#: src/gtk/transfer.c:62 src/gtk/transfer.c:639
 msgid "Connecting..."
 msgstr "Kapcsolódás..."
 
-#: src/gtk/transfer.c:319 src/gtk/transfer.c:1179 src/gtk/transfer.c:1190
-msgid "Enter Password"
-msgstr "Írd be a jelszót"
-
-#: src/gtk/transfer.c:320 src/gtk/transfer.c:1180 src/gtk/transfer.c:1191
-msgid "Please enter your password for this site"
-msgstr "Írd be a jelszavad erre a gépre"
-
-#: src/gtk/transfer.c:410
-msgid "Transfer Files"
-msgstr "Fájlok átvitele"
-
-#: src/gtk/transfer.c:418
+#: src/gtk/transfer.c:100
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "Fájlok letöltése: nincs kapcsolat távoli géppel\n"
 
-#: src/gtk/transfer.c:645
-msgid "Error: Remote site disconnected after trying to transfer file\n"
-msgstr ""
-"Hiba: Távoli gép szétkapcsolt a fájlok átvitelének kezdeményezése után\n"
-
-#: src/gtk/transfer.c:702
-#, c-format
-msgid "Could not download %s from %s\n"
-msgstr "Nem sikerült %s letöltése a(z) %s gépről\n"
-
-#: src/gtk/transfer.c:732
-#, c-format
-msgid "Successfully transferred %s at %.2f KB/s\n"
-msgstr "%s sikeresen letöltve %.2f KB/s sebességgel\n"
-
-#: src/gtk/transfer.c:837 src/gtk/transfer.c:1071 src/gtk/transfer.c:1157
-#: src/gtk/transfer.c:1595
-msgid "Skipped"
-msgstr "Kihagyva"
-
-#: src/gtk/transfer.c:841 src/gtk/transfer.c:1133 src/gtk/transfer.c:1161
-msgid "Waiting..."
-msgstr "Várakozás..."
-
-#: src/gtk/transfer.c:984
+#: src/gtk/transfer.c:315
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "Hiba: a(z) %d. gyermek visszatérése: %d\n"
 
-#: src/gtk/transfer.c:987
+#: src/gtk/transfer.c:318
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "A(z) %d. gyerek sikeresen visszatért\n"
 
-#: src/gtk/transfer.c:994
+#: src/gtk/transfer.c:325
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "Hiba: Nem található információ a(z) %s fájlról: %s\n"
 
-#: src/gtk/transfer.c:999
+#: src/gtk/transfer.c:330
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "%s fájl nem változott\n"
 
-#: src/gtk/transfer.c:1007
+#: src/gtk/transfer.c:338
 #, c-format
 msgid ""
 "File %s has changed.\n"
 "Would you like to upload it?"
 msgstr ""
 "%s fájl megváltozott.\n"
-"Feltöltöd?"
+"Feltölti?"
 
-#: src/gtk/transfer.c:1010
+#: src/gtk/transfer.c:341
 msgid "Edit File"
 msgstr "Fájl szerkesztése"
 
-#: src/gtk/transfer.c:1074
+#: src/gtk/transfer.c:406
 msgid "Finished"
 msgstr "Befejezve"
 
-#: src/gtk/transfer.c:1114
+#: src/gtk/transfer.c:446
 #, c-format
 msgid "Stopping the transfer of %s\n"
 msgstr "%s átvitelének leállítása\n"
 
-#: src/gtk/transfer.c:1326
+#: src/gtk/transfer.c:683
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% kész, becsült hátralévő idő: %02d:%02d:%02d. (Fájl %ld/%ld)"
 
-#: src/gtk/transfer.c:1354
+#: src/gtk/transfer.c:713
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Letöltve %s/%s seb.: %.2fKB/s, %02d:%02d:%02d becsült hátralévő idő"
 
-#: src/gtk/transfer.c:1363
+#: src/gtk/transfer.c:722
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Letöltve %s/%s, átvitel beragadt, hátralévő idő nem ismert"
 
-#: src/gtk/transfer.c:1389
+#: src/gtk/transfer.c:757
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Fájlnevek letöltése...%s bájt"
 
-#: src/gtk/transfer.c:1467 src/gtk/transfer.c:1489 src/gtk/transfer.c:1523
-#: src/gtk/transfer.c:1563 src/gtk/transfer.c:1616 src/gtk/transfer.c:1675
+#: src/gtk/transfer.c:835 src/gtk/transfer.c:857 src/gtk/transfer.c:891
+#: src/gtk/transfer.c:931 src/gtk/transfer.c:984 src/gtk/transfer.c:1044
 msgid "There are no file transfers selected\n"
 msgstr "Nincs kijelölt fájlátvitel\n"
 
-#: src/gtk/transfer.c:1507
+#: src/gtk/transfer.c:875
 #, c-format
 msgid "Stopping the transfer on host %s\n"
-msgstr "Fájlátvitel leállításva a %s gépen\n"
+msgstr "Fájlátvitel leállítása a %s gépen\n"
 
-#: src/gtk/transfer.c:1548 src/gtk/transfer.c:1601
+#: src/gtk/transfer.c:916 src/gtk/transfer.c:969
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "%s fájl kihagyása a %s gépen\n"
-
-#: src/gtk/transfer.c:1762 src/gtk/transfer.c:1967 src/gtk/transfer.c:2006
-msgid "Overwrite"
-msgstr "Felülírás"
-
-#: src/gtk/transfer.c:1784 src/gtk/transfer.c:1977 src/gtk/transfer.c:2012
-msgid "Resume"
-msgstr "Folytatás"
-
-#: src/gtk/transfer.c:1806 src/gtk/transfer.c:1972
-msgid "Skip"
-msgstr "Kihagyás"
-
-#: src/gtk/transfer.c:1883
-msgid "Local Size"
-msgstr "Helyi méret"
-
-#: src/gtk/transfer.c:1884
-msgid "Remote Size"
-msgstr "Távoli méret"
-
-#: src/gtk/transfer.c:1885
-msgid "Action"
-msgstr "Művelet"
-
-#: src/gtk/transfer.c:1887
-msgid "Download Files"
-msgstr "Fájlok letöltése"
-
-#: src/gtk/transfer.c:1887
-msgid "Upload Files"
-msgstr "Fájlok feltöltése"
-
-#: src/gtk/transfer.c:1913
-msgid ""
-"The following file(s) exist on both the local and remote computer\n"
-"Please select what you would like to do"
-msgstr ""
-"A következő fájlok a helyi és a távoli számítógépen is léteznek\n"
-"Válaszd ki, mit szeretnél tenni"
-
-#: src/gtk/transfer.c:2018
-msgid "Skip File"
-msgstr "Fájl kihagyása"
-
-#: src/gtk/transfer.c:2028
-msgid "Select All"
-msgstr "Mindent kijelöl"
-
-#: src/gtk/transfer.c:2034
-msgid "Deselect All"
-msgstr "Kijelölés leszedése mindről"
 
 #: src/gtk/view_dialog.c:35
 msgid "View"
@@ -2351,7 +2695,7 @@ msgstr "Megtekintés: %s egy könyvtár. Nem lehet megnézni.\n"
 
 #: src/gtk/view_dialog.c:100
 msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "Szerkesztés: meg kell adnod egy szerkesztőt az opciók ablakban\n"
+msgstr "Szerkesztés: meg kell adnia egy szerkesztőt az opciók ablakban\n"
 
 #: src/gtk/view_dialog.c:113
 #, c-format
@@ -2368,356 +2712,84 @@ msgstr "Megtekintés: Másik folyamat létrehozása sikertelen: %s\n"
 msgid "Running program: %s %s\n"
 msgstr "%s %s program futtatása\n"
 
-#: src/gtk/view_dialog.c:244
+#: src/gtk/view_dialog.c:245
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "%s megnyitása %s programmal\n"
 
-#: src/gtk/view_dialog.c:279
+#: src/gtk/view_dialog.c:280
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "%s fájl megtekintése\n"
 
-#: src/gtk/view_dialog.c:286
+#: src/gtk/view_dialog.c:287
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Megtekintés: %s fájlt nem sikerült megnyitni: %s\n"
 
-#: src/text/gftp-text.c:29
-msgid "about"
-msgstr "about"
-
-#: src/text/gftp-text.c:30
-msgid "Shows gFTP information"
-msgstr "A gFTP program névjegye"
-
-#: src/text/gftp-text.c:31
-msgid "ascii"
-msgstr "ascii"
-
-#: src/text/gftp-text.c:32
-msgid "Sets the current file transfer mode to Ascii (only for FTP)"
-msgstr "Az aktuális fájlátviteli módot ASCII-ra állítja (csak FTP)"
-
-#: src/text/gftp-text.c:33
-msgid "binary"
-msgstr "binary"
-
-#: src/text/gftp-text.c:34
-msgid "Sets the current file transfer mode to Binary (only for FTP)"
-msgstr "Az aktuális fájlátviteli módot binárisra állítja (csak FTP)"
-
-#: src/text/gftp-text.c:35
-msgid "cd"
-msgstr "cd"
-
-#: src/text/gftp-text.c:36 src/text/gftp-text.c:38
-msgid "Changes the remote working directory"
-msgstr "Megváltoztatja a távoli munkakönyvtárat"
-
-#: src/text/gftp-text.c:37
-msgid "chdir"
-msgstr "chdir"
-
-#: src/text/gftp-text.c:39
-msgid "chmod"
-msgstr "chmod"
-
-#: src/text/gftp-text.c:40
-msgid "Changes the permissions of a remote file"
-msgstr "Megváltoztatja egy távoli fájl jogait"
-
-#: src/text/gftp-text.c:41
-msgid "clear"
-msgstr "clear"
-
-#: src/text/gftp-text.c:42
-msgid "Available options: cache"
-msgstr "Lehetséges beállítások: gyorsítótár"
-
-#: src/text/gftp-text.c:43
-msgid "close"
-msgstr "close"
-
-#: src/text/gftp-text.c:44
-msgid "Disconnects from the remote site"
-msgstr "Lekapcsolódik a távoli szerverről"
-
-#: src/text/gftp-text.c:45
-msgid "delete"
-msgstr "delete"
-
-#: src/text/gftp-text.c:46
-msgid "Removes a remote file"
-msgstr "Távoli fájl törlése"
-
-#: src/text/gftp-text.c:47
-msgid "get"
-msgstr "get"
-
-#: src/text/gftp-text.c:48 src/text/gftp-text.c:72
-msgid "Downloads remote file(s)"
-msgstr "Távoli fájl(ok) letöltése"
-
-#: src/text/gftp-text.c:49
-msgid "help"
-msgstr "help"
-
-#: src/text/gftp-text.c:50
-msgid "Shows this help screen"
-msgstr "E segítőképernyő mutatása"
-
-#: src/text/gftp-text.c:51
-msgid "lcd"
-msgstr "lcd"
-
-#: src/text/gftp-text.c:52 src/text/gftp-text.c:54
-msgid "Changes the local working directory"
-msgstr "Megváltoztatja a helyi munkakönyvtárat"
-
-#: src/text/gftp-text.c:53
-msgid "lchdir"
-msgstr "lchdir"
-
-#: src/text/gftp-text.c:55
-msgid "lchmod"
-msgstr "lchmod"
-
-#: src/text/gftp-text.c:56
-msgid "Changes the permissions of a local file"
-msgstr "Megváltoztatja egy helyi fájl jogait"
-
-#: src/text/gftp-text.c:57
-msgid "ldelete"
-msgstr "ldelete"
-
-#: src/text/gftp-text.c:58
-msgid "Removes a local file"
-msgstr "Töröl egy helyi fájlt"
-
-#: src/text/gftp-text.c:59
-msgid "lls"
-msgstr "lls"
-
-#: src/text/gftp-text.c:60
-msgid "Shows the directory listing for the current local directory"
-msgstr "Az aktuális helyi könyvtár tartalmának mutatása"
-
-#: src/text/gftp-text.c:61
-msgid "lmkdir"
-msgstr "lmkdir"
-
-#: src/text/gftp-text.c:62
-msgid "Creates a local directory"
-msgstr "Helyi könyvtár létrehozása"
-
-#: src/text/gftp-text.c:63
-msgid "lpwd"
-msgstr "lpwd"
-
-#: src/text/gftp-text.c:64
-msgid "Show current local directory"
-msgstr "Aktuális helyi könyvtár mutatása"
-
-#: src/text/gftp-text.c:65
-msgid "lrename"
-msgstr "lrename"
-
-#: src/text/gftp-text.c:66
-msgid "Rename a local file"
-msgstr "Egy helyi fájl átnevezése"
-
-#: src/text/gftp-text.c:67
-msgid "lrmdir"
-msgstr "lrmdir"
-
-#: src/text/gftp-text.c:68
-msgid "Remove a local directory"
-msgstr "Egy helyi könyvtár törlése"
-
-#: src/text/gftp-text.c:69
-msgid "ls"
-msgstr "ls"
-
-#: src/text/gftp-text.c:70
-msgid "Shows the directory listing for the current remote directory"
-msgstr "Az aktuális távoli könyvtár tartalmának mutatása"
-
-#: src/text/gftp-text.c:71
-msgid "mget"
-msgstr "mget"
-
-#: src/text/gftp-text.c:73
-msgid "mkdir"
-msgstr "mkdir"
-
-#: src/text/gftp-text.c:74
-msgid "Creates a remote directory"
-msgstr "Távoli könyvtár létrehozása"
-
-#: src/text/gftp-text.c:75
-msgid "mput"
-msgstr "mput"
-
-#: src/text/gftp-text.c:76 src/text/gftp-text.c:80
-msgid "Uploads local file(s)"
-msgstr "Helyi fájl(ok) feltöltése"
-
-#: src/text/gftp-text.c:77
-msgid "open"
-msgstr "open"
-
-#: src/text/gftp-text.c:78
-msgid "Opens a connection to a remote site"
-msgstr "Kapcsolódás egy távoli géphez"
-
-#: src/text/gftp-text.c:79
-msgid "put"
-msgstr "put"
-
-#: src/text/gftp-text.c:81
-msgid "pwd"
-msgstr "pwd"
-
-#: src/text/gftp-text.c:82
-msgid "Show current remote directory"
-msgstr "Aktuális távoli könyvtár mutatása"
-
-#: src/text/gftp-text.c:83
-msgid "quit"
-msgstr "quit"
-
-#: src/text/gftp-text.c:84
-msgid "Exit from gFTP"
-msgstr "Kilépés a gFTP-ből"
-
-#: src/text/gftp-text.c:85
-msgid "rename"
-msgstr "rename"
-
-#: src/text/gftp-text.c:86
-msgid "Rename a remote file"
-msgstr "Távoli fájl átnevezése"
-
-#: src/text/gftp-text.c:87
-msgid "rmdir"
-msgstr "rmdir"
-
-#: src/text/gftp-text.c:88
-msgid "Remove a remote directory"
-msgstr "Távoli könyvtár törlése"
-
-#: src/text/gftp-text.c:89
-msgid "set"
-msgstr "set"
-
-#: src/text/gftp-text.c:90
-msgid ""
-"Show configuration file variables. You can also set variables by set var=val"
-msgstr ""
-"Konfigurációs fájl változóinak mutatása. A set változó=érték paranccsal "
-"beállítani is tudsz változót."
-
-#: src/text/gftp-text.c:148
-msgid ""
-">.\n"
-"If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ""
-">.\n"
-"Ha bármilyen kérdésed, megjegyzésed, vagy javaslatod van a programmal "
-"kapcsolatban, kérlek nyugodtan írj nekem e-mailt. Mindig megtalálod a "
-"legfrissebb híreket a gFTP weboldalán: http://www.gftp.org/\n"
-
-#: src/text/gftp-text.c:231
-msgid "Error: Command not recognized\n"
-msgstr "Hiba: Parancs nem értelmezhető\n"
-
-#: src/text/gftp-text.c:338
-msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
-msgstr "használat: open [[ftp://][felh:jelszó@]ftp-hely[:port][/könyvtár]]\n"
-
-#: src/text/gftp-text.c:414 src/text/gftp-text.c:430 src/text/gftp-text.c:473
-#: src/text/gftp-text.c:496 src/text/gftp-text.c:519 src/text/gftp-text.c:545
-#: src/text/gftp-text.c:573 src/text/gftp-text.c:606 src/text/gftp-text.c:698
-#: src/text/gftp-text.c:716 src/text/gftp-text.c:737 src/text/gftp-text.c:811
-msgid "Error: Not connected to a remote site\n"
-msgstr "Hiba: Nincs kapcsolat távoli géppel\n"
-
-#: src/text/gftp-text.c:436 src/text/gftp-text.c:453
-msgid "usage: chdir <directory>\n"
-msgstr "használat: chdir <könyvtár>\n"
-
-#: src/text/gftp-text.c:480
-msgid "usage: mkdir <new directory>\n"
-msgstr "használat: mkdir <új könyvtár>\n"
-
-#: src/text/gftp-text.c:503
-msgid "usage: rmdir <directory>\n"
-msgstr "használat: rmdir <könyvtár>\n"
-
-#: src/text/gftp-text.c:526
-msgid "usage: delete <file>\n"
-msgstr "használat: delete <fájl>\n"
-
-#: src/text/gftp-text.c:555
-msgid "usage: rename <old name> <new name>\n"
-msgstr "használat: rename <régi név> <új név>\n"
-
-#: src/text/gftp-text.c:583
-msgid "usage: chmod <mode> <file>\n"
-msgstr "használat: chmod <mód> <fájl>\n"
-
-#: src/text/gftp-text.c:744
-msgid "usage: mget <filespec>\n"
-msgstr "használat: mget <fájlspec>\n"
-
-#: src/text/gftp-text.c:818
-msgid "usage: mput <filespec>\n"
-msgstr "használat: mput <fájlspec>\n"
-
-#: src/text/gftp-text.c:956
-#, c-format
-msgid "Could not download %s\n"
-msgstr "%s -t nem tudtam letölteni\n"
-
-#: src/text/gftp-text.c:963
-#, c-format
-msgid "Successfully transferred %s\n"
-msgstr "%s átvitele sikeres\n"
-
-#: src/text/gftp-text.c:1030
-msgid ""
-"Supported commands:\n"
-"\n"
-msgstr ""
-"Támogatott parancsok:\n"
-"\n"
-
-#: src/text/gftp-text.c:1086
-msgid "usage: set [variable = value]\n"
-msgstr "használat: set [változó = érték]\n"
-
-#: src/text/gftp-text.c:1100
-#, c-format
-msgid "Error: Variable %s is not a valid configuration variable.\n"
-msgstr "Hiba: %s változó nem egy lehetséges konfigurációs változó.\n"
-
-#: src/text/gftp-text.c:1107
-#, c-format
-msgid "Error: Variable %s is not available in the text port of gFTP\n"
-msgstr "Hiba: A(z) %s változó nem elérhető a gFTP szöveges változatában.\n"
-
-#: src/text/gftp-text.c:1135
-msgid "Invalid argument\n"
-msgstr ""
-
-#: src/text/gftp-text.c:1160
+#: src/text/gftp-text.c:169
 #, fuzzy, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "gFTP Hiba: A(z) %s konfigurációs fájl megnyitása sikertelen: %s\n"
 
-#: src/text/gftp-text.c:1238
-msgid "Clear the directory cache\n"
-msgstr "Könyvtár-gyorsítótár törlése\n"
+#: src/text/textui.c:70
+msgid "Username [anonymous]:"
+msgstr "Felhasználói név [anonymous]:"
+
+#: src/text/textui.c:139
+#, c-format
+msgid ""
+"%s already exists. (%s source size, %s destination size):\n"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
+"c)"
+msgstr ""
+
+#~ msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
+#~ msgstr ""
+#~ "használat: gftp [[protokoll://][felh:[jelszó]@]ftp-gép[:port][/"
+#~ "könyvtár]]\n"
+
+#~ msgid "OpenURL: Operation canceled...you must enter a string\n"
+#~ msgstr "URLMegnyitás: Művelet megszakítva... írjon be egy karakterláncot\n"
+
+#~ msgid "Mkdir: Operation canceled...you must enter a string\n"
+#~ msgstr "Mkdir: Művelet megszakítva...írjon be egy karakterláncot\n"
+
+#~ msgid "Rename: Operation canceled...you must enter a string\n"
+#~ msgstr "Átnevezés: Művelet megszakítva...írjon be egy karakterláncot\n"
+
+#~ msgid "Local Size"
+#~ msgstr "Helyi méret"
+
+#~ msgid "Remote Size"
+#~ msgstr "Távoli méret"
+
+#~ msgid "Download Files"
+#~ msgstr "Fájlok letöltése"
+
+#~ msgid "Upload Files"
+#~ msgstr "Fájlok feltöltése"
+
+#~ msgid ""
+#~ ">.\n"
+#~ "If you have any questions, comments, or suggestions about this program, "
+#~ "please feel free to email them to me. You can always find out the latest "
+#~ "news about gFTP from my website at http://www.gftp.org/\n"
+#~ msgstr ""
+#~ ">.\n"
+#~ "Ha bármilyen kérdése, megjegyzése, vagy javaslata van a programmal "
+#~ "kapcsolatban, kérem nyugodtan írjon nekem e-mailt. Mindig megtalálja a "
+#~ "legfrissebb híreket a gFTP weboldalán: http://www.gftp.org/\n"
+
+#~ msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
+#~ msgstr ""
+#~ "használat: open [[ftp://][felh:jelszó@]ftp-hely[:port][/könyvtár]]\n"
+
+#~ msgid "usage: mput <filespec>\n"
+#~ msgstr "használat: mput <fájlspec>\n"
+
+#~ msgid "Could not download %s\n"
+#~ msgstr "%s -t nem tudtam letölteni\n"
+
+#~ msgid "Successfully transferred %s\n"
+#~ msgstr "%s átvitele sikeres\n"
