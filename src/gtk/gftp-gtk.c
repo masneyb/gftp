@@ -891,7 +891,7 @@ init_gftp (int argc, char *argv[], GtkWidget * parent)
 void
 toolbar_hostedit (GtkWidget * widget, gpointer data)
 {
-  void (*init) (gftp_request * request);
+  int (*init) (gftp_request * request);
   gftp_config_list_vars * tmplistvar;
   GtkWidget *tempwid;
   const char *txt;
@@ -911,7 +911,8 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
   tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
   num = (int) gtk_object_get_user_data (GTK_OBJECT (tempwid));
   init = gftp_protocols[num].init;
-  init (current_wdata->request);
+  if (init (current_wdata->request) < 0)
+    return;
  
   gftp_set_hostname (current_wdata->request, gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry)));
   alltrim (current_wdata->request->hostname);
@@ -1114,15 +1115,16 @@ main (int argc, char **argv)
 	   _("gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"));
 
   gtk_timeout_add (1000, update_downloads, NULL);
-  gftp_protocols[GFTP_LOCAL_NUM].init (window1.request);
+  if (gftp_protocols[GFTP_LOCAL_NUM].init (window1.request) == 0)
+    {
+      gftp_lookup_request_option (window1.request, "startup_directory", 
+                                  &startup_directory);
+      if (*startup_directory != '\0')
+        gftp_set_directory (window1.request, startup_directory);
 
-  gftp_lookup_request_option (window1.request, "startup_directory", 
-                              &startup_directory);
-  if (*startup_directory != '\0')
-    gftp_set_directory (window1.request, startup_directory);
-
-  gftp_connect (window1.request);
-  ftp_list_files (&window1, 0);
+      gftp_connect (window1.request);
+      ftp_list_files (&window1, 0);
+    }
 
   /* On the remote window, even though we aren't connected, draw the sort
      icon on that side */

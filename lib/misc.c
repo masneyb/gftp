@@ -604,7 +604,11 @@ copy_request (gftp_request * req, int copy_local_options)
   if (copy_local_options)
     gftp_copy_local_options (newreq, req);
 
-  req->init (newreq);
+  if (req->init (newreq) < 0)
+    {
+      gftp_request_destroy (newreq, 1);
+      return (NULL);
+    }
 
   return (newreq);
 }

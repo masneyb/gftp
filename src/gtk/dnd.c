@@ -52,8 +52,6 @@ dnd_remote_file (char *url, gftp_window_data * wdata)
       current_ftpdata->directory == NULL ||
       (pos = strrchr (current_ftpdata->directory, '/')) == NULL) 
     {
-      ftp_log (gftp_logging_misc, NULL, 
-               _("Drag-N-Drop: Ignoring url %s: Not a valid url\n"), url);
       gftp_request_destroy (current_ftpdata, 1);
       free_fdata (newfle);
       return (0);
@@ -109,11 +107,6 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
             disconnect (current_wdata);
 
           ftp_connect (current_wdata, current_wdata->request, 1);
-        }
-      else
-        {
-          ftp_log (gftp_logging_misc, NULL, _("Could not parse URL %s\n"), 
-                   selection_data->data);
         }
     }
 }

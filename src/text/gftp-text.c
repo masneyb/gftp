@@ -135,14 +135,15 @@ main (int argc, char **argv)
                            GINT_TO_POINTER(0));
 
   gftp_text_locreq->logging_function = gftp_text_log;
-  gftp_protocols[GFTP_LOCAL_NUM].init (gftp_text_locreq);
+  if (gftp_protocols[GFTP_LOCAL_NUM].init (gftp_text_locreq) == 0)
+    {
+      gftp_lookup_request_option (gftp_text_locreq, "startup_directory", 
+                                  &startup_directory);
+      if (*startup_directory != '\0')
+        gftp_set_directory (gftp_text_locreq, startup_directory);
 
-  gftp_lookup_request_option (gftp_text_locreq, "startup_directory", 
-                              &startup_directory);
-  if (*startup_directory != '\0')
-    gftp_set_directory (gftp_text_locreq, startup_directory);
-
-  gftp_connect (gftp_text_locreq);
+      gftp_connect (gftp_text_locreq);
+    }
 
   gftp_text_log (gftp_logging_misc, NULL, "%s, Copyright (C) 1998-2003 Brian Masney <", gftp_version);
   gftp_text_log (gftp_logging_recv, NULL, "masneyb@gftp.org");
@@ -329,11 +330,7 @@ gftp_text_open (gftp_request * request, char *command, gpointer *data)
     }
   
   if (gftp_parse_url (request, command) < 0)
-    {
-      gftp_text_log (gftp_logging_error, NULL, 
-                     _("Could not parse URL %s\n"), command);
-      return (1);
-    }
+    return (1);
 
   if (request->need_userpass)
     {

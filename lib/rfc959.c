@@ -1598,7 +1598,8 @@ rfc959_set_config_options (gftp_request * request)
   gftp_lookup_request_option (request, "proxy_config", &proxy_config);
   if (strcmp (proxy_config, "http") == 0)
     {
-      gftp_protocols[GFTP_HTTP_NUM].init (request);
+      gftp_protocols[GFTP_HTTP_NUM].init (request); /* FIXME - check return value */
+
       gftp_set_request_option (request, "proxy_config", "ftp");
     }
 }
@@ -1631,12 +1632,12 @@ rfc959_register_module (void)
 }
 
 
-void
+int
 rfc959_init (gftp_request * request)
 {
   rfc959_parms * parms;
 
-  g_return_if_fail (request != NULL);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_FTP_NUM;
   request->init = rfc959_init;
@@ -1679,5 +1680,7 @@ rfc959_init (gftp_request * request)
   parms->data_connection = -1; 
 
   gftp_set_config_options (request);
+
+  return (0);
 }
 

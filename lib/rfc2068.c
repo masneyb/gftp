@@ -766,12 +766,12 @@ rfc2068_register_module (void)
 }
 
 
-void
+int
 rfc2068_init (gftp_request * request)
 {
   rfc2068_params * params;
 
-  g_return_if_fail (request != NULL);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_HTTP_NUM;
   request->init = rfc2068_init;
@@ -813,5 +813,7 @@ rfc2068_init (gftp_request * request)
   params->real_read_function = gftp_fd_read;
 
   gftp_set_config_options (request);
+
+  return (0);
 }
 

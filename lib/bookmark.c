@@ -52,10 +52,10 @@ bookmark_register_module (void)
 }
 
 
-void
+int
 bookmark_init (gftp_request * request)
 {
-  g_return_if_fail (request != NULL);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_BOOKMARK_NUM;
   request->init = bookmark_init;
@@ -90,5 +90,7 @@ bookmark_init (gftp_request * request)
   request->use_cache = 0;
   request->always_connected = 0;
   gftp_set_config_options (request);
+
+  return (0);
 }
 

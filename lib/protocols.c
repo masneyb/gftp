@@ -392,7 +392,7 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
   gftp_logging_func logging_function;
   gftp_bookmarks_var * tempentry;
   char *default_protocol;
-  int i;
+  int i, init_ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (bookmark != NULL, GFTP_EFATAL);
@@ -433,7 +433,11 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
     {
       if (strcmp (gftp_protocols[i].name, tempentry->protocol) == 0)
         {
-          gftp_protocols[i].init (request);
+          if ((init_ret = gftp_protocols[i].init (request)) < 0)
+            {
+              gftp_request_destroy (request, 0);
+              return (init_ret);
+            }
           break;
         }
     }
@@ -456,7 +460,12 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
         i = GFTP_FTP_NUM;
     }
 
-  gftp_protocols[i].init (request);
+  if ((init_ret = gftp_protocols[i].init (request)) < 0)
+    {
+      gftp_request_destroy (request, 0);
+      return (init_ret);
+    }
+
   return (0);
 }
 
@@ -466,8 +475,8 @@ gftp_parse_url (gftp_request * request, const char *url)
 {
   char *pos, *endpos, *endhostpos, tempchar, *default_protocol, *stpos;
   gftp_logging_func logging_function;
+  int len, i, init_ret;
   const char *cpos;
-  int len, i;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (url != NULL, GFTP_EFATAL);
@@ -493,13 +502,16 @@ gftp_parse_url (gftp_request * request, const char *url)
             break;
         }
 
-      *pos = ':';
-
       if (gftp_protocols[i].url_prefix == NULL)
         {
+          request->logging_function (gftp_logging_misc, NULL, 
+                                     _("The protocol '%s' is currently not supported.\n"),
+                                     stpos);
           g_free (stpos);
           return (GFTP_EFATAL);
         }
+
+      *pos = ':';
     }
   else
     {
@@ -519,7 +531,11 @@ gftp_parse_url (gftp_request * request, const char *url)
   if (gftp_protocols[i].url_prefix == NULL)
     i = GFTP_FTP_NUM;
 
-  gftp_protocols[i].init (request);
+  if ((init_ret = gftp_protocols[i].init (request)) < 0)
+    {
+      gftp_request_destroy (request, 0);
+      return (init_ret);
+    }
 
   if (request->parse_url != NULL)
     {

@@ -2245,12 +2245,12 @@ sshv2_register_module (void)
 }
 
 
-void
+int
 sshv2_init (gftp_request * request)
 {
   sshv2_params * params;
 
-  g_return_if_fail (request != NULL);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_SSHV2_NUM;
   request->init = sshv2_init;
@@ -2293,5 +2293,7 @@ sshv2_init (gftp_request * request)
 
   params = request->protocol_data;
   params->id = 1;
+
+  return (0);
 }
 

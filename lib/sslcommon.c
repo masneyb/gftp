@@ -138,15 +138,17 @@ gftp_ssl_post_connection_check (gftp_request * request)
 int
 gftp_ssl_startup (gftp_request * request)
 {
+  if (gftp_ssl_initialized)
+    return (0);
+
   gftp_ssl_initialized = 1;
 
   /* FIXME _ thread setup */
   /* FIXME - only call this from one place */
   if (!SSL_library_init ())
     {
-      if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Cannot initialized the OpenSSL library\n"));
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Cannot initialized the OpenSSL library\n"));
       return (GFTP_EFATAL);
     }
 
@@ -159,7 +161,7 @@ gftp_ssl_startup (gftp_request * request)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error loading default SSL certificates\n"));
-       return (GFTP_EFATAL);
+      return (GFTP_EFATAL);
     }
 
   SSL_CTX_set_verify (ctx, SSL_VERIFY_PEER, gftp_ssl_verify_callback);
@@ -172,7 +174,6 @@ gftp_ssl_startup (gftp_request * request)
                                  _("Error setting cipher list (no valid ciphers)\n"));
       return (GFTP_EFATAL);
     }
-
 
   return (0);
 }

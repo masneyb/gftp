@@ -637,12 +637,12 @@ local_register_module (void)
 }
 
 
-void
+int
 local_init (gftp_request * request)
 {
   local_protocol_data *lpd;
 
-  g_return_if_fail (request != NULL);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_LOCAL_NUM;
   request->init = local_init;
@@ -689,5 +689,7 @@ local_init (gftp_request * request)
   if (request->hostname != NULL)
     g_free (request->hostname);
   request->hostname = g_strdup (_("local filesystem"));
+
+  return (0);
 }
 

@@ -340,7 +340,7 @@ struct gftp_request_tag
   gftp_logging_func logging_function;
   void *user_data;
 
-  void (*init)				( gftp_request * request );
+  int (*init)				( gftp_request * request );
   ssize_t (*read_function)		( gftp_request * request,
 					  void *ptr, 
 					  size_t size, 
@@ -474,7 +474,7 @@ typedef struct gftp_log_tag
 typedef struct supported_gftp_protocols_tag 
 {
   char *name;					/* Description of protocol */
-  void (*init) (gftp_request * request);	/* Init function */
+  int (*init) (gftp_request * request);		/* Init function */
   void (*register_options) (void);		/* Protocol options */
   char *url_prefix;				/* URL Prefix */
   int shown;					/* Whether this protocol is 
@@ -669,7 +669,7 @@ char * base64_encode 			( char *str );
                                                   (request)->always_connected))
 
 
-void rfc959_init 			( gftp_request * request );
+int rfc959_init 			( gftp_request * request );
 
 void rfc959_register_module		( void );
 
@@ -677,23 +677,23 @@ int rfc959_get_next_file 		( gftp_request * request,
 					  gftp_file *fle, 
 					  int fd );
 
-void rfc2068_init 			( gftp_request * request );
+int rfc2068_init 			( gftp_request * request );
 
 void rfc2068_register_module		( void );
 
-void https_init 			( gftp_request * request );
+int https_init 				( gftp_request * request );
 
 void https_register_module		( void );
 
-void local_init 			( gftp_request * request );
+int local_init 				( gftp_request * request );
 
 void local_register_module		( void );
 
-void sshv2_init 			( gftp_request * request );
+int sshv2_init 				( gftp_request * request );
 
 void sshv2_register_module		( void );
 
-void bookmark_init 			( gftp_request * request );
+int bookmark_init 			( gftp_request * request );
 
 void bookmark_register_module		( void );
 

@@ -115,10 +115,8 @@ do_openurl (gftp_window_data * wdata, gftp_dialog_data * ddata)
       ftp_connect (wdata, wdata->request, 1);
     }
   else
-    {
-      gtk_widget_destroy (ddata->dialog);
-      ftp_log (gftp_logging_misc, NULL, _("Could not parse URL %s\n"), tempstr);    
-    }
+    gtk_widget_destroy (ddata->dialog);
+
   ddata->dialog = NULL; 
 }
 

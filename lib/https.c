@@ -54,21 +54,21 @@ https_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 void
 https_register_module (void)
 {
-#ifdef USE_SSL
-  gftp_ssl_startup (NULL); /* FIXME - take out of here */
-#endif
 }
 
 
-void
+int
 https_init (gftp_request * request)
 {
 #ifdef USE_SSL
   rfc2068_params * params;
+  int ret;
 
-  g_return_if_fail (request != NULL);
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
-  gftp_protocols[GFTP_HTTP_NUM].init (request);
+  if ((ret = gftp_protocols[GFTP_HTTP_NUM].init (request)) < 0)
+    return (ret);
+
   params = request->protocol_data;
   request->init = https_init;
   request->post_connect = gftp_ssl_session_setup;
@@ -76,11 +76,16 @@ https_init (gftp_request * request)
   request->write_function = gftp_ssl_write;
   request->get_next_file = https_get_next_file;
   request->url_prefix = g_strdup ("https");
-#else
-  gftp_protocols[GFTP_HTTP_NUM].init (request);
 
+  if ((ret = gftp_ssl_startup (NULL)) < 0)
+    return (ret);
+
+  return (0);
+#else
   request->logging_function (gftp_logging_error, request->user_data,
-                             _("HTTPS Support unavailable since SSL support was not compiled in. Reverting back to plaintext\n"));
+                             _("HTTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"));
+
+  return (GFTP_EFATAL);
 #endif
 }
 
