@@ -1,4 +1,14 @@
 2004-2-16 Brian Masney <masneyb@gftp.org>
+	* src/gtk/view_dialog.c - call mkstemps() to create the temporary
+	file. This is so that the extension of the file will be preserved
+	so that syntax highlighting will still work (from
+	Aurelien Jarno <aurelien@aurel32.net>)
+
+	* lib/Makefile.am lib/gftp.h lib/mkstemps.c po/POTFILES.in - 
+	added mksteps() from the GNU C Library (from
+	Aurelien Jarno <aurelien@aurel32.net>)
+
+2004-2-16 Brian Masney <masneyb@gftp.org>
 	* src/gtk/misc-gtk.c - compile fix for GTK+ 1.2
 
 	* po/POTFILES.in - added ftps.c and ftpcommon.h and httpcommon.h

@@ -745,6 +745,10 @@ char * gftp_descramble_password		( const char *password );
 int gftp_get_transfer_action 		( gftp_request * request,
 					  gftp_file * fle );
 
+/* mkstemps.c */
+int mkstemps 				( char *template,
+					  int suffix_len );
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_FTPS_NUM				1

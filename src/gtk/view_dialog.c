@@ -28,6 +28,7 @@ view_dialog (gpointer data)
   GList * templist, * filelist, * newfile;
   gftp_window_data * fromwdata, * towdata;
   gftp_file * new_fle;
+  char *suffix;
   int num;
 
   fromwdata = data;
@@ -55,8 +56,21 @@ view_dialog (gpointer data)
       new_fle = copy_fdata (curfle);
       if (new_fle->destfile)
         g_free (new_fle->destfile);
-      new_fle->destfile = g_strconcat (g_get_tmp_dir (), "/gftp-view.XXXXXX", NULL);
-      if ((new_fle->fd = mkstemp (new_fle->destfile)) < 0)
+
+      if ((suffix = strrchr (curfle->file, '.')) != NULL)
+        {
+          new_fle->destfile = g_strconcat (g_get_tmp_dir (),
+                                           "/gftp-view.XXXXXX", suffix, NULL);
+          new_fle->fd = mkstemps (new_fle->destfile, strlen (suffix));
+	}
+      else
+        {
+	  new_fle->destfile = g_strconcat (g_get_tmp_dir (),
+                                           "/gftp-view.XXXXXX", NULL);		
+          new_fle->fd = mkstemps (new_fle->destfile, 0);
+	}
+		
+      if (new_fle->fd < 0)
         {
           ftp_log (gftp_logging_misc, NULL, 
                    _("Error: Cannot open %s for writing: %s\n"),  
