@@ -655,6 +655,10 @@ void gftp_config_free_options 		( gftp_config_vars * options_vars,
 
 void gftp_bookmarks_destroy 		( gftp_bookmarks_var * bookmarks );
 
+void gftp_free_proxy_hosts 		( GList * proxy_hosts );
+
+GList * gftp_copy_proxy_hosts 		( GList * proxy_hosts );
+
 /* misc.c */
 char *insert_commas 			( off_t number, 
 					  char *dest_str, 

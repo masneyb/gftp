@@ -533,8 +533,7 @@ chdir_dialog (gpointer data)
   templist = get_next_selection (templist, &filelist, &num);
   tempfle = filelist->data;
 
-  newdir = g_build_path (G_DIR_SEPARATOR_S, wdata->request->directory, 
-                         tempfle->file, NULL);
+  newdir = g_build_path ("/", wdata->request->directory, tempfle->file, NULL);
 
   if ((tempstr = expand_path (newdir)) == NULL)
     {

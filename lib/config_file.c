@@ -784,13 +784,17 @@ gftp_write_config_file (void)
         }
     }
     
-  for (i=0; gftp_config_list[i].list != NULL; i++)
+  for (i=0; gftp_config_list[i].key != NULL; i++)
     {
+      if (gftp_config_list[i].header == NULL &&
+          gftp_config_list[i].list == NULL)
+        continue;
+
       fprintf (conffile, "\n");
       if (gftp_config_list[i].header != NULL)
         write_comment (conffile, _(gftp_config_list[i].header));
 
-      for (templist = gftp_options_list;
+      for (templist = gftp_config_list[i].list;
            templist != NULL;
            templist = templist->next)
         {
@@ -1324,5 +1328,56 @@ gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks)
     }
 
   g_free (bookmarks);
+}
+
+
+void
+gftp_free_proxy_hosts (GList * proxy_hosts)
+{
+  gftp_proxy_hosts * hosts;
+  GList * templist;
+
+  for (templist = proxy_hosts;
+       templist != NULL; 
+       templist = templist->next)
+    {
+      hosts = templist->data;
+
+      if (hosts->domain)
+        g_free (hosts->domain);
+      g_free (hosts);
+    }
+
+  g_list_free (proxy_hosts);
+}
+
+
+GList *
+gftp_copy_proxy_hosts (GList * proxy_hosts)
+{
+  gftp_proxy_hosts * oldhosts, * newhosts;
+  GList * templist, * new_proxy_hosts;
+
+  new_proxy_hosts = NULL;
+
+  if (proxy_hosts != NULL)
+    {
+      for (templist = proxy_hosts;
+           templist != NULL; 
+           templist = templist->next)
+        {
+          oldhosts = templist->data;
+
+          newhosts = g_malloc0 (sizeof (*newhosts));
+          memcpy (newhosts, oldhosts, sizeof (*newhosts));
+
+          if (oldhosts->domain)
+            newhosts->domain = g_strdup (oldhosts->domain);
+
+          new_proxy_hosts = g_list_append (new_proxy_hosts, newhosts);
+        }
+    }
+
+  return (new_proxy_hosts);
 }
 

@@ -914,6 +914,8 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
     return;
  
   gftp_set_hostname (current_wdata->request, gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry)));
+  if (current_wdata->request->hostname == NULL)
+    return;
   alltrim (current_wdata->request->hostname);
 
   if (current_wdata->request->need_hostport && 
@@ -943,7 +945,9 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
   add_history (portedit, &tmplistvar->list, &tmplistvar->num_items, txt);
 
   gftp_set_username (current_wdata->request, gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry)));
-  alltrim (current_wdata->request->username);
+  if (current_wdata->request->username != NULL)
+    alltrim (current_wdata->request->username);
+
 
   gftp_lookup_global_option ("userhistory", &tmplistvar);
   add_history (useredit, &tmplistvar->list, &tmplistvar->num_items, 
@@ -953,7 +957,8 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
 		     gtk_entry_get_text (GTK_ENTRY (passedit)));
 
   gftp_set_directory (current_wdata->request, gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (current_wdata->combo)->entry)));
-  alltrim (current_wdata->request->directory);
+  if (current_wdata->request->directory != NULL)
+    alltrim (current_wdata->request->directory);
 
   add_history (current_wdata->combo, current_wdata->history, 
                current_wdata->histlen, current_wdata->request->directory);

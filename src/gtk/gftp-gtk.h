@@ -75,7 +75,6 @@ typedef struct gftp_window_data_tag
   GtkItemFactory *ifactory; 	/* This is for the menus that will
                                    come up when you right click */
   pthread_t tid;		/* Thread for the stop button */
-  unsigned long gotbytes;
   char *prefix_col_str;
 } gftp_window_data;
 

@@ -893,7 +893,7 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
   char serv[8];
 #endif
 
-  gftp_lookup_global_option ("ext", &proxy_hosts);
+  gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
 
   if (proxy_hostname == NULL || *proxy_hostname == '\0')
     return (0);
@@ -1540,11 +1540,10 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir)
         fle->startsize = *newsize;
 
       if (transfer->toreq)
-        fle->destfile = g_build_path (G_DIR_SEPARATOR_S, 
-                                      transfer->toreq->directory, fle->file, 
-                                      NULL);
+        fle->destfile = g_build_path ("/", transfer->toreq->directory, 
+                                      fle->file, NULL);
 
-      newname = g_build_path (G_DIR_SEPARATOR_S, transfer->fromreq->directory,
+      newname = g_build_path ("/", transfer->fromreq->directory,
 			     fle->file, NULL);
 
       g_free (fle->file);

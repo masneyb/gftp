@@ -107,7 +107,9 @@ _print_option_type_text (gftp_config_vars * cv, void *user_data)
   option_data = user_data;
 
   tempwid = _gen_input_widget (option_data, cv->description, cv->comment);
-  gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) cv->value);
+  if (cv->value != NULL)
+    gtk_entry_set_text (GTK_ENTRY (tempwid), (char *) cv->value);
+
   return (tempwid);
 }
 
@@ -642,26 +644,18 @@ _print_option_type_notebook (gftp_config_vars * cv, void *user_data)
 static void
 clean_old_changes (GtkWidget * widget, gpointer data)
 {
-  gftp_proxy_hosts *hosts;
-  GList *templist;
-
-  templist = new_proxy_hosts;
-  while (templist != NULL)
+  if (new_proxy_hosts != NULL)
     {
-      hosts = templist->data;
-      if (hosts->domain)
-        g_free (hosts->domain);
-      g_free (hosts);
-      templist = templist->next;
+      gftp_free_proxy_hosts (new_proxy_hosts);
+      new_proxy_hosts = NULL;
     }
-  g_list_free (new_proxy_hosts);
-  new_proxy_hosts = NULL;
 }
 
 
 static void
 apply_changes (GtkWidget * widget, gpointer data)
 {
+  gftp_config_list_vars * proxy_hosts;
   gftp_config_vars * cv;
   GList * templist;
   int i;
@@ -683,6 +677,14 @@ apply_changes (GtkWidget * widget, gpointer data)
           gftp_option_types[cv[i].otype].ui_save_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
         }
     }
+
+  gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
+
+  if (proxy_hosts->list != NULL)
+    gftp_free_proxy_hosts (proxy_hosts->list);
+
+  proxy_hosts->list = new_proxy_hosts;
+  new_proxy_hosts = NULL;
 }
 
 
@@ -699,6 +701,7 @@ options_action (GtkWidget * widget, gint response, gpointer user_data)
         apply_changes (widget, NULL);
         /* no break */
       default:
+        clean_old_changes (widget, user_data);
         gtk_widget_destroy (widget);
     }
 }
@@ -735,6 +738,7 @@ add_host_to_listbox (GList * templist)
       g_free (add_data[0]);
       g_free (add_data[1]);
     }
+
   gtk_clist_set_row_data (GTK_CLIST (proxy_list), num, (gpointer) templist);
 }
 
@@ -747,7 +751,8 @@ add_ok (GtkWidget * widget, gpointer data)
   GList *templist;
   int num;
 
-  if ((templist = data) == NULL)
+  templist = data;
+  if (templist == NULL)
     {
       hosts = g_malloc0 (sizeof (*hosts));
       new_proxy_hosts = g_list_append (new_proxy_hosts, hosts);
@@ -771,8 +776,7 @@ add_ok (GtkWidget * widget, gpointer data)
   if (GTK_TOGGLE_BUTTON (domain_active)->active)
     {
       edttxt = gtk_entry_get_text (GTK_ENTRY (new_proxy_domain));
-      hosts->domain = g_malloc (strlen (edttxt) + 1);
-      strcpy (hosts->domain, edttxt);
+      hosts->domain = g_strdup (edttxt);
       hosts->ipv4_netmask = hosts->ipv4_network_address = 0;
     }
   else
@@ -801,6 +805,7 @@ add_ok (GtkWidget * widget, gpointer data)
       edttxt = gtk_entry_get_text (GTK_ENTRY (netmask4));
       hosts->ipv4_netmask |= strtol (edttxt, NULL, 10) & 0xff;
     }
+
   add_host_to_listbox (templist);
 }
 
@@ -1093,7 +1098,9 @@ static void
 make_proxy_hosts_tab (GtkWidget * notebook)
 {
   GtkWidget *tempwid, *box, *hbox, *scroll;
+  gftp_config_list_vars * proxy_hosts;
   char *add_data[2];
+  GList * templist;
 
   add_data[0] = _("Network");
   add_data[1] = _("Netmask");
@@ -1118,7 +1125,16 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   gtk_widget_show (proxy_list);
   gtk_widget_show (scroll);
 
+  gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
+  new_proxy_hosts = gftp_copy_proxy_hosts (proxy_hosts->list);
+
+  for (templist = new_proxy_hosts;
+       templist != NULL;
+       templist = templist->next)
+    add_host_to_listbox (templist);
+
   hbox = gtk_hbox_new (TRUE, 15);
+
   gtk_box_pack_start (GTK_BOX (box), hbox, FALSE, FALSE, 0);
   gtk_widget_show (hbox);
 
@@ -1232,6 +1248,8 @@ options_dialog (gpointer data)
           option_data.last_option = cv[i].otype;
         }
     }
+
+  make_proxy_hosts_tab (option_data.notebook);
 
 #if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));

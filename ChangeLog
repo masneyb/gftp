@@ -1,3 +1,26 @@
+2003-7-9 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c (gftp_write_config_file) - fix for writing out
+	list items to the config file. 
+
+	* lib/config_file.c lib/gftp.h - added gftp_free_proxy_hosts() and
+	gftp_copy_proxy_hosts()
+
+	* lib/protocols.c (gftp_connect_server) - look up dont_use_proxy
+	instead of ext
+
+	* lib/protocols.c lib/sshv2.c src/gtk/dnd.c src/gtk/menu-items.c - 
+	when calling g_build_path(), set the directory separator to / instead
+	of G_DIR_SEPARATOR_S
+
+	* src/gtk/gftp-gtk.c (toolbar_hostedit) - fixed crash
+
+	* src/gtk/gftp-gtk.h - removed gotbytes from gftp_window_data
+	structure
+
+	* src/gtk/options_dialog.c - show proxy hosts in options dialog
+
+	* docs/sample.gftp/gftprc - new default config file
+
 2003-7-7 Brian Masney <masneyb@gftp.org>
 	* configure.in src/gtk/Makefile.am src/text/Makefile.am - if the 
 	OpenSSL libraries are available on the system, link them in and
