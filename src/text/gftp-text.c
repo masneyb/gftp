@@ -132,7 +132,7 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
     }
 
   if (level == gftp_logging_misc_nolog)
-    printf ("%s\n", outstr);
+    printf ("%s", outstr);
   else
     gftp_text_write_string (outstr);
   
