@@ -864,6 +864,7 @@ ssh_start_login_sequence (gftp_request * request, int fd)
       return (NULL);
     }
 
+  errno = 0;
   while (1)
     {
       FD_ZERO (&rdfds);
@@ -872,7 +873,7 @@ ssh_start_login_sequence (gftp_request * request, int fd)
       tv.tv_usec = 0;
       if (select (fd + 1, &rdfds, NULL, NULL, &tv) < 0)
         {
-          if (errno == EINTR)
+          if (errno == EINTR && !request->cancel)
             continue;
           ok = 0;
           break;
@@ -880,7 +881,7 @@ ssh_start_login_sequence (gftp_request * request, int fd)
 
       if ((rd = read (fd, tempstr + diff, rem - 1)) < 0)
         {
-          if (errno == EINTR)
+          if (errno == EINTR && !request->cancel)
             continue;
           ok = 0;
           break;

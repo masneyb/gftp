@@ -64,7 +64,7 @@ view_dialog (gpointer data)
       new_fle = copy_fdata (curfle);
       if (new_fle->destfile)
         g_free (new_fle->destfile);
-      new_fle->destfile = g_strconcat (tmp_directory, "/gftp-view.XXXXXX", NULL);
+      new_fle->destfile = g_strconcat (g_get_tmp_dir (), "/gftp-view.XXXXXX", NULL);
       if ((fd = mkstemp (new_fle->destfile)) < 0)
         {
           ftp_log (gftp_logging_misc, NULL, 
@@ -133,7 +133,7 @@ edit_dialog (gpointer data)
       new_fle = copy_fdata (curfle);
       if (new_fle->destfile)
         g_free (new_fle->destfile);
-      new_fle->destfile = g_strconcat (tmp_directory, "/gftp-view.XXXXXX",
+      new_fle->destfile = g_strconcat (g_get_tmp_dir (), "/gftp-view.XXXXXX",
                                        NULL);
       if ((fd = mkstemp (new_fle->destfile)) < 0)
         {

@@ -630,7 +630,7 @@ viewlog (gpointer data)
   GtkTextIter iter, iter2;
 #endif
 
-  tempstr = g_strconcat (tmp_directory, "/gftp-view.XXXXXXXXXX", NULL);
+  tempstr = g_strconcat (g_get_tmp_dir (), "/gftp-view.XXXXXXXXXX", NULL);
   if ((fd = mkstemp (tempstr)) < 0)
     {
       ftp_log (gftp_logging_misc, NULL, 

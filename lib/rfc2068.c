@@ -249,8 +249,6 @@ static size_t
 rfc2068_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   rfc2068_params * params;
-  struct timeval tv;
-  fd_set fset;
   size_t len;
 
   g_return_val_if_fail (request != NULL, -2);
@@ -260,32 +258,31 @@ rfc2068_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   if (params->max_bytes == params->read_bytes || feof (request->sockfd))
     return (0);
 
-  FD_ZERO (&fset);
-  FD_SET (fileno (request->sockfd), &fset);
-  tv.tv_sec = request->network_timeout;
-  tv.tv_usec = 0;
-  if (select (fileno (request->sockfd) + 1, &fset, NULL, NULL, &tv) <= 0)
+  errno = 0;
+  do
     {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Connection to %s timed out\n"),
-                                 request->hostname);
-      gftp_disconnect (request);
-      return (-1);
-    }
+      if (params->max_bytes > 0 && 
+          size + params->read_bytes > params->max_bytes)
+        size = params->max_bytes - params->read_bytes;
 
-  if (params->max_bytes > 0 && size + params->read_bytes > params->max_bytes)
-    size = params->max_bytes - params->read_bytes;
+      len = fread (buf, 1, size, request->sockfd);
+      if (ferror (request->sockfd))
+        {
+          if (errno == EINTR && !request->cancel)
+            {
+              clearerr (request->sockfd);
+              continue;
+            }
 
-  len = fread (buf, 1, size, request->sockfd);
-  if (ferror (request->sockfd))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error reading from host %s: %s\n"),
-                                 request->hostname,
-                                 g_strerror (errno));
-      gftp_disconnect (request);
-      return (-1);
+          request->logging_function (gftp_logging_error, request->user_data,
+                                     _("Error reading from host %s: %s\n"),
+                                     request->hostname,
+                                     g_strerror (errno));
+          gftp_disconnect (request);
+          return (-1);
+        }
     }
+  while (errno == EINTR && !request->cancel);
 
   params->read_bytes += len;
   return (len);
@@ -428,23 +425,18 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, FILE * fd)
 
   while (1)
     {
-      /* I don't run select() here because select could return 
-         successfully saying there is data, but the fgets call could block if 
-         there is no carriage return */
-      if (!fgets (tempstr, sizeof (tempstr), fd))
-	{
-	  gftp_file_destroy (fle);
-	  return (-2);
-	}
+      if (!gftp_fgets (request, tempstr, sizeof (tempstr), fd))
+        {
+          gftp_file_destroy (fle);
+          return (-2);
+        }
+
       tempstr[sizeof (tempstr) - 1] = '\0';
       params->read_bytes += strlen (tempstr);
 
       if (params->chunked_transfer && strcmp (tempstr, "0\r\n") == 0)
         {
-          /* I don't run select() here because select could return 
-             successfully saying there is data, but the fgets call could block 
-             if there is no carriage return */
-          while (fgets (tempstr, sizeof (tempstr), fd))
+          while (gftp_fgets (request, tempstr, sizeof (tempstr), fd))
             {
               if (strcmp (tempstr, "\r\n") == 0)
                 break;
@@ -589,14 +581,13 @@ rfc2068_read_response (gftp_request * request)
 
   params = request->protocol_data;
   params->max_bytes = 0;
-  /* I don't run select() here because select could return 
-     successfully saying there is data, but the fgets call could block if 
-     there is no carriage return */
-  if (!fgets (tempstr, sizeof (tempstr), request->sockfd))
+
+  if (!gftp_fgets (request, tempstr, sizeof (tempstr), request->sockfd))
     {
       gftp_disconnect (request);
       return (0);
     }
+
   if (request->last_ftp_response)
     g_free (request->last_ftp_response);
   request->last_ftp_response = g_malloc (strlen (tempstr) + 1);
@@ -608,11 +599,8 @@ rfc2068_read_response (gftp_request * request)
   params->chunked_transfer = 0;
   while (1) 
     {
-      /* I don't run select() here because select could return 
-         successfully saying there is data, but the fgets call could block if 
-         there is no carriage return */
       /* Read rest of proxy header */
-      if (!fgets (tempstr, sizeof (tempstr), request->sockfd))
+      if (!gftp_fgets (request, tempstr, sizeof (tempstr), request->sockfd))
         {
           gftp_disconnect (request);
 	  return (0);

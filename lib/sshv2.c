@@ -499,7 +499,6 @@ sshv2_send_command (gftp_request * request, char type, char *command,
                     gint32 len)
 {
   char buf[34000];
-  ssize_t wrote;
   gint32 clen;
 
   if (len > 33995)
@@ -525,25 +524,9 @@ sshv2_send_command (gftp_request * request, char type, char *command,
 
   sshv2_log_command (request, gftp_logging_send, type, buf + 5, len);
 
-  wrote = fwrite (buf, len + 5, 1, request->sockfd_write);
-  if (ferror (request->sockfd_write))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                               _("Error: Could not write to socket: %s\n"),
-                               g_strerror (errno));
-      gftp_disconnect (request);
-      return (-1);
-    }
+  if (gftp_fwrite (request, buf, len + 5, request->sockfd_write) < 0)
+    return (-2);
 
-  fflush (request->sockfd_write);
-  if (ferror (request->sockfd_write))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Could not write to socket: %s\n"),
-                                 g_strerror (errno));
-      gftp_disconnect (request);
-      return (-1);
-    }
   return 0;
 }
 

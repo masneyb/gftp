@@ -91,7 +91,11 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
           while (wdata->request->stopable)
             {
               GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
               g_main_iteration (TRUE);
+#else
+              g_main_context_iteration (NULL, TRUE);
+#endif
             }
           teardown_wakeup_main_thread (wdata->request, handler);
 
@@ -263,7 +267,11 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
           while (request->stopable)
             {
               GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
               g_main_iteration (TRUE);
+#else
+              g_main_context_iteration (NULL, TRUE);
+#endif
             }
 
           if (GFTP_GET_PASSWORD (request) == NULL || 
@@ -286,7 +294,11 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
       while (request->stopable)
         {
           GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
           g_main_iteration (TRUE);
+#else
+          g_main_context_iteration (NULL, TRUE);
+#endif
         }
       pthread_join (wdata->tid, &ret);
       teardown_wakeup_main_thread (wdata->request, handler);
@@ -451,7 +463,11 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
           while (transfer->fromreq->stopable)
             {
               GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
               g_main_iteration (TRUE);
+#else
+              g_main_context_iteration (NULL, TRUE);
+#endif
             }
 
           gtk_timeout_remove (timeout_num);
@@ -2175,6 +2191,7 @@ setup_wakeup_main_thread (gftp_request * request)
 
   if (socketpair (AF_UNIX, SOCK_STREAM, 0, request->wakeup_main_thread) == 0)
     {
+      /* FIXME - depreciated in GDK 2.0 */
       handler = gdk_input_add (request->wakeup_main_thread[0], 
                                GDK_INPUT_READ, wakeup_main_thread, request);
     }
@@ -2193,6 +2210,7 @@ teardown_wakeup_main_thread (gftp_request * request, gint handler)
 {
   if (request->wakeup_main_thread[0] > 0 && request->wakeup_main_thread[1] > 0)
     {
+      /* FIXME - depreciated in GDK 2.0 */
       gdk_input_remove (handler);
       close (request->wakeup_main_thread[0]);
       close (request->wakeup_main_thread[1]);

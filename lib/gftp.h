@@ -211,6 +211,8 @@ struct gftp_request_tag
                use_threads : 1,         /* Whether we need to spawn a thread
                                            for this protocol */
                cached : 1,              /* Is this directory listing cached? */
+               cancel : 1,		/* If a signal is received, should
+					   we cancel this operation */
                stopable : 1;
 
   off_t gotbytes;
@@ -441,7 +443,7 @@ extern supported_gftp_protocols gftp_protocols[];
 extern char version[], *emailaddr, *edit_program, *view_program, 
             *firewall_host, *firewall_username, *firewall_password, 
             *firewall_account, *proxy_config, *http_proxy_host, 
-            *http_proxy_username, *http_proxy_password, *tmp_directory, 
+            *http_proxy_username, *http_proxy_password, 
             *startup_directory, *ssh_prog_name, *ssh_extra_params, 
             **ssh_extra_params_list, *default_protocol, *ssh1_sftp_path, 
             *ssh2_sftp_path;
@@ -792,6 +794,16 @@ struct servent *r_getservbyname 	( const char *name,
 void gftp_set_config_options 		( gftp_request * request );
 
 void print_file_list 			( GList * list );
+
+char *gftp_fgets 			( gftp_request * request, 
+					  char * str, 
+					  size_t len, 
+					  FILE * fd );
+
+size_t gftp_fwrite 			( gftp_request * request, 
+					  const void *ptr, 
+					  size_t size, 
+					  FILE * fd );
 
 #endif
 

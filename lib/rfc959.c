@@ -48,8 +48,6 @@ static int rfc959_data_connection_new 		( gftp_request * request );
 static int rfc959_accept_active_connection 	( gftp_request * request );
 static int rfc959_send_command 			( gftp_request * request, 
 						  const char *command );
-static int write_to_socket 			( gftp_request *request, 
-						  const char *command );
 static int rfc959_read_response 		( gftp_request * request );
 static int rfc959_chdir 			( gftp_request * request, 
 						  const char *directory );
@@ -456,7 +454,8 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_free (tempstr);
 
   tempstr = g_strconcat ("RETR ", fromfile, "\r\n", NULL);
-  if (write_to_socket (fromreq, tempstr) < 0)
+  if (gftp_fwrite (fromreq, tempstr, strlen (tempstr), 
+                   fromreq->sockfd_write) < 0)
      {
        g_free (tempstr);
        return (-2);
@@ -464,7 +463,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_free (tempstr);
 
   tempstr = g_strconcat ("STOR ", tofile, "\r\n", NULL);
-  if (write_to_socket (toreq, tempstr) < 0)
+  if (gftp_fwrite (toreq, tempstr, strlen (tempstr), toreq->sockfd_write) < 0)
      {
        g_free (tempstr);
        return (-2);
@@ -578,10 +577,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, FILE * fd)
     }
   do
     {
-      /* I don't run select() here because select could return 
-         successfully saying there is data, but the fgets call could block if 
-         there is no carriage return */
-      if (!fgets (tempstr, sizeof (tempstr), fd))
+      if (!gftp_fgets (request, tempstr, sizeof (tempstr), fd))
 	{
           gftp_file_destroy (fle);
           if (ferror (fd))
@@ -846,54 +842,12 @@ rfc959_send_command (gftp_request * request, const char *command)
                                  command);
     }
 
-  if (write_to_socket (request, command) < 0)
+  if (gftp_fwrite (request, command, strlen (command), 
+                   request->sockfd_write) < 0)
     return (-1);
 
   return (rfc959_read_response (request));
 }
-
-static int
-write_to_socket (gftp_request *request, const char *command)
-{
-  struct timeval tv;
-  fd_set fset;
-
-  FD_ZERO (&fset);
-  FD_SET (fileno (request->sockfd_write), &fset);
-  tv.tv_sec = request->network_timeout;
-  tv.tv_usec = 0;
-  if (!select (fileno (request->sockfd_write) + 1, NULL, &fset, NULL, &tv))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Connection to %s timed out\n"),
-                                 request->hostname);
-      gftp_disconnect (request);
-      return (-1);
-    }
-
-  fwrite (command, strlen (command), 1, request->sockfd_write);
-  if (ferror (request->sockfd_write))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Could not write to socket: %s\n"),
-                                 g_strerror (errno));
-      gftp_disconnect (request);
-      return (-1);
-    }
-
-  fflush (request->sockfd_write);
-  if (ferror (request->sockfd_write))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Could not write to socket: %s\n"),
-                                 g_strerror (errno));
-      gftp_disconnect (request);
-      return (-1);
-    }
-
-  return (0);
-}
-    
 
 
 static int
@@ -914,10 +868,7 @@ rfc959_read_response (gftp_request * request)
 
   do
     {
-      /* I don't run select() here because select could return 
-         successfully saying there is data, but the fgets call could block if 
-         there is no carriage return */
-      if (!fgets (tempstr, sizeof (tempstr), request->sockfd))
+      if (!gftp_fgets (request, tempstr, sizeof (tempstr), request->sockfd))
 	break;
       tempstr[strlen (tempstr) - 1] = '\0';
       if (tempstr[strlen (tempstr) - 1] == '\r')

@@ -521,11 +521,6 @@ gftp_read_config_file (char **argv, int get_xpms)
         emailaddr = g_strconcat (pw->pw_name, "@", unme.nodename, NULL);
       gftp_write_config_file ();
     }
-
-  if ((tempstr = getenv ("TMP")) != NULL && *tempstr != '\0')
-    tmp_directory = g_strconcat (tempstr, NULL);
-  else
-    tmp_directory = g_strconcat ("/tmp", NULL);
 }
 
 

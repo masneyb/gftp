@@ -1011,7 +1011,6 @@ static int
 ssh_send_command (gftp_request * request, int cmdnum, const char *command, 
                   size_t len)
 {
-  ssize_t wrote;
   ssh_parms * params;
   char *buf;
   int clen;
@@ -1026,28 +1025,9 @@ ssh_send_command (gftp_request * request, int cmdnum, const char *command,
     memcpy (&buf[6], command, len);
   ssh_log_command (request, params->channel, cmdnum, command, len, 1);
 
-  wrote = fwrite (buf, 1, len + 6, request->sockfd_write);
-  if (ferror (request->sockfd_write))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                               _("Error: Could not write to socket: %s\n"),
-                               g_strerror (errno));
-      gftp_disconnect (request);
-      g_free (buf);
-      return (-1);
-    }
+  if (gftp_fwrite (request, buf, len + 6, request->sockfd_write) < 0)
+    return (-2);
 
-  g_free (buf);
-
-  fflush (request->sockfd_write);
-  if (ferror (request->sockfd_write))
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Could not write to socket: %s\n"),
-                                 g_strerror (errno));
-      gftp_disconnect (request);
-      return (-1);
-    }
   return 0;
 
 }

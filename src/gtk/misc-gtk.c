@@ -44,7 +44,12 @@ fix_display (void)
   while (ret)
     {
       GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
       ret = g_main_iteration (FALSE);
+#else
+      ret = g_main_context_iteration (NULL, FALSE);
+#endif
+
     }
 }
 
@@ -420,8 +425,8 @@ gftp_free_pixmap (char *filename)
   gdk_pixmap_unref (graphic->pixmap);
   gdk_bitmap_unref (graphic->bitmap);
 #else
-  gdk_drawable_unref (graphic->pixmap);
-  gdk_drawable_unref (graphic->bitmap);
+  g_object_unref (graphic->pixmap);
+  g_object_unref (graphic->bitmap);
 #endif
 
   g_hash_table_remove (graphic_hash_table, filename);
@@ -1137,7 +1142,11 @@ generic_thread (void * (*func) (void *), gftp_window_data * wdata)
       while (wdata->request->stopable)
         {
           GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
           g_main_iteration (TRUE);
+#else
+          g_main_context_iteration (NULL, TRUE);
+#endif
         }
 
       pthread_join (wdata->tid, &ret);
