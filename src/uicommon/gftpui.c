@@ -77,6 +77,7 @@ _gftpui_common_thread_callback (void * data)
 
           if (success == GFTP_ETIMEDOUT && num_timeouts == 0)
             {
+              _gftpui_cb_disconnect (cdata);
               num_timeouts++;
               if (_gftpui_cb_connect (cdata) == 0)
                 continue;
@@ -96,7 +97,6 @@ _gftpui_common_thread_callback (void * data)
   else
     {
       _gftpui_cb_disconnect (cdata);
-      gftp_disconnect (cdata->request);
       cdata->request->logging_function (gftp_logging_error, cdata->request,
                                         _("Operation canceled\n"));
     }
@@ -121,7 +121,7 @@ gftpui_common_run_callback_function (gftpui_callback_data * cdata)
   else
     ret = GPOINTER_TO_INT (cdata->run_function (cdata));
 
-  if (ret == 0 && cdata->run_function != gftpui_common_run_ls)
+  if (ret == 0 && !cdata->dont_refresh)
     gftpui_refresh (cdata->uidata);
 
   return (ret == 0);
@@ -613,6 +613,7 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request,
   cdata->uidata = uidata;
   cdata->source_string = *command != '\0' ? (char *) command : NULL;
   cdata->run_function = gftpui_common_run_ls;
+  cdata->dont_refresh = 1;
 
   gftpui_common_run_callback_function (cdata);
 

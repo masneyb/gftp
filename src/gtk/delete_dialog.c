@@ -36,18 +36,12 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
   cdata->files = transfer->files;
   cdata->uidata = wdata;
   cdata->run_function = gftpui_common_run_delete;
+  cdata->dont_refresh = 1;
 
   gftpui_common_run_callback_function (cdata);
 
   g_free (cdata);
-  free_tdata (transfer);
-
-  if (!GFTP_IS_CONNECTED (wdata->request))
-    gftpui_disconnect (wdata);
-  else
-    gftpui_refresh (wdata);
-
-  gtk_clist_thaw (GTK_CLIST (wdata->listbox));
+  /* FIXME free_tdata (transfer); */
 }
 
 
@@ -87,7 +81,8 @@ delete_dialog (gpointer data)
   int num, ret;
 
   wdata = data;
-  if (!check_status (_("Delete"), wdata, gftpui_common_use_threads (wdata->request), 0, 1, 1))
+  if (!check_status (_("Delete"), wdata,
+      gftpui_common_use_threads (wdata->request), 0, 1, 1))
     return;
 
   transfer = g_malloc0 (sizeof (*transfer));

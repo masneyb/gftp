@@ -33,6 +33,7 @@ ftp_list_files (gftp_window_data * wdata)
   cdata->request = wdata->request;
   cdata->uidata = wdata;
   cdata->run_function = gftpui_common_run_ls;
+  cdata->dont_refresh = 1;
 
   gftpui_common_run_callback_function (cdata);
 
@@ -168,6 +169,49 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
 
 
 static int
+gftpui_gtk_tdata_connect (gftpui_callback_data * cdata)
+{
+  gftp_transfer * tdata;
+  int ret;
+
+  tdata = cdata->user_data;
+
+  if (tdata->fromreq != NULL)
+    {
+      ret = gftp_connect (tdata->fromreq);
+      if (ret < 0)
+        return (ret);
+    }
+
+  if (tdata->toreq != NULL)
+    {
+      ret = gftp_connect (tdata->toreq);
+      if (ret < 0)
+        return (ret);
+    }
+
+  return (0);
+}
+
+
+static void
+gftpui_gtk_tdata_disconnect (gftpui_callback_data * cdata)
+{
+  gftp_transfer * tdata;
+
+  tdata = cdata->user_data;
+
+  if (tdata->fromreq != NULL)
+    gftp_disconnect (tdata->fromreq);
+
+  if (tdata->toreq != NULL)
+    gftp_disconnect (tdata->toreq);
+
+  cdata->request->datafd = -1;
+}
+
+
+static int
 _gftp_getdir_thread (gftpui_callback_data * cdata)
 {
   return (gftp_get_all_subdirs (cdata->user_data, NULL));
@@ -187,6 +231,10 @@ gftp_gtk_get_subdirs (gftp_transfer * transfer, pthread_t *tid)
   cdata->uidata = transfer->fromwdata;
   cdata->request = ((gftp_window_data *) transfer->fromwdata)->request;
   cdata->run_function = _gftp_getdir_thread;
+  cdata->connect_function = gftpui_gtk_tdata_connect;
+  cdata->disconnect_function = gftpui_gtk_tdata_disconnect;
+  cdata->dont_check_connection = 1;
+  cdata->dont_refresh = 1;
 
   timeout_num = gtk_timeout_add (100, progress_timeout, transfer);
   ret = gftpui_common_run_callback_function (cdata);
