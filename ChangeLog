@@ -1,4 +1,10 @@
 2003-1-4 Brian Masney <masneyb@gftp.org>
+	* configure.in - added src/uicommon/Makefile to the list of files to
+	be generated. 
+
+	* configure.in lib/gftp.h - check for sys/mkdev.h header file. If it is
+	found, include it. Solaris needs this for major() and minor()
+
 	* src/uicommon/gftpui.c src/uicommon/gftpui.h
 	src/uicommon/gftpuicallbacks.c - when switching between ascii/binary,
 	set the option on a global basis. Converted chdir, chmod, delete,

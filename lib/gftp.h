@@ -95,6 +95,11 @@
 #define GFTP_GET_AI_FAMILY(request)	AF_INET
 #endif
 
+/* Solaris needs this included for major()/minor() */
+#ifdef HAVE_SYS_MKDEV_H
+#include <sys/mkdev.h>
+#endif
+
 /* We need the major() and minor() macros in the user interface. If they aren't
    defined by the system, we'll just define them here. */
 #ifndef major
