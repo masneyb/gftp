@@ -454,9 +454,9 @@ rfc959_connect (gftp_request * request)
   gftp_lookup_request_option (request, "ftp_proxy_port", &proxy_port);
 
   if (request->username == NULL || *request->username == '\0')
-    gftp_set_username (request, "anonymous");
+    gftp_set_username (request, GFTP_ANONYMOUS_USER);
 
-  if (strcasecmp (request->username, "anonymous") == 0 &&
+  if (strcasecmp (request->username, GFTP_ANONYMOUS_USER) == 0 &&
       (request->password == NULL || *request->password == '\0'))
     {
       gftp_lookup_request_option (request, "email", &email);
@@ -534,7 +534,7 @@ rfc959_connect (gftp_request * request)
             return (resp);
         }
 
-      if (resp == '3' && request->account)
+      if (resp == '3' && request->account != NULL)
 	{
 	  tempstr = g_strconcat ("ACCT ", request->account, "\r\n", NULL);
 	  resp = rfc959_send_command (request, tempstr, 1);

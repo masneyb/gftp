@@ -354,8 +354,9 @@ typedef void (*gftp_logging_func)		( gftp_logging_level level,
 						  gftp_request * request, 
 						  const char *string, ... );
 
+#define GFTP_ANONYMOUS_USER			"anonymous"
 #define gftp_need_username(request)		((request)->need_username && ((request)->username == NULL || *(request)->username == '\0'))
-#define gftp_need_password(request)		((request)->need_password && (request)->username != NULL && *(request)->username != '\0' && strcmp ((request)->username, "anonymous") != 0 && ((request)->password == NULL || *(request)->password == '\0'))
+#define gftp_need_password(request)		((request)->need_password && (request)->username != NULL && *(request)->username != '\0' && strcasecmp ((request)->username, GFTP_ANONYMOUS_USER) != 0 && ((request)->password == NULL || *(request)->password == '\0'))
 
 struct gftp_request_tag 
 {
