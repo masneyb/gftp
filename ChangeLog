@@ -1,4 +1,8 @@
 2003-2-3 Brian Masney <masneyb@gftp.org>
+	* lib/ftpcommon.h lib/ftps.c lib/rfc959.c - added pointers to
+	read/write functions to the rfc959_params structure for the data
+	connection. For now, this is always set to the plaintext version. 
+
 	* lib/Makefile.am lib/gftp.h lib/options.h lib/rfc959.c lib/ftpcommon.h
 	lib/ftps.c - added support for the FTPS protocol. This currently is only
 	for the control connection. (draft-murray-auth-ftp-ssl-09.txt)

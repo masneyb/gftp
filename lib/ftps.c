@@ -55,9 +55,26 @@ ftps_auth_tls_start (gftp_request * request)
   if (ret < 0)
     return (ret);
 
-  ret = rfc959_send_command (request, "PROT C\r\n", 1);
+  ret = '5'; /* FIXME */
+  /* ret = rfc959_send_command (request, "PROT P\r\n", 1); */
   if (ret < 0)
     return (ret);
+  else if (ret == '2')
+    {
+      params->data_conn_read = gftp_ssl_read;
+      params->data_conn_write = gftp_ssl_write;
+      params->encrypted_connection = 1;
+    }
+  else
+    {
+      ret = rfc959_send_command (request, "PROT C\r\n", 1);
+      if (ret < 0)
+        return (ret);
+
+      params->data_conn_read = gftp_fd_read;
+      params->data_conn_write = gftp_fd_write;
+      params->encrypted_connection = 0;
+    }
 
   return (0);
 }

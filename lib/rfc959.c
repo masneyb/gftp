@@ -1226,8 +1226,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_free (tempstr);
 
   tempstr = g_strconcat ("RETR ", fromfile, "\r\n", NULL);
-  if ((ret = gftp_fd_write (fromreq, tempstr, strlen (tempstr), /* FIXME */
-                         fromreq->datafd)) < 0)
+  if ((ret = rfc959_send_command (fromreq, tempstr, 0)) < 0)
     {
       g_free (tempstr);
       return (ret);
@@ -1235,8 +1234,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_free (tempstr);
 
   tempstr = g_strconcat ("STOR ", tofile, "\r\n", NULL);
-  if ((ret = gftp_fd_write (toreq, tempstr, strlen (tempstr),  /* FIXME */
-                            toreq->datafd)) < 0)
+  if ((ret = rfc959_send_command (toreq, tempstr, 0)) < 0)
     {
       g_free (tempstr);
       return (ret);
@@ -1361,7 +1359,7 @@ rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
   parms = request->protocol_data;
 
-  num_read = gftp_fd_read (request, buf, size, parms->data_connection);
+  num_read = parms->data_conn_read (request, buf, size, parms->data_connection);
   if (num_read < 0)
     return (num_read);
 
@@ -1425,7 +1423,8 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
       tempstr = buf;
     }
 
-  num_wrote = gftp_fd_write (request, tempstr, rsize, parms->data_connection);
+  num_wrote = parms->data_conn_write (request, tempstr, rsize,
+                                      parms->data_connection);
 
   if (tempstr != buf)
     g_free (tempstr);
@@ -1462,7 +1461,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   do
     {
       oldread_func = request->read_function;
-      request->read_function = gftp_fd_read;
+      request->read_function = parms->data_conn_read;
       len = gftp_get_line (request, &parms->dataconn_rbuf, tempstr,
                            sizeof (tempstr), fd);
       request->read_function = oldread_func;
@@ -1792,6 +1791,8 @@ rfc959_init (gftp_request * request)
   parms = request->protocol_data;
   parms->data_connection = -1; 
   parms->auth_tls_start = NULL;
+  parms->data_conn_read = gftp_fd_read;
+  parms->data_conn_write = gftp_fd_write;
 
   return (gftp_set_config_options (request));
 }
