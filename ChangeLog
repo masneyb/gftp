@@ -1,6 +1,14 @@
+2004-12-2 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gtkui_transfer.c (gftpui_ask_transfer) - fixes for the first
+	character of the filename being stripped off when it already existed on
+	the remote side and it was being uploaded to the root directory. Note,
+	the file truncation only occured in it being displayed to the user. It
+	was not stripping the filename when it was being transfered (from
+	Aurelien Jarno <aurelien@aurel32.net >) (fixes #158713)
+
 2004-11-18  Dennis Cranston <dennis_cranston@yahoo.com>
 	* src/gtk/options_dialog.c:  GNOME HIG fixes for the GTK+2 
-	version of the Options and Add/Edit dialogs.
+	version of the Options and Add/Edit dialogs. (fixes #158642)
 	
 	Changes for the Options dialog:
 	   *  Use proper GNOME HIG widget spacing and padding

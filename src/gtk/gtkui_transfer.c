@@ -286,10 +286,12 @@ gftpui_ask_transfer (gftp_transfer * tdata)
         }
       tempfle->shown = 1;
 
-      pos = tempfle->destfile;
       len = strlen (tdata->toreq->directory);
+      pos = tempfle->destfile;
+      if (len == 1 && (*tdata->toreq->directory) == '/')
+        pos++;
       if (strncmp (pos, tdata->toreq->directory, len) == 0)
-        pos = tempfle->destfile + len + 1;
+        pos += len + 1;
 
       utf8_file = gftp_string_to_utf8 (tdata->toreq, pos);
       add_data[0] = utf8_file != NULL ? utf8_file : pos;
