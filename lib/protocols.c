@@ -786,11 +786,10 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
 int
 gftp_parse_url (gftp_request * request, const char *url)
 {
-  char *pos, *endpos, *endhostpos, tempchar, *default_protocol, *stpos;
+  char *pos, *endpos, *default_protocol, *new_url;
   gftp_logging_func logging_function;
-  const char *cpos;
-  int i, init_ret;
-  size_t len;
+  const char *clear_pos;
+  int i, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (url != NULL, GFTP_EFATAL);
@@ -799,20 +798,25 @@ gftp_parse_url (gftp_request * request, const char *url)
   gftp_request_destroy (request, 0);
   request->logging_function = logging_function;
 
-  for (cpos = url; *cpos == ' '; cpos++);
-  stpos = g_strdup (cpos);
-  for (pos = stpos + strlen (stpos) - 1; *pos == ' '; pos--)
+  for (clear_pos = url;
+       *clear_pos == ' ' || *clear_pos == '\t';
+       clear_pos++);
+
+  new_url = g_strdup (clear_pos);
+
+  for (pos = new_url + strlen (new_url) - 1;
+       *pos == ' ' || *pos == '\t';
+       pos--)
     *pos = '\0';
 
-  i = GFTP_FTP_NUM;
-
-  if ((pos = strstr (stpos, "://")) != NULL)
+  /* See if the URL has a protocol... */
+  if ((pos = strstr (new_url, "://")) != NULL)
     {
       *pos = '\0';
 
       for (i = 0; gftp_protocols[i].url_prefix; i++)
         {
-          if (strcmp (gftp_protocols[i].url_prefix, stpos) == 0)
+          if (strcmp (gftp_protocols[i].url_prefix, new_url) == 0)
             break;
         }
 
@@ -820,18 +824,20 @@ gftp_parse_url (gftp_request * request, const char *url)
         {
           request->logging_function (gftp_logging_misc, NULL, 
                                      _("The protocol '%s' is currently not supported.\n"),
-                                     stpos);
-          g_free (stpos);
+                                     new_url);
+          g_free (new_url);
           return (GFTP_EFATAL);
         }
 
       *pos = ':';
+      pos += 3;
     }
   else
     {
       gftp_lookup_request_option (request, "default_protocol", 
                                   &default_protocol);
 
+      i = GFTP_FTP_NUM;
       if (default_protocol != NULL && *default_protocol != '\0')
         {
           for (i = 0; gftp_protocols[i].url_prefix; i++)
@@ -840,82 +846,75 @@ gftp_parse_url (gftp_request * request, const char *url)
                 break;
             }
         }
+
+      if (gftp_protocols[i].url_prefix == NULL)
+        {
+          request->logging_function (gftp_logging_misc, NULL, 
+                                     _("The protocol '%s' is currently not supported.\n"),
+                                     default_protocol);
+          g_free (new_url);
+          return (GFTP_EFATAL);
+        }
+
+      pos = new_url;
     }
 
-  if (gftp_protocols[i].url_prefix == NULL)
-    i = GFTP_FTP_NUM;
-
-  if ((init_ret = gftp_protocols[i].init (request)) < 0)
+  if ((ret = gftp_protocols[i].init (request)) < 0)
     {
       gftp_request_destroy (request, 0);
-      return (init_ret);
+      return (ret);
+    }
+
+  if ((endpos = strchr (pos, '/')) != NULL)
+    {
+      gftp_set_directory (request, endpos);
+      *endpos = '\0';
     }
 
   if (request->parse_url != NULL)
     {
-      g_free (stpos);
-      return (request->parse_url (request, url));
+      ret = request->parse_url (request, new_url);
+      g_free (new_url);
+      return (ret);
     }
 
-  pos = stpos;
-  len = strlen (request->url_prefix);
-  if (strncmp (pos, request->url_prefix, len) == 0 && 
-      strncmp (pos + len, "://", 3) == 0)
-    pos += len + 3;
-
-  if (i == GFTP_LOCAL_NUM)
+  if (*pos != '\0')
     {
-      for (; *pos == ' ' || *pos == '\t'; pos++);
-      request->directory = g_strdup (pos);
-      g_free (stpos);
-      return (0);
-    }
+      if (endpos == NULL)
+        endpos = pos + strlen (pos) - 1;
+      else
+        endpos--;
 
-  if ((endhostpos = strrchr (pos, '@')) != NULL)
-    {
-      /* A user/password was entered */
-      if ((endpos = strchr (pos, ':')) == NULL || endhostpos < endpos)
+      for (; isdigit (*endpos); endpos--);
+
+      if (*endpos == ':' && isdigit (*(endpos + 1)))
         {
-          /* No password was entered */
-          gftp_set_password (request, "");
-          endpos = endhostpos;
-        }
-
-      *endpos = '\0';
-      gftp_set_username (request, pos);
-
-      pos = endpos + 1;
-      if ((endpos = strchr (pos, '@')) != NULL)
-        {
-          if (strchr (endpos + 1, '@') != NULL)
-            endpos = strchr (endpos + 1, '@');
+          gftp_set_port (request, strtol (endpos + 1, NULL, 10));
           *endpos = '\0';
-          gftp_set_password (request, pos);
-
-          pos = endpos + 1;
         }
+
+      if ((endpos = strrchr (pos, '@')) != NULL)
+        {
+          gftp_set_hostname (request, endpos + 1);
+          *endpos = '\0';
+
+          if ((endpos = strchr (pos, ':')) != NULL)
+            {
+              *endpos = '\0';
+              gftp_set_username (request, pos);
+              gftp_set_password (request, endpos + 1);
+            }
+          else
+            {
+              gftp_set_username (request, pos);
+              gftp_set_password (request, "");
+            }
+        }
+      else
+        gftp_set_hostname (request, pos);
     }
 
-  /* Now get the hostname and an optional port and optional directory */
-  endhostpos = pos + strlen (pos);
-  if ((endpos = strchr (pos, ':')) != NULL)
-    endhostpos = endpos;
-  else if ((endpos = strchr (pos, '/')) != NULL)
-    endhostpos = endpos;
-  tempchar = *endhostpos;
-  *endhostpos = '\0';
-  gftp_set_hostname (request, pos);
-  *endhostpos = tempchar;
-
-  if ((endpos = strchr (pos, ':')) != NULL)
-    {
-      /* A port was entered */
-      pos = endpos + 1;
-      gftp_set_port (request, strtol (pos, NULL, 10));
-    }
-  if ((endpos = strchr (pos, '/')) != NULL)
-    gftp_set_directory (request, endpos);
-  g_free (stpos);
+  g_free (new_url);
   return (0);
 }
 

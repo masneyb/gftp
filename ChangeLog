@@ -1,4 +1,8 @@
 2005-1-24 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_parse_url) - rewrote the URL parser so that the
+	URL is parsed from right to left instead of left to right. There are
+	more checks done to the URL.
+
 	* src/text/gftp-text.c (gftp_text_ask_question, gftp_text_write_string)
 	- convert the string from UTF8 to the users' current locale before it is
 	displayed
