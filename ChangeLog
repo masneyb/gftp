@@ -1,4 +1,9 @@
 2002-10-31 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_next_file) - don't use g_filename_to_utf8.
+	If g_locale_to_utf8 fails, print out a warning to the user on the 
+	console
+
+2002-10-31 Brian Masney <masneyb@gftp.org>
 	* src/gtk/*.[ch] - don't check for gtk+ version based on the minor 
 	version. May cause problems later on.
 

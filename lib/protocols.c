@@ -462,6 +462,7 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
 #if GLIB_MAJOR_VERSION > 1
   gsize bread, bwrite;
   char *tempstr;
+  GError * error;
 #endif
 
   g_return_val_if_fail (request != NULL, -2);
@@ -483,19 +484,16 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
 #if GLIB_MAJOR_VERSION > 1
       if (fle->file != NULL && !g_utf8_validate (fle->file, -1, NULL))
         {
+          error = NULL;
           if ((tempstr = g_locale_to_utf8 (fle->file, -1, &bread, 
-                                           &bwrite, NULL)) != NULL)
+                                           &bwrite, &error)) != NULL)
             {
               g_free (fle->file);
               fle->file = tempstr;
             }
-          else if ((tempstr = g_filename_to_utf8 (fle->file, -1, &bread, 
-                                                  &bwrite, NULL)) != NULL)
-            {
-              g_free (fle->file);
-              fle->file = tempstr;
-            }
-
+          else
+            g_warning ("Error when converting %s to UTF-8: %s\n", fle->file,
+                       error->message);
         }
 #endif
 
