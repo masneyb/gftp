@@ -114,6 +114,13 @@ typedef struct gftp_file_tag gftp_file;
 #define GFTP_DIRECTION_DOWNLOAD			0
 #define GFTP_DIRECTION_UPLOAD			1
 
+#define GFTP_SORT_COL_FILE			1
+#define GFTP_SORT_COL_SIZE			2
+#define GFTP_SORT_COL_USER			3
+#define GFTP_SORT_COL_GROUP			4
+#define GFTP_SORT_COL_DATETIME			5
+#define GFTP_SORT_COL_ATTRIBS			6
+
 struct gftp_file_tag 
 {
   char *file,			/* Our filename */
@@ -550,6 +557,10 @@ char * ssh_start_login_sequence 	( gftp_request * request,
 #ifdef G_HAVE_GINT64
 gint64 hton64				( gint64 val );
 #endif
+
+GList * gftp_sort_filelist 		( GList * filelist, 
+					  int column, 
+					  int asds );
 
 /* protocols.c */
 #define GFTP_CONNECTED(request)			(request->sockfd != NULL)

@@ -1924,9 +1924,9 @@ print_file_list (GList * list)
 #else
       printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
 #endif
-              tempfle->file, tempfle->destfile,
-              tempfle->size, tempfle->startsize, tempfle->user, tempfle->group,
-              tempfle->attribs);
+              tempfle->file, tempfle->destfile, 
+              tempfle->size, tempfle->startsize, 
+              tempfle->user, tempfle->group, tempfle->attribs);
       if (templist->next == NULL)
         break;
     }
@@ -1940,9 +1940,9 @@ print_file_list (GList * list)
 #else
       printf ("%s:%s:%ld:%ld:%s:%s:%s\n", 
 #endif
-              tempfle->file, tempfle->destfile,
-              tempfle->size, tempfle->startsize, tempfle->user, tempfle->group,
-              tempfle->attribs);
+              tempfle->file, tempfle->destfile, 
+              tempfle->size, tempfle->startsize, 
+              tempfle->user, tempfle->group, tempfle->attribs);
       if (templist == list)
         break;
     }

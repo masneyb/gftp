@@ -592,7 +592,12 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
       else
         strftime (buf, sizeof (buf), "%b %d %H:%M", localtime (&fle.datetime));
       
-      printf ("%s %8s %8s %10ld %s %s%s%s\n", fle.attribs, fle.user, fle.group,
+#if defined (_LARGEFILE_SOURCE)
+      printf ("%s %8s %8s %10lld %s %s%s%s\n", 
+#else
+      printf ("%s %8s %8s %10ld %s %s%s%s\n", 
+#endif
+              fle.attribs, fle.user, fle.group,
               fle.size, buf, color, fle.file, COLOR_DEFAULT);
       gftp_file_destroy (&fle);
     }

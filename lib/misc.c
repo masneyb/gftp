@@ -965,3 +965,245 @@ hton64 (gint64 val)
 
 #endif
 
+
+static gint
+gftp_file_sort_function_as (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+
+  f1 = a;
+  f2 = b;
+  return (strcmp (f1->file, f2->file));
+}
+
+
+static gint
+gftp_file_sort_function_ds (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+  gint ret;
+
+  f1 = a;
+  f2 = b;
+  ret = strcmp (f1->file, f2->file);
+  if (ret < 0)
+    ret = 1;
+  else if (ret > 0)
+    ret = -1;
+  return (ret);
+}
+
+
+static gint
+gftp_user_sort_function_as (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+
+  f1 = a;
+  f2 = b;
+  return (strcmp (f1->user, f2->user));
+}
+
+
+static gint
+gftp_user_sort_function_ds (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+  gint ret;
+
+  f1 = a;
+  f2 = b;
+  ret = strcmp (f1->user, f2->user);
+  if (ret < 0)
+    ret = 1;
+  else if (ret > 0)
+    ret = -1;
+  return (ret);
+}
+
+
+static gint
+gftp_group_sort_function_as (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+
+  f1 = a;
+  f2 = b;
+  return (strcmp (f1->group, f2->group));
+}
+
+
+static gint
+gftp_group_sort_function_ds (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+  gint ret;
+
+  f1 = a;
+  f2 = b;
+  ret = strcmp (f1->group, f2->group);
+  if (ret < 0)
+    ret = 1;
+  else if (ret > 0)
+    ret = -1;
+  return (ret);
+}
+
+
+static gint
+gftp_attribs_sort_function_as (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+
+  f1 = a;
+  f2 = b;
+  return (strcmp (f1->attribs, f2->attribs));
+}
+
+
+static gint
+gftp_attribs_sort_function_ds (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+  gint ret;
+
+  f1 = a;
+  f2 = b;
+  ret = strcmp (f1->attribs, f2->attribs);
+  if (ret < 0)
+    ret = 1;
+  else if (ret > 0)
+    ret = -1;
+  return (ret);
+}
+
+
+static gint
+gftp_size_sort_function_as (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+
+  f1 = a;
+  f2 = b;
+  if (f1->size < f2->size)
+    return (-1);
+  else if (f1->size == f2->size)
+    return (0);
+  else
+    return (1);
+}
+
+
+static gint
+gftp_size_sort_function_ds (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+
+  f1 = a;
+  f2 = b;
+  if (f1->size < f2->size)
+    return (1);
+  else if (f1->size == f2->size)
+    return (0);
+  else
+    return (-1);
+}
+
+
+static gint
+gftp_datetime_sort_function_as (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+
+  f1 = a;
+  f2 = b;
+  if (f1->datetime < f2->datetime)
+    return (-1);
+  else if (f1->datetime == f2->datetime)
+    return (0);
+  else
+    return (1);
+}
+
+
+static gint
+gftp_datetime_sort_function_ds (gconstpointer a, gconstpointer b)
+{
+  const gftp_file * f1, * f2;
+
+  f1 = a;
+  f2 = b;
+  if (f1->datetime < f2->datetime)
+    return (1);
+  else if (f1->datetime == f2->datetime)
+    return (0);
+  else
+    return (-1);
+}
+
+
+GList *
+gftp_sort_filelist (GList * filelist, int column, int asds)
+{
+  GList * files, * dirs, * dotdot, * tempitem, * insitem;
+  GCompareFunc sortfunc;
+  gftp_file * tempfle;
+
+  files = dirs = dotdot = NULL;
+
+  if (column == GFTP_SORT_COL_FILE)
+    sortfunc = asds ?  gftp_file_sort_function_as : gftp_file_sort_function_ds;
+  else if (column == GFTP_SORT_COL_SIZE)
+    sortfunc = asds ?  gftp_size_sort_function_as : gftp_size_sort_function_ds;
+  else if (column == GFTP_SORT_COL_USER)
+    sortfunc = asds ?  gftp_user_sort_function_as : gftp_user_sort_function_ds;
+  else if (column == GFTP_SORT_COL_GROUP)
+    sortfunc = asds ?
+                gftp_group_sort_function_as : gftp_group_sort_function_ds;
+  else if (column == GFTP_SORT_COL_DATETIME)
+    sortfunc = asds ?
+                gftp_datetime_sort_function_as : gftp_datetime_sort_function_ds;  else /* GFTP_SORT_COL_ATTRIBS */
+    sortfunc = asds ? 
+                gftp_attribs_sort_function_as : gftp_attribs_sort_function_ds;
+
+  for (tempitem = filelist; tempitem != NULL; )
+    {
+      tempfle = tempitem->data;
+      insitem = tempitem;
+      tempitem = tempitem->next;
+      insitem->next = NULL;
+
+      if (dotdot == NULL && strcmp (tempfle->file, "..") == 0)
+        dotdot = insitem;
+      else if (sort_dirs_first && tempfle->isdir)
+        {
+          insitem->next = dirs;
+          dirs = insitem;
+        }
+      else
+        {
+          insitem->next = files;
+          files = insitem;
+        }
+    }
+
+  if (dirs != NULL)
+    dirs = g_list_sort (dirs, sortfunc);
+  if (files != NULL)
+    files = g_list_sort (files, sortfunc);
+
+  filelist = dotdot;
+
+  if (filelist == NULL)
+    filelist = dirs;
+  else
+    filelist = g_list_concat (filelist, dirs);
+
+  if (filelist == NULL)
+    filelist = files;
+  else
+    filelist = g_list_concat (filelist, files);
+
+  return (filelist);
+}
+

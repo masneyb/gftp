@@ -1016,36 +1016,14 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
 void
 sortrows (GtkCList * clist, gint column, gpointer data)
 {
-  GList *templist, *curlist, *files, *dirs, *dotdot;
-  gftp_file * tempfle, * curfle;
   gftp_window_data * wdata;
-  GtkWidget *sort_wid;
-  int sortdir, pos;
+  GtkWidget * sort_wid;
+  GList * templist;
 
   wdata = data;
-  if (wdata->files == NULL)
-    return;
-
-  if (!check_status (_("Sort"), wdata, 0, 0, 0, 1))
-    return;
-
-  gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Sorting..."));
-  fix_display ();
-
-  curlist = wdata->files;
-  templist = GTK_CLIST (wdata->listbox)->selection;
-  pos = 0;
-  while (curlist != NULL && templist != NULL)
-    {
-      templist = get_next_selection (templist, &curlist, &pos);
-      tempfle = curlist->data;
-      tempfle->was_sel = 1;
-    }
-
   if (column == 0 || (column == wdata->sortcol && wdata->sorted))
     {
       wdata->sortasds = !wdata->sortasds;
-      column = wdata->sortcol;
       sort_wid = gtk_clist_get_column_widget (clist, 0);
       gtk_widget_destroy (sort_wid);
       if (wdata->sortasds)
@@ -1056,138 +1034,18 @@ sortrows (GtkCList * clist, gint column, gpointer data)
     }
   else
     wdata->sortcol = column;
-  sortdir = wdata->sortasds;
-  dirs = files = dotdot = NULL;
-  while (wdata->files != NULL)
-    {
-      curlist = wdata->files;
-      curfle = curlist->data;
-      wdata->files = g_list_remove_link (wdata->files, curlist);
-      if (strcmp (curfle->file, "..") == 0)
-	{
-	  dotdot = curlist;
-	  continue;
-	}
-      templist = sort_dirs_first && curfle->isdir ? dirs : files;
-      pos = 0;
-      tempfle = NULL;
-      if (column == 1)
-	{
-	  while (templist != NULL && (tempfle = templist->data)
-		 && (sortdir ? strcmp (tempfle->file, curfle->file) <=
-		     0 : strcmp (tempfle->file, curfle->file) >= 0))
-	    {
-	      pos++;
-	      templist = templist->next;
-	    }
-	}
-      else if (column == 2)
-	{
-	  while (templist != NULL && (tempfle = templist->data)
-		 && (sortdir ? tempfle->size <=
-		     curfle->size : tempfle->size >= curfle->size))
-	    {
-	      pos++;
-	      templist = templist->next;
-	    }
-	}
-      else if (column == 3)
-	{
-	  while (templist != NULL && (tempfle = templist->data)
-		 && (sortdir ? strcmp (tempfle->user, curfle->user) <=
-		     0 : strcmp (tempfle->user, curfle->user) >= 0))
-	    {
-	      pos++;
-	      templist = templist->next;
-	    }
-	}
-      else if (column == 4)
-	{
-	  while (templist != NULL && (tempfle = templist->data)
-		 && (sortdir ? strcmp (tempfle->group, curfle->group) <=
-		     0 : strcmp (tempfle->group, curfle->group) >= 0))
-	    {
-	      pos++;
-	      templist = templist->next;
-	    }
-	}
-      else if (column == 5)
-	{
-	  while (templist != NULL && (tempfle = templist->data)
-		 && (sortdir ? tempfle->datetime <=
-		     curfle->datetime : tempfle->datetime >= curfle->datetime))
-	    {
-	      pos++;
-	      templist = templist->next;
-	    }
-	}
-      else if (column == 6)
-	{
-	  while (templist != NULL && (tempfle = templist->data)
-		 && (sortdir ? strcmp (tempfle->attribs, curfle->attribs) <=
-		     0 : strcmp (tempfle->attribs, curfle->attribs) >= 0))
-	    {
-	      pos++;
-	      templist = templist->next;
-	    }
-	}
-      if (sort_dirs_first && curfle->isdir)
-	dirs = g_list_insert (dirs, curfle, pos);
-      else
-	files = g_list_insert (files, curfle, pos);
-    }
 
   gtk_clist_freeze (clist);
   gtk_clist_clear (clist);
-  wdata->files = NULL;
-  if (dotdot != NULL) 
-    {
-      dotdot->next = NULL;
-      wdata->files = dotdot;
-      add_file_listbox (wdata, dotdot->data);
-    }
 
-  templist = NULL;
-  if (dirs != NULL)
-    {
-      if (wdata->files != NULL)
-        {
-          wdata->files->next = dirs;
-          dirs->prev = wdata->files;
-        }
-      else
-        wdata->files = dirs;
+  wdata->files = gftp_sort_filelist (wdata->files, wdata->sortcol, 
+                                     wdata->sortasds);
 
-      templist = dirs; 
-      while (templist->next != NULL)
-        {
-          add_file_listbox (wdata, templist->data);
-          templist = templist->next;
-        }
+  templist = wdata->files; 
+  while (templist != NULL)
+    {
       add_file_listbox (wdata, templist->data);
-    }
-
-  if (files != NULL)
-    {
-      if (templist != NULL)
-        {
-          templist->next = files;
-          files->prev = templist;
-        }
-      else if (wdata->files != NULL)
-        {
-          wdata->files->next = files;
-          files->prev = wdata->files;
-        }
-      else
-        wdata->files = files;
-
-      templist = files; 
-      while (templist != NULL)
-        {
-          add_file_listbox (wdata, templist->data);
-          templist = templist->next;
-        }
+      templist = templist->next;
     }
 
   wdata->sorted = 1;

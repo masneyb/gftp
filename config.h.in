@@ -1,5 +1,12 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader 2.13.  */
 
+/* Define if on AIX 3.
+   System headers sometimes define this.
+   We just want to avoid a redefinition error message.  */
+#ifndef _ALL_SOURCE
+#undef _ALL_SOURCE
+#endif
+
 /* Define if using alloca.c.  */
 #undef C_ALLOCA
 
@@ -35,6 +42,9 @@
 /* Define as __inline if that's what the C compiler calls it.  */
 #undef inline
 
+/* Define if on MINIX.  */
+#undef _MINIX
+
 /* Define to `int' if <sys/types.h> doesn't define.  */
 #undef mode_t
 
@@ -43,6 +53,13 @@
 
 /* Define to `int' if <sys/types.h> doesn't define.  */
 #undef pid_t
+
+/* Define if the system does not provide POSIX.1 features except
+   with this defined.  */
+#undef _POSIX_1_SOURCE
+
+/* Define if you need to in order for stat and other things to work.  */
+#undef _POSIX_SOURCE
 
 /* Define as the return type of signal handlers (int or void).  */
 #undef RETSIGTYPE
@@ -238,6 +255,26 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* Define for setting a GNU environment */
+#undef _GNU_SOURCE
+
+/* Number of bits in a file offset, on hosts where this is settable.
+       case  in
+	# HP-UX 10.20 and later
+	hpux10.2-90-9* | hpux11-9* | hpux2-90-9*)
+	  ac_cv_sys_file_offset_bits=64 ;;
+	esac */
+#undef _FILE_OFFSET_BITS
+
+/* Define to make fseeko etc. visible, on some hosts. */
+#undef _LARGEFILE_SOURCE
+
+/* Define for large files, on AIX-style hosts. */
+#undef _LARGE_FILES
+
+/* Define if compiler has function prototypes */
+#undef PROTOTYPES
 
 /* Define if <inttypes.h> exists, doesn't clash with <sys/types.h>,
    and declares uintmax_t.  */

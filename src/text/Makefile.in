@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -63,9 +63,12 @@ AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
+CPP = @CPP@
 DATADIRNAME = @DATADIRNAME@
+EXEEXT = @EXEEXT@
 EXTRA_LIBS = @EXTRA_LIBS@
 GENCAT = @GENCAT@
+GETCONF = @GETCONF@
 GFTP_GTK = @GFTP_GTK@
 GFTP_TEXT = @GFTP_TEXT@
 GLIBC21 = @GLIBC21@
@@ -99,6 +102,7 @@ PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
 RANLIB = @RANLIB@
 READLINE_LIBS = @READLINE_LIBS@
+U = @U@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
@@ -113,6 +117,7 @@ localedir = $(datadir)/locale
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
 CONFIG_CLEAN_FILES = 
+bin_PROGRAMS =  @GFTP_TEXT@
 PROGRAMS =  $(bin_PROGRAMS)
 
 
@@ -193,8 +198,8 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-gftp-text: $(gftp_text_OBJECTS) $(gftp_text_DEPENDENCIES)
-	@rm -f gftp-text
+gftp-text$(EXEEXT): $(gftp_text_OBJECTS) $(gftp_text_DEPENDENCIES)
+	@rm -f gftp-text$(EXEEXT)
 	$(LINK) $(gftp_text_LDFLAGS) $(gftp_text_OBJECTS) $(gftp_text_LDADD) $(LIBS)
 
 tags: TAGS
@@ -215,7 +220,7 @@ TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	  awk '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+	  || (cd $(srcdir) && etags -o $$here/TAGS $(ETAGS_ARGS) $$tags  $$unique $(LISP))
 
 mostlyclean-tags:
 
