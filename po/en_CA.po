@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-04 11:30-0400\n"
-"PO-Revision-Date: 2004-10-04 16:37-0400\n"
+"POT-Creation-Date: 2004-10-05 13:56-0400\n"
+"PO-Revision-Date: 2004-10-05 16:37-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,17 +47,17 @@ msgstr "Error closing file descriptor: %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Error: Cannot seek on file %s: %s\n"
 
-#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2949
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2973
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Error: Cannot open local file %s: %s\n"
 
-#: lib/config_file.c:134 lib/protocols.c:2656 lib/sslcommon.c:486
+#: lib/config_file.c:134 lib/protocols.c:2680 lib/sslcommon.c:486
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Error: Could not write to socket: %s\n"
 
-#: lib/config_file.c:142 lib/protocols.c:2580 lib/sshv2.c:364
+#: lib/config_file.c:142 lib/protocols.c:2604 lib/sshv2.c:364
 #: lib/sslcommon.c:439
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -181,7 +181,8 @@ msgstr ""
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 
-#: lib/config_file.c:1193 lib/rfc2068.c:545 lib/rfc2068.c:546
+#: lib/config_file.c:1193 lib/protocols.c:459 lib/protocols.c:530
+#: lib/rfc2068.c:545 lib/rfc2068.c:546
 msgid "<unknown>"
 msgstr "<unknown>"
 
@@ -704,114 +705,122 @@ msgstr "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "Loading directory listing %s from server (LC_TIME=%s)\n"
 
+#: lib/protocols.c:458 lib/protocols.c:490 lib/protocols.c:529
+#: lib/protocols.c:561
+#, c-format
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+
 #. Don't use request->logging_function since the strings must be in UTF-8
 #. for the GTK+ 2.x port
-#: lib/protocols.c:466
+#: lib/protocols.c:473
 #, c-format
 msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
 msgstr "Error converting string '%s' to UTF-8 from current locale: %s\n"
 
 #. Don't use request->logging_function since the strings must be in UTF-8
 #. for the GTK+ 2.x port
-#: lib/protocols.c:523
+#: lib/protocols.c:544
 #, c-format
 msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
 msgstr "Error converting string '%s' to current locale from UTF-8: %s\n"
 
-#: lib/protocols.c:606
+#: lib/protocols.c:630
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Error: Cannot write to cache: %s\n"
 
-#: lib/protocols.c:638
+#: lib/protocols.c:662
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Error: Could not find bookmark %s\n"
 
-#: lib/protocols.c:645
+#: lib/protocols.c:669
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 
-#: lib/protocols.c:772
+#: lib/protocols.c:796
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "The protocol '%s' is currently not supported.\n"
 
-#: lib/protocols.c:1118 lib/protocols.c:1133 lib/protocols.c:2163
-#: lib/protocols.c:2276
+#: lib/protocols.c:1142 lib/protocols.c:1157 lib/protocols.c:2187
+#: lib/protocols.c:2300
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Looking up %s\n"
 
-#: lib/protocols.c:1124 lib/protocols.c:1139 lib/protocols.c:2168
-#: lib/protocols.c:2281
+#: lib/protocols.c:1148 lib/protocols.c:1163 lib/protocols.c:2192
+#: lib/protocols.c:2305
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Cannot look up hostname %s: %s\n"
 
-#: lib/protocols.c:1492 lib/protocols.c:1493 lib/protocols.c:1534
-#: lib/protocols.c:1535 lib/protocols.c:1598 lib/protocols.c:1605
-#: lib/protocols.c:1681 lib/protocols.c:1682 lib/protocols.c:1718
+#: lib/protocols.c:1516 lib/protocols.c:1517 lib/protocols.c:1558
+#: lib/protocols.c:1559 lib/protocols.c:1622 lib/protocols.c:1629
+#: lib/protocols.c:1705 lib/protocols.c:1706 lib/protocols.c:1742
 msgid "unknown"
 msgstr "unknown"
 
-#: lib/protocols.c:2186
+#: lib/protocols.c:2210
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Failed to create a socket: %s\n"
 
-#: lib/protocols.c:2192 lib/protocols.c:2295
+#: lib/protocols.c:2216 lib/protocols.c:2319
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Trying %s:%d\n"
 
-#: lib/protocols.c:2197 lib/protocols.c:2302
+#: lib/protocols.c:2221 lib/protocols.c:2326
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Cannot connect to %s: %s\n"
 
-#: lib/protocols.c:2235 lib/rfc959.c:639
+#: lib/protocols.c:2259 lib/rfc959.c:639
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Failed to create a IPv4 socket: %s\n"
 
-#: lib/protocols.c:2259 lib/sshv2.c:987
+#: lib/protocols.c:2283 lib/sshv2.c:987
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr "Cannot look up service name %s/tcp. Please check your services file\n"
 
-#: lib/protocols.c:2318 lib/protocols.c:2958 lib/rfc959.c:648 lib/rfc959.c:803
+#: lib/protocols.c:2342 lib/protocols.c:2982 lib/rfc959.c:648 lib/rfc959.c:803
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Error: Cannot set close on exec flag: %s\n"
 
-#: lib/protocols.c:2325
+#: lib/protocols.c:2349
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Connected to %s:%d\n"
 
-#: lib/protocols.c:2556 lib/protocols.c:2631 lib/sshv2.c:355
+#: lib/protocols.c:2580 lib/protocols.c:2655 lib/sshv2.c:355
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Connection to %s timed out\n"
 
-#: lib/protocols.c:2699
+#: lib/protocols.c:2723
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Cannot get socket flags: %s\n"
 
-#: lib/protocols.c:2713
+#: lib/protocols.c:2737
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Cannot set socket to non-blocking: %s\n"
 
-#: lib/protocols.c:2848
+#: lib/protocols.c:2872
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 
-#: lib/protocols.c:2856
+#: lib/protocols.c:2880
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
@@ -1241,7 +1250,7 @@ msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
 #: lib/sshv2.c:609 src/gtk/bookmarks.c:1020 src/gtk/bookmarks.c:1273
-#: src/gtk/chmod_dialog.c:253 src/gtk/gtkui_transfer.c:361
+#: src/gtk/chmod_dialog.c:253 src/gtk/gtkui_transfer.c:366
 #: src/gtk/misc-gtk.c:982 src/gtk/options_dialog.c:1109
 #: src/gtk/options_dialog.c:1313
 msgid "OK"
@@ -1874,7 +1883,7 @@ msgid "Log in as ANONYMOUS"
 msgstr "Log in as ANONYMOUS"
 
 #: src/gtk/bookmarks.c:1031 src/gtk/bookmarks.c:1284
-#: src/gtk/chmod_dialog.c:265 src/gtk/gtkui_transfer.c:373
+#: src/gtk/chmod_dialog.c:265 src/gtk/gtkui_transfer.c:378
 #: src/gtk/options_dialog.c:1120 src/gtk/options_dialog.c:1324
 msgid "  Cancel  "
 msgstr "  Cancel  "
@@ -2450,17 +2459,17 @@ msgstr "Skipped"
 msgid "Waiting..."
 msgstr "Waiting..."
 
-#: src/gtk/gtkui_transfer.c:124 src/gtk/gtkui_transfer.c:299
-#: src/gtk/gtkui_transfer.c:326
+#: src/gtk/gtkui_transfer.c:124 src/gtk/gtkui_transfer.c:301
+#: src/gtk/gtkui_transfer.c:331
 msgid "Overwrite"
 msgstr "Overwrite"
 
-#: src/gtk/gtkui_transfer.c:131 src/gtk/gtkui_transfer.c:305
-#: src/gtk/gtkui_transfer.c:332
+#: src/gtk/gtkui_transfer.c:131 src/gtk/gtkui_transfer.c:307
+#: src/gtk/gtkui_transfer.c:337
 msgid "Resume"
 msgstr "Resume"
 
-#: src/gtk/gtkui_transfer.c:138 src/gtk/gtkui_transfer.c:302
+#: src/gtk/gtkui_transfer.c:138 src/gtk/gtkui_transfer.c:304
 msgid "Skip"
 msgstr "Skip"
 
@@ -2481,19 +2490,19 @@ msgstr ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
 
-#: src/gtk/gtkui_transfer.c:308
+#: src/gtk/gtkui_transfer.c:310
 msgid "Error"
 msgstr "Error"
 
-#: src/gtk/gtkui_transfer.c:338
+#: src/gtk/gtkui_transfer.c:343
 msgid "Skip File"
 msgstr "Skip File"
 
-#: src/gtk/gtkui_transfer.c:348
+#: src/gtk/gtkui_transfer.c:353
 msgid "Select All"
 msgstr "Select All"
 
-#: src/gtk/gtkui_transfer.c:354
+#: src/gtk/gtkui_transfer.c:359
 msgid "Deselect All"
 msgstr "Deselect All"
 
