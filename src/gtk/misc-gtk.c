@@ -953,7 +953,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   switch (okbutton)
     {
       case gftp_dialog_button_ok:
-        yes_text = GTK_STOCK_OK;
+        yes_text = _("OK");
         break;
       case gftp_dialog_button_create:
         yes_text = _("Add");
