@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-11 12:38-0400\n"
-"PO-Revision-Date: 2004-05-09 12:44-0300\n"
+"POT-Creation-Date: 2004-05-29 19:35+0200\n"
+"PO-Revision-Date: 2004-05-30 09:38-0300\n"
 "Last-Translator: Raphael Higino <raphaelh@uai.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -50,17 +50,17 @@ msgstr "Erro ao fechar descritor de arquivo: %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Erro: Impossível procurar no arquivo %s: %s\n"
 
-#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2766
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2806
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Erro: Impossível abrir arquivo local %s: %s\n"
 
-#: lib/config_file.c:134 lib/protocols.c:2471 lib/sslcommon.c:480
+#: lib/config_file.c:134 lib/protocols.c:2510 lib/sslcommon.c:480
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Erro: Impossível escrever no socket: %s\n"
 
-#: lib/config_file.c:142 lib/protocols.c:2399 lib/sshv2.c:316
+#: lib/config_file.c:142 lib/protocols.c:2438 lib/sshv2.c:316
 #: lib/sslcommon.c:434
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -127,6 +127,7 @@ msgstr ""
 "Erro do gFTP: Impossível encontrar arquivo de configuração principal %s\n"
 
 #: lib/config_file.c:603
+#, c-format
 msgid "Did you do a make install?\n"
 msgstr "Foi feito um 'make install'?\n"
 
@@ -287,10 +288,12 @@ msgid "local filesystem"
 msgstr "sistema arquivos local"
 
 #: lib/misc.c:418
+#, c-format
 msgid "usage: gftp "
 msgstr "uso: gftp "
 
 #: lib/misc.c:418 src/uicommon/gftpui.c:624
+#, c-format
 msgid "\n"
 msgstr "\n"
 
@@ -383,158 +386,168 @@ msgstr ""
 "tentar converter a mensagem remota para o local atual"
 
 #: lib/options.h:53
+msgid "Remote LC_TIME:"
+msgstr "LC_TIME remoto:"
+
+#: lib/options.h:55
+msgid ""
+"This is the value of LC_TIME for the remote site. This is so that dates can "
+"be parsed properly in the directory listings."
+msgstr "Esse é o valor de LC_TIME para o site remoto. Esse valor serve para que datas possam ser analisadas corretamente na lista do diretório."
+
+#: lib/options.h:57
 msgid "Cache TTL:"
 msgstr "Cache TTL:"
 
-#: lib/options.h:56
+#: lib/options.h:60
 msgid "The number of seconds to keep cache entries before they expire."
 msgstr ""
 "Número de segundos para manter entradas de cache antes que elas expirem."
 
-#: lib/options.h:59
+#: lib/options.h:63
 msgid "Append file transfers"
 msgstr "Acrescentar transferências de arquivos"
 
-#: lib/options.h:61
+#: lib/options.h:65
 msgid "Append new file transfers onto existing ones"
 msgstr "Acrescenta novas transferências de arquivos às existentes"
 
-#: lib/options.h:62
+#: lib/options.h:66
 msgid "Do one transfer at a time"
 msgstr "Fazer uma transferência por vez"
 
-#: lib/options.h:64
+#: lib/options.h:68
 msgid "Do only one transfer at a time?"
 msgstr "Fazer apenas uma transferência por vez?"
 
-#: lib/options.h:65
+#: lib/options.h:69
 msgid "Overwrite by Default"
 msgstr "Sobrescrever por Padrão"
 
-#: lib/options.h:68
+#: lib/options.h:72
 msgid "Overwrite files by default or set to resume file transfers"
 msgstr ""
 "Sobrescreve arquivos por padrão ou define para retomar transferências de "
 "arquivos"
 
-#: lib/options.h:70
+#: lib/options.h:74
 msgid "Preserve file permissions"
 msgstr "Preservar permissões do arquivo"
 
-#: lib/options.h:73
+#: lib/options.h:77
 msgid "Preserve file permissions of transfered files"
 msgstr "Preserva as permissões de arquivos transferidos"
 
-#: lib/options.h:75
+#: lib/options.h:79
 msgid "Refresh after each file transfer"
 msgstr "Atualizar após cada transferência de arquivo"
 
-#: lib/options.h:78
+#: lib/options.h:82
 msgid "Refresh the listbox after each file is transfered"
 msgstr "Atualiza a lista após cada transferência de arquivo"
 
-#: lib/options.h:80
+#: lib/options.h:84
 msgid "Sort directories first"
 msgstr "Ordenar diretórios primeiro"
 
-#: lib/options.h:83
+#: lib/options.h:87
 msgid "Put the directories first then the files"
 msgstr "Coloca os diretórios antes dos arquivos"
 
-#: lib/options.h:84
+#: lib/options.h:88
 msgid "Show hidden files"
 msgstr "Mostrar arquivos ocultos"
 
-#: lib/options.h:87
+#: lib/options.h:91
 msgid "Show hidden files in the listboxes"
 msgstr "Mostra arquivos ocultos nas listagens"
 
-#: lib/options.h:88
+#: lib/options.h:92
 msgid "Show transfer status in title"
 msgstr "Mostrar o status da transferência no título"
 
-#: lib/options.h:90
+#: lib/options.h:94
 msgid "Show the file transfer status in the titlebar"
 msgstr "Mostra o status da transferência na barra de titulo"
 
-#: lib/options.h:91
+#: lib/options.h:95
 msgid "Start file transfers"
 msgstr "Iniciar transferências de arquivos"
 
-#: lib/options.h:93
+#: lib/options.h:97
 msgid "Automatically start the file transfers when they get queued"
 msgstr ""
 "Inicia automaticamente as transferências de arquivos quando elas entram na "
 "fila"
 
-#: lib/options.h:95
+#: lib/options.h:99
 msgid "Allow manual commands in GUI"
 msgstr "Permitir comandos manuais na interface gráfica"
 
-#: lib/options.h:97
+#: lib/options.h:101
 msgid ""
 "Allow entering manual commands in the GUI (functions like the text port)"
 msgstr ""
 "Permite a entrada manual de comandos na interface gráfica (funções como a "
 "versão em texto)"
 
-#: lib/options.h:99 src/gtk/options_dialog.c:1051
-#: src/gtk/options_dialog.c:1144
+#: lib/options.h:103 src/gtk/options_dialog.c:1049
+#: src/gtk/options_dialog.c:1142
 msgid "Network"
 msgstr "Rede"
 
-#: lib/options.h:101
+#: lib/options.h:105
 msgid "Network timeout:"
 msgstr "Tempo de expiração de rede:"
 
-#: lib/options.h:104
+#: lib/options.h:108
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "Tempo de expiração ao aguardar por entrada/saída da rede. Esta NÃO é uma "
 "expiração por inatividade."
 
-#: lib/options.h:106
+#: lib/options.h:110
 msgid "Connect retries:"
 msgstr "Retentativas de conexão:"
 
-#: lib/options.h:109
+#: lib/options.h:113
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
 msgstr ""
 "O número de retentativas automáticas a fazer. Defina como 0 para retentar "
 "indefinidamente"
 
-#: lib/options.h:111
+#: lib/options.h:115
 msgid "Retry sleep time:"
 msgstr "Espera entre retentativas:"
 
-#: lib/options.h:114
+#: lib/options.h:118
 msgid "The number of seconds to wait between retries"
 msgstr "O número de segundos a aguardar entre retentativas"
 
-#: lib/options.h:115
+#: lib/options.h:119
 msgid "Max KB/S:"
 msgstr "Máx KB/s:"
 
-#: lib/options.h:118
+#: lib/options.h:122
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr ""
 "O máximo de KB/s que uma transferência de arquivo pode ter. (Defina como 0 "
 "para desabilitar)"
 
-#: lib/options.h:121
+#: lib/options.h:125
 msgid "Default Protocol:"
 msgstr "Protocolo Padrão:"
 
-#: lib/options.h:123
+#: lib/options.h:127
 msgid "This specifies the default protocol to use"
 msgstr "Especifica o protocolo padrão a ser usado"
 
-#: lib/options.h:125 lib/options.h:128
+#: lib/options.h:129 lib/options.h:132
 msgid "Enable IPv6 support"
 msgstr "Habilitar suporte a IPv6"
 
-#: lib/options.h:133
+#: lib/options.h:137
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -542,27 +555,27 @@ msgstr ""
 "Define o que vai acontecer ao dar um clique duplo sobre um arquivo na caixa "
 "de lista de arquivos. 0=Ver arquivo 1=Editar arquivo 2=Transferir arquivo"
 
-#: lib/options.h:136
+#: lib/options.h:140
 msgid "The default width of the local files listbox"
 msgstr "A largura padrão da lista de arquivos locais"
 
-#: lib/options.h:139
+#: lib/options.h:143
 msgid "The default width of the remote files listbox"
 msgstr "A largura padrão da lista de arquivos remotos"
 
-#: lib/options.h:142
+#: lib/options.h:146
 msgid "The default height of the local/remote files listboxes"
 msgstr "A altura padrão da lista de arquivos locais/remotos"
 
-#: lib/options.h:145
+#: lib/options.h:149
 msgid "The default height of the transfer listbox"
 msgstr "A altura padrão da lista de transferência"
 
-#: lib/options.h:148
+#: lib/options.h:152
 msgid "The default height of the logging window"
 msgstr "A altura padrão da janela de log"
 
-#: lib/options.h:151
+#: lib/options.h:155
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -570,15 +583,15 @@ msgstr ""
 "A largura da coluna de nome de arquivo na janela de transferência. Defina "
 "como 0 para que a coluna se redimensione automaticamente."
 
-#: lib/options.h:155 lib/options.h:161
+#: lib/options.h:159 lib/options.h:165
 msgid "The default column to sort by"
 msgstr "A coluna padrão pela qual ordernar"
 
-#: lib/options.h:158 lib/options.h:164
+#: lib/options.h:162 lib/options.h:168
 msgid "Sort ascending or descending"
 msgstr "Ordenação ascendente ou descendente"
 
-#: lib/options.h:168 lib/options.h:186
+#: lib/options.h:172 lib/options.h:190
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -587,7 +600,7 @@ msgstr ""
 "0 para que a coluna se redimensione automaticamente. Defina como -1 para "
 "desabilitar esta coluna"
 
-#: lib/options.h:171 lib/options.h:189
+#: lib/options.h:175 lib/options.h:193
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -596,7 +609,7 @@ msgstr ""
 "que a coluna se redimensione automaticamente. Defina como -1 para "
 "desabilitar esta coluna"
 
-#: lib/options.h:174 lib/options.h:192
+#: lib/options.h:178 lib/options.h:196
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -605,7 +618,7 @@ msgstr ""
 "que a coluna se redimensione automaticamente. Defina como -1 para "
 "desabilitar esta coluna"
 
-#: lib/options.h:177 lib/options.h:195
+#: lib/options.h:181 lib/options.h:199
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -614,7 +627,7 @@ msgstr ""
 "que a coluna se redimensione automaticamente. Definir como -1 para "
 "desabilitar esta coluna"
 
-#: lib/options.h:180 lib/options.h:198
+#: lib/options.h:184 lib/options.h:202
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -623,7 +636,7 @@ msgstr ""
 "coluna se redimensione automaticamente. Defina como -1 para desabilitar esta "
 "coluna"
 
-#: lib/options.h:183 lib/options.h:201
+#: lib/options.h:187 lib/options.h:205
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -632,158 +645,168 @@ msgstr ""
 "que a coluna se redimensione automaticamente. Defina como -1 para "
 "desabilitar esta coluna"
 
-#: lib/options.h:204
+#: lib/options.h:208
 msgid "The color of the commands that are sent to the server"
 msgstr "A cor dos comandos que são enviados ao servidor"
 
-#: lib/options.h:207
+#: lib/options.h:211
 msgid "The color of the commands that are received from the server"
 msgstr "A cor dos comandos que são recebidos do servidor"
 
-#: lib/options.h:210
+#: lib/options.h:214
 msgid "The color of the error messages"
 msgstr "A cor das mensagens de erro"
 
-#: lib/options.h:213
+#: lib/options.h:217
 msgid "The color of the rest of the log messages"
 msgstr "A cor do restante das mensagens de log"
 
-#: lib/options.h:219 lib/rfc959.c:40
+#: lib/options.h:223 lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:222 lib/options.h:224
+#: lib/options.h:226 lib/options.h:228
 msgid "FTPS"
 msgstr "FTPS"
 
-#: lib/options.h:227 lib/rfc2068.c:27
+#: lib/options.h:231 lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:230 lib/options.h:232
+#: lib/options.h:234 lib/options.h:236
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: lib/options.h:235
+#: lib/options.h:239
 msgid "Local"
 msgstr "Local"
 
-#: lib/options.h:237
+#: lib/options.h:241
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:239 src/gtk/bookmarks.c:883
+#: lib/options.h:243 src/gtk/bookmarks.c:883
 msgid "Bookmark"
 msgstr "Marcador"
 
-#: lib/protocols.c:221
+#: lib/protocols.c:222
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
-msgstr "Transferência de arquivo acelerada para %.2f KB/s\n"
+msgstr "A transferência do arquivo será acelerada para %.2f KB/s\n"
 
-#: lib/protocols.c:354
+#: lib/protocols.c:362
 #, c-format
-msgid "Loading directory listing %s from cache\n"
-msgstr "Carregando lista de diretório %s do cache\n"
+msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
+msgstr "Erro ao configurar LC_TIME como '%s'. Retornando para '%s'\n"
 
-#: lib/protocols.c:555
+#: lib/protocols.c:370
+#, c-format
+msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
+msgstr "Carregando lista do diretório %s do cache (LC_TIME=%s)\n"
+
+#: lib/protocols.c:380
+#, c-format
+msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
+msgstr "Carregando lista do diretório %s do servidor (LC_TIME=%s)\n"
+
+#: lib/protocols.c:576
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Erro: Impossível escrever no cache: %s\n"
 
-#: lib/protocols.c:587
+#: lib/protocols.c:608
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Erro: Impossível encontrar marcador %s\n"
 
-#: lib/protocols.c:594
+#: lib/protocols.c:615
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Erro de Marcador: O marcador %s não possui um nome de máquina\n"
 
-#: lib/protocols.c:703
+#: lib/protocols.c:724
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "O protocolo '%s' atualmente não é suportado.\n"
 
-#: lib/protocols.c:1047 lib/protocols.c:1062 lib/protocols.c:1993
-#: lib/protocols.c:2100
+#: lib/protocols.c:1068 lib/protocols.c:1083 lib/protocols.c:2032
+#: lib/protocols.c:2139
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Procurando %s\n"
 
-#: lib/protocols.c:1053 lib/protocols.c:1068 lib/protocols.c:1998
-#: lib/protocols.c:2105
+#: lib/protocols.c:1074 lib/protocols.c:1089 lib/protocols.c:2037
+#: lib/protocols.c:2144
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Impossível encontrar nome de máquina %s: %s\n"
 
-#: lib/protocols.c:1365 lib/protocols.c:1366 lib/protocols.c:1407
-#: lib/protocols.c:1408 lib/protocols.c:1468 lib/protocols.c:1475
-#: lib/protocols.c:1554 lib/protocols.c:1555 lib/protocols.c:1589
+#: lib/protocols.c:1386 lib/protocols.c:1387 lib/protocols.c:1428
+#: lib/protocols.c:1429 lib/protocols.c:1489 lib/protocols.c:1496
+#: lib/protocols.c:1575 lib/protocols.c:1576 lib/protocols.c:1610
 msgid "unknown"
 msgstr "desconhecido"
 
-#: lib/protocols.c:2016
+#: lib/protocols.c:2055
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Falha ao criar um socket: %s\n"
 
-#: lib/protocols.c:2022 lib/protocols.c:2119
+#: lib/protocols.c:2061 lib/protocols.c:2158
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Tentando %s:%d\n"
 
-#: lib/protocols.c:2027 lib/protocols.c:2126
+#: lib/protocols.c:2066 lib/protocols.c:2165
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Impossível conectar a %s: %s\n"
 
-#: lib/protocols.c:2059 lib/rfc959.c:628
+#: lib/protocols.c:2098 lib/rfc959.c:628
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Falha ao criar socket IPv4: %s\n"
 
-#: lib/protocols.c:2083 lib/sshv2.c:947
+#: lib/protocols.c:2122 lib/sshv2.c:947
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Impossível encontrar nome de serviço %s/tcp. Verifique o seu arquivo de "
 "serviços\n"
 
-#: lib/protocols.c:2142 lib/protocols.c:2775 lib/rfc959.c:637 lib/rfc959.c:791
+#: lib/protocols.c:2181 lib/protocols.c:2815 lib/rfc959.c:637 lib/rfc959.c:791
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Erro: Impossível definir a opção fechar ao executar: %s\n"
 
-#: lib/protocols.c:2149
+#: lib/protocols.c:2188
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Conectado a %s:%d\n"
 
-#: lib/protocols.c:2379 lib/protocols.c:2450 lib/sshv2.c:307
+#: lib/protocols.c:2418 lib/protocols.c:2489 lib/sshv2.c:307
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Conexão a %s expirou\n"
 
-#: lib/protocols.c:2519
+#: lib/protocols.c:2558
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Impossível obter opções do socket: %s\n"
 
-#: lib/protocols.c:2533
+#: lib/protocols.c:2572
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Impossível definir socket como não-bloqueante: %s\n"
 
-#: lib/protocols.c:2669
+#: lib/protocols.c:2709
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Erro: Servidor %s remoto desconectou. Atingido nº máximo de retentativas... "
 "desistindo\n"
 
-#: lib/protocols.c:2677
+#: lib/protocols.c:2717
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Erro: Servidor %s remoto desconectou. Reconexão em %d segundos\n"
@@ -1219,8 +1242,8 @@ msgstr "%d: Utime %s %d\n"
 
 #: lib/sshv2.c:567 src/gtk/bookmarks.c:1042 src/gtk/bookmarks.c:1296
 #: src/gtk/chmod_dialog.c:260 src/gtk/gtkui_transfer.c:361
-#: src/gtk/misc-gtk.c:970 src/gtk/options_dialog.c:1109
-#: src/gtk/options_dialog.c:1311
+#: src/gtk/misc-gtk.c:970 src/gtk/options_dialog.c:1107
+#: src/gtk/options_dialog.c:1309
 msgid "OK"
 msgstr "OK"
 
@@ -1746,7 +1769,7 @@ msgstr "Impossível baixar %s de %s\n"
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "%s transferido com sucesso a %.2f KB/s\n"
 
-#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:200 src/gtk/gftp-gtk.c:1015
+#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:199 src/gtk/gftp-gtk.c:1014
 #: src/gtk/misc-gtk.c:478 src/gtk/misc-gtk.c:486
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
@@ -1864,11 +1887,11 @@ msgstr "Iniciar sessão como ANÔNIMO"
 
 #: src/gtk/bookmarks.c:1053 src/gtk/bookmarks.c:1307
 #: src/gtk/chmod_dialog.c:272 src/gtk/gtkui_transfer.c:373
-#: src/gtk/options_dialog.c:1120 src/gtk/options_dialog.c:1322
+#: src/gtk/options_dialog.c:1118 src/gtk/options_dialog.c:1320
 msgid "  Cancel  "
 msgstr "  Cancelar  "
 
-#: src/gtk/bookmarks.c:1063 src/gtk/options_dialog.c:1333
+#: src/gtk/bookmarks.c:1063 src/gtk/options_dialog.c:1331
 msgid "Apply"
 msgstr "Aplicar"
 
@@ -1937,7 +1960,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Adesivo"
 
-#: src/gtk/chmod_dialog.c:199 src/gtk/gftp-gtk.c:699
+#: src/gtk/chmod_dialog.c:199 src/gtk/gftp-gtk.c:698
 msgid "User"
 msgstr "Usuário"
 
@@ -1956,7 +1979,7 @@ msgstr "Escrever"
 msgid "Execute"
 msgstr "Executar"
 
-#: src/gtk/chmod_dialog.c:219 src/gtk/gftp-gtk.c:700
+#: src/gtk/chmod_dialog.c:219 src/gtk/gftp-gtk.c:699
 msgid "Group"
 msgstr "Grupo"
 
@@ -1973,24 +1996,24 @@ msgstr "Tem certeza que deseja excluir estes %ld arquivos e %ld diretórios"
 msgid "Delete Files/Directories"
 msgstr "Excluir Arquivos/Diretórios"
 
-#: src/gtk/delete_dialog.c:176 src/gtk/options_dialog.c:1194
+#: src/gtk/delete_dialog.c:176 src/gtk/options_dialog.c:1192
 msgid "Delete"
 msgstr "Excluir"
 
-#: src/gtk/dnd.c:146 src/gtk/dnd.c:233
-msgid "Drag-N-Drop"
-msgstr "Arrastar-E-Soltar"
-
-#: src/gtk/dnd.c:255
+#: src/gtk/dnd.c:128 src/gtk/dnd.c:260
 #, c-format
 msgid "Received URL %s\n"
 msgstr "Recebida URL %s\n"
 
-#: src/gtk/gftp-gtk.c:113
+#: src/gtk/dnd.c:151 src/gtk/dnd.c:238
+msgid "Drag-N-Drop"
+msgstr "Arrastar-E-Soltar"
+
+#: src/gtk/gftp-gtk.c:112
 msgid "Exit"
 msgstr "Sair"
 
-#: src/gtk/gftp-gtk.c:113
+#: src/gtk/gftp-gtk.c:112
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
@@ -1998,371 +2021,371 @@ msgstr ""
 "Existem transferências de arquivos em progresso.\n"
 "Tem certeza que deseja sair?"
 
-#: src/gtk/gftp-gtk.c:185
+#: src/gtk/gftp-gtk.c:184
 msgid "Connect via URL"
 msgstr "Conectar via URL"
 
-#: src/gtk/gftp-gtk.c:185
+#: src/gtk/gftp-gtk.c:184
 msgid "Enter a URL to connect to"
 msgstr "Digite a URL à qual se conectar"
 
-#: src/gtk/gftp-gtk.c:201
+#: src/gtk/gftp-gtk.c:200
 msgid "OpenURL"
 msgstr "AbrirURL"
 
-#: src/gtk/gftp-gtk.c:224
+#: src/gtk/gftp-gtk.c:223
 msgid "/_FTP"
 msgstr "/_FTP"
 
-#: src/gtk/gftp-gtk.c:225
+#: src/gtk/gftp-gtk.c:224
 msgid "/FTP/tearoff"
 msgstr "/FTP/destacar"
 
-#: src/gtk/gftp-gtk.c:226
+#: src/gtk/gftp-gtk.c:225
 msgid "/FTP/Window 1"
 msgstr "/FTP/Janela 1"
 
-#: src/gtk/gftp-gtk.c:227
+#: src/gtk/gftp-gtk.c:226
 msgid "/FTP/Window 2"
 msgstr "/FTP/Janela 2"
 
-#: src/gtk/gftp-gtk.c:228 src/gtk/gftp-gtk.c:231 src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:227 src/gtk/gftp-gtk.c:230 src/gtk/gftp-gtk.c:233
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
 
-#: src/gtk/gftp-gtk.c:229
+#: src/gtk/gftp-gtk.c:228
 msgid "/FTP/Ascii"
 msgstr "/FTP/ASCII"
 
-#: src/gtk/gftp-gtk.c:230
+#: src/gtk/gftp-gtk.c:229
 msgid "/FTP/Binary"
 msgstr "/FTP/Binário"
 
-#: src/gtk/gftp-gtk.c:232
+#: src/gtk/gftp-gtk.c:231
 msgid "/FTP/_Options..."
 msgstr "/FTP/_Opções..."
 
-#: src/gtk/gftp-gtk.c:235
+#: src/gtk/gftp-gtk.c:234
 msgid "/FTP/_Quit"
 msgstr "/FTP/_Sair"
 
-#: src/gtk/gftp-gtk.c:236
+#: src/gtk/gftp-gtk.c:235
 msgid "/_Local"
 msgstr "/_Local"
 
-#: src/gtk/gftp-gtk.c:237
+#: src/gtk/gftp-gtk.c:236
 msgid "/Local/tearoff"
 msgstr "/Local/destacar"
 
-#: src/gtk/gftp-gtk.c:238
+#: src/gtk/gftp-gtk.c:237
 msgid "/Local/Open _URL..."
 msgstr "/Local/Abrir _URL..."
 
-#: src/gtk/gftp-gtk.c:239
+#: src/gtk/gftp-gtk.c:238
 msgid "/Local/Disconnect"
 msgstr "/Local/Desconectar"
 
-#: src/gtk/gftp-gtk.c:240 src/gtk/gftp-gtk.c:246
+#: src/gtk/gftp-gtk.c:239 src/gtk/gftp-gtk.c:245
 msgid "/Local/sep"
 msgstr "/Local/sep"
 
-#: src/gtk/gftp-gtk.c:241
+#: src/gtk/gftp-gtk.c:240
 msgid "/Local/Change Filespec..."
 msgstr "/Local/Alterar Filespec..."
 
-#: src/gtk/gftp-gtk.c:242
+#: src/gtk/gftp-gtk.c:241
 msgid "/Local/Show selected"
 msgstr "/Local/Mostrar selecionados"
 
-#: src/gtk/gftp-gtk.c:243
+#: src/gtk/gftp-gtk.c:242
 msgid "/Local/Select All"
 msgstr "/Local/Selecionar Tudo"
 
-#: src/gtk/gftp-gtk.c:244
+#: src/gtk/gftp-gtk.c:243
 msgid "/Local/Select All Files"
 msgstr "/Local/Selecionar Todos Arquivos"
 
-#: src/gtk/gftp-gtk.c:245
+#: src/gtk/gftp-gtk.c:244
 msgid "/Local/Deselect All"
 msgstr "/Local/Desselecionar Tudo"
 
-#: src/gtk/gftp-gtk.c:247
+#: src/gtk/gftp-gtk.c:246
 msgid "/Local/Save Directory Listing..."
 msgstr "/Local/Salvar Lista do Diretório..."
 
-#: src/gtk/gftp-gtk.c:248
+#: src/gtk/gftp-gtk.c:247
 msgid "/Local/Send SITE Command..."
 msgstr "/Local/Enviar Comando SITE..."
 
-#: src/gtk/gftp-gtk.c:249
+#: src/gtk/gftp-gtk.c:248
 msgid "/Local/Change Directory"
 msgstr "/Local/Alterar Diretório"
 
-#: src/gtk/gftp-gtk.c:250
+#: src/gtk/gftp-gtk.c:249
 msgid "/Local/Chmod..."
 msgstr "/Local/Chmod..."
 
-#: src/gtk/gftp-gtk.c:251
+#: src/gtk/gftp-gtk.c:250
 msgid "/Local/Make Directory..."
 msgstr "/Local/Criar Diretório..."
 
-#: src/gtk/gftp-gtk.c:252
+#: src/gtk/gftp-gtk.c:251
 msgid "/Local/Rename..."
 msgstr "/Local/Renomear..."
 
-#: src/gtk/gftp-gtk.c:253
+#: src/gtk/gftp-gtk.c:252
 msgid "/Local/Delete..."
 msgstr "/Local/Excluir..."
 
-#: src/gtk/gftp-gtk.c:254
+#: src/gtk/gftp-gtk.c:253
 msgid "/Local/Edit..."
 msgstr "/Local/Editar..."
 
-#: src/gtk/gftp-gtk.c:255
+#: src/gtk/gftp-gtk.c:254
 msgid "/Local/View..."
 msgstr "/Local/Ver..."
 
-#: src/gtk/gftp-gtk.c:256
+#: src/gtk/gftp-gtk.c:255
 msgid "/Local/Refresh"
 msgstr "/Local/Atualizar"
 
-#: src/gtk/gftp-gtk.c:257
+#: src/gtk/gftp-gtk.c:256
 msgid "/_Remote"
 msgstr "/_Remoto"
 
-#: src/gtk/gftp-gtk.c:258
+#: src/gtk/gftp-gtk.c:257
 msgid "/Remote/tearoff"
 msgstr "/Remoto/destacar"
 
-#: src/gtk/gftp-gtk.c:259
+#: src/gtk/gftp-gtk.c:258
 msgid "/Remote/Open _URL..."
 msgstr "/Remoto/Abrir _URL..."
 
-#: src/gtk/gftp-gtk.c:261
+#: src/gtk/gftp-gtk.c:260
 msgid "/Remote/Disconnect"
 msgstr "/Remoto/Desconectar"
 
-#: src/gtk/gftp-gtk.c:263 src/gtk/gftp-gtk.c:269
+#: src/gtk/gftp-gtk.c:262 src/gtk/gftp-gtk.c:268
 msgid "/Remote/sep"
 msgstr "/Remoto/sep"
 
-#: src/gtk/gftp-gtk.c:264
+#: src/gtk/gftp-gtk.c:263
 msgid "/Remote/Change Filespec..."
 msgstr "/Remoto/Alterar Filespec..."
 
-#: src/gtk/gftp-gtk.c:265
+#: src/gtk/gftp-gtk.c:264
 msgid "/Remote/Show selected"
 msgstr "/Remoto/Mostrar selecionados"
 
-#: src/gtk/gftp-gtk.c:266
+#: src/gtk/gftp-gtk.c:265
 msgid "/Remote/Select All"
 msgstr "/Remoto/Selecionar Tudo"
 
-#: src/gtk/gftp-gtk.c:267
+#: src/gtk/gftp-gtk.c:266
 msgid "/Remote/Select All Files"
 msgstr "/Remoto/Selecionar Todos Arquivos"
 
-#: src/gtk/gftp-gtk.c:268
+#: src/gtk/gftp-gtk.c:267
 msgid "/Remote/Deselect All"
 msgstr "/Remoto/Desselecionar Tudo"
 
-#: src/gtk/gftp-gtk.c:270
+#: src/gtk/gftp-gtk.c:269
 msgid "/Remote/Save Directory Listing..."
 msgstr "/Remoto/Gravar Lista do Diretório..."
 
-#: src/gtk/gftp-gtk.c:271
+#: src/gtk/gftp-gtk.c:270
 msgid "/Remote/Send SITE Command..."
 msgstr "/Remoto/Enviar Comando SITE..."
 
-#: src/gtk/gftp-gtk.c:272
+#: src/gtk/gftp-gtk.c:271
 msgid "/Remote/Change Directory"
 msgstr "/Remoto/Alterar Diretório"
 
-#: src/gtk/gftp-gtk.c:273
+#: src/gtk/gftp-gtk.c:272
 msgid "/Remote/Chmod..."
 msgstr "/Remoto/Chmod..."
 
-#: src/gtk/gftp-gtk.c:274
+#: src/gtk/gftp-gtk.c:273
 msgid "/Remote/Make Directory..."
 msgstr "/Remoto/Criar Diretório..."
 
-#: src/gtk/gftp-gtk.c:275
+#: src/gtk/gftp-gtk.c:274
 msgid "/Remote/Rename..."
 msgstr "/Remoto/Renomear..."
 
-#: src/gtk/gftp-gtk.c:276
+#: src/gtk/gftp-gtk.c:275
 msgid "/Remote/Delete..."
 msgstr "/Remoto/Excluir..."
 
-#: src/gtk/gftp-gtk.c:277
+#: src/gtk/gftp-gtk.c:276
 msgid "/Remote/Edit..."
 msgstr "/Remoto/Editar..."
 
-#: src/gtk/gftp-gtk.c:278
+#: src/gtk/gftp-gtk.c:277
 msgid "/Remote/View..."
 msgstr "/Remoto/Ver..."
 
-#: src/gtk/gftp-gtk.c:279
+#: src/gtk/gftp-gtk.c:278
 msgid "/Remote/Refresh"
 msgstr "/Remoto/Atualizar"
 
-#: src/gtk/gftp-gtk.c:280
+#: src/gtk/gftp-gtk.c:279
 msgid "/_Bookmarks"
 msgstr "/_Marcadores"
 
-#: src/gtk/gftp-gtk.c:281
+#: src/gtk/gftp-gtk.c:280
 msgid "/Bookmarks/tearoff"
 msgstr "/Marcadores/destacar"
 
-#: src/gtk/gftp-gtk.c:282
+#: src/gtk/gftp-gtk.c:281
 msgid "/Bookmarks/Add bookmark"
 msgstr "/Marcadores/Adicionar marcador"
 
-#: src/gtk/gftp-gtk.c:284
+#: src/gtk/gftp-gtk.c:283
 msgid "/Bookmarks/Edit bookmarks"
 msgstr "/Marcadores/Editar marcadores"
 
-#: src/gtk/gftp-gtk.c:285
+#: src/gtk/gftp-gtk.c:284
 msgid "/Bookmarks/sep"
 msgstr "/Marcadores/sep"
 
-#: src/gtk/gftp-gtk.c:286
+#: src/gtk/gftp-gtk.c:285
 msgid "/_Transfers"
 msgstr "/_Transferências"
 
-#: src/gtk/gftp-gtk.c:287
+#: src/gtk/gftp-gtk.c:286
 msgid "/Transfers/tearoff"
 msgstr "/Transferências/destacar"
 
-#: src/gtk/gftp-gtk.c:288
+#: src/gtk/gftp-gtk.c:287
 msgid "/Transfers/Start Transfer"
 msgstr "/Transferências/Iniciar Transferência"
 
-#: src/gtk/gftp-gtk.c:289
+#: src/gtk/gftp-gtk.c:288
 msgid "/Transfers/Stop Transfer"
 msgstr "/Transferências/Parar Transferência"
 
-#: src/gtk/gftp-gtk.c:291 src/gtk/gftp-gtk.c:299
+#: src/gtk/gftp-gtk.c:290 src/gtk/gftp-gtk.c:298
 msgid "/Transfers/sep"
 msgstr "/Transferências/sep"
 
-#: src/gtk/gftp-gtk.c:292
+#: src/gtk/gftp-gtk.c:291
 msgid "/Transfers/Skip Current File"
 msgstr "/Transferências/Ignorar Arquivo Atual"
 
-#: src/gtk/gftp-gtk.c:293
+#: src/gtk/gftp-gtk.c:292
 msgid "/Transfers/Remove File"
 msgstr "/Transferências/Remover Arquivo"
 
-#: src/gtk/gftp-gtk.c:295
+#: src/gtk/gftp-gtk.c:294
 msgid "/Transfers/Move File _Up"
 msgstr "/Transferências/Mover Arquivo A_cima"
 
-#: src/gtk/gftp-gtk.c:297
+#: src/gtk/gftp-gtk.c:296
 msgid "/Transfers/Move File _Down"
 msgstr "/Transferências/Mover Arquivo A_baixo"
 
-#: src/gtk/gftp-gtk.c:300
+#: src/gtk/gftp-gtk.c:299
 msgid "/Transfers/Retrieve Files"
 msgstr "/Transferências/Obter Arquivos"
 
-#: src/gtk/gftp-gtk.c:301
+#: src/gtk/gftp-gtk.c:300
 msgid "/Transfers/Put Files"
 msgstr "/Transferências/Colocar Arquivos"
 
-#: src/gtk/gftp-gtk.c:302
+#: src/gtk/gftp-gtk.c:301
 msgid "/L_ogging"
 msgstr "/L_og"
 
-#: src/gtk/gftp-gtk.c:303
+#: src/gtk/gftp-gtk.c:302
 msgid "/Logging/tearoff"
 msgstr "/Log/destacar"
 
-#: src/gtk/gftp-gtk.c:304
+#: src/gtk/gftp-gtk.c:303
 msgid "/Logging/Clear"
 msgstr "/Log/Limpar"
 
-#: src/gtk/gftp-gtk.c:305
+#: src/gtk/gftp-gtk.c:304
 msgid "/Logging/View log..."
 msgstr "/Log/Ver log..."
 
-#: src/gtk/gftp-gtk.c:306
+#: src/gtk/gftp-gtk.c:305
 msgid "/Logging/Save log..."
 msgstr "/Log/Salvar log..."
 
-#: src/gtk/gftp-gtk.c:307
+#: src/gtk/gftp-gtk.c:306
 msgid "/Tool_s"
 msgstr "/_Ferramentas"
 
-#: src/gtk/gftp-gtk.c:308
+#: src/gtk/gftp-gtk.c:307
 msgid "/Tools/tearoff"
 msgstr "/Ferramentas/destacar"
 
-#: src/gtk/gftp-gtk.c:309
+#: src/gtk/gftp-gtk.c:308
 msgid "/Tools/Compare Windows"
 msgstr "/Ferramentas/Comparar Janelas"
 
-#: src/gtk/gftp-gtk.c:310
+#: src/gtk/gftp-gtk.c:309
 msgid "/Tools/Clear Cache"
 msgstr "/Ferramentas/Limpar Cache"
 
-#: src/gtk/gftp-gtk.c:311
+#: src/gtk/gftp-gtk.c:310
 msgid "/_Help"
 msgstr "/Aj_uda"
 
-#: src/gtk/gftp-gtk.c:312
+#: src/gtk/gftp-gtk.c:311
 msgid "/Help/tearoff"
 msgstr "/Ajuda/destacar"
 
-#: src/gtk/gftp-gtk.c:313
+#: src/gtk/gftp-gtk.c:312
 msgid "/Help/About..."
 msgstr "/Ajuda/Sobre..."
 
-#: src/gtk/gftp-gtk.c:431
+#: src/gtk/gftp-gtk.c:430
 msgid "Host: "
 msgstr "Máquina: "
 
-#: src/gtk/gftp-gtk.c:449
+#: src/gtk/gftp-gtk.c:448
 msgid "Port: "
 msgstr "Porta: "
 
-#: src/gtk/gftp-gtk.c:467
+#: src/gtk/gftp-gtk.c:466
 msgid "User: "
 msgstr "Usuário: "
 
-#: src/gtk/gftp-gtk.c:485
+#: src/gtk/gftp-gtk.c:484
 msgid "Pass: "
 msgstr "Senha: "
 
-#: src/gtk/gftp-gtk.c:554
+#: src/gtk/gftp-gtk.c:553
 msgid "Command: "
 msgstr "Comando: "
 
-#: src/gtk/gftp-gtk.c:697 src/gtk/gftp-gtk.c:904 src/gtk/gtkui_transfer.c:216
+#: src/gtk/gftp-gtk.c:696 src/gtk/gftp-gtk.c:903 src/gtk/gtkui_transfer.c:216
 msgid "Filename"
 msgstr "Nome de arquivo"
 
-#: src/gtk/gftp-gtk.c:698
+#: src/gtk/gftp-gtk.c:697
 msgid "Size"
 msgstr "Tamanho"
 
-#: src/gtk/gftp-gtk.c:701
+#: src/gtk/gftp-gtk.c:700
 msgid "Date"
 msgstr "Data"
 
-#: src/gtk/gftp-gtk.c:702
+#: src/gtk/gftp-gtk.c:701
 msgid "Attribs"
 msgstr "Atributos"
 
-#: src/gtk/gftp-gtk.c:905
+#: src/gtk/gftp-gtk.c:904
 msgid "Progress"
 msgstr "Progresso"
 
-#: src/gtk/gftp-gtk.c:1016 src/gtk/misc-gtk.c:905 src/gtk/misc-gtk.c:979
+#: src/gtk/gftp-gtk.c:1015 src/gtk/misc-gtk.c:905 src/gtk/misc-gtk.c:979
 msgid "Connect"
 msgstr "Conectar"
 
-#: src/gtk/gftp-gtk.c:1046
+#: src/gtk/gftp-gtk.c:1045
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Erro: Você deve digitar uma máquina à qual se conectar\n"
 
@@ -2420,7 +2443,7 @@ msgstr "Servidor"
 msgid "Enter site-specific command"
 msgstr "Digite um comando específico do servidor"
 
-#: src/gtk/gtkui.c:409 src/gtk/menu-items.c:250
+#: src/gtk/gtkui.c:414 src/gtk/menu-items.c:250
 msgid "Chdir"
 msgstr "Chdir"
 
@@ -2601,7 +2624,7 @@ msgstr "%s: Você deve ter pelo menos um item selecionado\n"
 msgid "Change"
 msgstr "Alterar"
 
-#: src/gtk/misc-gtk.c:973 src/gtk/options_dialog.c:1180
+#: src/gtk/misc-gtk.c:973 src/gtk/options_dialog.c:1178
 msgid "Add"
 msgstr "Adicionar"
 
@@ -2639,35 +2662,35 @@ msgstr ""
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "Erro do gFTP: Impossível encontrar arquivo %s em %s ou %s\n"
 
-#: src/gtk/options_dialog.c:920
+#: src/gtk/options_dialog.c:918
 msgid "Edit Host"
 msgstr "Editar Máquina"
 
-#: src/gtk/options_dialog.c:920
+#: src/gtk/options_dialog.c:918
 msgid "Add Host"
 msgstr "Adicionar Máquina"
 
-#: src/gtk/options_dialog.c:952 src/gtk/options_dialog.c:1043
+#: src/gtk/options_dialog.c:950 src/gtk/options_dialog.c:1041
 msgid "Domain"
 msgstr "Domínio"
 
-#: src/gtk/options_dialog.c:972
+#: src/gtk/options_dialog.c:970
 msgid "Network Address"
 msgstr "Endereço de Rede"
 
-#: src/gtk/options_dialog.c:1005 src/gtk/options_dialog.c:1145
+#: src/gtk/options_dialog.c:1003 src/gtk/options_dialog.c:1143
 msgid "Netmask"
 msgstr "Máscara de Rede"
 
-#: src/gtk/options_dialog.c:1151
+#: src/gtk/options_dialog.c:1149
 msgid "Local Hosts"
 msgstr "Máquinas Locais"
 
-#: src/gtk/options_dialog.c:1187 src/gtk/view_dialog.c:105
+#: src/gtk/options_dialog.c:1185 src/gtk/view_dialog.c:105
 msgid "Edit"
 msgstr "Editar"
 
-#: src/gtk/options_dialog.c:1249 src/gtk/options_dialog.c:1254
+#: src/gtk/options_dialog.c:1247 src/gtk/options_dialog.c:1252
 msgid "Options"
 msgstr "Opções"
 
