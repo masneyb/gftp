@@ -26,7 +26,8 @@ static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
 
 gftp_window_data window1, window2, *other_wdata, *current_wdata;
 GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
-          * dlwdw, * protocol_menu, * optionmenu, * gftpui_command_widget;
+          * dlwdw, * protocol_menu, * optionmenu, * gftpui_command_widget,
+          * download_left_arrow, * upload_right_arrow;
 GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
 GtkTextMark * logwdw_textmark;
@@ -824,8 +825,7 @@ menu_mouse_click (GtkWidget * widget, GdkEventButton * event, gpointer data)
 static GtkWidget *
 CreateFTPWindows (GtkWidget * ui)
 {
-  GtkWidget *box, *dlbox, *winpane, *dlpane, *logpane, *mainvbox, *tempwid,
-            *button;
+  GtkWidget *box, *dlbox, *winpane, *dlpane, *logpane, *mainvbox, *tempwid;
   gftp_config_list_vars * tmplistvar;
   char *dltitles[2];
   intptr_t tmplookup;
@@ -877,11 +877,11 @@ CreateFTPWindows (GtkWidget * ui)
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
 #endif
 
-  button = gtk_button_new ();
-  gtk_box_pack_start (GTK_BOX (dlbox), button, TRUE, FALSE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+  upload_right_arrow = gtk_button_new ();
+  gtk_box_pack_start (GTK_BOX (dlbox), upload_right_arrow, TRUE, FALSE, 0);
+  gtk_signal_connect_object (GTK_OBJECT (upload_right_arrow), "clicked",
 			     GTK_SIGNAL_FUNC (put_files), NULL);
-  gtk_container_add (GTK_CONTAINER (button), tempwid);
+  gtk_container_add (GTK_CONTAINER (upload_right_arrow), tempwid);
 
 #if GTK_MAJOR_VERSION == 1
   tempwid = toolbar_pixmap (ui, "left.xpm");
@@ -890,11 +890,11 @@ CreateFTPWindows (GtkWidget * ui)
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
 #endif
 
-  button = gtk_button_new ();
-  gtk_box_pack_start (GTK_BOX (dlbox), button, TRUE, FALSE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+  download_left_arrow = gtk_button_new ();
+  gtk_box_pack_start (GTK_BOX (dlbox), download_left_arrow, TRUE, FALSE, 0);
+  gtk_signal_connect_object (GTK_OBJECT (download_left_arrow), "clicked",
 			     GTK_SIGNAL_FUNC (get_files), NULL);
-  gtk_container_add (GTK_CONTAINER (button), tempwid);
+  gtk_container_add (GTK_CONTAINER (download_left_arrow), tempwid);
 
   gtk_paned_pack1 (GTK_PANED (winpane), box, 1, 1);
 

@@ -376,6 +376,9 @@ update_window (gftp_window_data * wdata)
 
   set_menu_sensitive (NULL, menus[start + 10].path, connected);
   set_menu_sensitive (NULL, menus[start + 11].path, connected);
+
+  gtk_widget_set_sensitive (download_left_arrow, connected);
+  gtk_widget_set_sensitive (upload_right_arrow, connected);
 }  
 
 
