@@ -54,7 +54,8 @@ do_delete_thread (void *data)
            templist = templist->next);
 
       rmhash = g_hash_table_new (string_hash_function, string_hash_compare);
-      while (1)
+
+      for (; templist != NULL; templist = templist->prev)
         {
           tempfle = templist->data;
           if (tempfle->isdir)
@@ -62,7 +63,7 @@ do_delete_thread (void *data)
           else
             success = gftp_remove_file (transfer->fromreq, tempfle->file);
 
-          if (success == 0)
+          if (success == 0 && transfer->fromreq->use_cache)
             {
               gftp_generate_cache_description (transfer->fromreq, description, 
                                                sizeof (description), 0);
@@ -73,10 +74,8 @@ do_delete_thread (void *data)
                 }
             }
 
-          if (templist == transfer->files || 
-              !GFTP_IS_CONNECTED (transfer->fromreq))
+          if (!GFTP_IS_CONNECTED (transfer->fromreq))
             break;
-          templist = templist->prev;
         }
 
       g_hash_table_foreach (rmhash, delete_purge_cache, NULL);

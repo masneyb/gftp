@@ -442,17 +442,20 @@ local_chdir (gftp_request * request, const char *directory)
                           _("Successfully changed local directory to %s\n"),
                           directory);
 
-      if (getcwd (tempstr, sizeof (tempstr)) == NULL)
+      if (request->directory != directory)
         {
-          request->logging_function (gftp_logging_error, request,
-                            _("Could not get current working directory: %s\n"),
-                            g_strerror (errno));
-	  return (GFTP_ERETRYABLE);
-        }
+          if (getcwd (tempstr, sizeof (tempstr)) == NULL)
+            {
+              request->logging_function (gftp_logging_error, request,
+                             _("Could not get current working directory: %s\n"),
+                             g_strerror (errno));
+	      return (GFTP_ERETRYABLE);
+            }
 
-      if (request->directory)
-        g_free (request->directory);
-      request->directory = g_strdup (tempstr);
+          if (request->directory)
+            g_free (request->directory);
+          request->directory = g_strdup (tempstr);
+        }
 
       return (0);
     }

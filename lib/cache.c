@@ -291,7 +291,8 @@ gftp_clear_cache_files (void)
 
 
 void
-gftp_delete_cache_entry (gftp_request * request, char *descr, int ignore_directory)
+gftp_delete_cache_entry (gftp_request * request, char *descr, 
+                         int ignore_directory)
 {
   char *oldindexfile, *newindexfile, buf[BUFSIZ], description[BUFSIZ];
   gftp_getline_buffer * rbuf;
@@ -300,8 +301,9 @@ gftp_delete_cache_entry (gftp_request * request, char *descr, int ignore_directo
   time_t now;
   int remove;
  
-  time (&now);
+  g_return_if_fail (request != NULL || descr != NULL);
 
+  time (&now);
   if (request != NULL)
     {
       gftp_generate_cache_description (request, description, sizeof (description),

@@ -1,3 +1,15 @@
+2003-8-11 Brian Masney <masneyb@gftp.org>
+	* src/gtk/delete_dialog.c - don't attempt to clear the cache for the
+	protocols that have the cache disabled
+
+	* lib/local.c (local_chdir) - if request->directory == directory,
+	don't free the request->directory and run getcwd(). This fixes a double
+	free in the delete dialog in the GTK+ port
+
+	* lib/gftp.h - added FIXME comment
+
+	* lib/cache.c (gftp_delete_cache_entry) - added assertion
+
 2003-8-7 Brian Masney <masneyb@gftp.org>
 	* configure.in - HPUX fix
 

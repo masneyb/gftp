@@ -445,7 +445,7 @@ typedef struct gftp_transfer_tag
   gftp_request * fromreq,
                * toreq;
 
-  unsigned int transfer_direction : 1,
+  unsigned int transfer_direction : 1, /* FIXME - take out */
                cancel : 1,
                ready : 1,
                started : 1,
