@@ -166,7 +166,7 @@ _gftpui_gtk_do_openurl (gftp_window_data * wdata, gftp_dialog_data * ddata)
 
   str = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
   if (str != NULL && *str != '\0')
-    gftpui_common_cmd_open (wdata, wdata->request, str);
+    gftpui_common_cmd_open (wdata, wdata->request, NULL, NULL, str);
 }
 
 

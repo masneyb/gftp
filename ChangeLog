@@ -1,3 +1,23 @@
+2003-1-23 Brian Masney <masneyb@gftp.org>
+	* src/text/gftp-text.c src/uicommon/gftpui.c - added file transfer
+	functions to the command line.
+
+	* src/uicommon/gftpui_transfer.c src/uicommon/gftpui.h src/text/textui.c
+	src/gtk/gtkui_transfer.c - added
+	gftpui_{start,update,finish}_current_file_in_transfer() functions
+	that will be called throughout the lifetime of a file transfer.
+	Also, gftpui_start_transfer() that will be called whenever a file
+	transfer is created
+
+	* src/uicommon/gftpui.h src/uicommon/gftpui.c src/gtk/gftp-gtk.c
+	src/gtk/transfer.c - added other_uidata and other_request arguments
+	to all of the command line functions
+
+	* lib/protocols.c lib/gftp.h - set the filespec argument to
+	gftp_get_next_file to be a constant
+
+	* lib/gftp.h - added tot_file_trans variable to gftp_transfer struct
+
 2003-1-21 Brian Masney <masneyb@gftp.org>
 	* lib/config_file.c lib/gftp.h - set the character string arguments to
 	const for the following functions: gftp_lookup_global_option(),

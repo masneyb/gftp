@@ -50,7 +50,9 @@ typedef struct _gftpui_common_methods
 {
   char *command;
   int minlen;
-  int (*func)(void *uidata, gftp_request * request, const char *command);
+  int (*func)(void *uidata, gftp_request * request,
+              void *other_uidata, gftp_request * other_request,
+              const char *command);
   gftpui_common_request_type reqtype;
   char *cmd_description;
   int (*subhelp_func) (const char *topic);
@@ -102,6 +104,8 @@ int gftpui_common_process_command 	( void *locui,
 
 int gftpui_common_cmd_open 		( void *uidata,
 					  gftp_request * request,
+					  void *other_uidata,
+					  gftp_request * other_request,
 					  const char *command );
 
 gftp_transfer * gftpui_common_add_file_transfer ( gftp_request * fromreq,
@@ -154,5 +158,13 @@ void gftpui_add_file_to_transfer 	( gftp_transfer * tdata,
 					  char *filepos );
 
 void gftpui_ask_transfer		( gftp_transfer * tdata );
+
+void gftpui_start_current_file_in_transfer ( gftp_transfer * tdata );
+
+void gftpui_update_current_file_in_transfer ( gftp_transfer * tdata );
+
+void gftpui_finish_current_file_in_transfer ( gftp_transfer * tdata );
+
+void gftpui_start_transfer 		( gftp_transfer * tdata );
 
 #endif

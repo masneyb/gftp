@@ -482,6 +482,8 @@ typedef struct gftp_transfer_tag
        current_file_retries;
 
   off_t curtrans,		/* Current transfered bytes for this file */
+        tot_file_trans,		/* Total number of bytes in the file being
+                                   transferred */
         curresumed,		/* Resumed bytes for this file */
         trans_bytes,		/* Amount of data transfered for entire 
 				   transfer */
@@ -842,7 +844,7 @@ int gftp_parse_url 			( gftp_request * request,
 					  const char *url );
 
 int gftp_get_next_file 			( gftp_request * request, 
-					  char *filespec,
+					  const char *filespec,
 					  gftp_file *fle );
 
 int gftp_end_transfer 			( gftp_request * request );

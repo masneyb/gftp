@@ -61,7 +61,7 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
   if (wdata->request == request)
     gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Connecting..."));
 
-  return (gftpui_common_cmd_open (wdata, request, NULL));
+  return (gftpui_common_cmd_open (wdata, request, NULL, NULL, NULL));
 }
 
 
@@ -742,6 +742,7 @@ update_file_status (gftp_transfer * tdata)
   if (*dlstr != '\0')
     gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1, dlstr);
 }
+
 
 static void
 update_window_transfer_bytes (gftp_window_data * wdata)

@@ -30,6 +30,8 @@
 #include <readline/history.h>
 #endif
 
+int gftp_text_get_win_size 			( void );
+
 char * gftp_text_ask_question 			( const char *question,
 						  int echo,
 						  char *buf,

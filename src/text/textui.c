@@ -83,7 +83,7 @@ gftpui_prompt_password (void *uidata, gftp_request * request)
 
 void
 gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
-                                  char *filepos )
+                             char *filepos )
 {
   /* FIXME */
 }
@@ -93,5 +93,64 @@ void
 gftpui_ask_transfer (gftp_transfer * tdata)
 {
   /* FIXME */
+}
+
+
+static void
+_gftpui_text_print_status (gftp_transfer * tdata)
+{
+  static int progress_pos = 0;
+  char *progress = "|/-\\";
+  int sw, tot, i;
+
+  printf ("\r%c [", progress[progress_pos++]);
+
+  if (progress[progress_pos] == '\0')
+    progress_pos = 0;
+
+  sw = gftp_text_get_win_size () - 20;
+  tot = (float) tdata->curtrans / (float) tdata->tot_file_trans * (float) sw;
+                        
+  if (tot > sw)
+    tot = sw;
+
+  for (i=0; i<tot; i++)
+    printf ("=");
+
+  for (i=0; i<sw-tot; i++)
+    printf (" ");
+
+  printf ("] @ %.2fKB/s", tdata->kbs);
+
+  fflush (stdout);
+}
+
+
+void
+gftpui_start_current_file_in_transfer (gftp_transfer * tdata)
+{
+  _gftpui_text_print_status (tdata);
+}
+
+
+void
+gftpui_update_current_file_in_transfer (gftp_transfer * tdata)
+{
+  _gftpui_text_print_status (tdata);
+}
+
+
+void
+gftpui_finish_current_file_in_transfer (gftp_transfer * tdata)
+{
+  _gftpui_text_print_status (tdata);
+  printf ("\n");
+}
+
+
+void
+gftpui_start_transfer (gftp_transfer * tdata)
+{
+  gftpui_common_transfer_files (tdata);
 }
 

@@ -22,6 +22,31 @@ static const char cvsid[] = "$Id$";
 
 
 void
+gftpui_start_current_file_in_transfer (gftp_transfer * tdata)
+{
+}
+
+
+void
+gftpui_update_current_file_in_transfer (gftp_transfer * tdata)
+{
+}
+
+
+void
+gftpui_finish_current_file_in_transfer (gftp_transfer * tdata)
+{
+}
+
+
+void
+gftpui_start_transfer (gftp_transfer * tdata)
+{
+  /* Not used in GTK+ port. This is polled instead */
+}
+
+
+void
 gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
                              char *filepos)
 {

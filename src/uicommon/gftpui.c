@@ -154,6 +154,7 @@ gftpui_common_about (gftp_logging_func logging_function, gpointer logdata)
 
 static int
 gftpui_common_cmd_about (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   gftpui_common_about (gftpui_common_logfunc, NULL);
@@ -163,6 +164,7 @@ gftpui_common_cmd_about (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_ascii (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(1));
@@ -172,6 +174,7 @@ gftpui_common_cmd_ascii (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_binary (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   gftp_set_global_option ("ascii_transfers", GINT_TO_POINTER(0));
@@ -181,6 +184,7 @@ gftpui_common_cmd_binary (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_chmod (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   gftpui_callback_data * cdata;
@@ -222,7 +226,8 @@ gftpui_common_cmd_chmod (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_rename (void *uidata, gftp_request * request,
-                         const char *command)
+                          void *other_uidata, gftp_request * other_request,
+                          const char *command)
 {
   gftpui_callback_data * cdata;
   char *pos;
@@ -262,7 +267,8 @@ gftpui_common_cmd_rename (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_delete (void *uidata, gftp_request * request,
-                         const char *command)
+                          void *other_uidata, gftp_request * other_request,
+                          const char *command)
 {
   gftpui_callback_data * cdata;
 
@@ -296,6 +302,7 @@ gftpui_common_cmd_delete (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_rmdir (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   gftpui_callback_data * cdata;
@@ -330,6 +337,7 @@ gftpui_common_cmd_rmdir (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_site (void *uidata, gftp_request * request,
+                        void *other_uidata, gftp_request * other_request,
                         const char *command)
 {
   gftpui_callback_data * cdata;
@@ -364,6 +372,7 @@ gftpui_common_cmd_site (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_mkdir (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   gftpui_callback_data * cdata;
@@ -398,6 +407,7 @@ gftpui_common_cmd_mkdir (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_chdir (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   gftpui_callback_data * cdata;
@@ -453,6 +463,7 @@ gftpui_common_cmd_chdir (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_close (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   gftp_disconnect (request);
@@ -462,6 +473,7 @@ gftpui_common_cmd_close (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_pwd (void *uidata, gftp_request * request,
+                       void *other_uidata, gftp_request * other_request,
                        const char *command)
 {
   if (!GFTP_IS_CONNECTED (request))
@@ -480,6 +492,7 @@ gftpui_common_cmd_pwd (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_quit (void *uidata, gftp_request * request,
+                        void *other_uidata, gftp_request * other_request,
                         const char *command)
 {
   gftp_shutdown();
@@ -490,6 +503,7 @@ gftpui_common_cmd_quit (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_clear (void *uidata, gftp_request * request,
+                         void *other_uidata, gftp_request * other_request,
                          const char *command)
 {
   if (strcasecmp (command, "cache") == 0)
@@ -535,6 +549,7 @@ gftpui_common_set_show_subhelp (const char *topic)
 
 static int
 gftpui_common_cmd_ls (void *uidata, gftp_request * request,
+                      void *other_uidata, gftp_request * other_request,
                       const char *command)
 {
   char *startcolor, *endcolor, *tempstr;
@@ -584,6 +599,7 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request,
 
 int
 gftpui_common_cmd_open (void *uidata, gftp_request * request,
+                        void *other_uidata, gftp_request * other_request,
                         const char *command)
 {
   gftpui_callback_data * cdata;
@@ -650,6 +666,7 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_set (void *uidata, gftp_request * request,
+                       void *other_uidata, gftp_request * other_request,
                        const char *command)
 {
   gftp_config_vars * cv, newcv;
@@ -730,6 +747,7 @@ gftpui_common_cmd_set (void *uidata, gftp_request * request,
 
 static int
 gftpui_common_cmd_help (void *uidata, gftp_request * request,
+                        void *other_uidata, gftp_request * other_request,
                         const char *command)
 {
   int i, j, ele, numrows, numcols = 6, handled, number_commands, cmdlen,
@@ -796,6 +814,109 @@ gftpui_common_cmd_help (void *uidata, gftp_request * request,
 }
 
 
+static void
+_gftpui_common_transfer_files (void *fromuidata, gftp_request * fromrequest,
+                               void *touidata, gftp_request * torequest,
+                               const char *cmd, const char *filespec)
+{
+  gftp_transfer * tdata;
+  gftp_file * fle;
+
+  if (!GFTP_IS_CONNECTED (fromrequest) ||
+      !GFTP_IS_CONNECTED (torequest))
+    {
+      fromrequest->logging_function (gftp_logging_error, fromrequest,
+                                  _("Error: Not connected to a remote site\n"));
+      return;
+    }
+
+  if (*filespec == '\0')
+    {
+      fromrequest->logging_function (gftp_logging_error, fromrequest, 
+                                     _("usage: %s <filespec>\n"), cmd);
+      return;
+    }
+
+  tdata = gftp_tdata_new ();
+  tdata->fromreq = fromrequest;
+  tdata->toreq = torequest;
+
+  if (gftp_list_files (tdata->fromreq) != 0)
+    {
+      tdata->fromreq = tdata->toreq = NULL;
+      free_tdata (tdata);
+      return;
+    }
+
+  fle = g_malloc0 (sizeof (*fle));
+  while (gftp_get_next_file (tdata->fromreq, filespec, fle) > 0)
+    {
+      if (strcmp (fle->file, ".") == 0 || strcmp (fle->file, "..") == 0)
+        {
+          gftp_file_destroy (fle);
+          continue;
+        }
+
+      tdata->files = g_list_append (tdata->files, fle);
+      fle = g_malloc (sizeof (*fle));
+    }
+
+  g_free (fle);
+
+  gftp_end_transfer (tdata->fromreq);
+
+  if (tdata->files == NULL)
+    {
+      tdata->fromreq = tdata->toreq = NULL;
+      free_tdata (tdata);
+      return;
+    }
+
+  if (gftp_get_all_subdirs (tdata, NULL) != 0)
+    {
+      tdata->fromreq = tdata->toreq = NULL;
+      free_tdata (tdata);
+      return;
+    }
+
+  if (tdata->files == NULL)
+    {
+      tdata->fromreq = tdata->toreq = NULL;
+      free_tdata (tdata);
+      return;
+    }
+
+  gftpui_common_add_file_transfer (tdata->fromreq, tdata->toreq,
+                                   fromuidata, touidata, tdata->files);
+
+  g_free (tdata);
+
+  return;
+}
+
+
+int
+gftpui_common_cmd_mget_file (void *uidata, gftp_request * request,
+                             void *other_uidata, gftp_request * other_request,
+                             const char *command)
+{
+  _gftpui_common_transfer_files (uidata, request, other_uidata, other_request,
+                                 "mget", command);
+  return (1);
+}
+
+
+int
+gftpui_common_cmd_mput_file (void *uidata, gftp_request * request,
+                             void *other_uidata, gftp_request * other_request,
+                             const char *command)
+{
+  _gftpui_common_transfer_files (other_uidata, other_request, uidata, request,
+                                 "mput", command);
+  return (1);
+}
+
+
 gftpui_common_methods gftpui_common_commands[] = {
         {N_("about"),   2, gftpui_common_cmd_about, gftpui_common_request_none,
          N_("Shows gFTP information"), NULL},
@@ -815,10 +936,8 @@ gftpui_common_methods gftpui_common_commands[] = {
          N_("Disconnects from the remote site"), NULL},
         {N_("delete"),  1, gftpui_common_cmd_delete, gftpui_common_request_remote,
          N_("Removes a remote file"), NULL},
-/* FIXME
-        {N_("get"),     1, gftp_text_mget_file, gftpui_common_request_none,
+        {N_("get"),     1, gftpui_common_cmd_mget_file, gftpui_common_request_remote,
          N_("Downloads remote file(s)"), NULL},
-*/
         {N_("help"),    1, gftpui_common_cmd_help, gftpui_common_request_none,
          N_("Shows this help screen"), NULL},
         {N_("lcd"),     3, gftpui_common_cmd_chdir, gftpui_common_request_local,
@@ -841,22 +960,16 @@ gftpui_common_methods gftpui_common_commands[] = {
          N_("Remove a local directory"), NULL},
         {N_("ls"),      2, gftpui_common_cmd_ls, gftpui_common_request_remote,
          N_("Shows the directory listing for the current remote directory"), NULL},
-/* FIXME
-        {N_("mget"),    2, gftp_text_mget_file, gftpui_common_request_none,
+        {N_("mget"),    2, gftpui_common_cmd_mget_file, gftpui_common_request_remote,
          N_("Downloads remote file(s)"), NULL},
-*/
-        {N_("mkdir"),   2, gftpui_common_cmd_mkdir,     gftpui_common_request_remote,
+        {N_("mkdir"),   2, gftpui_common_cmd_mkdir, gftpui_common_request_remote,
          N_("Creates a remote directory"), NULL},
-/* FIXME
-        {N_("mput"),    2, gftp_text_mput_file, gftpui_common_request_none,
+        {N_("mput"),    2, gftpui_common_cmd_mput_file, gftpui_common_request_remote,
          N_("Uploads local file(s)"), NULL},
-*/
         {N_("open"),    1, gftpui_common_cmd_open, gftpui_common_request_remote,
          N_("Opens a connection to a remote site"), NULL},
-/* FIXME
-        {N_("put"),     2, gftp_text_mput_file, gftpui_common_request_none,
+        {N_("put"),     2, gftpui_common_cmd_mput_file, gftpui_common_request_remote,
          N_("Uploads local file(s)"), NULL},
-*/
         {N_("pwd"),     2, gftpui_common_cmd_pwd, gftpui_common_request_remote,
          N_("Show current remote directory"), NULL},
         {N_("quit"),    1, gftpui_common_cmd_quit, gftpui_common_request_none,
@@ -866,7 +979,8 @@ gftpui_common_methods gftpui_common_commands[] = {
         {N_("rmdir"),   2, gftpui_common_cmd_rmdir, gftpui_common_request_remote,
          N_("Remove a remote directory"), NULL},
         {N_("set"),     1, gftpui_common_cmd_set, gftpui_common_request_none,
-         N_("Show configuration file variables. You can also set variables by set var=val"), gftpui_common_set_show_subhelp},
+         N_("Show configuration file variables. You can also set variables by set var=val"),
+         gftpui_common_set_show_subhelp},
         {N_("site"),    2, gftpui_common_cmd_site, gftpui_common_request_remote,
          N_("Run a site specific command"), NULL},
         {NULL,          0, NULL,                gftpui_common_request_none,
@@ -878,11 +992,11 @@ gftpui_common_process_command (void *locui, gftp_request * locreq,
                                void *remui, gftp_request * remreq,
                                const char *command)
 {
-  gftp_request * request;
-  const char *stpos;
+  gftp_request * request, * other_request;
+  void *uidata, *other_uidata;
   char *pos, *newstr;
+  const char *stpos;
   size_t cmdlen;
-  void *uidata;
   int ret, i;
   size_t len;
 
@@ -929,21 +1043,28 @@ gftpui_common_process_command (void *locui, gftp_request * locreq,
     {
       request = locreq;
       uidata = locui;
+
+      other_request = remreq;
+      other_uidata = remui;
     }
   else if (gftpui_common_commands[i].reqtype == gftpui_common_request_remote)
     {
       request = remreq;
       uidata = remui;
+
+      other_request = locreq;
+      other_uidata = locui;
     }
   else
     {
-      request = NULL;
-      uidata = NULL;
+      request = other_request = NULL;
+      uidata = other_uidata = NULL;
     }
  
   if (gftpui_common_commands[i].command != NULL)
     {
-      ret = gftpui_common_commands[i].func (uidata, request, pos);
+      ret = gftpui_common_commands[i].func (uidata, request,
+                                            other_uidata, other_request, pos);
     }
   else
     {
@@ -1078,6 +1199,7 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
         gftpui_ask_transfer (tdata);
     }
 
+  gftpui_start_transfer (tdata);
   return (tdata);
 }
 
@@ -1115,20 +1237,16 @@ _gftpui_common_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
 int
 gftpui_common_transfer_files (gftp_transfer * tdata)
 {
-  int i, mode, tofd, fromfd;
   intptr_t preserve_permissions;
-  char buf[8192];
-  off_t fromsize, total;
-  gftp_file * curfle; 
+  int i, mode, tofd, fromfd;
+  struct timeval updatetime;
   ssize_t num_read, ret;
+  gftp_file * curfle; 
+  char buf[8192];
 
   tdata->curfle = tdata->files;
   gettimeofday (&tdata->starttime, NULL);
-  memcpy (&tdata->lasttime, &tdata->starttime,
-          sizeof (tdata->lasttime));
-
-  gftp_lookup_request_option (tdata->fromreq, "preserve_permissions",
-                              &preserve_permissions);
+  memcpy (&tdata->lasttime, &tdata->starttime, sizeof (tdata->lasttime));
 
   while (tdata->curfle != NULL)
     {
@@ -1153,10 +1271,11 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
 
           if (g_thread_supported ())
             g_static_mutex_unlock (&tdata->structmutex);
+
           continue;
         }
 
-      fromsize = -1;
+      tdata->tot_file_trans = -1;
       if (gftp_connect (tdata->fromreq) == 0 &&
           gftp_connect (tdata->toreq) == 0)
         {
@@ -1191,8 +1310,8 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
           if (GFTP_IS_CONNECTED (tdata->fromreq) &&
               GFTP_IS_CONNECTED (tdata->toreq))
             {
-              fromsize = gftp_transfer_file (tdata->fromreq, curfle->file,
-                          fromfd,
+              tdata->tot_file_trans = gftp_transfer_file (tdata->fromreq,
+                          curfle->file, fromfd,
                           curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
                                                     curfle->startsize : 0,
                           tdata->toreq, curfle->destfile, tofd,
@@ -1206,9 +1325,9 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
         {
           tdata->fromreq->logging_function (gftp_logging_misc,
                          tdata->fromreq,
-                         _("Error: Remote site disconnected after trying to tdata file\n"));
+                         _("Error: Remote site disconnected after trying to transfer file\n"));
         }
-      else if (fromsize < 0)
+      else if (tdata->tot_file_trans < 0)
         {
           if (g_thread_supported ())
             g_static_mutex_lock (&tdata->structmutex);
@@ -1233,14 +1352,21 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
           if (g_thread_supported ())
             g_static_mutex_unlock (&tdata->structmutex);
 
-          total = 0;
+          memset (&updatetime, 0, sizeof (updatetime));
+          gftpui_start_current_file_in_transfer (tdata);
+
           i = 0;
           while (!tdata->cancel &&
                  (num_read = gftp_get_next_file_chunk (tdata->fromreq,
                                                        buf, sizeof (buf))) > 0)
             {
-              total += num_read;
               gftp_calc_kbs (tdata, num_read);
+              if (tdata->lasttime.tv_sec - updatetime.tv_sec >= 1 ||
+                  tdata->curtrans >= tdata->tot_file_trans)
+                {
+                  gftpui_update_current_file_in_transfer (tdata);
+                  memcpy (&updatetime, &tdata->lasttime, sizeof (updatetime));
+                }
 
               if ((ret = gftp_put_next_file_chunk (tdata->toreq, buf,
                                                    num_read)) < 0)
@@ -1249,6 +1375,8 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
                   break;
                 }
             }
+
+          gftpui_finish_current_file_in_transfer (tdata);
         }
 
       if (tdata->cancel)
@@ -1286,9 +1414,12 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
 
           tdata->fromreq->logging_function (gftp_logging_misc,
                          tdata->fromreq,
-                         _("Successfully tdatared %s at %.2f KB/s\n"),
+                         _("Successfully transferred %s at %.2f KB/s\n"),
                          curfle->file, tdata->kbs);
         }
+
+      gftp_lookup_request_option (tdata->fromreq, "preserve_permissions",
+                                  &preserve_permissions);
 
       if (!curfle->is_fd && preserve_permissions)
         {

@@ -512,7 +512,8 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
 
 
 int
-gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
+gftp_get_next_file (gftp_request * request, const char *filespec,
+                    gftp_file * fle)
 {
   int fd, ret;
 
