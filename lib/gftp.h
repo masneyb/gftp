@@ -149,8 +149,12 @@
 #define GFTP_DIRTYPE_OTHER 	7
 
 /* Error types */
-#define GFTP_ERETRYABLE		-1
-#define GFTP_EFATAL		-2
+#define GFTP_ERETRYABLE		-1		/* Temporary failure. The GUI
+						   should wait briefly */
+#define GFTP_EFATAL		-2		/* Fatal error */
+#define GFTP_ERETRYABLE_NO_WAIT	-3		/* Temporary failure. The GUI
+						   should not wait and should
+						   reconnect */
 
 /* Some general settings */
 #define BASE_CONF_DIR		"~/.gftp"
@@ -345,8 +349,6 @@ struct gftp_request_tag
                need_hostport : 1,
                need_userpass : 1,
                use_cache : 1,           /* Enable or disable the cache */
-               use_threads : 1,         /* Whether we need to spawn a thread
-                                           for this protocol */
                cached : 1,              /* Is this directory listing cached? */
                cancel : 1,		/* If a signal is received, should
 					   we cancel this operation */
@@ -503,9 +505,12 @@ typedef struct supported_gftp_protocols_tag
   int (*init) (gftp_request * request);		/* Init function */
   void (*register_options) (void);		/* Protocol options */
   char *url_prefix;				/* URL Prefix */
-  int shown;					/* Whether this protocol is 
+  unsigned int shown : 1,			/* Whether this protocol is 
                                                    shown or not to the user in 
                                                    the protocol dropdown box */
+               use_threads : 1;			/* Whether or not operations in
+						   this protocol should use
+						   threads */
 } supported_gftp_protocols;
 
 

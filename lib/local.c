@@ -300,7 +300,7 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
   /* the struct passwd and struct group are not thread safe. But,
      we're ok here because I have threading turned off for the local
-     protocol (see use_threads in local_init above) */
+     protocol (see use_threads in gftp_protocols in options.h) */
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
@@ -670,7 +670,6 @@ local_init (gftp_request * request)
   request->need_hostport = 0;
   request->need_userpass = 0;
   request->use_cache = 0;
-  request->use_threads = 0;
   request->always_connected = 1;
 
   lpd = g_malloc0 (sizeof (*lpd));

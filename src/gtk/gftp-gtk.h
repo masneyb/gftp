@@ -23,6 +23,7 @@
 #define __GFTP_GTK_H
 
 #include "../../lib/gftp.h"
+#include "../uicommon/gftpui.h"
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <pthread.h>
@@ -171,7 +172,8 @@ typedef struct gftp_options_dialog_data_tag
 
 extern gftp_window_data window1, window2, * other_wdata, * current_wdata;
 extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
-                 * portedit, * logwdw, * dlwdw, * protocol_menu, * optionmenu;
+                 * portedit, * logwdw, * dlwdw, * protocol_menu, * optionmenu,
+                 * gftpui_command_widget;
 extern GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
 extern GtkTextMark * logwdw_textmark;
@@ -182,8 +184,6 @@ extern GtkItemFactoryEntry * menus;
 extern GtkItemFactory * factory;
 extern pthread_mutex_t transfer_mutex, log_mutex;
 extern gftp_graphic * gftp_icon;
-extern sigjmp_buf jmp_environment;
-extern volatile int use_jmp_environment;
 extern pthread_t main_thread_id;
 extern GList * viewedit_processes;
 extern volatile sig_atomic_t viewedit_process_done;
@@ -241,6 +241,29 @@ void sortrows 					( GtkCList * clist,
 void stop_button				( GtkWidget * widget,
 						  gpointer data );
 
+void gftpui_show_or_hide_command 		( void );
+
+/* gtkui.c */
+void gftpui_run_command 			( GtkWidget * widget,
+						  gpointer data );
+
+void gftpui_run_function_callback 		( gftp_window_data * wdata,
+						  gftp_dialog_data * ddata );
+
+void gftpui_run_function_cancel_callback 	( gftp_window_data * wdata,
+						  gftp_dialog_data * ddata );
+
+void gftpui_mkdir_dialog 			( gpointer data );
+
+void gftpui_rename_dialog			( gpointer data );
+
+void gftpui_site_dialog 			( gpointer data );
+
+int gftpui_run_chdir 				( gpointer uidata,
+						  char *directory );
+
+void gftpui_chdir_dialog 			( gpointer data );
+
 /* menu_items.c */
 void change_setting 				( gftp_window_data *wdata,
 						  int menuitem,
@@ -264,12 +287,8 @@ void selectallfiles 				( gpointer data );
 
 void deselectall 				( gpointer data );
 
-void site_dialog 				( gpointer data );
-
 int chdir_edit					( GtkWidget * widget,
 						  gpointer data );
-
-int chdir_dialog 				( gpointer data );
 
 void clearlog 					( gpointer data );
 
@@ -292,8 +311,6 @@ void ftp_log					( gftp_logging_level level,
 						  gftp_request * request,
 						  const char *string,
 						  ... ) GFTP_LOG_FUNCTION_ATTRIBUTES;
-
-void refresh 					( gftp_window_data * wdata );
 
 void update_window_info				( void );
 
@@ -359,21 +376,12 @@ void MakeYesNoDialog 				( char *diagtxt,
 
 void update_directory_download_progress 	( gftp_transfer * transfer );
 
-void *generic_thread 				( void * (*func) 
-                                                         (void *), 
-						  gftp_window_data * wdata );
-
 int progress_timeout 				( gpointer data );
 
 void display_cached_logs			( void );
 
-RETSIGTYPE signal_handler			(int signo);
-
 char * get_xpm_path 				( char *filename, 
 						  int quit_on_err );
-
-/* mkdir_dialog.c */
-void mkdir_dialog 				( gpointer data );
 
 /* options_dialog.c */
 void options_dialog 				( gpointer data );
@@ -382,9 +390,6 @@ void gftp_gtk_setup_bookmark_options 		( GtkWidget * notebook,
 						  gftp_bookmarks_var * bm );
 
 void gftp_gtk_save_bookmark_options 		( gftp_bookmarks_var * bm );
-
-/* rename_dialog.c */
-void rename_dialog				( gpointer data );
 
 /* transfer.c */
 int ftp_list_files				( gftp_window_data * wdata,

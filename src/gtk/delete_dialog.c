@@ -40,10 +40,10 @@ do_delete_thread (void *data)
 
   transfer = data;
 
-  if (transfer->fromreq->use_threads)
+  if (gftpui_common_use_threads (transfer->fromreq))
     {
-      sj = sigsetjmp (jmp_environment, 1);
-      use_jmp_environment = 1;
+      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
+      gftpui_common_use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -91,8 +91,8 @@ do_delete_thread (void *data)
 
   transfer->fromreq->stopable = 0;
 
-  if (transfer->fromreq->use_threads)
-    use_jmp_environment = 0;
+  if (gftpui_common_use_threads (transfer->fromreq))
+    gftpui_common_use_jmp_environment = 0;
 
   return (NULL);
 }
@@ -113,7 +113,7 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
 
   gtk_clist_freeze (GTK_CLIST (wdata->listbox));
   gftp_swap_socks (transfer->fromreq, wdata->request);
-  if (wdata->request->use_threads)
+  if (gftpui_common_use_threads (wdata->request))
     {
       wdata->request->stopable = 1;
       transfer->fromreq->stopable = 1;
@@ -142,7 +142,7 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
   if (!GFTP_IS_CONNECTED (wdata->request))
     disconnect (wdata);
   else
-    refresh (wdata);
+    gftpui_refresh (wdata);
 
   gtk_clist_thaw (GTK_CLIST (wdata->listbox));
 }
@@ -173,7 +173,7 @@ delete_dialog (gpointer data)
   void *ret;
 
   wdata = data;
-  if (!check_status (_("Delete"), wdata, wdata->request->use_threads, 0, 1, 1))
+  if (!check_status (_("Delete"), wdata, gftpui_common_use_threads (wdata->request), 0, 1, 1))
     return;
 
   transfer = g_malloc0 (sizeof (*transfer));
@@ -202,7 +202,7 @@ delete_dialog (gpointer data)
 
   gftp_swap_socks (transfer->fromreq, wdata->request);
 
-  if (transfer->fromreq->use_threads)
+  if (gftpui_common_use_threads (transfer->fromreq))
     {
       wdata->request->stopable = 1;
       transfer->fromreq->stopable = 1;

@@ -39,10 +39,10 @@ do_chmod_thread (void * data)
   gftp_lookup_request_option (wdata->request, "network_timeout", 
                               &network_timeout);
 
-  if (wdata->request->use_threads)
+  if (gftpui_common_use_threads (wdata->request))
     {
-      sj = sigsetjmp (jmp_environment, 1);
-      use_jmp_environment = 1;
+      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
+      gftpui_common_use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -74,8 +74,8 @@ do_chmod_thread (void * data)
                                         _("Operation canceled\n"));
     }
 
-  if (wdata->request->use_threads)
-    use_jmp_environment = 0;
+  if (gftpui_common_use_threads (wdata->request))
+    gftpui_common_use_jmp_environment = 0;
 
   wdata->request->stopable = 0;
   return (GINT_TO_POINTER (success));
@@ -125,9 +125,9 @@ dochmod (GtkWidget * widget, gftp_window_data * wdata)
   if (check_reconnect (wdata) < 0)
     return;
 
-  ret = GPOINTER_TO_INT (generic_thread (do_chmod_thread, wdata));
+  ret = GPOINTER_TO_INT (gftpui_generic_thread (do_chmod_thread, wdata));
   if (ret)
-    refresh (wdata);
+    gftpui_refresh (wdata);
 }
 
 
@@ -157,8 +157,7 @@ chmod_dialog (gpointer data)
   int num;
 
   wdata = data;
-  if (!check_status (_("Chmod"), wdata, wdata->request->use_threads, 0, 1, 
-                     wdata->request->chmod != NULL))
+  if (!check_status (_("Chmod"), wdata, gftpui_common_use_threads (wdata->request), 0, 1, wdata->request->chmod != NULL))
     return;
 
 #if GTK_MAJOR_VERSION == 1

@@ -1,5 +1,6 @@
 /*****************************************************************************/
-/*  gftp-text.h - include file for the gftp text port                        */
+/*  gftpui.c - UI related functions for gFTP. All of these functions must be */
+/*             reentrant.                                                    */
 /*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
@@ -14,21 +15,53 @@
 /*                                                                           */
 /*  You should have received a copy of the GNU General Public License        */
 /*  along with this program; if not, write to the Free Software              */
-/*  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                */
+/*  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA      */
 /*****************************************************************************/
 
-/* $Id$ */
+#include "gftpui.h"
+static const char cvsid[] = "$Id$";
 
-#ifndef __GFTP_TEXT_H
-#define __GFTP_TEXT_H
+int
+gftpui_common_run_mkdir (gftpui_callback_data * cdata)
+{
+  int ret;
 
-#include "../../lib/gftp.h"
-#include "../uicommon/gftpui.h"
+  ret = gftp_make_directory (cdata->request, cdata->input_string) == 0;
 
-#if HAVE_LIBREADLINE
-#include <readline/readline.h>
-#include <readline/history.h>
-#endif
+  return (ret);
+}
 
-#endif
+
+int
+gftpui_common_run_rename (gftpui_callback_data * cdata)
+{
+  int ret;
+
+  ret = gftp_rename_file (cdata->request, cdata->source_string,
+                          cdata->input_string) == 0;
+
+  return (ret);
+}
+
+
+int
+gftpui_common_run_site (gftpui_callback_data * cdata)
+{
+  int ret;
+
+  ret = gftp_site_cmd (cdata->request, cdata->input_string) == 0;
+
+  return (ret);
+}
+
+
+int
+gftpui_common_run_chdir (gftpui_callback_data * cdata)
+{
+  int ret;
+
+  ret = gftp_set_directory (cdata->request, cdata->input_string) == 0;
+
+  return (ret);
+}
 

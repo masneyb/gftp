@@ -206,23 +206,6 @@ ftp_log (gftp_logging_level level, gftp_request * request,
 
 
 void
-refresh (gftp_window_data * wdata)
-{
-  if (!check_status (_("Refresh"), wdata, 0, 0, 0, 1))
-    return;
-
-  if (check_reconnect (wdata) < 0) 
-    return;
-
-  gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-  remove_files_window (wdata);
-  gftp_delete_cache_entry (wdata->request, NULL, 0);
-  ftp_list_files (wdata, 0);
-  gtk_clist_thaw (GTK_CLIST (wdata->listbox));
-}
-
-
-void
 update_window_info (void)
 {
   char *tempstr, empty[] = "";
@@ -895,6 +878,9 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
 #else
   switch (okbutton)
     {
+      case gftp_dialog_button_ok:
+        yes_text = GTK_STOCK_OK;
+        break;
       case gftp_dialog_button_create:
         yes_text = GTK_STOCK_ADD;
         break;
@@ -966,6 +952,9 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
 #if GTK_MAJOR_VERSION == 1
   switch (okbutton)
     {
+      case gftp_dialog_button_ok:
+        yes_text = GTK_STOCK_OK;
+        break;
       case gftp_dialog_button_create:
         yes_text = _("Add");
         break;
@@ -1168,40 +1157,6 @@ update_directory_download_progress (gftp_transfer * transfer)
 }
 
 
-void *
-generic_thread (void * (*func) (void *), gftp_window_data * wdata)
-{
-  void * ret;
-
-  if (wdata->request->use_threads)
-    {
-      wdata->request->stopable = 1;
-      gtk_widget_set_sensitive (stop_btn, 1);
-      pthread_create (&wdata->tid, NULL, func, wdata);
-
-      while (wdata->request->stopable)
-        {
-          GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-          g_main_iteration (TRUE);
-#else
-          g_main_context_iteration (NULL, TRUE);
-#endif
-        }
-
-      pthread_join (wdata->tid, &ret);
-      gtk_widget_set_sensitive (stop_btn, 0);
-    }
-  else
-    ret = func (wdata);
-
-  if (!GFTP_IS_CONNECTED (wdata->request))
-    disconnect (wdata);
-
-  return (ret); 
-}
-
-
 int
 progress_timeout (gpointer data)
 {
@@ -1243,18 +1198,6 @@ display_cached_logs (void)
   g_list_free (gftp_file_transfer_logs);
   gftp_file_transfer_logs = NULL;
   pthread_mutex_unlock (&log_mutex);
-}
-
-
-RETSIGTYPE 
-signal_handler (int signo)
-{
-  signal (signo, signal_handler);
-
-  if (use_jmp_environment)
-    siglongjmp (jmp_environment, signo == SIGINT ? 1 : 2);
-  else if (signo == SIGINT)
-    exit (1);
 }
 
 

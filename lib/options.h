@@ -88,6 +88,9 @@ gftp_config_vars gftp_global_config_vars[] =
   {"show_trans_in_title", N_("Show transfer status in title"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
    N_("Show the file transfer status in the titlebar"), GFTP_PORT_GTK, NULL},
+  {"cmd_in_gui", N_("Allow manual commands in GUI"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   N_("Allow entering manual commands in the GUI (functions like the text port)"), GFTP_PORT_GTK, NULL},
 
   {"", N_("Network"), gftp_option_type_notebook, NULL, NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK, NULL, GFTP_PORT_GTK, NULL},
@@ -209,16 +212,16 @@ gftp_config_vars gftp_global_config_vars[] =
 
 supported_gftp_protocols gftp_protocols[] =
 {
-  {N_("FTP"), rfc959_init, rfc959_register_module, "ftp", 1},
-  {N_("HTTP"), rfc2068_init, rfc2068_register_module, "http", 1},
+  {N_("FTP"), rfc959_init, rfc959_register_module, "ftp", 1, 1},
+  {N_("HTTP"), rfc2068_init, rfc2068_register_module, "http", 1, 1},
 #ifdef USE_SSL
-  {N_("HTTPS"), https_init, https_register_module, "https", 1},
+  {N_("HTTPS"), https_init, https_register_module, "https", 1, 1},
 #else
-  {N_("HTTPS"), https_init, https_register_module, "https", 0},
+  {N_("HTTPS"), https_init, https_register_module, "https", 0, 1},
 #endif
-  {N_("Local"), local_init, local_register_module, "file", 1},
-  {N_("SSH2"), sshv2_init, sshv2_register_module, "ssh2", 1},
-  {N_("Bookmark"), bookmark_init, bookmark_register_module, "bookmark", 0},
+  {N_("Local"), local_init, local_register_module, "file", 1, 0},
+  {N_("SSH2"), sshv2_init, sshv2_register_module, "ssh2", 1, 1},
+  {N_("Bookmark"), bookmark_init, bookmark_register_module, "bookmark", 0, 0},
   {NULL, NULL, NULL, NULL, 0}
 };
 

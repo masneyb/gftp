@@ -49,7 +49,7 @@ run_bookmark (gpointer data)
     return;
 
   if (refresh_local)
-    refresh (other_wdata);
+    gftpui_refresh (other_wdata);
 
   ftp_connect (current_wdata, current_wdata->request, 1);
 }

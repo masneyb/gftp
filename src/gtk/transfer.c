@@ -79,10 +79,10 @@ getdir_thread (void * data)
 
   request = data;
   
-  if (request->use_threads)
+  if (gftpui_common_use_threads (request))
     {
-      sj = sigsetjmp (jmp_environment, 1);
-      use_jmp_environment = 1;
+      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
+      gftpui_common_use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -92,8 +92,8 @@ getdir_thread (void * data)
     {
       if (gftp_list_files (request) != 0 || !GFTP_IS_CONNECTED (request))
         {
-          if (request->use_threads)
-            use_jmp_environment = 0;
+          if (gftpui_common_use_threads (request))
+            gftpui_common_use_jmp_environment = 0;
 
           request->stopable = 0;
           if (request->wakeup_main_thread[1] > 0)
@@ -129,8 +129,8 @@ getdir_thread (void * data)
 
       if (!GFTP_IS_CONNECTED (request))
         {
-          if (request->use_threads)
-            use_jmp_environment = 0;
+          if (gftpui_common_use_threads (request))
+            gftpui_common_use_jmp_environment = 0;
 
           request->stopable = 0;
           if (request->wakeup_main_thread[1] > 0)
@@ -154,8 +154,8 @@ getdir_thread (void * data)
         }
     }
 
-  if (request->use_threads)
-    use_jmp_environment = 0;
+  if (gftpui_common_use_threads (request))
+    gftpui_common_use_jmp_environment = 0;
 
   request->stopable = 0;
   if (request->wakeup_main_thread[1] > 0)
@@ -180,7 +180,7 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
 
       gtk_clist_freeze (GTK_CLIST (wdata->listbox));
       wdata->request->stopable = 1;
-      if (wdata->request->use_threads)
+      if (gftpui_common_use_threads (wdata->request))
         {
           gtk_widget_set_sensitive (stop_btn, 1);
 
@@ -251,10 +251,10 @@ connect_thread (void *data)
   gftp_lookup_request_option (request, "network_timeout", &network_timeout);
 
   conn_num = 0;
-  if (request->use_threads)
+  if (gftpui_common_use_threads (request))
     {
-      sj = sigsetjmp (jmp_environment, 1);
-      use_jmp_environment = 1;
+      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
+      gftpui_common_use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -294,8 +294,8 @@ connect_thread (void *data)
         }  
     }
 
-  if (request->use_threads)
-    use_jmp_environment = 0;
+  if (gftpui_common_use_threads (request))
+    gftpui_common_use_jmp_environment = 0;
 
   request->stopable = 0;
   if (request->wakeup_main_thread[1] > 0)
@@ -347,7 +347,7 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
         gftp_set_password (request, "");
     }
 
-  if (wdata && wdata->request == request && request->use_threads)
+  if (wdata && wdata->request == request && gftpui_common_use_threads (request))
     {
       request->stopable = 1;
       if (wdata)       
@@ -455,8 +455,8 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
       gftp_swap_socks (transfer->fromreq, fromwdata->request);
       gftp_swap_socks (transfer->toreq, towdata->request);
 
-      if (transfer->fromreq->use_threads || 
-          (transfer->toreq && transfer->toreq->use_threads))
+      if (gftpui_common_use_threads (transfer->fromreq) || 
+          (transfer->toreq && gftpui_common_use_threads (transfer->toreq)))
         {
           transfer->fromreq->stopable = 1;
           pthread_create (&fromwdata->tid, NULL, do_getdir_thread, transfer);
@@ -517,11 +517,11 @@ do_getdir_thread (void * data)
 
   transfer = data;
 
-  if (transfer->fromreq->use_threads || 
-      (transfer->toreq && transfer->toreq->use_threads))
+  if (gftpui_common_use_threads (transfer->fromreq) || 
+      (transfer->toreq && gftpui_common_use_threads (transfer->toreq)))
     {
-      sj = sigsetjmp (jmp_environment, 1);
-      use_jmp_environment = 1;
+      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
+      gftpui_common_use_jmp_environment = 1;
     }
   else
     sj = 0;
@@ -539,9 +539,9 @@ do_getdir_thread (void * data)
                                            _("Operation canceled\n"));
     }
 
-  if (transfer->fromreq->use_threads || 
-      (transfer->toreq && transfer->toreq->use_threads))
-    use_jmp_environment = 0;
+  if (gftpui_common_use_threads (transfer->fromreq) || 
+      (transfer->toreq && gftpui_common_use_threads (transfer->toreq)))
+    gftpui_common_use_jmp_environment = 0;
 
   transfer->fromreq->stopable = 0;
   return (GINT_TO_POINTER (success));
@@ -1098,7 +1098,7 @@ on_next_transfer (gftp_transfer * tdata)
   if (refresh_files && tdata->curfle && tdata->curfle->next &&
       compare_request (tdata->toreq, 
                        ((gftp_window_data *) tdata->towdata)->request, 1))
-    refresh (tdata->towdata);
+    gftpui_refresh (tdata->towdata);
 }
 
 
@@ -1253,7 +1253,7 @@ transfer_done (GList * node)
 
       if (tdata->towdata != NULL && compare_request (tdata->toreq,
                            ((gftp_window_data *) tdata->towdata)->request, 1))
-        refresh (tdata->towdata);
+        gftpui_refresh (tdata->towdata);
 
       num_transfers_in_progress--;
     }

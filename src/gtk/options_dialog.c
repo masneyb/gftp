@@ -719,6 +719,7 @@ apply_changes (GtkWidget * widget, gpointer data)
 
   proxy_hosts->list = new_proxy_hosts;
   new_proxy_hosts = NULL;
+  gftpui_show_or_hide_command ();
 }
 
 

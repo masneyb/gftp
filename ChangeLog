@@ -1,3 +1,42 @@
+2003-12-28 Brian Masney <masneyb@gftp.org>
+
+	**** NOTE: this commit breaks a lot of functionality in gftp. I ****
+	**** still have more work to do on this. Please don't email me  ****
+	**** saying that the CVS code is broken.                        ****
+
+	* lib/bookmark.c lib/gftp.h lib/local.c lib/options.h lib/rfc2068.c
+	lib/rfc959.c lib/sshv2.c - moved the use_threads option from the
+	request structure over to the protocol declaration in options.h.
+
+	* lib/options.h src/gtk/gftp-gtk.c - added cmd_in_gui option. When this
+	option is enabled, a new toolbar will be shown in the GTK+ port that
+	will allow you to control the GUI by entering manual commands.
+
+	* src/Makefile.am - added uicommon directory
+
+	* src/gtk/Makefile.am src/text/Makefile.am - link in the uicommon
+	library.
+
+	* src/uicommon/* src/text/gftp-text.c - moved most of the functionality
+	of the text port over to the uicommon directory. Made this code a little
+	more generic so that the GTK+ port can have a text interface
+	associated with it.
+
+	* src/gtk/gtkui.c src/gtk/gftp-gtk.c src/gtk/mkdir_dialog.c
+	src/gtk/rename_dialog.c src/gtk/menu-items.c src/gtk/misc-gtk.c -
+	started to clean up the callback functions and make them more tightly
+	integrated with the uicommon code.
+
+	* src/gtk/bookmarks.c src/gtk/chmod_dialog.c src/gtk/delete_dialog.c
+	src/gtk/gftp-gtk.c src/gtk/menu-items.c src/gtk/misc-gtk.c
+	src/gtk/transfer.c -
+	s/refresh/gftpui_refresh/g
+	s/jmp_environment/gftpui_common_jmp_environment/g
+	s/request->use_threads/gftpui_common_use_threads (request)/g
+
+	* src/gtk/options_dialog.c (apply_changes) - whenever the options are
+	saved, check to see if the command entry needs to be shown or hidden.
+
 2003-12-10 Brian Masney <masneyb@gftp.org>
 	* lib/rfc959.c - fix IPv6 compile problem when IPv6 support is not
 	available on the system.

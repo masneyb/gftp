@@ -87,7 +87,6 @@ bookmark_init (gftp_request * request)
   request->url_prefix = "bookmark";
   request->need_hostport = 0;
   request->need_userpass = 0;
-  request->use_threads = 0;
   request->use_cache = 0;
   request->always_connected = 0;
 

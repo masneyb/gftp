@@ -22,11 +22,11 @@ static const char cvsid[] = "$Id$";
 
 static GtkItemFactory *log_factory, *dl_factory;
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
-                 * openurl_btn;
+                 * openurl_btn, * gftpui_command_toolbar;
 
 gftp_window_data window1, window2, *other_wdata, *current_wdata;
 GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
-          * dlwdw, * protocol_menu, * optionmenu;
+          * dlwdw, * protocol_menu, * optionmenu, * gftpui_command_widget;
 GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
 GtkTextMark * logwdw_textmark;
@@ -38,8 +38,6 @@ GtkItemFactory * factory = NULL;
 pthread_mutex_t transfer_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 gftp_graphic * gftp_icon;
-sigjmp_buf jmp_environment;
-volatile int use_jmp_environment = 0;
 pthread_t main_thread_id;
 GList * viewedit_processes = NULL;
 volatile sig_atomic_t viewedit_process_done;
@@ -141,15 +139,6 @@ menu_exit (GtkWidget * widget, gpointer data)
     doexit (widget, data);
 }
 
-/* This function is only here because the callback function cannot have a
-   return value and chdir_dialog() does */
-
-static void
-chfunc (gpointer data)
-{
-  chdir_dialog (data);
-}
-
 
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
@@ -183,15 +172,15 @@ CreateMenus (GtkWidget * parent)
     {N_("/Local/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
     {N_("/Local/sep"), NULL, 0, 0, MN_("<Separator>")},
     {N_("/Local/Save Directory Listing..."), NULL, save_directory_listing, 0, MN_(NULL)},
-    {N_("/Local/Send SITE Command..."), NULL, site_dialog, 0, MN_(NULL)},
-    {N_("/Local/Change Directory"), NULL, chfunc, 0, MN_(NULL)},
+    {N_("/Local/Send SITE Command..."), NULL, gftpui_site_dialog, 0, MN_(NULL)},
+    {N_("/Local/Change Directory"), NULL, gftpui_chdir_dialog, 0, MN_(NULL)},
     {N_("/Local/Chmod..."), NULL, chmod_dialog, 0, MN_(NULL)},
-    {N_("/Local/Make Directory..."), NULL, mkdir_dialog, 0, MN_(NULL)},
-    {N_("/Local/Rename..."), NULL, rename_dialog, 0, MN_(NULL)},
+    {N_("/Local/Make Directory..."), NULL, gftpui_mkdir_dialog, 0, MN_(NULL)},
+    {N_("/Local/Rename..."), NULL, gftpui_rename_dialog, 0, MN_(NULL)},
     {N_("/Local/Delete..."), NULL, delete_dialog, 0, MN_(NULL)},
     {N_("/Local/Edit..."), NULL, edit_dialog, 0, MN_(NULL)},
     {N_("/Local/View..."), NULL, view_dialog, 0, MN_(NULL)},
-    {N_("/Local/Refresh"), NULL, refresh, 0, MS_(GTK_STOCK_REFRESH)},
+    {N_("/Local/Refresh"), NULL, gftpui_refresh, 0, MS_(GTK_STOCK_REFRESH)},
     {N_("/_Remote"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Remote/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Remote/Open _URL..."), "<control>U", openurl_dialog, 0,
@@ -206,15 +195,15 @@ CreateMenus (GtkWidget * parent)
     {N_("/Remote/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
     {N_("/Remote/sep"), NULL, 0, 0, MN_("<Separator>")},
     {N_("/Remote/Save Directory Listing..."), NULL, save_directory_listing, 0, MN_(NULL)},
-    {N_("/Remote/Send SITE Command..."), NULL, site_dialog, 0, MN_(NULL)},
-    {N_("/Remote/Change Directory"), NULL, chfunc, 0, MN_(NULL)},
+    {N_("/Remote/Send SITE Command..."), NULL, gftpui_site_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Change Directory"), NULL, gftpui_chdir_dialog, 0, MN_(NULL)},
     {N_("/Remote/Chmod..."), NULL, chmod_dialog, 0, MN_(NULL)},
-    {N_("/Remote/Make Directory..."), NULL, mkdir_dialog, 0, MN_(NULL)},
-    {N_("/Remote/Rename..."), NULL, rename_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Make Directory..."), NULL, gftpui_mkdir_dialog, 0, MN_(NULL)},
+    {N_("/Remote/Rename..."), NULL, gftpui_rename_dialog, 0, MN_(NULL)},
     {N_("/Remote/Delete..."), NULL, delete_dialog, 0, MN_(NULL)},
     {N_("/Remote/Edit..."), NULL, edit_dialog, 0, MN_(NULL)},
     {N_("/Remote/View..."), NULL, view_dialog, 0, MN_(NULL)},
-    {N_("/Remote/Refresh"), NULL, refresh, 0, MS_(GTK_STOCK_REFRESH)},
+    {N_("/Remote/Refresh"), NULL, gftpui_refresh, 0, MS_(GTK_STOCK_REFRESH)},
     {N_("/_Bookmarks"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Bookmarks/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Bookmarks/Add bookmark"), "<control>A", add_bookmark, 0,
@@ -336,7 +325,7 @@ CreateMenus (GtkWidget * parent)
 
 
 static GtkWidget *
-CreateToolbar (GtkWidget * parent)
+CreateConnectToolbar (GtkWidget * parent)
 {
   const GtkTargetEntry possible_types[] = {
     {"STRING", 0, 0},
@@ -473,7 +462,31 @@ CreateToolbar (GtkWidget * parent)
   gtk_box_pack_start (GTK_BOX (box), stop_btn, FALSE, FALSE, 0);
 
   gtk_widget_grab_focus (GTK_COMBO (hostedit)->entry);
+
   return (toolbar);
+}
+
+
+static GtkWidget *
+CreateCommandToolbar (void)
+{
+  GtkWidget * box, * tempwid;
+
+  gftpui_command_toolbar = gtk_handle_box_new ();
+
+  box = gtk_hbox_new (FALSE, 4);
+  gtk_container_add (GTK_CONTAINER (gftpui_command_toolbar), box);
+  gtk_container_border_width (GTK_CONTAINER (box), 5);
+
+  tempwid = gtk_label_new (_("Command: "));
+  gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
+
+  gftpui_command_widget = gtk_entry_new ();
+  gtk_box_pack_start (GTK_BOX (box), gftpui_command_widget, TRUE, TRUE, 0);
+  gtk_signal_connect (GTK_OBJECT (gftpui_command_widget), "activate",
+		      GTK_SIGNAL_FUNC (gftpui_run_command), NULL);
+
+  return (gftpui_command_toolbar);
 }
 
 
@@ -492,10 +505,11 @@ setup_column (GtkWidget * listbox, int column, int width)
 static void
 list_doaction (gftp_window_data * wdata)
 {
-  int num, dir, success;
   intptr_t list_dblclk_action;
   GList *templist, *filelist;
+  int num, dir, success;
   gftp_file *tempfle;
+  char *directory;
 
   gftp_lookup_request_option (wdata->request, "list_dblclk_action", 
                               &list_dblclk_action);
@@ -507,13 +521,18 @@ list_doaction (gftp_window_data * wdata)
   tempfle = (gftp_file *) filelist->data;
 
   dir = tempfle->isdir;
-  success = 0;
 
   if (check_reconnect (wdata) < 0) 
     return;
 
   if (tempfle->islink || tempfle->isdir)
-    success = chdir_dialog (wdata);
+    {
+      directory = gftp_build_path (wdata->request->directory, tempfle->file, NULL);
+      success = gftpui_run_chdir (wdata, directory);
+      g_free (directory);
+    }
+  else
+    success = 0;
 
   if (!dir && !success)
     {
@@ -749,7 +768,10 @@ CreateFTPWindows (GtkWidget * ui)
   tempwid = CreateMenus (ui);
   gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
 
-  tempwid = CreateToolbar (ui);
+  tempwid = CreateConnectToolbar (ui);
+  gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
+
+  tempwid = CreateCommandToolbar ();
   gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
 
   winpane = gtk_hpaned_new ();
@@ -887,6 +909,7 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
 
   gtk_widget_show_all (mainvbox);
+  gftpui_show_or_hide_command ();
   return (mainvbox);
 }
 
@@ -1123,8 +1146,8 @@ main (int argc, char **argv)
 
   signal (SIGCHLD, sig_child);
   signal (SIGPIPE, SIG_IGN);
-  signal (SIGALRM, signal_handler);
-  signal (SIGINT, signal_handler);
+  signal (SIGALRM, gftpui_common_signal_handler);
+  signal (SIGINT, gftpui_common_signal_handler);
 
   graphic_hash_table = g_hash_table_new (string_hash_function, string_hash_compare);
  
@@ -1163,13 +1186,7 @@ main (int argc, char **argv)
   gtk_container_add (GTK_CONTAINER (window), ui);
   gtk_widget_show (window);
 
-  ftp_log (gftp_logging_misc, NULL,
-	   "%s, Copyright (C) 1998-2003 Brian Masney <", gftp_version);
-  ftp_log (gftp_logging_recv, NULL, "masneyb@gftp.org");
-  ftp_log (gftp_logging_misc, NULL,
-	   _(">. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"));
-  ftp_log (gftp_logging_misc, NULL,
-	   _("gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"));
+  gftpui_common_about (ftp_log, NULL);
 
   gtk_timeout_add (1000, update_downloads, NULL);
   if (gftp_protocols[GFTP_LOCAL_NUM].init (window1.request) == 0)
@@ -1188,6 +1205,9 @@ main (int argc, char **argv)
   sortrows (GTK_CLIST (window2.listbox), -1, &window2);
 
   init_gftp (argc, argv, window);
+  gftpui_common_init (&window1, window1.request,
+                      &window2, window2.request);
+
 
   GDK_THREADS_ENTER ();
   gtk_main ();
@@ -1195,4 +1215,15 @@ main (int argc, char **argv)
   return (0);
 }
 
+void
+gftpui_show_or_hide_command (void)
+{
+  intptr_t cmd_in_gui;
+
+  gftp_lookup_global_option ("cmd_in_gui", &cmd_in_gui);
+  if (cmd_in_gui)
+    gtk_widget_show (gftpui_command_toolbar);
+  else
+    gtk_widget_hide (gftpui_command_toolbar);
+}
 

@@ -354,122 +354,6 @@ deselectall (gpointer data)
 }
 
 
-static void
-dosite (gftp_window_data * wdata, gftp_dialog_data * ddata)
-{
-  const char *edttext;
-
-  edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
-  if (*edttext == '\0')
-    {
-      ftp_log (gftp_logging_misc, NULL,
-               _("SITE: Operation canceled...you must enter a string\n"));
-      return;
-    }
-
-  if (check_reconnect (wdata) < 0)
-    return;
-  gftp_site_cmd (wdata->request, edttext);
-
-  if (!GFTP_IS_CONNECTED (wdata->request))
-    disconnect (wdata);
-}
-
-
-void
-site_dialog (gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
-  if (!check_status (_("Site"), wdata, 0, 0, 0, wdata->request->site != NULL))
-    return;
-
-  MakeEditDialog (_("Site"), _("Enter site-specific command"), NULL, 1,
-                  NULL, gftp_dialog_button_ok, dosite, wdata, NULL, NULL);
-}
-
-
-static void *
-do_change_dir_thread (void * data)
-{
-  int success, sj;
-  intptr_t network_timeout;
-  gftp_window_data * wdata;
-
-  wdata = data;
-
-  if (wdata->request->use_threads)
-    {
-      sj = sigsetjmp (jmp_environment, 1);
-      use_jmp_environment = 1;
-    }
-  else
-    sj = 0;
-
-  gftp_lookup_request_option (wdata->request, "network_timeout", 
-                              &network_timeout);
-
-  success = 0;
-  if (sj == 0) 
-    {
-      if (network_timeout > 0)
-        alarm (network_timeout);
-      success = gftp_set_directory (wdata->request, wdata->request->directory);
-      alarm (0);
-    }
-  else
-    {
-      gftp_disconnect (wdata->request);
-      wdata->request->logging_function (gftp_logging_error,
-                                        wdata->request,
-                                        _("Operation canceled\n"));
-    }
-
-  if (wdata->request->use_threads)
-    use_jmp_environment = 0;
-
-  wdata->request->stopable = 0;
-  return (GINT_TO_POINTER (success));
-}
-
-
-static int
-do_change_dir (gftp_window_data * wdata, char *directory)
-{
-  char *olddir;
-  int ret;
-
-  if (directory != wdata->request->directory)
-    {
-      olddir = wdata->request->directory;
-      wdata->request->directory = g_strdup (directory);
-    }
-  else
-    olddir = NULL;
-
-  ret = GPOINTER_TO_INT (generic_thread (do_change_dir_thread, wdata));
-
-  if (!GFTP_IS_CONNECTED (wdata->request))
-    {
-      disconnect (wdata);
-      if (olddir != NULL)
-        g_free (olddir);
-      return (-2);
-    }
-
-  if (ret != 0)
-    {
-      g_free (wdata->request->directory);
-      wdata->request->directory = olddir;
-    }
-  else
-    g_free (olddir);
-
-  return (ret);
-}
-
-
 int
 chdir_edit (GtkWidget * widget, gpointer data)
 {
@@ -478,10 +362,14 @@ chdir_edit (GtkWidget * widget, gpointer data)
   char *tempstr;
 
   wdata = data;
-  edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry));
+  if (!check_status (_("Chdir"), wdata, gftpui_common_use_threads (wdata->request), 1, 0,
+                     wdata->request->chdir != NULL))
+    return (0);
 
   if (check_reconnect (wdata) < 0)
     return (0);
+
+  edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry));
 
   if (!GFTP_IS_CONNECTED (wdata->request) && *edttxt != '\0')
     {
@@ -489,74 +377,14 @@ chdir_edit (GtkWidget * widget, gpointer data)
       return (0);
     }
 
-  if (!check_status (_("Chdir"), wdata, wdata->request->use_threads, 0, 0, 
-                     wdata->request->chdir != NULL))
-    return (FALSE);
-
   if ((tempstr = expand_path (edttxt)) == NULL)
     return (FALSE);
 
-  if (check_reconnect (wdata) < 0)
-    return (FALSE);
-
-  if (do_change_dir (wdata, tempstr) == 0)
-    {
-      gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-      remove_files_window (wdata);
-      ftp_list_files (wdata, 1);
-      gtk_clist_thaw (GTK_CLIST (wdata->listbox));
-      add_history (wdata->combo, wdata->history, wdata->histlen, tempstr);
-    }
+  if (gftpui_run_chdir (wdata, tempstr))
+    add_history (wdata->combo, wdata->history, wdata->histlen, edttxt);
 
   g_free (tempstr);
-  return (FALSE);
-}
-
-
-int
-chdir_dialog (gpointer data)
-{
-  GList * templist, * filelist;
-  gftp_window_data * wdata;
-  char *newdir, *tempstr;
-  gftp_file *tempfle;
-  int num, ret;
-
-  wdata = data;
-  if (!check_status (_("Chdir"), wdata, wdata->request->use_threads, 1, 0, 
-                     wdata->request->chdir != NULL))
-    return (0);
-
-  filelist = wdata->files;
-  templist = GTK_CLIST (wdata->listbox)->selection;
-  num = 0;
-  templist = get_next_selection (templist, &filelist, &num);
-  tempfle = filelist->data;
-
-  newdir = gftp_build_path (wdata->request->directory, tempfle->file, NULL);
-
-  if ((tempstr = expand_path (newdir)) == NULL)
-    {
-      g_free (newdir);
-      return (0);
-    }
-
-  g_free (newdir);
-
-  if (check_reconnect (wdata) < 0)
-    return (0);
-
-  ret = 0; 
-  if (do_change_dir (wdata, tempstr) == 0)
-    {
-      gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-      remove_files_window (wdata);
-      ftp_list_files (wdata, 1);
-      gtk_clist_thaw (GTK_CLIST (wdata->listbox));
-      ret = 1;
-    }
-  g_free (tempstr);
-  return (ret);
+  return (0);
 }
 
 
