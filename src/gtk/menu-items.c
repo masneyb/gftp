@@ -442,9 +442,8 @@ clear_cache (gpointer data)
 void 
 about_dialog (gpointer data)
 {
-  GtkWidget * tempwid, * notebook, * box, * label, * view, * vscroll,
-            * dialog;
-  char *tempstr, *no_license_agreement, *str, buf[255];
+  GtkWidget * tempwid, * notebook, * box, * label, * view, * vscroll, * dialog;
+  char *tempstr, *temp1str, *no_license_agreement, *str, buf[255], *share_dir;
   size_t len;
   FILE * fd;
 #if GTK_MAJOR_VERSION > 1
@@ -453,7 +452,8 @@ about_dialog (gpointer data)
   guint textlen;
 #endif
 
-  no_license_agreement = g_strdup_printf (_("Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"), BASE_CONF_DIR, SHARE_DIR);
+  share_dir = gftp_get_share_dir ();
+  no_license_agreement = g_strdup_printf (_("Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"), BASE_CONF_DIR, share_dir);
 
 #if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
@@ -579,7 +579,9 @@ about_dialog (gpointer data)
   if (access (tempstr, F_OK) != 0)
     {
       g_free (tempstr);
-      tempstr = expand_path (SHARE_DIR "/COPYING");
+      temp1str = g_strconcat (share_dir, "/COPYING", NULL);
+      tempstr = expand_path (temp1str);
+      g_free (temp1str);
       if (access (tempstr, F_OK) != 0)
 	{
 	  g_free (tempstr);

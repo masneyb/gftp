@@ -129,6 +129,8 @@ gftpui_common_sig_child (int signo)
 void
 gftpui_common_init (int *argc, char ***argv, gftp_logging_func logfunc)
 {
+  char *share_dir;
+
   gftp_locale_init ();
 
   signal (SIGCHLD, gftpui_common_sig_child);
@@ -136,7 +138,8 @@ gftpui_common_init (int *argc, char ***argv, gftp_logging_func logfunc)
   signal (SIGALRM, gftpui_common_signal_handler);
   signal (SIGINT, gftpui_common_signal_handler);
 
-  gftp_read_config_file (SHARE_DIR);
+  share_dir = gftp_get_share_dir ();
+  gftp_read_config_file (share_dir);
   if (gftp_parse_command_line (argc, argv) != 0)
     exit (0);
 

@@ -1349,3 +1349,23 @@ gftp_get_transfer_action (gftp_request * request, gftp_file * fle)
   return (fle->transfer_action);
 }
 
+
+char *
+gftp_get_share_dir (void)
+{
+  static char *gftp_share_dir = NULL;
+  char *envval;
+
+  if (gftp_share_dir == NULL)
+    {
+      envval = getenv ("GFTP_SHARE_DIR");
+
+      if (envval != NULL && *envval != '\0')
+        gftp_share_dir = g_strdup (envval);
+      else
+        gftp_share_dir = SHARE_DIR;
+    }
+
+  return (gftp_share_dir);
+}
+

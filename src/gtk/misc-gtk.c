@@ -1219,7 +1219,7 @@ display_cached_logs (void)
 char *
 get_xpm_path (char *filename, int quit_on_err)
 {
-  char *tempstr, *exfile;
+  char *tempstr, *exfile, *share_dir;
 
   tempstr = g_strconcat (BASE_CONF_DIR, "/", filename, NULL);
   exfile = expand_path (tempstr);
@@ -1227,7 +1227,9 @@ get_xpm_path (char *filename, int quit_on_err)
   if (access (exfile, F_OK) != 0)
     {
       g_free (exfile);
-      tempstr = g_strconcat (SHARE_DIR, "/", filename, NULL);
+      share_dir = gftp_get_share_dir ();
+
+      tempstr = g_strconcat (share_dir, "/", filename, NULL);
       exfile = expand_path (tempstr);
       g_free (tempstr);
       if (access (exfile, F_OK) != 0)
@@ -1241,7 +1243,7 @@ get_xpm_path (char *filename, int quit_on_err)
 		return (NULL);
 
 	      printf (_("gFTP Error: Cannot find file %s in %s or %s\n"),
-		      filename, SHARE_DIR, BASE_CONF_DIR);
+		      filename, share_dir, BASE_CONF_DIR);
 	      exit (1);
 	    }
 	}

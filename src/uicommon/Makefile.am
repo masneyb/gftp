@@ -2,6 +2,6 @@
 
 noinst_LIBRARIES = libgftpui.a
 libgftpui_a_SOURCES = gftpui.c gftpuicallbacks.c
-INCLUDES = @GLIB_CFLAGS@ @PTHREAD_CFLAGS@ -I../intl -DSHARE_DIR=\"$(datadir)/gftp\"
+INCLUDES = @GLIB_CFLAGS@ @PTHREAD_CFLAGS@ -I../intl
 noinst_HEADERS = gftpui.h
 

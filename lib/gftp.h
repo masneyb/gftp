@@ -764,6 +764,8 @@ char * gftp_descramble_password		( const char *password );
 int gftp_get_transfer_action 		( gftp_request * request,
 					  gftp_file * fle );
 
+char * gftp_get_share_dir 		( void );
+
 /* mkstemps.c */
 int mkstemps 				( char *template,
 					  int suffix_len );
