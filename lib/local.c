@@ -315,23 +315,15 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
     {
       closedir (lpd->dir);
       lpd->dir = NULL;
-      return (GFTP_ERETRYABLE);
+      return (GFTP_EFATAL);
     }
 
   fle->file = g_strdup (dirp->d_name);
   if (lstat (fle->file, &st) != 0)
-    {
-      closedir (lpd->dir);
-      lpd->dir = NULL;
-      return (GFTP_ERETRYABLE);
-    }
+    return (GFTP_ERETRYABLE);
 
   if (stat (fle->file, &fst) != 0)
-    {
-      closedir (lpd->dir);
-      lpd->dir = NULL;
-      return (GFTP_ERETRYABLE);
-    }
+    return (GFTP_ERETRYABLE);
 
   if ((user = g_hash_table_lookup (lpd->userhash, 
                                    GUINT_TO_POINTER(st.st_uid))) != NULL)

@@ -1,10 +1,19 @@
 2003-9-21 Brian Masney <masneyb@gftp.org>
+	* lib/local.c src/gtk/transfer.c src/text/gftp-text.c - if there is a
+	dangling symlink in the current directory, don't bail out. This was 
+	causing directory listings to appear truncated.
+
+	* configure.in - increment version to 2.0.16pre0
+
 	* lib/rfc959.c - if there is a login failure, return GFTP_ERETRYABLE
 	(from winkey <rush@winkey.oompah.org>)
 
 2003-09-01  Metin Amiroff  <metin@karegen.com>
 
 	configure.in: Added "az" in ALL_LINGUAS.
+
+2003-8-21 Brian Masney <masneyb@gftp.org>
+	* Officially released 2.0.15
 
 2003-8-20 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h lib/protocols.c - largefile fixes

@@ -104,8 +104,15 @@ getdir_thread (void * data)
       request->gotbytes = 0; 
       havedotdot = 0; 
       fle = g_malloc0 (sizeof (*fle));
-      while ((got = gftp_get_next_file (request, NULL, fle)) > 0)
+      while ((got = gftp_get_next_file (request, NULL, fle)) > 0 ||
+             got == GFTP_ERETRYABLE)
         { 
+          if (got < 0)
+            {
+              gftp_file_destroy (fle);
+              continue;
+            }
+
           request->gotbytes += got;
           if (strcmp (fle->file, ".") == 0)
             {

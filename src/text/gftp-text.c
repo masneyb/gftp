@@ -595,7 +595,7 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
 {
   GList * files, * templist, * delitem;
   char *color, *filespec, *tempstr;
-  int sortcol, sortasds;
+  int sortcol, sortasds, got;
   gftp_file * fle;
   time_t curtime;
 
@@ -613,9 +613,10 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
 
   files = NULL;
   fle = g_malloc0 (sizeof (*fle));
-  while (gftp_get_next_file (request, NULL, fle) > 0)
+  while ((got = gftp_get_next_file (request, NULL, fle)) > 0 ||
+         got == GFTP_ERETRYABLE)
     {
-      if (strcmp (fle->file, ".") == 0)
+      if (got < 0 || strcmp (fle->file, ".") == 0)
         {
           gftp_file_destroy (fle);
           continue;
