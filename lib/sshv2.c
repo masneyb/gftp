@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  sshv2.c - functions that will use the sshv2 protocol                     */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -22,6 +22,36 @@ static const char cvsid[] = "$Id$";
 
 #define SSH_MAX_HANDLE_SIZE		256
 #define SSH_MAX_STRING_SIZE		34000
+
+static gftp_config_vars config_vars[] =
+{
+  {"", N_("SSH"), gftp_option_type_notebook, NULL, NULL, 0, NULL, 
+   GFTP_PORT_GTK, NULL},
+
+  {"ssh_prog_name", N_("SSH Prog Name:"), 
+   gftp_option_type_text, "ssh", NULL, 0,
+   N_("The path to the SSH executable"), GFTP_PORT_ALL, NULL},
+  {"ssh_extra_params", N_("SSH Extra Params:"), 
+   gftp_option_type_textarray, NULL, NULL, 0,  
+   N_("Extra parameters to pass to the SSH program"), GFTP_PORT_ALL, NULL},
+  {"ssh2_sftp_path", N_("SSH2 sftp-server path:"), 
+   gftp_option_type_text, NULL, NULL, 0,
+   N_("Default remote SSH2 sftp-server path"), GFTP_PORT_ALL, NULL},
+
+  {"ssh_need_userpass", N_("Need SSH User/Pass"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   N_("Require a username/password for SSH connections"), GFTP_PORT_ALL, NULL},
+  {"ssh_use_askpass", N_("Use ssh-askpass utility"),
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   N_("Use the ssh-askpass utility to supply the remote password"), GFTP_PORT_GTK,
+   NULL},
+  {"sshv2_use_sftp_subsys", N_("Use SSH2 SFTP subsys"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   N_("Call ssh with the -s sftp flag. This is helpful because you won't have to know the remote path to the remote sftp-server"), 
+   GFTP_PORT_GTK, NULL},
+  {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
+};
+
 
 typedef struct sshv2_attribs_tag
 {
@@ -111,6 +141,254 @@ typedef struct sshv2_params_tag
 #define SSH_FX_NO_CONNECTION                 6
 #define SSH_FX_CONNECTION_LOST               7
 #define SSH_FX_OP_UNSUPPORTED                8
+
+#define SSH_LOGIN_BUFSIZE	200
+#define SSH_ERROR_BADPASS	-1
+#define SSH_ERROR_QUESTION	-2
+#define SSH_WARNING 		-3
+
+/* We have the caller send us a pointer to a string so we can write the port
+   into it. It makes it easier so we don't have to worry about freeing it 
+   later on, the caller can just send us an auto variable, The string
+   should be at least 6 chars. I know this is messy... */
+
+static char **
+sshv2_gen_exec_args (gftp_request * request, char *execname, 
+                    int use_sftp_subsys, char *portstring)
+{
+  char **args, *oldstr, *tempstr, *ssh_prog_name, **ssh_extra_params_list;
+  int i, j, num_ssh_extra_params;
+  struct servent serv_struct;
+
+  ssh_extra_params_list = NULL;
+  gftp_lookup_request_option (request, "ssh_extra_params", 
+                              &ssh_extra_params_list);
+
+  num_ssh_extra_params = 0;
+  if (ssh_extra_params_list != NULL)
+    {
+      for (j=0; ssh_extra_params_list[j] != NULL; j++)
+        {
+          num_ssh_extra_params++;
+        }
+     }
+
+  args = g_malloc (sizeof (char *) * (num_ssh_extra_params + 15));
+
+  ssh_prog_name = "ssh";
+  gftp_lookup_request_option (request, "ssh_prog_name", &ssh_prog_name);
+  args[0] = ssh_prog_name;
+
+  i = 1;
+  tempstr = g_strdup (args[0]);
+
+
+  if (ssh_extra_params_list != NULL)
+    {
+      for (j=0; ssh_extra_params_list[j] != NULL; j++)
+        {
+          oldstr = tempstr;
+          args[i++] = ssh_extra_params_list[j];
+          tempstr = g_strconcat (oldstr, " ", ssh_extra_params_list[j], NULL);
+          g_free (oldstr);
+        }
+    }
+
+  oldstr = tempstr;
+  tempstr = g_strconcat (oldstr, " -e none", NULL);
+  g_free (oldstr);
+  args[i++] = "-e";
+  args[i++] = "none";
+
+  if (request->username && *request->username != '\0')
+    {
+      oldstr = tempstr;
+      tempstr = g_strconcat (oldstr, " -l ", request->username, NULL);
+      g_free (oldstr);
+      args[i++] = "-l";
+      args[i++] = request->username;
+    }
+
+  if (request->port != 0)
+    {
+      g_snprintf (portstring, 6, "%d", request->port);
+      oldstr = tempstr;
+      tempstr = g_strconcat (oldstr, " -p ", portstring, NULL);
+      g_free (oldstr);
+      args[i++] = "-p";
+      args[i++] = portstring;
+    }
+  else
+    {
+      if (!r_getservbyname ("ssh", "tcp", &serv_struct, NULL))
+        request->port = 22;
+      else
+        request->port = ntohs (serv_struct.s_port);
+    }
+
+  if (use_sftp_subsys)
+    {
+      oldstr = tempstr;
+      tempstr = g_strconcat (oldstr, " ", request->hostname, " -s sftp", NULL);
+      g_free (oldstr);
+      args[i++] = request->hostname;
+      args[i++] = "-s";
+      args[i++] = "sftp";
+      args[i] = NULL;
+    }
+  else
+    {
+      oldstr = tempstr;
+      tempstr = g_strconcat (oldstr, " ", request->hostname, " \"", execname, 
+                             "\"", NULL);
+      g_free (oldstr);
+      args[i++] = request->hostname;
+      args[i++] = execname;
+      args[i] = NULL;
+    }
+
+  request->logging_function (gftp_logging_misc, request->user_data, 
+                             _("Running program %s\n"), tempstr);
+  g_free (tempstr);
+  return (args);
+}
+
+
+static char *
+sshv2_start_login_sequence (gftp_request * request, int fd)
+{
+  char *tempstr, *pwstr, *tmppos;
+  size_t rem, len, diff, lastdiff, key_pos;
+  int wrotepw, ok;
+  ssize_t rd;
+
+  rem = len = SSH_LOGIN_BUFSIZE;
+  tempstr = g_malloc0 (len + 1);
+  key_pos = diff = lastdiff = 0;
+  wrotepw = 0;
+  ok = 1;
+
+  if (gftp_set_sockblocking (request, fd, 1) == -1)
+    return (NULL);
+
+  pwstr = g_strconcat (request->password, "\n", NULL);
+
+  errno = 0;
+  while (1)
+    {
+      if ((rd = gftp_read (request, tempstr + diff, rem - 1, fd)) <= 0)
+        {
+          ok = 0;
+          break;
+        }
+      rem -= rd;
+      diff += rd;
+      tempstr[diff] = '\0'; 
+
+      if (diff > 11 && strcmp (tempstr + diff - 10, "password: ") == 0)
+        {
+          if (wrotepw)
+            {
+              ok = SSH_ERROR_BADPASS;
+              break;
+            }
+
+          if (strstr (tempstr, "WARNING") != NULL ||
+              strstr (tempstr, _("WARNING")) != NULL)
+            {
+              ok = SSH_WARNING;
+              break;
+            }
+              
+          wrotepw = 1;
+          if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
+            {
+              ok = 0;
+              break;
+            }
+        }
+      else if (diff > 2 && strcmp (tempstr + diff - 2, ": ") == 0 &&
+               ((tmppos = strstr (tempstr + key_pos, "Enter passphrase for RSA key")) != NULL ||
+                ((tmppos = strstr (tempstr + key_pos, "Enter passphrase for key '")) != NULL)))
+        {
+          key_pos = diff;
+          if (wrotepw)
+            {
+              ok = SSH_ERROR_BADPASS;
+              break;
+            }
+
+          if (strstr (tempstr, "WARNING") != NULL ||
+              strstr (tempstr, _("WARNING")) != NULL)
+            {
+              ok = SSH_WARNING;
+              break;
+            }
+
+          wrotepw = 1;
+          if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
+            {
+              ok = 0;
+              break;
+            }
+        }
+      else if (diff > 10 && strcmp (tempstr + diff - 10, "(yes/no)? ") == 0)
+        {
+          ok = SSH_ERROR_QUESTION;
+          break;
+        }
+      else if (diff >= 5 && strcmp (tempstr + diff - 5, "xsftp") == 0)
+        break;
+      else if (rem <= 1)
+        {
+          request->logging_function (gftp_logging_recv, request->user_data,
+                                     "%s", tempstr + lastdiff);
+          len += SSH_LOGIN_BUFSIZE;
+          rem += SSH_LOGIN_BUFSIZE;
+          lastdiff = diff;
+          tempstr = g_realloc (tempstr, len);
+          continue;
+        }
+    }
+
+  g_free (pwstr);
+
+  if (*(tempstr + lastdiff) != '\0')
+    request->logging_function (gftp_logging_recv, request->user_data,
+                               "%s\n", tempstr + lastdiff);
+
+  if (ok <= 0)
+    {
+      if (ok == SSH_ERROR_BADPASS)
+        request->logging_function (gftp_logging_error, request->user_data,
+                               _("Error: An incorrect password was entered\n"));
+      else if (ok == SSH_ERROR_QUESTION)
+        request->logging_function (gftp_logging_error, request->user_data,
+                               _("Please connect to this host with the command line SSH utility and answer this question appropriately.\n"));
+      else if (ok == SSH_WARNING)
+        request->logging_function (gftp_logging_error, request->user_data,
+                                   _("Please correct the above warning to connect to this host.\n"));
+
+      g_free (tempstr);
+      return (NULL);
+    }
+ 
+  return (tempstr);
+}
+
+
+#ifdef G_HAVE_GINT64
+
+static gint64
+hton64 (gint64 val)
+{
+  if (G_BYTE_ORDER != G_BIG_ENDIAN)
+    return (GINT64_TO_BE (val));
+  else
+    return (val);
+}
+
+#endif
 
 
 static void
@@ -523,8 +801,9 @@ sshv2_getcwd (gftp_request * request)
 static int
 sshv2_connect (gftp_request * request)
 {
-  char **args, *tempstr, pts_name[20], *p1, p2, *exepath, port[6];
-  int version, fdm, fds, s[2], ret;
+  int version, fdm, fds, s[2], ret, ssh_use_askpass, sshv2_use_sftp_subsys;
+  char **args, *tempstr, pts_name[20], *p1, p2, *exepath, port[6],
+       *ssh2_sftp_path;
   sshv2_message message;
   pid_t child;
 
@@ -544,21 +823,25 @@ sshv2_connect (gftp_request * request)
      any initial text from the server, and we'll block. So I just send a 
      xsftp server banner over. I hope this works on most Unices */
 
-  if (request->sftpserv_path == NULL ||
-      *request->sftpserv_path == '\0')
+  gftp_lookup_request_option (request, "ssh2_sftp_path", &ssh2_sftp_path);
+  gftp_lookup_request_option (request, "ssh_use_askpass", &ssh_use_askpass);
+  gftp_lookup_request_option (request, "sshv2_use_sftp_subsys", 
+                              &sshv2_use_sftp_subsys);
+
+  if (ssh2_sftp_path == NULL || *ssh2_sftp_path == '\0')
     {
       p1 = "";
       p2 = ' ';
     }
   else
     {
-      p1 = request->sftpserv_path;
+      p1 = ssh2_sftp_path;
       p2 = '/';
     }
 
   *port = '\0';
   exepath = g_strdup_printf ("echo -n xsftp ; %s%csftp-server", p1, p2);
-  args = make_ssh_exec_args (request, exepath, sshv2_use_sftp_subsys, port);
+  args = sshv2_gen_exec_args (request, exepath, sshv2_use_sftp_subsys, port);
 
   if (ssh_use_askpass || sshv2_use_sftp_subsys)
     {
@@ -608,8 +891,7 @@ sshv2_connect (gftp_request * request)
       dup2 (fds, 2);
       if (!ssh_use_askpass && fds > 2)
         close (fds);
-      execvp (ssh_prog_name != NULL && *ssh_prog_name != '\0' ?
-              ssh_prog_name : "ssh", args);
+      execvp (args[0], args);
 
       printf (_("Error: Cannot execute ssh: %s\n"), g_strerror (errno));
       exit (1);
@@ -624,7 +906,7 @@ sshv2_connect (gftp_request * request)
       tty_raw (fdm);
       if (!sshv2_use_sftp_subsys)
         {
-          tempstr = ssh_start_login_sequence (request, fdm);
+          tempstr = sshv2_start_login_sequence (request, fdm);
           if (!tempstr ||
               !(strlen (tempstr) > 4 && strcmp (tempstr + strlen (tempstr) - 5,
                                                 "xsftp") == 0))
@@ -1941,19 +2223,9 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 static void
 sshv2_set_config_options (gftp_request * request)
 {
-  if (request->sftpserv_path != NULL)
-    {
-      if (ssh2_sftp_path != NULL && 
-          strcmp (ssh2_sftp_path, request->sftpserv_path) == 0)
-        return;
+  int ssh_need_userpass;
 
-      g_free (request->sftpserv_path);
-      request->sftpserv_path = NULL;
-    }
-
-  if (ssh2_sftp_path != NULL)
-    request->sftpserv_path = g_strdup (ssh2_sftp_path);
-
+  gftp_lookup_request_option (request, "ssh_need_userpass", &ssh_need_userpass);
   request->need_userpass = ssh_need_userpass;
 }
 
@@ -1966,6 +2238,13 @@ sshv2_swap_socks (gftp_request * dest, gftp_request * source)
   sparams = source->protocol_data;
   dparams = dest->protocol_data;
   dparams->id = sparams->id;
+}
+
+
+void 
+sshv2_register_module (void)
+{
+  gftp_register_config_vars (config_vars);
 }
 
 
@@ -1990,7 +2269,6 @@ sshv2_init (gftp_request * request)
   request->abort_transfer = sshv2_end_transfer; /* NOTE: uses sshv2_end_transfer */
   request->list_files = sshv2_list_files;
   request->get_next_file = sshv2_get_next_file;
-  request->set_data_type = NULL;
   request->get_file_size = sshv2_get_file_size;
   request->chdir = sshv2_chdir;
   request->rmdir = sshv2_rmdir;
@@ -2004,14 +2282,13 @@ sshv2_init (gftp_request * request)
   request->set_config_options = sshv2_set_config_options;
   request->swap_socks = sshv2_swap_socks;
   request->url_prefix = "ssh2";
-  request->protocol_name = "SSH2";
   request->need_hostport = 1;
-  request->need_userpass = ssh_need_userpass;
+  request->need_userpass = 1;
   request->use_cache = 1;
   request->use_threads = 1;
   request->always_connected = 0;
   request->protocol_data = g_malloc0 (sizeof (sshv2_params));
-  request->server_type = GFTP_TYPE_UNIX;
+  request->server_type = GFTP_DIRTYPE_UNIX;
   gftp_set_config_options (request);
 
   params = request->protocol_data;

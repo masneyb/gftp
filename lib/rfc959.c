@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  rfc959.c - General purpose routines for the FTP protocol (RFC 959)       */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -20,10 +20,79 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
+static gftp_config_vars config_vars[] = 
+{
+  {"", N_("FTP"), gftp_option_type_notebook, NULL, NULL, 0, NULL, 
+   GFTP_PORT_GTK, NULL},
+
+  {"email", N_("Email address:"), 
+   gftp_option_type_text, "", NULL, 0,
+   N_("This is the password that will be used whenever you log into a remote FTP server as anonymous"), 
+   GFTP_PORT_ALL, NULL},
+  {"passive_transfer", N_("Passive file transfers"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   N_("If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."),
+   GFTP_PORT_ALL, NULL},
+  {"resolve_symlinks", N_("Resolve Remote Symlinks (LIST -L)"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   N_("The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"), 
+   GFTP_PORT_ALL, NULL},
+  {"ascii_transfers", N_("Transfer files in ASCII mode"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   N_("If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently. If you are transfering from UNIX to UNIX, then it is safe to leave this off."), 
+   GFTP_PORT_ALL, NULL},
+  {"ftp_proxy_host", N_("Proxy hostname:"), 
+   gftp_option_type_text, "", NULL, 0,
+   N_("Firewall hostname"), GFTP_PORT_ALL, NULL},
+  {"ftp_proxy_port", N_("Proxy port:"), 
+   gftp_option_type_int, GINT_TO_POINTER(21), NULL, 0,
+   N_("Port to connect to on the firewall"), GFTP_PORT_ALL, NULL},
+  {"ftp_proxy_username", N_("Proxy username:"), 
+   gftp_option_type_text, "", NULL, 0,
+   N_("Your firewall username"), GFTP_PORT_ALL, NULL},
+  {"ftp_proxy_password", N_("Proxy password:"), 
+   gftp_option_type_hidetext, "", NULL, 0,
+   N_("Your firewall password"), GFTP_PORT_ALL, NULL},
+  {"ftp_proxy_account", N_("Proxy account:"), 
+   gftp_option_type_text, "", NULL, 0,
+   N_("Your firewall account (optional)"), GFTP_PORT_ALL, NULL},
+  
+  {"", "", gftp_option_type_newtable, "", NULL, 0, "", GFTP_PORT_GTK, NULL},
+/* FIXME  {"", N_("Proxy server type"), CONFIG_COMBO, "PS", NULL, GFTP_PORT_GTK},*/
+  {"proxy_config", N_("Proxy config"), 
+   gftp_option_type_textbox, "", NULL, 0,
+   N_("This specifies how your proxy server expects us to log in"), 
+   GFTP_PORT_GTK, NULL},
+
+  {"", N_("%pu = proxy user"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {"", N_("%hu = host user"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {"", N_("%pp = proxy pass"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {"", N_("%hp = host pass"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {"", N_("%ph = proxy host"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {"", N_("%hh = host"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {"", N_("%po = proxy port"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {"", N_("%ho = host port"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL}, 
+  {"", N_("%pa = proxy account"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {"", N_("%ha = host account"), gftp_option_type_label, "", NULL, 0, "", 
+   GFTP_PORT_GTK, NULL},
+  {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
+};
+
+         
 typedef struct rfc959_params_tag
 {
   gftp_getline_buffer * sockfd_rbuf,
                       * datafd_rbuf;
+  int is_ascii_transfer;
 } rfc959_parms;
 
 
@@ -114,14 +183,16 @@ rfc959_send_command (gftp_request * request, const char *command)
 static char *
 parse_ftp_proxy_string (gftp_request * request)
 {
-  char *startpos, *endpos, *oldstr, *newstr, *newval, *tempport;
+  char *startpos, *endpos, *oldstr, *newstr, *newval, *tempport, *proxy_config;
+  int tmp;
 
   g_return_val_if_fail (request != NULL, NULL);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, NULL);
 
   newstr = g_malloc (1);
   *newstr = '\0';
-  startpos = endpos = request->proxy_config;
+  gftp_lookup_request_option (request, "proxy_config", &proxy_config);
+  startpos = endpos = proxy_config;
   while (*endpos != '\0')
     {
       tempport = NULL;
@@ -130,20 +201,21 @@ parse_ftp_proxy_string (gftp_request * request)
 	  switch (tolower ((int) *(endpos + 2)))
 	    {
 	    case 'u':
-	      newval = request->proxy_username;
+              gftp_lookup_request_option (request, "firewall_username", &newval);
 	      break;
 	    case 'p':
-	      newval = request->proxy_password;
+              gftp_lookup_request_option (request, "firewall_password", &newval);
 	      break;
 	    case 'h':
-	      newval = request->proxy_hostname;
+              gftp_lookup_request_option (request, "firewall_host", &newval);
 	      break;
 	    case 'o':
-	      tempport = g_strdup_printf ("%d", request->proxy_port);
+              gftp_lookup_request_option (request, "firewall_port", &tmp);
+	      tempport = g_strdup_printf ("%d", tmp);
 	      newval = tempport;
 	      break;
 	    case 'a':
-	      newval = request->proxy_account;
+              gftp_lookup_request_option (request, "firewall_account", &newval);
 	      break;
 	    default:
 	      endpos++;
@@ -317,11 +389,11 @@ rfc959_syst (gftp_request * request)
 
   *endpos = '\0';
   if (strcmp (stpos, "UNIX") == 0)
-    request->server_type = GFTP_TYPE_UNIX;
+    request->server_type = GFTP_DIRTYPE_UNIX;
   else if (strcmp (stpos, "VMS") == 0)
-    request->server_type = GFTP_TYPE_VMS;
+    request->server_type = GFTP_DIRTYPE_VMS;
   else
-    request->server_type = GFTP_TYPE_OTHER;
+    request->server_type = GFTP_DIRTYPE_OTHER;
 
   return (0);
 }
@@ -330,8 +402,9 @@ rfc959_syst (gftp_request * request)
 static int
 rfc959_connect (gftp_request * request)
 {
-  char tempchar, *startpos, *endpos, *tempstr;
-  int ret, resp;
+  char tempchar, *startpos, *endpos, *tempstr, *email, *proxy_hostname;
+  int ret, resp, ascii_transfers, proxy_port;
+  rfc959_parms * parms;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
@@ -340,15 +413,22 @@ rfc959_connect (gftp_request * request)
   if (request->sockfd > 0)
     return (0);
 
+  parms = request->protocol_data;
+
+  gftp_lookup_request_option (request, "email", &email);
+  gftp_lookup_request_option (request, "firewall_host", &proxy_hostname);
+  gftp_lookup_request_option (request, "firewall_port", &proxy_port);
+
   if (request->username == NULL || *request->username == '\0')
     {
       gftp_set_username (request, "anonymous");
-      gftp_set_password (request, emailaddr);
+      gftp_set_password (request, email);
     }
   else if (strcasecmp (request->username, "anonymous") == 0)
-    gftp_set_password (request, emailaddr);
-    
-  if ((request->sockfd = gftp_connect_server (request, "ftp")) < 0)
+    gftp_set_password (request, email);
+   
+  if ((request->sockfd = gftp_connect_server (request, "ftp", proxy_hostname,
+                                              proxy_port)) < 0)
     return (request->sockfd);
 
   /* Get the banner */
@@ -416,10 +496,17 @@ rfc959_connect (gftp_request * request)
   if ((ret = rfc959_syst (request)) < 0 && request->sockfd < 0)
     return (ret);
 
-  if (request->data_type == GFTP_TYPE_BINARY)
-    tempstr = "TYPE I\r\n";
+  gftp_lookup_request_option (request, "ascii_transfers", &ascii_transfers);
+  if (ascii_transfers)
+    {
+      tempstr = "TYPE A\r\n";
+      parms->is_ascii_transfer = 1;
+    }
   else
-    tempstr = "TYPE A\r\n";
+    {
+      tempstr = "TYPE I\r\n";
+      parms->is_ascii_transfer = 0;
+    }
 
   if ((ret = rfc959_send_command (request, tempstr)) < 0)
     return (ret);
@@ -472,10 +559,10 @@ rfc959_data_connection_new (gftp_request * request)
 {
   char *pos, *pos1, resp, *command;
   struct sockaddr_in data_addr;
+  int i, passive_transfer;
   size_t data_addr_len;
   unsigned int temp[6];
   unsigned char ad[6];
-  int i;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
@@ -494,14 +581,15 @@ rfc959_data_connection_new (gftp_request * request)
   memset (&data_addr, 0, data_addr_len);
   data_addr.sin_family = AF_INET;
 
-  if (request->transfer_type == gftp_transfer_passive)
+  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
+  if (passive_transfer)
     {
       if ((resp = rfc959_send_command (request, "PASV\r\n")) != '2')
 	{
           if (request->sockfd < 0)
             return (resp);
 
-	  request->transfer_type = gftp_transfer_active;
+          gftp_set_request_option (request, "passive_transfer", GINT_TO_POINTER(0));
 	  return (rfc959_data_connection_new (request));
 	}
 
@@ -608,14 +696,16 @@ rfc959_data_connection_new (gftp_request * request)
 static int
 rfc959_accept_active_connection (gftp_request * request)
 {
+  int infd, ret, passive_transfer;
   struct sockaddr_in cli_addr;
   size_t cli_addr_len;
-  int infd, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
-  g_return_val_if_fail (request->transfer_type == gftp_transfer_active, GFTP_EFATAL);
+
+  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
+  g_return_val_if_fail (!passive_transfer, GFTP_EFATAL);
 
   cli_addr_len = sizeof (cli_addr);
 
@@ -642,12 +732,74 @@ rfc959_accept_active_connection (gftp_request * request)
 }
 
 
+static int
+rfc959_is_ascii_transfer (const char *filename)
+{
+  gftp_config_list_vars * tmplistvar;
+  gftp_file_extensions * tempext;
+  GList * templist;
+  int stlen, ret;
+  
+  gftp_lookup_global_option ("ext", &tmplistvar);
+
+  ret = 0; 
+  stlen = strlen (filename);
+  for (templist = tmplistvar->list; templist != NULL; templist = templist->next)
+    {
+      tempext = templist->data;
+
+      if (stlen >= tempext->stlen &&
+          strcmp (&filename[stlen - tempext->stlen], tempext->ext) == 0)
+        {
+          if (toupper (*tempext->ascii_binary == 'A'))
+            ret = 1; 
+          break;
+        }
+    }
+
+  return (ret);
+}
+
+
+static void
+rfc959_set_data_type (gftp_request * request, const char *filename)
+{
+  rfc959_parms * parms;
+  int new_ascii;
+  char *tempstr;
+
+  g_return_if_fail (request != NULL);
+  g_return_if_fail (request->protonum == GFTP_FTP_NUM);
+
+  parms = request->protocol_data;
+  new_ascii = rfc959_is_ascii_transfer (filename);
+
+  if (request->sockfd > 0 && new_ascii != parms->is_ascii_transfer)
+    {
+      if (new_ascii)
+        {
+	  tempstr = "TYPE A\r\n";
+          parms->is_ascii_transfer = 1;
+        }
+      else
+        {
+	  tempstr = "TYPE I\r\n";
+          parms->is_ascii_transfer = 1;
+        }
+
+      rfc959_send_command (request, tempstr);
+    }
+
+  return;
+}
+
+
 static off_t
 rfc959_get_file (gftp_request * request, const char *filename, int fd,
                  off_t startsize)
 {
   char *command, *tempstr, resp;
-  int ret;
+  int ret, passive_transfer;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
@@ -656,6 +808,8 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
 
   if (fd > 0)
     request->datafd = fd;
+
+  rfc959_set_data_type (request, filename);
 
   if (request->datafd < 0 && 
       (ret = rfc959_data_connection_new (request)) < 0)
@@ -693,7 +847,8 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
       return (GFTP_ERETRYABLE);
     }
 
-  if (request->transfer_type == gftp_transfer_active &&
+  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
+  if (!passive_transfer &&
       (ret = rfc959_accept_active_connection (request)) < 0)
     return (ret);
 
@@ -715,7 +870,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
                  off_t startsize, off_t totalsize)
 {
   char *command, *tempstr, resp;
-  int ret;
+  int ret, passive_transfer;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
@@ -724,6 +879,8 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
 
   if (fd > 0)
     fd = request->datafd;
+
+  rfc959_set_data_type (request, filename);
 
   if (request->datafd < 0 && 
       (ret = rfc959_data_connection_new (request)) < 0)
@@ -759,7 +916,8 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
       return (GFTP_ERETRYABLE);
     }
 
-  if (request->transfer_type == gftp_transfer_active && 
+  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
+  if (!passive_transfer &&
       (ret = rfc959_accept_active_connection (request)) < 0)
     return (ret);
 
@@ -782,8 +940,8 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_return_val_if_fail (fromreq->sockfd > 0, GFTP_EFATAL);
   g_return_val_if_fail (toreq->sockfd > 0, GFTP_EFATAL);
 
-  fromreq->transfer_type = gftp_transfer_passive;
-  toreq->transfer_type = gftp_transfer_active;
+  gftp_set_request_option (fromreq, "passive_transfer", GINT_TO_POINTER(1));
+  gftp_set_request_option (toreq, "passive_transfer", GINT_TO_POINTER(0));
 
   if ((ret = rfc959_send_command (fromreq, "PASV\r\n")) != '2')
     return (ret);
@@ -894,8 +1052,8 @@ rfc959_abort_transfer (gftp_request * request)
 static int
 rfc959_list_files (gftp_request * request)
 {
+  int ret, show_hidden_files, resolve_symlinks, passive_transfer;
   char *tempstr, parms[3];
-  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
@@ -903,6 +1061,10 @@ rfc959_list_files (gftp_request * request)
 
   if ((ret = rfc959_data_connection_new (request)) < 0)
     return (ret);
+
+  gftp_lookup_request_option (request, "show_hidden_files", &show_hidden_files);
+  gftp_lookup_request_option (request, "resolve_symlinks", &resolve_symlinks);
+  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
   *parms = '\0';
   strcat (parms, show_hidden_files ? "a" : "");
@@ -917,10 +1079,87 @@ rfc959_list_files (gftp_request * request)
     return (GFTP_ERETRYABLE);
 
   ret = 0;
-  if (request->transfer_type == gftp_transfer_active)
+  if (!passive_transfer)
     ret = rfc959_accept_active_connection (request);
 
   return (ret);
+}
+
+
+static ssize_t
+rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
+{
+  int i, j, ascii_transfers;
+  ssize_t num_read;
+
+  num_read = gftp_read (request, buf, size, request->datafd);
+  if (num_read < 0)
+    return (num_read);
+
+  gftp_lookup_request_option (request, "ascii_transfers", &ascii_transfers);
+  if (ascii_transfers)
+    {
+      for (i = 0, j = 0; i < num_read; i++)
+        {
+          if (buf[i] != '\r')
+            buf[j++] = buf[i];
+          else
+            num_read--;
+        }
+    }
+
+  return (num_read);
+}
+
+
+static ssize_t
+rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
+{
+  int i, j, ascii_transfers;
+  ssize_t num_wrote;
+  char *tempstr;
+  size_t rsize;
+
+  if (size == 0)
+    return (0);
+
+  gftp_lookup_request_option (request, "ascii_transfers", &ascii_transfers);
+  if (ascii_transfers)
+    {
+      rsize = 0;
+      for (i = 0; i < size; i++)
+        {
+          rsize++;
+          if (i > 0 && buf[i] == '\n' && buf[i - 1] != '\r')
+            rsize++;
+        }
+
+      if (rsize != size)
+        {
+          tempstr = g_malloc (rsize);
+
+          for (i = 0, j = 0; i < size; i++)
+            {
+              if (i > 0 && buf[i] == '\n' && buf[i - 1] != '\r')
+                tempstr[j++] = '\r';
+              tempstr[j++] = buf[i];
+            }
+        }
+      else
+        tempstr = buf;
+    }
+  else
+    {
+      rsize = size;
+      tempstr = buf;
+    }
+
+  num_wrote = gftp_write (request, tempstr, rsize, request->datafd);
+
+  if (tempstr != buf)
+    g_free (tempstr);
+
+  return (num_wrote);
 }
 
 
@@ -975,30 +1214,6 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       request->last_dir_entry_len = len + 1;
     }
   return (len);
-}
-
-
-static int
-rfc959_set_data_type (gftp_request * request, int data_type)
-{
-  char *tempstr;
-  int ret;
-
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
-
-  if (request->sockfd > 0 && request->data_type != data_type)
-    {
-      if (data_type == GFTP_TYPE_BINARY)
-	tempstr = "TYPE I\r\n";
-      else
-	tempstr = "TYPE A\r\n";
-
-      if ((ret = rfc959_send_command (request, tempstr)) != '2')
-	return (ret);
-    }
-  request->data_type = data_type;
-  return (0);
 }
 
 
@@ -1178,30 +1393,40 @@ rfc959_site (gftp_request * request, const char *command)
 static void
 rfc959_set_config_options (gftp_request * request)
 {
-  request->transfer_type = passive_transfer ? gftp_transfer_passive : gftp_transfer_active;
+  char *proxy_config;
 
-  if (strcmp (proxy_config, "http") != 0)
+  gftp_lookup_request_option (request, "proxy_config", &proxy_config);
+  if (strcmp (proxy_config, "http") == 0)
     {
-      gftp_set_proxy_hostname (request, firewall_host);
-      gftp_set_proxy_port (request, firewall_port);
-      gftp_set_proxy_username (request, firewall_username);
-      gftp_set_proxy_password (request, firewall_password);
-      gftp_set_proxy_account (request, firewall_account);
-      gftp_set_proxy_config (request, proxy_config);
+      gftp_protocols[GFTP_HTTP_NUM].init (request);
+      gftp_set_request_option (request, "proxy_config", "ftp");
     }
-  else
+}
+
+
+void 
+rfc959_register_module (void)
+{
+  struct hostent *hent;
+  struct utsname unme;
+  struct passwd *pw;
+  char *tempstr;
+
+  gftp_register_config_vars (config_vars);
+
+  gftp_lookup_global_option ("email", &tempstr);
+  if (tempstr == NULL || *tempstr == '\0')
     {
-      gftp_set_proxy_hostname (request, http_proxy_host);
-      gftp_set_proxy_port (request, http_proxy_port);
-      gftp_set_proxy_username (request, http_proxy_username);
-      gftp_set_proxy_password (request, http_proxy_password);
-
-
-      if (request->proxy_config == NULL)
-        {
-          gftp_protocols[GFTP_HTTP_NUM].init (request);
-          request->proxy_config = g_strdup ("ftp");
-        }
+      /* If there is no email address specified, then we'll just use the
+         currentuser@currenthost */
+      uname (&unme);
+      pw = getpwuid (geteuid ());
+      hent = gethostbyname (unme.nodename);
+      if (strchr (unme.nodename, '.') == NULL && hent != NULL)
+        tempstr = g_strconcat (pw->pw_name, "@", hent->h_name, NULL);
+      else
+        tempstr = g_strconcat (pw->pw_name, "@", unme.nodename, NULL);
+      gftp_set_global_option ("email", tempstr);
     }
 }
 
@@ -1219,13 +1444,12 @@ rfc959_init (gftp_request * request)
   request->get_file = rfc959_get_file;
   request->put_file = rfc959_put_file;
   request->transfer_file = rfc959_transfer_file;
-  request->get_next_file_chunk = NULL;
-  request->put_next_file_chunk = NULL;
+  request->get_next_file_chunk = rfc959_get_next_file_chunk;
+  request->put_next_file_chunk = rfc959_put_next_file_chunk;
   request->end_transfer = rfc959_end_transfer;
   request->abort_transfer = rfc959_abort_transfer;
   request->list_files = rfc959_list_files;
   request->get_next_file = rfc959_get_next_file;
-  request->set_data_type = rfc959_set_data_type;
   request->get_file_size = rfc959_get_file_size;
   request->chdir = rfc959_chdir;
   request->rmdir = rfc959_rmdir;
@@ -1239,7 +1463,6 @@ rfc959_init (gftp_request * request)
   request->swap_socks = NULL;
   request->set_config_options = rfc959_set_config_options;
   request->url_prefix = "ftp";
-  request->protocol_name = "FTP";
   request->need_hostport = 1;
   request->need_userpass = 1;
   request->use_cache = 1;

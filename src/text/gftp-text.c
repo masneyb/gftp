@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  gftp-text.c - text port of gftp                                          */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -94,9 +94,9 @@ struct _gftp_text_methods gftp_text_methods[] = {
 int
 main (int argc, char **argv)
 {
+  char *pos, *stpos, *startup_directory;
   gftp_request * request;
   size_t len, cmdlen;
-  char *pos, *stpos;
   int i;
 #ifdef HAVE_LIBREADLINE
   char *tempstr, prompt[20];
@@ -117,22 +117,34 @@ main (int argc, char **argv)
 
   /* SSH doesn't support reading the password with askpass via the command 
      line */
-  ssh_use_askpass = sshv2_use_sftp_subsys = 0;
 
   if (gftp_parse_command_line (&argc, &argv) != 0)
     exit (0);
 
   gftp_text_remreq = gftp_request_new ();
+  gftp_set_request_option (gftp_text_remreq, "ssh_use_askpass", 
+                           GINT_TO_POINTER(0));
+  gftp_set_request_option (gftp_text_remreq, "ssh_use_sftp_subsys", 
+                           GINT_TO_POINTER(0));
   gftp_text_remreq->logging_function = gftp_text_log;
 
   gftp_text_locreq = gftp_request_new ();
+  gftp_set_request_option (gftp_text_locreq, "ssh_use_askpass", 
+                           GINT_TO_POINTER(0));
+  gftp_set_request_option (gftp_text_locreq, "ssh_use_sftp_subsys", 
+                           GINT_TO_POINTER(0));
   gftp_text_locreq->logging_function = gftp_text_log;
   gftp_protocols[GFTP_LOCAL_NUM].init (gftp_text_locreq);
-  if (startup_directory != NULL && *startup_directory != '\0')
+
+  startup_directory = "";
+  gftp_lookup_request_option (gftp_text_locreq, "startup_directory", 
+                              &startup_directory);
+  if (*startup_directory != '\0')
     gftp_set_directory (gftp_text_locreq, startup_directory);
+
   gftp_connect (gftp_text_locreq);
 
-  gftp_text_log (gftp_logging_misc, NULL, "%s, Copyright (C) 1998-2002 Brian Masney <", version);
+  gftp_text_log (gftp_logging_misc, NULL, "%s, Copyright (C) 1998-2003 Brian Masney <", gftp_version);
   gftp_text_log (gftp_logging_recv, NULL, "masneyb@gftp.org");
   gftp_text_log (gftp_logging_misc, NULL, _(">.\nIf you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"));
   gftp_text_log (gftp_logging_misc, NULL, "\n");
@@ -226,8 +238,8 @@ main (int argc, char **argv)
 #endif
     }
  
-  if (logfd != NULL)
-    fclose (logfd);
+  if (gftp_logfd != NULL)
+    fclose (gftp_logfd);
   gftp_text_quit (NULL, NULL, NULL);
 
   return (0);
@@ -263,16 +275,16 @@ gftp_text_log (gftp_logging_level level, void *ptr, const char *string, ...)
   g_vsnprintf (tempstr, sizeof (tempstr), string, argp);
   va_end (argp);
 
-  if (logfd != NULL)
+  if (gftp_logfd != NULL)
     {
-      fwrite (tempstr, 1, strlen (tempstr), logfd);
-      if (ferror (logfd))
+      fwrite (tempstr, 1, strlen (tempstr), gftp_logfd);
+      if (ferror (gftp_logfd))
         {
-          fclose (logfd);
-          logfd = NULL;
+          fclose (gftp_logfd);
+          gftp_logfd = NULL;
         }
       else
-        fflush (logfd);
+        fflush (gftp_logfd);
     }
 
   sw = gftp_text_get_win_size ();
@@ -323,7 +335,7 @@ gftp_text_open (gftp_request * request, char *command, gpointer *data)
       return (1);
     }
 
-  if (GFTP_GET_USERNAME (request) == NULL)
+  if (request->username == NULL)
     {
       if ((pos = gftp_text_ask_question ("Username [anonymous]", 1, tempstr, 
                                          sizeof (tempstr))) != NULL)
@@ -339,7 +351,7 @@ gftp_text_open (gftp_request * request, char *command, gpointer *data)
         gftp_set_username (request, "anonymous");
     }
 
-  if (strcmp (GFTP_GET_USERNAME (request), "anonymous") != 0 && 
+  if (strcmp (request->username, "anonymous") != 0 && 
       (request->password == NULL || *request->password == '\0'))
     {
       if ((pos = gftp_text_ask_question ("Password", 0, tempstr, 
@@ -367,7 +379,8 @@ gftp_text_about (gftp_request * request, char *command, gpointer *data)
   char *str;
 
   gftp_text_log (gftp_logging_misc, NULL,
-      "%s. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>\n", version);
+      "%s. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n", 
+      gftp_version);
 
   str = _("Translated by");
   if (strcmp (str, "Translated by") != 0)
@@ -595,13 +608,13 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
 
   if (request == gftp_text_locreq)
     {
-      sortcol = local_sortcol;
-      sortasds = local_sortasds;
+      gftp_lookup_request_option (request, "local_sortcol", &sortcol);
+      gftp_lookup_request_option (request, "local_sortasds", &sortasds);
     }
   else
     {
-      sortcol = remote_sortcol;
-      sortasds = remote_sortasds;
+      gftp_lookup_request_option (request, "remote_sortcol", &sortcol);
+      gftp_lookup_request_option (request, "remote_sortasds", &sortasds);
     }
 
   files = gftp_sort_filelist (files, sortcol, sortasds);
@@ -669,8 +682,10 @@ gftp_text_binary (gftp_request * request, char *command, gpointer *data)
       return (1);
     }
 
-  gftp_set_data_type (gftp_text_remreq, GFTP_TYPE_BINARY);
-  gftp_set_data_type (gftp_text_locreq, GFTP_TYPE_BINARY);
+  gftp_set_request_option (gftp_text_remreq, "ascii_transfers", 
+                           GINT_TO_POINTER(0));
+  gftp_set_request_option (gftp_text_locreq, "ascii_transfers", 
+                           GINT_TO_POINTER(0));
   return (1);
 }
 
@@ -685,8 +700,10 @@ gftp_text_ascii (gftp_request * request, char *command, gpointer *data)
       return (1);
     }
 
-  gftp_set_data_type (gftp_text_remreq, GFTP_TYPE_ASCII);
-  gftp_set_data_type (gftp_text_locreq, GFTP_TYPE_ASCII);
+  gftp_set_request_option (gftp_text_remreq, "ascii_transfers", 
+                           GINT_TO_POINTER(1));
+  gftp_set_request_option (gftp_text_locreq, "ascii_transfers", 
+                           GINT_TO_POINTER(1));
   return (1);
 }
 
@@ -839,7 +856,7 @@ gftp_text_mput_file (gftp_request * request, char *command, gpointer *data)
 int
 gftp_text_transfer_files (gftp_transfer * transfer)
 {
-  char *tempstr, buf[8192], *progress = "|/-\\";
+  char buf[8192], *progress = "|/-\\";
   struct timeval updatetime;
   long fromsize, total;
   gftp_file * curfle;
@@ -860,13 +877,6 @@ gftp_text_transfer_files (gftp_transfer * transfer)
           continue;
         }
 
-      if (maxkbs > 0)
-       {
-          gftp_text_log (gftp_logging_misc, NULL, 
-                         _("File transfer will be throttled to %.2f KB/s\n"), 
-                         maxkbs);
-        }
-
       transfer->curtrans = curfle->startsize;
       fromsize = gftp_transfer_file (transfer->fromreq, curfle->file, -1,
                                      curfle->startsize, transfer->toreq, curfle->destfile, 
@@ -881,6 +891,7 @@ gftp_text_transfer_files (gftp_transfer * transfer)
   
       total = 0;
       i = 0;
+      num_read = -1;
       while (!cancel && (num_read = gftp_get_next_file_chunk (transfer->fromreq,
                                                         buf, sizeof (buf))) > 0)
         {
@@ -890,7 +901,7 @@ gftp_text_transfer_files (gftp_transfer * transfer)
             i = 0;
 
           total += num_read;
-          gftp_text_calc_kbs (transfer, num_read);
+          gftp_calc_kbs (transfer, num_read);
           if (transfer->lasttime.tv_sec - updatetime.tv_sec >= 1 || total >= fromsize)
             {
               sw = gftp_text_get_win_size () - 20;
@@ -908,22 +919,11 @@ gftp_text_transfer_files (gftp_transfer * transfer)
               memcpy (&updatetime, &transfer->lasttime, sizeof (updatetime));
             }
 
-          if (GFTP_GET_DATA_TYPE (transfer->fromreq) == GFTP_TYPE_ASCII)
-            tempstr = gftp_convert_ascii (buf, &num_read, 1);
-          else
-            tempstr = buf;
-
-          if (gftp_put_next_file_chunk (transfer->toreq, tempstr, num_read) < 0)
+          if (gftp_put_next_file_chunk (transfer->toreq, buf, num_read) < 0)
             {
               num_read = -1;
               break;
             }
-
-          /* We don't have to free tempstr for a download because new memory is
-             not allocated for it in that case */
-          if (GFTP_GET_DATA_TYPE (transfer->fromreq) == 
-              GFTP_TYPE_ASCII && !transfer->transfer_direction)
-            g_free (tempstr);
         }
       printf ("\n");
 
@@ -1014,31 +1014,31 @@ gftp_text_help (gftp_request * request, char *command, gpointer *data)
 int
 gftp_text_set (gftp_request * request, char *command, gpointer *data)
 {
+  gftp_config_vars * cv;
   char *pos, *backpos;
+  GList * templist;
   int i;
 
   if (command == NULL || *command == '\0')
     {
-      for (i=0; config_file_vars[i].key != NULL; i++)
+      for (templist = gftp_options_list; 
+           templist != NULL; 
+           templist = templist->next)
         {
-          if (!(config_file_vars[i].ports_shown & GFTP_PORT_TEXT))
-            continue;
+          cv = templist->data;
 
-          switch (config_file_vars[i].type)
+          for (i=0; cv[i].key != NULL; i++)
             {
-              case CONFIG_CHARTEXT:
-                printf ("%s = %s\n", config_file_vars[i].key, 
-                        *(char **) config_file_vars[i].var);
-                break;
-              case CONFIG_INTTEXT:
-              case CONFIG_CHECKBOX:
-                printf ("%s = %d\n", config_file_vars[i].key, 
-                        *(int *) config_file_vars[i].var);
-                break;
-              case CONFIG_FLOATTEXT:
-                printf ("%s = %.2f\n", config_file_vars[i].key, 
-                        *(float *) config_file_vars[i].var);
-                break;
+              if (!(cv[i].ports_shown & GFTP_PORT_TEXT))
+                continue;
+
+              if (*cv[i].key == '\0' || 
+                  gftp_option_types[cv[i].otype].write_function == NULL)
+                continue;
+
+              printf ("%s = ", cv[i].key);
+              gftp_option_types[cv[i].otype].write_function (&cv[i], stdout, 0);
+              printf ("\n");
             }
         }
     }
@@ -1058,48 +1058,24 @@ gftp_text_set (gftp_request * request, char *command, gpointer *data)
         *backpos = '\0';
       for (++pos; *pos == ' ' || *pos == '\t'; pos++);
 
-      for (i=0; config_file_vars[i].key != NULL; i++)
-        {
-          if (strcmp (config_file_vars[i].key, command) == 0)
-            break;
-           
-        }
-
-      if (config_file_vars[i].key == NULL)
+      if ((cv = g_hash_table_lookup (gftp_global_options_htable, command)) == NULL)
         {
           gftp_text_log (gftp_logging_error, NULL,
                          _("Error: Variable %s is not a valid configuration variable.\n"), command);
           return (1);
         }
 
-      if (!(config_file_vars[i].ports_shown & GFTP_PORT_TEXT))
+      if (!(cv->ports_shown & GFTP_PORT_TEXT))
         {
           gftp_text_log (gftp_logging_error, NULL,
                          _("Error: Variable %s is not available in the text port of gFTP\n"), command);
           return (1);
         }
 
-      configuration_changed = 1;
-      switch (config_file_vars[i].type)
+      if (gftp_option_types[cv->otype].read_function != NULL)
         {
-          case CONFIG_CHARTEXT:
-            if (*(char **) config_file_vars[i].var != NULL)
-              g_free (*(char **) config_file_vars[i].var);
-            *(char **) config_file_vars[i].var = g_strconcat (pos, NULL);
-            break;
-          case CONFIG_CHECKBOX:
-            *(int *) config_file_vars[i].var = *pos == '1' ? 1 : 0;
-            break;
-          case CONFIG_INTTEXT:
-            *(int *) config_file_vars[i].var = strtol (pos, NULL, 10);
-            break;
-          case CONFIG_FLOATTEXT:
-            *(float *) config_file_vars[i].var = strtod (pos, NULL);
-            break;
-          default:
-            gftp_text_log (gftp_logging_error, NULL,
-                           _("Error: You cannot change this variable\n"));
-            break;
+          configuration_changed = 1;
+          gftp_option_types[cv->otype].read_function (pos, cv, 1);
         }
     }
 
@@ -1195,57 +1171,6 @@ gftp_text_get_win_size (void)
 
 
 void
-gftp_text_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
-{
-  unsigned long waitusecs;
-  double difftime, curkbs;
-  gftp_file * tempfle;
-  struct timeval tv;
-  unsigned long toadd;
-
-  gettimeofday (&tv, NULL);
-
-  tempfle = tdata->curfle->data;
-  tdata->trans_bytes += num_read;
-  tdata->curtrans += num_read;
-  tdata->stalled = 0;
-
-  difftime = (tv.tv_sec - tdata->starttime.tv_sec) + ((double) (tv.tv_usec - tdata->starttime.tv_usec) / 1000000.0);
-  if (difftime == 0)
-    tdata->kbs = (double) tdata->trans_bytes / 1024.0;
-  else
-    tdata->kbs = (double) tdata->trans_bytes / 1024.0 / difftime;
-
-  difftime = (tv.tv_sec - tdata->lasttime.tv_sec) + ((double) (tv.tv_usec - tdata->lasttime.tv_usec) / 1000000.0);
-
-  if (difftime <= 0)
-    curkbs = (double) (num_read / 1024.0);
-  else
-    curkbs = (double) (num_read / 1024.0 / difftime);
-
-  if (tdata->fromreq->maxkbs > 0 && 
-      curkbs > tdata->fromreq->maxkbs)
-    {
-      waitusecs = (double) num_read / 1024.0 / tdata->fromreq->maxkbs * 1000000.0 - difftime;
-
-      if (waitusecs > 0)
-        {
-          difftime += ((double) waitusecs / 1000000.0);
-          usleep (waitusecs);
-        }
-    }
-
-  /* I don't call gettimeofday (&tdata->lasttime) here because this will use
-     less system resources. This will be close enough for what we need */
-  difftime += tdata->lasttime.tv_usec / 1000000.0;
-  toadd = (long) difftime;
-  difftime -= toadd;
-  tdata->lasttime.tv_sec += toadd;
-  tdata->lasttime.tv_usec = difftime * 1000000.0;
-}
-
-
-void
 sig_child (int signo)
 {
 }
@@ -1254,15 +1179,12 @@ sig_child (int signo)
 int
 gftp_text_set_show_subhelp (char *topic)
 {
-  int i;
+  gftp_config_vars * cv;
 
-  for (i=0; config_file_vars[i].key != NULL; i++)
+  if ((cv = g_hash_table_lookup (gftp_global_options_htable, topic)) != NULL)
     {
-      if (strcmp (topic, config_file_vars[i].key) == 0)
-        {
-          printf ("%s\n", config_file_vars[i].comment);
-          return (1);
-        }
+      printf ("%s\n", cv->comment);
+      return (1);
     }
 
   return (0);

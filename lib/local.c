@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  local.c - functions that will use the local system                       */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -632,6 +632,12 @@ hash_function (gconstpointer key)
 }
 
 
+void 
+local_register_module (void)
+{
+}
+
+
 void
 local_init (gftp_request * request)
 {
@@ -653,7 +659,6 @@ local_init (gftp_request * request)
   request->abort_transfer = local_end_transfer; /* NOTE: uses end_transfer */
   request->list_files = local_list_files;
   request->get_next_file = local_get_next_file;
-  request->set_data_type = NULL;
   request->get_file_size = local_get_file_size;
   request->chdir = local_chdir;
   request->rmdir = local_rmdir;
@@ -667,7 +672,6 @@ local_init (gftp_request * request)
   request->set_config_options = NULL;
   request->swap_socks = NULL;
   request->url_prefix = "file";
-  request->protocol_name = "Local";
   request->need_hostport = 0;
   request->need_userpass = 0;
   request->use_cache = 0;

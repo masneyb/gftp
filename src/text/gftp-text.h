@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  gftp-text.h - include file for the gftp text port                        */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -117,8 +117,6 @@ char *gftp_text_ask_question 			( const char *question,
 						  char *buf,
 						  size_t size );
 int gftp_text_get_win_size 			( void );
-void gftp_text_calc_kbs 			( gftp_transfer * tdata, 
-						  ssize_t num_read );
 void sig_child 					( int signo );
 int gftp_text_set_show_subhelp			( char *topic );
 int gftp_text_clear_show_subhelp		( char *topic );

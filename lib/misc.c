@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  misc.c - general purpose routines                                        */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -347,7 +347,7 @@ gftp_parse_command_line (int *argc, char ***argv)
       else if (strcmp (argv[0][1], "--version") == 0 || 
                strcmp (argv[0][1], "-v") == 0)
 	{
-	  printf ("%s\n", version);
+	  printf ("%s\n", gftp_version);
 	  exit (0);
 	}
     }
@@ -530,10 +530,6 @@ compare_request (gftp_request * request1, gftp_request * request2,
 void
 free_tdata (gftp_transfer * tdata)
 {
-  if (tdata->statmutex)
-    g_free (tdata->statmutex);
-  if (tdata->structmutex)
-    g_free (tdata->structmutex);
   if (tdata->fromreq != NULL)
     gftp_request_destroy (tdata->fromreq, 1);
   if (tdata->toreq != NULL)
@@ -561,19 +557,9 @@ copy_request (gftp_request * req)
   if (req->directory)
     newreq->directory = g_strdup (req->directory);
   newreq->port = req->port;
-  newreq->data_type = req->data_type;
   newreq->use_proxy = req->use_proxy;
-  gftp_set_proxy_config (newreq, req->proxy_config);
-  newreq->transfer_type = req->transfer_type;
-  newreq->network_timeout = req->network_timeout;
-  newreq->retries = req->retries;
-  newreq->sleep_time = req->sleep_time;
-  newreq->passive_transfer = req->passive_transfer;
-  newreq->maxkbs = req->maxkbs;
   newreq->logging_function = req->logging_function;
-
-  if (req->sftpserv_path != NULL)
-    newreq->sftpserv_path = g_strdup (req->sftpserv_path);
+  newreq->local_options = NULL; /* FIXME */
 
   req->init (newreq);
 
@@ -714,248 +700,6 @@ tty_raw (int fd)
     return (-1);
   return (0);
 }
-
-
-/* We have the caller send us a pointer to a string so we can write the port
-   into it. It makes it easier so we don't have to worry about freeing it 
-   later on, the caller can just send us an auto variable, The string
-   should be at least 6 chars. I know this is messy... */
-
-char **
-make_ssh_exec_args (gftp_request * request, char *execname, 
-                    int use_sftp_subsys, char *portstring)
-{
-  char **args, *oldstr, *tempstr;
-  struct servent serv_struct;
-  int i, j;
-
-  args = g_malloc (sizeof (char *) * (num_ssh_extra_params + 15));
-
-  args[0] = ssh_prog_name != NULL && *ssh_prog_name != '\0' ? 
-            ssh_prog_name : "ssh";
-  i = 1;
-  tempstr = g_strdup (args[0]);
-
-  if (ssh_extra_params_list != NULL)
-    {
-      for (j=0; ssh_extra_params_list[j] != NULL; j++)
-        {
-          oldstr = tempstr;
-          args[i++] = ssh_extra_params_list[j];
-          tempstr = g_strconcat (oldstr, " ", ssh_extra_params_list[j], NULL);
-          g_free (oldstr);
-        }
-    }
-
-  oldstr = tempstr;
-  tempstr = g_strconcat (oldstr, " -e none", NULL);
-  g_free (oldstr);
-  args[i++] = "-e";
-  args[i++] = "none";
-
-  if (request->username && *request->username != '\0')
-    {
-      oldstr = tempstr;
-      tempstr = g_strconcat (oldstr, " -l ", request->username, NULL);
-      g_free (oldstr);
-      args[i++] = "-l";
-      args[i++] = request->username;
-    }
-
-  if (request->port != 0)
-    {
-      g_snprintf (portstring, 6, "%d", request->port);
-      oldstr = tempstr;
-      tempstr = g_strconcat (oldstr, " -p ", portstring, NULL);
-      g_free (oldstr);
-      args[i++] = "-p";
-      args[i++] = portstring;
-    }
-  else
-    {
-      if (!r_getservbyname ("ssh", "tcp", &serv_struct, NULL))
-        request->port = 22;
-      else
-        request->port = ntohs (serv_struct.s_port);
-    }
-
-  if (use_sftp_subsys)
-    {
-      oldstr = tempstr;
-      tempstr = g_strconcat (oldstr, " ", request->hostname, " -s sftp", NULL);
-      g_free (oldstr);
-      args[i++] = request->hostname;
-      args[i++] = "-s";
-      args[i++] = "sftp";
-      args[i] = NULL;
-    }
-  else
-    {
-      oldstr = tempstr;
-      tempstr = g_strconcat (oldstr, " ", request->hostname, " \"", execname, 
-                             "\"", NULL);
-      g_free (oldstr);
-      args[i++] = request->hostname;
-      args[i++] = execname;
-      args[i] = NULL;
-    }
-
-  request->logging_function (gftp_logging_misc, request->user_data, 
-                             _("Running program %s\n"), tempstr);
-  g_free (tempstr);
-  return (args);
-}
-
-#define SSH_LOGIN_BUFSIZE	200
-#define SSH_ERROR_BADPASS	-1
-#define SSH_ERROR_QUESTION	-2
-#define SSH_WARNING 		-3
-
-char *
-ssh_start_login_sequence (gftp_request * request, int fd)
-{
-  char *tempstr, *pwstr, *tmppos;
-  size_t rem, len, diff, lastdiff, key_pos;
-  int wrotepw, ok;
-  ssize_t rd;
-
-  rem = len = SSH_LOGIN_BUFSIZE;
-  tempstr = g_malloc0 (len + 1);
-  key_pos = diff = lastdiff = 0;
-  wrotepw = 0;
-  ok = 1;
-
-  if (gftp_set_sockblocking (request, fd, 1) == -1)
-    return (NULL);
-
-  pwstr = g_strconcat (request->password, "\n", NULL);
-
-  errno = 0;
-  while (1)
-    {
-      if ((rd = gftp_read (request, tempstr + diff, rem - 1, fd)) <= 0)
-        {
-          ok = 0;
-          break;
-        }
-      rem -= rd;
-      diff += rd;
-      tempstr[diff] = '\0'; 
-
-      if (diff > 11 && strcmp (tempstr + diff - 10, "password: ") == 0)
-        {
-          if (wrotepw)
-            {
-              ok = SSH_ERROR_BADPASS;
-              break;
-            }
-
-          if (strstr (tempstr, "WARNING") != NULL ||
-              strstr (tempstr, _("WARNING")) != NULL)
-            {
-              ok = SSH_WARNING;
-              break;
-            }
-              
-          wrotepw = 1;
-          if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
-            {
-              ok = 0;
-              break;
-            }
-        }
-      else if (diff > 2 && strcmp (tempstr + diff - 2, ": ") == 0 &&
-               ((tmppos = strstr (tempstr + key_pos, "Enter passphrase for RSA key")) != NULL ||
-                ((tmppos = strstr (tempstr + key_pos, "Enter passphrase for key '")) != NULL)))
-        {
-          key_pos = diff;
-          if (wrotepw)
-            {
-              ok = SSH_ERROR_BADPASS;
-              break;
-            }
-
-          if (strstr (tempstr, "WARNING") != NULL ||
-              strstr (tempstr, _("WARNING")) != NULL)
-            {
-              ok = SSH_WARNING;
-              break;
-            }
-
-          wrotepw = 1;
-          if (gftp_write (request, pwstr, strlen (pwstr), fd) < 0)
-            {
-              ok = 0;
-              break;
-            }
-        }
-      else if (diff > 10 && strcmp (tempstr + diff - 10, "(yes/no)? ") == 0)
-        {
-          ok = SSH_ERROR_QUESTION;
-          break;
-        }
-      else if (diff >= 5 && strcmp (tempstr + diff - 5, "xsftp") == 0)
-        break;
-      else if (rem <= 1)
-        {
-          request->logging_function (gftp_logging_recv, request->user_data,
-                                     "%s", tempstr + lastdiff);
-          len += SSH_LOGIN_BUFSIZE;
-          rem += SSH_LOGIN_BUFSIZE;
-          lastdiff = diff;
-          tempstr = g_realloc (tempstr, len);
-          continue;
-        }
-    }
-
-  g_free (pwstr);
-
-  if (*(tempstr + lastdiff) != '\0')
-    request->logging_function (gftp_logging_recv, request->user_data,
-                               "%s\n", tempstr + lastdiff);
-
-  if (ok <= 0)
-    {
-      if (ok == SSH_ERROR_BADPASS)
-        request->logging_function (gftp_logging_error, request->user_data,
-                               _("Error: An incorrect password was entered\n"));
-      else if (ok == SSH_ERROR_QUESTION)
-        request->logging_function (gftp_logging_error, request->user_data,
-                               _("Please connect to this host with the command line SSH utility and answer this question appropriately.\n"));
-      else if (ok == SSH_WARNING)
-        request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Please correct the above warning to connect to this host.\n"));
-
-      g_free (tempstr);
-      return (NULL);
-    }
- 
-  return (tempstr);
-}
-
-
-#ifdef G_HAVE_GINT64
-
-gint64
-hton64 (gint64 val)
-{
-  gint64 num;
-  char *pos;
-
-  num = 0;
-  pos = (char *) &num;
-  pos[0] = (val >> 56) & 0xff;
-  pos[1] = (val >> 48) & 0xff;
-  pos[2] = (val >> 40) & 0xff;
-  pos[3] = (val >> 32) & 0xff;
-  pos[4] = (val >> 24) & 0xff;
-  pos[5] = (val >> 16) & 0xff;
-  pos[6] = (val >> 8) & 0xff;
-  pos[7] = val & 0xff;
-  return (num);
-}
-
-#endif
 
 
 static gint
@@ -1124,6 +868,7 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
   GList * files, * dirs, * dotdot, * tempitem, * insitem;
   GCompareFunc sortfunc;
   gftp_file * tempfle;
+  int sort_dirs_first;
 
   files = dirs = dotdot = NULL;
 
@@ -1138,9 +883,15 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
                 gftp_group_sort_function_as : gftp_group_sort_function_ds;
   else if (column == GFTP_SORT_COL_DATETIME)
     sortfunc = asds ?
-                gftp_datetime_sort_function_as : gftp_datetime_sort_function_ds;  else /* GFTP_SORT_COL_ATTRIBS */
+                gftp_datetime_sort_function_as : gftp_datetime_sort_function_ds;
+  else if (column == GFTP_SORT_COL_ATTRIBS)
     sortfunc = asds ? 
                 gftp_attribs_sort_function_as : gftp_attribs_sort_function_ds;
+  else /* Don't sort */
+   return (filelist);
+
+  sort_dirs_first = 1;
+  gftp_lookup_global_option ("sort_dirs_first", &sort_dirs_first);
 
   for (tempitem = filelist; tempitem != NULL; )
     {

@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  rfc2068.c - General purpose routines for the HTTP protocol               */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -19,6 +19,30 @@
 
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
+
+static gftp_config_vars config_vars[] =
+{
+  {"", N_("HTTP"), gftp_option_type_notebook, NULL, NULL, 0, NULL, 
+   GFTP_PORT_GTK, NULL},
+
+  {"http_proxy_host", N_("Proxy hostname:"), 
+   gftp_option_type_text, "", NULL, 0, 
+   N_("Firewall hostname"), GFTP_PORT_ALL, 0},
+  {"http_proxy_port", N_("Proxy port:"), 
+   gftp_option_type_int, GINT_TO_POINTER(80), NULL, 0,
+   N_("Port to connect to on the firewall"), GFTP_PORT_ALL, NULL},
+  {"http_proxy_username", N_("Proxy username:"), 
+   gftp_option_type_text, "", NULL, 0,
+   N_("Your firewall username"), GFTP_PORT_ALL, NULL},
+  {"http_proxy_password", N_("Proxy password:"), 
+   gftp_option_type_hidetext, "", NULL, 0,
+   N_("Your firewall password"), GFTP_PORT_ALL, NULL},
+
+  {"use_http11", N_("Use HTTP/1.1"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
+   N_("Do you want to use HTTP/1.1 or HTTP/1.0"), GFTP_PORT_ALL, NULL},
+  {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
+};
 
 typedef struct rfc2068_params_tag
 {
@@ -125,7 +149,8 @@ static off_t
 rfc2068_send_command (gftp_request * request, const char *command,
                       const char *extrahdr)
 {
-  char *tempstr, *str;
+  char *tempstr, *str, *proxy_hostname, *proxy_username, *proxy_password;
+  int proxy_port;
   ssize_t ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -133,7 +158,7 @@ rfc2068_send_command (gftp_request * request, const char *command,
   g_return_val_if_fail (command != NULL, GFTP_EFATAL);
 
   tempstr = g_strdup_printf ("%sUser-Agent: %s\nHost: %s\n", command,
-                             version, request->hostname);
+                             gftp_version, request->hostname);
 
   request->logging_function (gftp_logging_send, request->user_data,
                              "%s", tempstr);
@@ -144,11 +169,14 @@ rfc2068_send_command (gftp_request * request, const char *command,
   if (ret < 0)
     return (ret);
 
-  if (request->use_proxy && request->proxy_username != NULL &&
-      *request->proxy_username != '\0')
+  gftp_lookup_request_option (request, "http_proxy_host", &proxy_hostname);
+  gftp_lookup_request_option (request, "http_proxy_port", &proxy_port);
+  gftp_lookup_request_option (request, "http_proxy_username", &proxy_username);
+  gftp_lookup_request_option (request, "http_proxy_password", &proxy_password);
+
+  if (request->use_proxy && proxy_username != NULL && *proxy_username != '\0')
     {
-      tempstr = g_strconcat (request->proxy_username, ":", 
-                             request->proxy_password, NULL);
+      tempstr = g_strconcat (proxy_username, ":", proxy_password, NULL);
       str = base64_encode (tempstr);
       g_free (tempstr);
 
@@ -195,23 +223,28 @@ rfc2068_send_command (gftp_request * request, const char *command,
 static int
 rfc2068_connect (gftp_request * request)
 {
-  char *service;
+  rfc2068_params * params;
+  char *proxy_hostname;
+  int proxy_port;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->hostname != NULL, GFTP_EFATAL);
 
+  params = request->protocol_data;
+
   if (request->sockfd > 0)
     return (0);
 
-  service = request->use_proxy && request->proxy_config != NULL && 
-            *request->proxy_config != '\0' ? request->proxy_config : "http";
+  gftp_lookup_request_option (request, "http_proxy_host", &proxy_hostname);
+  gftp_lookup_request_option (request, "http_proxy_port", &proxy_port);
 
   if (request->url_prefix != NULL)
     g_free (request->url_prefix);
-  request->url_prefix = g_strdup (service);
+  request->url_prefix = g_strdup ("http"); /* FIXME _ can be FTP */
 
-  if ((request->sockfd = gftp_connect_server (request, service)) < 0)
+  if ((request->sockfd = gftp_connect_server (request, request->url_prefix, 
+                                              proxy_hostname, proxy_port)) < 0)
     return (GFTP_ERETRYABLE);
 
   if (request->directory && *request->directory == '\0')
@@ -253,13 +286,18 @@ static off_t
 rfc2068_get_file (gftp_request * request, const char *filename, int fd,
                   off_t startsize)
 {
-  char *tempstr, *extrahdr, *pos, *proto;
-  int restarted, ret;
+  char *tempstr, *extrahdr, *pos;
+  int restarted, ret, use_http11;
+  rfc2068_params * params;
   off_t size;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
+
+  params = request->protocol_data;
+
+  gftp_lookup_request_option (request, "use_http11", &use_http11);
 
   if (fd > 0)
     request->sockfd = fd;
@@ -267,17 +305,12 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
   if (request->sockfd < 0 && (ret = rfc2068_connect (request)) != 0)
     return (ret);
 
-  if (request->proxy_config != NULL && *request->proxy_config != '\0')
-    proto = request->proxy_config;
-  else
-    proto = "http";
-
   if (request->username == NULL || *request->username == '\0')
-    tempstr = g_strconcat ("GET ", proto, "://", 
+    tempstr = g_strconcat ("GET ", request->url_prefix, "://", 
                      request->hostname, "/", filename, 
                      use_http11 ? " HTTP/1.1\n" : " HTTP/1.0\n", NULL);
   else 
-    tempstr = g_strconcat ("GET ", proto, "://", 
+    tempstr = g_strconcat ("GET ", request->url_prefix, "://", 
                      request->username, "@", request->hostname, "/", filename, 
                      use_http11 ? " HTTP/1.1\n" : " HTTP/1.0\n", NULL);
 
@@ -379,30 +412,28 @@ rfc2068_end_transfer (gftp_request * request)
 static int
 rfc2068_list_files (gftp_request * request)
 {
-  char *tempstr, *pos, *proto;
   rfc2068_params *params;
+  char *tempstr, *pos;
+  int r, use_http11;
   off_t ret;
-  int r;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
 
   params = request->protocol_data;
+  gftp_lookup_request_option (request, "use_http11", &use_http11);
+
   if (request->sockfd < 0 && (r = rfc2068_connect (request)) < 0)
     return (r);
 
-  if (request->proxy_config != NULL && *request->proxy_config != '\0')
-    proto = request->proxy_config;
-  else
-    proto = "http";
-
   if (request->username == NULL || *request->username == '\0')
-    tempstr = g_strconcat ("GET ", proto, "://", 
+    tempstr = g_strconcat ("GET ", request->url_prefix, "://", 
                            request->hostname, "/", request->directory, 
                            use_http11 ? "/ HTTP/1.1\n" : "/ HTTP/1.0\n", NULL);
   else
-    tempstr = g_strconcat ("GET ", proto, "://", request->username, "@", 
-                           request->hostname, "/", request->directory, 
+    tempstr = g_strconcat ("GET ", request->url_prefix, "://", 
+                           request->username, "@", request->hostname, "/", 
+                           request->directory, 
                            use_http11 ? "/ HTTP/1.1\n" : "/ HTTP/1.0\n", NULL);
 
   if ((pos = strstr (tempstr, "://")) != NULL)
@@ -431,28 +462,28 @@ rfc2068_list_files (gftp_request * request)
 static off_t 
 rfc2068_get_file_size (gftp_request * request, const char *filename)
 {
-  char *tempstr, *pos, *proto;
+  rfc2068_params *params;
+  char *tempstr, *pos;
+  int ret, use_http11;
   off_t size;
-  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_HTTP_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
+  params = request->protocol_data;
+  gftp_lookup_request_option (request, "use_http11", &use_http11);
+
   if (request->sockfd < 0 && (ret = rfc2068_connect (request)) != 0)
     return (ret);
 
-  if (request->proxy_config != NULL && *request->proxy_config != '\0')
-    proto = request->proxy_config;
-  else
-    proto = "http";
-
   if (request->username == NULL || *request->username == '\0')
-    tempstr = g_strconcat ("HEAD ", proto, request->hostname, "/", filename, 
+    tempstr = g_strconcat ("HEAD ", request->url_prefix, request->hostname, "/",
+                           filename, 
                            use_http11 ? " HTTP/1.1\n" : " HTTP/1.0\n", NULL);
   else
-    tempstr = g_strconcat ("HEAD ", proto, request->username, "@", 
-                           request->hostname, "/", filename, 
+    tempstr = g_strconcat ("HEAD ", request->url_prefix, request->username, 
+                           "@", request->hostname, "/", filename, 
                            use_http11 ? " HTTP/1.1\n" : " HTTP/1.0\n", NULL);
 
   if ((pos = strstr (tempstr, "://")) != NULL)
@@ -677,14 +708,6 @@ rfc2068_chdir (gftp_request * request, const char *directory)
 static void
 rfc2068_set_config_options (gftp_request * request)
 {
-  gftp_set_proxy_hostname (request, http_proxy_host);
-  gftp_set_proxy_port (request, http_proxy_port);
-  gftp_set_proxy_username (request, http_proxy_username);
-  gftp_set_proxy_password (request, http_proxy_password);
-
-
-  if (request->proxy_config == NULL)
-    request->proxy_config = g_strdup ("http");
 }
 
 
@@ -696,6 +719,13 @@ rfc2068_destroy (gftp_request * request)
       g_free (request->url_prefix);
       request->url_prefix = NULL;
     }
+}
+
+
+void 
+rfc2068_register_module (void)
+{
+  gftp_register_config_vars (config_vars);
 }
 
 
@@ -718,7 +748,6 @@ rfc2068_init (gftp_request * request)
   request->abort_transfer = rfc2068_end_transfer; /* NOTE: uses end_transfer */
   request->list_files = rfc2068_list_files;
   request->get_next_file = rfc2068_get_next_file;
-  request->set_data_type = NULL;
   request->get_file_size = rfc2068_get_file_size;
   request->chdir = rfc2068_chdir;
   request->rmdir = NULL;
@@ -731,7 +760,6 @@ rfc2068_init (gftp_request * request)
   request->swap_socks = NULL;
   request->set_config_options = rfc2068_set_config_options;
   request->url_prefix = g_strdup ("http");
-  request->protocol_name = "HTTP";
   request->need_hostport = 1;
   request->need_userpass = 0;
   request->use_cache = 1;

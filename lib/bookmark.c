@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  bookmark.c - functions for connecting to a site via a bookmark           */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -46,6 +46,12 @@ bookmark_parse_url (gftp_request * request, const char * url)
 }
 
 
+void 
+bookmark_register_module (void)
+{
+}
+
+
 void
 bookmark_init (gftp_request * request)
 {
@@ -64,7 +70,6 @@ bookmark_init (gftp_request * request)
   request->end_transfer = NULL;
   request->list_files = NULL;
   request->get_next_file = NULL;
-  request->set_data_type = NULL;
   request->get_file_size = NULL;
   request->chdir = NULL;
   request->rmdir = NULL;
@@ -76,7 +81,6 @@ bookmark_init (gftp_request * request)
   request->site = NULL;
   request->parse_url = bookmark_parse_url;
   request->url_prefix = "bookmark";
-  request->protocol_name = "Bookmark";
   request->need_hostport = 0;
   request->need_userpass = 0;
   request->use_threads = 0;

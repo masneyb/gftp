@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  protocols.c - Skeleton functions for the protocols gftp supports         */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -20,6 +20,7 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
+/* {{{ gftp_request_new */
 gftp_request *
 gftp_request_new (void)
 {
@@ -29,11 +30,10 @@ gftp_request_new (void)
   request->sockfd = -1;
   request->datafd = -1;
   request->cachefd = -1;
-  request->data_type = GFTP_TYPE_BINARY;
-  request->server_type = GFTP_TYPE_OTHER;
+  request->server_type = GFTP_DIRTYPE_OTHER;
   return (request);
 }
-
+/* }}} */
 
 void
 gftp_request_destroy (gftp_request * request, int free_request)
@@ -61,22 +61,10 @@ gftp_request_destroy (gftp_request * request, int free_request)
     }
   if (request->directory)
     g_free (request->directory);
-  if (request->proxy_config)
-    g_free (request->proxy_config);
-  if (request->proxy_hostname)
-    g_free (request->proxy_hostname);
-  if (request->proxy_username)
-    g_free (request->proxy_username);
-  if (request->proxy_password)
-    g_free (request->proxy_password);
-  if (request->proxy_account)
-    g_free (request->proxy_account);
   if (request->last_ftp_response)
     g_free (request->last_ftp_response);
   if (request->protocol_data)
     g_free (request->protocol_data);
-  if (request->sftpserv_path)
-    g_free (request->sftpserv_path);
 
   memset (request, 0, sizeof (*request));
 
@@ -87,8 +75,8 @@ gftp_request_destroy (gftp_request * request, int free_request)
       request->sockfd = -1;
       request->datafd = -1;
       request->cachefd = -1;
-      request->data_type = GFTP_TYPE_BINARY;
     }
+  /* FIXME - free local_options */
 }
 
 
@@ -136,12 +124,6 @@ gftp_disconnect (gftp_request * request)
 #endif
   request->hostp = NULL;
 
-  if (request->sftpserv_path != NULL)
-    {
-      g_free (request->sftpserv_path);
-      request->sftpserv_path = NULL;
-    }
-
   request->cached = 0;
   if (request->disconnect == NULL)
     return;
@@ -153,7 +135,17 @@ off_t
 gftp_get_file (gftp_request * request, const char *filename, int fd,
                size_t startsize)
 {
+  float maxkbs;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+
+  gftp_lookup_request_option (request, "maxkbs", &maxkbs);
+  if (maxkbs > 0)
+    {
+      request->logging_function (gftp_logging_misc, request->user_data,
+                    _("File transfer will be throttled to %.2f KB/s\n"),
+                    maxkbs);
+    }
 
   request->cached = 0;
   if (request->get_file == NULL)
@@ -166,7 +158,18 @@ int
 gftp_put_file (gftp_request * request, const char *filename, int fd,
                size_t startsize, size_t totalsize)
 {
+  float maxkbs;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+
+  gftp_lookup_request_option (request, "maxkbs", &maxkbs);
+
+  if (maxkbs > 0)
+    {
+      request->logging_function (gftp_logging_misc, request->user_data,
+                    _("File transfer will be throttled to %.2f KB/s\n"), 
+                    maxkbs);
+    }
 
   request->cached = 0;
   if (request->put_file == NULL)
@@ -377,7 +380,8 @@ int
 gftp_parse_bookmark (gftp_request * request, const char * bookmark)
 {
   gftp_logging_func logging_function;
-  gftp_bookmarks * tempentry;
+  gftp_bookmarks_var * tempentry;
+  char *default_protocol;
   int i;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -387,7 +391,8 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
   gftp_request_destroy (request, 0);
   request->logging_function = logging_function;
 
-  if ((tempentry = g_hash_table_lookup (bookmarks_htable, bookmark)) == NULL)
+  if ((tempentry = g_hash_table_lookup (gftp_bookmarks_htable, 
+                                        bookmark)) == NULL)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Could not find bookmark %s\n"), 
@@ -405,12 +410,7 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
     gftp_set_username (request, tempentry->user);
 
   if (tempentry->pass != NULL)
-    {
-      if (strncmp (tempentry->pass, "@EMAIL@", 7) == 0)
-        gftp_set_password (request, emailaddr);
-      else
-        gftp_set_password (request, tempentry->pass);
-    }
+    gftp_set_password (request, tempentry->pass);
 
   if (tempentry->acct != NULL)
     gftp_set_account (request, tempentry->acct);
@@ -418,7 +418,6 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
   gftp_set_hostname (request, tempentry->hostname);
   gftp_set_directory (request, tempentry->remote_dir);
   gftp_set_port (request, tempentry->port);
-  gftp_set_sftpserv_path (request, tempentry->sftpserv_path);
 
   for (i = 0; gftp_protocols[i].name; i++)
     {
@@ -429,12 +428,18 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
         }
     }
 
-  if (!gftp_protocols[i].name)
+  if (gftp_protocols[i].name == NULL)
     {
-      for (i = 0; gftp_protocols[i].url_prefix; i++)
+      gftp_lookup_request_option (request, "default_protocol", 
+                                  &default_protocol);
+
+      if (*default_protocol != '\0')
         {
-          if (strcmp (gftp_protocols[i].name, default_protocol) == 0)
-            break;
+          for (i = 0; gftp_protocols[i].url_prefix; i++)
+            {
+              if (strcmp (gftp_protocols[i].name, default_protocol) == 0)
+                break;
+            }
         }
 
       if (gftp_protocols[i].url_prefix == NULL)
@@ -449,7 +454,7 @@ gftp_parse_bookmark (gftp_request * request, const char * bookmark)
 int
 gftp_parse_url (gftp_request * request, const char *url)
 {
-  char *pos, *endpos, *endhostpos, *str, tempchar;
+  char *pos, *endpos, *endhostpos, *str, tempchar, *default_protocol;
   gftp_logging_func logging_function;
   const char *stpos;
   int len, i;
@@ -462,6 +467,8 @@ gftp_parse_url (gftp_request * request, const char *url)
   request->logging_function = logging_function;
 
   for (stpos = url; *stpos == ' '; stpos++);
+
+  i = GFTP_FTP_NUM;
 
   if ((pos = strstr (stpos, "://")) != NULL)
     {
@@ -479,15 +486,21 @@ gftp_parse_url (gftp_request * request, const char *url)
     }
   else
     {
-      for (i = 0; gftp_protocols[i].url_prefix; i++)
-        {
-          if (strcmp (gftp_protocols[i].name, default_protocol) == 0)
-            break;
-        }
+      gftp_lookup_request_option (request, "default_protocol", 
+                                  &default_protocol);
 
-      if (gftp_protocols[i].url_prefix == NULL)
-        i = GFTP_FTP_NUM;
+      if (*default_protocol != '\0')
+        {
+          for (i = 0; gftp_protocols[i].url_prefix; i++)
+            {
+              if (strcmp (gftp_protocols[i].name, default_protocol) == 0)
+                break;
+            }
+        }
     }
+
+  if (gftp_protocols[i].url_prefix == NULL)
+    i = GFTP_FTP_NUM;
 
   gftp_protocols[i].init (request);
 
@@ -559,17 +572,6 @@ gftp_parse_url (gftp_request * request, const char *url)
     gftp_set_directory (request, endpos);
   g_free (str);
   return (0);
-}
-
-
-int
-gftp_set_data_type (gftp_request * request, int data_type)
-{
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-
-  if (request->set_data_type == NULL)
-    return (0);
-  return (request->set_data_type (request, data_type));
 }
 
 
@@ -658,67 +660,6 @@ gftp_set_port (gftp_request * request, unsigned int port)
 }
 
 
-void
-gftp_set_proxy_hostname (gftp_request * request, const char *hostname)
-{
-  g_return_if_fail (request != NULL);
-  g_return_if_fail (hostname != NULL);
-
-  if (request->proxy_hostname)
-    g_free (request->proxy_hostname);
-  request->proxy_hostname = g_malloc (strlen (hostname) + 1);
-  strcpy (request->proxy_hostname, hostname);
-}
-
-
-void
-gftp_set_proxy_username (gftp_request * request, const char *username)
-{
-  g_return_if_fail (request != NULL);
-  g_return_if_fail (username != NULL);
-
-  if (request->proxy_username)
-    g_free (request->proxy_username);
-  request->proxy_username = g_malloc (strlen (username) + 1);
-  strcpy (request->proxy_username, username);
-}
-
-
-void
-gftp_set_proxy_password (gftp_request * request, const char *password)
-{
-  g_return_if_fail (request != NULL);
-  g_return_if_fail (password != NULL);
-
-  if (request->proxy_password)
-    g_free (request->proxy_password);
-  request->proxy_password = g_malloc (strlen (password) + 1);
-  strcpy (request->proxy_password, password);
-}
-
-
-void
-gftp_set_proxy_account (gftp_request * request, const char *account)
-{
-  g_return_if_fail (request != NULL);
-  g_return_if_fail (account != NULL);
-
-  if (request->proxy_account)
-    g_free (request->proxy_account);
-  request->proxy_account = g_malloc (strlen (account) + 1);
-  strcpy (request->proxy_account, account);
-}
-
-
-void
-gftp_set_proxy_port (gftp_request * request, unsigned int port)
-{
-  g_return_if_fail (request != NULL);
-
-  request->proxy_port = port;
-}
-
-
 int
 gftp_remove_directory (gftp_request * request, const char *directory)
 {
@@ -797,39 +738,6 @@ gftp_site_cmd (gftp_request * request, const char *command)
 }
 
 
-void
-gftp_set_proxy_config (gftp_request * request, const char *proxy_config)
-{
-  int len;
-
-  g_return_if_fail (request != NULL);
-
-  if (request->proxy_config != NULL)
-    g_free (request->proxy_config);
-
-  if (proxy_config == NULL)
-    {
-      request->proxy_config = NULL;
-      return;
-    }
-
-  len = strlen (proxy_config);
-
-  if (len > 0 && (proxy_config[len - 1] != 'n' ||
-		  proxy_config[len - 2] != '%'))
-    len += 2;
-
-  request->proxy_config = g_malloc (len + 1);
-  strcpy (request->proxy_config, proxy_config);
-  if (len != strlen (proxy_config))
-    {
-      request->proxy_config[len - 2] = '%';
-      request->proxy_config[len - 1] = 'n';
-      request->proxy_config[len] = '\0';
-    }
-}
-
-
 off_t
 gftp_get_file_size (gftp_request * request, const char *filename)
 {
@@ -841,9 +749,11 @@ gftp_get_file_size (gftp_request * request, const char *filename)
 }
 
 
-int
-gftp_need_proxy (gftp_request * request, char *service)
+static int
+gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname, 
+                 int proxy_port)
 {
+  gftp_config_list_vars * proxy_hosts;
   gftp_proxy_hosts * hostname;
   unsigned char addy[4];
   struct sockaddr *addr;
@@ -854,20 +764,24 @@ gftp_need_proxy (gftp_request * request, char *service)
   struct addrinfo hints;
   int port, errnum;
   char serv[8];
+#endif
+
+  gftp_lookup_global_option ("ext", &proxy_hosts);
+
+  if (proxy_hostname == NULL || *proxy_hostname == '\0')
+    return (0);
+  else if (proxy_hosts->list == NULL)
+    return (proxy_hostname != NULL && 
+            *proxy_hostname != '\0');
 
   request->hostp = NULL;
-  if (proxy_hosts == NULL)
-    return (request->proxy_hostname != NULL
-	    && *request->proxy_hostname != '\0'
-	    && request->proxy_config != NULL
-	    && *request->proxy_config != '\0');
-
+#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   memset (&hints, 0, sizeof (hints));
   hints.ai_flags = AI_CANONNAME;
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
 
-  port = request->use_proxy ? request->proxy_port : request->port;
+  port = request->use_proxy ? proxy_port : request->port;
   if (port == 0)
     strcpy (serv, service);
   else
@@ -888,14 +802,6 @@ gftp_need_proxy (gftp_request * request, char *service)
   addr = request->hostp->ai_addr;
 
 #else /* !HAVE_GETADDRINFO */
-
-  request->hostp = NULL;
-  if (proxy_hosts == NULL)
-    return (request->proxy_hostname != NULL
-            && *request->proxy_hostname != '\0'
-            && request->proxy_config != NULL
-            && *request->proxy_config != '\0');
-
   request->logging_function (gftp_logging_misc, request->user_data,
                              _("Looking up %s\n"), request->hostname);
 
@@ -912,7 +818,7 @@ gftp_need_proxy (gftp_request * request, char *service)
 
 #endif /* HAVE_GETADDRINFO */
 
-  templist = proxy_hosts;
+  templist = proxy_hosts->list;
   while (templist != NULL)
     {
       hostname = templist->data;
@@ -937,48 +843,8 @@ gftp_need_proxy (gftp_request * request, char *service)
 	}
       templist = templist->next;
     }
-  return (request->proxy_hostname != NULL && *request->proxy_hostname != '\0'
-	  && request->proxy_config != NULL && *request->proxy_config != '\0');
-}
 
-
-char *
-gftp_convert_ascii (char *buf, ssize_t *len, int direction)
-{
-  ssize_t i, j, newsize;
-  char *tempstr;
-
-  if (direction == GFTP_DIRECTION_DOWNLOAD)
-    {
-      for (i = 0, j = 0; i < *len; i++)
-        {
-          if (buf[i] != '\r')
-            buf[j++] = buf[i];
-          else
-            --*len;
-        }
-      tempstr = buf;
-    }
-  else
-    {
-      newsize = 0;
-      for (i = 0; i < *len; i++)
-        {
-          newsize++;
-          if (i > 0 && buf[i] == '\n' && buf[i - 1] != '\r')
-            newsize++;
-        }
-      tempstr = g_malloc (newsize);
-
-      for (i = 0, j = 0; i < *len; i++)
-        {
-          if (i > 0 && buf[i] == '\n' && buf[i - 1] != '\r')
-            tempstr[j++] = '\r';
-          tempstr[j++] = buf[i];
-        }
-      *len = newsize;
-    }
-  return (tempstr);
+  return (proxy_hostname != NULL && *proxy_hostname != '\0');
 }
 
 
@@ -1128,7 +994,7 @@ gftp_parse_ls_vms (char *str, gftp_file * fle)
   fle->file = g_strdup (str);
 
   curpos = goto_next_token (curpos + 1);
-  fle->size = strtol (curpos, NULL, 10) * 512; /* FIXME - Is this correct? */
+  fle->size = strtol (curpos, NULL, 10) * 512; /* Is this correct? */
   curpos = goto_next_token (curpos);
 
   if ((fle->datetime = parse_time (curpos, &curpos)) == 0)
@@ -1264,8 +1130,8 @@ gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
       startpos = goto_next_token (startpos);
     }
 
-  /* FIXME - make this GFTP_TYPE_CRAY */
-  if (request->server_type != GFTP_TYPE_UNIX)
+  /* FIXME - make this GFTP_DIRTYPE_CRAY */
+  if (request->server_type != GFTP_DIRTYPE_UNIX)
     {
       /* See if this is a Cray directory listing. It has the following format:
       drwx------     2 feiliu    g913     DK  common      4096 Sep 24  2001 wv */
@@ -1419,19 +1285,20 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
 
   switch (request->server_type)
     {
-      case GFTP_TYPE_UNIX:
-	result = gftp_parse_ls_unix (request, str, fle);
+      case GFTP_DIRTYPE_CRAY:
+      case GFTP_DIRTYPE_UNIX:
+        result = gftp_parse_ls_unix (request, str, fle);
         break;
-      case GFTP_TYPE_EPLF:
+      case GFTP_DIRTYPE_EPLF:
         result = gftp_parse_ls_eplf (str, fle);
         break;
-      case GFTP_TYPE_NOVELL:
+      case GFTP_DIRTYPE_NOVELL:
         result = gftp_parse_ls_novell (str, fle);
         break;
-      case GFTP_TYPE_DOS:
+      case GFTP_DIRTYPE_DOS:
         result = gftp_parse_ls_nt (str, fle);
         break;
-      case GFTP_TYPE_VMS:
+      case GFTP_DIRTYPE_VMS:
         result = gftp_parse_ls_vms (str, fle);
         break;
       default: /* autodetect */
@@ -1673,11 +1540,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
             transfer->toreq->directory = oldtodir;
         }
       else
-        {
-          curfle->ascii = gftp_get_file_transfer_mode (curfle->file, 
-                              transfer->fromreq->data_type) == GFTP_TYPE_ASCII;
-          transfer->numfiles++;
-        }
+        transfer->numfiles++;
     }
 
   if (forcecd)
@@ -1694,36 +1557,8 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
 }
 
 
-int
-gftp_get_file_transfer_mode (char *filename, int def)
-{
-  gftp_file_extensions * tempext;
-  GList * templist;
-  int stlen, ret;
-
-  ret = def;
-  stlen = strlen (filename);
-  for (templist = registered_exts; templist != NULL; templist = templist->next)
-    {
-      tempext = templist->data;
-
-      if (stlen >= tempext->stlen &&
-          strcmp (&filename[stlen - tempext->stlen], tempext->ext) == 0)
-        {
-          if (toupper (*tempext->ascii_binary == 'A'))
-            ret = GFTP_TYPE_ASCII;
-          else if (toupper (*tempext->ascii_binary == 'B'))
-            ret = GFTP_TYPE_BINARY;
-          break;
-        }
-    }
-
-  return (ret);
-}
-
-
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-int
+static int
 get_port (struct addrinfo *addr)
 {
   struct sockaddr_in * saddr;
@@ -1743,7 +1578,8 @@ get_port (struct addrinfo *addr)
 
 
 int
-gftp_connect_server (gftp_request * request, char *service)
+gftp_connect_server (gftp_request * request, char *service,
+                     char *proxy_hostname, int proxy_port)
 {
   char *connect_host, *disphost;
   int port, sock;
@@ -1752,7 +1588,8 @@ gftp_connect_server (gftp_request * request, char *service)
   char serv[8];
   int errnum;
 
-  if ((request->use_proxy = gftp_need_proxy (request, service)) < 0)
+  if ((request->use_proxy = gftp_need_proxy (request, service,
+                                             proxy_hostname, proxy_port)) < 0)
     return (request->use_proxy);
   else if (request->use_proxy == 1)
     request->hostp = NULL;
@@ -1762,9 +1599,16 @@ gftp_connect_server (gftp_request * request, char *service)
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
 
-  connect_host = request->use_proxy ? request->proxy_hostname : 
-                                      request->hostname;
-  port = request->use_proxy ? request->proxy_port : request->port;
+  if (request->use_proxy)
+    {
+      connect_host = proxy_hostname;
+      port = proxy_port;
+    }
+  else
+    {
+      connect_host = request->hostname;
+      port = request->port;
+    }
 
   if (request->hostp == NULL)
     {
@@ -1831,7 +1675,8 @@ gftp_connect_server (gftp_request * request, char *service)
   struct servent serv_struct;
   int curhost;
 
-  if ((request->use_proxy = gftp_need_proxy (request, service)) < 0)
+  if ((request->use_proxy = gftp_need_proxy (request, service,
+                                             proxy_hostname, proxy_port)) < 0)
     return (request->use_proxy);
   else if (request->use_proxy == 1)
     request->hostp = NULL;
@@ -1847,16 +1692,26 @@ gftp_connect_server (gftp_request * request, char *service)
   memset (&remote_address, 0, sizeof (remote_address));
   remote_address.sin_family = AF_INET;
 
-  connect_host = request->use_proxy ? request->proxy_hostname : 
-                                      request->hostname;
-  port = htons (request->use_proxy ? request->proxy_port : request->port);
+  if (request->use_proxy)
+    {
+      connect_host = proxy_hostname;
+      port = proxy_port;
+    }
+  else
+    {
+      connect_host = request->hostname;
+      port = request->port;
+    }
 
   if (port == 0)
     {
       if (!r_getservbyname (service, "tcp", &serv_struct, NULL))
         {
-          port = htons (21);
-          request->port = 21;
+          request->logging_function (gftp_logging_error, request->user_data,
+                                     _("Cannot look up service name %s/tcp. Please check your services file\n"),
+                                     service);
+          close (sock);
+          return (GFTP_EFATAL);
         }
       else
         {
@@ -1928,31 +1783,8 @@ gftp_connect_server (gftp_request * request, char *service)
 void
 gftp_set_config_options (gftp_request * request)
 {
-  request->network_timeout = network_timeout;
-  request->retries = retries;
-  request->sleep_time = sleep_time;
-  request->maxkbs = maxkbs;
-
   if (request->set_config_options != NULL)
     request->set_config_options (request);
-}
-
-
-void
-gftp_set_sftpserv_path (gftp_request * request, char *path)
-{
-  g_return_if_fail (request != NULL);
-
-  if (request->sftpserv_path)
-    g_free (request->sftpserv_path);
-
-  if (path != NULL && *path != '\0')
-    {
-      request->sftpserv_path = g_malloc (strlen (path) + 1);
-      strcpy (request->sftpserv_path, path);
-    }
-  else
-    request->sftpserv_path = NULL;
 }
 
 
@@ -2096,9 +1928,12 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
 ssize_t 
 gftp_read (gftp_request * request, void *ptr, size_t size, int fd)
 {
+  long network_timeout;
   struct timeval tv;
   fd_set fset;
   ssize_t ret;
+
+  gftp_lookup_request_option (request, "network_timeout", &network_timeout);  
 
   errno = 0;
   ret = 0;
@@ -2106,10 +1941,7 @@ gftp_read (gftp_request * request, void *ptr, size_t size, int fd)
     {
       FD_ZERO (&fset);
       FD_SET (fd, &fset);
-      if (request != NULL)
-        tv.tv_sec = request->network_timeout;
-      else
-        tv.tv_sec = network_timeout;
+      tv.tv_sec = network_timeout;
       tv.tv_usec = 0;
       ret = select (fd + 1, &fset, NULL, NULL, &tv);
       if (ret == -1 && errno == EINTR)
@@ -2166,9 +1998,12 @@ gftp_read (gftp_request * request, void *ptr, size_t size, int fd)
 ssize_t 
 gftp_write (gftp_request * request, const char *ptr, size_t size, int fd)
 {
+  long network_timeout;
   struct timeval tv;
   size_t ret, w_ret;
   fd_set fset;
+
+  gftp_lookup_request_option (request, "network_timeout", &network_timeout);  
 
   errno = 0;
   ret = 0;
@@ -2176,10 +2011,7 @@ gftp_write (gftp_request * request, const char *ptr, size_t size, int fd)
     {
       FD_ZERO (&fset);
       FD_SET (fd, &fset);
-      if (request != NULL)
-        tv.tv_sec = request->network_timeout;
-      else
-        tv.tv_sec = network_timeout;
+      tv.tv_sec = network_timeout;
       tv.tv_usec = 0;
       ret = select (fd + 1, NULL, &fset, NULL, &tv);
       if (ret == -1 && errno == EINTR)
@@ -2305,5 +2137,69 @@ gftp_swap_socks (gftp_request * dest, gftp_request * source)
 
   if (dest->swap_socks)
     dest->swap_socks (dest, source);
+}
+
+
+void
+gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
+{
+  unsigned long waitusecs;
+  double difftime, curkbs;
+  gftp_file * tempfle;
+  unsigned long toadd;
+  struct timeval tv;
+  float maxkbs;
+
+  gftp_lookup_request_option (tdata->fromreq, "maxkbs", &maxkbs);
+
+  gettimeofday (&tv, NULL);
+  if (g_thread_supported ())
+    g_static_mutex_lock (&tdata->statmutex);
+
+  tempfle = tdata->curfle->data;
+  tdata->trans_bytes += num_read;
+  tdata->curtrans += num_read;
+  tdata->stalled = 0;
+
+  difftime = (tv.tv_sec - tdata->starttime.tv_sec) + ((double) (tv.tv_usec - tdata->starttime.tv_usec) / 1000000.0);
+  if (difftime <= 0)
+    tdata->kbs = (double) tdata->trans_bytes / 1024.0;
+  else
+    tdata->kbs = (double) tdata->trans_bytes / 1024.0 / difftime;
+
+  difftime = (tv.tv_sec - tdata->lasttime.tv_sec) + ((double) (tv.tv_usec - tdata->lasttime.tv_usec) / 1000000.0);
+
+  if (difftime <= 0)
+    curkbs = (double) (num_read / 1024.0);
+  else
+    curkbs = (double) (num_read / 1024.0 / difftime);
+
+  if (maxkbs > 0 && curkbs > maxkbs)
+    {
+      waitusecs = (double) num_read / 1024.0 / maxkbs * 1000000.0 - difftime;
+
+      if (waitusecs > 0)
+        {
+          if (g_thread_supported ())
+            g_static_mutex_unlock (&tdata->statmutex);
+
+          difftime += ((double) waitusecs / 1000000.0);
+          usleep (waitusecs);
+
+          if (g_thread_supported ())
+            g_static_mutex_lock (&tdata->statmutex);
+        }
+    }
+
+  /* I don't call gettimeofday (&tdata->lasttime) here because this will use
+     less system resources. This will be close enough for what we need */
+  difftime += tdata->lasttime.tv_usec / 1000000.0;
+  toadd = (long) difftime;
+  difftime -= toadd;
+  tdata->lasttime.tv_sec += toadd;
+  tdata->lasttime.tv_usec = difftime * 1000000.0;
+
+  if (g_thread_supported ())
+    g_static_mutex_unlock (&tdata->statmutex);
 }
 

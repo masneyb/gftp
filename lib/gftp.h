@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  gftp.h - include file for the whole ftp program                          */
-/*  Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -97,13 +97,13 @@
 #endif
 
 /* Server types (used by FTP protocol from SYST command) */
-#define GFTP_TYPE_UNIX		1
-#define GFTP_TYPE_EPLF		2
-#define GFTP_TYPE_CRAY		3	
-#define GFTP_TYPE_NOVELL	4	
-#define GFTP_TYPE_DOS		5	
-#define GFTP_TYPE_VMS		6	
-#define GFTP_TYPE_OTHER 	7
+#define GFTP_DIRTYPE_UNIX	1
+#define GFTP_DIRTYPE_EPLF	2
+#define GFTP_DIRTYPE_CRAY	3	
+#define GFTP_DIRTYPE_NOVELL	4	
+#define GFTP_DIRTYPE_DOS	5	
+#define GFTP_DIRTYPE_VMS	6	
+#define GFTP_DIRTYPE_OTHER 	7
 
 /* Error types */
 #define GFTP_ERETRYABLE		-1
@@ -160,13 +160,16 @@ struct gftp_file_tag
        *attribs,		/* Attribs (-rwxr-x-rx) */
        *destfile;		/* Full pathname to the destination for the 
                                    file transfer */
+
+  int fd;			/* Already open fd for this file */
+  /* FIXME - add fd_open function */
+
   time_t datetime;		/* File date and time */
   off_t size,			/* Size of the file */
         startsize;		/* Size to start the transfer at */
   unsigned int isdir : 1,	/* File type */
                isexe : 1,
                islink : 1,
-               ascii : 1, 	/* Transfer in ASCII mode */
                selected : 1,	/* Is this file selected? */
                was_sel : 1,	/* Was this file selected before  */
                shown : 1,	/* Is this file shown? */
@@ -176,18 +179,18 @@ struct gftp_file_tag
                transfer_done : 1, /* Is current file transfer done? */
                is_fd : 1;	/* Is this a file descriptor? */
   char transfer_action;		/* See the GFTP_TRANS_ACTION_* vars above */
-  void *node;			/* FIXME Pointer to the node for the gui */
-  int fd;
+  void *user_data;
 };
 
 
 typedef struct gftp_proxy_hosts_tag 
 {
-  gint32 ipv4_network_address,
+  /* FIXME - add IPV4 stuff here */
+
+  gint32 ipv4_network_address, 
          ipv4_netmask;
   char *domain;
 } gftp_proxy_hosts;
-
 
 typedef struct gftp_request_tag gftp_request;
 
@@ -200,35 +203,30 @@ struct gftp_request_tag
        *password,		/* Password for host */
        *account,		/* Account for host (FTP only) */
        *directory,		/* Current working directory */
-       *proxy_config,		/* Proxy configuration */
-       *proxy_hostname,		/* Proxy hostname */
-       *proxy_username,		/* Proxy username */
-       *proxy_password,		/* Proxy password */
-       *proxy_account,		/* Proxy account (FTP only) */
        *url_prefix,		/* URL Prefix (ex: ftp) */
-       *protocol_name,		/* Protocol description */
        *last_ftp_response,	/* Last response from server */
        *last_dir_entry;		/* Last dir entry from server */
   size_t last_dir_entry_len;	/* Length of last_dir_entry */
 
-  unsigned int port,		/* Port of remote site */
-               proxy_port;	/* Port of the proxy server */
+  unsigned int port;		/* Port of remote site */
 
   int sockfd,			/* Control connection (read) */
       datafd,			/* Data connection */
       cachefd;			/* For the directory cache */
   int wakeup_main_thread[2];	/* FD that gets written to by the threads
                                    to wakeup the parent */
-        
+
+  /* One of these are used to lookup the IP address of the host we are
+     connecting to */
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-  struct addrinfo *hostp;	/* Remote host we are connected to */
+  struct addrinfo *hostp;
 #else
-  struct hostent host, *hostp;  /* Remote host we are connected to */
+  struct hostent host, *hostp;
 #endif
 
-  int data_type,		/* ASCII or BINARY (FTP only) */
-      server_type;		/* The type of server we are connected to */
-  unsigned int use_proxy : 1,           /* Go out of proxy server */
+  int server_type;		/* The type of server we are connected to.
+                                   See GFTP_DIRTYPE_* above */
+  unsigned int use_proxy : 1,
                always_connected : 1,
                need_hostport : 1,
                need_userpass : 1,
@@ -278,8 +276,6 @@ struct gftp_request_tag
   int (*get_next_file)			( gftp_request * request, 
 					  gftp_file *fle, 
 					  int fd );
-  int (*set_data_type)			( gftp_request * request, 
-					  int data_type );
   off_t (*get_file_size) 		( gftp_request * request, 
 					  const char *filename );
   int (*chdir)				( gftp_request * request, 
@@ -307,14 +303,7 @@ struct gftp_request_tag
   void (*swap_socks)			( gftp_request * dest,
 					  gftp_request * source );
 
-  /* Options */
-  gftp_transfer_type transfer_type;	/* Passive or non-passive (FTP only) */
-  int network_timeout,
-      retries,
-      sleep_time,
-      passive_transfer;
-  float maxkbs;
-  char *sftpserv_path;
+  GHashTable * local_options;
 };
 
 
@@ -360,8 +349,9 @@ struct gftp_transfer_tag
   void * fromwdata,
        * towdata;
 
-  void *statmutex,
-       *structmutex;
+  GStaticMutex statmutex,
+               structmutex;
+
   void *node;
   void *clist;
 };
@@ -378,13 +368,15 @@ typedef struct supported_gftp_protocols_tag
 {
   char *name;					/* Description of protocol */
   void (*init) (gftp_request * request);	/* Init function */
+  void (*register_options) (void);		/* Protocol options */
   char *url_prefix;				/* URL Prefix */
-  int shown;					/* Whether this protocol is shown or not to the user
-                                                   in the protocol dropdown box */
+  int shown;					/* Whether this protocol is 
+                                                   shown or not to the user in 
+                                                   the protocol dropdown box */
 } supported_gftp_protocols;
 
 
-typedef struct gftp_bookmarks_tag gftp_bookmarks;
+typedef struct gftp_bookmarks_tag gftp_bookmarks_var;
 
 struct gftp_bookmarks_tag 
 {
@@ -401,9 +393,9 @@ struct gftp_bookmarks_tag
                isfolder : 1,   /* If this is set, then the children field can
                                   be non-NULL */
                save_password : 1; /* Save this password */
-  gftp_bookmarks *children, 	/* The children of this node. */
-                 *prev, 	/* The parent of this node */
-                 *next; 	/* The next sibling of this node */
+  gftp_bookmarks_var *children, /* The children of this node. */
+                     *prev, 	/* The parent of this node */
+                     *next; 	/* The next sibling of this node */
   gpointer cnode; 
 
   /* Site options */
@@ -429,40 +421,79 @@ typedef struct gftp_color_tag
 } gftp_color;
 
 
-typedef struct gftp_config_vars_tag
+/* Note, these numbers must match up to the index number in config_file.c
+   in the declaration of gftp_option_types */
+typedef enum 
 {
-  char *key,			/* variable name */
-       *description;		/* How this field will show up in the dialog */
-  gpointer var;			/* Pointer to our variable */
-  int type;			/* See defines below */
-  char *comment;                /* Comment to write out to the config file */
-  gpointer widget;
-  int ports_shown;		/* What ports of gFTP is this option shown in */
-} gftp_config_vars;
+  gftp_option_type_text		= 0,
+  gftp_option_type_textarray	= 1,
+  gftp_option_type_int		= 2,
+  gftp_option_type_float	= 3,
+  gftp_option_type_checkbox	= 4,
+  gftp_option_type_color	= 5,
+  gftp_option_type_notebook	= 6,
+  gftp_option_type_newtable	= 7,
+  gftp_option_type_hidetext	= 8,
+  gftp_option_type_label	= 9,
+  gftp_option_type_textbox	= 10,
+  gftp_option_type_subtree	= 11,
+  gftp_option_type_intcombo	= 12,
+  gftp_option_type_charcombo	= 13,
+  gftp_option_type_table	= 14
+} gftp_option_type_enum;
 
-#define CONFIG_INTTEXT                  1
-#define CONFIG_FLOATTEXT                2
-#define CONFIG_CHECKBOX                 3       
-#define CONFIG_LABEL                    4
-#define CONFIG_NOTEBOOK                 5
-#define CONFIG_HIDEINT                  6
-#define CONFIG_TABLE			7
-#define CONFIG_CHARTEXT                 8
-#define CONFIG_COMBO			9
-#define CONFIG_TEXT			10
-#define CONFIG_COLOR			11
-#define CONFIG_UINTTEXT                 12
-#define CONFIG_CHARPASS			13
 
 #define GFTP_PORT_GTK			(1 << 1)
 #define GFTP_PORT_TEXT			(1 << 2)
 #define GFTP_PORT_ALL			(GFTP_PORT_GTK | GFTP_PORT_TEXT)
 
-typedef struct gftp_proxy_type_tag
+
+typedef struct gftp_config_list_vars_tag
+{
+  char *key;
+  void * (*read_func) (char *buf, int line);
+  void (*write_func) (FILE *fd, void *data);
+  GList * list;
+  unsigned int num_items;
+  char *header;
+} gftp_config_list_vars;
+
+
+#define GFTP_CVARS_FLAGS_DYNMEM		(1 << 1)
+
+
+typedef struct gftp_config_vars_tag
+{
+  char *key,			/* variable name */
+       *description;		/* How this field will show up in the dialog */
+  int otype;			/* Type of option this is */
+  void *value;
+  void *listdata;		/* For options that have several different 
+				   options, this is a list of all the options.
+				   Each option_type that uses this will use this
+				   field differently */
+  int flags;			/* See GFTP_CVARS_FLAGS_* above */
+  char *comment;                /* Comment to write out to the config file */
+  int ports_shown;		/* What ports of gFTP is this option shown in */
+  void *user_data;		/* Data that the GUI can store here (Widget in gtk+) */
+} gftp_config_vars;
+
+
+typedef struct gftp_option_type_tag
+{
+  int (*read_function) (char *str, gftp_config_vars * cv, int line);
+  int (*write_function) (gftp_config_vars * cv, FILE * fd, int to_config_file);
+  int (*ui_print_function) (char *label, void *ptr, void *user_data);
+  int (*config_copy_function) (void *dest, void *src);
+  void *user_data;
+} gftp_option_type_var;
+
+
+typedef struct gftp_proxy_type_var_tag
 {
   char *key,
        *description;
-} gftp_proxy_type;
+} gftp_proxy_type_var;
 
 #define GFTP_CUSTOM_PROXY_NUM        8
 
@@ -474,40 +505,21 @@ typedef struct gftp_getline_buffer_tag
          cur_bufsize;
 } gftp_getline_buffer;
 
-/* Global config options */
+/* Global config options. These are defined in options.h */
+extern GList * gftp_file_transfers, * gftp_file_transfer_logs,
+             * gftp_options_list;
+extern GHashTable * gftp_global_options_htable, * gftp_bookmarks_htable, 
+                  * gftp_config_list_htable;
+extern gftp_config_vars gftp_global_config_vars[];
 extern supported_gftp_protocols gftp_protocols[];
-extern char version[], *emailaddr, *edit_program, *view_program, 
-            *firewall_host, *firewall_username, *firewall_password, 
-            *firewall_account, *proxy_config, *http_proxy_host, 
-            *http_proxy_username, *http_proxy_password, 
-            *startup_directory, *ssh_prog_name, *ssh_extra_params, 
-            **ssh_extra_params_list, *default_protocol, *ssh2_sftp_path;
-extern int num_ssh_extra_params;
-extern FILE * logfd;
-extern double maxkbs;
-extern GList * proxy_hosts, * registered_exts, * viewedit_processes, 
-             * file_transfers, * file_transfer_logs;
-extern gftp_bookmarks * bookmarks;
-extern int do_one_transfer_at_a_time, start_file_transfers, 
-           transfer_in_progress, passive_transfer, sort_dirs_first, 
-           show_hidden_files, refresh_files, listbox_local_width, 
-           listbox_remote_width, listbox_file_height, transfer_height, 
-           log_height, retries, sleep_time, network_timeout, use_http11, 
-           listbox_dblclick_action, file_trans_column, local_columns[6], 
-           remote_columns[6], resolve_symlinks, firewall_port, http_proxy_port,
-           overwrite_by_default, append_file_transfers, 
-           ssh_need_userpass, ssh_use_askpass, sshv2_use_sftp_subsys, 
-           local_sortcol, local_sortasds, remote_sortcol, remote_sortasds;
-extern guint max_log_window_size;
-extern GHashTable * bookmarks_htable, * config_htable;
-extern GList * localhistory, * remotehistory, * host_history, * port_history, 
-             * user_history;
-extern unsigned int host_len, port_len, user_len, localhistlen, remotehistlen;
-extern volatile sig_atomic_t viewedit_process_done;
-extern gftp_config_vars config_file_vars[];
-extern gftp_proxy_type proxy_type[];
-extern gftp_color send_color, recv_color, error_color, misc_color;
-extern struct lconv *my_localeinfo;
+extern gftp_proxy_type_var gftp_proxy_type[];
+extern gftp_bookmarks_var * gftp_bookmarks;
+extern char gftp_version[];
+extern FILE * gftp_logfd;
+
+/* This is defined in config_file.c */
+
+extern gftp_option_type_var gftp_option_types[];
 
 /* cache.c */
 int gftp_new_cache_entry 		( gftp_request * request );
@@ -520,20 +532,34 @@ void gftp_delete_cache_entry 		( gftp_request * request,
 					  int ignore_directory );
 
 /* config_file.c */
+void gftp_add_bookmark 			( gftp_bookmarks_var * newentry );
+
 void gftp_read_config_file 		( char **argv,
 					  int get_xpms );
 
-void gftp_read_bookmarks 		( void );
-
-void add_to_bookmark                    ( gftp_bookmarks *newentry );
+void gftp_write_bookmarks_file 		( void );
 
 void gftp_write_config_file 		( void );
 
-void gftp_write_bookmarks_file 		( void );
+GHashTable * build_bookmarks_hash_table	( gftp_bookmarks_var * entry );
 
-GHashTable * build_bookmarks_hash_table	( gftp_bookmarks * entry );
+void print_bookmarks 			( gftp_bookmarks_var * bookmarks );
 
-void print_bookmarks 			( gftp_bookmarks * bookmarks );
+void gftp_lookup_global_option 		( char * key, 
+					  void *value );
+
+void gftp_lookup_request_option 	( gftp_request * request, 
+					  char * key, 
+					  void *value );
+
+void gftp_set_global_option 		( char * key, 
+					  void *value );
+
+void gftp_set_request_option 		( gftp_request * request, 
+					  char * key, 
+					  void *value );
+
+void gftp_register_config_vars 		( gftp_config_vars *config_vars );
 
 /* misc.c */
 char *insert_commas 			( off_t number, 
@@ -588,55 +614,17 @@ int ptys_open 				( int fdm,
 
 int tty_raw 				( int fd );
 
-char **make_ssh_exec_args 		( gftp_request * request, 
-					  char *execname,
-					  int use_sftp_subsys,
-					  char *portstring );
-
-char * ssh_start_login_sequence 	( gftp_request * request, 
-					  int fd );
-
-#ifdef G_HAVE_GINT64
-gint64 hton64				( gint64 val );
-#endif
-
 GList * gftp_sort_filelist 		( GList * filelist, 
 					  int column, 
 					  int asds );
 
 /* protocols.c */
-#define GFTP_GET_HOSTNAME(request)		(request->hostname)
-#define GFTP_GET_USERNAME(request)		(request->username)
-#define GFTP_GET_PASSWORD(request)		(request->password)
-#define GFTP_GET_ACCOUNT(request)		(request->account)
-#define GFTP_GET_DIRECTORY(request)		(request->directory)
-#define GFTP_GET_PORT(request)			(request->port)
-#define GFTP_GET_PROXY_CONFIG(request)		(request->proxy_config)
-#define GFTP_GET_PROXY_HOSTNAME(request)	(request->proxy_hostname)
-#define GFTP_GET_PROXY_USERNAME(request)	(request->proxy_username)
-#define GFTP_GET_PROXY_PASSWORD(request)	(request->proxy_password)
-#define GFTP_GET_PROXY_ACCOUNT(request)		(request->proxy_account)
-#define GFTP_GET_PROXY_PORT(request)		(request->proxy_port)
-#define GFTP_GET_URL_PREFIX(request)		(request->url_prefix)
-#define GFTP_GET_PROTOCOL_NAME(request)		(request->protocol_name)
-#define GFTP_GET_LAST_RESPONSE(request)		(request->last_ftp_response)
-#define GFTP_GET_LAST_DIRENT(request)		(request->last_dir_entry)
-#define GFTP_GET_LAST_DIRENT_LEN(request)	(request->last_dir_entry_len)
-#define GFTP_GET_CONTROL_FD(request)		(request->sockfd)
-#define GFTP_GET_DATA_FD(request)		(request->datafd)
-#define GFTP_GET_DATA_TYPE(request)		(request->data_type)
-#define GFTP_GET_TRANSFER_TYPE(request)		(request->transfer_type)
-#define GFTP_SET_TRANSFER_TYPE(request,val) 	(request->transfer_type = (val))
-#define GFTP_GET_LOGGING(request)		(request->logging)
-#define GFTP_SET_LOGGING(request, val)		(request->logging = (val))
-#define GFTP_UNSAFE_SYMLINKS(request)		(request->unsafe_symlinks)
 #define GFTP_FTP_NUM				0
 #define GFTP_HTTP_NUM				1
 #define GFTP_LOCAL_NUM				2
 #define GFTP_SSHV2_NUM				3
 #define GFTP_BOOKMARK_NUM			4
-#define GFTP_TYPE_BINARY			1
-#define GFTP_TYPE_ASCII				2   
+
 #define GFTP_IS_CONNECTED(request)		((request) != NULL && \
                                                  ((request)->sockfd > 0 || \
                                                   (request)->cached || \
@@ -645,17 +633,27 @@ GList * gftp_sort_filelist 		( GList * filelist,
 
 void rfc959_init 			( gftp_request * request );
 
+void rfc959_register_module		( void );
+
 int rfc959_get_next_file 		( gftp_request * request, 
 					  gftp_file *fle, 
 					  int fd );
 
 void rfc2068_init 			( gftp_request * request );
 
+void rfc2068_register_module		( void );
+
 void local_init 			( gftp_request * request );
+
+void local_register_module		( void );
 
 void sshv2_init 			( gftp_request * request );
 
+void sshv2_register_module		( void );
+
 void bookmark_init 			( gftp_request * request );
+
+void bookmark_register_module		( void );
 
 gftp_request *gftp_request_new 		( void );
 
@@ -712,11 +710,6 @@ int gftp_end_transfer 			( gftp_request * request );
 
 int gftp_abort_transfer 		( gftp_request * request );
 
-int gftp_read_response 			( gftp_request * request );
-
-int gftp_set_data_type 			( gftp_request * request, 
-					  int data_type );
-
 void gftp_set_hostname 			( gftp_request * request, 
 					  const char *hostname );
 
@@ -733,21 +726,6 @@ int gftp_set_directory 			( gftp_request * request,
 					  const char *directory );
 
 void gftp_set_port 			( gftp_request * request, 
-					  unsigned int port );
-
-void gftp_set_proxy_hostname 		( gftp_request * request, 
-					  const char *hostname );
-
-void gftp_set_proxy_username 		( gftp_request * request, 
-					  const char *username );
-
-void gftp_set_proxy_password 		( gftp_request * request, 
-					  const char *password );
-
-void gftp_set_proxy_account 		( gftp_request * request, 
-					  const char *account );
-
-void gftp_set_proxy_port 		( gftp_request * request, 
 					  unsigned int port );
 
 int gftp_remove_directory 		( gftp_request * request, 
@@ -774,18 +752,8 @@ int gftp_set_file_time 			( gftp_request * request,
 char gftp_site_cmd 			( gftp_request * request, 
 					  const char *command );
 
-void gftp_set_proxy_config 		( gftp_request * request, 
-					  const char *proxy_config );
-
 off_t gftp_get_file_size 		( gftp_request * request, 
 					  const char *filename );
-
-int gftp_need_proxy 			( gftp_request * request,
-					  char *service );
-
-char *gftp_convert_ascii 		( char *buf, 
-					  ssize_t *len, 
-					  int direction );
 
 void gftp_calc_kbs 			( gftp_transfer * tdata, 
 				 	  ssize_t num_read );
@@ -801,20 +769,12 @@ int gftp_get_all_subdirs 		( gftp_transfer * transfer,
 					  void (*update_func) 
 						( gftp_transfer * transfer ));
 
-int gftp_get_file_transfer_mode 	( char *filename,
-					  int def );
-
 int gftp_connect_server 		( gftp_request * request, 
-					  char *service );
+					  char *service,
+					  char *proxy_hostname,
+					  int proxy_port );
 
-void gftp_set_sftpserv_path		( gftp_request * request,
-					  char *path );
-
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-
-int get_port 				( struct addrinfo *addr );
-
-#else
+#if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
 
 struct hostent *r_gethostbyname 	( const char *name, 
 					  struct hostent *result_buf, 
@@ -826,6 +786,7 @@ struct servent *r_getservbyname 	( const char *name,
 					  const char *proto,
 					  struct servent *result_buf, 
 					  int *h_errnop );
+
 void gftp_set_config_options 		( gftp_request * request );
 
 void print_file_list 			( GList * list );
@@ -857,6 +818,9 @@ int gftp_set_sockblocking 		( gftp_request * request,
 
 void gftp_swap_socks 			( gftp_request * dest, 
 					  gftp_request * source );
+
+void gftp_calc_kbs 			( gftp_transfer * tdata, 
+					  ssize_t num_read );
 
 #endif
 
