@@ -1,3 +1,14 @@
+2005-1-24 Brian Masney <masneyb@gftp.org>
+	* src/text/gftp-text.c (gftp_text_ask_question, gftp_text_write_string)
+	- convert the string from UTF8 to the users' current locale before it is
+	displayed
+
+	* src/text/gftp-text.c src/text/gftp-text.h - fixed signed/unsigned
+	mismatch when calculating the window size
+
+	* src/gtk/transfer.c (update_file_status) - expanded the maximum length
+	of the dlstr variable
+
 2005-1-23 Brian Masney <masneyb@gftp.org>
 	* po/POTFILES.in - added lib/fsp.c
 

@@ -20,11 +20,11 @@
 #include "gftp-text.h"
 static const char cvsid[] = "$Id$";
 
-int
+unsigned int
 gftp_text_get_win_size (void)
 {
   struct winsize size;
-  int ret;
+  unsigned int ret;
 
   if (ioctl (0, TIOCGWINSZ, (char *) &size) < 0)
     ret = 80;
@@ -36,14 +36,19 @@ gftp_text_get_win_size (void)
 
 
 static void
-gftp_text_write_string (char *string)
+gftp_text_write_string (gftp_request * request, char *string)
 {
-  char *stpos, *endpos, savechar;
-  int sw;
+  gchar *stpos, *endpos, *locale_str, savechar;
+  unsigned int sw;
 
   sw = gftp_text_get_win_size ();
 
-  stpos = string;
+  locale_str = gftp_string_from_utf8 (request, string);
+  if (locale_str == NULL)
+    stpos = string;
+  else
+    stpos = locale_str;
+
   do
     {
       if ((endpos = strchr (stpos, '\n')) == NULL)
@@ -77,6 +82,9 @@ gftp_text_write_string (char *string)
       sw = sw;
     }
   while (stpos != endpos);
+
+  if (locale_str != NULL)
+    g_free (locale_str);
 }
 
 
@@ -134,7 +142,7 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
   if (level == gftp_logging_misc_nolog)
     printf ("%s", outstr);
   else
-    gftp_text_write_string (outstr);
+    gftp_text_write_string (request, outstr);
   
   printf ("%s", GFTPUI_COMMON_COLOR_DEFAULT);
 
@@ -147,6 +155,7 @@ char *
 gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
 {
   struct termios term, oldterm;
+  gchar *locale_question;
   sigset_t sig, sigsave;
   char *pos, *termname;
   int singlechar;
@@ -176,7 +185,16 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
   else
     infd = stdin;
 
-  printf ("%s%s%s ", GFTPUI_COMMON_COLOR_BLUE, question, GFTPUI_COMMON_COLOR_DEFAULT);
+  locale_question = g_locale_from_utf8 (question, -1, NULL, NULL, NULL);
+  if (locale_question != NULL)
+    {
+      printf ("%s%s%s ", GFTPUI_COMMON_COLOR_BLUE, locale_question,
+              GFTPUI_COMMON_COLOR_DEFAULT);
+      g_free (locale_question);
+    }
+  else
+    printf ("%s%s%s ", GFTPUI_COMMON_COLOR_BLUE, question,
+            GFTPUI_COMMON_COLOR_DEFAULT);
 
   if (size == 1)
     {
