@@ -660,36 +660,6 @@ build_bookmarks_tree (void)
 
 
 static void
-clear_bookmarks_tree (void)
-{
-  gftp_bookmarks_var * tempentry;
-
-  if (new_bookmarks != NULL)
-    tempentry = new_bookmarks->children;
-  else
-    tempentry = gftp_bookmarks->children;
-
-  while (tempentry != NULL)
-    {
-      if (tempentry->children != NULL)
-	{
-	  tempentry = tempentry->children;
-	  continue;
-	}
-      while (tempentry->next == NULL && tempentry->prev != NULL)
-	{
-	  gtk_ctree_remove_node (GTK_CTREE (tree), tempentry->cnode);
-	  tempentry->cnode = NULL;
-	  tempentry = tempentry->prev;
-	}
-      gtk_ctree_remove_node (GTK_CTREE (tree), tempentry->cnode);
-      tempentry->cnode = NULL;
-      tempentry = tempentry->next;
-    }
-}
-
-
-static void
 entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
 {
   char *pos, *newpath, tempchar, *tempstr, *origpath;

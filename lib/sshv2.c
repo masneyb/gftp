@@ -1347,6 +1347,10 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
       if ((ret = gftp_parse_ls (request, longname, fle, 0)) < 0)
         {
+          request->logging_function (gftp_logging_error, request,
+                                     _("Warning: Cannot parse listing %s\n"),
+                                     longname);
+
           gftp_file_destroy (fle);
           return (ret);
         }
