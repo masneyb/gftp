@@ -352,10 +352,12 @@ gftp_match_filespec (char *filename, char *filespec)
 static void
 gftp_info (void)
 {
+  int i;
+
   printf ("%s\n", gftp_version);
 
 #ifdef _LARGEFILE_SOURCE
-  printf ("#define_LARGEFILE_SOURCE\n");
+  printf ("#define _LARGEFILE_SOURCE\n");
 #endif
 
 #ifdef _FILE_OFFSET_BITS
@@ -363,10 +365,6 @@ gftp_info (void)
 #endif
 
   printf ("sizeof (off_t) = %d\n", sizeof (off_t));
-
-#ifdef USE_SSL
-  printf ("#define USE_SSL\n");
-#endif
 
 #ifdef HAVE_GETADDRINFO
   printf ("#define HAVE_GETADDRINFO\n");
@@ -404,6 +402,13 @@ gftp_info (void)
 #ifdef USE_SSL
   printf ("OpenSSL version: 0x%lx\n", OPENSSL_VERSION_NUMBER);
 #endif
+
+  printf ("Enabled protocols: ");
+  for (i=0; gftp_protocols[i].name != NULL; i++)
+    {
+      printf ("%s ", gftp_protocols[i].name);
+    }
+  printf ("\n");
 }
 
 
