@@ -255,7 +255,6 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
 #if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
-  guint len;
 #endif
 
   doclose = 1;
@@ -423,9 +422,8 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
       gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL, buf, -1);
 #else
       textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-      len = gtk_text_buffer_get_char_count (textbuf);
-      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len);
-      gtk_text_buffer_insert (textbuf, &iter, buf, n);
+      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, -1);
+      gtk_text_buffer_insert (textbuf, &iter, buf, -1);
 #endif
     }
 

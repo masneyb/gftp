@@ -1,4 +1,10 @@
 2004-10-5 Brian Masney <masneyb@gftp.org>
+	* src/gtk/menu-items.c (dosavelog, viewlog) - make sure the entire
+	log is written out when multibyte characters are used
+
+	* src/gtk/view_dialog.c - small improvements to the way text is
+	inserted in the gtk+ 2.x port
+
 	* src/gtk/gftp-gtk.c src/gtk/gftp-gtk.h src/gtk/misc-gtk.c - disable the
 	upload/download buttons whenever the user is not connected to the
 	server (closes #153374)

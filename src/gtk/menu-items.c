@@ -326,6 +326,10 @@ viewlog (gpointer data)
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, textlen);
   txt = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
+
+  /* gtk_text_buffer_get_char_count() returns the number of characters,
+     not bytes. So get the number of bytes that need to be written out */
+  textlen = strlen (txt);
 #endif
   pos = txt;
 
@@ -384,6 +388,10 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, textlen);
   txt = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
+
+  /* gtk_text_buffer_get_char_count() returns the number of characters,
+     not bytes. So get the number of bytes that need to be written out */
+  textlen = strlen (txt);
 #endif
 
   ok = 1;
