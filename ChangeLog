@@ -1,3 +1,13 @@
+2003-4-9 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/config_file.c - reordered config option types. Added
+	gftp_option_type_textcomboedt type
+
+	* lib/options.h lib/rfc959.c - moved gftp_proxy_type to rfc959.c
+
+	* lib/rfc959.c - added proxy_type that is
+	gftp_option_type_textcomboedt. Consolidated help text into comment.
+	In parse_ftp_proxy_string(), improve parsing of proxy config
+
 2003-4-8 Brian Masney <masneyb@gftp.org>
 	* src/text/gftp-text.c lib/misc.c - moved r_gethostbyname() and 
 	r_getservbyname() to lib/misc.c. Now uses GMutex functions

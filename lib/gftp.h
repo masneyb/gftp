@@ -426,18 +426,18 @@ typedef struct gftp_color_tag
 typedef enum 
 {
   gftp_option_type_text		= 0,
-  gftp_option_type_int		= 1,
-  gftp_option_type_float	= 2,
-  gftp_option_type_checkbox	= 3,
-  gftp_option_type_color	= 4,
-  gftp_option_type_notebook	= 5,
-  gftp_option_type_newtable	= 6,
-  gftp_option_type_hidetext	= 7,
-  gftp_option_type_label	= 8,
-  gftp_option_type_textbox	= 9,
-  gftp_option_type_subtree	= 10,
-  gftp_option_type_intcombo	= 11,
-  gftp_option_type_textcombo	= 12,
+  gftp_option_type_textcombo	= 1,
+  gftp_option_type_textcomboedt = 2,
+  gftp_option_type_hidetext	= 3,
+  gftp_option_type_int		= 4,
+  gftp_option_type_checkbox	= 5,
+  gftp_option_type_intcombo	= 6,
+  gftp_option_type_float	= 7,
+  gftp_option_type_color	= 8,
+  gftp_option_type_notebook	= 9,
+  gftp_option_type_newtable	= 10,
+  gftp_option_type_label	= 11,
+  gftp_option_type_subtree	= 12,
   gftp_option_type_table	= 13
 } gftp_option_type_enum;
 
@@ -487,13 +487,12 @@ typedef struct gftp_option_type_tag
 } gftp_option_type_var;
 
 
-typedef struct gftp_proxy_type_var_tag
+typedef struct gftp_textcomboedt_data_tag
 {
   char *key,
        *description;
-} gftp_proxy_type_var;
+} gftp_textcomboedt_data;
 
-#define GFTP_CUSTOM_PROXY_NUM        8
 
 typedef struct gftp_getline_buffer_tag
 {
@@ -503,6 +502,7 @@ typedef struct gftp_getline_buffer_tag
          cur_bufsize;
 } gftp_getline_buffer;
 
+
 /* Global config options. These are defined in options.h */
 extern GList * gftp_file_transfers, * gftp_file_transfer_logs,
              * gftp_options_list;
@@ -510,7 +510,6 @@ extern GHashTable * gftp_global_options_htable, * gftp_bookmarks_htable,
                   * gftp_config_list_htable;
 extern gftp_config_vars gftp_global_config_vars[];
 extern supported_gftp_protocols gftp_protocols[];
-extern gftp_proxy_type_var gftp_proxy_type[];
 extern gftp_bookmarks_var * gftp_bookmarks;
 extern char gftp_version[];
 extern FILE * gftp_logfd;

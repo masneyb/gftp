@@ -1010,18 +1010,18 @@ gftp_config_file_read_textcombo (char *str, gftp_config_vars * cv, int line)
    gftp_option_type_enum in gftp.h */
 gftp_option_type_var gftp_option_types[] = {
   {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
+  {gftp_config_file_read_textcombo, gftp_config_file_write_text, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
+  {gftp_config_file_read_text, gftp_config_file_write_hidetext, NULL, NULL},
   {gftp_config_file_read_int, gftp_config_file_write_int, NULL, NULL},
-  {gftp_config_file_read_float, gftp_config_file_write_float, NULL, NULL},
   {gftp_config_file_read_checkbox, gftp_config_file_write_int, NULL, NULL},
+  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, NULL, NULL},
+  {gftp_config_file_read_float, gftp_config_file_write_float, NULL, NULL},
   {gftp_config_file_read_color, gftp_config_file_write_color, NULL, NULL},
   {NULL, NULL, NULL, NULL},
   {NULL, NULL, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_hidetext, NULL, NULL},
   {NULL, NULL, NULL, NULL},
-  {gftp_config_file_read_text, gftp_config_file_write_text, NULL, NULL},
   {NULL, NULL, NULL, NULL},
-  {gftp_config_file_read_intcombo, gftp_config_file_write_intcombo, NULL, NULL},
-  {gftp_config_file_read_textcombo, gftp_config_file_write_text, NULL, NULL},
   {NULL, NULL, NULL, NULL}
 };
 

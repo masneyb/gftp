@@ -21,19 +21,6 @@
 
 #include "gftp.h"
 
-gftp_proxy_type_var gftp_proxy_type[] = {
-  {N_("none"), ""},
-  {N_("SITE command"), "USER %pu\nPASS %pp\nSITE %hh\nUSER %hu\nPASS %hp\n"},
-  {N_("user@host"), "USER %pu\nPASS %pp\nUSER %hu@%hh\nPASS %hp\n"},
-  {N_("user@host:port"), "USER %hu@%hh:%ho\nPASS %hp\n"},
-  {N_("AUTHENTICATE"), "USER %hu@%hh\nPASS %hp\nSITE AUTHENTICATE %pu\nSITE RESPONSE %pp\n"},
-  {N_("user@host port"), "USER %hu@%hh %ho\nPASS %hp\n"},
-  {N_("user@host NOAUTH"), "USER %hu@%hh\nPASS %hp\n"},
-  {N_("HTTP Proxy"), "http"},
-  {N_("Custom"), ""},
-  {NULL, NULL}
-};
-
 static char *gftp_sort_columns[] = { N_("none"), N_("file"), N_("size"), 
                                      N_("user"), N_("group"), 
                                      N_("datetime"), N_("attribs"), NULL };

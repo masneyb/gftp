@@ -20,6 +20,19 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
+static gftp_textcomboedt_data gftp_proxy_type[] = {
+  {N_("none"), ""},
+  {N_("SITE command"), "USER %pu\nPASS %pp\nSITE %hh\nUSER %hu\nPASS %hp\n"},
+  {N_("user@host"), "USER %pu\nPASS %pp\nUSER %hu@%hh\nPASS %hp\n"},
+  {N_("user@host:port"), "USER %hu@%hh:%ho\nPASS %hp\n"},
+  {N_("AUTHENTICATE"), "USER %hu@%hh\nPASS %hp\nSITE AUTHENTICATE %pu\nSITE RESPONSE %pp\n"},
+  {N_("user@host port"), "USER %hu@%hh %ho\nPASS %hp\n"},
+  {N_("user@host NOAUTH"), "USER %hu@%hh\nPASS %hp\n"},
+  {N_("HTTP Proxy"), "http"},
+  {N_("Custom"), ""},
+  {NULL, NULL}
+};
+
 static gftp_config_vars config_vars[] = 
 {
   {"", N_("FTP"), gftp_option_type_notebook, NULL, NULL, 0, NULL, 
@@ -39,7 +52,7 @@ static gftp_config_vars config_vars[] =
    GFTP_PORT_ALL, NULL},
   {"ascii_transfers", N_("Transfer files in ASCII mode"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
-   N_("If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently. If you are transfering from UNIX to UNIX, then it is safe to leave this off."), 
+   N_("If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."), 
    GFTP_PORT_ALL, NULL},
   {"ftp_proxy_host", N_("Proxy hostname:"), 
    gftp_option_type_text, "", NULL, 0,
@@ -58,32 +71,12 @@ static gftp_config_vars config_vars[] =
    N_("Your firewall account (optional)"), GFTP_PORT_ALL, NULL},
   
   {"", "", gftp_option_type_newtable, "", NULL, 0, "", GFTP_PORT_GTK, NULL},
-/* FIXME  {"", N_("Proxy server type"), CONFIG_COMBO, "PS", NULL, GFTP_PORT_GTK},*/
-  {"proxy_config", N_("Proxy config"), 
-   gftp_option_type_textbox, "", NULL, 0,
-   N_("This specifies how your proxy server expects us to log in"), 
-   GFTP_PORT_GTK, NULL},
 
-  {"", N_("%pu = proxy user"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
-  {"", N_("%hu = host user"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
-  {"", N_("%pp = proxy pass"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
-  {"", N_("%hp = host pass"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
-  {"", N_("%ph = proxy host"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
-  {"", N_("%hh = host"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
-  {"", N_("%po = proxy port"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
-  {"", N_("%ho = host port"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL}, 
-  {"", N_("%pa = proxy account"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
-  {"", N_("%ha = host account"), gftp_option_type_label, "", NULL, 0, "", 
-   GFTP_PORT_GTK, NULL},
+  {"proxy_config", N_("Proxy server type:"),
+   gftp_option_type_textcomboedt, "", gftp_proxy_type, 0,
+   N_("This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"), 
+   GFTP_PORT_ALL, NULL},
+
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
 
@@ -183,19 +176,21 @@ rfc959_send_command (gftp_request * request, const char *command)
 static char *
 parse_ftp_proxy_string (gftp_request * request)
 {
-  char *startpos, *endpos, *oldstr, *newstr, *newval, *tempport, *proxy_config;
+  char *startpos, *endpos, *newstr, *newval, tempport[6], *proxy_config,
+       savechar;
+  size_t len;
   int tmp;
 
   g_return_val_if_fail (request != NULL, NULL);
   g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, NULL);
 
-  newstr = g_malloc (1);
-  *newstr = '\0';
   gftp_lookup_request_option (request, "proxy_config", &proxy_config);
+
+  newstr = g_malloc0 (1);
+  len = 0;
   startpos = endpos = proxy_config;
   while (*endpos != '\0')
     {
-      tempport = NULL;
       if (*endpos == '%' && tolower ((int) *(endpos + 1)) == 'p')
 	{
 	  switch (tolower ((int) *(endpos + 2)))
@@ -211,7 +206,7 @@ parse_ftp_proxy_string (gftp_request * request)
 	      break;
 	    case 'o':
               gftp_lookup_request_option (request, "ftp_proxy_port", &tmp);
-	      tempport = g_strdup_printf ("%d", tmp);
+              g_snprintf (tempport, sizeof (tempport), "%d", tmp);
 	      newval = tempport;
 	      break;
 	    case 'a':
@@ -236,7 +231,7 @@ parse_ftp_proxy_string (gftp_request * request)
 	      newval = request->hostname;
 	      break;
 	    case 'o':
-	      tempport = g_strdup_printf ("%d", request->port);
+              g_snprintf (tempport, sizeof (tempport), "%d", request->port);
 	      newval = tempport;
 	      break;
 	    case 'a':
@@ -249,10 +244,15 @@ parse_ftp_proxy_string (gftp_request * request)
 	}
       else if (*endpos == '%' && tolower ((int) *(endpos + 1)) == 'n')
 	{
-	  *endpos = '\0';
-	  oldstr = newstr;
-	  newstr = g_strconcat (oldstr, startpos, "\r\n", NULL);
-	  g_free (oldstr);
+          savechar = *endpos;
+          *endpos = '\0';
+
+          len += strlen (startpos) + 2;
+          newstr = g_realloc (newstr, sizeof (char) * (len + 1));
+          strcat (newstr, startpos);
+          strcat (newstr, "\r\n");
+
+          *endpos = savechar;
 	  endpos += 2;
 	  startpos = endpos;
 	  continue;
@@ -263,21 +263,27 @@ parse_ftp_proxy_string (gftp_request * request)
 	  continue;
 	}
 
+      savechar = *endpos;
       *endpos = '\0';
-      oldstr = newstr;
+      len += strlen (startpos);
       if (!newval)
-	newstr = g_strconcat (oldstr, startpos, NULL);
+        {
+          newstr = g_realloc (newstr, sizeof (char) * (len + 1));
+          strcat (newstr, startpos);
+        }
       else
-	newstr = g_strconcat (oldstr, startpos, newval, NULL);
-      if (tempport)
-	{
-	  g_free (tempport);
-	  tempport = NULL;
-	}
-      g_free (oldstr);
+        {
+          len += strlen (newval);
+          newstr = g_realloc (newstr, sizeof (char) * (len + 1));
+          strcat (newstr, startpos);
+          strcat (newstr, newval);
+        }
+   
+      *endpos = savechar;
       endpos += 3;
       startpos = endpos;
     }
+
   return (newstr);
 }
 
