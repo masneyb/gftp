@@ -1266,6 +1266,10 @@ gftp_get_transfer_action (gftp_request * request, gftp_file * fle)
 
   gftp_lookup_request_option (request, "overwrite_default", &overwrite_default);
 
+  /* FIXME - add code to compare the file times and make a decision based
+     on that. Also if overwrite_default is enabled and the file sizes/dates are
+     the same, then skip the file */
+
   if (overwrite_default)
     fle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
   else if (fle->startsize == fle->size)
