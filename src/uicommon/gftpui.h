@@ -33,6 +33,7 @@ struct _gftpui_callback_data
   char *input_string,
        *source_string;
   GList * files;
+  void *user_data;
   int retries;
   int (*run_function) (gftpui_callback_data * cdata);
   unsigned int dont_check_connection : 1;
