@@ -123,7 +123,12 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
       if (gftp_parse_url (current_wdata->request, 
                           (char *) selection_data->data) == 0)
-        ftp_connect (current_wdata, current_wdata->request, 1);
+        {
+          ftp_log (gftp_logging_misc, NULL,
+                   _("Received URL %s\n"), (char *) selection_data->data);
+
+          ftp_connect (current_wdata, current_wdata->request, 1);
+        }
     }
 }
 

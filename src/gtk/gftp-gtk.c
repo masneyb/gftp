@@ -55,7 +55,7 @@ get_column (GtkCListColumn * col)
 static void
 doexit (GtkWidget * widget, gpointer data)
 {
-  int ret;
+  intptr_t ret;
 
   ret = GTK_WIDGET (local_frame)->allocation.width;
   gftp_set_global_option ("listbox_local_width", GINT_TO_POINTER (ret));
@@ -1091,11 +1091,11 @@ void
 sortrows (GtkCList * clist, gint column, gpointer data)
 {
   char sortcol_name[25], sortasds_name[25];
-  int swap_col;
   intptr_t sortcol, sortasds;
   gftp_window_data * wdata;
   GtkWidget * sort_wid;
   GList * templist;
+  int swap_col;
 
   wdata = data;
   g_snprintf (sortcol_name, sizeof (sortcol_name), "%s_sortcol", wdata->prefix_col_str);

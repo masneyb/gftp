@@ -517,7 +517,7 @@ _save_option_type_int (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
   const char *tempstr;
-  int val;
+  intptr_t val;
 
   option_data = user_data;
   tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
@@ -577,7 +577,7 @@ static void
 _save_option_type_checkbox (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
-  int val;
+  intptr_t val;
 
   option_data = user_data;
 
@@ -612,19 +612,17 @@ static void
 _save_option_type_float (gftp_config_vars * cv, void *user_data)
 {
   gftp_options_dialog_data * option_data;
+  union { void *ptr; float f; } fv;
   const char *tempstr;
-  void *val;
-  float f;
 
   option_data = user_data;
   tempstr = gtk_entry_get_text (GTK_ENTRY (cv->user_data));
-  f = strtod (tempstr, NULL);
-  memcpy (&val, &f, sizeof (val));
+  fv.f = strtod (tempstr, NULL);
 
   if (option_data->bm == NULL)
-    gftp_set_global_option (cv->key, val);
+    gftp_set_global_option (cv->key, fv.ptr);
   else
-    gftp_set_bookmark_option (option_data->bm, cv->key, val);
+    gftp_set_bookmark_option (option_data->bm, cv->key, fv.ptr);
 }
 
 
