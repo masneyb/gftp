@@ -116,8 +116,8 @@ AC_DEFUN(AC_SYS_LARGEFILE,
 
 # serial 1
 
-# This function is derived from
-# http://savannah.gnu.org/cgi-bin/viewcvs/gcc/gcc/libjava/configure.in?rev=1.142.2.7&content-type=text/vnd.viewcvs-markup
+dnl This function is derived from
+dnl http://savannah.gnu.org/cgi-bin/viewcvs/gcc/gcc/libjava/configure.in?rev=1.142.2.7&content-type=text/vnd.viewcvs-markup
 
 AC_DEFUN(AC_TYPE_SOCKLEN_T,
   [AC_MSG_CHECKING([for socklen_t in sys/socket.h])
@@ -127,5 +127,30 @@ AC_DEFUN(AC_TYPE_SOCKLEN_T,
      [AC_MSG_RESULT(yes)],
      [AC_DEFINE(socklen_t,int,Need to define socklen_t as an int because it should be in sys/socket.h)
       AC_MSG_RESULT(no)])
+  ])
+
+# serial 1
+
+dnl This macro checks to see if the printf family of functions supports the
+dnl %'ld format.
+
+dnl Brian Masney <masneyb@gftp.org>
+
+dnl 
+AC_DEFUN(AC_INTL_PRINTF,
+  [AC_MSG_CHECKING([whether the printf family of functions supports %'ld])
+   AC_TRY_RUN([#include <stdio.h>
+               #include <string.h>
+
+               int main(void) {
+                 char buf[20];
+                 sprintf (buf, "%'ld", (long) 1);
+                 if (strchr ('1', buf) == NULL)
+                   return (1);
+                 return (0);
+               }],
+    [AC_DEFINE(HAVE_INTL_PRINTF,1,Define if printf supports %'ld)
+     AC_MSG_RESULT(yes)],
+    [AC_MSG_RESULT(no)])
   ])
 

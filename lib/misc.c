@@ -22,7 +22,7 @@ static const char cvsid[] = "$Id$";
 #include "gftp.h"
 #include "options.h"
 
-#ifdef _GNU_SOURCE
+#ifdef HAVE_INTL_PRINTF
 
 char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)
@@ -357,6 +357,10 @@ gftp_info (void)
 
 #ifdef HAVE_GETTEXT
   printf ("#define HAVE_GETTEXT\n");
+#endif
+
+#ifdef HAVE_INTL_PRINTF
+  printf ("#define HAVE_INTL_PRINTF\n");
 #endif
 
   printf ("glib version: %d.%d.%d\n", GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION,
