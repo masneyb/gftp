@@ -1,14 +1,19 @@
-Changes from 2.0.16 to 2.0.17
+Changes from 2.0.16 to 2.0.17rc1
 
-* Created a user interface common repository. Started to merge the UI
-  independant parts of the GTK+ and text ports into this. The GTK+ port
-  can now be controlled from a command line interface in the GUI. There
-  is an option you have to enable in the options dialog for this.
+* Separated out more of the UI independent code in the GTK+ and Text ports and
+  created a user interface common repository. Cleaned up some of the existing
+  GTK+ code. The GTK+ port can now be controlled from a command line interface
+  in the GUI. There is an option you have to enable in the options dialog for
+  this. (enable manual commands in GUI)
 * Added support for the FTPS protocol. The control connection is the only
   one encrypted at the moment.
+* When viewing/editing a file, the temporary file that is created is created
+  with the same extension as the remote file so that syntax highlighting works
 * File transfers can be resumed/skipped/overwritten in the text port and
-  whenever files are dropped on gftp.
+  whenever files are dropped on gftp in the GTK+ port.
 * FTP: Added support for MVS directory listings
+* FTP: Fix for FXP transfers
+* SSH2: fix for resuming uploads
 * Added option to show the transfer status in the title bar.
 * Added option to disable IPV6 support.
 * Fixed the wrong date being displayed when a file was modified last year
@@ -18,9 +23,14 @@ Changes from 2.0.16 to 2.0.17
 * If a bookmarked site has it's password saved in the config file, then the
   passwords are written out in a scrambled format. This isn't secure, but it'll
   prevent someone from casually looking over your shoulder and seeing your
-  password. I would not recommend saving your passwords to disk.
+  password. I still do not recommend saving your passwords to disk.
 * Fix for systems that do not support the %'ld format argument
-* Overall code cleanup in the user interface code and several small bug fixes
+* The startup directory option is now expanded so that an option like
+  ~/src can be specified
+* New language translations and updates (ca cs de ga hr hu nl pt_BR sr sr@Latn
+  ta th)
+* Many other small changes and improvements. See the ChangeLog file in the
+  distribution for a detailed list of changes.
 
 Changes from 2.0.15 to 2.0.16
 
