@@ -619,6 +619,10 @@ GList * gftp_sort_filelist 		( GList * filelist,
 
 mode_t gftp_parse_attribs 		( char *attribs );
 
+char * gftp_gen_ls_string 		( gftp_file * fle, 
+					  char *file_prefixstr, 
+					  char *file_suffixstr );
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_HTTP_NUM				1

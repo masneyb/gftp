@@ -897,7 +897,10 @@ gftp_config_file_read_checkbox (char *str, gftp_config_vars * cv, int line)
 static int
 gftp_config_file_read_float (char *str, gftp_config_vars * cv, int line)
 {
-  *(float *) cv->value = strtof (str, NULL);
+  float f;
+
+  f = strtof (str, NULL);
+  memcpy (&cv->value, &f, sizeof (cv->value));
   return (0);
 }
 
@@ -905,7 +908,10 @@ gftp_config_file_read_float (char *str, gftp_config_vars * cv, int line)
 static int
 gftp_config_file_write_float (gftp_config_vars * cv, FILE * fd, int to_config_file)
 {
-  fprintf (fd, "%.2f", 0.0); /* FIXME */
+  float f;
+
+  memcpy (&f, &cv->value, sizeof (f));
+  fprintf (fd, "%.2f", f);
   return (0);
 }
 

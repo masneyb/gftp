@@ -571,7 +571,7 @@ int
 gftp_text_ls (gftp_request * request, char *command, gpointer *data)
 {
   GList * files, * templist, * delitem;
-  char *color, buf[20], *filespec;
+  char *color, *filespec, *tempstr;
   int sortcol, sortasds;
   gftp_file * fle;
   time_t curtime;
@@ -639,19 +639,10 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
       else
         color = COLOR_DEFAULT;
 
-      if (curtime > fle->datetime + 6 * 30 * 24 * 60 * 60 ||
-          curtime < fle->datetime - 60 * 60)
-        strftime (buf, sizeof (buf), "%b %d  %Y", localtime (&fle->datetime));
-      else
-        strftime (buf, sizeof (buf), "%b %d %H:%M", localtime (&fle->datetime));
-      
-#if defined (_LARGEFILE_SOURCE)
-      printf ("%s %8s %8s %10lld %s %s%s%s\n", 
-#else
-      printf ("%s %8s %8s %10ld %s %s%s%s\n", 
-#endif
-              fle->attribs, fle->user, fle->group,
-              fle->size, buf, color, fle->file, COLOR_DEFAULT);
+      tempstr = gftp_gen_ls_string (fle, color, COLOR_DEFAULT);
+      printf ("%s\n", tempstr);
+      g_free (tempstr);
+
       delitem = templist;
     }
   gftp_end_transfer (request);

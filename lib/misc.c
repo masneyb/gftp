@@ -988,6 +988,51 @@ gftp_parse_attribs (char *attribs)
 }
 
 
+char *
+gftp_gen_ls_string (gftp_file * fle, char *file_prefixstr, char *file_suffixstr)
+{
+  char *tempstr1, *tempstr2, *ret, tstr[50];
+  struct tm *lt;
+  time_t t;
+
+  lt = localtime (&fle->datetime);
+
+  tempstr1 = g_strdup_printf ("%10s %8s %8s", fle->attribs, fle->user,
+                              fle->group);
+
+  if (fle->attribs && (*fle->attribs == 'b' || *fle->attribs == 'c'))
+    tempstr2 = g_strdup_printf ("%d, %d", major (fle->size), minor (fle->size));
+  else
+    {
+#if defined (_LARGEFILE_SOURCE)
+      tempstr2 = g_strdup_printf ("%11lld", fle->size);
+#else
+      tempstr2 = g_strdup_printf ("%11ld", fle->size);
+#endif
+    }
+
+  time (&t);
+
+  if (fle->datetime > t || t - 3600*24*90 > fle->datetime)
+    strftime (tstr, sizeof (tstr), "%b %d  %Y", lt);
+  else
+    strftime (tstr, sizeof (tstr), "%b %d %H:%M", lt);
+
+  if (file_prefixstr == NULL)
+    file_prefixstr = "";
+  if (file_suffixstr == NULL)
+    file_suffixstr = "";
+
+  ret = g_strdup_printf ("%s %s %s %s%s%s", tempstr1, tempstr2, tstr, 
+                         file_prefixstr, fle->file, file_suffixstr);
+
+  g_free (tempstr1);
+  g_free (tempstr2);
+
+  return (ret);
+}
+
+
 #if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
 
 struct hostent *

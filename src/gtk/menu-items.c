@@ -216,14 +216,12 @@ destroy_save_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
 static void
 dosave_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
 {
-  const char *months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-    "Aug", "Sep", "Oct", "Nov", "Dec" };
   const char *filename;
-  struct tm *lt;
   gftp_file * tempfle;
   GList * templist;
+  char *tempstr;
   FILE * fd;
-  time_t t;
+ 
 
   filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (str->filew));
   if ((fd = fopen (filename, "w")) == NULL)
@@ -234,39 +232,15 @@ dosave_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
       return;
     }
 
-  time (&t);
-
   for (templist = str->wdata->files; 
        templist->next != NULL;
        templist = templist->next)
     {
       tempfle = templist->data;
-      fprintf (fd, "%10s %8s %8s ", tempfle->attribs, tempfle->user, 
-               tempfle->group);
-      if (tempfle->attribs && (*tempfle->attribs == 'b' || 
-                               *tempfle->attribs == 'c'))
-        fprintf (fd, "%5d, %4d", (((unsigned int) tempfle->size) >> 16) & 0xFF,
-                                 ((unsigned int) tempfle->size) & 0xFF);
-      else
-        {
-#if defined (_LARGEFILE_SOURCE)
-          fprintf (fd, "%11lld", tempfle->size);
-#else
-          fprintf (fd, "%11ld", tempfle->size);
-#endif
-        }
 
-      lt = localtime (&tempfle->datetime);
-
-      if (tempfle->datetime > t ||
-          t - 3600*24*90 > tempfle->datetime)
-        fprintf (fd, " %s %2d  %4d", months[lt->tm_mon], lt->tm_mday, 
-                 lt->tm_year + 1900);
-      else
-        fprintf (fd, " %s %2d %02d:%02d", months[lt->tm_mon], lt->tm_mday, 
-                 lt->tm_hour, lt->tm_min);
-
-      fprintf (fd, " %s\n", tempfle->file);
+      tempstr = gftp_gen_ls_string (tempfle, NULL, NULL);
+      fprintf (fd, "%s\n", tempstr);
+      g_free (tempstr);
     }
 
   fclose (fd);
