@@ -64,6 +64,12 @@ gftp_request_destroy (gftp_request * request, int free_request)
   if (request->protocol_data)
     g_free (request->protocol_data);
 
+  if (request->local_options_vars != NULL)
+    {
+      g_free (request->local_options_vars);
+      g_hash_table_destroy (request->local_options_hash);
+    }
+
   memset (request, 0, sizeof (*request));
 
   if (free_request)
@@ -72,12 +78,6 @@ gftp_request_destroy (gftp_request * request, int free_request)
     {
       request->datafd = -1;
       request->cachefd = -1;
-    }
-
-  if (request->local_options_vars != NULL)
-    {
-      g_free (request->local_options_vars);
-      g_hash_table_destroy (request->local_options_hash);
     }
 }
 

@@ -581,6 +581,12 @@ void gftp_delete_cache_entry 		( gftp_request * request,
 					  int ignore_directory );
 
 /* config_file.c */
+int gftp_config_parse_args 		( char *str, 
+					  int numargs, 
+					  int lineno, 
+					  char **first, 
+					  ... );
+
 void gftp_add_bookmark 			( gftp_bookmarks_var * newentry );
 
 void gftp_read_config_file 		( char *global_data_path );

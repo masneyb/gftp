@@ -808,7 +808,11 @@ static void
 ok_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
 {
   if (ddata->edit == NULL)
-    gtk_widget_destroy (ddata->dialog);
+    {
+      gtk_widget_destroy (ddata->dialog);
+      ddata->dialog = NULL;
+      ddata->checkbox = NULL;
+    }
  
   if (ddata->yesfunc != NULL)
     ddata->yesfunc (ddata->yespointer, ddata);
@@ -824,7 +828,11 @@ static void
 cancel_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
 {
   if (ddata->edit == NULL)
-    gtk_widget_destroy (ddata->dialog);
+    {
+      gtk_widget_destroy (ddata->dialog);
+      ddata->dialog = NULL;
+      ddata->checkbox = NULL;
+    }
  
   if (ddata->nofunc != NULL)
     ddata->nofunc (ddata->nopointer, ddata);
@@ -839,7 +847,11 @@ static void
 dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
 {
   if (ddata->edit == NULL)
-    gtk_widget_destroy (ddata->dialog);
+    {
+      gtk_widget_destroy (ddata->dialog);
+      ddata->dialog = NULL;
+      ddata->checkbox = NULL;
+    }
 
   switch (response)
     {

@@ -227,8 +227,8 @@ gftp_read_bookmarks (char *global_data_path)
 }
 
 
-static int
-parse_args (char *str, int numargs, int lineno, char **first, ...)
+int
+gftp_config_parse_args (char *str, int numargs, int lineno, char **first, ...)
 {
   char *curpos, *endpos, *pos, **dest, tempchar;
   int ret, has_colon;
@@ -384,8 +384,8 @@ gftp_config_read_ext (char *buf, int line)
   char *tempstr;
 
   tempext = g_malloc (sizeof (*tempext));
-  parse_args (buf, 4, line, &tempext->ext, &tempext->filename,
-              &tempext->ascii_binary, &tempext->view_program);
+  gftp_config_parse_args (buf, 4, line, &tempext->ext, &tempext->filename,
+                          &tempext->ascii_binary, &tempext->view_program);
  
   if ((tempstr = get_xpm_path (tempext->filename, 1)) != NULL)
     g_free (tempstr);
@@ -931,7 +931,7 @@ gftp_config_file_read_color (char *str, gftp_config_vars * cv, int line)
   if (cv->flags & GFTP_CVARS_FLAGS_DYNMEM && cv->value != NULL)
     g_free (cv->value);
 
-  parse_args (str, 3, line, &red, &green, &blue);
+  gftp_config_parse_args (str, 3, line, &red, &green, &blue);
 
   color = g_malloc (sizeof (*color));
   color->red = strtol (red, NULL, 16);

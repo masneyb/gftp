@@ -1050,6 +1050,43 @@ stop_button (GtkWidget * widget, gpointer data)
 }
 
 
+static int
+gftp_gtk_config_file_read_color (char *str, gftp_config_vars * cv, int line)
+{
+  char *red, *green, *blue;
+  GdkColor * color;
+
+  if (cv->flags & GFTP_CVARS_FLAGS_DYNMEM && cv->value != NULL)
+    g_free (cv->value);
+
+  gftp_config_parse_args (str, 3, line, &red, &green, &blue);
+
+  color = g_malloc (sizeof (*color));
+  color->red = strtol (red, NULL, 16);
+  color->green = strtol (green, NULL, 16);
+  color->blue = strtol (blue, NULL, 16);
+  g_free (red);
+  g_free (green);
+  g_free (blue);
+
+  cv->value = color;
+  cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
+
+  return (0);
+}
+
+
+static int
+gftp_gtk_config_file_write_color (gftp_config_vars * cv, FILE * fd, int to_config_file)
+{
+  GdkColor * color;
+
+  color = cv->value;
+  fprintf (fd, "%x:%x:%x", color->red, color->green, color->blue);
+  return (0);
+}
+
+
 int
 main (int argc, char **argv)
 {
@@ -1077,6 +1114,12 @@ main (int argc, char **argv)
 
   graphic_hash_table = g_hash_table_new (string_hash_function, string_hash_compare);
  
+  /* We override the read color functions because we are using a GdkColor 
+     structures to store the color. If I put this in lib/config_file.c, then 
+     the core library would be dependant on Gtk+ being present */
+  gftp_option_types[gftp_option_type_color].read_function = gftp_gtk_config_file_read_color;
+  gftp_option_types[gftp_option_type_color].write_function = gftp_gtk_config_file_write_color;
+
   gftp_read_config_file (SHARE_DIR);
   if (gftp_parse_command_line (&argc, &argv) != 0)
     exit (0);

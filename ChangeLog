@@ -1,3 +1,21 @@
+2003-6-22 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c lib/gftp.h - renamed parse_args to 
+	gftp_config_parse_args() and removed the static declaration
+
+	* lib/protocols.c (gftp_request_destroy) - fixed memory problem with 
+	the new local configuration interface
+
+	* src/gtk/gftp-gtk.c - added gftp_gtk_config_(read|write)_color().
+	I am overriding the read and write functions for
+	gftp_option_type_color to be these functions. This is so that I can
+	use a GdkColor structure instead of a gftp_color structure
+
+	* src/gtk/misc-gtk.c - when destroying the dialogs, set the pointers
+	to NULL before we call the callback functions. This is to make sure
+	that they aren't being used in the callbacks
+
+	* TODO - updated
+
 2003-6-19 Brian Masney <masneyb@gftp.org>
 	* autogen.sh - updated to hopefully make it more portable across
 	various systems
