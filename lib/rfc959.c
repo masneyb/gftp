@@ -562,7 +562,7 @@ rfc959_disconnect (gftp_request * request)
 
 
 static int
-rfc959_data_connection_new (gftp_request * request)
+rfc959_ipv4_data_connection_new (gftp_request * request)
 {
   char *pos, *pos1, resp, *command;
   struct sockaddr_in data_addr;
@@ -570,10 +570,6 @@ rfc959_data_connection_new (gftp_request * request)
   size_t data_addr_len;
   unsigned int temp[6];
   unsigned char ad[6];
-
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
 
   if ((request->datafd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
@@ -597,7 +593,7 @@ rfc959_data_connection_new (gftp_request * request)
             return (resp);
 
           gftp_set_request_option (request, "passive_transfer", GINT_TO_POINTER(0));
-	  return (rfc959_data_connection_new (request));
+	  return (rfc959_ipv4_data_connection_new (request));
 	}
 
       pos = request->last_ftp_response + 4;
@@ -700,11 +696,182 @@ rfc959_data_connection_new (gftp_request * request)
 }
 
 
+#ifdef HAVE_IPV6
+
+static int
+rfc959_ipv6_data_connection_new (gftp_request * request)
+{
+  char *pos, resp, buf[64], *command;
+  struct sockaddr_in6 data_addr;
+  int passive_transfer;
+  size_t data_addr_len;
+  unsigned int port;
+
+  if ((request->datafd = socket (AF_INET6, SOCK_STREAM, IPPROTO_TCP)) < 0)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+				 _("Failed to create a socket: %s\n"),
+				 g_strerror (errno));
+      gftp_disconnect (request);
+      return (GFTP_ERETRYABLE);
+    }
+
+  data_addr_len = sizeof (data_addr);
+  /* This condition shouldn't happen. We better check anyway... */
+  if (data_addr_len != request->hostp->ai_addrlen) 
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+				 _("Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"));
+      gftp_disconnect (request);
+      return (GFTP_EFATAL);
+    }
+
+  memset (&data_addr, 0, data_addr_len);
+  data_addr.sin6_family = AF_INET6;
+
+  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
+  if (passive_transfer)
+    {
+      if ((resp = rfc959_send_command (request, "EPSV\r\n")) != '2')
+	{
+          if (request->sockfd < 0)
+            return (resp);
+
+          gftp_set_request_option (request, "passive_transfer", 
+                                   GINT_TO_POINTER(0));
+	  return (rfc959_ipv6_data_connection_new (request));
+	}
+
+      pos = request->last_ftp_response + 4;
+      while (*pos != '(' && *pos != '\0')
+        pos++;
+      pos++;
+
+      if (*pos == '\0')
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                      _("Invalid EPSV response '%s'\n"),
+                      request->last_ftp_response);
+          gftp_disconnect (request);
+          return (GFTP_EFATAL);
+        }
+
+      if (sscanf (pos, "|||%d|", &port) != 1)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                      _("Invalid EPSV response '%s'\n"),
+                      request->last_ftp_response);
+          gftp_disconnect (request);
+          return (GFTP_EFATAL);
+        }
+
+      memcpy (&data_addr, request->hostp->ai_addr, data_addr_len);
+      data_addr.sin6_port = htons (port);
+
+      if (connect (request->datafd, (struct sockaddr *) &data_addr, 
+                   data_addr_len) == -1)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                                    _("Cannot create a data connection: %s\n"),
+                                    g_strerror (errno));
+          gftp_disconnect (request);
+          return (GFTP_ERETRYABLE);
+	}
+    }
+  else
+    {
+      memcpy (&data_addr, request->hostp->ai_addr, data_addr_len);
+      data_addr.sin6_port = 0;
+
+      if (bind (request->datafd, (struct sockaddr *) &data_addr, 
+                data_addr_len) == -1)
+	{
+	  request->logging_function (gftp_logging_error, request->user_data,
+				     _("Cannot bind a port: %s\n"),
+				     g_strerror (errno));
+          gftp_disconnect (request);
+	  return (GFTP_ERETRYABLE);
+	}
+
+      if (getsockname (request->datafd, (struct sockaddr *) &data_addr, 
+                       &data_addr_len) == -1)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+				     _("Cannot get socket name: %s\n"),
+				     g_strerror (errno));
+          gftp_disconnect (request);
+	  return (GFTP_ERETRYABLE);
+        }
+
+      if (listen (request->datafd, 1) == -1)
+	{
+	  request->logging_function (gftp_logging_error, request->user_data,
+				     _("Cannot listen on port %d: %s\n"),
+				     ntohs (data_addr.sin6_port),
+				     g_strerror (errno));
+          gftp_disconnect (request);
+	  return (GFTP_ERETRYABLE);
+	}
+
+      if (inet_ntop (AF_INET6, &data_addr.sin6_addr, buf, sizeof (buf)) == NULL)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+				     _("Cannot get address of local socket: %s\n"),
+				     g_strerror (errno));
+          gftp_disconnect (request);
+	  return (GFTP_ERETRYABLE);
+        }
+
+      command = g_strdup_printf ("EPRT |2|%s|%d|\n", buf,
+                                 ntohs (data_addr.sin6_port));
+
+      resp = rfc959_send_command (request, command);
+      g_free (command);
+      if (resp != '2')
+	{
+          gftp_disconnect (request);
+	  return (GFTP_ERETRYABLE);
+	}
+    }
+
+  return (0);
+}
+
+#endif /* HAVE_IPV6 */
+
+
+static int
+rfc959_data_connection_new (gftp_request * request)
+{
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_FTP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->sockfd > 0, GFTP_EFATAL);
+
+  if (GFTP_GET_AI_FAMILY(request) == AF_INET)
+    return (rfc959_ipv4_data_connection_new (request));
+#ifdef HAVE_IPV6
+  else
+    return (rfc959_ipv6_data_connection_new (request));
+#else /* Shouldn't happen */
+  else
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+				 _("Error: IPV6 support was not completely compiled in\n"));
+      return (GFTP_EFATAL);
+    }
+#endif
+}
+
+
 static int
 rfc959_accept_active_connection (gftp_request * request)
 {
   int infd, ret, passive_transfer;
+#ifdef HAVE_IPV6
   struct sockaddr_in cli_addr;
+#else
+  struct sockaddr_in6 cli_addr;
+#endif
   size_t cli_addr_len;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);

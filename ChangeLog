@@ -1,3 +1,25 @@
+2003-4-25 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c - added IPV6 support (RFC2428). The only part of the
+	project that isn't IPV6 ready is the proxy comparsion functions.
+
+	* lib/protocols.c - change the hints.ai_family paramater from AF_INET
+	to PF_UNSPEC
+
+	* lib/gftp.h lib/misc.c lib/pty.c - moved the functionality of
+	pty[ms]_open() to pty.c. Combined these 2 functions into open_ptys(),
+	and there is one defined for each system type (lots of #define's in
+	this file!)
+
+	* lib/Makefile.am po/POTFILES.in - added pty.c 
+
+	* lib/sshv2.c - when searching for the password prompt, omit the first
+	character in case it is capitalized. Also, use the new function 
+	open_ptys()
+
+	* configure.in - search for openpty in -lutil. Also, define
+	HAVE_OPENPTY if this function is present on the system
+
+
 2003-4-23 Brian Masney <masneyb@gftp.org>
 	* Makefile.am - removed config.rpath from EXTRA_DIST
 

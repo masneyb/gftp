@@ -286,7 +286,7 @@ sshv2_start_login_sequence (gftp_request * request, int fd)
       diff += rd;
       tempstr[diff] = '\0'; 
 
-      if (diff > 11 && strcmp (tempstr + diff - 10, "password: ") == 0)
+      if (diff >= 10 && strcmp (tempstr + diff - 9, "assword: ") == 0)
         {
           if (wrotepw)
             {
@@ -813,8 +813,8 @@ sshv2_free_args (char **args)
 static int
 sshv2_connect (gftp_request * request)
 {
-  int version, fdm, fds, s[2], ret, ssh_use_askpass, sshv2_use_sftp_subsys;
-  char **args, *tempstr, pts_name[20], *p1, p2, *exepath, *ssh2_sftp_path;
+  int version, s[2], ret, ssh_use_askpass, sshv2_use_sftp_subsys;
+  char **args, *tempstr, *p1, p2, *exepath, *ssh2_sftp_path;
   struct servent serv_struct;
   sshv2_message message;
   pid_t child;
@@ -868,7 +868,6 @@ sshv2_connect (gftp_request * request)
 
   if (ssh_use_askpass || sshv2_use_sftp_subsys)
     {
-      fdm = fds = 0;
       if (socketpair (AF_LOCAL, SOCK_STREAM, 0, s) < 0)
         {
           request->logging_function (gftp_logging_error, request->user_data,
@@ -879,41 +878,19 @@ sshv2_connect (gftp_request * request)
     }
   else
     {
-      s[0] = s[1] = 0;
-      if ((fdm = ptym_open (pts_name, sizeof (pts_name))) < 0)
-        {
-          request->logging_function (gftp_logging_error, request->user_data,
-                                _("Cannot open master pty %s: %s\n"), pts_name,
-                                g_strerror (errno));
-          return (GFTP_ERETRYABLE);
-        }
+      if ((ret = open_ptys (request, &s[0], &s[1])) < 0)
+        return (ret);
     }
  
   if ((child = fork ()) == 0)
     {
       setsid ();
-      if (ssh_use_askpass || sshv2_use_sftp_subsys)
-        {
-          close (s[0]);
-          fds = s[1];
-        }
-      else
-        {
-          if ((fds = ptys_open (fdm, pts_name)) < 0)
-            {
-              printf ("Cannot open slave pts %s: %s\n", pts_name, 
-                      g_strerror (errno));
-              return (GFTP_ERETRYABLE);
-            }
-          close (fdm);
-        }
+      close (s[0]);
 
-      tty_raw (fds);
-      dup2 (fds, 0);
-      dup2 (fds, 1);
-      dup2 (fds, 2);
-      if (!ssh_use_askpass && fds > 2)
-        close (fds);
+      tty_raw (s[1]);
+      dup2 (s[1], 0);
+      dup2 (s[1], 1);
+      dup2 (s[1], 2);
       execvp (args[0], args);
 
       printf (_("Error: Cannot execute ssh: %s\n"), g_strerror (errno));
@@ -921,15 +898,12 @@ sshv2_connect (gftp_request * request)
     }
   else if (child > 0)
     {
-      if (ssh_use_askpass || sshv2_use_sftp_subsys)
-        {
-          close (s[1]);
-          fdm = s[0];
-        }
-      tty_raw (fdm);
+      close (s[1]);
+      tty_raw (s[0]);
+
       if (!sshv2_use_sftp_subsys)
         {
-          tempstr = sshv2_start_login_sequence (request, fdm);
+          tempstr = sshv2_start_login_sequence (request, s[0]);
           if (!tempstr ||
               !(strlen (tempstr) > 4 && strcmp (tempstr + strlen (tempstr) - 5,
                                                 "xsftp") == 0))
@@ -943,7 +917,7 @@ sshv2_connect (gftp_request * request)
       sshv2_free_args (args);
       g_free (exepath);
 
-      request->sockfd = fdm;
+      request->sockfd = s[0];
 
       version = htonl (SSH_MY_VERSION);
       if ((ret = sshv2_send_command (request, SSH_FXP_INIT, (char *) 

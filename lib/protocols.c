@@ -775,7 +775,7 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   memset (&hints, 0, sizeof (hints));
   hints.ai_flags = AI_CANONNAME;
-  hints.ai_family = AF_INET;
+  hints.ai_family = PF_UNSPEC;
   hints.ai_socktype = SOCK_STREAM;
 
   port = request->use_proxy ? proxy_port : request->port;
@@ -1575,7 +1575,7 @@ gftp_connect_server (gftp_request * request, char *service,
 
   memset (&hints, 0, sizeof (hints));
   hints.ai_flags = AI_CANONNAME;
-  hints.ai_family = AF_INET;
+  hints.ai_family = PF_UNSPEC;
   hints.ai_socktype = SOCK_STREAM;
 
   if (request->use_proxy)

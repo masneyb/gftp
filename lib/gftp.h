@@ -80,6 +80,13 @@
 #define AF_LOCAL AF_UNIX
 #endif
 
+#ifdef HAVE_GETADDRINFO
+#define HAVE_IPV6
+#define GFTP_GET_AI_FAMILY(request)	(request->hostp->ai_family)
+#else
+#define GFTP_GET_AI_FAMILY(request)	AF_INET
+#endif
+
 /* We need the major() and minor() macros in the user interface. If they aren't
    defined by the system, we'll just define them here. */
 #ifndef major
@@ -610,14 +617,6 @@ void gftp_copy_local_options 		( gftp_request * dest,
 
 gftp_request * copy_request 		( gftp_request * req );
 
-int ptym_open 				( char *pts_name,
-					  size_t len );
-
-int ptys_open 				( int fdm, 
-					  char *pts_name );
-
-int tty_raw 				( int fd );
-
 GList * gftp_sort_filelist 		( GList * filelist, 
 					  int column, 
 					  int asds );
@@ -834,6 +833,13 @@ void gftp_calc_kbs 			( gftp_transfer * tdata,
 
 int gftp_get_transfer_status 		( gftp_transfer * tdata, 
 					  ssize_t num_read );
+
+/* pty.c */
+int open_ptys 				( gftp_request * request, 
+					  int *fdm, 
+					  int *fds );
+
+int tty_raw 				( int fd );
 
 #endif
 
