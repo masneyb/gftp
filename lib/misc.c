@@ -29,11 +29,17 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   char *frompos, *topos, src[50], *dest;
   int len, num, rem, i;
 
+#if defined (_LARGEFILE_SOURCE)
+  g_snprintf (src, sizeof (src), "%lld", number);
+#else
+  g_snprintf (src, sizeof (src), "%ld", number);
+#endif
+
   if (dest_str != NULL)
     *dest_str = '\0';
-  len = (number > 0 ? log10 (number) : 0) + 2;
 
-  if (len <= 0) 
+  len = strlen (src);
+  if (len == 0)
     {
       if (dest_str != NULL)
         strncpy (dest_str, "0", dest_len);
@@ -43,6 +49,7 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
     }
 
   len += len / 3;
+
   if (dest_str != NULL && len > dest_len)
     {
       
@@ -56,12 +63,6 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
     dest = g_malloc0 (len);
   else
     dest = dest_str;
-
-#if defined (_LARGEFILE_SOURCE)
-  g_snprintf (src, sizeof (src), "%lld", number);
-#else
-  g_snprintf (src, sizeof (src), "%ld", number);
-#endif
 
   num = strlen (src) / 3 - 1;
   rem = strlen (src) % 3;

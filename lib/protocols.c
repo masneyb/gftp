@@ -2299,46 +2299,39 @@ void
 gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 {
   unsigned long waitusecs;
-  double difftime, curkbs;
+  double start_difftime;
   gftp_file * tempfle;
-  unsigned long toadd;
   struct timeval tv;
   float maxkbs;
 
   gftp_lookup_request_option (tdata->fromreq, "maxkbs", &maxkbs);
 
-  gettimeofday (&tv, NULL);
   if (g_thread_supported ())
     g_static_mutex_lock (&tdata->statmutex);
+
+  gettimeofday (&tv, NULL);
 
   tempfle = tdata->curfle->data;
   tdata->trans_bytes += num_read;
   tdata->curtrans += num_read;
   tdata->stalled = 0;
 
-  difftime = (tv.tv_sec - tdata->starttime.tv_sec) + ((double) (tv.tv_usec - tdata->starttime.tv_usec) / 1000000.0);
-  if (difftime <= 0)
-    tdata->kbs = (double) tdata->trans_bytes / 1024.0;
+  start_difftime = (tv.tv_sec - tdata->starttime.tv_sec) + ((double) (tv.tv_usec - tdata->starttime.tv_usec) / 1000000.0);
+
+  if (start_difftime <= 0)
+    tdata->kbs = tdata->trans_bytes / 1024.0;
   else
-    tdata->kbs = (double) tdata->trans_bytes / 1024.0 / difftime;
+    tdata->kbs = tdata->trans_bytes / 1024.0 / start_difftime;
 
-  difftime = (tv.tv_sec - tdata->lasttime.tv_sec) + ((double) (tv.tv_usec - tdata->lasttime.tv_usec) / 1000000.0);
-
-  if (difftime <= 0)
-    curkbs = (double) (num_read / 1024.0);
-  else
-    curkbs = (double) (num_read / 1024.0 / difftime);
-
-  if (maxkbs > 0 && curkbs > maxkbs)
+  if (maxkbs > 0 && tdata->kbs > maxkbs)
     {
-      waitusecs = (double) num_read / 1024.0 / maxkbs * 1000000.0 - difftime;
+      waitusecs = num_read / 1024.0 / maxkbs * 1000000.0 - start_difftime;
 
       if (waitusecs > 0)
         {
           if (g_thread_supported ())
             g_static_mutex_unlock (&tdata->statmutex);
 
-          difftime += ((double) waitusecs / 1000000.0);
           usleep (waitusecs);
 
           if (g_thread_supported ())
@@ -2346,13 +2339,7 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
         }
     }
 
-  /* I don't call gettimeofday (&tdata->lasttime) here because this will use
-     less system resources. This will be close enough for what we need */
-  difftime += tdata->lasttime.tv_usec / 1000000.0;
-  toadd = (long) difftime;
-  difftime -= toadd;
-  tdata->lasttime.tv_sec += toadd;
-  tdata->lasttime.tv_usec = difftime * 1000000.0;
+  gettimeofday (&tdata->lasttime, NULL);
 
   if (g_thread_supported ())
     g_static_mutex_unlock (&tdata->statmutex);

@@ -1293,7 +1293,7 @@ update_file_status (gftp_transfer * tdata)
 {
   char totstr[100], dlstr[100], gotstr[50], ofstr[50];
   int hours, mins, secs, pcent, st;
-  double remaining;
+  off_t remaining_secs;
   gftp_file * tempfle;
   struct timeval tv;
 
@@ -1301,15 +1301,16 @@ update_file_status (gftp_transfer * tdata)
   tempfle = tdata->curfle->data;
 
   gettimeofday (&tv, NULL);
-  if ((remaining = (double) (tv.tv_sec - tdata->starttime.tv_sec) + ((double) (tv.tv_usec - tdata->starttime.tv_usec) / 1000000.0)) == 0)
-    remaining = 1.0;
 
-  remaining = ((double) (tdata->total_bytes - tdata->trans_bytes - tdata->resumed_bytes)) / 1024.0 / tdata->kbs;
-  hours = (off_t) remaining / 3600;
-  remaining -= hours * 3600;
-  mins = (off_t) remaining / 60;
-  remaining -= mins * 60;
-  secs = (off_t) remaining;
+  remaining_secs = (tdata->total_bytes - tdata->trans_bytes - tdata->resumed_bytes) / 1024;
+  if (tdata->kbs > 0)
+    remaining_secs /= (off_t) tdata->kbs;
+
+  hours = remaining_secs / 3600;
+  remaining_secs -= hours * 3600;
+  mins = remaining_secs / 60;
+  remaining_secs -= mins * 60;
+  secs = remaining_secs;
 
   if (hours < 0 || mins < 0 || secs < 0)
     {
@@ -1336,12 +1337,15 @@ update_file_status (gftp_transfer * tdata)
         {
           if (tdata->curfle->next != NULL)
             {
-              remaining = ((double) (tempfle->size - tdata->curtrans - tdata->curresumed)) / 1024.0 / tdata->kbs;
-              hours = (off_t) remaining / 3600;
-              remaining -= hours * 3600;
-              mins = (off_t) remaining / 60;
-              remaining -= mins * 60;
-              secs = (off_t) remaining;
+              remaining_secs = (tempfle->size - tdata->curtrans - tdata->curresumed) / 1024;
+              if (tdata->kbs > 0)
+                remaining_secs /= (off_t) tdata->kbs;
+
+              hours = remaining_secs / 3600;
+              remaining_secs -= hours * 3600;
+              mins = remaining_secs / 60;
+              remaining_secs -= mins * 60;
+              secs = remaining_secs;
             }
 
           if (!(hours < 0 || mins < 0 || secs < 0))
