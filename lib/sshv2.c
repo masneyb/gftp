@@ -1736,9 +1736,9 @@ sshv2_get_file_size (gftp_request * request, const char *file)
 }
 
 
-static off_t
-sshv2_get_file (gftp_request * request, const char *file, int fd,
-                off_t startsize)
+static int
+sshv2_open_file (gftp_request * request, const char *file, off_t startsize,
+                 guint32 mode)
 {
   char *tempstr, *endpos;
   sshv2_params * params;
@@ -1750,7 +1750,6 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
-  /* fd ignored for this protocol */
 
   params = request->protocol_data;
   params->offset = startsize;
@@ -1758,65 +1757,7 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
   len = 8;
   tempstr = sshv2_initialize_string_with_path (request, file, &len, &endpos);
 
-  num = htonl (SSH_FXF_READ);
-  memcpy (endpos, &num, 4);
-
-  ret = sshv2_send_command (request, SSH_FXP_OPEN, tempstr, len);
-
-  g_free (tempstr);
-  if (ret < 0)
-    return (ret);
-
-  ret = sshv2_read_status_response (request, &message, -1, SSH_FXP_STATUS,
-                                    SSH_FXP_HANDLE);
-  if (ret < 0)
-    return (ret);
-
-  if (message.length - 4 > SSH_MAX_HANDLE_SIZE)
-    {
-      request->logging_function (gftp_logging_error, request,
-                             _("Error: Message size %d too big from server\n"),
-                             message.length - 4);
-      sshv2_message_free (&message);
-      gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
-        
-    }
-
-  memset (params->handle, 0, 4);
-  memcpy (params->handle + 4, message.buffer+ 4, message.length - 5);
-  params->handle_len = message.length - 1;
-  sshv2_message_free (&message);
-
-  return (sshv2_get_file_size (request, file));
-}
-
-
-static int
-sshv2_put_file (gftp_request * request, const char *file, int fd,
-                off_t startsize, off_t totalsize)
-{
-  char *tempstr, *endpos;
-  sshv2_params * params;
-  sshv2_message message;
-  size_t len, num;
-  int ret;
-
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
-  /* fd ignored for this protocol */
-
-  params = request->protocol_data;
-  params->offset = startsize;
-
-  len = 8;
-  tempstr = sshv2_initialize_string_with_path (request, file, &len, &endpos);
-
-  if (startsize > 0)
-    num = htonl (SSH_FXF_WRITE | SSH_FXF_CREAT | SSH_FXF_APPEND);
-  else
-    num = htonl (SSH_FXF_WRITE | SSH_FXF_CREAT | SSH_FXF_TRUNC);
+  num = htonl (mode);
   memcpy (endpos, &num, 4);
 
   ret = sshv2_send_command (request, SSH_FXP_OPEN, tempstr, len);
@@ -1844,7 +1785,40 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
   memset (params->handle, 0, 4);
   memcpy (params->handle + 4, message.buffer + 4, message.length - 5);
   params->handle_len = message.length - 1;
+printf ("FIXME - handle len is %d\n", params->handle_len);
   sshv2_message_free (&message);
+
+  return (0);
+}
+
+
+static off_t
+sshv2_get_file (gftp_request * request, const char *file, int fd,
+                off_t startsize)
+{
+  int ret;
+
+  if ((ret = sshv2_open_file (request, file, startsize, SSH_FXP_OPEN)) < 0)
+    return (ret);
+
+  return (sshv2_get_file_size (request, file));
+}
+
+
+static int
+sshv2_put_file (gftp_request * request, const char *file, int fd,
+                off_t startsize, off_t totalsize)
+{
+  guint32 mode;
+  int ret;
+
+  if (startsize > 0)
+    mode = SSH_FXF_WRITE | SSH_FXF_CREAT | SSH_FXF_APPEND;
+  else
+    mode = SSH_FXF_WRITE | SSH_FXF_CREAT | SSH_FXF_TRUNC;
+
+  if ((ret = sshv2_open_file (request, file, startsize, mode)) < 0)
+    return (ret);
 
   return (0);
 }
