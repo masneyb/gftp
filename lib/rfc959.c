@@ -50,8 +50,7 @@ rfc959_read_response (gftp_request * request)
   do
     {
       if ((num_read = gftp_get_line (request, &parms->sockfd_rbuf, tempstr, 
-                                     sizeof (tempstr) - 1, 
-                                     request->sockfd)) <= 0)
+                                     sizeof (tempstr), request->sockfd)) <= 0)
 	break;
 
       if (isdigit ((int) *tempstr) && isdigit ((int) *(tempstr + 1))
@@ -895,7 +894,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   do
     {
       if ((len = gftp_get_line (request, &parms->datafd_rbuf,
-                                tempstr, sizeof (tempstr) - 1, fd)) <= 0)
+                                tempstr, sizeof (tempstr), fd)) <= 0)
 	{
           gftp_file_destroy (fle);
 	  return ((int) len);
@@ -919,9 +918,8 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   len = strlen (tempstr);
   if (!request->cached)
     {
-      request->last_dir_entry = g_malloc (len + 1);
-      strcpy (request->last_dir_entry, tempstr);
-      request->last_dir_entry_len = len;
+      request->last_dir_entry = g_strdup_printf ("%s\n", tempstr);
+      request->last_dir_entry_len = len + 1;
     }
   return (len);
 }

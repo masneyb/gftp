@@ -87,7 +87,7 @@ rfc2068_read_response (gftp_request * request)
   params->max_bytes = 0;
 
   rbuf = NULL;
-  if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr) - 1, 
+  if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), 
                      request->sockfd) < 0)
     return (-1);
 
@@ -103,7 +103,7 @@ rfc2068_read_response (gftp_request * request)
   while (1) 
     {
       /* Read rest of proxy header */
-      if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr) - 1, 
+      if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), 
                          request->sockfd) < 0)
 	return (-1);
 
@@ -669,7 +669,7 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   rbuf = NULL;
   while (1)
     {
-      if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr) - 1, fd) < 0)
+      if (gftp_get_line (request, &rbuf, tempstr, sizeof (tempstr), fd) < 0)
         return (-2);
 
       tempstr[sizeof (tempstr) - 1] = '\0';
@@ -678,7 +678,7 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       if (params->chunked_transfer && strcmp (tempstr, "0\r\n") == 0)
         {
           while ((len = gftp_get_line (request, &rbuf, tempstr, 
-                                       sizeof (tempstr) - 1, fd)) > 0)
+                                       sizeof (tempstr), fd)) > 0)
             {
               if (strcmp (tempstr, "\r\n") == 0)
                 break;
@@ -709,9 +709,8 @@ rfc2068_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   len = strlen (tempstr);
   if (!request->cached)
     {
-      request->last_dir_entry = g_malloc (len + 1);
-      strcpy (request->last_dir_entry, tempstr);
-      request->last_dir_entry_len = len;
+      request->last_dir_entry = g_strdup_printf ("%s\n", tempstr);
+      request->last_dir_entry_len = len + 1;
     }
   return (len);
 }

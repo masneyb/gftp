@@ -343,15 +343,17 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
         }
 #endif
 
-      if (ret >= 0 && !request->cached && request->cachefd > 0&& 
+      if (ret >= 0 && !request->cached && request->cachefd > 0 && 
           request->last_dir_entry != NULL)
         {
-          if (gftp_writefmt (request, request->cachefd, "%s\n",
-                             request->last_dir_entry) < 0)
+          if (gftp_write (request, request->last_dir_entry,
+                          request->last_dir_entry_len, request->cachefd) < 0)
             {
               request->logging_function (gftp_logging_error, request->user_data,
                                         _("Error: Cannot write to cache: %s\n"),
                                         g_strerror (errno));
+              close (request->cachefd);
+              request->cachefd = -1;
             }
         }
     } while (ret > 0 && !gftp_match_filespec (fle->file, filespec));
@@ -1883,13 +1885,14 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
     {
       *rbuf = g_malloc0 (sizeof (**rbuf));
       (*rbuf)->max_bufsize = len;
-      (*rbuf)->buffer = g_malloc ((*rbuf)->max_bufsize);
+      (*rbuf)->buffer = g_malloc ((*rbuf)->max_bufsize + 1);
       if ((ret = gftp_read (request, (*rbuf)->buffer, (*rbuf)->max_bufsize, 
                             fd)) <= 0)
         {
           gftp_free_getline_buffer (rbuf);
           return (ret);
         }
+      (*rbuf)->buffer[ret] = '\0';
       (*rbuf)->cur_bufsize = ret;
       (*rbuf)->curpos = (*rbuf)->buffer;
     }
@@ -1909,20 +1912,12 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
               if (pos > (*rbuf)->curpos && *(pos - 1) == '\r')
                 pos--;
               *pos = '\0';
-
-              if (len > pos - (*rbuf)->curpos + 1)
-                len = pos - (*rbuf)->curpos + 1;
             }
           else
-            {
-              nextpos = NULL;
-              if (len > (*rbuf)->cur_bufsize)
-                len = (*rbuf)->cur_bufsize;
-            }
+            nextpos = NULL;
 
           strncpy (str, (*rbuf)->curpos, len);
-          str[len] = '\0';
-          retval = len;
+          retval = pos - (*rbuf)->curpos > len ? len : pos - (*rbuf)->curpos;
 
           if (pos != NULL)
             {
@@ -1956,6 +1951,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
               gftp_free_getline_buffer (rbuf);
               return (ret);
             }
+          (*rbuf)->buffer[ret + copysize] = '\0';
           (*rbuf)->cur_bufsize = ret + copysize;
         }
     }

@@ -38,9 +38,6 @@ gftp_new_cache_entry (gftp_request * request)
   int cache_fd, fd;
   ssize_t ret;
 
-  if ((fd = gftp_find_cache_entry (request)) > 0)
-    return (fd);
-
   cachedir = expand_path (BASE_CONF_DIR "/cache");
   if (access (cachedir, F_OK) == -1)
     {
@@ -127,24 +124,15 @@ gftp_find_cache_entry (gftp_request * request)
   indexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
   if ((indexfd = open (indexfile, O_RDONLY)) == -1)
     {
-      if (request != NULL)
-        request->logging_function (gftp_logging_error, request->user_data,
-                                   _("Error: Cannot open local file %s: %s\n"),
-                                   indexfile, g_strerror (errno));
-
       g_free (indexfile);
       return (-1);
     }
   g_free (indexfile);
 
   rbuf = NULL;
-  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf) - 1, indexfd) > 0)
+  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf), indexfd) > 0)
     {
       len = strlen (buf);
-      if (buf[len - 1] == '\n')
-        buf[--len] = '\0';
-      if (buf[len - 1] == '\r')
-        buf[--len] = '\0';
 
       if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
 	continue;
@@ -216,13 +204,9 @@ gftp_clear_cache_files (void)
     }
 
   rbuf = NULL;
-  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf) - 1, indexfd) > 0)
+  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf), indexfd) > 0)
     {
       len = strlen (buf);
-      if (buf[len - 1] == '\n')
-        buf[--len] = '\0';
-      if (buf[len - 1] == '\r')
-        buf[--len] = '\0';
 
       if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
 	continue;
@@ -279,13 +263,9 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
 
   rbuf = NULL;
   buflen = strlen (description);
-  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf) - 1, indexfd) > 0)
+  while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf), indexfd) > 0)
     {
       len = strlen (buf);
-      if (buf[len - 1] == '\n')
-        buf[--len] = '\0';
-      if (buf[len - 1] == '\r')
-        buf[--len] = '\0';
 
       if (!((pos = strrchr (buf, '\t')) != NULL && *(pos + 1) != '\0'))
         {
