@@ -438,7 +438,7 @@ gftp_text_cd (gftp_request * request, char *command, gpointer *data)
     }
   else if (request->protonum == GFTP_LOCAL_NUM)
     {
-      if (*command != '/')
+      if (*command != '/' && request->directory != NULL)
         {
           tempstr = g_strconcat (request->directory, "/", command, NULL);
           newdir = expand_path (tempstr);
