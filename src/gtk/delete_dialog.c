@@ -81,7 +81,7 @@ delete_dialog (gpointer data)
       while (transfer->fromreq->stopable)
         {
           GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
           g_main_iteration (TRUE);
 #else
           g_main_context_iteration (NULL, TRUE);
@@ -153,7 +153,7 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
       while (transfer->fromreq->stopable)
         {
           GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
           g_main_iteration (TRUE);
 #else
           g_main_context_iteration (NULL, TRUE);

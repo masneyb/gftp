@@ -89,7 +89,7 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
           while (wdata->request->stopable)
             {
               GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
               g_main_iteration (TRUE);
 #else
               g_main_context_iteration (NULL, TRUE);
@@ -258,7 +258,7 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
           while (request->stopable)
             {
               GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
               g_main_iteration (TRUE);
 #else
               g_main_context_iteration (NULL, TRUE);
@@ -285,7 +285,7 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
       while (request->stopable)
         {
           GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
           g_main_iteration (TRUE);
 #else
           g_main_context_iteration (NULL, TRUE);
@@ -450,7 +450,7 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
           while (transfer->fromreq->stopable)
             {
               GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
               g_main_iteration (TRUE);
 #else
               g_main_context_iteration (NULL, TRUE);
@@ -1646,7 +1646,7 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
   tdata->clist = gtk_clist_new_with_titles (4, dltitles);
   gtk_container_add (GTK_CONTAINER (scroll), tdata->clist);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   gtk_clist_set_selection_mode (GTK_CLIST (tdata->clist),
 				GTK_SELECTION_EXTENDED);
 #else

@@ -174,7 +174,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
   GList * templist;
   char buf[8192];
   ssize_t n;
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
   guint len;
@@ -244,7 +244,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
                  g_strerror (errno));
     }
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), filename);
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
@@ -271,7 +271,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
   table = gtk_table_new (1, 2, FALSE);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), table, TRUE, TRUE, 0);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   view = gtk_text_new (NULL, NULL);
   gtk_text_set_editable (GTK_TEXT (view), FALSE);
   gtk_text_set_word_wrap (GTK_TEXT (view), TRUE);
@@ -311,7 +311,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
   gtk_widget_set_size_request (table, 500, 400);
   gtk_widget_show (table);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("  Close  "));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      FALSE, FALSE, 0);
@@ -329,7 +329,7 @@ view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
   while ((n = read (fd, buf, sizeof (buf) - 1)))
     {
       buf[n] = '\0';
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
       gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL, buf, -1);
 #else
       textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));

@@ -1,3 +1,10 @@
+2002-10-31 Brian Masney <masneyb@gftp.org>
+	* src/gtk/*.[ch] - don't check for gtk+ version based on the minor 
+	version. May cause problems later on.
+
+	* lib/protocols.c src/gtk/bookmarks.c src/gtk/misc-gtk.c - use UTF8
+	functions for user data when using glib 2.0
+
 2002-10-30 Brian Masney <masneyb@gftp.org>
 	* src/gtk/gftp-gtk.c (CreateMenus) - no longer use depreciated
 	_gtk_accel_group_attach in GTK+ 2.0 port. Instead use 

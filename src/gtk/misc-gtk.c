@@ -44,7 +44,7 @@ fix_display (void)
   while (ret)
     {
       GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
       ret = g_main_iteration (FALSE);
 #else
       ret = g_main_context_iteration (NULL, FALSE);
@@ -69,20 +69,21 @@ remove_files_window (gftp_window_data * wdata)
 void
 ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
 {
-  char tempstr[512];
+  int upd, free_logstr;
   gftp_log * newlog;
+  char *logstr;
   gint delsize;
   va_list argp;
   guint len;
-  int upd;
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   gftp_color * color;
   GdkColor fore;
 #else
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
+  gsize bread, bwrite;
   const char *descr;
-  guint inslen;
+  char *tempstr;
 #endif
 
   if (ptr == (void *) 0x1)
@@ -100,23 +101,39 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
     }
 
   va_start (argp, string);
-  g_vsnprintf (tempstr, sizeof (tempstr), string, argp);
+  if (strcmp (string, "%s") == 0)
+    {
+      logstr = va_arg (argp, char *);
+      free_logstr = 0;
+    }
+  else
+    {
+      logstr = g_strdup_vprintf (string, argp);
+      free_logstr = 1;
+    }
   va_end (argp);
 
   if (logfd != NULL)
     {
-      if (fwrite (tempstr, strlen (tempstr), 1, logfd) != 1)
+      if (fwrite (logstr, strlen (logstr), 1, logfd) != 1)
         {
           fclose (logfd);
           logfd = NULL;
         }
       else
-        fflush (logfd);
+        {
+          fflush (logfd);
+          if (ferror (logfd))
+            {
+              fclose (logfd);
+              logfd = NULL;
+            }
+        }
     }
 
   upd = logwdw_vadj->upper - logwdw_vadj->page_size == logwdw_vadj->value;
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   switch (level)
     {
       case gftp_logging_send:
@@ -139,7 +156,7 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
   fore.blue = color->blue;
 
   gtk_text_freeze (GTK_TEXT (logwdw));
-  gtk_text_insert (GTK_TEXT (logwdw), NULL, &fore, NULL, tempstr, -1);
+  gtk_text_insert (GTK_TEXT (logwdw), NULL, &fore, NULL, logstr, -1);
 
   len = gtk_text_get_length (GTK_TEXT (logwdw));
   if (max_log_window_size > 0 && len > max_log_window_size)
@@ -172,11 +189,24 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
         break;
     }
 
+  /* If the current log message is not in UTF8 format, convert it to UTF8 
+     format based on the current locale */
+  if (!g_utf8_validate (logstr, -1, NULL))
+    {
+      tempstr = g_locale_to_utf8 (logstr, -1, &bread, &bwrite, NULL);
+      if (tempstr != NULL)
+        {
+          if (free_logstr)
+            g_free (logstr);
+          logstr = tempstr;
+          free_logstr = 1;
+        }
+    }
+
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
   len = gtk_text_buffer_get_char_count (textbuf);
-  inslen = strlen (tempstr);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len);
-  gtk_text_buffer_insert_with_tags_by_name (textbuf, &iter, tempstr, inslen, 
+  gtk_text_buffer_insert_with_tags_by_name (textbuf, &iter, logstr, -1, 
                                             descr, NULL);
 
   if (upd)
@@ -186,14 +216,21 @@ ftp_log (gftp_logging_level level, void *ptr, const char *string, ...)
                                      0, 1, 1, 1);
     }
 
-  delsize = len + inslen - max_log_window_size;
-  if (max_log_window_size > 0 && delsize > 0)
+  if (max_log_window_size > 0)
     {
-      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-      gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, delsize);
-      gtk_text_buffer_delete (textbuf, &iter, &iter2);
+      delsize = len + g_utf8_strlen (logstr, -1) - max_log_window_size;
+
+      if (delsize > 0)
+        {
+          gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
+          gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, delsize);
+          gtk_text_buffer_delete (textbuf, &iter, &iter2);
+        }
     }
 #endif
+
+  if (free_logstr)
+    g_free (logstr);
 
   if (ptr == NULL) 
     fix_display ();
@@ -421,7 +458,7 @@ gftp_free_pixmap (char *filename)
   if ((graphic = g_hash_table_lookup (graphic_hash_table, filename)) == NULL)
     return;
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   gdk_pixmap_unref (graphic->pixmap);
   gdk_bitmap_unref (graphic->bitmap);
 #else
@@ -792,7 +829,7 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
 }
 
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
 static void
 ok_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
 {
@@ -866,7 +903,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   ddata->nofunc = cancelfunc;
   ddata->nopointer = cancelptr;
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
   gtk_grab_add (dialog);
@@ -942,7 +979,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
       gtk_widget_show (ddata->checkbox);
     }
       
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   switch (okbutton)
     {
       case gftp_dialog_button_create:
@@ -996,7 +1033,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
 {
   GtkWidget * text, * dialog;
   gftp_dialog_data * ddata;
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   GtkWidget * tempwid;
 #endif
 
@@ -1006,7 +1043,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   ddata->nofunc = nofunc;
   ddata->nopointer = nopointer;
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_grab_add (dialog);
   gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
@@ -1041,7 +1078,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), text, TRUE, TRUE, 0);
   gtk_widget_show (text);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("  Yes  "));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
@@ -1142,7 +1179,7 @@ generic_thread (void * (*func) (void *), gftp_window_data * wdata)
       while (wdata->request->stopable)
         {
           GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
           g_main_iteration (TRUE);
 #else
           g_main_context_iteration (NULL, TRUE);

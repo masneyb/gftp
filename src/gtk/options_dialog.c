@@ -46,7 +46,7 @@ static GtkWidget * proxy_text, * proxy_list, * new_proxy_domain, * network1,
 static GList * new_proxy_hosts;
 static char *custom_proxy;
 
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
 static void
 options_action (GtkWidget * widget, gint response, gpointer user_data)
 {
@@ -73,7 +73,7 @@ options_dialog (gpointer data)
   int i, tbl_col, tbl_num, combo_num;
   GList * combo_list;
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Options"));
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
@@ -161,7 +161,7 @@ options_dialog (gpointer data)
             tbl_num++;
             break;
           case CONFIG_TEXT:
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
             proxy_text = gtk_text_new (NULL, NULL);
             gtk_text_set_editable (GTK_TEXT (proxy_text), TRUE);
 #else
@@ -309,7 +309,7 @@ options_dialog (gpointer data)
 
   make_proxy_hosts_tab (notebook);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
@@ -457,7 +457,7 @@ add_host_to_listbox (GList * templist)
 }
 
 
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
 static void
 proxyhosts_action (GtkWidget * widget, gint response, gpointer user_data)
 {
@@ -496,7 +496,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
     }
 
   title = hosts ? _("Edit Host") : _("Add Host");
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), title);
   gtk_container_border_width (GTK_CONTAINER
@@ -683,7 +683,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
 	}
     }
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
@@ -814,7 +814,7 @@ proxy_toggle (GtkList * list, GtkWidget * child, gpointer data)
   int proxy_num;
   char *str;
 
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
   GtkTextIter iter, iter2;
   GtkTextBuffer * textbuf;
   guint len;
@@ -826,7 +826,7 @@ proxy_toggle (GtkList * list, GtkWidget * child, gpointer data)
   else
     str = proxy_type[proxy_num].description;
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   gtk_text_set_point (GTK_TEXT (proxy_text), 0);
   gtk_text_forward_delete (GTK_TEXT (proxy_text),
 			   gtk_text_get_length (GTK_TEXT (proxy_text)));
@@ -948,7 +948,7 @@ get_proxy_config (void)
 {
   char *newstr, *oldstr, *pos, *endpos, *textstr;
   guint len;
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   char tmp[128];
 #else
   GtkTextBuffer * textbuf;
@@ -959,7 +959,7 @@ get_proxy_config (void)
   newstr = g_malloc (1);
   *newstr = '\0';
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   /*
      GTK_TEXT uses wchar_t instead of char in environment of multibyte encoding
      locale (ex Japanese),  so we must convert from wide character 
@@ -1006,7 +1006,7 @@ get_proxy_config (void)
     }
   while (endpos != NULL);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   if (!GTK_TEXT (proxy_text)->use_wchar)
     g_free (textstr);
 #else

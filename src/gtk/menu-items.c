@@ -587,7 +587,7 @@ void
 clearlog (gpointer data)
 {
   guint len;
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   len = gtk_text_get_length (GTK_TEXT (logwdw));
   gtk_text_set_point (GTK_TEXT (logwdw), len);
   gtk_text_backward_delete (GTK_TEXT (logwdw), len);
@@ -611,7 +611,7 @@ viewlog (gpointer data)
   guint textlen;
   ssize_t len;
   int fd;
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
 #endif
@@ -628,7 +628,7 @@ viewlog (gpointer data)
   chmod (tempstr, S_IRUSR | S_IWUSR);
   unlink (tempstr);
   
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   textlen = gtk_text_get_length (GTK_TEXT (logwdw));
   txt = gtk_editable_get_chars (GTK_EDITABLE (logwdw), 0, -1);
 #else
@@ -667,7 +667,7 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
   ssize_t len;
   FILE *fd;
   int ok;
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
 #endif
@@ -681,7 +681,7 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
       return;
     }
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   textlen = gtk_text_get_length (GTK_TEXT (logwdw));
   txt = gtk_editable_get_chars (GTK_EDITABLE (logwdw), 0, -1);
 #else
@@ -751,7 +751,7 @@ about_dialog (gpointer data)
   char *tempstr, *no_license_agreement, *str, buf[255];
   size_t len;
   FILE * fd;
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
   guint textlen;
@@ -759,7 +759,7 @@ about_dialog (gpointer data)
 
   no_license_agreement = g_strdup_printf (_("Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"), BASE_CONF_DIR, SHARE_DIR);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("About gFTP"));
   gtk_container_border_width (GTK_CONTAINER
@@ -823,7 +823,7 @@ version);
   gtk_box_pack_start (GTK_BOX (box), tempwid, TRUE, TRUE, 0);
   gtk_widget_show (tempwid);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   view = gtk_text_new (NULL, NULL);
   gtk_text_set_editable (GTK_TEXT (view), FALSE);
   gtk_text_set_word_wrap (GTK_TEXT (view), TRUE);
@@ -864,7 +864,7 @@ version);
 
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), box, label);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("  Close  "));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
@@ -891,7 +891,7 @@ version);
           tempstr = expand_path (BASE_CONF_DIR "/COPYING");
 	  if (access (tempstr, F_OK) != 0)
 	    {
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
 	      gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL,
 			       no_license_agreement, -1);
 #else
@@ -907,7 +907,7 @@ version);
 
   if ((fd = fopen (tempstr, "r")) == NULL)
     {
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
       gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL,
 		       no_license_agreement, -1);
 #else
@@ -925,7 +925,7 @@ version);
   while ((len = fread (buf, 1, sizeof (buf) - 1, fd)))
     {
       buf[len] = '\0';
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
       gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL, buf, -1);
 #else
       textlen = gtk_text_buffer_get_char_count (textbuf);

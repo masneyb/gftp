@@ -63,7 +63,7 @@ gftp_window_data window1, window2, *other_wdata, *current_wdata;
 GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
           * dlwdw, * protocol_menu, * optionmenu;
 GtkAdjustment * logwdw_vadj;
-#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 0
+#if GTK_MAJOR_VERSION > 1
 GtkTextMark * logwdw_textmark;
 #endif
 int local_start, remote_start, trans_start, log_start, tools_start;
@@ -86,7 +86,7 @@ main (int argc, char **argv)
 #ifdef HAVE_GETTEXT
   setlocale (LC_ALL, "");
   bindtextdomain ("gftp", LOCALE_DIR);
-#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 0
+#if GTK_MAJOR_VERSION > 1
   bind_textdomain_codeset ("gftp", "UTF-8");
 #endif
   textdomain ("gftp");
@@ -194,7 +194,7 @@ CreateFTPWindows (GtkWidget * ui)
   GtkWidget *box, *dlbox, *winpane, *dlpane, *logpane, *mainvbox, *tempwid,
             *button;
   char *dltitles[2];
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
   GtkTextTag *tag;
@@ -229,7 +229,7 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_container_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = toolbar_pixmap (ui, "right.xpm");
 #else
   tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD,
@@ -242,7 +242,7 @@ CreateFTPWindows (GtkWidget * ui)
 			     GTK_SIGNAL_FUNC (put_files), NULL);
   gtk_container_add (GTK_CONTAINER (button), tempwid);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = toolbar_pixmap (ui, "left.xpm");
 #else
   tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_BACK,
@@ -293,7 +293,7 @@ CreateFTPWindows (GtkWidget * ui)
   log_table = gtk_table_new (1, 2, FALSE);
   gtk_widget_set_size_request (log_table, -1, log_height);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   logwdw = gtk_text_new (NULL, NULL);
 
   gtk_text_set_editable (GTK_TEXT (logwdw), FALSE);
@@ -645,7 +645,7 @@ CreateToolbar (GtkWidget * parent)
   gtk_option_menu_set_menu (GTK_OPTION_MENU (optionmenu), protocol_menu);
   gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), num);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = toolbar_pixmap (parent, "stop.xpm");
 #else
   tempwid = gtk_image_new_from_stock (GTK_STOCK_STOP,
@@ -810,7 +810,7 @@ CreateFTPWindow (gftp_window_data * wdata, int width, int columns[6])
 		      (gpointer) wdata);
   gtk_signal_connect_after (GTK_OBJECT (wdata->listbox), "key_press_event",
                             GTK_SIGNAL_FUNC (list_enter), (gpointer) wdata);
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   gtk_signal_connect_after (GTK_OBJECT (wdata->listbox), "button_press_event",
                             GTK_SIGNAL_FUNC (list_dblclick), (gpointer) wdata);
 #else
@@ -858,7 +858,7 @@ list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
   else if (!GFTP_IS_CONNECTED (wdata->request) || !IS_ONE_SELECTED (wdata))
     return (TRUE);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   if (event->type == GDK_2BUTTON_PRESS && event->button == 1)
     {
       list_doaction (wdata);
@@ -1042,7 +1042,7 @@ sortrows (GtkCList * clist, gint column, gpointer data)
     {
       sort_wid = gtk_clist_get_column_widget (clist, 0);
       gtk_widget_destroy (sort_wid);
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
       if (*wdata->sortasds)
 	sort_wid = toolbar_pixmap (wdata->listbox, "down.xpm");
       else

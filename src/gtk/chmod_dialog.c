@@ -28,7 +28,7 @@ static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow,
                  *ox;
 static int mode; 
 
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
 static void
 chmod_action (GtkWidget * widget, gint response, gpointer wdata)
 {
@@ -58,7 +58,7 @@ chmod_dialog (gpointer data)
                      wdata->request->chmod != NULL))
     return;
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Chmod"));
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
@@ -175,7 +175,7 @@ chmod_dialog (gpointer data)
   gtk_box_pack_start (GTK_BOX (vbox), ox, FALSE, FALSE, 0);
   gtk_widget_show (ox);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,

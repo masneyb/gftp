@@ -962,9 +962,6 @@ write_comment (FILE * fd, const char *comment)
 {
   const char *pos, *endpos;
 
-  /* FIXME - need to use UTF functions here. I need to check to see how 
-     portable they are before I do this though */
-
   fwrite ("# ", 1, 2, fd);
   pos = comment;
   while (strlen (pos) > 76)

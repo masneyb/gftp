@@ -265,7 +265,7 @@ build_bookmarks_menu (void)
 }
 
 
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1 
 static void
 editbm_action (GtkWidget * widget, gint response, gpointer user_data)
 {
@@ -296,14 +296,14 @@ edit_bookmarks (gpointer data)
     {N_("/File/sep"), NULL, 0, 0, "<Separator>"},
     {N_("/File/Close"), NULL, gtk_widget_destroy, 0, MS_(GTK_STOCK_CLOSE)}
   };
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   GtkWidget * tempwid;
 #endif
 
   new_bookmarks = copy_bookmarks (bookmarks);
   new_bookmarks_htable = build_bookmarks_hash_table (new_bookmarks);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Bookmarks"));
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
@@ -361,7 +361,7 @@ edit_bookmarks (gpointer data)
 			    GTK_SIGNAL_FUNC (bm_dblclick), (gpointer) tree);
   gtk_widget_show (tree);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);
@@ -789,6 +789,9 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   GtkCTreeNode * sibling;
   char *pos, *text[2];
   const char *str;
+#if GTK_MAJOR_VERSION > 1
+  gsize bread, bwrite;
+#endif
 
   gftp_get_pixmap (tree, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
   gftp_get_pixmap (tree, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
@@ -796,10 +799,20 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   str = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
 
   newentry = g_malloc0 (sizeof (*newentry));
-  newentry->path = g_malloc (strlen (str) + 1);
-  strcpy (newentry->path, str);
+#if GTK_MAJOR_VERSION == 1
+  newentry->path = g_strdup (str);
+
   while ((pos = strchr (str, '/')) != NULL)
     *pos++ = ' ';
+#else
+  if (g_utf8_validate (str, -1, NULL))
+    newentry->path = g_strdup (str);
+  else
+    newentry->path = g_locale_to_utf8 (str, -1, &bread, &bwrite, NULL);
+
+  while ((pos = g_utf8_strchr (str, -1, '/')) != NULL)
+    *pos++ = ' ';
+#endif
 
   newentry->prev = new_bookmarks;
   if (data)
@@ -838,7 +851,7 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
 }
 
 
-#if !(GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2)
+#if GTK_MAJOR_VERSION > 1
 static void
 bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
 {
@@ -874,7 +887,7 @@ edit_entry (gpointer data)
   if (entry == NULL || entry == new_bookmarks)
     return;
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Entry"));
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
@@ -1078,7 +1091,7 @@ edit_entry (gpointer data)
     }
   gtk_widget_show (anon_chk);
 
-#if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
 		      TRUE, TRUE, 0);

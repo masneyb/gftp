@@ -459,6 +459,10 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
 {
   FILE * fd;
   int ret;
+#if GLIB_MAJOR_VERSION > 1
+  gsize bread, bwrite;
+  char *tempstr;
+#endif
 
   g_return_val_if_fail (request != NULL, -2);
 
@@ -475,6 +479,25 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
     {
       gftp_file_destroy (fle);
       ret = request->get_next_file (request, fle, fd);
+
+#if GLIB_MAJOR_VERSION > 1
+      if (fle->file != NULL && !g_utf8_validate (fle->file, -1, NULL))
+        {
+          if ((tempstr = g_locale_to_utf8 (fle->file, -1, &bread, 
+                                           &bwrite, NULL)) != NULL)
+            {
+              g_free (fle->file);
+              fle->file = tempstr;
+            }
+          else if ((tempstr = g_filename_to_utf8 (fle->file, -1, &bread, 
+                                                  &bwrite, NULL)) != NULL)
+            {
+              g_free (fle->file);
+              fle->file = tempstr;
+            }
+
+        }
+#endif
 
       if (ret >= 0 && !request->cached && request->cachefd != NULL && 
           request->last_dir_entry != NULL)
