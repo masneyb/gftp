@@ -66,15 +66,15 @@ static gftp_config_vars config_vars[] =
    N_("This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"), 
    GFTP_PORT_ALL, NULL},
 
+  {"ignore_pasv_address", N_("Ignore PASV address"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
+   N_("If this is enabled, then the remote FTP server's PASV IP address field will be ignored and the host's IP address will be used instead. This is often needed for routers giving their internal rather then their external IP address in a PASV reply."),
+   GFTP_PORT_ALL, NULL},
   {"passive_transfer", N_("Passive file transfers"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."),
-   GFTP_PORT_ALL, NULL},
-  {"pasv_behind_router", N_("PASV Host Behind Router"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
-   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("If this is enabled, then the remote FTP server's PASV IP address field will be ignored and the host's IP address will be used instead. This is often needed for routers giving their internal rather then their external IP address in a PASV reply."),
    GFTP_PORT_ALL, NULL},
   {"resolve_symlinks", N_("Resolve Remote Symlinks (LIST -L)"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
@@ -628,7 +628,7 @@ static int
 rfc959_ipv4_data_connection_new (gftp_request * request)
 {
   struct sockaddr_in data_addr;
-  intptr_t pasv_behind_router;
+  intptr_t ignore_pasv_address;
   char *pos, *pos1, *command;
   intptr_t passive_transfer;
   rfc959_parms * parms;
@@ -702,9 +702,9 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 
       memcpy (&data_addr.sin_port, &ad[4], 2);
 
-      gftp_lookup_request_option (request, "pasv_behind_router",
-                                  &pasv_behind_router);
-      if (pasv_behind_router)
+      gftp_lookup_request_option (request, "ignore_pasv_address",
+                                  &ignore_pasv_address);
+      if (ignore_pasv_address)
 	{
 #if defined (HAVE_GETADDRINFO)
           memcpy (&data_addr.sin_addr,
