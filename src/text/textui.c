@@ -92,7 +92,79 @@ gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle,
 void
 gftpui_ask_transfer (gftp_transfer * tdata)
 {
-  /* FIXME */
+  char buf, question[1024], srcsize[50], destsize[50], *pos, defaction;
+  int action, newaction;
+  gftp_file * tempfle;
+  GList * templist;
+
+  action = newaction = -1;
+
+  for (templist = tdata->files; templist != NULL; templist = templist->next)
+    {
+      tempfle = templist->data;
+      if (tempfle->startsize == 0 || tempfle->isdir)
+        continue;
+
+      while (action == -1)
+        {
+          insert_commas (tempfle->size, srcsize, sizeof (srcsize));
+          insert_commas (tempfle->startsize, destsize, sizeof (destsize));
+
+          if ((pos = strrchr (tempfle->file, '/')) != NULL)
+            pos++;
+          else
+            pos = tempfle->file;
+
+          gftp_get_transfer_action (tdata->fromreq, tempfle);
+          switch (tempfle->transfer_action)
+            {
+              case GFTP_TRANS_ACTION_OVERWRITE:
+                action = GFTP_TRANS_ACTION_OVERWRITE;
+                defaction = 'o';
+                break;
+              case GFTP_TRANS_ACTION_SKIP:
+                action = GFTP_TRANS_ACTION_SKIP;
+                defaction = 's';
+                break;
+              case GFTP_TRANS_ACTION_RESUME:
+                action = GFTP_TRANS_ACTION_RESUME;
+                defaction = 'r';
+                break;
+              default:
+                defaction = ' ';
+                break;
+            }
+    
+          g_snprintf (question, sizeof (question), _("%s already exists. (%s source size, %s destination size):\n(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%c)"), pos, srcsize, destsize, defaction);
+
+          gftp_text_ask_question (question, 1, &buf, 1);
+
+          switch (buf)
+            {
+              case 'o':
+                action = GFTP_TRANS_ACTION_OVERWRITE;
+                break;
+              case 'O':
+                action = newaction = GFTP_TRANS_ACTION_OVERWRITE;
+                break;
+              case 'r':
+                action = GFTP_TRANS_ACTION_RESUME;
+                break;
+              case 'R':
+                action = newaction = GFTP_TRANS_ACTION_RESUME;
+                break;
+              case 's':
+                action = GFTP_TRANS_ACTION_SKIP;
+                break;
+              case 'S':
+                action = newaction = GFTP_TRANS_ACTION_SKIP;
+                break;
+            }
+        }
+
+      tempfle->transfer_action = action;
+      action = newaction;
+    }
 }
 
 

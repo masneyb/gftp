@@ -120,9 +120,9 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
 char *
 gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
 {
+  char *pos, *termname, singlechar;
   struct termios term, oldterm;
   sigset_t sig, sigsave;
-  char *pos, *termname;
   FILE *infd;
 
   if (!echo)
@@ -151,9 +151,19 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
 
   printf ("%s%s%s ", GFTPUI_COMMON_COLOR_BLUE, question, GFTPUI_COMMON_COLOR_DEFAULT);
 
-  if (fgets (buf, size, infd) == NULL)
-    return (NULL);
-  buf[size - 1] = '\0';
+  if (size == 1)
+    {
+      singlechar = fgetc (infd);
+      *buf = singlechar;
+    }
+  else
+    {
+      if (fgets (buf, size, infd) == NULL)
+        return (NULL);
+
+      if (size > 1)
+        buf[size - 1] = '\0';
+    }
 
   if (!echo)
     {
@@ -163,15 +173,21 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
       sigprocmask (SIG_SETMASK, &sigsave, NULL);
     }
 
-  for (pos = buf + strlen (buf) - 1; *pos == ' ' || *pos == '\r' ||
-                                     *pos == '\n'; pos--);
-  *(pos+1) = '\0';
+  if (size > 1)
+    {
+      for (pos = buf + strlen (buf) - 1; *pos == ' ' || *pos == '\r' ||
+                                         *pos == '\n'; pos--);
+      *(pos+1) = '\0';
 
-  for (pos = buf; *pos == ' '; pos++);  
-  if (*pos == '\0')
-    return (NULL);
+      for (pos = buf; *pos == ' '; pos++);  
 
-  return (pos);
+      if (*pos == '\0')
+        return (NULL);
+
+      return (pos);
+    }
+  else
+    return (buf);
 }
 
 

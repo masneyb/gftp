@@ -1,3 +1,16 @@
+2003-1-27 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/misc.c src/gtk/gtkui_transfer.c src/text/textui.c - 
+	added gftp_get_transfer_action(). When a file is to be transfered and
+	already exists, this will return the default action that should be
+	taken.
+
+	* src/text/textui.c (gftpui_ask_transfer) - implemented this function
+	so that whenever a file exists and is to be transfered, the user will
+	be prompted on whether or not to overwrite/skip/resume
+
+	* src/text/gftp-text.c (gftp_text_ask_question) - fixups for inputing
+	a single character
+
 2003-1-23 Brian Masney <masneyb@gftp.org>
 	* src/text/gftp-text.c src/uicommon/gftpui.c - added file transfer
 	functions to the command line.

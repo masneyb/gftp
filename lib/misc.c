@@ -1316,3 +1316,23 @@ gftp_descramble_password (const char *password)
   return (newstr);
 }
 
+
+int
+gftp_get_transfer_action (gftp_request * request, gftp_file * fle)
+{
+  intptr_t overwrite_default;
+
+  gftp_lookup_request_option (request, "overwrite_default", &overwrite_default);
+
+  if (overwrite_default)
+    fle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
+  else if (fle->startsize == fle->size)
+    fle->transfer_action = GFTP_TRANS_ACTION_SKIP;
+  else if (fle->startsize > fle->size)
+    fle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
+  else
+    fle->transfer_action = GFTP_TRANS_ACTION_RESUME;
+
+  return (fle->transfer_action);
+}
+

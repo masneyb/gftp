@@ -208,7 +208,6 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
        tempstr[50], temp1str[50], *pos;
   GtkWidget * dialog, * tempwid, * scroll, * hbox;
-  intptr_t overwrite_default;
   gftp_file * tempfle;
   GList * templist;
   size_t len;
@@ -276,9 +275,6 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   gtk_widget_show (tdata->clist);
   gtk_widget_show (scroll);
 
-  gftp_lookup_request_option (tdata->fromreq, "overwrite_default",
-                              &overwrite_default);
-
   for (templist = tdata->files; templist != NULL; 
        templist = templist->next)
     {
@@ -296,25 +292,21 @@ gftpui_ask_transfer (gftp_transfer * tdata)
         pos = tempfle->destfile + len + 1;
       add_data[0] = pos;
 
-      if (overwrite_default)
+      gftp_get_transfer_action (tdata->fromreq, tempfle);
+      switch (tempfle->transfer_action)
         {
-          add_data[3] = _("Overwrite");
-          tempfle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
-        }
-      else if (tempfle->startsize == tempfle->size)
-        {
-          add_data[3] = _("Skip");
-          tempfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-        }
-      else if (tempfle->startsize > tempfle->size)
-        {
-          add_data[3] = _("Overwrite");
-          tempfle->transfer_action = GFTP_TRANS_ACTION_OVERWRITE;
-        }
-      else
-        {
-          add_data[3] = _("Resume");
-          tempfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
+          case GFTP_TRANS_ACTION_OVERWRITE:
+            add_data[3] = _("Overwrite");
+            break;
+          case GFTP_TRANS_ACTION_SKIP:
+            add_data[3] = _("Skip");
+            break;
+          case GFTP_TRANS_ACTION_RESUME:
+            add_data[3] = _("Resume");
+            break;
+          default:
+            add_data[3] = _("Error");
+            break;
         }
 
       add_data[1] = insert_commas (tempfle->size, tempstr, sizeof (tempstr));

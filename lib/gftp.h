@@ -741,6 +741,9 @@ char * gftp_scramble_password		( const char *password );
 
 char * gftp_descramble_password		( const char *password );
 
+int gftp_get_transfer_action 		( gftp_request * request,
+					  gftp_file * fle );
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_HTTP_NUM				1
