@@ -1,16 +1,16 @@
 # French translation of gFTP.
 # Copyright (C) 1999-2003 Free Software Foundation, Inc.
-# Jerome COUDERC <j.couderc@ifrance.com>, 1999-2001.
+# Jérôme COUDERC <j.couderc@ifrance.com>, 1999-2001.
 # maintainer: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>, 2000-2003.
 # Damien Mascré <damienmascre@free.fr>, 2002.
 # Laurent Richard <laurent.richard@lilit.be>, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gftp 2.0.14\n"
+"Project-Id-Version: gftp 2.0.15rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-23 21:50-0400\n"
-"PO-Revision-Date: 2003-04-21 01:06+0200\n"
+"POT-Creation-Date: 2003-07-27 23:16+0200\n"
+"PO-Revision-Date: 2003-07-27 22:16+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,10 +38,10 @@ msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Erreur : ne peut créer le fichier temporaire %s\n"
 
 #: lib/cache.c:182 lib/cache.c:231 lib/local.c:98 lib/local.c:213
-#: lib/misc.c:289 lib/misc.c:295 lib/rfc2068.c:263 lib/sshv2.c:993
+#: lib/misc.c:289 lib/misc.c:295 lib/rfc2068.c:263 lib/sshv2.c:994
 #, c-format
 msgid "Error closing file descriptor: %s\n"
-msgstr "Erreur de fermeture du descripteur de fichier: %s\n"
+msgstr "Erreur de fermeture du descripteur de fichiers : %s\n"
 
 #: lib/cache.c:249 lib/local.c:132 lib/local.c:141 lib/local.c:188
 #, c-format
@@ -51,7 +51,7 @@ msgstr "Erreur : ne peut se positionner dans le fichier %s : %s\n"
 #: lib/config_file.c:120 lib/config_file.c:672
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
-msgstr "Erreur gFTP : mauvais nom de fichier des signets %s\n"
+msgstr "Erreur gFTP : mauvais nom du fichier de signets %s\n"
 
 #: lib/config_file.c:129
 #, c-format
@@ -97,7 +97,7 @@ msgstr ""
 #: lib/config_file.c:523 lib/config_file.c:750
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
-msgstr "Erreur gFTP : mauvais nom de fichier de configuration %s\n"
+msgstr "Erreur gFTP : mauvais nom du fichier de configuration %s\n"
 
 #: lib/config_file.c:534
 #, c-format
@@ -134,7 +134,7 @@ msgstr ""
 #: lib/config_file.c:607
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
-msgstr "Erreur gFTP : mauvais nom de fichier de d'historique %s\n"
+msgstr "Erreur gFTP : mauvais nom du fichier d'historique %s\n"
 
 #: lib/config_file.c:613
 #, c-format
@@ -178,6 +178,8 @@ msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
+"Le support HTTPS n'est pas disponible car le support SSL n'a pas été activé "
+"lors de la compilation. Abandon.\n"
 
 #: lib/local.c:67 lib/local.c:462
 #, c-format
@@ -247,7 +249,7 @@ msgstr "Erreur : ne peut changer les permissions de %s en %d : %s\n"
 
 #: lib/local.c:680
 msgid "local filesystem"
-msgstr "Système de fichier local"
+msgstr "Système de fichiers local"
 
 #: lib/misc.c:258 lib/misc.c:265 lib/protocols.c:2488
 #, c-format
@@ -265,10 +267,9 @@ msgid "Error: Could not read from socket: %s\n"
 msgstr "Erreur : ne peut lire depuis le socket : %s\n"
 
 #: lib/misc.c:371
-#, fuzzy
 msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
 msgstr ""
-"usage : gftp [[protocole://][utilisateur:[mot_de_passe]@]site[:port][/"
+"usage : gftp [[protocole://][utilisateur[:mot_de_passe]@]site[:port][/"
 "répertoire]]\n"
 
 # The following items are the proxy types listed under the Options dialog
@@ -350,24 +351,26 @@ msgstr ""
 "Taille maximale de la fenêtre du Journal de Bord en octets pour le port GTK+"
 
 #: lib/options.h:49
-#, fuzzy
 msgid "Remote Character Sets:"
-msgstr "Répertoire de l'hôte distant :"
+msgstr "Jeux de caractères distants :"
 
 #: lib/options.h:51
 msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
 msgstr ""
+"C'est une liste de jeux de caractères séparés par des virgules depuis "
+"lesquels essayer de convertir les messages distants dans la locale courante"
 
 #: lib/options.h:53
 msgid "Cache TTL:"
-msgstr ""
+msgstr "Cache TTL :"
 
 #: lib/options.h:56
-#, fuzzy
 msgid "The number of seconds to keep cache entries before they expire."
-msgstr "Délai d'attente, en secondes, entre deux tentatives de connexion"
+msgstr ""
+"Le nombre de secondes qu'il faut conserver les entrées dans le cache avant "
+"qu'elles n'expirent."
 
 #: lib/options.h:59
 msgid "Append file transfers"
@@ -394,14 +397,12 @@ msgid "Overwrite files by default or set to resume file transfers"
 msgstr "Écrase les fichiers par défaut ou termine les transfert de fichiers"
 
 #: lib/options.h:70
-#, fuzzy
 msgid "Preserve file permissions"
-msgstr "Préserver les permissions"
+msgstr "Préserver les permissions de fichiers"
 
 #: lib/options.h:73
-#, fuzzy
 msgid "Preserve file permissions of transfered files"
-msgstr "Modifier les permissions d'un fichier distant"
+msgstr "Préserve les permissions des fichiers transférés"
 
 #: lib/options.h:75
 msgid "Refresh after each file transfer"
@@ -591,7 +592,7 @@ msgstr "La couleur des commandes reçues du serveur"
 
 #: lib/options.h:194
 msgid "The color of the error messages"
-msgstr "La couleur des messages d'erreur"
+msgstr "La couleur des messages d'erreurs"
 
 #: lib/options.h:197
 msgid "The color of the rest of the log messages"
@@ -606,9 +607,8 @@ msgid "HTTP"
 msgstr "HTTP"
 
 #: lib/options.h:206 lib/options.h:208
-#, fuzzy
 msgid "HTTPS"
-msgstr "HTTP"
+msgstr "HTTPS"
 
 #: lib/options.h:210
 msgid "Local"
@@ -625,7 +625,7 @@ msgstr "Signet"
 #: lib/protocols.c:168 lib/protocols.c:192
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
-msgstr "Le transfert de fichier sera effectué à %.2f KB/s\n"
+msgstr "Le transfert de fichiers sera effectué à %.2f KB/s\n"
 
 #: lib/protocols.c:321
 #, c-format
@@ -652,7 +652,7 @@ msgstr ""
 #: lib/protocols.c:602
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
-msgstr ""
+msgstr "Le protocole « %s » n'est actuellement pas supporté.\n"
 
 #: lib/protocols.c:919 lib/protocols.c:934 lib/protocols.c:1737
 #: lib/protocols.c:1846
@@ -687,7 +687,7 @@ msgstr "Essai avec %s:%d\n"
 msgid "Cannot connect to %s: %s\n"
 msgstr "Ne peut se connecter à %s : %s\n"
 
-#: lib/protocols.c:1827 lib/sshv2.c:891
+#: lib/protocols.c:1827 lib/sshv2.c:892
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
@@ -695,9 +695,10 @@ msgstr ""
 "de services (/etc/services)\n"
 
 #: lib/protocols.c:1889 lib/protocols.c:2497 lib/rfc959.c:598 lib/rfc959.c:745
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "Erreur : ne peut se positionner dans le fichier %s : %s\n"
+msgstr ""
+"Erreur : ne peut définir la fermeture sur le drapeau d'execution : %s\n"
 
 #: lib/protocols.c:1896
 #, c-format
@@ -732,22 +733,22 @@ msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
 "Erreur : hôte distant %s déconnecté. Nouvelle tentative dans %d secondes\n"
 
-#: lib/pty.c:271
+#: lib/pty.c:284
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "Echec de création d'un socket : %s\n"
 
-#: lib/pty.c:290 lib/pty.c:347
+#: lib/pty.c:303 lib/pty.c:360
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "Erreur : ne peut exécuter ssh : %s\n"
 
-#: lib/pty.c:303 lib/pty.c:358
+#: lib/pty.c:316 lib/pty.c:371
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "Ne peut cloner un autre processus : %s\n"
 
-#: lib/pty.c:321
+#: lib/pty.c:334
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "Ne peut ouvrir un pty maitre %s : %s\n"
@@ -793,13 +794,15 @@ msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Voulez-vous utiliser HTTP/1.1 ou HTTP/1.0"
 
 #: lib/rfc2068.c:153 lib/rfc2068.c:835
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
 "Invalid chunk size '%s' returned by the remote server\n"
-msgstr "Reçu une réponse incorrecte du serveur, déconnexion\n"
+msgstr ""
+"Réception d'une réponse incorrecte du serveur, déconnexion\n"
+"Taille du chunk non valide « %s » retourné par le serveur distant\n"
 
-#: lib/rfc2068.c:258 lib/rfc959.c:559 lib/sshv2.c:988
+#: lib/rfc2068.c:258 lib/rfc959.c:559 lib/sshv2.c:989
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Déconnexion de l'hôte %s\n"
@@ -807,19 +810,19 @@ msgstr "Déconnexion de l'hôte %s\n"
 #: lib/rfc2068.c:309
 #, c-format
 msgid "Starting the file transfer at offset %lld\n"
-msgstr "Démarrage du transfert de fichier à partir de %lld\n"
+msgstr "Démarrage du transfert de fichiers à partir de %lld\n"
 
 #: lib/rfc2068.c:317
 #, c-format
 msgid "Starting the file transfer at offset %ld\n"
-msgstr "Démarrage du transfert de fichier à partir de %ld\n"
+msgstr "Démarrage du transfert de fichiers à partir de %ld\n"
 
 #: lib/rfc2068.c:339
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "Ne peut reprendre le téléchargement du fichier %s\n"
 
-#: lib/rfc2068.c:429 lib/sshv2.c:1073
+#: lib/rfc2068.c:429 lib/sshv2.c:1074
 msgid "Retrieving directory listing...\n"
 msgstr "Rapatriement du listage des répertoires...\n"
 
@@ -829,6 +832,9 @@ msgid ""
 "Expecting a carriage return and line feed before the chunk size in the "
 "server response\n"
 msgstr ""
+"Réception d'une mauvaise réponse du serveur, déconnexion\n"
+"Un retour chariot est attendu et un saut de ligne aavant la taille du chunk "
+"est présent dans la réponse\n"
 
 #: lib/rfc2068.c:824
 msgid ""
@@ -836,6 +842,9 @@ msgid ""
 "Expecting a carriage return and line feed after the chunk size in the server "
 "response\n"
 msgstr ""
+"Réception d'une mauvaise réponse du serveur, déconnexion\n"
+"Un retour chariot est attendu et un saut de ligne aprés la taille du chunk "
+"est présent dans la réponse\n"
 
 #: lib/rfc959.c:25
 msgid "SITE command"
@@ -894,7 +903,7 @@ msgid "Proxy server type:"
 msgstr "Type de serveur proxy :"
 
 #: lib/rfc959.c:64
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
 "2 character replacement string prefixed by a % that will be replaced with "
@@ -912,7 +921,7 @@ msgstr ""
 
 #: lib/rfc959.c:67
 msgid "Passive file transfers"
-msgstr "Transfert de fichier en mode passif"
+msgstr "Transfert de fichiers en mode passif"
 
 #: lib/rfc959.c:70
 msgid ""
@@ -998,16 +1007,18 @@ msgstr "Ne peut écouter sur le port %d : %s\n"
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
+"Erreur : il ne semble pas que vous soyez connecté en IPv6. Abandon de la "
+"connexion.\n"
 
 #: lib/rfc959.c:785 lib/rfc959.c:794
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
-msgstr ""
+msgstr "Réponse EPSV non valide « %s »\n"
 
 #: lib/rfc959.c:851
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get address of local socket: %s\n"
-msgstr "Echec de création d'un socket : %s\n"
+msgstr "Ne peut obtenir l'adresse d'un socket local : %s\n"
 
 #: lib/rfc959.c:923
 #, c-format
@@ -1021,7 +1032,7 @@ msgstr "total"
 #: lib/rfc959.c:1421
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
-msgstr "Attention : ne peut analyser le listage %s\n"
+msgstr "Attention : ne peut analyser le listing %s\n"
 
 #: lib/sshv2.c:28
 msgid "SSH"
@@ -1029,7 +1040,7 @@ msgstr "SSH"
 
 #: lib/sshv2.c:31
 msgid "SSH Prog Name:"
-msgstr "Nom du Programme SSH :"
+msgstr "Nom du programme SSH :"
 
 #: lib/sshv2.c:33
 msgid "The path to the SSH executable"
@@ -1037,11 +1048,11 @@ msgstr "Chemin vers l'exécutable SSH"
 
 #: lib/sshv2.c:34
 msgid "SSH Extra Params:"
-msgstr "Paramètres Spéciaux SSH :"
+msgstr "Paramètres supplémentaires SSH :"
 
 #: lib/sshv2.c:36
 msgid "Extra parameters to pass to the SSH program"
-msgstr "Paramètres à envoyer au programme SSH"
+msgstr "Paramètres supplémentaires à passer au programme SSH"
 
 #: lib/sshv2.c:37
 msgid "SSH2 sftp-server path:"
@@ -1084,15 +1095,15 @@ msgstr ""
 msgid "Running program %s\n"
 msgstr "Exécution du programme %s\n"
 
-#: lib/sshv2.c:303 lib/sshv2.c:328
+#: lib/sshv2.c:304 lib/sshv2.c:329
 msgid "WARNING"
 msgstr "AVERTISSEMENT"
 
-#: lib/sshv2.c:370
+#: lib/sshv2.c:371
 msgid "Error: An incorrect password was entered\n"
 msgstr "Erreur : Un mot de passe incorrect a été saisi\n"
 
-#: lib/sshv2.c:373
+#: lib/sshv2.c:374
 msgid ""
 "Please connect to this host with the command line SSH utility and answer "
 "this question appropriately.\n"
@@ -1100,182 +1111,184 @@ msgstr ""
 "Veuillez vous connecter à cet hôte avec la ligne de commande de l'utilitaire "
 "SSH et répondre a cette question de manière appropriée.\n"
 
-#: lib/sshv2.c:376
+#: lib/sshv2.c:377
 msgid "Please correct the above warning to connect to this host.\n"
 msgstr ""
 "Veuillez corriger l'avertissement ci-dessus afin de vous connecter à cet "
 "hôte.\n"
 
-#: lib/sshv2.c:415
+#: lib/sshv2.c:416
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d : Initialisation du protocole\n"
 
-#: lib/sshv2.c:421
+#: lib/sshv2.c:422
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d : Version du protocole %d\n"
 
-#: lib/sshv2.c:430
+#: lib/sshv2.c:431
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d : Ouverture de %s\n"
 
-#: lib/sshv2.c:435
+#: lib/sshv2.c:436
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d : Fermeture\n"
 
 # #Utilisé pour les messages d'alerte ##
-#: lib/sshv2.c:441
+#: lib/sshv2.c:442
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d : Ouverture du répertoire %s\n"
 
 # #Utilisé pour les messages d'alerte ##
-#: lib/sshv2.c:446
+#: lib/sshv2.c:447
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d : Lecture du contenu du répertoire\n"
 
-#: lib/sshv2.c:450
+#: lib/sshv2.c:451
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d : Effacement du fichier %s\n"
 
 # #Utilisé pour les messages d'alerte ##
-#: lib/sshv2.c:455
+#: lib/sshv2.c:456
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d : Création du répertoire %s\n"
 
-#: lib/sshv2.c:460
+#: lib/sshv2.c:461
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d : Suppression du répertoire %s\n"
 
-#: lib/sshv2.c:465
+#: lib/sshv2.c:466
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d : Chemin réel %s\n"
 
-#: lib/sshv2.c:470
+#: lib/sshv2.c:471
 #, c-format
 msgid "%d: File attributes\n"
-msgstr "%d : Attributs de fichier\n"
+msgstr "%d : Attributs du fichier\n"
 
-#: lib/sshv2.c:474
+#: lib/sshv2.c:475
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d : stat %s\n"
 
-#: lib/sshv2.c:491
+#: lib/sshv2.c:492
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d : chmod %s %o\n"
 
-#: lib/sshv2.c:496
+#: lib/sshv2.c:497
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d : utime %s %d\n"
 
-#: lib/sshv2.c:509 src/gtk/bookmarks.c:1013 src/gtk/bookmarks.c:1250
+#: lib/sshv2.c:510 src/gtk/bookmarks.c:1013 src/gtk/bookmarks.c:1250
 #: src/gtk/chmod_dialog.c:281 src/gtk/options_dialog.c:1099
 #: src/gtk/options_dialog.c:1301 src/gtk/transfer.c:2041
 msgid "OK"
 msgstr "Valider"
 
-#: lib/sshv2.c:512
+#: lib/sshv2.c:513
 msgid "EOF"
 msgstr "EOF"
 
-#: lib/sshv2.c:515
+#: lib/sshv2.c:516
 msgid "No such file or directory"
 msgstr "Fichier ou répertoire inéxistant"
 
-#: lib/sshv2.c:518
+#: lib/sshv2.c:519
 msgid "Permission denied"
 msgstr "Permission refusée"
 
 # The following few items are from the Edit Bookmarks dialog
-#: lib/sshv2.c:521
+#: lib/sshv2.c:522
 msgid "Failure"
 msgstr "Échec"
 
-#: lib/sshv2.c:524
+#: lib/sshv2.c:525
 msgid "Bad message"
 msgstr "Mauvais message"
 
-#: lib/sshv2.c:527
+#: lib/sshv2.c:528
 msgid "No connection"
 msgstr "Non connecté"
 
-#: lib/sshv2.c:530
+#: lib/sshv2.c:531
 msgid "Connection lost"
 msgstr "Connexion à l'hôte perdue"
 
-#: lib/sshv2.c:533
+#: lib/sshv2.c:534
 msgid "Operation unsupported"
 msgstr "Opération non supporté"
 
-#: lib/sshv2.c:536
+#: lib/sshv2.c:537
 msgid "Unknown message returned from server"
 msgstr "Message du serveur inconnu"
 
-#: lib/sshv2.c:573
+#: lib/sshv2.c:574
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Erreur : message trop grand (%d) envoyé par le serveur\n"
 
-#: lib/sshv2.c:631 lib/sshv2.c:1112 lib/sshv2.c:1949 lib/sshv2.c:2042
-#: lib/sshv2.c:2130
+#: lib/sshv2.c:632 lib/sshv2.c:1113 lib/sshv2.c:1950 lib/sshv2.c:2043
+#: lib/sshv2.c:2131
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Erreur : taille %d du message trop grosse du serveur\n"
 
-#: lib/sshv2.c:637
+#: lib/sshv2.c:638
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr ""
+"Il y a eu une erreur à l'initialisation de la connexion SSH avec le serveur "
+"distant. Le message d'erreur du serveur distant suit :\n"
 
-#: lib/sshv2.c:710 lib/sshv2.c:723 lib/sshv2.c:745 lib/sshv2.c:813
-#: lib/sshv2.c:944 lib/sshv2.c:1035 lib/sshv2.c:1103 lib/sshv2.c:1216
-#: lib/sshv2.c:1229 lib/sshv2.c:1242 lib/sshv2.c:1255 lib/sshv2.c:1311
-#: lib/sshv2.c:1376 lib/sshv2.c:1838 lib/sshv2.c:1940 lib/sshv2.c:2033
-#: lib/sshv2.c:2118 lib/sshv2.c:2203
+#: lib/sshv2.c:711 lib/sshv2.c:724 lib/sshv2.c:746 lib/sshv2.c:814
+#: lib/sshv2.c:945 lib/sshv2.c:1036 lib/sshv2.c:1104 lib/sshv2.c:1217
+#: lib/sshv2.c:1230 lib/sshv2.c:1243 lib/sshv2.c:1256 lib/sshv2.c:1312
+#: lib/sshv2.c:1377 lib/sshv2.c:1839 lib/sshv2.c:1941 lib/sshv2.c:2034
+#: lib/sshv2.c:2119 lib/sshv2.c:2204
 msgid "Received wrong response from server, disconnecting\n"
-msgstr "Reçu une réponse incorrecte du serveur, déconnexion\n"
+msgstr "Réception d'une réponse incorrecte du serveur, déconnexion\n"
 
-#: lib/sshv2.c:862
+#: lib/sshv2.c:863
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "Ouverture d'une connexion SSH vers %s\n"
 
-#: lib/sshv2.c:955
+#: lib/sshv2.c:956
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Connexion réussi au serveur SSH %s\n"
 
 #: lib/sslcommon.c:31
 msgid "SSL Engine"
-msgstr ""
+msgstr "Moteur SSL"
 
 #: lib/sslcommon.c:34
 msgid "SSL Entropy File:"
-msgstr ""
+msgstr "Fichier d'entropie SSL :"
 
 #: lib/sslcommon.c:36
 msgid "SSL entropy file"
-msgstr ""
+msgstr "Fichier d'entropie SSL"
 
 #: lib/sslcommon.c:37
 msgid "Entropy Seed Length:"
-msgstr ""
+msgstr "Longueur du germe d'entropie :"
 
 #: lib/sslcommon.c:39
 msgid "The maximum number of bytes to seed the SSL engine with"
-msgstr ""
+msgstr "Le nombre maximum d'octets pour initier le moteur SSL"
 
 #: lib/sslcommon.c:99
 #, c-format
@@ -1285,11 +1298,14 @@ msgid ""
 "Subject = %s\n"
 "Error %i:%s\n"
 msgstr ""
+"Erreur avec le certificat à la profondeur : %i\n"
+"Expéditeur = %s\n"
+"Sujet = %s\n"
+"Erreur %i:%s\n"
 
 #: lib/sslcommon.c:121
-#, fuzzy
 msgid "Cannot get peer certificate\n"
-msgstr "Impossible d'obtenir le nom du socket : %s\n"
+msgstr "Ne peut obtenir le certificat du pair\n"
 
 #: lib/sslcommon.c:180
 #, c-format
@@ -1297,35 +1313,38 @@ msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
 "connected to (%s). Aborting connection.\n"
 msgstr ""
+"ERREUR : l'hôte du certificat SSL (%s) ne correspond pas à l'hôte auquel on "
+"se connecte (%s). Abandon de la connexion.\n"
 
 #: lib/sslcommon.c:287
 msgid "Cannot initialized the OpenSSL library\n"
-msgstr ""
+msgstr "Ne peut initialiser la bibliothèque OpenSSL\n"
 
 #: lib/sslcommon.c:302
 msgid "Error loading default SSL certificates\n"
-msgstr ""
+msgstr "Erreur lors du chargement des certificats SSL par défaut\n"
 
 #: lib/sslcommon.c:313
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr ""
+"Erreur lors de la définition de la liste de ciphers (aucun cipher valide)\n"
 
 #: lib/sslcommon.c:332 lib/sslcommon.c:401 lib/sslcommon.c:448
 msgid "Error: SSL engine was not initialized\n"
-msgstr ""
+msgstr "Erreur : le moteur SSL n'est pas initialisé\n"
 
 #: lib/sslcommon.c:349
 msgid "Error setting up SSL connection (BIO object)\n"
-msgstr ""
+msgstr "Erreur lors du paramètrage de la connexion SSL (objet BIO)\n"
 
 #: lib/sslcommon.c:359
 msgid "Error setting up SSL connection (SSL object)\n"
-msgstr ""
+msgstr "Erreur lors du paramètrage de la connexion SSL (objet SSL)\n"
 
 #: lib/sslcommon.c:377
-#, fuzzy, c-format
+#, c-format
 msgid "Error with peer certificate: %s\n"
-msgstr "Erreur : ne peut écrire dans le cache : %s\n"
+msgstr "Erreur avec le certificat pair : %s\n"
 
 #: src/gtk/bookmarks.c:37 src/gtk/gftp-gtk.c:902 src/gtk/menu-items.c:66
 #: src/gtk/menu-items.c:96 src/gtk/misc-gtk.c:483 src/gtk/misc-gtk.c:491
@@ -1562,11 +1581,11 @@ msgstr "Autre"
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr ""
-"Êtes-vous sûr de vouloir supprimer ces %ld fichiers et %ld répertoire ?"
+"Êtes-vous sûr de vouloir supprimer ces %ld fichier(s) et %ld répertoire(s) ?"
 
 #: src/gtk/delete_dialog.c:159
 msgid "Delete Files/Directories"
-msgstr "Supprimer fichiers/répertoires"
+msgstr "Suppression de fichiers/répertoires"
 
 #: src/gtk/delete_dialog.c:177 src/gtk/options_dialog.c:1184
 msgid "Delete"
@@ -1579,7 +1598,7 @@ msgstr "Drag-N-Drop"
 #: src/gtk/dnd.c:234
 #, c-format
 msgid "Received URL %s\n"
-msgstr "Reçu l'URL %s\n"
+msgstr "Réception de l'URL %s\n"
 
 #: src/gtk/gftp-gtk.c:116
 msgid "Exit"
@@ -1952,7 +1971,7 @@ msgid ""
 "news about gFTP from my website at http://www.gftp.org/\n"
 msgstr ""
 ">. Si vous avez des questions, commentaires ou suggestions sur ce programme, "
-"n'hésitez pas à me les envoyer par mail, svp. Vous pouvez trouver les "
+"n'hésitez pas à me les envoyer par courriel.  Vous pouvez trouver les "
 "dernières informations concernant gFTP sur mon site web à l'adresse http://"
 "www.gftp.org/\n"
 
@@ -2173,7 +2192,7 @@ msgid ""
 "Received %ld directories\n"
 "and %ld files"
 msgstr ""
-"Reçu %ld répertoires\n"
+"Réception de %ld répertoires\n"
 "et %ld fichiers"
 
 #: src/gtk/misc-gtk.c:1269
@@ -2362,7 +2381,7 @@ msgstr "Rapatriement des noms de fichiers... %s octets"
 #: src/gtk/transfer.c:1467 src/gtk/transfer.c:1489 src/gtk/transfer.c:1523
 #: src/gtk/transfer.c:1563 src/gtk/transfer.c:1616 src/gtk/transfer.c:1675
 msgid "There are no file transfers selected\n"
-msgstr "Il n'y a aucun transfert de fichier sélectionné\n"
+msgstr "Il n'y a aucun transfert de fichiers sélectionné\n"
 
 #: src/gtk/transfer.c:1507
 #, c-format
@@ -2714,7 +2733,7 @@ msgid ""
 msgstr ""
 ">.\n"
 "Si vous avez des questions, commentaires ou suggestions sur ce programme, "
-"n'hésitez pas à me les envoyer par mail, svp. Vous pouvez trouver les "
+"n'hésitez pas à me les envoyer par courriel.  Vous pouvez trouver les "
 "dernières informations concernant gFTP sur mon site web à l'adresse http://"
 "www.gftp.org/\n"
 
@@ -2803,12 +2822,12 @@ msgstr ""
 
 #: src/text/gftp-text.c:1135
 msgid "Invalid argument\n"
-msgstr ""
+msgstr "Argument non valide\n"
 
 #: src/text/gftp-text.c:1160
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open controlling terminal %s\n"
-msgstr "Erreur gFTP : ne peut ouvrir le fichier de configuration %s : %s\n"
+msgstr "Ne peut ouvrir le terminal de contrôle %s\n"
 
 #: src/text/gftp-text.c:1238
 msgid "Clear the directory cache\n"
@@ -3051,7 +3070,7 @@ msgstr "Vide un répertoire cache\n"
 #~ msgstr "Erreur gFTP : ne peut créer le répertoire temporaire %s : %s\n"
 
 #~ msgid "There are no file transfers selected to start\n"
-#~ msgstr "Il n'y a actuellement aucun transfert de fichier à démarrer.\n"
+#~ msgstr "Il n'y a actuellement aucun transfert de fichiers à démarrer.\n"
 
 #~ msgid "Looking up %s...\n"
 #~ msgstr "Recherche de %s...\n"
@@ -3087,7 +3106,7 @@ msgstr "Vide un répertoire cache\n"
 #~ msgstr "Transfert FXP en cours. Temps restant inconnu\n"
 
 #~ msgid "There are currently no file transfers in progress to stop\n"
-#~ msgstr "Il n'y a actuellement aucun transfert de fichier à arrêter.\n"
+#~ msgstr "Il n'y a actuellement aucun transfert de fichiers à arrêter.\n"
 
 #~ msgid "Error writing %s: %s...Aborting entire transfer...\n"
 #~ msgstr ""
