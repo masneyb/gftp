@@ -1,4 +1,11 @@
 2003-1-4 Brian Masney <masneyb@gftp.org>
+	* src/uicommon/gftpui.c src/uicommon/gftpui.h
+	src/uicommon/gftpuicallbacks.c - when switching between ascii/binary,
+	set the option on a global basis. Converted chdir, chmod, delete,
+	rename, rmdir commands over to using the new command run format so that
+	it will work in the different UIs. Added site command to the command
+	line.
+
 	* lib/misc.c (gftp_parse_command_line) - unified this function so that
 	it is consistent for all arguments.
 

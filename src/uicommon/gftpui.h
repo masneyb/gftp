@@ -98,6 +98,12 @@ int gftpui_common_run_site 		( gftpui_callback_data * cdata );
 
 int gftpui_common_run_chdir 		( gftpui_callback_data * cdata );
 
+int gftpui_common_run_chmod		( gftpui_callback_data * cdata );
+
+int gftpui_common_run_delete		( gftpui_callback_data * cdata );
+
+int gftpui_common_run_rmdir 		( gftpui_callback_data * cdata );
+
 /* UI Functions that must be implemented by each distinct UI */
 void gftpui_lookup_file_colors 		( gftp_file * fle,
 					  char **start_color,

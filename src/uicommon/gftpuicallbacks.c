@@ -65,3 +65,47 @@ gftpui_common_run_chdir (gftpui_callback_data * cdata)
   return (ret);
 }
 
+
+int
+gftpui_common_run_chmod (gftpui_callback_data * cdata)
+{
+  int ret;
+
+  ret = gftp_chmod (cdata->request, cdata->source_string,
+                    strtol (cdata->input_string, NULL, 10)) == 0;
+
+  return (ret);
+}
+
+
+int
+gftpui_common_run_delete (gftpui_callback_data * cdata)
+{
+  int ret;
+
+  if (cdata->input_string != NULL)
+    {
+      ret = gftp_remove_file (cdata->request, cdata->input_string) == 0;
+    }
+  else
+    ret = 0; /* FIXME */
+
+  return (ret);
+}
+
+
+int
+gftpui_common_run_rmdir (gftpui_callback_data * cdata)
+{
+  int ret;
+
+  if (cdata->input_string != NULL)
+    {
+      ret = gftp_remove_directory (cdata->request, cdata->input_string) == 0;
+    }
+  else
+    ret = 0; /* FIXME */
+
+  return (ret);
+}
+
