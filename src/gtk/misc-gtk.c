@@ -56,20 +56,6 @@ ftp_log (gftp_logging_level level, gftp_request * request,
   const char *descr;
 #endif
 
-  if (pthread_self () != main_thread_id)
-    {
-      newlog = g_malloc0 (sizeof (*newlog));
-      newlog->type = level;
-      va_start (argp, string);
-      newlog->msg = g_strdup_vprintf (string, argp);
-      va_end (argp);
-
-      pthread_mutex_lock (&log_mutex);
-      gftp_file_transfer_logs = g_list_append (gftp_file_transfer_logs, newlog);
-      pthread_mutex_unlock (&log_mutex);
-      return;
-    }
-
   va_start (argp, string);
   if (strcmp (string, "%s") == 0)
     {
@@ -97,6 +83,21 @@ ftp_log (gftp_logging_level level, gftp_request * request,
         }
     }
 #endif
+
+  if (pthread_self () != main_thread_id)
+    {
+      newlog = g_malloc0 (sizeof (*newlog));
+      newlog->type = level;
+      if (free_logstr)
+        newlog->msg = logstr;
+      else
+        newlog->msg = g_strdup (logstr);
+
+      pthread_mutex_lock (&log_mutex);
+      gftp_file_transfer_logs = g_list_append (gftp_file_transfer_logs, newlog);
+      pthread_mutex_unlock (&log_mutex);
+      return;
+    }
 
   if (gftp_logfd != NULL)
     {

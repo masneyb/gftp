@@ -179,7 +179,7 @@ gftp_find_cache_entry (gftp_request * request)
                                    0);
 
   indexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
-  if ((indexfd = gftp_fd_open (request, indexfile, O_RDONLY, 0)) == -1)
+  if ((indexfd = gftp_fd_open (NULL, indexfile, O_RDONLY, 0)) == -1)
     {
       g_free (indexfile);
       return (-1);
@@ -282,7 +282,7 @@ gftp_delete_cache_entry (gftp_request * request, char *descr, int ignore_directo
     return;
 
   oldindexfile = expand_path (BASE_CONF_DIR "/cache/index.db");
-  if ((indexfd = gftp_fd_open (request, oldindexfile, O_RDONLY, 0)) == -1)
+  if ((indexfd = gftp_fd_open (NULL, oldindexfile, O_RDONLY, 0)) == -1)
     {
       g_free (oldindexfile);
       return;
