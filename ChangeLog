@@ -1,3 +1,10 @@
+2004-3-15 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h - if _FILE_OFFSET_BITS is > 32 and _LARGEFILE_SOURCE is 
+	not defined, define it
+
+	* lib/protocols.c (gftp_string_{to|from}_utf8 - don't alter the contents	of the remote_charsets option. Instead, make a copy of that and alter
+	that copy
+
 2004-3-14 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (expand_path) - skip over paths that are empty
 

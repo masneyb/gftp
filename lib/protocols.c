@@ -348,7 +348,7 @@ gftp_list_files (gftp_request * request)
 #if GLIB_MAJOR_VERSION > 1
 
 static char *
-_gftp_get_next_charset (char *remote_charsets, char *orig_str, char **curpos)
+_gftp_get_next_charset (char **curpos)
 {
   char *ret, *endpos;
 
@@ -356,40 +356,22 @@ _gftp_get_next_charset (char *remote_charsets, char *orig_str, char **curpos)
     return (NULL);
 
   ret = *curpos;
-  if (*curpos != remote_charsets)
-    {
-      *orig_str = *(*curpos - 1);
-      *(*curpos - 1) = ',';
-    }
-
   if ((endpos = strchr (*curpos, ',')) == NULL)
     *curpos += strlen (*curpos);
   else
     {
       *endpos = '\0';
-
-      if (*orig_str != '\0')
-        *curpos = endpos + 1;
-      else
-        *curpos = endpos;
+      *curpos = endpos + 1;
     }
 
   return (ret);
 }
 
 
-static void
-_gftp_restore_charset_string (char **remote_charsets, char orig_str, char **curpos)
-{
-  if (*curpos != *remote_charsets)
-    *(*curpos - 1) = orig_str;
-}
-
-
 char *
 gftp_string_to_utf8 (gftp_request * request, const char *str)
 {
-  char *ret, *remote_charsets, *stpos, *cur_charset, orig_str;
+  char *ret, *remote_charsets, *stpos, *cur_charset, *tempstr;
   gsize bread, bwrite;
   GError * error;
 
@@ -402,8 +384,8 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
   else if (g_utf8_validate (str, -1, NULL))
     return (NULL);
 
-  gftp_lookup_request_option (request, "remote_charsets", &remote_charsets);
-  if (*remote_charsets == '\0')
+  gftp_lookup_request_option (request, "remote_charsets", &tempstr);
+  if (*tempstr == '\0')
     {
       error = NULL;
       if ((ret = g_locale_to_utf8 (str, -1, &bread, &bwrite, &error)) != NULL)
@@ -412,10 +394,10 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
       return (NULL);
     }
 
+  remote_charsets = g_strdup (tempstr);
   ret = NULL;
   stpos = remote_charsets;
-  while ((cur_charset = _gftp_get_next_charset (remote_charsets, &orig_str,
-                                                &stpos)) != NULL)
+  while ((cur_charset = _gftp_get_next_charset (&stpos)) != NULL)
     {
       if ((request->iconv = g_iconv_open ("UTF-8", cur_charset)) == (GIConv) -1)
         continue;
@@ -431,10 +413,11 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
       else
         {
           request->iconv_initialized = 1;
-          _gftp_restore_charset_string (&remote_charsets, *cur_charset, &stpos);
           break;
         }
     }
+
+  g_free (remote_charsets);
 
   return (ret);
 }
@@ -443,7 +426,7 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
 char *
 gftp_string_from_utf8 (gftp_request * request, const char *str)
 {
-  char *ret, *remote_charsets, *stpos, *cur_charset, orig_str;
+  char *ret, *remote_charsets, *stpos, *cur_charset, *tempstr;
   gsize bread, bwrite;
   GError * error;
 
@@ -456,8 +439,8 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
   else if (g_utf8_validate (str, -1, NULL))
     return (NULL);
 
-  gftp_lookup_request_option (request, "remote_charsets", &remote_charsets);
-  if (*remote_charsets == '\0')
+  gftp_lookup_request_option (request, "remote_charsets", &tempstr);
+  if (*tempstr == '\0')
     {
       error = NULL;
       if ((ret = g_locale_from_utf8 (str, -1, &bread, &bwrite, &error)) != NULL)
@@ -466,10 +449,10 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
       return (NULL);
     }
 
+  remote_charsets = g_strdup (tempstr);
   ret = NULL;
   stpos = remote_charsets;
-  while ((cur_charset = _gftp_get_next_charset (remote_charsets, &orig_str,
-                                                &stpos)) != NULL)
+  while ((cur_charset = _gftp_get_next_charset (&stpos)) != NULL)
     {
       if ((request->iconv = g_iconv_open (cur_charset, "UTF-8")) == (GIConv) -1)
         continue;
@@ -485,10 +468,11 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
       else
         {
           request->iconv_initialized = 1;
-          _gftp_restore_charset_string (&remote_charsets, *cur_charset, &stpos);
           break;
         }
     }
+
+  g_free (remote_charsets);
 
   return (ret);
 }
