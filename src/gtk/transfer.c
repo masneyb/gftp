@@ -2044,38 +2044,67 @@ cancel (GtkWidget * widget, gpointer data)
 }
 
 
+#if GTK_MAJOR_VERSION > 1
+static void
+transfer_action (GtkWidget * widget, gint response, gpointer user_data)
+{
+  switch (response)
+    {
+      case GTK_RESPONSE_OK:
+        ok (widget, user_data);
+        gtk_widget_destroy (widget);
+        break;
+      case GTK_RESPONSE_CANCEL:
+        cancel (widget, user_data);
+        /* no break */
+      default:
+        gtk_widget_destroy (widget);
+    }
+}   
+#endif
+
+
 void
 gftp_gtk_ask_transfer (gftp_transfer * tdata)
 {
   char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
-       tempstr[50], temp1str[50];
+       tempstr[50], temp1str[50], *pos, *title;
   GtkWidget * tempwid, * scroll, * hbox;
   gftp_file * tempfle;
   GList * templist;
   size_t len;
-  char *pos;
   int i;
 
   dltitles[0] = _("Filename");
   dltitles[1] = _("Local Size");
   dltitles[2] = _("Remote Size");
   dltitles[3] = _("Action");
-  dialog = gtk_dialog_new (); /* FIXME - gtk+ 2.0 stock icons */
+  title = tdata->transfer_direction == GFTP_DIRECTION_DOWNLOAD ?  
+                               _("Download Files") : _("Upload Files");
+
+#if GTK_MAJOR_VERSION == 1
+  dialog = gtk_dialog_new ();
   gtk_grab_add (dialog);
-  gtk_window_set_title (GTK_WINDOW (dialog), 
-                        tdata->transfer_direction == GFTP_DIRECTION_DOWNLOAD ? 
-                                      _("Download Files") : _("Upload Files"));
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "transfer", "gFTP");
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
-  gtk_container_border_width (GTK_CONTAINER
-			      (GTK_DIALOG (dialog)->action_area), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
+  gtk_window_set_title (GTK_WINDOW (dialog), title);
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 5);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 35);
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+
   gtk_signal_connect_object (GTK_OBJECT (dialog), "delete_event",
                              GTK_SIGNAL_FUNC (gtk_widget_destroy),
                              GTK_OBJECT (dialog));
+#else
+  dialog = gtk_dialog_new_with_buttons (title, NULL, 0, 
+                                        GTK_STOCK_OK,
+                                        GTK_RESPONSE_OK,
+                                        GTK_STOCK_CANCEL,
+                                        GTK_RESPONSE_CANCEL,
+                                        NULL);
+#endif
+  gtk_window_set_wmclass (GTK_WINDOW(dialog), "transfer", "gFTP");
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
 
   tempwid = gtk_label_new (_("The following file(s) exist on both the local and remote computer\nPlease select what you would like to do"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, FALSE,
@@ -2201,6 +2230,7 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
 		      GTK_SIGNAL_FUNC (trans_unselectall), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
+#if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
@@ -2223,6 +2253,10 @@ gftp_gtk_ask_transfer (gftp_transfer * tdata)
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     GTK_OBJECT (dialog));
   gtk_widget_show (tempwid);
+#else
+  g_signal_connect (GTK_OBJECT (dialog), "response",
+                    G_CALLBACK (transfer_action), (gpointer) tdata);
+#endif
 
   gtk_widget_show (dialog);
   dialog = NULL;

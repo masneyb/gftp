@@ -1,4 +1,21 @@
 2002-11-5 Brian Masney <masneyb@gftp.org>
+	* src/gtk/transfer.c - use stock icons in GTK+ 2.0 port
+
+2002-11-5 Brian Masney <masneyb@gftp.org>
+	* lib/*.c src/gtk/*.c - removed function declarations for the static 
+	functions from the top of the file. I had to rearrange the order of a 
+	bunch of functions to avoid compiler warnings
+
+	* lib/gftp.h - include sys/sysmacros.h. If major() and minor() isn't
+	defined, give a compiler warning and define our own
+
+	* lib/local.c (local_get_next_file) - if this file is a device, store
+	the major/minor number in the file size
+
+	* src/gtk/misc-gtk.c (add_file_listbox) - if this file is a device, 
+	use the major() and minor() macros to display the major and minor number
+
+2002-11-5 Brian Masney <masneyb@gftp.org>
 	* lib/cache.c lib/gftp.h - added second argument ignore_directory to
 	gftp_delete_cache_entry
 
