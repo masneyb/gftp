@@ -324,14 +324,14 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
         unlink (centry.file);
       else
         {
-          /* Make sure when we call gftp_get_line() that we pass the read size
-             as sizeof(buf) - 1 so that we'll have room to put the newline */
-          buf[strlen (buf)] = '\n';
-
           /* Make sure we put the tabs back in the line. I do it this way 
              so that I don't have to allocate memory again for each line 
              as we read it */
           gftp_restore_cache_line (&centry, buf);
+
+          /* Make sure when we call gftp_get_line() that we pass the read size
+             as sizeof(buf) - 1 so that we'll have room to put the newline */
+          buf[strlen (buf)] = '\n';
 
           if (gftp_fd_write (NULL, buf, strlen (buf), newfd) < 0)
             break;

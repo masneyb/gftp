@@ -21,8 +21,14 @@ static const char cvsid[] = "$Id$";
 
 #include "gftp.h"
 
-
 #ifdef __sgi
+
+char *
+get_pty_impl (void)
+{
+  return ("sgi");
+}
+
 
 int
 open_ptys (gftp_request * request, int *fdm, int *fds)
@@ -42,6 +48,13 @@ open_ptys (gftp_request * request, int *fdm, int *fds)
 }
 
 #elif HAVE_GRANTPT
+
+char *
+get_pty_impl (void)
+{
+  return ("unix98");
+}
+
 
 int
 open_ptys (gftp_request * request, int *fdm, int *fds)
@@ -75,15 +88,24 @@ open_ptys (gftp_request * request, int *fdm, int *fds)
       return (GFTP_ERETRYABLE);
     }
 
+#ifdef SYSV
   /* I intentionally ignore these errors */
   ioctl (*fds, I_PUSH, "ptem");
   ioctl (*fds, I_PUSH, "ldterm");
   ioctl (*fds, I_PUSH, "ttcompat");
+#endif
 
   return (0);
 }
 
 #elif HAVE_OPENPTY
+
+char *
+get_pty_impl (void)
+{
+  return ("openpty");
+}
+
 
 int
 open_ptys (gftp_request * request, int *fdm, int *fds)
@@ -101,6 +123,13 @@ open_ptys (gftp_request * request, int *fdm, int *fds)
 #else /* !HAVE_OPENPTY */
 
 /* Fall back to *BSD... */
+
+char *
+get_pty_impl (void)
+{
+  return ("bsd");
+}
+
 
 int
 open_ptys (gftp_request * request, int *fdm, int *fds)

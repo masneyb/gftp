@@ -1875,6 +1875,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
   char *pos, *nextpos;
   ssize_t (*read_function) (gftp_request * request, void *ptr, size_t size,
                             int fd);
+  int end_of_buffer;
 
   if (request == NULL || request->read_function == NULL)
     read_function = gftp_fd_read;
@@ -1893,7 +1894,6 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
           gftp_free_getline_buffer (rbuf);
           return (ret);
         }
-
       (*rbuf)->buffer[ret] = '\0';
       (*rbuf)->cur_bufsize = ret;
       (*rbuf)->curpos = (*rbuf)->buffer;
@@ -1902,10 +1902,11 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
   retval = GFTP_ERETRYABLE;
   do
     {
-      if ((*rbuf)->cur_bufsize > 0 &&
-          ((pos = strchr ((*rbuf)->curpos, '\n')) != NULL ||
-           ((*rbuf)->curpos == (*rbuf)->buffer && 
-            (*rbuf)->max_bufsize == (*rbuf)->cur_bufsize)))
+      pos = strchr ((*rbuf)->curpos, '\n');
+      end_of_buffer = (*rbuf)->curpos == (*rbuf)->buffer && 
+            ((*rbuf)->max_bufsize == (*rbuf)->cur_bufsize || (*rbuf)->eof);
+
+      if ((*rbuf)->cur_bufsize > 0 && (pos != NULL || end_of_buffer))
         {
           if (pos != NULL)
             retval = pos - (*rbuf)->curpos + 1;
@@ -1952,10 +1953,15 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
               gftp_free_getline_buffer (rbuf);
               return (ret);
             }
-          else if (ret == 0 && (*rbuf)->cur_bufsize == 0)
+          else if (ret == 0)
             {
-              gftp_free_getline_buffer (rbuf);
-              return (ret);
+              if ((*rbuf)->cur_bufsize == 0)
+                {
+                  gftp_free_getline_buffer (rbuf);
+                  return (ret);
+                }
+
+              (*rbuf)->eof = 1;
             }
 
           (*rbuf)->buffer[ret + (*rbuf)->cur_bufsize] = '\0';

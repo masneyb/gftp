@@ -1,3 +1,14 @@
+2003-6-14 Brian Masney <masneyb@gftp.org>
+	* lib/cache.c (gftp_delete_cache_entry) - fix for restoring newlines
+
+	* lib/gftp.h lib/protocols.c - added EOF flag for gftp_get_line()
+
+	* lib/gftp.h lib/pty.c - added get_pty_impl() function for each PTY
+	type
+
+	* src/text/gftp-text.c - after removing files, clear the cache for
+	that directory
+
 2003-6-11 Brian Masney <masneyb@gftp.org>
 	* lib/configure.in lib/gftp.h - portability fix for openpty(). (from 
 	Nathan Robertson <nathanr@nathanr.net>, which he took from 

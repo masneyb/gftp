@@ -538,6 +538,7 @@ typedef struct gftp_getline_buffer_tag
        *curpos;
   size_t max_bufsize,
          cur_bufsize;
+  unsigned int eof : 1;
 } gftp_getline_buffer;
 
 
@@ -875,6 +876,8 @@ int gftp_get_transfer_status 		( gftp_transfer * tdata,
 					  ssize_t num_read );
 
 /* pty.c */
+char * get_pty_impl 			( void );
+
 int open_ptys 				( gftp_request * request, 
 					  int *fdm, 
 					  int *fds );

@@ -501,7 +501,8 @@ gftp_text_delete (gftp_request * request, char *command, gpointer *data)
     }
   else
     {
-      gftp_remove_file (request, command);
+      if (gftp_remove_file (request, command) == 0)
+        gftp_delete_cache_entry (request, 0);
     }
   return (1);
 }
