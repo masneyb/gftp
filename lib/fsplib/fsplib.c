@@ -24,6 +24,11 @@ use of this software.
 #include <string.h>
 #include <sys/stat.h>
 #include <dirent.h>
+
+#ifdef HAVE_STDINT_H
+# include <stdint.h>
+#endif
+
 #include "fsplib.h"
 #include "lock.h"
 
