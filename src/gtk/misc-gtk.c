@@ -50,10 +50,10 @@ ftp_log (gftp_logging_level level, gftp_request * request,
   gftp_color * color;
   GdkColor fore;
 #else
-  char *utf8_str;
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
   const char *descr;
+  char *utf8_str;
 #endif
 
   va_start (argp, string);
@@ -70,17 +70,14 @@ ftp_log (gftp_logging_level level, gftp_request * request,
   va_end (argp);
 
 #if GTK_MAJOR_VERSION > 1
-  if (!g_utf8_validate (logstr, -1, NULL))
+  if ((utf8_str = gftp_string_to_utf8 (request, logstr)) != NULL)
     {
-      if ((utf8_str = gftp_string_to_utf8 (request, logstr)) != NULL)
-        {
-          if (free_logstr)
-            g_free (logstr);
-          else
-            free_logstr = 1;
+      if (free_logstr)
+        g_free (logstr);
+      else
+        free_logstr = 1;
 
-          logstr = utf8_str;
-        }
+      logstr = utf8_str;
     }
 #endif
 
@@ -294,7 +291,7 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 void
 update_window (gftp_window_data * wdata)
 {
-  char *dir, *tempstr, *temp1str, *fspec;
+  char *dir, *tempstr, *temp1str, *fspec, *utf8_directory;
   int connected, start;
 
   connected = GFTP_IS_CONNECTED (wdata->request);
@@ -312,12 +309,23 @@ update_window (gftp_window_data * wdata)
       gtk_label_set (GTK_LABEL (wdata->hoststxt), tempstr);
       g_free (tempstr);
 
+      utf8_directory = NULL;
       if ((dir = wdata->request->directory) == NULL)
         temp1str = "";
       else
-        temp1str = dir;
+        {
+          utf8_directory = gftp_string_to_utf8 (wdata->request, 
+                                                wdata->request->directory);
+          if (utf8_directory != NULL)
+            temp1str = utf8_directory;
+          else
+            temp1str = dir;
+        }
 
       gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),temp1str);
+
+      if (utf8_directory != NULL)
+        g_free (utf8_directory);
     }
   else if (wdata->hoststxt != NULL)
     {

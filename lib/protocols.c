@@ -339,6 +339,7 @@ gftp_list_files (gftp_request * request)
 
 
 #if GLIB_MAJOR_VERSION > 1
+
 static char *
 _gftp_get_next_charset (char *remote_charsets, char *orig_str, char **curpos)
 {
@@ -379,7 +380,7 @@ _gftp_restore_charset_string (char **remote_charsets, char orig_str, char **curp
 
 
 char *
-gftp_string_to_utf8 (gftp_request * request, char *str)
+gftp_string_to_utf8 (gftp_request * request, const char *str)
 {
   char *ret, *remote_charsets, *stpos, *cur_charset, orig_str;
   gsize bread, bwrite;
@@ -391,6 +392,8 @@ gftp_string_to_utf8 (gftp_request * request, char *str)
   if (request->iconv_initialized)
     return (g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
                                   &error));
+  else if (g_utf8_validate (str, -1, NULL))
+    return (NULL);
 
   gftp_lookup_request_option (request, "remote_charsets", &remote_charsets);
   if (*remote_charsets == '\0')
@@ -428,6 +431,76 @@ gftp_string_to_utf8 (gftp_request * request, char *str)
 
   return (ret);
 }
+
+
+char *
+gftp_string_from_utf8 (gftp_request * request, const char *str)
+{
+  char *ret, *remote_charsets, *stpos, *cur_charset, orig_str;
+  gsize bread, bwrite;
+  GError * error;
+
+  if (request == NULL)
+    return (NULL);
+
+  if (request->iconv_initialized)
+    return (g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
+                                  &error));
+  else if (g_utf8_validate (str, -1, NULL))
+    return (NULL);
+
+  gftp_lookup_request_option (request, "remote_charsets", &remote_charsets);
+  if (*remote_charsets == '\0')
+    {
+      error = NULL;
+      if ((ret = g_locale_from_utf8 (str, -1, &bread, &bwrite, &error)) != NULL)
+        return (ret);
+
+      return (NULL);
+    }
+
+  ret = NULL;
+  stpos = remote_charsets;
+  while ((cur_charset = _gftp_get_next_charset (remote_charsets, &orig_str,
+                                                &stpos)) != NULL)
+    {
+      if ((request->iconv = g_iconv_open (cur_charset, "UTF-8")) == (GIConv) -1)
+        continue;
+
+      error = NULL;
+      if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite,
+                                       &error)) == NULL)
+        {
+          g_iconv_close (request->iconv);
+          request->iconv = NULL;
+          continue;
+        }
+      else
+        {
+          request->iconv_initialized = 1;
+          _gftp_restore_charset_string (&remote_charsets, *cur_charset, &stpos);
+          break;
+        }
+    }
+
+  return (ret);
+}
+
+#else
+
+char *
+gftp_string_to_utf8 (gftp_request * request, const char *str)
+{
+  return (NULL);
+}
+
+
+char *
+gftp_string_from_utf8 (gftp_request * request, const char *str)
+{
+  return (NULL);
+}
+
 #endif
 
 
@@ -452,10 +525,8 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
       gftp_file_destroy (fle);
       ret = request->get_next_file (request, fle, fd);
 
-#if GLIB_MAJOR_VERSION > 1
-      if (ret >= 0 && fle->file != NULL && !g_utf8_validate (fle->file, -1, NULL))
+      if (ret >= 0 && fle->file != NULL)
         fle->utf8_file = gftp_string_to_utf8 (request, fle->file);
-#endif
 
       if (ret >= 0 && !request->cached && request->cachefd > 0 && 
           request->last_dir_entry != NULL)
@@ -824,11 +895,24 @@ gftp_remove_file (gftp_request * request, const char *file)
 int
 gftp_make_directory (gftp_request * request, const char *directory)
 {
+  char *utf8;
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->mkdir == NULL)
     return (GFTP_EFATAL);
-  return (request->mkdir (request, directory));
+
+  utf8 = gftp_string_from_utf8 (request, directory);
+  if (utf8 != NULL)
+    {
+      ret = request->mkdir (request, utf8);
+      g_free (utf8);
+    }
+  else
+    ret = request->mkdir (request, directory);
+
+  return (ret);
 }
 
 
@@ -836,11 +920,24 @@ int
 gftp_rename_file (gftp_request * request, const char *oldname,
                   const char *newname)
 {
+  char *utf8;
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->rename == NULL)
     return (GFTP_EFATAL);
-  return (request->rename (request, oldname, newname));
+
+  utf8 = gftp_string_from_utf8 (request, newname);
+  if (utf8 != NULL)
+    {
+      ret = request->rename (request, oldname, utf8);
+      g_free (utf8);
+    }
+  else
+    ret = request->rename (request, oldname, newname);
+
+  return (ret);
 }
 
 

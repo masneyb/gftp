@@ -1,3 +1,15 @@
+2003-10-19 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c lib/gftp.h - added gftp_string_from_utf8(). Also, make
+	gftp_string_{to,from}_utf8() be defined all the time. When using 
+	glib 1.2, the functions will always return NULL.
+
+	* lib/protocols.c - when creating a directory or renaming files, make
+	sure the new name is converted from UTF8 to the local character set
+	or the charset specified in the remote_charsets option.
+
+	* src/gtk/misc-gtk.c (update_window_info) - when showing the directory
+	we are currently in, make sure it is converted to UTF8
+
 2003-10-18 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c lib/gftp.h src/text/gftp-text.c src/gtk/gftp-gtk.c - added
 	gftp_locale_init().

@@ -811,10 +811,11 @@ ssize_t gftp_put_next_file_chunk 	( gftp_request * request,
 
 int gftp_list_files 			( gftp_request * request );
 
-#if GLIB_MAJOR_VERSION > 1
 char * gftp_string_to_utf8		( gftp_request * request, 
-					  char *str );
-#endif
+					  const char *str );
+
+char * gftp_string_from_utf8		( gftp_request * request, 
+					  const char *str );
 
 int gftp_parse_bookmark 		( gftp_request * request, 
 					  gftp_request * local_request,
