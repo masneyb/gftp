@@ -1,4 +1,7 @@
 2004-7-25 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c - added rfc959_set_file_time(). This uses the SITE UTIME
+	command. Not many FTP servers appear to support this extension
+
 	* lib/protocols.c (gftp_get_transfer_status) - don't force the user to
 	wait to reconnect if the connection to the server timed out
 

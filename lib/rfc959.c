@@ -1706,6 +1706,57 @@ rfc959_site (gftp_request * request, int specify_site, const char *command)
 }
 
 
+static char *
+rfc959_time_t_to_mdtm (gftp_request * request, time_t datetime)
+{
+  struct tm gt;
+  char *ret;
+
+  if (localtime_r (&datetime, &gt) != NULL)
+    {
+      ret = g_strdup_printf ("%04d%02d%02d%02d%02d%02d", gt.tm_year + 1900,
+                             gt.tm_mon + 1, gt.tm_mday, gt.tm_hour, gt.tm_min,
+                             gt.tm_sec);
+      return (ret);
+    }
+  else
+    {
+      request->logging_function (gftp_logging_error, request,
+                                 "Cannot parse UNIX timestamp %d: %s\n",
+                                 datetime, g_strerror (errno));
+      return (NULL);
+    }
+}
+
+
+static int
+rfc959_set_file_time (gftp_request * request, const char *file, time_t datetime)
+{
+  char *tempstr, *datestr, ret;
+
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
+
+  datestr = rfc959_time_t_to_mdtm (request, datetime);
+  if (datestr == NULL)
+    return (GFTP_EFATAL);
+
+  tempstr = g_strconcat ("SITE UTIME ", datestr, " ", file, "\r\n", NULL);
+  g_free (datestr);
+
+  ret = rfc959_send_command (request, tempstr, 1);
+  g_free (tempstr);
+
+  if (ret < 0)
+    return (ret);
+  else if (ret == '2')
+    return (0);
+  else
+    return (GFTP_ERETRYABLE);
+}
+
+
 static int
 rfc959_set_config_options (gftp_request * request)
 {
@@ -1822,7 +1873,7 @@ rfc959_init (gftp_request * request)
   request->mkdir = rfc959_mkdir;
   request->rename = rfc959_rename;
   request->chmod = rfc959_chmod;
-  request->set_file_time = NULL;
+  request->set_file_time = rfc959_set_file_time;
   request->site = rfc959_site;
   request->parse_url = NULL;
   request->swap_socks = NULL;
