@@ -505,13 +505,14 @@ parse_html_line (char *tempstr, gftp_file * fle)
 
   /* Copy file attributes. Just about the only thing we can get is whether it
      is a directory or not */
-  fle->attribs = g_strdup ("-rw-------");
   if (*(pos - 1) == '/')
     {
+      fle->attribs = g_strdup ("drwxr-xr-x");
       *(pos - 1) = '\0';
-      *fle->attribs = 'd';
       fle->isdir = 1;
     }
+  else
+    fle->attribs = g_strdup ("-rw-r--r--");
 
   /* Copy filename */
   if (strchr (stpos, '/') != NULL || strncmp (stpos, "mailto:", 7) == 0 ||
