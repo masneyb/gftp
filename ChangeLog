@@ -1,4 +1,15 @@
 2004-12-31 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c (sshv2_read_response) - added debugging messages if
+	compiled with -DDEBUG. Added sshv2_response_return_code()
+	and sshv2_buffer_get_int64(). (sshv2_buffer_get_int32) - added
+	check_response argument to this function. This suppresses a
+	signed/unsigned mismatch warning from gcc.
+	(sshv2_decode_file_attributes) - decode all of the attributes that
+	are returned from the server. (sshv2_get_next_file) - don't look at
+	the long file name returned from the server. This also fixes a bug
+	where no files were being returned to the user when the remote server
+	was running the commercial SSH daemon
+
 	* lib/misc.c (gftp_info) - when displaying the OpenSSL information,
 	display OPENSSL_VERSION_TEXT instead of OPENSSL_VERSION_NUMBER
 
