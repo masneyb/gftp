@@ -256,11 +256,11 @@ _textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widdata->text));
   len = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len - 1);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len);
   gtk_text_buffer_delete (textbuf, &iter, &iter2);
 
   len = gtk_text_buffer_get_char_count (textbuf);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len - 1);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len);
   gtk_text_buffer_insert (textbuf, &iter, insert_text, -1);
 #endif
 }
@@ -461,7 +461,7 @@ _save_option_type_textcomboedt (gftp_config_vars * cv, void *user_data)
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widdata->text));
   len = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len - 1);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len);
   newstr = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
   freeit = 1;
 #endif
