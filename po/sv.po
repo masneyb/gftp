@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gFTP\n"
-"POT-Creation-Date: 2003-04-25 14:51+0200\n"
-"PO-Revision-Date: 2003-04-25 14:52+0200\n"
+"POT-Creation-Date: 2003-04-26 23:08+0200\n"
+"PO-Revision-Date: 2003-04-26 23:19+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "Fel: Kan inte skapa temporärfil: %s\n"
 
 #: lib/cache.c:150 lib/cache.c:197 lib/local.c:98 lib/local.c:223
 #: lib/misc.c:275 lib/misc.c:281 lib/rfc2068.c:282 lib/rfc2068.c:404
-#: lib/sshv2.c:1016
+#: lib/sshv2.c:990
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Fel när filidentifieraren skulle stängas: %s\n"
@@ -608,7 +608,7 @@ msgstr "Kan inte slå upp värdnamnet %s: %s\n"
 msgid "unknown"
 msgstr "okänd"
 
-#: lib/protocols.c:1623 lib/protocols.c:1666 lib/rfc959.c:581
+#: lib/protocols.c:1623 lib/protocols.c:1666 lib/rfc959.c:577 lib/rfc959.c:713
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Misslyckades med att skapa ett uttag (socket): %s\n"
@@ -698,7 +698,7 @@ msgstr "Använd HTTP/1.1"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Vill du använda HTTP/1.1 eller HTTP/1.0"
 
-#: lib/rfc2068.c:277 lib/rfc959.c:551 lib/sshv2.c:1011
+#: lib/rfc2068.c:277 lib/rfc959.c:551 lib/sshv2.c:985
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Kopplar ner från platsen %s\n"
@@ -722,7 +722,7 @@ msgstr "Kan inte hämta filen %s\n"
 msgid "Finished retrieving data\n"
 msgstr "Dataöverföringen slutförd\n"
 
-#: lib/rfc2068.c:459 lib/sshv2.c:1096
+#: lib/rfc2068.c:459 lib/sshv2.c:1070
 msgid "Retrieving directory listing...\n"
 msgstr "Tar emot kataloglistan... \n"
 
@@ -783,7 +783,7 @@ msgid "Proxy server type:"
 msgstr "Proxyservertyp:"
 
 #: lib/rfc959.c:63
-#, c-format
+#, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
 "2 character replacement string prefixed by a % that will be replaced with "
@@ -857,41 +857,61 @@ msgstr ""
 msgid "Received invalid response to PWD command: '%s'\n"
 msgstr "Mottog ogiltigt svar på PWD-kommando: \"%s\"\n"
 
-#: lib/rfc959.c:610 lib/rfc959.c:620
+#: lib/rfc959.c:606 lib/rfc959.c:616
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Kan inte hitta en IP-adress i PASV-svar \"%s\"\n"
 
-#: lib/rfc959.c:635
+#: lib/rfc959.c:631 lib/rfc959.c:775
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Kan inte skapa en dataanslutning: %s\n"
 
-#: lib/rfc959.c:647 lib/rfc959.c:668
+#: lib/rfc959.c:643 lib/rfc959.c:664 lib/rfc959.c:800
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Kan inte läsa uttagsnamn (socket name): %s\n"
 
-#: lib/rfc959.c:658
+#: lib/rfc959.c:654 lib/rfc959.c:790
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Kan inte binda till port: %s\n"
 
-#: lib/rfc959.c:677
+#: lib/rfc959.c:673 lib/rfc959.c:809
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Kan inte lyssna på port %d: %s\n"
 
-#: lib/rfc959.c:726
+#: lib/rfc959.c:724
+msgid ""
+"Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+msgstr ""
+"Fel: Det verkar inte som om vi är anslutna via IPv6. Avbryter anslutning.\n"
+
+#: lib/rfc959.c:753 lib/rfc959.c:762
+#, c-format
+msgid "Invalid EPSV response '%s'\n"
+msgstr "Ogiltigt EPSV-svar \"%s\"\n"
+
+#: lib/rfc959.c:819
+#, c-format
+msgid "Cannot get address of local socket: %s\n"
+msgstr "Kan inte få tag i adress för lokalt uttag: %s\n"
+
+#: lib/rfc959.c:859
+msgid "Error: IPV6 support was not completely compiled in\n"
+msgstr "Fel: IPV6-stöd kompilerades inte in helt\n"
+
+#: lib/rfc959.c:893
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Kan inte ta emot anslutning från server: %s\n"
 
-#: lib/rfc959.c:1205
+#: lib/rfc959.c:1372
 msgid "total"
 msgstr "totalt"
 
-#: lib/rfc959.c:1207
+#: lib/rfc959.c:1374
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varning: Kan inte tolka listan %s\n"
@@ -1094,17 +1114,17 @@ msgstr "Okänt meddelande returnerades från servern"
 msgid "Error: Message size %d too big\n"
 msgstr "Fel: Meddelandestorleken %d för stor\n"
 
-#: lib/sshv2.c:620 lib/sshv2.c:1135 lib/sshv2.c:1971 lib/sshv2.c:2064
-#: lib/sshv2.c:2152
+#: lib/sshv2.c:620 lib/sshv2.c:1109 lib/sshv2.c:1945 lib/sshv2.c:2038
+#: lib/sshv2.c:2126
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Fel: Meddelandestorleken %d för stor från servern\n"
 
 #: lib/sshv2.c:681 lib/sshv2.c:694 lib/sshv2.c:716 lib/sshv2.c:784
-#: lib/sshv2.c:957 lib/sshv2.c:1058 lib/sshv2.c:1126 lib/sshv2.c:1240
-#: lib/sshv2.c:1253 lib/sshv2.c:1266 lib/sshv2.c:1279 lib/sshv2.c:1335
-#: lib/sshv2.c:1400 lib/sshv2.c:1860 lib/sshv2.c:1962 lib/sshv2.c:2055
-#: lib/sshv2.c:2140 lib/sshv2.c:2225
+#: lib/sshv2.c:931 lib/sshv2.c:1032 lib/sshv2.c:1100 lib/sshv2.c:1214
+#: lib/sshv2.c:1227 lib/sshv2.c:1240 lib/sshv2.c:1253 lib/sshv2.c:1309
+#: lib/sshv2.c:1374 lib/sshv2.c:1834 lib/sshv2.c:1936 lib/sshv2.c:2029
+#: lib/sshv2.c:2114 lib/sshv2.c:2199
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Fick felaktigt svar från servern, kopplar ner\n"
 
@@ -1113,27 +1133,22 @@ msgstr "Fick felaktigt svar från servern, kopplar ner\n"
 msgid "Opening SSH connection to %s\n"
 msgstr "Öppnar SSH-anslutning till %s\n"
 
-#: lib/sshv2.c:875
+#: lib/sshv2.c:874
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "Kan inte skapa ett uttagspar (socket pair): %s\n"
 
-#: lib/sshv2.c:886
-#, c-format
-msgid "Cannot open master pty %s: %s\n"
-msgstr "Kan inte öppna huvud-pty %s: %s\n"
-
-#: lib/sshv2.c:919
+#: lib/sshv2.c:896
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "Fel: Kan inte köra ssh: %s\n"
 
-#: lib/sshv2.c:969
+#: lib/sshv2.c:943
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Lyckad inloggning till SSH-servern %s\n"
 
-#: lib/sshv2.c:975
+#: lib/sshv2.c:949
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "Kan inte grena en till process: %s\n"
@@ -2605,6 +2620,9 @@ msgstr "Visar filen %s\n"
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Visa: Kan inte öppna filen %s: %s\n"
+
+#~ msgid "Cannot open master pty %s: %s\n"
+#~ msgstr "Kan inte öppna huvud-pty %s: %s\n"
 
 #~ msgid "Default Protocol"
 #~ msgstr "Standardprotokoll"
