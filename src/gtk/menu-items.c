@@ -223,7 +223,7 @@ dosave_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
     }
 
   for (templist = str->wdata->files; 
-       templist->next != NULL;
+       templist != NULL;
        templist = templist->next)
     {
       tempfle = templist->data;

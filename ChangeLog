@@ -1,4 +1,9 @@
 2003-9-21 Brian Masney <masneyb@gftp.org>
+	* src/gtk/menu-items.c (dosave_directory_listing) - fixed a bug that 
+	would occur when saving directory listings to a file, the last filename
+	in the list was never written to the file 
+	(from Aurelien Jarno <aurel32@debian.org>)
+
 	* lib/protocols.c (gftp_parse_bookmark) lib/gftp.h lib/bookmark.c 
 	src/gtk/bookmarks.c - added pointer to refresh_local variable that is
 	enabled if the local directory was changed. In src/gtk/bookmarks.c, if
