@@ -480,6 +480,7 @@ rfc959_connect (gftp_request * request)
       g_free (tempstr);
       if (resp < 0)
         return (GFTP_ERETRYABLE);
+
       if (resp == '3')
 	{
 	  tempstr = g_strconcat ("PASS ", request->password, "\r\n", NULL);
@@ -488,6 +489,7 @@ rfc959_connect (gftp_request * request)
           if (resp < 0)
             return (GFTP_ERETRYABLE);
         }
+
       if (resp == '3' && request->account)
 	{
 	  tempstr = g_strconcat ("ACCT ", request->account, "\r\n", NULL);
@@ -501,7 +503,11 @@ rfc959_connect (gftp_request * request)
   if (resp != '2')
     {
       gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
+
+      if (resp == '5')
+        return (GFTP_EFATAL);
+      else
+        return (GFTP_ERETRYABLE);
     }
 
   if ((ret = rfc959_syst (request)) < 0 && request->datafd < 0)
