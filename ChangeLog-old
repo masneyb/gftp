@@ -1,3 +1,30 @@
+Changes from 2.0.18rc1 to 2.0.18
+
+* Added support for the FSP protocol (http://fsp.sourceforge.net/)
+* SSH2: Fixed segfault that could occur when renaming a file (bug introduced
+  in 2.0.18rc1)
+* SSH2: Fixes for parsing the directory listing from the commercial SSH server
+* FTP: added pasv_behind_router option. If this is enabled, then the IP
+  address that is in the PASV response will be ignored. Instead the IP
+  address of the remote host will be used
+* FTP: removed the quote filename functionality in the SITE CHMOD and
+  SITE UTIME commands
+* Chmod: Fixes for setting the group execute bit (bug introduced in 2.0.18rc1)
+* Fixes so that the text port will prompt you for your password when a URL is
+  entered on the command line
+* In the text port, convert the string from UTF8 to the users' current locale
+  before it is displayed
+* Fixes for when the host system does not have getaddrinfo() (bug introduced in
+  2.0.18rc1)
+* Rewrote and improved the URL parser so that the :, @ characters are allowed
+  in directories and passwords
+* Security Fix: Ignore the file paths that are returned by the remote server
+* FreeBSD and HP/UX fixes 
+* GNOME HIG fixes
+* Many other small changes and improvements. See the ChangeLog file in the
+  distribution for a detailed list of changes.
+* Updated language translations (cs de en_CA en_GB es hu nl zh_CN)
+
 Changes from 2.0.17 to 2.0.18rc1
 
 * SSH2: Improved the login code. You no longer need to specify in gFTP the
