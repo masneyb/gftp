@@ -1107,15 +1107,7 @@ main (int argc, char **argv)
   char *startup_directory;
   GtkWidget *window, *ui;
 
-#ifdef HAVE_GETTEXT
-  setlocale (LC_ALL, "");
-  bindtextdomain ("gftp", LOCALE_DIR);
-#if GTK_MAJOR_VERSION > 1
-  bind_textdomain_codeset ("gftp", "UTF-8");
-#endif
-  textdomain ("gftp");
-#endif
-
+  gftp_locale_init ();
   g_thread_init (NULL);
   main_thread_id = pthread_self ();
   gtk_set_locale ();

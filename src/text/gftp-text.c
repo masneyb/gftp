@@ -103,10 +103,7 @@ main (int argc, char **argv)
   char tempstr[512];
 #endif
 
-#ifdef HAVE_GETTEXT
-  setlocale (LC_ALL, "");
-  bindtextdomain ("gftp", LOCALE_DIR);
-#endif
+  gftp_locale_init ();
 
   signal (SIGCHLD, sig_child);
   signal (SIGPIPE, SIG_IGN); 

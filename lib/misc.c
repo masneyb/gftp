@@ -1283,3 +1283,21 @@ gftp_parse_file_size (char *str)
 #endif
 }
 
+
+void
+gftp_locale_init (void)
+{
+#ifdef HAVE_GETTEXT
+
+  setlocale (LC_ALL, "");
+  textdomain ("gftp");
+
+#if GLIB_MAJOR_VERSION > 1
+  bind_textdomain_codeset ("gftp", "UTF-8");
+#endif
+
+  textdomain ("gftp");
+
+#endif
+}
+

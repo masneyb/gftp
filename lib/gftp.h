@@ -724,6 +724,8 @@ char * gftp_build_path 			( const char *first_element,
 
 off_t gftp_parse_file_size 		( char *str );
 
+void gftp_locale_init 			( void );
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_HTTP_NUM				1
