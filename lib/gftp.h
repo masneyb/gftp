@@ -157,10 +157,6 @@ struct gftp_file_tag
   unsigned int isdir : 1,	/* File type */
                isexe : 1,
                islink : 1,
-               isblock : 1,
-               ischar : 1,
-               issocket : 1,
-               isfifo : 1,
                ascii : 1, 	/* Transfer in ASCII mode */
                selected : 1,	/* Is this file selected? */
                was_sel : 1,	/* Was this file selected before  */
@@ -171,7 +167,7 @@ struct gftp_file_tag
                transfer_done : 1, /* Is current file transfer done? */
                is_fd : 1;	/* Is this a file descriptor? */
   char transfer_action;		/* See the GFTP_TRANS_ACTION_* vars above */
-  void *node;			/* Pointer to the node for the gui */
+  void *node;			/* FIXME Pointer to the node for the gui */
   int fd;
 };
 
@@ -534,9 +530,6 @@ char *insert_commas 			( off_t number,
 					  char *dest_str, 
 					  size_t dest_len );
 
-long file_countlf 			( int filefd, 
-					  long endpos );
-
 char *alltrim 				( char *str );
 
 char *expand_path 			( const char *src );
@@ -694,6 +687,9 @@ ssize_t gftp_put_next_file_chunk 	( gftp_request * request,
 					  size_t size );
 
 int gftp_list_files 			( gftp_request * request );
+
+int gftp_parse_bookmark 		( gftp_request * request, 
+					  const char * bookmark );
 
 int gftp_parse_url 			( gftp_request * request, 
 					  const char *url );

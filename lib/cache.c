@@ -20,16 +20,6 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id$";
 
-char *
-gftp_cache_get_url_prefix (gftp_request * request)
-{
-  if (strcmp (request->protocol_name, "HTTP") == 0 &&
-      strcmp (request->proxy_config, "ftp") == 0)
-    return ("ftp");
-
-  return (request->url_prefix);
-}
-
 
 int
 gftp_new_cache_entry (gftp_request * request)
@@ -81,7 +71,7 @@ gftp_new_cache_entry (gftp_request * request)
 
   lseek (fd, 0, SEEK_END);
   temp1str = g_strdup_printf ("%s://%s@%s:%d%s\t%s\n", 
-                           gftp_cache_get_url_prefix (request),
+                           request->url_prefix,
                            request->username == NULL ? "" : request->username,
                            request->hostname == NULL ? "" : request->hostname,
                            request->port, 
@@ -115,7 +105,7 @@ gftp_find_cache_entry (gftp_request * request)
   size_t len;
 
   g_snprintf (description, sizeof (description), "%s://%s@%s:%d%s",
-              gftp_cache_get_url_prefix (request),
+              request->url_prefix,
               request->username == NULL ? "" : request->username,
               request->hostname == NULL ? "" : request->hostname,
               request->port, 
@@ -229,7 +219,7 @@ gftp_delete_cache_entry (gftp_request * request, int ignore_directory)
   int remove;
 
   g_snprintf (description, sizeof (description), "%s://%s@%s:%d%s",
-              gftp_cache_get_url_prefix (request),
+              request->url_prefix,
               request->username == NULL ? "" : request->username,
               request->hostname == NULL ? "" : request->hostname,
               request->port, 

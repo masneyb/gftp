@@ -21,6 +21,7 @@
 #include "options.h"
 static const char cvsid[] = "$Id$";
 
+/* FIXME - this isn't right for all locales. Use glib's printf instead */
 char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
@@ -87,31 +88,6 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
 }
 
 
-long
-file_countlf (int filefd, long endpos)
-{
-  char tempstr[255];
-  long num, mypos;
-  ssize_t n;
-  int i;
-
-  mypos = num = 0;
-  lseek (filefd, 0, SEEK_SET);
-  while ((n = read (filefd, tempstr, sizeof (tempstr))) > 0)
-    {
-      for (i = 0; i < n; i++)
-	{
-	  if ((tempstr[i] == '\n') && (i > 0) && (tempstr[i - 1] != '\r')
-	      && (endpos == 0 || mypos + i <= endpos))
-	    ++num;
-	}
-      mypos += n;
-    }
-  lseek (filefd, 0, SEEK_SET);
-  return (num);
-}
-
-
 char *
 alltrim (char *str)
 {
@@ -119,7 +95,7 @@ alltrim (char *str)
   int diff;
 
   pos = str + strlen (str) - 1;
-  while (pos >= str && *pos == ' ')
+  while (pos >= str && (*pos == ' ' || *pos == '\t'))
     *pos-- = '\0';
 
   pos = str;
@@ -232,6 +208,7 @@ void
 remove_double_slashes (char *string)
 {
   char *newpos, *oldpos;
+  size_t len;
 
   oldpos = newpos = string;
   while (*oldpos != '\0')
@@ -243,8 +220,10 @@ remove_double_slashes (char *string)
 	oldpos++;
     }
   *newpos = '\0';
-  if (string[strlen (string) - 1] == '/')
-    string[strlen (string) - 1] = '\0';
+
+  len = strlen (string);
+  if (string[len - 1] == '/')
+    string[len - 1] = '\0';
 }
 
 
@@ -294,13 +273,23 @@ copyfile (char *source, char *dest)
       exit (1);
     }
 
-  close (srcfd);
-  close (destfd);
+  if (close (srcfd) == -1)
+    {
+      printf (_("Error closing file descriptor: %s\n"), g_strerror (errno));
+      exit (1);
+    }
+
+  if (close (destfd) == -1)
+    {
+      printf (_("Error closing file descriptor: %s\n"), g_strerror (errno));
+      exit (1);
+    }
 
   return (1);
 }
 
 
+/* FIXME - is there a replacement for this */
 int
 gftp_match_filespec (char *filename, char *filespec)
 {
@@ -351,9 +340,11 @@ gftp_parse_command_line (int *argc, char ***argv)
 {
   if (*argc > 1)
     {
-      if (strcmp (argv[0][1], "--help") == 0 || strcmp (argv[0][1], "-h") == 0)
+      if (strcmp (argv[0][1], "--help") == 0 || 
+          strcmp (argv[0][1], "-h") == 0)
 	gftp_usage ();
-      else if (strcmp (argv[0][1], "--version") == 0 || strcmp (argv[0][1], "-v") == 0)
+      else if (strcmp (argv[0][1], "--version") == 0 || 
+               strcmp (argv[0][1], "-v") == 0)
 	{
 	  printf ("%s\n", version);
 	  exit (0);
@@ -366,7 +357,7 @@ gftp_parse_command_line (int *argc, char ***argv)
 void
 gftp_usage (void)
 {
-  printf (_("usage: gftp [[ftp://][user:[pass]@]ftp-site[:port][/directory]]\n"));
+  printf (_("usage: gftp [[protocol://][user:[pass]@]site[:port][/directory]]\n"));
   exit (0);
 }
 
@@ -394,9 +385,10 @@ get_xpm_path (char *filename, int quit_on_err)
 	      g_free (exfile);
 	      if (!quit_on_err)
 		return (NULL);
+
 	      printf (_("gFTP Error: Cannot find file %s in %s or %s\n"),
 		      filename, SHARE_DIR, BASE_CONF_DIR);
-	      exit (-1);
+	      exit (1);
 	    }
 	}
     }
@@ -418,7 +410,7 @@ string_hash_function (gconstpointer key)
   int i;
 
   ret = 0;
-  for (i=0; ((char *) key)[0] != '\0' && i < 3; i++)
+  for (i=0; ((char *) key)[i] != '\0' && i < 3; i++)
     ret += ((char *) key)[i];
 
   return (ret);
@@ -456,7 +448,7 @@ free_fdata (gftp_file * fle)
   if (fle->destfile)
     g_free (fle->destfile);
   if (fle->fd > 0)
-    close (fle->fd);
+    close (fle->fd); /* FIXME - need to log a failure */
   g_free (fle);
 }
 
@@ -470,34 +462,20 @@ copy_fdata (gftp_file * fle)
   memcpy (newfle, fle, sizeof (*newfle));
 
   if (fle->file)
-    {
-      newfle->file = g_malloc (strlen (fle->file) + 1);
-      strcpy (newfle->file, fle->file);
-    }
+    newfle->file = g_strdup (fle->file);
 
   if (fle->user)
-    {
-      newfle->user = g_malloc (strlen (fle->user) + 1);
-      strcpy (newfle->user, fle->user);
-    }
+    newfle->user = g_strdup (fle->user);
 
   if (fle->group)
-    {
-      newfle->group = g_malloc (strlen (fle->group) + 1);
-      strcpy (newfle->group, fle->group);
-    }
+    newfle->group = g_strdup (fle->group);
 
   if (fle->attribs)
-    {
-      newfle->attribs = g_malloc (strlen (fle->attribs) + 1);
-      strcpy (newfle->attribs, fle->attribs);
-    }
+    newfle->attribs = g_strdup (fle->attribs);
 
   if (fle->destfile)
-    {
-      newfle->destfile = g_malloc (strlen (fle->destfile) + 1);
-      strcpy (newfle->destfile, fle->destfile);
-    }
+    newfle->destfile = g_strdup (fle->destfile);
+
   return (newfle);
 }
 
@@ -510,7 +488,7 @@ compare_request (gftp_request * request1, gftp_request * request2,
   int i, ret;
 
   ret = 1;
-  if (strcmp (request1->protocol_name, request2->protocol_name) == 0 &&
+  if (request1->protonum == request2->protonum &&
       request1->port == request2->port)
     {
       strarr[0][0] = request1->hostname;
@@ -666,9 +644,9 @@ ptym_open (char *pts_name)
     }
   return (-1);
 
-#endif
+#endif /* GRANTPT */
 
-#endif
+#endif /* __sgi */
 
 }
 

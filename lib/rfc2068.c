@@ -209,6 +209,11 @@ rfc2068_connect (gftp_request * request)
 
   service = request->use_proxy && request->proxy_config != NULL && 
             *request->proxy_config != '\0' ? request->proxy_config : "http";
+
+  if (request->url_prefix != NULL)
+    g_free (request->url_prefix);
+  request->url_prefix = g_strdup (service);
+
   if ((request->sockfd = gftp_connect_server (request, service)) < 0)
     return (GFTP_ERETRYABLE);
 
@@ -754,6 +759,17 @@ rfc2068_set_config_options (gftp_request * request)
 }
 
 
+static void
+rfc2068_destroy (gftp_request * request)
+{
+  if (request->url_prefix)
+    {
+      g_free (request->url_prefix);
+      request->url_prefix = NULL;
+    }
+}
+
+
 void
 rfc2068_init (gftp_request * request)
 {
@@ -761,7 +777,7 @@ rfc2068_init (gftp_request * request)
 
   request->protonum = GFTP_HTTP_NUM;
   request->init = rfc2068_init;
-  request->destroy = NULL;
+  request->destroy = rfc2068_destroy;
   request->connect = rfc2068_connect;
   request->disconnect = rfc2068_disconnect;
   request->get_file = rfc2068_get_file;
@@ -785,7 +801,7 @@ rfc2068_init (gftp_request * request)
   request->parse_url = NULL;
   request->swap_socks = NULL;
   request->set_config_options = rfc2068_set_config_options;
-  request->url_prefix = "http";
+  request->url_prefix = g_strdup ("http");
   request->protocol_name = "HTTP";
   request->need_hostport = 1;
   request->need_userpass = 0;

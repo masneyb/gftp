@@ -24,57 +24,25 @@ static const char cvsid[] = "$Id$";
 static int
 bookmark_parse_url (gftp_request * request, const char * url)
 {
-  gftp_bookmarks * tempentry;
   const char * pos;
-  int i;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (url != NULL, GFTP_EFATAL);
   
   if ((pos = strstr (url, "://")) != NULL)
-    pos += 3;
+    {
+      pos += 3;
+      if (strncmp (url, "bookmark://", 11) != 0)
+        {
+          request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Invalid URL %s\n"), url);
+          return (GFTP_EFATAL);
+        }
+    }
   else
     pos = url;
 
-  if ((tempentry = g_hash_table_lookup (bookmarks_htable, pos)) == NULL)
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Error: Could not find bookmark %s\n"), pos);
-      return (GFTP_EFATAL);
-    }
-  else if (tempentry->hostname == NULL || *tempentry->hostname == '\0' ||
-           tempentry->user == NULL || *tempentry->user == '\0')
-    {
-      request->logging_function (gftp_logging_error, request->user_data,
-                                 _("Bookmarks Error: There are some missing entries in this bookmark. Make sure you have a hostname and username\n"));
-      return (GFTP_EFATAL);
-    }
-
-  gftp_set_username (request, tempentry->user);
-  if (strncmp (tempentry->pass, "@EMAIL@", 7) == 0)
-    gftp_set_password (request, emailaddr);
-  else
-    gftp_set_password (request, tempentry->pass);
-  if (tempentry->acct != NULL)
-    gftp_set_account (request, tempentry->acct);
-  gftp_set_hostname (request, tempentry->hostname);
-  gftp_set_directory (request, tempentry->remote_dir);
-  gftp_set_port (request, tempentry->port);
-  gftp_set_sftpserv_path (request, tempentry->sftpserv_path);
-
-  for (i = 0; gftp_protocols[i].name; i++)
-    {
-      if (strcmp (gftp_protocols[i].name, tempentry->protocol) == 0)
-        {
-          gftp_protocols[i].init (request);
-          break;
-        }
-    }
-
-  if (!gftp_protocols[i].name)
-    gftp_protocols[0].init (request);
-
-  return (0);
+  return (gftp_parse_bookmark (request, pos));
 }
 
 

@@ -188,7 +188,7 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
   g_return_val_if_fail (toreq != NULL, GFTP_EFATAL);
   g_return_val_if_fail (tofile != NULL, GFTP_EFATAL);
 
-  if (strcmp (fromreq->protocol_name, toreq->protocol_name) == 0 &&
+  if (fromreq->protonum == toreq->protonum &&
       fromreq->transfer_file != NULL)
     return (fromreq->transfer_file (fromreq, fromfile, fromsize, toreq, 
                                     tofile, tosize));
@@ -369,6 +369,79 @@ gftp_get_next_file (gftp_request * request, char *filespec, gftp_file * fle)
     } while (ret > 0 && !gftp_match_filespec (fle->file, filespec));
 
   return (ret);
+}
+
+
+int
+gftp_parse_bookmark (gftp_request * request, const char * bookmark)
+{
+  gftp_logging_func logging_function;
+  gftp_bookmarks * tempentry;
+  int i;
+
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (bookmark != NULL, GFTP_EFATAL);
+  
+  logging_function = request->logging_function;
+  gftp_request_destroy (request, 0);
+  request->logging_function = logging_function;
+
+  if ((tempentry = g_hash_table_lookup (bookmarks_htable, bookmark)) == NULL)
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Error: Could not find bookmark %s\n"), 
+                                 bookmark);
+      return (GFTP_EFATAL);
+    }
+  else if (tempentry->hostname == NULL || *tempentry->hostname == '\0')
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                                 _("Bookmarks Error: The bookmark entry %s does not have a hostname\n"), bookmark);
+      return (GFTP_EFATAL);
+    }
+
+  if (tempentry->user != NULL)
+    gftp_set_username (request, tempentry->user);
+
+  if (tempentry->pass != NULL)
+    {
+      if (strncmp (tempentry->pass, "@EMAIL@", 7) == 0)
+        gftp_set_password (request, emailaddr);
+      else
+        gftp_set_password (request, tempentry->pass);
+    }
+
+  if (tempentry->acct != NULL)
+    gftp_set_account (request, tempentry->acct);
+
+  gftp_set_hostname (request, tempentry->hostname);
+  gftp_set_directory (request, tempentry->remote_dir);
+  gftp_set_port (request, tempentry->port);
+  gftp_set_sftpserv_path (request, tempentry->sftpserv_path);
+
+  for (i = 0; gftp_protocols[i].name; i++)
+    {
+      if (strcmp (gftp_protocols[i].name, tempentry->protocol) == 0)
+        {
+          gftp_protocols[i].init (request);
+          break;
+        }
+    }
+
+  if (!gftp_protocols[i].name)
+    {
+      for (i = 0; gftp_protocols[i].url_prefix; i++)
+        {
+          if (strcmp (gftp_protocols[i].name, default_protocol) == 0)
+            break;
+        }
+
+      if (gftp_protocols[i].url_prefix == NULL)
+        i = GFTP_FTP_NUM;
+    }
+
+  gftp_protocols[i].init (request);
+  return (0);
 }
 
 
@@ -1350,14 +1423,6 @@ gftp_parse_ls (const char *lsoutput, gftp_file * fle)
     fle->islink = 1;
   if (strchr (fle->attribs, 'x') != NULL && !fle->isdir && !fle->islink)
     fle->isexe = 1;
-  if (*fle->attribs == 'b')
-    fle->isblock = 1;
-  if (*fle->attribs == 'c')
-    fle->ischar = 1;
-  if (*fle->attribs == 's')
-    fle->issocket = 1;
-  if (*fle->attribs == 'p')
-    fle->isfifo = 1;
 
   return (result);
 }

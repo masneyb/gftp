@@ -236,7 +236,7 @@ gftp_read_config_file (char **argv, int get_xpms)
   if ((tempstr = expand_path (CONFIG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
-      exit (0);
+      exit (1);
     }
 
   if (access (tempstr, F_OK) == -1)
@@ -248,7 +248,7 @@ gftp_read_config_file (char **argv, int get_xpms)
 	    {
 	      printf (_("gFTP Error: Could not make directory %s: %s\n"),
 		      temp1str, g_strerror (errno));
-	      exit (-1);
+	      exit (1);
 	    }
 	}
       g_free (temp1str);
@@ -259,7 +259,7 @@ gftp_read_config_file (char **argv, int get_xpms)
 	  printf (_("gFTP Error: Cannot find master config file %s\n"),
 		  temp1str);
 	  printf (_("Did you do a make install?\n"));
-	  exit (-1);
+	  exit (1);
 	}
       copyfile (temp1str, tempstr);
       g_free (temp1str);
@@ -269,7 +269,7 @@ gftp_read_config_file (char **argv, int get_xpms)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
 	      g_strerror (errno));
-      exit (0);
+      exit (1);
     }
   g_free (tempstr);
  
@@ -436,10 +436,22 @@ gftp_read_config_file (char **argv, int get_xpms)
       strcpy (default_protocol, "FTP");
     }
 
+  for (i = 0; gftp_protocols[i].name; i++)
+    {
+      if (strcmp (gftp_protocols[i].name, default_protocol) == 0)
+        break;
+    }
+
+  if (gftp_protocols[i].name == NULL)
+    {
+      printf (_("gFTP Error: Default protocol %s is not a valid protocol\n"), default_protocol);
+      exit (1);
+    }
+
   if ((tempstr = expand_path (LOG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad log file name %s\n"), LOG_FILE);
-      exit (0);
+      exit (1);
     }
 
   if ((logfd = fopen (tempstr, "w")) == NULL)
@@ -522,7 +534,7 @@ gftp_read_bookmarks (void)
   if ((tempstr = expand_path (BOOKMARKS_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad bookmarks file name %s\n"), BOOKMARKS_FILE);
-      exit (0);
+      exit (1);
     }
 
   if (access (tempstr, F_OK) == -1)
@@ -543,7 +555,7 @@ gftp_read_bookmarks (void)
     {
       printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"), tempstr,
 	      g_strerror (errno));
-      exit (0);
+      exit (1);
     }
   g_free (tempstr);
 
@@ -750,14 +762,14 @@ gftp_write_config_file (void)
   if ((tempstr = expand_path (CONFIG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
-      exit (0);
+      exit (1);
     }
 
   if ((conffile = fopen (tempstr, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
 	      g_strerror (errno));
-      exit (0);
+      exit (1);
     }
 
   g_free (tempstr);
@@ -872,14 +884,14 @@ gftp_write_bookmarks_file (void)
   if ((tempstr = expand_path (BOOKMARKS_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad bookmarks file name %s\n"), CONFIG_FILE);
-      exit (0);
+      exit (1);
     }
 
   if ((bmfile = fopen (tempstr, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"),
 	      CONFIG_FILE, g_strerror (errno));
-      exit (0);
+      exit (1);
     }
 
   g_free (tempstr);

@@ -74,8 +74,7 @@ local_connect (gftp_request * request)
   if (getcwd (tempstr, sizeof (tempstr)) != NULL)
     {
       tempstr[sizeof (tempstr) - 1] = '\0';
-      request->directory = g_malloc (strlen (tempstr) + 1);
-      strcpy (request->directory, tempstr);
+      request->directory = g_strdup (tempstr);
     }
   else
     request->logging_function (gftp_logging_error, request->user_data,
@@ -94,7 +93,7 @@ local_disconnect (gftp_request * request)
 
   if (request->datafd != -1)
     {
-      if (close (request->datafd) < 0)
+      if (close (request->datafd) == -1)
         request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
@@ -121,18 +120,18 @@ local_get_file (gftp_request * request, const char *filename, int fd,
       flags |= O_LARGEFILE;
 #endif
 
-      if ((request->datafd = open (filename, flags)) < 0)
+      if ((request->datafd = open (filename, flags)) == -1)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),
                                    filename, g_strerror (errno));
-          return (GFTP_ERETRYABLE); /* should this be fatal? */
+          return (GFTP_ERETRYABLE); 
         }
     }
   else
     request->datafd = fd;
 
-  if ((size = lseek (request->datafd, 0, SEEK_END)) < 0)
+  if ((size = lseek (request->datafd, 0, SEEK_END)) == -1)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
@@ -141,7 +140,7 @@ local_get_file (gftp_request * request, const char *filename, int fd,
       return (GFTP_ERETRYABLE);
     }
 
-  if (lseek (request->datafd, startsize, SEEK_SET) < 0)
+  if (lseek (request->datafd, startsize, SEEK_SET) == -1)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
@@ -173,7 +172,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
       flags |= O_LARGEFILE;
 #endif
 
-      if ((request->datafd = open (filename, flags, S_IRUSR | S_IWUSR)) < 0)
+      if ((request->datafd = open (filename, flags, S_IRUSR | S_IWUSR)) == -1)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error: Cannot open local file %s: %s\n"),
@@ -184,7 +183,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
   else
     request->datafd = fd;
 
-  if (ftruncate (request->datafd, startsize) < 0)
+  if (ftruncate (request->datafd, startsize) == -1)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                _("Error: Cannot truncate local file %s: %s\n"),
@@ -193,7 +192,7 @@ local_put_file (gftp_request * request, const char *filename, int fd,
       return (GFTP_ERETRYABLE);
     }
     
-  if (lseek (request->datafd, startsize, SEEK_SET) < 0)
+  if (lseek (request->datafd, startsize, SEEK_SET) == -1)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                                  _("Error: Cannot seek on file %s: %s\n"),
@@ -219,7 +218,7 @@ local_end_transfer (gftp_request * request)
 
   if (request->datafd > 0)
     {
-      if (close (request->datafd) < 0)
+      if (close (request->datafd) == -1)
         request->logging_function (gftp_logging_error, request->user_data,
                                    _("Error closing file descriptor: %s\n"),
                                    g_strerror (errno));
@@ -232,7 +231,7 @@ local_end_transfer (gftp_request * request)
 
 
 static char *
-make_text_mode (gftp_file * fle, mode_t mode)
+make_text_mode (mode_t mode)
 {
   char *str;
 
@@ -243,40 +242,22 @@ make_text_mode (gftp_file * fle, mode_t mode)
     str[0] = '-';
 
   if (S_ISLNK (mode))
-    {
-      fle->islink = 1; 
-      str[0] = 'l';
-    }
+    str[0] = 'l';
 
   if (S_ISBLK (mode))
-     {
-       fle->isblock = 1;
-       str[0] = 'b';
-     }
+    str[0] = 'b';
 
   if (S_ISCHR (mode))
-     {
-       fle->ischar = 1;
-       str[0] = 'c';
-    }
+    str[0] = 'c';
 
   if (S_ISFIFO (mode))
-    {
-      fle->isfifo = 1;
-      str[0] = 'p';
-    }
+    str[0] = 'p';
 
   if (S_ISSOCK (mode))
-    {
-      fle->issocket = 1;
-      str[0] = 's';
-    }
+    str[0] = 's';
 
   if (S_ISDIR (mode))
-    {
-      fle->isdir = 1;
-      str[0] = 'd';
-    }
+    str[0] = 'd';
 
   str[1] = mode & S_IRUSR ? 'r' : '-';
   str[2] = mode & S_IWUSR ? 'w' : '-';
@@ -335,6 +316,9 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
   lpd = request->protocol_data;
+
+  g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
+
   memset (fle, 0, sizeof (*fle));
 
   if ((dirp = readdir (lpd->dir)) == NULL)
@@ -344,8 +328,7 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       return (GFTP_ERETRYABLE);
     }
 
-  fle->file = g_malloc (strlen (dirp->d_name) + 1);
-  strcpy (fle->file, dirp->d_name);
+  fle->file = g_strdup (dirp->d_name);
   if (lstat (fle->file, &st) != 0)
     {
       closedir (lpd->dir);
@@ -355,47 +338,33 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
   if ((user = g_hash_table_lookup (lpd->userhash, 
                                    GUINT_TO_POINTER(st.st_uid))) != NULL)
-    {
-      fle->user = g_malloc (strlen (user) + 1);
-      strcpy (fle->user, user);
-    }
+    fle->user = g_strdup (user);
   else
     {
       if ((pw = getpwuid (st.st_uid)) == NULL)
         fle->user = g_strdup_printf ("%u", st.st_uid); 
       else
-        {
-          fle->user = g_malloc (strlen (pw->pw_name) + 1);
-          strcpy (fle->user, pw->pw_name);
-        }
+        fle->user = g_strdup (pw->pw_name);
 
-      user = g_malloc (strlen (fle->user) + 1);
-      strcpy (user, fle->user);
+      user = g_strdup (fle->user);
       g_hash_table_insert (lpd->userhash, GUINT_TO_POINTER (st.st_uid), user);
     }
 
   if ((group = g_hash_table_lookup (lpd->grouphash, 
                                     GUINT_TO_POINTER(st.st_gid))) != NULL)
-    {
-      fle->group = g_malloc (strlen (group) + 1);
-      strcpy (fle->group, group);
-    }
+    fle->group = g_strdup (group);
   else
     {
       if ((gr = getgrgid (st.st_gid)) == NULL)
         fle->group = g_strdup_printf ("%u", st.st_gid); 
       else
-        {
-          fle->group = g_malloc (strlen (gr->gr_name) + 1);
-          strcpy (fle->group, gr->gr_name);
-        }
+        fle->group = g_strdup (gr->gr_name);
 
-      group = g_malloc (strlen (fle->group) + 1);
-      strcpy (group, fle->group);
+      group = g_strdup (fle->group);
       g_hash_table_insert (lpd->grouphash, GUINT_TO_POINTER (st.st_gid), group);
     }
 
-  fle->attribs = make_text_mode (fle, st.st_mode);
+  fle->attribs = make_text_mode (st.st_mode);
   fle->datetime = st.st_mtime;
 
   if ((fle->attribs[0] == 'b' || fle->attribs[0] == 'u' ||
@@ -404,20 +373,12 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   else
     fle->size = st.st_size;
 
-  if (*fle->attribs == 'd')
-    fle->isdir = 1;
-  if (*fle->attribs == 'l')
-    fle->islink = 1;
-  if (strchr (fle->attribs, 'x') != NULL && !fle->isdir && !fle->islink)
-    fle->isexe = 1;
-  if (*fle->attribs == 'b')
-    fle->isblock = 1;
-  if (*fle->attribs == 'c')
-    fle->ischar = 1;
-  if (*fle->attribs == 's')
-    fle->issocket = 1;
-  if (*fle->attribs == 'p')
-    fle->isfifo = 1;
+  fle->isdir = st.st_mode & S_IFDIR;
+  fle->islink = st.st_mode & S_IFLNK;
+  fle->isexe = (st.st_mode & S_IXUSR) || 
+               (st.st_mode & S_IXGRP) ||
+               (st.st_mode & S_IXOTH);
+
   return (1);
 }
 
@@ -427,23 +388,40 @@ local_list_files (gftp_request * request)
 {
   local_protocol_data *lpd;
   char *tempstr;
+  int freeit;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->directory != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+
   lpd = request->protocol_data;
 
-  tempstr = g_strconcat (request->directory, "/", NULL);
+  g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
+
+  if (request->directory[strlen (request->directory) - 1] != '/')
+    {
+      tempstr = g_strconcat (request->directory, "/", NULL);
+      freeit = 1;
+    }
+  else
+    {
+      tempstr = request->directory;
+      freeit = 0;
+    }
 
   if ((lpd->dir = opendir (tempstr)) == NULL)
     {
       request->logging_function (gftp_logging_error, request->user_data,
                            _("Could not get local directory listing %s: %s\n"),
                            tempstr, g_strerror (errno));
-      g_free (tempstr);
+      if (freeit)
+        g_free (tempstr);
       return (GFTP_ERETRYABLE);
     }
 
-  g_free (tempstr);
+  if (freeit)
+    g_free (tempstr);
+
   return (0);
 }
 
@@ -453,7 +431,7 @@ local_get_file_size (gftp_request * request, const char *filename)
 {
   struct stat st;
 
-  if (stat (filename, &st) < 0)
+  if (stat (filename, &st) == -1)
     return (GFTP_ERETRYABLE);
   return (st.st_size);
 }
@@ -473,7 +451,7 @@ local_chdir (gftp_request * request, const char *directory)
       request->logging_function (gftp_logging_misc, request->user_data,
                           _("Successfully changed local directory to %s\n"),
                           directory);
-      if (request->directory != directory)
+      if (request->directory != directory) /* FIXME - take this out ? */
         {
           if (getcwd (tempstr, sizeof (tempstr)) == NULL)
 	    {
@@ -482,17 +460,20 @@ local_chdir (gftp_request * request, const char *directory)
                             g_strerror (errno));
 	      return (GFTP_ERETRYABLE);
 	    }
+
           if (request->directory)
 	    g_free (request->directory);
-          request->directory = g_malloc (strlen (tempstr) + 1);
-          strcpy (request->directory, tempstr);
+          request->directory = g_strdup (tempstr);
         }
       return (0);
     }
-  request->logging_function (gftp_logging_error, request->user_data,
-                             _("Could not change local directory to %s: %s\n"),
-                             directory, g_strerror (errno));
-  return (GFTP_ERETRYABLE);
+  else
+    {
+      request->logging_function (gftp_logging_error, request->user_data,
+                              _("Could not change local directory to %s: %s\n"),
+                              directory, g_strerror (errno));
+      return (GFTP_ERETRYABLE);
+    }
 }
 
 
