@@ -339,19 +339,16 @@ gftp_abort_transfer (gftp_request * request)
 }
 
 
-mode_t /* FIXME - this is unsigned, can return negative */
-gftp_stat_filename (gftp_request * request, const char *filename)
+int
+gftp_stat_filename (gftp_request * request, const char *filename, mode_t * mode)
 {
-  mode_t ret;
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   if (request->stat_filename != NULL)
-    ret = request->stat_filename (request, filename);
+    return (request->stat_filename (request, filename, mode));
   else
-    ret = 0;
-
-  return (ret);
+    return (0);
 }
 
 
@@ -1964,9 +1961,10 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
 
       if (S_ISLNK (curfle->st_mode) && !S_ISDIR (curfle->st_mode))
         {
-          st_mode = gftp_stat_filename (transfer->fromreq, curfle->file);
-          if (st_mode < 0)
-            return (st_mode);
+          st_mode = 0;
+          ret = gftp_stat_filename (transfer->fromreq, curfle->file, &st_mode);
+          if (ret < 0)
+            return (ret);
           else if (S_ISDIR (st_mode))
             curfle->st_mode = st_mode;
         }

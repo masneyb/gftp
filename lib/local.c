@@ -224,15 +224,17 @@ local_end_transfer (gftp_request * request)
 }
 
 
-static mode_t
-local_stat_filename (gftp_request * request, const char *filename)
+static int
+local_stat_filename (gftp_request * request, const char *filename,
+                     mode_t * mode)
 {
   struct stat st;
 
   if (stat (filename, &st) != 0)
     return (GFTP_ERETRYABLE);
 
-  return (st.st_mode);
+  *mode = st.st_mode;
+  return (0);
 }
 
 

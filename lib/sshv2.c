@@ -1689,8 +1689,9 @@ sshv2_send_stat_command (gftp_request * request, const char *filename,
 }
 
 
-static mode_t
-sshv2_stat_filename (gftp_request * request, const char *filename)
+static int
+sshv2_stat_filename (gftp_request * request, const char *filename,
+                     mode_t * mode)
 {
   gftp_file fle;
   mode_t ret;
@@ -1700,10 +1701,10 @@ sshv2_stat_filename (gftp_request * request, const char *filename)
   if (ret < 0)
     return (ret);
 
-  ret = fle.st_mode;
+  *mode = fle.st_mode;
   gftp_file_destroy (&fle);
 
-  return (ret);
+  return (0);
 }
 
 

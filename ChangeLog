@@ -1,4 +1,10 @@
 2004-7-27 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/local.c lib/protocols.c lib/sshv2.c - changed
+	declaration of gftp_stat_filename() so that the mode of the filename
+	is returned as a parameter instead of the function return value.
+	The mode_t type is unsigned and the error codes could not be reported
+	properly
+
 	* lib/sshv2.c - fixed SSHV2 transfers so that they work again
 	(they were busted in the last CVS commit due to the wrong file
 	offset being sent over)
