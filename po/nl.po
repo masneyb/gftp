@@ -2,55 +2,55 @@
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # First Translator: Hein-Jan Leliveld <h.j.leliveld@student.tn.tudelft.nl>, 1999.
 # Second Translator: Myckel Habets <myckelhabets@netscape.net>, 2002.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp-2.0.14\n"
-"POT-Creation-Date: 2003-02-18 03:57+0100\n"
-"PO-Revision-Date: 2002-12-08 13:16 CET\n"
-"Last-Translator: Myckel Habets <myckelhabets@netscape.net>\n"
-"Language-Team: NL-Soft <nl-soft@nl.linux.org>\n"
+"POT-Creation-Date: 2003-03-06 00:12+0100\n"
+"PO-Revision-Date: 2003-03-06 01:00--100\n"
+"Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
+"Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: lib/bookmark.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid URL %s\n"
-msgstr "URL %s ontvangen\n"
+msgstr "Ongeldig URL %s\n"
 
-#: lib/cache.c:38 lib/local.c:543
+#: lib/cache.c:48 lib/cache.c:62
+#, c-format
+msgid "Error: Invalid line %s in cache index file\n"
+msgstr "Fout: ongeldige regel %s in bufferindexbestand\n"
+
+#: lib/cache.c:100 lib/local.c:543
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
-msgstr "Fout: kan directory %s niet aanmaken: %s\n"
+msgstr "Fout: kan map %s niet aanmaken: %s\n"
 
-#: lib/cache.c:51 lib/cache.c:152 lib/cache.c:241 lib/local.c:126
+#: lib/cache.c:113 lib/cache.c:207 lib/cache.c:296 lib/local.c:126
 #: lib/local.c:178 lib/misc.c:248 lib/misc.c:255
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
-msgstr "Fout: Kan lokaal bestand %s: niet openen: %s\n"
+msgstr "Fout: kan lokaal bestand %s: niet openen: %s\n"
 
-#: lib/cache.c:66
+#: lib/cache.c:128
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
-msgstr "Fout: Kan tijdelijk bestand niet aanmaken: %s\n"
+msgstr "Fout: kan tijdelijk bestand niet aanmaken: %s\n"
 
-#: lib/cache.c:88 lib/cache.c:142 lib/local.c:98 lib/local.c:223
+#: lib/cache.c:150 lib/cache.c:197 lib/local.c:98 lib/local.c:223
 #: lib/misc.c:279 lib/misc.c:285 lib/rfc2068.c:244 lib/rfc2068.c:366
 #: lib/sshv2.c:711
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Fout bij het sluiten van bestandsbeschrijver %s\n"
 
-#: lib/cache.c:168 lib/local.c:137 lib/local.c:146 lib/local.c:198
+#: lib/cache.c:223 lib/local.c:137 lib/local.c:146 lib/local.c:198
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
-msgstr "Fout: Kan niet naar bestand %s zoeken: %s\n"
-
-#: lib/cache.c:259
-#, c-format
-msgid "Error: Invalid line %s in cache index file\n"
-msgstr "Fout: Ongeldige regel %s in bufferindexbestand\n"
+msgstr "Fout: kan niet naar bestand %s zoeken: %s\n"
 
 #: lib/config_file.c:33
 msgid "General"
@@ -58,43 +58,43 @@ msgstr "Algemeen"
 
 #: lib/config_file.c:35
 msgid "Email address:"
-msgstr "Email adres:"
+msgstr "E-mailadres:"
 
 #: lib/config_file.c:36
 msgid "Enter your email address here"
-msgstr "Vul hier uw email adres in"
+msgstr "Vul hier uw e-mailadres in"
 
 #: lib/config_file.c:37
 msgid "View program:"
-msgstr "Weergave programma:"
+msgstr "Weergaveprogramma:"
 
 #: lib/config_file.c:38
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
 msgstr ""
-"Het standaard programma om bestanden weer te geven. Als dit leeg gelaten "
-"wordt, zal het interne weergave programma gebruikt worden."
+"Het standaardprogramma om bestanden weer te geven. Als dit leeg gelaten "
+"wordt, zal het interne weergaveprogramma gebruikt worden."
 
 #: lib/config_file.c:39
 msgid "Edit program:"
-msgstr "Bewerk programma:"
+msgstr "Bewerkprogramma:"
 
 #: lib/config_file.c:40
 msgid "The default program used to edit files."
-msgstr "Het standaard programma om bestanden te bewerken."
+msgstr "Het standaardprogramma om bestanden te bewerken."
 
 #: lib/config_file.c:41
 msgid "Startup Directory:"
-msgstr "Opstart Directory:"
+msgstr "Opstartmap:"
 
 #: lib/config_file.c:42
 msgid "The default directory gFTP will go to on startup"
-msgstr "De directory die bij het opstarten van gFTP geladen wordt"
+msgstr "De map die bij het opstarten van gFTP geladen wordt"
 
 #: lib/config_file.c:43
 msgid "Max Log Window Size:"
-msgstr "Max Log Venster Grootte:"
+msgstr "Maximale grootte van het logvenster:"
 
 #: lib/config_file.c:44
 msgid "The maximum size of the log window in bytes for the GTK+ port"
@@ -127,19 +127,19 @@ msgstr ""
 
 #: lib/config_file.c:53
 msgid "Refresh after each file transfer"
-msgstr "Ververs na elke bestandsoverdracht"
+msgstr "Lijst herladen na elke bestandsoverdracht"
 
 #: lib/config_file.c:54
 msgid "Refresh the listbox after each file is transfered"
-msgstr "Ververs de lijst na elke bestandsoverdracht"
+msgstr "Lijst herladen na elke bestandsoverdracht"
 
 #: lib/config_file.c:55
 msgid "Sort directories first"
-msgstr "Sorteer directories eerst"
+msgstr "Mappen eerst"
 
 #: lib/config_file.c:56
 msgid "Put the directories first then the files"
-msgstr "Toon de directories bovenin de lijst, daarna de bestanden"
+msgstr "De mappen voor de bestanden"
 
 #: lib/config_file.c:57
 msgid "Start file transfers"
@@ -151,11 +151,11 @@ msgstr "Start bestandsoverdrachten meteen na het plaatsen in de wachtrij"
 
 #: lib/config_file.c:59
 msgid "Show hidden files"
-msgstr "Toon verborgen bestanden"
+msgstr "Verborgen bestanden tonen"
 
 #: lib/config_file.c:60
 msgid "Show hidden files in the listboxes"
-msgstr "Toon verborgen bestanden in de lijsten"
+msgstr "Verborgen bestanden tonen in de lijsten"
 
 #: lib/config_file.c:62 src/gtk/options_dialog.c:558
 #: src/gtk/options_dialog.c:651
@@ -193,7 +193,7 @@ msgstr "Aantal seconden wachten tussen herverbindingen"
 
 #: lib/config_file.c:70
 msgid "Max KB/S:"
-msgstr "Max KB/S:"
+msgstr "Max KB/s:"
 
 #: lib/config_file.c:71
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
@@ -203,11 +203,11 @@ msgstr ""
 
 #: lib/config_file.c:72 lib/config_file.c:73
 msgid "Default Protocol"
-msgstr "Standaard Protocol:"
+msgstr "Standaardprotocol:"
 
 #: lib/config_file.c:74
 msgid "This specifies the default protocol to use"
-msgstr "Dit geeft het standaard protocol aan om te gebruiken"
+msgstr "Dit geeft het standaardprotocol aan om te gebruiken"
 
 #: lib/config_file.c:76
 msgid "FTP"
@@ -263,7 +263,7 @@ msgstr "Zend PASV commando of PORT commando voor dataoverdrachten"
 
 #: lib/config_file.c:92
 msgid "Resolve Remote Symlinks (LIST -L)"
-msgstr "Externe Symlinks Opzoeken (LIST -L)"
+msgstr "Externe symlinks opzoeken (LIST -L)"
 
 #: lib/config_file.c:93
 msgid ""
@@ -340,7 +340,7 @@ msgstr "HTTP"
 
 #: lib/config_file.c:121
 msgid "Use HTTP/1.1"
-msgstr "Gebruik HTTP/1.1"
+msgstr "HTTP/1.1 gebruiken"
 
 #: lib/config_file.c:122
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
@@ -352,15 +352,15 @@ msgstr "SSH"
 
 #: lib/config_file.c:126
 msgid "SSH Prog Name:"
-msgstr "SSH Programma Naam:"
+msgstr "SSH programmanaam:"
 
 #: lib/config_file.c:127
 msgid "The path to the SSH executable"
-msgstr "Het path naar het SSH uitvoerbaar bestand"
+msgstr "Het pad naar het SSH uitvoerbaar bestand"
 
 #: lib/config_file.c:128
 msgid "SSH Extra Params:"
-msgstr "SSH Extra Parameters:"
+msgstr "SSH extra parameters:"
 
 #: lib/config_file.c:129
 msgid "Extra parameters to pass to the SSH program"
@@ -368,28 +368,28 @@ msgstr "Extra parameters om aan het SSH programma door te geven"
 
 #: lib/config_file.c:130
 msgid "SSH2 sftp-server path:"
-msgstr "SSH2 sftp-server path:"
+msgstr "SSH2 sftp-server pad:"
 
 #: lib/config_file.c:131
 msgid "Default remote SSH2 sftp-server path"
-msgstr "Standaard extern SSH2 sftp-server path"
+msgstr "Standaard extern SSH2 sftp-server pad"
 
 #: lib/config_file.c:133
 msgid "Need SSH User/Pass"
-msgstr "SSH Gebruiker/Paswoord Nodig"
+msgstr "SSH gebruiker/wachtwoord nodig"
 
 #: lib/config_file.c:134
 msgid "Require a username/password for SSH connections"
-msgstr "Gebruikersnaam/paswoord voor SSH verbindingen nodig"
+msgstr "Gebruikersnaam/wachtwoord voor SSH verbindingen nodig"
 
 #: lib/config_file.c:135
 msgid "Use ssh-askpass util"
-msgstr "Gebruik ssh-askpass hulp"
+msgstr "ssh-askpass hulp gebruiken"
 
 #: lib/config_file.c:136
 msgid "Use the ssh-askpass utility to grab the users password"
 msgstr ""
-"Gebruik het ssh-askpass hulpmiddel om het gebruikerspaswoord te verkrijgen"
+"Gebruik het ssh-askpass hulpmiddel om het gebruikerswachtwoord te verkrijgen"
 
 #: lib/config_file.c:137
 msgid "Use SSH2 SFTP subsys"
@@ -400,7 +400,7 @@ msgid ""
 "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 "know the remote path to the remote sftp-server"
 msgstr ""
-"Start ssh met de -s sftp optie. Dit is handig als u het externe path naar de "
+"Start ssh met de -s sftp optie. Dit is handig als u het externe pad naar de "
 "externe sftp-server niet weet"
 
 #: lib/config_file.c:141
@@ -514,17 +514,17 @@ msgstr "De kleur van de overige logberichten"
 #: lib/config_file.c:236 lib/config_file.c:762
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
-msgstr "gFTP Fout: Verkeerd configuratiebestand %s\n"
+msgstr "gFTP Fout: verkeerd configuratiebestand %s\n"
 
 #: lib/config_file.c:247
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
-msgstr "gFTP Fout: Kan directory %s niet aanmaken: %s\n"
+msgstr "gFTP Fout: kan map %s niet aanmaken: %s\n"
 
 #: lib/config_file.c:257
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
-msgstr "gFTP Fout: Kan configuratie bestand %s niet vinden\n"
+msgstr "gFTP Fout: kan configuratie bestand %s niet vinden\n"
 
 #: lib/config_file.c:259
 msgid "Did you do a make install?\n"
@@ -533,47 +533,47 @@ msgstr "Is make install wel uitgevoerd?\n"
 #: lib/config_file.c:268 lib/config_file.c:768
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
-msgstr "gFTP Fout: Kan configuratiebestand %s niet openen: %s\n"
+msgstr "gFTP Fout: kan configuratiebestand %s niet openen: %s\n"
 
 #: lib/config_file.c:426
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
-msgstr "gFTP Waarschuwing: Regel %d in configuratiebestand overgeslagen: %s\n"
+msgstr "gFTP Waarschuwing: regel %d in configuratiebestand overgeslagen: %s\n"
 
 #: lib/config_file.c:445
 #, c-format
 msgid "gFTP Error: Default protocol %s is not a valid protocol\n"
-msgstr ""
+msgstr "gFTP Fout: standaardprotocol %s is geen geldig protocol\n"
 
 #: lib/config_file.c:451
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
-msgstr "gFTP Fout: Verkeerd logbestand %s\n"
+msgstr "gFTP Fout: verkeerd logbestand %s\n"
 
 #: lib/config_file.c:457
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
-msgstr "gFTP Waarschuwing: Kan niet naar %s schrijven: %s\n"
+msgstr "gFTP Waarschuwing: kan niet naar %s schrijven: %s\n"
 
 #: lib/config_file.c:534 lib/config_file.c:884
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
-msgstr "gFTP Fout: Verkeerd bladwijzerbestand %s\n"
+msgstr "gFTP Fout: verkeerd bladwijzerbestand %s\n"
 
 #: lib/config_file.c:543
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
-msgstr "Waarschuwing: Kan bladwijzerbestand %s niet vinden\n"
+msgstr "Waarschuwing: kan bladwijzerbestand %s niet vinden\n"
 
 #: lib/config_file.c:554 lib/config_file.c:890
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
-msgstr "gFTP Fout: Kan bookmarkbestand %s niet openen: %s\n"
+msgstr "gFTP Fout: kan bladwijzerbestand %s niet openen: %s\n"
 
 #: lib/config_file.c:648
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
-msgstr "gFTP Waarschuwing: Regel %d in bookmarkbestand overgeslagen: %s\n"
+msgstr "gFTP Waarschuwing: regel %d in bladwijzerbestand overgeslagen: %s\n"
 
 #: lib/config_file.c:755
 msgid ""
@@ -592,9 +592,9 @@ msgid ""
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
-"Dit gedeelte specificeerd welke hosts op het lokale subnet zijn en niet door "
-"de proxy server (indien aanwezig) hoeven te gaan. Syntax: dont_use_proxy=."
-"domein of dont_use_proxy=netwerk nummer/netmask"
+"Dit gedeelte specificeert welke hosts op het lokale subnet zijn en niet door "
+"de proxy server (indien aanwezig) hoeven te gaan. Standaard: dont_use_proxy=."
+"domein of dont_use_proxy=netwerk nummer/netmasker"
 
 #: lib/config_file.c:757
 msgid ""
@@ -606,15 +606,15 @@ msgstr ""
 
 #: lib/config_file.c:758
 msgid "This section contains the data that is in the history"
-msgstr "Deze sectie bevat de geschiedenis-gegevens"
+msgstr "Dit gedeelte bevat de geschiedenisdata"
 
 #: lib/config_file.c:880
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
-"Bladwijzerbestand voor gFTP. Copyright (C) 1998-2002 Brian Masney "
-"<masneyb@gftp.org>. Waarschuwing: Al het toegevoegde commentaar ZAL "
+"Bladwijzerbestand voor gFTP. Copyright © 1998-2002 Brian Masney "
+"<masneyb@gftp.org>. Waarschuwing: al het toegevoegde commentaar ZAL "
 "overschreven worden."
 
 #: lib/config_file.c:996
@@ -625,27 +625,27 @@ msgstr "gFTP Waarschuwing: Regel %d heeft niet genoeg argumenten\n"
 #: lib/local.c:67 lib/local.c:473
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
-msgstr "Kan niet naar lokale directory %s gaan: %s\n"
+msgstr "Kan niet naar lokale map %s gaan: %s\n"
 
 #: lib/local.c:81 lib/local.c:459
 #, c-format
 msgid "Could not get current working directory: %s\n"
-msgstr "Kan niet naar huidige directory %s gaan\n"
+msgstr "Kan niet naar huidige map %s gaan\n"
 
 #: lib/local.c:189
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
-msgstr "Fout: Kan lokaal bestand %s niet beknotten: %s\n"
+msgstr "Fout: kan lokaal bestand %s niet beknotten: %s\n"
 
 #: lib/local.c:415
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
-msgstr "Kan geen lijst van lokale directory %s maken: %s\n"
+msgstr "Kan geen lijst van lokale map %s maken: %s\n"
 
 #: lib/local.c:452
 #, c-format
 msgid "Successfully changed local directory to %s\n"
-msgstr "Directory succesvol naar %s veranderd\n"
+msgstr "Map succesvol naar %s veranderd\n"
 
 #: lib/local.c:490 lib/local.c:513 src/gtk/transfer.c:1150
 #: src/gtk/view_dialog.c:291
@@ -656,17 +656,17 @@ msgstr "%s is verwijderd\n"
 #: lib/local.c:496
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
-msgstr "Fout: Kan externe directory %s niet verwijderen: %s\n"
+msgstr "Fout: kan externe map %s niet verwijderen: %s\n"
 
 #: lib/local.c:519 src/gtk/transfer.c:1154 src/gtk/view_dialog.c:295
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
-msgstr "Fout: Kan extern bestand %s niet verwijderen: %s\n"
+msgstr "Fout: kan extern bestand %s niet verwijderen: %s\n"
 
 #: lib/local.c:536
 #, c-format
 msgid "Successfully made directory %s\n"
-msgstr "Directory %s succesvol aangemaakt\n"
+msgstr "Map %s succesvol aangemaakt\n"
 
 #: lib/local.c:562
 #, c-format
@@ -676,7 +676,7 @@ msgstr "%s is succesvol hernoemd naar %s\n"
 #: lib/local.c:569
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
-msgstr "Fout: Kan %s niet naar %s hernoemen: %s\n"
+msgstr "Fout: kan %s niet naar %s hernoemen: %s\n"
 
 #: lib/local.c:592
 #, c-format
@@ -686,7 +686,7 @@ msgstr "Modus succesvol veranderd van %s naar %d\n"
 #: lib/local.c:599
 #, c-format
 msgid "Error: Could not change mode of %s to %d: %s\n"
-msgstr "Fout: Kan de modus niet veranderen van %s naar %d: %s\n"
+msgstr "Fout: kan de modus niet veranderen van %s naar %d: %s\n"
 
 #: lib/local.c:685
 msgid "local filesystem"
@@ -695,22 +695,21 @@ msgstr "lokaal bestandsysteem"
 #: lib/misc.c:265 lib/protocols.c:2217
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
-msgstr "Fout: Kan niet naar buis schrijven: %s\n"
+msgstr "Fout: kan niet naar buis schrijven: %s\n"
 
 #: lib/misc.c:273 lib/protocols.c:2147
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
-msgstr "Fout: Kan niet van buis lezen: %s\n"
+msgstr "Fout: kan niet van buis lezen: %s\n"
 
 #: lib/misc.c:361
-#, fuzzy
 msgid "usage: gftp [[protocol://][user:[pass]@]site[:port][/directory]]\n"
-msgstr "gebruik: gftp [[ftp://][gebr:wachtw@]ftp-site[:poort][/directory]]\n"
+msgstr "gebruik: gftp [[protocol://][naam:wachtw@]server[:poort][/map]]\n"
 
 #: lib/misc.c:390
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
-msgstr "gFTP Fout: Kan bestand %s niet in %s of %s vinden\n"
+msgstr "gFTP Fout: kan bestand %s niet in %s of %s vinden\n"
 
 #: lib/misc.c:804
 #, c-format
@@ -723,7 +722,7 @@ msgstr "WAARSCHUWING"
 
 #: lib/misc.c:921
 msgid "Error: An incorrect password was entered\n"
-msgstr "Fout: Een onjuist paswoord was ingevoerd\n"
+msgstr "Fout: er is een onjuist wachtwoord ingevoerd\n"
 
 #: lib/misc.c:924
 msgid ""
@@ -777,24 +776,22 @@ msgstr "Aangepast"
 #: lib/protocols.c:296
 #, c-format
 msgid "Loading directory listing %s from cache\n"
-msgstr "Directorylijst %s van buffer ophalen\n"
+msgstr "Bestandenlijst %s van buffer ophalen\n"
 
 #: lib/protocols.c:364
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
-msgstr "Fout: Kan niet naar buffer schrijven: %s\n"
+msgstr "Fout: kan niet naar buffer schrijven: %s\n"
 
 #: lib/protocols.c:393
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
-msgstr "Fout: Kan bladwijzer %s niet vinden\n"
+msgstr "Fout: kan bladwijzer %s niet vinden\n"
 
 #: lib/protocols.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
-msgstr ""
-"Bladwijzer Fout: Er missen ingangen in deze bladwijzer. Controleer of de "
-"hostnaam en de gebruikersnaam zijn ingevuld\n"
+msgstr "Bladwijzerfout: de bladwijzer %s bevat geen servernaam\n"
 
 #: lib/protocols.c:877 lib/protocols.c:900 lib/protocols.c:1777
 #: lib/protocols.c:1875
@@ -814,7 +811,7 @@ msgstr "Kan de hostnaam %s niet vinden: %s\n"
 msgid "unknown"
 msgstr "onbekend"
 
-#: lib/protocols.c:1800 lib/protocols.c:1842 lib/rfc959.c:485
+#: lib/protocols.c:1800 lib/protocols.c:1842 lib/rfc959.c:487
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Mislukt om buis te maken: %s\n"
@@ -849,7 +846,7 @@ msgstr "Kan buis opties niet verkrijgen: %s\n"
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Kan buis niet op niet-blokeren zetten: %s\n"
 
-#: lib/rfc2068.c:239 lib/rfc959.c:455 lib/sshv2.c:706
+#: lib/rfc2068.c:239 lib/rfc959.c:457 lib/sshv2.c:706
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Bezig met verbinding %s te verbreken\n"
@@ -875,56 +872,56 @@ msgstr "Gegevens zijn ontvangen\n"
 
 #: lib/rfc2068.c:423 lib/sshv2.c:791
 msgid "Retrieving directory listing...\n"
-msgstr "Directorylijst aan het ontvangen...\n"
+msgstr "Bestandenlijst aan het ontvangen...\n"
 
 #: lib/rfc959.c:225 lib/rfc959.c:234 lib/rfc959.c:245
 #, c-format
 msgid "Received invalid response to PWD command: '%s'\n"
 msgstr "Ontving ongeldig antwoord op PWD commando: '%s'\n"
 
-#: lib/rfc959.c:513 lib/rfc959.c:523
+#: lib/rfc959.c:515 lib/rfc959.c:525
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Kan geen IP adres in PASV antwoord vinden: '%s'\n"
 
-#: lib/rfc959.c:538
+#: lib/rfc959.c:540
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Kan geen gegevensverbinding maken: %s\n"
 
-#: lib/rfc959.c:550 lib/rfc959.c:571
+#: lib/rfc959.c:552 lib/rfc959.c:573
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Kan naam van buis niet verkrijgen: %s\n"
 
-#: lib/rfc959.c:561
+#: lib/rfc959.c:563
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Kan niet binden aan poort: %s\n"
 
-#: lib/rfc959.c:580
+#: lib/rfc959.c:582
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Kan niet luisteren aan poort %d: %s\n"
 
-#: lib/rfc959.c:627
+#: lib/rfc959.c:629
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Kan geen verbinding met server accepteren: %s\n"
 
-#: lib/rfc959.c:957
+#: lib/rfc959.c:959
 msgid "total"
 msgstr "totaal"
 
-#: lib/rfc959.c:959
+#: lib/rfc959.c:961
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
-msgstr "Waarschuwing: Kan lijst %s niet ontleden\n"
+msgstr "Waarschuwing: kan lijst %s niet ontleden\n"
 
 #: lib/sshv2.c:131
 #, c-format
 msgid "%d: Protocol Initialization\n"
-msgstr "%d: Protocol Initialisatie\n"
+msgstr "%d: Protocol initialisatie\n"
 
 #: lib/sshv2.c:137
 #, c-format
@@ -944,12 +941,12 @@ msgstr "%d: Sluiten\n"
 #: lib/sshv2.c:157
 #, c-format
 msgid "%d: Open Directory %s\n"
-msgstr "%d: Directory %s openen\n"
+msgstr "%d: Map %s openen\n"
 
 #: lib/sshv2.c:162
 #, c-format
 msgid "%d: Read Directory\n"
-msgstr "%d: Directory Lezen\n"
+msgstr "%d: Map lezen\n"
 
 #: lib/sshv2.c:166
 #, c-format
@@ -959,22 +956,22 @@ msgstr "%d: Kan bestand %s niet verwijderen\n"
 #: lib/sshv2.c:171
 #, c-format
 msgid "%d: Make directory %s\n"
-msgstr "%d: Maak Directory %s\n"
+msgstr "%d: Map maken %s\n"
 
 #: lib/sshv2.c:176
 #, c-format
 msgid "%d: Remove directory %s\n"
-msgstr "%d: Verwijder directory %s\n"
+msgstr "%d: Map verwijderen %s\n"
 
 #: lib/sshv2.c:181
 #, c-format
 msgid "%d: Realpath %s\n"
-msgstr "%d: Echtpath %s\n"
+msgstr "%d: Echtpad %s\n"
 
 #: lib/sshv2.c:186
 #, c-format
 msgid "%d: File attributes\n"
-msgstr "%d: Bestand attributen\n"
+msgstr "%d: Bestandsrechten\n"
 
 #: lib/sshv2.c:190
 #, c-format
@@ -1003,7 +1000,7 @@ msgstr "EOF"
 
 #: lib/sshv2.c:231
 msgid "No such file or directory"
-msgstr "Bestand of directory bestaat niet"
+msgstr "Bestand of map bestaat niet"
 
 #: lib/sshv2.c:234
 msgid "Permission denied"
@@ -1070,7 +1067,7 @@ msgstr "Kan master pty %s niet openen: %s\n"
 #: lib/sshv2.c:614
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
-msgstr "Fout: Kan ssh niet uitvoeren: %s\n"
+msgstr "Fout: kan ssh niet uitvoeren: %s\n"
 
 #: lib/sshv2.c:664
 #, c-format
@@ -1088,7 +1085,7 @@ msgstr "info"
 
 #: src/text/gftp-text.c:31
 msgid "Shows gFTP information"
-msgstr "Geef gFTP informatie"
+msgstr "gFTP informatie"
 
 #: src/text/gftp-text.c:32
 msgid "ascii"
@@ -1096,7 +1093,7 @@ msgstr "ascii"
 
 #: src/text/gftp-text.c:33
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
-msgstr "Zet de huidige bestandsoverdracht modus naar Ascii (alleen voor FTP)"
+msgstr "Zet de huidige bestandsoverdracht modus naar ascii (alleen voor FTP)"
 
 #: src/text/gftp-text.c:34
 msgid "binary"
@@ -1104,7 +1101,7 @@ msgstr "binair"
 
 #: src/text/gftp-text.c:35
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
-msgstr "Zet de huidige bestandsoverdracht modus naar Binair (alleen voor FTP)"
+msgstr "Zet de huidige bestandsoverdracht modus naar binair (alleen voor FTP)"
 
 #: src/text/gftp-text.c:36
 msgid "cd"
@@ -1112,7 +1109,7 @@ msgstr "cd"
 
 #: src/text/gftp-text.c:37 src/text/gftp-text.c:39
 msgid "Changes the remote working directory"
-msgstr "Verandert de externe werkdirectory"
+msgstr "Verandert de externe werkmap"
 
 #: src/text/gftp-text.c:38
 msgid "chdir"
@@ -1132,7 +1129,7 @@ msgstr "wissen"
 
 #: src/text/gftp-text.c:43
 msgid "Available options: cache"
-msgstr "Beschikbare opties: cache"
+msgstr "Beschikbare opties: buffer"
 
 #: src/text/gftp-text.c:44
 msgid "close"
@@ -1172,7 +1169,7 @@ msgstr "lcd"
 
 #: src/text/gftp-text.c:53 src/text/gftp-text.c:55
 msgid "Changes the local working directory"
-msgstr "Verandert de lokale werkdirectory"
+msgstr "Verandert de lokale werkmap"
 
 #: src/text/gftp-text.c:54
 msgid "lchdir"
@@ -1200,7 +1197,7 @@ msgstr "lls"
 
 #: src/text/gftp-text.c:61
 msgid "Shows the directory listing for the current local directory"
-msgstr "Geeft de directory-inhoud voor de huidige lokale werkdirectory"
+msgstr "Geeft de map-inhoud voor de huidige lokale werkmap"
 
 #: src/text/gftp-text.c:62
 msgid "lmkdir"
@@ -1208,7 +1205,7 @@ msgstr "lmkdir"
 
 #: src/text/gftp-text.c:63
 msgid "Creates a local directory"
-msgstr "Maakt een lokale directory"
+msgstr "Maakt een lokale map"
 
 #: src/text/gftp-text.c:64
 msgid "lpwd"
@@ -1216,7 +1213,7 @@ msgstr "lpwd"
 
 #: src/text/gftp-text.c:65
 msgid "Show current local directory"
-msgstr "Geeft de huidige lokale directory"
+msgstr "Geeft de huidige lokale map"
 
 #: src/text/gftp-text.c:66
 msgid "lrename"
@@ -1232,7 +1229,7 @@ msgstr "lrmdir"
 
 #: src/text/gftp-text.c:69
 msgid "Remove a local directory"
-msgstr "Verwijdert een lokale directory"
+msgstr "Verwijdert een lokale map"
 
 #: src/text/gftp-text.c:70
 msgid "ls"
@@ -1240,7 +1237,7 @@ msgstr "ls"
 
 #: src/text/gftp-text.c:71
 msgid "Shows the directory listing for the current remote directory"
-msgstr "Geeft de directory-inhoud voor de huidige externe directory"
+msgstr "Geeft de map-inhoud voor de huidige externe map"
 
 #: src/text/gftp-text.c:72
 msgid "mget"
@@ -1252,7 +1249,7 @@ msgstr "mkdir"
 
 #: src/text/gftp-text.c:75
 msgid "Creates a remote directory"
-msgstr "Maakt een externe directory:"
+msgstr "Maakt een externe map:"
 
 #: src/text/gftp-text.c:76
 msgid "mput"
@@ -1280,7 +1277,7 @@ msgstr "pwd"
 
 #: src/text/gftp-text.c:83
 msgid "Show current remote directory"
-msgstr "Geeft de huidige externe directory"
+msgstr "Geeft de huidige externe map"
 
 #: src/text/gftp-text.c:84
 msgid "quit"
@@ -1304,7 +1301,7 @@ msgstr "rmdir"
 
 #: src/text/gftp-text.c:89
 msgid "Remove a remote directory"
-msgstr "Verwijdert een externe directory"
+msgstr "Verwijdert een externe map"
 
 #: src/text/gftp-text.c:90
 msgid "set"
@@ -1314,8 +1311,8 @@ msgstr "set"
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
-"Geeft configuratiebestand variabelen. U kan ook variabelen instellen met set "
-"var=wrd"
+"Configuratiebestand variabelen weergeven. U kunt ook variabelen instellen "
+"met 'set var=wrd'"
 
 #: src/text/gftp-text.c:137
 msgid ""
@@ -1329,14 +1326,14 @@ msgstr ""
 "Het laatste nieuws over gFTP is te vinden op de website http://gftp.seul."
 "org/\n"
 
-#: src/text/gftp-text.c:139 src/gtk/gftp-gtk.c:1033
+#: src/text/gftp-text.c:139 src/gtk/gftp-gtk.c:1040
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
 "conditions; for details, see the COPYING file\n"
 msgstr ""
 "gFTP komt met GEEN ENKELE GARANTIE; voor meer informatie, bekijk het COPYING "
-"bestand. Dit is vrije software, en is vrij te kopieeren onder zekere "
+"bestand. Dit is vrije software, en is vrij te kopiëren onder zekere "
 "voorwaarden. Zie hiervoor het COPYING bestand\n"
 
 #: src/text/gftp-text.c:220
@@ -1345,7 +1342,7 @@ msgstr "Fout: Commando niet herkend\n"
 
 #: src/text/gftp-text.c:315
 msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
-msgstr "gebruik: open [[ftp://][gebr:wachtw@]ftp-site[:poort][/directory]]\n"
+msgstr "gebruik: open [[ftp://][gebr:wachtw@]ftp-site[:poort][/map]]\n"
 
 #: src/text/gftp-text.c:322 src/gtk/dnd.c:117 src/gtk/menu-items.c:114
 #, c-format
@@ -1365,15 +1362,15 @@ msgstr "Fout: Niet verbonden met een externe site\n"
 
 #: src/text/gftp-text.c:416 src/text/gftp-text.c:422
 msgid "usage: chdir <directory>\n"
-msgstr "gebruik: chdir <directory>\n"
+msgstr "gebruik: chdir <map>\n"
 
 #: src/text/gftp-text.c:448
 msgid "usage: mkdir <new directory>\n"
-msgstr "gebruik: mkdir <nieuwe directory>\n"
+msgstr "gebruik: mkdir <nieuwe map>\n"
 
 #: src/text/gftp-text.c:470
 msgid "usage: rmdir <directory>\n"
-msgstr "gebruik: rmdir <directory>\n"
+msgstr "gebruik: rmdir <map>\n"
 
 #: src/text/gftp-text.c:492
 msgid "usage: delete <file>\n"
@@ -1434,11 +1431,11 @@ msgstr "Fout: Variabele %s is niet beschikbaar in de tekst versie van gFTP\n"
 
 #: src/text/gftp-text.c:1101
 msgid "Error: You cannot change this variable\n"
-msgstr "Fout: U kan deze variabele niet veranderen\n"
+msgstr "Fout: u kunt deze variabele niet veranderen\n"
 
 #: src/text/gftp-text.c:1277
 msgid "Clear the directory cache\n"
-msgstr "Wis de directory buffer\n"
+msgstr "Wis de map buffer\n"
 
 #: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:840 src/gtk/menu-items.c:60
 #: src/gtk/menu-items.c:90 src/gtk/misc-gtk.c:480 src/gtk/misc-gtk.c:488
@@ -1456,37 +1453,37 @@ msgid ""
 "bug. Please email masneyb@gftp.org about it. Please be sure to include the "
 "version number and how you can reproduce it\n"
 msgstr ""
-"Interne gFTP Fout: Kan bladwijzeringang niet laden. Dit is een bug. Geef dit "
-"a.u.b. door aan masneyb@gftp.org. Vergeet niet het versie nummer en een "
-"korte beschrijving hoe de fout te reproduceren is mee te sturen\n"
+"Interne gFTP Fout: kan bladwijzer niet laden. Dit is een bug. Geef dit a.u."
+"b. door aan masneyb@gftp.org (in het engels). Vergeet niet het versienummer "
+"en een korte beschrijving hoe de fout te reproduceren is mee te sturen\n"
 
 #: src/gtk/bookmarks.c:54
 msgid ""
 "Bookmarks Error: There are some missing entries in this bookmark. Make sure "
 "you have a hostname and username\n"
 msgstr ""
-"Bladwijzer Fout: Er missen ingangen in deze bladwijzer. Controleer of de "
+"Bladwijzer fout: er missen ingangen in deze bladwijzer. Controleer of de "
 "hostnaam en de gebruikersnaam zijn ingevuld\n"
 
 #: src/gtk/bookmarks.c:110
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr ""
-"Bladwijzer Toevoegen: Er moet een naam voor de bladwijzer ingevuld worden\n"
+"Bladwijzer toevoegen: er moet een naam voor de bladwijzer ingevuld worden\n"
 
 #: src/gtk/bookmarks.c:117
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr ""
-"Bladwijzer Toevoegen: Kan bladwijzer %s niet aanmaken omdat de naam al "
+"Bladwijzer toevoegen: kan bladwijzer %s niet aanmaken omdat de naam al "
 "bestaat\n"
 
 #: src/gtk/bookmarks.c:180 src/gtk/bookmarks.c:191
 msgid "Add Bookmark"
-msgstr "Bladwijzer Toevoegen"
+msgstr "Bladwijzer toevoegen"
 
 #: src/gtk/bookmarks.c:187
 msgid "Add Bookmark: You must enter a hostname\n"
-msgstr "Bladwijzer Toevoegen: Er moet een hostnaam ingevuld worden\n"
+msgstr "Bladwijzer toevoegen: er moet een hostnaam ingevuld worden\n"
 
 #: src/gtk/bookmarks.c:191
 msgid ""
@@ -1500,11 +1497,11 @@ msgstr ""
 
 #: src/gtk/bookmarks.c:191
 msgid "Remember password"
-msgstr "Wachtwoord Onthouden"
+msgstr "Wachtwoord onthouden"
 
 #: src/gtk/bookmarks.c:572 src/gtk/bookmarks.c:582
 msgid "New Folder"
-msgstr "Nieuwe Map"
+msgstr "Nieuwe map"
 
 #: src/gtk/bookmarks.c:573
 msgid "Enter the name of the new folder to create"
@@ -1525,7 +1522,7 @@ msgstr ""
 
 #: src/gtk/bookmarks.c:668
 msgid "Delete Bookmark"
-msgstr "Verwijder Bladwijzer"
+msgstr "Bladwijzer verwijderen"
 
 #: src/gtk/bookmarks.c:695
 msgid "Bookmarks"
@@ -1533,14 +1530,14 @@ msgstr "Bladwijzers"
 
 #: src/gtk/bookmarks.c:954 src/gtk/bookmarks.c:957
 msgid "Edit Entry"
-msgstr "Bewerk Ingang"
+msgstr "Ingang bewerken"
 
 #: src/gtk/bookmarks.c:975 src/gtk/bookmarks.c:1356 src/gtk/chmod_dialog.c:183
-#: src/gtk/gftp-gtk.c:1018 src/gtk/menu-items.c:779 src/gtk/misc-gtk.c:947
+#: src/gtk/gftp-gtk.c:1025 src/gtk/menu-items.c:779 src/gtk/misc-gtk.c:947
 #: src/gtk/misc-gtk.c:1071 src/gtk/options_dialog.c:752
 #: src/gtk/view_dialog.c:320
 msgid "gFTP Icon"
-msgstr "gFTP Icon"
+msgstr "gFTP pictogram"
 
 #: src/gtk/bookmarks.c:990
 msgid "Description:"
@@ -1560,15 +1557,15 @@ msgstr "Protocol:"
 
 #: src/gtk/bookmarks.c:1059
 msgid "Remote Directory:"
-msgstr "Externe Directory:"
+msgstr "Externe map:"
 
 #: src/gtk/bookmarks.c:1072
 msgid "Local Directory:"
-msgstr "Lokale Directory:"
+msgstr "Lokale map:"
 
 #: src/gtk/bookmarks.c:1085
 msgid "Remote SSH sftp path:"
-msgstr "Externe SSH sftp path:"
+msgstr "Externe SSH sftp pad:"
 
 #: src/gtk/bookmarks.c:1102
 msgid "Username:"
@@ -1576,7 +1573,7 @@ msgstr "Gebruikersnaam:"
 
 #: src/gtk/bookmarks.c:1115
 msgid "Password:"
-msgstr "Paswoord:"
+msgstr "Wachtwoord:"
 
 #: src/gtk/bookmarks.c:1129
 msgid "Account:"
@@ -1584,13 +1581,13 @@ msgstr "Account:"
 
 #: src/gtk/bookmarks.c:1143
 msgid "Log in as ANONYMOUS"
-msgstr "Log in als ANONYMOUS"
+msgstr "Aanmelden als ANONYMOUS"
 
 #: src/gtk/bookmarks.c:1169 src/gtk/bookmarks.c:1405
 #: src/gtk/chmod_dialog.c:289 src/gtk/options_dialog.c:627
 #: src/gtk/options_dialog.c:973 src/gtk/transfer.c:2280
 msgid "  Cancel  "
-msgstr "  Annuleer  "
+msgstr "  Annuleren  "
 
 #: src/gtk/bookmarks.c:1179 src/gtk/options_dialog.c:984
 msgid "Apply"
@@ -1606,11 +1603,11 @@ msgstr "/Bestand/tearoff"
 
 #: src/gtk/bookmarks.c:1322
 msgid "/File/New Folder..."
-msgstr "/Bestand/Nieuwe Map..."
+msgstr "/Bestand/Nieuwe map..."
 
 #: src/gtk/bookmarks.c:1323
 msgid "/File/New Item..."
-msgstr "/Bestand/Nieuw Veld..."
+msgstr "/Bestand/Nieuw veld..."
 
 #: src/gtk/bookmarks.c:1324
 msgid "/File/Delete"
@@ -1630,13 +1627,13 @@ msgstr "/Bestand/Sluiten"
 
 #: src/gtk/bookmarks.c:1338 src/gtk/bookmarks.c:1341
 msgid "Edit Bookmarks"
-msgstr "Bladwijzers Bewerken"
+msgstr "Bladwijzers bewerken"
 
 #: src/gtk/chmod_dialog.c:70 src/gtk/delete_dialog.c:97
 #: src/gtk/menu-items.c:450 src/gtk/mkdir_dialog.c:55
 #: src/gtk/rename_dialog.c:56 src/gtk/transfer.c:535
 msgid "Operation canceled\n"
-msgstr "Operatie geannuleerd\n"
+msgstr "Actie afgebroken\n"
 
 #: src/gtk/chmod_dialog.c:155 src/gtk/chmod_dialog.c:161
 #: src/gtk/chmod_dialog.c:166
@@ -1697,21 +1694,20 @@ msgstr "Ander"
 #: src/gtk/delete_dialog.c:164
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
-msgstr ""
-"Weet u zeker dat u deze %ld bestanden en %ld directories wilt verwijderen?"
+msgstr "Weet u zeker dat u deze %ld bestanden en %ld mappen wilt verwijderen?"
 
 #: src/gtk/delete_dialog.c:166
 msgid "Delete Files/Directories"
-msgstr "Verwijder Bestanden/Directories"
+msgstr "Bestanden/mappen verwijderen"
 
 #: src/gtk/delete_dialog.c:184 src/gtk/options_dialog.c:692
 msgid "Delete"
-msgstr "Verwijder"
+msgstr "Verwijderen"
 
 #: src/gtk/dnd.c:56
 #, c-format
 msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
-msgstr "Klik en Sleep: URL %s overgeslagen: Geen geldig URL\n"
+msgstr "Klik en Sleep: URL %s overgeslagen: geen geldig URL\n"
 
 #: src/gtk/dnd.c:139 src/gtk/dnd.c:231
 msgid "Drag-N-Drop"
@@ -1736,7 +1732,7 @@ msgstr ""
 
 #: src/gtk/gftp-gtk.c:138
 msgid "/_FTP"
-msgstr "FTP"
+msgstr "/_FTP"
 
 #: src/gtk/gftp-gtk.c:139
 msgid "/FTP/tearoff"
@@ -1772,7 +1768,7 @@ msgstr "/FTP/Afsluiten"
 
 #: src/gtk/gftp-gtk.c:150
 msgid "/_Local"
-msgstr "Lokaal"
+msgstr "/_Lokaal"
 
 #: src/gtk/gftp-gtk.c:151
 msgid "/Local/tearoff"
@@ -1792,7 +1788,7 @@ msgstr "/Lokaal/sep"
 
 #: src/gtk/gftp-gtk.c:155
 msgid "/Local/Change Filespec..."
-msgstr "/Lokaal/Verander Bestandsspec..."
+msgstr "/Lokaal/Bestandsspec veranderen..."
 
 #: src/gtk/gftp-gtk.c:156
 msgid "/Local/Show selected"
@@ -1800,43 +1796,43 @@ msgstr "/Lokaal/Geselecteerde weergeven"
 
 #: src/gtk/gftp-gtk.c:157
 msgid "/Local/Select All"
-msgstr "/Lokaal/Selecteer Alles"
+msgstr "/Lokaal/Alles selecteren"
 
 #: src/gtk/gftp-gtk.c:158
 msgid "/Local/Select All Files"
-msgstr "/Lokaal/Selecteer Alle Bestanden"
+msgstr "/Lokaal/Alle bestanden selecteren"
 
 #: src/gtk/gftp-gtk.c:159
 msgid "/Local/Deselect All"
-msgstr "/Lokaal/Deselecteer Alles"
+msgstr "/Lokaal/Alles deselecteren"
 
 #: src/gtk/gftp-gtk.c:161
 msgid "/Local/Save Directory Listing..."
-msgstr "/Lokaal/Directory Lijst Opslaan..."
+msgstr "/Lokaal/Bestandenlijst opslaan..."
 
 #: src/gtk/gftp-gtk.c:162
 msgid "/Local/Send SITE Command..."
-msgstr "/Lokaal/Zend SITE Commando..."
+msgstr "/Lokaal/SITE-opdracht verzenden..."
 
 #: src/gtk/gftp-gtk.c:163
 msgid "/Local/Change Directory"
-msgstr "/Lokaal/Verander Directory"
+msgstr "/Lokaal/Map veranderen"
 
 #: src/gtk/gftp-gtk.c:164
 msgid "/Local/Chmod..."
-msgstr "/Lokaal/Chmod"
+msgstr "/Lokaal/Chmod..."
 
 #: src/gtk/gftp-gtk.c:165
 msgid "/Local/Make Directory..."
-msgstr "/Lokaal/Maak Directory..."
+msgstr "/Lokaal/Map maken..."
 
 #: src/gtk/gftp-gtk.c:166
 msgid "/Local/Rename..."
-msgstr "/Lokaal/Hernoem..."
+msgstr "/Lokaal/Hernoemen..."
 
 #: src/gtk/gftp-gtk.c:167
 msgid "/Local/Delete..."
-msgstr "/Lokaal/Verwijder..."
+msgstr "/Lokaal/Verwijderen..."
 
 #: src/gtk/gftp-gtk.c:168
 msgid "/Local/Edit..."
@@ -1848,11 +1844,11 @@ msgstr "/Lokaal/Weergave..."
 
 #: src/gtk/gftp-gtk.c:170
 msgid "/Local/Refresh"
-msgstr "/Lokaal/Verversen"
+msgstr "/Lokaal/Herladen"
 
 #: src/gtk/gftp-gtk.c:171
 msgid "/_Remote"
-msgstr "/Extern"
+msgstr "/E_xtern"
 
 #: src/gtk/gftp-gtk.c:172
 msgid "/Remote/tearoff"
@@ -1860,11 +1856,11 @@ msgstr "/Extern/tearoff"
 
 #: src/gtk/gftp-gtk.c:173
 msgid "/Remote/Open _URL..."
-msgstr "/Extern/Open URL..."
+msgstr "/Extern/_URL openen..."
 
 #: src/gtk/gftp-gtk.c:175
 msgid "/Remote/Disconnect"
-msgstr "/Extern/Verbinding Verbreken"
+msgstr "/Extern/Verbinding verbreken"
 
 #: src/gtk/gftp-gtk.c:177 src/gtk/gftp-gtk.c:183
 msgid "/Remote/sep"
@@ -1872,7 +1868,7 @@ msgstr "/Extern/sep"
 
 #: src/gtk/gftp-gtk.c:178
 msgid "/Remote/Change Filespec..."
-msgstr "/Extern/Verander Bestandsspec..."
+msgstr "/Extern/Bestandsspec veranderen..."
 
 #: src/gtk/gftp-gtk.c:179
 msgid "/Remote/Show selected"
@@ -1880,27 +1876,27 @@ msgstr "/Extern/Geselecteerde weergeven"
 
 #: src/gtk/gftp-gtk.c:180
 msgid "/Remote/Select All"
-msgstr "/Extern/Selecteer Alles"
+msgstr "/Extern/Alles selecteren"
 
 #: src/gtk/gftp-gtk.c:181
 msgid "/Remote/Select All Files"
-msgstr "/Extern/Selecteer Alle Bestanden"
+msgstr "/Extern/Alle bestanden selecteren"
 
 #: src/gtk/gftp-gtk.c:182
 msgid "/Remote/Deselect All"
-msgstr "/Extern/Deselecteer Alles"
+msgstr "/Extern/Alles deselecteren"
 
 #: src/gtk/gftp-gtk.c:184
 msgid "/Remote/Save Directory Listing..."
-msgstr "/Extern/Directory Lijst Opslaan..."
+msgstr "/Extern/Bestandenlijst opslaan..."
 
 #: src/gtk/gftp-gtk.c:185
 msgid "/Remote/Send SITE Command..."
-msgstr "/Extern/Zend SITE Commando..."
+msgstr "/Extern/SITE-opdracht verzenden..."
 
 #: src/gtk/gftp-gtk.c:186
 msgid "/Remote/Change Directory"
-msgstr "/Extern/Verander Directory"
+msgstr "/Extern/Map veranderen"
 
 #: src/gtk/gftp-gtk.c:187
 msgid "/Remote/Chmod..."
@@ -1908,15 +1904,15 @@ msgstr "/Extern/Chmod..."
 
 #: src/gtk/gftp-gtk.c:188
 msgid "/Remote/Make Directory..."
-msgstr "/Extern/Maak Directory..."
+msgstr "/Extern/Map maken..."
 
 #: src/gtk/gftp-gtk.c:189
 msgid "/Remote/Rename..."
-msgstr "/Extern/Hernoem..."
+msgstr "/Extern/Hernoemen..."
 
 #: src/gtk/gftp-gtk.c:190
 msgid "/Remote/Delete..."
-msgstr "/Extern/Verwijder..."
+msgstr "/Extern/Verwijderen..."
 
 #: src/gtk/gftp-gtk.c:191
 msgid "/Remote/Edit..."
@@ -1928,11 +1924,11 @@ msgstr "/Extern/Weergave..."
 
 #: src/gtk/gftp-gtk.c:193
 msgid "/Remote/Refresh"
-msgstr "/Extern/Ververs"
+msgstr "/Extern/Herladen"
 
 #: src/gtk/gftp-gtk.c:194
 msgid "/_Bookmarks"
-msgstr "/Bladwijzers"
+msgstr "/_Bladwijzers"
 
 #: src/gtk/gftp-gtk.c:195
 msgid "/Bookmarks/tearoff"
@@ -1940,11 +1936,11 @@ msgstr "/Bladwijzers/tearoff"
 
 #: src/gtk/gftp-gtk.c:196
 msgid "/Bookmarks/Add bookmark"
-msgstr "/Bladwijzers/Bladwijzers Toevoegen"
+msgstr "/Bladwijzers/Bladwijzers toevoegen"
 
 #: src/gtk/gftp-gtk.c:198
 msgid "/Bookmarks/Edit bookmarks"
-msgstr "/Bladwijzers/Bladwijzers Bewerken"
+msgstr "/Bladwijzers/Bladwijzers bewerken"
 
 #: src/gtk/gftp-gtk.c:199
 msgid "/Bookmarks/sep"
@@ -1952,7 +1948,7 @@ msgstr "/Bladwijzers/sep"
 
 #: src/gtk/gftp-gtk.c:200
 msgid "/_Transfers"
-msgstr "/Overdracht"
+msgstr "/_Overdracht"
 
 #: src/gtk/gftp-gtk.c:201
 msgid "/Transfers/tearoff"
@@ -1960,11 +1956,11 @@ msgstr "/Overdracht/tearoff"
 
 #: src/gtk/gftp-gtk.c:202
 msgid "/Transfers/Start Transfer"
-msgstr "/Overdracht/Start Overdracht"
+msgstr "/Overdracht/Overdracht starten"
 
 #: src/gtk/gftp-gtk.c:203
 msgid "/Transfers/Stop Transfer"
-msgstr "/Overdracht/Stop Overdracht"
+msgstr "/Overdracht/Overdracht stoppen"
 
 #: src/gtk/gftp-gtk.c:205 src/gtk/gftp-gtk.c:213
 msgid "/Transfers/sep"
@@ -1972,75 +1968,75 @@ msgstr "/Overdracht/sep"
 
 #: src/gtk/gftp-gtk.c:206
 msgid "/Transfers/Skip Current File"
-msgstr "/Overdracht/Huidig Bestand Overslaan"
+msgstr "/Overdracht/Huidige bestand overslaan"
 
 #: src/gtk/gftp-gtk.c:207
 msgid "/Transfers/Remove File"
-msgstr "/Overdracht/Bestanden Verwijderen"
+msgstr "/Overdracht/Bestand verwijderen"
 
 #: src/gtk/gftp-gtk.c:209
 msgid "/Transfers/Move File _Up"
-msgstr "/Overdracht/Verplaats Bestand Omhoog"
+msgstr "/Overdracht/Bestand omh_oog verplaatsen"
 
 #: src/gtk/gftp-gtk.c:211
 msgid "/Transfers/Move File _Down"
-msgstr "/Overdracht/Verplaats Bestand Omlaag"
+msgstr "/Overdracht/Bestand oml_aag verplaatsen"
 
 #: src/gtk/gftp-gtk.c:214
 msgid "/Transfers/Retrieve Files"
-msgstr "/Overdracht/Bestanden Ontvangen"
+msgstr "/Overdracht/Bestanden ontvangen"
 
 #: src/gtk/gftp-gtk.c:215
 msgid "/Transfers/Put Files"
-msgstr "/Overdracht/Bestanden Verzenden "
+msgstr "/Overdracht/Bestanden verzenden "
 
 #: src/gtk/gftp-gtk.c:216
 msgid "/L_ogging"
-msgstr "/Loggen"
+msgstr "/Lo_gboek"
 
 #: src/gtk/gftp-gtk.c:217
 msgid "/Logging/tearoff"
-msgstr "/Loggen/tearoff"
+msgstr "/Logboek/tearoff"
 
 #: src/gtk/gftp-gtk.c:218
 msgid "/Logging/Clear"
-msgstr "/Loggen/Wissen"
+msgstr "/Logboek/Wissen"
 
 #: src/gtk/gftp-gtk.c:219
 msgid "/Logging/View log..."
-msgstr "/Loggen/Bekijk log..."
+msgstr "/Logboek/Logboek bekijken..."
 
 #: src/gtk/gftp-gtk.c:220
 msgid "/Logging/Save log..."
-msgstr "/Loggen/Log oplaan..."
+msgstr "/Logboek/Logboek oplaan..."
 
 #: src/gtk/gftp-gtk.c:221
 msgid "/Tool_s"
-msgstr "/Toepassingen"
+msgstr "/Gereed_schap"
 
 #: src/gtk/gftp-gtk.c:222
 msgid "/Tools/tearoff"
-msgstr "/Toepassingen/tearoff"
+msgstr "/Gereedschap/tearoff"
 
 #: src/gtk/gftp-gtk.c:223
 msgid "/Tools/Compare Windows"
-msgstr "/Toepassingen/Vergelijk Vensters"
+msgstr "/Gereedschap/Vensters vergelijken"
 
 #: src/gtk/gftp-gtk.c:224
 msgid "/Tools/Clear Cache"
-msgstr "/Toepassingen/Buffer Leegmaken"
+msgstr "/Gereedschap/Buffer leegmaken"
 
 #: src/gtk/gftp-gtk.c:225
 msgid "/_Help"
-msgstr "/Help"
+msgstr "/_Hulp"
 
 #: src/gtk/gftp-gtk.c:226
 msgid "/Help/tearoff"
-msgstr "/Help/tearoff"
+msgstr "/Hulp/tearoff"
 
 #: src/gtk/gftp-gtk.c:227
 msgid "/Help/About..."
-msgstr "/Help/Info..."
+msgstr "/Hulp/Info..."
 
 #: src/gtk/gftp-gtk.c:334
 msgid "Host: "
@@ -2056,7 +2052,7 @@ msgstr "Naam: "
 
 #: src/gtk/gftp-gtk.c:379
 msgid "Pass: "
-msgstr "Paswoord: "
+msgstr "Wachtwoord: "
 
 #: src/gtk/gftp-gtk.c:550 src/gtk/gftp-gtk.c:725 src/gtk/transfer.c:2112
 msgid "Filename"
@@ -2086,7 +2082,7 @@ msgstr "Verbinden"
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Fout: Er is geen host gegeven om verbinding mee te maken\n"
 
-#: src/gtk/gftp-gtk.c:1031
+#: src/gtk/gftp-gtk.c:1038
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
@@ -2102,7 +2098,7 @@ msgstr "OpenURL"
 
 #: src/gtk/menu-items.c:69 src/gtk/menu-items.c:99
 msgid "OpenURL: Operation canceled...you must enter a string\n"
-msgstr "OpenURL: Operatie geannuleerd...er moet een string ingevoerd worden\n"
+msgstr "OpenURL: actie afgebroken... U moet een tekenreeks invoeren\n"
 
 #: src/gtk/menu-items.c:123
 msgid "Connect via URL"
@@ -2115,11 +2111,11 @@ msgstr "Geef FTP URL om verbinding mee te maken"
 #: src/gtk/menu-items.c:156
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
-"Verander Bestandspec: Operatie geannuleers...u moet een string invoeren\n"
+"Bestandsspec veranderen: actie afgebroken...u moet een tekenreeks invoeren\n"
 
 #: src/gtk/menu-items.c:194 src/gtk/menu-items.c:197
 msgid "Change Filespec"
-msgstr "Verander Bestandsspec"
+msgstr "Bestandsspec veranderen"
 
 #: src/gtk/menu-items.c:197
 msgid "Enter the new file specification"
@@ -2129,15 +2125,15 @@ msgstr "Geef nieuwe bestandsspecificatie"
 #: src/gtk/view_dialog.c:62 src/gtk/view_dialog.c:125
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
-msgstr "Fout: Kan %s niet openen voor schrijven: %s\n"
+msgstr "Fout: kan %s niet openen voor schrijven: %s\n"
 
 #: src/gtk/menu-items.c:277
 msgid "Save Directory Listing"
-msgstr "Directorylijst Opslaan"
+msgstr "Bestandenlijst opslaan"
 
 #: src/gtk/menu-items.c:394
 msgid "SITE: Operation canceled...you must enter a string\n"
-msgstr "SITE: Operatie afgebroken...u moet een string invoeren\n"
+msgstr "SITE: actie afgebroken...u moet een string invoeren\n"
 
 #: src/gtk/menu-items.c:413 src/gtk/menu-items.c:416
 msgid "Site"
@@ -2163,7 +2159,7 @@ msgstr "Log bestand succesvol naar %s geschreven\n"
 
 #: src/gtk/menu-items.c:719
 msgid "Save Log"
-msgstr "Log Opslaan"
+msgstr "Log opslaan"
 
 #: src/gtk/menu-items.c:755
 #, c-format
@@ -2209,7 +2205,7 @@ msgstr "Vergelijk Vensters"
 
 #: src/gtk/misc-gtk.c:210
 msgid "Refresh"
-msgstr "Ververs"
+msgstr "Herladen"
 
 #: src/gtk/misc-gtk.c:299
 msgid "All Files"
@@ -2250,7 +2246,7 @@ msgstr "%s: Er moet minstens een onderdeel geselecteerd zijn\n"
 
 #: src/gtk/misc-gtk.c:917 src/gtk/misc-gtk.c:988
 msgid "Change"
-msgstr "Verander"
+msgstr "Veranderen"
 
 #: src/gtk/misc-gtk.c:923 src/gtk/misc-gtk.c:994 src/gtk/rename_dialog.c:95
 #: src/gtk/rename_dialog.c:107
@@ -2275,7 +2271,7 @@ msgstr "  Nee  "
 
 #: src/gtk/misc-gtk.c:1147
 msgid "Getting directory listings"
-msgstr "Directorylijst aan het ophalen"
+msgstr "Bestandenlijst aan het ophalen"
 
 #: src/gtk/misc-gtk.c:1167
 msgid "  Stop  "
@@ -2287,7 +2283,7 @@ msgid ""
 "Received %ld directories\n"
 "and %ld files"
 msgstr ""
-"%ld directories en\n"
+"%ld mappen en\n"
 "%ld bestanden ontvangen"
 
 #: src/gtk/mkdir_dialog.c:73
@@ -2300,11 +2296,11 @@ msgstr "Mkdir"
 
 #: src/gtk/mkdir_dialog.c:98
 msgid "Make Directory"
-msgstr "Maak Directory"
+msgstr "Map maken"
 
 #: src/gtk/mkdir_dialog.c:98
 msgid "Enter name of directory to create"
-msgstr "Geef de naam van de aan te maken directory"
+msgstr "Geef de naam van de aan te maken map"
 
 #: src/gtk/options_dialog.c:427
 msgid "Edit Host"
@@ -2324,7 +2320,7 @@ msgstr "Netwerk Adres"
 
 #: src/gtk/options_dialog.c:512 src/gtk/options_dialog.c:652
 msgid "Netmask"
-msgstr "Netmask"
+msgstr "Netmasker"
 
 #: src/gtk/options_dialog.c:658
 msgid "Local Hosts"
@@ -2362,11 +2358,11 @@ msgstr "Verbinding maken..."
 
 #: src/gtk/transfer.c:315 src/gtk/transfer.c:1417 src/gtk/transfer.c:1428
 msgid "Enter Password"
-msgstr "Geef Paswoord"
+msgstr "Geef wachtwoord"
 
 #: src/gtk/transfer.c:316 src/gtk/transfer.c:1418 src/gtk/transfer.c:1429
 msgid "Please enter your password for this site"
-msgstr "Geef uw paswoord voor deze site"
+msgstr "Geef uw wachtwoord voor deze site"
 
 #: src/gtk/transfer.c:406
 msgid "Transfer Files"
@@ -2380,18 +2376,18 @@ msgstr "Bestanden Ontvangen: Er is geen verbinding met een externe site\n"
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
-"Fout: Kan niet verbinden met %s. Max herverbindingen bereikt...opgegeven\n"
+"Fout: kan niet verbinden met %s. Max herverbindingen bereikt...opgegeven\n"
 
 #: src/gtk/transfer.c:640
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
-"Fout: Externe site %s verbrak de verbinding. Herverbinding in %d seconden\n"
+"Fout: externe site %s verbrak de verbinding. Herverbinding in %d seconden\n"
 
 #: src/gtk/transfer.c:874
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr ""
-"Fout: Externe site verbrak de verbinding na poging om bestandsoverdracht te "
+"Fout: externe site verbrak de verbinding na poging om bestandsoverdracht te "
 "starten\n"
 
 #: src/gtk/transfer.c:943
@@ -2416,7 +2412,7 @@ msgstr "Wachten..."
 #: src/gtk/transfer.c:1227
 #, c-format
 msgid "Error: Child %d returned %d\n"
-msgstr "Fout: Subproces %d geeft %d\n"
+msgstr "Fout: subproces %d geeft %d\n"
 
 #: src/gtk/transfer.c:1230
 #, c-format
@@ -2426,7 +2422,7 @@ msgstr "Subproces %d is succesvol\n"
 #: src/gtk/transfer.c:1237
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
-msgstr "Fout: Kan geen informatie over bestand %s vinden: %s\n"
+msgstr "Fout: kan geen informatie over bestand %s vinden: %s\n"
 
 #: src/gtk/transfer.c:1242
 #, c-format
@@ -2444,7 +2440,7 @@ msgstr ""
 
 #: src/gtk/transfer.c:1253
 msgid "Edit File"
-msgstr "Bewerk Bestand"
+msgstr "Bestand bewerken"
 
 #: src/gtk/transfer.c:1317
 msgid "Finished"
@@ -2458,17 +2454,17 @@ msgstr "Stop de overdracht van %s\n"
 #: src/gtk/transfer.c:1561
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
-msgstr "%d%% compleet, %02d:%02d:%02d benodigde tijd. (Bestand %ld van %ld)"
+msgstr "%d%% compleet, %02d:%02d:%02d resterende tijd. (Bestand %ld van %ld)"
 
 #: src/gtk/transfer.c:1586
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
-msgstr "Ontv %s van %s met %.2fKB/s %02d:%02d:%02d benodigde tijd"
+msgstr "Ontv %s van %s met %.2fKB/s %02d:%02d:%02d resterende tijd"
 
 #: src/gtk/transfer.c:1595
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
-msgstr "Ontv %s van %s, overdracht gestremd, onbekende tijd nodig"
+msgstr "Ontv %s van %s, overdracht gestremd, eindtijd onbekend"
 
 #: src/gtk/transfer.c:1621
 #, c-format
@@ -2504,11 +2500,11 @@ msgstr "Overslaan"
 
 #: src/gtk/transfer.c:2113
 msgid "Local Size"
-msgstr "Lokale Grootte"
+msgstr "Lokale grootte"
 
 #: src/gtk/transfer.c:2114
 msgid "Remote Size"
-msgstr "Externe Grootte"
+msgstr "Externe grootte"
 
 #: src/gtk/transfer.c:2115
 msgid "Action"
@@ -2516,11 +2512,11 @@ msgstr "Actie"
 
 #: src/gtk/transfer.c:2117
 msgid "Download Files"
-msgstr "Bestanden Downloaden"
+msgstr "Bestanden downloaden"
 
 #: src/gtk/transfer.c:2117
 msgid "Upload Files"
-msgstr "Bestanden Uploaden"
+msgstr "Bestanden uploaden"
 
 #: src/gtk/transfer.c:2143
 msgid ""
@@ -2532,15 +2528,15 @@ msgstr ""
 
 #: src/gtk/transfer.c:2245
 msgid "Skip File"
-msgstr "Bestand Overslaan"
+msgstr "Bestand overslaan"
 
 #: src/gtk/transfer.c:2255
 msgid "Select All"
-msgstr "Alles Selecteren"
+msgstr "Alles selecteren"
 
 #: src/gtk/transfer.c:2261
 msgid "Deselect All"
-msgstr "Alles Deselecteren"
+msgstr "Alles deselecteren"
 
 #: src/gtk/view_dialog.c:35
 msgid "View"
@@ -2549,21 +2545,21 @@ msgstr "Weergave"
 #: src/gtk/view_dialog.c:47
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
-msgstr "Weergave: %s is een directory. Kan niet weergeven.\n"
+msgstr "Weergave: %s is een map. Kan niet weergeven.\n"
 
 #: src/gtk/view_dialog.c:96
 msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "Bewerken: Er moet een editor in de opties aangegeven zijn\n"
+msgstr "Bewerken: er moet een editor in de opties aangegeven zijn\n"
 
 #: src/gtk/view_dialog.c:109
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
-msgstr "Bewerken: %s is een directory. Kan niet bewerken.\n"
+msgstr "Bewerken: %s is een map. Kan niet bewerken.\n"
 
 #: src/gtk/view_dialog.c:183
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
-msgstr "Weergave: Kan geen ander proces splitsen: %s\n"
+msgstr "Weergave: kan geen ander proces splitsen: %s\n"
 
 #: src/gtk/view_dialog.c:186
 #, c-format
@@ -2583,320 +2579,4 @@ msgstr "Weergave bestand %s\n"
 #: src/gtk/view_dialog.c:276
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
-msgstr "Weergave: Kan bestand %s niet openen: %s\n"
-
-#~ msgid "SSH sftpserv path:"
-#~ msgstr "SSH sftpserv path:"
-
-#~ msgid "Default remote SSH sftpserv path"
-#~ msgstr "Standaard extern SSH sftpserv path"
-
-#~ msgid "Enable old SSH protocol"
-#~ msgstr "Oud SSH protocol aan zetten"
-
-#~ msgid ""
-#~ "Enable the old SSH protocol. You will need to download the sftp server "
-#~ "from http:///www.xbill.org/sftp"
-#~ msgstr ""
-#~ "Zet het oude SSH protocol aan. U zal de sftp server van http://www.xbill."
-#~ "org/sftpmoeten downloaden"
-
-#~ msgid "Could not change remote directory to %s: %s\n"
-#~ msgstr "Kan niet naar externe map %s: %s\n"
-
-#~ msgid "Remote host could not find file %s\n"
-#~ msgstr "Externe host kan bestand %s niet vinden\n"
-
-#~ msgid "Received unexpected response from server\n"
-#~ msgstr "Ontving onverwacht antwoord van server\n"
-
-#~ msgid "Finished retrieving directory listing\n"
-#~ msgstr "Directorylijst ontvangen\n"
-
-#~ msgid ""
-#~ "(*) If this is set, and there is a ext= line below for the file "
-#~ "extension, it will download the file as specified below"
-#~ msgstr ""
-#~ "(*) Als dit is aangevinkt en er is een ext= lijn gegeven voor de "
-#~ "bestandsextensie, zal het bestand op onderstaande manier gedownload worden"
-
-#~ msgid "Cannot fdopen() socket for %s: %s\n"
-#~ msgstr "Kan buis naar %s niet fdopen(): %s\n"
-
-#~ msgid "Error reading from host %s: %s\n"
-#~ msgstr "Fout bij lezen van host %s: %s\n"
-
-#~ msgid "Error writing to host %s: %s\n"
-#~ msgstr "Fout bij schrijven naar host %s: %s\n"
-
-#~ msgid "Cannot fdopen() socket: %s\n"
-#~ msgstr "Kan buis niet fdopen(): %s\n"
-
-#~ msgid "Error: Received wrong init string from server\n"
-#~ msgstr "Fout: Ontving verkeerde initialisatieregel van server\n"
-
-#~ msgid "/Bookmarks/"
-#~ msgstr "/Bladwijzers/"
-
-#~ msgid "/Bookmarks/%s"
-#~ msgstr "/Bladwijzers/%s"
-
-#~ msgid "Create"
-#~ msgstr "Aanmaken"
-
-#~ msgid "Yes"
-#~ msgstr "Ja"
-
-#~ msgid "No"
-#~ msgstr "Nee"
-
-#~ msgid "Don't Exit"
-#~ msgstr "Niet Afsluiten"
-
-#~ msgid "Sort"
-#~ msgstr "Sorteer"
-
-#~ msgid "Sorting..."
-#~ msgstr "Aan het sorteren..."
-
-#~ msgid "Error: Cannot open %s: %s\n"
-#~ msgstr "Fout: Kan %s niet openen: %s\n"
-
-#~ msgid "Upload"
-#~ msgstr "Uploaden"
-
-#~ msgid "Log file:"
-#~ msgstr "Log bestand:"
-
-#~ msgid "If this is set, gftp will automagically write a log to this file"
-#~ msgstr ""
-#~ "Als deze ingesteld is, zal gftp automatisch dit bestand als logbestand "
-#~ "gebruiken"
-
-#~ msgid "Bring up reconnect dialog"
-#~ msgstr "Geef een herverbindingsvenster"
-
-#~ msgid "Bring up the reconnect dialog after login failure"
-#~ msgstr "Geef een herverbindingsvenster na een mislukte login"
-
-#~ msgid "Confirm delete"
-#~ msgstr "Verwijderen bevestigen"
-
-#~ msgid "Confirm when deleting files"
-#~ msgstr "Bevestig voordat bestanden verwijderd worden"
-
-#~ msgid "Preserve permissions"
-#~ msgstr "Rechten behouden"
-
-#~ msgid "Save geometry"
-#~ msgstr "Geometrie opslaan"
-
-#~ msgid "Save the size of each widget for next startup"
-#~ msgstr "Bewaar de grootte van elke widget"
-
-#~ msgid "Use cache"
-#~ msgstr "Gebruik buffer"
-
-#~ msgid "Do you want to use the cache?"
-#~ msgstr "Moet de buffer gebruikt worden"
-
-#~ msgid "Connect timeout:"
-#~ msgstr "Verbinding timeout:"
-
-#~ msgid "The max timeout for the connection"
-#~ msgstr "De maximale timeout voor de verbinding"
-
-#~ msgid "The timeout for the read()s and write()s"
-#~ msgstr "De timeout voor het lezen en schrijven"
-
-#~ msgid "FTP Proxy"
-#~ msgstr "FTP Proxy"
-
-#~ msgid "Error: Error writing to %s\n"
-#~ msgstr "Fout: Fout bij schrijven naar %s\n"
-
-#~ msgid "gFTP Error: Cannot make temp directory %s: %s\n"
-#~ msgstr "gFTP Fout: Kan tijdelijke directory %s niet aanmaken: %s\n"
-
-#~ msgid "gFTP Error: Cannot find temp directory %s: %s\n"
-#~ msgstr "gFTP Fout: Kan tijdelijke directory %s niet vinden: %s\n"
-
-#~ msgid "gFTP Error: Temp directory %s has insecure permissions\n"
-#~ msgstr "gFTP Fout: Tijdelijke directory %s heeft onveilige rechten\n"
-
-#~ msgid "There are no file transfers selected to start\n"
-#~ msgstr "Er zijn geen bestandsoverdrachten om te starten\n"
-
-#~ msgid "Looking up %s...\n"
-#~ msgstr "%s aan het opzoeken...\n"
-
-#~ msgid "Trying %s:%d...\n"
-#~ msgstr "Probeer %s:%d...\n"
-
-#~ msgid "Retrieve Files"
-#~ msgstr "Bestanden Ophalen"
-
-#~ msgid "Put Files"
-#~ msgstr "Bestanden Versturen"
-
-#~ msgid "Put Files: Not connected to a remote site\n"
-#~ msgstr "Bestanden Versturen: Er is geen verbinding met een externe site\n"
-
-#~ msgid "Transfer Files: Skipping the transfer of the .. directory\n"
-#~ msgstr "Bestanden Ophalen: Sla de overdracht van de .. directory over\n"
-
-#~ msgid "Please wait while getting directory listings"
-#~ msgstr "Even wachten a.u.b. terwijl de directorylijsten worden opgehaald"
-
-#~ msgid "Error: Could not connect to host %s. What would you like to do?"
-#~ msgstr "Fout: Kan geen verbinding met host %s maken. Wat moet er gebeuren?"
-
-#~ msgid "Reconnect"
-#~ msgstr "Herverbinden"
-
-#~ msgid "Retry Connection"
-#~ msgstr "Probeer Verbinden"
-
-#~ msgid "FXP Transfer in progress. Unknown time remaining\n"
-#~ msgstr "FXP Overdracht is bezig. Onbekende tijd nodig\n"
-
-#~ msgid "There are currently no file transfers in progress to stop\n"
-#~ msgstr ""
-#~ "Er zijn momenteel geen bestandsoverdrachten bezig die gestopt kunnen "
-#~ "worden\n"
-
-#~ msgid "Error writing %s: %s...Aborting entire transfer...\n"
-#~ msgstr "Fout bij schrijven van %s: %s... Gehele overdracht gestopt\n"
-
-#~ msgid "Successfully downloaded %s\n"
-#~ msgstr "%s is succesvol gedownload\n"
-
-#~ msgid "Change Filespec: Not connected to a remote site\n"
-#~ msgstr "Verander Bestandsspec: Niet verbonden met een externe site\n"
-
-#~ msgid "Retrieving file: %s...\n"
-#~ msgstr "Bestand aan het ontvangen: %s...\n"
-
-#~ msgid ""
-#~ "Internal gFTP Error: Could not find a selected file. This is probably a "
-#~ "bug. Please email masneyb@gftp.org about it\n"
-#~ msgstr ""
-#~ "Interne gFTP Fout: Kan een geselecteerd bestand niet vinden. Dit is "
-#~ "waarschijnlijk een bug. Mail dit a.u.b. naar masneyb@gftp.org\n"
-
-#~ msgid ""
-#~ "Drag-N-Drop: Ignoring file %s: Cannot drag a ftp site to a ftp site\n"
-#~ msgstr ""
-#~ "Klik en Sleep: Bestand %s overgeslagen: Ftp site naar Ftp site slepen is "
-#~ "niet mogelijk\n"
-
-#~ msgid ""
-#~ "Drag-N-Drop: Ignoring file %s: Cannot drag a local file to the local "
-#~ "window\n"
-#~ msgstr ""
-#~ "Klik en Sleep: Bestand %s overgeslagen: Lokaal bestand naar lokaal "
-#~ "venster slepen is niet mogelijk\n"
-
-#~ msgid "Cannot download file %s from %s\n"
-#~ msgstr "Kan het bestand %s niet van %s downloaden\n"
-
-#~ msgid "Cannot put file %s to %s\n"
-#~ msgstr "Kan bestand %s niet naar %s verzenden\n"
-
-#~ msgid "Cannot write %s to %s. Aborting entire transfer...\n"
-#~ msgstr "Kan %s niet naar %s schrijven. Gehele overdracht gestopt...\n"
-
-#~ msgid "Could not upload %s to %s\n"
-#~ msgstr "Kan %s niet naar %s uploaden\n"
-
-#~ msgid "Select all"
-#~ msgstr "Alles selecteren"
-
-#~ msgid "Deselect all"
-#~ msgstr "Alles deselecteren"
-
-#~ msgid "Local ["
-#~ msgstr "Lokaal ["
-
-#~ msgid "Could not get information about file %s: %s\n"
-#~ msgstr "Kan geen informatie over bestand %s vinden: %s\n"
-
-#~ msgid "/FTP/Login as anonymous"
-#~ msgstr "/FTP/Login als anonymous"
-
-#~ msgid "FTP Proxy Server"
-#~ msgstr "FTP Proxy Server"
-
-#~ msgid "HTTP Proxy Server"
-#~ msgstr "HTTP Proxy Server"
-
-#~ msgid ""
-#~ "This section has what will be shown in the local and remote history "
-#~ "boxes. Syntax: localhistory=entry and remotehistory=entry"
-#~ msgstr ""
-#~ "Deze sectie bevat wat in de lokale en de externe geschiedenis getoond "
-#~ "wordt. Syntax: localhistory=ingang en remotehistory=ingang"
-
-#~ msgid "/Local/Sort by..."
-#~ msgstr "/Lokaal/Sorteren op..."
-
-#~ msgid "/Local/Sort by.../Size"
-#~ msgstr "/Lokaal/Sorteren op.../Grootte"
-
-#~ msgid "/Local/Sort by.../User"
-#~ msgstr "/Lokaal/Sorteren op.../Gebruiker"
-
-#~ msgid "/Local/Sort by.../Date"
-#~ msgstr "/Lokaal/Sorteren op.../Datum"
-
-#~ msgid "/Local/Sort by.../sep"
-#~ msgstr "/Lokaal/Sorteren op.../sep"
-
-#~ msgid ""
-#~ "Connect Error: You must specify a proxy hostname in the options dialog\n"
-#~ msgstr ""
-#~ "Verbindingsfout: Er moet een proxy hostnaam in het opties menu ingevuld "
-#~ "worden\n"
-
-#~ msgid "Connect through FTP Proxy Server"
-#~ msgstr "Maak verbinding via een FTP Proxy Server"
-
-#~ msgid ""
-#~ "host=menu path:hostname:port:start dir:username:password:firewall:account "
-#~ "If you set the password to @EMAIL@, gFTP will automatically change that "
-#~ "to your email address. If you set the firewall argument to 1, gFTP will "
-#~ "try to connect to your FTP proxy if you have one. It is usually best to "
-#~ "leave this set at 1 because gFTP won't use it if you don't have a FTP "
-#~ "proxy"
-#~ msgstr ""
-#~ "host=menupath:hostnaam:poort:begindirectory:naam:paswoord:firewall:"
-#~ "account Als het paswoord @EMAIL@ is, zal gFTP dit automatisch in het "
-#~ "email adres veranderen. Als het firewall argument 1 is, zal gFTp proberen "
-#~ "met uw FTP proxy verbinding te maken, als u er een heeft. Het is meestal "
-#~ "aan te raden dit op 1 te laten staan, omdat gFTP dit niet gebruikt als u "
-#~ "geen FTP proxy heeft"
-
-#~ msgid "/FTP/Use proxy"
-#~ msgstr "/FTP/Gebruik proxy"
-
-#~ msgid "%s: You must be connected through the FTP protocol\n"
-#~ msgstr "%s: U moet verbinden zijn via het FTP protocol\n"
-
-#~ msgid "gFTP Error: Bad file name %s in config file on line %d\n"
-#~ msgstr ""
-#~ "gFTP Fout: Verkeerde bestandsnaam %s in configuratiebestand op regel %d\n"
-
-#~ msgid "gFTP Error: Error on line %d: %s doesn't exist in %s or %s\n"
-#~ msgstr "gFTP Fout: Fout op regel %d: %s bestaat niet in %s of %s\n"
-
-#~ msgid "Yes to All"
-#~ msgstr "Ja voor Alles"
-
-#~ msgid "No to All"
-#~ msgstr "Nee voor Alles"
-
-#~ msgid "Hostname"
-#~ msgstr "Hostnaam"
-
-#~ msgid "Waiting... (%d files)"
-#~ msgstr "Wachten... (%d bestanden)"
+msgstr "Weergave: kan bestand %s niet openen: %s\n"
