@@ -1020,7 +1020,15 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
   if (init (current_wdata->request) < 0)
     return;
  
-  gftp_set_hostname (current_wdata->request, gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry)));
+  txt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry));
+  if (strchr (txt, '/') != NULL) 
+    {
+      /* The user entered a URL in the host box... */
+      gftpui_common_cmd_open (current_wdata, current_wdata->request, NULL, NULL, txt);
+      return;
+    }
+
+  gftp_set_hostname (current_wdata->request, txt);
   if (current_wdata->request->hostname == NULL)
     return;
   alltrim (current_wdata->request->hostname);
