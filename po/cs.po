@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-01 03:38+0100\n"
-"PO-Revision-Date: 2004-03-01 15:20+0100\n"
+"POT-Creation-Date: 2004-03-03 03:33+0100\n"
+"PO-Revision-Date: 2004-03-03 13:30+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Chyba: Nemohu vytvořit dočasný soubor: %s\n"
 
 #: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:148 lib/config_file.c:154
-#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:265 lib/sshv2.c:1000
+#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:262 lib/sshv2.c:1000
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Chyba při zavírání deskriptoru souboru: %s\n"
@@ -52,12 +52,12 @@ msgstr "Chyba: Nemohu se posunout v souboru %s: %s\n"
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Chyba: Nemohu otevřít místní soubor %s: %s\n"
 
-#: lib/config_file.c:134 lib/protocols.c:2455 lib/sslcommon.c:467
+#: lib/config_file.c:134 lib/protocols.c:2455 lib/sslcommon.c:479
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Chyba: Nemohu zapisovat do socketu: %s\n"
 
-#: lib/config_file.c:142 lib/protocols.c:2383 lib/sslcommon.c:421
+#: lib/config_file.c:142 lib/protocols.c:2383 lib/sslcommon.c:433
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Chyba: Nemohu číst ze socketu: %s\n"
@@ -182,7 +182,7 @@ msgstr ""
 "souboru, BUDOU přepsány. Pokud má položka ve svém komentáři (*), nemůžete ji "
 "změnit v gFTP"
 
-#: lib/config_file.c:1196 lib/rfc2068.c:568 lib/rfc2068.c:569
+#: lib/config_file.c:1196 lib/rfc2068.c:560 lib/rfc2068.c:561
 msgid "<unknown>"
 msgstr "<neznámý>"
 
@@ -194,7 +194,7 @@ msgstr ""
 "Fatální chyba gFTP: Možnost konfigurace '%s' nenalezena v globální hašovací "
 "tabulce\n"
 
-#: lib/ftps.c:138
+#: lib/ftps.c:139
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
@@ -202,7 +202,7 @@ msgstr ""
 "Podpora FTPS není k dispozici, protože podpora SSL nebyla zakompilována. "
 "Přerušuji spojení.\n"
 
-#: lib/https.c:89
+#: lib/https.c:90
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
@@ -712,7 +712,7 @@ msgstr "Zkouším %s:%d\n"
 msgid "Cannot connect to %s: %s\n"
 msgstr "Nemohu se připojit k %s: %s\n"
 
-#: lib/protocols.c:2040 lib/rfc959.c:633
+#: lib/protocols.c:2040 lib/rfc959.c:626
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Nemohu vytvořit socket IPv4: %s\n"
@@ -724,7 +724,7 @@ msgstr ""
 "Nemohu vyhledat název služby %s/tcp. Zkontrolujte prosím svůj soubor "
 "services\n"
 
-#: lib/protocols.c:2126 lib/protocols.c:2759 lib/rfc959.c:642 lib/rfc959.c:792
+#: lib/protocols.c:2126 lib/protocols.c:2759 lib/rfc959.c:635 lib/rfc959.c:785
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Chyba: Nemohu nastavit příznak zavření při exec: %s\n"
@@ -821,7 +821,7 @@ msgstr "Používat HTTP/1.1"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Chcete používat HTTP/1.1 nebo HTTP/1.0"
 
-#: lib/rfc2068.c:154 lib/rfc2068.c:866
+#: lib/rfc2068.c:153 lib/rfc2068.c:856
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -830,31 +830,31 @@ msgstr ""
 "Přijal jsem špatnou odpověď od serveru, odpojuji se\n"
 "Vzdáleným serverem vrácena neplatná velikost úseku '%s'\n"
 
-#: lib/rfc2068.c:260 lib/rfc959.c:602 lib/sshv2.c:995
+#: lib/rfc2068.c:257 lib/rfc959.c:595 lib/sshv2.c:995
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Odpojuji se od %s\n"
 
-#: lib/rfc2068.c:310
+#: lib/rfc2068.c:306
 #, c-format
 msgid "Starting the file transfer at offset %lld\n"
 msgstr "Zahajuji přenos souboru s posunutím %lld\n"
 
-#: lib/rfc2068.c:318
+#: lib/rfc2068.c:314
 #, c-format
 msgid "Starting the file transfer at offset %ld\n"
 msgstr "Zahajuji přenos souboru s posunutím %ld\n"
 
-#: lib/rfc2068.c:340
+#: lib/rfc2068.c:336
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "Nemohu získat soubor %s\n"
 
-#: lib/rfc2068.c:442 lib/sshv2.c:1080
+#: lib/rfc2068.c:435 lib/sshv2.c:1080
 msgid "Retrieving directory listing...\n"
 msgstr "Získávám výpis adresáře...\n"
 
-#: lib/rfc2068.c:847 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
+#: lib/rfc2068.c:837 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
 #: lib/sshv2.c:819 lib/sshv2.c:951 lib/sshv2.c:1042 lib/sshv2.c:1110
 #: lib/sshv2.c:1223 lib/sshv2.c:1236 lib/sshv2.c:1249 lib/sshv2.c:1262
 #: lib/sshv2.c:1318 lib/sshv2.c:1383 lib/sshv2.c:1843 lib/sshv2.c:1946
@@ -985,67 +985,67 @@ msgstr ""
 "souborech jinak. Pokud přenášíte z UNIXu na UNIX, je bezpečné nechat toto "
 "vypnuté. Pokud stahujete binární data, budete toto chtít zakázat."
 
-#: lib/rfc959.c:317 lib/rfc959.c:326 lib/rfc959.c:337 lib/rfc959.c:540
-#: lib/rfc959.c:756 lib/rfc959.c:1351
+#: lib/rfc959.c:314 lib/rfc959.c:323 lib/rfc959.c:334 lib/rfc959.c:534
+#: lib/rfc959.c:749 lib/rfc959.c:1336
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Od serveru přijata neplatná odpověď '%c'.\n"
 
-#: lib/rfc959.c:671 lib/rfc959.c:681
+#: lib/rfc959.c:664 lib/rfc959.c:674
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Nemohu najít IP adresu v odpovědi na PASV '%s'\n"
 
-#: lib/rfc959.c:696 lib/rfc959.c:854
+#: lib/rfc959.c:689 lib/rfc959.c:847
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Nemohu vytvořit datové spojení: %s\n"
 
-#: lib/rfc959.c:708 lib/rfc959.c:729 lib/rfc959.c:879
+#: lib/rfc959.c:701 lib/rfc959.c:722 lib/rfc959.c:872
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Nemohu získat název socketu: %s\n"
 
-#: lib/rfc959.c:719 lib/rfc959.c:869
+#: lib/rfc959.c:712 lib/rfc959.c:862
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Nemohu získat port: %s\n"
 
-#: lib/rfc959.c:738 lib/rfc959.c:888
+#: lib/rfc959.c:731 lib/rfc959.c:881
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Nemohu poslouchat na portu %d: %s\n"
 
-#: lib/rfc959.c:783
+#: lib/rfc959.c:776
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "Nemohu vytvořit socket IPv6: %s\n"
 
-#: lib/rfc959.c:803
+#: lib/rfc959.c:796
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "Chyba: Nevypadá to, že jsme připojeni přes IPv6. Přerušuji spojení.\n"
 
-#: lib/rfc959.c:832 lib/rfc959.c:841
+#: lib/rfc959.c:825 lib/rfc959.c:834
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Neplatná odpověď EPSV '%s'\n"
 
-#: lib/rfc959.c:898
+#: lib/rfc959.c:891
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Nemohu získat adresu místního socketu: %s\n"
 
-#: lib/rfc959.c:971
+#: lib/rfc959.c:962
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Nemohu přijmout spojení od serveru: %s\n"
 
-#: lib/rfc959.c:1489
+#: lib/rfc959.c:1473
 msgid "total"
 msgstr "celkem"
 
-#: lib/rfc959.c:1491
+#: lib/rfc959.c:1475
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varování: Nemohu analyzovat výpis %s\n"
@@ -1295,7 +1295,11 @@ msgstr "Délka počátečního čísla entropie:"
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr "Maximální počet bajtů, se kterými inicializovat engine SSL"
 
-#: lib/sslcommon.c:99
+#: lib/sslcommon.c:41 lib/sslcommon.c:43
+msgid "Verify SSL Peer"
+msgstr "Ověřit protistranu SSL"
+
+#: lib/sslcommon.c:102
 #, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
@@ -1308,11 +1312,11 @@ msgstr ""
 "Předmět = %s\n"
 "Chyba %i:%s\n"
 
-#: lib/sslcommon.c:121
+#: lib/sslcommon.c:124
 msgid "Cannot get peer certificate\n"
 msgstr "Nemohu získat certifikát protistrany\n"
 
-#: lib/sslcommon.c:180
+#: lib/sslcommon.c:183
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
@@ -1322,31 +1326,31 @@ msgstr ""
 "se připojili (%s). Přerušuji spojení.\n"
 
 # FIXME: s/initialized/initialize/
-#: lib/sslcommon.c:287
+#: lib/sslcommon.c:290
 msgid "Cannot initialized the OpenSSL library\n"
 msgstr "Nemohu inicializovat knihovnu OpenSSL\n"
 
-#: lib/sslcommon.c:302
+#: lib/sslcommon.c:306
 msgid "Error loading default SSL certificates\n"
 msgstr "Chyba při načítání implicitních certifikátů SSL\n"
 
-#: lib/sslcommon.c:313
+#: lib/sslcommon.c:321
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "Chyba při získávání seznamu šifer (žádné platné šifry)\n"
 
-#: lib/sslcommon.c:332 lib/sslcommon.c:401 lib/sslcommon.c:448
+#: lib/sslcommon.c:341 lib/sslcommon.c:413 lib/sslcommon.c:460
 msgid "Error: SSL engine was not initialized\n"
 msgstr "Chyba: Engine SSL nebyl inicializován\n"
 
-#: lib/sslcommon.c:349
+#: lib/sslcommon.c:358
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "Chyba při vytváření spojení SSL (objekt BIO)\n"
 
-#: lib/sslcommon.c:359
+#: lib/sslcommon.c:368
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "Chyba při vytváření spojení SSL (objekt SSL)\n"
 
-#: lib/sslcommon.c:377
+#: lib/sslcommon.c:389
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "Chyba v certifikátu protistrany: %s\n"
