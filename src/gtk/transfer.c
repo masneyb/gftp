@@ -23,189 +23,23 @@ static const char cvsid[] = "$Id$";
 static GtkWidget * dialog;
 static int num_transfers_in_progress = 0;
 
-static void 
-wakeup_main_thread (gpointer data, gint source, GdkInputCondition condition)
-{
-  gftp_request * request;
-  char c;
- 
-  request = data; 
-  if (request->wakeup_main_thread[0] > 0)
-    read (request->wakeup_main_thread[0], &c, 1);
-}
-
-
-static gint
-setup_wakeup_main_thread (gftp_request * request)
-{
-  gint handler;
-
-  if (socketpair (AF_UNIX, SOCK_STREAM, 0, request->wakeup_main_thread) == 0)
-    {
-      handler = gdk_input_add (request->wakeup_main_thread[0], 
-                               GDK_INPUT_READ, wakeup_main_thread, request);
-    }
-  else
-    {
-      request->wakeup_main_thread[0] = 0;
-      request->wakeup_main_thread[1] = 0;
-      handler = 0;
-    }
-  return (handler);
-}
-
-
-static void
-teardown_wakeup_main_thread (gftp_request * request, gint handler)
-{
-  if (request->wakeup_main_thread[0] > 0 && request->wakeup_main_thread[1] > 0)
-    {
-      gdk_input_remove (handler);
-      close (request->wakeup_main_thread[0]);
-      close (request->wakeup_main_thread[1]);
-      request->wakeup_main_thread[0] = 0;
-      request->wakeup_main_thread[1] = 0;
-    }
-}
-
-
-static void *
-getdir_thread (void * data)
-{
-  int sj, havedotdot, got;
-  gftp_request * request;
-  gftp_file * fle;
-  GList * files;
-
-  request = data;
-  
-  if (gftpui_common_use_threads (request))
-    {
-      sj = sigsetjmp (gftpui_common_jmp_environment, 1);
-      gftpui_common_use_jmp_environment = 1;
-    }
-  else
-    sj = 0;
-
-  files = NULL;
-  if (sj == 0 || sj == 2)
-    {
-      if (gftp_list_files (request) != 0 || !GFTP_IS_CONNECTED (request))
-        {
-          if (gftpui_common_use_threads (request))
-            gftpui_common_use_jmp_environment = 0;
-
-          request->stopable = 0;
-          if (request->wakeup_main_thread[1] > 0)
-            write (request->wakeup_main_thread[1], " ", 1);
-          return (NULL);
-        }
-
-      request->gotbytes = 0; 
-      havedotdot = 0; 
-      fle = g_malloc0 (sizeof (*fle));
-      while ((got = gftp_get_next_file (request, NULL, fle)) > 0 ||
-             got == GFTP_ERETRYABLE)
-        { 
-          if (got < 0)
-            {
-              gftp_file_destroy (fle);
-              continue;
-            }
-
-          request->gotbytes += got;
-          if (strcmp (fle->file, ".") == 0)
-            {
-              gftp_file_destroy (fle);
-              continue;
-            }
-          else if (strcmp (fle->file, "..") == 0)
-            havedotdot = 1;
-
-          files = g_list_append (files, fle);
-          fle = g_malloc0 (sizeof (*fle));
-        }
-      g_free (fle);
-
-      if (!GFTP_IS_CONNECTED (request))
-        {
-          if (gftpui_common_use_threads (request))
-            gftpui_common_use_jmp_environment = 0;
-
-          request->stopable = 0;
-          if (request->wakeup_main_thread[1] > 0)
-            write (request->wakeup_main_thread[1], " ", 1);
-          return (NULL);
-        }
-
-      gftp_end_transfer (request); 
-      request->gotbytes = -1; 
-
-      if (!havedotdot)
-        {
-          fle = g_malloc0 (sizeof (*fle));
-          fle->file = g_strdup ("..");
-          fle->user = g_malloc0 (1);
-          fle->group = g_malloc0 (1);
-          fle->attribs = g_malloc0 (1);
-          *fle->attribs = '\0';
-          fle->isdir = 1;
-          files = g_list_prepend (files, fle);
-        }
-    }
-
-  if (gftpui_common_use_threads (request))
-    gftpui_common_use_jmp_environment = 0;
-
-  request->stopable = 0;
-  if (request->wakeup_main_thread[1] > 0)
-    write (request->wakeup_main_thread[1], " ", 1);
-  return (files);
-}
-
-
 int
 ftp_list_files (gftp_window_data * wdata, int usecache)
 {
-  guint handler;
-  void *success;
+  gftpui_callback_data * cdata;
 
   gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Receiving file names..."));
 
-  wdata->show_selected = 0;
-  if (wdata->files == NULL)
-    {
-      if (check_reconnect (wdata) < 0)
-        return (0);
+  cdata = g_malloc0 (sizeof (*cdata));
+  cdata->request = wdata->request;
+  cdata->uidata = wdata;
+  cdata->run_function = gftpui_common_run_ls;
 
-      gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-      wdata->request->stopable = 1;
-      if (gftpui_common_use_threads (wdata->request))
-        {
-          gtk_widget_set_sensitive (stop_btn, 1);
+  gftpui_common_run_callback_function (cdata);
 
-          handler = setup_wakeup_main_thread (wdata->request);
-          pthread_create (&wdata->tid, NULL, getdir_thread, wdata->request);
-          while (wdata->request->stopable)
-            {
-              GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-              g_main_iteration (TRUE);
-#else
-              g_main_context_iteration (NULL, TRUE);
-#endif
-            }
-          teardown_wakeup_main_thread (wdata->request, handler);
-
-          pthread_join (wdata->tid, &success);
-          gtk_widget_set_sensitive (stop_btn, 0);
-        }
-      else
-        success = getdir_thread (wdata->request);
-      wdata->files = success;
-      gtk_clist_thaw (GTK_CLIST (wdata->listbox));
-      memset (&wdata->tid, 0, sizeof (wdata->tid));
-    }
+  wdata->files = cdata->files;
+  cdata->files = NULL;
+  g_free (cdata);
   
   if (wdata->files == NULL || !GFTP_IS_CONNECTED (wdata->request))
     {
@@ -215,8 +49,10 @@ ftp_list_files (gftp_window_data * wdata, int usecache)
 
   wdata->sorted = 0;
   sortrows (GTK_CLIST (wdata->listbox), -1, (gpointer) wdata);
+
   if (IS_NONE_SELECTED (wdata))
     gtk_clist_select_row (GTK_CLIST (wdata->listbox), 0, 0);
+
   return (1);
 }
 
@@ -308,7 +144,6 @@ int
 ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
 {
   int success;
-  guint handler;
   void *ret;
 
   ret = 0;
@@ -355,7 +190,6 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
       gtk_widget_set_sensitive (stop_btn, 1);
       pthread_create (&wdata->tid, NULL, connect_thread, request);
 
-      handler = setup_wakeup_main_thread (wdata->request);
       while (request->stopable)
         {
           GDK_THREADS_LEAVE ();
@@ -366,7 +200,6 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
 #endif
         }
       pthread_join (wdata->tid, &ret);
-      teardown_wakeup_main_thread (wdata->request, handler);
 
       gtk_widget_set_sensitive (stop_btn, 0);
       if (wdata)

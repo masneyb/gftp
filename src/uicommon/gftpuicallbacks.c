@@ -79,6 +79,70 @@ gftpui_common_run_chmod (gftpui_callback_data * cdata)
 
 
 int
+gftpui_common_run_ls (gftpui_callback_data * cdata)
+{
+  int got, matched_filespec, have_dotdot;
+  intptr_t sortcol, sortasds;
+  gftp_file * fle;
+
+  if (gftp_list_files (cdata->request) != 0)
+    return (0);
+
+  have_dotdot = 0;
+  cdata->request->gotbytes = 0;
+  cdata->files = NULL;
+  fle = g_malloc0 (sizeof (*fle));
+  while ((got = gftp_get_next_file (cdata->request, NULL, fle)) > 0 ||
+         got == GFTP_ERETRYABLE)
+    {
+      if (cdata->source_string == NULL)
+        matched_filespec = 1;
+      else
+        matched_filespec = gftp_match_filespec (fle->file,
+                                                cdata->source_string);
+
+      if (got < 0 || strcmp (fle->file, ".") == 0 || !matched_filespec)
+        {
+          gftp_file_destroy (fle);
+          continue;
+        }
+      else if (strcmp (fle->file, "..") == 0)
+        have_dotdot = 1;
+
+      cdata->request->gotbytes += got;
+      cdata->files = g_list_prepend (cdata->files, fle);
+      fle = g_malloc0 (sizeof (*fle));
+    }
+  g_free (fle);
+
+  gftp_end_transfer (cdata->request);
+  cdata->request->gotbytes = -1;
+
+  if (!have_dotdot)
+    {
+      fle = g_malloc0 (sizeof (*fle));
+      fle->file = g_strdup ("..");
+      fle->user = g_malloc0 (1);
+      fle->group = g_malloc0 (1);
+      fle->attribs = g_malloc0 (1);
+      *fle->attribs = '\0';
+      fle->isdir = 1;
+      cdata->files = g_list_prepend (cdata->files, fle);
+    }
+
+  if (cdata->files != NULL)
+    {
+      gftp_lookup_global_option ("local_sortcol", &sortcol); /* FIXME */
+      gftp_lookup_global_option ("local_sortasds", &sortasds);
+    
+      cdata->files = gftp_sort_filelist (cdata->files, sortcol, sortasds);
+    }
+
+  return (1);
+}
+
+
+int
 gftpui_common_run_delete (gftpui_callback_data * cdata)
 {
   int ret;

@@ -93,6 +93,13 @@ typedef struct gftp_window_data_tag
 } gftp_window_data;
 
 
+typedef struct _gftpui_gtk_thread_data
+{
+  void * (*func) (void *);
+  gftpui_callback_data * cdata;
+} gftpui_gtk_thread_data;
+
+
 typedef struct gftp_graphic_tag
 {
   char * filename;

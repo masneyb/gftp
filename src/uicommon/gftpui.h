@@ -32,6 +32,7 @@ struct _gftpui_callback_data
   void *uidata;
   char *input_string,
        *source_string;
+  GList * files;
   int (*run_function) (gftpui_callback_data * cdata);
 };
 
@@ -99,6 +100,8 @@ int gftpui_common_run_site 		( gftpui_callback_data * cdata );
 int gftpui_common_run_chdir 		( gftpui_callback_data * cdata );
 
 int gftpui_common_run_chmod		( gftpui_callback_data * cdata );
+
+int gftpui_common_run_ls 		( gftpui_callback_data * cdata );
 
 int gftpui_common_run_delete		( gftpui_callback_data * cdata );
 

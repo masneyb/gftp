@@ -88,7 +88,7 @@ gftpui_common_run_callback_function (gftpui_callback_data * cdata)
   else
     ret = GPOINTER_TO_INT (cdata->run_function (cdata));
 
-  if (ret)
+  if (ret && cdata->run_function != gftpui_common_run_ls)
     gftpui_refresh (cdata->uidata);
 
   return (ret);
@@ -497,17 +497,14 @@ gftpui_common_set_show_subhelp (char *topic)
 }   
 
 
-int
+static int
 gftpui_common_cmd_ls (void *uidata, gftp_request * request, char *command)
 {
-  char *startcolor, *endcolor, *filespec, *tempstr;
-  GList * files, * templist, * delitem;
-  intptr_t sortcol, sortasds;
+  char *startcolor, *endcolor, *tempstr;
+  gftpui_callback_data * cdata;
+  GList * templist;
   gftp_file * fle;
-  time_t curtime;
-  int got;
 
-  time (&curtime);
   if (!GFTP_IS_CONNECTED (request))
     {
       request->logging_function (gftp_logging_error, request,
@@ -515,80 +512,34 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request, char *command)
       return (1);
     }
 
-  filespec = *command != '\0' ? command : NULL;
-  if (gftp_list_files (request) != 0)
-    return (1);
+  cdata = g_malloc0 (sizeof (*cdata));
+  cdata->request = request;
+  cdata->uidata = uidata;
+  cdata->source_string = *command != '\0' ? command : NULL;
+  cdata->run_function = gftpui_common_run_ls;
 
-  files = NULL;
-  fle = g_malloc0 (sizeof (*fle));
-  while ((got = gftp_get_next_file (request, NULL, fle)) > 0 ||
-         got == GFTP_ERETRYABLE)
-    {
-      if (got < 0 || strcmp (fle->file, ".") == 0 ||
-          !gftp_match_filespec (fle->file, filespec))
-        {
-          gftp_file_destroy (fle);
-          continue;
-        }
-      files = g_list_prepend (files, fle);
-      fle = g_malloc0 (sizeof (*fle));
-    }
-  g_free (fle);
+  gftpui_common_run_callback_function (cdata);
 
-  if (files == NULL)
+  templist = cdata->files;
+  while (templist != NULL)
     {
-      gftp_end_transfer (request);
-      return (1);
-    }
-
-  if (request == gftpui_common_local_request)
-    {
-      gftp_lookup_request_option (request, "local_sortcol", &sortcol);
-      gftp_lookup_request_option (request, "local_sortasds", &sortasds);
-    }
-  else
-    {
-      gftp_lookup_request_option (request, "remote_sortcol", &sortcol);
-      gftp_lookup_request_option (request, "remote_sortasds", &sortasds);
-    }
-
-  files = gftp_sort_filelist (files, sortcol, sortasds);
-  delitem = NULL;
-  for (templist = files; templist != NULL; templist = templist->next)
-    {
-      if (delitem != NULL)
-        {
-          fle = delitem->data;
-          gftp_file_destroy (fle);
-          g_free (fle);
-          delitem = NULL;
-        }
-
       fle = templist->data;
 
       gftpui_lookup_file_colors (fle, &startcolor, &endcolor);
       tempstr = gftp_gen_ls_string (fle, startcolor, endcolor);
-
       request->logging_function (gftp_logging_misc_nolog, request, "%s\n",
                                  tempstr);
-
       g_free (tempstr);
 
-      delitem = templist;
-    }
-
-  gftp_end_transfer (request);
-
-  if (delitem != NULL)
-    {
-      fle = delitem->data;
+      templist = templist->next;
       gftp_file_destroy (fle);
       g_free (fle);
-      delitem = NULL;
     }
 
-  if (files != NULL)
-    g_list_free (files);
+
+  if (cdata->files != NULL)
+    g_list_free (cdata->files);
+  g_free (cdata);
 
   return (1);
 }

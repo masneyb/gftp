@@ -61,11 +61,79 @@ gftpui_refresh (void *uidata)
 }
 
 
+/* The wakeup main thread functions are so that after the thread terminates
+   there won't be a delay in updating the GUI */
+static void
+_gftpui_wakeup_main_thread (gpointer data, gint source,
+                            GdkInputCondition condition)
+{
+  gftp_request * request;
+  char c;
+
+  request = data;
+  if (request->wakeup_main_thread[0] > 0)
+    read (request->wakeup_main_thread[0], &c, 1);
+}
+
+
+static gint
+_gftpui_setup_wakeup_main_thread (gftp_request * request)
+{
+  gint handler;
+
+  if (socketpair (AF_UNIX, SOCK_STREAM, 0, request->wakeup_main_thread) == 0)
+    {
+      handler = gdk_input_add (request->wakeup_main_thread[0],
+                               GDK_INPUT_READ, _gftpui_wakeup_main_thread,
+                               request);
+    }
+  else
+    {
+      request->wakeup_main_thread[0] = 0;
+      request->wakeup_main_thread[1] = 0;
+      handler = 0;
+    }
+
+  return (handler);
+}
+
+
+static void
+_gftpui_teardown_wakeup_main_thread (gftp_request * request, gint handler)
+{
+  if (request->wakeup_main_thread[0] > 0 && request->wakeup_main_thread[1] > 0)
+    {
+      gdk_input_remove (handler);
+      close (request->wakeup_main_thread[0]);
+      close (request->wakeup_main_thread[1]);
+      request->wakeup_main_thread[0] = 0;
+      request->wakeup_main_thread[1] = 0;
+    }
+}
+
+static void *
+_gftpui_gtk_thread_func (void *data)
+{
+  gftpui_gtk_thread_data * thread_data;
+  void *ret;
+
+  thread_data = data;
+  ret = thread_data->func (thread_data->cdata);
+
+  if (thread_data->cdata->request->wakeup_main_thread[1] > 0)
+    write (thread_data->cdata->request->wakeup_main_thread[1], " ", 1);
+
+  return (ret);
+}
+
+
 void *
 gftpui_generic_thread (void * (*func) (void *), void *data)
 {
+  gftpui_gtk_thread_data * thread_data;
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
+  guint handler;
   void * ret;
 
   cdata = data;
@@ -73,7 +141,13 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
 
   wdata->request->stopable = 1;
   gtk_widget_set_sensitive (stop_btn, 1);
-  pthread_create (&wdata->tid, NULL, func, cdata);
+
+  thread_data = g_malloc0 (sizeof (*thread_data));
+  thread_data->func = func;
+  thread_data->cdata = cdata;
+
+  handler = _gftpui_setup_wakeup_main_thread (cdata->request);
+  pthread_create (&wdata->tid, NULL, _gftpui_gtk_thread_func, thread_data);
 
   while (wdata->request->stopable)
     {
@@ -84,6 +158,9 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
       g_main_context_iteration (NULL, TRUE);
 #endif
     }
+
+  _gftpui_teardown_wakeup_main_thread (cdata->request, handler);
+  g_free (thread_data);
 
   pthread_join (wdata->tid, &ret);
   gtk_widget_set_sensitive (stop_btn, 0);

@@ -1,4 +1,15 @@
 2003-1-5 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.h src/gtk/gtkui.c - when spawning a thread,
+	make sure that the GUI will be updated properly as soon as the thread
+	is finished.
+
+	* src/uicommon/gftpuicallbacks.c src/uicommon/gftpui.h - added
+	gftpui_common_run_ls()
+
+	* src/uicommon/gftpui.c (gftpui_common_cmd_ls)
+	src/gtk/transfer.c (ftp_list_files) - converted these functions
+	over to use gftpui_common_run_ls()
+
 	* lib/gftp.h src/gtk/misc-gtk.c src/text/gftp-text.c - added logging
 	level type gftp_logging_misc_nolog. If a message is logged with this
 	level, it will be displayed to the screen but, it will not be logged
