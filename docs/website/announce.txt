@@ -1,67 +1,42 @@
-I am pleased to announce the availability of gFTP 2.0.17. Here is a summarized
-list of changes since version 2.0.16. For a full list of changes, please see
-the ChangeLog file that is included with the source distribution.
+I am pleased to announce the availability of gFTP 2.0.18rc1. Here is a
+summarized list of changes since version 2.0.17. For a full list of changes,
+please see the ChangeLog file that is included with the source distribution.
 
-* Separated out more of the UI independent code in the GTK+ and Text ports and
-  created a user interface common repository. Cleaned up some of the existing
-  GTK+ code. The GTK+ port can now be controlled from a command line interface
-  in the GUI. There is an option you have to enable in the options dialog for
-  this. (enable manual commands in GUI)
-* Added support for the FTPS protocol. The control connection is the only
-  one encrypted at the moment.
-* When viewing/editing a file, the temporary file that is created is created
-  with the same extension as the remote file so that syntax highlighting works
-* File transfers can be resumed/skipped/overwritten in the text port and
-  whenever files are dropped on gftp in the GTK+ port.
-* FTP: Added support for MVS directory listings
-* FTP: Fix for FXP transfers
-* SSH2: fix for resuming uploads
-* Added option to show the transfer status in the title bar.
-* Added option to disable IPV6 support.
-* Fixed the wrong date being displayed when a file was modified last year
-* 64 bit cleanups. This also fixed a SSH segfault that was happening on
-  FreeBSD
-* Look for the .gmo translation files in the proper directory
-* If a bookmark-ed site has it's password saved in the config file, then the
-  passwords are written out in a scrambled format. This isn't secure, but
-it'll
-  prevent someone from casually looking over your shoulder and seeing your
-  password. I still do not recommend saving your passwords to disk.
-* Fix for systems that do not support the %'ld format argument
-* The startup directory option is now expanded so that an option like
-  ~/src can be specified
-* New language translations and updates (ca cs de ga hr hu nl pt_BR sr sr@Latn
-  ta th)
+* SSH2: Improved the login code. You no longer need to specify in gFTP the
+  path to the sftp-server binary on the remote server. It will now just work
+  out of the box for most sites. Also, if the SSH binary is asking a
+  question, this question will be relayed back through the gFTP user interface
+  so the user can answer it appropriately.
+* SSH2: Added support for RSA SecurID passwords
+* FTP, SSH2: Added support for preserving the file date/time
+* FTP: Fixed IPv6 connection problem
+* More 64 bit cleanups
+* More largefile fixes
+* Fixed detection of SIGCHLD signal when viewing/editing files
+* Added remote_lc_time option. The value of LC_TIME can now be overridden on
+  a per site basis. This will fix problems parsing the dates in the remote
+  directory listings
+* Some more GNOME HIG fixes
+* Fixed several segfaults in the bookmarks editor
+* Save the state of the host, user and port fields in the toolbar
+* Fixed compiler errors on OpenBSD and HPUX
 * Many other small changes and improvements. See the ChangeLog file in the
   distribution for a detailed list of changes.
+* New language translations and updates (bg cs en_CA en_GB es fi he hu ja nl pa
+                                         pt_BR ru sq)
 
 MD5SUMs:
 
-6fa2daeae99b481410de3009e2ce4e19  gftp-2.0.17.tar.gz
-a869315be1f59624a3abf5fb25d5b7bb  gftp-2.0.17.tar.bz2
-ef65fda88a7f25e48a31fa7505232517  gftp_2.0.17-1_all.deb
-81a9886b10d1a9857761aad0a9d08a0a  gftp-common_2.0.17-1_i386.deb
-8c8ff2cb05414ec276caf71e21dc9f9a  gftp-text_2.0.17-1_i386.deb
-7f37a0743efe683d68d2fcb46b3dfecc  gftp-gtk_2.0.17-1_i386.deb
-9f6f96791908f1d79241ea7608fadfc0  gftp-2.0.17-1.src.rpm
-0bdd47a478ee55fd4a9218855c120742  gftp-2.0.17-1.i386.rpm
+2f58001ee8eacd21fedc1302f9245648  gftp-2.0.18rc1.tar.gz
+9adeff8fdaac88c7403b37bab8234e14  gftp-gtk_2.0.18rc1-1_i386.deb
+b4842eb5b6c38b490d0134e69352a4c6  gftp-common_2.0.18rc1-1_i386.deb
+5307e8ce935482176d10143b06294c38  gftp_2.0.18rc1-1_all.deb
+a229ed83509e2971062a770ed18f8ad5  gftp-text_2.0.18rc1-1_i386.deb
+0ce29a6ff3a645fe493bac002680aea9  gftp-2.0.18rc1.tar.bz2
 
-I would like to thank the following people that have contributed code to gFTP
-since 2.0.16:
-
-Gwenole Beauchesne, Jamil Geor, Aurelien Jarno, Oliver Lehmann,
-Hans-J?rgen Sch?ler, Nam SungHyun and Chelban Vasile
-
-I would also like to thank the following people that have contributed
-translations to gFTP since 2.0.16:
-
-Danilo Ã~EÂ| egan, Vincent van Adrighem, Albert Astals Cid, Bernd Leibing,
-Duarte Loreto, Alastair McKinstry, Robert Sedak, Francisco Javier F. Serrador,
-Andras Timar, Miloslav Trmac, Murugapandian, Paisa Seeluangsawat,
-JoÃ~CÂ£o Paulo Gomes Vanzuita, Gustavo Maciel Dias Vieira
-
-Also, thanks to everyone that has submitted bug reports or offered ideas for
-improvements.
+I plan on releasing the final 2.0.18 sometime after 11/23/2004. This is mainly
+to give the translators time to update their translations. If you find any bugs
+in this release, please report them using GNOME's Bugzilla.
 
 Brian Masney
 http://www.gftp.org/

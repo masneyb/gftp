@@ -7,7 +7,7 @@ use Time::Local;
 
 my @date = localtime (time ());
 
-my $version = `cat ../../configure | grep ^VERSION= | awk -F= '{print \$2}'`;
+my $version = `cat ../../configure | grep '^ VERSION=' | awk -F= '{print \$2}'`;
 chop ($version);
 
 my %rep = ("STABLE_BZ2" => "gftp-" . $version . ".tar.bz2",
