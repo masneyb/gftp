@@ -2078,7 +2078,8 @@ get_status (gftp_transfer * tdata, ssize_t num_read)
           tdata->fromreq->logging_function (gftp_logging_error, 
                    tdata->fromreq->user_data,
                    _("Error: Remote site %s disconnected. Max retries reached...giving up\n"),
-                   GFTP_GET_HOSTNAME (tdata->fromreq));
+                   tdata->fromreq->hostname != NULL ? 
+                         tdata->fromreq->hostname : tdata->toreq->hostname);
           return (-1);
         }
       else
@@ -2086,7 +2087,9 @@ get_status (gftp_transfer * tdata, ssize_t num_read)
           tdata->fromreq->logging_function (gftp_logging_error, 
                      tdata->fromreq->user_data,
                      _("Error: Remote site %s disconnected. Will reconnect in %d seconds\n"),
-                     GFTP_GET_HOSTNAME (tdata->fromreq), tdata->fromreq->sleep_time);
+                     tdata->fromreq->hostname != NULL ? 
+                           tdata->fromreq->hostname : tdata->toreq->hostname, 
+                     tdata->fromreq->sleep_time);
         }
 
       while (tdata->fromreq->retries == 0 || 

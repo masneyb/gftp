@@ -337,8 +337,11 @@ rfc959_get_file (gftp_request * request, const char *filename, FILE * fd,
 
   if (ret != '1')
     {
-      fclose (request->datafd);
-      request->datafd = NULL;
+      if (request->datafd != NULL)
+        {
+          fclose (request->datafd);
+          request->datafd = NULL;
+        }
       return (-2);
     }
 
@@ -408,8 +411,11 @@ rfc959_put_file (gftp_request * request, const char *filename, FILE * fd,
   g_free (tempstr);
   if (ret != '1')
     {
-      fclose (request->datafd);
-      request->datafd = NULL;
+      if (request->datafd != NULL)
+        {
+          fclose (request->datafd);
+          request->datafd = NULL;
+        }
       return (-2);
     }
 

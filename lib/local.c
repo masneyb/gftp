@@ -225,7 +225,7 @@ local_get_file (gftp_request * request, const char *filename, FILE * fd,
           return (-2);
         }
 
-      if ((request->datafd = fdopen (sock, "rb+")) == NULL)
+      if ((request->datafd = fdopen (sock, "rb")) == NULL)
         {
           request->logging_function (gftp_logging_error, request->user_data,
                                      _("Cannot fdopen() socket for %s: %s\n"),
