@@ -23,7 +23,7 @@ static const char cvsid[] = "$Id$";
 static GtkWidget * bm_dialog = NULL, * bm_hostedit, * bm_portedit,
                  * bm_localdiredit, * bm_remotediredit, * bm_useredit,
                  * bm_passedit, * bm_acctedit, * anon_chk, * bm_pathedit,
-                 * bm_protocol, * tree;
+                 * bm_protocol, * tree, * edit_bookmarks_dialog;
 static GHashTable * new_bookmarks_htable = NULL;
 static gftp_bookmarks_var * new_bookmarks = NULL;
 static GtkItemFactory * edit_factory;
@@ -376,7 +376,8 @@ bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
       new_bookmarks = NULL;
     }
 
-  gtk_widget_destroy (dialog);
+  gtk_widget_destroy (edit_bookmarks_dialog);
+  edit_bookmarks_dialog = NULL;
 }
 
 
@@ -1206,8 +1207,8 @@ bm_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
 void
 edit_bookmarks (gpointer data)
 {
-  GtkWidget * dialog, * scroll;
   GtkItemFactory * ifactory;
+  GtkWidget * scroll;
   GtkItemFactoryEntry menu_items[] = {
     {N_("/_File"), NULL, 0, 0, "<Branch>"},
     {N_("/File/tearoff"), NULL, 0, 0, "<Tearoff>"},
@@ -1222,37 +1223,46 @@ edit_bookmarks (gpointer data)
   GtkWidget * tempwid;
 #endif
 
+  if (edit_bookmarks_dialog != NULL)
+    {
+      gtk_widget_grab_focus (edit_bookmarks_dialog);
+      return;
+    }
+
   new_bookmarks = copy_bookmarks (gftp_bookmarks);
   new_bookmarks_htable = build_bookmarks_hash_table (new_bookmarks);
 
 #if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Bookmarks"));
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
+  edit_bookmarks_dialog = gtk_dialog_new ();
+  gtk_window_set_title (GTK_WINDOW (edit_bookmarks_dialog),
+                        _("Edit Bookmarks"));
+  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->action_area), 15);
 #else
-  dialog = gtk_dialog_new_with_buttons (_("Edit Bookmarks"), NULL, 0,
-                                        GTK_STOCK_SAVE,
-                                        GTK_RESPONSE_OK,
-                                        GTK_STOCK_CANCEL,
-                                        GTK_RESPONSE_CANCEL,
-                                        NULL);
+  edit_bookmarks_dialog = gtk_dialog_new_with_buttons (_("Edit Bookmarks"),
+                                                       NULL, 0, GTK_STOCK_SAVE,
+                                                       GTK_RESPONSE_OK,
+                                                       GTK_STOCK_CANCEL,
+                                                       GTK_RESPONSE_CANCEL,
+                                                       NULL);
 #endif
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "Edit Bookmarks", "gFTP");
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_realize (dialog);
+  gtk_window_set_wmclass (GTK_WINDOW(edit_bookmarks_dialog), "Edit Bookmarks",
+                          "gFTP");
+  gtk_window_set_position (GTK_WINDOW (edit_bookmarks_dialog),
+                           GTK_WIN_POS_MOUSE);
+  gtk_widget_realize (edit_bookmarks_dialog);
 
   if (gftp_icon != NULL)
     {
-      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, gftp_version);
+      gdk_window_set_icon (edit_bookmarks_dialog->window, NULL,
+                           gftp_icon->pixmap, gftp_icon->bitmap);
+      gdk_window_set_icon_name (edit_bookmarks_dialog->window, gftp_version);
     }
 
   ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", NULL, NULL);
   create_item_factory (ifactory, 7, menu_items, NULL);
-  create_item_factory (ifactory, 1, menu_items + 7, dialog);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), ifactory->widget,
-		      FALSE, FALSE, 0);
+  create_item_factory (ifactory, 1, menu_items + 7, edit_bookmarks_dialog);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->vbox),
+                      ifactory->widget, FALSE, FALSE, 0);
   gtk_widget_show (ifactory->widget);
 
   scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -1260,14 +1270,14 @@ edit_bookmarks (gpointer data)
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_size_request (scroll, 150, 200);
 
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scroll, TRUE, TRUE,
-		      0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->vbox),
+                      scroll, TRUE, TRUE, 0);
   gtk_container_border_width (GTK_CONTAINER (scroll), 3);
   gtk_widget_show (scroll);
 
   edit_factory = item_factory_new (GTK_TYPE_MENU, "<edit_bookmark>", NULL, "/File");
 
-  create_item_factory (edit_factory, 6, menu_items + 2, dialog);
+  create_item_factory (edit_factory, 6, menu_items + 2, edit_bookmarks_dialog);
 
   tree = gtk_ctree_new (1, 0);
   gtk_clist_set_selection_mode (GTK_CLIST (tree), GTK_SELECTION_BROWSE);
@@ -1284,29 +1294,31 @@ edit_bookmarks (gpointer data)
 
 #if GTK_MAJOR_VERSION == 1
   tempwid = gtk_button_new_with_label (_("OK"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->action_area),
+                      tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
 		      GTK_SIGNAL_FUNC (bm_apply_changes), NULL);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (bm_close_dialog), (gpointer) dialog);
+		      GTK_SIGNAL_FUNC (bm_close_dialog),
+                      (gpointer) edit_bookmarks_dialog);
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("  Cancel  "));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->action_area),
+                      tempwid, TRUE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (bm_close_dialog), (gpointer) dialog);
+		      GTK_SIGNAL_FUNC (bm_close_dialog),
+                      (gpointer) edit_bookmarks_dialog);
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_widget_grab_focus (tempwid);
   gtk_widget_show (tempwid);
 #else
-  g_signal_connect (GTK_OBJECT (dialog), "response",
+  g_signal_connect (GTK_OBJECT (edit_bookmarks_dialog), "response",
                     G_CALLBACK (editbm_action), NULL);
 #endif
 
-  gtk_widget_show (dialog);
+  gtk_widget_show (edit_bookmarks_dialog);
 
   build_bookmarks_tree ();
 }
