@@ -832,7 +832,7 @@ static void
 dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
 {
   if (ddata->edit == NULL)
-    gtk_widget_destroy (widget);
+    gtk_widget_destroy (ddata->dialog);
 
   switch (response)
     {
@@ -847,11 +847,40 @@ dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
     }
 
   if (ddata->edit != NULL)
-    gtk_widget_destroy (widget);
+    gtk_widget_destroy (ddata->dialog);
 
   g_free (ddata);
 }
 #endif
+
+
+static gint
+dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
+{
+  if (event->type != GDK_KEY_PRESS)
+    return (FALSE);
+
+  if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return)
+    {
+#if GTK_MAJOR_VERSION == 1
+      ok_dialog_response (widget, data);
+#else
+      dialog_response (widget, GTK_RESPONSE_YES, data);
+#endif
+      return (TRUE);
+    }
+  else if (event->keyval == GDK_Escape)
+    {
+#if GTK_MAJOR_VERSION == 1
+      cancel_dialog_response (widget, data);
+#else
+      dialog_response (widget, GTK_RESPONSE_NO, data);
+#endif
+      return (TRUE);
+    }
+
+  return (FALSE);
+}
 
 
 void
@@ -926,6 +955,9 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   gtk_widget_show (tempwid);
 
   ddata->edit = gtk_entry_new ();
+  gtk_signal_connect (GTK_OBJECT (ddata->edit), "key_press_event",
+                      GTK_SIGNAL_FUNC (dialog_keypress), (gpointer) ddata);
+
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), ddata->edit, TRUE,
 		      TRUE, 0);
   gtk_widget_grab_focus (ddata->edit);
@@ -1051,8 +1083,8 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
                       FALSE, FALSE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-                      GTK_SIGNAL_FUNC (ok_dialog_response),
-                      ddata);
+                      GTK_SIGNAL_FUNC (ok_dialog_response), ddata);
+
   gtk_widget_grab_default (tempwid);
   gtk_widget_show (tempwid);
 
@@ -1061,8 +1093,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
                       FALSE, FALSE, 0);
   gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-                      GTK_SIGNAL_FUNC (cancel_dialog_response),
-                      ddata);
+                      GTK_SIGNAL_FUNC (cancel_dialog_response), ddata);
   gtk_widget_show (tempwid);
 
 #else
