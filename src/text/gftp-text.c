@@ -626,7 +626,10 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
   g_free (fle);
 
   if (files == NULL)
-    return (1);
+    {
+      gftp_end_transfer (request);
+      return (1);
+    }
 
   if (request == gftp_text_locreq)
     {
@@ -668,6 +671,7 @@ gftp_text_ls (gftp_request * request, char *command, gpointer *data)
 
       delitem = templist;
     }
+
   gftp_end_transfer (request);
 
   if (delitem != NULL)
