@@ -479,6 +479,10 @@ chdir_edit (GtkWidget * widget, gpointer data)
 
   wdata = data;
   edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry));
+
+  if (check_reconnect (wdata) < 0)
+    return (0);
+
   if (!GFTP_IS_CONNECTED (wdata->request) && *edttxt != '\0')
     {
       toolbar_hostedit (NULL, NULL);

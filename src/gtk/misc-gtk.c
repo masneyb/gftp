@@ -210,6 +210,10 @@ refresh (gftp_window_data * wdata)
 {
   if (!check_status (_("Refresh"), wdata, 0, 0, 0, 1))
     return;
+
+  if (check_reconnect (wdata) < 0) 
+    return;
+
   gtk_clist_freeze (GTK_CLIST (wdata->listbox));
   remove_files_window (wdata);
   gftp_delete_cache_entry (wdata->request, NULL, 0);

@@ -141,6 +141,8 @@ menu_exit (GtkWidget * widget, gpointer data)
     doexit (widget, data);
 }
 
+/* This function is only here because the callback function cannot have a
+   return value and chdir_dialog() does */
 
 static void
 chfunc (gpointer data)
@@ -506,6 +508,9 @@ list_doaction (gftp_window_data * wdata)
 
   dir = tempfle->isdir;
   success = 0;
+
+  if (check_reconnect (wdata) < 0) 
+    return;
 
   if (tempfle->islink || tempfle->isdir)
     success = chdir_dialog (wdata);
