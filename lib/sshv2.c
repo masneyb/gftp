@@ -260,12 +260,13 @@ sshv2_gen_exec_args (gftp_request * request, char *execname,
 static int
 sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
 {
+  char *tempstr, *pwstr, *tmppos, *yesstr = "yes\n", *question_pos;
   size_t rem, len, diff, lastdiff;
-  char *tempstr, *pwstr, *tmppos;
   int wrotepw, ok, maxfd, ret;
   fd_set rset, eset;
   ssize_t rd;
 
+  question_pos = NULL;
   rem = len = SSH_LOGIN_BUFSIZE;
   tempstr = g_malloc0 (len + 1);
   diff = lastdiff = 0;
@@ -385,13 +386,23 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
         }
       else if (diff > 10 && strcmp (tempstr + diff - 10, "(yes/no)? ") == 0)
         {
-          ok = SSH_ERROR_QUESTION;
-          break;
+          question_pos = tempstr + diff;
+          if (!gftpui_protocol_ask_yes_no (request, request->hostname, tempstr))
+            {
+              ok = SSH_ERROR_QUESTION;
+              break;
+            }
+          else
+            {
+              if (gftp_fd_write (request, yesstr, strlen (yesstr), ptymfd) < 0)
+                {
+                  ok = 0;
+                  break;
+                }
+            }
         }
       else if (rem <= 1)
         {
-          request->logging_function (gftp_logging_recv, request,
-                                     "%s", tempstr + lastdiff);
           len += SSH_LOGIN_BUFSIZE;
           rem += SSH_LOGIN_BUFSIZE;
           lastdiff = diff;
@@ -402,9 +413,14 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
 
   g_free (pwstr);
 
-  if (*(tempstr + lastdiff) != '\0')
-    request->logging_function (gftp_logging_recv, request,
-                               "%s\n", tempstr + lastdiff);
+  if (question_pos != NULL)
+    {
+      if (*question_pos != '\0')
+        request->logging_function (gftp_logging_recv, request, "%s\n",
+                                   question_pos);
+    }
+  else if (*tempstr != '\0')
+    request->logging_function (gftp_logging_recv, request, "%s\n", tempstr);
 
   g_free (tempstr);
 
@@ -413,13 +429,11 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
       if (ok == SSH_ERROR_BADPASS)
         request->logging_function (gftp_logging_error, request,
                                _("Error: An incorrect password was entered\n"));
-      else if (ok == SSH_ERROR_QUESTION)
-        request->logging_function (gftp_logging_error, request,
-                               _("Please connect to this host with the command line SSH utility and answer this question appropriately.\n"));
       else if (ok == SSH_WARNING)
         request->logging_function (gftp_logging_error, request,
                                    _("Please correct the above warning to connect to this host.\n"));
 
+      gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
  

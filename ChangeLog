@@ -1,3 +1,25 @@
+2004-4-14 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c lib/gftp.h src/text/textui.c src/gtk/gtkui.c - when
+	connecting with the SSH protocol, if the user is asked a question,
+	relay that question back to the user and allow them to answer it.
+
+	* doc/gftp-faq.sgml - moved the SSH troubleshooting section to the
+	issues for older releases section. All of the issues that this talks
+	about have been fixed in CVS.
+
+	* src/gtk/gftp-gtk.c (main) - call gdk_threads_init() on startup
+
+	* lib/cache.c lib/config_file.c lib/misc.c lib/protocols.c
+	lib/rfc2068.c lib/rfc959.c - removed some uses of strlen() so that
+	they only occur once on a string instead of multiple times in some
+	cases
+
+	* lib/sslcommon.c - fixed typo
+
+	* configure.in lib/gftp.h - added configure check for inttypes.h
+
+	* docs/gftp.lsm - updated with 2.0.17 information
+
 2004-04-10  Adam Weinberger  <adamw@gnome.rog>
 
 	* en_CA.po: Added en_CA to ALL_LINGUAS.

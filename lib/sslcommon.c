@@ -292,7 +292,7 @@ gftp_ssl_startup (gftp_request * request)
   if (!SSL_library_init ())
     {
       request->logging_function (gftp_logging_error, request,
-                                 _("Cannot initialized the OpenSSL library\n"));
+                                 _("Cannot initialize the OpenSSL library\n"));
       return (GFTP_EFATAL);
     }
 

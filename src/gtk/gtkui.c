@@ -453,3 +453,55 @@ gftpui_gtk_get_utf8_file_pos (gftp_file * fle)
   return (pos);
 }
 
+
+static void
+_protocol_yes_answer (gpointer answer, gftp_dialog_data * ddata)
+{
+  *(int *) answer = 1;
+}
+
+
+static void
+_protocol_no_answer (gpointer answer, gftp_dialog_data * ddata)
+{
+  *(int *) answer = 0;
+}
+
+
+int
+gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
+                            char *question)
+{
+  int answer = -1;
+
+  GDK_THREADS_ENTER ();
+
+  MakeYesNoDialog (title, question, _protocol_yes_answer, &answer,
+                   _protocol_no_answer, &answer);
+
+  if (gftp_protocols[request->protonum].use_threads)
+    {
+      /* Otherwise let the main loop in the main thread run the events */
+      GDK_THREADS_LEAVE ();
+
+      while (answer == -1)
+        {
+          sleep (1);
+        }
+    }
+  else
+    {
+      while (answer == -1)
+        {
+          GDK_THREADS_LEAVE ();
+#if GTK_MAJOR_VERSION == 1
+          g_main_iteration (TRUE);
+#else
+          g_main_context_iteration (NULL, TRUE);
+#endif
+        }
+    }
+
+  return (answer);
+}
+

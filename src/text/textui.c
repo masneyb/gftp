@@ -243,3 +243,25 @@ gftpui_disconnect (void *uidata)
   gftp_disconnect (request);
 }
 
+
+int
+gftpui_protocol_ask_yes_no (gftp_request * request, char *title, char *question)
+{
+  char buf[10];
+  int ret;
+
+  do
+    {
+      gftp_text_ask_question (question, 1, buf, sizeof (buf));
+      if (strcasecmp (buf, "yes") == 0)
+        ret = 1;
+      else if (strcasecmp (buf, "no") == 0)
+        ret = 0;
+      else
+        ret = -1;
+    }
+  while (ret == -1);
+
+  return (ret);
+}
+

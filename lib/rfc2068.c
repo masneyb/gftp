@@ -272,9 +272,10 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
                   off_t startsize)
 {
   char *tempstr, *oldstr, *hf;
-  int restarted;
-  intptr_t use_http11;
   rfc2068_params * params;
+  intptr_t use_http11;
+  int restarted;
+  size_t len;
   off_t size;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -326,11 +327,10 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
     return (size);
 
   restarted = 0;
-  if (strlen (request->last_ftp_response) > 9 
-      && strncmp (request->last_ftp_response + 9, "206", 3) == 0)
+  len = strlen (request->last_ftp_response);
+  if (len  > 9 && strncmp (request->last_ftp_response + 9, "206", 3) == 0)
     restarted = 1;
-  else if (strlen (request->last_ftp_response) < 9 ||
-           strncmp (request->last_ftp_response + 9, "200", 3) != 0)
+  else if (len < 9 || strncmp (request->last_ftp_response + 9, "200", 3) != 0)
     {
       request->logging_function (gftp_logging_error, request,
 			         _("Cannot retrieve file %s\n"), filename);

@@ -201,7 +201,7 @@ gftp_read_bookmarks (char *global_data_path)
   newentry = NULL;
   while (fgets (buf, sizeof (buf), bmfile))
     {
-     len = strlen (buf);
+      len = strlen (buf);
       if (len > 0 && buf[len - 1] == '\n')
 	buf[--len] = '\0';
       if (len > 0 && buf[len - 1] == '\r')

@@ -70,6 +70,10 @@
 #include <stdint.h>
 #endif
 
+#ifdef HAVE_INTTYPES_H
+#include <inttypes.h>
+#endif
+
 #ifdef HAVE_STRING_H
 #include <string.h>
 #else
@@ -1030,6 +1034,11 @@ ssize_t gftp_ssl_write 			( gftp_request * request,
 					  size_t size, 
 					  int fd );
 #endif /* USE_SSL */
+
+/* UI dependent functions that must be implemented */
+int gftpui_protocol_ask_yes_no 		( gftp_request * request,
+					  char *title,
+					  char *question );
 
 #endif
 

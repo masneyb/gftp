@@ -53,7 +53,8 @@ char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
   char *frompos, *topos, src[50], *dest;
-  int len, num, rem, i;
+  size_t num, rem, srclen;
+  int len, i;
 
 #if defined (_LARGEFILE_SOURCE)
   g_snprintf (src, sizeof (src), "%lld", (long long) number);
@@ -93,8 +94,10 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   else
     dest = dest_str;
 
-  num = strlen (src) / 3 - 1;
-  rem = strlen (src) % 3;
+  srclen = strlen (src);
+  num = srclen / 3 - 1;
+  rem = srclen % 3;
+
   frompos = src;
   topos = dest;
   for (i = 0; i < rem; i++)
@@ -1018,7 +1021,8 @@ base64_encode (char *str)
 
   char *newstr, *newpos, *fillpos, *pos;
   unsigned char table[64], encode[3];
-  int i, num;
+  size_t slen, num;
+  int i;
 
   for (i = 0; i < 26; i++)
     {
@@ -1032,9 +1036,11 @@ base64_encode (char *str)
   table[62] = '+';
   table[63] = '/';
 
-  num = strlen (str) / 3;
-  if (strlen (str) % 3 > 0)
+  slen = strlen (str);
+  num = slen / 3;
+  if (slen % 3 > 0)
     num++;
+
   newstr = g_malloc (num * 4 + 1);
   newstr[num * 4] = '\0';
   newpos = newstr;
@@ -1266,7 +1272,7 @@ gftp_scramble_password (const char *password)
   if (strcmp (password, "@EMAIL@") == 0)
     return (g_strdup (password));
 
-  newstr = g_malloc (strlen(password) * 2 + 2);
+  newstr = g_malloc (strlen (password) * 2 + 2);
   newpos = newstr;
   
   *newpos++ = '$';

@@ -1229,6 +1229,8 @@ main (int argc, char **argv)
   gftpui_common_init (&argc, &argv, ftp_log);
 
   g_thread_init (NULL);
+  gdk_threads_init();
+
   main_thread_id = pthread_self ();
   gtk_set_locale ();
   gtk_init (&argc, &argv);

@@ -1009,6 +1009,7 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
 {
   gftp_config_list_vars * proxy_hosts;
   gftp_proxy_hosts * hostname;
+  size_t hostlen, domlen;
   unsigned char addy[4];
   struct sockaddr *addr;
   GList * templist;
@@ -1077,13 +1078,16 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
   while (templist != NULL)
     {
       hostname = templist->data;
-      if (hostname->domain && 
-          strlen (request->hostname) > strlen (hostname->domain))
+      if (hostname->domain != NULL)
         {
-          pos = request->hostname + strlen (request->hostname) -
-                                 strlen (hostname->domain);
-          if (strcmp (hostname->domain, pos) == 0)
-            return (0);
+           hostlen = strlen (request->hostname);
+           domlen = strlen (hostname->domain);
+           if (hostlen > domlen)
+             {
+                pos = request->hostname + hostlen - domlen;
+                if (strcmp (hostname->domain, pos) == 0)
+                  return (0);
+             }
         }
 
       if (hostname->ipv4_network_address != 0)
@@ -1151,11 +1155,14 @@ parse_time (char *str, char **endpos)
   struct tm curtime, *loctime;
   time_t t, ret;
   char *tmppos;
+  size_t slen;
   int i, num;
 
+  slen = strlen (str);
   memset (&curtime, 0, sizeof (curtime));
   curtime.tm_isdst = -1;
-  if (strlen (str) > 4 && isdigit ((int) str[0]) && str[2] == '-' && 
+
+  if (slen > 4 && isdigit ((int) str[0]) && str[2] == '-' && 
       isdigit ((int) str[3]))
     {
       /* This is how DOS will return the date/time */
@@ -1163,13 +1170,13 @@ parse_time (char *str, char **endpos)
 
       tmppos = strptime (str, "%m-%d-%y %I:%M%p", &curtime);
     }
-  else if (strlen (str) > 4 && isdigit ((int) str[0]) && str[2] == '-' && 
+  else if (slen > 4 && isdigit ((int) str[0]) && str[2] == '-' && 
            isalpha (str[3]))
     {
       /* 10-Jan-2003 09:14 */
       tmppos = strptime (str, "%d-%h-%Y %H:%M", &curtime);
     }
-  else if (strlen (str) > 4 && isdigit ((int) str[0]) && str[4] == '/')
+  else if (slen > 4 && isdigit ((int) str[0]) && str[4] == '/')
     {
       /* 2003/12/25 */
       tmppos = strptime (str, "%Y/%m/%d", &curtime);
@@ -1404,13 +1411,14 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
 
 
 static int
-gftp_parse_ls_unix (gftp_request * request, char *str, gftp_file * fle)
+gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
+                    gftp_file * fle)
 {
   char *endpos, *startpos, *pos;
   int cols;
 
   /* If there is no space between the attribs and links field, just make one */
-  if (strlen (str) > 10)
+  if (slen > 10)
     str[10] = ' ';
 
   /* Determine the number of columns */
@@ -1615,7 +1623,7 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
     {
       case GFTP_DIRTYPE_CRAY:
       case GFTP_DIRTYPE_UNIX:
-        result = gftp_parse_ls_unix (request, str, fle);
+        result = gftp_parse_ls_unix (request, str, len, fle);
         break;
       case GFTP_DIRTYPE_EPLF:
         result = gftp_parse_ls_eplf (str, fle);
@@ -1656,7 +1664,7 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle)
             if (is_vms)
               result = gftp_parse_ls_vms (str, fle);
             else
-              result = gftp_parse_ls_unix (request, str, fle);
+              result = gftp_parse_ls_unix (request, str, len, fle);
           }
         break;
     }

@@ -318,52 +318,6 @@ client side, and the PORT command will be sent to the server instead.</para>
 <!-- ***************************************************************** -->
 
 <chapter>
-<title>SSH Protocol</title>
-
-<sect1>
-<title>I'm having problems getting SSH2 transfers to work. I keep getting the
-error: <emphasis>Error: Message size XXXXXXXX too big from server</emphasis>
-</title>
-
-<para>What probably is the problem, sftp-server isn't in your path on the
-remote server. When you try to connect to the remote server, you'll see the
-command gFTP is trying to run, and it'll look something like:</para>
-
-<para><literallayout><literal>ssh -e none -l username hostname "echo -n xsftp ;  sftp-server"</literal></literallayout</para>
-
-<para>Try running this command. If you get a prompt asking:</para>
-
-<para><literallayout>
-<literal>The authenticity of host 'hostname (###.###.###.###)' can't be established.</literal>
-<literal>RSA key fingerprint is xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx.</literal>
-<literal>Are you sure you want to continue connecting (yes/no)?</literal>
-</literallayout></para>
-
-<para>Tell it yes. gFTP won't even try to answer this question for you at the
-moment. Then, if you get the following output:</para>
-
-<para><literallayout>
-<literal>Enter passphrase for key '/home/brian/.ssh/id_dsa':</literal>
-<literal>xsftp</literal>
-<literal>bash: sftp-server: command not found</literal>
-</literallayout></para>
-
-<para>You'll have to set the path to the sftp-server program. Alternatively
-you could go under FTP->Options->SSH and enable Use sftp subsys. If you enable
-this, then you don't have to know the remote path to your sftp executable.
-But if you enable this, gFTP won't be able to send your password over to
-the ssh client. So if you're not using ssh-agent, then ssh will spawn the
-ssh-askpass program to grab your password.</para>
-
-</sect1>
-
-<!-- ----------------------------------------------------------------- -->
-
-</chapter>
-
-<!-- ***************************************************************** -->
-
-<chapter>
 <title>HTTP Protocol</title>
 
 <sect1>
@@ -444,7 +398,44 @@ packages. You can still leave the gtk 1.0 libraries installed.</para>
 <title>Issues for older releases</title>
 
 <sect1>
-<title>What is the difference between the SSH and SSH2 protocols?</title>
+<title>I'm having problems getting SSH2 transfers to work. I keep getting the
+error: <emphasis>Error: Message size XXXXXXXX too big from server (only relevant for versions <= 2.0.17)</emphasis>
+</title>
+
+<para>What probably is the problem, sftp-server isn't in your path on the
+remote server. When you try to connect to the remote server, you'll see the
+command gFTP is trying to run, and it'll look something like:</para>
+
+<para><literallayout><literal>ssh -e none -l username hostname "echo -n xsftp ;  sftp-server"</literal></literallayout</para>
+
+<para>Try running this command. If you get a prompt asking:</para>
+
+<para><literallayout>
+<literal>The authenticity of host 'hostname (###.###.###.###)' can't be established.</literal>
+<literal>RSA key fingerprint is xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx.</literal>
+<literal>Are you sure you want to continue connecting (yes/no)?</literal>
+</literallayout></para>
+
+<para>Tell it yes. gFTP won't even try to answer this question for you at the
+moment. Then, if you get the following output:</para>
+
+<para><literallayout>
+<literal>Enter passphrase for key '/home/brian/.ssh/id_dsa':</literal>
+<literal>xsftp</literal>
+<literal>bash: sftp-server: command not found</literal>
+</literallayout></para>
+
+<para>You'll have to set the path to the sftp-server program. Alternatively
+you could go under FTP->Options->SSH and enable Use sftp subsys. If you enable
+this, then you don't have to know the remote path to your sftp executable.
+But if you enable this, gFTP won't be able to send your password over to
+the ssh client. So if you're not using ssh-agent, then ssh will spawn the
+ssh-askpass program to grab your password.</para>
+
+</sect1>
+
+<sect1>
+<title>What is the difference between the SSH and SSH2 protocols? (only relevant for versions <= 2.0.15)</title>
 
 <para>The SSH protocol uses sftp >= 0.7 from 
 <ulink url="http://www.xbill.org/sftp">http://www.xbill.org/sftp</ulink>.

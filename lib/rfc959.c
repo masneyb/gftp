@@ -1514,7 +1514,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   if (!request->cached)
     {
       request->last_dir_entry = g_strdup_printf ("%s\n", tempstr);
-      request->last_dir_entry_len = strlen (tempstr) + 1;
+      request->last_dir_entry_len = len + 1;
     }
   return (len);
 }

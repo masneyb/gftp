@@ -299,6 +299,7 @@ gftp_delete_cache_entry (gftp_request * request, char *descr,
   gftp_getline_buffer * rbuf;
   gftp_cache_entry centry;
   int indexfd, newfd;
+  size_t len;
   time_t now;
   int remove;
  
@@ -366,9 +367,10 @@ gftp_delete_cache_entry (gftp_request * request, char *descr,
 
           /* Make sure when we call gftp_get_line() that we pass the read size
              as sizeof(buf) - 1 so that we'll have room to put the newline */
-          buf[strlen (buf)] = '\n';
+          len = strlen (buf);
+          buf[len--] = '\n';
 
-          if (gftp_fd_write (NULL, buf, strlen (buf), newfd) < 0)
+          if (gftp_fd_write (NULL, buf, len, newfd) < 0)
             break;
         }
     }
