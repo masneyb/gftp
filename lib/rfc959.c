@@ -415,14 +415,9 @@ rfc959_syst (gftp_request * request)
     return (GFTP_ERETRYABLE);
 
   *endpos = '\0';
-  parms->quote_filename = 0;
 
   if (strcmp (stpos, "UNIX") == 0)
-    {
-      request->server_type = GFTP_DIRTYPE_UNIX;
-      if (strstr (endpos + 1, "BSD") == NULL)
-        parms->quote_filename = 1;
-    }
+    request->server_type = GFTP_DIRTYPE_UNIX;
   else if (strcmp (stpos, "VMS") == 0)
     request->server_type = GFTP_DIRTYPE_VMS;
   else if (strcmp (stpos, "MVS") == 0 ||
@@ -1703,10 +1698,7 @@ rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   parms = request->protocol_data;
-  if (parms->quote_filename)
-    tempstr = g_strdup_printf ("SITE CHMOD %o \"%s\"\r\n", mode, file);
-  else
-    tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
+  tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
 
   ret = rfc959_send_command (request, tempstr, 1);
   g_free (tempstr);
@@ -1787,10 +1779,7 @@ rfc959_set_file_time (gftp_request * request, const char *file, time_t datetime)
   if (datestr == NULL)
     return (GFTP_EFATAL);
 
-  if (parms->quote_filename)
-    tempstr = g_strconcat ("SITE UTIME ", datestr, " \"", file, "\"\r\n", NULL);
-  else
-    tempstr = g_strconcat ("SITE UTIME ", datestr, " ", file, "\r\n", NULL);
+  tempstr = g_strconcat ("SITE UTIME ", datestr, " ", file, "\r\n", NULL);
 
   g_free (datestr);
 
@@ -1857,7 +1846,6 @@ rfc959_copy_param_options (gftp_request * dest_request,
   sparms = src_request->protocol_data;
 
   dparms->data_connection = -1;
-  dparms->quote_filename = sparms->quote_filename;
   dparms->is_ascii_transfer = sparms->is_ascii_transfer;
   dparms->is_fxp_transfer = sparms->is_fxp_transfer;
   dparms->auth_tls_start = sparms->auth_tls_start;
