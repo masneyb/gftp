@@ -1,4 +1,9 @@
 2003-1-18 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/misc.c src/gtk/delete_dialog.c src/gtk/transfer.c
+	src/gtk/view_dialog.c src/uicommon/gftpui.c - renamed all instances of
+	copy_request() to gftp_copy_request(). Removed second argument
+	(copy_local_options), the options are always copied now.
+
 	* lib/protocols.c (gftp_parse_url) - if the URL is the local filesystem,
 	skip over the whitespace at the beginning.
 

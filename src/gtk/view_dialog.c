@@ -199,7 +199,7 @@ fork_process (char *proc, char *filename, int fd, char *remote_filename,
           newproc->fromwdata = &window1;
           newproc->towdata = &window2;
         }
-      newproc->torequest = copy_request (newproc->towdata->request, 1);
+      newproc->torequest = gftp_copy_request (newproc->towdata->request);
       newproc->filename = g_strdup (filename);
       if (remote_filename != NULL)
 	newproc->remote_filename = g_strdup (remote_filename);

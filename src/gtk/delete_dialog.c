@@ -177,7 +177,7 @@ delete_dialog (gpointer data)
     return;
 
   transfer = g_malloc0 (sizeof (*transfer));
-  transfer->fromreq = copy_request (wdata->request, 0);
+  transfer->fromreq = gftp_copy_request (wdata->request);
   transfer->fromwdata = wdata;
 
   num = 0;

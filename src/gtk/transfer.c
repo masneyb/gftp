@@ -105,8 +105,8 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
     return;
 
   transfer = g_malloc0 (sizeof (*transfer));
-  transfer->fromreq = copy_request (fromwdata->request, 0);
-  transfer->toreq = copy_request (towdata->request, 0);
+  transfer->fromreq = gftp_copy_request (fromwdata->request);
+  transfer->toreq = gftp_copy_request (towdata->request);
   transfer->fromwdata = fromwdata;
   transfer->towdata = towdata;
 

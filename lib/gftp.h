@@ -706,8 +706,7 @@ gftp_transfer * gftp_tdata_new 		( void );
 
 void free_tdata 			( gftp_transfer * tdata );
 
-gftp_request * copy_request 		( gftp_request * req,
-					  int copy_local_options );
+gftp_request * gftp_copy_request 	( gftp_request * req );
 
 GList * gftp_sort_filelist 		( GList * filelist, 
 					  int column, 

@@ -586,7 +586,7 @@ free_tdata (gftp_transfer * tdata)
 
 
 gftp_request * 
-copy_request (gftp_request * req, int copy_local_options)
+gftp_copy_request (gftp_request * req)
 {
   gftp_request * newreq;
 
@@ -608,11 +608,10 @@ copy_request (gftp_request * req, int copy_local_options)
   newreq->free_hostp = 0;
   newreq->hostp = NULL;
 
-  if (copy_local_options)
-    gftp_copy_local_options (&newreq->local_options_vars, 
-                             &newreq->local_options_hash,
-                             req->local_options_vars,
-                             req->num_local_options_vars);
+  gftp_copy_local_options (&newreq->local_options_vars, 
+                           &newreq->local_options_hash,
+                           req->local_options_vars,
+                           req->num_local_options_vars);
 
   if (req->init (newreq) < 0)
     {

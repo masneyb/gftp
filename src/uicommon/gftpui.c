@@ -1036,8 +1036,8 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
   if (templist == NULL)
     {
       tdata = gftp_tdata_new ();
-      tdata->fromreq = copy_request (fromreq, 0);
-      tdata->toreq = copy_request (toreq, 0);
+      tdata->fromreq = gftp_copy_request (fromreq);
+      tdata->toreq = gftp_copy_request (toreq);
 
       tdata->fromwdata = fromuidata;
       tdata->towdata = touidata;
