@@ -618,7 +618,7 @@ ptym_open (char *pts_name)
 
 #else /* !__sgi */
 
-#ifdef SYSV
+#ifdef HAVE_GRANTPT
 
   char *tempstr;
 
@@ -647,7 +647,7 @@ ptym_open (char *pts_name)
   strcpy (pts_name, tempstr);
   return (fd);
 
-#else /* !SYSV */
+#else /* !GRANTPT */
 
   char *pos1, *pos2;
 
@@ -678,7 +678,7 @@ ptys_open (int fdm, char *pts_name)
 {
   int fds;
 
-#if !defined (SYSV) && !defined (__sgi)
+#if !defined (HAVE_GRANTPT) && !defined (__sgi)
 
   chmod (pts_name, S_IRUSR | S_IWUSR);
   chown (pts_name, getuid (), -1);
@@ -691,32 +691,14 @@ ptys_open (int fdm, char *pts_name)
       return (-1);
     }
 
-#ifdef SYSV
-
-  if (ioctl (fds, I_PUSH, "ptem") < 0)
-    {
-      close (fdm);
-      close (fds);
-      return (-1);
-    }
-
-  if (ioctl (fds, I_PUSH, "ldterm") < 0)
-    {
-      close (fdm);
-      close (fds);
-      return (-1);
-    }
-
-  if (ioctl (fds, I_PUSH, "ttcompat") < 0)
-    {
-      close (fdm);
-      close (fds);
-      return (-1);
-    }
-
+#ifdef HAVE_GRANTPT
+  /* I intentionally ignore these errors */
+  ioctl (fds, I_PUSH, "ptem");
+  ioctl (fds, I_PUSH, "ldterm");
+  ioctl (fds, I_PUSH, "ttcompat");
 #endif
 
-#if !defined(SYSV) && !defined (__sgi) && defined(TIOCSCTTY) && !defined(CIBAUD)
+#if !defined(HAVE_GRANTPT) && !defined (__sgi) && defined(TIOCSCTTY) && !defined(CIBAUD)
 
   if (ioctl (fds, TIOCSCTTY, (char *) 0) < 0)
     {

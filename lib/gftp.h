@@ -58,6 +58,10 @@
 #include <grp.h>
 #include <math.h>
 
+#ifdef HAVE_GRANTPT
+#include <stropts.h>
+#endif
+
 #ifdef HAVE_STRING_H
 #include <string.h>
 #else

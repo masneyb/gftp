@@ -1,3 +1,16 @@
+2002-12-10 Brian Masney <masneyb@gftp.org>
+	* configure.in - check for grantpt function
+
+	* lib/misc.c (pty[ms]_open) - use Unix98 PTY allocation if grantpt()
+	is on the current system
+
+	* lib/gftp.h - include stropts.h if grantpt is here
+
+2002-12-5 Brian Masney <masneyb@gftp.org>
+	* Release final 2.0.14
+
+	* lib/Chagelog-old - brief updates since 2.0.13
+
 2002-12-4 Brian Masney <masneyb@gftp.org>
 	* lib/misc.c (ssh_start_login_sequence) - if the word WARNING appears
 	in the banner, don't log into the server
