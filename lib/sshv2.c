@@ -140,6 +140,7 @@ typedef struct sshv2_params_tag
 #define SSH_ERROR_BADPASS	-1
 #define SSH_ERROR_QUESTION	-2
 
+
 static char *
 sshv2_initialize_string (gftp_request * request, size_t len)
 {
@@ -178,7 +179,7 @@ sshv2_initialize_string_with_path (gftp_request * request, const char *path,
   if (*path == '/')
     {
       pathlen = strlen (path);
-      *len = pathlen + 8 + *len;
+      *len += pathlen + 8;
       ret = sshv2_initialize_string (request, *len);
       sshv2_add_string_to_buf (ret + 4, path);
     }
@@ -186,7 +187,7 @@ sshv2_initialize_string_with_path (gftp_request * request, const char *path,
     {
       tempstr = gftp_build_path (request->directory, path, NULL);
       pathlen = strlen (tempstr);
-      *len = pathlen + 8 + *len;
+      *len += pathlen + 8;
       ret = sshv2_initialize_string (request, *len);
       sshv2_add_string_to_buf (ret + 4, tempstr);
       g_free (tempstr);
@@ -799,6 +800,20 @@ sshv2_message_free (sshv2_message * message)
 
 
 static int
+sshv2_wrong_response (gftp_request * request, sshv2_message * message)
+{
+  request->logging_function (gftp_logging_error, request,
+                     _("Received wrong response from server, disconnecting\n"));
+  gftp_disconnect (request);
+
+  if (message != NULL)
+    sshv2_message_free (message);
+
+  return (GFTP_EFATAL);
+}
+
+
+static int
 sshv2_read_status_response (gftp_request * request, sshv2_message * message,
                             int fd, int fxp_is_retryable, int fxp_is_wrong)
 {
@@ -814,13 +829,7 @@ sshv2_read_status_response (gftp_request * request, sshv2_message * message,
       return (GFTP_ERETRYABLE);
     }
   else if (fxp_is_wrong > 0 && ret != fxp_is_wrong)
-    {
-      request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-      gftp_disconnect (request);
-      sshv2_message_free (message);
-      return (GFTP_EFATAL);
-    }
+    return (sshv2_wrong_response (request, message));
 
   return (ret);
 }
@@ -833,26 +842,14 @@ sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
   gint32 ret;
 
   if (message->end - message->pos < 4)
-    {
-      request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (message);
-      gftp_disconnect (request);
-      return (GFTP_EFATAL);
-    }
+    return (sshv2_wrong_response (request, message));
 
   memcpy (&ret, message->pos, 4);
   ret = ntohl (ret);
   message->pos += 4;
 
   if (expected_response > 0 && ret != expected_response)
-    {
-      request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (message);
-      gftp_disconnect (request);
-      return (GFTP_EFATAL);
-    }
+    return (sshv2_wrong_response (request, message));
 
   return (ret);
 }
@@ -869,10 +866,7 @@ sshv2_buffer_get_string (gftp_request * request, sshv2_message * message)
 
   if (len > SSH_MAX_STRING_SIZE || (message->end - message->pos < len))
     {
-      request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (message);
-      gftp_disconnect (request);
+      sshv2_wrong_response (request, message);
       return (NULL);
     }
 
@@ -1010,13 +1004,7 @@ sshv2_connect (gftp_request * request)
       return (ret);
     }
   else if (ret != SSH_FXP_VERSION)
-    {
-      request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (&message);
-      gftp_disconnect (request);
-      return (GFTP_EFATAL);
-    }
+    return (sshv2_wrong_response (request, &message));
 
   sshv2_message_free (&message);
 
@@ -1259,52 +1247,28 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
         {
           params->message.pos += 8;
           if (params->message.pos > params->message.end)
-            {
-              request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-              sshv2_message_free (&params->message);
-              gftp_disconnect (request);
-              return (GFTP_EFATAL);
-            }
+            return (sshv2_wrong_response (request, &params->message));
         }
 
       if (attrs & SSH_FILEXFER_ATTR_UIDGID)
         {
           params->message.pos += 8;
           if (params->message.pos > params->message.end)
-            {
-              request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-              sshv2_message_free (&params->message);
-              gftp_disconnect (request);
-              return (GFTP_EFATAL);
-            }
+            return (sshv2_wrong_response (request, &params->message));
         }
 
       if (attrs & SSH_FILEXFER_ATTR_PERMISSIONS)
         {
           params->message.pos += 4;
           if (params->message.pos > params->message.end)
-            {
-              request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-              sshv2_message_free (&params->message);
-              gftp_disconnect (request);
-              return (GFTP_EFATAL);
-            }
+            return (sshv2_wrong_response (request, &params->message));
         }
 
       if (attrs & SSH_FILEXFER_ATTR_ACMODTIME)
         {
           params->message.pos += 8;
           if (params->message.pos > params->message.end)
-            {
-              request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-              sshv2_message_free (&params->message);
-              gftp_disconnect (request);
-              return (GFTP_EFATAL);
-            }
+            return (sshv2_wrong_response (request, &params->message));
         }
 
       if (attrs & SSH_FILEXFER_ATTR_EXTENDED)
@@ -1354,13 +1318,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       return (0);
     }
   else
-    {
-      request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-      sshv2_message_free (&params->message);
-      gftp_disconnect (request);
-      return (GFTP_EFATAL);
-    }
+    return (sshv2_wrong_response (request, &params->message));
 
   return (retsize);
 }
@@ -1906,12 +1864,8 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
         return (num);
       sshv2_message_free (&message);
       if (num != SSH_FX_EOF)
-        {
-          request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-          gftp_disconnect (request);
-          return (GFTP_EFATAL);
-        }
+        return (sshv2_wrong_response (request, &message));
+
       return (0);
     }
 
@@ -1992,13 +1946,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
   params->dont_log_status = 0;
   if (ret != SSH_FXP_STATUS)
-   {
-     request->logging_function (gftp_logging_error, request,
-                     _("Received wrong response from server, disconnecting\n"));
-     sshv2_message_free (&message);
-     gftp_disconnect (request);
-     return (GFTP_EFATAL);
-   }
+    return (sshv2_wrong_response (request, &message));
 
   message.pos += 4;
   if ((num = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK)) < 0)
