@@ -1,4 +1,7 @@
 2004-7-25 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_transfer_status) - don't force the user to
+	wait to reconnect if the connection to the server timed out
+
 	* src/gtk/transfer.c - when spawning a thread to get the
 	subdirectories, don't refresh the local directory listing. Also added
 	custom connect/disconnect functions so that timeouts can be handled

@@ -2798,7 +2798,7 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
     {
       if (num_read == GFTP_EFATAL)
         return (GFTP_EFATAL);
-      else if (!tdata->conn_error_no_timeout)
+      else if (num_read != GFTP_ETIMEDOUT && !tdata->conn_error_no_timeout)
         {
           if (retries != 0 && 
               tdata->current_file_retries >= retries)
@@ -2822,7 +2822,8 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
       while (retries == 0 || 
              tdata->current_file_retries <= retries)
         {
-          if (!tdata->conn_error_no_timeout && !tdata->skip_file)
+          if (num_read != GFTP_ETIMEDOUT && !tdata->conn_error_no_timeout &&
+              !tdata->skip_file)
             {
               tv.tv_sec = sleep_time;
               tv.tv_usec = 0;
@@ -2833,8 +2834,6 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
                 }
               while (ret1 == -1 && errno == EINTR);
             }
-          else
-            tdata->conn_error_no_timeout = 0;
 
           if ((ret1 = gftp_connect (tdata->fromreq)) == 0 &&
               (ret2 = gftp_connect (tdata->toreq)) == 0)
