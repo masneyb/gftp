@@ -116,6 +116,14 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 		       gint y, GtkSelectionData * selection_data, guint info,
 		       guint32 clk_time, gpointer data)
 {
+  if (current_wdata->request->stopable)
+    {
+      ftp_log (gftp_logging_misc, NULL,
+               _("%s: Please hit the stop button first to do anything else\n"),
+               _("Connect"));
+      return;
+    }
+
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
       if (GFTP_IS_CONNECTED (current_wdata->request))
