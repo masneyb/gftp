@@ -1863,7 +1863,7 @@ sshv2_hton64 (gint64 val)
 
 
 static void
-sshv2_setup_file_offset (sshv2_params * params)
+sshv2_setup_file_offset (sshv2_params * params, char *buf)
 {
   guint32 hinum, lownum;
 #ifdef G_HAVE_GINT64
@@ -1877,8 +1877,8 @@ sshv2_setup_file_offset (sshv2_params * params)
   lownum = htonl (params->offset);
 #endif
 
-  memcpy (params->read_buffer + params->handle_len, &hinum, 4);
-  memcpy (params->read_buffer + params->handle_len + 4, &lownum, 4);
+  memcpy (buf + params->handle_len, &hinum, 4);
+  memcpy (buf + params->handle_len + 4, &lownum, 4);
 }
 
 
@@ -1907,7 +1907,7 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   num = htonl (params->id++);
   memcpy (params->read_buffer, &num, 4);
 
-  sshv2_setup_file_offset (params);
+  sshv2_setup_file_offset (params, params->read_buffer);
 
   num = htonl (size);
   memcpy (params->read_buffer + params->handle_len + 8, &num, 4);
@@ -1974,7 +1974,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   num = htonl (params->id++);
   memcpy (tempstr, &num, 4);
 
-  sshv2_setup_file_offset (params);
+  sshv2_setup_file_offset (params, tempstr);
  
   num = htonl (size);
   memcpy (tempstr + params->handle_len + 8, &num, 4);
