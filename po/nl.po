@@ -1,17 +1,17 @@
 # translation of gftp.HEAD.po to Dutch
 # gFTP Dutch .po file
-# Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 # First Translator: Hein-Jan Leliveld <h.j.leliveld@student.tn.tudelft.nl>, 1999.
 # Second Translator: Myckel Habets <myckelhabets@netscape.net>, 2002.
 # Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>, 2003.
-# Daniel van Eeden <daniel_e@dds.nl>, 2004.
+# Daniel van Eeden <daniel_e@dds.nl>, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-08 18:56+0100\n"
-"PO-Revision-Date: 2004-12-08 22:15+0100\n"
+"POT-Creation-Date: 2004-10-21 11:05+0200\n"
+"PO-Revision-Date: 2005-01-28 10:52+0100\n"
 "Last-Translator: Daniel van Eeden <daniel_e@dds.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Fout: kan map %s niet aanmaken: %s\n"
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Fout: kan tijdelijk bestand niet aanmaken: %s\n"
 
-#: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:157 lib/config_file.c:163
+#: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:148 lib/config_file.c:154
 #: lib/local.c:102 lib/local.c:217 lib/rfc2068.c:259 lib/sshv2.c:1069
 #, c-format
 msgid "Error closing file descriptor: %s\n"
@@ -49,48 +49,48 @@ msgstr "Fout bij het sluiten van bestandsbeschrijver %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Fout: kan niet naar bestand %s zoeken: %s\n"
 
-#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:2969
+#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2973
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Fout: kan lokaal bestand %s: niet openen: %s\n"
 
-#: lib/config_file.c:143 lib/protocols.c:2676 lib/sslcommon.c:486
+#: lib/config_file.c:134 lib/protocols.c:2680 lib/sslcommon.c:486
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Fout: kan niet naar buis schrijven: %s\n"
 
-#: lib/config_file.c:151 lib/protocols.c:2600 lib/sshv2.c:364
+#: lib/config_file.c:142 lib/protocols.c:2604 lib/sshv2.c:364
 #: lib/sslcommon.c:439
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Fout: kan niet van buis lezen: %s\n"
 
-#: lib/config_file.c:183 lib/config_file.c:737
+#: lib/config_file.c:174 lib/config_file.c:727
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP Fout: verkeerd bladwijzerbestand %s\n"
 
-#: lib/config_file.c:192
+#: lib/config_file.c:183
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Waarschuwing: kan bladwijzerbestand %s niet vinden\n"
 
-#: lib/config_file.c:203 lib/config_file.c:743
+#: lib/config_file.c:194 lib/config_file.c:733
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP Fout: kan bladwijzerbestand %s niet openen: %s\n"
 
-#: lib/config_file.c:295 lib/config_file.c:317
+#: lib/config_file.c:286 lib/config_file.c:308
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP Waarschuwing: regel %d in bladwijzerbestand overgeslagen: %s\n"
 
-#: lib/config_file.c:347
+#: lib/config_file.c:338
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP Waarschuwing: Regel %d heeft niet genoeg argumenten\n"
 
-#: lib/config_file.c:505
+#: lib/config_file.c:496
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
@@ -100,7 +100,7 @@ msgstr ""
 "de proxy server (indien aanwezig) hoeven te gaan. Standaard: dont_use_proxy=."
 "domein of dont_use_proxy=netwerk nummer/netmasker"
 
-#: lib/config_file.c:508
+#: lib/config_file.c:499
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
@@ -108,52 +108,52 @@ msgstr ""
 "ext=bestandsextensie:XPM bestand:Ascii of Binair (A of B):weergaveprogramma. "
 "NB: Alle argumenten behalve de bestandsextensie zijn optioneel"
 
-#: lib/config_file.c:587 lib/config_file.c:832
+#: lib/config_file.c:577 lib/config_file.c:816
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP Fout: verkeerd configuratiebestand %s\n"
 
-#: lib/config_file.c:598
+#: lib/config_file.c:588
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP Fout: kan map %s niet aanmaken: %s\n"
 
-#: lib/config_file.c:608
+#: lib/config_file.c:598
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP Fout: kan configuratie bestand %s niet vinden\n"
 
-#: lib/config_file.c:610
+#: lib/config_file.c:600
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "Is make install wel uitgevoerd?\n"
 
-#: lib/config_file.c:619 lib/config_file.c:838
+#: lib/config_file.c:609 lib/config_file.c:822
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP Fout: kan configuratiebestand %s niet openen: %s\n"
 
-#: lib/config_file.c:658
+#: lib/config_file.c:648
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr "Afgebroken door fouten op regel %d in configuratiebestand \n"
 
-#: lib/config_file.c:664
+#: lib/config_file.c:654
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP Waarschuwing: regel %d in configuratiebestand overgeslagen: %s\n"
 
-#: lib/config_file.c:671
+#: lib/config_file.c:661
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP Fout: verkeerd logbestand %s\n"
 
-#: lib/config_file.c:677
+#: lib/config_file.c:667
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP Waarschuwing: kan niet naar %s schrijven: %s\n"
 
-#: lib/config_file.c:732
+#: lib/config_file.c:722
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
@@ -162,7 +162,7 @@ msgstr ""
 "<masneyb@gftp.org>. Waarschuwing: al het toegevoegde commentaar ZAL "
 "overschreven worden."
 
-#: lib/config_file.c:733
+#: lib/config_file.c:723
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
 "is not secure. This is to avoid your password being easily remembered by "
@@ -174,7 +174,7 @@ msgstr ""
 "schouder meekijken, niet uw wachtwoorden zomaar kunnen lezen. Eerder werden "
 "de wachtwoorden onbeveiligd opgeslagen."
 
-#: lib/config_file.c:845
+#: lib/config_file.c:829
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
@@ -185,13 +185,13 @@ msgstr ""
 "overschreven worden. Een veld met (*) in het commentaar is niet binnen gFTP "
 "te veranderen"
 
-#: lib/config_file.c:1209 lib/protocols.c:383 lib/protocols.c:455
-#: lib/protocols.c:526 lib/rfc2068.c:545 lib/rfc2068.c:546
+#: lib/config_file.c:1193 lib/protocols.c:459 lib/protocols.c:530
+#: lib/rfc2068.c:545 lib/rfc2068.c:546
 msgid "<unknown>"
 msgstr "<onbekend>"
 
-#: lib/config_file.c:1289 lib/config_file.c:1352 lib/config_file.c:1394
-#: lib/config_file.c:1427
+#: lib/config_file.c:1273 lib/config_file.c:1336 lib/config_file.c:1378
+#: lib/config_file.c:1411
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
@@ -289,7 +289,7 @@ msgstr "lokaal bestandsysteem"
 msgid "usage: gftp "
 msgstr "gebruik: gftp "
 
-#: lib/misc.c:401 lib/rfc2068.c:303 src/uicommon/gftpui.c:662
+#: lib/misc.c:401 lib/rfc2068.c:303 src/uicommon/gftpui.c:663
 #, c-format
 msgid "\n"
 msgstr "\n"
@@ -496,8 +496,8 @@ msgid ""
 msgstr ""
 "Toestaan van handmatige commando's in de GUI (functies zoals de text port)"
 
-#: lib/options.h:108 src/gtk/options_dialog.c:1023
-#: src/gtk/options_dialog.c:1243
+#: lib/options.h:108 src/gtk/options_dialog.c:1051
+#: src/gtk/options_dialog.c:1144
 msgid "Network"
 msgstr "Netwerk"
 
@@ -518,9 +518,7 @@ msgstr "Aantal herverbindingen:"
 
 #: lib/options.h:118
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
-msgstr ""
-"Het aantal keren opnieuw  proberen in te loggen. Geef een 0 om oneindig "
-"keren te proberen"
+msgstr "Het aantal keren opnieuw proberen. Stel in op 0 om oneindig aantal keren te proberen"
 
 #: lib/options.h:120
 msgid "Retry sleep time:"
@@ -600,15 +598,15 @@ msgstr ""
 "De breedte van de bestandsnaam-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen."
 
-#: lib/options.h:173 lib/options.h:179
+#: lib/options.h:169 lib/options.h:175
 msgid "The default column to sort by"
 msgstr "De standaard kolom sorteren op"
 
-#: lib/options.h:176 lib/options.h:182
+#: lib/options.h:172 lib/options.h:178
 msgid "Sort ascending or descending"
 msgstr "Aflopend of oplopend sorteren"
 
-#: lib/options.h:186 lib/options.h:204
+#: lib/options.h:182 lib/options.h:200
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -616,7 +614,7 @@ msgstr ""
 "De breedte van de bestandsnaam-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:189 lib/options.h:207
+#: lib/options.h:185 lib/options.h:203
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -624,7 +622,7 @@ msgstr ""
 "De breedte van de bestandsgrootte-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:192 lib/options.h:210
+#: lib/options.h:188 lib/options.h:206
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -632,7 +630,7 @@ msgstr ""
 "De breedte van de gebruikersnaam-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:195 lib/options.h:213
+#: lib/options.h:191 lib/options.h:209
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -640,7 +638,7 @@ msgstr ""
 "De breedte van de groeps-kolom. Geef een 0 om deze kolom de breedte zelf te "
 "laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:198 lib/options.h:216
+#: lib/options.h:194 lib/options.h:212
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -648,7 +646,7 @@ msgstr ""
 "De breedte van de datum-kolom. Geef een 0 om deze kolom de breedte zelf te "
 "laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:201 lib/options.h:219
+#: lib/options.h:197 lib/options.h:215
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -656,209 +654,209 @@ msgstr ""
 "De breedte van de eigenschappen-kolom. Geef een 0 om deze kolom de breedte "
 "zelf te laten kiezen. Geef een -1 om deze kolom uit te zetten"
 
-#: lib/options.h:222
+#: lib/options.h:218
 msgid "The color of the commands that are sent to the server"
 msgstr "De kleur van de commando's die naar de server gezonden zijn"
 
-#: lib/options.h:225
+#: lib/options.h:221
 msgid "The color of the commands that are received from the server"
 msgstr "De kleur van de commando's die van de server ontvangen zijn"
 
-#: lib/options.h:228
+#: lib/options.h:224
 msgid "The color of the error messages"
 msgstr "De kleur van de foutmeldingen"
 
-#: lib/options.h:231
+#: lib/options.h:227
 msgid "The color of the rest of the log messages"
 msgstr "De kleur van de overige logberichten"
 
-#: lib/options.h:237 lib/rfc959.c:40
+#: lib/options.h:233 lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:240 lib/options.h:242
+#: lib/options.h:236 lib/options.h:238
 msgid "FTPS"
 msgstr "FTPS"
 
-#: lib/options.h:245 lib/rfc2068.c:27
+#: lib/options.h:241 lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:248 lib/options.h:250
+#: lib/options.h:244 lib/options.h:246
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: lib/options.h:253
+#: lib/options.h:249
 msgid "Local"
 msgstr "Lokaal"
 
-#: lib/options.h:255
+#: lib/options.h:251
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:257 src/gtk/bookmarks.c:886
+#: lib/options.h:253 src/gtk/bookmarks.c:865
 msgid "Bookmark"
 msgstr "Bladwijzer"
 
-#: lib/protocols.c:225
+#: lib/protocols.c:233
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Bestandsoverdracht zal worden afgeremd tot %.2f KB/s\n"
 
-#: lib/protocols.c:379
+#: lib/protocols.c:386
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "Instellen van LC_TIME op '%s' mislukt. Terugvallen op '%s'\n"
 
-#: lib/protocols.c:390
+#: lib/protocols.c:394
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "Laden mappenlijst %s uit cache (LC_TIME=%s)\n"
 
-#: lib/protocols.c:400
+#: lib/protocols.c:404
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "Laden van mappenlijst %s van server (LC_TIME=%s)\n"
 
-#: lib/protocols.c:454 lib/protocols.c:486 lib/protocols.c:525
-#: lib/protocols.c:557
+#: lib/protocols.c:458 lib/protocols.c:490 lib/protocols.c:529
+#: lib/protocols.c:561
 #, c-format
 msgid ""
 "Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr "Fout bij het converteren van tekenreeks '%s' van karakterset %s naar karakterset %s: %s\n"
+msgstr "Fout bij converteren van tekenreeks '%s' van karakter set %s naar karakter set %s: %s\n"
 
 #. Don't use request->logging_function since the strings must be in UTF-8
 #. for the GTK+ 2.x port
-#: lib/protocols.c:469
+#: lib/protocols.c:473
 #, c-format
 msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
-msgstr "Fout bij het converteren van string '%s' naar UTF-8 van huidige locale: %s\n"
+msgstr "Fout bij converteren van tekenreeks '%s' naar UTF-8 van huidige locale: %s\n"
 
 #. Don't use request->logging_function since the strings must be in UTF-8
 #. for the GTK+ 2.x port
-#: lib/protocols.c:540
+#: lib/protocols.c:544
 #, c-format
 msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
 msgstr "Fout bij converteren van tekenreeks '%s' naar huidige locale van UTF-8: %s\n"
 
-#: lib/protocols.c:626
+#: lib/protocols.c:630
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Fout: kan niet naar buffer schrijven: %s\n"
 
-#: lib/protocols.c:658
+#: lib/protocols.c:662
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Fout: kan bladwijzer %s niet vinden\n"
 
-#: lib/protocols.c:665
+#: lib/protocols.c:669
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Bladwijzerfout: de bladwijzer %s bevat geen servernaam\n"
 
-#: lib/protocols.c:792
+#: lib/protocols.c:796
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Het '%s'-protocol wordt op dit moment niet ondersteund.\n"
 
-#: lib/protocols.c:1138 lib/protocols.c:1153 lib/protocols.c:2185
-#: lib/protocols.c:2296
+#: lib/protocols.c:1142 lib/protocols.c:1157 lib/protocols.c:2187
+#: lib/protocols.c:2300
 #, c-format
 msgid "Looking up %s\n"
 msgstr "%s opzoeken\n"
 
-#: lib/protocols.c:1144 lib/protocols.c:1159 lib/protocols.c:2190
-#: lib/protocols.c:2301
+#: lib/protocols.c:1148 lib/protocols.c:1163 lib/protocols.c:2192
+#: lib/protocols.c:2305
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Kan de hostnaam %s niet vinden: %s\n"
 
-#: lib/protocols.c:1512 lib/protocols.c:1513 lib/protocols.c:1554
-#: lib/protocols.c:1555 lib/protocols.c:1618 lib/protocols.c:1625
-#: lib/protocols.c:1701 lib/protocols.c:1702 lib/protocols.c:1738
+#: lib/protocols.c:1516 lib/protocols.c:1517 lib/protocols.c:1558
+#: lib/protocols.c:1559 lib/protocols.c:1622 lib/protocols.c:1629
+#: lib/protocols.c:1705 lib/protocols.c:1706 lib/protocols.c:1742
 msgid "unknown"
 msgstr "onbekend"
 
-#: lib/protocols.c:2208
+#: lib/protocols.c:2210
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Mislukt om buis te maken: %s\n"
 
-#: lib/protocols.c:2214 lib/protocols.c:2315
+#: lib/protocols.c:2216 lib/protocols.c:2319
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Probeer %s:%d\n"
 
-#: lib/protocols.c:2219 lib/protocols.c:2322
+#: lib/protocols.c:2221 lib/protocols.c:2326
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Kan geen verbinding met %s maken: %s\n"
 
-#: lib/protocols.c:2255 lib/rfc959.c:639
+#: lib/protocols.c:2259 lib/rfc959.c:639
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Kan geen IPv4-socket maken: %s\n"
 
-#: lib/protocols.c:2279 lib/sshv2.c:987
+#: lib/protocols.c:2283 lib/sshv2.c:987
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Kan servicenaam %s/tcp niet opzoeken. Controleer alstublieft uw service-"
 "bestand\n"
 
-#: lib/protocols.c:2338 lib/protocols.c:2978 lib/rfc959.c:648 lib/rfc959.c:803
+#: lib/protocols.c:2342 lib/protocols.c:2982 lib/rfc959.c:648 lib/rfc959.c:803
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Fout: Kan exec-vlag niet sluiten: %s\n"
 
-#: lib/protocols.c:2345
+#: lib/protocols.c:2349
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Verbonden met %s:%d\n"
 
-#: lib/protocols.c:2576 lib/protocols.c:2651 lib/sshv2.c:355
+#: lib/protocols.c:2580 lib/protocols.c:2655 lib/sshv2.c:355
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Verbinding naar %s timeout\n"
 
-#: lib/protocols.c:2719
+#: lib/protocols.c:2723
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Kan buis opties niet verkrijgen: %s\n"
 
-#: lib/protocols.c:2733
+#: lib/protocols.c:2737
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Kan buis niet op niet-blokeren zetten: %s\n"
 
-#: lib/protocols.c:2868
+#: lib/protocols.c:2872
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Fout: kan niet verbinden met %s. Max herverbindingen bereikt...opgegeven\n"
 
-#: lib/protocols.c:2876
+#: lib/protocols.c:2880
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
 "Fout: externe site %s verbrak de verbinding. Herverbinding in %d seconden\n"
 
-#: lib/pty.c:297
+#: lib/pty.c:295
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "Kan hooft-pty %s niet openen: %s\n"
 
-#: lib/pty.c:305
+#: lib/pty.c:303
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "Kan geen buizenpaar te maken: %s\n"
 
-#: lib/pty.c:334
+#: lib/pty.c:332
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "Fout: kan ssh niet uitvoeren: %s\n"
 
-#: lib/pty.c:350
+#: lib/pty.c:348
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "Kan geen ander proces splitsen: %s\n"
@@ -1264,10 +1262,10 @@ msgstr "%d: Chmod %s %o\n"
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: lib/sshv2.c:609 src/gtk/bookmarks.c:1045 src/gtk/bookmarks.c:1298
-#: src/gtk/chmod_dialog.c:253 src/gtk/gtkui_transfer.c:368
-#: src/gtk/misc-gtk.c:1011 src/gtk/options_dialog.c:1208
-#: src/gtk/options_dialog.c:1442
+#: lib/sshv2.c:609 src/gtk/bookmarks.c:1024 src/gtk/bookmarks.c:1277
+#: src/gtk/chmod_dialog.c:253 src/gtk/gtkui_transfer.c:366
+#: src/gtk/misc-gtk.c:1002 src/gtk/options_dialog.c:1109
+#: src/gtk/options_dialog.c:1313
 msgid "OK"
 msgstr "OK"
 
@@ -1452,7 +1450,7 @@ msgstr "Vertaald door"
 #: src/uicommon/gftpui.c:322 src/uicommon/gftpui.c:357
 #: src/uicommon/gftpui.c:392 src/uicommon/gftpui.c:427
 #: src/uicommon/gftpui.c:463 src/uicommon/gftpui.c:528
-#: src/uicommon/gftpui.c:609 src/uicommon/gftpui.c:872
+#: src/uicommon/gftpui.c:609 src/uicommon/gftpui.c:873
 msgid "Error: Not connected to a remote site\n"
 msgstr "Fout: Niet verbonden met een externe site\n"
 
@@ -1492,25 +1490,25 @@ msgstr "Ongeldig argument\n"
 msgid "Clear the directory cache\n"
 msgstr "Wis de map buffer\n"
 
-#: src/uicommon/gftpui.c:662
+#: src/uicommon/gftpui.c:663
 msgid "usage: open "
 msgstr "gebruik: open "
 
-#: src/uicommon/gftpui.c:733
+#: src/uicommon/gftpui.c:734
 msgid "usage: set [variable = value]\n"
 msgstr "gebruik: set [variabele = waarde]\n"
 
-#: src/uicommon/gftpui.c:747
+#: src/uicommon/gftpui.c:748
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "Fout: Variabele %s is geen geldige configuratievariabele.\n"
 
-#: src/uicommon/gftpui.c:754
+#: src/uicommon/gftpui.c:755
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "Fout: Variabele %s is niet beschikbaar in de tekst versie van gFTP\n"
 
-#: src/uicommon/gftpui.c:836
+#: src/uicommon/gftpui.c:837
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1518,276 +1516,276 @@ msgstr ""
 "Ondersteunde commando's:\n"
 "\n"
 
-#: src/uicommon/gftpui.c:879
+#: src/uicommon/gftpui.c:880
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "gebruik: %s <bestandspec>\n"
 
-#: src/uicommon/gftpui.c:964
+#: src/uicommon/gftpui.c:965
 msgid "about"
 msgstr "info"
 
-#: src/uicommon/gftpui.c:965
+#: src/uicommon/gftpui.c:966
 msgid "Shows gFTP information"
 msgstr "gFTP informatie"
 
-#: src/uicommon/gftpui.c:966
+#: src/uicommon/gftpui.c:967
 msgid "ascii"
 msgstr "ascii"
 
-#: src/uicommon/gftpui.c:967
+#: src/uicommon/gftpui.c:968
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "Zet de huidige bestandsoverdracht modus naar ascii (alleen voor FTP)"
 
-#: src/uicommon/gftpui.c:968
+#: src/uicommon/gftpui.c:969
 msgid "binary"
 msgstr "binair"
 
-#: src/uicommon/gftpui.c:969
+#: src/uicommon/gftpui.c:970
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "Zet de huidige bestandsoverdracht modus naar binair (alleen voor FTP)"
 
-#: src/uicommon/gftpui.c:970
+#: src/uicommon/gftpui.c:971
 msgid "cd"
 msgstr "cd"
 
-#: src/uicommon/gftpui.c:971 src/uicommon/gftpui.c:973
+#: src/uicommon/gftpui.c:972 src/uicommon/gftpui.c:974
 msgid "Changes the remote working directory"
 msgstr "Verandert de externe werkmap"
 
-#: src/uicommon/gftpui.c:972
+#: src/uicommon/gftpui.c:973
 msgid "chdir"
 msgstr "chdir"
 
-#: src/uicommon/gftpui.c:974
+#: src/uicommon/gftpui.c:975
 msgid "chmod"
 msgstr "chmod"
 
-#: src/uicommon/gftpui.c:975
+#: src/uicommon/gftpui.c:976
 msgid "Changes the permissions of a remote file"
 msgstr "Verandert de rechten van een extern bestand"
 
-#: src/uicommon/gftpui.c:976
+#: src/uicommon/gftpui.c:977
 msgid "clear"
 msgstr "wissen"
 
-#: src/uicommon/gftpui.c:977
+#: src/uicommon/gftpui.c:978
 msgid "Available options: cache"
 msgstr "Beschikbare opties: buffer"
 
-#: src/uicommon/gftpui.c:978
+#: src/uicommon/gftpui.c:979
 msgid "close"
 msgstr "sluiten"
 
-#: src/uicommon/gftpui.c:979
+#: src/uicommon/gftpui.c:980
 msgid "Disconnects from the remote site"
 msgstr "Verbreekt de verbinding met de externe site"
 
-#: src/uicommon/gftpui.c:980
+#: src/uicommon/gftpui.c:981
 msgid "delete"
 msgstr "verwijder"
 
-#: src/uicommon/gftpui.c:981
+#: src/uicommon/gftpui.c:982
 msgid "Removes a remote file"
 msgstr "Verwijdert een extern bestand"
 
-#: src/uicommon/gftpui.c:982
+#: src/uicommon/gftpui.c:983
 msgid "get"
 msgstr "get"
 
-#: src/uicommon/gftpui.c:983 src/uicommon/gftpui.c:1007
+#: src/uicommon/gftpui.c:984 src/uicommon/gftpui.c:1008
 msgid "Downloads remote file(s)"
 msgstr "Externe bestanden downloaden"
 
-#: src/uicommon/gftpui.c:984
+#: src/uicommon/gftpui.c:985
 msgid "help"
 msgstr "help"
 
-#: src/uicommon/gftpui.c:985
+#: src/uicommon/gftpui.c:986
 msgid "Shows this help screen"
 msgstr "geeft dit help scherm"
 
-#: src/uicommon/gftpui.c:986
+#: src/uicommon/gftpui.c:987
 msgid "lcd"
 msgstr "lcd"
 
-#: src/uicommon/gftpui.c:987 src/uicommon/gftpui.c:989
+#: src/uicommon/gftpui.c:988 src/uicommon/gftpui.c:990
 msgid "Changes the local working directory"
 msgstr "Verandert de lokale werkmap"
 
-#: src/uicommon/gftpui.c:988
+#: src/uicommon/gftpui.c:989
 msgid "lchdir"
 msgstr "lchdir"
 
-#: src/uicommon/gftpui.c:990
+#: src/uicommon/gftpui.c:991
 msgid "lchmod"
 msgstr "lchmod"
 
-#: src/uicommon/gftpui.c:991
+#: src/uicommon/gftpui.c:992
 msgid "Changes the permissions of a local file"
 msgstr "Verandert de rechten van een lokaal bestand"
 
-#: src/uicommon/gftpui.c:992
+#: src/uicommon/gftpui.c:993
 msgid "ldelete"
 msgstr "lverwijder"
 
-#: src/uicommon/gftpui.c:993
+#: src/uicommon/gftpui.c:994
 msgid "Removes a local file"
 msgstr "Verwijdert een lokaal bestand"
 
-#: src/uicommon/gftpui.c:994
+#: src/uicommon/gftpui.c:995
 msgid "lls"
 msgstr "lls"
 
-#: src/uicommon/gftpui.c:995
+#: src/uicommon/gftpui.c:996
 msgid "Shows the directory listing for the current local directory"
 msgstr "Geeft de map-inhoud voor de huidige lokale werkmap"
 
-#: src/uicommon/gftpui.c:996
+#: src/uicommon/gftpui.c:997
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: src/uicommon/gftpui.c:997
+#: src/uicommon/gftpui.c:998
 msgid "Creates a local directory"
 msgstr "Maakt een lokale map"
 
-#: src/uicommon/gftpui.c:998
+#: src/uicommon/gftpui.c:999
 msgid "lpwd"
 msgstr "lpwd"
 
-#: src/uicommon/gftpui.c:999
+#: src/uicommon/gftpui.c:1000
 msgid "Show current local directory"
 msgstr "Geeft de huidige lokale map"
 
-#: src/uicommon/gftpui.c:1000
+#: src/uicommon/gftpui.c:1001
 msgid "lrename"
 msgstr "lhernoem"
 
-#: src/uicommon/gftpui.c:1001
+#: src/uicommon/gftpui.c:1002
 msgid "Rename a local file"
 msgstr "Hernoem een lokaal bestand"
 
-#: src/uicommon/gftpui.c:1002
+#: src/uicommon/gftpui.c:1003
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: src/uicommon/gftpui.c:1003
+#: src/uicommon/gftpui.c:1004
 msgid "Remove a local directory"
 msgstr "Verwijdert een lokale map"
 
-#: src/uicommon/gftpui.c:1004
+#: src/uicommon/gftpui.c:1005
 msgid "ls"
 msgstr "ls"
 
-#: src/uicommon/gftpui.c:1005
+#: src/uicommon/gftpui.c:1006
 msgid "Shows the directory listing for the current remote directory"
 msgstr "Geeft de map-inhoud voor de huidige externe map"
 
-#: src/uicommon/gftpui.c:1006
+#: src/uicommon/gftpui.c:1007
 msgid "mget"
 msgstr "mget"
 
-#: src/uicommon/gftpui.c:1008
+#: src/uicommon/gftpui.c:1009
 msgid "mkdir"
 msgstr "mkdir"
 
-#: src/uicommon/gftpui.c:1009
+#: src/uicommon/gftpui.c:1010
 msgid "Creates a remote directory"
 msgstr "Maakt een externe map:"
 
-#: src/uicommon/gftpui.c:1010
+#: src/uicommon/gftpui.c:1011
 msgid "mput"
 msgstr "mput"
 
-#: src/uicommon/gftpui.c:1011 src/uicommon/gftpui.c:1015
+#: src/uicommon/gftpui.c:1012 src/uicommon/gftpui.c:1016
 msgid "Uploads local file(s)"
 msgstr "Lokale bestanden uploaden"
 
-#: src/uicommon/gftpui.c:1012
+#: src/uicommon/gftpui.c:1013
 msgid "open"
 msgstr "openen"
 
-#: src/uicommon/gftpui.c:1013
+#: src/uicommon/gftpui.c:1014
 msgid "Opens a connection to a remote site"
 msgstr "Opent een verbinding naar een externe site"
 
-#: src/uicommon/gftpui.c:1014
+#: src/uicommon/gftpui.c:1015
 msgid "put"
 msgstr "put"
 
-#: src/uicommon/gftpui.c:1016
+#: src/uicommon/gftpui.c:1017
 msgid "pwd"
 msgstr "pwd"
 
-#: src/uicommon/gftpui.c:1017
+#: src/uicommon/gftpui.c:1018
 msgid "Show current remote directory"
 msgstr "Geeft de huidige externe map"
 
-#: src/uicommon/gftpui.c:1018
+#: src/uicommon/gftpui.c:1019
 msgid "quit"
 msgstr "afsluiten"
 
-#: src/uicommon/gftpui.c:1019
+#: src/uicommon/gftpui.c:1020
 msgid "Exit from gFTP"
 msgstr "gFTP afsluiten"
 
-#: src/uicommon/gftpui.c:1020
+#: src/uicommon/gftpui.c:1021
 msgid "rename"
 msgstr "hernoem"
 
-#: src/uicommon/gftpui.c:1021
+#: src/uicommon/gftpui.c:1022
 msgid "Rename a remote file"
 msgstr "Een extern bestand hernoemen"
 
-#: src/uicommon/gftpui.c:1022
+#: src/uicommon/gftpui.c:1023
 msgid "rmdir"
 msgstr "rmdir"
 
-#: src/uicommon/gftpui.c:1023
+#: src/uicommon/gftpui.c:1024
 msgid "Remove a remote directory"
 msgstr "Verwijdert een externe map"
 
-#: src/uicommon/gftpui.c:1024
+#: src/uicommon/gftpui.c:1025
 msgid "set"
 msgstr "set"
 
-#: src/uicommon/gftpui.c:1025
+#: src/uicommon/gftpui.c:1026
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
 "Configuratiebestand variabelen weergeven. U kunt ook variabelen instellen "
 "met 'set var=wrd'"
 
-#: src/uicommon/gftpui.c:1027
+#: src/uicommon/gftpui.c:1028
 msgid "site"
 msgstr "site"
 
-#: src/uicommon/gftpui.c:1028
+#: src/uicommon/gftpui.c:1029
 msgid "Run a site specific command"
 msgstr "Voe een site-specifiek commando uit"
 
-#: src/uicommon/gftpui.c:1118
+#: src/uicommon/gftpui.c:1119
 msgid "Error: Command not recognized\n"
 msgstr "Fout: Commando niet herkend\n"
 
-#: src/uicommon/gftpui.c:1371
+#: src/uicommon/gftpui.c:1372
 msgid "Error: Remote site disconnected after trying to transfer file\n"
 msgstr ""
 "Fout: externe site verbrak de verbinding na poging om bestandsoverdracht te "
 "starten\n"
 
-#: src/uicommon/gftpui.c:1439
+#: src/uicommon/gftpui.c:1440
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Kan %s niet van %s downloaden\n"
 
-#: src/uicommon/gftpui.c:1462
+#: src/uicommon/gftpui.c:1463
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "%s is succesvol overgedragen met %.2f KB/s\n"
 
-#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:213 src/gtk/gftp-gtk.c:1063
-#: src/gtk/misc-gtk.c:512 src/gtk/misc-gtk.c:520
+#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:202 src/gtk/gftp-gtk.c:1026
+#: src/gtk/misc-gtk.c:503 src/gtk/misc-gtk.c:511
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: De stopknop moet eerst aangeklikt worden, om iets anders te doen\n"
@@ -1830,19 +1828,19 @@ msgstr ""
 msgid "Remember password"
 msgstr "Wachtwoord onthouden"
 
-#: src/gtk/bookmarks.c:473 src/gtk/bookmarks.c:483
+#: src/gtk/bookmarks.c:485 src/gtk/bookmarks.c:495
 msgid "New Folder"
 msgstr "Nieuwe map"
 
-#: src/gtk/bookmarks.c:474
+#: src/gtk/bookmarks.c:486
 msgid "Enter the name of the new folder to create"
 msgstr "Geef de naam van de aan te maken map"
 
-#: src/gtk/bookmarks.c:484
+#: src/gtk/bookmarks.c:496
 msgid "Enter the name of the new item to create"
 msgstr "Geef de naam van het aan te maken veld"
 
-#: src/gtk/bookmarks.c:557
+#: src/gtk/bookmarks.c:569
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1851,101 +1849,101 @@ msgstr ""
 "Moeten bladwijzer %s en alle onderliggende\n"
 "bladwijzers verwijderd worden?"
 
-#: src/gtk/bookmarks.c:558
+#: src/gtk/bookmarks.c:570
 msgid "Delete Bookmark"
 msgstr "Bladwijzer verwijderen"
 
-#: src/gtk/bookmarks.c:630
+#: src/gtk/bookmarks.c:597
 msgid "Bookmarks"
 msgstr "Bladwijzers"
 
-#: src/gtk/bookmarks.c:850 src/gtk/bookmarks.c:853
+#: src/gtk/bookmarks.c:829 src/gtk/bookmarks.c:832
 msgid "Edit Entry"
 msgstr "Ingang bewerken"
 
-#: src/gtk/bookmarks.c:891
+#: src/gtk/bookmarks.c:870
 msgid "Description:"
 msgstr "Beschrijving:"
 
-#: src/gtk/bookmarks.c:906
+#: src/gtk/bookmarks.c:885
 msgid "Hostname:"
 msgstr "Hostnaam:"
 
-#: src/gtk/bookmarks.c:919
+#: src/gtk/bookmarks.c:898
 msgid "Port:"
 msgstr "Poort:"
 
-#: src/gtk/bookmarks.c:936
+#: src/gtk/bookmarks.c:915
 msgid "Protocol:"
 msgstr "Protocol:"
 
-#: src/gtk/bookmarks.c:960
+#: src/gtk/bookmarks.c:939
 msgid "Remote Directory:"
 msgstr "Externe map:"
 
-#: src/gtk/bookmarks.c:973
+#: src/gtk/bookmarks.c:952
 msgid "Local Directory:"
 msgstr "Lokale map:"
 
-#: src/gtk/bookmarks.c:990
+#: src/gtk/bookmarks.c:969
 msgid "Username:"
 msgstr "Gebruikersnaam:"
 
-#: src/gtk/bookmarks.c:1003 src/text/textui.c:86
+#: src/gtk/bookmarks.c:982 src/text/textui.c:86
 msgid "Password:"
 msgstr "Wachtwoord:"
 
-#: src/gtk/bookmarks.c:1017
+#: src/gtk/bookmarks.c:996
 msgid "Account:"
 msgstr "Account:"
 
-#: src/gtk/bookmarks.c:1031
+#: src/gtk/bookmarks.c:1010
 msgid "Log in as ANONYMOUS"
 msgstr "Aanmelden als ANONYMOUS"
 
-#: src/gtk/bookmarks.c:1056 src/gtk/bookmarks.c:1309
-#: src/gtk/chmod_dialog.c:265 src/gtk/gtkui_transfer.c:380
-#: src/gtk/options_dialog.c:1219 src/gtk/options_dialog.c:1453
+#: src/gtk/bookmarks.c:1035 src/gtk/bookmarks.c:1288
+#: src/gtk/chmod_dialog.c:265 src/gtk/gtkui_transfer.c:378
+#: src/gtk/options_dialog.c:1120 src/gtk/options_dialog.c:1324
 msgid "  Cancel  "
 msgstr "  Annuleren  "
 
-#: src/gtk/bookmarks.c:1065 src/gtk/options_dialog.c:1464
+#: src/gtk/bookmarks.c:1044 src/gtk/options_dialog.c:1335
 msgid "Apply"
 msgstr "Toepassen"
 
-#: src/gtk/bookmarks.c:1215
+#: src/gtk/bookmarks.c:1194
 msgid "/_File"
 msgstr "/_Bestand"
 
-#: src/gtk/bookmarks.c:1216
+#: src/gtk/bookmarks.c:1195
 msgid "/File/tearoff"
 msgstr "/Bestand/tearoff"
 
-#: src/gtk/bookmarks.c:1217
+#: src/gtk/bookmarks.c:1196
 msgid "/File/New Folder..."
 msgstr "/Bestand/Nieuwe map..."
 
-#: src/gtk/bookmarks.c:1218
+#: src/gtk/bookmarks.c:1197
 msgid "/File/New Item..."
 msgstr "/Bestand/Nieuw veld..."
 
-#: src/gtk/bookmarks.c:1219
+#: src/gtk/bookmarks.c:1198
 msgid "/File/Delete"
 msgstr "/Bestand/Verwijderen"
 
-#: src/gtk/bookmarks.c:1220
+#: src/gtk/bookmarks.c:1199
 msgid "/File/Properties..."
 msgstr "/Bestand/Instellingen..."
 
-#: src/gtk/bookmarks.c:1221
+#: src/gtk/bookmarks.c:1200
 msgid "/File/sep"
 msgstr "/Bestand/sep"
 
-#: src/gtk/bookmarks.c:1222
+#: src/gtk/bookmarks.c:1201
 msgid "/File/Close"
 msgstr "/Bestand/Sluiten"
 
-#: src/gtk/bookmarks.c:1240 src/gtk/bookmarks.c:1243
+#: src/gtk/bookmarks.c:1219 src/gtk/bookmarks.c:1222
 msgid "Edit Bookmarks"
 msgstr "Bladwijzers bewerken"
 
@@ -1978,7 +1976,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Plakkerig"
 
-#: src/gtk/chmod_dialog.c:192 src/gtk/gftp-gtk.c:748
+#: src/gtk/chmod_dialog.c:192 src/gtk/gftp-gtk.c:711
 msgid "User"
 msgstr "Gebruiker"
 
@@ -1997,7 +1995,7 @@ msgstr "Schrijven"
 msgid "Execute"
 msgstr "Uitvoeren"
 
-#: src/gtk/chmod_dialog.c:212 src/gtk/gftp-gtk.c:749
+#: src/gtk/chmod_dialog.c:212 src/gtk/gftp-gtk.c:712
 msgid "Group"
 msgstr "Groep"
 
@@ -2024,7 +2022,7 @@ msgstr "Weet u zeker dat u deze %ld mappen wilt verwijderen"
 msgid "Delete Files/Directories"
 msgstr "Bestanden/mappen verwijderen"
 
-#: src/gtk/delete_dialog.c:90 src/gtk/options_dialog.c:1305
+#: src/gtk/delete_dialog.c:90 src/gtk/options_dialog.c:1194
 msgid "Delete"
 msgstr "Verwijderen"
 
@@ -2037,11 +2035,11 @@ msgstr "URL %s ontvangen\n"
 msgid "Drag-N-Drop"
 msgstr "Klik en Sleep"
 
-#: src/gtk/gftp-gtk.c:127
+#: src/gtk/gftp-gtk.c:116
 msgid "Exit"
 msgstr "Afsluiten"
 
-#: src/gtk/gftp-gtk.c:127
+#: src/gtk/gftp-gtk.c:116
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
@@ -2049,379 +2047,371 @@ msgstr ""
 "Er zijn bestandsoverdrachten bezig.\n"
 "Weet u zeker dat u wilt afsluiten?"
 
-#: src/gtk/gftp-gtk.c:198
+#: src/gtk/gftp-gtk.c:187
 msgid "Connect via URL"
 msgstr "Verbinden via URL"
 
-#: src/gtk/gftp-gtk.c:198
+#: src/gtk/gftp-gtk.c:187
 msgid "Enter a URL to connect to"
 msgstr "Geef een URL op om verbinding mee te maken"
 
-#: src/gtk/gftp-gtk.c:214
+#: src/gtk/gftp-gtk.c:203
 msgid "OpenURL"
 msgstr "OpenURL"
 
-#: src/gtk/gftp-gtk.c:244
+#: src/gtk/gftp-gtk.c:233
 msgid "/_FTP"
 msgstr "/_FTP"
 
-#: src/gtk/gftp-gtk.c:245
+#: src/gtk/gftp-gtk.c:234
 msgid "/FTP/tearoff"
 msgstr "/FTP/tearoff"
 
-#: src/gtk/gftp-gtk.c:246
+#: src/gtk/gftp-gtk.c:235
 msgid "/FTP/Window 1"
 msgstr "/FTP/Venster 1"
 
-#: src/gtk/gftp-gtk.c:248
+#: src/gtk/gftp-gtk.c:237
 msgid "/FTP/Window 2"
 msgstr "/FTP/Venster 2"
 
-#: src/gtk/gftp-gtk.c:250 src/gtk/gftp-gtk.c:255 src/gtk/gftp-gtk.c:258
+#: src/gtk/gftp-gtk.c:239 src/gtk/gftp-gtk.c:244 src/gtk/gftp-gtk.c:247
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
 
-#: src/gtk/gftp-gtk.c:251
+#: src/gtk/gftp-gtk.c:240
 msgid "/FTP/Ascii"
 msgstr "/FTP/Ascii"
 
-#: src/gtk/gftp-gtk.c:253
+#: src/gtk/gftp-gtk.c:242
 msgid "/FTP/Binary"
 msgstr "/FTP/Binair"
 
-#: src/gtk/gftp-gtk.c:256
+#: src/gtk/gftp-gtk.c:245
 msgid "/FTP/_Options..."
 msgstr "/FTP/_Opties..."
 
-#: src/gtk/gftp-gtk.c:259
+#: src/gtk/gftp-gtk.c:248
 msgid "/FTP/_Quit"
 msgstr "/FTP/_Afsluiten"
 
-#: src/gtk/gftp-gtk.c:260
+#: src/gtk/gftp-gtk.c:249
 msgid "/_Local"
 msgstr "/_Lokaal"
 
-#: src/gtk/gftp-gtk.c:261
+#: src/gtk/gftp-gtk.c:250
 msgid "/Local/tearoff"
 msgstr "/Lokaal/tearoff"
 
-#: src/gtk/gftp-gtk.c:262
+#: src/gtk/gftp-gtk.c:251
 msgid "/Local/Open URL..."
 msgstr "/Lokaal/URL openen..."
 
-#: src/gtk/gftp-gtk.c:263
+#: src/gtk/gftp-gtk.c:252
 msgid "/Local/Disconnect"
 msgstr "/Lokaal/Verbinding verbreken"
 
-#: src/gtk/gftp-gtk.c:264 src/gtk/gftp-gtk.c:270
+#: src/gtk/gftp-gtk.c:253 src/gtk/gftp-gtk.c:259
 msgid "/Local/sep"
 msgstr "/Lokaal/sep"
 
-#: src/gtk/gftp-gtk.c:265
+#: src/gtk/gftp-gtk.c:254
 msgid "/Local/Change Filespec..."
 msgstr "/Lokaal/Bestandsspec veranderen..."
 
-#: src/gtk/gftp-gtk.c:266
+#: src/gtk/gftp-gtk.c:255
 msgid "/Local/Show selected"
 msgstr "/Lokaal/Geselecteerde weergeven"
 
-#: src/gtk/gftp-gtk.c:267
+#: src/gtk/gftp-gtk.c:256
 msgid "/Local/Select All"
 msgstr "/Lokaal/Alles selecteren"
 
-#: src/gtk/gftp-gtk.c:268
+#: src/gtk/gftp-gtk.c:257
 msgid "/Local/Select All Files"
 msgstr "/Lokaal/Alle bestanden selecteren"
 
-#: src/gtk/gftp-gtk.c:269
+#: src/gtk/gftp-gtk.c:258
 msgid "/Local/Deselect All"
 msgstr "/Lokaal/Alles deselecteren"
 
-#: src/gtk/gftp-gtk.c:271
+#: src/gtk/gftp-gtk.c:260
 msgid "/Local/Save Directory Listing..."
 msgstr "/Lokaal/Bestandenlijst opslaan..."
 
-#: src/gtk/gftp-gtk.c:272
+#: src/gtk/gftp-gtk.c:261
 msgid "/Local/Send SITE Command..."
 msgstr "/Lokaal/SITE-opdracht verzenden..."
 
-#: src/gtk/gftp-gtk.c:273
+#: src/gtk/gftp-gtk.c:262
 msgid "/Local/Change Directory"
 msgstr "/Lokaal/Map veranderen"
 
-#: src/gtk/gftp-gtk.c:274
+#: src/gtk/gftp-gtk.c:263
 msgid "/Local/Chmod..."
 msgstr "/Lokaal/Chmod..."
 
-#: src/gtk/gftp-gtk.c:275
+#: src/gtk/gftp-gtk.c:264
 msgid "/Local/Make Directory..."
 msgstr "/Lokaal/Map maken..."
 
-#: src/gtk/gftp-gtk.c:276
+#: src/gtk/gftp-gtk.c:265
 msgid "/Local/Rename..."
 msgstr "/Lokaal/Hernoemen..."
 
-#: src/gtk/gftp-gtk.c:277
+#: src/gtk/gftp-gtk.c:266
 msgid "/Local/Delete..."
 msgstr "/Lokaal/Verwijderen..."
 
-#: src/gtk/gftp-gtk.c:278
+#: src/gtk/gftp-gtk.c:267
 msgid "/Local/Edit..."
 msgstr "/Lokaal/Bewerken..."
 
-#: src/gtk/gftp-gtk.c:279
+#: src/gtk/gftp-gtk.c:268
 msgid "/Local/View..."
 msgstr "/Lokaal/Weergave..."
 
-#: src/gtk/gftp-gtk.c:280
+#: src/gtk/gftp-gtk.c:269
 msgid "/Local/Refresh"
 msgstr "/Lokaal/Verversen"
 
-#: src/gtk/gftp-gtk.c:281
+#: src/gtk/gftp-gtk.c:270
 msgid "/_Remote"
 msgstr "/_Extern"
 
-#: src/gtk/gftp-gtk.c:282
+#: src/gtk/gftp-gtk.c:271
 msgid "/Remote/tearoff"
 msgstr "/Extern/tearoff"
 
-#: src/gtk/gftp-gtk.c:283
+#: src/gtk/gftp-gtk.c:272
 msgid "/Remote/Open _URL..."
 msgstr "/Extern/_URL openen..."
 
-#: src/gtk/gftp-gtk.c:285
+#: src/gtk/gftp-gtk.c:274
 msgid "/Remote/Disconnect"
 msgstr "/Extern/Verbinding verbreken"
 
-#: src/gtk/gftp-gtk.c:287 src/gtk/gftp-gtk.c:293
+#: src/gtk/gftp-gtk.c:276 src/gtk/gftp-gtk.c:282
 msgid "/Remote/sep"
 msgstr "/Extern/sep"
 
-#: src/gtk/gftp-gtk.c:288
+#: src/gtk/gftp-gtk.c:277
 msgid "/Remote/Change Filespec..."
 msgstr "/Extern/Bestandsspec veranderen..."
 
-#: src/gtk/gftp-gtk.c:289
+#: src/gtk/gftp-gtk.c:278
 msgid "/Remote/Show selected"
 msgstr "/Extern/Geselecteerde weergeven"
 
-#: src/gtk/gftp-gtk.c:290
+#: src/gtk/gftp-gtk.c:279
 msgid "/Remote/Select All"
 msgstr "/Extern/Alles selecteren"
 
-#: src/gtk/gftp-gtk.c:291
+#: src/gtk/gftp-gtk.c:280
 msgid "/Remote/Select All Files"
 msgstr "/Extern/Alle bestanden selecteren"
 
-#: src/gtk/gftp-gtk.c:292
+#: src/gtk/gftp-gtk.c:281
 msgid "/Remote/Deselect All"
 msgstr "/Extern/Alles deselecteren"
 
-#: src/gtk/gftp-gtk.c:294
+#: src/gtk/gftp-gtk.c:283
 msgid "/Remote/Save Directory Listing..."
 msgstr "/Extern/Bestandenlijst opslaan..."
 
-#: src/gtk/gftp-gtk.c:295
+#: src/gtk/gftp-gtk.c:284
 msgid "/Remote/Send SITE Command..."
 msgstr "/Extern/SITE-opdracht verzenden..."
 
-#: src/gtk/gftp-gtk.c:296
+#: src/gtk/gftp-gtk.c:285
 msgid "/Remote/Change Directory"
 msgstr "/Extern/Map veranderen"
 
-#: src/gtk/gftp-gtk.c:297
+#: src/gtk/gftp-gtk.c:286
 msgid "/Remote/Chmod..."
 msgstr "/Extern/Chmod..."
 
-#: src/gtk/gftp-gtk.c:298
+#: src/gtk/gftp-gtk.c:287
 msgid "/Remote/Make Directory..."
 msgstr "/Extern/Map maken..."
 
-#: src/gtk/gftp-gtk.c:299
+#: src/gtk/gftp-gtk.c:288
 msgid "/Remote/Rename..."
 msgstr "/Extern/Hernoemen..."
 
-#: src/gtk/gftp-gtk.c:300
+#: src/gtk/gftp-gtk.c:289
 msgid "/Remote/Delete..."
 msgstr "/Extern/Verwijderen..."
 
-#: src/gtk/gftp-gtk.c:301
+#: src/gtk/gftp-gtk.c:290
 msgid "/Remote/Edit..."
 msgstr "/Extern/Bewerken..."
 
-#: src/gtk/gftp-gtk.c:302
+#: src/gtk/gftp-gtk.c:291
 msgid "/Remote/View..."
 msgstr "/Extern/Weergave..."
 
-#: src/gtk/gftp-gtk.c:303
+#: src/gtk/gftp-gtk.c:292
 msgid "/Remote/Refresh"
 msgstr "/Extern/Verversen"
 
-#: src/gtk/gftp-gtk.c:304
+#: src/gtk/gftp-gtk.c:293
 msgid "/_Bookmarks"
 msgstr "/Bl_adwijzers"
 
-#: src/gtk/gftp-gtk.c:305
+#: src/gtk/gftp-gtk.c:294
 msgid "/Bookmarks/tearoff"
 msgstr "/Bladwijzers/tearoff"
 
-#: src/gtk/gftp-gtk.c:306
+#: src/gtk/gftp-gtk.c:295
 msgid "/Bookmarks/Add bookmark"
 msgstr "/Bladwijzers/Bladwijzers toevoegen"
 
-#: src/gtk/gftp-gtk.c:308
+#: src/gtk/gftp-gtk.c:297
 msgid "/Bookmarks/Edit bookmarks"
 msgstr "/Bladwijzers/Bladwijzers bewerken"
 
-#: src/gtk/gftp-gtk.c:309
+#: src/gtk/gftp-gtk.c:298
 msgid "/Bookmarks/sep"
 msgstr "/Bladwijzers/sep"
 
-#: src/gtk/gftp-gtk.c:310
+#: src/gtk/gftp-gtk.c:299
 msgid "/_Transfers"
 msgstr "/_Overdracht"
 
-#: src/gtk/gftp-gtk.c:311
+#: src/gtk/gftp-gtk.c:300
 msgid "/Transfers/tearoff"
 msgstr "/Overdracht/tearoff"
 
-#: src/gtk/gftp-gtk.c:312
+#: src/gtk/gftp-gtk.c:301
 msgid "/Transfers/Start Transfer"
 msgstr "/Overdracht/Overdracht starten"
 
-#: src/gtk/gftp-gtk.c:313
+#: src/gtk/gftp-gtk.c:302
 msgid "/Transfers/Stop Transfer"
 msgstr "/Overdracht/Overdracht stoppen"
 
-#: src/gtk/gftp-gtk.c:315 src/gtk/gftp-gtk.c:323
+#: src/gtk/gftp-gtk.c:304 src/gtk/gftp-gtk.c:312
 msgid "/Transfers/sep"
 msgstr "/Overdracht/sep"
 
-#: src/gtk/gftp-gtk.c:316
+#: src/gtk/gftp-gtk.c:305
 msgid "/Transfers/Skip Current File"
 msgstr "/Overdracht/Huidige bestand overslaan"
 
-#: src/gtk/gftp-gtk.c:317
+#: src/gtk/gftp-gtk.c:306
 msgid "/Transfers/Remove File"
 msgstr "/Overdracht/Bestand verwijderen"
 
-#: src/gtk/gftp-gtk.c:319
+#: src/gtk/gftp-gtk.c:308
 msgid "/Transfers/Move File Up"
 msgstr "/Overdracht/Bestand omhoog verplaatsen"
 
-#: src/gtk/gftp-gtk.c:321
+#: src/gtk/gftp-gtk.c:310
 msgid "/Transfers/Move File Down"
 msgstr "/Overdracht/Bestand omlaag verplaatsen"
 
-#: src/gtk/gftp-gtk.c:324
+#: src/gtk/gftp-gtk.c:313
 msgid "/Transfers/Retrieve Files"
 msgstr "/Overdracht/Bestanden ontvangen"
 
-#: src/gtk/gftp-gtk.c:325
+#: src/gtk/gftp-gtk.c:314
 msgid "/Transfers/Put Files"
 msgstr "/Overdracht/Bestanden verzenden "
 
-#: src/gtk/gftp-gtk.c:326
+#: src/gtk/gftp-gtk.c:315
 msgid "/L_ogging"
 msgstr "/Logboe_k"
 
-#: src/gtk/gftp-gtk.c:327
+#: src/gtk/gftp-gtk.c:316
 msgid "/Logging/tearoff"
 msgstr "/Logboek/tearoff"
 
-#: src/gtk/gftp-gtk.c:328
+#: src/gtk/gftp-gtk.c:317
 msgid "/Logging/Clear"
 msgstr "/Logboek/Wissen"
 
-#: src/gtk/gftp-gtk.c:329
+#: src/gtk/gftp-gtk.c:318
 msgid "/Logging/View log"
 msgstr "/Logboek/Logboek bekijken"
 
-#: src/gtk/gftp-gtk.c:330
+#: src/gtk/gftp-gtk.c:319
 msgid "/Logging/Save log..."
 msgstr "/Logboek/Logboek oplaan..."
 
-#: src/gtk/gftp-gtk.c:331
+#: src/gtk/gftp-gtk.c:320
 msgid "/Tool_s"
 msgstr "/E_xtra"
 
-#: src/gtk/gftp-gtk.c:332
+#: src/gtk/gftp-gtk.c:321
 msgid "/Tools/tearoff"
 msgstr "/Extra/tearoff"
 
-#: src/gtk/gftp-gtk.c:333
+#: src/gtk/gftp-gtk.c:322
 msgid "/Tools/Compare Windows"
 msgstr "/Extra/Vensters vergelijken"
 
-#: src/gtk/gftp-gtk.c:334
+#: src/gtk/gftp-gtk.c:323
 msgid "/Tools/Clear Cache"
 msgstr "/Extra/Buffer leegmaken"
 
-#: src/gtk/gftp-gtk.c:335
-msgid "/Help"
-msgstr "/Hulp"
+#: src/gtk/gftp-gtk.c:324
+msgid "/_Help"
+msgstr "/_Hulp"
 
-#: src/gtk/gftp-gtk.c:336
+#: src/gtk/gftp-gtk.c:325
 msgid "/Help/tearoff"
 msgstr "/Hulp/tearoff"
 
-#: src/gtk/gftp-gtk.c:337
+#: src/gtk/gftp-gtk.c:326
 msgid "/Help/About"
 msgstr "/Hulp/Info"
 
-#: src/gtk/gftp-gtk.c:458
+#: src/gtk/gftp-gtk.c:444
 msgid "Host: "
 msgstr "Host: "
 
-#: src/gtk/gftp-gtk.c:460
-msgid "_Host: "
-msgstr "_Host: "
-
-#: src/gtk/gftp-gtk.c:486
+#: src/gtk/gftp-gtk.c:462
 msgid "Port: "
 msgstr "Poort: "
 
-#: src/gtk/gftp-gtk.c:507
+#: src/gtk/gftp-gtk.c:480
 msgid "User: "
 msgstr "Naam: "
 
-#: src/gtk/gftp-gtk.c:509
-msgid "_User: "
-msgstr "_Naam: "
-
-#: src/gtk/gftp-gtk.c:534
+#: src/gtk/gftp-gtk.c:498
 msgid "Pass: "
 msgstr "Wachtwoord: "
 
-#: src/gtk/gftp-gtk.c:604
+#: src/gtk/gftp-gtk.c:567
 msgid "Command: "
 msgstr "Commando:"
 
-#: src/gtk/gftp-gtk.c:746 src/gtk/gftp-gtk.c:952 src/gtk/gtkui_transfer.c:216
+#: src/gtk/gftp-gtk.c:709 src/gtk/gftp-gtk.c:915 src/gtk/gtkui_transfer.c:216
 msgid "Filename"
 msgstr "Bestandsnaam"
 
-#: src/gtk/gftp-gtk.c:747
+#: src/gtk/gftp-gtk.c:710
 msgid "Size"
 msgstr "Grootte"
 
-#: src/gtk/gftp-gtk.c:750
+#: src/gtk/gftp-gtk.c:713
 msgid "Date"
 msgstr "Datum"
 
-#: src/gtk/gftp-gtk.c:751
+#: src/gtk/gftp-gtk.c:714
 msgid "Attribs"
 msgstr "Rechten"
 
-#: src/gtk/gftp-gtk.c:953
+#: src/gtk/gftp-gtk.c:916
 msgid "Progress"
 msgstr "Voortgang"
 
-#: src/gtk/gftp-gtk.c:1064 src/gtk/misc-gtk.c:946 src/gtk/misc-gtk.c:1020
+#: src/gtk/gftp-gtk.c:1027 src/gtk/misc-gtk.c:937 src/gtk/misc-gtk.c:1011
 msgid "Connect"
 msgstr "Verbinden"
 
-#: src/gtk/gftp-gtk.c:1094
+#: src/gtk/gftp-gtk.c:1057
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Fout: Er is geen host gegeven om verbinding mee te maken\n"
 
@@ -2445,46 +2435,42 @@ msgstr "Geef uw wachtwoord voor deze site"
 msgid "Operation canceled...you must enter a string\n"
 msgstr "Actie afgebroken...u moet een tekenreeks invoeren\n"
 
-#: src/gtk/gtkui.c:317
+#: src/gtk/gtkui.c:312
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: src/gtk/gtkui.c:320
+#: src/gtk/gtkui.c:315
 msgid "Make Directory"
 msgstr "Map maken"
 
-#: src/gtk/gtkui.c:320
+#: src/gtk/gtkui.c:315
 msgid "Enter name of directory to create"
 msgstr "Geef de naam van de aan te maken map"
 
-#: src/gtk/gtkui.c:343 src/gtk/gtkui.c:355 src/gtk/misc-gtk.c:949
-#: src/gtk/misc-gtk.c:1023
+#: src/gtk/gtkui.c:338 src/gtk/gtkui.c:350 src/gtk/misc-gtk.c:940
+#: src/gtk/misc-gtk.c:1014
 msgid "Rename"
 msgstr "Hernoemen"
 
-#: src/gtk/gtkui.c:353
+#: src/gtk/gtkui.c:348
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "Wat moet de nieuwe naam van %s worden?"
 
-#: src/gtk/gtkui.c:375 src/gtk/gtkui.c:378
+#: src/gtk/gtkui.c:370 src/gtk/gtkui.c:373
 msgid "Site"
 msgstr "Site"
 
-#: src/gtk/gtkui.c:378
+#: src/gtk/gtkui.c:373
 msgid "Enter site-specific command"
 msgstr "Geef site-specifiek commando"
 
-#: src/gtk/gtkui.c:379
-msgid "Prepend with SITE"
-msgstr "Plaats SITE ervoor"
-
-#: src/gtk/gtkui.c:422 src/gtk/menu-items.c:250
+#: src/gtk/gtkui.c:417 src/gtk/menu-items.c:250
 msgid "Chdir"
 msgstr "Chdir"
 
 #: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:449 src/gtk/transfer.c:532
-#: src/gtk/transfer.c:1011
+#: src/gtk/transfer.c:1006
 msgid "Skipped"
 msgstr "Overgeslagen"
 
@@ -2492,17 +2478,17 @@ msgstr "Overgeslagen"
 msgid "Waiting..."
 msgstr "Wachten..."
 
-#: src/gtk/gtkui_transfer.c:124 src/gtk/gtkui_transfer.c:303
-#: src/gtk/gtkui_transfer.c:333
+#: src/gtk/gtkui_transfer.c:124 src/gtk/gtkui_transfer.c:301
+#: src/gtk/gtkui_transfer.c:331
 msgid "Overwrite"
 msgstr "Overschrijven"
 
-#: src/gtk/gtkui_transfer.c:131 src/gtk/gtkui_transfer.c:309
-#: src/gtk/gtkui_transfer.c:339
+#: src/gtk/gtkui_transfer.c:131 src/gtk/gtkui_transfer.c:307
+#: src/gtk/gtkui_transfer.c:337
 msgid "Resume"
 msgstr "Hervatten"
 
-#: src/gtk/gtkui_transfer.c:138 src/gtk/gtkui_transfer.c:306
+#: src/gtk/gtkui_transfer.c:138 src/gtk/gtkui_transfer.c:304
 msgid "Skip"
 msgstr "Overslaan"
 
@@ -2523,19 +2509,19 @@ msgstr ""
 "De volgende bestanden bestaan zowel op de lokale als de externe computer\n"
 "Selecteer wat er moet gebeuren"
 
-#: src/gtk/gtkui_transfer.c:312
+#: src/gtk/gtkui_transfer.c:310
 msgid "Error"
 msgstr "Fout"
 
-#: src/gtk/gtkui_transfer.c:345
+#: src/gtk/gtkui_transfer.c:343
 msgid "Skip File"
 msgstr "Bestand overslaan"
 
-#: src/gtk/gtkui_transfer.c:355
+#: src/gtk/gtkui_transfer.c:353
 msgid "Select All"
 msgstr "Alles selecteren"
 
-#: src/gtk/gtkui_transfer.c:361
+#: src/gtk/gtkui_transfer.c:359
 msgid "Deselect All"
 msgstr "Alles deselecteren"
 
@@ -2618,82 +2604,72 @@ msgstr "  Sluiten  "
 msgid "Compare Windows"
 msgstr "Vergelijk Vensters"
 
-#: src/gtk/misc-gtk.c:253
-msgid "Disconnect from the remote server"
-msgstr "Verbreekt de verbinding met de externe server"
-
-#: src/gtk/misc-gtk.c:257
-msgid ""
-"Connect to the site specified in the host entry. If the host entry is blank, "
-"then a dialog is presented that will allow you to enter a URL."
-msgstr "Verbind met het systeem wat bij host is opgegeven. Als er bij host niets is opgegeven dan zal er een dialoog getoont worden waar u een URL kunt opgeven."
-
-#: src/gtk/misc-gtk.c:304
+#: src/gtk/misc-gtk.c:295
 msgid "All Files"
 msgstr "Alle Bestanden"
 
-#: src/gtk/misc-gtk.c:311
+#: src/gtk/misc-gtk.c:302
 msgid "] (Cached) ["
 msgstr "] (Gebufferd) ["
 
-#: src/gtk/misc-gtk.c:336
+#: src/gtk/misc-gtk.c:327
 msgid "Not connected"
 msgstr "Niet verbonden"
 
-#: src/gtk/misc-gtk.c:439
+#: src/gtk/misc-gtk.c:430
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "Fout tijdens openen van bestand %s: %s\n"
 
-#: src/gtk/misc-gtk.c:528
+#: src/gtk/misc-gtk.c:519
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: Niet verbonden met externe site\n"
 
-#: src/gtk/misc-gtk.c:535
+#: src/gtk/misc-gtk.c:526
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s: Deze optie is nog niet beschikbaar met dit protocol\n"
 
-#: src/gtk/misc-gtk.c:543
+#: src/gtk/misc-gtk.c:534
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: Er mag maar een onderdeel geselecteerd zijn\n"
 
-#: src/gtk/misc-gtk.c:550
+#: src/gtk/misc-gtk.c:541
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: Er moet minstens een onderdeel geselecteerd zijn\n"
 
-#: src/gtk/misc-gtk.c:943 src/gtk/misc-gtk.c:1017
+#: src/gtk/misc-gtk.c:934 src/gtk/misc-gtk.c:1008
 msgid "Change"
 msgstr "Wijzigen"
 
-#: src/gtk/misc-gtk.c:1014 src/gtk/options_dialog.c:1280
+#: src/gtk/misc-gtk.c:1005 src/gtk/options_dialog.c:1180
 msgid "Add"
 msgstr "Toevoegen"
 
-#: src/gtk/misc-gtk.c:1040
+#: src/gtk/misc-gtk.c:1031
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/gtk/misc-gtk.c:1110
+#: src/gtk/misc-gtk.c:1101
 msgid "  Yes  "
 msgstr "  Ja  "
 
-#: src/gtk/misc-gtk.c:1120
+#: src/gtk/misc-gtk.c:1111
 msgid "  No  "
 msgstr "  Nee  "
 
-#: src/gtk/misc-gtk.c:1180
+#: src/gtk/misc-gtk.c:1171
 msgid "Getting directory listings"
 msgstr "Bestandenlijst aan het ophalen"
 
-#: src/gtk/misc-gtk.c:1200
+#: src/gtk/misc-gtk.c:1191
 msgid "  Stop  "
 msgstr "  Stop  "
 
-#: src/gtk/misc-gtk.c:1210
+#: src/gtk/misc-gtk.c:1201
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2702,64 +2678,40 @@ msgstr ""
 "%ld mappen en\n"
 "%ld bestanden ontvangen"
 
-#: src/gtk/misc-gtk.c:1286
+#: src/gtk/misc-gtk.c:1277
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "gFTP Fout: kan bestand %s niet in %s of %s vinden\n"
 
-#: src/gtk/options_dialog.c:959
+#: src/gtk/options_dialog.c:920
 msgid "Edit Host"
 msgstr "Host Bewerken"
 
-#: src/gtk/options_dialog.c:959
+#: src/gtk/options_dialog.c:920
 msgid "Add Host"
 msgstr "Host Toevoegen"
 
-#: src/gtk/options_dialog.c:1005
-msgid "Type:"
-msgstr "Type:"
-
-#: src/gtk/options_dialog.c:1007
-msgid "_Type:"
-msgstr "_Type:"
-
-#: src/gtk/options_dialog.c:1017 src/gtk/options_dialog.c:1140
+#: src/gtk/options_dialog.c:952 src/gtk/options_dialog.c:1043
 msgid "Domain"
 msgstr "Domein"
 
-#: src/gtk/options_dialog.c:1050
+#: src/gtk/options_dialog.c:972
 msgid "Network Address"
 msgstr "Netwerk Adres"
 
-#: src/gtk/options_dialog.c:1052
-msgid "_Network address:"
-msgstr "_Netwerk Adres"
-
-#: src/gtk/options_dialog.c:1091 src/gtk/options_dialog.c:1244
+#: src/gtk/options_dialog.c:1005 src/gtk/options_dialog.c:1145
 msgid "Netmask"
 msgstr "Netmasker"
 
-#: src/gtk/options_dialog.c:1093
-msgid "N_etmask:"
-msgstr "N_etmasker:"
-
-#: src/gtk/options_dialog.c:1142
-msgid "_Domain:"
-msgstr "_Domein:"
-
-#: src/gtk/options_dialog.c:1250
+#: src/gtk/options_dialog.c:1151
 msgid "Local Hosts"
 msgstr "Lokale Hosts"
 
-#: src/gtk/options_dialog.c:1291 src/gtk/view_dialog.c:105
+#: src/gtk/options_dialog.c:1187 src/gtk/view_dialog.c:105
 msgid "Edit"
 msgstr "Bewerken"
 
-#: src/gtk/options_dialog.c:1293
-msgid "_Edit"
-msgstr "B_ewerken"
-
-#: src/gtk/options_dialog.c:1370 src/gtk/options_dialog.c:1375
+#: src/gtk/options_dialog.c:1249 src/gtk/options_dialog.c:1254
 msgid "Options"
 msgstr "Opties"
 
@@ -2822,42 +2774,37 @@ msgstr "Klaar"
 msgid "Stopping the transfer of %s\n"
 msgstr "Stop de overdracht van %s\n"
 
-#: src/gtk/transfer.c:726
-#, c-format
-msgid "Unknown percentage complete. (File %ld of %ld)"
-msgstr "Onbekend voortgangs-percentage. (Bestand %ld van %ld)"
-
-#: src/gtk/transfer.c:730
+#: src/gtk/transfer.c:725
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% compleet, %02d:%02d:%02d resterende tijd. (Bestand %ld van %ld)"
 
-#: src/gtk/transfer.c:760
+#: src/gtk/transfer.c:755
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Ontv %s van %s met %.2fKB/s %02d:%02d:%02d resterende tijd"
 
-#: src/gtk/transfer.c:769
+#: src/gtk/transfer.c:764
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Ontv %s van %s, overdracht gestremd, eindtijd onbekend"
 
-#: src/gtk/transfer.c:804
+#: src/gtk/transfer.c:799
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Bestandsnamen ontvangen...%s bytes"
 
-#: src/gtk/transfer.c:883 src/gtk/transfer.c:905 src/gtk/transfer.c:939
-#: src/gtk/transfer.c:979 src/gtk/transfer.c:1032 src/gtk/transfer.c:1092
+#: src/gtk/transfer.c:878 src/gtk/transfer.c:900 src/gtk/transfer.c:934
+#: src/gtk/transfer.c:974 src/gtk/transfer.c:1027 src/gtk/transfer.c:1087
 msgid "There are no file transfers selected\n"
 msgstr "Er zijn geen bestandsoverdrachten geselecteerd\n"
 
-#: src/gtk/transfer.c:923
+#: src/gtk/transfer.c:918
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Stop de overdracht op host %s\n"
 
-#: src/gtk/transfer.c:964 src/gtk/transfer.c:1017
+#: src/gtk/transfer.c:959 src/gtk/transfer.c:1012
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Bestand %s overgeslagen op host %s\n"
