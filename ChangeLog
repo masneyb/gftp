@@ -1,8 +1,29 @@
+2002-09-24  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl,
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Add config.rpath mkinstalldirs.
+	* configure.in (AC_OUTPUT): Add intl/Makefile,
+
 2002-09-24 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c - separated saving of bookmarks from 
+	gftp_write_config_file() to gftp_write_bookmarks_file(). Bookmarks will
+	no longer be rewritten to disk every time gFTP exits
+
+	* src/gtk/bookmarks.c - call gftp_write_bookmarks_file() instead of
+	gftp_write_config_file() when altering a bookmark
+
+	* configure.in - Fixed problem with the text port being compiled 
+	against glib 1.2 if we wanted it to be compiled against glib 2.0 
+	instead
+
+	* autogen.sh - add this build script
+
+2002-09-24 Brian Masney <masneyb@gftp.org>
+
 	* Remove intl/ directory from CVS
 
 2002-09-18 Brian Masney <masneyb@gftp.org>
-
         * Updated French translation (from Damien Mascr?
         <damienmascre@free.fr>)
 
@@ -11,7 +32,8 @@
 
 2002-09-17 Brian Masney <masneyb@gftp.org>
 	* src/gtk/bookmarks.c - Fixed crash that would occur if you saved the 
-	changes two times in the bookmark editor. Also, fixed several memory leaks
+	changes two times in the bookmark editor. Also, fixed several memory 
+	leaks
 
 2002-09-16 Brian Masney <masneyb@gftp.org>
 	* po/de.po - Updated German translation (from Matthias Haase

@@ -763,18 +763,16 @@ add_to_bookmark (gftp_bookmarks * newentry)
 void
 gftp_write_config_file (void)
 {
-  char *hdr, *proxyhdr, *exthdr, *histhdr, *bmhdr;
+  char *hdr, *proxyhdr, *exthdr, *histhdr;
   gftp_file_extensions *tempext;
-  gftp_bookmarks *tempentry;
   gftp_proxy_hosts *hosts;
-  FILE *conffile, *bmfile;
-  char *tempstr, *str;
   gftp_color *color;
   GList *templist;
+  FILE *conffile;
+  char *tempstr;
   int pos;
 
   hdr = N_("Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP");
-  bmhdr = N_("Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten");
   proxyhdr = N_("This section specifies which hosts are on the local subnet and won't need to go out the proxy server (if available). Syntax: dont_use_proxy=.domain or dont_use_proxy=network number/netmask");
   exthdr = N_("ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: All arguments except the file extension are optional");
   histhdr = N_("This section contains the data that is in the history");
@@ -784,32 +782,18 @@ gftp_write_config_file (void)
       printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
       exit (0);
     }
+
   if ((conffile = fopen (tempstr, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
 	      g_strerror (errno));
       exit (0);
     }
+
   g_free (tempstr);
 
   write_comment (conffile, _(hdr));
   fwrite ("\n", 1, 1, conffile);
-
-  if ((tempstr = expand_path (BOOKMARKS_FILE)) == NULL)
-    {
-      printf (_("gFTP Error: Bad bookmarks file name %s\n"), CONFIG_FILE);
-      exit (0);
-    }
-  if ((bmfile = fopen (tempstr, "w+")) == NULL)
-    {
-      printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"),
-	      CONFIG_FILE, g_strerror (errno));
-      exit (0);
-    }
-  g_free (tempstr);
-
-  write_comment (bmfile, _(bmhdr));
-  fwrite ("\n", 1, 1, bmfile);
 
   for (pos = 0; config_file_vars[pos].var != NULL; pos++)
     {
@@ -852,46 +836,6 @@ gftp_write_config_file (void)
           fprintf (conffile, "%s=%x:%x:%x\n\n", config_file_vars[pos].key,
                    color->red, color->green, color->blue);
         }
-    }
-
-  tempentry = bookmarks->children;
-  while (tempentry != NULL)
-    {
-      if (tempentry->children != NULL)
-	{
-	  tempentry = tempentry->children;
-	  continue;
-	}
-      str = tempentry->path;
-      while (*str == '/')
-	str++;
-      fprintf (bmfile,
-	       "[%s]\nhostname=%s\nport=%d\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
-	       str, tempentry->hostname == NULL ? "" : tempentry->hostname,
-	       tempentry->port, tempentry->protocol == NULL
-	       || *tempentry->protocol ==
-	       '\0' ? gftp_protocols[0].name : tempentry->protocol,
-	       tempentry->remote_dir == NULL ? "" : tempentry->remote_dir,
-	       tempentry->local_dir == NULL ? "" : tempentry->local_dir,
-	       tempentry->user == NULL ? "" : tempentry->user,
-	       !tempentry->save_password
-	       || tempentry->pass == NULL ? "" : tempentry->pass,
-	       tempentry->acct == NULL ? "" : tempentry->acct);
-
-      if (tempentry->sftpserv_path)
-        fprintf (bmfile, "sftpserv_path=%s\n", tempentry->sftpserv_path);
-
-      fprintf (bmfile, "\n");
- 
-      if (tempentry->next == NULL)
-	{
-	  tempentry = tempentry->prev;
-	  while (tempentry->next == NULL && tempentry->prev != NULL)
-	    tempentry = tempentry->prev;
-	  tempentry = tempentry->next;
-	}
-      else
-	tempentry = tempentry->next;
     }
 
   write_comment (conffile, _(proxyhdr));
@@ -943,6 +887,76 @@ gftp_write_config_file (void)
     fprintf (conffile, "userhistory=%s\n", (char *) templist->data);
 
   fclose (conffile);
+}
+
+
+void
+gftp_write_bookmarks_file (void)
+{
+  gftp_bookmarks *tempentry;
+  char *bmhdr, *tempstr;
+  FILE * bmfile;
+
+  bmhdr = N_("Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten");
+
+  if ((tempstr = expand_path (BOOKMARKS_FILE)) == NULL)
+    {
+      printf (_("gFTP Error: Bad bookmarks file name %s\n"), CONFIG_FILE);
+      exit (0);
+    }
+
+  if ((bmfile = fopen (tempstr, "w+")) == NULL)
+    {
+      printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"),
+	      CONFIG_FILE, g_strerror (errno));
+      exit (0);
+    }
+
+  g_free (tempstr);
+
+  write_comment (bmfile, _(bmhdr));
+  fwrite ("\n", 1, 1, bmfile);
+
+  tempentry = bookmarks->children;
+  while (tempentry != NULL)
+    {
+      if (tempentry->children != NULL)
+	{
+	  tempentry = tempentry->children;
+	  continue;
+	}
+      tempstr = tempentry->path;
+      while (*tempstr == '/')
+	tempstr++;
+      fprintf (bmfile,
+	       "[%s]\nhostname=%s\nport=%d\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
+	       tempstr, tempentry->hostname == NULL ? "" : tempentry->hostname,
+	       tempentry->port, tempentry->protocol == NULL
+	       || *tempentry->protocol ==
+	       '\0' ? gftp_protocols[0].name : tempentry->protocol,
+	       tempentry->remote_dir == NULL ? "" : tempentry->remote_dir,
+	       tempentry->local_dir == NULL ? "" : tempentry->local_dir,
+	       tempentry->user == NULL ? "" : tempentry->user,
+	       !tempentry->save_password
+	       || tempentry->pass == NULL ? "" : tempentry->pass,
+	       tempentry->acct == NULL ? "" : tempentry->acct);
+
+      if (tempentry->sftpserv_path)
+        fprintf (bmfile, "sftpserv_path=%s\n", tempentry->sftpserv_path);
+
+      fprintf (bmfile, "\n");
+ 
+      if (tempentry->next == NULL)
+	{
+	  tempentry = tempentry->prev;
+	  while (tempentry->next == NULL && tempentry->prev != NULL)
+	    tempentry = tempentry->prev;
+	  tempentry = tempentry->next;
+	}
+      else
+	tempentry = tempentry->next;
+    }
+
   fclose (bmfile);
 }
 

@@ -30,6 +30,8 @@ AM_C_PROTOTYPES
 AC_C_CONST
 AC_C_INLINE
 
+AM_MAINTAINER_MODE
+
 AC_PROG_AWK
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -54,12 +56,12 @@ AC_FUNC_STRFTIME
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(gai_strerror getaddrinfo getcwd gettimeofday getwd mkdir mktime putenv rmdir select socket strdup strstr strtod strtol uname)
 
-if test "x$enable_gtk20" = "x1" ; then
-  PKG_CHECK_MODULES(GLIB, glib-2.0 >= 1.3.8)
+if test "x$GFTP_TEXT" = "x" -a "x$enable_gtk20" = "x0" ; then
+  AM_PATH_GLIB(1.2.3, , AC_MSG_ERROR(gFTP needs GLIB 1.2.3 or higher))
 fi
 
-if test "x$GFTP_TEXT" = "x" ; then
-  AM_PATH_GLIB(1.2.3, , AC_MSG_ERROR(gFTP needs GLIB 1.2.3 or higher))
+if test "x$enable_gtk20" = "x1" ; then
+  PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.0.0)
 fi
 
 GFTP_TEXT=""
@@ -97,7 +99,7 @@ if test "x$enable_textport" = "x1" ; then
       if test x${HAVE_LIBREADLINE} = xtrue ; then
         echo "  Using -lreadline -lncurses"
         EXTRA_LIBREADLINE_DEPS=-lncurses
-        AC_DEFINE(HAVE_LIBREADLINE, [1])
+        AC_DEFINE(HAVE_LIBREADLINE, [1], [Define if the text port uses readline])
       else
         unset ac_cv_lib_readline_readline
         AC_CHECK_LIB(readline, readline, HAVE_LIBREADLINE=true,
@@ -105,7 +107,7 @@ if test "x$enable_textport" = "x1" ; then
         if test x${HAVE_LIBREADLINE} = xtrue ; then
           echo "  Using -lreadline -lcurses"
           EXTRA_LIBREADLINE_DEPS=-lcurses
-          AC_DEFINE(HAVE_LIBREADLINE, [1])
+          AC_DEFINE(HAVE_LIBREADLINE, [1], [Define if the text port uses readline])
         else
           unset ac_cv_lib_readline_readline
           AC_CHECK_LIB(readline, readline, HAVE_LIBREADLINE=true,
@@ -113,15 +115,15 @@ if test "x$enable_textport" = "x1" ; then
           if test x${HAVE_LIBREADLINE} = xtrue ; then
             echo "  Using -lreadline -ltermcap"
             EXTRA_LIBREADLINE_DEPS=-ltermcap
-            AC_DEFINE(HAVE_LIBREADLINE, [1])
+            AC_DEFINE(HAVE_LIBREADLINE, [1], [Define if the text port uses readline])
           else
             unset ac_cv_lib_readline_readline
             AC_CHECK_LIB(readline, readline, HAVE_LIBREADLINE=true,
                          HAVE_LIBREADLINE=false)
             if test x${HAVE_LIBREADLINE} = xtrue ; then
-              AC_DEFINE(HAVE_LIBREADLINE, [1])
+              AC_DEFINE(HAVE_LIBREADLINE, [1], [Define if the text port uses readline])
             else
-              AC_DEFINE(HAVE_LIBREADLINE, [0])
+              AC_DEFINE(HAVE_LIBREADLINE, [0], [Define if the text port uses readline])
             fi
           fi
         fi
@@ -132,14 +134,14 @@ if test "x$enable_textport" = "x1" ; then
                    HAVE_LIBREADLINE=false, ${EXTRA_LIBREADLINE_DEPS})
       if test x${HAVE_LIBREADLINE} = xtrue ; then
         echo "  Using -lreadline ${EXTRA_LIBREADLINE_DEPS}"
-        AC_DEFINE(HAVE_LIBREADLINE, [1])
+        AC_DEFINE(HAVE_LIBREADLINE, [1], [Define if the text port uses readline])
       else
-        AC_DEFINE(HAVE_LIBREADLINE, [0])
+        AC_DEFINE(HAVE_LIBREADLINE, [0], [Define if the text port uses readline])
       fi
     fi
   else
     HAVE_LIBREADLINE=false
-    AC_DEFINE(HAVE_LIBREADLINE, [0])
+    AC_DEFINE(HAVE_LIBREADLINE, [0], [Define if the text port uses readline])
   fi
   if test x${HAVE_LIBREADLINE} = xtrue; then
     READLINE_LIBS="-lreadline ${EXTRA_LIBREADLINE_DEPS}"
@@ -149,11 +151,7 @@ fi
 
 AC_CHECK_LIB(m, log10, EXTRA_LIBS="$EXTRA_LIBS -lm")
 
-if test "x$enable_dmalloc" = "x1" ; then
-  AC_CHECK_LIB(dmalloc, dmalloc_shutdown, [
-	AC_DEFINE(HAVE_DMALLOC)
-	EXTRA_LIBS="$EXTRA_LIBS -ldmalloc"])
-fi
+AM_WITH_DMALLOC
 
 AC_SUBST(EXTRA_LIBS)
 AC_SUBST(READLINE_LIBS)
@@ -236,6 +234,6 @@ AC_SUBST(PTHREAD_CFLAGS)
 AC_SUBST(PTHREAD_LIBS)
 AC_SUBST(GFTP_GTK)
 
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT([external])
 
-AC_OUTPUT(Makefile intl/Makefile po/Makefile.in docs/Makefile docs/sample.gftp/Makefile src/gftp src/Makefile src/gtk/Makefile src/text/Makefile lib/Makefile gftp.spec)
+AC_OUTPUT(Makefile docs/Makefile docs/sample.gftp/Makefile src/gftp src/Makefile src/gtk/Makefile src/text/Makefile lib/Makefile gftp.spec)

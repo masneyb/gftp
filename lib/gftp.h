@@ -483,6 +483,8 @@ void add_to_bookmark                    ( gftp_bookmarks *newentry );
 
 void gftp_write_config_file 		( void );
 
+void gftp_write_bookmarks_file 		( void );
+
 GHashTable * build_bookmarks_hash_table	( gftp_bookmarks * entry );
 
 void print_bookmarks 			( gftp_bookmarks * bookmarks );

@@ -224,7 +224,7 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
   gtk_item_factory_create_item (factory, &test, (gpointer) tempentry->path,
 				1);
   g_free (test.path);
-  gftp_write_config_file ();
+  gftp_write_bookmarks_file ();
 }
 
 
@@ -487,7 +487,7 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
       new_bookmarks_htable = NULL;
     }
   build_bookmarks_menu ();
-  gftp_write_config_file ();
+  gftp_write_bookmarks_file ();
 }
 
 
