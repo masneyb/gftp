@@ -186,7 +186,7 @@ rfc959_send_command (gftp_request * request, const char *command,
 static char *
 parse_ftp_proxy_string (gftp_request * request)
 {
-  char *startpos, *endpos, *newstr, *newval, tempport[6], *proxy_config,
+  char *startpos, *endpos, *newstr, *newval, tempport[6], *proxy_config, *utf8,
        savechar;
   size_t len;
   int tmp;
@@ -283,10 +283,22 @@ parse_ftp_proxy_string (gftp_request * request)
         }
       else
         {
-          len += strlen (newval);
+          utf8 = gftp_string_from_utf8 (request, newval);
+          if (utf8 != NULL)
+            len += strlen (utf8);
+          else
+            len += strlen (newval);
+
           newstr = g_realloc (newstr, sizeof (char) * (len + 1));
           strcat (newstr, startpos);
-          strcat (newstr, newval);
+
+          if (utf8 != NULL)
+            {
+              strcat (newstr, utf8);
+              g_free (utf8);
+            }
+          else
+            strcat (newstr, newval);
         }
    
       *endpos = savechar;
@@ -420,7 +432,7 @@ rfc959_syst (gftp_request * request)
 static int
 rfc959_connect (gftp_request * request)
 {
-  char tempchar, *startpos, *endpos, *tempstr, *email, *proxy_hostname;
+  char tempchar, *startpos, *endpos, *tempstr, *email, *proxy_hostname, *utf8;
   int ret, resp, ascii_transfers, proxy_port;
   rfc959_parms * parms;
 
@@ -489,7 +501,15 @@ rfc959_connect (gftp_request * request)
 
       if (resp == '3')
 	{
-	  tempstr = g_strconcat ("PASS ", request->password, "\r\n", NULL);
+          utf8 = gftp_string_from_utf8 (request, request->password);
+          if (utf8 != NULL)
+            {
+              tempstr = g_strconcat ("PASS ", utf8, "\r\n", NULL);
+              g_free (utf8);
+            }
+          else
+            tempstr = g_strconcat ("PASS ", request->password, "\r\n", NULL);
+
 	  resp = rfc959_send_command (request, tempstr, 1);
 	  g_free (tempstr);
           if (resp < 0)
