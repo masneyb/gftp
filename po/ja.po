@@ -1,13 +1,14 @@
 # gFTP Japanese message catalog
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Yasuyuki Furukawa <yasu@on.cs.keio.ac.jp>, 1999.
+# Ryoichi INAGAKI <ryo1@bc.wakwak.com>, 2002.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gFTP 2.0.7pre3\n"
+"Project-Id-Version: gFTP 2.0.13\n"
 "POT-Creation-Date: 2002-07-19 14:50-0400\n"
-"PO-Revision-Date: 2001-11-22  13:39+0900\n"
-"Last-Translator: Yasuyuki Furukawa <yasu@on.cs.keio.ac.jp>\n"
+"PO-Revision-Date: 2002-09-10  01:30+0900\n"
+"Last-Translator: Ryoichi INAGAKI <ryo1@bc.wakwak.com>\n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=EUC-JP\n"
@@ -16,7 +17,7 @@ msgstr ""
 #: lib/bookmark.c:82
 #, fuzzy, c-format
 msgid "Error: Could not find bookmark %s\n"
-msgstr "エラー: ソケットへ書き込めませんでした: %s\n"
+msgstr "エラー: ブックマーク %s を見つけれませんでした\n"
 
 #: lib/bookmark.c:89 src/gtk/bookmarks.c:86
 msgid ""
@@ -29,7 +30,7 @@ msgstr ""
 #: lib/cache.c:173 lib/cache.c:225
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
-msgstr ""
+msgstr "エラー: キャッシュインデックスの %s が不正です\n"
 
 #: lib/config_file.c:32
 msgid "General"
@@ -52,6 +53,8 @@ msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
 msgstr ""
+"ファイル閲覧に使用するプログラム。もし空欄ならば、内蔵のビューワが"
+"使用されます"
 
 #: lib/config_file.c:38
 msgid "Edit program:"
@@ -141,7 +144,6 @@ msgid "Network"
 msgstr "ネットワーク"
 
 #: lib/config_file.c:66
-#, fuzzy
 msgid "Network timeout:"
 msgstr "読み込み待ち時間:"
 
@@ -184,7 +186,7 @@ msgstr "これはデフォルトで使用されるプロトコルです"
 
 #: lib/config_file.c:78
 msgid "FTP"
-msgstr ""
+msgstr "FTP"
 
 #: lib/config_file.c:80 lib/config_file.c:115
 msgid "Proxy hostname:"
@@ -235,9 +237,8 @@ msgid "Send PASV command or PORT command for data transfers"
 msgstr "データ転送に対してPASVコマンドもしくはPORTコマンドを送信します"
 
 #: lib/config_file.c:94
-#, fuzzy
 msgid "Resolve Remote Symlinks (LIST -L)"
-msgstr "リモートのシンボリックリンクを検知"
+msgstr "リモートのシンボリックリンクを解決(LIST -L)"
 
 #: lib/config_file.c:96
 msgid ""
@@ -309,7 +310,7 @@ msgstr "%ha = ホスト・アカウント"
 
 #: lib/config_file.c:113
 msgid "HTTP"
-msgstr ""
+msgstr "HTTP"
 
 #: lib/config_file.c:124
 msgid "Use HTTP/1.1"
@@ -321,7 +322,7 @@ msgstr "HTTP/1.1 または HTTP/1.0のどちらを利用するか"
 
 #: lib/config_file.c:127
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: lib/config_file.c:129
 msgid "SSH Prog Name:"
@@ -467,19 +468,19 @@ msgstr ""
 
 #: lib/config_file.c:192
 msgid "The color of the commands that are sent to the server"
-msgstr ""
+msgstr "サーバーに送信したコマンドの色"
 
 #: lib/config_file.c:194
 msgid "The color of the commands that are received from the server"
-msgstr ""
+msgstr "サーバーから受信したコマンドの色"
 
 #: lib/config_file.c:196
 msgid "The color of the error messages"
-msgstr ""
+msgstr "エラーメッセージの色"
 
 #: lib/config_file.c:198
 msgid "The color of the rest of the log messages"
-msgstr ""
+msgstr "その他のログメッセージの色"
 
 #: lib/config_file.c:241 lib/config_file.c:784
 #, c-format
@@ -541,14 +542,13 @@ msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP警告: ブックマークファイル%d行をスキップ: %s\n"
 
 #: lib/config_file.c:776
-#, fuzzy
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
 "gFTPの設定ファイル. Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>."
-"警告: このファイルへあなたが追加したすべてのコメントは, 上書きさてしまいま"
+"警告: このファイルへあなたが追加したすべてのコメントは, 上書きされてしまいま"
 "す. コメントに (*) をもつ項目は, gFTPの中で それを変更することはできません."
 
 #: lib/config_file.c:777
@@ -558,8 +558,8 @@ msgid ""
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
 "gFTPのブックマークファイル.Copyright (C) 1998-2002 Brian Masney "
-"<masneyb@gftp.org>.警告: このファイルへあなたが追加したすべてのコメントは, 上"
-"書きさてしまいます."
+"<masneyb@gftp.org>. 警告: このファイルへあなたが追加したすべてのコメントは,"
+"上書きされてしまいます."
 
 #: lib/config_file.c:778
 msgid ""
@@ -921,24 +921,23 @@ msgstr "エラー: %sの名前を%sへ変更できませんでした: %s\n"
 #: lib/sshv2.c:1000 lib/sshv2.c:1013 lib/sshv2.c:1069 lib/sshv2.c:1126
 #: lib/sshv2.c:1194 lib/sshv2.c:1639 lib/sshv2.c:1732 lib/sshv2.c:1816
 #: lib/sshv2.c:1897 lib/sshv2.c:1979
-#, fuzzy
 msgid "Received wrong response from server, disconnecting\n"
-msgstr "サーバーから予期せぬ応答を受け取りました\n"
+msgstr "サーバーから予期せぬ応答を受け取りました。切断します\n"
 
 #: lib/sshv2.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Message size %d too big\n"
-msgstr "Error: サーバーからのメッセージサイズ %d は大きすぎます\n"
+msgstr "Error: メッセージサイズ %d は大きすぎます\n"
 
 #: lib/sshv2.c:627
 #, c-format
 msgid "%d: Protocol Initialization\n"
-msgstr ""
+msgstr "%d: プロトコル 初期化\n"
 
 #: lib/sshv2.c:633
 #, c-format
 msgid "%d: Protocol version %d\n"
-msgstr ""
+msgstr "%d: プロトコル バージョン %d\n"
 
 #: lib/sshv2.c:642
 #, c-format
@@ -973,7 +972,7 @@ msgstr "新規ディレクトリを作成します"
 #: lib/sshv2.c:672
 #, fuzzy, c-format
 msgid "%d: Remove directory %s\n"
-msgstr "リモート・ディレクトリ:"
+msgstr "%d: リモート・ディレクトリ: %s\n"
 
 #: lib/sshv2.c:677
 #, c-format
@@ -1008,28 +1007,25 @@ msgstr "了解"
 
 #: lib/sshv2.c:724
 msgid "EOF"
-msgstr ""
+msgstr "EOF"
 
 #: lib/sshv2.c:727
-#, fuzzy
 msgid "No such file or directory"
-msgstr "使用法: chdir <ディレクトリ>\n"
+msgstr "そのようなファイルやディレクトリは存在しません"
 
 #: lib/sshv2.c:730
 msgid "Permission denied"
-msgstr ""
+msgstr "アクセス権がありません"
 
 #: lib/sshv2.c:733
-#, fuzzy
 msgid "Failure"
-msgstr "/ファイル(_F)"
+msgstr "失敗"
 
 #: lib/sshv2.c:736
 msgid "Bad message"
 msgstr ""
 
 #: lib/sshv2.c:739
-#, fuzzy
 msgid "No connection"
 msgstr "接続なし"
 
@@ -1075,9 +1071,8 @@ msgid "cd"
 msgstr ""
 
 #: src/text/gftp-text.c:36 src/text/gftp-text.c:38
-#, fuzzy
 msgid "Changes the remote working directory"
-msgstr "現在の作業中のディレクトリを認識できません: %s\n"
+msgstr "リモート側のディレクトリを変更します"
 
 #: src/text/gftp-text.c:37
 msgid "chdir"
@@ -1088,18 +1083,16 @@ msgid "chmod"
 msgstr ""
 
 #: src/text/gftp-text.c:40
-#, fuzzy
 msgid "Changes the permissions of a remote file"
-msgstr "転送されたファイルのアクセス権の情報を保持します"
+msgstr "リモートファイルのアクセス権を変更します"
 
 #: src/text/gftp-text.c:41
 msgid "close"
 msgstr ""
 
 #: src/text/gftp-text.c:42
-#, fuzzy
 msgid "Disconnects from the remote site"
-msgstr "%s: リモート・サイトへ接続がありません\n"
+msgstr "リモート・サイトから切断します"
 
 #: src/text/gftp-text.c:43
 msgid "delete"
@@ -1114,9 +1107,8 @@ msgid "get"
 msgstr ""
 
 #: src/text/gftp-text.c:46 src/text/gftp-text.c:70
-#, fuzzy
 msgid "Downloads remote file(s)"
-msgstr "ファイルのダウンロード"
+msgstr "ファイルをダウンロードします"
 
 #: src/text/gftp-text.c:47
 msgid "help"
@@ -1124,16 +1116,15 @@ msgstr ""
 
 #: src/text/gftp-text.c:48
 msgid "Shows this help screen"
-msgstr ""
+msgstr "このヘルプ画面を表示します"
 
 #: src/text/gftp-text.c:49
 msgid "lcd"
 msgstr ""
 
 #: src/text/gftp-text.c:50 src/text/gftp-text.c:52
-#, fuzzy
 msgid "Changes the local working directory"
-msgstr "現在の作業中のディレクトリを認識できません: %s\n"
+msgstr "現在の作業中のディレクトリを変更します"
 
 #: src/text/gftp-text.c:51
 msgid "lchdir"
@@ -1144,9 +1135,8 @@ msgid "lchmod"
 msgstr ""
 
 #: src/text/gftp-text.c:54
-#, fuzzy
 msgid "Changes the permissions of a local file"
-msgstr "転送されたファイルのアクセス権の情報を保持します"
+msgstr "ローカルファイルのアクセス権を変更します"
 
 #: src/text/gftp-text.c:55
 msgid "ldelete"
@@ -1154,7 +1144,7 @@ msgstr ""
 
 #: src/text/gftp-text.c:56
 msgid "Removes a local file"
-msgstr ""
+msgstr "ローカルファイルを削除します"
 
 #: src/text/gftp-text.c:57
 msgid "lls"
@@ -1169,9 +1159,8 @@ msgid "lmkdir"
 msgstr ""
 
 #: src/text/gftp-text.c:60
-#, fuzzy
 msgid "Creates a local directory"
-msgstr "ローカル・ディレクトリ:"
+msgstr "ローカル側でディレクトリを作成します"
 
 #: src/text/gftp-text.c:61
 msgid "lpwd"
@@ -1187,16 +1176,15 @@ msgstr ""
 
 #: src/text/gftp-text.c:64
 msgid "Rename a local file"
-msgstr ""
+msgstr "ローカルファイルの名前を変更します"
 
 #: src/text/gftp-text.c:65
 msgid "lrmdir"
 msgstr ""
 
 #: src/text/gftp-text.c:66
-#, fuzzy
 msgid "Remove a local directory"
-msgstr "リモート・ディレクトリ:"
+msgstr "ローカル側のディレクトリを削除します"
 
 #: src/text/gftp-text.c:67
 msgid "ls"
@@ -1215,9 +1203,8 @@ msgid "mkdir"
 msgstr ""
 
 #: src/text/gftp-text.c:72
-#, fuzzy
 msgid "Creates a remote directory"
-msgstr "リモート・ディレクトリ:"
+msgstr "リモート側にディレクトリを作成します"
 
 #: src/text/gftp-text.c:73
 msgid "mput"
@@ -1246,9 +1233,8 @@ msgid "pwd"
 msgstr ""
 
 #: src/text/gftp-text.c:80
-#, fuzzy
 msgid "Show current remote directory"
-msgstr "リモート・ディレクトリ:"
+msgstr "リモート側のディレクトリを表示します"
 
 #: src/text/gftp-text.c:81
 msgid "quit"
@@ -1256,7 +1242,7 @@ msgstr ""
 
 #: src/text/gftp-text.c:82
 msgid "Exit from gFTP"
-msgstr ""
+msgstr "gFTPを終了します"
 
 #: src/text/gftp-text.c:83
 msgid "rename"
@@ -1323,7 +1309,7 @@ msgstr "URL %sを解釈できませんでした\n"
 
 #: src/gtk/menu-items.c:722 src/text/gftp-text.c:367
 msgid "Translated by"
-msgstr "翻訳者: 古川 泰之"
+msgstr "翻訳者: 古川 泰之・稲垣良一"
 
 #: src/text/gftp-text.c:390 src/text/gftp-text.c:406 src/text/gftp-text.c:436
 #: src/text/gftp-text.c:459 src/text/gftp-text.c:481 src/text/gftp-text.c:505
@@ -1384,19 +1370,21 @@ msgid ""
 "Supported commands:\n"
 "\n"
 msgstr ""
+"サポートしているコマンド:\n"
+"\n"
 
 #: src/text/gftp-text.c:970
 msgid "usage: set [variable = value]\n"
-msgstr ""
+msgstr "使用法: set [変数 = 値]\n"
 
 #: src/text/gftp-text.c:990
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
-msgstr ""
+msgstr "エラー: 変数 %s は適切な環境変数ではありません\n"
 
 #: src/text/gftp-text.c:1013
 msgid "Error: You cannot change this variable\n"
-msgstr ""
+msgstr "エラー: この変数を変更することはできません\n"
 
 #: src/gtk/bookmarks.c:72 src/gtk/gftp-gtk.c:963 src/gtk/menu-items.c:74
 #: src/gtk/menu-items.c:115 src/gtk/misc-gtk.c:461 src/gtk/misc-gtk.c:469
@@ -1619,15 +1607,15 @@ msgstr "特別"
 
 #: src/gtk/chmod_dialog.c:78
 msgid "SUID"
-msgstr ""
+msgstr "SUID"
 
 #: src/gtk/chmod_dialog.c:82
 msgid "SGID"
-msgstr ""
+msgstr "SGID"
 
 #: src/gtk/chmod_dialog.c:86
 msgid "Sticky"
-msgstr ""
+msgstr "Sticky"
 
 #: src/gtk/chmod_dialog.c:90 src/gtk/gftp-gtk.c:740
 msgid "User"
@@ -1664,7 +1652,7 @@ msgstr "変更"
 #: src/gtk/menu-items.c:496 src/gtk/mkdir_dialog.c:103
 #: src/gtk/rename_dialog.c:112 src/gtk/transfer.c:535
 msgid "Operation canceled\n"
-msgstr ""
+msgstr "操作は取り消されました\n"
 
 #: src/gtk/delete_dialog.c:46 src/gtk/options_dialog.c:357
 msgid "Delete"
@@ -1697,7 +1685,7 @@ msgstr "ドラッグ&ドロップ: 無効なURL %s: URLが不適切です\n"
 
 #: src/gtk/gftp-gtk.c:113
 msgid "gFTP Icon"
-msgstr ""
+msgstr "gFTP アイコン"
 
 #: src/gtk/gftp-gtk.c:126
 msgid ""
@@ -1735,11 +1723,11 @@ msgstr "経過"
 
 #: src/gtk/gftp-gtk.c:339
 msgid "/_FTP"
-msgstr ""
+msgstr "/_FTP"
 
 #: src/gtk/gftp-gtk.c:340
 msgid "/FTP/tearoff"
-msgstr ""
+msgstr "/FTP/tearoff"
 
 #: src/gtk/gftp-gtk.c:341 src/gtk/gftp-gtk.c:342
 msgid "/FTP/Window 1"
@@ -1751,7 +1739,7 @@ msgstr "/FTP/ウィンドウ 2"
 
 #: src/gtk/gftp-gtk.c:343 src/gtk/gftp-gtk.c:346 src/gtk/gftp-gtk.c:348
 msgid "/FTP/sep"
-msgstr ""
+msgstr "/FTP/sep"
 
 #: src/gtk/gftp-gtk.c:344 src/gtk/gftp-gtk.c:345
 msgid "/FTP/Ascii"
@@ -1794,9 +1782,8 @@ msgid "/Local/Change Filespec..."
 msgstr "/ローカル(L)/ファイル・フィルタ変更..."
 
 #: src/gtk/gftp-gtk.c:356
-#, fuzzy
 msgid "/Local/Show selected"
-msgstr "/ローカル(L)/全選択"
+msgstr "/ローカル(L)/選択ファイルのみ表示"
 
 #: src/gtk/gftp-gtk.c:357
 msgid "/Local/Select All"
@@ -1871,9 +1858,8 @@ msgid "/Remote/Change Filespec..."
 msgstr "/リモート(R)/ファイル・フィルタ変更..."
 
 #: src/gtk/gftp-gtk.c:376
-#, fuzzy
 msgid "/Remote/Show selected"
-msgstr "/ローカル(L)/全選択"
+msgstr "/リモート(R)/選択ファイルのみ表示"
 
 #: src/gtk/gftp-gtk.c:377
 msgid "/Remote/Select All"
@@ -2021,7 +2007,7 @@ msgstr "/ツール(S)/ウィンドウの比較"
 
 #: src/gtk/gftp-gtk.c:415
 msgid "/Tools/Clear Cache"
-msgstr "/ツール/キャッシュをクリア"
+msgstr "/ツール(S)/キャッシュをクリア"
 
 #: src/gtk/gftp-gtk.c:416
 msgid "/_Help"
@@ -2245,6 +2231,8 @@ msgid ""
 "Received %ld directories\n"
 "and %ld files"
 msgstr ""
+"%ld 個のディレクトリ\n"
+"%ld 個のファイルを受信"
 
 #: src/gtk/mkdir_dialog.c:36
 msgid "Mkdir"

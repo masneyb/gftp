@@ -302,7 +302,6 @@ edit_bookmarks (gpointer data)
   new_bookmarks = copy_bookmarks (bookmarks);
   new_bookmarks_htable = build_bookmarks_hash_table (new_bookmarks);
 
-/* FIXME - busted if you pull this up twice */
 #if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Bookmarks"));
@@ -326,6 +325,7 @@ edit_bookmarks (gpointer data)
       gdk_window_set_icon_name (dialog->window, _("gFTP Icon"));
     }
 
+  /* FIXME - memory leak */
   ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", NULL, NULL);
   create_item_factory (ifactory, 7, menu_items, NULL);
   create_item_factory (ifactory, 1, menu_items + 7, dialog);
@@ -343,6 +343,7 @@ edit_bookmarks (gpointer data)
   gtk_container_border_width (GTK_CONTAINER (scroll), 3);
   gtk_widget_show (scroll);
 
+  /* FIXME - memory leak */
   edit_factory = item_factory_new (GTK_TYPE_MENU, "<edit_bookmark>", NULL, "/File");
 
   create_item_factory (edit_factory, 6, menu_items + 2, dialog);
@@ -390,6 +391,26 @@ edit_bookmarks (gpointer data)
 
 
 static void
+free_bookmark_entry_items (gftp_bookmarks * entry)
+{
+  if (entry->hostname)
+    g_free (entry->hostname);
+  if (entry->remote_dir)
+    g_free (entry->remote_dir);
+  if (entry->local_dir)
+    g_free (entry->local_dir);
+  if (entry->user)
+    g_free (entry->user);
+  if (entry->pass)
+    g_free (entry->pass);
+  if (entry->acct)
+    g_free (entry->acct);
+  if (entry->protocol)
+    g_free (entry->protocol);
+}
+
+
+static void
 bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 {
   gftp_bookmarks * tempentry, * delentry;
@@ -405,20 +426,8 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 	  g_free (tempentry->path);
 	  g_free (tempstr);
 	}
-      if (tempentry->hostname)
-	g_free (tempentry->hostname);
-      if (tempentry->remote_dir)
-	g_free (tempentry->remote_dir);
-      if (tempentry->local_dir)
-	g_free (tempentry->local_dir);
-      if (tempentry->user)
-	g_free (tempentry->user);
-      if (tempentry->pass)
-	g_free (tempentry->pass);
-      if (tempentry->acct)
-	g_free (tempentry->acct);
-      if (tempentry->protocol)
-	g_free (tempentry->protocol);
+
+      free_bookmark_entry_items (tempentry);
 
       if (tempentry->children != NULL)
 	tempentry = tempentry->children;
@@ -489,6 +498,7 @@ copy_bookmarks (gftp_bookmarks * bookmarks)
                  * tentry;
 
   new_bm = g_malloc0 (sizeof (*new_bm));
+  /* FIXME - memory leak */
   new_bm->path = g_malloc0 (1);
   new_bm->isfolder = bookmarks->isfolder;
   preventry = new_bm;
@@ -596,23 +606,35 @@ copy_bookmarks (gftp_bookmarks * bookmarks)
 static void
 bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
 {
-  gftp_bookmarks * tempentry;
+  gftp_bookmarks * tempentry, * delentry;
 
   if (new_bookmarks_htable)
     g_hash_table_destroy (new_bookmarks_htable);
+
   tempentry = new_bookmarks;
   while (tempentry != NULL)
     {
-      tempentry->cnode = NULL;
+      free_bookmark_entry_items (tempentry);
+      g_free (tempentry->path);
+
       if (tempentry->children != NULL)
 	{
 	  tempentry = tempentry->children;
 	  continue;
 	}
+
       while (tempentry->next == NULL && tempentry->prev != NULL)
-	tempentry = tempentry->prev;
+        {
+          delentry = tempentry;
+	  tempentry = tempentry->prev;
+          g_free (delentry);
+        }
+
+      delentry = tempentry;
       tempentry = tempentry->next;
+      g_free (delentry);
     }
+
   new_bookmarks = NULL;
   new_bookmarks_htable = NULL;
   gtk_widget_destroy (dialog);
@@ -1340,6 +1362,7 @@ build_bookmarks_tree (void)
   tempentry = new_bookmarks->children;
   while (tempentry != NULL)
     {
+      tempentry->cnode = NULL;
       if (tempentry->children != NULL)
 	{
 	  tempentry = tempentry->children;
@@ -1370,6 +1393,7 @@ build_bookmarks_tree (void)
 		  gtk_ctree_node_set_row_data (GTK_CTREE (tree),
 					       preventry->cnode, preventry);
 		}
+
 	      g_free (str);
 	      pos++;
 	    }
