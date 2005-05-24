@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-06 00:01+0900\n"
+"POT-Creation-Date: 2005-05-24 17:00-0400\n"
 "PO-Revision-Date: 2005-02-06 00:38+0900\n"
 "Last-Translator: Ryoichi INAGAKI <ryo1@bc.wakwak.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -238,7 +238,7 @@ msgstr "フォルダを %s へ変更しました\n"
 #: lib/fsp.c:448
 #, c-format
 msgid "Could not change directory to %s\n"
-msgstr "フォルダを %s へ変更できませんでした: %s\n"
+msgstr ""
 
 #: lib/fsp.c:473 lib/fsp.c:502 lib/local.c:424 lib/local.c:447
 #: src/gtk/transfer.c:260 src/gtk/view_dialog.c:328
@@ -581,8 +581,8 @@ msgid ""
 "The block size that is used when transfering files. This should be a "
 "multiple of 1024."
 msgstr ""
-"ファイルを転送するときに使うブロックサイズです．この値は 1024 の倍数で"
-"あるべきです．"
+"ファイルを転送するときに使うブロックサイズです．この値は 1024 の倍数であるべ"
+"きです．"
 
 #: lib/options.h:135
 msgid "Default Protocol:"
@@ -755,16 +755,12 @@ msgid ""
 "Error converting string '%s' from character set %s to character set %s: %s\n"
 msgstr ""
 
-#. Don't use request->logging_function since the strings must be in UTF-8
-#. for the GTK+ 2.x port
 #: lib/protocols.c:469
 #, c-format
 msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
 msgstr ""
 "文字列 '%s' を現在のロケールから UTF に変換する際にエラーがありました: %s\n"
 
-#. Don't use request->logging_function since the strings must be in UTF-8
-#. for the GTK+ 2.x port
 #: lib/protocols.c:540
 #, c-format
 msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
@@ -1117,7 +1113,7 @@ msgstr "PASV 応答 '%s' の中に IP アドレスがありません\n"
 #: lib/rfc959.c:715
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
-msgstr "PASV 応答中の IP アドレスを無視して，%d.%d.%d.%d へ接続しています\n"
+msgstr ""
 
 #: lib/rfc959.c:726 lib/rfc959.c:887
 #, c-format
@@ -1230,8 +1226,8 @@ msgstr "(yes/no)?"
 msgid "Enter PASSCODE:"
 msgstr "PASSCODE を入力:"
 
-#: lib/sshv2.c:436 src/gtk/gtkui.c:118 src/gtk/transfer.c:553
-#: src/gtk/transfer.c:563
+#: lib/sshv2.c:436 src/gtk/gtkui.c:118 src/gtk/transfer.c:554
+#: src/gtk/transfer.c:564
 msgid "Enter Password"
 msgstr "パスワードを入力して下さい"
 
@@ -2071,14 +2067,12 @@ msgstr ""
 #: src/gtk/delete_dialog.c:65
 #, c-format
 msgid "Are you sure you want to delete these %ld files"
-msgstr ""
-"本当にこれら %ld 個のファイルを削除してもよろしいですか？"
+msgstr "本当にこれら %ld 個のファイルを削除してもよろしいですか？"
 
 #: src/gtk/delete_dialog.c:69
 #, c-format
 msgid "Are you sure you want to delete these %ld directories"
-msgstr ""
-"本当にこれら %ld 個のフォルダを削除してもよろしいですか？"
+msgstr "本当にこれら %ld 個のフォルダを削除してもよろしいですか？"
 
 #: src/gtk/delete_dialog.c:74
 msgid "Delete Files/Directories"
@@ -2498,7 +2492,7 @@ msgstr "ユーザ名の入力"
 msgid "Please enter your username for this site"
 msgstr "このサイトのユーザ名を入力して下さい"
 
-#: src/gtk/gtkui.c:119 src/gtk/transfer.c:554 src/gtk/transfer.c:564
+#: src/gtk/gtkui.c:119 src/gtk/transfer.c:555 src/gtk/transfer.c:565
 msgid "Please enter your password for this site"
 msgstr "このサイトのパスワードを入力して下さい"
 
@@ -2544,12 +2538,12 @@ msgstr ""
 msgid "Chdir"
 msgstr "Chdir"
 
-#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:449 src/gtk/transfer.c:532
-#: src/gtk/transfer.c:1011
+#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:450 src/gtk/transfer.c:533
+#: src/gtk/transfer.c:1012
 msgid "Skipped"
 msgstr "スキップ"
 
-#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:511 src/gtk/transfer.c:536
+#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:512 src/gtk/transfer.c:537
 msgid "Waiting..."
 msgstr "待機中..."
 
@@ -2831,7 +2825,7 @@ msgstr "オプション"
 msgid "Receiving file names..."
 msgstr "ファイル名を取ってきています..."
 
-#: src/gtk/transfer.c:63 src/gtk/transfer.c:680
+#: src/gtk/transfer.c:63 src/gtk/transfer.c:681
 msgid "Connecting..."
 msgstr "接続しています..."
 
@@ -2844,27 +2838,27 @@ msgstr "ファイル復旧: リモート・サイトへ接続していません\
 msgid "Error: Child %d returned %d\n"
 msgstr "エラー: 子プロセス %d が %d を返しました\n"
 
-#: src/gtk/transfer.c:357
+#: src/gtk/transfer.c:358
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "子プロセス %d は正常に終了しました\n"
 
-#: src/gtk/transfer.c:361
+#: src/gtk/transfer.c:362
 #, c-format
 msgid "Error: Child %d did not terminate properly\n"
 msgstr "エラー: 子プロセス %d が正常終了しませんでした\n"
 
-#: src/gtk/transfer.c:371
+#: src/gtk/transfer.c:372
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "エラー: ファイル %s の情報を取得できません: %s\n"
 
-#: src/gtk/transfer.c:376
+#: src/gtk/transfer.c:377
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "ファイル %s は変更されませんでした\n"
 
-#: src/gtk/transfer.c:384
+#: src/gtk/transfer.c:385
 #, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2873,55 +2867,55 @@ msgstr ""
 "ファイル %s が変更されています。\n"
 "アップロードしますか？"
 
-#: src/gtk/transfer.c:387
+#: src/gtk/transfer.c:388
 msgid "Edit File"
 msgstr "ファイル編集"
 
-#: src/gtk/transfer.c:452
+#: src/gtk/transfer.c:453
 msgid "Finished"
 msgstr "終了しました"
 
-#: src/gtk/transfer.c:492
+#: src/gtk/transfer.c:493
 #, c-format
 msgid "Stopping the transfer of %s\n"
 msgstr "%s の転送を停止しています\n"
 
-#: src/gtk/transfer.c:726
+#: src/gtk/transfer.c:727
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "?? %% 完了 (ファイル数 %ld/%ld)"
 
-#: src/gtk/transfer.c:730
+#: src/gtk/transfer.c:731
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% 完了  推測残り時間=%02d:%02d:%02d (ファイル数 %ld/%ld)"
 
-#: src/gtk/transfer.c:760
+#: src/gtk/transfer.c:761
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "受信 %s of %s (%.2fKバイト/秒)  推測残り時間=%02d:%02d:%02d"
 
-#: src/gtk/transfer.c:769
+#: src/gtk/transfer.c:770
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Recv %s of %s (転送停止中) 推測残り時間=不明"
 
-#: src/gtk/transfer.c:804
+#: src/gtk/transfer.c:805
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "ファイル名を取ってきています... %s バイト"
 
-#: src/gtk/transfer.c:883 src/gtk/transfer.c:905 src/gtk/transfer.c:939
-#: src/gtk/transfer.c:979 src/gtk/transfer.c:1032 src/gtk/transfer.c:1092
+#: src/gtk/transfer.c:884 src/gtk/transfer.c:906 src/gtk/transfer.c:940
+#: src/gtk/transfer.c:980 src/gtk/transfer.c:1033 src/gtk/transfer.c:1093
 msgid "There are no file transfers selected\n"
 msgstr "転送するファイルがありません\n"
 
-#: src/gtk/transfer.c:923
+#: src/gtk/transfer.c:924
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "ホスト %s で転送を停止しています\n"
 
-#: src/gtk/transfer.c:964 src/gtk/transfer.c:1017
+#: src/gtk/transfer.c:965 src/gtk/transfer.c:1018
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "ホスト %s 上のファイル %s をスキップしています\n"
