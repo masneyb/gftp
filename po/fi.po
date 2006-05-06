@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-14 19:30+0300\n"
-"PO-Revision-Date: 2005-11-06 20:25+0200\n"
+"POT-Creation-Date: 2006-05-06 09:32+0300\n"
+"PO-Revision-Date: 2006-05-06 09:44+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -96,6 +96,9 @@ msgid ""
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
+"Tämä osio määrittelee, mitkä isännät ovat paikallisessa verkossa eivätkä "
+"vaadi välityspalvelimen käyttöä. Syntaksi: dont_use_proxy=.toimialue tai "
+"dont_use_proxy=verkko/maski"
 
 #: ../lib/config_file.c:508
 msgid ""
@@ -167,6 +170,10 @@ msgid ""
 "someone standing over your shoulder while you're editing this file. Prior to "
 "this, all passwords were stored in plaintext."
 msgstr ""
+"Huomautus: salasanat tässä tiedostossa ovat sekoitettu. Sekoitusalgoritmi "
+"ei ole turvallinen. Sekoitus on tehtyä ainoastaan siksi, ettei joku voisi "
+"katsoa vierestä ja muistaa salasanoja, kun muokkaat tätä tiedostoa. Aiemmin "
+"salasanat oli talennettu selväkielisenä tekstinä."
 
 #: ../lib/config_file.c:845
 msgid ""
@@ -269,16 +276,16 @@ msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
-"FTPS-tuki ei ole käytettävissä, koska SSL-tukea ei käännetty mukaan. "
-"Yhteys katkaistaan.\n"
+"FTPS-tuki ei ole käytettävissä, koska SSL-tukea ei käännetty mukaan. Yhteys "
+"katkaistaan.\n"
 
 #: ../lib/https.c:91
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
-"HTTPS-tuki ei ole käytettävissä, koska SSL-tukea ei käännetty mukaan. "
-"Yhteys katkaistaan.\n"
+"HTTPS-tuki ei ole käytettävissä, koska SSL-tukea ei käännetty mukaan. Yhteys "
+"katkaistaan.\n"
 
 #: ../lib/local.c:71 ../lib/local.c:407
 #, c-format
@@ -416,18 +423,21 @@ msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
 msgstr ""
+"Tämä on pilkuilla eroteltu lista merkistöjä, joiden avulla etäviestejä "
+"yritetään muuntaa paikalliseen merkistöön"
 
 #: ../lib/options.h:53
 msgid "Remote LC_TIME:"
-msgstr ""
+msgstr "Etäpalvelimen LC_TIME:"
 
 #: ../lib/options.h:55
 msgid ""
 "This is the value of LC_TIME for the remote site. This is so that dates can "
 "be parsed properly in the directory listings."
 msgstr ""
+"Tämä on LC_TIME-muuttujan arvo etäpalvelimelle. Tämän muuttujan avulla "
+"palvelimen päiväykset voidaan esittää oikein hakemistolistauksissa."
 
-#: ../lib/options.h:57
 msgid "Cache TTL:"
 msgstr "Välimuistin TTL:"
 
@@ -578,8 +588,8 @@ msgid ""
 "The block size that is used when transfering files. This should be a "
 "multiple of 1024."
 msgstr ""
-"Tiedostojen siirrossa käytettävä lohkokoko. Tämän tulee olla luvun "
-"1024 moninkerta."
+"Tiedostojen siirrossa käytettävä lohkokoko. Tämän tulee olla luvun 1024 "
+"moninkerta."
 
 #: ../lib/options.h:135
 msgid "Default Protocol:"
@@ -598,6 +608,8 @@ msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
 msgstr ""
+"Tämä määrittää mitä tapahtuu, kun kaksoisnapsautat tiedostoa listassa. "
+"0=Näytä tiedosto 1= Muokkaa tiedostoa 2=Siirrä tiedosto"
 
 #: ../lib/options.h:150
 msgid "The default width of the local files listbox"
@@ -739,12 +751,12 @@ msgstr "FSP"
 #: ../lib/protocols.c:225
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
-msgstr ""
+msgstr "Tiedostonsiirtonopeus rajataan arvoon %.2f Kt/s\n"
 
 #: ../lib/protocols.c:379
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
-msgstr ""
+msgstr "Virhe asetettaessa LC_TIME arvoon \"%s\". Käytetään arvoa \"%s\"\n"
 
 #: ../lib/protocols.c:390
 #, c-format
@@ -769,16 +781,18 @@ msgstr ""
 #: ../lib/protocols.c:469
 #, c-format
 msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
-msgstr "Virhe muunnettaessa merkkijonoa \"%s\" UTF-8 muotoon nykyisestä "
-"merkistöstä: %s\n"
+msgstr ""
+"Virhe muunnettaessa merkkijonoa \"%s\" UTF-8 muotoon nykyisestä merkistöstä: "
+"%s\n"
 
 #. Don't use request->logging_function since the strings must be in UTF-8
 #. for the GTK+ 2.x port
 #: ../lib/protocols.c:540
 #, c-format
 msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
-msgstr "Virhe muunnettaessa merkkijonoa \"%s\" nykyiseen merkistöön "
-"UTF8-muodosta: %s\n"
+msgstr ""
+"Virhe muunnettaessa merkkijonoa \"%s\" nykyiseen merkistöön UTF8-muodosta: %"
+"s\n"
 
 #: ../lib/protocols.c:629
 #, c-format
@@ -786,6 +800,8 @@ msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
 "match the current directory (%s)\n"
 msgstr ""
+"Varoitus: poistetaan polku tiedostonimestä \"%s\". Polku (%s) ei vastaa "
+"nykyistä hakemistoa (%s)\n"
 
 #: ../lib/protocols.c:647
 #, c-format
@@ -1070,7 +1086,7 @@ msgstr ""
 
 #: ../lib/rfc959.c:79
 msgid "Resolve Remote Symlinks (LIST -L)"
-msgstr ""
+msgstr "Selvitä etäpalvelimen symboliset linkit (LIST -L)"
 
 #: ../lib/rfc959.c:82
 msgid ""
@@ -1107,7 +1123,8 @@ msgstr "PASV-vastauksesta '%s' ei löydy IP-osoitetta\n"
 #: ../lib/rfc959.c:715
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
-msgstr ""
+msgstr "Jätetään huomioimatta IP-osoite PASV-vastauksessa, otetaan yhteyttä "
+"osoitteeseen %d.%d.%d.%d:%d\n"
 
 #: ../lib/rfc959.c:726 ../lib/rfc959.c:887
 #, c-format
@@ -1137,8 +1154,7 @@ msgstr "IPv6-pistokkeen luonti epäonnistui: %s\n"
 #: ../lib/rfc959.c:837
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
-msgstr ""
-"Virhe: näyttää että yhteys ei ole IPv6-yhteys. Yhteys katkaistaan.\n"
+msgstr "Virhe: näyttää että yhteys ei ole IPv6-yhteys. Yhteys katkaistaan.\n"
 
 #: ../lib/rfc959.c:865 ../lib/rfc959.c:874
 #, c-format
@@ -1424,8 +1440,8 @@ msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
 "connected to (%s). Aborting connection.\n"
 msgstr ""
-"VIRHE: palvelin SSL-varmenteessa (%s) ei ole sama kuin palvelin, johon yhteys "
-"otettiin (%s). Yhteys katkaistaan.\n"
+"VIRHE: palvelin SSL-varmenteessa (%s) ei ole sama kuin palvelin, johon "
+"yhteys otettiin (%s). Yhteys katkaistaan.\n"
 
 #: ../lib/sslcommon.c:295
 msgid "Cannot initialize the OpenSSL library\n"
@@ -1488,8 +1504,8 @@ msgstr ""
 
 #: ../src/uicommon/gftpui.c:193 ../src/gtk/menu-items.c:505
 msgid "Translated by"
-msgstr "Suomentanut:"
-"Ilkka Tuohela, 2006\n"
+msgstr ""
+"Suomentanut:Ilkka Tuohela, 2006\n"
 "\n"
 "http://www.gnome.fi/"
 
@@ -2608,7 +2624,7 @@ msgstr "Kumoa valinnat"
 
 #: ../src/gtk/menu-items.c:37
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
-msgstr ""
+msgstr "Muuta tiedostomääritystä: toiminto keskeytetty, syötä merkkijono\n"
 
 #: ../src/gtk/menu-items.c:74 ../src/gtk/menu-items.c:77
 msgid "Change Filespec"
@@ -2649,6 +2665,8 @@ msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr ""
+"Lisenssisopimuksen tiedostoa COPYING ei löydy. Tarkista että se on joko "
+"paikassa %s tai %s"
 
 #: ../src/gtk/menu-items.c:468 ../src/gtk/menu-items.c:473
 msgid "About gFTP"
@@ -2692,6 +2710,8 @@ msgid ""
 "Connect to the site specified in the host entry. If the host entry is blank, "
 "then a dialog is presented that will allow you to enter a URL."
 msgstr ""
+"Yhdistä palvelinmäärittelyssä mainittuun palvelimeen. Jos palvelinta ei ole "
+"annettu, voit syöttää URLin näytettävään ikkunaan."
 
 #: ../src/gtk/misc-gtk.c:304
 msgid "All Files"
@@ -2890,7 +2910,7 @@ msgstr "Pysäytetään tiedoston %s siirto\n"
 #: ../src/gtk/transfer.c:727
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
-msgstr ""
+msgstr "Tuntematon määrä siirretty. (Tiedosto %ld/%ld)"
 
 #: ../src/gtk/transfer.c:731
 #, c-format
@@ -2987,3 +3007,6 @@ msgid ""
 "(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
 "c)"
 msgstr ""
+"%s on jo olemassa. (%s lähdekoko, %s kohdekoko):\n"
+"ylikirjoita (o), jatka (r), ohita (s), ylikirjoita kaikki (O),\n"
+"jatka kaikkia (R) tai ohita kaikki (S): (%c)"
