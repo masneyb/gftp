@@ -61,7 +61,7 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
 
 #elif HAVE_GRANTPT
 
-#ifndef __FreeBSD__
+#if !(defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__))
 #include <stropts.h>
 #endif
 
