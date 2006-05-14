@@ -76,16 +76,20 @@ static int
 _gftp_ptym_open (char *pts_name, size_t len, int *fds)
 {
   char *new_pts_name;
+  void (*savesig)();
   int fdm;
 
   if ((fdm = open ("/dev/ptmx", O_RDWR)) < 0)
     return (GFTP_ERETRYABLE);
 
+  savesig = signal (SIGCHLD, SIG_DFL);
   if (grantpt (fdm) < 0)
     {
+      signal(SIGCHLD, savesig);
       close (fdm);
       return (GFTP_ERETRYABLE);
     }
+  signal (SIGCHLD, savesig);
 
   if (unlockpt (fdm) < 0)
     {
