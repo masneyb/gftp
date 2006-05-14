@@ -1,6 +1,8 @@
 #ifndef _FSPLIB_H
 #define _FSPLIB_H 1
 #include <time.h>
+#include <dirent.h>
+#include <sys/stat.h>
 /* The FSP v2 protocol support library - public interface */
 
 /*

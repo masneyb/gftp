@@ -26,7 +26,7 @@ use of this software.
 #include <dirent.h>
 
 #ifdef HAVE_STDINT_H
-# include <stdint.h>
+#include <stdint.h>
 #endif
 
 #include "fsplib.h"
@@ -84,12 +84,6 @@ static int simplecommand(FSP_SESSION *s,const char *directory,unsigned char comm
    if(in.cmd == FSP_CC_ERR)
    {
        errno = EPERM;
-       return -1;
-   }
-
-   if(in.cmd != command)
-   {
-       errno = ENOMSG;
        return -1;
    }
 
@@ -250,8 +244,12 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
     /* get the next key */
     p->key = client_get_key((FSP_LOCK *)s->lock);
 
+    retry = random() & 0xfff8;
+    if (s->seq == retry)
+	s->seq ^= 0x1080;
+    else
+	s->seq = retry;	
     dupes = retry = 0;
-    s->seq = (s-> seq + 0x08) & 0xfff8;
     t_delay = 0;
     /* compute initial delay here */
     /* we are using hardcoded value for now */
@@ -363,6 +361,22 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
                 continue;
             }
 
+            /* check command code */
+	    if( (rpkt->cmd != p->cmd) && (rpkt->cmd != FSP_CC_ERR))
+	    {
+		dupes++;
+		continue;
+	    }
+
+            /* check correct filepos */
+	    if( (rpkt->pos != p->pos) && ( p->cmd == FSP_CC_GET_DIR ||
+		p->cmd == FSP_CC_GET_FILE || p->cmd == FSP_CC_UP_LOAD ||
+		p->cmd == FSP_CC_GRAB_FILE || p->cmd == FSP_CC_INFO) )
+	    {
+		dupes++;
+		continue;
+	    }
+
             /* now we have a correct packet */
 
             /* compute rtt delay */
@@ -460,7 +474,7 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
     s->fd=fd;
     s->timeout=300000; /* 5 minutes */
     s->maxdelay=60000; /* 1 minute  */
-    s->seq=random();
+    s->seq=random() & 0xfff8;
     if ( password ) 
         s->password = strdup(password);
     return s;
@@ -524,7 +538,7 @@ FSP_DIR * fsp_opendir(FSP_SESSION *s,const char *dirname)
             pos = -1;
             break;
         }
-        if ( in.cmd != FSP_CC_GET_DIR )
+        if ( in.cmd == FSP_CC_ERR )
         {
             /* bad reply from the server */
             pos = -1;
@@ -569,6 +583,7 @@ FSP_DIR * fsp_opendir(FSP_SESSION *s,const char *dirname)
                 free(dir->data);
             free(dir);
         }
+	errno = EPERM;
         return NULL;
     }
 
@@ -576,7 +591,8 @@ FSP_DIR * fsp_opendir(FSP_SESSION *s,const char *dirname)
     dir->blocksize=blocksize;
     dir->dirname=strdup(dirname);
     dir->datasize=pos;
-
+    
+    errno = 0;
     return dir;
 }
 
@@ -623,7 +639,7 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
 
     if (fentry.namlen > MAXNAMLEN)
     {
-	entry->d_name[MAXNAMLEN + 1 ] = '\0';
+	entry->d_name[MAXNAMLEN] = '\0';
 #ifdef HAVE_DIRENT_NAMLEN
 	entry->d_namlen = MAXNAMLEN;
     } else
@@ -689,7 +705,7 @@ int fsp_readdir_native(FSP_DIR *dir,FSP_RDENTRY *entry, FSP_RDENTRY **result)
        /* skip file date and file size */
        dir->dirpos += 9;
        /* read file name */
-       entry->name[255 + 1] = '\0';
+       entry->name[255] = '\0';
        strncpy(entry->name,(char *)( dir->data + dir->dirpos ),MAXNAMLEN);
        namelen = strlen( (char *) dir->data+dir->dirpos);
        /* skip over file name */
@@ -850,7 +866,7 @@ size_t fsp_fread(void *dest,size_t size,size_t count,FSP_FILE *file)
 	         file->err=1;
 		 return done/size;
 	    }
-	    if(file->in.cmd != FSP_CC_GET_FILE)
+	    if(file->in.cmd == FSP_CC_ERR)
 	    {
 		errno = EIO;
 		file->err=1;
@@ -916,7 +932,7 @@ size_t fsp_fwrite(const void * source, size_t size, size_t count, FSP_FILE * fil
 	         file->err=1;
 		 return done/size;
 	    }
-	    if(file->in.cmd != FSP_CC_UP_LOAD)
+	    if(file->in.cmd == FSP_CC_ERR)
 	    {
 		errno = EIO;
 		file->err=1;
@@ -985,7 +1001,7 @@ int fsp_fflush(FSP_FILE *file)
 	 file->err=1;
 	 return -1;
     }
-    if(file->in.cmd != FSP_CC_UP_LOAD)
+    if(file->in.cmd == FSP_CC_ERR)
     {
 	errno = EIO;
 	file->err=1;
@@ -1140,7 +1156,7 @@ int fsp_install(FSP_SESSION *s,const char *fname,time_t timestamp)
 		rc=-1;
 	    } else
 	    {
-		if(in.cmd != FSP_CC_INSTALL)
+		if(in.cmd == FSP_CC_ERR)
 		{
 		    rc=-1;
 		    errno = EPERM;
@@ -1164,7 +1180,12 @@ int fsp_getpro(FSP_SESSION *s,const char *directory,unsigned char *result)
    if(fsp_transaction(s,&out,&in))
        return -1;
 
-   if(in.cmd != FSP_CC_GET_PRO || in.pos != FSP_PRO_BYTES)
+   if(in.cmd == FSP_CC_ERR)
+   {
+       errno = ENOENT;
+       return -1;
+   }
+   if(in.pos != FSP_PRO_BYTES)
    {
        errno = ENOMSG;
        return -1;
@@ -1190,7 +1211,7 @@ int fsp_stat(FSP_SESSION *s,const char *path,struct stat *sb)
    if(fsp_transaction(s,&out,&in))
        return -1;
 
-   if(in.cmd != FSP_CC_STAT)
+   if(in.cmd == FSP_CC_ERR)
    {
        errno = ENOTSUP;
        return -1;
@@ -1272,7 +1293,7 @@ int fsp_rename(FSP_SESSION *s,const char *from, const char *to)
    if(fsp_transaction(s,&out,&in))
        return -1;
 
-   if(in.cmd != FSP_CC_RENAME)
+   if(in.cmd == FSP_CC_ERR)
    {
        errno = EPERM;
        return -1;
