@@ -554,7 +554,7 @@ delete_entry (gpointer data)
       else
 	pos++;
 
-      tempstr = g_strdup_printf (_("Are you sure you want to erase the bookmark\n%s and all it's children?"), pos);
+      tempstr = g_strdup_printf (_("Are you sure you want to erase the bookmark\n%s and all its children?"), pos);
       MakeYesNoDialog (_("Delete Bookmark"), tempstr, do_delete_entry, entry, 
                        NULL, NULL);
       g_free (tempstr);
