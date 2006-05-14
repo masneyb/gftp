@@ -1,4 +1,9 @@
 2006-5-14 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c (sshv2_get_file) - use SSH_FXF_READ instead of
+	SSH_FXP_OPEN to open the file. This ensures the file can be downloaded
+	even if the user doesn't have write access to the file.
+	(from Owen Roberts <owen.roberts@sun.com>) (closes #301106)
+
 	* docs/sample.gftp/bookmarks - added Mandriva bookmarks
 	(from mpol@gmx.net) (closes #322942)
 
