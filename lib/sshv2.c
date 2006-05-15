@@ -1867,31 +1867,13 @@ sshv2_put_file (gftp_request * request, const char *file, int fd,
 }
 
 
-#ifdef G_HAVE_GINT64
-
-static gint64
-sshv2_hton64 (gint64 val)
-{
-#if G_BYTE_ORDER != G_BIG_ENDIAN
-  return (GINT64_TO_BE (val));
-#else
-  return (val);
-#endif
-}
-
-#endif
-
-
 static void
 sshv2_setup_file_offset (sshv2_params * params, char *buf)
 {
   guint32 hinum, lownum;
 #ifdef G_HAVE_GINT64
-  gint64 offset;
-
-  offset = sshv2_hton64 (params->offset);
-  lownum = offset >> 32;
-  hinum = (guint32) offset;
+  hinum = htonl(params->offset >> 32);
+  lownum = htonl((guint32) params->offset);
 #else
   hinum = 0;
   lownum = htonl (params->offset);
