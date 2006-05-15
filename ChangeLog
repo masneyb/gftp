@@ -1,4 +1,8 @@
 2006-5-14 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c (rfc959_syst) - disable the show_hidden_files and
+	resolve_symlinks options if the remote server is a VMS server.
+	(closes #170524)
+
 	* lib/sshv2.c - make sure the 64 bit data is transformed into network
 	byte order (from Aurelien Jarno <aurelien@aurel32.net>) (closes #168466)
 
