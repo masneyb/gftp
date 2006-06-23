@@ -1,3 +1,8 @@
+2006-6-23 Brian Masney <masneyb@gftp.org>
+	* lib/fsplib/fsplib.c (fsp_readdir_native) - fixed possible heap
+	overflow on operating systems that have MAXNAMLEN > 256
+	(from Joerg Sonnenberger <joerg@netbsd.org>)
+
 2006-6-22 Brian Masney <masneyb@gftp.org>
 	* gftp.spec.in - updated the install path for the desktop file
 	(closes #171711)

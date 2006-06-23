@@ -706,25 +706,25 @@ int fsp_readdir_native(FSP_DIR *dir,FSP_RDENTRY *entry, FSP_RDENTRY **result)
        dir->dirpos += 9;
        /* read file name */
        entry->name[255] = '\0';
-       strncpy(entry->name,(char *)( dir->data + dir->dirpos ),MAXNAMLEN);
        namelen = strlen( (char *) dir->data+dir->dirpos);
+       if (namelen >= sizeof(entry->name) - 1) {
+           /* skip over file name */
+            dir->dirpos += namelen +1;
+            /* pad to 4 byte boundary */
+            entry->reclen += (4 - dir->dirpos) & 3;
+            dir->dirpos += (4 - dir->dirpos) & 3;
+           continue;
+       }
+       strncpy(entry->name,(char *)( dir->data + dir->dirpos ), sizeof(entry->name));
        /* skip over file name */
        dir->dirpos += namelen +1;
 
        /* set entry namelen field */
-       if (namelen > 255)
-           entry->namlen = 255;
-       else
-           entry->namlen = namelen;
+       entry->namlen = namelen;
        /* set record length */	   
        entry->reclen = 10+namelen;
 
-       /* pad to 4 byte boundary */
-       while( dir->dirpos & 0x3 )
-       {
-         dir->dirpos++;
-         entry->reclen++;
-       }
+       dir->dirpos += (4 - dir->dirpos) & 3;
 
        /* and return it */
        *result=entry;
