@@ -685,19 +685,84 @@ create_transfer (gftp_transfer * tdata)
 
 
 static void
+_setup_dlstr (gftp_transfer * tdata, gftp_file * fle, char *dlstr,
+              size_t dlstr_len)
+{
+  int hours, mins, secs, pcent, st, usesentdescr;
+  unsigned long remaining_secs, lkbs;
+  char gotstr[50], ofstr[50];
+  struct timeval tv;
+
+  st = 1;
+  gettimeofday (&tv, NULL);
+  usesentdescr = (tdata->fromreq->protonum == GFTP_LOCAL_NUM);
+
+  insert_commas (fle->size, ofstr, sizeof (ofstr));
+  insert_commas (tdata->curtrans + tdata->curresumed, gotstr, sizeof (gotstr));
+
+  if (tv.tv_sec - tdata->lasttime.tv_sec <= 5)
+    {
+      if (tdata->curfle->next != NULL)
+        {
+          remaining_secs = (fle->size - tdata->curtrans - tdata->curresumed) / 1024;
+
+          lkbs = (unsigned long) tdata->kbs;
+          if (lkbs > 0)
+            remaining_secs /= lkbs;
+
+          hours = remaining_secs / 3600;
+          remaining_secs -= hours * 3600;
+          mins = remaining_secs / 60;
+          remaining_secs -= mins * 60;
+          secs = remaining_secs;
+        }
+
+      if (!(hours < 0 || mins < 0 || secs < 0))
+        {
+          if (usesentdescr)
+            {
+              g_snprintf (dlstr, dlstr_len,
+                          _("Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"), gotstr, ofstr, tdata->kbs, hours, mins, secs);
+            }
+          else
+            {
+              g_snprintf (dlstr, dlstr_len,
+                          _("Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"), gotstr, ofstr, tdata->kbs, hours, mins, secs);
+            }
+          st = 0;
+        }
+    }
+
+  if (st)
+    {
+      tdata->stalled = 1;
+      if (usesentdescr)
+        {
+          g_snprintf (dlstr, dlstr_len,
+                      _("Sent %s of %s, transfer stalled, unknown time remaining"),
+                      gotstr, ofstr);
+        }
+      else
+        {
+          g_snprintf (dlstr, dlstr_len,
+                      _("Recv %s of %s, transfer stalled, unknown time remaining"),
+                      gotstr, ofstr);
+        }
+    }
+}
+
+
+static void
 update_file_status (gftp_transfer * tdata)
 {
-  char totstr[150], dlstr[150], winstr[150], gotstr[50], ofstr[50];
+  char totstr[150], winstr[150], dlstr[150];
   unsigned long remaining_secs, lkbs;
-  int hours, mins, secs, pcent, st;
   intptr_t show_trans_in_title;
+  int hours, mins, secs, pcent;
   gftp_file * tempfle;
-  struct timeval tv;
   
   g_static_mutex_lock (&tdata->statmutex);
   tempfle = tdata->curfle->data;
-
-  gettimeofday (&tv, NULL);
 
   remaining_secs = (tdata->total_bytes - tdata->trans_bytes - tdata->resumed_bytes) / 1024;
 
@@ -734,43 +799,7 @@ update_file_status (gftp_transfer * tdata)
 
   *dlstr = '\0';
   if (!tdata->stalled)
-    {
-      insert_commas (tdata->curtrans + tdata->curresumed, gotstr, sizeof (gotstr));
-      insert_commas (tempfle->size, ofstr, sizeof (ofstr));
-      st = 1;
-      if (tv.tv_sec - tdata->lasttime.tv_sec <= 5)
-        {
-          if (tdata->curfle->next != NULL)
-            {
-              remaining_secs = (tempfle->size - tdata->curtrans - tdata->curresumed) / 1024;
-
-              lkbs = (unsigned long) tdata->kbs;
-              if (lkbs > 0)
-                remaining_secs /= lkbs;
-
-              hours = remaining_secs / 3600;
-              remaining_secs -= hours * 3600;
-              mins = remaining_secs / 60;
-              remaining_secs -= mins * 60;
-              secs = remaining_secs;
-            }
-
-          if (!(hours < 0 || mins < 0 || secs < 0))
-            {
-              g_snprintf (dlstr, sizeof (dlstr),
-                          _("Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"), gotstr, ofstr, tdata->kbs, hours, mins, secs);
-              st = 0;
-            }
-        }
-
-      if (st)
-        {
-          tdata->stalled = 1;
-          g_snprintf (dlstr, sizeof (dlstr),
-	  	  _("Recv %s of %s, transfer stalled, unknown time remaining"),
-		  gotstr, ofstr);
-        }
-    }
+    _setup_dlstr (tdata, tempfle, dlstr, sizeof (dlstr));
 
   g_static_mutex_unlock (&tdata->statmutex);
 
