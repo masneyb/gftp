@@ -121,7 +121,7 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
       return (-1);
     }
 
-#ifdef SYSV
+#if defined(SYSV) || defined (hpux)
   /* I intentionally ignore these errors */
   ioctl (new_fds, I_PUSH, "ptem");
   ioctl (new_fds, I_PUSH, "ldterm");
