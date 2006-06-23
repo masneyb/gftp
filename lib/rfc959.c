@@ -419,7 +419,12 @@ rfc959_syst (gftp_request * request)
   if (strcmp (stpos, "UNIX") == 0)
     request->server_type = GFTP_DIRTYPE_UNIX;
   else if (strcmp (stpos, "VMS") == 0)
-    request->server_type = GFTP_DIRTYPE_VMS;
+    {
+      gftp_set_request_option (request, "show_hidden_files",
+                               GINT_TO_POINTER(0));
+      gftp_set_request_option (request, "resolve_symlinks", GINT_TO_POINTER(0));
+      request->server_type = GFTP_DIRTYPE_VMS;
+    }
   else if (strcmp (stpos, "MVS") == 0 ||
            strcmp (stpos, "OS/MVS") == 0)
     request->server_type = GFTP_DIRTYPE_MVS;
