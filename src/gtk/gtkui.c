@@ -95,7 +95,7 @@ gftpui_prompt_username (void *uidata, gftp_request * request)
 {
   MakeEditDialog (_("Enter Username"),
                   _("Please enter your username for this site"), NULL,
-                  0, NULL, gftp_dialog_button_connect,
+                  1, NULL, gftp_dialog_button_connect,
                   _gftpui_gtk_set_username, request,
                   _gftpui_gtk_abort, request);
 
