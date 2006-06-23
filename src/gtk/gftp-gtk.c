@@ -303,7 +303,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Remote/Refresh"), NULL, gftp_gtk_refresh, 0, MS_(GTK_STOCK_REFRESH)},
     {N_("/_Bookmarks"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Bookmarks/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Bookmarks/Add bookmark"), "<control>A", add_bookmark, 0,
+    {N_("/Bookmarks/Add bookmark"), "<control>B", add_bookmark, 0,
 	MS_(GTK_STOCK_ADD)},
     {N_("/Bookmarks/Edit bookmarks"), NULL, edit_bookmarks, 0, MN_(NULL)},
     {N_("/Bookmarks/sep"), NULL, 0, 0, MN_("<Separator>")},
