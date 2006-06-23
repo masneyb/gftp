@@ -480,7 +480,7 @@ new_folder_entry (gpointer data)
 static void
 new_item_entry (gpointer data)
 {
-  MakeEditDialog (_("New Folder"),
+  MakeEditDialog (_("New Item"),
 		  _("Enter the name of the new item to create"), NULL, 1,
 		  NULL, gftp_dialog_button_create,
                   do_make_new, NULL, NULL, NULL);
