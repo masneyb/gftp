@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-06 09:32+0300\n"
-"PO-Revision-Date: 2006-05-06 09:44+0300\n"
+"POT-Creation-Date: 2006-07-02 23:04+0300\n"
+"PO-Revision-Date: 2006-07-02 23:06+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -170,8 +170,8 @@ msgid ""
 "someone standing over your shoulder while you're editing this file. Prior to "
 "this, all passwords were stored in plaintext."
 msgstr ""
-"Huomautus: salasanat tässä tiedostossa ovat sekoitettu. Sekoitusalgoritmi "
-"ei ole turvallinen. Sekoitus on tehtyä ainoastaan siksi, ettei joku voisi "
+"Huomautus: salasanat tässä tiedostossa ovat sekoitettu. Sekoitusalgoritmi ei "
+"ole turvallinen. Sekoitus on tehtyä ainoastaan siksi, ettei joku voisi "
 "katsoa vierestä ja muistaa salasanoja, kun muokkaat tätä tiedostoa. Aiemmin "
 "salasanat oli talennettu selväkielisenä tekstinä."
 
@@ -438,6 +438,7 @@ msgstr ""
 "Tämä on LC_TIME-muuttujan arvo etäpalvelimelle. Tämän muuttujan avulla "
 "palvelimen päiväykset voidaan esittää oikein hakemistolistauksissa."
 
+#: ../lib/options.h:57
 msgid "Cache TTL:"
 msgstr "Välimuistin TTL:"
 
@@ -761,12 +762,12 @@ msgstr "Virhe asetettaessa LC_TIME arvoon \"%s\". Käytetään arvoa \"%s\"\n"
 #: ../lib/protocols.c:390
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
-msgstr "Haetaan kansiolistausta %s välimuistista (LC_TIME=%s)\n"
+msgstr "Ladataan kansiolistausta %s välimuistista (LC_TIME=%s)\n"
 
 #: ../lib/protocols.c:400
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
-msgstr "Haetaan kansiolistausta %s palvelimelta (LC_TIME=%s)\n"
+msgstr "Ladataan kansiolistausta %s palvelimelta (LC_TIME=%s)\n"
 
 #: ../lib/protocols.c:454 ../lib/protocols.c:486 ../lib/protocols.c:525
 #: ../lib/protocols.c:557
@@ -850,7 +851,7 @@ msgstr "Yritetään %s: %d\n"
 msgid "Cannot connect to %s: %s\n"
 msgstr "Yhteyttä kohteeseen %s ei voida avata: %s\n"
 
-#: ../lib/protocols.c:2283 ../lib/rfc959.c:640
+#: ../lib/protocols.c:2283 ../lib/rfc959.c:645
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Virhe luotaessa IPv4-pistoketta: %s\n"
@@ -860,8 +861,8 @@ msgstr "Virhe luotaessa IPv4-pistoketta: %s\n"
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr "Palvelun nimeä %s/tcp ei löydy. Tarkista services-tiedostosi\n"
 
-#: ../lib/protocols.c:2369 ../lib/protocols.c:3009 ../lib/rfc959.c:649
-#: ../lib/rfc959.c:826
+#: ../lib/protocols.c:2369 ../lib/protocols.c:3009 ../lib/rfc959.c:654
+#: ../lib/rfc959.c:831
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Virhe: \"Sulje suoritettaessa\"-lipun asetus ei onnistu: %s\n"
@@ -900,22 +901,22 @@ msgstr ""
 "Virhe: Yhteys palvelimeen %s katkaistu. Yritetään uudelleen %d sek. "
 "kuluttua\n"
 
-#: ../lib/pty.c:297
+#: ../lib/pty.c:301
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "Päätelaitettä %s ei voitu avata: %s\n"
 
-#: ../lib/pty.c:305
+#: ../lib/pty.c:309
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "Pistokeparia ei voitu luoda: %s\n"
 
-#: ../lib/pty.c:334
+#: ../lib/pty.c:338
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "Virhe: Ohjelmaa ssh ei voitu suorittaa: %s\n"
 
-#: ../lib/pty.c:350
+#: ../lib/pty.c:354
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "Virhe: Uutta prosessia ei voitu käynnnistää: %s\n"
@@ -969,7 +970,7 @@ msgstr ""
 "Saatiin virheellinen vastaus palvelimelta, yhteys katkaistaan\n"
 "Palvelin ilmoitti virheellisen palasenkoon \"%s\"\n"
 
-#: ../lib/rfc2068.c:254 ../lib/rfc959.c:608 ../lib/sshv2.c:1123
+#: ../lib/rfc2068.c:254 ../lib/rfc959.c:613 ../lib/sshv2.c:1123
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Katkaistaan yhteys palvelimeen %s\n"
@@ -985,7 +986,7 @@ msgstr "Tiedostoa %s ei voida hakea\n"
 
 #: ../lib/rfc2068.c:423 ../lib/sshv2.c:1205
 msgid "Retrieving directory listing...\n"
-msgstr "Haetaan kansiolistausta...\n"
+msgstr "Noudetaan kansiolistausta...\n"
 
 #: ../lib/rfc2068.c:819 ../lib/sshv2.c:814
 msgid "Received wrong response from server, disconnecting\n"
@@ -1110,72 +1111,73 @@ msgid ""
 msgstr ""
 
 #: ../lib/rfc959.c:322 ../lib/rfc959.c:331 ../lib/rfc959.c:342
-#: ../lib/rfc959.c:789 ../lib/rfc959.c:1387
+#: ../lib/rfc959.c:794 ../lib/rfc959.c:1392
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Virheellinen vastaus '%c' palvelimelta.\n"
 
-#: ../lib/rfc959.c:679 ../lib/rfc959.c:689
+#: ../lib/rfc959.c:684 ../lib/rfc959.c:694
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "PASV-vastauksesta '%s' ei löydy IP-osoitetta\n"
 
-#: ../lib/rfc959.c:715
+#: ../lib/rfc959.c:720
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
-msgstr "Jätetään huomioimatta IP-osoite PASV-vastauksessa, otetaan yhteyttä "
+msgstr ""
+"Jätetään huomioimatta IP-osoite PASV-vastauksessa, otetaan yhteyttä "
 "osoitteeseen %d.%d.%d.%d:%d\n"
 
-#: ../lib/rfc959.c:726 ../lib/rfc959.c:887
+#: ../lib/rfc959.c:731 ../lib/rfc959.c:892
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Data-yhteyttä ei voida luoda: %s\n"
 
-#: ../lib/rfc959.c:738 ../lib/rfc959.c:759 ../lib/rfc959.c:912
+#: ../lib/rfc959.c:743 ../lib/rfc959.c:764 ../lib/rfc959.c:917
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Pistokkeen nimeä ei voida selvittää: %s\n"
 
-#: ../lib/rfc959.c:749 ../lib/rfc959.c:902
+#: ../lib/rfc959.c:754 ../lib/rfc959.c:907
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Porttiin ei voida sitoa: %s\n"
 
-#: ../lib/rfc959.c:768 ../lib/rfc959.c:921
+#: ../lib/rfc959.c:773 ../lib/rfc959.c:926
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Porttia %d ei voida kuunnella: %s\n"
 
-#: ../lib/rfc959.c:817
+#: ../lib/rfc959.c:822
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "IPv6-pistokkeen luonti epäonnistui: %s\n"
 
-#: ../lib/rfc959.c:837
+#: ../lib/rfc959.c:842
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "Virhe: näyttää että yhteys ei ole IPv6-yhteys. Yhteys katkaistaan.\n"
 
-#: ../lib/rfc959.c:865 ../lib/rfc959.c:874
+#: ../lib/rfc959.c:870 ../lib/rfc959.c:879
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Virheellinen EPSV-vastaus \"%s\"\n"
 
-#: ../lib/rfc959.c:931
+#: ../lib/rfc959.c:936
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Paikallisen pistokkeen osoitetta ei löydy: %s\n"
 
-#: ../lib/rfc959.c:1005
+#: ../lib/rfc959.c:1010
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Yhteyttä palvelimelta ei voi hyväksyä: %s\n"
 
-#: ../lib/rfc959.c:1542
+#: ../lib/rfc959.c:1547
 msgid "total"
 msgstr "kaikkiaan"
 
-#: ../lib/rfc959.c:1544
+#: ../lib/rfc959.c:1549
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varoitus: Listaista %s ei voida tulkita\n"
@@ -1370,7 +1372,7 @@ msgid "Error: Message size %d too big\n"
 msgstr "Virhe: viestin koko %d on liian suuri\n"
 
 #: ../lib/sshv2.c:730 ../lib/sshv2.c:1225 ../lib/sshv2.c:1821
-#: ../lib/sshv2.c:1959
+#: ../lib/sshv2.c:1941
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Virhe: palvelimen palauttaman viestin koko %d on liian suuri\n"
@@ -1902,13 +1904,17 @@ msgstr ""
 msgid "Remember password"
 msgstr "Muista salasana"
 
-#: ../src/gtk/bookmarks.c:473 ../src/gtk/bookmarks.c:483
+#: ../src/gtk/bookmarks.c:473
 msgid "New Folder"
 msgstr "Uusi kansio"
 
 #: ../src/gtk/bookmarks.c:474
 msgid "Enter the name of the new folder to create"
 msgstr "Anna nimi kansiolle jonka haluat luoda"
+
+#: ../src/gtk/bookmarks.c:483
+msgid "New Item"
+msgstr "Uusi kohta"
 
 #: ../src/gtk/bookmarks.c:484
 msgid "Enter the name of the new item to create"
@@ -1918,10 +1924,10 @@ msgstr "Anna luotavan kohteen nimi"
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
-"%s and all it's children?"
+"%s and all its children?"
 msgstr ""
-"Haluatko varmasti poistaa kirjanmerkin %s\n"
-"ja kaikki sen alla olevat kirjanmerkit?"
+"Haluatko varmasti poistaa kirjanmerkin\n"
+"%s ja kaikki sen alla olevat kirjanmerkit?"
 
 #: ../src/gtk/bookmarks.c:558
 msgid "Delete Bookmark"
@@ -2566,7 +2572,7 @@ msgid "Chdir"
 msgstr "Chdir"
 
 #: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:450
-#: ../src/gtk/transfer.c:533 ../src/gtk/transfer.c:1012
+#: ../src/gtk/transfer.c:533 ../src/gtk/transfer.c:1041
 msgid "Skipped"
 msgstr "Ohitettu"
 
@@ -2772,7 +2778,7 @@ msgstr "  Ei  "
 
 #: ../src/gtk/misc-gtk.c:1180
 msgid "Getting directory listings"
-msgstr "Haetaan tiedostolistausta"
+msgstr "Nodetaan tiedostolistausta"
 
 #: ../src/gtk/misc-gtk.c:1200
 msgid "  Stop  "
@@ -2784,7 +2790,7 @@ msgid ""
 "Received %ld directories\n"
 "and %ld files"
 msgstr ""
-"Haettu %ld kansio\n"
+"Noudettu %ld kansio\n"
 "ja %ld tiedostoa"
 
 #: ../src/gtk/misc-gtk.c:1286
@@ -2907,43 +2913,52 @@ msgstr "Valmis"
 msgid "Stopping the transfer of %s\n"
 msgstr "Pysäytetään tiedoston %s siirto\n"
 
-#: ../src/gtk/transfer.c:727
+#: ../src/gtk/transfer.c:725
+#, c-format
+msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "Lähetetty %s/%s nopeudella %.2fkt/s, %02d:%02d:%02d aikaa jäljellä"
+
+#: ../src/gtk/transfer.c:730
+#, c-format
+msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "Noudettu %s/%s nopeudella %.2fkt/s, %02d:%02d:%02d aikaa jäljellä"
+
+#: ../src/gtk/transfer.c:742
+msgid "Sent %s of %s, transfer stalled, unknown time remaining"
+msgstr "Lähetetty %s/%s, haku pysähtynyt, jäljellä oleva aika tuntematon"
+
+#: ../src/gtk/transfer.c:748
+#, c-format
+msgid "Recv %s of %s, transfer stalled, unknown time remaining"
+msgstr "Noudettu %s/%s, haku pysähtynyt, jäljellä oleva aika tuntematon"
+
+#: ../src/gtk/transfer.c:792
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "Tuntematon määrä siirretty. (Tiedosto %ld/%ld)"
 
-#: ../src/gtk/transfer.c:731
+#: ../src/gtk/transfer.c:796
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% valmiina, %02d:%02d:%02d aikaa jäljellä (tiedost %ld/%ld)"
 
-#: ../src/gtk/transfer.c:761
-#, c-format
-msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
-msgstr "Haettu %s/%s nopeudella %.2fkt/s, %02d:%02d:%02d aikaa jäljellä"
-
-#: ../src/gtk/transfer.c:770
-#, c-format
-msgid "Recv %s of %s, transfer stalled, unknown time remaining"
-msgstr "Haettu %s/%s, haku pysähtynyt, jäljellä oleva aika tuntematon"
-
-#: ../src/gtk/transfer.c:805
+#: ../src/gtk/transfer.c:834
 #, c-format
 msgid "Retrieving file names...%s bytes"
-msgstr "Haetaan tiedostojen nimiä... %s tavua"
+msgstr "Nodetaan tiedostojen nimiä... %s tavua"
 
-#: ../src/gtk/transfer.c:884 ../src/gtk/transfer.c:906
-#: ../src/gtk/transfer.c:940 ../src/gtk/transfer.c:980
-#: ../src/gtk/transfer.c:1033 ../src/gtk/transfer.c:1093
+#: ../src/gtk/transfer.c:913 ../src/gtk/transfer.c:935
+#: ../src/gtk/transfer.c:969 ../src/gtk/transfer.c:1009
+#: ../src/gtk/transfer.c:1062 ../src/gtk/transfer.c:1122
 msgid "There are no file transfers selected\n"
 msgstr "Tiedostonsiirtoja ei ole valittu\n"
 
-#: ../src/gtk/transfer.c:924
+#: ../src/gtk/transfer.c:953
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Keskeytetään siirto palvelimella %s\n"
 
-#: ../src/gtk/transfer.c:965 ../src/gtk/transfer.c:1018
+#: ../src/gtk/transfer.c:994 ../src/gtk/transfer.c:1047
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Ohitetaan tiedosto %s palvelimella %s\n"
