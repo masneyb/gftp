@@ -1,3 +1,8 @@
+2006-7-7 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_transfer_status) - split this function into
+	several smaller functions. Fixed bug where the number of retries wasn't
+	being honored
+
 2006-6-23 Brian Masney <masneyb@gftp.org>
 	* lib/fsplib/fsplib.c (fsp_readdir_native) - fixed possible heap
 	overflow on operating systems that have MAXNAMLEN > 256
