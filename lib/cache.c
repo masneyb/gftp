@@ -36,7 +36,7 @@ typedef struct gftp_cache_entry_tag gftp_cache_entry;
 
 
 static int
-gftp_parse_cache_line (gftp_request * request, gftp_cache_entry * centry, 
+gftp_parse_cache_line (gftp_request * request, /*@out@*/ gftp_cache_entry * centry, 
                        char *line)
 {
   char *pos;
@@ -88,7 +88,7 @@ gftp_parse_cache_line (gftp_request * request, gftp_cache_entry * centry,
 
 
 static void
-gftp_restore_cache_line (gftp_cache_entry * centry, char *line)
+gftp_restore_cache_line (gftp_cache_entry * centry)
 {
   if (centry->pos1 != NULL)
     *centry->pos1 = '\t';
@@ -102,7 +102,8 @@ gftp_restore_cache_line (gftp_cache_entry * centry, char *line)
 
 
 void
-gftp_generate_cache_description (gftp_request * request, char *description,
+gftp_generate_cache_description (gftp_request * request,
+                                 char *description,
                                  size_t len, int ignore_directory)
 {
   g_snprintf (description, len, "%s://%s@%s:%d%s",
@@ -137,6 +138,7 @@ gftp_new_cache_entry (gftp_request * request)
                                  _("Error: Could not make directory %s: %s\n"),
                                  cachedir, g_strerror (errno));
 
+          g_free (cachedir);
           return (-1);
         }
     }
@@ -156,6 +158,7 @@ gftp_new_cache_entry (gftp_request * request)
   if ((cache_fd = mkstemp (tempstr)) < 0)
     {
       g_free (tempstr);
+      g_free (cachedir);
       if (request != NULL)
         request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot create temporary file: %s\n"),
@@ -202,6 +205,7 @@ gftp_find_cache_entry (gftp_request * request)
 
   time (&now);
 
+  *description = '\0';
   gftp_generate_cache_description (request, description, sizeof (description),
                                    0);
 
@@ -276,6 +280,7 @@ gftp_clear_cache_files (void)
       return;
     }
 
+  *buf = '\0';
   rbuf = NULL;
   while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf), indexfd) > 0)
     {
@@ -307,6 +312,7 @@ gftp_delete_cache_entry (gftp_request * request, char *descr,
   time (&now);
   if (request != NULL)
     {
+      *description = '\0';
       gftp_generate_cache_description (request, description, sizeof (description),
                                        ignore_directory);
     }
@@ -334,6 +340,7 @@ gftp_delete_cache_entry (gftp_request * request, char *descr,
       return;
     }
 
+  *buf = '\0';
   rbuf = NULL;
   while (gftp_get_line (NULL, &rbuf, buf, sizeof (buf) - 1, indexfd) > 0)
     {
@@ -362,7 +369,7 @@ gftp_delete_cache_entry (gftp_request * request, char *descr,
           /* Make sure we put the tabs back in the line. I do it this way 
              so that I don't have to allocate memory again for each line 
              as we read it */
-          gftp_restore_cache_line (&centry, buf);
+          gftp_restore_cache_line (&centry);
 
           /* Make sure when we call gftp_get_line() that we pass the read size
              as sizeof(buf) - 1 so that we'll have room to put the newline */

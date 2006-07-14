@@ -255,7 +255,7 @@ parse_ftp_proxy_string (gftp_request * request)
           *endpos = '\0';
 
           len += strlen (startpos) + 2;
-          newstr = g_realloc (newstr, sizeof (char) * (len + 1));
+          newstr = g_realloc (newstr, (gulong) sizeof (char) * (len + 1));
           strcat (newstr, startpos);
           strcat (newstr, "\r\n");
 
@@ -275,7 +275,7 @@ parse_ftp_proxy_string (gftp_request * request)
       len += strlen (startpos);
       if (!newval)
         {
-          newstr = g_realloc (newstr, sizeof (char) * (len + 1));
+          newstr = g_realloc (newstr, (gulong) sizeof (char) * (len + 1));
           strcat (newstr, startpos);
         }
       else
@@ -286,7 +286,7 @@ parse_ftp_proxy_string (gftp_request * request)
           else
             len += strlen (newval);
 
-          newstr = g_realloc (newstr, sizeof (char) * (len + 1));
+          newstr = g_realloc (newstr, (gulong) sizeof (char) * (len + 1));
           strcat (newstr, startpos);
 
           if (utf8 != NULL)
@@ -468,7 +468,8 @@ rfc959_connect (gftp_request * request)
       gftp_set_password (request, email);
     }
    
-  if ((ret = gftp_connect_server (request, "ftp", proxy_hostname, proxy_port)) < 0)
+  if ((ret = gftp_connect_server (request, "ftp", proxy_hostname,
+                                  proxy_port)) < 0)
     return (ret);
 
   /* Get the banner */
@@ -1023,7 +1024,7 @@ rfc959_accept_active_connection (gftp_request * request)
 }
 
 
-static int
+static unsigned int
 rfc959_is_ascii_transfer (gftp_request * request, const char *filename)
 {
   gftp_config_list_vars * tmplistvar;
@@ -1058,9 +1059,10 @@ rfc959_is_ascii_transfer (gftp_request * request, const char *filename)
 static int
 rfc959_set_data_type (gftp_request * request, const char *filename)
 {
+  unsigned int new_ascii;
   rfc959_parms * parms;
-  int new_ascii, ret;
   char *tempstr;
+  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
@@ -1227,7 +1229,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
 }
 
 
-static long 
+static off_t
 rfc959_transfer_file (gftp_request *fromreq, const char *fromfile, 
                       off_t fromsize, gftp_request *toreq, 
                       const char *tofile, off_t tosize)

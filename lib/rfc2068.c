@@ -93,8 +93,9 @@ static off_t
 rfc2068_read_response (gftp_request * request)
 {
   rfc2068_params * params;
+  unsigned int chunked;
   char tempstr[8192];
-  int ret, chunked;
+  int ret;
 
   params = request->protocol_data;
   *tempstr = '\0';
@@ -161,7 +162,7 @@ rfc2068_read_response (gftp_request * request)
         {
           params->extra_read_buffer_len = params->chunk_size * -1;
           params->chunk_size = 0;
-          params->extra_read_buffer = g_malloc (params->extra_read_buffer_len + 1);
+          params->extra_read_buffer = g_malloc ((gulong) params->extra_read_buffer_len + 1);
           memcpy (params->extra_read_buffer, params->rbuf->curpos + (params->rbuf->cur_bufsize - params->extra_read_buffer_len), params->extra_read_buffer_len);
           params->extra_read_buffer[params->extra_read_buffer_len] = '\0';
           params->rbuf->cur_bufsize -= params->extra_read_buffer_len;
@@ -175,7 +176,7 @@ rfc2068_read_response (gftp_request * request)
 
 
 static off_t 
-rfc2068_send_command (gftp_request * request, const void *command, size_t len)
+rfc2068_send_command (gftp_request * request, const char *command)
 {
   char *tempstr, *str, *proxy_hostname, *proxy_username, *proxy_password;
   intptr_t proxy_port;
@@ -309,7 +310,7 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
       g_free (oldstr);
     }
 
-  size = rfc2068_send_command (request, tempstr, strlen (tempstr));
+  size = rfc2068_send_command (request, tempstr);
   g_free (tempstr);
   if (size < 0)
     return (size);
@@ -410,7 +411,7 @@ rfc2068_list_files (gftp_request * request)
 
   g_free (hd);
 
-  ret = rfc2068_send_command (request, tempstr, strlen (tempstr));
+  ret = rfc2068_send_command (request, tempstr);
   g_free (tempstr);
   if (ret < 0)
     return ((int) ret);
@@ -454,7 +455,7 @@ rfc2068_get_file_size (gftp_request * request, const char *filename)
 
   g_free (hf);
 
-  size = rfc2068_send_command (request, tempstr, strlen (tempstr));
+  size = rfc2068_send_command (request, tempstr);
   g_free (tempstr);
   return (size);
 }
@@ -803,7 +804,7 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           /* The current chunk size is split between multiple packets.
              Save this chunk and read the next */
 
-          params->extra_read_buffer = g_malloc (current_size + 1);
+          params->extra_read_buffer = g_malloc ((gulong) current_size + 1);
           memcpy (params->extra_read_buffer, stpos, current_size);
           params->extra_read_buffer[current_size] = '\0';
           params->extra_read_buffer_len = current_size;

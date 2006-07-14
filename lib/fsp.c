@@ -19,12 +19,11 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 #define FSP_USE_SHAREMEM_AND_SEMOP 1
 #include "fsplib/fsplib.h"
 #include "fsplib/lock.h"
-
-static const char cvsid[] = "$Id$";
 
 typedef struct fsp_protocol_data_tag
 {

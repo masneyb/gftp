@@ -41,7 +41,7 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
   char *frompos, *topos, src[50], *dest;
   size_t num, rem, srclen;
-  int len, i;
+  size_t len, i;
 
   g_snprintf (src, sizeof (src), GFTP_OFF_T_PRINTF_MOD, number);
 
@@ -289,7 +289,6 @@ gftp_match_filespec (const char *filename, const char *filespec)
       else if(*wcpos++ != *filepos++) 
         return(0);
     }
-  return (1);
 }
 
 
@@ -964,7 +963,7 @@ base64_encode (char *str)
   if (slen % 3 > 0)
     num++;
 
-  newstr = g_malloc (num * 4 + 1);
+  newstr = g_malloc ((gulong) num * 4 + 1);
   newstr[num * 4] = '\0';
   newpos = newstr;
 
@@ -1155,7 +1154,7 @@ gftp_build_path (gftp_request * request, const char *first_element, ...)
         }
       
       retlen += len;
-      ret = g_realloc (ret, retlen + 1);
+      ret = g_realloc (ret, (gulong) retlen + 1);
 
       /* Don't append a / for VMS servers... */
       if (add_separator &&
@@ -1201,12 +1200,12 @@ gftp_scramble_password (const char *password)
   if (strcmp (password, "@EMAIL@") == 0)
     return (g_strdup (password));
 
-  newstr = g_malloc (strlen (password) * 2 + 2);
+  newstr = g_malloc ((gulong) strlen (password) * 2 + 2);
   newpos = newstr;
   
   *newpos++ = '$';
 
-  while (*password != 0)
+  while (*password != '\0')
     {
       *newpos++ = ((*password >> 2) & 0x3c) | 0x41;
       *newpos++ = ((*password << 2) & 0x3c) | 0x41;
@@ -1229,11 +1228,11 @@ gftp_descramble_password (const char *password)
     return (g_strdup (password));
 
   passwordpos = password + 1;
-  newstr = g_malloc (strlen (passwordpos) / 2 + 1);
+  newstr = g_malloc ((gulong) strlen (passwordpos) / 2 + 1);
   newpos = newstr;
  
   error = 0;
-  while (*passwordpos != '\0' && (*passwordpos + 1) != '\0')
+  while (*passwordpos != '\0' && *(passwordpos + 1) != '\0')
     {
       if ((*passwordpos & 0xc3) != 0x41 ||
           (*(passwordpos + 1) & 0xc3) != 0x41)

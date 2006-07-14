@@ -413,7 +413,7 @@ gftp_list_files (gftp_request * request)
 
 #if GLIB_MAJOR_VERSION > 1
 
-static char *
+static /*@null@*/ char *
 _gftp_get_next_charset (char **curpos)
 {
   char *ret, *endpos;
@@ -434,7 +434,7 @@ _gftp_get_next_charset (char **curpos)
 }
 
 
-char *
+/*@null@*/ char *
 gftp_string_to_utf8 (gftp_request * request, const char *str)
 {
   char *ret, *remote_charsets, *stpos, *cur_charset, *tempstr;
@@ -1100,7 +1100,7 @@ gftp_set_file_time (gftp_request * request, const char *file, time_t datetime)
 }
 
 
-char
+int
 gftp_site_cmd (gftp_request * request, int specify_site, const char *command)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1228,7 +1228,7 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
 
 
 static char *
-copy_token (char **dest, char *source)
+copy_token (/*@out@*/ char **dest, char *source)
 {
   /* This function is used internally by gftp_parse_ls () */
   char *endpos, savepos;
@@ -1237,11 +1237,14 @@ copy_token (char **dest, char *source)
   while (*endpos != ' ' && *endpos != '\t' && *endpos != '\0')
     endpos++;
   if (*endpos == '\0')
-    return (NULL);
+    {
+      *dest = NULL;
+      return (NULL);
+    }
 
   savepos = *endpos;
   *endpos = '\0';
-  *dest = g_malloc (endpos - source + 1);
+  *dest = g_malloc ((gulong) (endpos - source + 1));
   strcpy (*dest, source);
   *endpos = savepos;
 
@@ -1671,7 +1674,7 @@ gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
   if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode) &&
       (endpos = strchr (startpos, ',')) != NULL)
     {
-      fle->size = strtol (startpos, NULL, 10) << 16;
+      fle->size = (unsigned long) strtol (startpos, NULL, 10) << 16;
 
       startpos = endpos + 1;
       while (*startpos == ' ')
@@ -2269,11 +2272,14 @@ gftp_connect_server (gftp_request * request, char *service,
 #else /* !HAVE_GETADDRINFO */
   struct sockaddr_in remote_address;
   struct servent serv_struct;
+  int ret;
 
-  if ((request->use_proxy = gftp_need_proxy (request, service,
-                                             proxy_hostname, proxy_port)) < 0)
-    return (request->use_proxy);
-  else if (request->use_proxy == 1)
+  if ((ret = gftp_need_proxy (request, service, proxy_hostname,
+                              proxy_port)) < 0)
+    return (ret);
+
+  request->use_proxy = ret;
+  if (request->use_proxy == 1)
     request->hostp = NULL;
 
   request->ai_family = AF_INET;
@@ -2471,7 +2477,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
     {
       *rbuf = g_malloc0 (sizeof (**rbuf));
       (*rbuf)->max_bufsize = len;
-      (*rbuf)->buffer = g_malloc0 ((*rbuf)->max_bufsize + 1);
+      (*rbuf)->buffer = g_malloc0 ((gulong) ((*rbuf)->max_bufsize + 1));
 
       if ((ret = read_function (request, (*rbuf)->buffer, 
                                 (*rbuf)->max_bufsize, fd)) <= 0)
@@ -3049,7 +3055,7 @@ gftp_convert_attributes_from_mode_t (mode_t mode)
 {
   char *str;
 
-  str = g_malloc0 (11);
+  str = g_malloc0 (11UL);
   
   str[0] = '?';
   if (S_ISREG (mode))

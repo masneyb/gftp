@@ -125,7 +125,7 @@ copyfile (char *source, char *dest)
     {
       printf (_("Error: Cannot open local file %s: %s\n"),
               source, g_strerror (errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   if ((destfd = gftp_fd_open (NULL, dest, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)) == -1)
@@ -133,7 +133,7 @@ copyfile (char *source, char *dest)
       printf (_("Error: Cannot open local file %s: %s\n"),
               dest, g_strerror (errno));
       close (srcfd);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   while ((n = read (srcfd, buf, sizeof (buf))) > 0)
@@ -142,26 +142,26 @@ copyfile (char *source, char *dest)
         {
           printf (_("Error: Could not write to socket: %s\n"), 
                   g_strerror (errno));
-          exit (1);
+          exit (EXIT_FAILURE);
         }
     }
 
   if (n == -1)
     {
       printf (_("Error: Could not read from socket: %s\n"), g_strerror (errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   if (close (srcfd) == -1)
     {
       printf (_("Error closing file descriptor: %s\n"), g_strerror (errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   if (close (destfd) == -1)
     {
       printf (_("Error closing file descriptor: %s\n"), g_strerror (errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   return (1);
@@ -181,7 +181,7 @@ gftp_read_bookmarks (char *global_data_path)
   if ((tempstr = gftp_expand_path (NULL, BOOKMARKS_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad bookmarks file name %s\n"), BOOKMARKS_FILE);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   if (access (tempstr, F_OK) == -1)
@@ -202,7 +202,7 @@ gftp_read_bookmarks (char *global_data_path)
     {
       printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"), tempstr,
 	      g_strerror (errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     }
   g_free (tempstr);
 
@@ -303,7 +303,7 @@ gftp_read_bookmarks (char *global_data_path)
 
           newentry->num_local_options_vars++;
           newentry->local_options_vars = g_realloc (newentry->local_options_vars,
-                                                    sizeof (gftp_config_vars) * newentry->num_local_options_vars);
+                                                    (gulong) sizeof (gftp_config_vars) * newentry->num_local_options_vars);
 
           memcpy (&newentry->local_options_vars[newentry->num_local_options_vars - 1], global_entry, 
                   sizeof (newentry->local_options_vars[newentry->num_local_options_vars - 1]));
@@ -363,7 +363,7 @@ gftp_config_parse_args (char *str, int numargs, int lineno, char **first, ...)
       else
 	endpos = curpos + strlen (curpos);
 
-      *dest = g_malloc (endpos - curpos + 1);
+      *dest = g_malloc ((gulong) (endpos - curpos + 1));
       tempchar = *endpos;
       *endpos = '\0';
       strcpy (*dest, curpos);
@@ -556,7 +556,8 @@ gftp_read_config_file (char *global_data_path)
     {
       if (gftp_protocols[i].shown)
         {
-          protocol_list = g_realloc (protocol_list, sizeof (char *) * (j + 2));
+          protocol_list = g_realloc (protocol_list,
+                                     (gulong) sizeof (char *) * (j + 2));
           protocol_list[j] = gftp_protocols[i].name;
           protocol_list[j + 1] = NULL;
           j++;
@@ -585,7 +586,7 @@ gftp_read_config_file (char *global_data_path)
   if ((tempstr = gftp_expand_path (NULL, CONFIG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   if (access (tempstr, F_OK) == -1)
@@ -597,7 +598,7 @@ gftp_read_config_file (char *global_data_path)
 	    {
 	      printf (_("gFTP Error: Could not make directory %s: %s\n"),
 		      temp1str, g_strerror (errno));
-	      exit (1);
+	      exit (EXIT_FAILURE);
 	    }
 	}
       g_free (temp1str);
@@ -608,7 +609,7 @@ gftp_read_config_file (char *global_data_path)
 	  printf (_("gFTP Error: Cannot find master config file %s\n"),
 		  temp1str);
 	  printf (_("Did you do a make install?\n"));
-	  exit (1);
+	  exit (EXIT_FAILURE);
 	}
       copyfile (temp1str, tempstr);
       g_free (temp1str);
@@ -618,7 +619,7 @@ gftp_read_config_file (char *global_data_path)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
 	      g_strerror (errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     }
   g_free (tempstr);
  
@@ -656,7 +657,7 @@ gftp_read_config_file (char *global_data_path)
                                 tmpconfigvar, line) != 0)
             {
               printf (_("Terminating due to parse errors at line %d in the config file\n"), line);
-              exit (1);
+              exit (EXIT_FAILURE);
             }
         }
       else
@@ -669,7 +670,7 @@ gftp_read_config_file (char *global_data_path)
   if ((tempstr = gftp_expand_path (NULL, LOG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad log file name %s\n"), LOG_FILE);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   if ((gftp_logfd = fopen (tempstr, "w")) == NULL)
@@ -735,14 +736,14 @@ gftp_write_bookmarks_file (void)
   if ((tempstr = gftp_expand_path (NULL, BOOKMARKS_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad bookmarks file name %s\n"), CONFIG_FILE);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   if ((bmfile = fopen (tempstr, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"),
 	      CONFIG_FILE, g_strerror (errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   g_free (tempstr);
@@ -776,7 +777,7 @@ gftp_write_bookmarks_file (void)
             password = NULL;
 
           fprintf (bmfile,
-    	       "[%s]\nhostname=%s\nport=%d\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
+    	       "[%s]\nhostname=%s\nport=%u\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
     	       tempstr, tempentry->hostname == NULL ? "" : tempentry->hostname,
     	       tempentry->port, tempentry->protocol == NULL
     	       || *tempentry->protocol ==
@@ -830,14 +831,14 @@ gftp_write_config_file (void)
   if ((tempstr = gftp_expand_path (NULL, CONFIG_FILE)) == NULL)
     {
       printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   if ((conffile = fopen (tempstr, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
 	      g_strerror (errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 
   g_free (tempstr);
@@ -1287,7 +1288,7 @@ gftp_lookup_global_option (const char * key, void *value)
   else
     {
       fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 }
 
@@ -1350,7 +1351,7 @@ gftp_set_global_option (const char * key, const void *value)
   else
     {
       fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
 }
 
@@ -1392,12 +1393,12 @@ gftp_set_request_option (gftp_request * request, const char * key,
                                                key)) == NULL)
         {
           fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);
-          exit (1);
+          exit (EXIT_FAILURE);
         }
       
       request->num_local_options_vars++;
       request->local_options_vars = g_realloc (request->local_options_vars, 
-                                               sizeof (gftp_config_vars) * request->num_local_options_vars);
+                                               (gulong) sizeof (gftp_config_vars) * request->num_local_options_vars);
 
       memcpy (&request->local_options_vars[request->num_local_options_vars - 1], tmpconfigvar, sizeof (*tmpconfigvar));
       _gftp_set_option_value (&request->local_options_vars[request->num_local_options_vars - 1], value);
@@ -1425,7 +1426,7 @@ gftp_set_bookmark_option (gftp_bookmarks_var * bm, const char * key,
                                                key)) == NULL)
         {
           fprintf (stderr, _("FATAL gFTP Error: Config option '%s' not found in global hash table\n"), key);
-          exit (1);
+          exit (EXIT_FAILURE);
         }
 
       /* Check to see if this is set to the same value as the global option. 
@@ -1444,7 +1445,7 @@ gftp_set_bookmark_option (gftp_bookmarks_var * bm, const char * key,
 
       bm->num_local_options_vars++;
       bm->local_options_vars = g_realloc (bm->local_options_vars, 
-                                          sizeof (gftp_config_vars) * bm->num_local_options_vars);
+                                          (gulong) sizeof (gftp_config_vars) * bm->num_local_options_vars);
 
       memcpy (&bm->local_options_vars[bm->num_local_options_vars - 1], tmpconfigvar, sizeof (*tmpconfigvar));
       _gftp_set_option_value (&bm->local_options_vars[bm->num_local_options_vars - 1], value);
@@ -1482,7 +1483,7 @@ gftp_copy_local_options (gftp_config_vars ** new_options_vars,
   *new_options_hash = g_hash_table_new (string_hash_function,
                                         string_hash_compare);
 
-  *new_options_vars = g_malloc (sizeof (gftp_config_vars) * num_local_options_vars);
+  *new_options_vars = g_malloc ((gulong) sizeof (gftp_config_vars) * num_local_options_vars);
   memcpy (*new_options_vars, orig_options,
           sizeof (gftp_config_vars) * num_local_options_vars);
 

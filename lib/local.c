@@ -28,7 +28,8 @@ typedef struct local_protocol_data_tag
 
 
 static void
-local_remove_key (gpointer key, gpointer value, gpointer user_data)
+local_remove_key (/*@unused@*/ gpointer key, gpointer value,
+                  /*@unused@*/ gpointer user_data)
 {
   g_free (value);
 }
@@ -154,7 +155,7 @@ local_get_file (gftp_request * request, const char *filename, int fd,
 
 static int
 local_put_file (gftp_request * request, const char *filename, int fd,
-                off_t startsize, off_t totalsize)
+                off_t startsize, /*@unused@*/ off_t totalsize)
 {
   int flags;
 
@@ -225,7 +226,7 @@ local_end_transfer (gftp_request * request)
 
 
 static int
-local_stat_filename (gftp_request * request, const char *filename,
+local_stat_filename (/*@unused@*/ gftp_request * request, const char *filename,
                      mode_t * mode)
 {
   struct stat st;
@@ -359,7 +360,7 @@ local_list_files (gftp_request * request)
 
 
 static off_t 
-local_get_file_size (gftp_request * request, const char *filename)
+local_get_file_size (/*@unused@*/ gftp_request * request, const char *filename)
 {
   struct stat st;
 

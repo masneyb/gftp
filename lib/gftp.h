@@ -231,13 +231,13 @@ typedef struct gftp_file_tag gftp_file;
 
 struct gftp_file_tag 
 {
-  char *file,			/* Our filename */
-       *utf8_file,		/* UTF-8 encoded filename for display purposes
+  /*@null@*/ char *file,	/* Our filename */
+                  *utf8_file,	/* UTF-8 encoded filename for display purposes
 				   only. This is only set if file is not in 
 				   UTF-8 */
-       *user,			/* User that owns it */
-       *group,			/* Group that owns it */
-       *destfile;		/* Full pathname to the destination for the 
+                  *user,	/* User that owns it */
+                  *group,	/* Group that owns it */
+                  *destfile;	/* Full pathname to the destination for the 
                                    file transfer */
 
   int fd;			/* Already open fd for this file */
@@ -256,7 +256,7 @@ struct gftp_file_tag
                transfer_done : 1, /* Is current file transfer done? */
                is_fd : 1;	/* Is this a file descriptor? */
   char transfer_action;		/* See the GFTP_TRANS_ACTION_* vars above */
-  void *user_data;
+  /*@null@*/ void *user_data;
 };
 
 
@@ -309,26 +309,26 @@ typedef struct gftp_config_list_vars_tag
 
 typedef struct gftp_config_vars_tag
 {
-  char *key,			/* variable name */
-       *description;		/* How this field will show up in the dialog */
+  /*@null@*/ char *key,		/* variable name */
+                  *description;	/* How this field will show up in the dialog */
   int otype;			/* Type of option this is */
-  void *value;
-  void *listdata;		/* For options that have several different 
+  /*@null@*/ void *value;
+  /*@null@*/ void *listdata;	/* For options that have several different 
 				   options, this is a list of all the options.
 				   Each option_type that uses this will use this
 				   field differently */
   int flags;			/* See GFTP_CVARS_FLAGS_* above */
-  char *comment;                /* Comment to write out to the config file */
+  /*@null@*/ char *comment;     /* Comment to write out to the config file */
   int ports_shown;		/* What ports of gFTP is this option shown in */
-  void *user_data;		/* Data that the GUI can store here (Widget in gtk+) */
+  /*@null@*/ void *user_data;	/* Data that the GUI can store here (Widget in gtk+) */
 } gftp_config_vars;
 
 
 typedef struct gftp_option_type_tag
 {
   int (*read_function) (char *str, gftp_config_vars * cv, int line);
-  int (*write_function) (gftp_config_vars * cv, char *buf, size_t buflen,
-                         int to_config_file);
+  int (*write_function) (gftp_config_vars * cv, /*@out@*/ char *buf,
+                         size_t buflen, int to_config_file);
   void (*copy_function) (gftp_config_vars * cv, gftp_config_vars * dest_cv);
   int (*compare_function) (gftp_config_vars * cv1, gftp_config_vars * cv2);
   void *(*ui_print_function) (gftp_config_vars * cv, void *user_data, void *value);
@@ -342,8 +342,8 @@ typedef struct gftp_option_type_tag
 
 typedef struct gftp_textcomboedt_data_tag
 {
-  char *description,
-       *text;
+  /*@null@*/ char *description,
+                  *text;
   int flags;
 } gftp_textcomboedt_data;
 
@@ -351,7 +351,7 @@ typedef struct gftp_textcomboedt_data_tag
 typedef struct gftp_request_tag gftp_request;
 
 typedef void (*gftp_logging_func)		( gftp_logging_level level, 
-						  gftp_request * request, 
+						  /*@null@*/ gftp_request * request, 
 						  const char *string, ... );
 
 #define GFTP_ANONYMOUS_USER			"anonymous"
@@ -436,7 +436,7 @@ struct gftp_request_tag
 					  int fd,
 					  off_t startsize,
 					  off_t totalsize );
-  long (*transfer_file) 		( gftp_request * fromreq, 
+  off_t (*transfer_file) 		( gftp_request * fromreq, 
 					  const char *fromfile, 
 					  off_t fromsize, 
 					  gftp_request * toreq, 
@@ -562,10 +562,10 @@ typedef struct gftp_log_tag
 
 typedef struct supported_gftp_protocols_tag 
 {
-  char *name;					/* Description of protocol */
-  int (*init) (gftp_request * request);		/* Init function */
-  void (*register_options) (void);		/* Protocol options */
-  char *url_prefix;				/* URL Prefix */
+  /*@null@*/ char *name;			/* Description of protocol */
+  /*@null@*/ int (*init) (gftp_request * request); /* Init function */
+  /*@null@*/ void (*register_options) (void);	/* Protocol options */
+  /*@null@*/ char *url_prefix;			/* URL Prefix */
   unsigned int default_port;			/* Default port */
   unsigned int shown : 1,			/* Whether this protocol is 
                                                    shown or not to the user in 
@@ -634,15 +634,15 @@ typedef struct gftp_getline_buffer_tag
 
 
 /* Global config options. These are defined in options.h */
-extern GList * gftp_file_transfers, * gftp_file_transfer_logs,
-             * gftp_options_list;
-extern GHashTable * gftp_global_options_htable, * gftp_bookmarks_htable, 
-                  * gftp_config_list_htable;
+/*@null@*/ extern GList * gftp_file_transfers, * gftp_file_transfer_logs,
+                        * gftp_options_list;
+/*@null@*/ extern GHashTable * gftp_global_options_htable, * gftp_bookmarks_htable, 
+                             * gftp_config_list_htable;
+/*@null@*/ extern gftp_bookmarks_var * gftp_bookmarks;
+/*@null@*/ extern FILE * gftp_logfd;
 extern gftp_config_vars gftp_global_config_vars[];
 extern supported_gftp_protocols gftp_protocols[];
-extern gftp_bookmarks_var * gftp_bookmarks;
 extern char gftp_version[];
-extern FILE * gftp_logfd;
 extern int gftp_configuration_changed;
 
 /* This is defined in config_file.c */
@@ -651,7 +651,7 @@ extern gftp_option_type_var gftp_option_types[];
 
 /* cache.c */
 void gftp_generate_cache_description 	( gftp_request * request, 
-					  char *description,
+					  /*@out@*/ char *description,
 					  size_t len, 
 					  int ignore_directory );
 
@@ -669,7 +669,7 @@ void gftp_delete_cache_entry 		( gftp_request * request,
 int gftp_config_parse_args 		( char *str, 
 					  int numargs, 
 					  int lineno, 
-					  char **first, 
+					  /*@out@*/ char **first, 
 					  ... );
 
 void gftp_add_bookmark 			( gftp_bookmarks_var * newentry );
@@ -685,11 +685,12 @@ GHashTable * build_bookmarks_hash_table	( gftp_bookmarks_var * entry );
 void print_bookmarks 			( gftp_bookmarks_var * bookmarks );
 
 void gftp_lookup_global_option 		( const char * key, 
-					  void *value );
+					  /*@out@*/ void *value );
 
 void gftp_lookup_request_option 	( gftp_request * request, 
 					  const char * key, 
-					  void *value );
+					  /*@out@*/ void *value );
+
 
 void gftp_lookup_bookmark_option 	( gftp_bookmarks_var * bm, 
 					  const char * key, 
@@ -725,7 +726,7 @@ void gftp_free_proxy_hosts 		( GList * proxy_hosts );
 GList * gftp_copy_proxy_hosts 		( GList * proxy_hosts );
 
 /* misc.c */
-char *insert_commas 			( off_t number, 
+/*@null@*/ char *insert_commas 		( off_t number, 
 					  char *dest_str, 
 					  size_t dest_len );
 
@@ -902,10 +903,10 @@ ssize_t gftp_put_next_file_chunk 	( gftp_request * request,
 
 int gftp_list_files 			( gftp_request * request );
 
-char * gftp_string_to_utf8		( gftp_request * request, 
+/*@null@*/ char * gftp_string_to_utf8	( gftp_request * request, 
 					  const char *str );
 
-char * gftp_string_from_utf8		( gftp_request * request, 
+/*@null@*/ char * gftp_string_from_utf8	( gftp_request * request, 
 					  const char *str );
 
 int gftp_parse_bookmark 		( gftp_request * request, 
@@ -967,7 +968,7 @@ int gftp_set_file_time 			( gftp_request * request,
 					  const char *file, 
 					  time_t datetime );
 
-char gftp_site_cmd 			( gftp_request * request, 
+int gftp_site_cmd 			( gftp_request * request, 
 					  int specify_site,
 					  const char *command );
 
@@ -1004,7 +1005,7 @@ struct hostent *r_gethostbyname 	( const char *name,
 
 struct servent *r_getservbyname 	( const char *name, 
 					  const char *proto,
-					  struct servent *result_buf, 
+					  /*@out@*/ struct servent *result_buf, 
 					  int *h_errnop );
 
 int gftp_set_config_options 		( gftp_request * request );
@@ -1014,8 +1015,8 @@ void print_file_list 			( GList * list );
 void gftp_free_getline_buffer 		( gftp_getline_buffer ** rbuf );
 
 ssize_t gftp_get_line 			( gftp_request * request, 
-					  gftp_getline_buffer ** rbuf,
-					  char * str, 
+					  /*@out@*/ gftp_getline_buffer ** rbuf,
+					  /*@out@*/ char * str, 
 					  size_t len, 
 					  int fd );
 

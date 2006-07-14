@@ -114,7 +114,7 @@ ftps_register_module (void)
 }
 
 
-static int
+/*@unused@*/ static int
 ftps_connect (gftp_request * request)
 {
   if (request->datafd > 0)

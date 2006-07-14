@@ -147,7 +147,7 @@ sshv2_initialize_string (gftp_request * request, size_t len)
   char *ret;
 
   params = request->protocol_data;
-  ret = g_malloc0 (len + 1);
+  ret = g_malloc0 ((gulong) len + 1);
 
   num = htonl (params->id++);
   memcpy (ret, &num, 4);
@@ -211,7 +211,7 @@ sshv2_add_exec_args (char **logstr, size_t *logstr_len, char ***args,
   va_end (argp);
 
   *logstr_len += strlen (tempstr);
-  *logstr = g_realloc (*logstr, *logstr_len + 1);
+  *logstr = g_realloc (*logstr, (gulong) *logstr_len + 1);
   strcat (*logstr, tempstr);
 
   curpos = tempstr;
@@ -317,7 +317,7 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
 
   rem = len = SSH_LOGIN_BUFSIZE;
   diff = 0;
-  tempstr = g_malloc0 (len + 1);
+  tempstr = g_malloc0 ((gulong) len + 1);
   wrotepw = 0;
   ok = 1;
 
@@ -394,6 +394,7 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
             break;
         }
 
+      clear_tempstr = 0;
       if (pwstrs[pwidx] != NULL)
         {
           clear_tempstr = 1;
@@ -464,8 +465,6 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
           tempstr = g_realloc (tempstr, len);
           continue;
         }
-      else
-        clear_tempstr = 0;
 
       if (clear_tempstr)
         {
@@ -532,6 +531,7 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
       case SSH_FXP_CLOSE:
         request->logging_function (level, request, 
                                    _("%d: Close\n"), id);
+        break;
       case SSH_FXP_OPENDIR:
         request->logging_function (level, request, 
                                    _("%d: Open Directory %s\n"), id,

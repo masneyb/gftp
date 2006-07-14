@@ -21,11 +21,17 @@
 
 #include "gftp.h"
 
-static char *gftp_sort_columns[] = { N_("none"), N_("file"), N_("size"), 
-                                     N_("user"), N_("group"), 
-                                     N_("datetime"), N_("attribs"), NULL };
+typedef /*@null@*/ char *gftp_sort_columns_tag;
+static gftp_sort_columns_tag gftp_sort_columns[] = { N_("none"), N_("file"),
+                                                     N_("size"), N_("user"),
+                                                     N_("group"),
+                                                     N_("datetime"),
+                                                     N_("attribs"), NULL };
 
-static char *gftp_sort_direction[] = { N_("descending"), N_("ascending"), NULL };
+typedef /*@null@*/ char *gftp_sort_direction_tag;
+static gftp_sort_direction_tag gftp_sort_direction[] = { N_("descending"),
+                                                         N_("ascending"),
+                                                         NULL };
 
 static float gftp_maxkbs = 0.0;
 
@@ -271,7 +277,7 @@ GList * gftp_file_transfers = NULL,
       
 gftp_bookmarks_var * gftp_bookmarks = NULL;
 
-FILE * gftp_logfd = NULL;
+/*@null@*/ FILE * gftp_logfd = NULL;
 
 int gftp_configuration_changed = 0;
 
