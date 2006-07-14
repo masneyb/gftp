@@ -136,7 +136,7 @@ gftpui_common_signal_handler (int signo)
   if (gftpui_common_use_jmp_environment)
     siglongjmp (gftpui_common_jmp_environment, signo == SIGINT ? 1 : 2);
   else if (signo == SIGINT)
-    exit (1);
+    exit (EXIT_FAILURE);
 }
 
 
@@ -173,7 +173,7 @@ gftpui_common_init (int *argc, char ***argv, gftp_logging_func logfunc)
   share_dir = gftp_get_share_dir ();
   gftp_read_config_file (share_dir);
   if (gftp_parse_command_line (argc, argv) != 0)
-    exit (0);
+    exit (EXIT_FAILURE);
 
   gftpui_common_logfunc = logfunc;
   gftpui_common_child_process_done = -1;

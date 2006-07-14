@@ -184,7 +184,7 @@ _gftpui_text_print_status (gftp_transfer * tdata)
 {
   static int progress_pos = 0;
   char *progress = "|/-\\";
-  int sw, tot, i;
+  unsigned int sw, tot, i;
 
   printf ("\r%c [", progress[progress_pos++]);
 
@@ -192,15 +192,15 @@ _gftpui_text_print_status (gftp_transfer * tdata)
     progress_pos = 0;
 
   sw = gftp_text_get_win_size () - 20;
-  tot = (float) tdata->curtrans / (float) tdata->tot_file_trans * (float) sw;
+  tot = (unsigned int) ((float) tdata->curtrans / (float) tdata->tot_file_trans * (float) sw);
                         
   if (tot > sw)
     tot = sw;
 
-  for (i=0; i<tot; i++)
+  for (i = 0; i < tot; i++)
     printf ("=");
 
-  for (i=0; i<sw-tot; i++)
+  for (i = 0; i < sw - tot; i++)
     printf (" ");
 
   printf ("] @ %.2fKB/s", tdata->kbs);
