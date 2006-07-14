@@ -209,9 +209,8 @@ void
 update_window_info (void)
 {
   char *tempstr, empty[] = "";
+  unsigned int port, i;
   GtkWidget * tempwid;
-  unsigned int port;
-  int i;
 
   if (current_wdata->request != NULL)
     {
@@ -499,8 +498,9 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
 
 
 int
-check_status (char *name, gftp_window_data *wdata, int check_other_stop,
-              int only_one, int at_least_one, int func)
+check_status (char *name, gftp_window_data *wdata,
+              unsigned int check_other_stop, unsigned int only_one,
+              unsigned int at_least_one, unsigned int func)
 {
   gftp_window_data * owdata;
 
@@ -594,12 +594,12 @@ item_factory_new (GtkType container_type, const char *path,
 
 
 void
-create_item_factory (GtkItemFactory * ifactory, guint n_entries,
-		     GtkItemFactoryEntry * entries, gpointer callback_data)
+create_item_factory (GtkItemFactory * ifactory, gint n_entries,
+                     GtkItemFactoryEntry * entries, gpointer callback_data)
 {
   const char *strip_prefix;
   size_t strip_prefix_len;
-  size_t i;
+  int i;
 
   strip_prefix = gtk_object_get_data (GTK_OBJECT (ifactory), "gftp-strip-prefix");
   if (strip_prefix)
@@ -676,7 +676,7 @@ check_reconnect (gftp_window_data *wdata)
 {
   return (wdata->request->cached && wdata->request->datafd < 0 && 
           !wdata->request->always_connected &&
-	  !ftp_connect (wdata, wdata->request, 0) ? -1 : 0);
+	  !ftp_connect (wdata, wdata->request) ? -1 : 0);
 }
 
 
@@ -1285,7 +1285,7 @@ get_xpm_path (char *filename, int quit_on_err)
 
 	      printf (_("gFTP Error: Cannot find file %s in %s or %s\n"),
 		      filename, share_dir, BASE_CONF_DIR);
-	      exit (1);
+	      exit (EXIT_FAILURE);
 	    }
 	}
     }

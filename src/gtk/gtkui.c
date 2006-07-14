@@ -253,7 +253,7 @@ gftpui_check_reconnect (gftpui_callback_data * cdata)
   wdata = cdata->uidata;
   return (wdata->request->cached && wdata->request->datafd < 0 &&
           !wdata->request->always_connected &&
-          !ftp_connect (wdata, wdata->request, 0) ? -1 : 0);
+          !ftp_connect (wdata, wdata->request) ? -1 : 0);
 }
 
 

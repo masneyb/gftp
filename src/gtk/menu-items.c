@@ -276,7 +276,8 @@ chdir_edit (GtkWidget * widget, gpointer data)
 void 
 clearlog (gpointer data)
 {
-  guint len;
+  gint len;
+
 #if GTK_MAJOR_VERSION == 1
   len = gtk_text_get_length (GTK_TEXT (logwdw));
   gtk_text_set_point (GTK_TEXT (logwdw), len);
@@ -298,7 +299,7 @@ void
 viewlog (gpointer data)
 {
   char *tempstr, *txt, *pos;
-  guint textlen;
+  gint textlen;
   ssize_t len;
   int fd;
 #if GTK_MAJOR_VERSION > 1
@@ -361,7 +362,7 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
 {
   const char *filename;
   char *txt, *pos;
-  guint textlen;
+  gint textlen;
   ssize_t len;
   FILE *fd;
   int ok;
@@ -457,7 +458,7 @@ about_dialog (gpointer data)
 #if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
-  guint textlen;
+  gint textlen;
 #endif
 
   share_dir = gftp_get_share_dir ();
@@ -505,7 +506,8 @@ about_dialog (gpointer data)
   str = _("Translated by");
   if (strcmp (str, "Translated by") != 0)
     {
-      tempstr = g_realloc (tempstr, strlen (tempstr) + strlen (str) + 1);
+      tempstr = g_realloc (tempstr,
+                           (gulong) (strlen (tempstr) + strlen (str) + 1));
       strcat (tempstr, str);
     }
   tempwid = gtk_label_new (tempstr);

@@ -117,7 +117,7 @@ delete_dialog (gpointer data)
 
   gftp_swap_socks (transfer->fromreq, wdata->request);
 
-  ret = gftp_gtk_get_subdirs (transfer, &wdata->tid);
+  ret = gftp_gtk_get_subdirs (transfer);
 
   gftp_swap_socks (wdata->request, transfer->fromreq);
 

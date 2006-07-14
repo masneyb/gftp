@@ -57,7 +57,7 @@ ftp_list_files (gftp_window_data * wdata)
 
 
 int
-ftp_connect (gftp_window_data * wdata, gftp_request * request, int getdir)
+ftp_connect (gftp_window_data * wdata, gftp_request * request)
 {
   if (wdata->request == request)
     gtk_label_set (GTK_LABEL (wdata->hoststxt), _("Connecting..."));
@@ -128,7 +128,7 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
       gftp_swap_socks (transfer->fromreq, fromwdata->request);
       gftp_swap_socks (transfer->toreq, towdata->request);
 
-      ret = gftp_gtk_get_subdirs (transfer, &fromwdata->tid);
+      ret = gftp_gtk_get_subdirs (transfer);
       if (ret < 0)
         disconnect = 1;
       else
@@ -219,7 +219,7 @@ _gftp_getdir_thread (gftpui_callback_data * cdata)
 
 
 int
-gftp_gtk_get_subdirs (gftp_transfer * transfer, pthread_t *tid)
+gftp_gtk_get_subdirs (gftp_transfer * transfer)
 {
   gftpui_callback_data * cdata; 
   long numfiles, numdirs;
@@ -688,12 +688,12 @@ static void
 _setup_dlstr (gftp_transfer * tdata, gftp_file * fle, char *dlstr,
               size_t dlstr_len)
 {
-  int hours, mins, secs, pcent, st, usesentdescr;
+  int hours, mins, secs, stalled, usesentdescr;
   unsigned long remaining_secs, lkbs;
   char gotstr[50], ofstr[50];
   struct timeval tv;
 
-  st = 1;
+  stalled = 1;
   gettimeofday (&tv, NULL);
   usesentdescr = (tdata->fromreq->protonum == GFTP_LOCAL_NUM);
 
@@ -702,23 +702,21 @@ _setup_dlstr (gftp_transfer * tdata, gftp_file * fle, char *dlstr,
 
   if (tv.tv_sec - tdata->lasttime.tv_sec <= 5)
     {
-      if (tdata->curfle->next != NULL)
-        {
-          remaining_secs = (fle->size - tdata->curtrans - tdata->curresumed) / 1024;
+      remaining_secs = (fle->size - tdata->curtrans - tdata->curresumed) / 1024;
 
-          lkbs = (unsigned long) tdata->kbs;
-          if (lkbs > 0)
-            remaining_secs /= lkbs;
+      lkbs = (unsigned long) tdata->kbs;
+      if (lkbs > 0)
+        remaining_secs /= lkbs;
 
-          hours = remaining_secs / 3600;
-          remaining_secs -= hours * 3600;
-          mins = remaining_secs / 60;
-          remaining_secs -= mins * 60;
-          secs = remaining_secs;
-        }
+      hours = remaining_secs / 3600;
+      remaining_secs -= hours * 3600;
+      mins = remaining_secs / 60;
+      remaining_secs -= mins * 60;
+      secs = remaining_secs;
 
       if (!(hours < 0 || mins < 0 || secs < 0))
         {
+          stalled = 0;
           if (usesentdescr)
             {
               g_snprintf (dlstr, dlstr_len,
@@ -729,11 +727,10 @@ _setup_dlstr (gftp_transfer * tdata, gftp_file * fle, char *dlstr,
               g_snprintf (dlstr, dlstr_len,
                           _("Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"), gotstr, ofstr, tdata->kbs, hours, mins, secs);
             }
-          st = 0;
         }
     }
 
-  if (st)
+  if (stalled)
     {
       tdata->stalled = 1;
       if (usesentdescr)
@@ -757,8 +754,8 @@ update_file_status (gftp_transfer * tdata)
 {
   char totstr[150], winstr[150], dlstr[150];
   unsigned long remaining_secs, lkbs;
-  intptr_t show_trans_in_title;
   int hours, mins, secs, pcent;
+  intptr_t show_trans_in_title;
   gftp_file * tempfle;
   
   g_static_mutex_lock (&tdata->statmutex);

@@ -83,7 +83,7 @@ _gen_input_widget (gftp_options_dialog_data * option_data, char *label, char *ti
 
 
 static void *
-_print_option_type_newtable (gftp_config_vars * cv, void *user_data, void *value)
+_print_option_type_newtable (void *user_data)
 {
   gftp_options_dialog_data * option_data;
 
@@ -232,7 +232,7 @@ _textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
 #if GTK_MAJOR_VERSION > 1
   GtkTextIter iter, iter2;
   GtkTextBuffer * textbuf;
-  guint len;
+  gint len;
 #endif
 
   widdata = data;
@@ -289,7 +289,7 @@ _gftp_convert_to_newlines (char *str)
       *endpos = '\0';
 
       len += strlen (stpos) + 1;
-      ret = g_realloc (ret, len + 1);
+      ret = g_realloc (ret, (gulong) len + 1);
       strcat (ret, stpos);
       strcat (ret, "\n");
 
@@ -299,7 +299,7 @@ _gftp_convert_to_newlines (char *str)
   if (stpos != NULL && *stpos != '\0')
     {
       len += strlen (stpos);
-      ret = g_realloc (ret, len + 1);
+      ret = g_realloc (ret, (gulong) len + 1);
       strcat (ret, stpos);
     }
 
@@ -324,7 +324,7 @@ _gftp_convert_from_newlines (char *str)
       *endpos = '\0';
 
       len += strlen (stpos) + 2;
-      ret = g_realloc (ret, len + 1);
+      ret = g_realloc (ret, (gulong) len + 1);
       strcat (ret, stpos);
       strcat (ret, "%n");
 
@@ -334,7 +334,7 @@ _gftp_convert_from_newlines (char *str)
   if (stpos != NULL && *stpos != '\0')
     {
       len += strlen (stpos);
-      ret = g_realloc (ret, len + 1);
+      ret = g_realloc (ret, (gulong) len + 1);
       strcat (ret, stpos);
     }
 
@@ -572,7 +572,7 @@ _print_option_type_checkbox (gftp_config_vars * cv, void *user_data, void *value
   option_data = user_data;
 
   if (option_data->last_option != gftp_option_type_checkbox)
-    _print_option_type_newtable (NULL, user_data, NULL);
+    _print_option_type_newtable (user_data);
 
   if (option_data->tbl_col_num == 0)
     {
@@ -674,7 +674,7 @@ _print_option_type_notebook (gftp_config_vars * cv, void *user_data, void *value
   gtk_notebook_append_page (GTK_NOTEBOOK (option_data->notebook), 
                             option_data->box, tempwid);
 
-  _print_option_type_newtable (NULL, user_data, NULL);
+  _print_option_type_newtable (user_data);
   
   return (NULL);
 }
@@ -1520,7 +1520,7 @@ gftp_gtk_setup_bookmark_options (GtkWidget * notebook, gftp_bookmarks_var * bm)
 
 
 void
-gftp_gtk_save_bookmark_options (gftp_bookmarks_var * bm)
+gftp_gtk_save_bookmark_options ()
 {
   gftp_config_vars * cv;
   GList * templist;

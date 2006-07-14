@@ -1041,7 +1041,7 @@ init_gftp (int argc, char *argv[], GtkWidget * parent)
   if (argc == 2 && strncmp (argv[1], "--", 2) != 0)
     {
       if (gftp_parse_url (window2.request, argv[1]) == 0)
-	ftp_connect (&window2, window2.request, 1);
+	ftp_connect (&window2, window2.request);
       else
 	gftp_usage ();
     }
@@ -1103,7 +1103,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
       gftp_parse_url (current_wdata->request, 
                       current_wdata->request->hostname) == 0)
     {
-      ftp_connect (current_wdata, current_wdata->request, 1);
+      ftp_connect (current_wdata, current_wdata->request);
       return;
     }
  
@@ -1132,7 +1132,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
   add_history (current_wdata->combo, current_wdata->history, 
                current_wdata->histlen, current_wdata->request->directory);
 
-  ftp_connect (current_wdata, current_wdata->request, 1);
+  ftp_connect (current_wdata, current_wdata->request);
 }
 
 

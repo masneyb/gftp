@@ -171,8 +171,8 @@ edit_dialog (gpointer data)
 
 static gftp_viewedit_data *
 fork_process (char *proc, char *filename, int fd, char *remote_filename, 
-              int viewedit, int del_file, int dontupload, 
-              gftp_window_data * wdata)
+              unsigned int viewedit, unsigned int del_file,
+              unsigned int dontupload, gftp_window_data * wdata)
 {
   gftp_viewedit_data * newproc;
   char *pos, *endpos, **argv;
@@ -186,12 +186,12 @@ fork_process (char *proc, char *filename, int fd, char *remote_filename,
     {
       *endpos = '\0';
       n++;
-      argv = g_realloc (argv, n * sizeof (char *));
+      argv = g_realloc (argv, (gulong) n * sizeof (char *));
       argv[n - 1] = g_strdup (pos);
       *endpos = ' ';
       pos = endpos + 1;
     }
-  argv = g_realloc (argv, (n + 3) * sizeof (char *));
+  argv = g_realloc (argv, (gulong) (n + 3) * sizeof (char *));
   argv[n] = g_strdup (pos);
   argv[n + 1] = g_strdup (filename);
   argv[n + 2] = NULL;
@@ -239,8 +239,9 @@ fork_process (char *proc, char *filename, int fd, char *remote_filename,
 
 
 void
-view_file (char *filename, int fd, int viewedit, int del_file, int start_pos,
-	   int dontupload, char *remote_filename, gftp_window_data * wdata)
+view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
+           unsigned int start_pos, unsigned int dontupload,
+           char *remote_filename, gftp_window_data * wdata)
 {
   GtkWidget * dialog, * view, * table, * tempwid;
   char buf[8192], *view_program, *edit_program;

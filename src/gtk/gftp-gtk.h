@@ -169,8 +169,8 @@ typedef struct gftp_options_dialog_data_tag
             * notebook,
             * box,
             * table;
-  int tbl_col_num,
-      tbl_row_num;
+  unsigned int tbl_col_num,
+               tbl_row_num;
   gftp_option_type_enum last_option;
   gftp_bookmarks_var * bm;
 } gftp_options_dialog_data;
@@ -330,10 +330,10 @@ void gftp_get_pixmap 				( GtkWidget * widget,
 
 int check_status				( char *name,
 						  gftp_window_data * wdata,
-						  int check_other_stop,
-						  int only_one,
-						  int at_least_one,
-						  int func );
+						  unsigned int check_other_stop,
+						  unsigned int only_one,
+						  unsigned int at_least_one,
+						  unsigned int func );
 
 GtkItemFactory *item_factory_new                ( GtkType	       container_type,
 						  const char	      *path,
@@ -341,7 +341,7 @@ GtkItemFactory *item_factory_new                ( GtkType	       container_type,
 						  const char          *strip_prefix );
 
 void create_item_factory 			( GtkItemFactory * ifactory, 
-						  guint n_entries, 
+						  gint n_entries, 
 						  GtkItemFactoryEntry * entries,
 						  gpointer callback_data );
 
@@ -390,14 +390,13 @@ void options_dialog 				( gpointer data );
 void gftp_gtk_setup_bookmark_options 		( GtkWidget * notebook,
 						  gftp_bookmarks_var * bm );
 
-void gftp_gtk_save_bookmark_options 		( gftp_bookmarks_var * bm );
+void gftp_gtk_save_bookmark_options 		( void );
 
 /* transfer.c */
 int ftp_list_files				( gftp_window_data * wdata );
 
 int ftp_connect					( gftp_window_data * wdata,
-						  gftp_request * request,
-						  int getdir );
+						  gftp_request * request );
 
 gint update_downloads 				( gpointer data );
 
@@ -408,8 +407,7 @@ void put_files 					( gpointer data );
 void transfer_window_files 			( gftp_window_data * fromwdata,
 						  gftp_window_data * towdata );
 
-int gftp_gtk_get_subdirs 			( gftp_transfer * transfer,
-						  pthread_t *tid );
+int gftp_gtk_get_subdirs 			( gftp_transfer * transfer );
 
 void *do_getdir_thread 				( void * data );
 
@@ -432,10 +430,10 @@ void view_dialog 				( gpointer data );
 
 void view_file 					( char *filename, 
 						  int fd, 
-						  int viewedit, 
-						  int del_file, 
-						  int start_pos, 
-						  int dontupload,
+						  unsigned int viewedit, 
+						  unsigned int del_file, 
+						  unsigned int start_pos, 
+						  unsigned int dontupload,
 						  char *remote_filename, 
 						  gftp_window_data * wdata );
 

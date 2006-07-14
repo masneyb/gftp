@@ -52,7 +52,7 @@ run_bookmark (gpointer data)
   if (refresh_local)
     gftpui_refresh (other_wdata, 0);
 
-  ftp_connect (current_wdata, current_wdata->request, 1);
+  ftp_connect (current_wdata, current_wdata->request);
 }
 
 
@@ -81,7 +81,7 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 
   tempentry = g_malloc0 (sizeof (*tempentry));
 
-  dpos = tempentry->path = g_malloc (strlen (edttxt) + 1);
+  dpos = tempentry->path = g_malloc ((gulong) strlen (edttxt) + 1);
   for (spos = edttxt; *spos != '\0';)
     {
       *dpos++ = *spos++;
@@ -740,7 +740,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
     g_free (entry->acct);
   entry->acct = g_strdup (str);
 
-  gftp_gtk_save_bookmark_options (entry);
+  gftp_gtk_save_bookmark_options ();
 
   if (strcmp (entry->path, newpath) != 0)
     {
@@ -827,7 +827,7 @@ edit_entry (gpointer data)
 {
   GtkWidget * table, * tempwid, * menu, * notebook;
   gftp_bookmarks_var * entry;
-  int i, num;
+  unsigned int num, i;
   char *pos;
 
   if (bm_dialog != NULL)
