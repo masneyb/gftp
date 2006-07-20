@@ -572,13 +572,26 @@ gftp_copy_request (gftp_request * req)
   if (req->hostp)
     {
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-      newreq->hostp = g_malloc (sizeof(struct addrinfo));
-      memcpy(newreq->hostp, req->hostp, sizeof(struct addrinfo));
-      if (req->current_hostp)
-        newreq->current_hostp = newreq->hostp + (req->current_hostp - req->hostp);
+      struct addrinfo *hostp = req->hostp;
+      struct addrinfo *newhostp = newreq->hostp;
+      
+      while (hostp != NULL)
+        {
+          newhostp = g_malloc (sizeof(struct addrinfo));
+          memcpy (newhostp, hostp, sizeof (struct addrinfo));
+          newhostp->ai_addr = g_malloc (sizeof (struct sockaddr));
+          memcpy(newhostp->ai_addr, hostp->ai_addr, sizeof (struct sockaddr));
+          if (hostp->ai_canonname)
+            newhostp->ai_canonname = strdup(hostp->ai_canonname);
+
+          if (req->current_hostp == hostp)
+            newreq->current_hostp = newhostp;
+
+          hostp = hostp->ai_next; newhostp = newhostp->ai_next;
+        }
 #else
-      newreq->hostp = g_malloc (sizeof(struct hostent));
-      memcpy(newreq->hostp, req->hostp, sizeof(struct hostent));
+      newreq->hostp = g_malloc (sizeof (struct hostent));
+      memcpy(newreq->hostp, req->hostp, sizeof (struct hostent));
       newreq->host = req->host;
       newreq->curhost = req->curhost;
 #endif
