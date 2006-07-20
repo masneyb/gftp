@@ -182,7 +182,18 @@ gftp_ssl_post_connection_check (gftp_request * request)
       X509_NAME_get_text_by_NID (subj, NID_commonName, data, 256) > 0)
     {
       data[sizeof (data) - 1] = '\0';
-      if (strcasecmp (data, request->hostname) != 0)
+      /* Check for wildcard CN (must begin with *.) */
+      if (strncmp (data, "*.", 2) == 0)
+        {
+          size_t hostname_len = strlen (data) - 1;
+          if (strlen (request->hostname) > hostname_len &&
+              strcasecmp (&(data[1]), &(request->hostname[strlen (request->hostname) - hostname_len])) == 0)
+            ok = 1;
+        }
+      else if (strcasecmp (data, request->hostname) == 0)
+        ok = 1;
+      
+      if (!ok)
         {
           request->logging_function (gftp_logging_error, request,
                                      _("ERROR: The host in the SSL certificate (%s) does not match the host that we connected to (%s). Aborting connection.\n"),
