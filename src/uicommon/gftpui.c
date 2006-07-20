@@ -1295,6 +1295,11 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
   gettimeofday (&tdata->starttime, NULL);
   memcpy (&tdata->lasttime, &tdata->starttime, sizeof (tdata->lasttime));
 
+  gftp_lookup_request_option (tdata->fromreq, "preserve_permissions",
+                              &preserve_permissions);
+  gftp_lookup_request_option (tdata->fromreq, "preserve_time",
+                              &preserve_time);
+
   while (tdata->curfle != NULL)
     {
       num_read = -1;
@@ -1333,6 +1338,14 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
                   tdata->toreq->mkdir (tdata->toreq, curfle->destfile);
                   if (!GFTP_IS_CONNECTED (tdata->toreq))
                     break;
+
+		  if (preserve_permissions && curfle->st_mode != 0)
+                    gftp_chmod (tdata->toreq, curfle->destfile,
+                                curfle->st_mode & (S_IRWXU | S_IRWXG | S_IRWXO));
+
+                  if (preserve_time && curfle->datetime != 0)
+                    gftp_set_file_time (tdata->toreq, curfle->destfile,
+                                curfle->datetime);
                 }
 
               if (g_thread_supported ())
@@ -1475,11 +1488,6 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
                              curfle->file);
             }
         }
-
-      gftp_lookup_request_option (tdata->fromreq, "preserve_permissions",
-                                  &preserve_permissions);
-      gftp_lookup_request_option (tdata->fromreq, "preserve_time",
-                                  &preserve_time);
 
       if (!curfle->is_fd)
         {
