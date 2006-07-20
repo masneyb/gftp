@@ -167,6 +167,8 @@ void gftpui_refresh 			( void *uidata,
 void *gftpui_generic_thread 		( void *(*run_function)(void *data),
 					  void *data);
 
+void gftpui_show_busy           (gboolean busy);
+
 void gftpui_prompt_username		( void *uidata,
 					  gftp_request * request );
 

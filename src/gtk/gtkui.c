@@ -89,6 +89,20 @@ _gftpui_gtk_abort (gftp_request * request, gftp_dialog_data * ddata)
   request->stopable = 0;
 }
 
+void
+gftpui_show_busy (gboolean busy)
+{
+  GtkWidget * toplevel = gtk_widget_get_toplevel (openurl_btn);
+  GdkDisplay * display = gtk_widget_get_display (toplevel);
+
+  GdkCursor * busyCursor = 
+    (busy) ? (gdk_cursor_new_for_display (display, GDK_WATCH)) : NULL;
+
+  gdk_window_set_cursor (toplevel->window, busyCursor);
+
+  if (busy)
+    gdk_cursor_unref (busyCursor);
+}
 
 void
 gftpui_prompt_username (void *uidata, gftp_request * request)

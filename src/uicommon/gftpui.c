@@ -682,7 +682,9 @@ gftpui_common_cmd_open (void *uidata, gftp_request * request,
   cdata->retries = retries;
   cdata->dont_check_connection = 1;
 
+  gftpui_show_busy (TRUE);
   gftpui_common_run_callback_function (cdata);
+  gftpui_show_busy (FALSE);
 
   g_free (cdata);
 

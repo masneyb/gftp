@@ -64,6 +64,11 @@ gftpui_check_reconnect (gftpui_callback_data * cdata)
   return (1);
 }
 
+void
+gftpui_show_busy (gboolean busy)
+{
+  /* do nothing for text based */
+}
 
 void
 gftpui_prompt_username (void *uidata, gftp_request * request)
