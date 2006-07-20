@@ -254,14 +254,17 @@ gftp_gtk_get_subdirs (gftp_transfer * transfer)
 
 
 static void
-remove_file (char *filename)
+remove_file (gftp_viewedit_data * ve_proc)
 {
-  if (unlink (filename) == 0)
+  if (ve_proc->remote_filename == NULL)
+    return;
+
+  if (unlink (ve_proc->filename) == 0)
     ftp_log (gftp_logging_misc, NULL, _("Successfully removed %s\n"),
-             filename);
+             ve_proc->filename);
   else
     ftp_log (gftp_logging_error, NULL,
-             _("Error: Could not remove file %s: %s\n"), filename,
+             _("Error: Could not remove file %s: %s\n"), ve_proc->filename,
              g_strerror (errno));
 }
 
@@ -287,7 +290,7 @@ free_edit_data (gftp_viewedit_data * ve_proc)
 static void
 dont_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 {
-  remove_file (ve_proc->filename);
+  remove_file (ve_proc);
   free_edit_data (ve_proc);
 }
 
@@ -350,7 +353,7 @@ check_done_process (void)
                       ftp_log (gftp_logging_error, NULL,
                                _("Error: Child %d returned %d\n"), pid, procret);
                       if (ve_proc->view)
-                        remove_file (ve_proc->filename);
+                        remove_file (ve_proc);
                       continue;
                     }
                   else
@@ -376,7 +379,7 @@ check_done_process (void)
 		      ftp_log (gftp_logging_misc, NULL,
 		  	       _("File %s was not changed\n"),
 			       ve_proc->filename);
-                      remove_file (ve_proc->filename);
+                      remove_file (ve_proc);
                     }
 		  else
 		    {
