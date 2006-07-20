@@ -683,7 +683,6 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
   oldpathlen = strlen (entry->path);
   if ((pos = strrchr (entry->path, '/')) != NULL)
     {
-      pos = entry->path;
       tempchar = *pos;
       *pos = '\0';
       newpath = gftp_build_path (NULL, entry->path, tempstr, NULL);
@@ -750,10 +749,14 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
 
       while (tempentry != NULL)
 	{
-	  g_hash_table_remove (new_bookmarks_htable, tempentry->path);
-
           bmentry = g_hash_table_lookup (gftp_bookmarks_htable,
                                          tempentry->path);
+	  if (bmentry == NULL)
+            bmentry = g_hash_table_lookup (new_bookmarks_htable,
+                                           tempentry->path);
+
+          g_hash_table_remove (new_bookmarks_htable, tempentry->path);
+
           if (bmentry->oldpath == NULL)
             bmentry->oldpath = tempentry->path;
           else
