@@ -395,6 +395,11 @@ check_done_process (void)
 		      continue;
 		    }
 		}
+	      else if (ve_proc->view && ve_proc->rm)
+	        {
+		  /* After viewing the file delete the tmp file */
+		  remove_file (ve_proc);
+		}
 
               free_edit_data (ve_proc);
 	      continue;
