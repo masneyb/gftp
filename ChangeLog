@@ -1,4 +1,8 @@
 2006-7-19 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (gftp_copy_request) - fixes when doing an IPv6 transfer or
+	using ignore PASV address (from (from Aurelien Jarno
+	<aurelien@aurel32.net>) (closes #169671)
+
 	* lib/protocols.c (gftp_get_all_subdirs) - make sure that the memory is
 	properly allocated for the directory. This fixes a crash when stopping a
 	file transfer (from Rob Wilkens <robwilkens@optonline.net>) 

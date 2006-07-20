@@ -568,8 +568,24 @@ gftp_copy_request (gftp_request * req)
   newreq->use_proxy = req->use_proxy;
   newreq->logging_function = req->logging_function;
   newreq->ai_family = req->ai_family;
-  newreq->free_hostp = 0;
-  newreq->hostp = NULL;
+
+  if (req->hostp)
+    {
+#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
+      newreq->hostp = g_malloc (sizeof(struct addrinfo));
+      memcpy(newreq->hostp, req->hostp, sizeof(struct addrinfo));
+      if (req->current_hostp)
+        newreq->current_hostp = newreq->hostp + (req->current_hostp - req->hostp);
+#else
+      newreq->hostp = g_malloc (sizeof(struct hostent));
+      memcpy(newreq->hostp, req->hostp, sizeof(struct hostent));
+      newreq->host = req->host;
+      newreq->curhost = req->curhost;
+#endif
+    }
+  else
+    newreq->hostp = NULL;
+  newreq->free_hostp = 1;
 
   gftp_copy_local_options (&newreq->local_options_vars, 
                            &newreq->local_options_hash,
