@@ -2066,12 +2066,12 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
       if (curfle->st_mode & S_IFDIR)
         {
           oldfromdir = transfer->fromreq->directory;
-          transfer->fromreq->directory = curfle->file;
+          transfer->fromreq->directory = g_strdup (curfle->file);
 
           if (transfer->toreq != NULL)
             {
               oldtodir = transfer->toreq->directory;
-              transfer->toreq->directory = curfle->destfile;
+              transfer->toreq->directory = g_strdup (curfle->destfile);
             } 
 
           forcecd = 1;

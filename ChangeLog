@@ -1,4 +1,9 @@
 2006-7-19 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_all_subdirs) - make sure that the memory is
+	properly allocated for the directory. This fixes a crash when stopping a
+	file transfer (from Rob Wilkens <robwilkens@optonline.net>) 
+	(closes #303779)
+
 	* src/gtk/gtkui.c src/text/textui.c src/uicommon/gftpui.c
 	src/uicommon/gftpui.h - change the cursor to a busy cursor when 
 	the protocol functions are used (from Scott Reeves <sreeves@novell.com>)
