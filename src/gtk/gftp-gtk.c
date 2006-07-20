@@ -432,7 +432,7 @@ CreateConnectToolbar (GtkWidget * parent)
   GtkWidget *toolbar, *box, *tempwid;
   gftp_config_list_vars * tmplistvar;
   char *default_protocol, *tempstr;
-  int i, num;
+  int i, j, num;
 
   toolbar = gtk_handle_box_new ();
 
@@ -551,14 +551,16 @@ CreateConnectToolbar (GtkWidget * parent)
   num = 0;
   gftp_lookup_global_option ("default_protocol", &default_protocol);
   protocol_menu = gtk_menu_new ();
-  for (i = 0; gftp_protocols[i].name; i++)
+  for (i = 0, j = 0; gftp_protocols[i].name; i++)
     {
       if (!gftp_protocols[i].shown)
         continue;
 
       if (default_protocol != NULL &&
           strcmp (gftp_protocols[i].name, default_protocol) == 0)
-        num = i;
+        num = j;
+ 
+      j++;
 
       tempwid = gtk_menu_item_new_with_label (gftp_protocols[i].name);
       gtk_object_set_user_data (GTK_OBJECT (tempwid), GINT_TO_POINTER(i));
