@@ -1,3 +1,12 @@
+2006-7-21 Brian Masney <masneyb@gftp.org>
+	* src/gtk/misc-gtk.c (update_window_info) - fixed the default protocol
+	dropdown when some protocols are disabled (from
+	Aurelien Jarno <aurelien@aurel32.net>) (closes #348177)
+
+	* src/uicommon/gftpui.c (_gftpui_common_thread_callback) - don't use
+	pause(). This causes a problem on systems that use NPTL. Use nanosleep()
+	instead (from Aurelien Jarno <aurelien@aurel32.net>) (closes #320883)
+
 2006-7-20 Brian Masney <masneyb@gftp.org>
 	* configure.in - added configure check for fsplib. Also, removed 
 	intl/Makefile and po/Makefile.in from AC_OUTPUT()
@@ -11,7 +20,7 @@
 	added more pixmaps to CVS
 
 	* lib/misc.c (gftp_copy_request) - updated patch that makes sure the
-	request->hostp structure is copied properly (from (from Aurelien Jarno
+	request->hostp structure is copied properly (from Aurelien Jarno
         <aurelien@aurel32.net>) (closes #314626)
 
 	* src/gtk/transfer.c (check_done_process) - make sure the temporary

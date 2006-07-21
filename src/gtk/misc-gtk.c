@@ -209,7 +209,7 @@ void
 update_window_info (void)
 {
   char *tempstr, empty[] = "";
-  unsigned int port, i;
+  unsigned int port, i, j;
   GtkWidget * tempwid;
 
   if (current_wdata->request != NULL)
@@ -239,13 +239,17 @@ update_window_info (void)
           else
             gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), "");
     
-          for (i=0; gftp_protocols[i].init != NULL; i++)
+          for (i=0, j=0; gftp_protocols[i].init != NULL; i++)
             {
+              if (!gftp_protocols[i].shown) 
+                continue;
+
               if (current_wdata->request->init == gftp_protocols[i].init)
                 {
                   gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), i);
                   break;
                 }
+              j++;
             }
 
           gtk_tooltips_set_tip (GTK_TOOLTIPS(openurl_tooltip), openurl_btn,

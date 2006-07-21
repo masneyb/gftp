@@ -54,6 +54,7 @@ _gftpui_common_thread_callback (void * data)
   intptr_t network_timeout, sleep_time;
   gftpui_callback_data * cdata;
   int success, sj, num_timeouts;
+  struct timespec ts;
 
   cdata = data;
   gftp_lookup_request_option (cdata->request, "network_timeout",
@@ -90,8 +91,11 @@ _gftpui_common_thread_callback (void * data)
           cdata->request->logging_function (gftp_logging_error, cdata->request,
                        _("Waiting %d seconds until trying to connect again\n"),
                        sleep_time);
-          alarm (sleep_time);
-          pause ();
+
+	  ts.tv_sec = sleep_time;
+	  ts.tv_nsec = 0;
+	  if (nanosleep (&ts, NULL) == 0)
+            siglongjmp (gftpui_common_jmp_environment, 2);
         }
     }
   else
