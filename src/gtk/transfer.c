@@ -618,7 +618,8 @@ transfer_done (GList * node)
       num_transfers_in_progress--;
     }
 
-  if (!tdata->show && tdata->started)
+  if ((!tdata->show && tdata->started) ||
+      (tdata->done && !tdata->started))
     {
       transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), 
                                                tdata->user_data);
