@@ -195,7 +195,7 @@ openurl_dialog (gpointer data)
   gftp_window_data * wdata;
 
   wdata = data;
-  MakeEditDialog (_("Connect via URL"), _("Enter a URL to connect to"),
+  MakeEditDialog (_("Open Location"), _("Enter a URL to connect to"),
                   NULL, 1, NULL, gftp_dialog_button_connect,
                   _gftpui_gtk_do_openurl, wdata,
                   NULL, NULL);
@@ -211,7 +211,7 @@ tb_openurl_dialog (gpointer data)
     {
       ftp_log (gftp_logging_error, NULL,
                _("%s: Please hit the stop button first to do anything else\n"),
-               _("OpenURL"));
+               _("Open Location"));
       return;
     }
 
@@ -259,7 +259,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/FTP/_Quit"), "<control>Q", _gftp_menu_exit, 0, MS_(GTK_STOCK_QUIT)},
     {N_("/_Local"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Local/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Local/Open _URL..."), "", openurl_dialog, 0, MS_(GTK_STOCK_OPEN)},
+    {N_("/Local/Open Location..."), "", openurl_dialog, 0, MS_(GTK_STOCK_OPEN)},
     {N_("/Local/_Disconnect"), "", gftpui_disconnect, 0, MS_(GTK_STOCK_CLOSE)},
     {N_("/Local/sep"), NULL, 0, 0, MN_("<Separator>")},
     {N_("/Local/Change Filespec..."), NULL, change_filespec, 0, MN_(NULL)},
@@ -280,7 +280,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Local/_Refresh"), NULL, gftp_gtk_refresh, 0, MS_(GTK_STOCK_REFRESH)},
     {N_("/_Remote"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/Remote/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Remote/Open _URL..."), "<control>U", openurl_dialog, 0,
+    {N_("/Remote/_Open Location..."), "<control>O", openurl_dialog, 0,
 	MS_(GTK_STOCK_OPEN)},
     {N_("/Remote/_Disconnect"), "<control>D", gftpui_disconnect, 0,
 	MS_(GTK_STOCK_CLOSE)},
