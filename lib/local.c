@@ -28,8 +28,7 @@ typedef struct local_protocol_data_tag
 
 
 static void
-local_remove_key (/*@unused@*/ gpointer key, gpointer value,
-                  /*@unused@*/ gpointer user_data)
+local_remove_key (gpointer key, gpointer value, gpointer user_data)
 {
   g_free (value);
 }
@@ -155,7 +154,7 @@ local_get_file (gftp_request * request, const char *filename, int fd,
 
 static int
 local_put_file (gftp_request * request, const char *filename, int fd,
-                off_t startsize, /*@unused@*/ off_t totalsize)
+                off_t startsize, off_t totalsize)
 {
   int flags;
 
@@ -226,8 +225,8 @@ local_end_transfer (gftp_request * request)
 
 
 static int
-local_stat_filename (/*@unused@*/ gftp_request * request, const char *filename,
-                     mode_t * mode)
+local_stat_filename (gftp_request * request, const char *filename,
+                     mode_t * mode, off_t * filesize)
 {
   struct stat st;
 
@@ -235,6 +234,8 @@ local_stat_filename (/*@unused@*/ gftp_request * request, const char *filename,
     return (GFTP_ERETRYABLE);
 
   *mode = st.st_mode;
+  *filesize = st.st_size;
+
   return (0);
 }
 
@@ -360,7 +361,7 @@ local_list_files (gftp_request * request)
 
 
 static off_t 
-local_get_file_size (/*@unused@*/ gftp_request * request, const char *filename)
+local_get_file_size (gftp_request * request, const char *filename)
 {
   struct stat st;
 
@@ -373,7 +374,7 @@ local_get_file_size (/*@unused@*/ gftp_request * request, const char *filename)
 static int
 local_chdir (gftp_request * request, const char *directory)
 {
-  char tempstr[255];
+  char tempstr[MAXNAMLEN];
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
@@ -385,28 +386,25 @@ local_chdir (gftp_request * request, const char *directory)
                           _("Successfully changed local directory to %s\n"),
                           directory);
 
-      if (request->directory != directory)
+      if (getcwd (tempstr, sizeof (tempstr)) == NULL)
         {
-          if (getcwd (tempstr, sizeof (tempstr)) == NULL)
-            {
-              request->logging_function (gftp_logging_error, request,
-                             _("Could not get current working directory: %s\n"),
-                             g_strerror (errno));
-	      return (GFTP_ERETRYABLE);
-            }
-
-          if (request->directory)
-            g_free (request->directory);
-          request->directory = g_strdup (tempstr);
+          request->logging_function (gftp_logging_error, request,
+                                     _("Could not get current working directory: %s\n"),
+                                     g_strerror (errno));
+          return (GFTP_ERETRYABLE);
         }
 
+      if (request->directory)
+        g_free (request->directory);
+
+      request->directory = g_strdup (tempstr);
       return (0);
     }
   else
     {
       request->logging_function (gftp_logging_error, request,
-                              _("Could not change local directory to %s: %s\n"),
-                              directory, g_strerror (errno));
+                                 _("Could not change local directory to %s: %s\n"),
+                                 directory, g_strerror (errno));
       return (GFTP_ERETRYABLE);
     }
 }

@@ -278,10 +278,10 @@ fsp_abort_transfer (gftp_request * request)
 
 static int
 fsp_stat_filename (gftp_request * request, const char *filename,
-                     mode_t * mode)
+                   mode_t * mode, off_t * filesize)
 {
-  struct stat st;
   fsp_protocol_data * lpd;
+  struct stat st;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
@@ -294,6 +294,8 @@ fsp_stat_filename (gftp_request * request, const char *filename,
     return (GFTP_ERETRYABLE);
 
   *mode = st.st_mode;
+  *filesize = st.st_size;
+
   return (0);
 }
 
@@ -417,19 +419,16 @@ fsp_chdir (gftp_request * request, const char *directory)
   
   olddir=NULL;
   /* build new directory string */
-  if (request->directory != directory)
-    {
-      olddir = request->directory;
+  olddir = request->directory;
 
-      if (*directory != '/' && request->directory != NULL)
-        {
-          tempstr = g_strconcat (request->directory, "/", directory, NULL);
-          request->directory = gftp_expand_path (request, tempstr);
-          g_free (tempstr);
-        }
-      else
-        request->directory = gftp_expand_path (request, directory);
+  if (*directory != '/' && request->directory != NULL)
+    {
+      tempstr = g_strconcat (request->directory, "/", directory, NULL);
+      request->directory = gftp_expand_path (request, tempstr);
+      g_free (tempstr);
     }
+  else
+    request->directory = gftp_expand_path (request, directory);
 
   if (fsp_getpro (lpd->fsp,request->directory,NULL) == 0)
     {

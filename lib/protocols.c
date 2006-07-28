@@ -345,13 +345,14 @@ gftp_abort_transfer (gftp_request * request)
 
 
 int
-gftp_stat_filename (gftp_request * request, const char *filename, mode_t * mode)
+gftp_stat_filename (gftp_request * request, const char *filename, mode_t * mode,
+                    off_t * filesize)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   if (request->stat_filename != NULL)
-    return (request->stat_filename (request, filename, mode));
+    return (request->stat_filename (request, filename, mode, filesize));
   else
     return (0);
 }
@@ -1864,7 +1865,6 @@ gftp_gen_dir_hash (gftp_request * request, int *ret)
   GHashTable * dirhash;
   gftp_file * fle;
   off_t *newsize;
-  char * newname;
 
   dirhash = g_hash_table_new (string_hash_function, string_hash_compare);
   *ret = gftp_list_files (request);
@@ -1873,10 +1873,9 @@ gftp_gen_dir_hash (gftp_request * request, int *ret)
       fle = g_malloc0 (sizeof (*fle));
       while (gftp_get_next_file (request, NULL, fle) > 0)
         {
-          newname = fle->file;
           newsize = g_malloc (sizeof (*newsize));
           *newsize = fle->size;
-          g_hash_table_insert (dirhash, newname, newsize);
+          g_hash_table_insert (dirhash, fle->file, newsize);
           fle->file = NULL;
           gftp_file_destroy (fle, 0);
         }
@@ -1905,6 +1904,9 @@ destroy_hash_ent (gpointer key, gpointer value, gpointer user_data)
 static void
 gftp_destroy_dir_hash (GHashTable * dirhash)
 {
+  if (dirhash == NULL)
+    return;
+
   g_hash_table_foreach (dirhash, destroy_hash_ent, NULL);
   g_hash_table_destroy (dirhash);
 }
@@ -1919,10 +1921,10 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
   off_t *newsize;
   char *newname;
 
-  if (getothdir && transfer->toreq)
+  if (getothdir && transfer->toreq != NULL)
     {
       dirhash = gftp_gen_dir_hash (transfer->toreq, ret);
-      if (*ret < 0)
+      if (*ret == GFTP_EFATAL)
         return (NULL);
     }
   else 
@@ -1930,7 +1932,10 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
 
   *ret = gftp_list_files (transfer->fromreq);
   if (*ret < 0)
-    return (NULL);
+    {
+      gftp_destroy_dir_hash (dirhash);
+      return (NULL);
+    }
 
   fle = g_malloc (sizeof (*fle));
   templist = NULL;
@@ -1944,7 +1949,12 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
 
       if (dirhash && 
           (newsize = g_hash_table_lookup (dirhash, fle->file)) != NULL)
-        fle->startsize = *newsize;
+        {
+          fle->exists_other_side = 1;
+          fle->startsize = *newsize;
+        }
+      else
+        fle->exists_other_side = 0;
 
       if (transfer->toreq && fle->destfile == NULL)
         fle->destfile = gftp_build_path (transfer->toreq,
@@ -1965,41 +1975,51 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
 
       templist = g_list_append (templist, fle);
 
-      fle = g_malloc (sizeof (*fle));
+      fle = g_malloc0 (sizeof (*fle));
     }
   gftp_end_transfer (transfer->fromreq);
 
   gftp_file_destroy (fle, 1);
-
-  if (dirhash != NULL)
-    gftp_destroy_dir_hash (dirhash);
+  gftp_destroy_dir_hash (dirhash);
 
   return (templist);
 }
 
 
-int
-gftp_get_all_subdirs (gftp_transfer * transfer,
-                      void (*update_func) (gftp_transfer * transfer))
+static void
+_cleanup_get_all_subdirs (gftp_transfer * transfer, char *oldfromdir,
+                          char *oldtodir,
+                          void (*update_func) (gftp_transfer * transfer))
 {
-  char *oldfromdir, *oldtodir, *newname, *pos;
-  int forcecd, remotechanged, ret;
-  GList * templist, * lastlist;
+  if (update_func != NULL)
+    {
+      transfer->numfiles = transfer->numdirs = -1;
+      update_func (transfer);
+    }
+
+  if (oldfromdir != NULL)
+    g_free (oldfromdir);
+
+  if (oldtodir != NULL)
+    g_free (oldtodir);
+}
+
+
+static GList *
+_setup_current_directory_transfer (gftp_transfer * transfer, int *ret)
+{
   GHashTable * dirhash;
+  char *pos, *newname;
   gftp_file * curfle;
+  GList * lastlist;
   off_t *newsize;
-  mode_t st_mode;
 
-  g_return_val_if_fail (transfer != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (transfer->fromreq != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (transfer->files != NULL, GFTP_EFATAL);
-
+  *ret = 0;
   if (transfer->toreq != NULL)
     {
-      ret = 0;
-      dirhash = gftp_gen_dir_hash (transfer->toreq, &ret);
-      if (ret < 0)
-        return (ret);
+      dirhash = gftp_gen_dir_hash (transfer->toreq, ret);
+      if (*ret == GFTP_EFATAL)
+        return (NULL);
     }
   else
     dirhash = NULL;
@@ -2015,13 +2035,22 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
 
       if (dirhash != NULL && 
           (newsize = g_hash_table_lookup (dirhash, pos)) != NULL)
-        curfle->startsize = *newsize;
+        {
+          curfle->exists_other_side = 1;
+          curfle->startsize = *newsize;
+        }
+      else
+        curfle->exists_other_side = 0;
 
       if (curfle->size < 0 && GFTP_IS_CONNECTED (transfer->fromreq))
         {
           curfle->size = gftp_get_file_size (transfer->fromreq, curfle->file);
-          if (curfle->size < 0)
-            return (curfle->size);
+          if (curfle->size == GFTP_EFATAL)
+            {
+              gftp_destroy_dir_hash (dirhash);
+              *ret = curfle->size;
+              return (NULL);
+            }
         }
 
       if (transfer->toreq && curfle->destfile == NULL)
@@ -2043,12 +2072,37 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
         break;
     }
 
-  if (dirhash != NULL)
-    gftp_destroy_dir_hash (dirhash);
+  gftp_destroy_dir_hash (dirhash);
+
+  return (lastlist);
+}
+
+
+int
+gftp_get_all_subdirs (gftp_transfer * transfer,
+                      void (*update_func) (gftp_transfer * transfer))
+{
+  GList * templist, * lastlist;
+  char *oldfromdir, *oldtodir;
+  gftp_file * curfle;
+  off_t linksize;
+  mode_t st_mode;
+  int ret;
+
+  g_return_val_if_fail (transfer != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (transfer->fromreq != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (transfer->files != NULL, GFTP_EFATAL);
+
+  if (transfer->files == NULL)
+    return (0);
+
+  ret = 0;
+  lastlist = _setup_current_directory_transfer (transfer, &ret);
+  if (lastlist == NULL)
+    return (ret);
 
   oldfromdir = oldtodir = NULL;
-  remotechanged = 0;
-  forcecd = 0;
+
   for (templist = transfer->files; templist != NULL; templist = templist->next)
     {
       curfle = templist->data;
@@ -2056,84 +2110,107 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
       if (S_ISLNK (curfle->st_mode) && !S_ISDIR (curfle->st_mode))
         {
           st_mode = 0;
-          ret = gftp_stat_filename (transfer->fromreq, curfle->file, &st_mode);
+          linksize = 0;
+          ret = gftp_stat_filename (transfer->fromreq, curfle->file, &st_mode,
+                                    &linksize);
           if (ret < 0)
-            return (ret);
+            {
+              _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
+                                        update_func);
+              return (ret);
+            }
           else if (S_ISDIR (st_mode))
             curfle->st_mode = st_mode;
+          else
+            curfle->size = linksize;
         }
 
-      if (curfle->st_mode & S_IFDIR)
+      if (!(curfle->st_mode & S_IFDIR))
         {
-          oldfromdir = transfer->fromreq->directory;
-          transfer->fromreq->directory = g_strdup (curfle->file);
-
-          if (transfer->toreq != NULL)
-            {
-              oldtodir = transfer->toreq->directory;
-              transfer->toreq->directory = g_strdup (curfle->destfile);
-            } 
-
-          forcecd = 1;
-          ret = gftp_set_directory (transfer->fromreq,
-                                    transfer->fromreq->directory);
-          if (ret < 0)
-            return (ret);
-
-          if (curfle->startsize > 0 && transfer->toreq != NULL)
-            {
-              remotechanged = 1;
-              ret = gftp_set_directory (transfer->toreq, 
-                                        transfer->toreq->directory);
-              if (ret < 0)
-                return (ret);
-            } 
-
-          ret = 0;
-          lastlist->next = gftp_get_dir_listing (transfer, 
-                                                 curfle->startsize > 0,
-                                                 &ret);
-          if (ret < 0)
-            return (ret);
-
-          if (lastlist->next != NULL)
-            {
-              lastlist->next->prev = lastlist;
-              for (; lastlist->next != NULL; lastlist = lastlist->next);
-            }
-
-          transfer->numdirs++;
-          if (update_func != NULL)
-            update_func (transfer);
-
-          transfer->fromreq->directory = oldfromdir;
-          if (transfer->toreq != NULL)
-            transfer->toreq->directory = oldtodir;
+          transfer->numfiles++;
+          continue;
         }
-      else
-        transfer->numfiles++;
-    }
 
-  if (forcecd)
-    {
-      ret = gftp_set_directory (transfer->fromreq,
-                                transfer->fromreq->directory);
+      /* Got a directory... */
+      if (oldfromdir == NULL)
+        oldfromdir = g_strdup (transfer->fromreq->directory);
+
+      ret = gftp_set_directory (transfer->fromreq, curfle->file);
       if (ret < 0)
-        return (ret);
-    }
+        {
+          _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
+                                    update_func);
+          return (ret);
+        }
 
-  if (remotechanged && transfer->toreq != NULL)
-    {
-      ret = gftp_set_directory (transfer->toreq, transfer->toreq->directory);
+      if (transfer->toreq != NULL)
+        {
+          if (oldtodir == NULL)
+            oldtodir = g_strdup (transfer->toreq->directory);
+
+          if (curfle->exists_other_side)
+            {
+              ret = gftp_set_directory (transfer->toreq, curfle->destfile);
+              if (ret == GFTP_EFATAL)
+                {
+                  _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
+                                            update_func);
+                  return (ret);
+                }
+            }
+          else
+            {
+              if (transfer->toreq->directory != NULL)
+                g_free (transfer->toreq->directory);
+
+              transfer->toreq->directory = g_strdup (curfle->destfile);
+            }
+        } 
+
+      ret = 0;
+      lastlist->next = gftp_get_dir_listing (transfer,
+                                             curfle->exists_other_side, &ret);
       if (ret < 0)
-        return (ret);
+        {
+          _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
+                                    update_func);
+          return (ret);
+        }
+
+      if (lastlist->next != NULL)
+        {
+          lastlist->next->prev = lastlist;
+          for (; lastlist->next != NULL; lastlist = lastlist->next);
+        }
+
+      transfer->numdirs++;
+      if (update_func != NULL)
+        update_func (transfer);
     }
 
-  if (update_func != NULL)
+  if (oldfromdir != NULL)
     {
-      transfer->numfiles = transfer->numdirs = -1;
-      update_func (transfer);
+      ret = gftp_set_directory (transfer->fromreq, oldfromdir);
+      if (ret < 0)
+        {
+          _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
+                                    update_func);
+          return (ret);
+        }
     }
+
+  if (oldtodir != NULL)
+    {
+      ret = gftp_set_directory (transfer->toreq, oldtodir);
+      if (ret < 0)
+        {
+          _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
+                                    update_func);
+          return (ret);
+        }
+    }
+
+  _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir, update_func);
 
   return (0);
 }

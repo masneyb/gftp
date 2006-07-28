@@ -254,7 +254,9 @@ struct gftp_file_tag
                done_edit : 1,	/* Edit the file when done transfering? */
                done_rm : 1,	/* Remove the file when done */
                transfer_done : 1, /* Is current file transfer done? */
-               is_fd : 1;	/* Is this a file descriptor? */
+               is_fd : 1,	/* Is this a file descriptor? */
+               exists_other_side; /* The file exists on the other side during
+                                     the file transfer */
   char transfer_action;		/* See the GFTP_TRANS_ACTION_* vars above */
   /*@null@*/ void *user_data;
 };
@@ -452,7 +454,8 @@ struct gftp_request_tag
   int (*abort_transfer) 		( gftp_request * request );
   int (*stat_filename) 			( gftp_request * request,
 					  const char *filename,
-					  mode_t * mode );
+					  mode_t * mode,
+					  off_t * filesize );
   int (*list_files) 			( gftp_request * request );
   int (*get_next_file)			( gftp_request * request, 
 					  gftp_file *fle, 
@@ -927,7 +930,8 @@ int gftp_abort_transfer 		( gftp_request * request );
 
 int gftp_stat_filename			( gftp_request * request,
 					  const char *filename,
-					  mode_t * mode );
+					  mode_t * mode,
+					  off_t * filesize );
 
 void gftp_set_hostname 			( gftp_request * request, 
 					  const char *hostname );

@@ -1416,38 +1416,32 @@ sshv2_chdir (gftp_request * request, const char *directory)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_SSHV2_NUM, GFTP_EFATAL);
 
-  if (request->directory != directory)
-    {
-      len = 0;
-      tempstr = sshv2_initialize_string_with_path (request, directory,
-                                                   &len, NULL);
+  len = 0;
+  tempstr = sshv2_initialize_string_with_path (request, directory, &len, NULL);
 
-      ret = sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len);
+  ret = sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len);
 
-      g_free (tempstr);
-      if (ret < 0)
-        return (ret);
+  g_free (tempstr);
+  if (ret < 0)
+    return (ret);
 
-      ret = sshv2_read_status_response (request, &message, -1, SSH_FXP_STATUS,
-                                        SSH_FXP_NAME);
-      if (ret < 0)
-        return (ret);
+  ret = sshv2_read_status_response (request, &message, -1, SSH_FXP_STATUS,
+                                    SSH_FXP_NAME);
+  if (ret < 0)
+    return (ret);
 
-      message.pos += 4;
-      if ((ret = sshv2_buffer_get_int32 (request, &message, 1, 1, NULL)) < 0)
-        return (ret);
+  message.pos += 4;
+  if ((ret = sshv2_buffer_get_int32 (request, &message, 1, 1, NULL)) < 0)
+    return (ret);
 
-      if ((dir = sshv2_buffer_get_string (request, &message, 1)) == NULL)
-        return (GFTP_EFATAL);
+  if ((dir = sshv2_buffer_get_string (request, &message, 1)) == NULL)
+    return (GFTP_EFATAL);
 
-      if (request->directory)
-        g_free (request->directory);
+  if (request->directory)
+    g_free (request->directory);
 
-      request->directory = dir;
-      sshv2_message_free (&message);
-      return (0);
-    }
-
+  request->directory = dir;
+  sshv2_message_free (&message);
   return (0);
 }
 
@@ -1744,7 +1738,7 @@ sshv2_send_stat_command (gftp_request * request, const char *filename,
 
 static int
 sshv2_stat_filename (gftp_request * request, const char *filename,
-                     mode_t * mode)
+                     mode_t * mode, off_t * filesize)
 {
   gftp_file fle;
   int ret;
@@ -1755,6 +1749,8 @@ sshv2_stat_filename (gftp_request * request, const char *filename,
     return (ret);
 
   *mode = fle.st_mode;
+  *filesize = fle.size;
+
   gftp_file_destroy (&fle, 0);
 
   return (0);

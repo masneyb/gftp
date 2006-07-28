@@ -1,3 +1,15 @@
+2006-7-27 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_all_subdirs) - split this function into
+	several smaller functions. Added support for getting the true file
+	size if it is a symlink. Added more error handling. Fixed a segfault
+	that may occur when transferring deeply nested directories
+
+	* lib/fsp.c lib/gftp.h lib/local.c lib/protocols.c lib/rfc2068.c
+	lib/rfc959.c lib/sshv2.c (*_chdir) - removed support for passing
+	the request->directory into this function. There is no longer a
+	need for this. (*_stat_filename) - added support for getting the
+	file size
+ 
 2006-7-21 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c (transfer_done) - fixed race condition that
 	would occur when selecting Stop Transfer and then Start Transfer

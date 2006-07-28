@@ -378,11 +378,8 @@ rfc959_chdir (gftp_request * request, const char *directory)
   else if (ret != '2')
     return (GFTP_ERETRYABLE);
 
-  if (directory != request->directory)
-    {
-      if ((ret = rfc959_getcwd (request)) < 0)
-        return (ret);
-    }
+  if ((ret = rfc959_getcwd (request)) < 0)
+    return (ret);
 
   return (0);
 }
