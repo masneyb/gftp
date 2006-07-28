@@ -186,7 +186,7 @@ extern GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
 extern GtkTextMark * logwdw_textmark;
 #endif
-extern int local_start, remote_start, trans_start, log_start, tools_start;
+extern int local_start, remote_start, trans_start;
 extern GHashTable * graphic_hash_table;
 extern GtkItemFactoryEntry * menus;
 extern GtkItemFactory * factory;

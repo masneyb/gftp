@@ -263,7 +263,7 @@ update_window_info (void)
   update_window (&window1);
   update_window (&window2);
 
-  tempwid = gtk_item_factory_get_widget (factory, menus[tools_start+2].path);
+  tempwid = gtk_item_factory_get_widget (factory, "/Tools/Compare Windows");
   gtk_widget_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
 			    && GFTP_IS_CONNECTED (window2.request));
 }

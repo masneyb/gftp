@@ -33,7 +33,7 @@ GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
 GtkTextMark * logwdw_textmark;
 #endif
-int local_start, remote_start, trans_start, log_start, tools_start;
+int local_start, remote_start, trans_start;
 GHashTable * graphic_hash_table = NULL;
 GtkItemFactoryEntry * menus = NULL;
 GtkItemFactory * factory = NULL;
@@ -236,7 +236,7 @@ gftp_gtk_refresh (gftp_window_data * wdata)
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
-  int local_len, remote_len, len, i, trans_len, log_len, tools_len;
+  int local_len, remote_len, len, i, trans_len, log_len, tools_len, log_start;
   GtkAccelGroup *accel_group;
   intptr_t ascii_transfers;
   GtkWidget * tempwid;
@@ -248,9 +248,9 @@ CreateMenus (GtkWidget * parent)
     {N_("/FTP/Window _2"), NULL, change_setting, GFTP_MENU_ITEM_WIN2,
      MN_("/FTP/Window 1")},
     {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/FTP/_Ascii"), NULL, change_setting, GFTP_MENU_ITEM_ASCII,
+    {N_("/FTP/Ascii"), NULL, change_setting, GFTP_MENU_ITEM_ASCII,
      MN_("<RadioItem>")},
-    {N_("/FTP/_Binary"), NULL, change_setting, GFTP_MENU_ITEM_BINARY,
+    {N_("/FTP/Binary"), NULL, change_setting, GFTP_MENU_ITEM_BINARY,
      MN_("/FTP/Ascii")},
     {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
     {N_("/FTP/_Preferences..."), NULL, options_dialog, 0,
@@ -378,7 +378,6 @@ CreateMenus (GtkWidget * parent)
 
   i += log_len;
   /* Tools Menu */
-  tools_start = i;
   tools_len = 4;
   create_item_factory (factory, tools_len, menu_items + i, NULL);
 
@@ -393,16 +392,16 @@ CreateMenus (GtkWidget * parent)
   gftp_lookup_global_option ("ascii_transfers", &ascii_transfers);
   if (ascii_transfers)
     {
-      tempwid = gtk_item_factory_get_widget (factory, menu_items[5].path);
+      tempwid = gtk_item_factory_get_widget (factory, "/FTP/Ascii");
       gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
     }
   else
     {
-      tempwid = gtk_item_factory_get_widget (factory, menu_items[6].path);
+      tempwid = gtk_item_factory_get_widget (factory, "/FTP/Binary");
       gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
     }
 
-  tempwid = gtk_item_factory_get_widget (factory, menu_items[3].path);
+  tempwid = gtk_item_factory_get_widget (factory, "/FTP/Window 2");
   gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
 
   window1.ifactory = item_factory_new (GTK_TYPE_MENU, "<local>", NULL, "/Local");
