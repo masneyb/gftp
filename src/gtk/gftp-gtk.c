@@ -22,12 +22,12 @@ static const char cvsid[] = "$Id$";
 
 static GtkItemFactory *log_factory, *dl_factory;
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
-                 * gftpui_command_toolbar;
+                 * gftpui_command_toolbar, * protocol_menu;
 
 gftp_window_data window1, window2, *other_wdata, *current_wdata;
 GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
-          * dlwdw, * protocol_menu, * optionmenu, * gftpui_command_widget,
-          * download_left_arrow, * upload_right_arrow, * openurl_btn;
+          * dlwdw, * optionmenu, * gftpui_command_widget, * download_left_arrow,
+          * upload_right_arrow, * openurl_btn;
 GtkTooltips * openurl_tooltip;
 GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
@@ -58,6 +58,7 @@ static void
 _gftp_exit (GtkWidget * widget, gpointer data)
 {
   const char *tempstr;
+  GtkWidget * tempwid;
   intptr_t ret;
 
   ret = GTK_WIDGET (local_frame)->allocation.width;
@@ -108,6 +109,10 @@ _gftp_exit (GtkWidget * widget, gpointer data)
 
   tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry));
   gftp_set_global_option ("user_value", tempstr);
+
+  tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
+  ret = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid)));
+  gftp_set_global_option ("default_protocol", gftp_protocols[ret].name);
 
   gftp_shutdown ();
   exit (0);
