@@ -110,6 +110,12 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry));
   gftp_set_global_option ("user_value", tempstr);
 
+  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (window1.combo)->entry));
+  gftp_set_global_option ("local_startup_directory", tempstr);
+
+  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (window2.combo)->entry));
+  gftp_set_global_option ("remote_startup_directory", tempstr);
+
   tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
   ret = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid)));
   gftp_set_global_option ("default_protocol", gftp_protocols[ret].name);
@@ -754,9 +760,9 @@ CreateFTPWindow (gftp_window_data * wdata)
     {"text/plain", 0, 0},
     {"application/x-rootwin-drop", 0, 1}
   };
+  char *titles[7], tempstr[50], *startup_directory;
   GtkWidget *box, *scroll_list, *parent;
   intptr_t listbox_file_height, colwidth;
-  char *titles[7], tempstr[50];
 
   titles[0] = "";
   titles[1] = _("Filename");
@@ -793,7 +799,12 @@ CreateFTPWindow (gftp_window_data * wdata)
   if (*wdata->history)
     gtk_combo_set_popdown_strings (GTK_COMBO (wdata->combo), *wdata->history);
   gtk_combo_disable_activate (GTK_COMBO (wdata->combo));
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry), "");
+
+  g_snprintf (tempstr, sizeof (tempstr), "%s_startup_directory",
+              wdata->prefix_col_str);
+  gftp_lookup_global_option (tempstr, &startup_directory);
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),
+                      startup_directory);
 
   wdata->hoststxt = gtk_label_new (NULL);
   gtk_misc_set_alignment (GTK_MISC (wdata->hoststxt), 0, 0);
@@ -1338,7 +1349,8 @@ main (int argc, char **argv)
   gtk_timeout_add (1000, update_downloads, NULL);
   if (gftp_protocols[GFTP_LOCAL_NUM].init (window1.request) == 0)
     {
-      gftp_setup_startup_directory (window1.request);
+      gftp_setup_startup_directory (window1.request,
+                                    "local_startup_directory");
       gftp_connect (window1.request);
       ftp_list_files (&window1);
     }

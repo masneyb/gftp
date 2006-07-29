@@ -45,9 +45,6 @@ gftp_config_vars gftp_global_config_vars[] =
    GFTP_PORT_GTK, NULL},
   {"edit_program", N_("Edit program:"), gftp_option_type_text, "", NULL, 0,
    N_("The default program used to edit files."), GFTP_PORT_GTK, NULL},
-  {"startup_directory", N_("Startup Directory:"), 
-   gftp_option_type_text, "", NULL, 0,
-   N_("The default directory gFTP will go to on startup"), GFTP_PORT_ALL, NULL},
   {"max_log_window_size", N_("Max Log Window Size:"), 
    gftp_option_type_int, 0, NULL, 0, 
    N_("The maximum size of the log window in bytes for the GTK+ port"), 
@@ -173,6 +170,11 @@ gftp_config_vars gftp_global_config_vars[] =
   {"host_value", "", gftp_option_type_text, "", NULL, 0, NULL, 0, NULL},
   {"port_value", "", gftp_option_type_text, "", NULL, 0, NULL, 0, NULL},
   {"user_value", "", gftp_option_type_text, "", NULL, 0, NULL, 0, NULL},
+
+  {"local_startup_directory", "", gftp_option_type_text, "", NULL, 0, NULL,
+   0, NULL},
+  {"remote_startup_directory", "", gftp_option_type_text, "", NULL, 0, NULL,
+   0, NULL},
 
   {"local_sortcol", "", 
    gftp_option_type_intcombo, GINT_TO_POINTER(1), gftp_sort_columns, 0,

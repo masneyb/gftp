@@ -1,4 +1,10 @@
 2006-7-29 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/options.h lib/protocols.c src/gtk/gftp-gtk.c
+	src/gtk/misc-gtk.c src/text/gftp-text.c - removed the 
+	startup_directory option. Added local_startup_directory and
+	remote_startup_directory_options. These options are automatically
+	saved whenever gftp exits.
+
 	* src/gtk/bookmarks.c (edit_bookmarks) - fixed the keybindings in the
 	bookmarks dialog. Also added mnemonics to all of the entries.
 	(closes #329820)

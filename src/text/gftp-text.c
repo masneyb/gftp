@@ -268,7 +268,8 @@ main (int argc, char **argv)
 
   if (gftp_protocols[GFTP_LOCAL_NUM].init (gftp_text_locreq) == 0)
     {
-      gftp_setup_startup_directory (gftp_text_locreq);
+      gftp_setup_startup_directory (gftp_text_locreq,
+                                    "local_startup_directory");
       gftp_connect (gftp_text_locreq);
     }
 
@@ -297,6 +298,9 @@ main (int argc, char **argv)
       gftpui_common_cmd_open (remuidata, gftp_text_remreq,
                               locuidata, gftp_text_locreq,
                               argv[1]);
+
+      gftp_setup_startup_directory (gftp_text_remreq,
+                                    "remote_startup_directory");
     }
 
 #if HAVE_LIBREADLINE

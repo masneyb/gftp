@@ -1057,7 +1057,8 @@ int gftp_fd_open 			( gftp_request * request,
 					  int flags,
 					  mode_t perms );
 
-void gftp_setup_startup_directory 	( gftp_request * request );
+void gftp_setup_startup_directory 	( gftp_request * request,
+					  const char *option_name );
 
 unsigned int gftp_protocol_default_port	( gftp_request * request );
 

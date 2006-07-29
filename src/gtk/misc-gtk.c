@@ -298,7 +298,7 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 void
 update_window (gftp_window_data * wdata)
 {
-  char *dir, *tempstr, *temp1str, *fspec, *utf8_directory;
+  char *tempstr, *hostname, *fspec, *utf8_directory;
   int connected, start;
 
   connected = GFTP_IS_CONNECTED (wdata->request);
@@ -306,33 +306,33 @@ update_window (gftp_window_data * wdata)
     {
       fspec = wdata->show_selected ? "Selected" : strcmp (wdata->filespec, "*") == 0 ?  _("All Files") : wdata->filespec;
 
-      if ((temp1str = wdata->request->hostname) == NULL ||
+      if (wdata->request->hostname == NULL ||
           wdata->request->protonum == GFTP_LOCAL_NUM)
-	temp1str = "";
-      tempstr = g_strconcat (temp1str, *temp1str == '\0' ? "[" : " [",
-		     gftp_protocols[wdata->request->protonum].name,
-		     wdata->request->cached ? _("] (Cached) [") : "] [",
-                     fspec, "]", current_wdata == wdata ? "*" : "", NULL);
+        hostname = "";
+      else
+        hostname = wdata->request->hostname;
+
+      tempstr = g_strconcat (hostname, *hostname == '\0' ? "[" : " [",
+                             gftp_protocols[wdata->request->protonum].name,
+                             wdata->request->cached ? _("] (Cached) [") : "] [",
+                             fspec, "]", current_wdata == wdata ? "*" : "", NULL);
       gtk_label_set (GTK_LABEL (wdata->hoststxt), tempstr);
       g_free (tempstr);
 
-      utf8_directory = NULL;
-      if ((dir = wdata->request->directory) == NULL)
-        temp1str = "";
-      else
+      if (wdata->request->directory != NULL)
         {
           utf8_directory = gftp_string_to_utf8 (wdata->request, 
                                                 wdata->request->directory);
           if (utf8_directory != NULL)
-            temp1str = utf8_directory;
+            {
+              gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),
+                                  utf8_directory);
+              g_free (utf8_directory);
+            }
           else
-            temp1str = dir;
+            gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),
+                                wdata->request->directory);
         }
-
-      gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),temp1str);
-
-      if (utf8_directory != NULL)
-        g_free (utf8_directory);
     }
   else if (wdata->hoststxt != NULL)
     {
@@ -340,7 +340,6 @@ update_window (gftp_window_data * wdata)
                              current_wdata == wdata ? "*" : "", NULL);
       gtk_label_set (GTK_LABEL (wdata->hoststxt), tempstr);
       g_free (tempstr);
-      gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry), "");
     }
 
   if (wdata == &window1)
