@@ -1212,17 +1212,18 @@ bm_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
 void
 edit_bookmarks (gpointer data)
 {
+  GtkAccelGroup * accel_group;
   GtkItemFactory * ifactory;
   GtkWidget * scroll;
   GtkItemFactoryEntry menu_items[] = {
     {N_("/_File"), NULL, 0, 0, MN_("<Branch>")},
     {N_("/File/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/File/New Folder..."), NULL, new_folder_entry, 0, MN_(NULL)},
-    {N_("/File/New Item..."), NULL, new_item_entry, 0, MS_(GTK_STOCK_NEW)},
-    {N_("/File/Delete"), NULL, delete_entry, 0, MS_(GTK_STOCK_DELETE)},
-    {N_("/File/Properties..."), NULL, edit_entry, 0, MS_(GTK_STOCK_PROPERTIES)},
+    {N_("/File/New _Folder..."), NULL, new_folder_entry, 0, MN_(NULL)},
+    {N_("/File/New _Item..."), NULL, new_item_entry, 0, MS_(GTK_STOCK_NEW)},
+    {N_("/File/_Delete"), NULL, delete_entry, 0, MS_(GTK_STOCK_DELETE)},
+    {N_("/File/_Properties..."), NULL, edit_entry, 0, MS_(GTK_STOCK_PROPERTIES)},
     {N_("/File/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/File/Close"), NULL, gtk_widget_destroy, 0, MS_(GTK_STOCK_CLOSE)}
+    {N_("/File/_Close"), NULL, gtk_widget_destroy, 0, MS_(GTK_STOCK_CLOSE)}
   };
 #if GTK_MAJOR_VERSION == 1
   GtkWidget * tempwid;
@@ -1263,7 +1264,9 @@ edit_bookmarks (gpointer data)
       gdk_window_set_icon_name (edit_bookmarks_dialog->window, gftp_version);
     }
 
-  ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", NULL, NULL);
+  accel_group = gtk_accel_group_new ();
+  ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", accel_group,
+                               NULL);
   create_item_factory (ifactory, 7, menu_items, NULL);
   create_item_factory (ifactory, 1, menu_items + 7, edit_bookmarks_dialog);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->vbox),
@@ -1283,6 +1286,8 @@ edit_bookmarks (gpointer data)
   edit_factory = item_factory_new (GTK_TYPE_MENU, "<edit_bookmark>", NULL, "/File");
 
   create_item_factory (edit_factory, 6, menu_items + 2, edit_bookmarks_dialog);
+
+  gtk_window_add_accel_group (GTK_WINDOW (edit_bookmarks_dialog), accel_group);
 
   tree = gtk_ctree_new (1, 0);
   gtk_clist_set_selection_mode (GTK_CLIST (tree), GTK_SELECTION_BROWSE);
