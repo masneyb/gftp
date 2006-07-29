@@ -170,14 +170,18 @@ change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
     case GFTP_MENU_ITEM_WIN1:
       current_wdata = &window1;
       other_wdata = &window2;
+
       if (wdata->request != NULL)
         update_window_info ();
+
       break;
     case GFTP_MENU_ITEM_WIN2:
       current_wdata = &window2;
       other_wdata = &window1;
+
       if (wdata->request != NULL)
         update_window_info ();
+
       break;
     }
 }
@@ -1236,7 +1240,6 @@ sortrows (GtkCList * clist, gint column, gpointer data)
 
   wdata->sorted = 1;
   gtk_clist_thaw (clist);
-  update_window_info ();
 }
 
 

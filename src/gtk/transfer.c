@@ -831,7 +831,7 @@ update_window_transfer_bytes (gftp_window_data * wdata)
 
   if (wdata->request->gotbytes == -1)
     {
-      update_window_info ();
+      update_window (wdata);
       wdata->request->gotbytes = 0;
     }
   else
