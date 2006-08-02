@@ -1139,24 +1139,29 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
                                  void *fromuidata, void *touidata,
                                  GList * files)
 {
-  intptr_t append_transfers, one_transfer;
+  intptr_t append_transfers, one_transfer, overwrite_default;
   GList * templist, *curfle;
   gftp_transfer * tdata;
   gftp_file * tempfle;
   int show_dialog;
   
-  for (templist = files; templist != NULL; templist = templist->next)
-    { 
-      tempfle = templist->data;
-      if (tempfle->startsize > 0)
-        break;
+  gftp_lookup_request_option (fromreq, "overwrite_default", &overwrite_default);
+  gftp_lookup_request_option (fromreq, "append_transfers", &append_transfers);
+  gftp_lookup_request_option (fromreq, "one_transfer", &one_transfer);
+
+  if (!overwrite_default)
+    {
+      for (templist = files; templist != NULL; templist = templist->next)
+        { 
+          tempfle = templist->data;
+          if (tempfle->startsize > 0)
+            break;
+        }
+
+      show_dialog = templist != NULL;
     }
-  show_dialog = templist != NULL;
-  
-  gftp_lookup_request_option (fromreq, "append_transfers",
-                              &append_transfers);
-  gftp_lookup_request_option (fromreq, "one_transfer",
-                              &one_transfer);
+  else
+    show_dialog = 0;
 
   tdata = NULL;
   if (append_transfers && one_transfer && !show_dialog)

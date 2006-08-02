@@ -1,3 +1,9 @@
+2006-8-2 Brian Masney <masneyb@gftp.org>
+	* src/uicommon/gftpui.c (gftpui_common_add_file_transfer) - don't
+	prompt the user about what to do with the file(s) that already exist if
+	the overwrite_default option is enabled. This option is disabled by
+	default. (closes #336232)
+
 2006-7-29 Brian Masney <masneyb@gftp.org>
 	* src/gtk/gftp-gtk.c src/gtk/transfer.c - removed some unnecessary
 	updates to the toolbar
