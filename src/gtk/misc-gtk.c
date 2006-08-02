@@ -928,7 +928,6 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
 #if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
-  gtk_grab_add (dialog);
   gtk_container_border_width (GTK_CONTAINER
 			      (GTK_DIALOG (dialog)->action_area), 5);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
@@ -967,6 +966,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "edit", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_grab_add (dialog);
   gtk_widget_realize (dialog);
 
   if (gftp_icon != NULL)
@@ -1076,7 +1076,6 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
 
 #if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
-  gtk_grab_add (dialog);
   gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 
                               5);
@@ -1094,6 +1093,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "yndiag", "gFTP");
+  gtk_grab_add (dialog);
   gtk_widget_realize (dialog);
 
   if (gftp_icon != NULL)

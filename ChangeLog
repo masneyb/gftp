@@ -1,4 +1,8 @@
 2006-8-2 Brian Masney <masneyb@gftp.org>
+	* src/gtk/misc-gtk.c (MakeYesNoDialog, MakeEditDialog) - use
+	gtk_grab_add() to make sure these dialogs have exclusive focus in
+	gftp (closes #340436)
+
 	* src/uicommon/gftpui.c (gftpui_common_add_file_transfer) - don't
 	prompt the user about what to do with the file(s) that already exist if
 	the overwrite_default option is enabled. This option is disabled by
