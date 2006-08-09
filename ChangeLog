@@ -1,3 +1,8 @@
+2006-8-8 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_parse_ls_unix) - fixes whenever a smaller than
+	expected attribute field is returned (gftp_get_line) - make sure the
+	end of the buffer is nul terminated properly
+
 2006-8-2 Brian Masney <masneyb@gftp.org>
 	* src/gtk/misc-gtk.c (MakeYesNoDialog, MakeEditDialog) - use
 	gtk_grab_add() to make sure these dialogs have exclusive focus in

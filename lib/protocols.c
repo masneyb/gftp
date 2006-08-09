@@ -1630,6 +1630,9 @@ gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
   if ((startpos = copy_token (&attribs, startpos)) == NULL)
     return (GFTP_EFATAL);
 
+  if (strlen (attribs) < 10)
+    return (GFTP_EFATAL);
+
   fle->st_mode = gftp_convert_attributes_to_mode_t (attribs);
   g_free (attribs);
 
@@ -2591,7 +2594,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
 
               /* This is not an overflow since we allocated one extra byte to
                  buffer above */
-              ((*rbuf)->curpos)[nslen] = '\0';
+              ((*rbuf)->buffer)[nslen] = '\0';
             }
 
           strncpy (str, (*rbuf)->curpos, len);
@@ -2625,14 +2628,16 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
           if ((*rbuf)->eof)
             ret = 0;
           else
-            ret = read_function (request, pos, rlen, fd);
-
-          if (ret < 0)
             {
-              gftp_free_getline_buffer (rbuf);
-              return (ret);
+              ret = read_function (request, pos, rlen, fd);
+              if (ret < 0)
+                {
+                  gftp_free_getline_buffer (rbuf);
+                  return (ret);
+                }
             }
-          else if (ret == 0)
+
+          if (ret == 0)
             {
               if ((*rbuf)->cur_bufsize == 0)
                 {
@@ -2644,7 +2649,7 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
             }
 
           (*rbuf)->cur_bufsize += ret;
-          (*rbuf)->curpos[(*rbuf)->cur_bufsize] = '\0';
+          (*rbuf)->buffer[(*rbuf)->cur_bufsize] = '\0';
         }
     }
 
