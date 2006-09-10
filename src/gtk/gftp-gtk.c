@@ -57,6 +57,7 @@ get_column (GtkCListColumn * col)
 static void
 _gftp_exit (GtkWidget * widget, gpointer data)
 {
+  intptr_t remember_last_directory;
   const char *tempstr;
   GtkWidget * tempwid;
   intptr_t ret;
@@ -110,11 +111,16 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry));
   gftp_set_global_option ("user_value", tempstr);
 
-  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (window1.combo)->entry));
-  gftp_set_global_option ("local_startup_directory", tempstr);
+  gftp_lookup_global_option ("remember_last_directory",
+                             &remember_last_directory);
+  if (remember_last_directory)
+    {
+      tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (window1.combo)->entry));
+      gftp_set_global_option ("local_startup_directory", tempstr);
 
-  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (window2.combo)->entry));
-  gftp_set_global_option ("remote_startup_directory", tempstr);
+      tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (window2.combo)->entry));
+      gftp_set_global_option ("remote_startup_directory", tempstr);
+    }
 
   tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
   ret = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid)));

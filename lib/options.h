@@ -106,7 +106,12 @@ gftp_config_vars gftp_global_config_vars[] =
    GFTP_PORT_GTK, NULL},
   {"cmd_in_gui", N_("Allow manual commands in GUI"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
-   N_("Allow entering manual commands in the GUI (functions like the text port)"), GFTP_PORT_GTK, NULL},
+   N_("Allow entering manual commands in the GUI (functions like the text port)"),
+   GFTP_PORT_GTK, NULL},
+  {"remember_last_directory", N_("Remember last directory"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   N_("Save the last local and remote directory when the application is closed"),
+   GFTP_PORT_GTK, NULL},
 
   {"", N_("Network"), gftp_option_type_notebook, NULL, NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK, NULL, GFTP_PORT_GTK, NULL},
