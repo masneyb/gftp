@@ -408,6 +408,7 @@ gftpui_common_cmd_site (void *uidata, gftp_request * request,
       cdata->uidata = uidata;
       cdata->input_string = (char *) command;
       cdata->run_function = gftpui_common_run_site;
+      cdata->toggled = 1;
 
       gftpui_common_run_callback_function (cdata);
 
