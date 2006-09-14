@@ -1291,17 +1291,63 @@ _gftpui_common_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
 
 
 int
-gftpui_common_transfer_files (gftp_transfer * tdata)
+_do_transfer_file (gftp_transfer * tdata)
 {
-  intptr_t preserve_permissions, preserve_time, trans_blksize;
   struct timeval updatetime;
+  intptr_t trans_blksize;
   ssize_t num_read, ret;
-  gftp_file * curfle; 
-  int tofd, fromfd;
-  char *buf;
+  char *buf, *bufpos;
 
   gftp_lookup_request_option (tdata->fromreq, "trans_blksize", &trans_blksize);
   buf = g_malloc (trans_blksize);
+
+  memset (&updatetime, 0, sizeof (updatetime));
+  gftpui_start_current_file_in_transfer (tdata);
+
+  while (!tdata->cancel &&
+         (num_read = gftp_get_next_file_chunk (tdata->fromreq, buf,
+                                               trans_blksize)) > 0)
+    {
+      gftp_calc_kbs (tdata, num_read);
+      if (tdata->lasttime.tv_sec - updatetime.tv_sec >= 1 ||
+          tdata->curtrans >= tdata->tot_file_trans)
+        {
+          gftpui_update_current_file_in_transfer (tdata);
+          memcpy (&updatetime, &tdata->lasttime, sizeof (updatetime));
+        }
+
+      bufpos = buf;
+      while (num_read > 0)
+        {
+          if ((ret = gftp_put_next_file_chunk (tdata->toreq, bufpos,
+                                               num_read)) <= 0)
+            {
+              num_read = ret;
+              break;
+            }
+
+          num_read -= ret;
+          bufpos += ret;
+        }
+    }
+
+  if (num_read == GFTP_ENOTRANS)
+    num_read = 0;
+
+  g_free (buf);
+  gftpui_finish_current_file_in_transfer (tdata);
+
+  return ((int) num_read);
+}
+
+
+int
+gftpui_common_transfer_files (gftp_transfer * tdata)
+{
+  intptr_t preserve_permissions, preserve_time;
+  gftp_file * curfle; 
+  int tofd, fromfd;
+  int ret;
 
   tdata->curfle = tdata->files;
   gettimeofday (&tdata->starttime, NULL);
@@ -1314,7 +1360,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
 
   while (tdata->curfle != NULL)
     {
-      num_read = -1;
+      ret = -1;
 
       if (g_thread_supported ())
         g_static_mutex_lock (&tdata->structmutex);
@@ -1424,33 +1470,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
           if (g_thread_supported ())
             g_static_mutex_unlock (&tdata->structmutex);
 
-          memset (&updatetime, 0, sizeof (updatetime));
-          gftpui_start_current_file_in_transfer (tdata);
-
-          while (!tdata->cancel &&
-                 (num_read = gftp_get_next_file_chunk (tdata->fromreq,
-                                                       buf, trans_blksize)) > 0)
-            {
-              gftp_calc_kbs (tdata, num_read);
-              if (tdata->lasttime.tv_sec - updatetime.tv_sec >= 1 ||
-                  tdata->curtrans >= tdata->tot_file_trans)
-                {
-                  gftpui_update_current_file_in_transfer (tdata);
-                  memcpy (&updatetime, &tdata->lasttime, sizeof (updatetime));
-                }
-
-              if ((ret = gftp_put_next_file_chunk (tdata->toreq, buf,
-                                                   num_read)) < 0)
-                {
-                  num_read = (int) ret;
-                  break;
-                }
-            }
-
-          if (num_read == GFTP_ENOTRANS)
-            num_read = 0;
-
-          gftpui_finish_current_file_in_transfer (tdata);
+          ret = _do_transfer_file (tdata);
         }
 
       if (tdata->cancel)
@@ -1461,7 +1481,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
           if (gftp_abort_transfer (tdata->toreq) != 0)
             gftp_disconnect (tdata->toreq);
         }
-      else if (num_read < 0)
+      else if (ret < 0)
         {
           tdata->fromreq->logging_function (gftp_logging_error,
                                         tdata->fromreq,
@@ -1469,7 +1489,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
                                         curfle->file,
                                         tdata->fromreq->hostname);
 
-          if (gftp_get_transfer_status (tdata, num_read) == GFTP_ERETRYABLE)
+          if (gftp_get_transfer_status (tdata, ret) == GFTP_ERETRYABLE)
             continue;
 
           break;
@@ -1531,7 +1551,6 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
     }
 
   tdata->done = 1;
-  g_free (buf);
 
   return (1);
 }

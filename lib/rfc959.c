@@ -388,9 +388,9 @@ rfc959_chdir (gftp_request * request, const char *directory)
 static int
 rfc959_syst (gftp_request * request)
 {
+  int ret, disable_ls_options;
   rfc959_parms * parms;
   char *stpos, *endpos;
-  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
@@ -412,14 +412,13 @@ rfc959_syst (gftp_request * request)
     return (GFTP_ERETRYABLE);
 
   *endpos = '\0';
+  disable_ls_options = 0;
 
   if (strcmp (stpos, "UNIX") == 0)
     request->server_type = GFTP_DIRTYPE_UNIX;
   else if (strcmp (stpos, "VMS") == 0)
     {
-      gftp_set_request_option (request, "show_hidden_files",
-                               GINT_TO_POINTER(0));
-      gftp_set_request_option (request, "resolve_symlinks", GINT_TO_POINTER(0));
+      disable_ls_options = 1;
       request->server_type = GFTP_DIRTYPE_VMS;
     }
   else if (strcmp (stpos, "MVS") == 0 ||
@@ -431,6 +430,16 @@ rfc959_syst (gftp_request * request)
     request->server_type = GFTP_DIRTYPE_CRAY;
   else
     request->server_type = GFTP_DIRTYPE_OTHER;
+
+  if (strcmp (stpos, "OS/400") == 0)
+    disable_ls_options = 1;
+
+  if (disable_ls_options)
+    {
+      gftp_set_request_option (request, "show_hidden_files",
+                               GINT_TO_POINTER(0));
+      gftp_set_request_option (request, "resolve_symlinks", GINT_TO_POINTER(0));
+    }
 
   return (0);
 }
@@ -1439,9 +1448,6 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   size_t rsize, i, j;
   ssize_t num_wrote;
   char *tempstr;
-
-  if (size == 0)
-    return (0);
 
   parms = request->protocol_data;
 

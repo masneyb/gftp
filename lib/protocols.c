@@ -295,9 +295,6 @@ gftp_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   if (request->put_next_file_chunk != NULL)
     return (request->put_next_file_chunk (request, buf, size));
 
-  if (size == 0)
-    return (0);
-
   return (request->write_function (request, buf, size, request->datafd));
 }
 

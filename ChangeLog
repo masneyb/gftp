@@ -1,3 +1,14 @@
+2006-9-14 Brian Masney <masneyb@gftp.org>
+	* src/uicommon/gftpui.c - added _do_transfer_file(). This will take
+	care of the actual file transfer. It will also make sure that the
+	entire buffer has been transmitted properly.
+
+	* lib/protocols.c lib/rfc959.c (*_put_next_file_chunk) - removed
+	unneeded code that checks for a block size of 0
+
+	* lib/rfc959.c (rfc959_syst) - disable show_hidden_files and
+	resolve_remote_symlinks if the remote system type is OS/400.
+
 2006-8-10 Brian Masney <masneyb@gftp.org>
 	* lib/options.h src/gtk/gftp-gtk.c (_gftp_exit) - added new option:
 	remember_last_directory. This will control whether or not the last
