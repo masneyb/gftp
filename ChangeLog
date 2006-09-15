@@ -1,3 +1,9 @@
+2006-9-15 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_fd_write, gftp_fd_read,
+	gftp_fd_set_sockblocking) - added checks to make sure the file
+	descriptor is not set to -1 (gftp_abort_transfer) - added FIXME
+	comment
+
 2006-9-14 Brian Masney <masneyb@gftp.org>
 	* src/uicommon/gftpui.c - added _do_transfer_file(). This will take
 	care of the actual file transfer. It will also make sure that the

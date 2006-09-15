@@ -337,6 +337,7 @@ gftp_abort_transfer (gftp_request * request)
   if (request->abort_transfer == NULL)
     return (GFTP_EFATAL);
 
+  /* FIXME - end the transfer if it is not successful */
   return (request->abort_transfer (request));
 }
 
@@ -2662,6 +2663,8 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
   fd_set fset;
   ssize_t ret;
 
+  g_return_val_if_fail (fd >= 0, GFTP_EFATAL);
+
   gftp_lookup_request_option (request, "network_timeout", &network_timeout);  
 
   errno = 0;
@@ -2737,6 +2740,8 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
   ssize_t w_ret;
   fd_set fset;
   int ret;
+
+  g_return_val_if_fail (fd >= 0, GFTP_EFATAL);
 
   gftp_lookup_request_option (request, "network_timeout", &network_timeout);  
 
@@ -2828,6 +2833,8 @@ int
 gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
 {
   int flags;
+
+  g_return_val_if_fail (fd >= 0, GFTP_EFATAL);
 
   if ((flags = fcntl (fd, F_GETFL, 0)) < 0)
     {
