@@ -1,4 +1,10 @@
 2006-9-26 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c (rfc959_end_transfer) - close the data connection before
+	the control connection is closed. (rfc959_put_next_file_chunk) - make
+	sure the entire block is properly written to the server. This is due to
+	the ASCII conversion (if necessary) is performed in this function. 
+	Removed rfc959_set_file_time().
+
 	* lib/protocols.c (gftp_fd_read, gftp_fd_write) - make sure the return
 	value properly matches what was actually read or written to the socket
 

@@ -626,6 +626,7 @@ rfc959_disconnect (gftp_request * request)
 {
   g_return_if_fail (request != NULL);
 
+  rfc959_close_data_connection (request);
   if (request->datafd > 0)
     {
       request->logging_function (gftp_logging_misc, request,
@@ -634,8 +635,6 @@ rfc959_disconnect (gftp_request * request)
       close (request->datafd);
       request->datafd = -1;
     }
-
-  rfc959_close_data_connection (request);
 }
 
 
@@ -1437,10 +1436,10 @@ rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 static ssize_t
 rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
+  ssize_t num_wrote, ret;
   rfc959_parms * parms;
+  char *tempstr, *pos;
   size_t rsize, i, j;
-  ssize_t num_wrote;
-  char *tempstr;
 
   parms = request->protocol_data;
 
@@ -1449,11 +1448,10 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
   if (parms->is_ascii_transfer)
     {
-      rsize = 0;
-      for (i = 0; i < size; i++)
+      rsize = size;
+      for (i = 1; i < size; i++)
         {
-          rsize++;
-          if (i > 0 && buf[i] == '\n' && buf[i - 1] != '\r')
+          if (buf[i] == '\n' && buf[i - 1] != '\r')
             rsize++;
         }
 
@@ -1477,13 +1475,32 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
       tempstr = buf;
     }
 
-  num_wrote = parms->data_conn_write (request, tempstr, rsize,
-                                      parms->data_connection);
+  /* I need to ensure that the entire buffer has been transfered properly due
+     to the ascii conversion that may occur. 
+     FIXME - the ascii conversion doesn't occur properly when the \n occurs
+     at the beginning of the buffer. I need to remember the last character
+     in the previous buffer */
+
+  ret = rsize;
+  pos = tempstr;
+  while (rsize > 0)
+    {
+      num_wrote = parms->data_conn_write (request, pos, rsize,
+                                          parms->data_connection);
+      if (num_wrote < 0)
+        {
+          ret = num_wrote;
+          break;
+        }
+
+      pos += num_wrote;
+      rsize -= num_wrote;
+    }
 
   if (tempstr != buf)
     g_free (tempstr);
 
-  return (num_wrote);
+  return (ret);
 }
 
 
@@ -1766,39 +1783,6 @@ rfc959_time_t_to_mdtm (gftp_request * request, time_t datetime)
 
 
 static int
-rfc959_set_file_time (gftp_request * request, const char *file, time_t datetime)
-{
-  char *tempstr, *datestr;
-  rfc959_parms * parms;
-  int ret;
-
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
-
-  parms = request->protocol_data;
-
-  datestr = rfc959_time_t_to_mdtm (request, datetime);
-  if (datestr == NULL)
-    return (GFTP_EFATAL);
-
-  tempstr = g_strconcat ("SITE UTIME ", datestr, " ", file, "\r\n", NULL);
-
-  g_free (datestr);
-
-  ret = rfc959_send_command (request, tempstr, 1);
-  g_free (tempstr);
-
-  if (ret < 0)
-    return (ret);
-  else if (ret == '2')
-    return (0);
-  else
-    return (GFTP_ERETRYABLE);
-}
-
-
-static int
 rfc959_set_config_options (gftp_request * request)
 {
   char *proxy_config;
@@ -1914,7 +1898,7 @@ rfc959_init (gftp_request * request)
   request->mkdir = rfc959_mkdir;
   request->rename = rfc959_rename;
   request->chmod = rfc959_chmod;
-  request->set_file_time = rfc959_set_file_time;
+  request->set_file_time = NULL;
   request->site = rfc959_site;
   request->parse_url = NULL;
   request->swap_socks = NULL;
