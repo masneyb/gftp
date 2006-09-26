@@ -606,13 +606,25 @@ rfc959_connect (gftp_request * request)
 
 
 static void
-rfc959_disconnect (gftp_request * request)
+rfc959_close_data_connection (gftp_request * request)
 {
   rfc959_parms * parms;
 
   g_return_if_fail (request != NULL);
 
   parms = request->protocol_data;
+  if (parms->data_connection != -1)
+    {
+      close (parms->data_connection);
+      parms->data_connection = -1;
+    }
+}
+
+
+static void
+rfc959_disconnect (gftp_request * request)
+{
+  g_return_if_fail (request != NULL);
 
   if (request->datafd > 0)
     {
@@ -623,11 +635,7 @@ rfc959_disconnect (gftp_request * request)
       request->datafd = -1;
     }
 
-  if (parms->data_connection > 0)
-    {
-      close (parms->data_connection);
-      parms->data_connection = -1;
-    }
+  rfc959_close_data_connection (request);
 }
 
 
@@ -1021,8 +1029,8 @@ rfc959_accept_active_connection (gftp_request * request)
     }
 
   close (parms->data_connection);
-
   parms->data_connection = infd;
+
   if ((ret = gftp_fd_set_sockblocking (request, parms->data_connection, 1)) < 0)
     return (ret);
 
@@ -1134,8 +1142,7 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
         return (ret);
       else if (ret != '3')
         {
-          close (parms->data_connection);
-          parms->data_connection = -1;
+          rfc959_close_data_connection (request);
 	  return (GFTP_ERETRYABLE);
         }
     }
@@ -1148,8 +1155,7 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
     return (ret);
   else if (ret != '1')
     {
-      close (parms->data_connection);
-      parms->data_connection = -1;
+      rfc959_close_data_connection (request);
       return (GFTP_ERETRYABLE);
     }
 
@@ -1185,7 +1191,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   parms = request->protocol_data;
-  if (fd > 0)
+  if (fd > 0) /* FIXME */
     fd = parms->data_connection;
 
   if ((ret = rfc959_set_data_type (request, filename)) < 0)
@@ -1208,8 +1214,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
         return (ret);
       else if (ret != '3')
         {
-          close (parms->data_connection);
-          parms->data_connection = -1;
+          rfc959_close_data_connection (request);
 	  return (GFTP_ERETRYABLE);
         }
     }
@@ -1221,8 +1226,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
     return (ret);
   else if (ret != '1')
     {
-      close (parms->data_connection);
-      parms->data_connection = -1;
+      rfc959_close_data_connection (request);
       return (GFTP_ERETRYABLE);
     }
 
@@ -1319,11 +1323,7 @@ rfc959_end_transfer (gftp_request * request)
   parms = request->protocol_data;
   parms->is_fxp_transfer = 0;
 
-  if (parms->data_connection > 0)
-    {
-      close (parms->data_connection);
-      parms->data_connection = -1;
-    }
+  rfc959_close_data_connection (request);
 
   ret = rfc959_read_response (request, 1);
 
@@ -1339,22 +1339,15 @@ rfc959_end_transfer (gftp_request * request)
 static int
 rfc959_abort_transfer (gftp_request * request)
 {
-  rfc959_parms * parms;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  parms = request->protocol_data;
-
   if ((ret = rfc959_send_command (request, "ABOR\r\n", 0)) < 0)
     return (ret);
 
-  if (parms->data_connection > 0)
-    {
-      close (parms->data_connection);
-      parms->data_connection = -1;
-    }
+  rfc959_close_data_connection (request);
 
   if (request->datafd > 0)
     {
