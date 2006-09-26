@@ -2662,6 +2662,7 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
   struct timeval tv;
   fd_set fset;
   ssize_t ret;
+  int s_ret;
 
   g_return_val_if_fail (fd >= 0, GFTP_EFATAL);
 
@@ -2676,8 +2677,8 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
       FD_SET (fd, &fset);
       tv.tv_sec = network_timeout;
       tv.tv_usec = 0;
-      ret = select (fd + 1, &fset, NULL, NULL, &tv);
-      if (ret == -1 && (errno == EINTR || errno == EAGAIN))
+      s_ret = select (fd + 1, &fset, NULL, NULL, &tv);
+      if (s_ret == -1 && (errno == EINTR || errno == EAGAIN))
         {
           if (request != NULL && request->cancel)
             {
@@ -2687,7 +2688,7 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
 
           continue;
         }
-      else if (ret <= 0)
+      else if (s_ret <= 0)
         {
           if (request != NULL)
             {
@@ -2737,9 +2738,9 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
 {
   intptr_t network_timeout;
   struct timeval tv;
+  int ret, s_ret;
   ssize_t w_ret;
   fd_set fset;
-  int ret;
 
   g_return_val_if_fail (fd >= 0, GFTP_EFATAL);
 
@@ -2753,8 +2754,8 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
       FD_SET (fd, &fset);
       tv.tv_sec = network_timeout;
       tv.tv_usec = 0;
-      ret = select (fd + 1, NULL, &fset, NULL, &tv);
-      if (ret == -1 && (errno == EINTR || errno == EAGAIN))
+      s_ret = select (fd + 1, NULL, &fset, NULL, &tv);
+      if (s_ret == -1 && (errno == EINTR || errno == EAGAIN))
         {
           if (request != NULL && request->cancel)
             {
@@ -2764,7 +2765,7 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
 
           continue;
         }
-      else if (ret <= 0)
+      else if (s_ret <= 0)
         {
           if (request != NULL)
             {
