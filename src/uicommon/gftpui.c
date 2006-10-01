@@ -1341,6 +1341,60 @@ _do_transfer_file (gftp_transfer * tdata)
 }
 
 
+void
+gftpui_common_skip_file_transfer (gftp_transfer * tdata, gftp_file * curfle)
+{
+  g_static_mutex_lock (&tdata->structmutex);
+
+  if (tdata->started && !(curfle->transfer_action & GFTP_TRANS_ACTION_SKIP))
+    {
+      curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
+      if (tdata->curfle != NULL && curfle == tdata->curfle->data)
+        {
+          tdata->cancel = 1;
+          tdata->fromreq->cancel = 1;
+          tdata->toreq->cancel = 1;
+          tdata->skip_file = 1;
+        }
+      else if (!curfle->transfer_done)
+        tdata->total_bytes -= curfle->size;
+    }
+
+  g_static_mutex_unlock (&tdata->structmutex);
+
+  if (curfle != NULL)
+    tdata->fromreq->logging_function (gftp_logging_misc, tdata->fromreq,
+                                      _("Skipping file %s on host %s\n"),
+                                      curfle->file, tdata->toreq->hostname);
+}
+
+
+void
+gftpui_common_cancel_file_transfer (gftp_transfer * tdata)
+{
+  g_static_mutex_lock (&tdata->structmutex);
+
+  if (tdata->started)
+    {
+      tdata->cancel = 1;
+      tdata->fromreq->cancel = 1;
+      tdata->toreq->cancel = 1;
+      tdata->skip_file = 0;
+    }
+  else
+    tdata->done = 1;
+
+  tdata->fromreq->stopable = 0;
+  tdata->toreq->stopable = 0;
+
+  g_static_mutex_unlock (&tdata->structmutex);
+
+  tdata->fromreq->logging_function (gftp_logging_misc, tdata->fromreq,
+                                    _("Stopping the transfer on host %s\n"),
+                                    tdata->toreq->hostname);
+}
+
+
 int
 gftpui_common_transfer_files (gftp_transfer * tdata)
 {

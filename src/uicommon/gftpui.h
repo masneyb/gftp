@@ -133,6 +133,11 @@ gftp_transfer * gftpui_common_add_file_transfer ( gftp_request * fromreq,
 						  void *touidata,
 						  GList * files );
 
+void gftpui_common_skip_file_transfer	( gftp_transfer * tdata,
+					  gftp_file * curfle );
+
+void gftpui_common_cancel_file_transfer	( gftp_transfer * tdata );
+
 int gftpui_common_transfer_files 	( gftp_transfer * tdata );
 
 /* gftpuicallback.c */

@@ -484,22 +484,7 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
   if (tdata->fromreq->stopable == 0)
     return;
 
-  g_static_mutex_lock (&tdata->structmutex);
-  if (tdata->started)
-    {
-      tdata->cancel = 1;
-      tdata->fromreq->cancel = 1;
-      tdata->toreq->cancel = 1;
-    }
-  else
-    tdata->done = 1;
-
-  tdata->fromreq->stopable = 0;
-  tdata->toreq->stopable = 0;
-  g_static_mutex_unlock (&tdata->structmutex);
-
-  ftp_log (gftp_logging_misc, NULL, _("Stopping the transfer of %s\n"),
-	   ((gftp_file *) tdata->curfle->data)->file);
+  gftpui_common_cancel_file_transfer (tdata);
 }
 
 
@@ -941,23 +926,10 @@ stop_transfer (gpointer data)
 	      _("There are no file transfers selected\n"));
       return;
     }
+
   node = GTK_CLIST (dlwdw)->selection->data;
   transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
-
-  g_static_mutex_lock (&transdata->transfer->structmutex);
-  if (transdata->transfer->started)
-    {
-      transdata->transfer->cancel = 1;
-      transdata->transfer->fromreq->cancel = 1;
-      transdata->transfer->toreq->cancel = 1;
-      transdata->transfer->skip_file = 0;
-    }
-  else
-    transdata->transfer->done = 1;
-  g_static_mutex_unlock (&transdata->transfer->structmutex);
-
-  ftp_log (gftp_logging_misc, NULL, _("Stopping the transfer on host %s\n"),
-	   transdata->transfer->fromreq->hostname);
+  gftpui_common_cancel_file_transfer (transdata->transfer);
 }
 
 
@@ -975,30 +947,12 @@ skip_transfer (gpointer data)
 	      _("There are no file transfers selected\n"));
       return;
     }
+
   node = GTK_CLIST (dlwdw)->selection->data;
   transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
 
-  g_static_mutex_lock (&transdata->transfer->structmutex);
-  if (transdata->transfer->curfle != NULL)
-    {
-      curfle = transdata->transfer->curfle->data;
-      if (transdata->transfer->started)
-        {
-          transdata->transfer->cancel = 1;
-          transdata->transfer->fromreq->cancel = 1;
-          transdata->transfer->toreq->cancel = 1;
-          transdata->transfer->skip_file = 1;
-        }
-
-      curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-      file = curfle->file;
-    }
-  else
-    file = NULL;
-  g_static_mutex_unlock (&transdata->transfer->structmutex);
-
-  ftp_log (gftp_logging_misc, NULL, _("Skipping file %s on host %s\n"), 
-           file, transdata->transfer->fromreq->hostname);
+  gftpui_common_skip_file_transfer (transdata->transfer,
+                                    transdata->transfer->curfle->data);
 }
 
 
@@ -1019,39 +973,14 @@ remove_file_transfer (gpointer data)
   node = GTK_CLIST (dlwdw)->selection->data;
   transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
 
-
   if (transdata->curfle == NULL || transdata->curfle->data == NULL)
     return;
 
   curfle = transdata->curfle->data;
+  gftpui_common_skip_file_transfer (transdata->transfer, curfle);
 
-  if (curfle->transfer_action & GFTP_TRANS_ACTION_SKIP)
-    return;
-
-  g_static_mutex_lock (&transdata->transfer->structmutex);
-
-  curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
-
-  if (transdata->transfer->started &&
-      transdata->curfle == transdata->transfer->curfle)
-    {
-      transdata->transfer->cancel = 1;
-      transdata->transfer->fromreq->cancel = 1;
-      transdata->transfer->toreq->cancel = 1;
-      transdata->transfer->skip_file = 1;
-    }
-  else if (transdata->curfle != transdata->transfer->curfle &&
-           !curfle->transfer_done)
-    {
-      gtk_ctree_node_set_text (GTK_CTREE (dlwdw), curfle->user_data, 1,
-                               _("Skipped"));
-      transdata->transfer->total_bytes -= curfle->size;
-    }
-
-  g_static_mutex_unlock (&transdata->transfer->structmutex);
-
-  ftp_log (gftp_logging_misc, NULL, _("Skipping file %s on host %s\n"),
-           curfle->file, transdata->transfer->fromreq->hostname);
+  gtk_ctree_node_set_text (GTK_CTREE (dlwdw), curfle->user_data, 1,
+                           _("Skipped"));
 }
 
 
