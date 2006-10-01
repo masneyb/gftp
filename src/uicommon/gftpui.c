@@ -53,8 +53,8 @@ _gftpui_common_thread_callback (void * data)
 { 
   intptr_t network_timeout, sleep_time;
   gftpui_callback_data * cdata;
-  int success, sj, num_timeouts;
   struct timespec ts;
+  int success, sj;
 
   cdata = data;
   gftp_lookup_request_option (cdata->request, "network_timeout",
@@ -65,7 +65,6 @@ _gftpui_common_thread_callback (void * data)
   sj = sigsetjmp (gftpui_common_jmp_environment, 1);
   gftpui_common_use_jmp_environment = 1;
 
-  num_timeouts = 0;
   success = GFTP_ERETRYABLE;
   if (sj != 1)
     {
@@ -75,14 +74,6 @@ _gftpui_common_thread_callback (void * data)
             alarm (network_timeout);
           success = cdata->run_function (cdata);
           alarm (0);
-
-          if (success == GFTP_ETIMEDOUT && num_timeouts == 0)
-            {
-              _gftpui_cb_disconnect (cdata);
-              num_timeouts++;
-              if (_gftpui_cb_connect (cdata) == 0)
-                continue;
-            }
 
           if (success == GFTP_EFATAL || success == 0 || cdata->retries == 0)
             break;
