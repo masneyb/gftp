@@ -740,7 +740,8 @@ char *gftp_expand_path 			( gftp_request * request,
 
 void make_nonnull 			( char **str );
 
-int gftp_match_filespec 		( const char *filename, 
+int gftp_match_filespec 		( gftp_request * request,
+					  const char *filename, 
 					  const char *filespec );
 
 int gftp_parse_command_line 		( int *argc,

@@ -80,7 +80,7 @@ gftpui_common_run_ls (gftpui_callback_data * cdata)
       if (cdata->source_string == NULL)
         matched_filespec = 1;
       else
-        matched_filespec = gftp_match_filespec (fle->file,
+        matched_filespec = gftp_match_filespec (cdata->request, fle->file,
                                                 cdata->source_string);
 
       if (got < 0 || strcmp (fle->file, ".") == 0 || !matched_filespec)

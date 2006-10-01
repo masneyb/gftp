@@ -1,4 +1,9 @@
 2006-10-1 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/misc.c lib/protocols.c src/gtk/misc-gtk.c 
+	src/uicommon/gftpuicallbacks.c (gftp_match_filespec) - look at the
+	show_hidden_files option inside this function. Use the option's value
+	to determine if the file should be shown to the user.
+
 	* lib/ftpcommon.h lib/ftps.c lib/rfc959.c - automatically reconnect to
 	the server if a timeout occurs.
 

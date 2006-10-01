@@ -246,34 +246,41 @@ make_nonnull (char **str)
 }
 
 
-/* FIXME - is there a replacement for this */
+/* FIXME - Possible use the libpcre library. If it isn't used, then clean
+   this function up some more. */
 int
-gftp_match_filespec (const char *filename, const char *filespec)
+gftp_match_filespec (gftp_request * request, const char *filename,
+                     const char *filespec)
 {
   const char *filepos, *wcpos, *pos;
   char search_str[20], *newpos;
+  intptr_t show_hidden_files;
   size_t len, curlen;
   
   if (filename == NULL || *filename == '\0' || 
       filespec == NULL || *filespec == '\0') 
-    return(1);
+    return (1);
+
+  gftp_lookup_request_option (request, "show_hidden_files", &show_hidden_files);
+  if (!show_hidden_files && *filename == '.' && strcmp (filename, "..") != 0)
+    return (0);
 
   filepos = filename;
   wcpos = filespec;
-  while(1) 
+  while (1)
     {
       if (*wcpos == '\0') 
         return (1);
       else if (*filepos == '\0') 
-        return(0);
-      else if(*wcpos == '?') 
+        return (0);
+      else if (*wcpos == '?') 
         {
           wcpos++;
           filepos++;
         }
-      else if(*wcpos == '*' && *(wcpos+1) == '\0') 
-        return(1);
-      else if(*wcpos == '*') 
+      else if (*wcpos == '*' && *(wcpos+1) == '\0') 
+        return (1);
+      else if (*wcpos == '*') 
         {
           len = sizeof (search_str);
           for (pos = wcpos + 1, newpos = search_str, curlen = 0;
@@ -282,12 +289,12 @@ gftp_match_filespec (const char *filename, const char *filespec)
           *newpos = '\0';
 
           if ((filepos = strstr (filepos, search_str)) == NULL)
-            return(0);
+            return (0);
           wcpos += curlen + 1;
           filepos += curlen;
         }
       else if(*wcpos++ != *filepos++) 
-        return(0);
+        return (0);
     }
 }
 

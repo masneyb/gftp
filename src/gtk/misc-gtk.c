@@ -690,15 +690,11 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
   char *tempstr, *str, *pos, *attribs;
   gftp_config_list_vars * tmplistvar;
   gftp_file_extensions * tempext;
-  intptr_t show_hidden_files;
   GdkBitmap * bitmap;
   GList * templist;
   GdkPixmap * pix;
   int clist_num;
   size_t stlen;
-
-  gftp_lookup_request_option (wdata->request, "show_hidden_files", 
-                              &show_hidden_files);
 
   if (wdata->show_selected)
     {
@@ -706,9 +702,7 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
       if (!fle->shown)
         return;
     }
-  else if ((!show_hidden_files && *fle->file == '.' && 
-            strcmp (fle->file, "..") != 0) ||
-           !gftp_match_filespec (fle->file, wdata->filespec))
+  else if (!gftp_match_filespec (wdata->request, fle->file, wdata->filespec))
     {
       fle->shown = 0;
       fle->was_sel = 0;

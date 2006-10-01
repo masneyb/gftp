@@ -649,7 +649,7 @@ gftp_get_next_file (gftp_request * request, const char *filespec,
               request->cachefd = -1;
             }
         }
-    } while (ret > 0 && !gftp_match_filespec (fle->file, filespec));
+    } while (ret > 0 && !gftp_match_filespec (request, fle->file, filespec));
 
   return (ret);
 }
