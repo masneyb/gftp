@@ -1,4 +1,7 @@
 2006-10-15 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_get_all_subdirs) - use S_ISDIR macro instead of
+	checking the bitmask against S_IFDIR. 
+
 	* src/uicommon/gftpui.c - split the code that transfers files into
 	smaller functions.
 

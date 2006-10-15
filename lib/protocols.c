@@ -2126,13 +2126,15 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
             curfle->size = linksize;
         }
 
-      if (!(curfle->st_mode & S_IFDIR))
+      if (!S_ISDIR (curfle->st_mode))
         {
           transfer->numfiles++;
           continue;
         }
 
       /* Got a directory... */
+      transfer->numdirs++;
+
       if (oldfromdir == NULL)
         oldfromdir = g_strdup (transfer->fromreq->directory);
 
@@ -2184,7 +2186,6 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
           for (; lastlist->next != NULL; lastlist = lastlist->next);
         }
 
-      transfer->numdirs++;
       if (update_func != NULL)
         update_func (transfer);
     }
