@@ -322,89 +322,128 @@ do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 }
 
 
+static int
+_check_viewedit_process_status (gftp_viewedit_data * ve_proc, int ret)
+{
+  int procret;
+
+  if (WIFEXITED (ret))
+    {
+      procret = WEXITSTATUS (ret);
+      if (procret != 0)
+        {
+          ftp_log (gftp_logging_error, NULL,
+                   _("Error: Child %d returned %d\n"), ve_proc->pid, procret);
+          if (ve_proc->view)
+            remove_file (ve_proc);
+
+          return (0);
+        }
+      else
+        {
+          ftp_log (gftp_logging_misc, NULL,
+                   _("Child %d returned successfully\n"), ve_proc->pid);
+          return (1);
+        }
+    }
+  else
+    {
+      ftp_log (gftp_logging_error, NULL,
+               _("Error: Child %d did not terminate properly\n"),
+               ve_proc->pid);
+      return (0);
+    }
+}
+
+
+static int
+_prompt_to_upload_edited_file (gftp_viewedit_data * ve_proc)
+{
+  struct stat st;
+  char *str;
+
+  if (stat (ve_proc->filename, &st) == -1)
+    {
+      ftp_log (gftp_logging_error, NULL,
+               _("Error: Cannot get information about file %s: %s\n"),
+	       ve_proc->filename, g_strerror (errno));
+      return (0);
+    }
+  else if (st.st_mtime == ve_proc->st.st_mtime)
+    {
+      ftp_log (gftp_logging_misc, NULL, _("File %s was not changed\n"),
+	       ve_proc->filename);
+      remove_file (ve_proc);
+      return (0);
+    }
+  else
+    {
+      memcpy (&ve_proc->st, &st, sizeof (ve_proc->st));
+      str = g_strdup_printf (_("File %s has changed.\nWould you like to upload it?"),
+                             ve_proc->remote_filename);
+
+      MakeYesNoDialog (_("Edit File"), str, do_upload, ve_proc, dont_upload,
+                       ve_proc);
+      g_free (str);
+      return (1);
+    }
+}
+
+
 static void
-check_done_process (void)
+do_check_done_process (pid_t pid, int ret)
 {
   gftp_viewedit_data * ve_proc;
   GList * curdata, *deldata;
-  int ret, procret;
-  struct stat st;
-  char *str;
+  int ok;
+
+  curdata = viewedit_processes;
+  while (curdata != NULL)
+    {
+      ve_proc = curdata->data;
+      if (ve_proc->pid != pid)
+        continue;
+
+printf ("Found pid %d in the linked list\n", pid);
+      deldata = curdata;
+      curdata = curdata->next;
+
+      viewedit_processes = g_list_remove_link (viewedit_processes, 
+                                               deldata);
+
+      ok = _check_viewedit_process_status (ve_proc, ret);
+      if (!ve_proc->view && ve_proc->dontupload)
+        gftpui_refresh (ve_proc->fromwdata, 1);
+
+      if (ok && !ve_proc->view && !ve_proc->dontupload)
+	{
+	  /* We were editing the file. Upload it */
+          if (_prompt_to_upload_edited_file (ve_proc))
+            break; /* Don't free the ve_proc structure */
+        }
+      else if (ve_proc->view && ve_proc->rm)
+        {
+	  /* After viewing the file delete the tmp file */
+	  remove_file (ve_proc);
+	}
+
+      free_edit_data (ve_proc);
+      break;
+    }
+}
+
+
+static void
+check_done_process (void)
+{
   pid_t pid;
+  int ret;
 
   gftpui_common_child_process_done = 0;
   while ((pid = waitpid (-1, &ret, WNOHANG)) > 0)
     {
-      curdata = viewedit_processes;
-      while (curdata != NULL)
-        {
-	  ve_proc = curdata->data;
-          deldata = curdata;
-          curdata = curdata->next;
-	  if (ve_proc->pid == pid)
-	    {
-	      viewedit_processes = g_list_remove_link (viewedit_processes, 
-                                                       deldata);
-              if (WIFEXITED (ret))
-                {
-                  procret = WEXITSTATUS (ret);
-                  if (procret != 0)
-                    {
-                      ftp_log (gftp_logging_error, NULL,
-                               _("Error: Child %d returned %d\n"), pid, procret);
-                      if (ve_proc->view)
-                        remove_file (ve_proc);
-                      continue;
-                    }
-                  else
-                    ftp_log (gftp_logging_misc, NULL,
-                             _("Child %d returned successfully\n"), pid);
-                }
-              else
-                ftp_log (gftp_logging_error, NULL,
-                         _("Error: Child %d did not terminate properly\n"),
-                         pid);
-
-	      if (!ve_proc->view && !ve_proc->dontupload)
-		{
-		  /* We was editing the file. Upload it */
-		  ret = stat (ve_proc->filename, &st);
-
-                  if (ret == -1)
-		    ftp_log (gftp_logging_error, NULL,
-		         _("Error: Cannot get information about file %s: %s\n"),
-			 ve_proc->filename, g_strerror (errno));
-		  else if (st.st_mtime == ve_proc->st.st_mtime)
-                    {
-		      ftp_log (gftp_logging_misc, NULL,
-		  	       _("File %s was not changed\n"),
-			       ve_proc->filename);
-                      remove_file (ve_proc);
-                    }
-		  else
-		    {
-		      memcpy (&ve_proc->st, &st, sizeof (ve_proc->st));
-		      str = g_strdup_printf (
-			_("File %s has changed.\nWould you like to upload it?"),
-                        ve_proc->remote_filename);
-
-		      MakeYesNoDialog (_("Edit File"), str, 
-                                       do_upload, ve_proc, 
-                                       dont_upload, ve_proc);
-		      g_free (str);
-		      continue;
-		    }
-		}
-	      else if (ve_proc->view && ve_proc->rm)
-	        {
-		  /* After viewing the file delete the tmp file */
-		  remove_file (ve_proc);
-		}
-
-              free_edit_data (ve_proc);
-	      continue;
-	    }
-	}
+printf ("FIXME - PID %d returned %d\n", pid, ret);
+      do_check_done_process (pid, ret);
     }
 }
 
