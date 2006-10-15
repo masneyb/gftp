@@ -1,6 +1,8 @@
 #ifndef _FSPLIB_H_LOCK
 #define _FSPLIB_H_LOCK 1
 
+#include "../../config.h"
+
 #ifndef FSP_NOLOCKING
 /* define locking prefix if needed */
 # ifndef FSP_KEY_PREFIX

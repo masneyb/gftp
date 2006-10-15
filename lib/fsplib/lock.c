@@ -95,7 +95,7 @@ int client_init_key (FSP_LOCK *lock,
   mode_t omask;
   key_t lock_key;
   int fd;
-  union semun sun;
+  union semun su;
   struct sembuf sem;
 
   make_key_string(lock,server_addr,server_port);
@@ -127,8 +127,8 @@ int client_init_key (FSP_LOCK *lock,
 	  return -1;
       }
       /* we need to init this semaphore */
-      sun.val=1;
-      if(semctl(lock->lock_sem,0,SETVAL,sun) == -1)
+      su.val=1;
+      if(semctl(lock->lock_sem,0,SETVAL,su) == -1)
       {
 	  perror("semctl setval");
 	  return -1;
