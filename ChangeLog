@@ -1,4 +1,10 @@
 2006-10-15 Brian Masney <masneyb@gftp.org>
+	* src/gtk/delete_dialog.c (askdel) - fixes displaying the proper number
+	of directories that will be deleted to the user when there are no files
+	to delete
+
+	* src/uicommon/gftpui.c - removed debugging statements
+
 	* lib/protocols.c (gftp_get_all_subdirs) - use S_ISDIR macro instead of
 	checking the bitmask against S_IFDIR. 
 

@@ -1470,7 +1470,6 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
     g_static_mutex_lock (&tdata->structmutex);
 
   curfle = tdata->curfle->data;
-printf ("FIXME - transferring %s\n", curfle->file);
   tdata->current_file_number++;
 
   if (g_thread_supported ())
@@ -1553,17 +1552,7 @@ printf ("FIXME - transferring %s\n", curfle->file);
 int
 gftpui_common_transfer_files (gftp_transfer * tdata)
 {
-  gftp_file * curfle;
   int ret;
-
-  tdata->curfle = tdata->files;
-  while (tdata->curfle != NULL)
-    {
-      curfle = tdata->curfle->data;
-      printf ("FILE: %s\n", curfle->file);
-      tdata->curfle = tdata->curfle->next;
-    }
-
 
   tdata->curfle = tdata->files;
   gettimeofday (&tdata->starttime, NULL);

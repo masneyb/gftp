@@ -66,7 +66,7 @@ askdel (gftp_transfer * transfer)
     }
   else if (transfer->numdirs > 0)
     {
-      tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld directories"), transfer->numfiles, transfer->numdirs);
+      tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld directories"), transfer->numdirs);
     }
   else
     return;
