@@ -206,7 +206,7 @@ void
 gftpui_ask_transfer (gftp_transfer * tdata)
 {
   char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
-       tempstr[50], temp1str[50], *pos, *utf8_file;
+       tempstr[50], temp1str[50], *pos;
   GtkWidget * dialog, * tempwid, * scroll, * hbox;
   gftp_file * tempfle;
   GList * templist;
@@ -293,8 +293,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
       if (strncmp (pos, tdata->toreq->directory, len) == 0)
         pos += len + 1;
 
-      utf8_file = gftp_string_to_utf8 (tdata->toreq, pos);
-      add_data[0] = utf8_file != NULL ? utf8_file : pos;
+      add_data[0] = pos;
 
       gftp_get_transfer_action (tdata->fromreq, tempfle);
       switch (tempfle->transfer_action)
@@ -319,9 +318,6 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
       i = gtk_clist_append (GTK_CLIST (tdata->clist), add_data);
       gtk_clist_set_row_data (GTK_CLIST (tdata->clist), i, tempfle);
-
-      if (utf8_file != NULL)
-        g_free (utf8_file);
     }
 
   gtk_clist_select_all (GTK_CLIST (tdata->clist));

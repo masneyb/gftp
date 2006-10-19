@@ -458,9 +458,6 @@ copy_fdata (gftp_file * fle)
   if (fle->file)
     newfle->file = g_strdup (fle->file);
 
-  if (fle->utf8_file)
-    newfle->utf8_file = g_strdup (fle->utf8_file);
-
   if (fle->user)
     newfle->user = g_strdup (fle->user);
 
@@ -873,9 +870,10 @@ gftp_sort_filelist (GList * filelist, int column, int asds)
 
 
 char *
-gftp_gen_ls_string (gftp_file * fle, char *file_prefixstr, char *file_suffixstr)
+gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
+                    char *file_prefixstr, char *file_suffixstr)
 {
-  char *tempstr1, *tempstr2, *ret, tstr[50], *attribs;
+  char *tempstr1, *tempstr2, *ret, tstr[50], *attribs, *utf8;
   struct tm *lt;
   time_t t;
 
@@ -902,9 +900,10 @@ gftp_gen_ls_string (gftp_file * fle, char *file_prefixstr, char *file_suffixstr)
   if (file_suffixstr == NULL)
     file_suffixstr = "";
 
+  utf8 = gftp_string_from_utf8 (request, fle->file);
   ret = g_strdup_printf ("%s %s %s %s%s%s", tempstr1, tempstr2, tstr, 
                          file_prefixstr, 
-                         fle->utf8_file != NULL ? fle->utf8_file : fle->file,
+                         utf8 != NULL ? utf8: fle->file,
                          file_suffixstr);
 
   g_free (tempstr1);

@@ -298,7 +298,7 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 void
 update_window (gftp_window_data * wdata)
 {
-  char *tempstr, *hostname, *fspec, *utf8_directory;
+  char *tempstr, *hostname, *fspec;
   int connected, start;
 
   connected = GFTP_IS_CONNECTED (wdata->request);
@@ -320,19 +320,8 @@ update_window (gftp_window_data * wdata)
       g_free (tempstr);
 
       if (wdata->request->directory != NULL)
-        {
-          utf8_directory = gftp_string_to_utf8 (wdata->request, 
-                                                wdata->request->directory);
-          if (utf8_directory != NULL)
-            {
-              gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),
-                                  utf8_directory);
-              g_free (utf8_directory);
-            }
-          else
-            gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),
-                                wdata->request->directory);
-        }
+        gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),
+                            wdata->request->directory);
     }
   else if (wdata->hoststxt != NULL)
     {
@@ -757,10 +746,7 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
    
   gtk_clist_set_pixmap (GTK_CLIST (wdata->listbox), clist_num, 0, pix, bitmap);
 
-  if (fle->utf8_file)
-    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 1, 
-                        fle->utf8_file);
-  else if (fle->file)
+  if (fle->file != NULL)
     gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 1, fle->file);
 
   if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))

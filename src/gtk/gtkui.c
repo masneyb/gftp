@@ -469,17 +469,12 @@ gftpui_disconnect (void *uidata)
 char *
 gftpui_gtk_get_utf8_file_pos (gftp_file * fle)
 {
-  char *disp_item, *pos;
+  char *pos;
 
-  if (fle->utf8_file != NULL)
-    disp_item = fle->utf8_file;
-  else
-    disp_item = fle->file;
-
-  if ((pos = strrchr (disp_item, '/')) != NULL)
+  if ((pos = strrchr (fle->file, '/')) != NULL)
     pos++;
   else
-    pos = disp_item;
+    pos = fle->file;
 
   return (pos);
 }

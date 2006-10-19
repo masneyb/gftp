@@ -1,3 +1,19 @@
+2006-10-19 Brian Masney <masneyb@gftp.org>
+	WARNING: The CVS version of gFTP is currently broken, especially for
+	international users. This will be fixed in a few days.
+
+	* src/gtk/gtkui.c src/gtk/gtkui_transfer.c src/gtk/misc-gtk.c lib/gftp.h
+	lib/misc.c lib/protocols.c - removed code that converts the filename to
+	UTF8. This will be handled by the library. Removed utf8_file member from
+	the gftp_file structure.
+
+	* lib/rfc959.c - convert the file or directory from UTF8 to the proper
+	locale when sending a command to the server.
+
+	* src/uicommon/gftpui.c src/gtk/menu-items.c lib/misc.c lib/gftp.h
+	(gftp_gen_ls_string) - convert the filename from UTF8 to the proper
+	locale before it is displayed to the user.
+
 2006-10-15 Brian Masney <masneyb@gftp.org>
 	* src/gtk/transfer.c - split the code that checks for finished view and
 	edit processes into smaller functions.

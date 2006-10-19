@@ -192,6 +192,33 @@ rfc959_send_command (gftp_request * request, const char *command,
     return (0);
 }
 
+static int
+rfc959_generate_and_send_command (gftp_request * request, const char *command,
+                                  const char *argument, int read_response,
+                                  int dont_try_to_reconnect)
+{
+  char *tempstr, *utf8;
+  int resp;
+
+  if (argument != NULL)
+    {
+      utf8 = gftp_string_from_utf8 (request, argument);
+      if (utf8 != NULL)
+        {
+          tempstr = g_strconcat (command, " ", utf8, "\r\n", NULL);
+          g_free (utf8);
+        }
+      tempstr = g_strconcat (command, " ", argument, "\r\n", NULL);
+    }
+  else
+    tempstr = g_strconcat (command, "\r\n", NULL);
+
+  resp = rfc959_send_command (request, tempstr, read_response,
+                              dont_try_to_reconnect);
+  g_free (tempstr);
+  return (resp);
+}
+
 
 static char *
 parse_ftp_proxy_string (gftp_request * request)
@@ -322,7 +349,7 @@ parse_ftp_proxy_string (gftp_request * request)
 static int
 rfc959_getcwd (gftp_request * request)
 {
-  char *pos, *dir;
+  char *pos, *dir, *utf8;
   int ret;
 
   ret = rfc959_send_command (request, "PWD\r\n", 1, 0);
@@ -362,7 +389,12 @@ rfc959_getcwd (gftp_request * request)
   if (request->directory)
     g_free (request->directory);
 
-  request->directory = g_strdup (dir);
+  utf8 = gftp_string_to_utf8 (request, dir);
+  if (utf8 != NULL)
+    request->directory = utf8;
+  else
+    request->directory = g_strdup (dir);
+
   return (0);
 }
 
@@ -370,7 +402,6 @@ rfc959_getcwd (gftp_request * request)
 static int
 rfc959_chdir (gftp_request * request, const char *directory)
 {
-  char *tempstr;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -379,11 +410,7 @@ rfc959_chdir (gftp_request * request, const char *directory)
   if (strcmp (directory, "..") == 0)
     ret = rfc959_send_command (request, "CDUP\r\n", 1, 0);
   else
-    {
-      tempstr = g_strconcat ("CWD ", directory, "\r\n", NULL);
-      ret = rfc959_send_command (request, tempstr, 1, 0);
-      g_free (tempstr);
-    }
+    ret = rfc959_generate_and_send_command (request, "CWD", directory, 1, 0);
 
   if (ret < 0)
     return (ret);
@@ -401,13 +428,11 @@ static int
 rfc959_syst (gftp_request * request)
 {
   int ret, disable_ls_options;
-  rfc959_parms * parms;
   char *stpos, *endpos;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  parms = request->protocol_data;
   ret = rfc959_send_command (request, "SYST\r\n", 1, 0);
 
   if (ret < 0)
@@ -460,7 +485,7 @@ rfc959_syst (gftp_request * request)
 int
 rfc959_connect (gftp_request * request)
 {
-  char tempchar, *startpos, *endpos, *tempstr, *email, *proxy_hostname, *utf8;
+  char tempchar, *startpos, *endpos, *tempstr, *email, *proxy_hostname;
   intptr_t ascii_transfers, proxy_port;
   rfc959_parms * parms;
   int ret, resp;
@@ -535,34 +560,23 @@ rfc959_connect (gftp_request * request)
     }
   else
     {
-      tempstr = g_strconcat ("USER ", request->username, "\r\n", NULL);
-      resp = rfc959_send_command (request, tempstr, 1, 0);
-      g_free (tempstr);
+      resp = rfc959_generate_and_send_command (request, "USER",
+                                               request->username, 1, 0);
       if (resp < 0)
         return (resp);
 
       if (resp == '3')
 	{
-          utf8 = gftp_string_from_utf8 (request, request->password);
-          if (utf8 != NULL)
-            {
-              tempstr = g_strconcat ("PASS ", utf8, "\r\n", NULL);
-              g_free (utf8);
-            }
-          else
-            tempstr = g_strconcat ("PASS ", request->password, "\r\n", NULL);
-
-	  resp = rfc959_send_command (request, tempstr, 1, 0);
-	  g_free (tempstr);
+          resp = rfc959_generate_and_send_command (request, "PASS",
+                                                   request->password, 1, 0);
           if (resp < 0)
             return (resp);
         }
 
       if (resp == '3' && request->account != NULL)
 	{
-	  tempstr = g_strconcat ("ACCT ", request->account, "\r\n", NULL);
-	  resp = rfc959_send_command (request, tempstr, 1, 0);
-	  g_free (tempstr);
+          resp = rfc959_generate_and_send_command (request, "ACCT",
+                                                   request->account, 1, 0);
           if (resp < 0)
             return (resp);
 	}
@@ -990,10 +1004,10 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 static int
 rfc959_data_connection_new (gftp_request * request, int dont_try_to_reconnect)
 {
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
-
-  int ret;
 
 #ifdef HAVE_IPV6
   if (request->ai_family == AF_INET6)
@@ -1172,10 +1186,7 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
         }
     }
 
-  tempstr = g_strconcat ("RETR ", filename, "\r\n", NULL);
-  ret = rfc959_send_command (request, tempstr, 1, 0);
-  g_free (tempstr);
-
+  ret = rfc959_generate_and_send_command (request, "RETR", filename, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret != '1')
@@ -1207,7 +1218,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
                  off_t startsize, off_t totalsize)
 {
   intptr_t passive_transfer;
-  char *command, *tempstr;
+  char *command;
   rfc959_parms * parms;
   int ret;
 
@@ -1244,9 +1255,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
         }
     }
 
-  tempstr = g_strconcat ("STOR ", filename, "\r\n", NULL);
-  ret = rfc959_send_command (request, tempstr, 1, 0);
-  g_free (tempstr);
+  ret = rfc959_generate_and_send_command (request, "STOR", filename, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret != '1')
@@ -1306,17 +1315,11 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   else if (ret != '2')
     return (GFTP_ERETRYABLE);
 
-  tempstr = g_strconcat ("RETR ", fromfile, "\r\n", NULL);
-  ret = rfc959_send_command (fromreq, tempstr, 0, 0);
-  g_free (tempstr);
-
+  ret = rfc959_generate_and_send_command (fromreq, "RETR", fromfile, 0, 0);
   if (ret < 0)
     return (ret);
 
-  tempstr = g_strconcat ("STOR ", tofile, "\r\n", NULL);
-  ret = rfc959_send_command (toreq, tempstr, 0, 0);
-  g_free (tempstr);
-
+  ret = rfc959_generate_and_send_command (toreq, "STOR", tofile, 0, 0);
   if (ret < 0)
     return (ret);
 
@@ -1610,21 +1613,19 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 static off_t
 rfc959_get_file_size (gftp_request * request, const char *filename)
 {
-  char *tempstr;
   int ret;
 
   g_return_val_if_fail (request != NULL, 0);
   g_return_val_if_fail (filename != NULL, 0);
   g_return_val_if_fail (request->datafd > 0, 0);
 
-  tempstr = g_strconcat ("SIZE ", filename, "\r\n", NULL);
-  ret = rfc959_send_command (request, tempstr, 1, 0);
-  g_free (tempstr);
+  ret = rfc959_generate_and_send_command (request, "SIZE", filename, 1, 0);
   if (ret < 0)
     return (ret);
 
   if (*request->last_ftp_response != '2')
     return (0);
+
   return (strtol (request->last_ftp_response + 4, NULL, 10));
 }
 
@@ -1632,17 +1633,13 @@ rfc959_get_file_size (gftp_request * request, const char *filename)
 static int
 rfc959_rmdir (gftp_request * request, const char *directory)
 {
-  char *tempstr;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  tempstr = g_strconcat ("RMD ", directory, "\r\n", NULL);
-  ret = rfc959_send_command (request, tempstr, 1, 0);
-  g_free (tempstr);
-
+  ret = rfc959_generate_and_send_command (request, "RMD", directory, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1655,17 +1652,13 @@ rfc959_rmdir (gftp_request * request, const char *directory)
 static int
 rfc959_rmfile (gftp_request * request, const char *file)
 {
-  char *tempstr;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  tempstr = g_strconcat ("DELE ", file, "\r\n", NULL);
-  ret = rfc959_send_command (request, tempstr, 1, 0);
-  g_free (tempstr);
-
+  ret = rfc959_generate_and_send_command (request, "DELE", file, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1678,17 +1671,13 @@ rfc959_rmfile (gftp_request * request, const char *file)
 static int
 rfc959_mkdir (gftp_request * request, const char *directory)
 {
-  char *tempstr;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  tempstr = g_strconcat ("MKD ", directory, "\r\n", NULL);
-  ret = rfc959_send_command (request, tempstr, 1, 0);
-  g_free (tempstr);
-
+  ret = rfc959_generate_and_send_command (request, "MKD", directory, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1702,7 +1691,6 @@ static int
 rfc959_rename (gftp_request * request, const char *oldname,
 	       const char *newname)
 {
-  char *tempstr;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1710,19 +1698,13 @@ rfc959_rename (gftp_request * request, const char *oldname,
   g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  tempstr = g_strconcat ("RNFR ", oldname, "\r\n", NULL);
-  ret = rfc959_send_command (request, tempstr, 1, 0);
-  g_free (tempstr);
-
+  ret = rfc959_generate_and_send_command (request, "RNFR", oldname, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret != '3')
     return (GFTP_ERETRYABLE);
 
-  tempstr = g_strconcat ("RNTO ", newname, "\r\n", NULL);
-  ret = rfc959_send_command (request, tempstr, 1, 0);
-  g_free (tempstr);
-
+  ret = rfc959_generate_and_send_command (request, "RNTO", newname, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1735,16 +1717,21 @@ rfc959_rename (gftp_request * request, const char *oldname,
 static int
 rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
 {
-  rfc959_parms * parms;
-  char *tempstr;
+  char *tempstr, *utf8;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  parms = request->protocol_data;
-  tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
+  utf8 = gftp_string_from_utf8 (request, file);
+  if (utf8 != NULL)
+    {
+      tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, utf8);
+      g_free (utf8);
+    }
+  else
+    tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
 
   ret = rfc959_send_command (request, tempstr, 1, 0);
   g_free (tempstr);
@@ -1761,17 +1748,30 @@ rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
 static int
 rfc959_site (gftp_request * request, int specify_site, const char *command)
 {
-  char *tempstr;
+  char *tempstr, *utf8;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (command != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  if (specify_site)
-    tempstr = g_strconcat ("SITE ", command, "\r\n", NULL);
+  utf8 = gftp_string_from_utf8 (request, command);
+  if (utf8 != NULL)
+    {
+      if (specify_site)
+        tempstr = g_strconcat ("SITE ", utf8, "\r\n", NULL);
+      else
+        tempstr = g_strconcat (utf8, "\r\n", NULL);
+
+      g_free (utf8);
+    }
   else
-    tempstr = g_strconcat (command, "\r\n", NULL);
+    {
+      if (specify_site)
+        tempstr = g_strconcat ("SITE ", command, "\r\n", NULL);
+      else
+        tempstr = g_strconcat (command, "\r\n", NULL);
+    }
 
   ret = rfc959_send_command (request, tempstr, 1, 0);
   g_free (tempstr);
@@ -1782,29 +1782,6 @@ rfc959_site (gftp_request * request, int specify_site, const char *command)
     return (0);
   else
     return (GFTP_ERETRYABLE);
-}
-
-
-static char *
-rfc959_time_t_to_mdtm (gftp_request * request, time_t datetime)
-{
-  struct tm gt;
-  char *ret;
-
-  if (localtime_r (&datetime, &gt) != NULL)
-    {
-      ret = g_strdup_printf ("%04d%02d%02d%02d%02d%02d", gt.tm_year + 1900,
-                             gt.tm_mon + 1, gt.tm_mday, gt.tm_hour, gt.tm_min,
-                             gt.tm_sec);
-      return (ret);
-    }
-  else
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 "Cannot parse UNIX timestamp %d: %s\n",
-                                 datetime, g_strerror (errno));
-      return (NULL);
-    }
 }
 
 

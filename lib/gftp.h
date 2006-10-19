@@ -232,9 +232,6 @@ typedef struct gftp_file_tag gftp_file;
 struct gftp_file_tag 
 {
   /*@null@*/ char *file,	/* Our filename */
-                  *utf8_file,	/* UTF-8 encoded filename for display purposes
-				   only. This is only set if file is not in 
-				   UTF-8 */
                   *user,	/* User that owns it */
                   *group,	/* Group that owns it */
                   *destfile;	/* Full pathname to the destination for the 
@@ -772,7 +769,8 @@ GList * gftp_sort_filelist 		( GList * filelist,
 					  int column, 
 					  int asds );
 
-char * gftp_gen_ls_string 		( gftp_file * fle, 
+char * gftp_gen_ls_string 		( gftp_request * request,
+					  gftp_file * fle, 
 					  char *file_prefixstr, 
 					  char *file_suffixstr );
 

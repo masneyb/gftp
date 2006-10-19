@@ -116,7 +116,7 @@ dosave_directory_listing (GtkWidget * widget, gftp_save_dir_struct * str)
       if (!tempfle->shown)
         continue;
 
-      tempstr = gftp_gen_ls_string (tempfle, NULL, NULL);
+      tempstr = gftp_gen_ls_string (NULL, tempfle, NULL, NULL);
       fprintf (fd, "%s\n", tempstr);
       g_free (tempstr);
     }

@@ -621,7 +621,7 @@ gftpui_common_cmd_ls (void *uidata, gftp_request * request,
       fle = templist->data;
 
       gftpui_lookup_file_colors (fle, &startcolor, &endcolor);
-      tempstr = gftp_gen_ls_string (fle, startcolor, endcolor);
+      tempstr = gftp_gen_ls_string (request, fle, startcolor, endcolor);
       request->logging_function (gftp_logging_misc_nolog, request, "%s\n",
                                  tempstr);
       g_free (tempstr);
