@@ -510,6 +510,8 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
   if (request == NULL)
     return (NULL);
 
+  /* FIXME - use request->use_local_encoding */
+
   /* If the string isn't in UTF-8 format, assume it is already in the current
      locale... */
   if (!g_utf8_validate (str, -1, NULL))

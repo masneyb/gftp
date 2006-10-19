@@ -2,6 +2,11 @@
 	WARNING: The CVS version of gFTP is currently broken, especially for
 	international users. This will be fixed in a few days.
 
+	* lib/fsp.c lib/gftp.h lib/local.c lib/protocols.c lib/rfc2068.c
+	lib/rfc959.c lib/sshv2.c - added use_local_encoding variable to the
+	gftp_request structure. This will determine if the filename should
+	be converted to the local or remote character set.
+
 	* lib/local.c - convert the file or directory to the proper locale
 
 	* src/gtk/gtkui.c src/gtk/gtkui_transfer.c src/gtk/misc-gtk.c lib/gftp.h

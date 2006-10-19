@@ -632,6 +632,7 @@ fsp_init (gftp_request * request)
   request->need_password = 0;
   request->use_cache = 1;
   request->always_connected = 0;
+  request->use_local_encoding = 0;
 
   lpd = g_malloc0 (sizeof (*lpd));
   request->protocol_data = lpd;

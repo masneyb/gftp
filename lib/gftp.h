@@ -402,7 +402,8 @@ struct gftp_request_tag
                cached : 1,              /* Is this directory listing cached? */
                cancel : 1,		/* If a signal is received, should
 					   we cancel this operation */
-               stopable : 1;
+               stopable : 1,
+               use_local_encoding : 1;
 
   off_t gotbytes;
  

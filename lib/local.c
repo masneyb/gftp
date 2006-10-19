@@ -756,6 +756,7 @@ local_init (gftp_request * request)
   request->need_password = 0;
   request->use_cache = 0;
   request->always_connected = 1;
+  request->use_local_encoding = 1;
 
   lpd = g_malloc0 (sizeof (*lpd));
   request->protocol_data = lpd;

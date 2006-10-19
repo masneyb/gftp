@@ -1912,6 +1912,7 @@ rfc959_init (gftp_request * request)
   request->need_password = 1;
   request->use_cache = 1;
   request->always_connected = 0;
+  request->use_local_encoding = 0;
 
   request->protocol_data = g_malloc0 (sizeof (rfc959_parms));
   parms = request->protocol_data;
