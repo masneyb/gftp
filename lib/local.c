@@ -52,40 +52,83 @@ local_destroy (gftp_request * request)
 
 
 static int
+local_getcwd (gftp_request * request)
+{
+  char tempstr[PATH_MAX], *utf8;
+  
+  if (request->directory != NULL)
+    g_free (request->directory);
+
+  if (getcwd (tempstr, sizeof (tempstr)) == NULL)
+    {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Could not get current working directory: %s\n"),
+                                 g_strerror (errno));
+      request->directory = NULL;
+      return (GFTP_ERETRYABLE);
+    }
+
+  utf8 = gftp_string_from_utf8 (request, tempstr);
+  if (utf8 != NULL)
+    request->directory = utf8;
+  else
+    request->directory = g_strdup (tempstr);
+
+  return (0);
+}
+
+
+static int
+local_chdir (gftp_request * request, const char *directory)
+{
+  char *utf8;
+  int ret;
+
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
+
+  utf8 = gftp_string_from_utf8 (request, directory);
+  if (utf8 != NULL)
+    {
+      ret = chdir (utf8);
+      g_free (utf8);
+    }
+  else
+    ret = chdir (directory);
+
+  if (ret == 0)
+    {
+      request->logging_function (gftp_logging_misc, request,
+                          _("Successfully changed local directory to %s\n"),
+                          directory);
+      ret = local_getcwd (request);
+    }
+  else
+    {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Could not change local directory to %s: %s\n"),
+                                 directory, g_strerror (errno));
+      ret = GFTP_ERETRYABLE;
+    }
+
+  if (utf8 != NULL)
+    g_free (utf8);
+
+  return (ret);
+}
+
+
+static int
 local_connect (gftp_request * request)
 {
-  char tempstr[PATH_MAX];
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
 
   if (request->directory != NULL)
-    {
-      if (getcwd (tempstr, sizeof (tempstr)) != NULL &&
-          strcmp (tempstr, request->directory) == 0)
-        return (0);
-
-      if (chdir (request->directory) != 0)
-        {
-          request->logging_function (gftp_logging_error, request,
-                             _("Could not change local directory to %s: %s\n"),
-                             request->directory, g_strerror (errno));
-        }
-      g_free (request->directory);
-      request->directory = NULL;
-    }
-
-  if (getcwd (tempstr, sizeof (tempstr)) != NULL)
-    {
-      tempstr[sizeof (tempstr) - 1] = '\0';
-      request->directory = g_strdup (tempstr);
-    }
+    return (local_chdir (request, request->directory));
   else
-    request->logging_function (gftp_logging_error, request,
-                             _("Could not get current working directory: %s\n"),
-                             g_strerror (errno));
-
-  return (0);
+    return (local_getcwd (request));
 }
 
 
@@ -110,6 +153,7 @@ static off_t
 local_get_file (gftp_request * request, const char *filename, int fd,
                 off_t startsize)
 {
+  char *utf8;
   off_t size;
   int flags;
 
@@ -124,7 +168,16 @@ local_get_file (gftp_request * request, const char *filename, int fd,
       flags |= O_LARGEFILE;
 #endif
 
-      if ((request->datafd = gftp_fd_open (request, filename, flags, 0)) == -1)
+      utf8 = gftp_string_from_utf8 (request, filename);
+      if (utf8 != NULL)
+        {
+          request->datafd = gftp_fd_open (request, utf8, flags, 0);
+          g_free (utf8);
+        }
+      else
+        request->datafd = gftp_fd_open (request, filename, flags, 0);
+
+      if (request->datafd == -1)
         return (GFTP_ERETRYABLE); 
     }
   else
@@ -156,7 +209,8 @@ static int
 local_put_file (gftp_request * request, const char *filename, int fd,
                 off_t startsize, off_t totalsize)
 {
-  int flags;
+  int flags, perms;
+  char *utf8;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
@@ -171,7 +225,17 @@ local_put_file (gftp_request * request, const char *filename, int fd,
       flags |= O_LARGEFILE;
 #endif
 
-      if ((request->datafd = gftp_fd_open (request, filename, flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
+      perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+      utf8 = gftp_string_from_utf8 (request, filename);
+      if (utf8 != NULL)
+        {
+          request->datafd = gftp_fd_open (request, utf8, flags, perms);
+          g_free (utf8);
+        }
+      else
+        request->datafd = gftp_fd_open (request, filename, flags, perms);
+
+      if (request->datafd == -1)
         return (GFTP_ERETRYABLE);
     }
   else
@@ -229,8 +293,19 @@ local_stat_filename (gftp_request * request, const char *filename,
                      mode_t * mode, off_t * filesize)
 {
   struct stat st;
+  char *utf8;
+  int ret;
 
-  if (stat (filename, &st) != 0)
+  utf8 = gftp_string_from_utf8 (request, filename);
+  if (utf8 != NULL)
+    {
+      ret = stat (utf8, &st);
+      g_free (utf8);
+    }
+  else
+    ret = stat (filename, &st);
+
+  if (ret != 0)
     return (GFTP_ERETRYABLE);
 
   *mode = st.st_mode;
@@ -320,9 +395,9 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 static int
 local_list_files (gftp_request * request)
 {
+  char *dir, *tempstr, *utf8;
   local_protocol_data *lpd;
-  char *tempstr;
-  int freeit;
+  int freeit, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->directory != NULL, GFTP_EFATAL);
@@ -332,14 +407,17 @@ local_list_files (gftp_request * request)
 
   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
 
-  if (request->directory[strlen (request->directory) - 1] != '/')
+  utf8 = gftp_string_from_utf8 (request, request->directory);
+  dir = utf8 != NULL ? utf8 : request->directory;
+
+  if (dir[strlen (dir) - 1] != '/')
     {
-      tempstr = g_strconcat (request->directory, "/", NULL);
+      tempstr = g_strconcat (dir, "/", NULL);
       freeit = 1;
     }
   else
     {
-      tempstr = request->directory;
+      tempstr = dir;
       freeit = 0;
     }
 
@@ -348,15 +426,18 @@ local_list_files (gftp_request * request)
       request->logging_function (gftp_logging_error, request,
                            _("Could not get local directory listing %s: %s\n"),
                            tempstr, g_strerror (errno));
-      if (freeit)
-        g_free (tempstr);
-      return (GFTP_ERETRYABLE);
+      ret = GFTP_ERETRYABLE;
     }
+  else
+    ret = 0;
 
   if (freeit)
     g_free (tempstr);
 
-  return (0);
+  if (utf8 != NULL)
+    g_free (utf8);
+
+  return (ret);
 }
 
 
@@ -364,60 +445,45 @@ static off_t
 local_get_file_size (gftp_request * request, const char *filename)
 {
   struct stat st;
+  char *utf8;
+  int ret;
 
-  if (stat (filename, &st) == -1)
-    return (GFTP_ERETRYABLE);
-  return (st.st_size);
-}
-
-
-static int
-local_chdir (gftp_request * request, const char *directory)
-{
-  char tempstr[MAXNAMLEN];
-
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
-
-  if (chdir (directory) == 0)
+  utf8 = gftp_string_from_utf8 (request, filename);
+  if (utf8 != NULL)
     {
-      request->logging_function (gftp_logging_misc, request,
-                          _("Successfully changed local directory to %s\n"),
-                          directory);
-
-      if (getcwd (tempstr, sizeof (tempstr)) == NULL)
-        {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Could not get current working directory: %s\n"),
-                                     g_strerror (errno));
-          return (GFTP_ERETRYABLE);
-        }
-
-      if (request->directory)
-        g_free (request->directory);
-
-      request->directory = g_strdup (tempstr);
-      return (0);
+      ret = stat (utf8, &st);
+      g_free (utf8);
     }
   else
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Could not change local directory to %s: %s\n"),
-                                 directory, g_strerror (errno));
-      return (GFTP_ERETRYABLE);
-    }
+    ret = stat (filename, &st);
+
+  if (ret == -1)
+    return (GFTP_ERETRYABLE);
+
+  return (st.st_size);
 }
 
 
 static int
 local_rmdir (gftp_request * request, const char *directory)
 {
+  char *utf8;
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
-  if (rmdir (directory) == 0)
+  utf8 = gftp_string_from_utf8 (request, directory);
+  if (utf8 != NULL)
+    {
+      ret = rmdir (utf8);
+      g_free (utf8);
+    }
+  else
+    ret = rmdir (directory);
+
+  if (ret == 0)
     {
       request->logging_function (gftp_logging_misc, request,
                                  _("Successfully removed %s\n"), directory);
@@ -436,11 +502,23 @@ local_rmdir (gftp_request * request, const char *directory)
 static int
 local_rmfile (gftp_request * request, const char *file)
 {
+  char *utf8;
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
-  if (unlink (file) == 0)
+  utf8 = gftp_string_from_utf8 (request, file);
+  if (utf8 != NULL)
+    {
+      ret = unlink (utf8);
+      g_free (utf8);
+    }
+  else
+    ret = unlink (file);
+
+  if (ret == 0)
     {
       request->logging_function (gftp_logging_misc, request,
                                  _("Successfully removed %s\n"), file);
@@ -459,11 +537,25 @@ local_rmfile (gftp_request * request, const char *file)
 static int
 local_mkdir (gftp_request * request, const char *directory)
 {
+  int ret, perms;
+  char *utf8;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
-  if (mkdir (directory, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH) == 0)
+  perms = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
+
+  utf8 = gftp_string_from_utf8 (request, directory);
+  if (utf8 != NULL)
+    {
+      ret = mkdir (utf8, perms);
+      g_free (utf8);
+    }
+  else
+    ret = mkdir (directory, perms);
+
+  if (ret == 0)
     {
       request->logging_function (gftp_logging_misc, request,
                                  _("Successfully made directory %s\n"),
@@ -484,36 +576,64 @@ static int
 local_rename (gftp_request * request, const char *oldname,
 	      const char *newname)
 {
+  const char *conv_oldname, *conv_newname;
+  char *old_utf8, *new_utf8;
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (oldname != NULL, GFTP_EFATAL);
   g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
 
-  if (rename (oldname, newname) == 0)
+  old_utf8 = gftp_string_from_utf8 (request, oldname);
+  conv_oldname = old_utf8 != NULL ? old_utf8 : oldname;
+  new_utf8 = gftp_string_from_utf8 (request, newname);
+  conv_newname = new_utf8 != NULL ? new_utf8 : newname;
+
+  if (rename (conv_oldname, conv_newname) == 0)
     {
       request->logging_function (gftp_logging_misc, request,
                                  _("Successfully renamed %s to %s\n"),
                                  oldname, newname);
-      return (0);
+      ret = 0;
     }
   else
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Error: Could not rename %s to %s: %s\n"),
                                  oldname, newname, g_strerror (errno));
-      return (GFTP_ERETRYABLE);
+      ret = GFTP_ERETRYABLE;
     }
+
+  if (old_utf8 != NULL)
+    g_free (old_utf8);
+  if (new_utf8 != NULL)
+    g_free (new_utf8);
+
+  return (ret);
 }
 
 
 static int
 local_chmod (gftp_request * request, const char *file, mode_t mode)
 {
+  char *utf8;
+  int ret;
+
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
-  if (chmod (file, mode) == 0) 
+  utf8 = gftp_string_from_utf8 (request, file);
+  if (utf8 != NULL)
+    {
+      ret = chmod (utf8, mode);
+      g_free (utf8);
+    }
+  else
+    ret = chmod (file, mode);
+
+  if (ret == 0) 
     {
       request->logging_function (gftp_logging_misc, request, 
                                  _("Successfully changed mode of %s to %o\n"),
@@ -535,6 +655,8 @@ local_set_file_time (gftp_request * request, const char *file,
 		     time_t datetime)
 {
   struct utimbuf time_buf;
+  char *utf8;
+  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
@@ -542,7 +664,30 @@ local_set_file_time (gftp_request * request, const char *file,
 
   time_buf.modtime = datetime;
   time_buf.actime = datetime;
-  return (utime (file, &time_buf) == 0 ? 0 : GFTP_ERETRYABLE);
+
+  utf8 = gftp_string_from_utf8 (request, file);
+  if (utf8 != NULL)
+    {
+      ret = utime (utf8, &time_buf);
+      g_free (utf8);
+    }
+  else
+    ret = utime (file, &time_buf);
+
+  if (ret == 0)
+    {
+      request->logging_function (gftp_logging_misc, request,
+                                 _("Successfully changed the time stamp of %s\n"),
+                                 file);
+      return (0);
+    }
+  else
+    {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Error: Could not change the time stamp of %s: %s\n"),
+                                 file, g_strerror (errno));
+      return (GFTP_ERETRYABLE);
+    }
 }
 
 
