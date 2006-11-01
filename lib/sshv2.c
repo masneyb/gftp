@@ -157,13 +157,13 @@ sshv2_initialize_string (gftp_request * request, size_t len)
 
 
 static void
-sshv2_add_string_to_buf (char *buf, const char *str)
+sshv2_add_string_to_buf (char *buf, const char *str, size_t len)
 {
   guint32 num;
 
   num = htonl (strlen (str));
   memcpy (buf, &num, 4);
-  strcpy (buf + 4, str);
+  memcpy (buf + 4, str, len);
 }
 
 
@@ -179,7 +179,7 @@ sshv2_initialize_string_with_path (gftp_request * request, const char *path,
       pathlen = strlen (path);
       *len += pathlen + 8;
       ret = sshv2_initialize_string (request, *len);
-      sshv2_add_string_to_buf (ret + 4, path);
+      sshv2_add_string_to_buf (ret + 4, path, pathlen);
     }
   else
     {
@@ -187,7 +187,7 @@ sshv2_initialize_string_with_path (gftp_request * request, const char *path,
       pathlen = strlen (tempstr);
       *len += pathlen + 8;
       ret = sshv2_initialize_string (request, *len);
-      sshv2_add_string_to_buf (ret + 4, tempstr);
+      sshv2_add_string_to_buf (ret + 4, tempstr, pathlen);
       g_free (tempstr);
     }
 
@@ -959,7 +959,7 @@ sshv2_getcwd (gftp_request * request)
 {
   sshv2_message message;
   char *tempstr, *dir;
-  size_t len;
+  size_t msglen, pathlen;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -970,11 +970,12 @@ sshv2_getcwd (gftp_request * request)
   else
     dir = request->directory;
 
-  len = strlen (dir) + 8;
-  tempstr = sshv2_initialize_string (request, len);
-  sshv2_add_string_to_buf (tempstr + 4, dir);
+  pathlen = strlen (dir);
+  msglen = pathlen + 8;
+  tempstr = sshv2_initialize_string (request, msglen);
+  sshv2_add_string_to_buf (tempstr + 4, dir, pathlen);
 
-  ret = sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len);
+  ret = sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, msglen);
 
   g_free (tempstr);
   if (ret < 0)
@@ -1189,10 +1190,10 @@ sshv2_end_transfer (gftp_request * request)
 static int
 sshv2_list_files (gftp_request * request)
 {
+  size_t msglen, pathlen;
   sshv2_params * params;
   sshv2_message message;
   char *tempstr;
-  size_t len;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1204,11 +1205,12 @@ sshv2_list_files (gftp_request * request)
   request->logging_function (gftp_logging_misc, request,
 			     _("Retrieving directory listing...\n"));
 
-  len = strlen (request->directory) + 8;
-  tempstr = sshv2_initialize_string (request, len);
-  sshv2_add_string_to_buf (tempstr + 4, request->directory);
+  pathlen = strlen (request->directory);
+  msglen = pathlen + 8;
+  tempstr = sshv2_initialize_string (request, msglen);
+  sshv2_add_string_to_buf (tempstr + 4, request->directory, pathlen);
 
-  ret = sshv2_send_command (request, SSH_FXP_OPENDIR, tempstr, len);
+  ret = sshv2_send_command (request, SSH_FXP_OPENDIR, tempstr, msglen);
 
   g_free (tempstr);
   if (ret < 0)
@@ -1624,8 +1626,8 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
 
   len = oldlen + newlen + 12;
   tempstr = sshv2_initialize_string (request, len);
-  sshv2_add_string_to_buf (tempstr + 4, oldstr);
-  sshv2_add_string_to_buf (tempstr + 8 + oldlen, newstr);
+  sshv2_add_string_to_buf (tempstr + 4, oldstr, oldlen);
+  sshv2_add_string_to_buf (tempstr + 8 + oldlen, newstr, newlen);
 
   g_free (oldstr);
   g_free (newstr);
