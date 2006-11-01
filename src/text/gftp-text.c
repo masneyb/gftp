@@ -40,10 +40,11 @@ gftp_text_write_string (gftp_request * request, char *string)
 {
   gchar *stpos, *endpos, *locale_str, savechar;
   unsigned int sw;
+  size_t destlen;
 
   sw = gftp_text_get_win_size ();
 
-  locale_str = gftp_string_from_utf8 (request, string);
+  locale_str = gftp_string_from_utf8 (request, string, &destlen);
   if (locale_str == NULL)
     stpos = string;
   else
@@ -92,7 +93,7 @@ static void
 gftp_text_log (gftp_logging_level level, gftp_request * request, 
                const char *string, ...)
 {
-  char tempstr[512], *utf8_str = NULL, *outstr;
+  char tempstr[512];
   va_list argp;
 
   g_return_if_fail (string != NULL);
@@ -117,19 +118,9 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
   g_vsnprintf (tempstr, sizeof (tempstr), string, argp);
   va_end (argp);
 
-#if GLIB_MAJOR_VERSION > 1
-  if (!g_utf8_validate (tempstr, -1, NULL))
-    utf8_str = gftp_string_to_utf8 (request, tempstr);
-#endif
-
-  if (utf8_str != NULL)
-    outstr = utf8_str;
-  else
-    outstr = tempstr;
-
   if (gftp_logfd != NULL && level != gftp_logging_misc_nolog)
     {
-      fwrite (outstr, 1, strlen (outstr), gftp_logfd);
+      fwrite (tempstr, 1, strlen (tempstr), gftp_logfd);
       if (ferror (gftp_logfd))
         {
           fclose (gftp_logfd);
@@ -140,14 +131,11 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
     }
 
   if (level == gftp_logging_misc_nolog)
-    printf ("%s", outstr);
+    printf ("%s", tempstr);
   else
-    gftp_text_write_string (request, outstr);
+    gftp_text_write_string (request, tempstr);
   
   printf ("%s", GFTPUI_COMMON_COLOR_DEFAULT);
-
-  if (utf8_str != NULL)
-    g_free (utf8_str);
 }
 
 
@@ -158,6 +146,7 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
   gchar *locale_question;
   sigset_t sig, sigsave;
   char *pos, *termname;
+  size_t destlen;
   int singlechar;
   FILE *infd;
 

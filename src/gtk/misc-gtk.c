@@ -54,6 +54,7 @@ ftp_log (gftp_logging_level level, gftp_request * request,
   GtkTextIter iter, iter2;
   const char *descr;
   char *utf8_str;
+  size_t destlen;
 #endif
 
   va_start (argp, string);
@@ -70,7 +71,7 @@ ftp_log (gftp_logging_level level, gftp_request * request,
   va_end (argp);
 
 #if GTK_MAJOR_VERSION > 1
-  if ((utf8_str = gftp_string_to_utf8 (request, logstr)) != NULL)
+  if ((utf8_str = gftp_string_to_utf8 (request, logstr, &destlen)) != NULL)
     {
       if (free_logstr)
         g_free (logstr);

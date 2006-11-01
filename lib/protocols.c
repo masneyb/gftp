@@ -432,11 +432,11 @@ _gftp_get_next_charset (char **curpos)
 
 
 /*@null@*/ char *
-gftp_string_to_utf8 (gftp_request * request, const char *str)
+gftp_string_to_utf8 (gftp_request * request, const char *str, size_t *dest_len)
 {
   char *ret, *remote_charsets, *stpos, *cur_charset, *tempstr;
   GError * error = NULL;
-  gsize bread, bwrite;
+  gsize bread;
 
   if (request == NULL)
     return (NULL);
@@ -445,7 +445,7 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
     return (NULL);
   else if (request->iconv_initialized)
     {
-      ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
+      ret = g_convert_with_iconv (str, -1, request->iconv, &bread, dest_len, 
                                   &error);
       if (ret == NULL)
         printf (_("Error converting string '%s' from character set %s to character set %s: %s\n"),
@@ -458,7 +458,7 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
   if (*tempstr == '\0')
     {
       error = NULL;
-      if ((ret = g_locale_to_utf8 (str, -1, &bread, &bwrite, &error)) != NULL)
+      if ((ret = g_locale_to_utf8 (str, -1, &bread, dest_len, &error)) != NULL)
         return (ret);
 
       /* Don't use request->logging_function since the strings must be in UTF-8
@@ -477,8 +477,8 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
         continue;
 
       error = NULL;
-      if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite,
-                                       &error)) == NULL)
+      if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread,
+                                       dest_len, &error)) == NULL)
         {
           printf (_("Error converting string '%s' from character set %s to character set %s: %s\n"),
                   str, cur_charset, "UTF-8", error->message);
@@ -501,11 +501,12 @@ gftp_string_to_utf8 (gftp_request * request, const char *str)
 
 
 char *
-gftp_string_from_utf8 (gftp_request * request, const char *str)
+gftp_string_from_utf8 (gftp_request * request, const char *str,
+                       size_t *dest_len)
 {
   char *ret, *remote_charsets, *stpos, *cur_charset, *tempstr;
   GError * error = NULL;
-  gsize bread, bwrite;
+  gsize bread;
 
   if (request == NULL)
     return (NULL);
@@ -518,7 +519,7 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
     return (NULL);
   else if (request->iconv_initialized)
     {
-      ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite, 
+      ret = g_convert_with_iconv (str, -1, request->iconv, &bread, dest_len, 
                                   &error);
       if (ret == NULL)
         printf (_("Error converting string '%s' from character set %s to character set %s: %s\n"),
@@ -531,7 +532,8 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
   if (*tempstr == '\0')
     {
       error = NULL;
-      if ((ret = g_locale_from_utf8 (str, -1, &bread, &bwrite, &error)) != NULL)
+      if ((ret = g_locale_from_utf8 (str, -1, &bread, dest_len,
+                                     &error)) != NULL)
         return (ret);
 
       /* Don't use request->logging_function since the strings must be in UTF-8
@@ -550,8 +552,8 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
         continue;
 
       error = NULL;
-      if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread, &bwrite,
-                                       &error)) == NULL)
+      if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread,
+                                       dest_len, &error)) == NULL)
         {
           printf (_("Error converting string '%s' from character set %s to character set %s: %s\n"),
                   str, "UTF-8", cur_charset, error->message);
@@ -575,14 +577,14 @@ gftp_string_from_utf8 (gftp_request * request, const char *str)
 #else
 
 char *
-gftp_string_to_utf8 (gftp_request * request, const char *str)
+gftp_string_to_utf8 (gftp_request * request, const char *str, size_t dest_len)
 {
   return (NULL);
 }
 
 
 char *
-gftp_string_from_utf8 (gftp_request * request, const char *str)
+gftp_string_from_utf8 (gftp_request * request, const char *str, size_t dest_len)
 {
   return (NULL);
 }
@@ -595,6 +597,7 @@ gftp_get_next_file (gftp_request * request, const char *filespec,
                     gftp_file * fle)
 {
   char *slashpos, *tmpfile, *utf8;
+  size_t destlen;
   int fd, ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -635,7 +638,7 @@ gftp_get_next_file (gftp_request * request, const char *filespec,
 
       if (ret >= 0 && fle->file != NULL)
         {
-          utf8 = gftp_string_to_utf8 (request, fle->file);
+          utf8 = gftp_string_to_utf8 (request, fle->file, &destlen);
           if (utf8 != NULL)
             {
               tmpfile = fle->file;
@@ -669,9 +672,10 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
 {
   gftp_logging_func logging_function;
   gftp_bookmarks_var * tempentry;
-  char *default_protocol, *utf8;
+  char *default_protocol;
   const char *email;
   int i, init_ret;
+  size_t destlen;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (bookmark != NULL, GFTP_EFATAL);
@@ -713,30 +717,13 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
     gftp_set_account (request, tempentry->acct);
 
   gftp_set_hostname (request, tempentry->hostname);
-
-  utf8 = gftp_string_from_utf8 (request, tempentry->remote_dir);
-  if (utf8 != NULL)
-    {
-      gftp_set_directory (request, utf8);
-      g_free (utf8);
-    }
-  else
-    gftp_set_directory (request, tempentry->remote_dir);
-
+  gftp_set_directory (request, tempentry->remote_dir);
   gftp_set_port (request, tempentry->port);
 
   if (local_request != NULL && tempentry->local_dir != NULL &&
       *tempentry->local_dir != '\0')
     {
-      utf8 = gftp_string_from_utf8 (request, tempentry->local_dir);
-      if (utf8 != NULL)
-        {
-          gftp_set_directory (local_request, utf8);
-          g_free (utf8);
-        }
-      else
-        gftp_set_directory (local_request, tempentry->local_dir);
-
+      gftp_set_directory (local_request, tempentry->local_dir);
       if (refresh_local != NULL)
         *refresh_local = 1;
     }
@@ -1037,7 +1024,6 @@ gftp_remove_file (gftp_request * request, const char *file)
 int
 gftp_make_directory (gftp_request * request, const char *directory)
 {
-  char *utf8;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1045,16 +1031,7 @@ gftp_make_directory (gftp_request * request, const char *directory)
   if (request->mkdir == NULL)
     return (GFTP_EFATAL);
 
-  utf8 = gftp_string_from_utf8 (request, directory);
-  if (utf8 != NULL)
-    {
-      ret = request->mkdir (request, utf8);
-      g_free (utf8);
-    }
-  else
-    ret = request->mkdir (request, directory);
-
-  return (ret);
+  return (request->mkdir (request, directory));
 }
 
 
@@ -1062,7 +1039,6 @@ int
 gftp_rename_file (gftp_request * request, const char *oldname,
                   const char *newname)
 {
-  char *utf8;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1070,16 +1046,7 @@ gftp_rename_file (gftp_request * request, const char *oldname,
   if (request->rename == NULL)
     return (GFTP_EFATAL);
 
-  utf8 = gftp_string_from_utf8 (request, newname);
-  if (utf8 != NULL)
-    {
-      ret = request->rename (request, oldname, utf8);
-      g_free (utf8);
-    }
-  else
-    ret = request->rename (request, oldname, newname);
-
-  return (ret);
+  return (request->rename (request, oldname, newname));
 }
 
 

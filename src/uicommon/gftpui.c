@@ -1295,6 +1295,7 @@ _gftpui_common_do_transfer_file (gftp_transfer * tdata, gftp_file * curfle)
   memset (&updatetime, 0, sizeof (updatetime));
   gftpui_start_current_file_in_transfer (tdata);
 
+  num_read = 0;
   while (!tdata->cancel &&
          (num_read = gftp_get_next_file_chunk (tdata->fromreq, buf,
                                                trans_blksize)) > 0)
@@ -1402,7 +1403,7 @@ gftpui_common_cancel_file_transfer (gftp_transfer * tdata)
 }
 
 
-static int
+static void
 _gftpui_common_next_file_in_trans (gftp_transfer * tdata)
 {
   gftp_file * curfle;

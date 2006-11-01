@@ -874,6 +874,7 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
                     char *file_prefixstr, char *file_suffixstr)
 {
   char *tempstr1, *tempstr2, *ret, tstr[50], *attribs, *utf8;
+  size_t destlen;
   struct tm *lt;
   time_t t;
 
@@ -900,7 +901,7 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
   if (file_suffixstr == NULL)
     file_suffixstr = "";
 
-  utf8 = gftp_string_from_utf8 (request, fle->file);
+  utf8 = gftp_string_from_utf8 (request, fle->file, &destlen);
   ret = g_strdup_printf ("%s %s %s %s%s%s", tempstr1, tempstr2, tstr, 
                          file_prefixstr, 
                          utf8 != NULL ? utf8: fle->file,

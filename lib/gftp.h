@@ -907,10 +907,12 @@ ssize_t gftp_put_next_file_chunk 	( gftp_request * request,
 int gftp_list_files 			( gftp_request * request );
 
 /*@null@*/ char * gftp_string_to_utf8	( gftp_request * request, 
-					  const char *str );
+					  const char *str,
+					  size_t *dest_len );
 
 /*@null@*/ char * gftp_string_from_utf8	( gftp_request * request, 
-					  const char *str );
+					  const char *str,
+					  size_t *dest_len );
 
 int gftp_parse_bookmark 		( gftp_request * request, 
 					  gftp_request * local_request,

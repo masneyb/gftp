@@ -1,7 +1,14 @@
-2006-10-19 Brian Masney <masneyb@gftp.org>
+2006-10-31 Brian Masney <masneyb@gftp.org>
 	WARNING: The CVS version of gFTP is currently broken, especially for
 	international users. This will be fixed in a few days.
 
+	* lib/gftp.h lib/local.c lib/misc.c lib/protocols.c lib/rfc959.c
+	src/gtk/misc-gtk.c src/text/gftp-text.c - added length argument to
+	gftp_string_from_utf8() and gftp_string_to_utf8()
+
+	* src/uicommon/gftpui.c - warning fixes
+
+2006-10-19 Brian Masney <masneyb@gftp.org>
 	* lib/fsp.c lib/gftp.h lib/local.c lib/protocols.c lib/rfc2068.c
 	lib/rfc959.c lib/sshv2.c - added use_local_encoding variable to the
 	gftp_request structure. This will determine if the filename should
