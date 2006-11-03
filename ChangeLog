@@ -1,7 +1,11 @@
-2006-10-31 Brian Masney <masneyb@gftp.org>
-	WARNING: The CVS version of gFTP is currently broken, especially for
-	international users. This will be fixed in a few days.
+2006-11-2 Brian Masney <masneyb@gftp.org>
+	* lib/local.c (local_chdir) - fixed double free of the utf8 variable.
+	This only occured in the CVS version.
 
+	* src/uicommon/gftpui.c (gftpui_common_process_command) - fixes for
+	detecting empty lines
+
+2006-10-31 Brian Masney <masneyb@gftp.org>
 	* lib/sshv2.c - added i18n support so that the files are encoded
 	properly
 

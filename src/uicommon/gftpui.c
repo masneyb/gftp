@@ -1056,11 +1056,10 @@ gftpui_common_process_command (void *locui, gftp_request * locreq,
     newstr[--len] = '\0';
 
   for (pos = newstr + len - 1;
-       (*pos == ' ' || *pos == '\t') && pos > newstr;
-       pos--)
-    *pos = '\0';
+       (*pos == ' ' || *pos == '\t') && pos > newstr; 
+       *pos-- = '\0');
 
-  if (*stpos == '\0')
+  if (*newstr == '\0')
     {
       g_free (newstr);
       return (1);

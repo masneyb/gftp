@@ -114,9 +114,6 @@ local_chdir (gftp_request * request, const char *directory)
       ret = GFTP_ERETRYABLE;
     }
 
-  if (utf8 != NULL)
-    g_free (utf8);
-
   return (ret);
 }
 
