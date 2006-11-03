@@ -425,12 +425,8 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   while ((pos = strchr (str, '/')) != NULL)
     *pos++ = ' ';
 #else
-  if (g_utf8_validate (str, -1, NULL))
-    newentry->path = g_strdup (str);
-  else
-    newentry->path = g_locale_to_utf8 (str, -1, &bread, &bwrite, NULL);
-
-  while ((pos = g_utf8_strchr (str, -1, '/')) != NULL)
+  newentry->path = g_strdup (str);
+  while ((pos = g_utf8_strchr (newentry->path, -1, '/')) != NULL)
     *pos++ = ' ';
 #endif
 
