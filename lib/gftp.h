@@ -912,6 +912,15 @@ int gftp_list_files 			( gftp_request * request );
 					  size_t *dest_len );
 
 /*@null@*/ char * gftp_string_from_utf8	( gftp_request * request, 
+					  int force_local,
+					  const char *str,
+					  size_t *dest_len );
+
+/*@null@*/ char * gftp_filename_to_utf8	( gftp_request * request, 
+					  const char *str,
+					  size_t *dest_len );
+
+/*@null@*/ char * gftp_filename_from_utf8 ( gftp_request * request, 
 					  const char *str,
 					  size_t *dest_len );
 

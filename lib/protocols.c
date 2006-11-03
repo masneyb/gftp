@@ -464,8 +464,8 @@ _do_show_iconv_error (const char *str, char *charset, int from_utf8,
 
 
 /*@null@*/ char *
-_do_convert_string (gftp_request * request, const char *str,
-                    size_t *dest_len, int from_utf8)
+_do_convert_string (gftp_request * request, int is_filename, int force_local,
+                    const char *str, size_t *dest_len, int from_utf8)
 {
   char *remote_charsets, *ret, *fromset, *toset, *stpos, *cur_charset;
   GError * error;
@@ -479,12 +479,23 @@ _do_convert_string (gftp_request * request, const char *str,
 
   error = NULL;
   gftp_lookup_request_option (request, "remote_charsets", &remote_charsets);
-  if (*remote_charsets == '\0' || request->use_local_encoding)
+  if (*remote_charsets == '\0' || request->use_local_encoding ||
+      force_local == 1)
     {
       if (from_utf8)
-        ret = g_locale_from_utf8 (str, -1, &bread, dest_len, &error);
+        {
+          if (is_filename)
+            ret = g_filename_from_utf8 (str, -1, &bread, dest_len, &error);
+          else
+            ret = g_locale_from_utf8 (str, -1, &bread, dest_len, &error);
+        }
       else
-        ret = g_locale_to_utf8 (str, -1, &bread, dest_len, &error);
+        {
+          if (is_filename)
+            ret = g_filename_to_utf8 (str, -1, &bread, dest_len, &error);
+          else
+            ret = g_locale_to_utf8 (str, -1, &bread, dest_len, &error);
+        }
 
       if (ret == NULL)
         _do_show_iconv_error (str, request->iconv_charset, from_utf8, error);
@@ -540,18 +551,34 @@ _do_convert_string (gftp_request * request, const char *str,
   return (NULL);
 }
 
-/*@null@*/ char *
+char *
 gftp_string_to_utf8 (gftp_request * request, const char *str, size_t *dest_len)
 {
-  return (_do_convert_string (request, str, dest_len, 0));
+  return (_do_convert_string (request, 0, 0, str, dest_len, 0));
 }
 
 
 char *
-gftp_string_from_utf8 (gftp_request * request, const char *str,
+gftp_string_from_utf8 (gftp_request * request, int force_local, const char *str,
                        size_t *dest_len)
 {
-  return (_do_convert_string (request, str, dest_len, 1));
+  return (_do_convert_string (request, 0, force_local, str, dest_len, 1));
+}
+
+
+char *
+gftp_filename_to_utf8 (gftp_request * request, const char *str,
+                       size_t *dest_len)
+{
+  return (_do_convert_string (request, 1, 0, str, dest_len, 0));
+}
+
+
+char *
+gftp_filename_from_utf8 (gftp_request * request, const char *str,
+                         size_t *dest_len)
+{
+  return (_do_convert_string (request, 1, 0, str, dest_len, 1));
 }
 
 #else
@@ -564,7 +591,23 @@ gftp_string_to_utf8 (gftp_request * request, const char *str, size_t dest_len)
 
 
 char *
-gftp_string_from_utf8 (gftp_request * request, const char *str, size_t dest_len)
+gftp_string_from_utf8 (gftp_request * request, int force_local, const char *str,
+                       size_t dest_len)
+{
+  return (NULL);
+}
+
+
+char *
+gftp_filename_to_utf8 (gftp_request * request, const char *str, size_t dest_len)
+{
+  return (NULL);
+}
+
+
+char *
+gftp_filename_from_utf8 (gftp_request * request, int force_local,
+                         const char *str, size_t dest_len)
 {
   return (NULL);
 }
@@ -618,7 +661,7 @@ gftp_get_next_file (gftp_request * request, const char *filespec,
 
       if (ret >= 0 && fle->file != NULL)
         {
-          utf8 = gftp_string_to_utf8 (request, fle->file, &destlen);
+          utf8 = gftp_filename_to_utf8 (request, fle->file, &destlen);
           if (utf8 != NULL)
             {
               tmpfile = fle->file;

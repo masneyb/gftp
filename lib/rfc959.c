@@ -203,7 +203,7 @@ rfc959_generate_and_send_command (gftp_request * request, const char *command,
 
   if (argument != NULL)
     {
-      utf8 = gftp_string_from_utf8 (request, argument, &destlen);
+      utf8 = gftp_filename_from_utf8 (request, argument, &destlen);
       if (utf8 != NULL)
         {
           tempstr = g_strconcat (command, " ", utf8, "\r\n", NULL);
@@ -320,7 +320,7 @@ parse_ftp_proxy_string (gftp_request * request)
         }
       else
         {
-          utf8 = gftp_string_from_utf8 (request, newval, &destlen);
+          utf8 = gftp_string_from_utf8 (request, -1, newval, &destlen);
           if (utf8 != NULL)
             len += strlen (utf8);
           else
@@ -391,7 +391,7 @@ rfc959_getcwd (gftp_request * request)
   if (request->directory)
     g_free (request->directory);
 
-  utf8 = gftp_string_to_utf8 (request, dir, &destlen);
+  utf8 = gftp_filename_to_utf8 (request, dir, &destlen);
   if (utf8 != NULL)
     request->directory = utf8;
   else
@@ -1727,7 +1727,7 @@ rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  utf8 = gftp_string_from_utf8 (request, file, &destlen);
+  utf8 = gftp_filename_from_utf8 (request, file, &destlen);
   if (utf8 != NULL)
     {
       tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, utf8);
@@ -1759,7 +1759,7 @@ rfc959_site (gftp_request * request, int specify_site, const char *command)
   g_return_val_if_fail (command != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  utf8 = gftp_string_from_utf8 (request, command, &destlen);
+  utf8 = gftp_string_from_utf8 (request, -1, command, &destlen);
   if (utf8 != NULL)
     {
       if (specify_site)

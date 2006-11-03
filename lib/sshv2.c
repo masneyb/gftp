@@ -175,7 +175,7 @@ sshv2_initialize_buffer_with_i18n_string (gftp_request * request,
   char *utf8, *ret;
   size_t pathlen;
 
-  utf8 = gftp_string_from_utf8 (request, str, &pathlen);
+  utf8 = gftp_filename_from_utf8 (request, str, &pathlen);
   if (utf8 != NULL)
     addstr = utf8;
   else
@@ -205,7 +205,7 @@ _sshv2_generate_utf8_path (gftp_request * request, const char *str, size_t *len)
   else
     path = gftp_build_path (request, request->directory, str, NULL);
 
-  utf8 = gftp_string_from_utf8 (request, path, len);
+  utf8 = gftp_filename_from_utf8 (request, path, len);
   if (utf8 != NULL)
     {
       g_free (path);
@@ -1062,7 +1062,7 @@ sshv2_getcwd (gftp_request * request)
   if ((dir = sshv2_buffer_get_string (request, &message, 1)) == NULL)
     return (GFTP_EFATAL);
 
-  utf8 = gftp_string_to_utf8 (request, dir, &len);
+  utf8 = gftp_filename_to_utf8 (request, dir, &len);
   if (utf8 != NULL)
     {
       request->directory = utf8;

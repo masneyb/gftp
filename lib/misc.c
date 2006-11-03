@@ -874,7 +874,6 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
                     char *file_prefixstr, char *file_suffixstr)
 {
   char *tempstr1, *tempstr2, *ret, tstr[50], *attribs, *utf8;
-  int old_encoding;
   size_t destlen;
   struct tm *lt;
   time_t t;
@@ -902,10 +901,7 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
   if (file_suffixstr == NULL)
     file_suffixstr = "";
 
-  old_encoding = request->use_local_encoding;
-  utf8 = gftp_string_from_utf8 (request, fle->file, &destlen);
-  request->use_local_encoding = old_encoding;
-
+  utf8 = gftp_string_from_utf8 (request, 1, fle->file, &destlen);
   if (utf8 != NULL)
     {
       ret = g_strdup_printf ("%s %s %s %s%s%s", tempstr1, tempstr2, tstr,
