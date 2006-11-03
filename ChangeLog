@@ -1,4 +1,13 @@
 2006-11-2 Brian Masney <masneyb@gftp.org>
+	* lib/ftpcommon.h lib/ftps.c lib/rfc959.c - use the encoded filename
+	length to determine how many bytes should be sent in the command to the
+	remote server. Don't use the strlen() function since there may be a
+	NUL character in the filename.
+
+	ATTENTION INTERNATIONAL USERS: If you have time, can you test the
+	filename encoding in CVS? All of the necessary changes were made to the
+	local, FTP and SSH protocols. Let me know if you see any problems.
+
 	* src/text/gftp-text.c src/text/gftp-text.h src/text/textui.c -
 	use gftp_string_from_utf8() for the conversion between the
 	various character sets.

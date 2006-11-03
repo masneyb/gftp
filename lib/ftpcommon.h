@@ -39,6 +39,7 @@ typedef struct rfc959_params_tag rfc959_parms;
 
 int rfc959_send_command 		( gftp_request * request,
 					  const char *command,
+					  ssize_t command_len,
 					  int read_response,
 					  int dont_try_to_reconnect );
 
