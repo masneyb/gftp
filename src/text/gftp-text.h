@@ -32,7 +32,8 @@
 
 unsigned int gftp_text_get_win_size 		( void );
 
-char * gftp_text_ask_question 			( const char *question,
+char * gftp_text_ask_question 			( gftp_request * request,
+						  const char *question,
 						  int echo,
 						  char *buf,
 						  size_t size );

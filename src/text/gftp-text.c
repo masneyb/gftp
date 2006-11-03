@@ -44,7 +44,7 @@ gftp_text_write_string (gftp_request * request, char *string)
 
   sw = gftp_text_get_win_size ();
 
-  locale_str = gftp_string_from_utf8 (request, string, &destlen);
+  locale_str = gftp_string_from_utf8 (request, 1, string, &destlen);
   if (locale_str == NULL)
     stpos = string;
   else
@@ -140,7 +140,8 @@ gftp_text_log (gftp_logging_level level, gftp_request * request,
 
 
 char *
-gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
+gftp_text_ask_question (gftp_request * request, const char *question, int echo,
+                        char *buf, size_t size)
 {
   struct termios term, oldterm;
   gchar *locale_question;
@@ -174,12 +175,7 @@ gftp_text_ask_question (const char *question, int echo, char *buf, size_t size)
   else
     infd = stdin;
 
-#if GLIB_MAJOR_VERSION > 1
-  locale_question = g_locale_from_utf8 (question, -1, NULL, NULL, NULL);
-#else
-  locale_question = NULL;
-#endif
-
+  locale_question = gftp_string_from_utf8 (request, 1, question, &destlen);
   if (locale_question != NULL)
     {
       printf ("%s%s%s ", GFTPUI_COMMON_COLOR_BLUE, locale_question,

@@ -76,7 +76,8 @@ gftpui_prompt_username (void *uidata, gftp_request * request)
   char tempstr[256];
 
   gftp_set_username (request, 
-                     gftp_text_ask_question (_("Username [anonymous]:"), 1,
+                     gftp_text_ask_question (request,
+                                             _("Username [anonymous]:"), 1,
                                              tempstr, sizeof (tempstr)));
 }
 
@@ -88,7 +89,7 @@ gftpui_prompt_password (void *uidata, gftp_request * request)
   char tempstr[256];
 
   gftp_set_password (request,
-                     gftp_text_ask_question (_("Password:"), 0,
+                     gftp_text_ask_question (request, _("Password:"), 0,
                                              tempstr, sizeof (tempstr)));
 }
 
@@ -147,7 +148,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
     
           g_snprintf (question, sizeof (question), _("%s already exists. (%s source size, %s destination size):\n(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%c)"), pos, srcsize, destsize, defaction);
 
-          gftp_text_ask_question (question, 1, &buf, 1);
+          gftp_text_ask_question (tdata->fromreq, question, 1, &buf, 1);
 
           switch (buf)
             {
@@ -261,7 +262,7 @@ gftpui_protocol_ask_yes_no (gftp_request * request, char *title, char *question)
 
   do
     {
-      gftp_text_ask_question (question, 1, buf, sizeof (buf));
+      gftp_text_ask_question (request, question, 1, buf, sizeof (buf));
       if (strcasecmp (buf, "yes") == 0)
         ret = 1;
       else if (strcasecmp (buf, "no") == 0)
@@ -283,7 +284,7 @@ gftpui_protocol_ask_user_input (gftp_request * request, char *title,
 
   do
     {
-      gftp_text_ask_question (question, shown, buf, sizeof (buf));
+      gftp_text_ask_question (request, question, shown, buf, sizeof (buf));
     }
   while (*buf == '\0');
 
