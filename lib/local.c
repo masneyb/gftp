@@ -69,7 +69,7 @@ local_getcwd (gftp_request * request)
       return (GFTP_ERETRYABLE);
     }
 
-  utf8 = gftp_string_from_utf8 (request, tempstr, &destlen);
+  utf8 = gftp_string_to_utf8 (request, tempstr, &destlen);
   if (utf8 != NULL)
     request->directory = utf8;
   else
@@ -397,10 +397,10 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 static int
 local_list_files (gftp_request * request)
 {
-  char *dir, *tempstr, *utf8;
   local_protocol_data *lpd;
-  int freeit, ret;
+  char *dir, *utf8;
   size_t destlen;
+  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->directory != NULL, GFTP_EFATAL);
@@ -410,37 +410,32 @@ local_list_files (gftp_request * request)
 
   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
 
-  utf8 = gftp_string_from_utf8 (request, request->directory, &destlen);
-  dir = utf8 != NULL ? utf8 : request->directory;
+  if (request->directory[strlen (request->directory) - 1] != '/')
+    dir = g_strconcat (request->directory, "/", NULL);
+  else
+    dir = request->directory;
 
-  if (dir[strlen (dir) - 1] != '/')
+  utf8 = gftp_string_from_utf8 (request, dir, &destlen);
+  if (utf8 != NULL)
     {
-      tempstr = g_strconcat (dir, "/", NULL);
-      freeit = 1;
+      lpd->dir = opendir (utf8);
+      g_free (utf8);
     }
   else
-    {
-      tempstr = dir;
-      freeit = 0;
-    }
+    lpd->dir = opendir (dir);
 
-  if ((lpd->dir = opendir (tempstr)) == NULL)
+  if (dir != request->directory)
+    g_free (dir);
+
+  if (lpd->dir == NULL)
     {
       request->logging_function (gftp_logging_error, request,
                            _("Could not get local directory listing %s: %s\n"),
-                           tempstr, g_strerror (errno));
-      ret = GFTP_ERETRYABLE;
+                           request->directory, g_strerror (errno));
+      return (GFTP_ERETRYABLE);
     }
   else
-    ret = 0;
-
-  if (freeit)
-    g_free (tempstr);
-
-  if (utf8 != NULL)
-    g_free (utf8);
-
-  return (ret);
+    return (0);
 }
 
 

@@ -1025,9 +1025,9 @@ sshv2_buffer_get_string (gftp_request * request, sshv2_message * message,
 static int
 sshv2_getcwd (gftp_request * request)
 {
+  char *tempstr, *dir, *utf8;
   sshv2_message message;
-  char *tempstr, *dir;
-  size_t msglen;
+  size_t len;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1038,8 +1038,8 @@ sshv2_getcwd (gftp_request * request)
   else
     dir = request->directory;
 
-  tempstr = sshv2_initialize_buffer_with_i18n_string (request, dir, &msglen);
-  ret = sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, msglen);
+  tempstr = sshv2_initialize_buffer_with_i18n_string (request, dir, &len);
+  ret = sshv2_send_command (request, SSH_FXP_REALPATH, tempstr, len);
   g_free (tempstr);
   if (ret < 0)
     return (ret);
@@ -1059,8 +1059,17 @@ sshv2_getcwd (gftp_request * request)
   if ((ret = sshv2_buffer_get_int32 (request, &message, 1, 1, NULL)) < 0)
     return (ret);
 
-  if ((request->directory = sshv2_buffer_get_string (request, &message, 1)) == NULL)
+  if ((dir = sshv2_buffer_get_string (request, &message, 1)) == NULL)
     return (GFTP_EFATAL);
+
+  utf8 = gftp_string_to_utf8 (request, dir, &len);
+  if (utf8 != NULL)
+    {
+      request->directory = utf8;
+      g_free (dir);
+    }
+  else
+    request->directory = dir;
 
   sshv2_message_free (&message);
   return (0);
