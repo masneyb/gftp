@@ -382,6 +382,8 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       g_hash_table_insert (lpd->grouphash, GUINT_TO_POINTER (st.st_gid), group);
     }
 
+  fle->st_dev = fst.st_dev;
+  fle->st_ino = fst.st_ino;
   fle->st_mode = fst.st_mode;
   fle->datetime = st.st_mtime;
 
@@ -696,20 +698,6 @@ local_set_file_time (gftp_request * request, const char *file,
 }
 
 
-static gint
-hash_compare (gconstpointer path1, gconstpointer path2)
-{
-  return (GPOINTER_TO_UINT (path1) == GPOINTER_TO_UINT (path2));
-}
-
-
-static guint
-hash_function (gconstpointer key)
-{
-  return (GPOINTER_TO_UINT (key));
-}
-
-
 void 
 local_register_module (void)
 {
@@ -765,8 +753,8 @@ local_init (gftp_request * request)
 
   lpd = g_malloc0 (sizeof (*lpd));
   request->protocol_data = lpd;
-  lpd->userhash = g_hash_table_new (hash_function, hash_compare);
-  lpd->grouphash = g_hash_table_new (hash_function, hash_compare);
+  lpd->userhash = g_hash_table_new (uint_hash_function, uint_hash_compare);
+  lpd->grouphash = g_hash_table_new (uint_hash_function, uint_hash_compare);
 
   if (request->hostname != NULL)
     g_free (request->hostname);

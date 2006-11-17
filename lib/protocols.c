@@ -2077,12 +2077,66 @@ _setup_current_directory_transfer (gftp_transfer * transfer, int *ret)
 }
 
 
+static int
+_lookup_curfle_in_device_hash (gftp_request * request, gftp_file * curfle,
+                               GHashTable * device_hash)
+{
+  GHashTable * inode_hash;
+
+  if (curfle->st_dev == 0 || curfle->st_ino == 0)
+    return (0);
+
+  if ((inode_hash = g_hash_table_lookup (device_hash,
+                                         GUINT_TO_POINTER ((guint) curfle->st_dev))) != NULL)
+    {
+      if (g_hash_table_lookup (inode_hash,
+                               GUINT_TO_POINTER ((guint) curfle->st_ino)))
+        {
+          request->logging_function (gftp_logging_error, request,
+                                     _("Found recursive symbolic link %s\n"),
+                                     curfle->file);
+          return (1);
+        }
+
+      g_hash_table_insert (inode_hash, GUINT_TO_POINTER ((guint) curfle->st_ino),
+                           GUINT_TO_POINTER (1));
+      return (0);
+    }
+  else
+    {
+      inode_hash = g_hash_table_new (uint_hash_function, uint_hash_compare);
+      g_hash_table_insert (inode_hash, GUINT_TO_POINTER ((guint) curfle->st_ino),
+                           GUINT_TO_POINTER (1));
+      g_hash_table_insert (device_hash, GUINT_TO_POINTER ((guint) curfle->st_dev),
+                           inode_hash);
+      return (0);
+    }
+
+}
+
+
+static void
+_free_inode_hash (gpointer key, gpointer value, gpointer user_data)
+{
+  g_hash_table_destroy (value);
+}
+
+
+static void
+_free_device_hash (GHashTable * device_hash)
+{
+  g_hash_table_foreach (device_hash, _free_inode_hash, NULL);
+  g_hash_table_destroy (device_hash);
+}
+
+
 int
 gftp_get_all_subdirs (gftp_transfer * transfer,
                       void (*update_func) (gftp_transfer * transfer))
 {
   GList * templist, * lastlist;
   char *oldfromdir, *oldtodir;
+  GHashTable * device_hash;
   gftp_file * curfle;
   off_t linksize;
   mode_t st_mode;
@@ -2101,10 +2155,15 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
     return (ret);
 
   oldfromdir = oldtodir = NULL;
+  device_hash = g_hash_table_new (uint_hash_function, uint_hash_compare);
 
   for (templist = transfer->files; templist != NULL; templist = templist->next)
     {
       curfle = templist->data;
+
+      if (_lookup_curfle_in_device_hash (transfer->fromreq, curfle,
+                                         device_hash))
+        continue;
 
       if (S_ISLNK (curfle->st_mode) && !S_ISDIR (curfle->st_mode))
         {
@@ -2141,6 +2200,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
         {
           _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
                                     update_func);
+          _free_device_hash (device_hash);
           return (ret);
         }
 
@@ -2156,6 +2216,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
                 {
                   _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
                                             update_func);
+                  _free_device_hash (device_hash);
                   return (ret);
                 }
             }
@@ -2175,6 +2236,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
         {
           _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
                                     update_func);
+          _free_device_hash (device_hash);
           return (ret);
         }
 
@@ -2187,6 +2249,8 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
       if (update_func != NULL)
         update_func (transfer);
     }
+
+  _free_device_hash (device_hash);
 
   if (oldfromdir != NULL)
     {

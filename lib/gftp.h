@@ -244,6 +244,11 @@ struct gftp_file_tag
   off_t size,			/* Size of the file */
         startsize;		/* Size to start the transfer at */
   mode_t st_mode;		/* File attributes */
+
+  dev_t st_dev;			/* The device and associated inode. These */
+  ino_t st_ino;			/* two fields are used for detecting loops */
+				/* with symbolic links. */
+
   unsigned int selected : 1,	/* Is this file selected? */
                was_sel : 1,	/* Was this file selected before  */
                shown : 1,	/* Is this file shown? */
@@ -752,6 +757,11 @@ gint string_hash_compare 		( gconstpointer path1,
 					  gconstpointer path2 );
 
 guint string_hash_function		( gconstpointer key );
+
+gint uint_hash_compare 			( gconstpointer path1,
+					  gconstpointer path2 );
+
+guint uint_hash_function		( gconstpointer key );
 
 void free_file_list			( GList * filelist );
 

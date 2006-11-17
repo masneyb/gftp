@@ -1,4 +1,13 @@
 2006-11-16 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/protocols.c lib/local.c - added support for detecting
+	recursive symbolic links. This currently only works when uploading
+	files. It will only work when downloading files if the inode and device
+	are properly populated. I need to check but it may be possible to get
+	this information from the SSH and FSP protocols. (closes #172499)
+
+	* lib/local.c lib/misc.c - moved uint_hash_compare() and
+	uint_hash_function() from local.c to misc.c 
+
 	* lib/protocols.c - backed out last change where hidden files aren't
 	transferred in the subdirectories if the show_hidden_files option is
 	disabled.

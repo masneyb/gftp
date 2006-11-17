@@ -430,6 +430,20 @@ string_hash_function (gconstpointer key)
 }
 
 
+gint
+uint_hash_compare (gconstpointer path1, gconstpointer path2)
+{
+  return (GPOINTER_TO_UINT (path1) == GPOINTER_TO_UINT (path2));
+}
+
+
+guint
+uint_hash_function (gconstpointer key)
+{
+  return (GPOINTER_TO_UINT (key));
+}
+
+
 void
 free_file_list (GList * filelist)
 {
