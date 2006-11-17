@@ -1,4 +1,8 @@
 2006-11-16 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c - backed out last change where hidden files aren't
+	transferred in the subdirectories if the show_hidden_files option is
+	disabled.
+
 	* lib/protocols.c - skip over the hidden files when doing a recursive 
 	transfer if the shown_hidden_files option is disabled. (closes #321573)
 

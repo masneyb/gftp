@@ -1861,37 +1861,31 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
 static GHashTable *
 gftp_gen_dir_hash (gftp_request * request, int *ret)
 {
-  intptr_t show_hidden_files;
   GHashTable * dirhash;
   gftp_file * fle;
   off_t *newsize;
 
-  *ret = gftp_list_files (request);
-  if (*ret != 0)
-    return (NULL);
-      
   dirhash = g_hash_table_new (string_hash_function, string_hash_compare);
-  gftp_lookup_request_option (request, "show_hidden_files", &show_hidden_files);
-
-  fle = g_malloc0 (sizeof (*fle));
-  while (gftp_get_next_file (request, NULL, fle) > 0)
+  *ret = gftp_list_files (request);
+  if (*ret == 0)
     {
-      if (!show_hidden_files && *fle->file == '.' &&
-          strcmp (fle->file, "..") != 0)
+      fle = g_malloc0 (sizeof (*fle));
+      while (gftp_get_next_file (request, NULL, fle) > 0)
         {
+          newsize = g_malloc (sizeof (*newsize));
+          *newsize = fle->size;
+          g_hash_table_insert (dirhash, fle->file, newsize);
+          fle->file = NULL;
           gftp_file_destroy (fle, 0);
-          continue;
         }
-
-      newsize = g_malloc (sizeof (*newsize));
-      *newsize = fle->size;
-      g_hash_table_insert (dirhash, fle->file, newsize);
-      fle->file = NULL;
-      gftp_file_destroy (fle, 0);
+      gftp_end_transfer (request);
+      g_free (fle);
     }
-
-  gftp_end_transfer (request);
-  g_free (fle);
+  else
+    {
+      g_hash_table_destroy (dirhash);
+      dirhash = NULL;
+    }
 
   return (dirhash);
 }
@@ -1920,15 +1914,11 @@ gftp_destroy_dir_hash (GHashTable * dirhash)
 static GList *
 gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
 {
-  intptr_t show_hidden_files;
   GHashTable * dirhash;
   GList * templist;
   gftp_file * fle;
   off_t *newsize;
   char *newname;
-
-  gftp_lookup_request_option (transfer->fromreq, "show_hidden_files",
-                              &show_hidden_files);
 
   if (getothdir && transfer->toreq != NULL)
     {
@@ -1950,8 +1940,7 @@ gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
   templist = NULL;
   while (gftp_get_next_file (transfer->fromreq, NULL, fle) > 0)
     {
-      if (strcmp (fle->file, ".") == 0 || strcmp (fle->file, "..") == 0 ||
-          (!show_hidden_files && *fle->file == '.'))
+      if (strcmp (fle->file, ".") == 0 || strcmp (fle->file, "..") == 0)
         {
           gftp_file_destroy (fle, 0);
           continue;
