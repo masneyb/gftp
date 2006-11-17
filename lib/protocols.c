@@ -2171,16 +2171,19 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
           linksize = 0;
           ret = gftp_stat_filename (transfer->fromreq, curfle->file, &st_mode,
                                     &linksize);
-          if (ret < 0)
+          if (ret == GFTP_EFATAL)
             {
               _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
                                         update_func);
               return (ret);
             }
-          else if (S_ISDIR (st_mode))
-            curfle->st_mode = st_mode;
-          else
-            curfle->size = linksize;
+          else if (ret == 0)
+            {
+              if (S_ISDIR (st_mode))
+                curfle->st_mode = st_mode;
+              else
+                curfle->size = linksize;
+            }
         }
 
       if (!S_ISDIR (curfle->st_mode))
@@ -2255,7 +2258,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
   if (oldfromdir != NULL)
     {
       ret = gftp_set_directory (transfer->fromreq, oldfromdir);
-      if (ret < 0)
+      if (ret == GFTP_EFATAL)
         {
           _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
                                     update_func);
@@ -2266,7 +2269,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
   if (oldtodir != NULL)
     {
       ret = gftp_set_directory (transfer->toreq, oldtodir);
-      if (ret < 0)
+      if (ret == GFTP_EFATAL)
         {
           _cleanup_get_all_subdirs (transfer, oldfromdir, oldtodir,
                                     update_func);
