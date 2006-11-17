@@ -1,4 +1,7 @@
 2006-11-16 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c - skip over the hidden files when doing a recursive 
+	transfer if the shown_hidden_files option is disabled. (closes #321573)
+
 	* lib/sshv2.c (sshv2_initialize_string_with_path) - make sure the endpos
 	variable is pointing to the position after the string. This fixes an
 	issue with the current CVS code where files could not be transferred.
