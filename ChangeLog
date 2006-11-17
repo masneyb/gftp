@@ -1,3 +1,9 @@
+2006-11-16 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c (sshv2_initialize_string_with_path) - make sure the endpos
+	variable is pointing to the position after the string. This fixes an
+	issue with the current CVS code where files could not be transferred.
+	(closes #371615)
+
 2006-11-2 Brian Masney <masneyb@gftp.org>
 	* lib/ftpcommon.h lib/ftps.c lib/rfc959.c - use the encoded filename
 	length to determine how many bytes should be sent in the command to the
