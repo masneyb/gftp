@@ -304,6 +304,31 @@ all GTK+ 2.x applications.
 
 <!-- ----------------------------------------------------------------- -->
 
+<sect1>
+<title>I can't transfer certain file types in binary mode using the FTP protocol.</title>
+
+<para>
+Edit your ~/.gftp/gftprc file and look at the ext= lines towards the bottom of the file. These lines control what icon is used for each file type. It also controls what mode is used for the file transfer. For example, to transfer all HTML files as binary, change the following two lines:
+</para>
+
+<para><literallayout>
+<literal>ext=.htm:world.xpm:A:</literal>
+<literal>ext=.html:world.xpm:A:</literal>
+</literallayout></para>
+
+<para>
+to the following:
+</para>
+
+<para><literallayout>
+<literal>ext=.htm:world.xpm:B:</literal>
+<literal>ext=.html:world.xpm:B:</literal>
+</literallayout></para>
+
+</sect1>
+
+<!-- ----------------------------------------------------------------- -->
+
 </chapter>
 
 <!-- ***************************************************************** -->
