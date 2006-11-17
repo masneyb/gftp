@@ -1,4 +1,10 @@
 2006-11-16 Brian Masney <masneyb@gftp.org>
+	* lib/config_file.c (write_comment) - added patch that fixes writing
+	the comments to the config file. In some cases, an extra # was placed
+	at the beginning of a line. It could cause some settings to be not 
+	processed. (closes #339029)
+	(from Morita Sho <bugreport_01@morita-inc.co.jp>)
+
 	* docs/gftp-faq.sgml - added FAQ entry on how to transfer HTML files in
 	binary mode using the FTP protocol.
 

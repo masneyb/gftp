@@ -705,14 +705,14 @@ write_comment (FILE * fd, const char *comment)
 	       endpos++);
 	}
       fwrite (pos, 1, endpos - pos, fd);
-      fwrite ("\n# ", 1, 3, fd);
+      fwrite ("\n", 1, 1, fd);
       if (*endpos == '\0')
 	{
 	  pos = endpos;
 	  break;
 	}
-      else
-	pos = endpos + 1;
+      pos = endpos + 1;
+      fwrite ("# ", 1, 2, fd);
     }
   if (strlen (pos) > 1)
     {
