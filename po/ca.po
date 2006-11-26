@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-13 07:09+0200\n"
-"PO-Revision-Date: 2006-10-13 07:20+0200\n"
+"POT-Creation-Date: 2006-11-26 19:10+0100\n"
+"PO-Revision-Date: 2006-11-26 19:30+0100\n"
 "Last-Translator: Josep Puigdemont <josep.puigdemont@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "L'URL %s no és vàlida\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Error: La línia %s del fitxer d'índex de la memòria cau no és vàlida\n"
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:476
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:572
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Error: No s'ha pogut crear el directori %s: %s\n"
@@ -35,29 +35,29 @@ msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Error: No s'ha pogut crear el fitxer temporal: %s\n"
 
 #: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
-#: ../lib/config_file.c:163 ../lib/local.c:102 ../lib/local.c:217
-#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1128
+#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:282
+#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1205
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "S'ha produït un error en tancar el descriptor de fitxer: %s\n"
 
-#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:136
-#: ../lib/local.c:145 ../lib/local.c:192
+#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:189
+#: ../lib/local.c:198 ../lib/local.c:257
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Error: No s'ha pogut cercar dins del fitxer %s: %s\n"
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3105
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3171
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Error: No s'ha pogut obrir el fitxer local %s: %s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2798 ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/protocols.c:2864 ../lib/sslcommon.c:497
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Error: No s'ha pogut escriure al sòcol: %s\n"
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2720 ../lib/sshv2.c:364
+#: ../lib/config_file.c:151 ../lib/protocols.c:2786 ../lib/sshv2.c:435
 #: ../lib/sslcommon.c:450
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -190,8 +190,8 @@ msgstr ""
 "s'afegeixi a aquest fitxer. Si l'entrada té un (*) en el comentari, no podeu "
 "canviar-la des del gFTP"
 
-#: ../lib/config_file.c:1210 ../lib/protocols.c:382 ../lib/protocols.c:454
-#: ../lib/protocols.c:525 ../lib/rfc2068.c:546 ../lib/rfc2068.c:547
+#: ../lib/config_file.c:1210 ../lib/protocols.c:382 ../lib/rfc2068.c:546
+#: ../lib/rfc2068.c:547
 msgid "<unknown>"
 msgstr "<desconegut>"
 
@@ -224,10 +224,10 @@ msgstr "Error: Error en tancar el fitxer %s\n"
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "El llistat de fitxers del servifor FSP %s és corrupte\n"
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1543
-#: ../lib/protocols.c:1544 ../lib/protocols.c:1585 ../lib/protocols.c:1586
-#: ../lib/protocols.c:1652 ../lib/protocols.c:1659 ../lib/protocols.c:1735
-#: ../lib/protocols.c:1736 ../lib/protocols.c:1772
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1541
+#: ../lib/protocols.c:1542 ../lib/protocols.c:1583 ../lib/protocols.c:1584
+#: ../lib/protocols.c:1650 ../lib/protocols.c:1657 ../lib/protocols.c:1733
+#: ../lib/protocols.c:1734 ../lib/protocols.c:1770
 msgid "unknown"
 msgstr "desconegut"
 
@@ -246,34 +246,34 @@ msgstr "S'ha canviat amb èxit al directori %s\n"
 msgid "Could not change directory to %s\n"
 msgstr "No s'ha pogut canviar al directori %s\n"
 
-#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:423 ../lib/local.c:446
+#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:491 ../lib/local.c:527
 #: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:329
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "S'ha suprimit %s amb èxit\n"
 
-#: ../lib/fsp.c:477 ../lib/local.c:429
+#: ../lib/fsp.c:477 ../lib/local.c:497
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Error: No s'ha pogut suprimir el directori %s: %s\n"
 
-#: ../lib/fsp.c:506 ../lib/local.c:452 ../src/gtk/transfer.c:267
+#: ../lib/fsp.c:506 ../lib/local.c:533 ../src/gtk/transfer.c:267
 #: ../src/gtk/view_dialog.c:333
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Error: No s'ha pogut suprimir el fitxer %s: %s\n"
 
-#: ../lib/fsp.c:528 ../lib/local.c:469
+#: ../lib/fsp.c:528 ../lib/local.c:565
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "S'ha creat amb èxit el directori %s\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:495
+#: ../lib/fsp.c:563 ../lib/local.c:601
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "S'ha canviat el nom de %s a %s amb èxit\n"
 
-#: ../lib/fsp.c:575 ../lib/local.c:502
+#: ../lib/fsp.c:575 ../lib/local.c:608
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Error: No s'ha pogut canviar el nom de %s a %s: %s\n"
@@ -294,42 +294,52 @@ msgstr ""
 "L'HTTPS no està disponible ja que no es va compilar amb SSL. S'està avortant "
 "la connexió.\n"
 
-#: ../lib/local.c:71 ../lib/local.c:406
-#, c-format
-msgid "Could not change local directory to %s: %s\n"
-msgstr "No s'ha pogut canviar el directori local a %s: %s\n"
-
-#: ../lib/local.c:85 ../lib/local.c:392
+#: ../lib/local.c:66
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "No s'ha pogut obtenir el directori de treball actual: %s\n"
 
-#: ../lib/local.c:183
-#, c-format
-msgid "Error: Cannot truncate local file %s: %s\n"
-msgstr "Error: No s'ha pogut truncar el fitxer local %s: %s\n"
-
-#: ../lib/local.c:349
-#, c-format
-msgid "Could not get local directory listing %s: %s\n"
-msgstr "No s'ha pogut obtenir el llistat del directori local %s: %s\n"
-
-#: ../lib/local.c:386
+#: ../lib/local.c:105
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "S'ha canviat amb èxit el directori local a %s\n"
 
-#: ../lib/local.c:519
+#: ../lib/local.c:112
+#, c-format
+msgid "Could not change local directory to %s: %s\n"
+msgstr "No s'ha pogut canviar el directori local a %s: %s\n"
+
+#: ../lib/local.c:248
+#, c-format
+msgid "Error: Cannot truncate local file %s: %s\n"
+msgstr "Error: No s'ha pogut truncar el fitxer local %s: %s\n"
+
+#: ../lib/local.c:435
+#, c-format
+msgid "Could not get local directory listing %s: %s\n"
+msgstr "No s'ha pogut obtenir el llistat del directori local %s: %s\n"
+
+#: ../lib/local.c:645
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "S'ha canviat el mode de %s a %o amb èxit\n"
 
-#: ../lib/local.c:526
+#: ../lib/local.c:652
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "Error: No s'ha pogut canviar el mode de %s a %o: %s\n"
 
-#: ../lib/local.c:622
+#: ../lib/local.c:687
+#, c-format
+msgid "Successfully changed the time stamp of %s\n"
+msgstr "S'ha canviat amb èxit la marca de temps de %s\n"
+
+#: ../lib/local.c:694
+#, c-format
+msgid "Error: Could not change the time stamp of %s: %s\n"
+msgstr "Error: No s'ha pogut canviar la marca de temps de %s: %s\n"
+
+#: ../lib/local.c:761
 msgid "local filesystem"
 msgstr "sistema de fitxers local"
 
@@ -750,7 +760,7 @@ msgstr "Local"
 msgid "SSH2"
 msgstr "SSH2"
 
-#: ../lib/options.h:270 ../src/gtk/bookmarks.c:889
+#: ../lib/options.h:270 ../src/gtk/bookmarks.c:885
 msgid "Bookmark"
 msgstr "Adreça d'interès"
 
@@ -780,8 +790,7 @@ msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr ""
 "S'està carregant el llistat del directori %s del servidor (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:453 ../lib/protocols.c:485 ../lib/protocols.c:524
-#: ../lib/protocols.c:556
+#: ../lib/protocols.c:461
 #, c-format
 msgid ""
 "Error converting string '%s' from character set %s to character set %s: %s\n"
@@ -789,25 +798,7 @@ msgstr ""
 "S'ha produït un error en convertir la cadena '%s' del joc de caràcters %s al "
 "joc de caràcters %s: %s\n"
 
-#. Don't use request->logging_function since the strings must be in UTF-8
-#. for the GTK+ 2.x port
-#: ../lib/protocols.c:468
-#, c-format
-msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
-msgstr ""
-"S'ha produït un error en convertir a UTF-8 la cadena '%s' codificada segons "
-"la localització actual: %s\n"
-
-#. Don't use request->logging_function since the strings must be in UTF-8
-#. for the GTK+ 2.x port
-#: ../lib/protocols.c:539
-#, c-format
-msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
-msgstr ""
-"S'ha produït un error en convertir a la localització actual la cadena '%s' "
-"codificada en UTF-8: %s\n"
-
-#: ../lib/protocols.c:628
+#: ../lib/protocols.c:654
 #, c-format
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
@@ -816,102 +807,107 @@ msgstr ""
 "Avís: S'ha extret la part del camí del fitxer '%s'. La part del camí extreta "
 "(%s) no coincideix amb el directori actual (%s)\n"
 
-#: ../lib/protocols.c:646
+#: ../lib/protocols.c:680
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Error: No s'ha pogut escriure a la memòria cau: %s\n"
 
-#: ../lib/protocols.c:679
+#: ../lib/protocols.c:714
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Error: No s'ha pogut trobar l'adreça d'interès %s\n"
 
-#: ../lib/protocols.c:686
+#: ../lib/protocols.c:721
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr ""
 "Error en l'adreça d'interès: L'adreça d'interès %s no té cap nom "
 "d'ordinador\n"
 
-#: ../lib/protocols.c:825 ../lib/protocols.c:852
+#: ../lib/protocols.c:843 ../lib/protocols.c:870
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "El protocol '%s' no està implementat actualment.\n"
 
-#: ../lib/protocols.c:1166 ../lib/protocols.c:1181 ../lib/protocols.c:2295
-#: ../lib/protocols.c:2408
+#: ../lib/protocols.c:1164 ../lib/protocols.c:1179 ../lib/protocols.c:2361
+#: ../lib/protocols.c:2474
 #, c-format
 msgid "Looking up %s\n"
 msgstr "S'està cercant %s\n"
 
-#: ../lib/protocols.c:1172 ../lib/protocols.c:1187 ../lib/protocols.c:2300
-#: ../lib/protocols.c:2413
+#: ../lib/protocols.c:1170 ../lib/protocols.c:1185 ../lib/protocols.c:2366
+#: ../lib/protocols.c:2479
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "No s'ha pogut trobar %s: %s\n"
 
-#: ../lib/protocols.c:2318
+#: ../lib/protocols.c:2096
+#, c-format
+msgid "Found recursive symbolic link %s\n"
+msgstr "S'ha trobat un enllaç simbòlic recursiu %s\n"
+
+#: ../lib/protocols.c:2384
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "No s'ha pogut crear un sòcol: %s\n"
 
-#: ../lib/protocols.c:2324 ../lib/protocols.c:2430
+#: ../lib/protocols.c:2390 ../lib/protocols.c:2496
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "S'està intentant amb %s:%d\n"
 
-#: ../lib/protocols.c:2329 ../lib/protocols.c:2437
+#: ../lib/protocols.c:2395 ../lib/protocols.c:2503
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "No s'ha pogut connectar a %s: %s\n"
 
-#: ../lib/protocols.c:2367 ../lib/rfc959.c:672
+#: ../lib/protocols.c:2433 ../lib/rfc959.c:701
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "No s'ha pogut crear un sòcol IPv4: %s\n"
 
 # FIXME "/etc/services"
-#: ../lib/protocols.c:2391 ../lib/sshv2.c:1046
+#: ../lib/protocols.c:2457 ../lib/sshv2.c:1123
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "No s'ha pogut trobar el nom del servei %s/tcp. Comproveu el fitxer /etc/"
 "services\n"
 
-#: ../lib/protocols.c:2453 ../lib/protocols.c:3114 ../lib/rfc959.c:681
-#: ../lib/rfc959.c:858
+#: ../lib/protocols.c:2519 ../lib/protocols.c:3180 ../lib/rfc959.c:710
+#: ../lib/rfc959.c:887
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr ""
+msgstr "Error: No es pot establir el senyalador de tancar en executar: %s\n"
 
-#: ../lib/protocols.c:2460
+#: ../lib/protocols.c:2526
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "S'ha connectat a %s:%d\n"
 
-#: ../lib/protocols.c:2696 ../lib/protocols.c:2773 ../lib/sshv2.c:355
+#: ../lib/protocols.c:2762 ../lib/protocols.c:2839 ../lib/sshv2.c:426
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "La connexió a %s ha expirat\n"
 
-#: ../lib/protocols.c:2843
+#: ../lib/protocols.c:2909
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "No s'ha pogut obtenir els senyaladors del sòcol: %s\n"
 
-#: ../lib/protocols.c:2857
+#: ../lib/protocols.c:2923
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "El sòcol no s'ha pogut establir a no-blocant: %s\n"
 
-#: ../lib/protocols.c:3011
+#: ../lib/protocols.c:3077
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Error: El lloc remot %s ha desconnectat. S'ha arribat al màxim de "
 "reintents... es deixarà córrer\n"
 
-#: ../lib/protocols.c:3019
+#: ../lib/protocols.c:3085
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
@@ -986,7 +982,7 @@ msgstr ""
 "S'ha rebut una resposta incorrecta del servidor, s'està desconnectant\n"
 "El servidor remot ha retornat una mida de paquet invàlida '%s'\n"
 
-#: ../lib/rfc2068.c:255 ../lib/rfc959.c:645 ../lib/sshv2.c:1123
+#: ../lib/rfc2068.c:255 ../lib/rfc959.c:674 ../lib/sshv2.c:1200
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "S'està desconnectant de %s\n"
@@ -1000,11 +996,11 @@ msgstr "S'està iniciant la transferència del fitxer pel punt "
 msgid "Cannot retrieve file %s\n"
 msgstr "No s'ha pogut obtenir el fitxer %s\n"
 
-#: ../lib/rfc2068.c:424 ../lib/sshv2.c:1205
+#: ../lib/rfc2068.c:424 ../lib/sshv2.c:1282
 msgid "Retrieving directory listing...\n"
 msgstr "S'està obtenint el llistat del directori...\n"
 
-#: ../lib/rfc2068.c:819 ../lib/sshv2.c:814
+#: ../lib/rfc2068.c:819 ../lib/sshv2.c:885
 msgid "Received wrong response from server, disconnecting\n"
 msgstr ""
 "S'ha rebut una resposta incorrecta del servidor, s'està desconnectant\n"
@@ -1094,6 +1090,10 @@ msgid ""
 "needed for routers giving their internal rather then their external IP "
 "address in a PASV reply."
 msgstr ""
+"Si s'habilita, l'adreça IP PASV del sevidor FTP s'ignorarà, i es farà servir "
+"l'adreça IP de l'ordinador. Això és necessari per a encaminadors que "
+"proporcionen la seva adreça interna enlloc de la seva adreça IP externa en "
+"una resposta PASV."
 
 #: ../lib/rfc959.c:74
 msgid "Passive file transfers"
@@ -1148,76 +1148,76 @@ msgstr ""
 "UNIX a UNIX, és segur tenir-ho desactivat. Si esteu descarregant dades "
 "binàries, voldreu desactivar-ho."
 
-#: ../lib/rfc959.c:334 ../lib/rfc959.c:343 ../lib/rfc959.c:354
-#: ../lib/rfc959.c:821 ../lib/rfc959.c:1418
+#: ../lib/rfc959.c:376 ../lib/rfc959.c:385 ../lib/rfc959.c:396
+#: ../lib/rfc959.c:850 ../lib/rfc959.c:1436
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "S'ha rebut una resposta no vàlida '%c' del servidor.\n"
 
-#: ../lib/rfc959.c:711 ../lib/rfc959.c:721
+#: ../lib/rfc959.c:740 ../lib/rfc959.c:750
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "No s'ha trobat cap adreça IP a la resposta de PASV '%s'\n"
 
-#: ../lib/rfc959.c:747
+#: ../lib/rfc959.c:776
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr ""
 "S'ignorarà l'adreça IP de la resposta PASV, s'està connectant a %d.%d.%d.%d:%"
 "d\n"
 
-#: ../lib/rfc959.c:758 ../lib/rfc959.c:919
+#: ../lib/rfc959.c:787 ../lib/rfc959.c:948
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "No s'ha pogut crear una connexió de dades: %s\n"
 
-#: ../lib/rfc959.c:770 ../lib/rfc959.c:791 ../lib/rfc959.c:944
+#: ../lib/rfc959.c:799 ../lib/rfc959.c:820 ../lib/rfc959.c:973
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "No s'ha pogut obtenir el nom del sòcol: %s\n"
 
-#: ../lib/rfc959.c:781 ../lib/rfc959.c:934
+#: ../lib/rfc959.c:810 ../lib/rfc959.c:963
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "No s'ha pogut fer vincular a un port: %s\n"
 
-#: ../lib/rfc959.c:800 ../lib/rfc959.c:953
+#: ../lib/rfc959.c:829 ../lib/rfc959.c:982
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "No s'ha pogut escoltar el port %d: %s\n"
 
-#: ../lib/rfc959.c:849
+#: ../lib/rfc959.c:878
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "No s'ha pogut crear un sòcol IPv6: %s\n"
 
-#: ../lib/rfc959.c:869
+#: ../lib/rfc959.c:898
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 "Error: No sembla que estiguem connectats a través de IPv6. S'està avortant "
 "la connexió.\n"
 
-#: ../lib/rfc959.c:897 ../lib/rfc959.c:906
+#: ../lib/rfc959.c:926 ../lib/rfc959.c:935
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "La resposta EPSV '%s' no és vàlida\n"
 
-#: ../lib/rfc959.c:963
+#: ../lib/rfc959.c:992
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "No s'ha pogut obtenir l'adreça del sòcol local: %s\n"
 
-#: ../lib/rfc959.c:1050
+#: ../lib/rfc959.c:1079
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "No s'ha pogut acceptar la connexió del servidor: %s\n"
 
-#: ../lib/rfc959.c:1588
+#: ../lib/rfc959.c:1606
 msgid "total"
 msgstr "total"
 
-#: ../lib/rfc959.c:1590
+#: ../lib/rfc959.c:1608
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Avís: No s'ha pogut analitzar el llistat %s\n"
@@ -1250,173 +1250,173 @@ msgstr "Cal un usuari/contrasenya SSH"
 msgid "Require a username/password for SSH connections"
 msgstr "Demana un nom d'usuari/contrasenya per a connexions SSH"
 
-#: ../lib/sshv2.c:298
+#: ../lib/sshv2.c:369
 #, c-format
 msgid "Running program %s\n"
 msgstr "S'està executant el programa %s\n"
 
-#: ../lib/sshv2.c:307
+#: ../lib/sshv2.c:378
 msgid "Enter passphrase for RSA key"
 msgstr "Entreu la contrasenya per a la clau RSA"
 
-#: ../lib/sshv2.c:308
+#: ../lib/sshv2.c:379
 msgid "Enter passphrase for key '"
 msgstr "Entreu la contrasenya per a la clau '"
 
-#: ../lib/sshv2.c:309
+#: ../lib/sshv2.c:380
 msgid "Password"
 msgstr "Contrasenya"
 
-#: ../lib/sshv2.c:310
+#: ../lib/sshv2.c:381
 msgid "password"
 msgstr "contrasenya"
 
-#: ../lib/sshv2.c:415
+#: ../lib/sshv2.c:486
 msgid "(yes/no)?"
 msgstr "(sí/no)?"
 
-#: ../lib/sshv2.c:433
+#: ../lib/sshv2.c:504
 msgid "Enter PASSCODE:"
 msgstr "Entreu la contrasenya:"
 
-#: ../lib/sshv2.c:437 ../src/gtk/gtkui.c:132 ../src/gtk/transfer.c:547
-#: ../src/gtk/transfer.c:557
+#: ../lib/sshv2.c:508 ../src/gtk/gtkui.c:132 ../src/gtk/transfer.c:586
+#: ../src/gtk/transfer.c:596
 msgid "Enter Password"
 msgstr "Introduïu la contrasenya"
 
-#: ../lib/sshv2.c:438
+#: ../lib/sshv2.c:509
 msgid "Enter SecurID Password:"
 msgstr "Introduïu la contrasenya SecurID:"
 
-#: ../lib/sshv2.c:486
+#: ../lib/sshv2.c:557
 msgid "Error: An incorrect password was entered\n"
 msgstr "Error: S'ha introduït una contrasenya incorrecta\n"
 
-#: ../lib/sshv2.c:515
+#: ../lib/sshv2.c:586
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: Inicialització del protocol\n"
 
-#: ../lib/sshv2.c:519
+#: ../lib/sshv2.c:590
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: Versió %d del protocol\n"
 
-#: ../lib/sshv2.c:528
+#: ../lib/sshv2.c:599
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: Obre %s\n"
 
-#: ../lib/sshv2.c:533
+#: ../lib/sshv2.c:604
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: Tanca\n"
 
-#: ../lib/sshv2.c:537
+#: ../lib/sshv2.c:608
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: Obre el directori %s\n"
 
-#: ../lib/sshv2.c:542
+#: ../lib/sshv2.c:613
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: Llegeix el directori\n"
 
-#: ../lib/sshv2.c:546
+#: ../lib/sshv2.c:617
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: Elimina el fitxer %s\n"
 
-#: ../lib/sshv2.c:551
+#: ../lib/sshv2.c:622
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: Crea el directori %s\n"
 
-#: ../lib/sshv2.c:556
+#: ../lib/sshv2.c:627
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: Elimina el directori %s\n"
 
-#: ../lib/sshv2.c:561
+#: ../lib/sshv2.c:632
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: Camí real %s\n"
 
-#: ../lib/sshv2.c:566
+#: ../lib/sshv2.c:637
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: Atributs del fitxer\n"
 
-#: ../lib/sshv2.c:570
+#: ../lib/sshv2.c:641
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Stat %s\n"
 
-#: ../lib/sshv2.c:590
+#: ../lib/sshv2.c:661
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: ../lib/sshv2.c:595
+#: ../lib/sshv2.c:666
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: ../lib/sshv2.c:609 ../src/gtk/bookmarks.c:1048 ../src/gtk/bookmarks.c:1306
-#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:368
-#: ../src/gtk/misc-gtk.c:1008 ../src/gtk/options_dialog.c:1208
+#: ../lib/sshv2.c:680 ../src/gtk/bookmarks.c:1044 ../src/gtk/bookmarks.c:1302
+#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:364
+#: ../src/gtk/misc-gtk.c:995 ../src/gtk/options_dialog.c:1208
 #: ../src/gtk/options_dialog.c:1442
 msgid "OK"
 msgstr "D'acord"
 
-#: ../lib/sshv2.c:612
+#: ../lib/sshv2.c:683
 msgid "EOF"
 msgstr "EOF"
 
-#: ../lib/sshv2.c:615
+#: ../lib/sshv2.c:686
 msgid "No such file or directory"
 msgstr "Aquest fitxer o directori no existeix."
 
-#: ../lib/sshv2.c:618
+#: ../lib/sshv2.c:689
 msgid "Permission denied"
 msgstr "S'ha denegat el permís"
 
-#: ../lib/sshv2.c:621
+#: ../lib/sshv2.c:692
 msgid "Failure"
 msgstr "Ha fallat"
 
-#: ../lib/sshv2.c:624
+#: ../lib/sshv2.c:695
 msgid "Bad message"
 msgstr "Missatge incorrecte"
 
-#: ../lib/sshv2.c:627
+#: ../lib/sshv2.c:698
 msgid "No connection"
 msgstr "Sense connexió"
 
-#: ../lib/sshv2.c:630
+#: ../lib/sshv2.c:701
 msgid "Connection lost"
 msgstr "S'ha perdut la connexió"
 
-#: ../lib/sshv2.c:633
+#: ../lib/sshv2.c:704
 msgid "Operation unsupported"
 msgstr "L'operació no està implementada"
 
-#: ../lib/sshv2.c:636
+#: ../lib/sshv2.c:707
 msgid "Unknown message returned from server"
 msgstr "El servidor ha retornat un missatge desconegut"
 
-#: ../lib/sshv2.c:671
+#: ../lib/sshv2.c:742
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Error: La mida (%d) del missatge és massa gran\n"
 
-#: ../lib/sshv2.c:730 ../lib/sshv2.c:1225 ../lib/sshv2.c:1817
-#: ../lib/sshv2.c:1937
+#: ../lib/sshv2.c:801 ../lib/sshv2.c:1301 ../lib/sshv2.c:1876
+#: ../lib/sshv2.c:1996
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Error: La mida (%d) del missatge del servidor és massa gran\n"
 
-#: ../lib/sshv2.c:736
+#: ../lib/sshv2.c:807
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
@@ -1424,12 +1424,12 @@ msgstr ""
 "S'ha produït un error en iniciar una connexió SSH amb el servidor remot. "
 "Aquest és el missatge d'error del servidor remot:\n"
 
-#: ../lib/sshv2.c:1038
+#: ../lib/sshv2.c:1115
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "S'està obrint una connexió SSH a %s\n"
 
-#: ../lib/sshv2.c:1090
+#: ../lib/sshv2.c:1167
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "S'ha entrat amb èxit al servidor SSH %s\n"
@@ -1877,44 +1877,33 @@ msgstr "site"
 msgid "Run a site specific command"
 msgstr "Executa una ordre específica del lloc remot"
 
-#: ../src/uicommon/gftpui.c:1120
+#: ../src/uicommon/gftpui.c:1119
 msgid "Error: Command not recognized\n"
 msgstr "Error: No s'ha reconegut l'ordre\n"
 
-#: ../src/uicommon/gftpui.c:1358
-#, c-format
-msgid "Skipping file %s on host %s\n"
-msgstr "S'està ometent el fitxer %s de l'ordinador %s\n"
-
-#: ../src/uicommon/gftpui.c:1384
-#, c-format
-msgid "Stopping the transfer on host %s\n"
-msgstr "S'està aturant la transferència de l'ordinador %s\n"
-
-#: ../src/uicommon/gftpui.c:1491
-msgid "Error: Remote site disconnected after trying to transfer file\n"
-msgstr ""
-"Error: El lloc remot ha desconnectat després d'intentar transferir un "
-"fitxer\n"
-
-#: ../src/uicommon/gftpui.c:1533
-#, c-format
-msgid "Could not download %s from %s\n"
-msgstr "No s'ha pogut descarregar %s de %s\n"
-
-#: ../src/uicommon/gftpui.c:1557
+#: ../src/uicommon/gftpui.c:1341
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "S'ha transferit %s amb èxit a %.2f KB/s\n"
 
-#: ../src/uicommon/gftpui.c:1564
+#: ../src/uicommon/gftpui.c:1374
 #, c-format
-msgid "There was an error transfering the file %s"
-msgstr "Hi ha hagut un error en transferir el fitxer %s"
+msgid "Skipping file %s on host %s\n"
+msgstr "S'està ometent el fitxer %s de l'ordinador %s\n"
+
+#: ../src/uicommon/gftpui.c:1400
+#, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "S'està aturant la transferència de l'ordinador %s\n"
+
+#: ../src/uicommon/gftpui.c:1545
+#, c-format
+msgid "Could not download %s from %s\n"
+msgstr "No s'ha pogut descarregar %s de %s\n"
 
 #: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1100 ../src/gtk/misc-gtk.c:515
-#: ../src/gtk/misc-gtk.c:523
+#: ../src/gtk/gftp-gtk.c:1100 ../src/gtk/misc-gtk.c:505
+#: ../src/gtk/misc-gtk.c:513
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: Premeu el botó d'aturar abans de fer res més\n"
@@ -1958,23 +1947,23 @@ msgstr ""
 msgid "Remember password"
 msgstr "Recorda la contrasenya"
 
-#: ../src/gtk/bookmarks.c:473
+#: ../src/gtk/bookmarks.c:469
 msgid "New Folder"
 msgstr "Carpeta nova"
 
-#: ../src/gtk/bookmarks.c:474
+#: ../src/gtk/bookmarks.c:470
 msgid "Enter the name of the new folder to create"
 msgstr "Introduïu el nom de la carpeta nova a crear"
 
-#: ../src/gtk/bookmarks.c:483
+#: ../src/gtk/bookmarks.c:479
 msgid "New Item"
 msgstr "Element nou"
 
-#: ../src/gtk/bookmarks.c:484
+#: ../src/gtk/bookmarks.c:480
 msgid "Enter the name of the new item to create"
 msgstr "Introduïu el nom de l'element nou a crear"
 
-#: ../src/gtk/bookmarks.c:557
+#: ../src/gtk/bookmarks.c:553
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1983,101 +1972,101 @@ msgstr ""
 "Esteu segur de voler eliminar l'adreça\n"
 "d'interès %s i tots els seus fills?"
 
-#: ../src/gtk/bookmarks.c:558
+#: ../src/gtk/bookmarks.c:554
 msgid "Delete Bookmark"
 msgstr "Elimina l'adreça d'interès"
 
-#: ../src/gtk/bookmarks.c:630
+#: ../src/gtk/bookmarks.c:626
 msgid "Bookmarks"
 msgstr "Adreces d'interès"
 
-#: ../src/gtk/bookmarks.c:853 ../src/gtk/bookmarks.c:856
+#: ../src/gtk/bookmarks.c:849 ../src/gtk/bookmarks.c:852
 msgid "Edit Entry"
 msgstr "Edita una entrada"
 
-#: ../src/gtk/bookmarks.c:894
+#: ../src/gtk/bookmarks.c:890
 msgid "Description:"
 msgstr "Descripció:"
 
-#: ../src/gtk/bookmarks.c:909
+#: ../src/gtk/bookmarks.c:905
 msgid "Hostname:"
 msgstr "Nom de l'ordinador:"
 
-#: ../src/gtk/bookmarks.c:922
+#: ../src/gtk/bookmarks.c:918
 msgid "Port:"
 msgstr "Port:"
 
-#: ../src/gtk/bookmarks.c:939
+#: ../src/gtk/bookmarks.c:935
 msgid "Protocol:"
 msgstr "Protocol:"
 
-#: ../src/gtk/bookmarks.c:963
+#: ../src/gtk/bookmarks.c:959
 msgid "Remote Directory:"
 msgstr "Directori remot:"
 
-#: ../src/gtk/bookmarks.c:976
+#: ../src/gtk/bookmarks.c:972
 msgid "Local Directory:"
 msgstr "Directori local:"
 
-#: ../src/gtk/bookmarks.c:993
+#: ../src/gtk/bookmarks.c:989
 msgid "Username:"
 msgstr "Nom d'usuari:"
 
-#: ../src/gtk/bookmarks.c:1006 ../src/text/textui.c:91
+#: ../src/gtk/bookmarks.c:1002 ../src/text/textui.c:92
 msgid "Password:"
 msgstr "Contrasenya:"
 
-#: ../src/gtk/bookmarks.c:1020
+#: ../src/gtk/bookmarks.c:1016
 msgid "Account:"
 msgstr "Compte:"
 
-#: ../src/gtk/bookmarks.c:1034
+#: ../src/gtk/bookmarks.c:1030
 msgid "Log in as ANONYMOUS"
 msgstr "Entra com a anònim"
 
-#: ../src/gtk/bookmarks.c:1059 ../src/gtk/bookmarks.c:1317
-#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:380
+#: ../src/gtk/bookmarks.c:1055 ../src/gtk/bookmarks.c:1313
+#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:376
 #: ../src/gtk/options_dialog.c:1219 ../src/gtk/options_dialog.c:1453
 msgid "  Cancel  "
 msgstr "  Cancel·la  "
 
-#: ../src/gtk/bookmarks.c:1068 ../src/gtk/options_dialog.c:1464
+#: ../src/gtk/bookmarks.c:1064 ../src/gtk/options_dialog.c:1464
 msgid "Apply"
 msgstr "Aplica"
 
-#: ../src/gtk/bookmarks.c:1219
+#: ../src/gtk/bookmarks.c:1215
 msgid "/_File"
 msgstr "/_Fitxer"
 
-#: ../src/gtk/bookmarks.c:1220
+#: ../src/gtk/bookmarks.c:1216
 msgid "/File/tearoff"
 msgstr "/File/tearoff"
 
-#: ../src/gtk/bookmarks.c:1221
+#: ../src/gtk/bookmarks.c:1217
 msgid "/File/New _Folder..."
 msgstr "/Fitxer/_Carpeta nova..."
 
-#: ../src/gtk/bookmarks.c:1222
+#: ../src/gtk/bookmarks.c:1218
 msgid "/File/New _Item..."
 msgstr "/Fitxer/_Element nou..."
 
-#: ../src/gtk/bookmarks.c:1223
+#: ../src/gtk/bookmarks.c:1219
 msgid "/File/_Delete"
 msgstr "/Fitxer/_Suprimeix"
 
-#: ../src/gtk/bookmarks.c:1224
+#: ../src/gtk/bookmarks.c:1220
 msgid "/File/_Properties..."
 msgstr "/Fitxer/_Propietats..."
 
-#: ../src/gtk/bookmarks.c:1225
+#: ../src/gtk/bookmarks.c:1221
 msgid "/File/sep"
 msgstr "/File/sep"
 
-#: ../src/gtk/bookmarks.c:1226
+#: ../src/gtk/bookmarks.c:1222
 msgid "/File/_Close"
 msgstr "/File/_Tanca"
 
-#: ../src/gtk/bookmarks.c:1244 ../src/gtk/bookmarks.c:1247
+#: ../src/gtk/bookmarks.c:1240 ../src/gtk/bookmarks.c:1243
 msgid "Edit Bookmarks"
 msgstr "Edita les adreces d'interès"
 
@@ -2160,8 +2149,8 @@ msgstr "Suprimeix fitxers/directoris"
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1101 ../src/gtk/misc-gtk.c:942
-#: ../src/gtk/misc-gtk.c:1017
+#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1101 ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/misc-gtk.c:1004
 msgid "Connect"
 msgstr "Connecta"
 
@@ -2237,7 +2226,7 @@ msgstr "/_Local"
 
 #: ../src/gtk/gftp-gtk.c:282
 msgid "/Local/tearoff"
-msgstr "/Local/tearoff"
+msgstr "Local/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:283
 msgid "/Local/_Open Location..."
@@ -2398,7 +2387,7 @@ msgstr "/_Adreces d'interès"
 
 #: ../src/gtk/gftp-gtk.c:336
 msgid "/Bookmarks/tearoff"
-msgstr "/Bookmarks/tearoff"
+msgstr "/Adreces d'interès/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:337
 msgid "/Bookmarks/Add _Bookmark"
@@ -2419,19 +2408,19 @@ msgstr "/_Transferències"
 # FIXME
 #: ../src/gtk/gftp-gtk.c:342
 msgid "/Transfer/tearoff"
-msgstr "/Transfers/tearoff"
+msgstr "/Transferències/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:343
 msgid "/Transfer/_Start"
-msgstr "/Transfers/_Inicia"
+msgstr "/Transferències/_Inicia"
 
 #: ../src/gtk/gftp-gtk.c:344
 msgid "/Transfer/St_op"
-msgstr "/Transfers/A_tura"
+msgstr "/Transferències/A_tura"
 
 #: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
 msgid "/Transfer/sep"
-msgstr "/Transfers/sep"
+msgstr "/Transferències/sep"
 
 #: ../src/gtk/gftp-gtk.c:347
 msgid "/Transfer/Skip _Current File"
@@ -2484,7 +2473,7 @@ msgstr "/E_ines"
 
 #: ../src/gtk/gftp-gtk.c:363
 msgid "/Tools/tearoff"
-msgstr "/Eines/desacobla"
+msgstr "/Eines/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:364
 msgid "/Tools/C_ompare Windows"
@@ -2500,7 +2489,7 @@ msgstr "/Ajuda"
 
 #: ../src/gtk/gftp-gtk.c:367
 msgid "/Help/tearoff"
-msgstr "/Ajuda/desacobla"
+msgstr "/Ajuda/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:368
 msgid "/Help/_About"
@@ -2571,7 +2560,7 @@ msgstr "Introduïu el nom d'usuari:"
 msgid "Please enter your username for this site"
 msgstr "Introduïu el nom d'usuari per a aquest lloc"
 
-#: ../src/gtk/gtkui.c:133 ../src/gtk/transfer.c:548 ../src/gtk/transfer.c:558
+#: ../src/gtk/gtkui.c:133 ../src/gtk/transfer.c:587 ../src/gtk/transfer.c:597
 msgid "Please enter your password for this site"
 msgstr "Introduïu la contrasenya per a aquest lloc"
 
@@ -2591,8 +2580,8 @@ msgstr "Crea un directori"
 msgid "Enter name of directory to create"
 msgstr "Introduïu el nom del directori a crear"
 
-#: ../src/gtk/gtkui.c:360 ../src/gtk/gtkui.c:372 ../src/gtk/misc-gtk.c:945
-#: ../src/gtk/misc-gtk.c:1020
+#: ../src/gtk/gtkui.c:360 ../src/gtk/gtkui.c:372 ../src/gtk/misc-gtk.c:932
+#: ../src/gtk/misc-gtk.c:1007
 msgid "Rename"
 msgstr "Canvia el nom"
 
@@ -2617,27 +2606,27 @@ msgstr "Posa-hi SITE abans"
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:458
-#: ../src/gtk/transfer.c:526 ../src/gtk/transfer.c:983
+#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:497
+#: ../src/gtk/transfer.c:565 ../src/gtk/transfer.c:1022
 msgid "Skipped"
 msgstr "Omès"
 
-#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:505
-#: ../src/gtk/transfer.c:530
+#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:544
+#: ../src/gtk/transfer.c:569
 msgid "Waiting..."
 msgstr "S'està esperant..."
 
-#: ../src/gtk/gtkui_transfer.c:124 ../src/gtk/gtkui_transfer.c:303
-#: ../src/gtk/gtkui_transfer.c:333
+#: ../src/gtk/gtkui_transfer.c:124 ../src/gtk/gtkui_transfer.c:302
+#: ../src/gtk/gtkui_transfer.c:329
 msgid "Overwrite"
 msgstr "Sobreescriu"
 
-#: ../src/gtk/gtkui_transfer.c:131 ../src/gtk/gtkui_transfer.c:309
-#: ../src/gtk/gtkui_transfer.c:339
+#: ../src/gtk/gtkui_transfer.c:131 ../src/gtk/gtkui_transfer.c:308
+#: ../src/gtk/gtkui_transfer.c:335
 msgid "Resume"
 msgstr "Reprèn"
 
-#: ../src/gtk/gtkui_transfer.c:138 ../src/gtk/gtkui_transfer.c:306
+#: ../src/gtk/gtkui_transfer.c:138 ../src/gtk/gtkui_transfer.c:305
 msgid "Skip"
 msgstr "Omet"
 
@@ -2658,19 +2647,19 @@ msgstr ""
 "Aquests fitxers existeixen tant a l'ordinador local com al remot\n"
 "Escolliu el que vulgueu fer"
 
-#: ../src/gtk/gtkui_transfer.c:312
+#: ../src/gtk/gtkui_transfer.c:311
 msgid "Error"
 msgstr "Error"
 
-#: ../src/gtk/gtkui_transfer.c:345
+#: ../src/gtk/gtkui_transfer.c:341
 msgid "Skip File"
 msgstr "Omet el fitxer"
 
-#: ../src/gtk/gtkui_transfer.c:355
+#: ../src/gtk/gtkui_transfer.c:351
 msgid "Select All"
 msgstr "Selecciona-ho tot"
 
-#: ../src/gtk/gtkui_transfer.c:361
+#: ../src/gtk/gtkui_transfer.c:357
 msgid "Deselect All"
 msgstr "Deselecciona-ho tot"
 
@@ -2756,83 +2745,85 @@ msgstr "  Tanca  "
 msgid "Compare Windows"
 msgstr "Compara les finestres"
 
-#: ../src/gtk/misc-gtk.c:256
+#: ../src/gtk/misc-gtk.c:257
 msgid "Disconnect from the remote server"
 msgstr "Desconnecta del servidor remot"
 
-#: ../src/gtk/misc-gtk.c:260
+#: ../src/gtk/misc-gtk.c:261
 msgid ""
 "Connect to the site specified in the host entry. If the host entry is blank, "
 "then a dialog is presented that will allow you to enter a URL."
 msgstr ""
+"Connecta a l'ordinador indicat. Si l'entrada és en blanc, es presentarà un "
+"diàleg que us permetrà entrar una URL."
 
-#: ../src/gtk/misc-gtk.c:307
+#: ../src/gtk/misc-gtk.c:308
 msgid "All Files"
 msgstr "Tots els fitxers"
 
-#: ../src/gtk/misc-gtk.c:317
+#: ../src/gtk/misc-gtk.c:318
 msgid "] (Cached) ["
-msgstr "] (a la memòria cau) ["
+msgstr "] (encauat) ["
 
-#: ../src/gtk/misc-gtk.c:339
+#: ../src/gtk/misc-gtk.c:329
 msgid "Not connected"
 msgstr "No connectat"
 
-#: ../src/gtk/misc-gtk.c:441
+#: ../src/gtk/misc-gtk.c:431
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "S'ha produït un error en obrir el fitxer %s: %s\n"
 
-#: ../src/gtk/misc-gtk.c:531
+#: ../src/gtk/misc-gtk.c:521
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: No s'està connectat a cap lloc remot\n"
 
-#: ../src/gtk/misc-gtk.c:538
+#: ../src/gtk/misc-gtk.c:528
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr ""
 "%s: Aquesta característica no està disponible si s'usa aquest protocol\n"
 
-#: ../src/gtk/misc-gtk.c:546
+#: ../src/gtk/misc-gtk.c:536
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: Heu de tenir només un element seleccionat\n"
 
-#: ../src/gtk/misc-gtk.c:553
+#: ../src/gtk/misc-gtk.c:543
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: Heu de tenir com a mínim un element seleccionat\n"
 
-#: ../src/gtk/misc-gtk.c:939 ../src/gtk/misc-gtk.c:1014
+#: ../src/gtk/misc-gtk.c:926 ../src/gtk/misc-gtk.c:1001
 msgid "Change"
 msgstr "Canvia"
 
-#: ../src/gtk/misc-gtk.c:1011 ../src/gtk/options_dialog.c:1280
+#: ../src/gtk/misc-gtk.c:998 ../src/gtk/options_dialog.c:1280
 msgid "Add"
 msgstr "Afegeix"
 
-#: ../src/gtk/misc-gtk.c:1037
+#: ../src/gtk/misc-gtk.c:1024
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: ../src/gtk/misc-gtk.c:1107
+#: ../src/gtk/misc-gtk.c:1094
 msgid "  Yes  "
 msgstr "  Sí  "
 
-#: ../src/gtk/misc-gtk.c:1117
+#: ../src/gtk/misc-gtk.c:1104
 msgid "  No  "
 msgstr "  No  "
 
-#: ../src/gtk/misc-gtk.c:1177
+#: ../src/gtk/misc-gtk.c:1164
 msgid "Getting directory listings"
 msgstr "S'està obtenint els llistats dels directoris"
 
-#: ../src/gtk/misc-gtk.c:1197
+#: ../src/gtk/misc-gtk.c:1184
 msgid "  Stop  "
 msgstr "  Atura  "
 
-#: ../src/gtk/misc-gtk.c:1207
+#: ../src/gtk/misc-gtk.c:1194
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2841,7 +2832,7 @@ msgstr ""
 "S'ha rebut %ld directoris\n"
 "i %ld fitxers"
 
-#: ../src/gtk/misc-gtk.c:1283
+#: ../src/gtk/misc-gtk.c:1270
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "Error del gFTP: No s'ha pogut trobar el fitxer %s a %s ni a %s\n"
@@ -2906,7 +2897,7 @@ msgstr "Opcions"
 msgid "Receiving file names..."
 msgstr "S'estan rebent els noms dels fitxers..."
 
-#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:675
+#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:714
 msgid "Connecting..."
 msgstr "S'està connectant..."
 
@@ -2914,32 +2905,32 @@ msgstr "S'està connectant..."
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "Envia els fitxers: No s'està connectat a cap lloc remot\n"
 
-#: ../src/gtk/transfer.c:354
+#: ../src/gtk/transfer.c:336
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "Error: El fill %d ha retornat %d\n"
 
-#: ../src/gtk/transfer.c:361
+#: ../src/gtk/transfer.c:345
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "El fill %d ha retornat amb èxit\n"
 
-#: ../src/gtk/transfer.c:365
+#: ../src/gtk/transfer.c:352
 #, c-format
 msgid "Error: Child %d did not terminate properly\n"
 msgstr "Error: El fill %d no ha acabat correctament\n"
 
-#: ../src/gtk/transfer.c:375
+#: ../src/gtk/transfer.c:368
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "Error: No s'ha pogut obtenir informació sobre el fitxer %s: %s\n"
 
-#: ../src/gtk/transfer.c:380
+#: ../src/gtk/transfer.c:374
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "No s'ha canviat el fitxer %s\n"
 
-#: ../src/gtk/transfer.c:388
+#: ../src/gtk/transfer.c:382
 #, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2948,56 +2939,56 @@ msgstr ""
 "El fitxer %s ha canviat.\n"
 "Voleu pujar-lo?"
 
-#: ../src/gtk/transfer.c:391
+#: ../src/gtk/transfer.c:385
 msgid "Edit File"
 msgstr "Edita el fitxer"
 
-#: ../src/gtk/transfer.c:461
+#: ../src/gtk/transfer.c:500
 msgid "Finished"
 msgstr "Acabat"
 
-#: ../src/gtk/transfer.c:717
+#: ../src/gtk/transfer.c:756
 #, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "S'han enviat %s de %s a %.2fKB/s, temps restant: %02d:%02d:%02d"
 
-#: ../src/gtk/transfer.c:722
+#: ../src/gtk/transfer.c:761
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "S'han rebut %s de %s a %.2fKB/s, temps restant: %02d:%02d:%02d"
 
-#: ../src/gtk/transfer.c:733
+#: ../src/gtk/transfer.c:772
 #, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
 msgstr ""
 "S'han enviat %s de %s, la transferència està embussada, es desconeix el "
 "temps restant"
 
-#: ../src/gtk/transfer.c:739
+#: ../src/gtk/transfer.c:778
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr ""
 "S'han rebut %s de %s, la transferència està embussada, es desconeix el temps "
 "restant"
 
-#: ../src/gtk/transfer.c:783
+#: ../src/gtk/transfer.c:822
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "Es desconeix el percentatge completat. (Fitxer %ld de %ld)"
 
-#: ../src/gtk/transfer.c:787
+#: ../src/gtk/transfer.c:826
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% complet, %02d:%02d:%02d temps restant estimat (Fitxer %ld de %ld)"
 
-#: ../src/gtk/transfer.c:825
+#: ../src/gtk/transfer.c:864
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "S'estan obtenint els noms dels fitxers...%s bytes"
 
-#: ../src/gtk/transfer.c:904 ../src/gtk/transfer.c:926
-#: ../src/gtk/transfer.c:947 ../src/gtk/transfer.c:969
-#: ../src/gtk/transfer.c:997 ../src/gtk/transfer.c:1057
+#: ../src/gtk/transfer.c:943 ../src/gtk/transfer.c:965
+#: ../src/gtk/transfer.c:986 ../src/gtk/transfer.c:1008
+#: ../src/gtk/transfer.c:1036 ../src/gtk/transfer.c:1096
 msgid "There are no file transfers selected\n"
 msgstr "No hi ha cap transferència seleccionada\n"
 
@@ -3044,16 +3035,16 @@ msgstr "S'està visualitzant el fitxer %s\n"
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Visualitza: No s'ha pogut obrir el fitxer %s: %s\n"
 
-#: ../src/text/gftp-text.c:176
+#: ../src/text/gftp-text.c:166
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "No s'ha pogut obrir el terminal controlador %s\n"
 
-#: ../src/text/textui.c:79
+#: ../src/text/textui.c:80
 msgid "Username [anonymous]:"
 msgstr "Nom d'usuari [anonymous]:"
 
-#: ../src/text/textui.c:148
+#: ../src/text/textui.c:149
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
@@ -3063,6 +3054,24 @@ msgstr ""
 "%s ja existeix. (%s mida origen, %s mida destí):\n"
 "s(o)breescriu, (r)eprèn, (s)alta, S(O)breescriu-ho tot, (R)eprèn-ho tot, (S)"
 "alta-ho tot: (%c)"
+
+#~ msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
+#~ msgstr ""
+#~ "S'ha produït un error en convertir a UTF-8 la cadena '%s' codificada "
+#~ "segons la localització actual: %s\n"
+
+#~ msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
+#~ msgstr ""
+#~ "S'ha produït un error en convertir a la localització actual la cadena '%"
+#~ "s' codificada en UTF-8: %s\n"
+
+#~ msgid "Error: Remote site disconnected after trying to transfer file\n"
+#~ msgstr ""
+#~ "Error: El lloc remot ha desconnectat després d'intentar transferir un "
+#~ "fitxer\n"
+
+#~ msgid "There was an error transfering the file %s"
+#~ msgstr "Hi ha hagut un error en transferir el fitxer %s"
 
 #~ msgid "Stopping the transfer of %s\n"
 #~ msgstr "S'està aturant la transferència de %s\n"
