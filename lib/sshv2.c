@@ -896,6 +896,7 @@ static int
 sshv2_read_status_response (gftp_request * request, sshv2_message * message,
                             int fd, int fxp_is_retryable, int fxp_is_wrong)
 {
+  guint32 num;
   int ret;
 
   memset (message, 0, sizeof (*message));
@@ -904,8 +905,15 @@ sshv2_read_status_response (gftp_request * request, sshv2_message * message,
     return (ret);
   else if (fxp_is_retryable > 0 && ret == fxp_is_retryable)
     {
+      memcpy (&num, message->buffer + 4, 4);
+      num = ntohl (num);
+
       sshv2_message_free (message);
-      return (GFTP_ERETRYABLE);
+
+      if (num == SSH_FX_PERMISSION_DENIED)
+        return (GFTP_EFATAL);
+      else
+        return (GFTP_ERETRYABLE);
     }
   else if (fxp_is_wrong > 0 && ret != fxp_is_wrong)
     return (sshv2_wrong_response (request, message));
@@ -923,10 +931,11 @@ sshv2_response_return_code (gftp_request * request, sshv2_message * message,
       case SSH_FX_OK:
       case SSH_FX_EOF:
       case SSH_FX_NO_SUCH_FILE:
-      case SSH_FX_PERMISSION_DENIED:
       case SSH_FX_FAILURE:
       case SSH_FX_OP_UNSUPPORTED:
         return (GFTP_ERETRYABLE);
+      case SSH_FX_PERMISSION_DENIED:
+        return (GFTP_EFATAL);
       default:
         return (sshv2_wrong_response (request, message));
     }

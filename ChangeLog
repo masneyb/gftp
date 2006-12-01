@@ -1,3 +1,9 @@
+2006-11-30 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c lib/sshv2.c src/uicommon/gftpui.c - don't abort the
+	entire file transfer if there is a permission denied at some point
+	during the file transfer. Give the user an error at the very end if
+	there were any errors. (closes #328550)
+
 2006-11-16 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_get_all_subdirs) - don't return if there was a
 	problem running gftp_stat_filename(). Only return if there was a fatal

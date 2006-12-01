@@ -1207,7 +1207,11 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
   else if (ret != '1')
     {
       rfc959_close_data_connection (request);
-      return (GFTP_ERETRYABLE);
+
+      if (ret == '5')
+        return (GFTP_EFATAL);
+      else
+        return (GFTP_ERETRYABLE);
     }
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
@@ -1276,7 +1280,11 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
   else if (ret != '1')
     {
       rfc959_close_data_connection (request);
-      return (GFTP_ERETRYABLE);
+
+      if (ret == '5')
+        return (GFTP_EFATAL);
+      else
+        return (GFTP_ERETRYABLE);
     }
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);

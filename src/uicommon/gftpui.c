@@ -1462,9 +1462,8 @@ _gftpui_common_preserve_perm_time (gftp_transfer * tdata, gftp_file * curfle)
 static int
 _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
 {
+  int tofd, fromfd, ret;
   gftp_file * curfle; 
-  int tofd, fromfd;
-  int ret;
 
   if (g_thread_supported ())
     g_static_mutex_lock (&tdata->structmutex);
@@ -1552,12 +1551,13 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
 int
 gftpui_common_transfer_files (gftp_transfer * tdata)
 {
-  int ret;
+  int ret, skipped_files;
 
   tdata->curfle = tdata->files;
   gettimeofday (&tdata->starttime, NULL);
   memcpy (&tdata->lasttime, &tdata->starttime, sizeof (tdata->lasttime));
 
+  skipped_files = 0;
   while (tdata->curfle != NULL)
     {
       ret = _gftpui_common_trans_file_or_dir (tdata);
@@ -1569,6 +1569,8 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
           if (gftp_abort_transfer (tdata->fromreq) != 0)
             gftp_disconnect (tdata->fromreq);
         }
+      else if (ret == GFTP_EFATAL)
+        skipped_files++;
       else if (ret < 0)
         {
           if (gftp_get_transfer_status (tdata, ret) == GFTP_ERETRYABLE)
@@ -1589,6 +1591,11 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
           tdata->toreq->cancel = 0;
         }
     }
+
+  if (skipped_files)
+    tdata->fromreq->logging_function (gftp_logging_error, tdata->fromreq,
+                                      _("There were %d files or directories that could not be transferred. Check the log for which items were not properly transferred."),
+                                      skipped_files);
 
   tdata->done = 1;
   return (1);
