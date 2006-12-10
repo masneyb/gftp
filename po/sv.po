@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gFTP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-04 10:53+0100\n"
-"PO-Revision-Date: 2006-11-04 14:45+0100\n"
+"POT-Creation-Date: 2006-12-10 12:06+0100\n"
+"PO-Revision-Date: 2006-12-10 15:56+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Fel: Raden %s i indexfilen för cacheminnet är ogiltig\n"
 
 #: ../lib/cache.c:138
 #: ../lib/fsp.c:535
-#: ../lib/local.c:570
+#: ../lib/local.c:572
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Fel: Kunde inte skapa katalogen %s: %s\n"
@@ -50,7 +50,7 @@ msgstr "Fel: Kan inte skapa temporärfil: %s\n"
 #: ../lib/local.c:144
 #: ../lib/local.c:282
 #: ../lib/rfc2068.c:260
-#: ../lib/sshv2.c:1201
+#: ../lib/sshv2.c:1214
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Fel när filidentifieraren skulle stängas: %s\n"
@@ -67,21 +67,21 @@ msgstr "Fel: Kan inte söka på filen %s: %s\n"
 
 #: ../lib/config_file.c:126
 #: ../lib/config_file.c:133
-#: ../lib/protocols.c:3104
+#: ../lib/protocols.c:3171
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Fel: Kan inte öppna den lokala filen %s: %s\n"
 
 #: ../lib/config_file.c:143
-#: ../lib/protocols.c:2797
+#: ../lib/protocols.c:2864
 #: ../lib/sslcommon.c:497
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Fel: Kunde inte skriva till uttag (socket): %s\n"
 
 #: ../lib/config_file.c:151
-#: ../lib/protocols.c:2719
-#: ../lib/sshv2.c:432
+#: ../lib/protocols.c:2786
+#: ../lib/sshv2.c:435
 #: ../lib/sslcommon.c:450
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -248,8 +248,8 @@ msgstr "Kunde inte ändra katalog till %s\n"
 
 #: ../lib/fsp.c:471
 #: ../lib/fsp.c:500
-#: ../lib/local.c:489
-#: ../lib/local.c:525
+#: ../lib/local.c:491
+#: ../lib/local.c:527
 #: ../src/gtk/transfer.c:263
 #: ../src/gtk/view_dialog.c:329
 #, c-format
@@ -257,13 +257,13 @@ msgid "Successfully removed %s\n"
 msgstr "%s borttagen\n"
 
 #: ../lib/fsp.c:477
-#: ../lib/local.c:495
+#: ../lib/local.c:497
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Fel: Kunde inte ta bort katalogen %s: %s\n"
 
 #: ../lib/fsp.c:506
-#: ../lib/local.c:531
+#: ../lib/local.c:533
 #: ../src/gtk/transfer.c:267
 #: ../src/gtk/view_dialog.c:333
 #, c-format
@@ -271,19 +271,19 @@ msgid "Error: Could not remove file %s: %s\n"
 msgstr "Fel: Kunde inte ta bort filen %s: %s\n"
 
 #: ../lib/fsp.c:528
-#: ../lib/local.c:563
+#: ../lib/local.c:565
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "Skapade katalogen %s\n"
 
 #: ../lib/fsp.c:563
-#: ../lib/local.c:599
+#: ../lib/local.c:601
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "Ändrade namn från %s till %s\n"
 
 #: ../lib/fsp.c:575
-#: ../lib/local.c:606
+#: ../lib/local.c:608
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Fel: Kunde inte byta namn från %s till %s: %s\n"
@@ -316,32 +316,32 @@ msgstr "Kunde inte byta lokal katalog till %s: %s\n"
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "Fel: Kan inte trunkera den lokala filen %s: %s\n"
 
-#: ../lib/local.c:433
+#: ../lib/local.c:435
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "Kunde inte lista den lokala katalogen %s: %s\n"
 
-#: ../lib/local.c:643
+#: ../lib/local.c:645
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "Ändring av attribut på %s till %o lyckades\n"
 
-#: ../lib/local.c:650
+#: ../lib/local.c:652
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "Fel: Kunde inte ändra attribut på %s till %o: %s\n"
 
-#: ../lib/local.c:685
+#: ../lib/local.c:687
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr "Ändring av tidsstämpeln för %s lyckades\n"
 
-#: ../lib/local.c:692
+#: ../lib/local.c:694
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr "Fel: Kunde inte ändra tidsstämpeln för %s: %s\n"
 
-#: ../lib/local.c:773
+#: ../lib/local.c:761
 msgid "local filesystem"
 msgstr "lokalt filsystem"
 
@@ -770,85 +770,90 @@ msgstr "Protokollet \"%s\" stöds inte för tillfället.\n"
 
 #: ../lib/protocols.c:1164
 #: ../lib/protocols.c:1179
-#: ../lib/protocols.c:2294
-#: ../lib/protocols.c:2407
+#: ../lib/protocols.c:2361
+#: ../lib/protocols.c:2474
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Slår upp %s\n"
 
 #: ../lib/protocols.c:1170
 #: ../lib/protocols.c:1185
-#: ../lib/protocols.c:2299
-#: ../lib/protocols.c:2412
+#: ../lib/protocols.c:2366
+#: ../lib/protocols.c:2479
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Kan inte slå upp värdnamnet %s: %s\n"
 
-#: ../lib/protocols.c:2317
+#: ../lib/protocols.c:2096
+#, c-format
+msgid "Found recursive symbolic link %s\n"
+msgstr "Hittade rekursiv symbolisk länk %s\n"
+
+#: ../lib/protocols.c:2384
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Misslyckades med att skapa ett uttag (socket): %s\n"
 
-#: ../lib/protocols.c:2323
-#: ../lib/protocols.c:2429
+#: ../lib/protocols.c:2390
+#: ../lib/protocols.c:2496
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Försöker med %s:%d\n"
 
-#: ../lib/protocols.c:2328
-#: ../lib/protocols.c:2436
+#: ../lib/protocols.c:2395
+#: ../lib/protocols.c:2503
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Kan inte ansluta till %s: %s\n"
 
-#: ../lib/protocols.c:2366
+#: ../lib/protocols.c:2433
 #: ../lib/rfc959.c:701
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Misslyckades med att skapa ett IPv4-uttag: %s\n"
 
-#: ../lib/protocols.c:2390
-#: ../lib/sshv2.c:1119
+#: ../lib/protocols.c:2457
+#: ../lib/sshv2.c:1132
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr "Kan inte slå upp tjänstnamnet %s/tcp. Kontrollera din services-fil\n"
 
-#: ../lib/protocols.c:2452
-#: ../lib/protocols.c:3113
+#: ../lib/protocols.c:2519
+#: ../lib/protocols.c:3180
 #: ../lib/rfc959.c:710
 #: ../lib/rfc959.c:887
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Fel: Kan inte sätta stängning på exec-flaggan: %s\n"
 
-#: ../lib/protocols.c:2459
+#: ../lib/protocols.c:2526
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Ansluten till %s:%d\n"
 
-#: ../lib/protocols.c:2695
-#: ../lib/protocols.c:2772
-#: ../lib/sshv2.c:423
+#: ../lib/protocols.c:2762
+#: ../lib/protocols.c:2839
+#: ../lib/sshv2.c:426
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Anslutningen till %s gjorde time-out\n"
 
-#: ../lib/protocols.c:2842
+#: ../lib/protocols.c:2909
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Kan inte skapa uttagsflaggor (socket flags): %s\n"
 
-#: ../lib/protocols.c:2856
+#: ../lib/protocols.c:2923
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Kan inte sätta uttag (socket) till icke-blockerande: %s\n"
 
-#: ../lib/protocols.c:3010
+#: ../lib/protocols.c:3077
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "Fel: Värden %s kopplade ner. Max antal försök uppnått... ger upp\n"
 
-#: ../lib/protocols.c:3018
+#: ../lib/protocols.c:3085
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Fel: Värden %s kopplade ner. Nytt försök om %d sekunder\n"
@@ -933,7 +938,7 @@ msgstr ""
 
 #: ../lib/rfc2068.c:255
 #: ../lib/rfc959.c:674
-#: ../lib/sshv2.c:1196
+#: ../lib/sshv2.c:1209
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Kopplar ner från platsen %s\n"
@@ -948,12 +953,12 @@ msgid "Cannot retrieve file %s\n"
 msgstr "Kan inte hämta filen %s\n"
 
 #: ../lib/rfc2068.c:424
-#: ../lib/sshv2.c:1278
+#: ../lib/sshv2.c:1291
 msgid "Retrieving directory listing...\n"
 msgstr "Tar emot kataloglistan... \n"
 
 #: ../lib/rfc2068.c:819
-#: ../lib/sshv2.c:882
+#: ../lib/sshv2.c:885
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Fick felaktigt svar från servern, kopplar ner\n"
 
@@ -1050,7 +1055,7 @@ msgstr "Om du överför en textfil från en Windowsmaskin till en UNIX-maskin el
 #: ../lib/rfc959.c:385
 #: ../lib/rfc959.c:396
 #: ../lib/rfc959.c:850
-#: ../lib/rfc959.c:1436
+#: ../lib/rfc959.c:1444
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Ogiltigt svar \"%c\" mottogs från server.\n"
@@ -1116,11 +1121,11 @@ msgstr "Kan inte få tag i adress för lokalt uttag: %s\n"
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Kan inte ta emot anslutning från server: %s\n"
 
-#: ../lib/rfc959.c:1606
+#: ../lib/rfc959.c:1614
 msgid "total"
 msgstr "totalt"
 
-#: ../lib/rfc959.c:1608
+#: ../lib/rfc959.c:1616
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varning: Kan inte tolka listan %s\n"
@@ -1153,122 +1158,122 @@ msgstr "Behöver SSH-användare/lösenord"
 msgid "Require a username/password for SSH connections"
 msgstr "Kräver ett användarnamn/lösenord för SSH-anslutningar"
 
-#: ../lib/sshv2.c:366
+#: ../lib/sshv2.c:369
 #, c-format
 msgid "Running program %s\n"
 msgstr "Kör programmet %s\n"
 
-#: ../lib/sshv2.c:375
+#: ../lib/sshv2.c:378
 msgid "Enter passphrase for RSA key"
 msgstr "Ange nyckelfras för RSA-nyckel"
 
-#: ../lib/sshv2.c:376
+#: ../lib/sshv2.c:379
 msgid "Enter passphrase for key '"
 msgstr "Ange lösenfras för nyckel \""
 
-#: ../lib/sshv2.c:377
+#: ../lib/sshv2.c:380
 msgid "Password"
 msgstr "Lösenord"
 
-#: ../lib/sshv2.c:378
+#: ../lib/sshv2.c:381
 msgid "password"
 msgstr "lösenord"
 
-#: ../lib/sshv2.c:483
+#: ../lib/sshv2.c:486
 msgid "(yes/no)?"
 msgstr "(ja/nej)?"
 
 # PASSCODE är en vaddå?
-#: ../lib/sshv2.c:501
+#: ../lib/sshv2.c:504
 msgid "Enter PASSCODE:"
 msgstr "Ange PASSCODE:"
 
-#: ../lib/sshv2.c:505
+#: ../lib/sshv2.c:508
 #: ../src/gtk/gtkui.c:132
 #: ../src/gtk/transfer.c:586
 #: ../src/gtk/transfer.c:596
 msgid "Enter Password"
 msgstr "Ange lösenord"
 
-#: ../lib/sshv2.c:506
+#: ../lib/sshv2.c:509
 msgid "Enter SecurID Password:"
 msgstr "Ange SecurID-lösenord:"
 
-#: ../lib/sshv2.c:554
+#: ../lib/sshv2.c:557
 msgid "Error: An incorrect password was entered\n"
 msgstr "Fel: Ett felaktigt lösenord angavs\n"
 
-#: ../lib/sshv2.c:583
+#: ../lib/sshv2.c:586
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: Protokollinitiering\n"
 
-#: ../lib/sshv2.c:587
+#: ../lib/sshv2.c:590
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: Protokollversion %d\n"
 
-#: ../lib/sshv2.c:596
+#: ../lib/sshv2.c:599
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: Öppna %s\n"
 
-#: ../lib/sshv2.c:601
+#: ../lib/sshv2.c:604
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: Stäng\n"
 
-#: ../lib/sshv2.c:605
+#: ../lib/sshv2.c:608
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: Öppna katalogen %s\n"
 
-#: ../lib/sshv2.c:610
+#: ../lib/sshv2.c:613
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: Läs katalog\n"
 
-#: ../lib/sshv2.c:614
+#: ../lib/sshv2.c:617
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: Ta bort filen %s\n"
 
-#: ../lib/sshv2.c:619
+#: ../lib/sshv2.c:622
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: Skapa katalogen %s\n"
 
-#: ../lib/sshv2.c:624
+#: ../lib/sshv2.c:627
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: Ta bort katalogen %s\n"
 
-#: ../lib/sshv2.c:629
+#: ../lib/sshv2.c:632
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: Absolut sökväg %s\n"
 
-#: ../lib/sshv2.c:634
+#: ../lib/sshv2.c:637
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: Filattribut\n"
 
-#: ../lib/sshv2.c:638
+#: ../lib/sshv2.c:641
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Stat %s\n"
 
-#: ../lib/sshv2.c:658
+#: ../lib/sshv2.c:661
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: ../lib/sshv2.c:663
+#: ../lib/sshv2.c:666
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: ../lib/sshv2.c:677
+#: ../lib/sshv2.c:680
 #: ../src/gtk/bookmarks.c:1044
 #: ../src/gtk/bookmarks.c:1302
 #: ../src/gtk/chmod_dialog.c:253
@@ -1279,65 +1284,65 @@ msgstr "%d: Utime %s %d\n"
 msgid "OK"
 msgstr "OK"
 
-#: ../lib/sshv2.c:680
+#: ../lib/sshv2.c:683
 msgid "EOF"
 msgstr "EOF"
 
-#: ../lib/sshv2.c:683
+#: ../lib/sshv2.c:686
 msgid "No such file or directory"
 msgstr "Ingen sådan fil eller katalog"
 
-#: ../lib/sshv2.c:686
+#: ../lib/sshv2.c:689
 msgid "Permission denied"
 msgstr "Åtkomst nekad"
 
-#: ../lib/sshv2.c:689
+#: ../lib/sshv2.c:692
 msgid "Failure"
 msgstr "Misslyckande"
 
-#: ../lib/sshv2.c:692
+#: ../lib/sshv2.c:695
 msgid "Bad message"
 msgstr "Felaktigt meddelande"
 
-#: ../lib/sshv2.c:695
+#: ../lib/sshv2.c:698
 msgid "No connection"
 msgstr "Ingen anslutning"
 
-#: ../lib/sshv2.c:698
+#: ../lib/sshv2.c:701
 msgid "Connection lost"
 msgstr "Anslutningen avbruten"
 
-#: ../lib/sshv2.c:701
+#: ../lib/sshv2.c:704
 msgid "Operation unsupported"
 msgstr "Åtgärden stöds inte"
 
-#: ../lib/sshv2.c:704
+#: ../lib/sshv2.c:707
 msgid "Unknown message returned from server"
 msgstr "Okänt meddelande returnerades från servern"
 
-#: ../lib/sshv2.c:739
+#: ../lib/sshv2.c:742
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Fel: Meddelandestorleken %d för stor\n"
 
-#: ../lib/sshv2.c:798
-#: ../lib/sshv2.c:1296
-#: ../lib/sshv2.c:1870
-#: ../lib/sshv2.c:1990
+#: ../lib/sshv2.c:801
+#: ../lib/sshv2.c:1310
+#: ../lib/sshv2.c:1885
+#: ../lib/sshv2.c:2005
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Fel: Meddelandestorleken %d för stor från servern\n"
 
-#: ../lib/sshv2.c:804
+#: ../lib/sshv2.c:807
 msgid "There was an error initializing a SSH connection with the remote server. The error message from the remote server follows:\n"
 msgstr "Ett fel uppstod vid initiering av en SSH-anslutning med fjärrservern. Felmeddelandet från fjärrservern följer:\n"
 
-#: ../lib/sshv2.c:1111
+#: ../lib/sshv2.c:1124
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "Öppnar SSH-anslutning till %s\n"
 
-#: ../lib/sshv2.c:1163
+#: ../lib/sshv2.c:1176
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Lyckad inloggning till SSH-servern %s\n"
@@ -1805,10 +1810,15 @@ msgstr "Hoppar över filen %s på värden %s\n"
 msgid "Stopping the transfer on host %s\n"
 msgstr "Stoppar överföringen på värden %s\n"
 
-#: ../src/uicommon/gftpui.c:1545
+#: ../src/uicommon/gftpui.c:1544
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Kunde inte hämta %s från %s\n"
+
+#: ../src/uicommon/gftpui.c:1597
+#, c-format
+msgid "There were %d files or directories that could not be transferred. Check the log for which items were not properly transferred."
+msgstr "Det var %d filer eller kataloger som inte kunde överföras. Kontrollera loggen för att se vilka objekt som inte överfördes korrekt."
 
 #: ../src/gtk/bookmarks.c:40
 #: ../src/gtk/dnd.c:122
