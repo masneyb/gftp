@@ -414,6 +414,12 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   gftp_get_pixmap (tree, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
 
   str = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
+  if (*str == '\0')
+    {
+      ftp_log (gftp_logging_misc, NULL,
+               _("You must specify a name for the bookmark."));
+      return;
+    }
 
   newentry = g_malloc0 (sizeof (*newentry));
 #if GTK_MAJOR_VERSION == 1
