@@ -1087,7 +1087,6 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
 {
   int (*init) (gftp_request * request);
   gftp_config_list_vars * tmplistvar;
-  GtkWidget *tempwid;
   const char *txt;
   int num;
 

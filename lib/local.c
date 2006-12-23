@@ -402,7 +402,6 @@ local_list_files (gftp_request * request)
   local_protocol_data *lpd;
   char *dir, *utf8;
   size_t destlen;
-  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->directory != NULL, GFTP_EFATAL);

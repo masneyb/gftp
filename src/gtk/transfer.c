@@ -976,8 +976,6 @@ skip_transfer (gpointer data)
 {
   gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
-  gftp_file * curfle;
-  char *file;
 
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {

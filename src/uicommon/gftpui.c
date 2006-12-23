@@ -1482,7 +1482,6 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
 {
   int tofd, fromfd, ret;
   gftp_file * curfle;
-  off_t fsize;
 
   if (g_thread_supported ())
     g_static_mutex_lock (&tdata->structmutex);

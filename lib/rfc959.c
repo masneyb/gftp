@@ -1740,7 +1740,7 @@ rfc959_rename (gftp_request * request, const char *oldname,
 static int
 rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
 {
-  char *tempstr, *utf8, *cmd;
+  char *tempstr, *utf8;
   size_t destlen;
   int ret;
 

@@ -198,7 +198,7 @@ sshv2_initialize_buffer_with_i18n_string (gftp_request * request,
 static char *
 _sshv2_generate_utf8_path (gftp_request * request, const char *str, size_t *len)
 {
-  char *path, *ret, *utf8;
+  char *path, *utf8;
 
   if (*str == '/')
     path = g_strdup (str);

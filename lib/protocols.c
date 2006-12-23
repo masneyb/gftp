@@ -698,7 +698,6 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
   char *default_protocol;
   const char *email;
   int i, init_ret;
-  size_t destlen;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (bookmark != NULL, GFTP_EFATAL);
@@ -1047,8 +1046,6 @@ gftp_remove_file (gftp_request * request, const char *file)
 int
 gftp_make_directory (gftp_request * request, const char *directory)
 {
-  int ret;
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->mkdir == NULL)
@@ -1062,8 +1059,6 @@ int
 gftp_rename_file (gftp_request * request, const char *oldname,
                   const char *newname)
 {
-  int ret;
-
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->rename == NULL)
