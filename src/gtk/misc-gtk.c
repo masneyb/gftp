@@ -937,10 +937,10 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
     }
 
   dialog = gtk_dialog_new_with_buttons (_(diagtxt), NULL, 0,
-                                        yes_text,
-                                        GTK_RESPONSE_YES,
                                         GTK_STOCK_CANCEL,
                                         GTK_RESPONSE_NO,
+                                        yes_text,
+                                        GTK_RESPONSE_YES,
                                         NULL);
 #endif
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
@@ -1064,10 +1064,10 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
 #else
   dialog = gtk_dialog_new_with_buttons (_(diagtxt), NULL, 0,
-                                        GTK_STOCK_YES,
-                                        GTK_RESPONSE_YES,
                                         GTK_STOCK_NO,
                                         GTK_RESPONSE_NO,
+                                        GTK_STOCK_YES,
+                                        GTK_RESPONSE_YES,
                                         NULL);
 #endif
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);

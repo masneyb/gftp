@@ -140,10 +140,10 @@ chmod_dialog (gpointer data)
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
 #else
   dialog = gtk_dialog_new_with_buttons (_("Chmod"), NULL, 0,
-                                        GTK_STOCK_OK,
-                                        GTK_RESPONSE_OK,
                                         GTK_STOCK_CANCEL,
                                         GTK_RESPONSE_CANCEL,
+                                        GTK_STOCK_OK,
+                                        GTK_RESPONSE_OK,
                                         NULL);
 #endif
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "Chmod", "gFTP");

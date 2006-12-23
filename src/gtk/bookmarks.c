@@ -409,9 +409,6 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   gftp_bookmarks_var * tempentry, * newentry;
   char *pos, *text[2];
   const char *str;
-#if GTK_MAJOR_VERSION > 1
-  gsize bread, bwrite;
-#endif
 
   gftp_get_pixmap (tree, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
   gftp_get_pixmap (tree, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
@@ -807,9 +804,6 @@ bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
 {
   switch (response)
     {
-      case GTK_RESPONSE_APPLY:
-        entry_apply_changes (widget, user_data);
-        break;
       case GTK_RESPONSE_OK:
         entry_apply_changes (widget, user_data);
         /* no break */
@@ -850,12 +844,10 @@ edit_entry (gpointer data)
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (bm_dialog)->action_area), 15);
 #else
   bm_dialog = gtk_dialog_new_with_buttons (_("Edit Entry"), NULL, 0,
-                                           GTK_STOCK_SAVE,
-                                           GTK_RESPONSE_OK,
                                            GTK_STOCK_CANCEL,
                                            GTK_RESPONSE_CANCEL,
-                                           GTK_STOCK_APPLY,
-                                           GTK_RESPONSE_APPLY,
+                                           GTK_STOCK_SAVE,
+                                           GTK_RESPONSE_OK,
                                            NULL);
 #endif
   gtk_window_set_wmclass (GTK_WINDOW (bm_dialog), "Edit Bookmark Entry",
@@ -1060,15 +1052,6 @@ edit_entry (gpointer data)
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_widget_grab_focus (tempwid);
   gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("Apply"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (bm_dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (entry_apply_changes),
-		      (gpointer) entry);
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_widget_show (tempwid);
 #else
   g_signal_connect (GTK_OBJECT (bm_dialog), "response",
                     G_CALLBACK (bmedit_action), (gpointer) entry);
@@ -1241,10 +1224,11 @@ edit_bookmarks (gpointer data)
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->action_area), 15);
 #else
   edit_bookmarks_dialog = gtk_dialog_new_with_buttons (_("Edit Bookmarks"),
-                                                       NULL, 0, GTK_STOCK_SAVE,
-                                                       GTK_RESPONSE_OK,
+                                                       NULL, 0, 
                                                        GTK_STOCK_CANCEL,
                                                        GTK_RESPONSE_CANCEL,
+						       GTK_STOCK_SAVE,
+                                                       GTK_RESPONSE_OK,
                                                        NULL);
 #endif
   gtk_window_set_wmclass (GTK_WINDOW(edit_bookmarks_dialog), "Edit Bookmarks",

@@ -231,10 +231,10 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                              GTK_OBJECT (dialog));
 #else
   dialog = gtk_dialog_new_with_buttons (_("Transfer Files"), NULL, 0, 
-                                        GTK_STOCK_OK,
-                                        GTK_RESPONSE_OK,
                                         GTK_STOCK_CANCEL,
                                         GTK_RESPONSE_CANCEL,
+                                        GTK_STOCK_OK,
+                                        GTK_RESPONSE_OK,
                                         NULL);
 #endif
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "transfer", "gFTP");

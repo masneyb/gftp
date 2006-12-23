@@ -758,9 +758,6 @@ options_action (GtkWidget * widget, gint response, gpointer user_data)
 {
   switch (response)
     {
-      case GTK_RESPONSE_APPLY:
-        apply_changes (widget, NULL);
-        break;
       case GTK_RESPONSE_OK:
         apply_changes (widget, NULL);
         /* no break */
@@ -1373,8 +1370,6 @@ options_dialog (gpointer data)
   gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (gftp_option_data->dialog)->action_area), TRUE);
 #else
   gftp_option_data->dialog = gtk_dialog_new_with_buttons (_("Options"), NULL, 0,
-                                        GTK_STOCK_APPLY,
-                                        GTK_RESPONSE_APPLY,
                                         GTK_STOCK_CANCEL,
                                         GTK_RESPONSE_CANCEL,
                                         GTK_STOCK_OK,
