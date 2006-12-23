@@ -112,6 +112,10 @@ gftp_config_vars gftp_global_config_vars[] =
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
    N_("Save the last local and remote directory when the application is closed"),
    GFTP_PORT_GTK, NULL},
+  {"connect_to_remote_on_startup", N_("Connect to remote server on startup"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   N_("Automatically connect to the remote server when the application is started."),
+   GFTP_PORT_GTK, NULL},
 
   {"", N_("Network"), gftp_option_type_notebook, NULL, NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK, NULL, GFTP_PORT_GTK, NULL},

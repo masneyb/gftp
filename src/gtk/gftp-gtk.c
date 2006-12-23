@@ -1072,16 +1072,13 @@ CreateFTPWindows (GtkWidget * ui)
 }
 
 
-static void
-init_gftp (int argc, char *argv[], GtkWidget * parent)
+static int
+_get_selected_protocol ()
 {
-  if (argc == 2 && strncmp (argv[1], "--", 2) != 0)
-    {
-      if (gftp_parse_url (window2.request, argv[1]) == 0)
-	ftp_connect (&window2, window2.request);
-      else
-	gftp_usage ();
-    }
+  GtkWidget * tempwid;
+  
+  tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
+  return (GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid))));
 }
 
 
@@ -1105,8 +1102,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
   if (GFTP_IS_CONNECTED (current_wdata->request))
     gftp_disconnect (current_wdata->request);
 
-  tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
-  num = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid)));
+  num = _get_selected_protocol ();
   init = gftp_protocols[num].init;
   if (init (current_wdata->request) < 0)
     return;
@@ -1301,6 +1297,53 @@ gftp_gtk_config_file_write_color (gftp_config_vars * cv, char *buf,
 }
 
 
+static void
+_setup_window1 ()
+{
+  if (gftp_protocols[GFTP_LOCAL_NUM].init (window1.request) == 0)
+    {
+      gftp_setup_startup_directory (window1.request,
+                                    "local_startup_directory");
+      gftp_connect (window1.request);
+      ftp_list_files (&window1);
+    }
+}
+
+
+static void
+_setup_window2 (int argc, char **argv)
+{
+  intptr_t connect_to_remote_on_startup;
+
+  gftp_lookup_request_option (window2.request, "connect_to_remote_on_startup",
+                              &connect_to_remote_on_startup);
+
+  if (argc == 2 && strncmp (argv[1], "--", 2) != 0)
+    {
+      if (gftp_parse_url (window2.request, argv[1]) == 0)
+        ftp_connect (&window2, window2.request);
+      else
+        gftp_usage ();
+    }
+  else if (connect_to_remote_on_startup)
+    {
+      if (gftp_protocols[_get_selected_protocol ()].init (current_wdata->request) == 0)
+        {
+          gftp_setup_startup_directory (window2.request,
+                                        "remote_startup_directory");
+          gftp_connect (window2.request);
+          ftp_list_files (&window2);
+        }
+    }
+  else
+    {
+      /* On the remote window, even though we aren't connected, draw the sort
+         icon on that side */
+      sortrows (GTK_CLIST (window2.listbox), -1, &window2);
+    }
+}
+
+
 int
 main (int argc, char **argv)
 {
@@ -1356,19 +1399,9 @@ main (int argc, char **argv)
   gftpui_common_about (ftp_log, NULL);
 
   gtk_timeout_add (1000, update_downloads, NULL);
-  if (gftp_protocols[GFTP_LOCAL_NUM].init (window1.request) == 0)
-    {
-      gftp_setup_startup_directory (window1.request,
-                                    "local_startup_directory");
-      gftp_connect (window1.request);
-      ftp_list_files (&window1);
-    }
 
-  /* On the remote window, even though we aren't connected, draw the sort
-     icon on that side */
-  sortrows (GTK_CLIST (window2.listbox), -1, &window2);
-
-  init_gftp (argc, argv, window);
+  _setup_window1 ();
+  _setup_window2 (argc, argv);
 
   GDK_THREADS_ENTER ();
   gtk_main ();

@@ -1,4 +1,9 @@
 2006-11-30 Brian Masney <masneyb@gftp.org>
+	* lib/options.h src/gtk/gftp-gtk.c - added new option:
+	connect_to_remote_on_startup. If this is enabled, then the application
+	will automatically connect to the remote server when it is started.
+	(closes #330418)
+
 	* lib/gftp.h src/uicommon/gftpui.c - when a file transfer is restarted,
 	get the file size of the destination file. This is so that the file is 
 	restarted at the proper position (closes #160239). 
