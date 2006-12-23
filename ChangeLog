@@ -1,4 +1,12 @@
 2006-11-30 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h src/uicommon/gftpui.c - when a file transfer is restarted,
+	get the file size of the destination file. This is so that the file is 
+	restarted at the proper position (closes #160239). 
+	(_gftpui_common_do_transfer_file) - split this function into a smaller
+	function: _do_transfer_block().
+
+	* src/gtk/transfer.c - removed debugging statement
+
 	* lib/rfc959.c lib/sshv2.c src/uicommon/gftpui.c - don't abort the
 	entire file transfer if there is a permission denied at some point
 	during the file transfer. Give the user an error at the very end if

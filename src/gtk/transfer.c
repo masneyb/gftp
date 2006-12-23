@@ -442,7 +442,6 @@ check_done_process (void)
   gftpui_common_child_process_done = 0;
   while ((pid = waitpid (-1, &ret, WNOHANG)) > 0)
     {
-printf ("FIXME - PID %d returned %d\n", pid, ret);
       do_check_done_process (pid, ret);
     }
 }
