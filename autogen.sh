@@ -67,7 +67,7 @@ intl=`$GETTEXTIZE --help 2>/dev/null | grep -- '--intl'`
 if test -z "$intl"; then
 	GETTEXTIZE_FLAGS="-c"
 else
-	GETTEXTIZE_FLAGS="-c --intl"
+	GETTEXTIZE_FLAGS="-c --intl -f"
 fi
 
 echo "$GETTEXTIZE $GETTEXTIZE_FLAGS"
