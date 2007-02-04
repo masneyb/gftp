@@ -20,33 +20,10 @@
 #include "gftpui.h"
 static const char cvsid[] = "$Id$";
 
-sigjmp_buf gftpui_common_jmp_environment;
-volatile int gftpui_common_use_jmp_environment = 0;
-
 GStaticMutex gftpui_common_transfer_mutex = G_STATIC_MUTEX_INIT;
 volatile sig_atomic_t gftpui_common_child_process_done = 0;
+volatile sig_atomic_t gftpui_common_num_child_threads = 0;
 static gftp_logging_func gftpui_common_logfunc;
-
-
-static int
-_gftpui_cb_connect (gftpui_callback_data * cdata)
-{
-  if (cdata->connect_function != NULL)
-    return (cdata->connect_function (cdata));
-  else
-    return (gftp_connect (cdata->request));
-}
-
-
-static void
-_gftpui_cb_disconnect (gftpui_callback_data * cdata)
-{
-  if (cdata->connect_function != NULL)
-    cdata->disconnect_function (cdata);
-  else
-    gftp_disconnect (cdata->request);
-}
-
 
 static void *
 _gftpui_common_thread_callback (void * data)
@@ -54,50 +31,47 @@ _gftpui_common_thread_callback (void * data)
   intptr_t network_timeout, sleep_time;
   gftpui_callback_data * cdata;
   struct timespec ts;
-  int success, sj;
+  int success;
 
   cdata = data;
+  gftpui_common_num_child_threads++;
+
   gftp_lookup_request_option (cdata->request, "network_timeout",
                               &network_timeout);
   gftp_lookup_request_option (cdata->request, "sleep_time",
                               &sleep_time);
 
-  sj = sigsetjmp (gftpui_common_jmp_environment, 1);
-  gftpui_common_use_jmp_environment = 1;
-
   success = GFTP_ERETRYABLE;
-  if (sj != 1)
+  while (1)
     {
-      while (1)
+      if (network_timeout > 0)
+        alarm (network_timeout);
+
+      success = cdata->run_function (cdata);
+      alarm (0);
+
+      if (cdata->request->cancel)
         {
-          if (network_timeout > 0)
-            alarm (network_timeout);
-          success = cdata->run_function (cdata);
-          alarm (0);
-
-          if (success == GFTP_EFATAL || success == 0 || cdata->retries == 0)
-            break;
-
-          cdata->retries--;
           cdata->request->logging_function (gftp_logging_error, cdata->request,
-                       _("Waiting %d seconds until trying to connect again\n"),
-                       sleep_time);
-
-	  ts.tv_sec = sleep_time;
-	  ts.tv_nsec = 0;
-	  if (nanosleep (&ts, NULL) == 0)
-            siglongjmp (gftpui_common_jmp_environment, 2);
+                                            _("Operation canceled\n"));
+          break;
         }
-    }
-  else
-    {
-      _gftpui_cb_disconnect (cdata);
+        
+      if (success == GFTP_EFATAL || success == 0 || cdata->retries == 0)
+        break;
+
+      cdata->retries--;
       cdata->request->logging_function (gftp_logging_error, cdata->request,
-                                        _("Operation canceled\n"));
+                   _("Waiting %d seconds until trying to connect again\n"),
+                   sleep_time);
+
+      ts.tv_sec = sleep_time;
+      ts.tv_nsec = 0;
+      nanosleep (&ts, NULL);
     }
 
-  gftpui_common_use_jmp_environment = 0;
   cdata->request->stopable = 0;
+  gftpui_common_num_child_threads--;
 
   return (GINT_TO_POINTER (success));
 }
@@ -128,9 +102,7 @@ gftpui_common_signal_handler (int signo)
 {
   signal (signo, gftpui_common_signal_handler);
 
-  if (gftpui_common_use_jmp_environment)
-    siglongjmp (gftpui_common_jmp_environment, signo == SIGINT ? 1 : 2);
-  else if (signo == SIGINT)
+  if (!gftpui_common_num_child_threads && signo == SIGINT)
     exit (EXIT_FAILURE);
 }
 

@@ -1,4 +1,12 @@
 2007-2-4 Brian Masney <masneyb@gftp.org>
+	* src/uicommon/gftpui.c - don't use a sigjmp buffer for the stop
+	button. Instead, make sure a signal is delivered to the child thread
+	and the thread will exit gracefully. Removed unused functions:
+	_gftpui_cb_connect() and _gftpui_cb_disconnect()
+
+	* src/gtk/gftp-gtk.c (stop_button) - set the cancel variable inside
+	the gftp_request structure when the stop button is pressed.
+
 	* lib/sshv2.c (sshv2_start_login_sequence) - when checking for
 	EINTR/EGAIN, only stop trying to connect if the current operation
 	was to be cancelled.

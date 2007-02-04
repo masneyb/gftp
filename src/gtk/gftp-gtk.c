@@ -1251,9 +1251,15 @@ stop_button (GtkWidget * widget, gpointer data)
 
   memset (&comptid, 0, sizeof (comptid));
   if (!pthread_equal (comptid, window1.tid))
-    pthread_kill (window1.tid, SIGINT);
+    {
+      window1.request->cancel = 1;
+      pthread_kill (window1.tid, SIGINT);
+    }
   else if (!pthread_equal (comptid, window2.tid))
-    pthread_kill (window2.tid, SIGINT);
+    {
+      window2.request->cancel = 1;
+      pthread_kill (window2.tid, SIGINT);
+    }
 }
 
 
