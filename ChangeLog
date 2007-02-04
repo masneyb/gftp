@@ -1,5 +1,10 @@
-2007-1-14 Brian Masney <masneyb@gftp.org>
-	* Makefile.am - removed intl/ directory from the SUBDIRS variable.
+2007-2-4 Brian Masney <masneyb@gftp.org>
+	* lib/sshv2.c (sshv2_start_login_sequence) - when checking for
+	EINTR/EGAIN, only stop trying to connect if the current operation
+	was to be cancelled.
+
+	* lib/protocols.c (_do_sleep) - don't check for EINTR/EAGAIN. Allow
+	a signal to interrupt the timer.
 
 2007-1-10 Brian Masney <masneyb@gftp.org>
 	* AUTHORS README NEWS - added missing files for automake.

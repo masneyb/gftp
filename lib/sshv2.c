@@ -417,16 +417,26 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
       FD_SET (ptymfd, &eset);
 
       ret = select (maxfd + 1, &rset, NULL, &eset, NULL);
-      if (ret < 0 && (errno == EINTR || errno == EAGAIN))
-        continue;
-
       if (ret < 0)
         {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Connection to %s timed out\n"),
-                                     request->hostname);
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
+          if (errno == EINTR || errno == EAGAIN)
+            {
+              if (request->cancel)
+                {
+                  gftp_disconnect (request);
+                  return (GFTP_ERETRYABLE);
+                }
+
+              continue;
+            }
+          else
+            {
+              request->logging_function (gftp_logging_error, request,
+                                         _("Connection to %s timed out\n"),
+                                         request->hostname);
+              gftp_disconnect (request);
+              return (GFTP_ERETRYABLE);
+            }
         }
 
       if (FD_ISSET (fdm, &eset) || FD_ISSET (ptymfd, &eset))

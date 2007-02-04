@@ -3013,19 +3013,11 @@ static int
 _do_sleep (int sleep_time)
 {
   struct timeval tv;
-  int ret;
 
   tv.tv_sec = sleep_time;
   tv.tv_usec = 0;
 
-  /* FIXME - check for user aborted connection */
-  do
-    {
-      ret = select (0, NULL, NULL, NULL, &tv);
-    }
-  while (ret == -1 && (errno == EINTR || errno == EAGAIN));
-
-  return (ret);
+  return (select (0, NULL, NULL, NULL, &tv));
 }
 
 
