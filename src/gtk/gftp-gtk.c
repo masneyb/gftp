@@ -444,7 +444,7 @@ CreateMenus (GtkWidget * parent)
   log_factory = item_factory_new (GTK_TYPE_MENU, "<log>", NULL, "/Logging");
   create_item_factory (log_factory, log_len - 2, menu_items + log_start + 2, NULL);
 
-  dl_factory = item_factory_new (GTK_TYPE_MENU, "<download>", NULL, "/Transfers");
+  dl_factory = item_factory_new (GTK_TYPE_MENU, "<download>", NULL, "/Transfer");
   create_item_factory (dl_factory, trans_len - 2, menu_items + trans_start + 2, NULL);
 
   return (factory->widget);
