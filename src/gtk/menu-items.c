@@ -21,25 +21,11 @@
 static const char cvsid[] = "$Id$";
 
 static void
-dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
+update_window_listbox (gftp_window_data * wdata)
 {
   GList * templist, * filelist;
   gftp_file * tempfle;
-  const char *edttext;
   int num;
-
-  wdata->show_selected = 0;
-
-  edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
-  if (*edttext == '\0')
-    {
-      ftp_log (gftp_logging_error, NULL,
-               _("Change Filespec: Operation canceled...you must enter a string\n"));
-      return;
-    }
-  if (wdata->filespec)
-    g_free (wdata->filespec);
-  wdata->filespec = g_strdup (edttext);
 
   filelist = wdata->files;
   templist = gftp_gtk_get_list_selection (wdata);
@@ -62,6 +48,29 @@ dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
     }
   gtk_clist_thaw (GTK_CLIST (wdata->listbox));
   update_window (wdata);
+}
+
+
+static void
+dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
+{
+  const char *edttext;
+
+  wdata->show_selected = 0;
+
+  edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
+  if (*edttext == '\0')
+    {
+      ftp_log (gftp_logging_error, NULL,
+               _("Change Filespec: Operation canceled...you must enter a string\n"));
+      return;
+    }
+
+  if (wdata->filespec)
+    g_free (wdata->filespec);
+
+  wdata->filespec = g_strdup (edttext);
+  update_window_listbox (wdata);
 }
 
 
@@ -155,35 +164,11 @@ save_directory_listing (gpointer data)
 void
 show_selected (gpointer data)
 {
-  GList * templist, * filelist;
   gftp_window_data * wdata;
-  gftp_file * tempfle;
-  int num;
 
   wdata = data;
   wdata->show_selected = 1;
-
-  filelist = wdata->files;
-  templist = gftp_gtk_get_list_selection (wdata);
-  num = 0;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &num);
-      tempfle = filelist->data;
-      tempfle->was_sel = 1;
-    }
-
-  gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-  gtk_clist_clear (GTK_CLIST (wdata->listbox));
-  templist = wdata->files;
-  while (templist != NULL)
-    {
-      tempfle = templist->data;
-      add_file_listbox (wdata, tempfle);
-      templist = templist->next;
-    }
-  gtk_clist_thaw (GTK_CLIST (wdata->listbox));
-  update_window (wdata);
+  update_window_listbox (wdata);
 }
 
 
@@ -647,92 +632,62 @@ about_dialog (gpointer data)
 }
 
 
-void 
-compare_windows (gpointer data)
+static void
+_do_compare_windows (gftp_window_data * win1, gftp_window_data * win2)
 {
   gftp_file * curfle, * otherfle;
   GList * curlist, * otherlist;
   int row, curdir, othdir;
 
+  row = 0;
+  curlist = win1->files;
+  while (curlist != NULL)
+    {
+      curfle = curlist->data;
+      if (!curfle->shown)
+        {
+          curlist = curlist->next;
+          continue;
+        }
+
+      otherlist = win2->files;
+      while (otherlist != NULL)
+	{
+          otherfle = otherlist->data;
+          if (!otherfle->shown)
+            {
+              otherlist = otherlist->next;
+              continue;
+            }
+
+          curdir = S_ISDIR (curfle->st_mode);
+          othdir = S_ISDIR (otherfle->st_mode);
+
+          if (strcmp (otherfle->file, curfle->file) == 0 &&
+              curdir == othdir &&
+              (curdir || otherfle->size == curfle->size))
+	    break;
+
+          otherlist = otherlist->next;
+	}
+
+      if (otherlist == NULL)
+	gtk_clist_select_row (GTK_CLIST (win1->listbox), row, 0);
+      row++;
+      curlist = curlist->next;
+    }
+}
+
+
+void 
+compare_windows (gpointer data)
+{
   if (!check_status (_("Compare Windows"), &window2, 1, 0, 0, 1))
     return;
 
   deselectall (&window1);
   deselectall (&window2);
 
-  row = 0;
-  curlist = window1.files;
-  while (curlist != NULL)
-    {
-      curfle = curlist->data;
-      if (!curfle->shown)
-        {
-          curlist = curlist->next;
-          continue;
-        }
-
-      otherlist = window2.files;
-      while (otherlist != NULL)
-	{
-          otherfle = otherlist->data;
-          if (!otherfle->shown)
-            {
-              otherlist = otherlist->next;
-              continue;
-            }
-
-          curdir = S_ISDIR (curfle->st_mode);
-          othdir = S_ISDIR (otherfle->st_mode);
-
-          if (strcmp (otherfle->file, curfle->file) == 0 &&
-              curdir == othdir &&
-              (curdir || otherfle->size == curfle->size))
-	    break;
-
-          otherlist = otherlist->next;
-	}
-
-      if (otherlist == NULL)
-	gtk_clist_select_row (GTK_CLIST (window1.listbox), row, 0);
-      row++;
-      curlist = curlist->next;
-    }
-
-  row = 0;
-  curlist = window2.files;
-  while (curlist != NULL)
-    {
-      curfle = curlist->data;
-      if (!curfle->shown)
-        {
-          curlist = curlist->next;
-          continue;
-        }
-
-      otherlist = window1.files;
-      while (otherlist != NULL)
-	{
-          otherfle = otherlist->data;
-          if (!otherfle->shown)
-            {
-              otherlist = otherlist->next;
-              continue;
-            }
-
-          curdir = S_ISDIR (curfle->st_mode);
-          othdir = S_ISDIR (otherfle->st_mode);
-
-          if (strcmp (otherfle->file, curfle->file) == 0 &&
-              curdir == othdir &&
-              (curdir || otherfle->size == curfle->size))
-	    break;
-
-          otherlist = otherlist->next;
-	}
-
-      if (otherlist == NULL)
-	gtk_clist_select_row (GTK_CLIST (window2.listbox), row, 0);
-      row++;
-      curlist = curlist->next;
-    }
+  _do_compare_windows (&window1, &window2);
+  _do_compare_windows (&window2, &window1);
 }
