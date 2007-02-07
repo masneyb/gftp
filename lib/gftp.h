@@ -557,6 +557,7 @@ typedef struct gftp_transfer_tag
                structmutex;
 
   void *user_data;
+  void *thread_id;
   void *clist;
 } gftp_transfer;
 

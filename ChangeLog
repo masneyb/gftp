@@ -1,4 +1,14 @@
 2007-2-6 Brian Masney <masneyb@gftp.org>
+	* src/text/textui.c src/gtk/gtkui_transfer.c src/uicommon/gftpui.h -
+	added new function: gftpui_cancel_file_transfer()
+
+	* src/uicommon/gftpui.c - use gftpui_cancel_file_transfer() to cancel
+	the file transfers
+
+	* lib/gftp.h lib/misc.c src/gtk/transfer.c - added pointer for the
+	thread_id of the transfer to the gftp_transfer structure. This will be 
+	used in the GTK+ port so that the transfer can be stopped.
+
 	* src/gtk/menu-items.c - removed duplicated code that was found by PMD
 
 2007-2-5 Brian Masney <masneyb@gftp.org>

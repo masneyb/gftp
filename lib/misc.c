@@ -561,6 +561,8 @@ free_tdata (gftp_transfer * tdata)
   if (tdata->toreq != NULL)
     gftp_request_destroy (tdata->toreq, 1);
   free_file_list (tdata->files);
+  if (tdata->thread_id != NULL)
+    g_free (tdata->thread_id);
   g_free (tdata);
 }
 

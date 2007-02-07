@@ -101,6 +101,15 @@ gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle)
 
 
 void
+gftpui_cancel_file_transfer (gftp_transfer * tdata)
+{
+  tdata->cancel = 1;
+  tdata->fromreq->cancel = 1;
+  tdata->toreq->cancel = 1;
+}
+
+
+void
 gftpui_ask_transfer (gftp_transfer * tdata)
 {
   char buf, question[1024], srcsize[50], destsize[50], *pos, defaction;

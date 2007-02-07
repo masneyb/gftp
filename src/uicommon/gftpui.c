@@ -1348,9 +1348,7 @@ gftpui_common_skip_file_transfer (gftp_transfer * tdata, gftp_file * curfle)
       curfle->transfer_action = GFTP_TRANS_ACTION_SKIP;
       if (tdata->curfle != NULL && curfle == tdata->curfle->data)
         {
-          tdata->cancel = 1;
-          tdata->fromreq->cancel = 1;
-          tdata->toreq->cancel = 1;
+          gftpui_cancel_file_transfer (tdata);
           tdata->skip_file = 1;
         }
       else if (!curfle->transfer_done)
@@ -1373,9 +1371,7 @@ gftpui_common_cancel_file_transfer (gftp_transfer * tdata)
 
   if (tdata->started)
     {
-      tdata->cancel = 1;
-      tdata->fromreq->cancel = 1;
-      tdata->toreq->cancel = 1;
+      gftpui_cancel_file_transfer (tdata);
       tdata->skip_file = 0;
     }
   else
@@ -1552,6 +1548,8 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
   int ret, skipped_files;
 
   tdata->curfle = tdata->files;
+  gftpui_common_num_child_threads++;
+
   gettimeofday (&tdata->starttime, NULL);
   memcpy (&tdata->lasttime, &tdata->starttime, sizeof (tdata->lasttime));
 
@@ -1596,6 +1594,8 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
                                       skipped_files);
 
   tdata->done = 1;
+  gftpui_common_num_child_threads--;
+
   return (1);
 }
 

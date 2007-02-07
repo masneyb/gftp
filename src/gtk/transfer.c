@@ -686,33 +686,35 @@ _gftpui_transfer_files (void *data)
 static void
 create_transfer (gftp_transfer * tdata)
 {
-  pthread_t tid;
+  if (tdata->fromreq->stopable)
+    return;
 
-  if (!tdata->fromreq->stopable)
+  if (GFTP_IS_SAME_HOST_START_TRANS ((gftp_window_data *) tdata->fromwdata,
+                                     tdata->fromreq))
     {
-      if (GFTP_IS_SAME_HOST_START_TRANS ((gftp_window_data *) tdata->fromwdata,
-                                         tdata->fromreq))
-        {
-          gftp_swap_socks (tdata->fromreq, 
-                           ((gftp_window_data *) tdata->fromwdata)->request);
-          update_window (tdata->fromwdata);
-        }
-
-      if (GFTP_IS_SAME_HOST_START_TRANS ((gftp_window_data *) tdata->towdata,
-                                         tdata->toreq))
-        {
-          gftp_swap_socks (tdata->toreq, 
-                           ((gftp_window_data *) tdata->towdata)->request);
-	  update_window (tdata->towdata);
-	}
-
-      num_transfers_in_progress++;
-      tdata->started = 1;
-      tdata->stalled = 1;
-      gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1,
-			       _("Connecting..."));
-      pthread_create (&tid, NULL, _gftpui_transfer_files, tdata);
+      gftp_swap_socks (tdata->fromreq, 
+                       ((gftp_window_data *) tdata->fromwdata)->request);
+      update_window (tdata->fromwdata);
     }
+
+  if (GFTP_IS_SAME_HOST_START_TRANS ((gftp_window_data *) tdata->towdata,
+                                     tdata->toreq))
+    {
+      gftp_swap_socks (tdata->toreq, 
+                       ((gftp_window_data *) tdata->towdata)->request);
+      update_window (tdata->towdata);
+    }
+
+  num_transfers_in_progress++;
+  tdata->started = 1;
+  tdata->stalled = 1;
+  gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1,
+                           _("Connecting..."));
+
+  if (tdata->thread_id == NULL)
+    tdata->thread_id = g_malloc0 (sizeof (pthread_t));
+
+  pthread_create (tdata->thread_id, NULL, _gftpui_transfer_files, tdata);
 }
 
 
