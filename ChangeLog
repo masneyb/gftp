@@ -1,3 +1,12 @@
+2007-2-14 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h src/gtk/gtkui.c src/uicommon/gftpui.c - added refreshing
+	field to the gftp_request structure. If this is set in
+	gftpui_common_cmd_open(), then the refresh command is not ran after
+	a connection is made to the server. This field is currently only
+	enabled when running called from the refresh function in the GTK+
+	port. It fixes an issue where the refresh command was being ran
+	twice. (closes #171732)
+
 2007-2-6 Brian Masney <masneyb@gftp.org>
 	* src/text/textui.c src/gtk/gtkui_transfer.c src/uicommon/gftpui.h -
 	added new function: gftpui_cancel_file_transfer()

@@ -46,22 +46,33 @@ void
 gftpui_refresh (void *uidata, int clear_cache_entry)
 {
   gftp_window_data * wdata;
+  int ret;
 
   wdata = uidata;
+  wdata->request->refreshing = 1;
+
   if (!check_status (_("Refresh"), wdata, 0, 0, 0, 1))
-    return;
+    {
+      wdata->request->refreshing = 0;
+      return;
+    }
 
   if (clear_cache_entry)
     gftp_delete_cache_entry (wdata->request, NULL, 0);
 
   if (check_reconnect (wdata) < 0)
-    return;
+    {
+      wdata->request->refreshing = 0;
+      return;
+    }
 
   gtk_clist_freeze (GTK_CLIST (wdata->listbox));
   remove_files_window (wdata);
 
   ftp_list_files (wdata);
   gtk_clist_thaw (GTK_CLIST (wdata->listbox));
+
+  wdata->request->refreshing = 0;
 }
 
 
