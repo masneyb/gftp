@@ -122,8 +122,13 @@ rfc959_read_response (gftp_request * request, int disconnect_on_42x)
 	  strncpy (code, tempstr, 3);
 	  code[3] = ' ';
 	}
-      request->logging_function (gftp_logging_recv, request,
-				 "%s\n", tempstr);
+
+      if (*tempstr == '4' || *tempstr == '5')
+        request->logging_function (gftp_logging_error, request,
+  				   "%s\n", tempstr);
+      else
+        request->logging_function (gftp_logging_recv, request,
+  				   "%s\n", tempstr);
     }
   while (strncmp (code, tempstr, 4) != 0);
 

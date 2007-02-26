@@ -1,3 +1,7 @@
+2007-2-26 Brian Masney <masneyb@gftp.org>
+	* lib/rfc959.c (rfc959_read_response) - log any commands that return
+	a 4xx or 5xx with the gftp_logging_error priority. (closes #411777)
+
 2007-2-14 Brian Masney <masneyb@gftp.org>
 	* lib/gftp.h src/gtk/gtkui.c src/uicommon/gftpui.c - added refreshing
 	field to the gftp_request structure. If this is set in
