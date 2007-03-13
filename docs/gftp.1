@@ -1,58 +1,50 @@
-.TH GFTP 1 "FEBRUARY 2001"
+.TH GFTP 1 "MARCH 2007"
 .SH NAME
-gftp - a graphical ftp client
+gftp - file transfer client for *NIX based machines.
 .SH SYNOPSIS
 .B gftp [options] [[proto://][
 .I user
 .B :
 .I [pass]
 .B @]
-.I site
+.I server
 .B [:
 .I port
 .B ][/
 .I directory
 .B ]]
 .SH DESCRIPTION
-gFTP is a multiprotocol file transfer program for X Windows and the console. It features support for the FTP, SSH, HTTP, and local file system protocols, simultaneous downloads, resuming of interrupted file transfers, file transfer queues, downloading of entire directories, ftp and http proxy support, remote directory caching, bookmarks menu, stop button and many more features
+gFTP is a file transfer client for *NIX based machines. It currently has a text interface and a GTK+ 1.2/2.x graphical interface. It currently supports the FTP, FTPS (control connection only), HTTP, HTTPS, SSH and FSP protocols.
 .SH OPTIONS
-You may enter a url on the command line that gFTP will automatically connect
-to when it starts up.
+You may enter a url on the command line that gFTP will automatically connect to when it starts up.
 .IP "\-\-help, \-h"
-Display program usage, and quit
+Display program usage.
+.IP "\-\-info"
+Display some information about how gFTP was built. Please send the output of this command when submitting a bug report.
 .IP "\-\-version, \-v"
-This will display the current version of gFTP, and exit
-.IP "\-\-download, \-d"
-This tells gFTP to download the files and directories specified in the url passed on the command line. 
+Display the current version of gFTP.
+.IP proto
+This specifies the protocol that should be used. It can currently be one of the following options: ftp, ftps, http, https, ssh, fsp, local and bookmark. If omitted, the protocol specified by the default_protocol option will be used.
 .IP user
-This is the username that you will login as to the remote site. If no username
-is supplied, the default is to login as anonymous.
+The username that will be used to log into the remote server. If omitted, your current username will be used for most protocols. For the FTP protocol, the anonymous username will be used.
 .IP pass
-This is the password you will use to login to the remotesite. If you do not
-enter a password, then gFTP will ask you for one when it starts up. I do not
-recommend entering your password on the command prompt. Anyone that has
-access to your machine will be able to see your username and password with
-the
-.BR ps(1)
-command. If you are logging in as anonymous, you do not need to pass a password since gFTP will automatically send your email address as your password.
-.IP site
-This is the remote site you want to connect to
+The password that will be used to log into the remote server. If omitted, you will be prompted for the password. If you are using the FTP protocol, and the username is anonymous, then your email address will be used as the password.
+.IP server
+The remote server to connect to.
 .IP port
-This is the port that the remote server is listening on. If you do not
-enter a port, it will default to using the ftp port listed in the
+The remote port on the server to connect to. If omitted, the default port for the protocol will be used. The port will be looked up in the
 .BR services(5)
-file. If the entry doesn't exist there, it will default to port
-21.
+file.
 .IP directory
-This is the default directory to change to once you are connected to the
-remote server.
+The directory to change to once you are connected to the remote server.
 .SH FILES
 .I ~/.gftp/gftprc
 .RS
-Per user configuration file. This file is commented very well, so that is
-why there isn't a manpage for it. Most of the options in here can be set
-inside gFTP itself.
+Per user configuration file. Most of these options can be edited inside gFTP. This file is also commented very well.
+.I ~/.gftp/bookmarks
+.RS
+Per user bookmarks file.
 .SH BUGS
-If you find any bugs in gFTP, please report them directly to the author.
+If you find any bugs in gFTP, please report them to GNOME's Bugzilla at http://bugzilla.gnome.org/
 .SH AUTHOR
 Brian Masney <masneyb@gftp.org> - http://www.gftp.org/
