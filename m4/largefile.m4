@@ -9,7 +9,7 @@ dnl Written by Paul Eggert <eggert@twinsun.com>.
 
 dnl Internal subroutine of AC_SYS_LARGEFILE.
 dnl AC_SYS_LARGEFILE_FLAGS(FLAGSNAME)
-AC_DEFUN(AC_SYS_LARGEFILE_FLAGS,
+AC_DEFUN([AC_SYS_LARGEFILE_FLAGS],
   [AC_CACHE_CHECK([for $1 value to request large file support],
      ac_cv_sys_largefile_$1,
      [ac_cv_sys_largefile_$1=`($GETCONF LFS_$1) 2>/dev/null` || {
@@ -32,7 +32,7 @@ changequote([, ])dnl
 
 dnl Internal subroutine of AC_SYS_LARGEFILE.
 dnl AC_SYS_LARGEFILE_SPACE_APPEND(VAR, VAL)
-AC_DEFUN(AC_SYS_LARGEFILE_SPACE_APPEND,
+AC_DEFUN([AC_SYS_LARGEFILE_SPACE_APPEND],
   [case $2 in
    no) ;;
    ?*)
@@ -44,7 +44,7 @@ AC_DEFUN(AC_SYS_LARGEFILE_SPACE_APPEND,
 
 dnl Internal subroutine of AC_SYS_LARGEFILE.
 dnl AC_SYS_LARGEFILE_MACRO_VALUE(C-MACRO, CACHE-VAR, COMMENT, CODE-TO-SET-DEFAULT)
-AC_DEFUN(AC_SYS_LARGEFILE_MACRO_VALUE,
+AC_DEFUN([AC_SYS_LARGEFILE_MACRO_VALUE],
   [AC_CACHE_CHECK([for $1], $2,
      [$2=no
 changequote(, )dnl
@@ -63,7 +63,7 @@ changequote([, ])dnl
      AC_DEFINE_UNQUOTED([$1], [$]$2, [$3])
    fi])
 
-AC_DEFUN(AC_SYS_LARGEFILE,
+AC_DEFUN([AC_SYS_LARGEFILE],
   [AC_REQUIRE([AC_CANONICAL_HOST])
    AC_ARG_ENABLE(largefile,
      [  --disable-largefile     omit support for large files])
