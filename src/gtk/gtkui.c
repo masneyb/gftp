@@ -46,7 +46,6 @@ void
 gftpui_refresh (void *uidata, int clear_cache_entry)
 {
   gftp_window_data * wdata;
-  int ret;
 
   wdata = uidata;
   wdata->request->refreshing = 1;
