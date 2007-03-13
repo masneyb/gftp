@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 SUBDIRS= docs lib po src
-EXTRA_DIST= config.rpath mkinstalldirs ChangeLog-old README THANKS TODO \
+EXTRA_DIST= config.rpath ChangeLog-old README THANKS TODO \
  gftp.spec.in debian/changelog debian/compat debian/control debian/copyright \
  debian/gftp-common.dirs debian/gftp-common.docs debian/gftp-common.install \
  debian/gftp-gtk.install debian/gftp-gtk.links debian/gftp-gtk.menu \
