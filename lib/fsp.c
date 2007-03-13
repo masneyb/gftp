@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  fsp.c - functions interfacing with  FSP v2 protocol library              */
-/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>                  */
 /*  Copyright (C) 2004 Radim Kolar <hsn@netmag.cz>                           */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */

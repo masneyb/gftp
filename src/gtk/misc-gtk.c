@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  misc-gtk.c - misc stuff for the gtk+ 1.2 port of gftp                    */
-/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */

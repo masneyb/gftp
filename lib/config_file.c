@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /*  config_file.c - config file routines                                     */
-/*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
+/*  Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
 /*  it under the terms of the GNU General Public License as published by     */
@@ -730,7 +730,7 @@ gftp_write_bookmarks_file (void)
   FILE * bmfile;
   int i;
 
-  bmhdr = N_("Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten");
+  bmhdr = N_("Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten");
   pwhdr = N_("Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext.");
 
   if ((tempstr = gftp_expand_path (NULL, BOOKMARKS_FILE)) == NULL)
@@ -843,7 +843,7 @@ gftp_write_config_file (void)
 
   g_free (tempstr);
 
-  write_comment (conffile, _("Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"));
+  write_comment (conffile, _("Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"));
 
   for (templist = gftp_options_list;
        templist != NULL;
