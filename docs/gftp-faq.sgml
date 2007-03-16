@@ -6,7 +6,7 @@
 <book>
 
 <bookinfo>
-  <date>$Date$</date>
+  <date>$Date: 2006/11/17 02:45:04 $</date>
   <title>gFTP FAQ</title>
   <authorgroup>
     <author>
@@ -136,35 +136,35 @@ supplied make.</para>
 <!-- ----------------------------------------------------------------- -->
 
 <sect1>
-<title>Does gFTP have a CVS repository?</title>
+<title>Does gFTP have a SVN repository?</title>
 
-<para>gFTP is stored in GNOME's CVS repository. For instructions on how to
-setup your CVS client, you can visit the webpage
-<ulink url="http://developer.gnome.org/tools/cvs.html">http://developer.gnome.org/tools/cvs.html</ulink> for instructions. In a nutshell, you will need to run
-the following commands (this assumes you are using the <emphasis>bash</emphasis>
-shell):</para>
+<para>gFTP is stored in GNOME's SVN repository. For instructions on how to
+setup your subversion client, visit the website 
+<ulink url="http://developer.gnome.org/tools/svn.html">http://developer.gnome.org/tools/svn.html</ulink>.
+In a nutshell, you will need to run the following command to download the latest code:
+</para>
 
 <para>
 
 <literallayout>
-<literal>export CVSROOT=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"</literal>
-<literal>cvs login</literal>
-</literallayout>
-
-Just hit enter at the password prompt since there is no password.
-
-<literallayout>
-<literal>cvs co gftp</literal>
+<literal>svn co http://svn.gnome.org/svn/gftp/trunk gftp</literal>
 </literallayout>
 
 </para>
 
 <para>
-To compile the CVS code, you will need <emphasis>autoconf</emphasis>,
-<emphasis>automake 1.4</emphasis> and <emphasis>gettext</emphasis>
-installed on your system. To generate a configure script, you will
-need to run <emphasis>autogen.sh</emphasis>. Once this script is
-generated, you can follow the normal installation instructions.
+To compile the SVN code, you will need <emphasis>autoconf</emphasis>,
+<emphasis>automake</emphasis> and <emphasis>gettext</emphasis>
+installed on your system. Once you have those packages installed, run
+the following series of commands:
+</para>
+
+<itemizedlist>
+<listitem><simpara>Run <emphasis>./autogen.sh</emphasis> to generate the configure scripts.</simpara></listitem>
+<listitem><simpara>If that is successful, run <emphasis>./configure</emphasis> to generate the Makefiles. By default, the binaries will be installed in /usr/local/bin. You can change the install location by passing the <emphasis>--prefix</emphasis> argument to configure. For example, let's say you want to install the binaries in /usr/bin. Run <emphasis>configure --prefix=/usr</emphasis>.</simpara></listitem>
+<listitem><simpara>If that is successful, run <emphasis>make</emphasis> to build the source.</simpara></listitem>
+<listitem><simpara>Optional: If that is successful, run <emphasis>make install</emphasis> to install the binary on your computer.</simpara></listitem>
+</itemizedlist>
 
 </sect1>
 
@@ -409,9 +409,9 @@ are translated exactly as they appear in the SSH client.
 </itemizedlist>
 
 <para>
-Please upload the changes to the PO file to GNOME's CVS or email me the
+Please upload the changes to the PO file to GNOME's SVN or email me the
 updated PO file. If you email me the updates, please make sure that you
-grab the latest PO file from CVS.
+grab the latest PO file from SVN.
 </para>
 
 </sect1>
