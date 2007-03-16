@@ -1470,10 +1470,9 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
         }
 
       tdata->tot_file_trans = gftp_transfer_file (tdata->fromreq, curfle->file,
-                                                  0,
                                                   curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
                                                           curfle->startsize : 0,
-                                                  tdata->toreq, curfle->destfile, 0,
+                                                  tdata->toreq, curfle->destfile,
                                                   curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
                                                           curfle->startsize : 0);
       if (tdata->tot_file_trans < 0)

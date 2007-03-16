@@ -174,7 +174,7 @@ gftp_disconnect (gftp_request * request)
 
 
 off_t
-gftp_get_file (gftp_request * request, const char *filename, int fd,
+gftp_get_file (gftp_request * request, const char *filename,
                off_t startsize)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -183,12 +183,12 @@ gftp_get_file (gftp_request * request, const char *filename, int fd,
   if (request->get_file == NULL)
     return (GFTP_EFATAL);
 
-  return (request->get_file (request, filename, fd, startsize));
+  return (request->get_file (request, filename, startsize));
 }
 
 
 int
-gftp_put_file (gftp_request * request, const char *filename, int fd,
+gftp_put_file (gftp_request * request, const char *filename,
                off_t startsize, off_t totalsize)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -197,15 +197,14 @@ gftp_put_file (gftp_request * request, const char *filename, int fd,
   if (request->put_file == NULL)
     return (GFTP_EFATAL);
 
-  return (request->put_file (request, filename, fd, startsize, totalsize));
+  return (request->put_file (request, filename, startsize, totalsize));
 }
 
 
 off_t
 gftp_transfer_file (gftp_request * fromreq, const char *fromfile, 
-                    int fromfd, off_t fromsize, 
-                    gftp_request * toreq, const char *tofile,
-                    int tofd, off_t tosize)
+                    off_t fromsize, gftp_request * toreq, const char *tofile,
+                    off_t tosize)
 {
   /* Needed for systems that size(float) < size(void *) */
   union { intptr_t i; float f; } maxkbs;
@@ -235,7 +234,7 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
   toreq->cached = 0;
 
 get_file:
-  size = gftp_get_file (fromreq, fromfile, fromfd, tosize);
+  size = gftp_get_file (fromreq, fromfile, tosize);
   if (size < 0)
     {
       if (size == GFTP_ETIMEDOUT)
@@ -251,7 +250,7 @@ get_file:
     }
 
 put_file:
-  ret = gftp_put_file (toreq, tofile, tofd, tosize, size);
+  ret = gftp_put_file (toreq, tofile, tosize, size);
   if (ret != 0)
     {
       if (size == GFTP_ETIMEDOUT)

@@ -1224,20 +1224,15 @@ rfc959_setup_file_transfer (gftp_request * request, const char *filename,
 
 
 static off_t
-rfc959_get_file (gftp_request * request, const char *filename, int fd,
+rfc959_get_file (gftp_request * request, const char *filename,
                  off_t startsize)
 {
-  rfc959_parms * parms;
   char *tempstr;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
-
-  parms = request->protocol_data;
-  if (fd > 0)
-    parms->data_connection = fd;
 
   ret = rfc959_setup_file_transfer (request, filename, startsize, "RETR");
   if (ret < 0)
@@ -1257,7 +1252,7 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
 
 
 static int
-rfc959_put_file (gftp_request * request, const char *filename, int fd,
+rfc959_put_file (gftp_request * request, const char *filename,
                  off_t startsize, off_t totalsize)
 {
   rfc959_parms * parms;
@@ -1267,13 +1262,10 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  parms = request->protocol_data;
-  if (fd > 0) /* FIXME */
-    fd = parms->data_connection;
-
   if ((ret = rfc959_set_data_type (request, filename)) < 0)
     return (ret);
 
+  parms = request->protocol_data;
   if (parms->data_connection < 0 && 
       (ret = rfc959_data_connection_new (request, 0)) < 0)
     return (ret);

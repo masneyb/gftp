@@ -1853,8 +1853,7 @@ sshv2_open_file (gftp_request * request, const char *file, off_t startsize,
 
 
 static off_t
-sshv2_get_file (gftp_request * request, const char *file, int fd,
-                off_t startsize)
+sshv2_get_file (gftp_request * request, const char *file, off_t startsize)
 {
   int ret;
 
@@ -1866,7 +1865,7 @@ sshv2_get_file (gftp_request * request, const char *file, int fd,
 
 
 static int
-sshv2_put_file (gftp_request * request, const char *file, int fd,
+sshv2_put_file (gftp_request * request, const char *file,
                 off_t startsize, off_t totalsize)
 {
   guint32 mode;

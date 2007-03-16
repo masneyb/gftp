@@ -435,11 +435,9 @@ struct gftp_request_tag
   void (*disconnect) 			( gftp_request * request );
   off_t (*get_file) 			( gftp_request * request, 
 					  const char *filename, 
-					  int fd,
 					  off_t startsize );
   int (*put_file) 			( gftp_request * request, 
 					  const char *filename, 
-					  int fd,
 					  off_t startsize,
 					  off_t totalsize );
   off_t (*transfer_file) 		( gftp_request * fromreq, 
@@ -891,22 +889,18 @@ void gftp_disconnect 			( gftp_request * request );
 
 off_t gftp_get_file 			( gftp_request * request, 
 					  const char *filename, 
-					  int fd,
 					  off_t startsize );
 
 int gftp_put_file 			( gftp_request * request, 
 					  const char *filename, 
-					  int fd,
 					  off_t startsize,
 					  off_t totalsize );
 
 off_t gftp_transfer_file 		( gftp_request *fromreq, 
 					  const char *fromfile, 
-					  int fromfd,
 					  off_t fromsize, 
 					  gftp_request *toreq, 
 					  const char *tofile, 
-					  int tofd,
 					  off_t tosize );
 
 ssize_t gftp_get_next_file_chunk 	( gftp_request * request, 

@@ -149,7 +149,7 @@ local_disconnect (gftp_request * request)
 
 
 static off_t
-local_get_file (gftp_request * request, const char *filename, int fd,
+local_get_file (gftp_request * request, const char *filename,
                 off_t startsize)
 {
   size_t destlen;
@@ -161,27 +161,22 @@ local_get_file (gftp_request * request, const char *filename, int fd,
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
-  if (fd <= 0)
-    {
-      flags = O_RDONLY;
+  flags = O_RDONLY;
 #if defined (_LARGEFILE_SOURCE) && defined (O_LARGEFILE)
-      flags |= O_LARGEFILE;
+  flags |= O_LARGEFILE;
 #endif
 
-      utf8 = gftp_filename_from_utf8 (request, filename, &destlen);
-      if (utf8 != NULL)
-        {
-          request->datafd = gftp_fd_open (request, utf8, flags, 0);
-          g_free (utf8);
-        }
-      else
-        request->datafd = gftp_fd_open (request, filename, flags, 0);
-
-      if (request->datafd == -1)
-        return (GFTP_ERETRYABLE); 
+  utf8 = gftp_filename_from_utf8 (request, filename, &destlen);
+  if (utf8 != NULL)
+    {
+      request->datafd = gftp_fd_open (request, utf8, flags, 0);
+      g_free (utf8);
     }
   else
-    request->datafd = fd;
+    request->datafd = gftp_fd_open (request, filename, flags, 0);
+
+  if (request->datafd == -1)
+    return (GFTP_ERETRYABLE); 
 
   if ((size = lseek (request->datafd, 0, SEEK_END)) == -1)
     {
@@ -206,7 +201,7 @@ local_get_file (gftp_request * request, const char *filename, int fd,
 
 
 static int
-local_put_file (gftp_request * request, const char *filename, int fd,
+local_put_file (gftp_request * request, const char *filename,
                 off_t startsize, off_t totalsize)
 {
   int flags, perms;
@@ -217,30 +212,25 @@ local_put_file (gftp_request * request, const char *filename, int fd,
   g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
-  if (fd <= 0)
-    {
-      flags = O_WRONLY | O_CREAT;
-      if (startsize > 0)
-         flags |= O_APPEND;
+  flags = O_WRONLY | O_CREAT;
+  if (startsize > 0)
+     flags |= O_APPEND;
 #if defined (_LARGEFILE_SOURCE) && defined (O_LARGEFILE)
-      flags |= O_LARGEFILE;
+  flags |= O_LARGEFILE;
 #endif
 
-      perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-      utf8 = gftp_filename_from_utf8 (request, filename, &destlen);
-      if (utf8 != NULL)
-        {
-          request->datafd = gftp_fd_open (request, utf8, flags, perms);
-          g_free (utf8);
-        }
-      else
-        request->datafd = gftp_fd_open (request, filename, flags, perms);
-
-      if (request->datafd == -1)
-        return (GFTP_ERETRYABLE);
+  perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+  utf8 = gftp_filename_from_utf8 (request, filename, &destlen);
+  if (utf8 != NULL)
+    {
+      request->datafd = gftp_fd_open (request, utf8, flags, perms);
+      g_free (utf8);
     }
   else
-    request->datafd = fd;
+    request->datafd = gftp_fd_open (request, filename, flags, perms);
+
+  if (request->datafd == -1)
+    return (GFTP_ERETRYABLE);
 
   if (ftruncate (request->datafd, startsize) == -1)
     {

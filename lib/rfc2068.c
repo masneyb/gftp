@@ -266,7 +266,7 @@ rfc2068_disconnect (gftp_request * request)
 
 
 static off_t
-rfc2068_get_file (gftp_request * request, const char *filename, int fd,
+rfc2068_get_file (gftp_request * request, const char *filename,
                   off_t startsize)
 {
   char *tempstr, *oldstr, *hf;
@@ -282,9 +282,6 @@ rfc2068_get_file (gftp_request * request, const char *filename, int fd,
   params = request->protocol_data;
 
   gftp_lookup_request_option (request, "use_http11", &use_http11);
-
-  if (fd > 0)
-    request->datafd = fd;
 
   hf = gftp_build_path (request, request->hostname, filename, NULL);
 

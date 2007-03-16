@@ -94,7 +94,7 @@ fsp_disconnect (gftp_request * request)
 }
 
 static off_t
-fsp_get_file (gftp_request * request, const char *filename, int fd,
+fsp_get_file (gftp_request * request, const char *filename,
                 off_t startsize)
 {
   fsp_protocol_data * lpd;
@@ -164,7 +164,7 @@ static ssize_t fsp_write_function(gftp_request *request, const char *buf, size_t
 }
 
 static int
-fsp_put_file (gftp_request * request, const char *filename, int fd,
+fsp_put_file (gftp_request * request, const char *filename,
                 off_t startsize, off_t totalsize)
 {
   fsp_protocol_data * lpd;
