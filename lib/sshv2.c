@@ -1045,6 +1045,32 @@ sshv2_buffer_get_string (gftp_request * request, sshv2_message * message,
 
 
 static int
+sshv2_send_command_and_check_response (gftp_request * request, char type,
+                                       char *command, size_t len)
+{
+  sshv2_message message;
+  int ret;
+
+  ret = sshv2_send_command (request, type, command, len);
+  if (ret < 0)
+    return (ret);
+
+  memset (&message, 0, sizeof (message));
+  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
+    return (ret);
+
+  message.pos += 4;
+  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, 1,
+                                     NULL)) < 0)
+    return (ret);
+
+  sshv2_message_free (&message);
+
+  return (0);
+}
+
+
+static int
 sshv2_getcwd (gftp_request * request)
 {
   char *tempstr, *dir, *utf8;
@@ -1544,7 +1570,6 @@ sshv2_chdir (gftp_request * request, const char *directory)
 static int 
 sshv2_rmdir (gftp_request * request, const char *directory)
 {
-  sshv2_message message;
   char *tempstr;
   size_t len;
   int ret;
@@ -1556,30 +1581,16 @@ sshv2_rmdir (gftp_request * request, const char *directory)
   len = 0;
   tempstr = sshv2_initialize_string_with_path (request, directory, &len, NULL);
 
-  ret = sshv2_send_command (request, SSH_FXP_RMDIR, tempstr, len);
-
+  ret = sshv2_send_command_and_check_response (request, SSH_FXP_RMDIR,
+                                               tempstr, len);
   g_free (tempstr);
-  if (ret < 0)
-    return (ret);
-
-  memset (&message, 0, sizeof (message));
-  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
-    return (ret);
-
-  message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, 1, NULL)) < 0)
-    return (ret);
-
-  sshv2_message_free (&message);
-
-  return (0);
+  return (ret);
 }
 
 
 static int 
 sshv2_rmfile (gftp_request * request, const char *file)
 {
-  sshv2_message message;
   char *tempstr;
   size_t len;
   int ret;
@@ -1591,23 +1602,10 @@ sshv2_rmfile (gftp_request * request, const char *file)
   len = 0;
   tempstr = sshv2_initialize_string_with_path (request, file, &len, NULL);
 
-  ret = sshv2_send_command (request, SSH_FXP_REMOVE, tempstr, len);
-
+  ret = sshv2_send_command_and_check_response (request, SSH_FXP_REMOVE,
+                                               tempstr, len);
   g_free (tempstr);
-  if (ret < 0)
-    return (ret);
-
-  memset (&message, 0, sizeof (message));
-  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
-    return (ret);
-
-  message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, 1, NULL)) < 0)
-    return (ret);
-
-  sshv2_message_free (&message);
-
-  return (0);
+  return (ret);
 }
 
 
@@ -1615,7 +1613,6 @@ static int
 sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
 {
   char *tempstr, *endpos;
-  sshv2_message message;
   guint32 num;
   size_t len;
   int ret;
@@ -1633,30 +1630,16 @@ sshv2_chmod (gftp_request * request, const char *file, mode_t mode)
   num = htonl (mode);
   memcpy (endpos + 4, &num, 4);
 
-  ret = sshv2_send_command (request, SSH_FXP_SETSTAT, tempstr, len);
-
+  ret = sshv2_send_command_and_check_response (request, SSH_FXP_SETSTAT,
+                                               tempstr, len);
   g_free (tempstr);
-  if (ret < 0)
-    return (ret);
-
-  memset (&message, 0, sizeof (message));
-  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
-    return (ret);
-
-  message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, 1, NULL)) < 0)
-    return (ret);
-
-  sshv2_message_free (&message);
-
-  return (0);
+  return (ret);
 }
 
 
 static int 
 sshv2_mkdir (gftp_request * request, const char *newdir)
 {
-  sshv2_message message;
   char *tempstr;
   size_t len;
   int ret;
@@ -1671,30 +1654,16 @@ sshv2_mkdir (gftp_request * request, const char *newdir)
   /* No need to set attributes since all characters of the tempstr buffer is
      initialized to 0 */
 
-  ret = sshv2_send_command (request, SSH_FXP_MKDIR, tempstr, len);
-
+  ret = sshv2_send_command_and_check_response (request, SSH_FXP_MKDIR,
+                                               tempstr, len);
   g_free (tempstr);
-  if (ret < 0)
-    return (ret);
-
-  memset (&message, 0, sizeof (message));
-  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
-    return (ret);
-
-  message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, 1, NULL)) < 0)
-    return (ret);
-
-  sshv2_message_free (&message);
-
-  return (0);
+  return (ret);
 }
 
 
 static int 
 sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
 {
-  sshv2_message message;
   char *tempstr;
   size_t msglen;
   int ret;
@@ -1708,23 +1677,11 @@ sshv2_rename (gftp_request * request, const char *oldname, const char *newname)
   tempstr = sshv2_initialize_buffer_with_two_i18n_paths (request,
                                                          oldname, newname,
                                                          &msglen);
-  ret = sshv2_send_command (request, SSH_FXP_RENAME, tempstr, msglen);
+
+  ret = sshv2_send_command_and_check_response (request, SSH_FXP_RENAME,
+                                               tempstr, msglen);
   g_free (tempstr);
-  if (ret < 0)
-    return (ret);
-
-  memset (&message, 0, sizeof (message));
-  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
-    return (ret);
-
-  message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, 1,
-                                     NULL)) < 0)
-    return (ret);
-
-  sshv2_message_free (&message);
-
-  return (0);
+  return (ret);
 }
 
 
@@ -1732,7 +1689,6 @@ static int
 sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
 {
   char *tempstr, *endpos;
-  sshv2_message message;
   guint32 num;
   size_t len;
   int ret;
@@ -1751,23 +1707,10 @@ sshv2_set_file_time (gftp_request * request, const char *file, time_t datetime)
   memcpy (endpos + 4, &num, 4);
   memcpy (endpos + 8, &num, 4);
 
-  ret = sshv2_send_command (request, SSH_FXP_SETSTAT, tempstr, len);
-
+  ret = sshv2_send_command_and_check_response (request, SSH_FXP_SETSTAT,
+                                               tempstr, len);
   g_free (tempstr);
-  if (ret < 0)
-    return (ret);
-
-  memset (&message, 0, sizeof (message));
-  if ((ret = sshv2_read_response (request, &message, -1)) < 0)
-    return (ret);
-
-  message.pos += 4;
-  if ((ret = sshv2_buffer_get_int32 (request, &message, SSH_FX_OK, 1, NULL)) < 0)
-    return (ret);
-
-  sshv2_message_free (&message);
-
-  return (0);
+  return (ret);
 }
 
 
