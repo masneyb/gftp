@@ -1163,22 +1163,16 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
 }
 
 
-static off_t
-rfc959_get_file (gftp_request * request, const char *filename, int fd,
-                 off_t startsize)
+static int
+rfc959_setup_file_transfer (gftp_request * request, const char *filename,
+                            off_t startsize, char *transfer_command)
 {
-  char *command, *tempstr;
   intptr_t passive_transfer;
   rfc959_parms * parms;
+  char *command;
   int ret;
 
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
-
   parms = request->protocol_data;
-  if (fd > 0)
-    parms->data_connection = fd;
 
   if ((ret = rfc959_set_data_type (request, filename)) < 0)
     return (ret);
@@ -1206,7 +1200,8 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
         }
     }
 
-  ret = rfc959_generate_and_send_command (request, "RETR", filename, 1, 0);
+  ret = rfc959_generate_and_send_command (request, transfer_command, filename,
+                                          1, 0);
   if (ret < 0)
     return (ret);
   else if (ret != '1')
@@ -1222,6 +1217,30 @@ rfc959_get_file (gftp_request * request, const char *filename, int fd,
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
   if (!passive_transfer &&
       (ret = rfc959_accept_active_connection (request)) < 0)
+    return (ret);
+
+  return (0);
+}
+
+
+static off_t
+rfc959_get_file (gftp_request * request, const char *filename, int fd,
+                 off_t startsize)
+{
+  rfc959_parms * parms;
+  char *tempstr;
+  int ret;
+
+  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
+
+  parms = request->protocol_data;
+  if (fd > 0)
+    parms->data_connection = fd;
+
+  ret = rfc959_setup_file_transfer (request, filename, startsize, "RETR");
+  if (ret < 0)
     return (ret);
 
   if ((tempstr = strrchr (request->last_ftp_response, '(')) == NULL)
@@ -1241,8 +1260,6 @@ static int
 rfc959_put_file (gftp_request * request, const char *filename, int fd,
                  off_t startsize, off_t totalsize)
 {
-  intptr_t passive_transfer;
-  char *command;
   rfc959_parms * parms;
   int ret;
 
@@ -1261,43 +1278,7 @@ rfc959_put_file (gftp_request * request, const char *filename, int fd,
       (ret = rfc959_data_connection_new (request, 0)) < 0)
     return (ret);
 
-  if ((ret = gftp_fd_set_sockblocking (request, parms->data_connection, 1)) < 0)
-    return (ret);
-
-  if (startsize > 0)
-    {
-      command = g_strdup_printf ("REST " GFTP_OFF_T_PRINTF_MOD "\r\n",
-                                 startsize);
-      ret = rfc959_send_command (request, command, -1, 1, 0);
-      g_free (command);
-      if (ret < 0)
-        return (ret);
-      else if (ret != '3')
-        {
-          rfc959_close_data_connection (request);
-	  return (GFTP_ERETRYABLE);
-        }
-    }
-
-  ret = rfc959_generate_and_send_command (request, "STOR", filename, 1, 0);
-  if (ret < 0)
-    return (ret);
-  else if (ret != '1')
-    {
-      rfc959_close_data_connection (request);
-
-      if (ret == '5')
-        return (GFTP_EFATAL);
-      else
-        return (GFTP_ERETRYABLE);
-    }
-
-  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
-  if (!passive_transfer &&
-      (ret = rfc959_accept_active_connection (request)) < 0)
-    return (ret);
-
-  return (0);
+  return (rfc959_setup_file_transfer (request, filename, startsize, "STOR"));
 }
 
 
