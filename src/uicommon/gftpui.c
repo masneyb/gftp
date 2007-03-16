@@ -1225,36 +1225,6 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
 }
 
 
-static void
-_gftpui_common_setup_fds (gftp_transfer * tdata, gftp_file * curfle,
-                          int *fromfd, int *tofd)
-{
-  *tofd = -1;
-  *fromfd = -1;
-
-  if (curfle->is_fd)
-    {
-      if (tdata->toreq->protonum == GFTP_LOCAL_NUM)
-        *tofd = curfle->fd;
-      else if (tdata->fromreq->protonum == GFTP_LOCAL_NUM)
-        *fromfd = curfle->fd;
-    }
-}
-
-
-static void
-_gftpui_common_done_with_fds (gftp_transfer * tdata, gftp_file * curfle)
-{
-  if (curfle->is_fd)
-    {
-      if (tdata->toreq->protonum == GFTP_LOCAL_NUM)
-        tdata->toreq->datafd = -1;
-      else
-        tdata->fromreq->datafd = -1;
-    }
-}
-
-
 static ssize_t
 _do_transfer_block (gftp_transfer * tdata, gftp_file * curfle, char *buf,
                     size_t trans_blksize)
@@ -1451,8 +1421,8 @@ _gftpui_common_preserve_perm_time (gftp_transfer * tdata, gftp_file * curfle)
 static int
 _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
 {
-  int tofd, fromfd, ret;
   gftp_file * curfle;
+  int ret;
 
   if (g_thread_supported ())
     g_static_mutex_lock (&tdata->structmutex);
@@ -1482,8 +1452,6 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
     }
   else
     {
-      _gftpui_common_setup_fds (tdata, curfle, &fromfd, &tofd);
-
       if (curfle->size == 0)
         {
           curfle->size = gftp_get_file_size (tdata->fromreq, curfle->file);
@@ -1502,10 +1470,10 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
         }
 
       tdata->tot_file_trans = gftp_transfer_file (tdata->fromreq, curfle->file,
-                                                  fromfd,
+                                                  0,
                                                   curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
                                                           curfle->startsize : 0,
-                                                  tdata->toreq, curfle->destfile, tofd,
+                                                  tdata->toreq, curfle->destfile, 0,
                                                   curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ?
                                                           curfle->startsize : 0);
       if (tdata->tot_file_trans < 0)
@@ -1524,15 +1492,10 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
 
           ret = _gftpui_common_do_transfer_file (tdata, curfle);
         }
-
-      _gftpui_common_done_with_fds (tdata, curfle);
     }
 
   if (ret == 0)
-    {
-      if (!curfle->is_fd)
-        ret = _gftpui_common_preserve_perm_time (tdata, curfle);
-    }
+    ret = _gftpui_common_preserve_perm_time (tdata, curfle);
   else
     {
       curfle->retry_transfer = 1;

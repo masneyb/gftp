@@ -257,7 +257,6 @@ struct gftp_file_tag
                done_rm : 1,	/* Remove the file when done */
                transfer_done : 1, /* Is current file transfer done? */
                retry_transfer : 1, /* Is current file transfer done? */
-               is_fd : 1,	/* Is this a file descriptor? */
                exists_other_side; /* The file exists on the other side during
                                      the file transfer */
   char transfer_action;		/* See the GFTP_TRANS_ACTION_* vars above */

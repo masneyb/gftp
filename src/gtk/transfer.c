@@ -404,7 +404,6 @@ do_check_done_process (pid_t pid, int ret)
       if (ve_proc->pid != pid)
         continue;
 
-printf ("Found pid %d in the linked list\n", pid);
       deldata = curdata;
       curdata = curdata->next;
 
@@ -450,7 +449,6 @@ check_done_process (void)
 static void
 on_next_transfer (gftp_transfer * tdata)
 {
-  int fd;
   intptr_t refresh_files;
   gftp_file * tempfle;
 
@@ -459,33 +457,12 @@ on_next_transfer (gftp_transfer * tdata)
     {
       tempfle = tdata->updfle->data;
 
-      if (tempfle->is_fd)
-        fd = tempfle->fd;
-      else
-        fd = 0;
-
-      if (tempfle->done_view)
+      if (tempfle->done_view || tempfle->done_edit)
         {
           if (tempfle->transfer_action != GFTP_TRANS_ACTION_SKIP)
-            view_file (tempfle->destfile, fd, 1, tempfle->done_rm, 1, 0,
-                       tempfle->file, NULL);
-
-          if (tempfle->is_fd)
             {
-              close (tempfle->fd);
-              tempfle->fd = -1;
-            }
-        }
-      else if (tempfle->done_edit)
-        {
-          if (tempfle->transfer_action != GFTP_TRANS_ACTION_SKIP)
-	    view_file (tempfle->destfile, fd, 0, tempfle->done_rm, 1, 0,
-                       tempfle->file, NULL);
-
-          if (tempfle->is_fd)
-            {
-              close (tempfle->fd);
-              tempfle->fd = -1;
+              view_file (tempfle->destfile, 0, tempfle->done_view,
+                         tempfle->done_rm, 1, 0, tempfle->file, NULL);
             }
         }
       else if (tempfle->done_rm)

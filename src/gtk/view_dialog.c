@@ -22,19 +22,19 @@ static const char cvsid[] = "$Id$";
 
 static gftp_file * curfle;
 
-void
-view_dialog (gpointer data)
+static void
+do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
 {
   GList * templist, * filelist, * newfile;
-  gftp_window_data * fromwdata, * towdata;
+  gftp_window_data * towdata;
   gftp_file * new_fle;
   char *suffix;
   int num;
 
-  fromwdata = data;
-  towdata = fromwdata == &window1 ? &window2 : &window1;
-  if (!check_status (_("View"), fromwdata, 0, 1, 1, 1))
+  if (!check_status (is_view ? _("View") : _("Edit"), fromwdata, 0, 1, 1, 1))
     return;
+
+  towdata = fromwdata == &window1 ? &window2 : &window1;
 
   templist = GTK_CLIST (fromwdata->listbox)->selection;
   num = 0;
@@ -44,13 +44,18 @@ view_dialog (gpointer data)
 
   if (S_ISDIR (curfle->st_mode))
     {
-      ftp_log (gftp_logging_error, NULL,
-	       _("View: %s is a directory. Cannot view it.\n"), curfle->file);
+      if (is_view)
+        ftp_log (gftp_logging_error, NULL,
+                 _("View: %s is a directory. Cannot view it.\n"), curfle->file);
+      else
+        ftp_log (gftp_logging_error, NULL,
+                 _("Edit: %s is a directory. Cannot edit it.\n"), curfle->file);
+
       return;
     }
 
   if (strcmp (gftp_protocols[fromwdata->request->protonum].name, "Local") == 0)
-    view_file (curfle->file, 0, 1, 0, 1, 1, NULL, fromwdata);
+    view_file (curfle->file, 0, is_view, 0, 1, 1, NULL, fromwdata);
   else
     {
       new_fle = copy_fdata (curfle);
@@ -81,9 +86,14 @@ view_dialog (gpointer data)
 
       fchmod (new_fle->fd, S_IRUSR | S_IWUSR);
 
-      new_fle->is_fd = 1;
-      new_fle->done_view = 1;
-      new_fle->done_rm = 1;
+      if (is_view)
+        {
+          new_fle->done_view = 1;
+          new_fle->done_rm = 1;
+        }
+      else
+        new_fle->done_edit = 1;
+
       newfile = g_list_append (NULL, new_fle); 
       gftpui_common_add_file_transfer (fromwdata->request, towdata->request,
                                        fromwdata, towdata, newfile);
@@ -92,18 +102,17 @@ view_dialog (gpointer data)
 
 
 void
+view_dialog (gpointer data)
+{
+  do_view_or_edit_file (data, 1);
+}
+
+
+void
 edit_dialog (gpointer data)
 {
-  gftp_window_data * fromwdata, * towdata;
-  GList * templist, * filelist, * newfile;
-  gftp_file * new_fle;
-  char *edit_program, *suffix;
-  int num;
-
-  fromwdata = data;
-  towdata = fromwdata == &window1 ? &window2 : &window1;
-  if (!check_status (_("Edit"), fromwdata, 0, 1, 1, 1))
-    return;
+  gftp_window_data * fromwdata = data;
+  char *edit_program;
 
   gftp_lookup_request_option (fromwdata->request, "edit_program", 
                               &edit_program);
@@ -115,57 +124,7 @@ edit_dialog (gpointer data)
       return;
     }
 
-  templist = GTK_CLIST (fromwdata->listbox)->selection;
-  num = 0;
-  filelist = fromwdata->files;
-  templist = get_next_selection (templist, &filelist, &num);
-  curfle = filelist->data;
-
-  if (S_ISDIR (curfle->st_mode))
-    {
-      ftp_log (gftp_logging_error, NULL,
-	       _("Edit: %s is a directory. Cannot edit it.\n"), curfle->file);
-      return;
-    }
-
-  if (strcmp (gftp_protocols[fromwdata->request->protonum].name, "Local") == 0)
-    view_file (curfle->file, 0, 0, 0, 1, 1, NULL, fromwdata);
-  else
-    {
-      new_fle = copy_fdata (curfle);
-      if (new_fle->destfile)
-        g_free (new_fle->destfile);
-
-      if ((suffix = strrchr (curfle->file, '.')) != NULL)
-        {
-          new_fle->destfile = g_strconcat (g_get_tmp_dir (),
-                                           "/gftp-view.XXXXXX", suffix, NULL);
-          new_fle->fd = mkstemps (new_fle->destfile, strlen (suffix));
-	}
-      else
-        {
-	  new_fle->destfile = g_strconcat (g_get_tmp_dir (),
-                                           "/gftp-view.XXXXXX", NULL);		
-          new_fle->fd = mkstemps (new_fle->destfile, 0);
-	}
-
-      if (new_fle->fd < 0)
-        {
-          ftp_log (gftp_logging_error, NULL, 
-                   _("Error: Cannot open %s for writing: %s\n"),
-                   new_fle->destfile, g_strerror (errno));
-          gftp_file_destroy (new_fle, 1);
-          return;
-        }
-
-      fchmod (new_fle->fd, S_IRUSR | S_IWUSR);
-
-      new_fle->is_fd = 1;
-      new_fle->done_edit = 1;
-      newfile = g_list_append (NULL, new_fle); 
-      gftpui_common_add_file_transfer (fromwdata->request, towdata->request,
-                                       fromwdata, towdata, newfile);
-    }
+  do_view_or_edit_file (data, 0);
 }
 
 
