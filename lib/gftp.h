@@ -502,8 +502,9 @@ struct gftp_request_tag
 #endif
 
 #if GLIB_MAJOR_VERSION > 1
-  GIConv iconv; 
-  unsigned int iconv_initialized : 1;
+  GIConv iconv_to, iconv_from; 
+  unsigned int iconv_from_initialized : 1,
+               iconv_to_initialized : 1;
   char *iconv_charset;
 #endif
 };

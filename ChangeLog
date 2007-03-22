@@ -1,3 +1,10 @@
+2007-3-22 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/protocols.c - fixed two remaining codepage related
+	issues: i) The first was a problem parsing the remote_charsets option.
+	ii) The second was the same IConv structure being used for the local
+	and remote side. Each side now has their own IConv structure.
+	(from Alexander Orlov <alxorlov@pochta.ru>)
+
 2007-3-15 Brian Masney <masneyb@gftp.org>
 	* Makefile.am configure.in - fixes so that automake 1.9 can be used.
 

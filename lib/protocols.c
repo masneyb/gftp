@@ -157,13 +157,23 @@ gftp_disconnect (gftp_request * request)
 #endif
 
 #if GLIB_MAJOR_VERSION > 1
-  if (request->iconv_initialized)
+  if (request->iconv_from_initialized)
     {
-      g_iconv_close (request->iconv);
-      request->iconv_initialized = 0;
-      g_free (request->iconv_charset);
-      request->iconv_charset = NULL;
+      g_iconv_close (request->iconv_from);
+      request->iconv_from_initialized = 0;
     }
+
+  if (request->iconv_to_initialized)
+    {
+      g_iconv_close (request->iconv_to);
+      request->iconv_to_initialized = 0;
+    }
+
+  if (request->iconv_charset)
+  {
+    g_free (request->iconv_charset);
+    request->iconv_charset = NULL;
+  }
 #endif
 
   request->cached = 0;
@@ -431,6 +441,7 @@ _gftp_get_next_charset (char **curpos)
        (*curpos)[retlen - 1] == ' ' || (*curpos)[retlen - 1] == '\t';
        retlen--);
 
+  retlen++; /* Needed due to the len - 1 above... */
   ret = g_malloc0 (retlen + 1);
   memcpy (ret, *curpos, retlen);
 
@@ -502,14 +513,29 @@ _do_convert_string (gftp_request * request, int is_filename, int force_local,
       return (ret);
     }
 
-  if (request->iconv_initialized)
+  if (from_utf8)
     {
-      ret = g_convert_with_iconv (str, -1, request->iconv, &bread, dest_len,
-                                  &error);
-      if (ret == NULL)
-        _do_show_iconv_error (str, request->iconv_charset, from_utf8, error);
+      if (request->iconv_from_initialized)
+        {
+          ret = g_convert_with_iconv (str, -1, request->iconv_from, &bread, dest_len,
+                                      &error);
+          if (ret == NULL)
+            _do_show_iconv_error (str, request->iconv_charset, from_utf8, error);
 
-      return (ret);
+          return (ret);
+        }
+    }
+  else
+    {
+      if (request->iconv_to_initialized)
+        {
+          ret = g_convert_with_iconv (str, -1, request->iconv_to, &bread, dest_len,
+                                      &error);
+          if (ret == NULL)
+            _do_show_iconv_error (str, request->iconv_charset, from_utf8, error);
+
+          return (ret);
+        }
     }
 
   stpos = remote_charsets;
@@ -519,30 +545,47 @@ _do_convert_string (gftp_request * request, int is_filename, int force_local,
         {
           fromset = "UTF-8";
           toset = cur_charset;
+          if ((request->iconv_from = g_iconv_open (toset, fromset)) == (GIConv) -1)
+            {
+              g_free (cur_charset);
+              continue;
+            }
+
+          error = NULL;
+          if ((ret = g_convert_with_iconv (str, -1, request->iconv_from, &bread,
+                                           dest_len, &error)) == NULL)
+            {
+              g_iconv_close (request->iconv_from);
+              request->iconv_from = NULL;
+              _do_show_iconv_error (str, cur_charset, from_utf8, error);
+              g_free (cur_charset);
+            }
+
+          request->iconv_from_initialized = 1;
         }
       else
         {
           fromset = cur_charset;
           toset = "UTF-8";
+          if ((request->iconv_to = g_iconv_open (toset, fromset)) == (GIConv) -1)
+            {
+              g_free (cur_charset);
+              continue;
+            }
+
+          error = NULL;
+          if ((ret = g_convert_with_iconv (str, -1, request->iconv_to, &bread,
+                                           dest_len, &error)) == NULL)
+            {
+              g_iconv_close (request->iconv_to);
+              request->iconv_to = NULL;
+              _do_show_iconv_error (str, cur_charset, from_utf8, error);
+              g_free (cur_charset);
+            }
+
+          request->iconv_to_initialized = 1;
         }
 
-      if ((request->iconv = g_iconv_open (toset, fromset)) == (GIConv) -1)
-        {
-          g_free (cur_charset);
-          continue;
-        }
-
-      error = NULL;
-      if ((ret = g_convert_with_iconv (str, -1, request->iconv, &bread,
-                                       dest_len, &error)) == NULL)
-        {
-          g_iconv_close (request->iconv);
-          request->iconv = NULL;
-          _do_show_iconv_error (str, cur_charset, from_utf8, error);
-          g_free (cur_charset);
-        }
-
-      request->iconv_initialized = 1;
       request->iconv_charset = cur_charset;
       return (ret);
     }
