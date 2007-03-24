@@ -299,4 +299,18 @@ AM_GNU_GETTEXT
 AC_CHECK_PROG(DB2HTML, db2html, true, false)
 AM_CONDITIONAL(HAVE_DOCBOOK, $DB2HTML)
 
-AC_OUTPUT(Makefile docs/Makefile docs/sample.gftp/Makefile lib/Makefile lib/fsplib/Makefile src/gftp src/Makefile src/uicommon/Makefile src/gtk/Makefile src/text/Makefile gftp.spec intl/Makefile po/Makefile.in)
+AC_CONFIG_FILES(po/Makefile.in
+	intl/Makefile
+	Makefile
+	docs/Makefile
+	docs/sample.gftp/Makefile
+	lib/Makefile
+	lib/fsplib/Makefile
+	src/gftp
+	src/Makefile
+	src/uicommon/Makefile
+	src/gtk/Makefile
+	src/text/Makefile
+	gftp.spec
+)
+AC_OUTPUT
