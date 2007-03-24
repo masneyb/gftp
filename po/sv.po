@@ -5,14 +5,14 @@
 # Mattias Dahlberg <voz@home.se>, 2003.
 # Christian Rose <menthos@menthos.com>, 2003.
 #
-# $Id$
+# $Id: sv.po,v 1.26 2006/12/26 13:13:47 dnylande Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gFTP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-26 04:42+0100\n"
-"PO-Revision-Date: 2006-12-26 10:38+0100\n"
+"POT-Creation-Date: 2007-03-24 11:01+0100\n"
+"PO-Revision-Date: 2007-03-24 10:38+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -24,16 +24,12 @@ msgstr ""
 msgid "Invalid URL %s\n"
 msgstr "Ogiltig URL %s\n"
 
-#: ../lib/cache.c:50
-#: ../lib/cache.c:64
-#: ../lib/cache.c:77
+#: ../lib/cache.c:50 ../lib/cache.c:64 ../lib/cache.c:77
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Fel: Raden %s i indexfilen för cacheminnet är ogiltig\n"
 
-#: ../lib/cache.c:138
-#: ../lib/fsp.c:535
-#: ../lib/local.c:571
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Fel: Kunde inte skapa katalogen %s: %s\n"
@@ -43,52 +39,36 @@ msgstr "Fel: Kunde inte skapa katalogen %s: %s\n"
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Fel: Kan inte skapa temporärfil: %s\n"
 
-#: ../lib/cache.c:186
-#: ../lib/cache.c:236
-#: ../lib/config_file.c:157
-#: ../lib/config_file.c:163
-#: ../lib/local.c:144
-#: ../lib/local.c:282
-#: ../lib/rfc2068.c:260
-#: ../lib/sshv2.c:1214
+#: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
+#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:272
+#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1250
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Fel när filidentifieraren skulle stängas: %s\n"
 
-#: ../lib/cache.c:254
-#: ../lib/fsp.c:127
-#: ../lib/fsp.c:207
-#: ../lib/local.c:189
-#: ../lib/local.c:198
-#: ../lib/local.c:257
+#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:184
+#: ../lib/local.c:193 ../lib/local.c:247
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Fel: Kan inte söka på filen %s: %s\n"
 
-#: ../lib/config_file.c:126
-#: ../lib/config_file.c:133
-#: ../lib/protocols.c:3166
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3200
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Fel: Kan inte öppna den lokala filen %s: %s\n"
 
-#: ../lib/config_file.c:143
-#: ../lib/protocols.c:2859
-#: ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/protocols.c:2901 ../lib/sslcommon.c:497
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Fel: Kunde inte skriva till uttag (socket): %s\n"
 
-#: ../lib/config_file.c:151
-#: ../lib/protocols.c:2781
-#: ../lib/sshv2.c:435
+#: ../lib/config_file.c:151 ../lib/protocols.c:2823 ../lib/sshv2.c:445
 #: ../lib/sslcommon.c:450
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Fel: Kunde inte läsa från uttag (socket): %s\n"
 
-#: ../lib/config_file.c:183
-#: ../lib/config_file.c:738
+#: ../lib/config_file.c:183 ../lib/config_file.c:738
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP-fel: Felaktigt bokmärkesfilnamn %s\n"
@@ -98,14 +78,12 @@ msgstr "gFTP-fel: Felaktigt bokmärkesfilnamn %s\n"
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Varning: Kan inte hitta huvudbokmärkesfilen %s\n"
 
-#: ../lib/config_file.c:203
-#: ../lib/config_file.c:744
+#: ../lib/config_file.c:203 ../lib/config_file.c:744
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP-fel: Kan inte öppna bokmärkesfilen %s: %s\n"
 
-#: ../lib/config_file.c:295
-#: ../lib/config_file.c:317
+#: ../lib/config_file.c:295 ../lib/config_file.c:317
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP-varning: Hoppar över rad %d i bokmärkesfilen: %s\n"
@@ -116,15 +94,24 @@ msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP-varning: Rad %d har inte tillräckligt många argument\n"
 
 #: ../lib/config_file.c:505
-msgid "This section specifies which hosts are on the local subnet and won't need to go out the proxy server (if available). Syntax: dont_use_proxy=.domain or dont_use_proxy=network number/netmask"
-msgstr "Detta avsnitt anger vilka värdar som finns på det lokala subnätet och inte behöver gå via proxyservern (om sådan finns). Syntax: dont_use_proxy=.domän eller dont_use_proxy=IP-nummer/nätmask"
+msgid ""
+"This section specifies which hosts are on the local subnet and won't need to "
+"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
+"dont_use_proxy=network number/netmask"
+msgstr ""
+"Detta avsnitt anger vilka värdar som finns på det lokala subnätet och inte "
+"behöver gå via proxyservern (om sådan finns). Syntax: dont_use_proxy=.domän "
+"eller dont_use_proxy=IP-nummer/nätmask"
 
 #: ../lib/config_file.c:508
-msgid "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: All arguments except the file extension are optional"
-msgstr "ext=filändelse:XPM fil:Ascii eller binär (A eller B):läsprogram. Notera: Alla argument utom filändelsen är frivilliga"
+msgid ""
+"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
+"All arguments except the file extension are optional"
+msgstr ""
+"ext=filändelse:XPM fil:Ascii eller binär (A eller B):läsprogram. Notera: "
+"Alla argument utom filändelsen är frivilliga"
 
-#: ../lib/config_file.c:588
-#: ../lib/config_file.c:833
+#: ../lib/config_file.c:588 ../lib/config_file.c:833
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP-fel: Felaktigt konfigurationsfilnamn %s\n"
@@ -144,8 +131,7 @@ msgstr "gFTP-fel: Kan inte hitta huvudkonfigurationsfilen %s\n"
 msgid "Did you do a make install?\n"
 msgstr "Gjorde du en make install?\n"
 
-#: ../lib/config_file.c:620
-#: ../lib/config_file.c:839
+#: ../lib/config_file.c:620 ../lib/config_file.c:839
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP-fel: Kan inte öppna konfigurationsfilen %s: %s\n"
@@ -171,31 +157,49 @@ msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP-varning: Kan inte öppna %s för skrivning: %s\n"
 
 #: ../lib/config_file.c:733
-msgid "Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten"
-msgstr "Bokmärkesfil för gFTP. Copyright © 1998-2003 Brian Masney <masneyb@gftp.org>. Varning: Alla kommentarer som du skriver i denna fil KOMMER att skrivas över"
+msgid ""
+"Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten"
+msgstr ""
+"Bokmärkesfil för gFTP. Copyright © 1998-2007 Brian Masney <masneyb@gftp."
+"org>. Varning: Alla kommentarer som du skriver i denna fil KOMMER att "
+"skrivas över"
 
 #: ../lib/config_file.c:734
-msgid "Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext."
-msgstr "Notera: Lösenorden som denna fil innehåller är krypterade. Denna algoritm är inte säker. Detta är för att förhindra att dina lösenord kan ses av någon som står bakom dig och läser på skärmen när du redigerar denna fil. Innan detta lagrades alla lösenord i klartext."
+msgid ""
+"Note: The passwords contained inside this file are scrambled. This algorithm "
+"is not secure. This is to avoid your password being easily remembered by "
+"someone standing over your shoulder while you're editing this file. Prior to "
+"this, all passwords were stored in plaintext."
+msgstr ""
+"Notera: Lösenorden som denna fil innehåller är krypterade. Denna algoritm är "
+"inte säker. Detta är för att förhindra att dina lösenord kan ses av någon "
+"som står bakom dig och läser på skärmen när du redigerar denna fil. Innan "
+"detta lagrades alla lösenord i klartext."
 
 #: ../lib/config_file.c:846
-msgid "Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"
-msgstr "Konfigurationsfil för gFTP. Copyright © 1998-2003 Brian Masney <masneyb@gftp.org>. Varning: Alla kommentarer som du skriver i denna fil KOMMER att skrivas över. Om en post har (*) i kommentaren kan du inte ändra den inne i gFTP"
+msgid ""
+"Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten. "
+"If a entry has a (*) in it's comment, you can't change it inside gFTP"
+msgstr ""
+"Konfigurationsfil för gFTP. Copyright © 1998-2007 Brian Masney <masneyb@gftp."
+"org>. Varning: Alla kommentarer som du skriver i denna fil KOMMER att "
+"skrivas över. Om en post har (*) i kommentaren kan du inte ändra den inne i "
+"gFTP"
 
-#: ../lib/config_file.c:1210
-#: ../lib/protocols.c:382
-#: ../lib/rfc2068.c:546
-#: ../lib/rfc2068.c:547
+#: ../lib/config_file.c:1210 ../lib/protocols.c:391 ../lib/rfc2068.c:543
+#: ../lib/rfc2068.c:544
 msgid "<unknown>"
 msgstr "<okänd>"
 
-#: ../lib/config_file.c:1290
-#: ../lib/config_file.c:1353
-#: ../lib/config_file.c:1395
-#: ../lib/config_file.c:1428
+#: ../lib/config_file.c:1290 ../lib/config_file.c:1353
+#: ../lib/config_file.c:1395 ../lib/config_file.c:1428
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
-msgstr "ÖDESDIGERT gFTP-fel: Konfigurationsalternativet \"%s\" hittades inte i globala hashtabellen\n"
+msgstr ""
+"ÖDESDIGERT gFTP-fel: Konfigurationsalternativet \"%s\" hittades inte i "
+"globala hashtabellen\n"
 
 #: ../lib/fsp.c:189
 #, c-format
@@ -217,17 +221,10 @@ msgstr "Fel: Fel vid stängning av fil: %s\n"
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "Trasig fillista från FSP-server %s\n"
 
-#: ../lib/fsp.c:339
-#: ../lib/fsp.c:340
-#: ../lib/protocols.c:1536
-#: ../lib/protocols.c:1537
-#: ../lib/protocols.c:1578
-#: ../lib/protocols.c:1579
-#: ../lib/protocols.c:1645
-#: ../lib/protocols.c:1652
-#: ../lib/protocols.c:1728
-#: ../lib/protocols.c:1729
-#: ../lib/protocols.c:1765
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1578
+#: ../lib/protocols.c:1579 ../lib/protocols.c:1620 ../lib/protocols.c:1621
+#: ../lib/protocols.c:1687 ../lib/protocols.c:1694 ../lib/protocols.c:1770
+#: ../lib/protocols.c:1771 ../lib/protocols.c:1807
 msgid "unknown"
 msgstr "okänd"
 
@@ -246,55 +243,53 @@ msgstr "Ändring av katalog till %s lyckades\n"
 msgid "Could not change directory to %s\n"
 msgstr "Kunde inte ändra katalog till %s\n"
 
-#: ../lib/fsp.c:471
-#: ../lib/fsp.c:500
-#: ../lib/local.c:490
-#: ../lib/local.c:526
-#: ../src/gtk/transfer.c:263
-#: ../src/gtk/view_dialog.c:329
+#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:480 ../lib/local.c:516
+#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:288
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "%s borttagen\n"
 
-#: ../lib/fsp.c:477
-#: ../lib/local.c:496
+#: ../lib/fsp.c:477 ../lib/local.c:486
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Fel: Kunde inte ta bort katalogen %s: %s\n"
 
-#: ../lib/fsp.c:506
-#: ../lib/local.c:532
-#: ../src/gtk/transfer.c:267
-#: ../src/gtk/view_dialog.c:333
+#: ../lib/fsp.c:506 ../lib/local.c:522 ../src/gtk/transfer.c:267
+#: ../src/gtk/view_dialog.c:292
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Fel: Kunde inte ta bort filen %s: %s\n"
 
-#: ../lib/fsp.c:528
-#: ../lib/local.c:564
+#: ../lib/fsp.c:528 ../lib/local.c:554
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "Skapade katalogen %s\n"
 
-#: ../lib/fsp.c:563
-#: ../lib/local.c:600
+#: ../lib/fsp.c:563 ../lib/local.c:590
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "Ändrade namn från %s till %s\n"
 
-#: ../lib/fsp.c:575
-#: ../lib/local.c:607
+#: ../lib/fsp.c:575 ../lib/local.c:597
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Fel: Kunde inte byta namn från %s till %s: %s\n"
 
 #: ../lib/ftps.c:157
-msgid "FTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"
-msgstr "Stöd för FTPS inte tillgängligt eftersom stöd för SSL inte har byggts in. Avbryter anslutning.\n"
+msgid ""
+"FTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
+msgstr ""
+"Stöd för FTPS inte tillgängligt eftersom stöd för SSL inte har byggts in. "
+"Avbryter anslutning.\n"
 
 #: ../lib/https.c:91
-msgid "HTTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"
-msgstr "Stöd för HTTPS inte tillgängligt eftersom stöd för SSL inte har byggts in. Avbryter anslutning.\n"
+msgid ""
+"HTTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
+msgstr ""
+"Stöd för HTTPS inte tillgängligt eftersom stöd för SSL inte har byggts in. "
+"Avbryter anslutning.\n"
 
 #: ../lib/local.c:66
 #, c-format
@@ -311,37 +306,37 @@ msgstr "Ändrade lokal katalog till %s\n"
 msgid "Could not change local directory to %s: %s\n"
 msgstr "Kunde inte byta lokal katalog till %s: %s\n"
 
-#: ../lib/local.c:248
+#: ../lib/local.c:238
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "Fel: Kan inte trunkera den lokala filen %s: %s\n"
 
-#: ../lib/local.c:434
+#: ../lib/local.c:424
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "Kunde inte lista den lokala katalogen %s: %s\n"
 
-#: ../lib/local.c:644
+#: ../lib/local.c:634
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "Ändring av attribut på %s till %o lyckades\n"
 
-#: ../lib/local.c:651
+#: ../lib/local.c:641
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "Fel: Kunde inte ändra attribut på %s till %o: %s\n"
 
-#: ../lib/local.c:686
+#: ../lib/local.c:676
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr "Ändring av tidsstämpeln för %s lyckades\n"
 
-#: ../lib/local.c:693
+#: ../lib/local.c:683
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr "Fel: Kunde inte ändra tidsstämpeln för %s: %s\n"
 
-#: ../lib/local.c:760
+#: ../lib/local.c:750
 msgid "local filesystem"
 msgstr "lokalt filsystem"
 
@@ -351,8 +346,7 @@ msgid "usage: gftp "
 msgstr "användning: gftp "
 
 #. @null@
-#: ../lib/options.h:25
-#: ../lib/rfc959.c:26
+#: ../lib/options.h:25 ../lib/rfc959.c:26
 msgid "none"
 msgstr "ingen"
 
@@ -398,8 +392,12 @@ msgid "View program:"
 msgstr "Visningsprogram:"
 
 #: ../lib/options.h:44
-msgid "The default program used to view files. If this is blank, the internal file viewer will be used"
-msgstr "Det program som används för att visa filer, om inget annat anges. Om raden lämnas tom används den interna visaren"
+msgid ""
+"The default program used to view files. If this is blank, the internal file "
+"viewer will be used"
+msgstr ""
+"Det program som används för att visa filer, om inget annat anges. Om raden "
+"lämnas tom används den interna visaren"
 
 #: ../lib/options.h:46
 msgid "Edit program:"
@@ -422,16 +420,24 @@ msgid "Remote Character Sets:"
 msgstr "Fjärrteckenkodningar:"
 
 #: ../lib/options.h:54
-msgid "This is a comma separated list of charsets to try to convert the remote messages to the current locale"
-msgstr "Detta är en kommaseparerad lista med teckenkodningar som fjärrmeddelanden ska försöka konverteras från till den aktuella lokalen"
+msgid ""
+"This is a comma separated list of charsets to try to convert the remote "
+"messages to the current locale"
+msgstr ""
+"Detta är en kommaseparerad lista med teckenkodningar som fjärrmeddelanden "
+"ska försöka konverteras från till den aktuella lokalen"
 
 #: ../lib/options.h:56
 msgid "Remote LC_TIME:"
 msgstr "Fjärr LC_TIME:"
 
 #: ../lib/options.h:58
-msgid "This is the value of LC_TIME for the remote site. This is so that dates can be parsed properly in the directory listings."
-msgstr "Detta är värdet för LC_TIME för fjärrsidan. Detta är för att datum ska kunna tolkas korrekt i kataloglistan."
+msgid ""
+"This is the value of LC_TIME for the remote site. This is so that dates can "
+"be parsed properly in the directory listings."
+msgstr ""
+"Detta är värdet för LC_TIME för fjärrsidan. Detta är för att datum ska kunna "
+"tolkas korrekt i kataloglistan."
 
 #: ../lib/options.h:60
 msgid "Cache TTL:"
@@ -463,7 +469,8 @@ msgstr "Skriv över som standard"
 
 #: ../lib/options.h:75
 msgid "Overwrite files by default or set to resume file transfers"
-msgstr "Skriv över filer som standard eller återuppta påbörjade filöverföringar"
+msgstr ""
+"Skriv över filer som standard eller återuppta påbörjade filöverföringar"
 
 #: ../lib/options.h:77
 msgid "Preserve file permissions"
@@ -526,8 +533,11 @@ msgid "Allow manual commands in GUI"
 msgstr "Tillåt manuella kommandon i gränssnittet"
 
 #: ../lib/options.h:109
-msgid "Allow entering manual commands in the GUI (functions like the text port)"
-msgstr "Tillåt inmatning av manuella kommandon i det grafiska gränsnittet (funktioner såsom textversionen)"
+msgid ""
+"Allow entering manual commands in the GUI (functions like the text port)"
+msgstr ""
+"Tillåt inmatning av manuella kommandon i det grafiska gränsnittet "
+"(funktioner såsom textversionen)"
 
 #: ../lib/options.h:111
 msgid "Remember last directory"
@@ -542,11 +552,11 @@ msgid "Connect to remote server on startup"
 msgstr "Anslut till fjärrserver vid uppstart"
 
 #: ../lib/options.h:117
-msgid "Automatically connect to the remote server when the application is started."
+msgid ""
+"Automatically connect to the remote server when the application is started."
 msgstr "Anslut automatiskt till fjärrservern när programmet startas."
 
-#: ../lib/options.h:120
-#: ../src/gtk/options_dialog.c:1020
+#: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
 #: ../src/gtk/options_dialog.c:1240
 msgid "Network"
 msgstr "Nätverk"
@@ -556,8 +566,11 @@ msgid "Network timeout:"
 msgstr "Nätverkstimeout:"
 
 #: ../lib/options.h:125
-msgid "The timeout waiting for network input/output. This is NOT an idle timeout."
-msgstr "Tidsgräns för att vänta på indata/utdata från nätverket. Det är INTE en inaktivitetstimeout."
+msgid ""
+"The timeout waiting for network input/output. This is NOT an idle timeout."
+msgstr ""
+"Tidsgräns för att vänta på indata/utdata från nätverket. Det är INTE en "
+"inaktivitetstimeout."
 
 #: ../lib/options.h:127
 msgid "Connect retries:"
@@ -565,7 +578,8 @@ msgstr "Anslutningsomförsök:"
 
 #: ../lib/options.h:130
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
-msgstr "Antalet automatiska anslutningsförsök. Ställ in till 0 för oändligt antal"
+msgstr ""
+"Antalet automatiska anslutningsförsök. Ställ in till 0 för oändligt antal"
 
 #: ../lib/options.h:132
 msgid "Retry sleep time:"
@@ -581,15 +595,20 @@ msgstr "Max kB/s:"
 
 #: ../lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
-msgstr "Maxhastigheten i kB/s för filöverföringar. (Sätt till 0 för att inaktivera)"
+msgstr ""
+"Maxhastigheten i kB/s för filöverföringar. (Sätt till 0 för att inaktivera)"
 
 #: ../lib/options.h:141
 msgid "Transfer Block Size:"
 msgstr "Blockstorlek för överföring:"
 
 #: ../lib/options.h:144
-msgid "The block size that is used when transfering files. This should be a multiple of 1024."
-msgstr "Blockstorleken som används vid överföring av filer. Detta värde bör vara multiplicerbart med 1024."
+msgid ""
+"The block size that is used when transfering files. This should be a "
+"multiple of 1024."
+msgstr ""
+"Blockstorleken som används vid överföring av filer. Detta värde bör vara "
+"multiplicerbart med 1024."
 
 #: ../lib/options.h:147
 msgid "Default Protocol:"
@@ -599,14 +618,17 @@ msgstr "Standardprotokoll:"
 msgid "This specifies the default protocol to use"
 msgstr "Detta anger vilket standardprotokoll som ska användas"
 
-#: ../lib/options.h:151
-#: ../lib/options.h:154
+#: ../lib/options.h:151 ../lib/options.h:154
 msgid "Enable IPv6 support"
 msgstr "Aktivera IPv6-stöd"
 
 #: ../lib/options.h:159
-msgid "This defines what will happen when you double click a file in the file listboxes. 0=View file 1=Edit file 2=Transfer file"
-msgstr "Det här definierar vad som händer om dubbelklickar på en fil i fillistan. 0=Läs fil 1=Redigera fil 2=Överför fil"
+msgid ""
+"This defines what will happen when you double click a file in the file "
+"listboxes. 0=View file 1=Edit file 2=Transfer file"
+msgstr ""
+"Det här definierar vad som händer om dubbelklickar på en fil i fillistan. "
+"0=Läs fil 1=Redigera fil 2=Överför fil"
 
 #: ../lib/options.h:162
 msgid "The default width of the local files listbox"
@@ -629,48 +651,68 @@ msgid "The default height of the logging window"
 msgstr "Standardhöjden för loggfönstret"
 
 #: ../lib/options.h:177
-msgid "The width of the filename column in the transfer window. Set this to 0 to have this column automagically resize."
-msgstr "Bredden på filnamskolumnen i överföringsfönstret. Sätt den till 0 för att få kolumnen att ändra storlek automagiskt."
+msgid ""
+"The width of the filename column in the transfer window. Set this to 0 to "
+"have this column automagically resize."
+msgstr ""
+"Bredden på filnamskolumnen i överföringsfönstret. Sätt den till 0 för att få "
+"kolumnen att ändra storlek automagiskt."
 
-#: ../lib/options.h:190
-#: ../lib/options.h:196
+#: ../lib/options.h:190 ../lib/options.h:196
 msgid "The default column to sort by"
 msgstr "Kolumnen att sortera efter som standard"
 
-#: ../lib/options.h:193
-#: ../lib/options.h:199
+#: ../lib/options.h:193 ../lib/options.h:199
 msgid "Sort ascending or descending"
 msgstr "Sortera stigande eller fallande"
 
-#: ../lib/options.h:203
-#: ../lib/options.h:221
-msgid "The width of the filename column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "Bredden på filnamnskolumnen i fillistor. Sätt den till 0 för att få kolumnen att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
+#: ../lib/options.h:203 ../lib/options.h:221
+msgid ""
+"The width of the filename column in the file listboxes. Set this to 0 to "
+"have this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"Bredden på filnamnskolumnen i fillistor. Sätt den till 0 för att få kolumnen "
+"att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
 
-#: ../lib/options.h:206
-#: ../lib/options.h:224
-msgid "The width of the size column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "Bredden på storlekskolumnen i fillistor. Sätt den till 0 för att få kolumnen att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
+#: ../lib/options.h:206 ../lib/options.h:224
+msgid ""
+"The width of the size column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"Bredden på storlekskolumnen i fillistor. Sätt den till 0 för att få kolumnen "
+"att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
 
-#: ../lib/options.h:209
-#: ../lib/options.h:227
-msgid "The width of the user column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "Bredden på användarkolumnen i fillistor. Sätt den till 0 för att få kolumnen att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
+#: ../lib/options.h:209 ../lib/options.h:227
+msgid ""
+"The width of the user column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"Bredden på användarkolumnen i fillistor. Sätt den till 0 för att få kolumnen "
+"att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
 
-#: ../lib/options.h:212
-#: ../lib/options.h:230
-msgid "The width of the group column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "Bredden på gruppkolumnen i fillistor. Sätt den till 0 för att få kolumnen att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
+#: ../lib/options.h:212 ../lib/options.h:230
+msgid ""
+"The width of the group column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"Bredden på gruppkolumnen i fillistor. Sätt den till 0 för att få kolumnen "
+"att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
 
-#: ../lib/options.h:215
-#: ../lib/options.h:233
-msgid "The width of the date column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "Bredden på datumkolumnen i fillistor. Sätt den till 0 för att få kolumnen att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
+#: ../lib/options.h:215 ../lib/options.h:233
+msgid ""
+"The width of the date column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"Bredden på datumkolumnen i fillistor. Sätt den till 0 för att få kolumnen "
+"att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
 
-#: ../lib/options.h:218
-#: ../lib/options.h:236
-msgid "The width of the attribs column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "Bredden på attrubutkolumnen i fillistor. Sätt den till 0 för att få kolumnen att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
+#: ../lib/options.h:218 ../lib/options.h:236
+msgid ""
+"The width of the attribs column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"Bredden på attrubutkolumnen i fillistor. Sätt den till 0 för att få kolumnen "
+"att ändra storlek automagiskt. Sätt den till -1 för att inaktivera kolumnen"
 
 #: ../lib/options.h:239
 msgid "The color of the commands that are sent to the server"
@@ -688,23 +730,19 @@ msgstr "Färgen på felmeddelandena"
 msgid "The color of the rest of the log messages"
 msgstr "Färgen på resten av loggmeddelandena"
 
-#: ../lib/options.h:254
-#: ../lib/rfc959.c:40
+#: ../lib/options.h:254 ../lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: ../lib/options.h:257
-#: ../lib/options.h:259
+#: ../lib/options.h:257 ../lib/options.h:259
 msgid "FTPS"
 msgstr "FTPS"
 
-#: ../lib/options.h:262
-#: ../lib/rfc2068.c:27
+#: ../lib/options.h:262 ../lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: ../lib/options.h:265
-#: ../lib/options.h:267
+#: ../lib/options.h:265 ../lib/options.h:267
 msgid "HTTPS"
 msgstr "HTTPS"
 
@@ -716,8 +754,7 @@ msgstr "Lokalt"
 msgid "SSH2"
 msgstr "SSH2"
 
-#: ../lib/options.h:274
-#: ../src/gtk/bookmarks.c:883
+#: ../lib/options.h:274 ../src/gtk/bookmarks.c:883
 msgid "Bookmark"
 msgstr "Bokmärke"
 
@@ -725,143 +762,138 @@ msgstr "Bokmärke"
 msgid "FSP"
 msgstr "FSP"
 
-#: ../lib/protocols.c:225
+#: ../lib/protocols.c:234
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Filöverföringar kommer att bli begränsade till %.2f kB/s\n"
 
-#: ../lib/protocols.c:378
+#: ../lib/protocols.c:387
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
-msgstr "Fel vid inställning av LC_TIME till \"%s\". Faller tillbaka på \"%s\"\n"
+msgstr ""
+"Fel vid inställning av LC_TIME till \"%s\". Faller tillbaka på \"%s\"\n"
 
-#: ../lib/protocols.c:389
+#: ../lib/protocols.c:398
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "Läser in kataloglistan %s från cacheminnet (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:399
+#: ../lib/protocols.c:408
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "Läser in kataloglistan %s från server (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:461
+#: ../lib/protocols.c:471
 #, c-format
-msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr "Fel vid konvertering av strängen \"%s\" från teckenuppsättningen %s till teckenuppsättningen %s: %s\n"
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+"Fel vid konvertering av strängen \"%s\" från teckenuppsättningen %s till "
+"teckenuppsättningen %s: %s\n"
 
-#: ../lib/protocols.c:654
+#: ../lib/protocols.c:696
 #, c-format
-msgid "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't match the current directory (%s)\n"
-msgstr "Varning: Klipper bort sökvägen från filen \"%s\". Den bortklippta sökvägen (%s) stämmer inte överens med aktuell katalog (%s)\n"
+msgid ""
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
+msgstr ""
+"Varning: Klipper bort sökvägen från filen \"%s\". Den bortklippta sökvägen (%"
+"s) stämmer inte överens med aktuell katalog (%s)\n"
 
-#: ../lib/protocols.c:680
+#: ../lib/protocols.c:722
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Fel: Kan inte skriva till cache: %s\n"
 
-#: ../lib/protocols.c:713
+#: ../lib/protocols.c:755
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Fel: Kunde inte hitta bokmärket %s\n"
 
-#: ../lib/protocols.c:720
+#: ../lib/protocols.c:762
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Bokmärkesfel: Bokmärkesposten %s har inget värdnamn\n"
 
-#: ../lib/protocols.c:842
-#: ../lib/protocols.c:869
+#: ../lib/protocols.c:884 ../lib/protocols.c:911
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Protokollet \"%s\" stöds inte för tillfället.\n"
 
-#: ../lib/protocols.c:1159
-#: ../lib/protocols.c:1174
-#: ../lib/protocols.c:2356
-#: ../lib/protocols.c:2469
+#: ../lib/protocols.c:1201 ../lib/protocols.c:1216 ../lib/protocols.c:2398
+#: ../lib/protocols.c:2511
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Slår upp %s\n"
 
-#: ../lib/protocols.c:1165
-#: ../lib/protocols.c:1180
-#: ../lib/protocols.c:2361
-#: ../lib/protocols.c:2474
+#: ../lib/protocols.c:1207 ../lib/protocols.c:1222 ../lib/protocols.c:2403
+#: ../lib/protocols.c:2516
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Kan inte slå upp värdnamnet %s: %s\n"
 
-#: ../lib/protocols.c:2091
+#: ../lib/protocols.c:2133
 #, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr "Hittade rekursiv symbolisk länk %s\n"
 
-#: ../lib/protocols.c:2379
+#: ../lib/protocols.c:2421
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Misslyckades med att skapa ett uttag (socket): %s\n"
 
-#: ../lib/protocols.c:2385
-#: ../lib/protocols.c:2491
+#: ../lib/protocols.c:2427 ../lib/protocols.c:2533
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Försöker med %s:%d\n"
 
-#: ../lib/protocols.c:2390
-#: ../lib/protocols.c:2498
+#: ../lib/protocols.c:2432 ../lib/protocols.c:2540
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Kan inte ansluta till %s: %s\n"
 
-#: ../lib/protocols.c:2428
-#: ../lib/rfc959.c:701
+#: ../lib/protocols.c:2470 ../lib/rfc959.c:706
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Misslyckades med att skapa ett IPv4-uttag: %s\n"
 
-#: ../lib/protocols.c:2452
-#: ../lib/sshv2.c:1132
+#: ../lib/protocols.c:2494 ../lib/sshv2.c:1168
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr "Kan inte slå upp tjänstnamnet %s/tcp. Kontrollera din services-fil\n"
 
-#: ../lib/protocols.c:2514
-#: ../lib/protocols.c:3175
-#: ../lib/rfc959.c:710
-#: ../lib/rfc959.c:887
+#: ../lib/protocols.c:2556 ../lib/protocols.c:3209 ../lib/rfc959.c:715
+#: ../lib/rfc959.c:892
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Fel: Kan inte sätta stängning på exec-flaggan: %s\n"
 
-#: ../lib/protocols.c:2521
+#: ../lib/protocols.c:2563
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Ansluten till %s:%d\n"
 
-#: ../lib/protocols.c:2757
-#: ../lib/protocols.c:2834
-#: ../lib/sshv2.c:426
+#: ../lib/protocols.c:2799 ../lib/protocols.c:2876 ../lib/sshv2.c:435
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Anslutningen till %s gjorde time-out\n"
 
-#: ../lib/protocols.c:2904
+#: ../lib/protocols.c:2946
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Kan inte skapa uttagsflaggor (socket flags): %s\n"
 
-#: ../lib/protocols.c:2918
+#: ../lib/protocols.c:2960
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Kan inte sätta uttag (socket) till icke-blockerande: %s\n"
 
-#: ../lib/protocols.c:3072
+#: ../lib/protocols.c:3106
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "Fel: Värden %s kopplade ner. Max antal försök uppnått... ger upp\n"
 
-#: ../lib/protocols.c:3080
+#: ../lib/protocols.c:3114
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Fel: Värden %s kopplade ner. Nytt försök om %d sekunder\n"
@@ -886,43 +918,35 @@ msgstr "Fel: Kan inte köra ssh: %s\n"
 msgid "Cannot fork another process: %s\n"
 msgstr "Kan inte grena en till process: %s\n"
 
-#: ../lib/rfc2068.c:30
-#: ../lib/rfc959.c:47
+#: ../lib/rfc2068.c:30 ../lib/rfc959.c:47
 msgid "Proxy hostname:"
 msgstr "Proxyvärdnamn:"
 
-#: ../lib/rfc2068.c:32
-#: ../lib/rfc959.c:49
+#: ../lib/rfc2068.c:32 ../lib/rfc959.c:49
 msgid "Firewall hostname"
 msgstr "Brandväggsvärdnamn"
 
-#: ../lib/rfc2068.c:33
-#: ../lib/rfc959.c:50
+#: ../lib/rfc2068.c:33 ../lib/rfc959.c:50
 msgid "Proxy port:"
 msgstr "Proxyport:"
 
-#: ../lib/rfc2068.c:35
-#: ../lib/rfc959.c:52
+#: ../lib/rfc2068.c:35 ../lib/rfc959.c:52
 msgid "Port to connect to on the firewall"
 msgstr "Port att ansluta till på brandväggen"
 
-#: ../lib/rfc2068.c:36
-#: ../lib/rfc959.c:53
+#: ../lib/rfc2068.c:36 ../lib/rfc959.c:53
 msgid "Proxy username:"
 msgstr "Proxyanvändarnamn:"
 
-#: ../lib/rfc2068.c:38
-#: ../lib/rfc959.c:55
+#: ../lib/rfc2068.c:38 ../lib/rfc959.c:55
 msgid "Your firewall username"
 msgstr "Ditt brandväggsanvändarnamn"
 
-#: ../lib/rfc2068.c:39
-#: ../lib/rfc959.c:56
+#: ../lib/rfc2068.c:39 ../lib/rfc959.c:56
 msgid "Proxy password:"
 msgstr "Proxylösenord:"
 
-#: ../lib/rfc2068.c:41
-#: ../lib/rfc959.c:58
+#: ../lib/rfc2068.c:41 ../lib/rfc959.c:58
 msgid "Your firewall password"
 msgstr "Ditt brandväggslösenord"
 
@@ -934,8 +958,7 @@ msgstr "Använd HTTP/1.1"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Vill du använda HTTP/1.1 eller HTTP/1.0"
 
-#: ../lib/rfc2068.c:151
-#: ../lib/rfc2068.c:843
+#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:840
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -944,29 +967,25 @@ msgstr ""
 "Fick felaktigt svar från servern, kopplar ner\n"
 "Ogiltig styckesstorlek \"%s\" returnerades från fjärrservern\n"
 
-#: ../lib/rfc2068.c:255
-#: ../lib/rfc959.c:674
-#: ../lib/sshv2.c:1209
+#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1245
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Kopplar ner från platsen %s\n"
 
-#: ../lib/rfc2068.c:304
+#: ../lib/rfc2068.c:301
 msgid "Starting the file transfer at offset "
 msgstr "Börjar filöverföringen vid position "
 
-#: ../lib/rfc2068.c:325
+#: ../lib/rfc2068.c:322
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "Kan inte hämta filen %s\n"
 
-#: ../lib/rfc2068.c:424
-#: ../lib/sshv2.c:1291
+#: ../lib/rfc2068.c:421 ../lib/sshv2.c:1327
 msgid "Retrieving directory listing...\n"
 msgstr "Tar emot kataloglistan... \n"
 
-#: ../lib/rfc2068.c:819
-#: ../lib/sshv2.c:885
+#: ../lib/rfc2068.c:816 ../lib/sshv2.c:895
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Fick felaktigt svar från servern, kopplar ner\n"
 
@@ -1007,8 +1026,12 @@ msgid "Email address:"
 msgstr "E-postadress:"
 
 #: ../lib/rfc959.c:45
-msgid "This is the password that will be used whenever you log into a remote FTP server as anonymous"
-msgstr "Detta är det lösenord som kommer att användas när du loggar in som anonym på en FTP-fjärrserver"
+msgid ""
+"This is the password that will be used whenever you log into a remote FTP "
+"server as anonymous"
+msgstr ""
+"Detta är det lösenord som kommer att användas när du loggar in som anonym på "
+"en FTP-fjärrserver"
 
 #: ../lib/rfc959.c:59
 msgid "Proxy account:"
@@ -1024,116 +1047,157 @@ msgstr "Proxyservertyp:"
 
 #: ../lib/rfc959.c:66
 #, no-c-format
-msgid "This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"
-msgstr "Detta anger hur en proxyserver förväntar sig att vi loggar in. Du kan ange en två tecken lång ersättningssträng som föregås av ett % som kommer att ersättas med korrekt data. Det första tecknet kan vara antingen ett p för proxy eller h för FTP-serverns värdnamn. Det andra tecknet kan vara u (användare), p (lösenord), h (värd), o (port) eller a (konto). För att ange proxyanvändaren anger du till exempel %pu"
+msgid ""
+"This specifies how your proxy server expects us to log in. You can specify a "
+"2 character replacement string prefixed by a % that will be replaced with "
+"the proper data. The first character can be either p for proxy or h for the "
+"host of the FTP server. The second character can be u (user), p (pass), h "
+"(host), o (port) or a (account). For example, to specify the proxy user, you "
+"can you type in %pu"
+msgstr ""
+"Detta anger hur en proxyserver förväntar sig att vi loggar in. Du kan ange "
+"en två tecken lång ersättningssträng som föregås av ett % som kommer att "
+"ersättas med korrekt data. Det första tecknet kan vara antingen ett p för "
+"proxy eller h för FTP-serverns värdnamn. Det andra tecknet kan vara u "
+"(användare), p (lösenord), h (värd), o (port) eller a (konto). För att ange "
+"proxyanvändaren anger du till exempel %pu"
 
 #: ../lib/rfc959.c:69
 msgid "Ignore PASV address"
 msgstr "Ignorera PASV-adress"
 
 #: ../lib/rfc959.c:72
-msgid "If this is enabled, then the remote FTP server's PASV IP address field will be ignored and the host's IP address will be used instead. This is often needed for routers giving their internal rather then their external IP address in a PASV reply."
-msgstr "Om detta är aktiverat kommer PASV IP-adressfältet för fjärrsidans FTP-server att ignoreras och värdens IP-adress kommer att användas istället. Detta behövs ofta för att routrar ger ut sin interna hellre än sin externa IP-adress in ett PASV-svar."
+msgid ""
+"If this is enabled, then the remote FTP server's PASV IP address field will "
+"be ignored and the host's IP address will be used instead. This is often "
+"needed for routers giving their internal rather then their external IP "
+"address in a PASV reply."
+msgstr ""
+"Om detta är aktiverat kommer PASV IP-adressfältet för fjärrsidans FTP-server "
+"att ignoreras och värdens IP-adress kommer att användas istället. Detta "
+"behövs ofta för att routrar ger ut sin interna hellre än sin externa IP-"
+"adress in ett PASV-svar."
 
 #: ../lib/rfc959.c:74
 msgid "Passive file transfers"
 msgstr "Passiva filöverföringar"
 
 #: ../lib/rfc959.c:77
-msgid "If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."
-msgstr "Om detta är aktiverat kommer FTP-fjärrservern att öppna upp en port för dataanslutningen. Om du är bakom en brandvägg måste du aktivera detta. I allmänhet är det en bra idé att låta detta vara aktiverat såvida du inte ansluter till en äldre FTP-server som inte stöder detta. Om detta är inaktiverat kommer gFTP att öppna upp en port på klientsidan och fjärrservern kommer att försöka ansluta till den."
+msgid ""
+"If this is enabled, then the remote FTP server will open up a port for the "
+"data connection. If you are behind a firewall, you will need to enable this. "
+"Generally, it is a good idea to keep this enabled unless you are connecting "
+"to an older FTP server that doesn't support this. If this is disabled, then "
+"gFTP will open up a port on the client side and the remote server will "
+"attempt to connect to it."
+msgstr ""
+"Om detta är aktiverat kommer FTP-fjärrservern att öppna upp en port för "
+"dataanslutningen. Om du är bakom en brandvägg måste du aktivera detta. I "
+"allmänhet är det en bra idé att låta detta vara aktiverat såvida du inte "
+"ansluter till en äldre FTP-server som inte stöder detta. Om detta är "
+"inaktiverat kommer gFTP att öppna upp en port på klientsidan och "
+"fjärrservern kommer att försöka ansluta till den."
 
 #: ../lib/rfc959.c:79
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "Slå upp fjärrvärdens symboliska länkar (LIST -L)"
 
 #: ../lib/rfc959.c:82
-msgid "The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"
-msgstr "FTP-fjärrservern kommer att försöka slå upp symboliska länkar i kataloglistorna. I allmänhet är det en bra idé att låta detta vara aktiverat. Det enda tillfället då du vill inaktivera detta är om FTP-fjärrservern inte stöder flaggan -L för LIST"
+msgid ""
+"The remote FTP server will attempt to resolve symlinks in the directory "
+"listings. Generally, this is a good idea to leave enabled. The only time you "
+"will want to disable this is if the remote FTP server doesn't support the -L "
+"option to LIST"
+msgstr ""
+"FTP-fjärrservern kommer att försöka slå upp symboliska länkar i "
+"kataloglistorna. I allmänhet är det en bra idé att låta detta vara "
+"aktiverat. Det enda tillfället då du vill inaktivera detta är om FTP-"
+"fjärrservern inte stöder flaggan -L för LIST"
 
 #: ../lib/rfc959.c:84
 msgid "Transfer files in ASCII mode"
 msgstr "Överför filer i ASCII-läge"
 
 #: ../lib/rfc959.c:87
-msgid "If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."
-msgstr "Om du överför en textfil från en Windowsmaskin till en UNIX-maskin eller tvärtom bör du aktivera detta. Varje system har olika representationer för nyrader i textfiler. Om du överför från UNIX till UNIX kan du lämna detta frånslaget. Om du hämtar binär data bör du inaktivera detta."
+msgid ""
+"If you are transfering a text file from Windows to UNIX box or vice versa, "
+"then you should enable this. Each system represents newlines differently for "
+"text files. If you are transfering from UNIX to UNIX, then it is safe to "
+"leave this off. If you are downloading binary data, you will want to disable "
+"this."
+msgstr ""
+"Om du överför en textfil från en Windowsmaskin till en UNIX-maskin eller "
+"tvärtom bör du aktivera detta. Varje system har olika representationer för "
+"nyrader i textfiler. Om du överför från UNIX till UNIX kan du lämna detta "
+"frånslaget. Om du hämtar binär data bör du inaktivera detta."
 
-#: ../lib/rfc959.c:376
-#: ../lib/rfc959.c:385
-#: ../lib/rfc959.c:396
-#: ../lib/rfc959.c:850
-#: ../lib/rfc959.c:1444
+#: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
+#: ../lib/rfc959.c:855 ../lib/rfc959.c:1422
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Ogiltigt svar \"%c\" mottogs från server.\n"
 
-#: ../lib/rfc959.c:740
-#: ../lib/rfc959.c:750
+#: ../lib/rfc959.c:745 ../lib/rfc959.c:755
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Kan inte hitta en IP-adress i PASV-svar \"%s\"\n"
 
-#: ../lib/rfc959.c:776
+#: ../lib/rfc959.c:781
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr "Ignorerar IP-adress i PASV-svar, ansluter till %d.%d.%d.%d:%d\n"
 
-#: ../lib/rfc959.c:787
-#: ../lib/rfc959.c:948
+#: ../lib/rfc959.c:792 ../lib/rfc959.c:953
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Kan inte skapa en dataanslutning: %s\n"
 
-#: ../lib/rfc959.c:799
-#: ../lib/rfc959.c:820
-#: ../lib/rfc959.c:973
+#: ../lib/rfc959.c:804 ../lib/rfc959.c:825 ../lib/rfc959.c:978
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Kan inte läsa uttagsnamn (socket name): %s\n"
 
-#: ../lib/rfc959.c:810
-#: ../lib/rfc959.c:963
+#: ../lib/rfc959.c:815 ../lib/rfc959.c:968
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Kan inte binda till port: %s\n"
 
-#: ../lib/rfc959.c:829
-#: ../lib/rfc959.c:982
+#: ../lib/rfc959.c:834 ../lib/rfc959.c:987
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Kan inte lyssna på port %d: %s\n"
 
-#: ../lib/rfc959.c:878
+#: ../lib/rfc959.c:883
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "Misslyckades med att skapa ett IPv6-uttag: %s\n"
 
-#: ../lib/rfc959.c:898
-msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
-msgstr "Fel: Det verkar inte som om vi är anslutna via IPv6. Avbryter anslutning.\n"
+#: ../lib/rfc959.c:903
+msgid ""
+"Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+msgstr ""
+"Fel: Det verkar inte som om vi är anslutna via IPv6. Avbryter anslutning.\n"
 
-#: ../lib/rfc959.c:926
-#: ../lib/rfc959.c:935
+#: ../lib/rfc959.c:931 ../lib/rfc959.c:940
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Ogiltigt EPSV-svar \"%s\"\n"
 
-#: ../lib/rfc959.c:992
+#: ../lib/rfc959.c:997
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Kan inte få tag i adress för lokalt uttag: %s\n"
 
-#: ../lib/rfc959.c:1079
+#: ../lib/rfc959.c:1084
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Kan inte ta emot anslutning från server: %s\n"
 
-#: ../lib/rfc959.c:1614
+#: ../lib/rfc959.c:1592
 msgid "total"
 msgstr "totalt"
 
-#: ../lib/rfc959.c:1616
+#: ../lib/rfc959.c:1594
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varning: Kan inte tolka listan %s\n"
@@ -1187,170 +1251,166 @@ msgstr "Lösenord"
 msgid "password"
 msgstr "lösenord"
 
-#: ../lib/sshv2.c:486
+#: ../lib/sshv2.c:496
 msgid "(yes/no)?"
 msgstr "(ja/nej)?"
 
 # PASSCODE är en vaddå?
-#: ../lib/sshv2.c:504
+#: ../lib/sshv2.c:514
 msgid "Enter PASSCODE:"
 msgstr "Ange PASSCODE:"
 
-#: ../lib/sshv2.c:508
-#: ../src/gtk/gtkui.c:132
-#: ../src/gtk/transfer.c:585
-#: ../src/gtk/transfer.c:595
+#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:562
+#: ../src/gtk/transfer.c:572
 msgid "Enter Password"
 msgstr "Ange lösenord"
 
-#: ../lib/sshv2.c:509
+#: ../lib/sshv2.c:519
 msgid "Enter SecurID Password:"
 msgstr "Ange SecurID-lösenord:"
 
-#: ../lib/sshv2.c:557
+#: ../lib/sshv2.c:567
 msgid "Error: An incorrect password was entered\n"
 msgstr "Fel: Ett felaktigt lösenord angavs\n"
 
-#: ../lib/sshv2.c:586
+#: ../lib/sshv2.c:596
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: Protokollinitiering\n"
 
-#: ../lib/sshv2.c:590
+#: ../lib/sshv2.c:600
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: Protokollversion %d\n"
 
-#: ../lib/sshv2.c:599
+#: ../lib/sshv2.c:609
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: Öppna %s\n"
 
-#: ../lib/sshv2.c:604
+#: ../lib/sshv2.c:614
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: Stäng\n"
 
-#: ../lib/sshv2.c:608
+#: ../lib/sshv2.c:618
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: Öppna katalogen %s\n"
 
-#: ../lib/sshv2.c:613
+#: ../lib/sshv2.c:623
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: Läs katalog\n"
 
-#: ../lib/sshv2.c:617
+#: ../lib/sshv2.c:627
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: Ta bort filen %s\n"
 
-#: ../lib/sshv2.c:622
+#: ../lib/sshv2.c:632
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: Skapa katalogen %s\n"
 
-#: ../lib/sshv2.c:627
+#: ../lib/sshv2.c:637
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: Ta bort katalogen %s\n"
 
-#: ../lib/sshv2.c:632
+#: ../lib/sshv2.c:642
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: Absolut sökväg %s\n"
 
-#: ../lib/sshv2.c:637
+#: ../lib/sshv2.c:647
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: Filattribut\n"
 
-#: ../lib/sshv2.c:641
+#: ../lib/sshv2.c:651
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Stat %s\n"
 
-#: ../lib/sshv2.c:661
+#: ../lib/sshv2.c:671
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: ../lib/sshv2.c:666
+#: ../lib/sshv2.c:676
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: ../lib/sshv2.c:680
-#: ../src/gtk/bookmarks.c:1042
-#: ../src/gtk/bookmarks.c:1292
-#: ../src/gtk/chmod_dialog.c:253
-#: ../src/gtk/gtkui_transfer.c:364
-#: ../src/gtk/misc-gtk.c:995
-#: ../src/gtk/options_dialog.c:1205
+#: ../lib/sshv2.c:690 ../src/gtk/bookmarks.c:1042 ../src/gtk/bookmarks.c:1292
+#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:376
+#: ../src/gtk/misc-gtk.c:995 ../src/gtk/options_dialog.c:1205
 #: ../src/gtk/options_dialog.c:1437
 msgid "OK"
 msgstr "OK"
 
-#: ../lib/sshv2.c:683
+#: ../lib/sshv2.c:693
 msgid "EOF"
 msgstr "EOF"
 
-#: ../lib/sshv2.c:686
+#: ../lib/sshv2.c:696
 msgid "No such file or directory"
 msgstr "Ingen sådan fil eller katalog"
 
-#: ../lib/sshv2.c:689
+#: ../lib/sshv2.c:699
 msgid "Permission denied"
 msgstr "Åtkomst nekad"
 
-#: ../lib/sshv2.c:692
+#: ../lib/sshv2.c:702
 msgid "Failure"
 msgstr "Misslyckande"
 
-#: ../lib/sshv2.c:695
+#: ../lib/sshv2.c:705
 msgid "Bad message"
 msgstr "Felaktigt meddelande"
 
-#: ../lib/sshv2.c:698
+#: ../lib/sshv2.c:708
 msgid "No connection"
 msgstr "Ingen anslutning"
 
-#: ../lib/sshv2.c:701
+#: ../lib/sshv2.c:711
 msgid "Connection lost"
 msgstr "Anslutningen avbruten"
 
-#: ../lib/sshv2.c:704
+#: ../lib/sshv2.c:714
 msgid "Operation unsupported"
 msgstr "Åtgärden stöds inte"
 
-#: ../lib/sshv2.c:707
+#: ../lib/sshv2.c:717
 msgid "Unknown message returned from server"
 msgstr "Okänt meddelande returnerades från servern"
 
-#: ../lib/sshv2.c:742
+#: ../lib/sshv2.c:752
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Fel: Meddelandestorleken %d för stor\n"
 
-#: ../lib/sshv2.c:801
-#: ../lib/sshv2.c:1310
-#: ../lib/sshv2.c:1885
-#: ../lib/sshv2.c:2005
+#: ../lib/sshv2.c:811 ../lib/sshv2.c:1346 ../lib/sshv2.c:1838
+#: ../lib/sshv2.c:1957
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Fel: Meddelandestorleken %d för stor från servern\n"
 
-#: ../lib/sshv2.c:807
-msgid "There was an error initializing a SSH connection with the remote server. The error message from the remote server follows:\n"
-msgstr "Ett fel uppstod vid initiering av en SSH-anslutning med fjärrservern. Felmeddelandet från fjärrservern följer:\n"
+#: ../lib/sshv2.c:817
+msgid ""
+"There was an error initializing a SSH connection with the remote server. The "
+"error message from the remote server follows:\n"
+msgstr ""
+"Ett fel uppstod vid initiering av en SSH-anslutning med fjärrservern. "
+"Felmeddelandet från fjärrservern följer:\n"
 
-#: ../lib/sshv2.c:1124
+#: ../lib/sshv2.c:1160
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "Öppnar SSH-anslutning till %s\n"
 
-#: ../lib/sshv2.c:1176
+#: ../lib/sshv2.c:1212
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Lyckad inloggning till SSH-servern %s\n"
@@ -1375,8 +1435,7 @@ msgstr "Längd på entropifrö:"
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr "Maximalt antal byte att ge som frö till SSL-motorn"
 
-#: ../lib/sslcommon.c:41
-#: ../lib/sslcommon.c:43
+#: ../lib/sslcommon.c:41 ../lib/sslcommon.c:43
 msgid "Verify SSL Peer"
 msgstr "Validera SSL-motpunkt"
 
@@ -1399,8 +1458,12 @@ msgstr "Kan inte hämta certifikat för motpart\n"
 
 #: ../lib/sslcommon.c:199
 #, c-format
-msgid "ERROR: The host in the SSL certificate (%s) does not match the host that we connected to (%s). Aborting connection.\n"
-msgstr "FEL: Värden i SSL-certifikatet (%s) stämmer inte överens med värden som vi anslöt till (%s). Avbryter anslutning.\n"
+msgid ""
+"ERROR: The host in the SSL certificate (%s) does not match the host that we "
+"connected to (%s). Aborting connection.\n"
+msgstr ""
+"FEL: Värden i SSL-certifikatet (%s) stämmer inte överens med värden som vi "
+"anslöt till (%s). Avbryter anslutning.\n"
 
 #: ../lib/sslcommon.c:306
 msgid "Cannot initialize the OpenSSL library\n"
@@ -1414,9 +1477,7 @@ msgstr "Fel vid inläsning av SSL-standardcertifikat\n"
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "Fel vid hämtning av chifferlista (inga giltiga chiffer)\n"
 
-#: ../lib/sslcommon.c:353
-#: ../lib/sslcommon.c:427
-#: ../lib/sslcommon.c:475
+#: ../lib/sslcommon.c:353 ../lib/sslcommon.c:427 ../lib/sslcommon.c:475
 msgid "Error: SSL engine was not initialized\n"
 msgstr "Fel: SSL-motorn initerades inte\n"
 
@@ -1433,26 +1494,38 @@ msgstr "Fel vid upprättandet av SSL-anslutning (SSL-objekt)\n"
 msgid "Error with peer certificate: %s\n"
 msgstr "Fel med motpartens certifikat: %s\n"
 
-#: ../src/uicommon/gftpui.c:83
+#: ../src/uicommon/gftpui.c:56
+msgid "Operation canceled\n"
+msgstr "Åtgärden avbruten\n"
+
+#: ../src/uicommon/gftpui.c:65
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "Väntar %d sekunder med att försöka igen\n"
 
-#: ../src/uicommon/gftpui.c:96
-msgid "Operation canceled\n"
-msgstr "Åtgärden avbruten\n"
+#: ../src/uicommon/gftpui.c:157
+msgid ""
+">. If you have any questions, comments, or suggestions about this program, "
+"please feel free to email them to me. You can always find out the latest "
+"news about gFTP from my website at http://www.gftp.org/\n"
+msgstr ""
+">. Om du har några frågor, kommentarer eller förslag om detta program är du "
+"välkommen att kontakta mig via e-post. Du hittar alltid de senaste nyheterna "
+"om gFTP på min hemsida http://www.gftp.org/ Skicka synpunkter på "
+"översättningen till tp-sv@listor.tp-sv.se\n"
 
-#: ../src/uicommon/gftpui.c:185
-msgid ">. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ">. Om du har några frågor, kommentarer eller förslag om detta program är du välkommen att kontakta mig via e-post. Du hittar alltid de senaste nyheterna om gFTP på min hemsida http://www.gftp.org/ Skicka synpunkter på översättningen till tp-sv@listor.tp-sv.se\n"
-
-#: ../src/uicommon/gftpui.c:186
-msgid "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"
-msgstr "gFTP levereras HELT UTAN NÅGRA GARANTIER; för detaljer läs filen COPYING. Detta är fri mjukvara och det står dig fritt att distribuera det vidare under särskilda villkor; för detaljer se filen COPYING\n"
+#: ../src/uicommon/gftpui.c:158
+msgid ""
+"gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
+"This is free software, and you are welcome to redistribute it under certain "
+"conditions; for details, see the COPYING file\n"
+msgstr ""
+"gFTP levereras HELT UTAN NÅGRA GARANTIER; för detaljer läs filen COPYING. "
+"Detta är fri mjukvara och det står dig fritt att distribuera det vidare "
+"under särskilda villkor; för detaljer se filen COPYING\n"
 
 # Ska det se ut så här?
-#: ../src/uicommon/gftpui.c:188
-#: ../src/gtk/menu-items.c:506
+#: ../src/uicommon/gftpui.c:160 ../src/gtk/menu-items.c:491
 msgid "Translated by"
 msgstr ""
 "Daniel Nylander\n"
@@ -1463,75 +1536,69 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "tp-sv@listor.tp-sv.se"
 
-#: ../src/uicommon/gftpui.c:235
-#: ../src/uicommon/gftpui.c:277
-#: ../src/uicommon/gftpui.c:317
-#: ../src/uicommon/gftpui.c:352
-#: ../src/uicommon/gftpui.c:387
-#: ../src/uicommon/gftpui.c:423
-#: ../src/uicommon/gftpui.c:459
-#: ../src/uicommon/gftpui.c:524
-#: ../src/uicommon/gftpui.c:605
-#: ../src/uicommon/gftpui.c:870
+#: ../src/uicommon/gftpui.c:207 ../src/uicommon/gftpui.c:249
+#: ../src/uicommon/gftpui.c:289 ../src/uicommon/gftpui.c:324
+#: ../src/uicommon/gftpui.c:359 ../src/uicommon/gftpui.c:395
+#: ../src/uicommon/gftpui.c:431 ../src/uicommon/gftpui.c:496
+#: ../src/uicommon/gftpui.c:577 ../src/uicommon/gftpui.c:845
 msgid "Error: Not connected to a remote site\n"
 msgstr "Fel: Inte ansluten till en fjärrplats\n"
 
-#: ../src/uicommon/gftpui.c:246
+#: ../src/uicommon/gftpui.c:218
 msgid "usage: chmod <mode> <file>\n"
 msgstr "användning: chmod <attribut> <fil>\n"
 
-#: ../src/uicommon/gftpui.c:287
+#: ../src/uicommon/gftpui.c:259
 msgid "usage: rename <old name> <new name>\n"
 msgstr "användning: rename <gammalt namn> <nytt namn>\n"
 
-#: ../src/uicommon/gftpui.c:323
+#: ../src/uicommon/gftpui.c:295
 msgid "usage: delete <file>\n"
 msgstr "användning: delete <fil>\n"
 
-#: ../src/uicommon/gftpui.c:358
+#: ../src/uicommon/gftpui.c:330
 msgid "usage: rmdir <directory>\n"
 msgstr "användning: rmdir <katalog>\n"
 
-#: ../src/uicommon/gftpui.c:393
+#: ../src/uicommon/gftpui.c:365
 msgid "usage: site <site command>\n"
 msgstr "användning: site <site-kommando>\n"
 
-#: ../src/uicommon/gftpui.c:429
+#: ../src/uicommon/gftpui.c:401
 msgid "usage: mkdir <new directory>\n"
 msgstr "användning: mkdir <ny katalog>\n"
 
-#: ../src/uicommon/gftpui.c:465
-#: ../src/uicommon/gftpui.c:483
+#: ../src/uicommon/gftpui.c:437 ../src/uicommon/gftpui.c:455
 msgid "usage: chdir <directory>\n"
 msgstr "användning: chdir <katalog>\n"
 
-#: ../src/uicommon/gftpui.c:556
+#: ../src/uicommon/gftpui.c:528
 msgid "Invalid argument\n"
 msgstr "Ogiltigt argument\n"
 
-#: ../src/uicommon/gftpui.c:569
+#: ../src/uicommon/gftpui.c:541
 msgid "Clear the directory cache\n"
 msgstr "Töm katalogcachen\n"
 
-#: ../src/uicommon/gftpui.c:658
+#: ../src/uicommon/gftpui.c:630
 msgid "usage: open "
 msgstr "användning: open "
 
-#: ../src/uicommon/gftpui.c:731
+#: ../src/uicommon/gftpui.c:706
 msgid "usage: set [variable = value]\n"
 msgstr "användning: set [variabel = värde]\n"
 
-#: ../src/uicommon/gftpui.c:745
+#: ../src/uicommon/gftpui.c:720
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "Fel: Variabeln %s är ingen giltig konfigurationsvariabel.\n"
 
-#: ../src/uicommon/gftpui.c:752
+#: ../src/uicommon/gftpui.c:727
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "Fel: Variabeln %s finns inte tillgänglig i textversionen av gFTP\n"
 
-#: ../src/uicommon/gftpui.c:834
+#: ../src/uicommon/gftpui.c:809
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1539,300 +1606,298 @@ msgstr ""
 "Giltiga kommandon:\n"
 "\n"
 
-#: ../src/uicommon/gftpui.c:877
+#: ../src/uicommon/gftpui.c:852
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "användning: %s <filspec>\n"
 
 # Jag antar att about, ascii, cd, chmod, get, lcd, etc. är kommandon som egentligen inte bör översättas
-#: ../src/uicommon/gftpui.c:962
+#: ../src/uicommon/gftpui.c:937
 msgid "about"
 msgstr "about"
 
-#: ../src/uicommon/gftpui.c:963
+#: ../src/uicommon/gftpui.c:938
 msgid "Shows gFTP information"
 msgstr "Visar gFTP-information"
 
-#: ../src/uicommon/gftpui.c:964
+#: ../src/uicommon/gftpui.c:939
 msgid "ascii"
 msgstr "ascii"
 
-#: ../src/uicommon/gftpui.c:965
+#: ../src/uicommon/gftpui.c:940
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "Ställer in aktuellt överföringsläge till Ascii (gäller enbart FTP)"
 
-#: ../src/uicommon/gftpui.c:966
+#: ../src/uicommon/gftpui.c:941
 msgid "binary"
 msgstr "binary"
 
-#: ../src/uicommon/gftpui.c:967
+#: ../src/uicommon/gftpui.c:942
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "Ställer in aktuellt överföringsläge till binärt (gäller enbart FTP)"
 
-#: ../src/uicommon/gftpui.c:968
+#: ../src/uicommon/gftpui.c:943
 msgid "cd"
 msgstr "cd"
 
-#: ../src/uicommon/gftpui.c:969
-#: ../src/uicommon/gftpui.c:971
+#: ../src/uicommon/gftpui.c:944 ../src/uicommon/gftpui.c:946
 msgid "Changes the remote working directory"
 msgstr "Byter arbetskatalog på fjärrvärden"
 
-#: ../src/uicommon/gftpui.c:970
+#: ../src/uicommon/gftpui.c:945
 msgid "chdir"
 msgstr "chdir"
 
-#: ../src/uicommon/gftpui.c:972
+#: ../src/uicommon/gftpui.c:947
 msgid "chmod"
 msgstr "chmod"
 
-#: ../src/uicommon/gftpui.c:973
+#: ../src/uicommon/gftpui.c:948
 msgid "Changes the permissions of a remote file"
 msgstr "Ändrar rättigheterna på en fil på fjärrvärden"
 
-#: ../src/uicommon/gftpui.c:974
+#: ../src/uicommon/gftpui.c:949
 msgid "clear"
 msgstr "clear"
 
-#: ../src/uicommon/gftpui.c:975
+#: ../src/uicommon/gftpui.c:950
 msgid "Available options: cache"
 msgstr "Tillgängliga flaggor: cache"
 
-#: ../src/uicommon/gftpui.c:976
+#: ../src/uicommon/gftpui.c:951
 msgid "close"
 msgstr "close"
 
-#: ../src/uicommon/gftpui.c:977
+#: ../src/uicommon/gftpui.c:952
 msgid "Disconnects from the remote site"
 msgstr "Kopplar ner från fjärrvärden"
 
-#: ../src/uicommon/gftpui.c:978
+#: ../src/uicommon/gftpui.c:953
 msgid "delete"
 msgstr "delete"
 
-#: ../src/uicommon/gftpui.c:979
+#: ../src/uicommon/gftpui.c:954
 msgid "Removes a remote file"
 msgstr "Tar bort en fil på fjärrvärden"
 
-#: ../src/uicommon/gftpui.c:980
+#: ../src/uicommon/gftpui.c:955
 msgid "dir"
 msgstr "dir"
 
-#: ../src/uicommon/gftpui.c:981
-#: ../src/uicommon/gftpui.c:1007
+#: ../src/uicommon/gftpui.c:956 ../src/uicommon/gftpui.c:982
 msgid "Shows the directory listing for the current remote directory"
 msgstr "Visar kataloglistan för den aktuella katalogen på fjärrvärden"
 
-#: ../src/uicommon/gftpui.c:982
+#: ../src/uicommon/gftpui.c:957
 msgid "get"
 msgstr "get"
 
-#: ../src/uicommon/gftpui.c:983
-#: ../src/uicommon/gftpui.c:1009
+#: ../src/uicommon/gftpui.c:958 ../src/uicommon/gftpui.c:984
 msgid "Downloads remote file(s)"
 msgstr "Hämtar fil(er) från fjärrvärden"
 
-#: ../src/uicommon/gftpui.c:984
+#: ../src/uicommon/gftpui.c:959
 msgid "help"
 msgstr "help"
 
-#: ../src/uicommon/gftpui.c:985
+#: ../src/uicommon/gftpui.c:960
 msgid "Shows this help screen"
 msgstr "Visar denna hjälpskärm"
 
-#: ../src/uicommon/gftpui.c:986
+#: ../src/uicommon/gftpui.c:961
 msgid "lcd"
 msgstr "lcd"
 
-#: ../src/uicommon/gftpui.c:987
-#: ../src/uicommon/gftpui.c:989
+#: ../src/uicommon/gftpui.c:962 ../src/uicommon/gftpui.c:964
 msgid "Changes the local working directory"
 msgstr "Ändrar lokal arbetsmapp"
 
-#: ../src/uicommon/gftpui.c:988
+#: ../src/uicommon/gftpui.c:963
 msgid "lchdir"
 msgstr "lchdir"
 
-#: ../src/uicommon/gftpui.c:990
+#: ../src/uicommon/gftpui.c:965
 msgid "lchmod"
 msgstr "lchmod"
 
-#: ../src/uicommon/gftpui.c:991
+#: ../src/uicommon/gftpui.c:966
 msgid "Changes the permissions of a local file"
 msgstr "Ändrar rättigheterna på en lokal fil"
 
-#: ../src/uicommon/gftpui.c:992
+#: ../src/uicommon/gftpui.c:967
 msgid "ldelete"
 msgstr "ldelete"
 
-#: ../src/uicommon/gftpui.c:993
+#: ../src/uicommon/gftpui.c:968
 msgid "Removes a local file"
 msgstr "Tar bort en lokal fil"
 
-#: ../src/uicommon/gftpui.c:994
+#: ../src/uicommon/gftpui.c:969
 msgid "ldir"
 msgstr "ldir"
 
-#: ../src/uicommon/gftpui.c:995
-#: ../src/uicommon/gftpui.c:997
+#: ../src/uicommon/gftpui.c:970 ../src/uicommon/gftpui.c:972
 msgid "Shows the directory listing for the current local directory"
 msgstr "Visar kataloglistan för den aktuella lokala katalogen"
 
-#: ../src/uicommon/gftpui.c:996
+#: ../src/uicommon/gftpui.c:971
 msgid "lls"
 msgstr "lls"
 
-#: ../src/uicommon/gftpui.c:998
+#: ../src/uicommon/gftpui.c:973
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: ../src/uicommon/gftpui.c:999
+#: ../src/uicommon/gftpui.c:974
 msgid "Creates a local directory"
 msgstr "Skapar en lokal katalog"
 
-#: ../src/uicommon/gftpui.c:1000
+#: ../src/uicommon/gftpui.c:975
 msgid "lpwd"
 msgstr "lpwd"
 
-#: ../src/uicommon/gftpui.c:1001
+#: ../src/uicommon/gftpui.c:976
 msgid "Show current local directory"
 msgstr "Visar aktuell lokal katalog"
 
-#: ../src/uicommon/gftpui.c:1002
+#: ../src/uicommon/gftpui.c:977
 msgid "lrename"
 msgstr "lrename"
 
-#: ../src/uicommon/gftpui.c:1003
+#: ../src/uicommon/gftpui.c:978
 msgid "Rename a local file"
 msgstr "Byta namn på en lokal fil"
 
-#: ../src/uicommon/gftpui.c:1004
+#: ../src/uicommon/gftpui.c:979
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: ../src/uicommon/gftpui.c:1005
+#: ../src/uicommon/gftpui.c:980
 msgid "Remove a local directory"
 msgstr "Ta bort en lokal katalog"
 
-#: ../src/uicommon/gftpui.c:1006
+#: ../src/uicommon/gftpui.c:981
 msgid "ls"
 msgstr "ls"
 
-#: ../src/uicommon/gftpui.c:1008
+#: ../src/uicommon/gftpui.c:983
 msgid "mget"
 msgstr "mget"
 
-#: ../src/uicommon/gftpui.c:1010
+#: ../src/uicommon/gftpui.c:985
 msgid "mkdir"
 msgstr "mkdir"
 
-#: ../src/uicommon/gftpui.c:1011
+#: ../src/uicommon/gftpui.c:986
 msgid "Creates a remote directory"
 msgstr "Skapar en katalog på fjärrvärden"
 
-#: ../src/uicommon/gftpui.c:1012
+#: ../src/uicommon/gftpui.c:987
 msgid "mput"
 msgstr "mput"
 
-#: ../src/uicommon/gftpui.c:1013
-#: ../src/uicommon/gftpui.c:1017
+#: ../src/uicommon/gftpui.c:988 ../src/uicommon/gftpui.c:992
 msgid "Uploads local file(s)"
 msgstr "Skickar lokala fil(er)"
 
-#: ../src/uicommon/gftpui.c:1014
+#: ../src/uicommon/gftpui.c:989
 msgid "open"
 msgstr "open"
 
-#: ../src/uicommon/gftpui.c:1015
+#: ../src/uicommon/gftpui.c:990
 msgid "Opens a connection to a remote site"
 msgstr "Skapar en anslutning till en fjärrplats"
 
-#: ../src/uicommon/gftpui.c:1016
+#: ../src/uicommon/gftpui.c:991
 msgid "put"
 msgstr "put"
 
-#: ../src/uicommon/gftpui.c:1018
+#: ../src/uicommon/gftpui.c:993
 msgid "pwd"
 msgstr "pwd"
 
-#: ../src/uicommon/gftpui.c:1019
+#: ../src/uicommon/gftpui.c:994
 msgid "Show current remote directory"
 msgstr "Visa aktuell fjärrkatalog"
 
-#: ../src/uicommon/gftpui.c:1020
+#: ../src/uicommon/gftpui.c:995
 msgid "quit"
 msgstr "quit"
 
-#: ../src/uicommon/gftpui.c:1021
+#: ../src/uicommon/gftpui.c:996
 msgid "Exit from gFTP"
 msgstr "Avsluta gFTP"
 
-#: ../src/uicommon/gftpui.c:1022
+#: ../src/uicommon/gftpui.c:997
 msgid "rename"
 msgstr "rename"
 
-#: ../src/uicommon/gftpui.c:1023
+#: ../src/uicommon/gftpui.c:998
 msgid "Rename a remote file"
 msgstr "Byta namn på en fil på fjärrvärden"
 
-#: ../src/uicommon/gftpui.c:1024
+#: ../src/uicommon/gftpui.c:999
 msgid "rmdir"
 msgstr "rmdir"
 
-#: ../src/uicommon/gftpui.c:1025
+#: ../src/uicommon/gftpui.c:1000
 msgid "Remove a remote directory"
 msgstr "Ta bort en fjärrkatalog"
 
-#: ../src/uicommon/gftpui.c:1026
+#: ../src/uicommon/gftpui.c:1001
 msgid "set"
 msgstr "set"
 
-#: ../src/uicommon/gftpui.c:1027
-msgid "Show configuration file variables. You can also set variables by set var=val"
-msgstr "Visa variabler för konfigurationsfil. Du kan också ange variabler med set var=värde"
+#: ../src/uicommon/gftpui.c:1002
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
+msgstr ""
+"Visa variabler för konfigurationsfil. Du kan också ange variabler med set "
+"var=värde"
 
-#: ../src/uicommon/gftpui.c:1029
+#: ../src/uicommon/gftpui.c:1004
 msgid "site"
 msgstr "plats"
 
-#: ../src/uicommon/gftpui.c:1030
+#: ../src/uicommon/gftpui.c:1005
 msgid "Run a site specific command"
 msgstr "Kör ett platsspecifikt kommando"
 
-#: ../src/uicommon/gftpui.c:1119
+#: ../src/uicommon/gftpui.c:1094
 msgid "Error: Command not recognized\n"
 msgstr "Fel: Känner inte igen kommando\n"
 
-#: ../src/uicommon/gftpui.c:1359
+#: ../src/uicommon/gftpui.c:1304
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "Överförde %s med %.2f kB/s\n"
 
-#: ../src/uicommon/gftpui.c:1392
+#: ../src/uicommon/gftpui.c:1335
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Hoppar över filen %s på värden %s\n"
 
-#: ../src/uicommon/gftpui.c:1418
+#: ../src/uicommon/gftpui.c:1359
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Stoppar överföringen på värden %s\n"
 
-#: ../src/uicommon/gftpui.c:1569
+#: ../src/uicommon/gftpui.c:1502
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Kunde inte hämta %s från %s\n"
 
-#: ../src/uicommon/gftpui.c:1623
+#: ../src/uicommon/gftpui.c:1558
 #, c-format
-msgid "There were %d files or directories that could not be transferred. Check the log for which items were not properly transferred."
-msgstr "Det var %d filer eller kataloger som inte kunde överföras. Kontrollera loggen för att se vilka objekt som inte överfördes korrekt."
+msgid ""
+"There were %d files or directories that could not be transferred. Check the "
+"log for which items were not properly transferred."
+msgstr ""
+"Det var %d filer eller kataloger som inte kunde överföras. Kontrollera "
+"loggen för att se vilka objekt som inte överfördes korrekt."
 
-#: ../src/gtk/bookmarks.c:40
-#: ../src/gtk/dnd.c:122
-#: ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1096
-#: ../src/gtk/misc-gtk.c:505
+#: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
+#: ../src/gtk/gftp-gtk.c:1096 ../src/gtk/misc-gtk.c:505
 #: ../src/gtk/misc-gtk.c:513
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
@@ -1849,10 +1914,11 @@ msgstr "Lägg till bokmärke: Du måste ange ett namn för bokmärket\n"
 #: ../src/gtk/bookmarks.c:78
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
-msgstr "Lägg till bokmärke: Kan inte lägga till bokmärket %s eftersom namnet redan finns\n"
+msgstr ""
+"Lägg till bokmärke: Kan inte lägga till bokmärket %s eftersom namnet redan "
+"finns\n"
 
-#: ../src/gtk/bookmarks.c:135
-#: ../src/gtk/bookmarks.c:146
+#: ../src/gtk/bookmarks.c:135 ../src/gtk/bookmarks.c:146
 msgid "Add Bookmark"
 msgstr "Lägg till bokmärke"
 
@@ -1911,8 +1977,7 @@ msgstr "Ta bort bokmärke"
 msgid "Bookmarks"
 msgstr "Bokmärken"
 
-#: ../src/gtk/bookmarks.c:849
-#: ../src/gtk/bookmarks.c:852
+#: ../src/gtk/bookmarks.c:849 ../src/gtk/bookmarks.c:852
 msgid "Edit Entry"
 msgstr "Redigera post"
 
@@ -1944,8 +2009,7 @@ msgstr "Lokal katalog:"
 msgid "Username:"
 msgstr "Användarnamn:"
 
-#: ../src/gtk/bookmarks.c:1000
-#: ../src/text/textui.c:92
+#: ../src/gtk/bookmarks.c:1000 ../src/text/textui.c:92
 msgid "Password:"
 msgstr "Lösenord:"
 
@@ -1957,12 +2021,9 @@ msgstr "Konto:"
 msgid "Log in as ANONYMOUS"
 msgstr "Logga in som ANONYM"
 
-#: ../src/gtk/bookmarks.c:1053
-#: ../src/gtk/bookmarks.c:1303
-#: ../src/gtk/chmod_dialog.c:265
-#: ../src/gtk/gtkui_transfer.c:376
-#: ../src/gtk/options_dialog.c:1216
-#: ../src/gtk/options_dialog.c:1448
+#: ../src/gtk/bookmarks.c:1053 ../src/gtk/bookmarks.c:1303
+#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:388
+#: ../src/gtk/options_dialog.c:1216 ../src/gtk/options_dialog.c:1448
 msgid "  Cancel  "
 msgstr "  Avbryt  "
 
@@ -1998,13 +2059,11 @@ msgstr "/Arkiv/sep"
 msgid "/File/_Close"
 msgstr "/Arkiv/_Stäng"
 
-#: ../src/gtk/bookmarks.c:1229
-#: ../src/gtk/bookmarks.c:1232
+#: ../src/gtk/bookmarks.c:1229 ../src/gtk/bookmarks.c:1232
 msgid "Edit Bookmarks"
 msgstr "Redigera bokmärken"
 
-#: ../src/gtk/chmod_dialog.c:132
-#: ../src/gtk/chmod_dialog.c:137
+#: ../src/gtk/chmod_dialog.c:132 ../src/gtk/chmod_dialog.c:137
 #: ../src/gtk/chmod_dialog.c:142
 msgid "Chmod"
 msgstr "Chmod"
@@ -2033,31 +2092,26 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Klistrig (sticky)"
 
-#: ../src/gtk/chmod_dialog.c:192
-#: ../src/gtk/gftp-gtk.c:780
+#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:780
 msgid "User"
 msgstr "Användare"
 
-#: ../src/gtk/chmod_dialog.c:200
-#: ../src/gtk/chmod_dialog.c:220
+#: ../src/gtk/chmod_dialog.c:200 ../src/gtk/chmod_dialog.c:220
 #: ../src/gtk/chmod_dialog.c:240
 msgid "Read"
 msgstr "Läsa"
 
-#: ../src/gtk/chmod_dialog.c:204
-#: ../src/gtk/chmod_dialog.c:224
+#: ../src/gtk/chmod_dialog.c:204 ../src/gtk/chmod_dialog.c:224
 #: ../src/gtk/chmod_dialog.c:244
 msgid "Write"
 msgstr "Skriva"
 
-#: ../src/gtk/chmod_dialog.c:208
-#: ../src/gtk/chmod_dialog.c:228
+#: ../src/gtk/chmod_dialog.c:208 ../src/gtk/chmod_dialog.c:228
 #: ../src/gtk/chmod_dialog.c:248
 msgid "Execute"
 msgstr "Köra"
 
-#: ../src/gtk/chmod_dialog.c:212
-#: ../src/gtk/gftp-gtk.c:781
+#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:781
 msgid "Group"
 msgstr "Grupp"
 
@@ -2084,26 +2138,21 @@ msgstr "Är du säker på att du vill ta bort dessa %ld kataloger"
 msgid "Delete Files/Directories"
 msgstr "Ta bort filer/kataloger"
 
-#: ../src/gtk/delete_dialog.c:90
-#: ../src/gtk/options_dialog.c:1302
+#: ../src/gtk/delete_dialog.c:90 ../src/gtk/options_dialog.c:1302
 msgid "Delete"
 msgstr "Ta bort"
 
-#: ../src/gtk/dnd.c:123
-#: ../src/gtk/gftp-gtk.c:1097
-#: ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1097 ../src/gtk/misc-gtk.c:929
 #: ../src/gtk/misc-gtk.c:1004
 msgid "Connect"
 msgstr "Anslut"
 
-#: ../src/gtk/dnd.c:136
-#: ../src/gtk/dnd.c:269
+#: ../src/gtk/dnd.c:136 ../src/gtk/dnd.c:269
 #, c-format
 msgid "Received URL %s\n"
 msgstr "Tog emot URL %s\n"
 
-#: ../src/gtk/dnd.c:159
-#: ../src/gtk/dnd.c:247
+#: ../src/gtk/dnd.c:159 ../src/gtk/dnd.c:247
 msgid "Drag-N-Drop"
 msgstr "Drag och släpp"
 
@@ -2119,8 +2168,7 @@ msgstr ""
 "Det pågår filöverföringar.\n"
 "Är du säker på att du vill avsluta?"
 
-#: ../src/gtk/gftp-gtk.c:219
-#: ../src/gtk/gftp-gtk.c:235
+#: ../src/gtk/gftp-gtk.c:219 ../src/gtk/gftp-gtk.c:235
 msgid "Open Location"
 msgstr "Öppna plats"
 
@@ -2144,8 +2192,7 @@ msgstr "/FTP/Fönster _1"
 msgid "/FTP/Window _2"
 msgstr "/FTP/Fönster _2"
 
-#: ../src/gtk/gftp-gtk.c:271
-#: ../src/gtk/gftp-gtk.c:276
+#: ../src/gtk/gftp-gtk.c:271 ../src/gtk/gftp-gtk.c:276
 #: ../src/gtk/gftp-gtk.c:279
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
@@ -2182,8 +2229,7 @@ msgstr "/Lokalt/_Öppna plats..."
 msgid "/Local/D_isconnect"
 msgstr "/Lokalt/Ko_ppla från"
 
-#: ../src/gtk/gftp-gtk.c:286
-#: ../src/gtk/gftp-gtk.c:293
+#: ../src/gtk/gftp-gtk.c:286 ../src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "/Lokalt/sep"
 
@@ -2263,8 +2309,7 @@ msgstr "/Fjärr/_Öppna plats..."
 msgid "/Remote/D_isconnect"
 msgstr "/Fjärr/Koppla f_rån"
 
-#: ../src/gtk/gftp-gtk.c:314
-#: ../src/gtk/gftp-gtk.c:321
+#: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/Fjärr/sep"
 
@@ -2364,8 +2409,7 @@ msgstr "/Överföringar/S_tarta"
 msgid "/Transfer/St_op"
 msgstr "/Överföringar/St_oppa"
 
-#: ../src/gtk/gftp-gtk.c:346
-#: ../src/gtk/gftp-gtk.c:354
+#: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
 msgid "/Transfer/sep"
 msgstr "/Överföringar/sep"
 
@@ -2469,9 +2513,8 @@ msgstr "Lösen: "
 msgid "Command: "
 msgstr "Kommando: "
 
-#: ../src/gtk/gftp-gtk.c:778
-#: ../src/gtk/gftp-gtk.c:989
-#: ../src/gtk/gtkui_transfer.c:216
+#: ../src/gtk/gftp-gtk.c:778 ../src/gtk/gftp-gtk.c:989
+#: ../src/gtk/gtkui_transfer.c:228
 msgid "Filename"
 msgstr "Filnamn"
 
@@ -2495,111 +2538,98 @@ msgstr "Förlopp"
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Fel: Du måste skriva in en värd att ansluta till\n"
 
-#: ../src/gtk/gtkui.c:51
+#: ../src/gtk/gtkui.c:53
 msgid "Refresh"
 msgstr "Uppdatera"
 
-#: ../src/gtk/gtkui.c:110
+#: ../src/gtk/gtkui.c:120
 msgid "Enter Username"
 msgstr "Ange användarnamn"
 
-#: ../src/gtk/gtkui.c:111
+#: ../src/gtk/gtkui.c:121
 msgid "Please enter your username for this site"
 msgstr "Ange ditt användarnamn för den här platsen"
 
-#: ../src/gtk/gtkui.c:133
-#: ../src/gtk/transfer.c:586
-#: ../src/gtk/transfer.c:596
+#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:563 ../src/gtk/transfer.c:573
 msgid "Please enter your password for this site"
 msgstr "Ange ditt lösenord för den här platsen"
 
-#: ../src/gtk/gtkui.c:288
+#: ../src/gtk/gtkui.c:298
 msgid "Operation canceled...you must enter a string\n"
 msgstr "Åtgärden avbruten... Du måste ange en sträng\n"
 
-#: ../src/gtk/gtkui.c:334
+#: ../src/gtk/gtkui.c:344
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: ../src/gtk/gtkui.c:337
+#: ../src/gtk/gtkui.c:347
 msgid "Make Directory"
 msgstr "Skapa katalog"
 
-#: ../src/gtk/gtkui.c:337
+#: ../src/gtk/gtkui.c:347
 msgid "Enter name of directory to create"
 msgstr "Ange namnet på den nya katalogen"
 
-#: ../src/gtk/gtkui.c:360
-#: ../src/gtk/gtkui.c:372
-#: ../src/gtk/misc-gtk.c:932
+#: ../src/gtk/gtkui.c:370 ../src/gtk/gtkui.c:382 ../src/gtk/misc-gtk.c:932
 #: ../src/gtk/misc-gtk.c:1007
 msgid "Rename"
 msgstr "Byt namn"
 
-#: ../src/gtk/gtkui.c:370
+#: ../src/gtk/gtkui.c:380
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "Vad vill du att %s ska byta namn till?"
 
-#: ../src/gtk/gtkui.c:392
-#: ../src/gtk/gtkui.c:395
+#: ../src/gtk/gtkui.c:402 ../src/gtk/gtkui.c:405
 msgid "Site"
 msgstr "Plats"
 
-#: ../src/gtk/gtkui.c:395
+#: ../src/gtk/gtkui.c:405
 msgid "Enter site-specific command"
 msgstr "Ange ett platsspecifikt kommando"
 
-#: ../src/gtk/gtkui.c:396
+#: ../src/gtk/gtkui.c:406
 msgid "Prepend with SITE"
 msgstr "Inled med SITE"
 
-#: ../src/gtk/gtkui.c:439
-#: ../src/gtk/menu-items.c:250
+#: ../src/gtk/gtkui.c:449 ../src/gtk/menu-items.c:235
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60
-#: ../src/gtk/transfer.c:496
-#: ../src/gtk/transfer.c:564
-#: ../src/gtk/transfer.c:1019
+#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:473
+#: ../src/gtk/transfer.c:541 ../src/gtk/transfer.c:998
 msgid "Skipped"
 msgstr "Hoppade över"
 
-#: ../src/gtk/gtkui_transfer.c:62
-#: ../src/gtk/transfer.c:543
-#: ../src/gtk/transfer.c:568
+#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:520
+#: ../src/gtk/transfer.c:545
 msgid "Waiting..."
 msgstr "Väntar..."
 
-#: ../src/gtk/gtkui_transfer.c:124
-#: ../src/gtk/gtkui_transfer.c:302
-#: ../src/gtk/gtkui_transfer.c:329
+#: ../src/gtk/gtkui_transfer.c:136 ../src/gtk/gtkui_transfer.c:314
+#: ../src/gtk/gtkui_transfer.c:341
 msgid "Overwrite"
 msgstr "Skriv över"
 
-#: ../src/gtk/gtkui_transfer.c:131
-#: ../src/gtk/gtkui_transfer.c:308
-#: ../src/gtk/gtkui_transfer.c:335
+#: ../src/gtk/gtkui_transfer.c:143 ../src/gtk/gtkui_transfer.c:320
+#: ../src/gtk/gtkui_transfer.c:347
 msgid "Resume"
 msgstr "Återuppta"
 
-#: ../src/gtk/gtkui_transfer.c:138
-#: ../src/gtk/gtkui_transfer.c:305
+#: ../src/gtk/gtkui_transfer.c:150 ../src/gtk/gtkui_transfer.c:317
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: ../src/gtk/gtkui_transfer.c:219
+#: ../src/gtk/gtkui_transfer.c:231
 msgid "Action"
 msgstr "Handling"
 
-#: ../src/gtk/gtkui_transfer.c:224
-#: ../src/gtk/gtkui_transfer.c:233
+#: ../src/gtk/gtkui_transfer.c:236 ../src/gtk/gtkui_transfer.c:245
 #: ../src/gtk/transfer.c:91
 msgid "Transfer Files"
 msgstr "Överför filer"
 
-#: ../src/gtk/gtkui_transfer.c:245
+#: ../src/gtk/gtkui_transfer.c:257
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2607,100 +2637,95 @@ msgstr ""
 "Följande fil(er) finns både lokalt och på fjärrvärden\n"
 "Välj vad du vill göra"
 
-#: ../src/gtk/gtkui_transfer.c:311
+#: ../src/gtk/gtkui_transfer.c:323
 msgid "Error"
 msgstr "Fel"
 
-#: ../src/gtk/gtkui_transfer.c:341
+#: ../src/gtk/gtkui_transfer.c:353
 msgid "Skip File"
 msgstr "Hoppa över"
 
-#: ../src/gtk/gtkui_transfer.c:351
+#: ../src/gtk/gtkui_transfer.c:363
 msgid "Select All"
 msgstr "Markera alla"
 
-#: ../src/gtk/gtkui_transfer.c:357
+#: ../src/gtk/gtkui_transfer.c:369
 msgid "Deselect All"
 msgstr "Avmarkera alla"
 
-#: ../src/gtk/menu-items.c:37
+#: ../src/gtk/menu-items.c:65
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr "Byt filfilter: Åtgärden avbruten... Du måste ange en sträng\n"
 
-#: ../src/gtk/menu-items.c:74
-#: ../src/gtk/menu-items.c:77
+#: ../src/gtk/menu-items.c:83 ../src/gtk/menu-items.c:86
 msgid "Change Filespec"
 msgstr "Ändra filfilter"
 
-#: ../src/gtk/menu-items.c:77
+#: ../src/gtk/menu-items.c:86
 msgid "Enter the new file specification"
 msgstr "Ange det nya filfiltret"
 
-#: ../src/gtk/menu-items.c:105
-#: ../src/gtk/menu-items.c:314
-#: ../src/gtk/menu-items.c:378
-#: ../src/gtk/view_dialog.c:76
-#: ../src/gtk/view_dialog.c:155
+#: ../src/gtk/menu-items.c:114 ../src/gtk/menu-items.c:299
+#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:81
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Fel: Kan inte skriva till %s: %s\n"
 
-#: ../src/gtk/menu-items.c:134
+#: ../src/gtk/menu-items.c:143
 msgid "Save Directory Listing"
 msgstr "Spara kataloglista"
 
-#: ../src/gtk/menu-items.c:342
-#: ../src/gtk/menu-items.c:406
+#: ../src/gtk/menu-items.c:327 ../src/gtk/menu-items.c:391
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Fel: Fel vid skrivning till %s: %s\n"
 
-#: ../src/gtk/menu-items.c:417
+#: ../src/gtk/menu-items.c:402
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Loggfil sparad till %s\n"
 
-#: ../src/gtk/menu-items.c:429
+#: ../src/gtk/menu-items.c:414
 msgid "Save Log"
 msgstr "Spara logg"
 
-#: ../src/gtk/menu-items.c:465
+#: ../src/gtk/menu-items.c:450
 #, c-format
-msgid "Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"
-msgstr "Kan inte hitta licensavtalsfilen COPYING. Kontrollera att den finns i antingen %s eller %s"
+msgid ""
+"Cannot find the license agreement file COPYING. Please make sure it is in "
+"either %s or in %s"
+msgstr ""
+"Kan inte hitta licensavtalsfilen COPYING. Kontrollera att den finns i "
+"antingen %s eller %s"
 
-#: ../src/gtk/menu-items.c:469
-#: ../src/gtk/menu-items.c:474
+#: ../src/gtk/menu-items.c:454 ../src/gtk/menu-items.c:459
 msgid "About gFTP"
 msgstr "Om gFTP"
 
-#: ../src/gtk/menu-items.c:505
+#: ../src/gtk/menu-items.c:490
 #, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
-"Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
 "%s\n"
-"Copyright © 1998-2003 Brian Masney <masneyb@gftp.org>\n"
+"Copyright © 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "Officiell hemsida: http://www.gftp.org/\n"
-"Logotyp av: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: ../src/gtk/menu-items.c:518
+#: ../src/gtk/menu-items.c:503
 msgid "About"
 msgstr "Om"
 
-#: ../src/gtk/menu-items.c:567
+#: ../src/gtk/menu-items.c:552
 msgid "License Agreement"
 msgstr "Licensavtal"
 
-#: ../src/gtk/menu-items.c:573
-#: ../src/gtk/view_dialog.c:405
+#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:364
 msgid "  Close  "
 msgstr "  Stäng  "
 
-#: ../src/gtk/menu-items.c:657
+#: ../src/gtk/menu-items.c:685
 msgid "Compare Windows"
 msgstr "Jämför fönster"
 
@@ -2709,8 +2734,12 @@ msgid "Disconnect from the remote server"
 msgstr "Koppla ner från fjärrservern"
 
 #: ../src/gtk/misc-gtk.c:261
-msgid "Connect to the site specified in the host entry. If the host entry is blank, then a dialog is presented that will allow you to enter a URL."
-msgstr "Anslut till platsen angiven i värdposten. Om värdposten är blank, kommer en dialogruta att visas som låter dig mata in en url."
+msgid ""
+"Connect to the site specified in the host entry. If the host entry is blank, "
+"then a dialog is presented that will allow you to enter a URL."
+msgstr ""
+"Anslut till platsen angiven i värdposten. Om värdposten är blank, kommer en "
+"dialogruta att visas som låter dig mata in en url."
 
 #: ../src/gtk/misc-gtk.c:308
 msgid "All Files"
@@ -2749,13 +2778,11 @@ msgstr "%s: Du får bara ha ett objekt markerat\n"
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: Du måste ha minst ett objekt markerat\n"
 
-#: ../src/gtk/misc-gtk.c:926
-#: ../src/gtk/misc-gtk.c:1001
+#: ../src/gtk/misc-gtk.c:926 ../src/gtk/misc-gtk.c:1001
 msgid "Change"
 msgstr "Ändra"
 
-#: ../src/gtk/misc-gtk.c:998
-#: ../src/gtk/options_dialog.c:1277
+#: ../src/gtk/misc-gtk.c:998 ../src/gtk/options_dialog.c:1277
 msgid "Add"
 msgstr "Lägg till"
 
@@ -2809,8 +2836,7 @@ msgstr "Typ:"
 msgid "_Type:"
 msgstr "_Typ:"
 
-#: ../src/gtk/options_dialog.c:1014
-#: ../src/gtk/options_dialog.c:1137
+#: ../src/gtk/options_dialog.c:1014 ../src/gtk/options_dialog.c:1137
 msgid "Domain"
 msgstr "Domän"
 
@@ -2822,8 +2848,7 @@ msgstr "Nätverksadress"
 msgid "_Network address:"
 msgstr "_Nätverksadress:"
 
-#: ../src/gtk/options_dialog.c:1088
-#: ../src/gtk/options_dialog.c:1241
+#: ../src/gtk/options_dialog.c:1088 ../src/gtk/options_dialog.c:1241
 msgid "Netmask"
 msgstr "Nätmask"
 
@@ -2839,8 +2864,7 @@ msgstr "_Domän:"
 msgid "Local Hosts"
 msgstr "Lokala värdar"
 
-#: ../src/gtk/options_dialog.c:1288
-#: ../src/gtk/view_dialog.c:105
+#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:34
 msgid "Edit"
 msgstr "Redigera"
 
@@ -2848,8 +2872,7 @@ msgstr "Redigera"
 msgid "_Edit"
 msgstr "_Redigera"
 
-#: ../src/gtk/options_dialog.c:1367
-#: ../src/gtk/options_dialog.c:1372
+#: ../src/gtk/options_dialog.c:1367 ../src/gtk/options_dialog.c:1372
 msgid "Options"
 msgstr "Alternativ"
 
@@ -2861,8 +2884,7 @@ msgstr "Tillämpa"
 msgid "Receiving file names..."
 msgstr "Tar emot filnamn..."
 
-#: ../src/gtk/transfer.c:63
-#: ../src/gtk/transfer.c:713
+#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:689
 msgid "Connecting..."
 msgstr "Ansluter..."
 
@@ -2908,93 +2930,92 @@ msgstr ""
 msgid "Edit File"
 msgstr "Redigera fil"
 
-#: ../src/gtk/transfer.c:499
+#: ../src/gtk/transfer.c:476
 msgid "Finished"
 msgstr "Klar"
 
-#: ../src/gtk/transfer.c:755
+#: ../src/gtk/transfer.c:734
 #, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Skickat %s av %s med %.2fkB/s, %02d.%02d.%02d beräknad tid kvar"
 
-#: ../src/gtk/transfer.c:760
+#: ../src/gtk/transfer.c:739
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Tagit emot %s av %s med %.2fkB/s, %02d.%02d.%02d beräknad tid kvar"
 
-#: ../src/gtk/transfer.c:771
+#: ../src/gtk/transfer.c:750
 #, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
-msgstr "Skickat %s av %s, men överföringen har stannat upp, återstående tid okänd"
+msgstr ""
+"Skickat %s av %s, men överföringen har stannat upp, återstående tid okänd"
 
-#: ../src/gtk/transfer.c:777
+#: ../src/gtk/transfer.c:756
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
-msgstr "Tagit emot %s av %s, men överföringen har stannat upp, återstående tid okänd"
+msgstr ""
+"Tagit emot %s av %s, men överföringen har stannat upp, återstående tid okänd"
 
-#: ../src/gtk/transfer.c:821
+#: ../src/gtk/transfer.c:800
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "Okänt antal procent färdigt. (Fil %ld av %ld)"
 
-#: ../src/gtk/transfer.c:825
+#: ../src/gtk/transfer.c:804
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% färdigt, %02d.%02d.%02d beräknad tid kvar. (Fil %ld av %ld)"
 
-#: ../src/gtk/transfer.c:863
+#: ../src/gtk/transfer.c:842
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Hämtar filnamn... %s byte"
 
-#: ../src/gtk/transfer.c:942
-#: ../src/gtk/transfer.c:964
-#: ../src/gtk/transfer.c:983
-#: ../src/gtk/transfer.c:1005
-#: ../src/gtk/transfer.c:1033
-#: ../src/gtk/transfer.c:1093
+#: ../src/gtk/transfer.c:921 ../src/gtk/transfer.c:943
+#: ../src/gtk/transfer.c:962 ../src/gtk/transfer.c:984
+#: ../src/gtk/transfer.c:1012 ../src/gtk/transfer.c:1072
 msgid "There are no file transfers selected\n"
 msgstr "Inga filöverföringar är valda\n"
 
-#: ../src/gtk/view_dialog.c:36
+#: ../src/gtk/view_dialog.c:34
 msgid "View"
 msgstr "Visa"
 
-#: ../src/gtk/view_dialog.c:48
+#: ../src/gtk/view_dialog.c:49
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "Visa: %s är en katalog. Går inte att visa.\n"
 
-#: ../src/gtk/view_dialog.c:114
-msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "Redigera: Du måste ange en redigerare i dialogrutan med alternativ\n"
-
-#: ../src/gtk/view_dialog.c:127
+#: ../src/gtk/view_dialog.c:52
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "Redigera: %s är en katalog. Går inte att redigera.\n"
 
-#: ../src/gtk/view_dialog.c:210
+#: ../src/gtk/view_dialog.c:123
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "Redigera: Du måste ange en redigerare i dialogrutan med alternativ\n"
+
+#: ../src/gtk/view_dialog.c:169
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Visa: Kan inte grena en till process: %s\n"
 
-#: ../src/gtk/view_dialog.c:213
+#: ../src/gtk/view_dialog.c:172
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "Kör program: %s %s\n"
 
-#: ../src/gtk/view_dialog.c:272
+#: ../src/gtk/view_dialog.c:231
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "Öppnar %s med %s\n"
 
-#: ../src/gtk/view_dialog.c:307
+#: ../src/gtk/view_dialog.c:266
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "Visar filen %s\n"
 
-#: ../src/gtk/view_dialog.c:314
+#: ../src/gtk/view_dialog.c:273
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Visa: Kan inte öppna filen %s: %s\n"
@@ -3008,55 +3029,74 @@ msgstr "Kan inte öppna kontrollerande terminal %s\n"
 msgid "Username [anonymous]:"
 msgstr "Användarnamn [anonymous]:"
 
-#: ../src/text/textui.c:149
+#: ../src/text/textui.c:158
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
+"c)"
 msgstr ""
 "%s finns redan. (%s källstorlek, %s målstorlek):\n"
-"(o)skriv över, åte(r)uppta, (s)hoppa över, (O)skriv över alla, åte(R)uppta alla, (S)Hoppa över alla: (%c)"
+"(o)skriv över, åte(r)uppta, (s)hoppa över, (O)skriv över alla, åte(R)uppta "
+"alla, (S)Hoppa över alla: (%c)"
 
 #~ msgid "\n"
 #~ msgstr "\n"
+
 #~ msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
 #~ msgstr ""
 #~ "Fel vid konvertering av strängen \"%s\" till UTF-8 från aktuell lokal: %"
 #~ "s\n"
+
 #~ msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
 #~ msgstr ""
 #~ "Fel vid konvertering av strängen \"%s\" till aktuell lokal från UTF-8: %"
 #~ "s\n"
+
 #~ msgid "Error: Remote site disconnected after trying to transfer file\n"
 #~ msgstr "Fel: Värden kopplade ner efter försök att överföra fil\n"
+
 #~ msgid "There was an error transfering the file %s"
 #~ msgstr "Det inträffade ett fel vid överföring av filen %s"
+
 #~ msgid "Stopping the transfer of %s\n"
 #~ msgstr "Stoppar överföringen av %s\n"
+
 #~ msgid "Startup Directory:"
 #~ msgstr "Startkatalog:"
+
 #~ msgid "The default directory gFTP will go to on startup"
 #~ msgstr "Standardkatalogen som gFTP går till vid uppstart"
+
 #~ msgid "Connect via URL"
 #~ msgstr "Anslut genom URL"
+
 #~ msgid "OpenURL"
 #~ msgstr "ÖppnaURL"
+
 #~ msgid "/FTP/_Options..."
 #~ msgstr "/FTP/_Alternativ..."
+
 #~ msgid "/Local/Make Directory..."
 #~ msgstr "/Lokalt/Skapa katalog..."
+
 #~ msgid "/Remote/Make Directory..."
 #~ msgstr "/Fjärr/Skapa katalog..."
+
 #~ msgid "/Transfers/Start Transfer"
 #~ msgstr "/Överföringar/Starta överföring"
+
 #~ msgid "/Transfers/Stop Transfer"
 #~ msgstr "/Överföringar/Avbryt överföring"
+
 #~ msgid "usage: gftp [[protocol://][user[:pass]@]site[:port][/directory]]\n"
 #~ msgstr ""
 #~ "användning: gftp [[protokoll://][användare[:lösen]@]plats[:port][/"
 #~ "katalog]]\n"
+
 #~ msgid "Starting the file transfer at offset %lld\n"
 #~ msgstr "Börjar filöverföringen vid position %lld\n"
+
 #~ msgid ""
 #~ "Received wrong response from server, disconnecting\n"
 #~ "Expecting a carriage return and line feed before the chunk size in the "
@@ -3065,6 +3105,7 @@ msgstr ""
 #~ "Fick felaktigt svar från servern, kopplar ner\n"
 #~ "Förväntar en vagnretur och radmatning innan styckesstorleken i "
 #~ "serversvaret\n"
+
 #~ msgid ""
 #~ "Received wrong response from server, disconnecting\n"
 #~ "Expecting a carriage return and line feed after the chunk size in the "
@@ -3073,51 +3114,70 @@ msgstr ""
 #~ "Fick felaktigt svar från servern, kopplar ner\n"
 #~ "Förväntar en vagnretur och radmatning efter styckesstorleken i "
 #~ "serversvaret\n"
+
 #~ msgid "Received invalid response to PWD command: '%s'\n"
 #~ msgstr "Mottog ogiltigt svar på PWD-kommando: \"%s\"\n"
+
 #~ msgid "SSH2 sftp-server path:"
 #~ msgstr "Sökväg till sftp-server för SSH2:"
+
 #~ msgid "Default remote SSH2 sftp-server path"
 #~ msgstr "Standardsökväg till fjärrvärdens sftp-server för SSH2"
+
 #~ msgid "Use ssh-askpass utility"
 #~ msgstr "Använd verktyget ssh-askpass"
+
 #~ msgid "Use the ssh-askpass utility to supply the remote password"
 #~ msgstr "Använd verktyget ssh-askpass för att ange fjärrlösenordet"
+
 #~ msgid "Use SSH2 SFTP subsys"
 #~ msgstr "Använd SFTP-subsys för SSH2"
+
 #~ msgid ""
 #~ "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 #~ "know the remote path to the remote sftp-server"
 #~ msgstr ""
 #~ "Anropa ssh med flaggan -s sftp. Det är användbart eftersom du inte "
 #~ "behöver känna till sökvägen till fjärrvärdens sftp-server."
+
 #~ msgid "WARNING"
 #~ msgstr "VARNING"
+
 #~ msgid ""
 #~ "Please connect to this host with the command line SSH utility and answer "
 #~ "this question appropriately.\n"
 #~ msgstr ""
 #~ "Anslut till den här värden med det kommandoradsbaserade SSH-programmet "
 #~ "och svara på denna fråga.\n"
+
 #~ msgid "Please correct the above warning to connect to this host.\n"
 #~ msgstr ""
 #~ "Rätta till ovanstående varning för att ansluta till den här värden.\n"
+
 #~ msgid "Cannot initialized the OpenSSL library\n"
 #~ msgstr "Kan inte initierade OpenSSL-biblioteket\n"
+
 #~ msgid "OpenURL: Operation canceled...you must enter a string\n"
 #~ msgstr "ÖppnaURL: Åtgärden avbruten... du måste ange en sträng\n"
+
 #~ msgid "Mkdir: Operation canceled...you must enter a string\n"
 #~ msgstr "Mkdir: Åtgärden avbruten... Du måste ange en sträng\n"
+
 #~ msgid "Rename: Operation canceled...you must enter a string\n"
 #~ msgstr "Byt namn: Åtgärden avbruten... Du måste ange en sträng\n"
+
 #~ msgid "Local Size"
 #~ msgstr "Storlek lokalt"
+
 #~ msgid "Remote Size"
 #~ msgstr "Storlek på fjärrvärd"
+
 #~ msgid "Download Files"
 #~ msgstr "Hämta filer"
+
 #~ msgid "Upload Files"
 #~ msgstr "Skicka filer"
+
 #~ msgid ""
 #~ ">.\n"
 #~ "If you have any questions, comments, or suggestions about this program, "
@@ -3129,81 +3189,117 @@ msgstr ""
 #~ "är du välkommen att kontakta mig via e-post. Du hittar alltid de senaste "
 #~ "nyheterna om gFTP på min hemsida http://www.gftp.org/ Skicka synpunkter "
 #~ "på översättningen till sv@li.org\n"
+
 #~ msgid "usage: open [[ftp://][user:pass@]ftp-site[:port][/directory]]\n"
 #~ msgstr ""
 #~ "användning: open [[ftp://][användare:lösen@]ftp-plats[:port][/katalog]]\n"
+
 #~ msgid "usage: mput <filespec>\n"
 #~ msgstr "användning: mput <filspec>\n"
+
 #~ msgid "Could not download %s\n"
 #~ msgstr "Kunde inte hämta %s\n"
+
 #~ msgid "Successfully transferred %s\n"
 #~ msgstr "Överförde %s\n"
+
 #~ msgid "Finished retrieving data\n"
 #~ msgstr "Dataöverföringen slutförd\n"
+
 #~ msgid "Remote SSH sftp path:"
 #~ msgstr "Sökväg till fjärrvärdens SSH-sftp"
+
 #~ msgid "Preserve file permissions of transferred files"
 #~ msgstr "Bevara filrättigheter på överförda filer"
+
 #~ msgid "Invalid argument"
 #~ msgstr "Ogiltigt argument"
+
 #~ msgid "Error connecting to SSL object\n"
 #~ msgstr "Fel vid anslutning till SSL-objekt\n"
+
 #~ msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
 #~ msgstr "Drag och släpp: Ignorerar URL %s: Inte en giltig URL\n"
+
 #~ msgid "Could not parse URL %s\n"
 #~ msgstr "Kunde inte tolka URL:en %s\n"
+
 #~ msgid "gFTP Icon"
 #~ msgstr "gFTP-ikon"
+
 #~ msgid "Error: IPV6 support was not completely compiled in\n"
 #~ msgstr "Fel: IPV6-stöd kompilerades inte in helt\n"
+
 #~ msgid "Default Protocol"
 #~ msgstr "Standardprotokoll"
+
 #~ msgid "Proxy server type"
 #~ msgstr "Proxyservertyp"
+
 #~ msgid "Enter your email address here"
 #~ msgstr "Ange din e-postadress här"
+
 #~ msgid "Send PASV command or PORT command for data transfers"
 #~ msgstr "Skicka PASV-kommando eller PORT-kommando för dataöverföringar"
+
 #~ msgid ""
 #~ "If you disable this feature, then gFTP will only send LIST to the remote "
 #~ "server instead of LIST -L"
 #~ msgstr ""
 #~ "Om du inaktiverar den här funktionen skickar gFTP bara \"LIST\" till "
 #~ "fjärrvärden, i stället för \"LIST -L\""
+
 #~ msgid "Proxy config"
 #~ msgstr "Proxykonfig"
+
 #~ msgid "This specifies how your proxy server expects us to log in"
 #~ msgstr "Detta anger hur din proxyserver förväntar sig att vi loggar in"
+
 #~ msgid "%pu = proxy user"
 #~ msgstr "%pu = proxyanvändare"
+
 #~ msgid "%hu = host user"
 #~ msgstr "%hu = värdanvändare"
+
 #~ msgid "%pp = proxy pass"
 #~ msgstr "%pp = proxylösenord"
+
 #~ msgid "%hp = host pass"
 #~ msgstr "%hp = värdlösenord"
+
 #~ msgid "%ph = proxy host"
 #~ msgstr "%ph = proxyvärd"
+
 #~ msgid "%hh = host"
 #~ msgstr "%hh = värd"
+
 #~ msgid "%po = proxy port"
 #~ msgstr "%po = proxyport"
+
 #~ msgid "%ho = host port"
 #~ msgstr "%ho = värdport"
+
 #~ msgid "%pa = proxy account"
 #~ msgstr "%pa = proxykonto"
+
 #~ msgid "%ha = host account"
 #~ msgstr "%ha = värdkonto"
+
 #~ msgid "SSH sftpserv path:"
 #~ msgstr "Sökväg till sftpserv för SSH:"
+
 #~ msgid "Default remote SSH sftpserv path"
 #~ msgstr "Standardsökväg till fjärrvärdens sftpserv för SSH"
+
 #~ msgid "gFTP Error: Default protocol %s is not a valid protocol\n"
 #~ msgstr "gFTP-fel: Standardprotokollet %s är inget giltigt protokoll\n"
+
 #~ msgid "This section contains the data that is in the history"
 #~ msgstr "Denna sektion innehåller historiadatat"
+
 #~ msgid "Error: You cannot change this variable\n"
 #~ msgstr "Fel: Du kan inte ändra den här variabeln\n"
+
 #~ msgid ""
 #~ "Internal gFTP Error: Could not look up bookmark entry. This is definately "
 #~ "a bug. Please email masneyb@gftp.org about it. Please be sure to include "
@@ -3212,10 +3308,10 @@ msgstr ""
 #~ "Internt gFTP-fel: Kunde inte slå upp bokmärket. Det är definitivt ett "
 #~ "programfel. Meddela mig via e-post på masneyb@gftp.org. Ange "
 #~ "versionnummer och hur felet går att återskapa\n"
+
 #~ msgid ""
 #~ "Bookmarks Error: There are some missing entries in this bookmark. Make "
 #~ "sure you have a hostname and username\n"
 #~ msgstr ""
 #~ "Bokmärkesfel: Det saknas poster i det här bokmärket. Se till att du har "
 #~ "med värdnamn och användarnamn\n"
-
