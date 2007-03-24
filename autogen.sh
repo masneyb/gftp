@@ -73,6 +73,9 @@ fi
 echo "$GETTEXTIZE $GETTEXTIZE_FLAGS"
 $GETTEXTIZE $GETTEXTIZE_FLAGS
 
+mv Makefile.am~ Makefile.am
+mv configure.in~ configure.in
+
 ACLOCAL_FLAGS="-I m4"
 echo "$ACLOCAL $ACLOCAL_FLAGS"
 $ACLOCAL $ACLOCAL_FLAGS
