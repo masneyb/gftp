@@ -1,4 +1,8 @@
 2007-3-26 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.c (main) - call gdk_threads_enter() earlier in the
+	startup. This fixes an issue where gftp can hang on startup.
+	(from Nick Mainsbridge <beatroot@optushome.com.au>)
+
 	* src/gtk/view_dialog.c - fixed codepage related issue in the view/edit
 	file feature (from Alexander Orlov <alxorlov@pochta.ru>)
 

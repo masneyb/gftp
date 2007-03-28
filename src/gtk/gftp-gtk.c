@@ -1368,7 +1368,7 @@ main (int argc, char **argv)
 #if GTK_MAJOR_VERSION > 1
   gdk_threads_init();
 #endif
-
+  GDK_THREADS_ENTER ();
   main_thread_id = pthread_self ();
   gtk_set_locale ();
   gtk_init (&argc, &argv);
@@ -1408,7 +1408,6 @@ main (int argc, char **argv)
   _setup_window1 ();
   _setup_window2 (argc, argv);
 
-  GDK_THREADS_ENTER ();
   gtk_main ();
   GDK_THREADS_LEAVE ();
 
