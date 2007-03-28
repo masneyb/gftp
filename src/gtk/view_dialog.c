@@ -152,7 +152,15 @@ fork_process (char *proc, char *filename, int fd, char *remote_filename,
     }
   argv = g_realloc (argv, (gulong) (n + 3) * sizeof (char *));
   argv[n] = g_strdup (pos);
-  argv[n + 1] = g_strdup (filename);
+
+  if (wdata != NULL)
+    {
+      if ((argv[n + 1] = gftp_filename_from_utf8 (wdata->request, filename, NULL)) == NULL)
+        argv[n + 1] = g_strdup (filename);
+    }
+  else
+    argv[n + 1] = g_strdup (filename);
+
   argv[n + 2] = NULL;
 
   newproc = NULL;
@@ -212,6 +220,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   size_t stlen;
   int doclose;
   ssize_t n;
+  char * non_utf8;
 #if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
@@ -240,11 +249,14 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
     {
       gftp_lookup_request_option (wdata->request, "view_program", &view_program);
       gftp_lookup_request_option (wdata->request, "edit_program", &edit_program);
+      if ((non_utf8 = gftp_filename_from_utf8 (wdata->request, filename, NULL)) == NULL) /* freeme later! */
+        non_utf8 = filename;
     }
   else
     {
       gftp_lookup_global_option ("view_program", &view_program);
       gftp_lookup_global_option ("edit_program", &edit_program);
+      non_utf8 = filename;
     }
 
   if (viewedit && *view_program != '\0')
@@ -252,6 +264,8 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
       /* Open the file with the default file viewer */
       fork_process (view_program, filename, fd, remote_filename, viewedit,
                     del_file, dontupload, wdata);
+      if (non_utf8 != filename && non_utf8)
+        g_free (non_utf8);
       return;
     }
   else if (!viewedit && *edit_program != '\0')
@@ -259,7 +273,9 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
       /* Open the file with the default file editor */
       newproc = fork_process (edit_program, filename, fd, remote_filename, 
                               viewedit, del_file, dontupload, wdata);
-      stat (filename, &newproc->st);
+      stat (non_utf8, &newproc->st);
+      if (non_utf8 != filename && non_utf8)
+        g_free (non_utf8);
       return;
     }
 
@@ -267,11 +283,13 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
 
   if (fd == 0)
     {
-      if ((fd = open (filename, O_RDONLY)) < 0)
+      if ((fd = open (non_utf8, O_RDONLY)) < 0)
         {
           ftp_log (gftp_logging_error, NULL, 
-                   _("View: Cannot open file %s: %s\n"), filename, 
+                   _("View: Cannot open file %s: %s\n"), non_utf8, 
                    g_strerror (errno));
+          if (non_utf8 != filename && non_utf8)
+            g_free (non_utf8);
           return;
         }
       doclose = 1;
@@ -284,7 +302,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
 
   if (del_file)
     {
-      if (unlink (filename) == 0)
+      if (unlink (non_utf8) == 0)
         ftp_log (gftp_logging_misc, NULL, _("Successfully removed %s\n"), 
                  filename);
       else
@@ -292,6 +310,9 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
                  _("Error: Could not remove file %s: %s\n"), filename, 
                  g_strerror (errno));
     }
+
+  if (non_utf8 != filename && non_utf8)
+    g_free (non_utf8);
 
 #if GTK_MAJOR_VERSION == 1
   dialog = gtk_dialog_new ();
