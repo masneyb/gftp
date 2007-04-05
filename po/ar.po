@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-17 21:15+0000\n"
+"POT-Creation-Date: 2007-04-05 19:03+0100\n"
 "PO-Revision-Date: 2006-11-17 23:52+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: arbic <ar@li.org>\n"
@@ -21,16 +21,12 @@ msgstr ""
 msgid "Invalid URL %s\n"
 msgstr "handler عنوان غير صالح"
 
-#: ../lib/cache.c:50
-#: ../lib/cache.c:64
-#: ../lib/cache.c:77
+#: ../lib/cache.c:50 ../lib/cache.c:64 ../lib/cache.c:77
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "خطاء :سطر غير صحيح%sفى ملف فهرس الكاش\n"
 
-#: ../lib/cache.c:138
-#: ../lib/fsp.c:535
-#: ../lib/local.c:572
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "خطاء :لا يمكننى تكوين مجلد %s:%s\n"
@@ -40,52 +36,36 @@ msgstr "خطاء :لا يمكننى تكوين مجلد %s:%s\n"
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "خطاء لا يمكننى تكوين ملف مؤقت:%s\n"
 
-#: ../lib/cache.c:186
-#: ../lib/cache.c:236
-#: ../lib/config_file.c:157
-#: ../lib/config_file.c:163
-#: ../lib/local.c:144
-#: ../lib/local.c:282
-#: ../lib/rfc2068.c:260
-#: ../lib/sshv2.c:1205
+#: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
+#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:272
+#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1250
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "خطاء فى اغلاق واصف الملف %s\n"
 
-#: ../lib/cache.c:254
-#: ../lib/fsp.c:127
-#: ../lib/fsp.c:207
-#: ../lib/local.c:189
-#: ../lib/local.c:198
-#: ../lib/local.c:257
+#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:184
+#: ../lib/local.c:193 ../lib/local.c:247
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "خطاء :لا يمكننى البحث بالملف %s:%s\n"
 
-#: ../lib/config_file.c:126
-#: ../lib/config_file.c:133
-#: ../lib/protocols.c:3171
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3200
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "خطاء:لا يمكننى فتح مجلد محلى %s%s\n"
 
-#: ../lib/config_file.c:143
-#: ../lib/protocols.c:2864
-#: ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/protocols.c:2901 ../lib/sslcommon.c:497
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "خطاء تعذر فى الكتابة الى المقبس %s\n"
 
-#: ../lib/config_file.c:151
-#: ../lib/protocols.c:2786
-#: ../lib/sshv2.c:435
+#: ../lib/config_file.c:151 ../lib/protocols.c:2823 ../lib/sshv2.c:445
 #: ../lib/sslcommon.c:450
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "خطاء تعذر فى القراءة من المقبس %s\n"
 
-#: ../lib/config_file.c:183
-#: ../lib/config_file.c:738
+#: ../lib/config_file.c:183 ../lib/config_file.c:738
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "خطاء gftp :اسم سيىء لملف علامة الموقع %s\n"
@@ -95,14 +75,12 @@ msgstr "خطاء gftp :اسم سيىء لملف علامة الموقع %s\n"
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "تحذير gftp :تعذر ايجاد ملف علامة الموقع الرئيسى %s\n"
 
-#: ../lib/config_file.c:203
-#: ../lib/config_file.c:744
+#: ../lib/config_file.c:203 ../lib/config_file.c:744
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "خطاء gftp :تعذر فتح ملف علامة الموقع %s%s\n"
 
-#: ../lib/config_file.c:295
-#: ../lib/config_file.c:317
+#: ../lib/config_file.c:295 ../lib/config_file.c:317
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "تحذير gftp :حدف سطر من %d ملف علامة الموقع %s\n"
@@ -113,15 +91,19 @@ msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "تحذير gftp :السطر لا يملك %d التعبيرات الكافية \n"
 
 #: ../lib/config_file.c:505
-msgid "This section specifies which hosts are on the local subnet and won't need to go out the proxy server (if available). Syntax: dont_use_proxy=.domain or dont_use_proxy=network number/netmask"
+msgid ""
+"This section specifies which hosts are on the local subnet and won't need to "
+"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
+"dont_use_proxy=network number/netmask"
 msgstr ""
 
 #: ../lib/config_file.c:508
-msgid "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: All arguments except the file extension are optional"
+msgid ""
+"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
+"All arguments except the file extension are optional"
 msgstr ""
 
-#: ../lib/config_file.c:588
-#: ../lib/config_file.c:833
+#: ../lib/config_file.c:588 ../lib/config_file.c:833
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "خطاء gftp : اعداد سيىءلاءسم الملف %s\n"
@@ -141,8 +123,7 @@ msgstr "خطاء gftp :لا يمكن ايجاد اعدادات الملف الر
 msgid "Did you do a make install?\n"
 msgstr "هل تريد ان تقوم بالتنصيب ؟\n"
 
-#: ../lib/config_file.c:620
-#: ../lib/config_file.c:839
+#: ../lib/config_file.c:620 ../lib/config_file.c:839
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "خطاء gftp:لايمكن فتح ملف الاعدادات %s %s\n"
@@ -168,28 +149,33 @@ msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "تحذير gftp :لايمكن %sالفتح للكتابة %s\n"
 
 #: ../lib/config_file.c:733
-msgid "Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten"
+msgid ""
+"Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
 
 #: ../lib/config_file.c:734
-msgid "Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext."
+msgid ""
+"Note: The passwords contained inside this file are scrambled. This algorithm "
+"is not secure. This is to avoid your password being easily remembered by "
+"someone standing over your shoulder while you're editing this file. Prior to "
+"this, all passwords were stored in plaintext."
 msgstr ""
 
 #: ../lib/config_file.c:846
-msgid "Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"
+msgid ""
+"Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten. "
+"If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
 
-#: ../lib/config_file.c:1210
-#: ../lib/protocols.c:382
-#: ../lib/rfc2068.c:546
-#: ../lib/rfc2068.c:547
+#: ../lib/config_file.c:1210 ../lib/protocols.c:391 ../lib/rfc2068.c:543
+#: ../lib/rfc2068.c:544
 msgid "<unknown>"
 msgstr "<مجهول>"
 
-#: ../lib/config_file.c:1290
-#: ../lib/config_file.c:1353
-#: ../lib/config_file.c:1395
-#: ../lib/config_file.c:1428
+#: ../lib/config_file.c:1290 ../lib/config_file.c:1353
+#: ../lib/config_file.c:1395 ../lib/config_file.c:1428
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
@@ -214,17 +200,10 @@ msgstr "خطأ غلق ملف الجلسة '%s': %s\n"
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "تعذر قبول الاتصال بالملقم%s\n"
 
-#: ../lib/fsp.c:339
-#: ../lib/fsp.c:340
-#: ../lib/protocols.c:1541
-#: ../lib/protocols.c:1542
-#: ../lib/protocols.c:1583
-#: ../lib/protocols.c:1584
-#: ../lib/protocols.c:1650
-#: ../lib/protocols.c:1657
-#: ../lib/protocols.c:1733
-#: ../lib/protocols.c:1734
-#: ../lib/protocols.c:1770
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1578
+#: ../lib/protocols.c:1579 ../lib/protocols.c:1620 ../lib/protocols.c:1621
+#: ../lib/protocols.c:1687 ../lib/protocols.c:1694 ../lib/protocols.c:1770
+#: ../lib/protocols.c:1771 ../lib/protocols.c:1807
 msgid "unknown"
 msgstr "مجهول "
 
@@ -243,54 +222,48 @@ msgstr "فشلت اضافة دليل."
 msgid "Could not change directory to %s\n"
 msgstr "لم يمكن إعادة تسمية المجلّد %s إلى %s: %s"
 
-#: ../lib/fsp.c:471
-#: ../lib/fsp.c:500
-#: ../lib/local.c:491
-#: ../lib/local.c:527
-#: ../src/gtk/transfer.c:263
-#: ../src/gtk/view_dialog.c:329
+#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:480 ../lib/local.c:516
+#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:306
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "تمت ازالته بنجاح%s\n"
 
-#: ../lib/fsp.c:477
-#: ../lib/local.c:497
+#: ../lib/fsp.c:477 ../lib/local.c:486
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "خطاء تعذر فى ازالة المجلد %s%s\n"
 
-#: ../lib/fsp.c:506
-#: ../lib/local.c:533
-#: ../src/gtk/transfer.c:267
-#: ../src/gtk/view_dialog.c:333
+#: ../lib/fsp.c:506 ../lib/local.c:522 ../src/gtk/transfer.c:267
+#: ../src/gtk/view_dialog.c:310
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "خطاء تعذر فى ازالة الملف %s %s \n"
 
-#: ../lib/fsp.c:528
-#: ../lib/local.c:565
+#: ../lib/fsp.c:528 ../lib/local.c:554
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "تم تكوين المجلد بنجاح%s\n"
 
-#: ../lib/fsp.c:563
-#: ../lib/local.c:601
+#: ../lib/fsp.c:563 ../lib/local.c:590
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "تمت اعادة التسمية بنجاح%s الى%s\n"
 
-#: ../lib/fsp.c:575
-#: ../lib/local.c:608
+#: ../lib/fsp.c:575 ../lib/local.c:597
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "خطاء تعذر اعادة التسمية %sالى %s%s\n"
 
 #: ../lib/ftps.c:157
-msgid "FTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"
+msgid ""
+"FTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
 msgstr ""
 
 #: ../lib/https.c:91
-msgid "HTTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"
+msgid ""
+"HTTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
 msgstr ""
 
 #: ../lib/local.c:66
@@ -308,41 +281,41 @@ msgstr "تم بنجاح تحويل الملف المحلى الى%s\n"
 msgid "Could not change local directory to %s: %s\n"
 msgstr "تعذر تغيير المجلد المحلى الى %s%s\n"
 
-#: ../lib/local.c:248
+#: ../lib/local.c:238
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "خطاء تعذر الاقتطاع من الملف المحلى %s%s\n"
 
-#: ../lib/local.c:435
+#: ../lib/local.c:424
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "تعذر ايجاد لائحة الملفات المحلية %s%s\n"
 
-#: ../lib/local.c:645
+#: ../lib/local.c:634
 #, fuzzy, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "التحول إلى الوضع دون اتصال بالإنترنت"
 
-#: ../lib/local.c:652
+#: ../lib/local.c:641
 #, fuzzy, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr ""
 "لم يمكن تغيير قيمة المفتاح. رسالة الخطأ:\n"
 "%s"
 
-#: ../lib/local.c:687
+#: ../lib/local.c:676
 #, fuzzy, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr "تم بنجاح تحويل الملف المحلى الى%s\n"
 
-#: ../lib/local.c:694
+#: ../lib/local.c:683
 #, fuzzy, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr ""
 "لم يمكن تغيير قيمة المفتاح. رسالة الخطأ:\n"
 "%s"
 
-#: ../lib/local.c:761
+#: ../lib/local.c:750
 msgid "local filesystem"
 msgstr "ملف نظام محلى "
 
@@ -352,8 +325,7 @@ msgid "usage: gftp "
 msgstr "gftp إستخدام"
 
 #. @null@
-#: ../lib/options.h:25
-#: ../lib/rfc959.c:26
+#: ../lib/options.h:25 ../lib/rfc959.c:26
 msgid "none"
 msgstr "لاشىء"
 
@@ -401,8 +373,12 @@ msgid "View program:"
 msgstr "اظهر البرنامج"
 
 #: ../lib/options.h:44
-msgid "The default program used to view files. If this is blank, the internal file viewer will be used"
-msgstr "البرنامج الافتراضى هو المستخدم لاظهار الملفات :فاءذا كان هذا فارغ فالمكمل الداخلى سيتم استخدامه"
+msgid ""
+"The default program used to view files. If this is blank, the internal file "
+"viewer will be used"
+msgstr ""
+"البرنامج الافتراضى هو المستخدم لاظهار الملفات :فاءذا كان هذا فارغ فالمكمل "
+"الداخلى سيتم استخدامه"
 
 #: ../lib/options.h:46
 msgid "Edit program:"
@@ -426,7 +402,9 @@ msgid "Remote Character Sets:"
 msgstr "قائمة مجموعات الرموز المدعومة"
 
 #: ../lib/options.h:54
-msgid "This is a comma separated list of charsets to try to convert the remote messages to the current locale"
+msgid ""
+"This is a comma separated list of charsets to try to convert the remote "
+"messages to the current locale"
 msgstr ""
 
 #: ../lib/options.h:56
@@ -435,7 +413,9 @@ msgid "Remote LC_TIME:"
 msgstr "الوقت الذي تحدّده أنت"
 
 #: ../lib/options.h:58
-msgid "This is the value of LC_TIME for the remote site. This is so that dates can be parsed properly in the directory listings."
+msgid ""
+"This is the value of LC_TIME for the remote site. This is so that dates can "
+"be parsed properly in the directory listings."
 msgstr ""
 
 #: ../lib/options.h:60
@@ -539,7 +519,8 @@ msgid "Allow manual commands in GUI"
 msgstr "أسمح بالأوامر اليدوية فى واجهة المستخدم الرسومية"
 
 #: ../lib/options.h:109
-msgid "Allow entering manual commands in the GUI (functions like the text port)"
+msgid ""
+"Allow entering manual commands in the GUI (functions like the text port)"
 msgstr ""
 
 #: ../lib/options.h:111
@@ -551,327 +532,351 @@ msgstr "تصدير بصيغة HTML لآخر مجلد"
 msgid "Save the last local and remote directory when the application is closed"
 msgstr ""
 
-#: ../lib/options.h:116
-#: ../src/gtk/options_dialog.c:1023
-#: ../src/gtk/options_dialog.c:1243
+#: ../lib/options.h:115
+#, fuzzy
+msgid "Connect to remote server on startup"
+msgstr "الإتصال بخادم عن بعد"
+
+#: ../lib/options.h:117
+msgid ""
+"Automatically connect to the remote server when the application is started."
+msgstr ""
+
+#: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
+#: ../src/gtk/options_dialog.c:1240
 msgid "Network"
 msgstr "الشبكة "
 
-#: ../lib/options.h:118
+#: ../lib/options.h:122
 msgid "Network timeout:"
 msgstr "نفاذ الوقت بالشبكة "
 
-#: ../lib/options.h:121
-msgid "The timeout waiting for network input/output. This is NOT an idle timeout."
+#: ../lib/options.h:125
+msgid ""
+"The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr "نفاد الوقت عند انتظار مدخلات /مخرجات الشبكة "
 
-#: ../lib/options.h:123
+#: ../lib/options.h:127
 msgid "Connect retries:"
 msgstr "اعادة الاتصال "
 
-#: ../lib/options.h:126
+#: ../lib/options.h:130
 #, fuzzy
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
 msgstr "عدد العادات الذاتية ....ضعها 0 لمعرف الاعادات "
 
-#: ../lib/options.h:128
+#: ../lib/options.h:132
 msgid "Retry sleep time:"
 msgstr "وقت انتظار الاعادة "
 
-#: ../lib/options.h:131
+#: ../lib/options.h:135
 msgid "The number of seconds to wait between retries"
 msgstr "عدد الثوانى للانتظار بين المحاولات "
 
-#: ../lib/options.h:132
+#: ../lib/options.h:136
 msgid "Max KB/S:"
 msgstr "الحد الاقصى للكب/ث"
 
-#: ../lib/options.h:135
+#: ../lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
-msgstr "الحد الاقصى من كب/ث التى يستطيع ناقل الملفات ان يتحصل عليها (ضع قيمتها 0 لتعطيلها)"
+msgstr ""
+"الحد الاقصى من كب/ث التى يستطيع ناقل الملفات ان يتحصل عليها (ضع قيمتها 0 "
+"لتعطيلها)"
 
-#: ../lib/options.h:137
+#: ../lib/options.h:141
 #, fuzzy
 msgid "Transfer Block Size:"
 msgstr "_حجم خط داشر"
 
-#: ../lib/options.h:140
-msgid "The block size that is used when transfering files. This should be a multiple of 1024."
+#: ../lib/options.h:144
+msgid ""
+"The block size that is used when transfering files. This should be a "
+"multiple of 1024."
 msgstr ""
 
-#: ../lib/options.h:143
+#: ../lib/options.h:147
 msgid "Default Protocol:"
 msgstr "البروتوكول الأفتراضى"
 
-#: ../lib/options.h:145
+#: ../lib/options.h:149
 msgid "This specifies the default protocol to use"
 msgstr "تحديد البروتكول الافتراضى للاستخدام "
 
-#: ../lib/options.h:147
-#: ../lib/options.h:150
+#: ../lib/options.h:151 ../lib/options.h:154
 #, fuzzy
 msgid "Enable IPv6 support"
 msgstr "_تفعيل دعم الفيديو"
 
-#: ../lib/options.h:155
-msgid "This defines what will happen when you double click a file in the file listboxes. 0=View file 1=Edit file 2=Transfer file"
-msgstr "هذا سوف يعرف ماذا سيحدث عند النقر المزدوج لملف فى مربع سرد الملفات:0=عرض الملف 1=تحرير الملف 2=تحويل الملف "
+#: ../lib/options.h:159
+msgid ""
+"This defines what will happen when you double click a file in the file "
+"listboxes. 0=View file 1=Edit file 2=Transfer file"
+msgstr ""
+"هذا سوف يعرف ماذا سيحدث عند النقر المزدوج لملف فى مربع سرد الملفات:0=عرض "
+"الملف 1=تحرير الملف 2=تحويل الملف "
 
-#: ../lib/options.h:158
+#: ../lib/options.h:162
 msgid "The default width of the local files listbox"
 msgstr "العرض الافتراضى لمربع سرد الملفات المحلى "
 
-#: ../lib/options.h:161
+#: ../lib/options.h:165
 msgid "The default width of the remote files listbox"
 msgstr "العرض الافتراضى لمربع سرد الملفات البعيد"
 
-#: ../lib/options.h:164
+#: ../lib/options.h:168
 msgid "The default height of the local/remote files listboxes"
 msgstr "الارتفاع الافتراضى لمربعات سرد الملفات المحلية/البعيدة"
 
-#: ../lib/options.h:167
+#: ../lib/options.h:171
 msgid "The default height of the transfer listbox"
 msgstr "الارتفاع الافتراضى لمربع سرد التحويل "
 
-#: ../lib/options.h:170
+#: ../lib/options.h:174
 msgid "The default height of the logging window"
 msgstr "الارتفاع الافتراضى لنافدة الدخول "
 
-#: ../lib/options.h:173
-msgid "The width of the filename column in the transfer window. Set this to 0 to have this column automagically resize."
-msgstr "عُرض عمود اسم الملف فى نافدة التحويل ضع قيمتها 0 ليتم تحجيم العمود ذاتيا "
+#: ../lib/options.h:177
+msgid ""
+"The width of the filename column in the transfer window. Set this to 0 to "
+"have this column automagically resize."
+msgstr ""
+"عُرض عمود اسم الملف فى نافدة التحويل ضع قيمتها 0 ليتم تحجيم العمود ذاتيا "
 
-#: ../lib/options.h:186
-#: ../lib/options.h:192
+#: ../lib/options.h:190 ../lib/options.h:196
 msgid "The default column to sort by"
 msgstr "العمود الافتراضى للاءدراج ب"
 
-#: ../lib/options.h:189
-#: ../lib/options.h:195
+#: ../lib/options.h:193 ../lib/options.h:199
 msgid "Sort ascending or descending"
 msgstr "رتبهم تصاعدياً او تنازلياً"
 
-#: ../lib/options.h:199
-#: ../lib/options.h:217
-msgid "The width of the filename column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "عرض عمود اسم الملف فى مربعات سرد الملفات ضع القيمة 0 لتمكين التحجيم الذاتى او ضعها 1 لتعطيل العمود "
+#: ../lib/options.h:203 ../lib/options.h:221
+msgid ""
+"The width of the filename column in the file listboxes. Set this to 0 to "
+"have this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"عرض عمود اسم الملف فى مربعات سرد الملفات ضع القيمة 0 لتمكين التحجيم الذاتى "
+"او ضعها 1 لتعطيل العمود "
 
-#: ../lib/options.h:202
-#: ../lib/options.h:220
-msgid "The width of the size column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "عرض حجم العمود فى مربعات سرد الملفات ضع القيمة 0 لتحجيم العمود ذاتياً او الى 1 لتعطيل العمود"
+#: ../lib/options.h:206 ../lib/options.h:224
+msgid ""
+"The width of the size column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"عرض حجم العمود فى مربعات سرد الملفات ضع القيمة 0 لتحجيم العمود ذاتياً او الى "
+"1 لتعطيل العمود"
 
-#: ../lib/options.h:205
-#: ../lib/options.h:223
-msgid "The width of the user column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "عرض عمود المستخدم فى مربعات يرد الملف ضعها 0 لتفعيل التحجيم الذاتى او الى 1 لتعطيل العمود "
+#: ../lib/options.h:209 ../lib/options.h:227
+msgid ""
+"The width of the user column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"عرض عمود المستخدم فى مربعات يرد الملف ضعها 0 لتفعيل التحجيم الذاتى او الى 1 "
+"لتعطيل العمود "
 
-#: ../lib/options.h:208
-#: ../lib/options.h:226
-msgid "The width of the group column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "عرض عمود المجموعةفى مربعات سرد الملف ضعها 0 لتفعيل التحجيم التلقائى او 1 لتعطيل العمود"
+#: ../lib/options.h:212 ../lib/options.h:230
+msgid ""
+"The width of the group column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"عرض عمود المجموعةفى مربعات سرد الملف ضعها 0 لتفعيل التحجيم التلقائى او 1 "
+"لتعطيل العمود"
 
-#: ../lib/options.h:211
-#: ../lib/options.h:229
-msgid "The width of the date column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "عرض عمود البيانات فى مربعات سرد الملف ضعها 0 لتمكين التحجيم التلقائى او 1 لتعطيل العمود "
+#: ../lib/options.h:215 ../lib/options.h:233
+msgid ""
+"The width of the date column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"عرض عمود البيانات فى مربعات سرد الملف ضعها 0 لتمكين التحجيم التلقائى او 1 "
+"لتعطيل العمود "
 
-#: ../lib/options.h:214
-#: ../lib/options.h:232
-msgid "The width of the attribs column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "عرض عمود المميزات فى مربعات سرد الملف ضعها 0 لتمكين التحجيم التلقائى او 1لتعطيل العمود "
+#: ../lib/options.h:218 ../lib/options.h:236
+msgid ""
+"The width of the attribs column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"عرض عمود المميزات فى مربعات سرد الملف ضعها 0 لتمكين التحجيم التلقائى او "
+"1لتعطيل العمود "
 
-#: ../lib/options.h:235
+#: ../lib/options.h:239
 msgid "The color of the commands that are sent to the server"
 msgstr "الوان الأوامر المرسلة الى الملقم "
 
-#: ../lib/options.h:238
+#: ../lib/options.h:242
 msgid "The color of the commands that are received from the server"
 msgstr "الوان الاوامر المستقبلة من الملقم "
 
-#: ../lib/options.h:241
+#: ../lib/options.h:245
 msgid "The color of the error messages"
 msgstr "الوان رسائل الاخطاء "
 
-#: ../lib/options.h:244
+#: ../lib/options.h:248
 msgid "The color of the rest of the log messages"
 msgstr "الالوان الباقية لرسائل الدخول "
 
-#: ../lib/options.h:250
-#: ../lib/rfc959.c:40
+#: ../lib/options.h:254 ../lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: ../lib/options.h:253
-#: ../lib/options.h:255
+#: ../lib/options.h:257 ../lib/options.h:259
 msgid "FTPS"
 msgstr "FTPS"
 
-#: ../lib/options.h:258
-#: ../lib/rfc2068.c:27
+#: ../lib/options.h:262 ../lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: ../lib/options.h:261
-#: ../lib/options.h:263
+#: ../lib/options.h:265 ../lib/options.h:267
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: ../lib/options.h:266
+#: ../lib/options.h:270
 msgid "Local"
 msgstr "محلى "
 
-#: ../lib/options.h:268
+#: ../lib/options.h:272
 msgid "SSH2"
 msgstr "SSH2"
 
-#: ../lib/options.h:270
-#: ../src/gtk/bookmarks.c:885
+#: ../lib/options.h:274 ../src/gtk/bookmarks.c:883
 #, fuzzy
 msgid "Bookmark"
 msgstr "مؤشّر"
 
-#: ../lib/options.h:271
+#: ../lib/options.h:275
 msgid "FSP"
 msgstr "FSP"
 
-#: ../lib/protocols.c:225
+#: ../lib/protocols.c:234
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "نقل الملف سيخفف لسرعة %.2fكب/ث\n"
 
-#: ../lib/protocols.c:378
+#: ../lib/protocols.c:387
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr ""
 
-#: ../lib/protocols.c:389
+#: ../lib/protocols.c:398
 #, fuzzy, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "تحميل قائمة المجلدات %sمن الذاكرة\n"
 
-#: ../lib/protocols.c:399
+#: ../lib/protocols.c:408
 #, fuzzy, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "تحميل قائمة المجلدات %sمن الذاكرة\n"
 
-#: ../lib/protocols.c:461
+#: ../lib/protocols.c:471
 #, c-format
-msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:654
+#: ../lib/protocols.c:696
 #, c-format
-msgid "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't match the current directory (%s)\n"
+msgid ""
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
 msgstr ""
 
-#: ../lib/protocols.c:680
+#: ../lib/protocols.c:722
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "خطاء لا يمكن الكتابة للذاكرة%s\n"
 
-#: ../lib/protocols.c:714
+#: ../lib/protocols.c:755
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "خطاء :لايمكننى ايجاد علامة الموقع  %s\n"
 
-#: ../lib/protocols.c:721
+#: ../lib/protocols.c:762
 #, fuzzy, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
-msgstr "خطاء فى علامة الموقع :هناك بعض المعلومات المفقودة الرجاء التاكد باءن لديك اسم مستخدم وكلمة مرور\n"
+msgstr ""
+"خطاء فى علامة الموقع :هناك بعض المعلومات المفقودة الرجاء التاكد باءن لديك "
+"اسم مستخدم وكلمة مرور\n"
 
-#: ../lib/protocols.c:843
-#: ../lib/protocols.c:870
+#: ../lib/protocols.c:884 ../lib/protocols.c:911
 #, fuzzy, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "البروتوكول “%s” غير مدعوم"
 
-#: ../lib/protocols.c:1164
-#: ../lib/protocols.c:1179
-#: ../lib/protocols.c:2361
-#: ../lib/protocols.c:2474
+#: ../lib/protocols.c:1201 ../lib/protocols.c:1216 ../lib/protocols.c:2398
+#: ../lib/protocols.c:2511
 #, c-format
 msgid "Looking up %s\n"
 msgstr "البحث عن%s\n"
 
-#: ../lib/protocols.c:1170
-#: ../lib/protocols.c:1185
-#: ../lib/protocols.c:2366
-#: ../lib/protocols.c:2479
+#: ../lib/protocols.c:1207 ../lib/protocols.c:1222 ../lib/protocols.c:2403
+#: ../lib/protocols.c:2516
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "تعذر البحث عن اسم المضيف%s%s\n"
 
-#: ../lib/protocols.c:2096
+#: ../lib/protocols.c:2133
 #, fuzzy, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr "فشل قراءة الوصلة الرمزيّة %s: %s"
 
-#: ../lib/protocols.c:2384
+#: ../lib/protocols.c:2421
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "فشل فى تكوين مقبس%s\n"
 
-#: ../lib/protocols.c:2390
-#: ../lib/protocols.c:2496
+#: ../lib/protocols.c:2427 ../lib/protocols.c:2533
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "يحاول%s:%d\n"
 
-#: ../lib/protocols.c:2395
-#: ../lib/protocols.c:2503
+#: ../lib/protocols.c:2432 ../lib/protocols.c:2540
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "تعذر الاتصال ب%s%s\n"
 
-#: ../lib/protocols.c:2433
-#: ../lib/rfc959.c:701
+#: ../lib/protocols.c:2470 ../lib/rfc959.c:706
 #, fuzzy, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "فشل إنشاء المجلد “%s”."
 
-#: ../lib/protocols.c:2457
-#: ../lib/sshv2.c:1123
+#: ../lib/protocols.c:2494 ../lib/sshv2.c:1168
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 
-#: ../lib/protocols.c:2519
-#: ../lib/protocols.c:3180
-#: ../lib/rfc959.c:710
-#: ../lib/rfc959.c:887
+#: ../lib/protocols.c:2556 ../lib/protocols.c:3209 ../lib/rfc959.c:715
+#: ../lib/rfc959.c:892
 #, fuzzy, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "خطاء :لا يمكننى البحث بالملف %s:%s\n"
 
-#: ../lib/protocols.c:2526
+#: ../lib/protocols.c:2563
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "التصال ب %s%d\n"
 
-#: ../lib/protocols.c:2762
-#: ../lib/protocols.c:2839
-#: ../lib/sshv2.c:426
+#: ../lib/protocols.c:2799 ../lib/protocols.c:2876 ../lib/sshv2.c:435
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "نفاذ الوقت%sللاتصال ب\n"
 
-#: ../lib/protocols.c:2909
+#: ../lib/protocols.c:2946
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "تعذر فى الحصول على علامات المقبس%s\n"
 
-#: ../lib/protocols.c:2923
+#: ../lib/protocols.c:2960
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "تعذر فى اعداد المقبس لوضع غير-مسدود%s\n"
 
-#: ../lib/protocols.c:3077
+#: ../lib/protocols.c:3106
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
-msgstr "خطاء :الموقع البعيد %sفصل بعد الوصول للحد الاقص للمحاولات المعطية له \n"
+msgstr ""
+"خطاء :الموقع البعيد %sفصل بعد الوصول للحد الاقص للمحاولات المعطية له \n"
 
-#: ../lib/protocols.c:3085
+#: ../lib/protocols.c:3114
 #, fuzzy, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "خطاء :الموقع البعيد %sفصل وسيعاد الاتصال عند%sث\n"
@@ -896,43 +901,35 @@ msgstr "خطاء لايمكن تنفيد shh%s\n"
 msgid "Cannot fork another process: %s\n"
 msgstr "تعذر فى التحول لعمليات اخرى%s\n"
 
-#: ../lib/rfc2068.c:30
-#: ../lib/rfc959.c:47
+#: ../lib/rfc2068.c:30 ../lib/rfc959.c:47
 msgid "Proxy hostname:"
 msgstr "بروكسى المضيف "
 
-#: ../lib/rfc2068.c:32
-#: ../lib/rfc959.c:49
+#: ../lib/rfc2068.c:32 ../lib/rfc959.c:49
 msgid "Firewall hostname"
 msgstr "الحاجز النارى للمضيف "
 
-#: ../lib/rfc2068.c:33
-#: ../lib/rfc959.c:50
+#: ../lib/rfc2068.c:33 ../lib/rfc959.c:50
 msgid "Proxy port:"
 msgstr "منفد البروكسى "
 
-#: ../lib/rfc2068.c:35
-#: ../lib/rfc959.c:52
+#: ../lib/rfc2068.c:35 ../lib/rfc959.c:52
 msgid "Port to connect to on the firewall"
 msgstr "المنفد للاتصال به عند حاجز النار "
 
-#: ../lib/rfc2068.c:36
-#: ../lib/rfc959.c:53
+#: ../lib/rfc2068.c:36 ../lib/rfc959.c:53
 msgid "Proxy username:"
 msgstr "بروكسى المستخدم "
 
-#: ../lib/rfc2068.c:38
-#: ../lib/rfc959.c:55
+#: ../lib/rfc2068.c:38 ../lib/rfc959.c:55
 msgid "Your firewall username"
 msgstr "حاجزك النارى و اسمك "
 
-#: ../lib/rfc2068.c:39
-#: ../lib/rfc959.c:56
+#: ../lib/rfc2068.c:39 ../lib/rfc959.c:56
 msgid "Proxy password:"
 msgstr "كلمة العبور للبروكسى "
 
-#: ../lib/rfc2068.c:41
-#: ../lib/rfc959.c:58
+#: ../lib/rfc2068.c:41 ../lib/rfc959.c:58
 msgid "Your firewall password"
 msgstr "كلمة العبور لحاجزك النارى "
 
@@ -944,38 +941,33 @@ msgstr "استخدم :HTTP/1.1"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "هل تريد استخدام HTTP/1.1 او HTTP/1.0"
 
-#: ../lib/rfc2068.c:151
-#: ../lib/rfc2068.c:843
+#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:840
 #, fuzzy, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
 "Invalid chunk size '%s' returned by the remote server\n"
 msgstr "قطع الاتصال:استقبال استجابة خاطئة من الملقم \n"
 
-#: ../lib/rfc2068.c:255
-#: ../lib/rfc959.c:674
-#: ../lib/sshv2.c:1200
+#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1245
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "قطع الاتصال بالموقع%s\n"
 
-#: ../lib/rfc2068.c:304
+#: ../lib/rfc2068.c:301
 #, fuzzy
 msgid "Starting the file transfer at offset "
 msgstr "البدء بنقل الملف بالوضع المظبط%ld\n"
 
-#: ../lib/rfc2068.c:325
+#: ../lib/rfc2068.c:322
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "تعذر ايجاد الملف %s\n"
 
-#: ../lib/rfc2068.c:424
-#: ../lib/sshv2.c:1282
+#: ../lib/rfc2068.c:421 ../lib/sshv2.c:1327
 msgid "Retrieving directory listing...\n"
 msgstr "البحث عن قائمة المجلدات.......\n"
 
-#: ../lib/rfc2068.c:819
-#: ../lib/sshv2.c:885
+#: ../lib/rfc2068.c:816 ../lib/sshv2.c:895
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "قطع الاتصال:استقبال استجابة خاطئة من الملقم \n"
 
@@ -1016,7 +1008,9 @@ msgid "Email address:"
 msgstr "عنوان البريد الالكترونى:"
 
 #: ../lib/rfc959.c:45
-msgid "This is the password that will be used whenever you log into a remote FTP server as anonymous"
+msgid ""
+"This is the password that will be used whenever you log into a remote FTP "
+"server as anonymous"
 msgstr ""
 
 #: ../lib/rfc959.c:59
@@ -1034,7 +1028,13 @@ msgstr "توثق من الاتصلات لخادم البروكسي"
 
 #: ../lib/rfc959.c:66
 #, no-c-format
-msgid "This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"
+msgid ""
+"This specifies how your proxy server expects us to log in. You can specify a "
+"2 character replacement string prefixed by a % that will be replaced with "
+"the proper data. The first character can be either p for proxy or h for the "
+"host of the FTP server. The second character can be u (user), p (pass), h "
+"(host), o (port) or a (account). For example, to specify the proxy user, you "
+"can you type in %pu"
 msgstr ""
 
 #: ../lib/rfc959.c:69
@@ -1043,7 +1043,11 @@ msgid "Ignore PASV address"
 msgstr "عنوان البريد الالكتروني للموصول"
 
 #: ../lib/rfc959.c:72
-msgid "If this is enabled, then the remote FTP server's PASV IP address field will be ignored and the host's IP address will be used instead. This is often needed for routers giving their internal rather then their external IP address in a PASV reply."
+msgid ""
+"If this is enabled, then the remote FTP server's PASV IP address field will "
+"be ignored and the host's IP address will be used instead. This is often "
+"needed for routers giving their internal rather then their external IP "
+"address in a PASV reply."
 msgstr ""
 
 #: ../lib/rfc959.c:74
@@ -1051,7 +1055,13 @@ msgid "Passive file transfers"
 msgstr "نقل الملف السلبى "
 
 #: ../lib/rfc959.c:77
-msgid "If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."
+msgid ""
+"If this is enabled, then the remote FTP server will open up a port for the "
+"data connection. If you are behind a firewall, you will need to enable this. "
+"Generally, it is a good idea to keep this enabled unless you are connecting "
+"to an older FTP server that doesn't support this. If this is disabled, then "
+"gFTP will open up a port on the client side and the remote server will "
+"attempt to connect to it."
 msgstr ""
 
 #: ../lib/rfc959.c:79
@@ -1059,7 +1069,11 @@ msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "تحليل ارتباطات النظام للجهاز البعيد (LIST -L)"
 
 #: ../lib/rfc959.c:82
-msgid "The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"
+msgid ""
+"The remote FTP server will attempt to resolve symlinks in the directory "
+"listings. Generally, this is a good idea to leave enabled. The only time you "
+"will want to disable this is if the remote FTP server doesn't support the -L "
+"option to LIST"
 msgstr ""
 
 #: ../lib/rfc959.c:84
@@ -1067,84 +1081,80 @@ msgid "Transfer files in ASCII mode"
 msgstr "نقل الملفات فى وضعية أسكى"
 
 #: ../lib/rfc959.c:87
-msgid "If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."
+msgid ""
+"If you are transfering a text file from Windows to UNIX box or vice versa, "
+"then you should enable this. Each system represents newlines differently for "
+"text files. If you are transfering from UNIX to UNIX, then it is safe to "
+"leave this off. If you are downloading binary data, you will want to disable "
+"this."
 msgstr ""
 
-#: ../lib/rfc959.c:376
-#: ../lib/rfc959.c:385
-#: ../lib/rfc959.c:396
-#: ../lib/rfc959.c:850
-#: ../lib/rfc959.c:1436
+#: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
+#: ../lib/rfc959.c:855 ../lib/rfc959.c:1422
 #, fuzzy, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "إستجابة توثيق رديئة من النّادل."
 
-#: ../lib/rfc959.c:740
-#: ../lib/rfc959.c:750
+#: ../lib/rfc959.c:745 ../lib/rfc959.c:755
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "تعذر ايجاد عنوان IPخلال الاستجابة السلبية'%s'\n"
 
-#: ../lib/rfc959.c:776
+#: ../lib/rfc959.c:781
 #, fuzzy, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr "تعذر ايجاد عنوان IPخلال الاستجابة السلبية'%s'\n"
 
-#: ../lib/rfc959.c:787
-#: ../lib/rfc959.c:948
+#: ../lib/rfc959.c:792 ../lib/rfc959.c:953
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "التعذر فى تكوين اتصال بالبيانات%s\n"
 
-#: ../lib/rfc959.c:799
-#: ../lib/rfc959.c:820
-#: ../lib/rfc959.c:973
+#: ../lib/rfc959.c:804 ../lib/rfc959.c:825 ../lib/rfc959.c:978
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "التعذر فى الحصول على اسم المقبس%s\n"
 
-#: ../lib/rfc959.c:810
-#: ../lib/rfc959.c:963
+#: ../lib/rfc959.c:815 ../lib/rfc959.c:968
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "تعذر الارتباط بالمنفذ%s\n"
 
-#: ../lib/rfc959.c:829
-#: ../lib/rfc959.c:982
+#: ../lib/rfc959.c:834 ../lib/rfc959.c:987
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "تعذر الاستماع الى المنفذ%d:%s\n"
 
-#: ../lib/rfc959.c:878
+#: ../lib/rfc959.c:883
 #, fuzzy, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "فشل إنشاء المجلد “%s”."
 
-#: ../lib/rfc959.c:898
-msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+#: ../lib/rfc959.c:903
+msgid ""
+"Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 
-#: ../lib/rfc959.c:926
-#: ../lib/rfc959.c:935
+#: ../lib/rfc959.c:931 ../lib/rfc959.c:940
 #, fuzzy, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "لا داعي للرّد"
 
-#: ../lib/rfc959.c:992
+#: ../lib/rfc959.c:997
 #, fuzzy, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "فشل فى تكوين ازواج المقبس %s\n"
 
-#: ../lib/rfc959.c:1079
+#: ../lib/rfc959.c:1084
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "تعذر قبول الاتصال بالملقم%s\n"
 
-#: ../lib/rfc959.c:1606
+#: ../lib/rfc959.c:1592
 msgid "total"
 msgstr "الكلى"
 
-#: ../lib/rfc959.c:1608
+#: ../lib/rfc959.c:1594
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "تعذر فى ترجمة الاستماع%s\n"
@@ -1199,170 +1209,164 @@ msgstr "كلمة مرور"
 msgid "password"
 msgstr "كلمة مرور"
 
-#: ../lib/sshv2.c:486
+#: ../lib/sshv2.c:496
 msgid "(yes/no)?"
 msgstr "نعم/لا؟"
 
-#: ../lib/sshv2.c:504
+#: ../lib/sshv2.c:514
 msgid "Enter PASSCODE:"
 msgstr "PASSCODE: أدخل"
 
-#: ../lib/sshv2.c:508
-#: ../src/gtk/gtkui.c:132
-#: ../src/gtk/transfer.c:586
-#: ../src/gtk/transfer.c:596
+#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:562
+#: ../src/gtk/transfer.c:572
 msgid "Enter Password"
-msgstr "ادخال كلمة المرور "
+msgstr "ادخال كلمة السر "
 
-#: ../lib/sshv2.c:509
+#: ../lib/sshv2.c:519
 #, fuzzy
 msgid "Enter SecurID Password:"
 msgstr "ادخل كلمة السر لـ %s"
 
-#: ../lib/sshv2.c:557
+#: ../lib/sshv2.c:567
 msgid "Error: An incorrect password was entered\n"
 msgstr "خطاء :كلمة عبور خاطئةقد تم ادخالها\n"
 
-#: ../lib/sshv2.c:586
+#: ../lib/sshv2.c:596
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d:التحقق من البرتكول \n"
 
-#: ../lib/sshv2.c:590
+#: ../lib/sshv2.c:600
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%dاصدار البرتكول %d\n"
 
-#: ../lib/sshv2.c:599
+#: ../lib/sshv2.c:609
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d افتح%s\n"
 
-#: ../lib/sshv2.c:604
+#: ../lib/sshv2.c:614
 #, c-format
 msgid "%d: Close\n"
 msgstr "%dقفل \n"
 
-#: ../lib/sshv2.c:608
+#: ../lib/sshv2.c:618
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d فتح مجلد%s\n"
 
-#: ../lib/sshv2.c:613
+#: ../lib/sshv2.c:623
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d قراءة مجلد\n"
 
-#: ../lib/sshv2.c:617
+#: ../lib/sshv2.c:627
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%dازالة ملف %s\n"
 
-#: ../lib/sshv2.c:622
+#: ../lib/sshv2.c:632
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%dتكوين مجلد%s\n"
 
-#: ../lib/sshv2.c:627
+#: ../lib/sshv2.c:637
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%dازالة مجلد%s\n"
 
-#: ../lib/sshv2.c:632
+#: ../lib/sshv2.c:642
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%dالمسار الحقيقى %s\n"
 
-#: ../lib/sshv2.c:637
+#: ../lib/sshv2.c:647
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d توصيفات الملفات\n"
 
-#: ../lib/sshv2.c:641
+#: ../lib/sshv2.c:651
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%dحالة الملف%s\n"
 
-#: ../lib/sshv2.c:661
+#: ../lib/sshv2.c:671
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d تغيير الملكية %s%o\n"
 
-#: ../lib/sshv2.c:666
+#: ../lib/sshv2.c:676
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr ""
 
-#: ../lib/sshv2.c:680
-#: ../src/gtk/bookmarks.c:1044
-#: ../src/gtk/bookmarks.c:1302
-#: ../src/gtk/chmod_dialog.c:253
-#: ../src/gtk/gtkui_transfer.c:364
-#: ../src/gtk/misc-gtk.c:995
-#: ../src/gtk/options_dialog.c:1208
-#: ../src/gtk/options_dialog.c:1442
+#: ../lib/sshv2.c:690 ../src/gtk/bookmarks.c:1042 ../src/gtk/bookmarks.c:1292
+#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:376
+#: ../src/gtk/misc-gtk.c:995 ../src/gtk/options_dialog.c:1205
+#: ../src/gtk/options_dialog.c:1437
 msgid "OK"
 msgstr "موافق"
 
-#: ../lib/sshv2.c:683
+#: ../lib/sshv2.c:693
 msgid "EOF"
 msgstr "نهاية الملف"
 
-#: ../lib/sshv2.c:686
+#: ../lib/sshv2.c:696
 msgid "No such file or directory"
 msgstr "لايوجد مثل هذا الملف او المجلد"
 
-#: ../lib/sshv2.c:689
+#: ../lib/sshv2.c:699
 msgid "Permission denied"
 msgstr "التصريح مطلوب"
 
-#: ../lib/sshv2.c:692
+#: ../lib/sshv2.c:702
 msgid "Failure"
 msgstr "فشل"
 
-#: ../lib/sshv2.c:695
+#: ../lib/sshv2.c:705
 msgid "Bad message"
 msgstr "رسالة سيئة"
 
-#: ../lib/sshv2.c:698
+#: ../lib/sshv2.c:708
 msgid "No connection"
 msgstr "لايوجد اتصال "
 
-#: ../lib/sshv2.c:701
+#: ../lib/sshv2.c:711
 msgid "Connection lost"
 msgstr "فقد الاتصال "
 
-#: ../lib/sshv2.c:704
+#: ../lib/sshv2.c:714
 msgid "Operation unsupported"
 msgstr "العملية غير مدعومة"
 
-#: ../lib/sshv2.c:707
+#: ../lib/sshv2.c:717
 msgid "Unknown message returned from server"
 msgstr "رسالة مجهولة ارجعت من الملقم "
 
-#: ../lib/sshv2.c:742
+#: ../lib/sshv2.c:752
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "خطاء حجم الرسالة%d كبير جدا \n"
 
-#: ../lib/sshv2.c:801
-#: ../lib/sshv2.c:1301
-#: ../lib/sshv2.c:1876
-#: ../lib/sshv2.c:1996
+#: ../lib/sshv2.c:811 ../lib/sshv2.c:1346 ../lib/sshv2.c:1838
+#: ../lib/sshv2.c:1957
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "خطاء :حجم الرسالةمن الملقم  %d: كبير جدا \n"
 
-#: ../lib/sshv2.c:807
-msgid "There was an error initializing a SSH connection with the remote server. The error message from the remote server follows:\n"
+#: ../lib/sshv2.c:817
+msgid ""
+"There was an error initializing a SSH connection with the remote server. The "
+"error message from the remote server follows:\n"
 msgstr ""
 
-#: ../lib/sshv2.c:1115
+#: ../lib/sshv2.c:1160
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "فتح اتصال SHHب%s\n"
 
-#: ../lib/sshv2.c:1167
+#: ../lib/sshv2.c:1212
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "تم الدخول بنجاح الى ملقم SHH%s\n"
@@ -1390,8 +1394,7 @@ msgstr "تجاوز طول المسار"
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr ""
 
-#: ../lib/sslcommon.c:41
-#: ../lib/sslcommon.c:43
+#: ../lib/sslcommon.c:41 ../lib/sslcommon.c:43
 msgid "Verify SSL Peer"
 msgstr "SSLالتأكد من نظير "
 
@@ -1411,7 +1414,9 @@ msgstr "لا يمكن تلقي ملخّص POP: %s"
 
 #: ../lib/sslcommon.c:199
 #, c-format
-msgid "ERROR: The host in the SSL certificate (%s) does not match the host that we connected to (%s). Aborting connection.\n"
+msgid ""
+"ERROR: The host in the SSL certificate (%s) does not match the host that we "
+"connected to (%s). Aborting connection.\n"
 msgstr ""
 
 #: ../lib/sslcommon.c:306
@@ -1427,9 +1432,7 @@ msgstr ""
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr ""
 
-#: ../lib/sslcommon.c:353
-#: ../lib/sslcommon.c:427
-#: ../lib/sslcommon.c:475
+#: ../lib/sslcommon.c:353 ../lib/sslcommon.c:427 ../lib/sslcommon.c:475
 msgid "Error: SSL engine was not initialized\n"
 msgstr ""
 
@@ -1446,103 +1449,107 @@ msgstr ""
 msgid "Error with peer certificate: %s\n"
 msgstr "خطأ في معدل الإطارات."
 
-#: ../src/uicommon/gftpui.c:83
+#: ../src/uicommon/gftpui.c:56
+msgid "Operation canceled\n"
+msgstr "العملية الغيت \n"
+
+#: ../src/uicommon/gftpui.c:65
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "انتظار %dث حتى محاولة التصال الثانية \n"
 
-#: ../src/uicommon/gftpui.c:96
-msgid "Operation canceled\n"
-msgstr "العملية الغيت \n"
+#: ../src/uicommon/gftpui.c:157
+msgid ""
+">. If you have any questions, comments, or suggestions about this program, "
+"please feel free to email them to me. You can always find out the latest "
+"news about gFTP from my website at http://www.gftp.org/\n"
+msgstr ""
+">. اذا كان لديك اى اقتراح .سؤال او تعليق حول البرنامج فارجاء مراسلتى على "
+"بريدى الالكترونى  ...كما يمكن الحصول على اخر اخبار المنتج من الموقع الرسمى "
+"له على http://www.gftp.org   \n"
 
-#: ../src/uicommon/gftpui.c:185
-msgid ">. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ">. اذا كان لديك اى اقتراح .سؤال او تعليق حول البرنامج فارجاء مراسلتى على بريدى الالكترونى  ...كما يمكن الحصول على اخر اخبار المنتج من الموقع الرسمى له على http://www.gftp.org   \n"
+#: ../src/uicommon/gftpui.c:158
+msgid ""
+"gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
+"This is free software, and you are welcome to redistribute it under certain "
+"conditions; for details, see the COPYING file\n"
+msgstr ""
+"gFTP يصدر بدون اى تنبيهات ....ولتفاصيل الرجاء قراءة ملف الحقوق والمؤلف يرحب "
+"باءعادة توزيع المنتج تحت شروط خاصة ايضا يمكنك الاطلاع عليها فى ملف الحقوق \n"
 
-#: ../src/uicommon/gftpui.c:186
-msgid "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"
-msgstr "gFTP يصدر بدون اى تنبيهات ....ولتفاصيل الرجاء قراءة ملف الحقوق والمؤلف يرحب باءعادة توزيع المنتج تحت شروط خاصة ايضا يمكنك الاطلاع عليها فى ملف الحقوق \n"
-
-#: ../src/uicommon/gftpui.c:188
-#: ../src/gtk/menu-items.c:506
+#: ../src/uicommon/gftpui.c:160 ../src/gtk/menu-items.c:491
 msgid "Translated by"
 msgstr "ترجم بواسطة اسامة الرواب  alrawab@hotmail.com"
 
-#: ../src/uicommon/gftpui.c:235
-#: ../src/uicommon/gftpui.c:277
-#: ../src/uicommon/gftpui.c:317
-#: ../src/uicommon/gftpui.c:352
-#: ../src/uicommon/gftpui.c:387
-#: ../src/uicommon/gftpui.c:423
-#: ../src/uicommon/gftpui.c:459
-#: ../src/uicommon/gftpui.c:524
-#: ../src/uicommon/gftpui.c:605
-#: ../src/uicommon/gftpui.c:870
+#: ../src/uicommon/gftpui.c:207 ../src/uicommon/gftpui.c:249
+#: ../src/uicommon/gftpui.c:289 ../src/uicommon/gftpui.c:324
+#: ../src/uicommon/gftpui.c:359 ../src/uicommon/gftpui.c:395
+#: ../src/uicommon/gftpui.c:431 ../src/uicommon/gftpui.c:496
+#: ../src/uicommon/gftpui.c:577 ../src/uicommon/gftpui.c:845
 msgid "Error: Not connected to a remote site\n"
 msgstr "خطاء لا يوجد اتصال بالموقع البعيد\n"
 
-#: ../src/uicommon/gftpui.c:246
+#: ../src/uicommon/gftpui.c:218
 #, fuzzy
 msgid "usage: chmod <mode> <file>\n"
 msgstr "نمط التصفية لمتصفح الملفات "
 
-#: ../src/uicommon/gftpui.c:287
+#: ../src/uicommon/gftpui.c:259
 #, fuzzy
 msgid "usage: rename <old name> <new name>\n"
 msgstr "الأسم الجديد مساو للاسم القديم."
 
-#: ../src/uicommon/gftpui.c:323
+#: ../src/uicommon/gftpui.c:295
 #, fuzzy
 msgid "usage: delete <file>\n"
 msgstr "هل تريد حقاً حذف الملف \"%s\"?"
 
-#: ../src/uicommon/gftpui.c:358
+#: ../src/uicommon/gftpui.c:330
 msgid "usage: rmdir <directory>\n"
 msgstr "الأستخدام rmdir <directory>\n"
 
-#: ../src/uicommon/gftpui.c:393
+#: ../src/uicommon/gftpui.c:365
 msgid "usage: site <site command>\n"
 msgstr "الأستخدام site <site command>\n"
 
-#: ../src/uicommon/gftpui.c:429
+#: ../src/uicommon/gftpui.c:401
 #, fuzzy
 msgid "usage: mkdir <new directory>\n"
 msgstr "اضف دليل فارغ جديد"
 
-#: ../src/uicommon/gftpui.c:465
-#: ../src/uicommon/gftpui.c:483
+#: ../src/uicommon/gftpui.c:437 ../src/uicommon/gftpui.c:455
 #, fuzzy
 msgid "usage: chdir <directory>\n"
 msgstr "ليس دليل مستخدمين صحيح"
 
-#: ../src/uicommon/gftpui.c:556
+#: ../src/uicommon/gftpui.c:528
 #, fuzzy
 msgid "Invalid argument\n"
 msgstr "متغير غير صحيح: \"%s\"\n"
 
-#: ../src/uicommon/gftpui.c:569
+#: ../src/uicommon/gftpui.c:541
 msgid "Clear the directory cache\n"
 msgstr "مسح مجلد الذاكرة \n"
 
-#: ../src/uicommon/gftpui.c:658
+#: ../src/uicommon/gftpui.c:630
 msgid "usage: open "
 msgstr "الأستخدام : فتح"
 
-#: ../src/uicommon/gftpui.c:731
+#: ../src/uicommon/gftpui.c:706
 msgid "usage: set [variable = value]\n"
 msgstr "الأستخدامset [variable = value]\n"
 
-#: ../src/uicommon/gftpui.c:745
+#: ../src/uicommon/gftpui.c:720
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "خطاء فى المتغير %sمتغير اعدادات غير صالح \n"
 
-#: ../src/uicommon/gftpui.c:752
+#: ../src/uicommon/gftpui.c:727
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "خطاء فى المتغير %s ليس متغير فى نص منفد gFTP \n"
 
-#: ../src/uicommon/gftpui.c:834
+#: ../src/uicommon/gftpui.c:809
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1550,296 +1557,295 @@ msgstr ""
 "الاوامر المدعومة \n"
 "\n"
 
-#: ../src/uicommon/gftpui.c:877
+#: ../src/uicommon/gftpui.c:852
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "الأستخدام %s <filespec>\n"
 
-#: ../src/uicommon/gftpui.c:962
+#: ../src/uicommon/gftpui.c:937
 msgid "about"
 msgstr "حول "
 
-#: ../src/uicommon/gftpui.c:963
+#: ../src/uicommon/gftpui.c:938
 msgid "Shows gFTP information"
 msgstr "اظهار معلومات gftp"
 
-#: ../src/uicommon/gftpui.c:964
+#: ../src/uicommon/gftpui.c:939
 msgid "ascii"
 msgstr "اسكى"
 
-#: ../src/uicommon/gftpui.c:965
+#: ../src/uicommon/gftpui.c:940
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "حول نمط تحويل الملفات الحالى الى اسكى (فقط للFTP)"
 
-#: ../src/uicommon/gftpui.c:966
+#: ../src/uicommon/gftpui.c:941
 msgid "binary"
 msgstr "ثنائى"
 
-#: ../src/uicommon/gftpui.c:967
+#: ../src/uicommon/gftpui.c:942
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "حول نمط تحويل الملفات الحالى الى ثنائى (فقط للFTP)"
 
-#: ../src/uicommon/gftpui.c:968
+#: ../src/uicommon/gftpui.c:943
 msgid "cd"
 msgstr "فتح"
 
-#: ../src/uicommon/gftpui.c:969
-#: ../src/uicommon/gftpui.c:971
+#: ../src/uicommon/gftpui.c:944 ../src/uicommon/gftpui.c:946
 msgid "Changes the remote working directory"
 msgstr "تغير مجلد العمل البعيد"
 
-#: ../src/uicommon/gftpui.c:970
+#: ../src/uicommon/gftpui.c:945
 msgid "chdir"
 msgstr "chdir"
 
-#: ../src/uicommon/gftpui.c:972
+#: ../src/uicommon/gftpui.c:947
 msgid "chmod"
 msgstr "chmod"
 
-#: ../src/uicommon/gftpui.c:973
+#: ../src/uicommon/gftpui.c:948
 msgid "Changes the permissions of a remote file"
 msgstr "تغير تصريح الملف البعيد"
 
-#: ../src/uicommon/gftpui.c:974
+#: ../src/uicommon/gftpui.c:949
 msgid "clear"
 msgstr "مسح"
 
-#: ../src/uicommon/gftpui.c:975
+#: ../src/uicommon/gftpui.c:950
 msgid "Available options: cache"
 msgstr "خيارات الذاكرة المتاحة"
 
-#: ../src/uicommon/gftpui.c:976
+#: ../src/uicommon/gftpui.c:951
 msgid "close"
 msgstr "قفل"
 
-#: ../src/uicommon/gftpui.c:977
+#: ../src/uicommon/gftpui.c:952
 msgid "Disconnects from the remote site"
 msgstr "قطع الاتصال بالموقع البعيد"
 
-#: ../src/uicommon/gftpui.c:978
+#: ../src/uicommon/gftpui.c:953
 msgid "delete"
 msgstr "حدف"
 
-#: ../src/uicommon/gftpui.c:979
+#: ../src/uicommon/gftpui.c:954
 msgid "Removes a remote file"
 msgstr "حدف الملف البعيد"
 
-#: ../src/uicommon/gftpui.c:980
+#: ../src/uicommon/gftpui.c:955
 msgid "dir"
 msgstr "dir"
 
-#: ../src/uicommon/gftpui.c:981
-#: ../src/uicommon/gftpui.c:1007
+#: ../src/uicommon/gftpui.c:956 ../src/uicommon/gftpui.c:982
 msgid "Shows the directory listing for the current remote directory"
 msgstr "اظهار المجلد المدرج فى المجلد البعيد الحالى "
 
-#: ../src/uicommon/gftpui.c:982
+#: ../src/uicommon/gftpui.c:957
 msgid "get"
 msgstr "get"
 
-#: ../src/uicommon/gftpui.c:983
-#: ../src/uicommon/gftpui.c:1009
+#: ../src/uicommon/gftpui.c:958 ../src/uicommon/gftpui.c:984
 msgid "Downloads remote file(s)"
 msgstr "تنزيل ملف(ات) بعيد(ة)"
 
-#: ../src/uicommon/gftpui.c:984
+#: ../src/uicommon/gftpui.c:959
 msgid "help"
 msgstr "مساعدة"
 
-#: ../src/uicommon/gftpui.c:985
+#: ../src/uicommon/gftpui.c:960
 msgid "Shows this help screen"
 msgstr "اظهار شاشة المساعدة"
 
-#: ../src/uicommon/gftpui.c:986
+#: ../src/uicommon/gftpui.c:961
 msgid "lcd"
 msgstr "lcd"
 
-#: ../src/uicommon/gftpui.c:987
-#: ../src/uicommon/gftpui.c:989
+#: ../src/uicommon/gftpui.c:962 ../src/uicommon/gftpui.c:964
 msgid "Changes the local working directory"
 msgstr "تغير مجلد العمل المحلى "
 
-#: ../src/uicommon/gftpui.c:988
+#: ../src/uicommon/gftpui.c:963
 msgid "lchdir"
 msgstr "lchdir"
 
-#: ../src/uicommon/gftpui.c:990
+#: ../src/uicommon/gftpui.c:965
 msgid "lchmod"
 msgstr "lchmod"
 
-#: ../src/uicommon/gftpui.c:991
+#: ../src/uicommon/gftpui.c:966
 msgid "Changes the permissions of a local file"
 msgstr "تغير تصاريح الملف المحلى "
 
-#: ../src/uicommon/gftpui.c:992
+#: ../src/uicommon/gftpui.c:967
 msgid "ldelete"
 msgstr "ldelete"
 
-#: ../src/uicommon/gftpui.c:993
+#: ../src/uicommon/gftpui.c:968
 msgid "Removes a local file"
 msgstr "ازالة ملف محلى "
 
-#: ../src/uicommon/gftpui.c:994
+#: ../src/uicommon/gftpui.c:969
 msgid "ldir"
 msgstr "ldir"
 
-#: ../src/uicommon/gftpui.c:995
-#: ../src/uicommon/gftpui.c:997
+#: ../src/uicommon/gftpui.c:970 ../src/uicommon/gftpui.c:972
 msgid "Shows the directory listing for the current local directory"
 msgstr "اظهار المجلد المسرد من المجلد المحلى "
 
-#: ../src/uicommon/gftpui.c:996
+#: ../src/uicommon/gftpui.c:971
 msgid "lls"
 msgstr "lls"
 
-#: ../src/uicommon/gftpui.c:998
+#: ../src/uicommon/gftpui.c:973
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: ../src/uicommon/gftpui.c:999
+#: ../src/uicommon/gftpui.c:974
 msgid "Creates a local directory"
 msgstr "انشاء مجلد محلى "
 
-#: ../src/uicommon/gftpui.c:1000
+#: ../src/uicommon/gftpui.c:975
 msgid "lpwd"
 msgstr "lpwd"
 
-#: ../src/uicommon/gftpui.c:1001
+#: ../src/uicommon/gftpui.c:976
 msgid "Show current local directory"
 msgstr "اظهار المجلد المحلى الحالى "
 
-#: ../src/uicommon/gftpui.c:1002
+#: ../src/uicommon/gftpui.c:977
 msgid "lrename"
 msgstr "lrename"
 
-#: ../src/uicommon/gftpui.c:1003
+#: ../src/uicommon/gftpui.c:978
 msgid "Rename a local file"
 msgstr "اعادة تسمية الملف  المحلى "
 
-#: ../src/uicommon/gftpui.c:1004
+#: ../src/uicommon/gftpui.c:979
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: ../src/uicommon/gftpui.c:1005
+#: ../src/uicommon/gftpui.c:980
 msgid "Remove a local directory"
 msgstr "ازالة المجلد المحلى "
 
-#: ../src/uicommon/gftpui.c:1006
+#: ../src/uicommon/gftpui.c:981
 msgid "ls"
 msgstr "ls"
 
-#: ../src/uicommon/gftpui.c:1008
+#: ../src/uicommon/gftpui.c:983
 msgid "mget"
 msgstr "mget"
 
-#: ../src/uicommon/gftpui.c:1010
+#: ../src/uicommon/gftpui.c:985
 msgid "mkdir"
 msgstr "mkdir"
 
-#: ../src/uicommon/gftpui.c:1011
+#: ../src/uicommon/gftpui.c:986
 msgid "Creates a remote directory"
 msgstr "انشاء مجلد بعيد"
 
-#: ../src/uicommon/gftpui.c:1012
+#: ../src/uicommon/gftpui.c:987
 msgid "mput"
 msgstr "mput"
 
-#: ../src/uicommon/gftpui.c:1013
-#: ../src/uicommon/gftpui.c:1017
+#: ../src/uicommon/gftpui.c:988 ../src/uicommon/gftpui.c:992
 msgid "Uploads local file(s)"
 msgstr "تحميل الملف(ات)المحلية"
 
-#: ../src/uicommon/gftpui.c:1014
+#: ../src/uicommon/gftpui.c:989
 msgid "open"
 msgstr "فتح"
 
-#: ../src/uicommon/gftpui.c:1015
+#: ../src/uicommon/gftpui.c:990
 msgid "Opens a connection to a remote site"
 msgstr "فتح الاتصال بالموقع البعيد"
 
-#: ../src/uicommon/gftpui.c:1016
+#: ../src/uicommon/gftpui.c:991
 msgid "put"
 msgstr "put"
 
-#: ../src/uicommon/gftpui.c:1018
+#: ../src/uicommon/gftpui.c:993
 msgid "pwd"
 msgstr "pwd"
 
-#: ../src/uicommon/gftpui.c:1019
+#: ../src/uicommon/gftpui.c:994
 msgid "Show current remote directory"
 msgstr "اظهار المجلد البعيد الحالى "
 
-#: ../src/uicommon/gftpui.c:1020
+#: ../src/uicommon/gftpui.c:995
 msgid "quit"
 msgstr "اجهاض "
 
-#: ../src/uicommon/gftpui.c:1021
+#: ../src/uicommon/gftpui.c:996
 msgid "Exit from gFTP"
 msgstr "الخروج من gFTP"
 
-#: ../src/uicommon/gftpui.c:1022
+#: ../src/uicommon/gftpui.c:997
 msgid "rename"
 msgstr "اعادة تسمية "
 
-#: ../src/uicommon/gftpui.c:1023
+#: ../src/uicommon/gftpui.c:998
 msgid "Rename a remote file"
 msgstr "اعادة تسمية الملف البعيد"
 
-#: ../src/uicommon/gftpui.c:1024
+#: ../src/uicommon/gftpui.c:999
 msgid "rmdir"
 msgstr "rmdir"
 
-#: ../src/uicommon/gftpui.c:1025
+#: ../src/uicommon/gftpui.c:1000
 msgid "Remove a remote directory"
 msgstr "ازالة المجلد البعيد"
 
-#: ../src/uicommon/gftpui.c:1026
+#: ../src/uicommon/gftpui.c:1001
 msgid "set"
 msgstr "set"
 
-#: ../src/uicommon/gftpui.c:1027
-msgid "Show configuration file variables. You can also set variables by set var=val"
+#: ../src/uicommon/gftpui.c:1002
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
 msgstr "اظهار متغيرات اعدادات الملف :بامكانك اعداد المتغيرات بوضع var=val"
 
-#: ../src/uicommon/gftpui.c:1029
+#: ../src/uicommon/gftpui.c:1004
 #, fuzzy
 msgid "site"
 msgstr "موقع الإنترنت"
 
-#: ../src/uicommon/gftpui.c:1030
+#: ../src/uicommon/gftpui.c:1005
 #, fuzzy
 msgid "Run a site specific command"
 msgstr "تشغيل الأمر في الشاشة الطرفية"
 
-#: ../src/uicommon/gftpui.c:1119
+#: ../src/uicommon/gftpui.c:1094
 msgid "Error: Command not recognized\n"
 msgstr "خطاء فشل فى التعرف على الامر \n"
 
-#: ../src/uicommon/gftpui.c:1341
+#: ../src/uicommon/gftpui.c:1304
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "حول بنجاح %sعند %.2fكب/ث\n"
 
-#: ../src/uicommon/gftpui.c:1374
+#: ../src/uicommon/gftpui.c:1335
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "الغاء الملف %s من المضيف%s\n"
 
-#: ../src/uicommon/gftpui.c:1400
+#: ../src/uicommon/gftpui.c:1359
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "ايقاف التحويل من المضيف%s\n"
 
-#: ../src/uicommon/gftpui.c:1545
+#: ../src/uicommon/gftpui.c:1502
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "لا استطيع انزال %sمن %s\n"
 
-#: ../src/gtk/bookmarks.c:40
-#: ../src/gtk/dnd.c:122
-#: ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1100
-#: ../src/gtk/misc-gtk.c:505
+#: ../src/uicommon/gftpui.c:1558
+#, c-format
+msgid ""
+"There were %d files or directories that could not be transferred. Check the "
+"log for which items were not properly transferred."
+msgstr ""
+
+#: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
+#: ../src/gtk/gftp-gtk.c:1096 ../src/gtk/misc-gtk.c:505
 #: ../src/gtk/misc-gtk.c:513
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
@@ -1858,8 +1864,7 @@ msgstr "اظافة علا مة موقع:يجب ان تحدد اسم لعلامة
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr "اظافة علامة موقع :فشل فى الاظافة %s لان علامة الموقع موجودة بالفعل \n"
 
-#: ../src/gtk/bookmarks.c:135
-#: ../src/gtk/bookmarks.c:146
+#: ../src/gtk/bookmarks.c:135 ../src/gtk/bookmarks.c:146
 msgid "Add Bookmark"
 msgstr "اظافة علامة موقع "
 
@@ -1879,26 +1884,31 @@ msgstr ""
 
 #: ../src/gtk/bookmarks.c:146
 msgid "Remember password"
-msgstr "تذكر كلمة المرور"
+msgstr "تذكر كلمة السر"
 
-#: ../src/gtk/bookmarks.c:469
+#: ../src/gtk/bookmarks.c:420
+#, fuzzy
+msgid "You must specify a name for the bookmark."
+msgstr "اظافة علا مة موقع:يجب ان تحدد اسم لعلامة الموقع \n"
+
+#: ../src/gtk/bookmarks.c:472
 msgid "New Folder"
 msgstr "مجلد جديد"
 
-#: ../src/gtk/bookmarks.c:470
+#: ../src/gtk/bookmarks.c:473
 msgid "Enter the name of the new folder to create"
 msgstr "ادخل اسم للمجلد الجديد لتكوينه"
 
-#: ../src/gtk/bookmarks.c:479
+#: ../src/gtk/bookmarks.c:482
 #, fuzzy
 msgid "New Item"
 msgstr "إضافة مادة جديدة"
 
-#: ../src/gtk/bookmarks.c:480
+#: ../src/gtk/bookmarks.c:483
 msgid "Enter the name of the new item to create"
 msgstr "ادخل اسم للعنصر الجديد لتكوينه"
 
-#: ../src/gtk/bookmarks.c:553
+#: ../src/gtk/bookmarks.c:556
 #, fuzzy, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1907,118 +1917,106 @@ msgstr ""
 "هل انت متاءكد باءنك تريد ازالة علامة الموقع\n"
 "%sبكل ملحقاته؟"
 
-#: ../src/gtk/bookmarks.c:554
+#: ../src/gtk/bookmarks.c:557
 msgid "Delete Bookmark"
 msgstr "ازالة علامة الموقع "
 
-#: ../src/gtk/bookmarks.c:626
+#: ../src/gtk/bookmarks.c:629
 msgid "Bookmarks"
 msgstr "علامة الموقع "
 
-#: ../src/gtk/bookmarks.c:849
-#: ../src/gtk/bookmarks.c:852
+#: ../src/gtk/bookmarks.c:849 ../src/gtk/bookmarks.c:852
 msgid "Edit Entry"
 msgstr "حرر المدخلات"
 
-#: ../src/gtk/bookmarks.c:890
+#: ../src/gtk/bookmarks.c:888
 msgid "Description:"
 msgstr "وصف"
 
-#: ../src/gtk/bookmarks.c:905
+#: ../src/gtk/bookmarks.c:903
 msgid "Hostname:"
 msgstr "اسم المضيف"
 
-#: ../src/gtk/bookmarks.c:918
+#: ../src/gtk/bookmarks.c:916
 msgid "Port:"
 msgstr "منفد:"
 
-#: ../src/gtk/bookmarks.c:935
+#: ../src/gtk/bookmarks.c:933
 msgid "Protocol:"
 msgstr "مراسم :"
 
-#: ../src/gtk/bookmarks.c:959
+#: ../src/gtk/bookmarks.c:957
 msgid "Remote Directory:"
 msgstr "مجلد بعيد:"
 
-#: ../src/gtk/bookmarks.c:972
+#: ../src/gtk/bookmarks.c:970
 msgid "Local Directory:"
 msgstr "مجلد محلى :"
 
-#: ../src/gtk/bookmarks.c:989
+#: ../src/gtk/bookmarks.c:987
 msgid "Username:"
 msgstr "اسم المستخدم :"
 
-#: ../src/gtk/bookmarks.c:1002
-#: ../src/text/textui.c:92
+#: ../src/gtk/bookmarks.c:1000 ../src/text/textui.c:92
 msgid "Password:"
 msgstr "كلمة عبور :"
 
-#: ../src/gtk/bookmarks.c:1016
+#: ../src/gtk/bookmarks.c:1014
 msgid "Account:"
 msgstr "حساب :"
 
-#: ../src/gtk/bookmarks.c:1030
+#: ../src/gtk/bookmarks.c:1028
 msgid "Log in as ANONYMOUS"
 msgstr "الدخول بصفة:اى شخص "
 
-#: ../src/gtk/bookmarks.c:1055
-#: ../src/gtk/bookmarks.c:1313
-#: ../src/gtk/chmod_dialog.c:265
-#: ../src/gtk/gtkui_transfer.c:376
-#: ../src/gtk/options_dialog.c:1219
-#: ../src/gtk/options_dialog.c:1453
+#: ../src/gtk/bookmarks.c:1053 ../src/gtk/bookmarks.c:1303
+#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:388
+#: ../src/gtk/options_dialog.c:1216 ../src/gtk/options_dialog.c:1448
 msgid "  Cancel  "
 msgstr "..الغاء.."
 
-#: ../src/gtk/bookmarks.c:1064
-#: ../src/gtk/options_dialog.c:1464
-msgid "Apply"
-msgstr "تطبيق"
-
-#: ../src/gtk/bookmarks.c:1215
+#: ../src/gtk/bookmarks.c:1204
 msgid "/_File"
 msgstr "/ملف"
 
-#: ../src/gtk/bookmarks.c:1216
+#: ../src/gtk/bookmarks.c:1205
 msgid "/File/tearoff"
 msgstr "/File/tearoff"
 
-#: ../src/gtk/bookmarks.c:1217
+#: ../src/gtk/bookmarks.c:1206
 #, fuzzy
 msgid "/File/New _Folder..."
 msgstr "اسم دليل جديد"
 
-#: ../src/gtk/bookmarks.c:1218
+#: ../src/gtk/bookmarks.c:1207
 #, fuzzy
 msgid "/File/New _Item..."
 msgstr "إضافة مادة جديدة"
 
-#: ../src/gtk/bookmarks.c:1219
+#: ../src/gtk/bookmarks.c:1208
 #, fuzzy
 msgid "/File/_Delete"
 msgstr "حذف ملف"
 
-#: ../src/gtk/bookmarks.c:1220
+#: ../src/gtk/bookmarks.c:1209
 #, fuzzy
 msgid "/File/_Properties..."
 msgstr "تعديل خصائص الملف"
 
-#: ../src/gtk/bookmarks.c:1221
+#: ../src/gtk/bookmarks.c:1210
 msgid "/File/sep"
 msgstr "/File/sep"
 
-#: ../src/gtk/bookmarks.c:1222
+#: ../src/gtk/bookmarks.c:1211
 #, fuzzy
 msgid "/File/_Close"
 msgstr "غلق الملف الحالي"
 
-#: ../src/gtk/bookmarks.c:1240
-#: ../src/gtk/bookmarks.c:1243
+#: ../src/gtk/bookmarks.c:1229 ../src/gtk/bookmarks.c:1232
 msgid "Edit Bookmarks"
 msgstr "حرر علاملت الموقع "
 
-#: ../src/gtk/chmod_dialog.c:132
-#: ../src/gtk/chmod_dialog.c:137
+#: ../src/gtk/chmod_dialog.c:132 ../src/gtk/chmod_dialog.c:137
 #: ../src/gtk/chmod_dialog.c:142
 msgid "Chmod"
 msgstr "Chmod"
@@ -2047,31 +2045,26 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "لاصق"
 
-#: ../src/gtk/chmod_dialog.c:192
-#: ../src/gtk/gftp-gtk.c:780
+#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:780
 msgid "User"
 msgstr "مستخدم "
 
-#: ../src/gtk/chmod_dialog.c:200
-#: ../src/gtk/chmod_dialog.c:220
+#: ../src/gtk/chmod_dialog.c:200 ../src/gtk/chmod_dialog.c:220
 #: ../src/gtk/chmod_dialog.c:240
 msgid "Read"
 msgstr "قراءة "
 
-#: ../src/gtk/chmod_dialog.c:204
-#: ../src/gtk/chmod_dialog.c:224
+#: ../src/gtk/chmod_dialog.c:204 ../src/gtk/chmod_dialog.c:224
 #: ../src/gtk/chmod_dialog.c:244
 msgid "Write"
 msgstr "كتابة "
 
-#: ../src/gtk/chmod_dialog.c:208
-#: ../src/gtk/chmod_dialog.c:228
+#: ../src/gtk/chmod_dialog.c:208 ../src/gtk/chmod_dialog.c:228
 #: ../src/gtk/chmod_dialog.c:248
 msgid "Execute"
 msgstr "تنفيد"
 
-#: ../src/gtk/chmod_dialog.c:212
-#: ../src/gtk/gftp-gtk.c:781
+#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:781
 msgid "Group"
 msgstr "مجموعة "
 
@@ -2098,26 +2091,21 @@ msgstr "هل انت متاءكد بانك تريد حدف%ld هذه الملفا
 msgid "Delete Files/Directories"
 msgstr "حدف الملفات /المجلدات "
 
-#: ../src/gtk/delete_dialog.c:90
-#: ../src/gtk/options_dialog.c:1305
+#: ../src/gtk/delete_dialog.c:90 ../src/gtk/options_dialog.c:1302
 msgid "Delete"
 msgstr "حدف"
 
-#: ../src/gtk/dnd.c:123
-#: ../src/gtk/gftp-gtk.c:1101
-#: ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1097 ../src/gtk/misc-gtk.c:929
 #: ../src/gtk/misc-gtk.c:1004
 msgid "Connect"
 msgstr "اتصال "
 
-#: ../src/gtk/dnd.c:136
-#: ../src/gtk/dnd.c:269
+#: ../src/gtk/dnd.c:136 ../src/gtk/dnd.c:269
 #, c-format
 msgid "Received URL %s\n"
 msgstr "الرابط المستقبل %s\n"
 
-#: ../src/gtk/dnd.c:159
-#: ../src/gtk/dnd.c:247
+#: ../src/gtk/dnd.c:159 ../src/gtk/dnd.c:247
 msgid "Drag-N-Drop"
 msgstr "السحب-و-الافلات "
 
@@ -2133,8 +2121,7 @@ msgstr ""
 "هناك ملفات يتم نقلها \n"
 " هل انت متاءكد بانك تريد الخروج؟"
 
-#: ../src/gtk/gftp-gtk.c:219
-#: ../src/gtk/gftp-gtk.c:235
+#: ../src/gtk/gftp-gtk.c:219 ../src/gtk/gftp-gtk.c:235
 #, fuzzy
 msgid "Open Location"
 msgstr "فتح الموقع"
@@ -2162,8 +2149,7 @@ msgstr "مبدل النافذة"
 msgid "/FTP/Window _2"
 msgstr "مبدل النافذة"
 
-#: ../src/gtk/gftp-gtk.c:271
-#: ../src/gtk/gftp-gtk.c:276
+#: ../src/gtk/gftp-gtk.c:271 ../src/gtk/gftp-gtk.c:276
 #: ../src/gtk/gftp-gtk.c:279
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
@@ -2205,8 +2191,7 @@ msgstr "تعذر فتح اللموقع"
 msgid "/Local/D_isconnect"
 msgstr "المراسلون المحليون"
 
-#: ../src/gtk/gftp-gtk.c:286
-#: ../src/gtk/gftp-gtk.c:293
+#: ../src/gtk/gftp-gtk.c:286 ../src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "/Local/sep"
 
@@ -2299,8 +2284,7 @@ msgstr "تعذر فتح اللموقع"
 msgid "/Remote/D_isconnect"
 msgstr "مراسَلين بعيدين"
 
-#: ../src/gtk/gftp-gtk.c:314
-#: ../src/gtk/gftp-gtk.c:321
+#: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/Remote/sep"
 
@@ -2417,8 +2401,7 @@ msgstr "إبدأ مخفياً"
 msgid "/Transfer/St_op"
 msgstr "_إيقاف التحريك"
 
-#: ../src/gtk/gftp-gtk.c:346
-#: ../src/gtk/gftp-gtk.c:354
+#: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
 #, fuzzy
 msgid "/Transfer/sep"
 msgstr "_حوّل المكالمة"
@@ -2537,9 +2520,8 @@ msgstr "كلمة العبور:"
 msgid "Command: "
 msgstr "أمر:"
 
-#: ../src/gtk/gftp-gtk.c:778
-#: ../src/gtk/gftp-gtk.c:989
-#: ../src/gtk/gtkui_transfer.c:216
+#: ../src/gtk/gftp-gtk.c:778 ../src/gtk/gftp-gtk.c:989
+#: ../src/gtk/gtkui_transfer.c:228
 msgid "Filename"
 msgstr "اسم الملف "
 
@@ -2559,119 +2541,106 @@ msgstr "المدخلات "
 msgid "Progress"
 msgstr "التقدم "
 
-#: ../src/gtk/gftp-gtk.c:1131
+#: ../src/gtk/gftp-gtk.c:1126
 msgid "Error: You must type in a host to connect to\n"
 msgstr "خطاء :يجب ان تحدد اسم المضيف للاءتصال به\n"
 
-#: ../src/gtk/gtkui.c:51
+#: ../src/gtk/gtkui.c:53
 msgid "Refresh"
 msgstr "انعاش "
 
-#: ../src/gtk/gtkui.c:110
+#: ../src/gtk/gtkui.c:120
 #, fuzzy
 msgid "Enter Username"
 msgstr "الرجاء إدخال إسم المستخدم:"
 
-#: ../src/gtk/gtkui.c:111
+#: ../src/gtk/gtkui.c:121
 #, fuzzy
 msgid "Please enter your username for this site"
 msgstr "الرجاء كلمة عبورك لهذا الموقع "
 
-#: ../src/gtk/gtkui.c:133
-#: ../src/gtk/transfer.c:587
-#: ../src/gtk/transfer.c:597
+#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:563 ../src/gtk/transfer.c:573
 msgid "Please enter your password for this site"
 msgstr "الرجاء كلمة عبورك لهذا الموقع "
 
-#: ../src/gtk/gtkui.c:288
+#: ../src/gtk/gtkui.c:298
 #, fuzzy
 msgid "Operation canceled...you must enter a string\n"
 msgstr "موقع : العملية الغية ...يجب ادخال سلسلة حرفية \n"
 
-#: ../src/gtk/gtkui.c:334
+#: ../src/gtk/gtkui.c:344
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: ../src/gtk/gtkui.c:337
+#: ../src/gtk/gtkui.c:347
 msgid "Make Directory"
 msgstr "كون مجلد "
 
-#: ../src/gtk/gtkui.c:337
+#: ../src/gtk/gtkui.c:347
 msgid "Enter name of directory to create"
 msgstr "ادخل اسم لمجلد لتكوينه"
 
-#: ../src/gtk/gtkui.c:360
-#: ../src/gtk/gtkui.c:372
-#: ../src/gtk/misc-gtk.c:932
+#: ../src/gtk/gtkui.c:370 ../src/gtk/gtkui.c:382 ../src/gtk/misc-gtk.c:932
 #: ../src/gtk/misc-gtk.c:1007
 msgid "Rename"
 msgstr "اعادة تسمية "
 
-#: ../src/gtk/gtkui.c:370
+#: ../src/gtk/gtkui.c:380
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "هل تريد اعادة تسميتها %sالى ؟"
 
-#: ../src/gtk/gtkui.c:392
-#: ../src/gtk/gtkui.c:395
+#: ../src/gtk/gtkui.c:402 ../src/gtk/gtkui.c:405
 msgid "Site"
 msgstr "موقع "
 
-#: ../src/gtk/gtkui.c:395
+#: ../src/gtk/gtkui.c:405
 msgid "Enter site-specific command"
 msgstr " ادخال اوامر موقع محددة "
 
-#: ../src/gtk/gtkui.c:396
+#: ../src/gtk/gtkui.c:406
 #, fuzzy
 msgid "Prepend with SITE"
 msgstr "تم الاتصال مع %s باستخدام %s"
 
-#: ../src/gtk/gtkui.c:439
-#: ../src/gtk/menu-items.c:250
+#: ../src/gtk/gtkui.c:449 ../src/gtk/menu-items.c:235
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60
-#: ../src/gtk/transfer.c:497
-#: ../src/gtk/transfer.c:565
-#: ../src/gtk/transfer.c:1022
+#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:473
+#: ../src/gtk/transfer.c:541 ../src/gtk/transfer.c:998
 msgid "Skipped"
 msgstr "الغيت "
 
-#: ../src/gtk/gtkui_transfer.c:62
-#: ../src/gtk/transfer.c:544
-#: ../src/gtk/transfer.c:569
+#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:520
+#: ../src/gtk/transfer.c:545
 msgid "Waiting..."
 msgstr "انتظار "
 
-#: ../src/gtk/gtkui_transfer.c:124
-#: ../src/gtk/gtkui_transfer.c:302
-#: ../src/gtk/gtkui_transfer.c:329
+#: ../src/gtk/gtkui_transfer.c:136 ../src/gtk/gtkui_transfer.c:314
+#: ../src/gtk/gtkui_transfer.c:341
 msgid "Overwrite"
 msgstr "اعادة الكتابة "
 
-#: ../src/gtk/gtkui_transfer.c:131
-#: ../src/gtk/gtkui_transfer.c:308
-#: ../src/gtk/gtkui_transfer.c:335
+#: ../src/gtk/gtkui_transfer.c:143 ../src/gtk/gtkui_transfer.c:320
+#: ../src/gtk/gtkui_transfer.c:347
 msgid "Resume"
 msgstr "معاودة "
 
-#: ../src/gtk/gtkui_transfer.c:138
-#: ../src/gtk/gtkui_transfer.c:305
+#: ../src/gtk/gtkui_transfer.c:150 ../src/gtk/gtkui_transfer.c:317
 msgid "Skip"
 msgstr "الغاء "
 
-#: ../src/gtk/gtkui_transfer.c:219
+#: ../src/gtk/gtkui_transfer.c:231
 msgid "Action"
 msgstr "الفعل "
 
-#: ../src/gtk/gtkui_transfer.c:224
-#: ../src/gtk/gtkui_transfer.c:233
+#: ../src/gtk/gtkui_transfer.c:236 ../src/gtk/gtkui_transfer.c:245
 #: ../src/gtk/transfer.c:91
 msgid "Transfer Files"
 msgstr "نقل الملفات "
 
-#: ../src/gtk/gtkui_transfer.c:245
+#: ../src/gtk/gtkui_transfer.c:257
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2679,101 +2648,97 @@ msgstr ""
 "هذه الملفات موجودة بالفعل بالملقم و الجهاز المحلى \n"
 "الرجاء تحديد ماذا تريد ان تفعل "
 
-#: ../src/gtk/gtkui_transfer.c:311
+#: ../src/gtk/gtkui_transfer.c:323
 msgid "Error"
 msgstr "خطأ"
 
-#: ../src/gtk/gtkui_transfer.c:341
+#: ../src/gtk/gtkui_transfer.c:353
 msgid "Skip File"
 msgstr "الغاء ملف "
 
-#: ../src/gtk/gtkui_transfer.c:351
+#: ../src/gtk/gtkui_transfer.c:363
 msgid "Select All"
 msgstr "اختيار الكل "
 
-#: ../src/gtk/gtkui_transfer.c:357
+#: ../src/gtk/gtkui_transfer.c:369
 msgid "Deselect All"
 msgstr "عدم اختيار الكل"
 
-#: ../src/gtk/menu-items.c:37
+#: ../src/gtk/menu-items.c:65
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
 
-#: ../src/gtk/menu-items.c:74
-#: ../src/gtk/menu-items.c:77
+#: ../src/gtk/menu-items.c:83 ../src/gtk/menu-items.c:86
 #, fuzzy
 msgid "Change Filespec"
-msgstr "تغيير كلمة المرور"
+msgstr "تغيير كلمة السر"
 
-#: ../src/gtk/menu-items.c:77
+#: ../src/gtk/menu-items.c:86
 msgid "Enter the new file specification"
 msgstr "ادخال محدادات الملف الجديد "
 
-#: ../src/gtk/menu-items.c:105
-#: ../src/gtk/menu-items.c:314
-#: ../src/gtk/menu-items.c:378
-#: ../src/gtk/view_dialog.c:76
-#: ../src/gtk/view_dialog.c:155
+#: ../src/gtk/menu-items.c:114 ../src/gtk/menu-items.c:299
+#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:81
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "خطاء :لا يمكن فتح %s للكتابة %s\n"
 
-#: ../src/gtk/menu-items.c:134
+#: ../src/gtk/menu-items.c:143
 msgid "Save Directory Listing"
 msgstr "حفظ لائحة المجلدات "
 
-#: ../src/gtk/menu-items.c:342
-#: ../src/gtk/menu-items.c:406
+#: ../src/gtk/menu-items.c:327 ../src/gtk/menu-items.c:391
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "خطاء :فى الكتابة الى %s%s\n"
 
-#: ../src/gtk/menu-items.c:417
+#: ../src/gtk/menu-items.c:402
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "تم بنجاح كتابة ملف الدخول الى %s\n"
 
-#: ../src/gtk/menu-items.c:429
+#: ../src/gtk/menu-items.c:414
 msgid "Save Log"
 msgstr "حفظ الدخول "
 
-#: ../src/gtk/menu-items.c:465
+#: ../src/gtk/menu-items.c:450
 #, c-format
-msgid "Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"
-msgstr "تعذر فى ايجاد نسخة ملف اتفاقية الحقوق الرجاء الرجاء التاءكد باءنها ب%s او فى %s"
+msgid ""
+"Cannot find the license agreement file COPYING. Please make sure it is in "
+"either %s or in %s"
+msgstr ""
+"تعذر فى ايجاد نسخة ملف اتفاقية الحقوق الرجاء الرجاء التاءكد باءنها ب%s او فى "
+"%s"
 
-#: ../src/gtk/menu-items.c:469
-#: ../src/gtk/menu-items.c:474
+#: ../src/gtk/menu-items.c:454 ../src/gtk/menu-items.c:459
 msgid "About gFTP"
 msgstr "حول gFTP"
 
-#: ../src/gtk/menu-items.c:505
+#: ../src/gtk/menu-items.c:490
 #, fuzzy, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
-"Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
 "%s\n"
 "الحقوق(c) لبراين ماسنى 1989-2002<masneyb@gft p.org>\n"
 "الموقع الرسمى :http://www.gftp.org/\n"
 "الشعار بواسطة ايرون ورلى<planet_hoth@yahoo.com>\n"
 
-#: ../src/gtk/menu-items.c:518
+#: ../src/gtk/menu-items.c:503
 msgid "About"
 msgstr "حول "
 
-#: ../src/gtk/menu-items.c:567
+#: ../src/gtk/menu-items.c:552
 msgid "License Agreement"
 msgstr "اتفاقية الحقوق "
 
-#: ../src/gtk/menu-items.c:573
-#: ../src/gtk/view_dialog.c:405
+#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:385
 msgid "  Close  "
 msgstr "غلق "
 
-#: ../src/gtk/menu-items.c:657
+#: ../src/gtk/menu-items.c:685
 msgid "Compare Windows"
 msgstr "قارن النوافذ "
 
@@ -2783,7 +2748,9 @@ msgid "Disconnect from the remote server"
 msgstr "الإتصال بخادم عن بعد"
 
 #: ../src/gtk/misc-gtk.c:261
-msgid "Connect to the site specified in the host entry. If the host entry is blank, then a dialog is presented that will allow you to enter a URL."
+msgid ""
+"Connect to the site specified in the host entry. If the host entry is blank, "
+"then a dialog is presented that will allow you to enter a URL."
 msgstr ""
 
 #: ../src/gtk/misc-gtk.c:308
@@ -2823,13 +2790,11 @@ msgstr "%s يجب ان يكون لديك عنصرواحد فقط لاختيار�
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s يجب ان يكون لديك على الاقل عنصر واحد لاختياره\n"
 
-#: ../src/gtk/misc-gtk.c:926
-#: ../src/gtk/misc-gtk.c:1001
+#: ../src/gtk/misc-gtk.c:926 ../src/gtk/misc-gtk.c:1001
 msgid "Change"
 msgstr "تغيير"
 
-#: ../src/gtk/misc-gtk.c:998
-#: ../src/gtk/options_dialog.c:1280
+#: ../src/gtk/misc-gtk.c:998 ../src/gtk/options_dialog.c:1277
 msgid "Add"
 msgstr "اضافة"
 
@@ -2867,75 +2832,74 @@ msgstr ""
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "خطاء gftp:لايمكن ايجاد الملف %sفى %sاو%s\n"
 
-#: ../src/gtk/options_dialog.c:959
+#: ../src/gtk/options_dialog.c:956
 msgid "Edit Host"
 msgstr "تحرير مضيف"
 
-#: ../src/gtk/options_dialog.c:959
+#: ../src/gtk/options_dialog.c:956
 msgid "Add Host"
 msgstr "اضافة مضيف"
 
-#: ../src/gtk/options_dialog.c:1005
+#: ../src/gtk/options_dialog.c:1002
 msgid "Type:"
 msgstr "نوع:"
 
-#: ../src/gtk/options_dialog.c:1007
+#: ../src/gtk/options_dialog.c:1004
 msgid "_Type:"
 msgstr "_نوع"
 
-#: ../src/gtk/options_dialog.c:1017
-#: ../src/gtk/options_dialog.c:1140
+#: ../src/gtk/options_dialog.c:1014 ../src/gtk/options_dialog.c:1137
 msgid "Domain"
 msgstr "المالك "
 
-#: ../src/gtk/options_dialog.c:1050
+#: ../src/gtk/options_dialog.c:1047
 msgid "Network Address"
 msgstr "عنوان الشبكة"
 
-#: ../src/gtk/options_dialog.c:1052
+#: ../src/gtk/options_dialog.c:1049
 #, fuzzy
 msgid "_Network address:"
 msgstr "عنوان ال_شّبكة:"
 
-#: ../src/gtk/options_dialog.c:1091
-#: ../src/gtk/options_dialog.c:1244
+#: ../src/gtk/options_dialog.c:1088 ../src/gtk/options_dialog.c:1241
 msgid "Netmask"
 msgstr "قناع الشبكة"
 
-#: ../src/gtk/options_dialog.c:1093
+#: ../src/gtk/options_dialog.c:1090
 #, fuzzy
 msgid "N_etmask:"
 msgstr "قناع الشبكة"
 
-#: ../src/gtk/options_dialog.c:1142
+#: ../src/gtk/options_dialog.c:1139
 #, fuzzy
 msgid "_Domain:"
 msgstr "ال_نطاق:"
 
-#: ../src/gtk/options_dialog.c:1250
+#: ../src/gtk/options_dialog.c:1247
 msgid "Local Hosts"
 msgstr "المضيف المحلى "
 
-#: ../src/gtk/options_dialog.c:1291
-#: ../src/gtk/view_dialog.c:105
+#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:34
 msgid "Edit"
 msgstr "تحرير"
 
-#: ../src/gtk/options_dialog.c:1293
+#: ../src/gtk/options_dialog.c:1290
 msgid "_Edit"
 msgstr "_تعديل"
 
-#: ../src/gtk/options_dialog.c:1370
-#: ../src/gtk/options_dialog.c:1375
+#: ../src/gtk/options_dialog.c:1367 ../src/gtk/options_dialog.c:1372
 msgid "Options"
 msgstr "خيارات"
+
+#: ../src/gtk/options_dialog.c:1459
+msgid "Apply"
+msgstr "تطبيق"
 
 #: ../src/gtk/transfer.c:30
 msgid "Receiving file names..."
 msgstr "استقبال اسماء الملفات "
 
-#: ../src/gtk/transfer.c:63
-#: ../src/gtk/transfer.c:714
+#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:689
 msgid "Connecting..."
 msgstr "اتصال ...."
 
@@ -2981,93 +2945,90 @@ msgstr ""
 msgid "Edit File"
 msgstr "تحرير ملف "
 
-#: ../src/gtk/transfer.c:500
+#: ../src/gtk/transfer.c:476
 msgid "Finished"
 msgstr "استكمل "
 
-#: ../src/gtk/transfer.c:756
+#: ../src/gtk/transfer.c:734
 #, fuzzy, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "انعاش %sل%s عند %.2fكب/ث,%2d:%2d:%2dالوقت المتوقع "
 
-#: ../src/gtk/transfer.c:761
+#: ../src/gtk/transfer.c:739
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "انعاش %sل%s عند %.2fكب/ث,%2d:%2d:%2dالوقت المتوقع "
 
-#: ../src/gtk/transfer.c:772
+#: ../src/gtk/transfer.c:750
 #, fuzzy, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
 msgstr "انعاش%sل%s التحويل معلق الوقت المتبقى مجهول "
 
-#: ../src/gtk/transfer.c:778
+#: ../src/gtk/transfer.c:756
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "انعاش%sل%s التحويل معلق الوقت المتبقى مجهول "
 
-#: ../src/gtk/transfer.c:822
+#: ../src/gtk/transfer.c:800
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "نسبة مكتملة مجهولة(File %ld of %ld)"
 
-#: ../src/gtk/transfer.c:826
+#: ../src/gtk/transfer.c:804
 #, fuzzy, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% استكمل ,%02d:%02d:%02dالوقت المتوقع الباقى "
 
-#: ../src/gtk/transfer.c:864
+#: ../src/gtk/transfer.c:842
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr " البحث عن اسماء الملفات %sبايتات"
 
-#: ../src/gtk/transfer.c:943
-#: ../src/gtk/transfer.c:965
-#: ../src/gtk/transfer.c:986
-#: ../src/gtk/transfer.c:1008
-#: ../src/gtk/transfer.c:1036
-#: ../src/gtk/transfer.c:1096
+#: ../src/gtk/transfer.c:921 ../src/gtk/transfer.c:943
+#: ../src/gtk/transfer.c:962 ../src/gtk/transfer.c:984
+#: ../src/gtk/transfer.c:1012 ../src/gtk/transfer.c:1072
 msgid "There are no file transfers selected\n"
 msgstr "ليس هناك ملف مختار لنقله \n"
 
-#: ../src/gtk/view_dialog.c:36
+#: ../src/gtk/view_dialog.c:34
 msgid "View"
 msgstr "عرض"
 
-#: ../src/gtk/view_dialog.c:48
+#: ../src/gtk/view_dialog.c:49
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "عرض :%sهل هو مجلد!لا استطيع العرض\n"
 
-#: ../src/gtk/view_dialog.c:114
-msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "تحرير :يجب ان تحدد محرر فى حوار الخيارات \n"
-
-#: ../src/gtk/view_dialog.c:127
+#: ../src/gtk/view_dialog.c:52
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "تحرير:%s انه مجلد :لا استطيع تحريره\n"
 
-#: ../src/gtk/view_dialog.c:210
+#: ../src/gtk/view_dialog.c:123
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "تحرير :يجب ان تحدد محرر فى حوار الخيارات \n"
+
+#: ../src/gtk/view_dialog.c:177
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "عرض:لايمكن التحول لعمليات اخرى%s\n"
 
-#: ../src/gtk/view_dialog.c:213
+#: ../src/gtk/view_dialog.c:180
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "تنفيد البرنامج %s %s\n"
 
-#: ../src/gtk/view_dialog.c:272
+#: ../src/gtk/view_dialog.c:240
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "عرض الملف %s بواسطة %s\n"
 
-#: ../src/gtk/view_dialog.c:307
+#: ../src/gtk/view_dialog.c:282
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "اظهار الملفات %s\n"
 
-#: ../src/gtk/view_dialog.c:314
+#: ../src/gtk/view_dialog.c:289
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "عرض:لا يمكن فتح الملف%s%s\n"
@@ -3081,33 +3042,42 @@ msgstr "تعذر فتح الملف \"%s\". \n"
 msgid "Username [anonymous]:"
 msgstr "اسم مستخدم ـ[مجهول]ـ"
 
-#: ../src/text/textui.c:149
+#: ../src/text/textui.c:158
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
+"c)"
 msgstr ""
 
 #~ msgid "\n"
 #~ msgstr "\n"
+
 #~ msgid "Startup Directory:"
 #~ msgstr "مجلد بدء التشغيل :"
+
 #~ msgid "The default directory gFTP will go to on startup"
 #~ msgstr "المجلد الافتراضى :gFTP سيبداء من هناك عند بدء التشغيل "
+
 #~ msgid "Error: Remote site disconnected after trying to transfer file\n"
 #~ msgstr "خطاء :الموقع البعيد فصل بعد محاولة نقل الملفات \n"
 
 #, fuzzy
 #~ msgid "There was an error transfering the file %s"
 #~ msgstr "ليس هناك ملف مختار لنقله \n"
+
 #~ msgid "Stopping the transfer of %s\n"
 #~ msgstr "ايقاف نقل ال%s\n"
+
 #~ msgid "Starting the file transfer at offset %lld\n"
 #~ msgstr "البدء بنقل الملف بالوضع المظبط%lld\n"
+
 #~ msgid "Received invalid response to PWD command: '%s'\n"
 #~ msgstr "استقبال استجابة خاطئة للامر PWD'%s'\n"
+
 #~ msgid "SSH2 sftp-server path:"
 #~ msgstr "مسار ملقم SHH2 sftp "
+
 #~ msgid "Default remote SSH2 sftp-server path"
 #~ msgstr "المسار الافتراضى لملقم SHH2 sftp"
 
@@ -3118,50 +3088,69 @@ msgstr ""
 #, fuzzy
 #~ msgid "Use the ssh-askpass utility to supply the remote password"
 #~ msgstr "استخدم خدمات ssh-askpass لتحصيل كلمات عبور المستخدمين "
+
 #~ msgid "Use SSH2 SFTP subsys"
 #~ msgstr "استخدم تحت نظامSHH2 SFTP"
+
 #~ msgid ""
 #~ "Call ssh with the -s sftp flag. This is helpful because you won't have to "
 #~ "know the remote path to the remote sftp-server"
 #~ msgstr ""
 #~ "استدعى ssh بعلامة s sftp - هذا مساعد جدا لانك ستعرف المسار البعيد لملقم "
 #~ "sftp البعيد"
+
 #~ msgid "WARNING"
 #~ msgstr "تحذير"
+
 #~ msgid ""
 #~ "Please connect to this host with the command line SSH utility and answer "
 #~ "this question appropriately.\n"
 #~ msgstr ""
 #~ "الرجاء الاتصال بالمضيف من سطر اوامر خدمات SHHو الاجابة على هذا السؤال "
 #~ "بشكل ملائم\n"
+
 #~ msgid "Please correct the above warning to connect to this host.\n"
 #~ msgstr "الرجاء تصحيح الخطاء الحالى للاءتصال بهذا المضيف\n"
+
 #~ msgid "/FTP/_Options..."
 #~ msgstr "/FTP/خيارات"
+
 #~ msgid "/Local/Make Directory..."
 #~ msgstr "/محلى/تكوين مجلد "
+
 #~ msgid "/Remote/Make Directory..."
 #~ msgstr "/ بعيد/تكوين مجلد "
+
 #~ msgid "/Logging/View log..."
 #~ msgstr "/الدخول /اظهار المدخلات"
+
 #~ msgid "OpenURL"
 #~ msgstr "فتح وصلة "
+
 #~ msgid "OpenURL: Operation canceled...you must enter a string\n"
 #~ msgstr "فتح الوصلة العملية الغية ...يجب ان تدخل سلسلة حرفية \n"
+
 #~ msgid "Connect via URL"
 #~ msgstr "الاءتصال عن طريق الوصلة "
+
 #~ msgid "Mkdir: Operation canceled...you must enter a string\n"
 #~ msgstr "Mkdir:العملية الغية يجب ان تدخل سلسلة حرفية\n"
+
 #~ msgid "Rename: Operation canceled...you must enter a string\n"
 #~ msgstr "اعادة التسمية : العملية الغية يجب ان تدخل سلسلة حرفية \n"
+
 #~ msgid "Local Size"
 #~ msgstr "الحجم المحلى "
+
 #~ msgid "Remote Size"
 #~ msgstr "الحجم البعيد "
+
 #~ msgid "Download Files"
 #~ msgstr "تنزيل الملفات "
+
 #~ msgid "Upload Files"
 #~ msgstr "تحميل الملفات "
+
 #~ msgid ""
 #~ ">.\n"
 #~ "If you have any questions, comments, or suggestions about this program, "
@@ -3172,75 +3161,106 @@ msgstr ""
 #~ "اذا كان لديك اى استفسار,تعليق او اقتراح حول البرنامج الرجاء عدم التردد "
 #~ "ومراسلتى على بريدى الالكترونى ........وتستطيع الحصول على اخر اخبار "
 #~ "البرنامج من الموقع الرسمى له على  http://www.gftp.org/\n"
+
 #~ msgid "Could not download %s\n"
 #~ msgstr "لا استطيع التنزيل %s\n"
+
 #~ msgid "Successfully transferred %s\n"
 #~ msgstr "حول بنجاح %s\n"
+
 #~ msgid "Enter your email address here"
 #~ msgstr "ادخل عنوان بريدك الالكترونى هنا"
+
 #~ msgid "Send PASV command or PORT command for data transfers"
 #~ msgstr "ارسال امر PASV او امر PORT لنقل الملفات "
+
 #~ msgid ""
 #~ "If you disable this feature, then gFTP will only send LIST to the remote "
 #~ "server instead of LIST -L"
 #~ msgstr ""
 #~ "عند تعطيلك لهذه الخاصية سيقوم gFTP بارسال LIST للملقم بدلا من LIST -L"
+
 #~ msgid "Proxy config"
 #~ msgstr "اعداد البروكسى "
+
 #~ msgid "This specifies how your proxy server expects us to log in"
 #~ msgstr "هذا سيقوم تحديد بروكسى الملقم الخاص بك المتوقع استخدامه عند الدخول "
+
 #~ msgid "%pu = proxy user"
 #~ msgstr "%pu = proxy user"
+
 #~ msgid "%hu = host user"
 #~ msgstr "%hu -مستخدم مستظاف"
+
 #~ msgid "%pp = proxy pass"
 #~ msgstr "%pp-عبور البروكسى "
+
 #~ msgid "%hp = host pass"
 #~ msgstr "%hp -عبور المضيف "
+
 #~ msgid "%ph = proxy host"
 #~ msgstr "%ph-بروكسى المضيف"
+
 #~ msgid "%hh = host"
 #~ msgstr "%hh -مضيف "
+
 #~ msgid "%po = proxy port"
 #~ msgstr "%po-منفد البروكسى "
+
 #~ msgid "%ho = host port"
 #~ msgstr "%ho -منفد المظيف"
+
 #~ msgid "%pa = proxy account"
 #~ msgstr "%pa - حساب البروكسى "
+
 #~ msgid "%ha = host account"
 #~ msgstr "%ha -حساب المضيف"
+
 #~ msgid "SSH sftpserv path:"
 #~ msgstr "مسار ملقم sftp للSSH "
+
 #~ msgid "Default remote SSH sftpserv path"
 #~ msgstr "المسار الافتراضى لملقم SHH sftp"
+
 #~ msgid "Enable old SSH protocol"
 #~ msgstr "مكن برتكول SHHالقديم "
+
 #~ msgid ""
 #~ "Enable the old SSH protocol. You will need to download the sftp server "
 #~ "from http:///www.xbill.org/sftp"
 #~ msgstr ""
 #~ "مكن برتكول SHH القديم سوف تحتاج لتنزيل ملقم sftp من : http:///www.xbill."
 #~ "org/sftp"
+
 #~ msgid "This section contains the data that is in the history"
 #~ msgstr "هذا القسم مخصص للبيانات المحفوظة فى التاريخ "
+
 #~ msgid "Finished retrieving data\n"
 #~ msgstr "النتهاء من ايجاد البيانات\n"
+
 #~ msgid "Could not change remote directory to %s: %s\n"
 #~ msgstr "تعذر فى تحويل الملف البعيدالى %s:%s\n"
+
 #~ msgid "Remote host could not find file %s\n"
 #~ msgstr "الملقم البعيد فشل فى ايجاد الملف %s\n"
+
 #~ msgid "Received unexpected response from server\n"
 #~ msgstr "استقبال استجابة غير متوقعة من الملقم \n"
+
 #~ msgid "Finished retrieving directory listing\n"
 #~ msgstr "الانتهاء من ايجاد قائمة المجلدات \n"
+
 #~ msgid "Could not parse URL %s\n"
 #~ msgstr "فشل فى ترجمة URL %s\n"
+
 #~ msgid "Error: You cannot change this variable\n"
 #~ msgstr "خطاء :ليس بامكانك تغيير المتغير\n"
+
 #~ msgid "gFTP Icon"
 #~ msgstr "ايقونة gFTP"
+
 #~ msgid "Remote SSH sftp path:"
 #~ msgstr "مسار SHH sftp البعيد:"
+
 #~ msgid "Drag-N-Drop: Ignoring url %s: Not a valid url\n"
 #~ msgstr "السحب-و-الافلات: تجاهل الرابط%sالرابط غير صالح\n"
-
