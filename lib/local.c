@@ -555,6 +555,8 @@ local_mkdir (gftp_request * request, const char *directory)
                                  directory);
       return (0);
     }
+  else if (errno == EEXIST)
+    return (0);
   else
     {
       request->logging_function (gftp_logging_error, request,

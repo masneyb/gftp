@@ -1,3 +1,7 @@
+2007-4-18 Brian Masney <masneyb@gftp.org>
+	* lib/local.c (local_mkdir) - return a successful response if errno is
+	set to EEXIST.
+
 2007-3-26 Brian Masney <masneyb@gftp.org>
 	* src/gtk/gftp-gtk.c (main) - call gdk_threads_enter() earlier in the
 	startup. This fixes an issue where gftp can hang on startup.
