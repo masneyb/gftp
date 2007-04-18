@@ -1,4 +1,11 @@
 2007-4-18 Brian Masney <masneyb@gftp.org>
+	* src/gtk/gftp-gtk.c src/gtk/gtkui.c src/gtk/gftp-gtk.h - added new
+	function gftp_gtk_init_request(). It will initialize a gftp_request
+	structure inside the gftp_window_data structure.
+
+	* src/gtk/gtkui.c (gftpui_disconnect) - completely free the gftp_request
+	structure when the user disconnects from the site.
+
 	* lib/local.c (local_mkdir) - return a successful response if errno is
 	set to EEXIST.
 

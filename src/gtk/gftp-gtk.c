@@ -762,6 +762,16 @@ select_row_callback (GtkWidget *widget, gint row, gint column,
 }
 
 
+void
+gftp_gtk_init_request (gftp_window_data * wdata)
+{
+  wdata->request = gftp_request_new ();
+  wdata->request->logging_function = ftp_log;
+  wdata->filespec = g_malloc0 (2);
+  *wdata->filespec = '*';
+}
+
+
 static GtkWidget *
 CreateFTPWindow (gftp_window_data * wdata)
 {
@@ -782,10 +792,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   titles[5] = _("Date");
   titles[6] = _("Attribs");
 
-  wdata->request = gftp_request_new ();
-  wdata->request->logging_function = ftp_log;
-  wdata->filespec = g_malloc0 (2);
-  *wdata->filespec = '*';
+  gftp_gtk_init_request (wdata);
 
   parent = gtk_frame_new (NULL);
   

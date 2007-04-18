@@ -472,6 +472,11 @@ gftpui_disconnect (void *uidata)
   gftp_delete_cache_entry (wdata->request, NULL, 1);
   gftp_disconnect (wdata->request);
   remove_files_window (wdata);
+
+  /* Free the request structure so that all old settings are purged. */
+  gftp_request_destroy (wdata->request, 1);
+  gftp_gtk_init_request (wdata);
+
   update_window_info ();
 }
 

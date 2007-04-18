@@ -238,6 +238,8 @@ void listbox_get_drag_data 			( GtkWidget * widget,
 						  gpointer data );
 
 /* gftp-gtk.c */
+void gftp_gtk_init_request 			( gftp_window_data * wdata );
+
 void toolbar_hostedit 				( GtkWidget * widget, 
 						  gpointer data );
 
