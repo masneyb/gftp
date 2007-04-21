@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp 2.0.19pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-07 19:43+0200\n"
-"PO-Revision-Date: 2007-04-06 22:52+0100\n"
+"POT-Creation-Date: 2007-04-21 08:54+0200\n"
+"PO-Revision-Date: 2007-04-10 00:21+0100\n"
 "Last-Translator: Jonathan Ernst <jonathan@ernstfamily.ch>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "URL non valide %s\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Erreur : ligne %s non valide dans le fichier d'index du cache\n"
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:563
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Erreur : impossible de créer le répertoire %s : %s\n"
@@ -278,12 +278,12 @@ msgstr "Erreur : impossible de supprimer le fichier %s : %s\n"
 msgid "Successfully made directory %s\n"
 msgstr "Création réussie du répertoire %s\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:590
+#: ../lib/fsp.c:563 ../lib/local.c:592
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "Changement de nom réussi de %s en %s\n"
 
-#: ../lib/fsp.c:575 ../lib/local.c:597
+#: ../lib/fsp.c:575 ../lib/local.c:599
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Erreur : impossible de renommer %s en %s : %s\n"
@@ -329,27 +329,27 @@ msgstr "Erreur : impossible de tronquer le fichier local %s : %s\n"
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "Impossible d'obtenir le contenu du répertoire local %s : %s\n"
 
-#: ../lib/local.c:634
+#: ../lib/local.c:636
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "Changement de mode réussi de %s en %o\n"
 
-#: ../lib/local.c:641
+#: ../lib/local.c:643
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "Erreur : impossible de changer le mode de %s en %o : %s\n"
 
-#: ../lib/local.c:676
+#: ../lib/local.c:678
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr "Changement réussi de l'horodatage de %s\n"
 
-#: ../lib/local.c:683
+#: ../lib/local.c:685
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr "Erreur : impossible de changer l'horodatage de %s : %s\n"
 
-#: ../lib/local.c:750
+#: ../lib/local.c:752
 msgid "local filesystem"
 msgstr "Système de fichiers local"
 
@@ -357,6 +357,11 @@ msgstr "Système de fichiers local"
 #, c-format
 msgid "usage: gftp "
 msgstr "usage : gftp "
+
+#: ../lib/misc.c:407 ../lib/rfc2068.c:301 ../src/uicommon/gftpui.c:630
+#, c-format
+msgid "\n"
+msgstr "\n"
 
 # The following items are the proxy types listed under the Options dialog
 #. @null@
@@ -1944,7 +1949,7 @@ msgstr ""
 "journal."
 
 #: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1096 ../src/gtk/misc-gtk.c:505
+#: ../src/gtk/gftp-gtk.c:1103 ../src/gtk/misc-gtk.c:505
 #: ../src/gtk/misc-gtk.c:513
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
@@ -2147,7 +2152,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Sticky"
 
-#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:780
+#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:790
 msgid "User"
 msgstr "Propriétaire"
 
@@ -2166,7 +2171,7 @@ msgstr "Écriture"
 msgid "Execute"
 msgstr "Exécution"
 
-#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:781
+#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:791
 msgid "Group"
 msgstr "Groupe"
 
@@ -2198,7 +2203,7 @@ msgstr "Suppression de fichiers/répertoires"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1097 ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1104 ../src/gtk/misc-gtk.c:929
 #: ../src/gtk/misc-gtk.c:1004
 msgid "Connect"
 msgstr "Connecter"
@@ -2569,28 +2574,28 @@ msgstr "Mot de passe : "
 msgid "Command: "
 msgstr "Commande : "
 
-#: ../src/gtk/gftp-gtk.c:778 ../src/gtk/gftp-gtk.c:989
+#: ../src/gtk/gftp-gtk.c:788 ../src/gtk/gftp-gtk.c:996
 #: ../src/gtk/gtkui_transfer.c:228
 msgid "Filename"
 msgstr "Nom de fichier"
 
-#: ../src/gtk/gftp-gtk.c:779
+#: ../src/gtk/gftp-gtk.c:789
 msgid "Size"
 msgstr "Taille"
 
-#: ../src/gtk/gftp-gtk.c:782
+#: ../src/gtk/gftp-gtk.c:792
 msgid "Date"
 msgstr "Date"
 
-#: ../src/gtk/gftp-gtk.c:783
+#: ../src/gtk/gftp-gtk.c:793
 msgid "Attribs"
 msgstr "Permissions"
 
-#: ../src/gtk/gftp-gtk.c:990
+#: ../src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "En cours"
 
-#: ../src/gtk/gftp-gtk.c:1126
+#: ../src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Erreur : vous devez saisir un nom d'hôte pour la connexion\n"
 
