@@ -1,4 +1,8 @@
 2007-4-26 Brian Masney <masneyb@gftp.org>
+	* docs/sample.gftp/gftprc - don't automatically transfer the HTM and
+	HTML files in ascii mode. Let the user explicity choose that option.
+	This should help to quiet some bug reports about this.
+
 	* src/gtk/misc-gtk.c lib/gftp.h lib/protocols.c - added
 	filename_utf8_encoded flag to the gftp_file structure. If this is false,
 	then don't attempt to show the filename in the GTK port. The user can
