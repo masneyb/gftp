@@ -747,7 +747,7 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
    
   gtk_clist_set_pixmap (GTK_CLIST (wdata->listbox), clist_num, 0, pix, bitmap);
 
-  if (fle->file != NULL)
+  if (fle->file != NULL && fle->filename_utf8_encoded)
     gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 1, fle->file);
 
   if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))

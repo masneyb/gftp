@@ -1,3 +1,9 @@
+2007-4-26 Brian Masney <masneyb@gftp.org>
+	* src/gtk/misc-gtk.c lib/gftp.h lib/protocols.c - added
+	filename_utf8_encoded flag to the gftp_file structure. If this is false,
+	then don't attempt to show the filename in the GTK port. The user can
+	still select the blank filename though.
+
 2007-4-18 Brian Masney <masneyb@gftp.org>
 	* src/gtk/gftp-gtk.c src/gtk/gtkui.c src/gtk/gftp-gtk.h - added new
 	function gftp_gtk_init_request(). It will initialize a gftp_request

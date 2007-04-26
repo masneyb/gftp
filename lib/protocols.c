@@ -703,12 +703,17 @@ gftp_get_next_file (gftp_request * request, const char *filespec,
 
       if (ret >= 0 && fle->file != NULL)
         {
-          utf8 = gftp_filename_to_utf8 (request, fle->file, &destlen);
-          if (utf8 != NULL)
+          if (g_utf8_validate (fle->file, -1, NULL))
+            fle->filename_utf8_encoded = 1;
+          else
             {
-              tmpfile = fle->file;
-              fle->file = utf8;
-              g_free (tmpfile);
+              utf8 = gftp_filename_to_utf8 (request, fle->file, &destlen);
+              if (utf8 != NULL)
+                {
+                  g_free (fle->file);
+                  fle->file = utf8;
+                  fle->filename_utf8_encoded = 1;
+                }
             }
         }
 

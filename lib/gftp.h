@@ -257,8 +257,11 @@ struct gftp_file_tag
                done_rm : 1,	/* Remove the file when done */
                transfer_done : 1, /* Is current file transfer done? */
                retry_transfer : 1, /* Is current file transfer done? */
-               exists_other_side; /* The file exists on the other side during
-                                     the file transfer */
+               exists_other_side : 1, /* The file exists on the other side
+                                         during the file transfer */
+               filename_utf8_encoded : 1; /* Is the filename properly UTF8
+                                             encoded? */
+
   char transfer_action;		/* See the GFTP_TRANS_ACTION_* vars above */
   /*@null@*/ void *user_data;
 };
