@@ -1120,7 +1120,7 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
       for (templist = files; templist != NULL; templist = templist->next)
         { 
           tempfle = templist->data;
-          if (tempfle->startsize > 0)
+          if (tempfle->startsize > 0 && !S_ISDIR (tempfle->st_mode))
             break;
         }
 
@@ -1448,7 +1448,10 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
   if (S_ISDIR (curfle->st_mode))
     {
       tdata->tot_file_trans = 0;
-      ret = gftp_make_directory (tdata->toreq, curfle->destfile);
+      if (curfle->startsize > 0)
+        ret = 1;
+      else
+        ret = gftp_make_directory (tdata->toreq, curfle->destfile);
     }
   else
     {

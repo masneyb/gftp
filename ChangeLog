@@ -1,4 +1,12 @@
 2007-4-26 Brian Masney <masneyb@gftp.org>
+	* src/uicommon/gftpui.c (_gftpui_common_trans_file_or_dir) - don't
+	attempt to create the directory if it already exists.
+	(gftpui_common_add_file_transfer) - don't ask the user what to do with
+	an individual directory that needs to be transferred.
+
+	* lib/local.c (local_mkdir) - removed code that checks for the EEXISTS
+	error.
+
 	* docs/sample.gftp/gftprc - don't automatically transfer the HTM and
 	HTML files in ascii mode. Let the user explicity choose that option.
 	This should help to quiet some bug reports about this.
