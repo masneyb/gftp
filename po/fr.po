@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp 2.0.19pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-21 08:54+0200\n"
+"POT-Creation-Date: 2007-04-27 21:05+0200\n"
 "PO-Revision-Date: 2007-04-10 00:21+0100\n"
 "Last-Translator: Jonathan Ernst <jonathan@ernstfamily.ch>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -32,7 +32,7 @@ msgstr "URL non valide %s\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Erreur : ligne %s non valide dans le fichier d'index du cache\n"
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:563
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Erreur : impossible de créer le répertoire %s : %s\n"
@@ -55,17 +55,17 @@ msgstr "Erreur de fermeture du descripteur de fichiers : %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Erreur : impossible de se positionner dans le fichier %s : %s\n"
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3200
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3205
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Erreur : impossible d'ouvrir le fichier local %s : %s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2901 ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/protocols.c:2906 ../lib/sslcommon.c:497
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Erreur : impossible d'écrire sur le socket : %s\n"
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2823 ../lib/sshv2.c:445
+#: ../lib/config_file.c:151 ../lib/protocols.c:2828 ../lib/sshv2.c:445
 #: ../lib/sslcommon.c:450
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -234,10 +234,10 @@ msgstr "Erreur : erreur lors de la fermeture du fichier : %s\n"
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "Liste de fichiers corrompue sur le serveur FSP %s\n"
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1578
-#: ../lib/protocols.c:1579 ../lib/protocols.c:1620 ../lib/protocols.c:1621
-#: ../lib/protocols.c:1687 ../lib/protocols.c:1694 ../lib/protocols.c:1770
-#: ../lib/protocols.c:1771 ../lib/protocols.c:1807
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1583
+#: ../lib/protocols.c:1584 ../lib/protocols.c:1625 ../lib/protocols.c:1626
+#: ../lib/protocols.c:1692 ../lib/protocols.c:1699 ../lib/protocols.c:1775
+#: ../lib/protocols.c:1776 ../lib/protocols.c:1812
 msgid "unknown"
 msgstr "inconnu"
 
@@ -278,12 +278,12 @@ msgstr "Erreur : impossible de supprimer le fichier %s : %s\n"
 msgid "Successfully made directory %s\n"
 msgstr "Création réussie du répertoire %s\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:592
+#: ../lib/fsp.c:563 ../lib/local.c:590
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "Changement de nom réussi de %s en %s\n"
 
-#: ../lib/fsp.c:575 ../lib/local.c:599
+#: ../lib/fsp.c:575 ../lib/local.c:597
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Erreur : impossible de renommer %s en %s : %s\n"
@@ -329,27 +329,27 @@ msgstr "Erreur : impossible de tronquer le fichier local %s : %s\n"
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "Impossible d'obtenir le contenu du répertoire local %s : %s\n"
 
-#: ../lib/local.c:636
+#: ../lib/local.c:634
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "Changement de mode réussi de %s en %o\n"
 
-#: ../lib/local.c:643
+#: ../lib/local.c:641
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "Erreur : impossible de changer le mode de %s en %o : %s\n"
 
-#: ../lib/local.c:678
+#: ../lib/local.c:676
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr "Changement réussi de l'horodatage de %s\n"
 
-#: ../lib/local.c:685
+#: ../lib/local.c:683
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr "Erreur : impossible de changer l'horodatage de %s : %s\n"
 
-#: ../lib/local.c:752
+#: ../lib/local.c:750
 msgid "local filesystem"
 msgstr "Système de fichiers local"
 
@@ -357,11 +357,6 @@ msgstr "Système de fichiers local"
 #, c-format
 msgid "usage: gftp "
 msgstr "usage : gftp "
-
-#: ../lib/misc.c:407 ../lib/rfc2068.c:301 ../src/uicommon/gftpui.c:630
-#, c-format
-msgid "\n"
-msgstr "\n"
 
 # The following items are the proxy types listed under the Options dialog
 #. @null@
@@ -836,107 +831,107 @@ msgstr ""
 "Attention : coupure du chemin du fichier « %s ». Le chemin coupé (%s) ne "
 "correspond pas au répertoire local (%s)\n"
 
-#: ../lib/protocols.c:722
+#: ../lib/protocols.c:727
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Erreur : impossible d'écrire dans le cache : %s\n"
 
-#: ../lib/protocols.c:755
+#: ../lib/protocols.c:760
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Erreur : impossible d'écrire sur le socket : %s\n"
 
-#: ../lib/protocols.c:762
+#: ../lib/protocols.c:767
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr ""
 "Erreur de signet : %s Assurez-vous d'avoir indiqué un nom d'hôte et "
 "d'utilisateur.\n"
 
-#: ../lib/protocols.c:884 ../lib/protocols.c:911
+#: ../lib/protocols.c:889 ../lib/protocols.c:916
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Le protocole « %s » n'est actuellement pas supporté.\n"
 
-#: ../lib/protocols.c:1201 ../lib/protocols.c:1216 ../lib/protocols.c:2398
-#: ../lib/protocols.c:2511
+#: ../lib/protocols.c:1206 ../lib/protocols.c:1221 ../lib/protocols.c:2403
+#: ../lib/protocols.c:2516
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Recherche de %s\n"
 
-#: ../lib/protocols.c:1207 ../lib/protocols.c:1222 ../lib/protocols.c:2403
-#: ../lib/protocols.c:2516
+#: ../lib/protocols.c:1212 ../lib/protocols.c:1227 ../lib/protocols.c:2408
+#: ../lib/protocols.c:2521
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Impossible de trouver l'hôte %s : %s\n"
 
-#: ../lib/protocols.c:2133
+#: ../lib/protocols.c:2138
 #, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr "Lien symbolique récursif trouvé : %s\n"
 
-#: ../lib/protocols.c:2421
+#: ../lib/protocols.c:2426
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Échec de création d'un socket : %s\n"
 
-#: ../lib/protocols.c:2427 ../lib/protocols.c:2533
+#: ../lib/protocols.c:2432 ../lib/protocols.c:2538
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Essai avec %s:%d\n"
 
-#: ../lib/protocols.c:2432 ../lib/protocols.c:2540
+#: ../lib/protocols.c:2437 ../lib/protocols.c:2545
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Impossible de se connecter à %s : %s\n"
 
-#: ../lib/protocols.c:2470 ../lib/rfc959.c:706
+#: ../lib/protocols.c:2475 ../lib/rfc959.c:706
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "La création d'un socket IPv4 a échoué : %s\n"
 
-#: ../lib/protocols.c:2494 ../lib/sshv2.c:1168
+#: ../lib/protocols.c:2499 ../lib/sshv2.c:1168
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Impossible de résoudre le nom du service %s/tcp. Veuillez vérifier votre "
 "fichier de services (/etc/services)\n"
 
-#: ../lib/protocols.c:2556 ../lib/protocols.c:3209 ../lib/rfc959.c:715
+#: ../lib/protocols.c:2561 ../lib/protocols.c:3214 ../lib/rfc959.c:715
 #: ../lib/rfc959.c:892
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr ""
 "Erreur : impossible de définir la fermeture sur le drapeau d'exécution : %s\n"
 
-#: ../lib/protocols.c:2563
+#: ../lib/protocols.c:2568
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Connecté sur %s:%d\n"
 
-#: ../lib/protocols.c:2799 ../lib/protocols.c:2876 ../lib/sshv2.c:435
+#: ../lib/protocols.c:2804 ../lib/protocols.c:2881 ../lib/sshv2.c:435
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Connexion sur %s échouée\n"
 
-#: ../lib/protocols.c:2946
+#: ../lib/protocols.c:2951
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Impossible d'obtenir les drapeaux du socket : %s\n"
 
-#: ../lib/protocols.c:2960
+#: ../lib/protocols.c:2965
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Impossible de rendre le socket non bloquant : %s\n"
 
-#: ../lib/protocols.c:3106
+#: ../lib/protocols.c:3111
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Erreur : hôte distant %s déconnecté. Nombre maximun de tentatives atteint... "
 "abandon\n"
 
-#: ../lib/protocols.c:3114
+#: ../lib/protocols.c:3119
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
@@ -1933,12 +1928,12 @@ msgstr "Saute le fichier %s sur l'hôte %s\n"
 msgid "Stopping the transfer on host %s\n"
 msgstr "Arrêt du transfert sur l'hôte %s\n"
 
-#: ../src/uicommon/gftpui.c:1502
+#: ../src/uicommon/gftpui.c:1505
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Impossible de télécharger %s de %s\n"
 
-#: ../src/uicommon/gftpui.c:1558
+#: ../src/uicommon/gftpui.c:1561
 #, c-format
 msgid ""
 "There were %d files or directories that could not be transferred. Check the "
@@ -2444,7 +2439,7 @@ msgstr "/Signets/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:337
 msgid "/Bookmarks/Add _Bookmark"
-msgstr "/Signets/Ajouter un _signet"
+msgstr "/Signets/_Ajouter un signet"
 
 #: ../src/gtk/gftp-gtk.c:339
 msgid "/Bookmarks/Edit Bookmarks"
@@ -3103,13 +3098,3 @@ msgstr ""
 "%s existe déjà. (taille de la source %s, taille de la destination %s) :\n"
 "écraser(o), continue(r), (s)auter, tout écraser(O), tout continue(R), tout "
 "(S)auter : (%c)"
-
-#~ msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
-#~ msgstr ""
-#~ "Erreur de conversion de chaîne « %s » au format UTF-8 de locales "
-#~ "actuelles : %s\n"
-
-#~ msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
-#~ msgstr ""
-#~ "Erreur de conversion de chaîne « %s » de locales actuelles depuis UTF-8 : "
-#~ "%s\n"
