@@ -433,9 +433,9 @@ _gftp_get_next_charset (char **curpos)
   for (; **curpos == ' ' || **curpos == '\t'; (*curpos)++);
 
   if ((endpos = strchr (*curpos, ',')) == NULL)
-    len = strlen (*curpos);
+    len = strlen (*curpos) - 1; /* the trailing ',' should be omitted */
   else
-    len = endpos - *curpos + 1;
+    len = endpos - *curpos;
 
   for (retlen = len - 1;
        (*curpos)[retlen - 1] == ' ' || (*curpos)[retlen - 1] == '\t';
