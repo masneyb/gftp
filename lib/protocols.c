@@ -559,6 +559,7 @@ _do_convert_string (gftp_request * request, int is_filename, int force_local,
               request->iconv_from = NULL;
               _do_show_iconv_error (str, cur_charset, from_utf8, error);
               g_free (cur_charset);
+              continue;
             }
 
           request->iconv_from_initialized = 1;
@@ -581,6 +582,7 @@ _do_convert_string (gftp_request * request, int is_filename, int force_local,
               request->iconv_to = NULL;
               _do_show_iconv_error (str, cur_charset, from_utf8, error);
               g_free (cur_charset);
+              continue;
             }
 
           request->iconv_to_initialized = 1;

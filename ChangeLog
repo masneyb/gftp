@@ -1,3 +1,8 @@
+2007-5-4 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (_do_convert_string) - added two missing continue
+	statements. This fixes a problem converting the string to a different
+	character set. (from Shixin Zeng) (partially closes #156371)
+
 2007-4-26 Brian Masney <masneyb@gftp.org>
 	* src/uicommon/gftpui.c (_gftpui_common_trans_file_or_dir) - don't
 	attempt to create the directory if it already exists.
