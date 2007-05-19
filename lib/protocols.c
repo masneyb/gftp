@@ -2780,10 +2780,10 @@ gftp_fd_read (gftp_request * request, void *ptr, size_t size, int fd)
 
   errno = 0;
   ret = 0;
+  FD_ZERO (&fset);
 
   do
     {
-      FD_ZERO (&fset);
       FD_SET (fd, &fset);
       tv.tv_sec = network_timeout;
       tv.tv_usec = 0;
@@ -2858,9 +2858,10 @@ gftp_fd_write (gftp_request * request, const char *ptr, size_t size, int fd)
 
   errno = 0;
   ret = 0;
+  FD_ZERO (&fset);
+
   do
     {
-      FD_ZERO (&fset);
       FD_SET (fd, &fset);
       tv.tv_sec = network_timeout;
       tv.tv_usec = 0;
