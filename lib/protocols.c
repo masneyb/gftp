@@ -79,6 +79,7 @@ gftp_request_destroy (gftp_request * request, int free_request)
     {
       request->datafd = -1;
       request->cachefd = -1;
+      request->server_type = GFTP_DIRTYPE_OTHER;
     }
 }
 

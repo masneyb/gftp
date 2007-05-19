@@ -1,4 +1,13 @@
 2007-5-18 Brian Masney <masneyb@gftp.org>
+	* lib/protocols.c (gftp_request_destroy) - initialize the 
+	request->server_type if the request structure isn't destroyed.
+
+	* src/gtk/gftp-gtk.c (gftp_gtk_init_request) - don't create a new
+	request structure.
+
+	* src/gtk/gtkui.c (gftpui_disconnect) - don't free the request
+	structure.
+
 	* lib/protocols.c (gftp_fd_read, gftp_fd_write) - moved FD_ZERO calls
 	outside of the while loop.
 
