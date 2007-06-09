@@ -6,19 +6,20 @@
 # Ivan Stojmirov <stojmir@linux.net.mk>, 2003.
 # Riste Pejov <richie@freemail.org.mk>, 2003, 2005.
 # Vladimir Stefanov <vladoboss@mt.net.mk>, 2006.
+# Jovan Naumovski <jovan@lugola.net>, 2007.
 # Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER, 2003.
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp.HEAD.mk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-06 10:50+0200\n"
-"PO-Revision-Date: 2006-08-06 16:55+0200\n"
-"Last-Translator: Vladimir Stefanov <vladoboss@mt.net.mk>\n"
-"Language-Team: Macedonian <dev@mk.openoffice.org>\n"
+"POT-Creation-Date: 2007-03-13 03:24+0000\n"
+"PO-Revision-Date: 2007-06-09 13:26+0200\n"
+"Last-Translator: Jovan Naumovski <jovan@lugola.net>\n"
+"Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.1\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../lib/bookmark.c:38
 #, c-format
@@ -30,40 +31,40 @@ msgstr "Невалиден URL %s\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Грешка: Невалидна линија %s во индексната датотека на кешот\n"
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:476
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:571
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
-msgstr "Грешка: Не може да се создаде директориумот %s: %s\n"
+msgstr "Грешка: Не може да се направи директориумот %s: %s\n"
 
 #: ../lib/cache.c:164
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
-msgstr "Грешка: Не може да се создаде привремена датотека: %s\n"
+msgstr "Грешка: Не може да се креира привремена датотека: %s\n"
 
 #: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
-#: ../lib/config_file.c:163 ../lib/local.c:102 ../lib/local.c:217
-#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1128
+#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:282
+#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1224
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Грешка во затворање на опишувачот на датотеката: %s\n"
 
-#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:136
-#: ../lib/local.c:145 ../lib/local.c:192
+#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:189
+#: ../lib/local.c:198 ../lib/local.c:257
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Грешка: Не може да се пребарува датотеката %s: %s\n"
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3095
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3158
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Грешка: Не може да се отвори локалната датотека %s: %s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2790 ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/protocols.c:2859 ../lib/sslcommon.c:497
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Грешка: Не може да се запише во сокетот: %s\n"
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2714 ../lib/sshv2.c:364
+#: ../lib/config_file.c:151 ../lib/protocols.c:2781 ../lib/sshv2.c:445
 #: ../lib/sslcommon.c:450
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -87,7 +88,9 @@ msgstr "gFTP Грешка: Не може да се отвори датотека
 #: ../lib/config_file.c:295 ../lib/config_file.c:317
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
-msgstr "gFTP Предупредување: Се прескокнува линијата %d во датотека со обележувачи: %s\n"
+msgstr ""
+"gFTP Предупредување: Се прескокнува линијата %d во датотека со обележувачи: %"
+"s\n"
 
 #: ../lib/config_file.c:347
 #, c-format
@@ -121,7 +124,7 @@ msgstr "gFTP Грешка: Грешно име на конфигурациска
 #: ../lib/config_file.c:599
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
-msgstr "gFTP Грешка: Не може да се создаде директориумот %s: %s\n"
+msgstr "gFTP Грешка: Не може да се креира директориумот %s: %s\n"
 
 #: ../lib/config_file.c:609
 #, c-format
@@ -131,7 +134,7 @@ msgstr "gFTP Грешка: Не може да се најде главната �
 #: ../lib/config_file.c:611
 #, c-format
 msgid "Did you do a make install?\n"
-msgstr "Дали направи make install?\n"
+msgstr "Дали направивте make install?\n"
 
 #: ../lib/config_file.c:620 ../lib/config_file.c:839
 #, c-format
@@ -142,8 +145,8 @@ msgstr "gFTP Грешка: Не може да се отвори конфигур
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr ""
-"Се прекинува поради грешка при парсирање на линијата %d во "
-"конфигурациската датотека\n"
+"Се прекинува поради грешка при парсирање на линијата %d во конфигурациската "
+"датотека\n"
 
 #: ../lib/config_file.c:665
 #, c-format
@@ -164,11 +167,12 @@ msgstr "gFTP Предупредување: Не може да се отвори 
 
 #: ../lib/config_file.c:733
 msgid ""
-"Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
-"Датотека со обележувачи за gFTP. Copyright (C) 1998-2003 Brian Masney "
-"<masneyb@gftp.org>. Предупредување: Било кои коментари што ќе ги додадете во оваа датотека ќе бидат препишани"
+"Датотека со обележувачи за gFTP. Copyright (C) 1998-2007 Brian Masney "
+"<masneyb@gftp.org>. Предупредување: Било кои коментари што ќе ги додадете во "
+"оваа датотека ќе бидат препишани"
 
 #: ../lib/config_file.c:734
 msgid ""
@@ -177,24 +181,26 @@ msgid ""
 "someone standing over your shoulder while you're editing this file. Prior to "
 "this, all passwords were stored in plaintext."
 msgstr ""
-"Забелешка: Лозинките кои се содржани во оваа датотека се испомешани. Овој "
+"Забелешка: Лозинките кои се содржат во оваа датотека се испомешани. Овој "
 "алгоритам не е сигурен. Ова се случува за да се избегне лозинките лесно да "
 "се запамтат од некој кој стои зад вас додека ја уредувате оваа датотека. "
-"Поради ова, сите лозинки беа зачувани како чист текст."
+"Претходно, сите лозинки беа зачувани како чист текст."
 
 #: ../lib/config_file.c:846
 msgid ""
-"Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
-"Конфигурациска датотека за gFTP. Copyright (C) 1998-2003 Brian Masney "
-"<masneyb@gftp.org>. Предупредување: Било кои коментари што ке ги додадете во оваа датотека ќе бидат препишани. Ако записот има (*) во рамките на коментарот, тогаш не можете да го менувате во gFTP"
+"Конфигурациска датотека за gFTP. Copyright (C) 1998-2007 Brian Masney "
+"<masneyb@gftp.org>. Предупредување: Било кои коментари што ке ги додадете во "
+"оваа датотека ќе бидат препишани. Ако записот има (*) во рамките на "
+"коментарот, тогаш не можете да го менувате во gFTP"
 
-#: ../lib/config_file.c:1210 ../lib/protocols.c:384 ../lib/protocols.c:456
-#: ../lib/protocols.c:527 ../lib/rfc2068.c:546 ../lib/rfc2068.c:547
+#: ../lib/config_file.c:1210 ../lib/protocols.c:382 ../lib/rfc2068.c:546
+#: ../lib/rfc2068.c:547
 msgid "<unknown>"
-msgstr "<непознат>"
+msgstr "<непознато>"
 
 #: ../lib/config_file.c:1290 ../lib/config_file.c:1353
 #: ../lib/config_file.c:1395 ../lib/config_file.c:1428
@@ -224,10 +230,10 @@ msgstr "Грешка: Грешка во затворање на датотека
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "Листање на расипани датотеки од FSP серверот %s\n"
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1545
-#: ../lib/protocols.c:1546 ../lib/protocols.c:1587 ../lib/protocols.c:1588
-#: ../lib/protocols.c:1651 ../lib/protocols.c:1658 ../lib/protocols.c:1734
-#: ../lib/protocols.c:1735 ../lib/protocols.c:1771
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1536
+#: ../lib/protocols.c:1537 ../lib/protocols.c:1578 ../lib/protocols.c:1579
+#: ../lib/protocols.c:1645 ../lib/protocols.c:1652 ../lib/protocols.c:1728
+#: ../lib/protocols.c:1729 ../lib/protocols.c:1765
 msgid "unknown"
 msgstr "непознато"
 
@@ -246,34 +252,34 @@ msgstr "Успешно е сменет локалниот директориум
 msgid "Could not change directory to %s\n"
 msgstr "Не можам да го променам директориумот во %s\n"
 
-#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:423 ../lib/local.c:446
+#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:490 ../lib/local.c:526
 #: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:329
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "Успешно е отстранет %s\n"
 
-#: ../lib/fsp.c:477 ../lib/local.c:429
+#: ../lib/fsp.c:477 ../lib/local.c:496
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Грешка: Не може да се отстрани директориумот %s: %s\n"
 
-#: ../lib/fsp.c:506 ../lib/local.c:452 ../src/gtk/transfer.c:267
+#: ../lib/fsp.c:506 ../lib/local.c:532 ../src/gtk/transfer.c:267
 #: ../src/gtk/view_dialog.c:333
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Грешка: Не може да се отстрани датотеката %s: %s\n"
 
-#: ../lib/fsp.c:528 ../lib/local.c:469
+#: ../lib/fsp.c:528 ../lib/local.c:564
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "Успешно е создаден директориумот %s\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:495
+#: ../lib/fsp.c:563 ../lib/local.c:600
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "Успешно е преименуван %s во %s\n"
 
-#: ../lib/fsp.c:575 ../lib/local.c:502
+#: ../lib/fsp.c:575 ../lib/local.c:607
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Грешка: Не може да се преименува %s во %s: %s\n"
@@ -290,53 +296,65 @@ msgstr ""
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
-msgstr "HTTPS Подршката не е достапна бидејќи оваа верзија не е компајлирана со SSL поддршка. Поврзувањето се прекинува.\n"
+msgstr ""
+"HTTPS Подршката не е достапна бидејќи оваа верзија не е компајлирана со SSL "
+"поддршка. Поврзувањето се прекинува.\n"
 
-#: ../lib/local.c:71 ../lib/local.c:406
-#, c-format
-msgid "Could not change local directory to %s: %s\n"
-msgstr "Не може да се смени локалниот директориум во %s: %s\n"
-
-#: ../lib/local.c:85 ../lib/local.c:392
+#: ../lib/local.c:66
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "Не може да се добие работниот директориум: %s\n"
 
-#: ../lib/local.c:183
-#, c-format
-msgid "Error: Cannot truncate local file %s: %s\n"
-msgstr "Грешка: Не може да се скрати локалната датотека %s: %s\n"
-
-#: ../lib/local.c:349
-#, c-format
-msgid "Could not get local directory listing %s: %s\n"
-msgstr "Не може да се добие листинг за локалниот директориум %s: %s\n"
-
-#: ../lib/local.c:386
+#: ../lib/local.c:105
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "Успешно е сменет локалниот директориум во %s\n"
 
-#: ../lib/local.c:519
+#: ../lib/local.c:112
+#, c-format
+msgid "Could not change local directory to %s: %s\n"
+msgstr "Не може да се смени локалниот директориум во %s: %s\n"
+
+#: ../lib/local.c:248
+#, c-format
+msgid "Error: Cannot truncate local file %s: %s\n"
+msgstr "Грешка: Не може да се скрати локалната датотека %s: %s\n"
+
+#: ../lib/local.c:434
+#, c-format
+msgid "Could not get local directory listing %s: %s\n"
+msgstr "Не може да се добие листинг за локалниот директориум %s: %s\n"
+
+#: ../lib/local.c:644
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "Успешно го променив режимот од %s во %o\n"
 
-#: ../lib/local.c:526
+#: ../lib/local.c:651
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "Грешка: Не можев да го променам режимот од %s во %o: %s\n"
 
-#: ../lib/local.c:622
+#: ../lib/local.c:686
+#, c-format
+msgid "Successfully changed the time stamp of %s\n"
+msgstr "Успешно е смената временската ознака на %s\n"
+
+#: ../lib/local.c:693
+#, c-format
+msgid "Error: Could not change the time stamp of %s: %s\n"
+msgstr "Грешка: Не можев да ја променам временската ознака на %s: %s\n"
+
+#: ../lib/local.c:760
 msgid "local filesystem"
 msgstr "локален датотечен систем"
 
-#: ../lib/misc.c:400
+#: ../lib/misc.c:407
 #, c-format
 msgid "usage: gftp "
 msgstr "користење: gftp "
 
-#: ../lib/misc.c:400 ../lib/rfc2068.c:304 ../src/uicommon/gftpui.c:666
+#: ../lib/misc.c:407 ../lib/rfc2068.c:304 ../src/uicommon/gftpui.c:630
 #, c-format
 msgid "\n"
 msgstr "\n"
@@ -535,54 +553,70 @@ msgstr ""
 "Дозволи внесување на рачни команди во GUI-то (функции како што е текстуално "
 "портирање)"
 
-#: ../lib/options.h:111 ../src/gtk/options_dialog.c:1023
-#: ../src/gtk/options_dialog.c:1243
+#: ../lib/options.h:111
+msgid "Remember last directory"
+msgstr "Зачувај го последниот директориум"
+
+#: ../lib/options.h:113
+msgid "Save the last local and remote directory when the application is closed"
+msgstr "Зачувај го последниот локален и далечен директориум кога апликацијата е затворена"
+
+#: ../lib/options.h:115
+msgid "Connect to remote server on startup"
+msgstr "Поврзи се со оддалечениот сервер при стартување"
+
+#: ../lib/options.h:117
+msgid "Automatically connect to the remote server when the application is started."
+msgstr "Автоматски поврзи се со далечниот сервер кога се стартува апликацијата."
+
+#: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
+#: ../src/gtk/options_dialog.c:1240
 msgid "Network"
 msgstr "Мрежа"
 
-#: ../lib/options.h:113
+#: ../lib/options.h:122
 msgid "Network timeout:"
 msgstr "Истечено време на мрежно чекање:"
 
-#: ../lib/options.h:116
+#: ../lib/options.h:125
 msgid "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "Истеченото време за чекање на мрежен влез/излез. Ова НЕ е неактивно истечено "
 "време"
 
-#: ../lib/options.h:118
+#: ../lib/options.h:127
 msgid "Connect retries:"
 msgstr "Повторни обиди за поврзување"
 
-#: ../lib/options.h:121
+#: ../lib/options.h:130
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
 msgstr ""
 "Број на автоматски обиди за повторно поврзување. Поставете го на 0 за "
 "бесконечен број на обиди"
 
-#: ../lib/options.h:123
+#: ../lib/options.h:132
 msgid "Retry sleep time:"
 msgstr "Пауза помеѓу повторни обиди"
 
-#: ../lib/options.h:126
+#: ../lib/options.h:135
 msgid "The number of seconds to wait between retries"
 msgstr "Број на секунди помеѓу обиди за повторно поврзување"
 
-#: ../lib/options.h:127
+#: ../lib/options.h:136
 msgid "Max KB/S:"
 msgstr "Max KB/S"
 
-#: ../lib/options.h:130
+#: ../lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr ""
 "Максимални KB/s кои може да ги добие еден трансфер. (Постави на 0 за "
 "оневозможување)"
 
-#: ../lib/options.h:132
+#: ../lib/options.h:141
 msgid "Transfer Block Size:"
 msgstr "Големина на блокот на трансферот"
 
-#: ../lib/options.h:135
+#: ../lib/options.h:144
 msgid ""
 "The block size that is used when transfering files. This should be a "
 "multiple of 1024."
@@ -590,19 +624,19 @@ msgstr ""
 "Големина на блокот кој се користи кога се трансферираат датотеки. Ова треба "
 "да е делливо со 1024."
 
-#: ../lib/options.h:138
+#: ../lib/options.h:147
 msgid "Default Protocol:"
 msgstr "Предефиниран Протокол:"
 
-#: ../lib/options.h:140
+#: ../lib/options.h:149
 msgid "This specifies the default protocol to use"
 msgstr "Овде се одредува кој префиниран протокол да се користи"
 
-#: ../lib/options.h:142 ../lib/options.h:145
+#: ../lib/options.h:151 ../lib/options.h:154
 msgid "Enable IPv6 support"
 msgstr "Овозможи подршка за IPv6"
 
-#: ../lib/options.h:150
+#: ../lib/options.h:159
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -610,27 +644,27 @@ msgstr ""
 "Овде се дефинира што ќе се случи при двоклик на датотека во листата на "
 "датотеки. 0=Прикажи датотека 1=Уреди датотека 2=Пренеси датотека"
 
-#: ../lib/options.h:153
+#: ../lib/options.h:162
 msgid "The default width of the local files listbox"
 msgstr "Предефинирана ширина на листата со локални датотеки"
 
-#: ../lib/options.h:156
+#: ../lib/options.h:165
 msgid "The default width of the remote files listbox"
 msgstr "Предефинирана ширина на листата со мрежни датотеки"
 
-#: ../lib/options.h:159
+#: ../lib/options.h:168
 msgid "The default height of the local/remote files listboxes"
 msgstr "Предефинирана висина на листите со локални/мрежни датотеки"
 
-#: ../lib/options.h:162
+#: ../lib/options.h:171
 msgid "The default height of the transfer listbox"
 msgstr "Предефинирана висина на листата за трансфер"
 
-#: ../lib/options.h:165
+#: ../lib/options.h:174
 msgid "The default height of the logging window"
 msgstr "Предефинирана висина на прозорецот за логирање"
 
-#: ../lib/options.h:168
+#: ../lib/options.h:177
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -638,15 +672,15 @@ msgstr ""
 "Ширина на колоната за име на датотеката во прозорецот за трансфер. Постави "
 "на 0 за автоматска ширина на колоната."
 
-#: ../lib/options.h:181 ../lib/options.h:187
+#: ../lib/options.h:190 ../lib/options.h:196
 msgid "The default column to sort by"
 msgstr "Предефинирана колона по која да се подреди"
 
-#: ../lib/options.h:184 ../lib/options.h:190
+#: ../lib/options.h:193 ../lib/options.h:199
 msgid "Sort ascending or descending"
 msgstr "Подреди опаѓачки или растечки"
 
-#: ../lib/options.h:194 ../lib/options.h:212
+#: ../lib/options.h:203 ../lib/options.h:221
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -655,7 +689,7 @@ msgstr ""
 "0 за автоматска ширина на колоната. Постави на -1 за да се оневозможи оваа "
 "колона"
 
-#: ../lib/options.h:197 ../lib/options.h:215
+#: ../lib/options.h:206 ../lib/options.h:224
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -663,7 +697,7 @@ msgstr ""
 "Ширината на колоната за големина во листата на датотеки. Постави на 0 за "
 "автоматска ширина на колоната. Постави на -1 за да се оневозможи оваа колона"
 
-#: ../lib/options.h:200 ../lib/options.h:218
+#: ../lib/options.h:209 ../lib/options.h:227
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -671,7 +705,7 @@ msgstr ""
 "Ширината на корисничката колоната во листата на датотеки. Постави на 0 за "
 "автоматска ширина на колоната. Постави на -1 за да се оневозможи оваа колона"
 
-#: ../lib/options.h:203 ../lib/options.h:221
+#: ../lib/options.h:212 ../lib/options.h:230
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -679,7 +713,7 @@ msgstr ""
 "Ширината на колоната за група во листата на датотеки. Постави на 0 за "
 "автоматска ширина на колоната. Постави на -1 за да се оневозможи оваа колона"
 
-#: ../lib/options.h:206 ../lib/options.h:224
+#: ../lib/options.h:215 ../lib/options.h:233
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -687,7 +721,7 @@ msgstr ""
 "Ширината на колоната за дата во листата на датотеки. Постави на 0 за "
 "автоматска ширина на колоната. Постави на -1 за да се оневозможи оваа колона"
 
-#: ../lib/options.h:209 ../lib/options.h:227
+#: ../lib/options.h:218 ../lib/options.h:236
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -695,51 +729,51 @@ msgstr ""
 "Ширината на колоната за атрибути во листата на датотеки. Постави на 0 за "
 "автоматска ширина на колоната. Постави на -1 за да се оневозможи оваа колона"
 
-#: ../lib/options.h:230
+#: ../lib/options.h:239
 msgid "The color of the commands that are sent to the server"
 msgstr "Боја на наредбите кои се испраќаат до серверот"
 
-#: ../lib/options.h:233
+#: ../lib/options.h:242
 msgid "The color of the commands that are received from the server"
 msgstr "Боја на наредбите кои се примаат од серверот"
 
-#: ../lib/options.h:236
+#: ../lib/options.h:245
 msgid "The color of the error messages"
 msgstr "Боја на пораките за грешка"
 
-#: ../lib/options.h:239
+#: ../lib/options.h:248
 msgid "The color of the rest of the log messages"
 msgstr "Боја на останатите лог пораки"
 
-#: ../lib/options.h:245 ../lib/rfc959.c:40
+#: ../lib/options.h:254 ../lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: ../lib/options.h:248 ../lib/options.h:250
+#: ../lib/options.h:257 ../lib/options.h:259
 msgid "FTPS"
 msgstr "FTPS"
 
-#: ../lib/options.h:253 ../lib/rfc2068.c:27
+#: ../lib/options.h:262 ../lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: ../lib/options.h:256 ../lib/options.h:258
+#: ../lib/options.h:265 ../lib/options.h:267
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: ../lib/options.h:261
+#: ../lib/options.h:270
 msgid "Local"
 msgstr "Локален"
 
-#: ../lib/options.h:263
+#: ../lib/options.h:272
 msgid "SSH2"
 msgstr "SSH2"
 
-#: ../lib/options.h:265 ../src/gtk/bookmarks.c:889
+#: ../lib/options.h:274 ../src/gtk/bookmarks.c:883
 msgid "Bookmark"
 msgstr "Обележувач"
 
-#: ../lib/options.h:266
+#: ../lib/options.h:275
 msgid "FSP"
 msgstr "FSP"
 
@@ -748,44 +782,29 @@ msgstr "FSP"
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Трансферот на датотеки ќе биде пригушен на %.2f KB/s\n"
 
-#: ../lib/protocols.c:380
+#: ../lib/protocols.c:378
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "Грешка во поставувањето на LC_TIME во '%s'. Се враќам назад на %s\n"
 
-#: ../lib/protocols.c:391
+#: ../lib/protocols.c:389
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "Го вчитувам листањето на директориумот %s од кешот (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:401
+#: ../lib/protocols.c:399
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "Вчитувам листање на директориумот %s од серверот (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:455 ../lib/protocols.c:487 ../lib/protocols.c:526
-#: ../lib/protocols.c:558
+#: ../lib/protocols.c:461
 #, c-format
 msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
 msgstr ""
 "Грешка во претворањето на низата '%s\" од карактерите %s во карактери %s: %"
 "s\n"
 
-#. Don't use request->logging_function since the strings must be in UTF-8
-#. for the GTK+ 2.x port
-#: ../lib/protocols.c:470
-#, c-format
-msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
-msgstr "Грешка во пратворањето на низата '%s' во UTF-8 од тековното локале: %s\n"
-
-#. Don't use request->logging_function since the strings must be in UTF-8
-#. for the GTK+ 2.x port
-#: ../lib/protocols.c:541
-#, c-format
-msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
-msgstr "Грешка во претворањето на низата '%s' во тековното локале од UTF-8: %s\n"
-
-#: ../lib/protocols.c:630
+#: ../lib/protocols.c:654
 #, c-format
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
@@ -794,99 +813,104 @@ msgstr ""
 "Предупредување: Тргнување на патеката од датотеката '%s'. Отргнатата патека "
 "(%s) не одговара на тековниот директориум (%s)\n"
 
-#: ../lib/protocols.c:648
+#: ../lib/protocols.c:680
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Грешка: Не може да се запише во кешот: %s\n"
 
-#: ../lib/protocols.c:681
+#: ../lib/protocols.c:713
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Грешка: Не може да се пронајде обележувач %s\n"
 
-#: ../lib/protocols.c:688
+#: ../lib/protocols.c:720
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Обележувачка грешка: Записот за обележувач %s нема hostname\n"
 
-#: ../lib/protocols.c:827 ../lib/protocols.c:854
+#: ../lib/protocols.c:842 ../lib/protocols.c:869
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Протоколот '%s' моментално не е подржан.\n"
 
-#: ../lib/protocols.c:1168 ../lib/protocols.c:1183 ../lib/protocols.c:2294
-#: ../lib/protocols.c:2407
+#: ../lib/protocols.c:1159 ../lib/protocols.c:1174 ../lib/protocols.c:2356
+#: ../lib/protocols.c:2469
 #, c-format
 msgid "Looking up %s\n"
 msgstr "Барам %s\n"
 
-#: ../lib/protocols.c:1174 ../lib/protocols.c:1189 ../lib/protocols.c:2299
-#: ../lib/protocols.c:2412
+#: ../lib/protocols.c:1165 ../lib/protocols.c:1180 ../lib/protocols.c:2361
+#: ../lib/protocols.c:2474
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Не можам да го најдам hostname-от %s: %s\n"
 
-#: ../lib/protocols.c:2317
+#: ../lib/protocols.c:2091
+#, c-format
+msgid "Found recursive symbolic link %s\n"
+msgstr "Најдов рекурзивна симболичка врска %s\n"
+
+#: ../lib/protocols.c:2379
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr "Неуспешно создавање на сокет: %s\n"
 
-#: ../lib/protocols.c:2323 ../lib/protocols.c:2429
+#: ../lib/protocols.c:2385 ../lib/protocols.c:2491
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr "Се пробува %s:%d\n"
 
-#: ../lib/protocols.c:2328 ../lib/protocols.c:2436
+#: ../lib/protocols.c:2390 ../lib/protocols.c:2498
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Не може да се воспостави врска со %s: %s\n"
 
-#: ../lib/protocols.c:2366 ../lib/rfc959.c:643
+#: ../lib/protocols.c:2428 ../lib/rfc959.c:706
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr "Неуспешно создавање на IPv4 сокет: %s\n"
 
-#: ../lib/protocols.c:2390 ../lib/sshv2.c:1046
+#: ../lib/protocols.c:2452 ../lib/sshv2.c:1142
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 "Не може да се наје името на сервисот %s/tcp. Ве молиме проверете ја "
 "датотеката со сервиси\n"
 
-#: ../lib/protocols.c:2452 ../lib/protocols.c:3104 ../lib/rfc959.c:652
-#: ../lib/rfc959.c:829
+#: ../lib/protocols.c:2514 ../lib/protocols.c:3167 ../lib/rfc959.c:715
+#: ../lib/rfc959.c:892
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "Грешка: Не можам да поставам затворање на извршното знаменце: %s\n"
 
-#: ../lib/protocols.c:2459
+#: ../lib/protocols.c:2521
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Поврзано со %s:%d\n"
 
-#: ../lib/protocols.c:2690 ../lib/protocols.c:2765 ../lib/sshv2.c:355
+#: ../lib/protocols.c:2757 ../lib/protocols.c:2834 ../lib/sshv2.c:435
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr "Поврзувањето со %s временски истече\n"
 
-#: ../lib/protocols.c:2833
+#: ../lib/protocols.c:2904
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr "Не може да се добијат опциите за сокетот: %s\n"
 
-#: ../lib/protocols.c:2847
+#: ../lib/protocols.c:2918
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr "Сокетот не може да се постави како не-блокирачки: %s\n"
 
-#: ../lib/protocols.c:3001
+#: ../lib/protocols.c:3064
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Грешка: Далечната локација %s е одврзана. Максималниот број на повторни "
 "обиди е достигнат...операцијата се откажува\n"
 
-#: ../lib/protocols.c:3009
+#: ../lib/protocols.c:3072
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Грешка: Далечната локација %s е одврзана. Повторен обид за %d секунди\n"
@@ -960,7 +984,7 @@ msgstr ""
 "Примив погрешен одговор од серверот, се дисконектирам\n"
 "Добив неправилна големина на делот '%s' од одалечениот сервер\n"
 
-#: ../lib/rfc2068.c:255 ../lib/rfc959.c:611 ../lib/sshv2.c:1123
+#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1219
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Се прекинува врската со локацијата %s\n"
@@ -974,11 +998,11 @@ msgstr "Почнувам со трансферот на датотека од о
 msgid "Cannot retrieve file %s\n"
 msgstr "Не може да се превземе датотеката %s\n"
 
-#: ../lib/rfc2068.c:424 ../lib/sshv2.c:1205
+#: ../lib/rfc2068.c:424 ../lib/sshv2.c:1301
 msgid "Retrieving directory listing...\n"
 msgstr "Се превзема листа на директориуми...\n"
 
-#: ../lib/rfc2068.c:819 ../lib/sshv2.c:814
+#: ../lib/rfc2068.c:819 ../lib/sshv2.c:895
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Примен е грешен одговор од серверот, се прекинува врската\n"
 
@@ -1127,73 +1151,73 @@ msgstr ""
 "Доколку превземате бинарни податоци, тогаш оваа опција треба да биде "
 "оневозможена."
 
-#: ../lib/rfc959.c:322 ../lib/rfc959.c:331 ../lib/rfc959.c:342
-#: ../lib/rfc959.c:792 ../lib/rfc959.c:1391
+#: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
+#: ../lib/rfc959.c:855 ../lib/rfc959.c:1449
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Добиен е неправилен одговор '%c' од серверот.\n"
 
-#: ../lib/rfc959.c:682 ../lib/rfc959.c:692
+#: ../lib/rfc959.c:745 ../lib/rfc959.c:755
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Не може да се пронајде IP адреса во PASV одговорот '%s'\n"
 
-#: ../lib/rfc959.c:718
+#: ../lib/rfc959.c:781
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr "Ја игнорирам IP адресата, се поврзувам со %d.%d.%d.%d:%d\n"
 
-#: ../lib/rfc959.c:729 ../lib/rfc959.c:890
+#: ../lib/rfc959.c:792 ../lib/rfc959.c:953
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Не може да се создаде податочна врска: %s\n"
 
-#: ../lib/rfc959.c:741 ../lib/rfc959.c:762 ../lib/rfc959.c:915
+#: ../lib/rfc959.c:804 ../lib/rfc959.c:825 ../lib/rfc959.c:978
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Не може да се добие име на сокетот: %s\n"
 
-#: ../lib/rfc959.c:752 ../lib/rfc959.c:905
+#: ../lib/rfc959.c:815 ../lib/rfc959.c:968
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Не може да се закачи портата: %s\n"
 
-#: ../lib/rfc959.c:771 ../lib/rfc959.c:924
+#: ../lib/rfc959.c:834 ../lib/rfc959.c:987
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Не може да се слуша на порта %d: %s\n"
 
-#: ../lib/rfc959.c:820
+#: ../lib/rfc959.c:883
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "Неуспешно создавање на IPv6 сокет: %s\n"
 
-#: ../lib/rfc959.c:840
+#: ../lib/rfc959.c:903
 msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 "Грешка: Изгледа дека врската не може да се воспостави IPv6. Поврзувањето се "
 "прекинува.\n"
 
-#: ../lib/rfc959.c:868 ../lib/rfc959.c:877
+#: ../lib/rfc959.c:931 ../lib/rfc959.c:940
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Невалиден EPSV одговор '%s'\n"
 
-#: ../lib/rfc959.c:934
+#: ../lib/rfc959.c:997
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Не може да се добие адресата на локалниот сокет: %s\n"
 
-#: ../lib/rfc959.c:1008
+#: ../lib/rfc959.c:1084
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Не може да се прифати поврзување од серверот: %s\n"
 
-#: ../lib/rfc959.c:1546
+#: ../lib/rfc959.c:1619
 msgid "total"
 msgstr "вкупно"
 
-#: ../lib/rfc959.c:1548
+#: ../lib/rfc959.c:1621
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Предупредување: Не може да се парсира листингот %s\n"
@@ -1226,173 +1250,173 @@ msgstr "Потребно е SSH Корисничко Име/Лозинка"
 msgid "Require a username/password for SSH connections"
 msgstr "Барај корисничко име/лозинка за SSH поврзувања"
 
-#: ../lib/sshv2.c:298
+#: ../lib/sshv2.c:369
 #, c-format
 msgid "Running program %s\n"
 msgstr "Се стартува програмот %s\n"
 
-#: ../lib/sshv2.c:307
+#: ../lib/sshv2.c:378
 msgid "Enter passphrase for RSA key"
 msgstr "Внесете фраза за лозинка за RSA клучот"
 
-#: ../lib/sshv2.c:308
+#: ../lib/sshv2.c:379
 msgid "Enter passphrase for key '"
 msgstr "Внесете фраза за лозинка за клучот '"
 
-#: ../lib/sshv2.c:309
+#: ../lib/sshv2.c:380
 msgid "Password"
 msgstr "Лозинка"
 
-#: ../lib/sshv2.c:310
+#: ../lib/sshv2.c:381
 msgid "password"
 msgstr "лозинка"
 
-#: ../lib/sshv2.c:415
+#: ../lib/sshv2.c:496
 msgid "(yes/no)?"
 msgstr "(да/не)?"
 
-#: ../lib/sshv2.c:433
+#: ../lib/sshv2.c:514
 msgid "Enter PASSCODE:"
 msgstr "Внесете КОД ЗА ЛОЗИНКА:"
 
-#: ../lib/sshv2.c:437 ../src/gtk/gtkui.c:132 ../src/gtk/transfer.c:562
-#: ../src/gtk/transfer.c:572
+#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:585
+#: ../src/gtk/transfer.c:595
 msgid "Enter Password"
 msgstr "Внесете лозинка"
 
-#: ../lib/sshv2.c:438
+#: ../lib/sshv2.c:519
 msgid "Enter SecurID Password:"
 msgstr "Внесете сигурносна лозинка"
 
-#: ../lib/sshv2.c:486
+#: ../lib/sshv2.c:567
 msgid "Error: An incorrect password was entered\n"
 msgstr "Грешка: Внесената лозинка не е точна\n"
 
-#: ../lib/sshv2.c:515
+#: ../lib/sshv2.c:596
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: Иницијализација на протокол\n"
 
-#: ../lib/sshv2.c:519
+#: ../lib/sshv2.c:600
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: Верзија на протокол %d\n"
 
-#: ../lib/sshv2.c:528
+#: ../lib/sshv2.c:609
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: Отвори %s\n"
 
-#: ../lib/sshv2.c:533
+#: ../lib/sshv2.c:614
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: Затвори\n"
 
-#: ../lib/sshv2.c:537
+#: ../lib/sshv2.c:618
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: Отвори директориум %s\n"
 
-#: ../lib/sshv2.c:542
+#: ../lib/sshv2.c:623
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: Прочитај директориум\n"
 
-#: ../lib/sshv2.c:546
+#: ../lib/sshv2.c:627
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: Одтрани датотека %s\n"
 
-#: ../lib/sshv2.c:551
+#: ../lib/sshv2.c:632
 #, c-format
 msgid "%d: Make directory %s\n"
-msgstr "%d: Создади директориум %s\n"
+msgstr "%d: Креирај директориум %s\n"
 
-#: ../lib/sshv2.c:556
+#: ../lib/sshv2.c:637
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: Одстрани директориум %s\n"
 
-#: ../lib/sshv2.c:561
+#: ../lib/sshv2.c:642
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: Вистинска патека %s\n"
 
-#: ../lib/sshv2.c:566
+#: ../lib/sshv2.c:647
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: Атрибути на датотека\n"
 
-#: ../lib/sshv2.c:570
+#: ../lib/sshv2.c:651
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Статистика %s\n"
 
-#: ../lib/sshv2.c:590
+#: ../lib/sshv2.c:671
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: ../lib/sshv2.c:595
+#: ../lib/sshv2.c:676
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: ../lib/sshv2.c:609 ../src/gtk/bookmarks.c:1048 ../src/gtk/bookmarks.c:1306
-#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:368
-#: ../src/gtk/misc-gtk.c:1014 ../src/gtk/options_dialog.c:1208
-#: ../src/gtk/options_dialog.c:1442
+#: ../lib/sshv2.c:690 ../src/gtk/bookmarks.c:1042 ../src/gtk/bookmarks.c:1292
+#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:376
+#: ../src/gtk/misc-gtk.c:995 ../src/gtk/options_dialog.c:1205
+#: ../src/gtk/options_dialog.c:1437
 msgid "OK"
 msgstr "Во ред"
 
-#: ../lib/sshv2.c:612
+#: ../lib/sshv2.c:693
 msgid "EOF"
 msgstr "EOF"
 
-#: ../lib/sshv2.c:615
+#: ../lib/sshv2.c:696
 msgid "No such file or directory"
 msgstr "Нема таква датотека или директориум"
 
-#: ../lib/sshv2.c:618
+#: ../lib/sshv2.c:699
 msgid "Permission denied"
 msgstr "Недозволен пристап"
 
-#: ../lib/sshv2.c:621
+#: ../lib/sshv2.c:702
 msgid "Failure"
 msgstr "Неуспех"
 
-#: ../lib/sshv2.c:624
+#: ../lib/sshv2.c:705
 msgid "Bad message"
 msgstr "Лоша порака"
 
-#: ../lib/sshv2.c:627
+#: ../lib/sshv2.c:708
 msgid "No connection"
 msgstr "Нема воспоставена врска"
 
-#: ../lib/sshv2.c:630
+#: ../lib/sshv2.c:711
 msgid "Connection lost"
 msgstr "Врската е прекината"
 
-#: ../lib/sshv2.c:633
+#: ../lib/sshv2.c:714
 msgid "Operation unsupported"
 msgstr "Операцијата не е поддржана"
 
-#: ../lib/sshv2.c:636
+#: ../lib/sshv2.c:717
 msgid "Unknown message returned from server"
 msgstr "Серверот врати непозната порака"
 
-#: ../lib/sshv2.c:671
+#: ../lib/sshv2.c:752
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Грешка: Големината на пораката %d е премногу голема\n"
 
-#: ../lib/sshv2.c:730 ../lib/sshv2.c:1225 ../lib/sshv2.c:1817
-#: ../lib/sshv2.c:1937
+#: ../lib/sshv2.c:811 ../lib/sshv2.c:1320 ../lib/sshv2.c:1895
+#: ../lib/sshv2.c:2015
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Грешка: Големината на пораката од серверот %d е премногу голема\n"
 
-#: ../lib/sshv2.c:736
+#: ../lib/sshv2.c:817
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
@@ -1400,12 +1424,12 @@ msgstr ""
 "Имаше грешка во иницијализирањето на SSH врската со далечниот сервер. "
 "Следува пораката за грешка од далечниот сервер:\n"
 
-#: ../lib/sshv2.c:1038
+#: ../lib/sshv2.c:1134
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "Се отвара SSH врска кон %s\n"
 
-#: ../lib/sshv2.c:1090
+#: ../lib/sshv2.c:1186
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Успешно се најавивте на SSH серверот %s\n"
@@ -1492,16 +1516,16 @@ msgstr "Грешка при поставување на SSL врска (SSL об
 msgid "Error with peer certificate: %s\n"
 msgstr "Грешка со сертификатот од другата страна: %s\n"
 
-#: ../src/uicommon/gftpui.c:92
+#: ../src/uicommon/gftpui.c:56
+msgid "Operation canceled\n"
+msgstr "Операцијата е откажана\n"
+
+#: ../src/uicommon/gftpui.c:65
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "Чекам %d секунди пред да пробам да се поврзам повторно\n"
 
-#: ../src/uicommon/gftpui.c:105
-msgid "Operation canceled\n"
-msgstr "Операцијата е откажана\n"
-
-#: ../src/uicommon/gftpui.c:194
+#: ../src/uicommon/gftpui.c:157
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
@@ -1511,7 +1535,7 @@ msgstr ""
 "молам слободно пишете ми на е-пошта. Можете секогаш да ги најдете најновите "
 "вести за gFTP на мојата веб страница http://www.gftp.org/\n"
 
-#: ../src/uicommon/gftpui.c:195
+#: ../src/uicommon/gftpui.c:158
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1522,73 +1546,73 @@ msgstr ""
 "редистрибуирате под одредени услови; за детали, видете ја датотеката "
 "COPYING\n"
 
-#: ../src/uicommon/gftpui.c:197 ../src/gtk/menu-items.c:506
+#: ../src/uicommon/gftpui.c:160 ../src/gtk/menu-items.c:491
 msgid "Translated by"
 msgstr "Преведено од: Владимир Стефанов, Иван Стојмиров"
 
-#: ../src/uicommon/gftpui.c:244 ../src/uicommon/gftpui.c:286
-#: ../src/uicommon/gftpui.c:326 ../src/uicommon/gftpui.c:361
-#: ../src/uicommon/gftpui.c:396 ../src/uicommon/gftpui.c:431
-#: ../src/uicommon/gftpui.c:467 ../src/uicommon/gftpui.c:532
-#: ../src/uicommon/gftpui.c:613 ../src/uicommon/gftpui.c:878
+#: ../src/uicommon/gftpui.c:207 ../src/uicommon/gftpui.c:249
+#: ../src/uicommon/gftpui.c:289 ../src/uicommon/gftpui.c:324
+#: ../src/uicommon/gftpui.c:359 ../src/uicommon/gftpui.c:395
+#: ../src/uicommon/gftpui.c:431 ../src/uicommon/gftpui.c:496
+#: ../src/uicommon/gftpui.c:577 ../src/uicommon/gftpui.c:845
 msgid "Error: Not connected to a remote site\n"
 msgstr "Грешка: Не сум поврзан со далечниот сајт\n"
 
-#: ../src/uicommon/gftpui.c:255
+#: ../src/uicommon/gftpui.c:218
 msgid "usage: chmod <mode> <file>\n"
 msgstr "користење: chmod <мод> <датотека>\n"
 
-#: ../src/uicommon/gftpui.c:296
+#: ../src/uicommon/gftpui.c:259
 msgid "usage: rename <old name> <new name>\n"
 msgstr "користење: rename <старо име> <ново име>\n"
 
-#: ../src/uicommon/gftpui.c:332
+#: ../src/uicommon/gftpui.c:295
 msgid "usage: delete <file>\n"
 msgstr "користење: delete <датотека>\n"
 
-#: ../src/uicommon/gftpui.c:367
+#: ../src/uicommon/gftpui.c:330
 msgid "usage: rmdir <directory>\n"
 msgstr "користење: rmdir <директориум>\n"
 
-#: ../src/uicommon/gftpui.c:402
+#: ../src/uicommon/gftpui.c:365
 msgid "usage: site <site command>\n"
 msgstr "користење: site <команда на страницата>\n"
 
-#: ../src/uicommon/gftpui.c:437
+#: ../src/uicommon/gftpui.c:401
 msgid "usage: mkdir <new directory>\n"
 msgstr "користење: mkdir <нов директориум>\n"
 
-#: ../src/uicommon/gftpui.c:473 ../src/uicommon/gftpui.c:491
+#: ../src/uicommon/gftpui.c:437 ../src/uicommon/gftpui.c:455
 msgid "usage: chdir <directory>\n"
 msgstr "користење: chdir <директориум>\n"
 
-#: ../src/uicommon/gftpui.c:564
+#: ../src/uicommon/gftpui.c:528
 msgid "Invalid argument\n"
 msgstr "Неправилен аргумент\n"
 
-#: ../src/uicommon/gftpui.c:577
+#: ../src/uicommon/gftpui.c:541
 msgid "Clear the directory cache\n"
 msgstr "Исчисти го кешот на директориумот\n"
 
-#: ../src/uicommon/gftpui.c:666
+#: ../src/uicommon/gftpui.c:630
 msgid "usage: open "
 msgstr "користење: open "
 
-#: ../src/uicommon/gftpui.c:739
+#: ../src/uicommon/gftpui.c:706
 msgid "usage: set [variable = value]\n"
 msgstr "користење: постави [варијабла = вредност]\n"
 
-#: ../src/uicommon/gftpui.c:753
+#: ../src/uicommon/gftpui.c:720
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "Грешка: Варијаблата %s не е правилна конфигурациона варијабла.\n"
 
-#: ../src/uicommon/gftpui.c:760
+#: ../src/uicommon/gftpui.c:727
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "Грешка: Варијаблата %s не е достапна во текстуалното портирање на gFTP\n"
 
-#: ../src/uicommon/gftpui.c:842
+#: ../src/uicommon/gftpui.c:809
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1596,287 +1620,297 @@ msgstr ""
 "Подржани команди:\n"
 "\n"
 
-#: ../src/uicommon/gftpui.c:885
+#: ../src/uicommon/gftpui.c:852
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "користење: %s <filespec>\n"
 
-#: ../src/uicommon/gftpui.c:970
+#: ../src/uicommon/gftpui.c:937
 msgid "about"
 msgstr "за"
 
-#: ../src/uicommon/gftpui.c:971
+#: ../src/uicommon/gftpui.c:938
 msgid "Shows gFTP information"
 msgstr "Прикажува инфромации за gFTP"
 
-#: ../src/uicommon/gftpui.c:972
+#: ../src/uicommon/gftpui.c:939
 msgid "ascii"
 msgstr "ascii"
 
-#: ../src/uicommon/gftpui.c:973
+#: ../src/uicommon/gftpui.c:940
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "Го поставува тековниот режим на датотечен трансфер на Ascii (само за FTP)"
 
-#: ../src/uicommon/gftpui.c:974
+#: ../src/uicommon/gftpui.c:941
 msgid "binary"
 msgstr "бинарен"
 
-#: ../src/uicommon/gftpui.c:975
+#: ../src/uicommon/gftpui.c:942
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "Го подесува тековниот режим на трансфер во Бинарен (само за FTP)"
 
-#: ../src/uicommon/gftpui.c:976
+#: ../src/uicommon/gftpui.c:943
 msgid "cd"
 msgstr "cd"
 
-#: ../src/uicommon/gftpui.c:977 ../src/uicommon/gftpui.c:979
+#: ../src/uicommon/gftpui.c:944 ../src/uicommon/gftpui.c:946
 msgid "Changes the remote working directory"
 msgstr "Го променува далечниот работен директориум"
 
-#: ../src/uicommon/gftpui.c:978
+#: ../src/uicommon/gftpui.c:945
 msgid "chdir"
 msgstr "chdir"
 
-#: ../src/uicommon/gftpui.c:980
+#: ../src/uicommon/gftpui.c:947
 msgid "chmod"
 msgstr "chmod"
 
-#: ../src/uicommon/gftpui.c:981
+#: ../src/uicommon/gftpui.c:948
 msgid "Changes the permissions of a remote file"
 msgstr "Ги променува дозволите за далечната датотека"
 
-#: ../src/uicommon/gftpui.c:982
+#: ../src/uicommon/gftpui.c:949
 msgid "clear"
 msgstr "clear"
 
-#: ../src/uicommon/gftpui.c:983
+#: ../src/uicommon/gftpui.c:950
 msgid "Available options: cache"
 msgstr "Достапни опции: cache"
 
-#: ../src/uicommon/gftpui.c:984
+#: ../src/uicommon/gftpui.c:951
 msgid "close"
 msgstr "close"
 
-#: ../src/uicommon/gftpui.c:985
+#: ../src/uicommon/gftpui.c:952
 msgid "Disconnects from the remote site"
 msgstr "Дисконектира од далечната страница"
 
-#: ../src/uicommon/gftpui.c:986
+#: ../src/uicommon/gftpui.c:953
 msgid "delete"
 msgstr "избриши"
 
-#: ../src/uicommon/gftpui.c:987
+#: ../src/uicommon/gftpui.c:954
 msgid "Removes a remote file"
 msgstr "Отстранува далечна датотека"
 
-#: ../src/uicommon/gftpui.c:988
+#: ../src/uicommon/gftpui.c:955
 msgid "dir"
 msgstr "dir"
 
-#: ../src/uicommon/gftpui.c:989 ../src/uicommon/gftpui.c:1015
+#: ../src/uicommon/gftpui.c:956 ../src/uicommon/gftpui.c:982
 msgid "Shows the directory listing for the current remote directory"
 msgstr "Прикажува список на директориум за тековниот директориум"
 
-#: ../src/uicommon/gftpui.c:990
+#: ../src/uicommon/gftpui.c:957
 msgid "get"
 msgstr "get"
 
-#: ../src/uicommon/gftpui.c:991 ../src/uicommon/gftpui.c:1017
+#: ../src/uicommon/gftpui.c:958 ../src/uicommon/gftpui.c:984
 msgid "Downloads remote file(s)"
 msgstr "Презема далечна датотека(и)"
 
-#: ../src/uicommon/gftpui.c:992
+#: ../src/uicommon/gftpui.c:959
 msgid "help"
 msgstr "help"
 
-#: ../src/uicommon/gftpui.c:993
+#: ../src/uicommon/gftpui.c:960
 msgid "Shows this help screen"
 msgstr "Го прикажува овој помошен екран"
 
-#: ../src/uicommon/gftpui.c:994
+#: ../src/uicommon/gftpui.c:961
 msgid "lcd"
 msgstr "lcd"
 
-#: ../src/uicommon/gftpui.c:995 ../src/uicommon/gftpui.c:997
+#: ../src/uicommon/gftpui.c:962 ../src/uicommon/gftpui.c:964
 msgid "Changes the local working directory"
 msgstr "Го променува локалниот директориум за работа"
 
-#: ../src/uicommon/gftpui.c:996
+#: ../src/uicommon/gftpui.c:963
 msgid "lchdir"
 msgstr "lchdir"
 
-#: ../src/uicommon/gftpui.c:998
+#: ../src/uicommon/gftpui.c:965
 msgid "lchmod"
 msgstr "lchmod"
 
-#: ../src/uicommon/gftpui.c:999
+#: ../src/uicommon/gftpui.c:966
 msgid "Changes the permissions of a local file"
 msgstr "Ги прменува дозволите за локална датотека"
 
-#: ../src/uicommon/gftpui.c:1000
+#: ../src/uicommon/gftpui.c:967
 msgid "ldelete"
 msgstr "ldelete"
 
-#: ../src/uicommon/gftpui.c:1001
+#: ../src/uicommon/gftpui.c:968
 msgid "Removes a local file"
 msgstr "Отстранува локална датотека"
 
-#: ../src/uicommon/gftpui.c:1002
+#: ../src/uicommon/gftpui.c:969
 msgid "ldir"
 msgstr "ldir"
 
-#: ../src/uicommon/gftpui.c:1003 ../src/uicommon/gftpui.c:1005
+#: ../src/uicommon/gftpui.c:970 ../src/uicommon/gftpui.c:972
 msgid "Shows the directory listing for the current local directory"
 msgstr "Го прикажува списокот на директориумот за тековниот локален директориум"
 
-#: ../src/uicommon/gftpui.c:1004
+#: ../src/uicommon/gftpui.c:971
 msgid "lls"
 msgstr "lls"
 
-#: ../src/uicommon/gftpui.c:1006
+#: ../src/uicommon/gftpui.c:973
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: ../src/uicommon/gftpui.c:1007
+#: ../src/uicommon/gftpui.c:974
 msgid "Creates a local directory"
 msgstr "Креира локален директориум"
 
-#: ../src/uicommon/gftpui.c:1008
+#: ../src/uicommon/gftpui.c:975
 msgid "lpwd"
 msgstr "lpwd"
 
-#: ../src/uicommon/gftpui.c:1009
+#: ../src/uicommon/gftpui.c:976
 msgid "Show current local directory"
 msgstr "Го прикажува тековниот локален директориум"
 
-#: ../src/uicommon/gftpui.c:1010
+#: ../src/uicommon/gftpui.c:977
 msgid "lrename"
 msgstr "lrename"
 
-#: ../src/uicommon/gftpui.c:1011
+#: ../src/uicommon/gftpui.c:978
 msgid "Rename a local file"
 msgstr "Преименува локална датотека"
 
-#: ../src/uicommon/gftpui.c:1012
+#: ../src/uicommon/gftpui.c:979
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: ../src/uicommon/gftpui.c:1013
+#: ../src/uicommon/gftpui.c:980
 msgid "Remove a local directory"
 msgstr "Отстранува локален директориум"
 
-#: ../src/uicommon/gftpui.c:1014
+#: ../src/uicommon/gftpui.c:981
 msgid "ls"
 msgstr "ls"
 
-#: ../src/uicommon/gftpui.c:1016
+#: ../src/uicommon/gftpui.c:983
 msgid "mget"
 msgstr "mget"
 
-#: ../src/uicommon/gftpui.c:1018
+#: ../src/uicommon/gftpui.c:985
 msgid "mkdir"
 msgstr "mkdir"
 
-#: ../src/uicommon/gftpui.c:1019
+#: ../src/uicommon/gftpui.c:986
 msgid "Creates a remote directory"
 msgstr "Креира далечен директориум"
 
-#: ../src/uicommon/gftpui.c:1020
+#: ../src/uicommon/gftpui.c:987
 msgid "mput"
 msgstr "mput"
 
-#: ../src/uicommon/gftpui.c:1021 ../src/uicommon/gftpui.c:1025
+#: ../src/uicommon/gftpui.c:988 ../src/uicommon/gftpui.c:992
 msgid "Uploads local file(s)"
 msgstr "Испраќа локална датотека(и)"
 
-#: ../src/uicommon/gftpui.c:1022
+#: ../src/uicommon/gftpui.c:989
 msgid "open"
 msgstr "open"
 
-#: ../src/uicommon/gftpui.c:1023
+#: ../src/uicommon/gftpui.c:990
 msgid "Opens a connection to a remote site"
 msgstr "Отвара конекција до одалечената страница"
 
-#: ../src/uicommon/gftpui.c:1024
+#: ../src/uicommon/gftpui.c:991
 msgid "put"
 msgstr "put"
 
-#: ../src/uicommon/gftpui.c:1026
+#: ../src/uicommon/gftpui.c:993
 msgid "pwd"
 msgstr "pwd"
 
-#: ../src/uicommon/gftpui.c:1027
+#: ../src/uicommon/gftpui.c:994
 msgid "Show current remote directory"
 msgstr "Го прикажува тековниот далечен директориум"
 
-#: ../src/uicommon/gftpui.c:1028
+#: ../src/uicommon/gftpui.c:995
 msgid "quit"
 msgstr "quit"
 
-#: ../src/uicommon/gftpui.c:1029
+#: ../src/uicommon/gftpui.c:996
 msgid "Exit from gFTP"
 msgstr "Излегува од gFTP"
 
-#: ../src/uicommon/gftpui.c:1030
+#: ../src/uicommon/gftpui.c:997
 msgid "rename"
 msgstr "rename"
 
-#: ../src/uicommon/gftpui.c:1031
+#: ../src/uicommon/gftpui.c:998
 msgid "Rename a remote file"
 msgstr "Преименува далечна датотека"
 
-#: ../src/uicommon/gftpui.c:1032
+#: ../src/uicommon/gftpui.c:999
 msgid "rmdir"
 msgstr "rmdir"
 
-#: ../src/uicommon/gftpui.c:1033
+#: ../src/uicommon/gftpui.c:1000
 msgid "Remove a remote directory"
 msgstr "Отстранува далечен директориум"
 
-#: ../src/uicommon/gftpui.c:1034
+#: ../src/uicommon/gftpui.c:1001
 msgid "set"
 msgstr "set"
 
-#: ../src/uicommon/gftpui.c:1035
+#: ../src/uicommon/gftpui.c:1002
 msgid "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
 "Прикажува варијабли на конфигурациската датотека. Можете исто така да ги "
 "поставите варијаблите преку set var=val"
 
-#: ../src/uicommon/gftpui.c:1037
+#: ../src/uicommon/gftpui.c:1004
 msgid "site"
 msgstr "site"
 
-#: ../src/uicommon/gftpui.c:1038
+#: ../src/uicommon/gftpui.c:1005
 msgid "Run a site specific command"
 msgstr "Изврши специфична команда на сајтот"
 
-#: ../src/uicommon/gftpui.c:1128
+#: ../src/uicommon/gftpui.c:1094
 msgid "Error: Command not recognized\n"
 msgstr "Грешка: Командата не е препознаена\n"
 
-#: ../src/uicommon/gftpui.c:1399
-msgid "Error: Remote site disconnected after trying to transfer file\n"
-msgstr "Грешка: Далечниот сајт се дисконектира после пробата да се префрли датотека\n"
-
-#: ../src/uicommon/gftpui.c:1467
-#, c-format
-msgid "Could not download %s from %s\n"
-msgstr "Не можам да ја преземам %s од %s\n"
-
-#: ../src/uicommon/gftpui.c:1491
+#: ../src/uicommon/gftpui.c:1334
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "Успешно се префрлени %s со %.2f KB/s\n"
 
-#: ../src/uicommon/gftpui.c:1498
+#: ../src/uicommon/gftpui.c:1365
 #, c-format
-msgid "There was an error transfering the file %s"
-msgstr "Имаше грешка во префрлувањето на датотеката %s"
+msgid "Skipping file %s on host %s\n"
+msgstr "Прескокнувам датотека %s кај домаќинот %s\n"
 
-#: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:228
-#: ../src/gtk/gftp-gtk.c:1094 ../src/gtk/misc-gtk.c:515
-#: ../src/gtk/misc-gtk.c:523
+#: ../src/uicommon/gftpui.c:1389
+#, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "Запирам префрлање кон домаќинот %s\n"
+
+#: ../src/uicommon/gftpui.c:1540
+#, c-format
+msgid "Could not download %s from %s\n"
+msgstr "Не можам да ја преземам %s од %s\n"
+
+#: ../src/uicommon/gftpui.c:1596
+#, c-format
+msgid ""
+"There were %d files or directories that could not be transferred. Check the "
+"log for which items were not properly transferred."
+msgstr ""
+"Имаше %d датотеки и директориуми кои не можеа да се пренесат. Проверете "
+"го логот за да видите кои предмети не се пренесоа правилно."
+
+#: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
+#: ../src/gtk/gftp-gtk.c:1096 ../src/gtk/misc-gtk.c:505
+#: ../src/gtk/misc-gtk.c:513
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr ""
@@ -1920,23 +1954,27 @@ msgstr ""
 msgid "Remember password"
 msgstr "Запамети лозинка"
 
-#: ../src/gtk/bookmarks.c:473
+#: ../src/gtk/bookmarks.c:420
+msgid "You must specify a name for the bookmark."
+msgstr "Мора да одредите име за обележувачот."
+
+#: ../src/gtk/bookmarks.c:472
 msgid "New Folder"
 msgstr "Нова папка"
 
-#: ../src/gtk/bookmarks.c:474
+#: ../src/gtk/bookmarks.c:473
 msgid "Enter the name of the new folder to create"
 msgstr "Внесете го името на новата папка за создавање"
 
-#: ../src/gtk/bookmarks.c:483
+#: ../src/gtk/bookmarks.c:482
 msgid "New Item"
 msgstr "Нов елемент"
 
-#: ../src/gtk/bookmarks.c:484
+#: ../src/gtk/bookmarks.c:483
 msgid "Enter the name of the new item to create"
 msgstr "Внесете го името за создавање на новиот елемент"
 
-#: ../src/gtk/bookmarks.c:557
+#: ../src/gtk/bookmarks.c:556
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1945,101 +1983,97 @@ msgstr ""
 "Дали сте сигурни дека сакате да го избришете обележувачот\n"
 "%s и сите негови деца?"
 
-#: ../src/gtk/bookmarks.c:558
+#: ../src/gtk/bookmarks.c:557
 msgid "Delete Bookmark"
 msgstr "Избриши обележувач"
 
-#: ../src/gtk/bookmarks.c:630
+#: ../src/gtk/bookmarks.c:629
 msgid "Bookmarks"
 msgstr "Обележувачи"
 
-#: ../src/gtk/bookmarks.c:853 ../src/gtk/bookmarks.c:856
+#: ../src/gtk/bookmarks.c:849 ../src/gtk/bookmarks.c:852
 msgid "Edit Entry"
 msgstr "Уреди внес"
 
-#: ../src/gtk/bookmarks.c:894
+#: ../src/gtk/bookmarks.c:888
 msgid "Description:"
 msgstr "Опис:"
 
-#: ../src/gtk/bookmarks.c:909
+#: ../src/gtk/bookmarks.c:903
 msgid "Hostname:"
 msgstr "Име на хост:"
 
-#: ../src/gtk/bookmarks.c:922
+#: ../src/gtk/bookmarks.c:916
 msgid "Port:"
 msgstr "Порта:"
 
-#: ../src/gtk/bookmarks.c:939
+#: ../src/gtk/bookmarks.c:933
 msgid "Protocol:"
 msgstr "Протокол:"
 
-#: ../src/gtk/bookmarks.c:963
+#: ../src/gtk/bookmarks.c:957
 msgid "Remote Directory:"
 msgstr "Далечен директориум:"
 
-#: ../src/gtk/bookmarks.c:976
+#: ../src/gtk/bookmarks.c:970
 msgid "Local Directory:"
 msgstr "Локален директориум:"
 
-#: ../src/gtk/bookmarks.c:993
+#: ../src/gtk/bookmarks.c:987
 msgid "Username:"
 msgstr "Корисничко име:"
 
-#: ../src/gtk/bookmarks.c:1006 ../src/text/textui.c:91
+#: ../src/gtk/bookmarks.c:1000 ../src/text/textui.c:92
 msgid "Password:"
 msgstr "Лозинка:"
 
-#: ../src/gtk/bookmarks.c:1020
+#: ../src/gtk/bookmarks.c:1014
 msgid "Account:"
 msgstr "Сметка:"
 
-#: ../src/gtk/bookmarks.c:1034
+#: ../src/gtk/bookmarks.c:1028
 msgid "Log in as ANONYMOUS"
 msgstr "Најависе како ANONYMOUS"
 
-#: ../src/gtk/bookmarks.c:1059 ../src/gtk/bookmarks.c:1317
-#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:380
-#: ../src/gtk/options_dialog.c:1219 ../src/gtk/options_dialog.c:1453
+#: ../src/gtk/bookmarks.c:1053 ../src/gtk/bookmarks.c:1303
+#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:388
+#: ../src/gtk/options_dialog.c:1216 ../src/gtk/options_dialog.c:1448
 msgid "  Cancel  "
 msgstr "  Откажи  "
 
-#: ../src/gtk/bookmarks.c:1068 ../src/gtk/options_dialog.c:1464
-msgid "Apply"
-msgstr "Примени"
-
-#: ../src/gtk/bookmarks.c:1219
+#: ../src/gtk/bookmarks.c:1204
 msgid "/_File"
 msgstr "/_Датотека"
 
-#: ../src/gtk/bookmarks.c:1220
+#: ../src/gtk/bookmarks.c:1205
 msgid "/File/tearoff"
 msgstr "/Датотека/откачи"
 
-#: ../src/gtk/bookmarks.c:1221
+#: ../src/gtk/bookmarks.c:1206
 msgid "/File/New _Folder..."
 msgstr "/Датотека/Нова _папка..."
 
-#: ../src/gtk/bookmarks.c:1222
+#: ../src/gtk/bookmarks.c:1207
 msgid "/File/New _Item..."
 msgstr "/Датотека/Нов _елемент..."
 
-#: ../src/gtk/bookmarks.c:1223
+#: ../src/gtk/bookmarks.c:1208
 msgid "/File/_Delete"
 msgstr "/Датотека/_Избриши"
 
-#: ../src/gtk/bookmarks.c:1224
+#: ../src/gtk/bookmarks.c:1209
 msgid "/File/_Properties..."
 msgstr "/Датотека/_Својства..."
 
-#: ../src/gtk/bookmarks.c:1225
+#: ../src/gtk/bookmarks.c:1210
 msgid "/File/sep"
 msgstr "/Датотека/sep"
 
-#: ../src/gtk/bookmarks.c:1226
+#: ../src/gtk/bookmarks.c:1211
 msgid "/File/_Close"
 msgstr "/Датотека/_Затвори"
 
-#: ../src/gtk/bookmarks.c:1244 ../src/gtk/bookmarks.c:1247
+#: ../src/gtk/bookmarks.c:1229 ../src/gtk/bookmarks.c:1232
 msgid "Edit Bookmarks"
 msgstr "Уреди обележувачи"
 
@@ -2072,7 +2106,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Лепливо"
 
-#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:774
+#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:780
 msgid "User"
 msgstr "Корисник"
 
@@ -2091,7 +2125,7 @@ msgstr "Запши"
 msgid "Execute"
 msgstr "Изврши"
 
-#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:775
+#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:781
 msgid "Group"
 msgstr "Група"
 
@@ -2120,12 +2154,12 @@ msgstr "Дали сте сигурни дека сакате да ги избр�
 msgid "Delete Files/Directories"
 msgstr "Избриши датотеки/директориуми"
 
-#: ../src/gtk/delete_dialog.c:90 ../src/gtk/options_dialog.c:1305
+#: ../src/gtk/delete_dialog.c:90 ../src/gtk/options_dialog.c:1302
 msgid "Delete"
 msgstr "Избриши"
 
-#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1095 ../src/gtk/misc-gtk.c:948
-#: ../src/gtk/misc-gtk.c:1023
+#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1097 ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/misc-gtk.c:1004
 msgid "Connect"
 msgstr "Поврзи"
 
@@ -2138,11 +2172,11 @@ msgstr "Примен URL %s\n"
 msgid "Drag-N-Drop"
 msgstr "Повлечи и пушти"
 
-#: ../src/gtk/gftp-gtk.c:138
+#: ../src/gtk/gftp-gtk.c:144
 msgid "Exit"
 msgstr "Излез"
 
-#: ../src/gtk/gftp-gtk.c:138
+#: ../src/gtk/gftp-gtk.c:144
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
@@ -2150,468 +2184,468 @@ msgstr ""
 "Во тек е трансфер на датотеки\n"
 "Дали сте сигурно дека сакате да излезете?"
 
-#: ../src/gtk/gftp-gtk.c:213 ../src/gtk/gftp-gtk.c:229
+#: ../src/gtk/gftp-gtk.c:219 ../src/gtk/gftp-gtk.c:235
 msgid "Open Location"
 msgstr "Отвори локација"
 
-#: ../src/gtk/gftp-gtk.c:213
+#: ../src/gtk/gftp-gtk.c:219
 msgid "Enter a URL to connect to"
 msgstr "Внеси URL кон кој да се поврзам"
 
-#: ../src/gtk/gftp-gtk.c:259
+#: ../src/gtk/gftp-gtk.c:265
 msgid "/_FTP"
 msgstr "/_FTP"
 
-#: ../src/gtk/gftp-gtk.c:260
+#: ../src/gtk/gftp-gtk.c:266
 msgid "/FTP/tearoff"
 msgstr "/FTP/откачи"
 
-#: ../src/gtk/gftp-gtk.c:261
+#: ../src/gtk/gftp-gtk.c:267
 msgid "/FTP/Window _1"
 msgstr "/FTP/Прозорец _1"
 
-#: ../src/gtk/gftp-gtk.c:263
+#: ../src/gtk/gftp-gtk.c:269
 msgid "/FTP/Window _2"
 msgstr "/FTP/Прозорец _2"
 
-#: ../src/gtk/gftp-gtk.c:265 ../src/gtk/gftp-gtk.c:270
-#: ../src/gtk/gftp-gtk.c:273
+#: ../src/gtk/gftp-gtk.c:271 ../src/gtk/gftp-gtk.c:276
+#: ../src/gtk/gftp-gtk.c:279
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
 
-#: ../src/gtk/gftp-gtk.c:266
+#: ../src/gtk/gftp-gtk.c:272
 msgid "/FTP/_Ascii"
 msgstr "/FTP/_Ascii"
 
-#: ../src/gtk/gftp-gtk.c:268
+#: ../src/gtk/gftp-gtk.c:274
 msgid "/FTP/_Binary"
 msgstr "/FTP/_Бинарно"
 
-#: ../src/gtk/gftp-gtk.c:271
+#: ../src/gtk/gftp-gtk.c:277
 msgid "/FTP/_Preferences..."
 msgstr "/FTP/_Преференции..."
 
-#: ../src/gtk/gftp-gtk.c:274
+#: ../src/gtk/gftp-gtk.c:280
 msgid "/FTP/_Quit"
 msgstr "/FTP/_Излези"
 
-#: ../src/gtk/gftp-gtk.c:275
+#: ../src/gtk/gftp-gtk.c:281
 msgid "/_Local"
 msgstr "/_Локално"
 
-#: ../src/gtk/gftp-gtk.c:276
+#: ../src/gtk/gftp-gtk.c:282
 msgid "/Local/tearoff"
 msgstr "/Локално/откачи"
 
-#: ../src/gtk/gftp-gtk.c:277
+#: ../src/gtk/gftp-gtk.c:283
 msgid "/Local/_Open Location..."
 msgstr "/Локално/_Отвори локација..."
 
-#: ../src/gtk/gftp-gtk.c:279
+#: ../src/gtk/gftp-gtk.c:285
 msgid "/Local/D_isconnect"
 msgstr "/Локално/_Исклучи"
 
-#: ../src/gtk/gftp-gtk.c:280 ../src/gtk/gftp-gtk.c:287
+#: ../src/gtk/gftp-gtk.c:286 ../src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "/Локално/sep"
 
-#: ../src/gtk/gftp-gtk.c:281
+#: ../src/gtk/gftp-gtk.c:287
 msgid "/Local/Change _Filespec..."
-msgstr "/Локално/Смени спецификација на _датотеки..."
+msgstr "/Локално/Смени спецификации на _датотеки..."
 
-#: ../src/gtk/gftp-gtk.c:283
+#: ../src/gtk/gftp-gtk.c:289
 msgid "/Local/_Show selected"
 msgstr "/Локално/П_рикажи избор"
 
-#: ../src/gtk/gftp-gtk.c:284
+#: ../src/gtk/gftp-gtk.c:290
 msgid "/Local/Select _All"
-msgstr "/Локално/Избери _се"
+msgstr "/Локално/Избери _сѐ"
 
-#: ../src/gtk/gftp-gtk.c:285
+#: ../src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
 msgstr "/Локално/Избери ги сите датотеки"
 
-#: ../src/gtk/gftp-gtk.c:286
+#: ../src/gtk/gftp-gtk.c:292
 msgid "/Local/Deselect All"
 msgstr "/Локално/Избери ништо"
 
-#: ../src/gtk/gftp-gtk.c:288
+#: ../src/gtk/gftp-gtk.c:294
 msgid "/Local/Save Directory Listing..."
 msgstr "/Локално/Зачувај листинг на директориуми..."
 
-#: ../src/gtk/gftp-gtk.c:289
+#: ../src/gtk/gftp-gtk.c:295
 msgid "/Local/Send SITE Command..."
 msgstr "/Локално/Испрати SITE наредба..."
 
-#: ../src/gtk/gftp-gtk.c:290
+#: ../src/gtk/gftp-gtk.c:296
 msgid "/Local/_Change Directory"
 msgstr "/Локално/С_мени директориум"
 
-#: ../src/gtk/gftp-gtk.c:291
+#: ../src/gtk/gftp-gtk.c:297
 msgid "/Local/_Permissions..."
 msgstr "/Локално/До_зволи..."
 
-#: ../src/gtk/gftp-gtk.c:293
+#: ../src/gtk/gftp-gtk.c:299
 msgid "/Local/_New Folder..."
 msgstr "/Локално/_Нова папка..."
 
-#: ../src/gtk/gftp-gtk.c:294
+#: ../src/gtk/gftp-gtk.c:300
 msgid "/Local/Rena_me..."
 msgstr "/Локално/Преим_енувај..."
 
-#: ../src/gtk/gftp-gtk.c:296
+#: ../src/gtk/gftp-gtk.c:302
 msgid "/Local/_Delete..."
 msgstr "/Локално/Из_бриши..."
 
-#: ../src/gtk/gftp-gtk.c:298
+#: ../src/gtk/gftp-gtk.c:304
 msgid "/Local/_Edit..."
 msgstr "/Локално/_Уреди..."
 
-#: ../src/gtk/gftp-gtk.c:299
+#: ../src/gtk/gftp-gtk.c:305
 msgid "/Local/_View..."
 msgstr "/Локално/Пре_гледај..."
 
-#: ../src/gtk/gftp-gtk.c:300
+#: ../src/gtk/gftp-gtk.c:306
 msgid "/Local/_Refresh"
 msgstr "/Локално/Осве_жи"
 
-#: ../src/gtk/gftp-gtk.c:302
+#: ../src/gtk/gftp-gtk.c:308
 msgid "/_Remote"
 msgstr "/_Далечно"
 
-#: ../src/gtk/gftp-gtk.c:303
+#: ../src/gtk/gftp-gtk.c:309
 msgid "/Remote/tearoff"
 msgstr "/Далечно/откачи"
 
-#: ../src/gtk/gftp-gtk.c:304
+#: ../src/gtk/gftp-gtk.c:310
 msgid "/Remote/_Open Location..."
 msgstr "/Далечно/_Отвори локација..."
 
-#: ../src/gtk/gftp-gtk.c:306
+#: ../src/gtk/gftp-gtk.c:312
 msgid "/Remote/D_isconnect"
 msgstr "/Далечно/Исклу_чи"
 
-#: ../src/gtk/gftp-gtk.c:308 ../src/gtk/gftp-gtk.c:315
+#: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/Далечно/sep"
 
-#: ../src/gtk/gftp-gtk.c:309
+#: ../src/gtk/gftp-gtk.c:315
 msgid "/Remote/Change _Filespec..."
 msgstr "/Далечно/Смени спецификација на _датотека..."
 
-#: ../src/gtk/gftp-gtk.c:311
+#: ../src/gtk/gftp-gtk.c:317
 msgid "/Remote/_Show selected"
 msgstr "/Далечно/Прика_жи избрано"
 
-#: ../src/gtk/gftp-gtk.c:312
+#: ../src/gtk/gftp-gtk.c:318
 msgid "/Remote/Select _All"
 msgstr "/Далечно/Избери _се"
 
-#: ../src/gtk/gftp-gtk.c:313
+#: ../src/gtk/gftp-gtk.c:319
 msgid "/Remote/Select All Files"
 msgstr "/Далечно/Избери ги сите датотеки"
 
-#: ../src/gtk/gftp-gtk.c:314
+#: ../src/gtk/gftp-gtk.c:320
 msgid "/Remote/Deselect All"
 msgstr "/Далечно/Деселектирај се"
 
-#: ../src/gtk/gftp-gtk.c:316
+#: ../src/gtk/gftp-gtk.c:322
 msgid "/Remote/Save Directory Listing..."
 msgstr "/Далечно/Зачувај список на директориумот..."
 
-#: ../src/gtk/gftp-gtk.c:317
+#: ../src/gtk/gftp-gtk.c:323
 msgid "/Remote/Send SITE Command..."
-msgstr "/Далечно/Прати команда на страната..."
+msgstr "/Далечно/Прати SITE команда..."
 
-#: ../src/gtk/gftp-gtk.c:318
+#: ../src/gtk/gftp-gtk.c:324
 msgid "/Remote/_Change Directory"
 msgstr "/Далечно/П_ромени директориум"
 
-#: ../src/gtk/gftp-gtk.c:319
+#: ../src/gtk/gftp-gtk.c:325
 msgid "/Remote/_Permisssions..."
 msgstr "/Далечно/_Дозволи..."
 
-#: ../src/gtk/gftp-gtk.c:320
+#: ../src/gtk/gftp-gtk.c:326
 msgid "/Remote/_New Folder..."
 msgstr "/Датотека/_Нова папка..."
 
-#: ../src/gtk/gftp-gtk.c:322
+#: ../src/gtk/gftp-gtk.c:328
 msgid "/Remote/Rena_me..."
 msgstr "/Далечно/Пре_именувај..."
 
-#: ../src/gtk/gftp-gtk.c:324
+#: ../src/gtk/gftp-gtk.c:330
 msgid "/Remote/_Delete..."
 msgstr "/Далечно/И_збриши..."
 
-#: ../src/gtk/gftp-gtk.c:325
+#: ../src/gtk/gftp-gtk.c:331
 msgid "/Remote/_Edit..."
 msgstr "/Далечно/_Уреди..."
 
-#: ../src/gtk/gftp-gtk.c:326
+#: ../src/gtk/gftp-gtk.c:332
 msgid "/Remote/_View..."
 msgstr "/Далечно/Пре_глед..."
 
-#: ../src/gtk/gftp-gtk.c:327
+#: ../src/gtk/gftp-gtk.c:333
 msgid "/Remote/_Refresh"
 msgstr "/Далечно/Осве_жи"
 
-#: ../src/gtk/gftp-gtk.c:329
+#: ../src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
 msgstr "/_Обележувачи"
 
-#: ../src/gtk/gftp-gtk.c:330
+#: ../src/gtk/gftp-gtk.c:336
 msgid "/Bookmarks/tearoff"
 msgstr "/Обележувачи/откини"
 
-#: ../src/gtk/gftp-gtk.c:331
+#: ../src/gtk/gftp-gtk.c:337
 msgid "/Bookmarks/Add _Bookmark"
 msgstr "/Обележувачи/Додади _обележувач"
 
-#: ../src/gtk/gftp-gtk.c:333
+#: ../src/gtk/gftp-gtk.c:339
 msgid "/Bookmarks/Edit Bookmarks"
 msgstr "/Обележувачи/Уреди обележувачи"
 
-#: ../src/gtk/gftp-gtk.c:334
+#: ../src/gtk/gftp-gtk.c:340
 msgid "/Bookmarks/sep"
 msgstr "/Обележувачи/оддели"
 
-#: ../src/gtk/gftp-gtk.c:335
+#: ../src/gtk/gftp-gtk.c:341
 msgid "/_Transfer"
 msgstr "/_Трансфер"
 
-#: ../src/gtk/gftp-gtk.c:336
+#: ../src/gtk/gftp-gtk.c:342
 msgid "/Transfer/tearoff"
 msgstr "/Трансфер/откини"
 
-#: ../src/gtk/gftp-gtk.c:337
+#: ../src/gtk/gftp-gtk.c:343
 msgid "/Transfer/_Start"
 msgstr "/Трансфер/_Почни"
 
-#: ../src/gtk/gftp-gtk.c:338
+#: ../src/gtk/gftp-gtk.c:344
 msgid "/Transfer/St_op"
 msgstr "/Трансфер/_Запри"
 
-#: ../src/gtk/gftp-gtk.c:340 ../src/gtk/gftp-gtk.c:348
+#: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
 msgid "/Transfer/sep"
 msgstr "/Трансфер/оддели"
 
-#: ../src/gtk/gftp-gtk.c:341
+#: ../src/gtk/gftp-gtk.c:347
 msgid "/Transfer/Skip _Current File"
 msgstr "/Трансфер/Прескокни _тековна датотека"
 
-#: ../src/gtk/gftp-gtk.c:342
+#: ../src/gtk/gftp-gtk.c:348
 msgid "/Transfer/_Remove File"
 msgstr "/Трансфер/_Отстрани датотека"
 
-#: ../src/gtk/gftp-gtk.c:344
+#: ../src/gtk/gftp-gtk.c:350
 msgid "/Transfer/Move File _Up"
 msgstr "/Трансфер/Помести датотека _нагоре"
 
-#: ../src/gtk/gftp-gtk.c:346
+#: ../src/gtk/gftp-gtk.c:352
 msgid "/Transfer/Move File _Down"
 msgstr "/Трансфери/Помести датотека на_доле"
 
-#: ../src/gtk/gftp-gtk.c:349
+#: ../src/gtk/gftp-gtk.c:355
 msgid "/Transfer/_Retrieve Files"
 msgstr "/Трансфер/По_вторно превземи датотеки"
 
-#: ../src/gtk/gftp-gtk.c:350
+#: ../src/gtk/gftp-gtk.c:356
 msgid "/Transfer/_Put Files"
 msgstr "/Трансфер/_Стави датотеки"
 
-#: ../src/gtk/gftp-gtk.c:351
+#: ../src/gtk/gftp-gtk.c:357
 msgid "/L_og"
 msgstr "/_Дневник"
 
-#: ../src/gtk/gftp-gtk.c:352
+#: ../src/gtk/gftp-gtk.c:358
 msgid "/Log/tearoff"
 msgstr "/Дневник/откини"
 
-#: ../src/gtk/gftp-gtk.c:353
+#: ../src/gtk/gftp-gtk.c:359
 msgid "/Log/_Clear"
 msgstr "/Дневник/Ис_чисти"
 
-#: ../src/gtk/gftp-gtk.c:354
+#: ../src/gtk/gftp-gtk.c:360
 msgid "/Log/_View"
 msgstr "/Дневник/_Види дневник"
 
-#: ../src/gtk/gftp-gtk.c:355
+#: ../src/gtk/gftp-gtk.c:361
 msgid "/Log/_Save..."
 msgstr "/Дневник/_Зачувај дневник..."
 
-#: ../src/gtk/gftp-gtk.c:356
+#: ../src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
 msgstr "/_Алатки"
 
-#: ../src/gtk/gftp-gtk.c:357
+#: ../src/gtk/gftp-gtk.c:363
 msgid "/Tools/tearoff"
 msgstr "/Алатки/откини"
 
-#: ../src/gtk/gftp-gtk.c:358
+#: ../src/gtk/gftp-gtk.c:364
 msgid "/Tools/C_ompare Windows"
 msgstr "/Алатки/_Спореди прозорци"
 
-#: ../src/gtk/gftp-gtk.c:359
+#: ../src/gtk/gftp-gtk.c:365
 msgid "/Tools/_Clear Cache"
 msgstr "/Алатки/_Исчисти кеш"
 
-#: ../src/gtk/gftp-gtk.c:360
+#: ../src/gtk/gftp-gtk.c:366
 msgid "/Help"
 msgstr "/Помош"
 
-#: ../src/gtk/gftp-gtk.c:361
+#: ../src/gtk/gftp-gtk.c:367
 msgid "/Help/tearoff"
 msgstr "/Помош/откини"
 
-#: ../src/gtk/gftp-gtk.c:362
+#: ../src/gtk/gftp-gtk.c:368
 msgid "/Help/_About"
 msgstr "/Помош/_За"
 
-#: ../src/gtk/gftp-gtk.c:482
+#: ../src/gtk/gftp-gtk.c:488
 msgid "Host: "
 msgstr "Домаќин: "
 
-#: ../src/gtk/gftp-gtk.c:484
+#: ../src/gtk/gftp-gtk.c:490
 msgid "_Host: "
 msgstr "_Хост: "
 
-#: ../src/gtk/gftp-gtk.c:510
+#: ../src/gtk/gftp-gtk.c:516
 msgid "Port: "
 msgstr "Порта: "
 
-#: ../src/gtk/gftp-gtk.c:531
+#: ../src/gtk/gftp-gtk.c:537
 msgid "User: "
 msgstr "Корисник: "
 
-#: ../src/gtk/gftp-gtk.c:533
+#: ../src/gtk/gftp-gtk.c:539
 msgid "_User: "
 msgstr "_Корисник: "
 
-#: ../src/gtk/gftp-gtk.c:558
+#: ../src/gtk/gftp-gtk.c:564
 msgid "Pass: "
 msgstr "Лоз: "
 
-#: ../src/gtk/gftp-gtk.c:630
+#: ../src/gtk/gftp-gtk.c:636
 msgid "Command: "
 msgstr "Команда: "
 
-#: ../src/gtk/gftp-gtk.c:772 ../src/gtk/gftp-gtk.c:983
-#: ../src/gtk/gtkui_transfer.c:216
+#: ../src/gtk/gftp-gtk.c:778 ../src/gtk/gftp-gtk.c:989
+#: ../src/gtk/gtkui_transfer.c:228
 msgid "Filename"
 msgstr "Име на датотека"
 
-#: ../src/gtk/gftp-gtk.c:773
+#: ../src/gtk/gftp-gtk.c:779
 msgid "Size"
 msgstr "Големина"
 
-#: ../src/gtk/gftp-gtk.c:776
+#: ../src/gtk/gftp-gtk.c:782
 msgid "Date"
 msgstr "Датум"
 
-#: ../src/gtk/gftp-gtk.c:777
+#: ../src/gtk/gftp-gtk.c:783
 msgid "Attribs"
 msgstr "Атрибути"
 
-#: ../src/gtk/gftp-gtk.c:984
+#: ../src/gtk/gftp-gtk.c:990
 msgid "Progress"
 msgstr "Напредок"
 
-#: ../src/gtk/gftp-gtk.c:1125
+#: ../src/gtk/gftp-gtk.c:1126
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Грешка: Морате да напишете домаќин кон кој да се поврзам\n"
 
-#: ../src/gtk/gtkui.c:51
+#: ../src/gtk/gtkui.c:53
 msgid "Refresh"
 msgstr "Освежи"
 
-#: ../src/gtk/gtkui.c:110
+#: ../src/gtk/gtkui.c:120
 msgid "Enter Username"
 msgstr "Внесете корисничко име:"
 
-#: ../src/gtk/gtkui.c:111
+#: ../src/gtk/gtkui.c:121
 msgid "Please enter your username for this site"
 msgstr "Ве молам внесете го вашето корисничко име за оваа страница"
 
-#: ../src/gtk/gtkui.c:133 ../src/gtk/transfer.c:563 ../src/gtk/transfer.c:573
+#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:586 ../src/gtk/transfer.c:596
 msgid "Please enter your password for this site"
 msgstr "Ве молам внесете ја вашата лозинка за оваа страница"
 
-#: ../src/gtk/gtkui.c:288
+#: ../src/gtk/gtkui.c:298
 msgid "Operation canceled...you must enter a string\n"
 msgstr "Операцијата е откажана...морате да внесете низа\n"
 
-#: ../src/gtk/gtkui.c:334
+#: ../src/gtk/gtkui.c:344
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: ../src/gtk/gtkui.c:337
+#: ../src/gtk/gtkui.c:347
 msgid "Make Directory"
 msgstr "Направи директориум"
 
-#: ../src/gtk/gtkui.c:337
+#: ../src/gtk/gtkui.c:347
 msgid "Enter name of directory to create"
 msgstr "Внесете име на директориумот за создавање"
 
-#: ../src/gtk/gtkui.c:360 ../src/gtk/gtkui.c:372 ../src/gtk/misc-gtk.c:951
-#: ../src/gtk/misc-gtk.c:1026
+#: ../src/gtk/gtkui.c:370 ../src/gtk/gtkui.c:382 ../src/gtk/misc-gtk.c:932
+#: ../src/gtk/misc-gtk.c:1007
 msgid "Rename"
 msgstr "Преименувај"
 
-#: ../src/gtk/gtkui.c:370
+#: ../src/gtk/gtkui.c:380
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "како би сакале да ја преименувате %s?"
 
-#: ../src/gtk/gtkui.c:392 ../src/gtk/gtkui.c:395
+#: ../src/gtk/gtkui.c:402 ../src/gtk/gtkui.c:405
 msgid "Site"
 msgstr "Страница"
 
-#: ../src/gtk/gtkui.c:395
+#: ../src/gtk/gtkui.c:405
 msgid "Enter site-specific command"
 msgstr "Внесете команда специфична за страницата"
 
-#: ../src/gtk/gtkui.c:396
+#: ../src/gtk/gtkui.c:406
 msgid "Prepend with SITE"
 msgstr "Закачи на сајт"
 
-#: ../src/gtk/gtkui.c:439 ../src/gtk/menu-items.c:250
+#: ../src/gtk/gtkui.c:449 ../src/gtk/menu-items.c:235
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:458
-#: ../src/gtk/transfer.c:541 ../src/gtk/transfer.c:1047
+#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:496
+#: ../src/gtk/transfer.c:564 ../src/gtk/transfer.c:1021
 msgid "Skipped"
 msgstr "Прескокнато"
 
-#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:520
-#: ../src/gtk/transfer.c:545
+#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:543
+#: ../src/gtk/transfer.c:568
 msgid "Waiting..."
 msgstr "Чекам..."
 
-#: ../src/gtk/gtkui_transfer.c:124 ../src/gtk/gtkui_transfer.c:303
-#: ../src/gtk/gtkui_transfer.c:333
+#: ../src/gtk/gtkui_transfer.c:136 ../src/gtk/gtkui_transfer.c:314
+#: ../src/gtk/gtkui_transfer.c:341
 msgid "Overwrite"
 msgstr "Пребриши"
 
-#: ../src/gtk/gtkui_transfer.c:131 ../src/gtk/gtkui_transfer.c:309
-#: ../src/gtk/gtkui_transfer.c:339
+#: ../src/gtk/gtkui_transfer.c:143 ../src/gtk/gtkui_transfer.c:320
+#: ../src/gtk/gtkui_transfer.c:347
 msgid "Resume"
 msgstr "Продолжи"
 
-#: ../src/gtk/gtkui_transfer.c:138 ../src/gtk/gtkui_transfer.c:306
+#: ../src/gtk/gtkui_transfer.c:150 ../src/gtk/gtkui_transfer.c:317
 msgid "Skip"
 msgstr "Прескокни"
 
-#: ../src/gtk/gtkui_transfer.c:219
+#: ../src/gtk/gtkui_transfer.c:231
 msgid "Action"
 msgstr "Акција"
 
-#: ../src/gtk/gtkui_transfer.c:224 ../src/gtk/gtkui_transfer.c:233
+#: ../src/gtk/gtkui_transfer.c:236 ../src/gtk/gtkui_transfer.c:245
 #: ../src/gtk/transfer.c:91
 msgid "Transfer Files"
 msgstr "Префрли датотеки"
 
-#: ../src/gtk/gtkui_transfer.c:245
+#: ../src/gtk/gtkui_transfer.c:257
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2619,62 +2653,62 @@ msgstr ""
 "Следната датотека(и) постои и на локалниот и на далечниот компјутер\n"
 "Ве молам изберете што сакате да правите"
 
-#: ../src/gtk/gtkui_transfer.c:312
+#: ../src/gtk/gtkui_transfer.c:323
 msgid "Error"
 msgstr "Грешка"
 
-#: ../src/gtk/gtkui_transfer.c:345
+#: ../src/gtk/gtkui_transfer.c:353
 msgid "Skip File"
 msgstr "Прескокни датотека"
 
-#: ../src/gtk/gtkui_transfer.c:355
+#: ../src/gtk/gtkui_transfer.c:363
 msgid "Select All"
 msgstr "Избери ги сите"
 
-#: ../src/gtk/gtkui_transfer.c:361
+#: ../src/gtk/gtkui_transfer.c:369
 msgid "Deselect All"
 msgstr "Одизбери ги сите"
 
-#: ../src/gtk/menu-items.c:37
+#: ../src/gtk/menu-items.c:65
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr ""
 "Промена на спецификацијата на датотеката: Операцијата е откажана...морате да "
 "внесете низа\n"
 
-#: ../src/gtk/menu-items.c:74 ../src/gtk/menu-items.c:77
+#: ../src/gtk/menu-items.c:83 ../src/gtk/menu-items.c:86
 msgid "Change Filespec"
 msgstr "Промени спецификација на датотеката"
 
-#: ../src/gtk/menu-items.c:77
+#: ../src/gtk/menu-items.c:86
 msgid "Enter the new file specification"
 msgstr "Внесете нова спецификација за датотеката"
 
-#: ../src/gtk/menu-items.c:105 ../src/gtk/menu-items.c:314
-#: ../src/gtk/menu-items.c:378 ../src/gtk/view_dialog.c:76
+#: ../src/gtk/menu-items.c:114 ../src/gtk/menu-items.c:299
+#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:76
 #: ../src/gtk/view_dialog.c:155
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Грешка: Не можам да го отворам %s за пишување: %s\n"
 
-#: ../src/gtk/menu-items.c:134
+#: ../src/gtk/menu-items.c:143
 msgid "Save Directory Listing"
 msgstr "Зачувај листање на директориум"
 
-#: ../src/gtk/menu-items.c:342 ../src/gtk/menu-items.c:406
+#: ../src/gtk/menu-items.c:327 ../src/gtk/menu-items.c:391
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Грешка: Грешка при пишување во %s: %s\n"
 
-#: ../src/gtk/menu-items.c:417
+#: ../src/gtk/menu-items.c:402
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Успешно ја запишав датотеката за запис во %s\n"
 
-#: ../src/gtk/menu-items.c:429
+#: ../src/gtk/menu-items.c:414
 msgid "Save Log"
 msgstr "Зачувај запис"
 
-#: ../src/gtk/menu-items.c:465
+#: ../src/gtk/menu-items.c:450
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
@@ -2683,47 +2717,42 @@ msgstr ""
 "Не можам да ја најдам датотеката за договорот за лиценца COPYING. Ве молам "
 "проверете дека е или во %s или во %s"
 
-#: ../src/gtk/menu-items.c:469 ../src/gtk/menu-items.c:474
+#: ../src/gtk/menu-items.c:454 ../src/gtk/menu-items.c:459
 msgid "About gFTP"
 msgstr "За gFTP"
 
-#: ../src/gtk/menu-items.c:505
+#: ../src/gtk/menu-items.c:490
 #, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
-"Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
 "%s\n"
-"\n"
-"Авторски права (С) 1998-2003 Брајан Масни <masney@gftp.org>\n"
-"\n"
+"Авторски права (С) 1998-2007 Брајан Масни <masneyb@gftp.org>\n"
 "Официјална страница: http://www.gftp.org/\n"
-"\n"
-"Лого од: Арон Ворли <planet_hoth@yahoo.com>\n"
 
-#: ../src/gtk/menu-items.c:518
+#: ../src/gtk/menu-items.c:503
 msgid "About"
 msgstr "За"
 
-#: ../src/gtk/menu-items.c:567
+#: ../src/gtk/menu-items.c:552
 msgid "License Agreement"
 msgstr "Договор за лиценца"
 
-#: ../src/gtk/menu-items.c:573 ../src/gtk/view_dialog.c:405
+#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:405
 msgid "  Close  "
 msgstr "  Затвори  "
 
-#: ../src/gtk/menu-items.c:657
+#: ../src/gtk/menu-items.c:685
 msgid "Compare Windows"
 msgstr "Спореди прозорци"
 
-#: ../src/gtk/misc-gtk.c:256
+#: ../src/gtk/misc-gtk.c:257
 msgid "Disconnect from the remote server"
 msgstr "Се прекинува врската со далечниот сервер"
 
-#: ../src/gtk/misc-gtk.c:260
+#: ../src/gtk/misc-gtk.c:261
 msgid ""
 "Connect to the site specified in the host entry. If the host entry is blank, "
 "then a dialog is presented that will allow you to enter a URL."
@@ -2731,72 +2760,72 @@ msgstr ""
 "Поврзува со страната наведена во внесот за домаќин. Ако внесот за домаѓин е "
 "празен, тогаш се појавува дијалог кој ќе ви овозможи да внесете URL."
 
-#: ../src/gtk/misc-gtk.c:307
+#: ../src/gtk/misc-gtk.c:308
 msgid "All Files"
 msgstr "Сите датотеки"
 
-#: ../src/gtk/misc-gtk.c:317
+#: ../src/gtk/misc-gtk.c:318
 msgid "] (Cached) ["
 msgstr "] (Кеширано) ["
 
-#: ../src/gtk/misc-gtk.c:339
+#: ../src/gtk/misc-gtk.c:329
 msgid "Not connected"
 msgstr "Неповрзан"
 
-#: ../src/gtk/misc-gtk.c:441
+#: ../src/gtk/misc-gtk.c:431
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "Грешка во отварањето на датотеката %s: %s\n"
 
-#: ../src/gtk/misc-gtk.c:531
+#: ../src/gtk/misc-gtk.c:521
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: Не сум поврзан на далечната страница\n"
 
-#: ../src/gtk/misc-gtk.c:538
+#: ../src/gtk/misc-gtk.c:528
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s: Оваа можност не е достапна со користење на овој протокол\n"
 
-#: ../src/gtk/misc-gtk.c:546
+#: ../src/gtk/misc-gtk.c:536
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: Морате да имате изберено само една ставка\n"
 
-#: ../src/gtk/misc-gtk.c:553
+#: ../src/gtk/misc-gtk.c:543
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: Морате да имате изберено барем една ставка\n"
 
-#: ../src/gtk/misc-gtk.c:945 ../src/gtk/misc-gtk.c:1020
+#: ../src/gtk/misc-gtk.c:926 ../src/gtk/misc-gtk.c:1001
 msgid "Change"
 msgstr "Промени"
 
-#: ../src/gtk/misc-gtk.c:1017 ../src/gtk/options_dialog.c:1280
+#: ../src/gtk/misc-gtk.c:998 ../src/gtk/options_dialog.c:1277
 msgid "Add"
 msgstr "Додај"
 
-#: ../src/gtk/misc-gtk.c:1043
+#: ../src/gtk/misc-gtk.c:1024
 msgid "Cancel"
 msgstr "Откажи"
 
-#: ../src/gtk/misc-gtk.c:1113
+#: ../src/gtk/misc-gtk.c:1094
 msgid "  Yes  "
 msgstr "  Да  "
 
-#: ../src/gtk/misc-gtk.c:1123
+#: ../src/gtk/misc-gtk.c:1104
 msgid "  No  "
 msgstr "  Не  "
 
-#: ../src/gtk/misc-gtk.c:1183
+#: ../src/gtk/misc-gtk.c:1164
 msgid "Getting directory listings"
 msgstr "Го добивам листањето на директориумот"
 
-#: ../src/gtk/misc-gtk.c:1203
+#: ../src/gtk/misc-gtk.c:1184
 msgid "  Stop  "
 msgstr "  Запри  "
 
-#: ../src/gtk/misc-gtk.c:1213
+#: ../src/gtk/misc-gtk.c:1194
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2805,72 +2834,76 @@ msgstr ""
 "Примени се %ld директориуми\n"
 "и %ld датотеки"
 
-#: ../src/gtk/misc-gtk.c:1289
+#: ../src/gtk/misc-gtk.c:1270
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "gFTP Грешка: Не може да се пронајде датотеката %s во %s или %s\n"
 
-#: ../src/gtk/options_dialog.c:959
+#: ../src/gtk/options_dialog.c:956
 msgid "Edit Host"
 msgstr "Уреди домаќин"
 
-#: ../src/gtk/options_dialog.c:959
+#: ../src/gtk/options_dialog.c:956
 msgid "Add Host"
 msgstr "Додади домаќин"
 
-#: ../src/gtk/options_dialog.c:1005
+#: ../src/gtk/options_dialog.c:1002
 msgid "Type:"
 msgstr "Тип:"
 
-#: ../src/gtk/options_dialog.c:1007
+#: ../src/gtk/options_dialog.c:1004
 msgid "_Type:"
 msgstr "_Тип:"
 
-#: ../src/gtk/options_dialog.c:1017 ../src/gtk/options_dialog.c:1140
+#: ../src/gtk/options_dialog.c:1014 ../src/gtk/options_dialog.c:1137
 msgid "Domain"
 msgstr "Домејн"
 
-#: ../src/gtk/options_dialog.c:1050
+#: ../src/gtk/options_dialog.c:1047
 msgid "Network Address"
 msgstr "Мрежна адреса"
 
-#: ../src/gtk/options_dialog.c:1052
+#: ../src/gtk/options_dialog.c:1049
 msgid "_Network address:"
 msgstr "_Мрежна адреса:"
 
-#: ../src/gtk/options_dialog.c:1091 ../src/gtk/options_dialog.c:1244
+#: ../src/gtk/options_dialog.c:1088 ../src/gtk/options_dialog.c:1241
 msgid "Netmask"
 msgstr "Мрежна маска"
 
-#: ../src/gtk/options_dialog.c:1093
+#: ../src/gtk/options_dialog.c:1090
 msgid "N_etmask:"
 msgstr "Мре_жна маска:"
 
-#: ../src/gtk/options_dialog.c:1142
+#: ../src/gtk/options_dialog.c:1139
 msgid "_Domain:"
 msgstr "_Домејн:"
 
-#: ../src/gtk/options_dialog.c:1250
+#: ../src/gtk/options_dialog.c:1247
 msgid "Local Hosts"
 msgstr "Локалени хостови"
 
-#: ../src/gtk/options_dialog.c:1291 ../src/gtk/view_dialog.c:105
+#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:105
 msgid "Edit"
 msgstr "Уреди"
 
-#: ../src/gtk/options_dialog.c:1293
+#: ../src/gtk/options_dialog.c:1290
 msgid "_Edit"
 msgstr "_Уреди"
 
-#: ../src/gtk/options_dialog.c:1370 ../src/gtk/options_dialog.c:1375
+#: ../src/gtk/options_dialog.c:1367 ../src/gtk/options_dialog.c:1372
 msgid "Options"
 msgstr "Опции"
+
+#: ../src/gtk/options_dialog.c:1459
+msgid "Apply"
+msgstr "Примени"
 
 #: ../src/gtk/transfer.c:30
 msgid "Receiving file names..."
 msgstr "Примам имиња на датотеки..."
 
-#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:690
+#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:712
 msgid "Connecting..."
 msgstr "Поврзување..."
 
@@ -2878,101 +2911,86 @@ msgstr "Поврзување..."
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "Примам датотеки: Не сум поврзан со далечната страница\n"
 
-#: ../src/gtk/transfer.c:354
+#: ../src/gtk/transfer.c:336
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "Грешка: Процесот дете %d врати %d\n"
 
-#: ../src/gtk/transfer.c:361
+#: ../src/gtk/transfer.c:345
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "Процесот дете %d врати сигнал за успешност\n"
 
-#: ../src/gtk/transfer.c:365
+#: ../src/gtk/transfer.c:352
 #, c-format
 msgid "Error: Child %d did not terminate properly\n"
 msgstr "Грешка: Процесот дете %d не се затвори правилно\n"
 
-#: ../src/gtk/transfer.c:375
+#: ../src/gtk/transfer.c:368
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "Грешка: Не можам да добијам информации за датотеката %s: %s\n"
 
-#: ../src/gtk/transfer.c:380
+#: ../src/gtk/transfer.c:374
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "Датотеката %s не е променета\n"
 
-#: ../src/gtk/transfer.c:388
+#: ../src/gtk/transfer.c:382
 #, c-format
 msgid ""
 "File %s has changed.\n"
 "Would you like to upload it?"
 msgstr "Датотеката %s се промени."
 
-#: ../src/gtk/transfer.c:391
+#: ../src/gtk/transfer.c:385
 msgid "Edit File"
 msgstr "Уреди датотека"
 
-#: ../src/gtk/transfer.c:461
+#: ../src/gtk/transfer.c:499
 msgid "Finished"
 msgstr "Завршено"
 
-#: ../src/gtk/transfer.c:501
-#, c-format
-msgid "Stopping the transfer of %s\n"
-msgstr "Запирам трансфер на %s\n"
-
-#: ../src/gtk/transfer.c:732
+#: ../src/gtk/transfer.c:757
 #, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Испр. %s од %s со %.2fKB/s, %02d:%02d:%02d прибл. преостанато време"
 
-#: ../src/gtk/transfer.c:737
+#: ../src/gtk/transfer.c:762
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Прим. %s од %s со %.2fKB/s, %02d:%02d:%02d прибл. преостанато време"
 
-#: ../src/gtk/transfer.c:748
+#: ../src/gtk/transfer.c:773
 #, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
 msgstr "Испр. %s од %s, трансферот е заглавен, непознато преостанато време"
 
-#: ../src/gtk/transfer.c:754
+#: ../src/gtk/transfer.c:779
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Прим. %s од %s, трансферот е заглавен, непознато преостанато време"
 
-#: ../src/gtk/transfer.c:798
+#: ../src/gtk/transfer.c:823
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "Непознат процент на завршеност. (Датотека %ld од  %ld)"
 
-#: ../src/gtk/transfer.c:802
+#: ../src/gtk/transfer.c:827
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% завршено, %02d:%02d:%02d прибл. преостанато време. (Датотека %ld од %ld)"
 
-#: ../src/gtk/transfer.c:840
+#: ../src/gtk/transfer.c:865
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Примам имиња на датотеки...%s бајти"
 
-#: ../src/gtk/transfer.c:919 ../src/gtk/transfer.c:941
-#: ../src/gtk/transfer.c:975 ../src/gtk/transfer.c:1015
-#: ../src/gtk/transfer.c:1068 ../src/gtk/transfer.c:1128
+#: ../src/gtk/transfer.c:944 ../src/gtk/transfer.c:966
+#: ../src/gtk/transfer.c:985 ../src/gtk/transfer.c:1007
+#: ../src/gtk/transfer.c:1035 ../src/gtk/transfer.c:1095
 msgid "There are no file transfers selected\n"
 msgstr "Нема изберено датотеки за префрлање\n"
-
-#: ../src/gtk/transfer.c:959
-#, c-format
-msgid "Stopping the transfer on host %s\n"
-msgstr "Запирам префрлање кон домаќинот %s\n"
-
-#: ../src/gtk/transfer.c:1000 ../src/gtk/transfer.c:1053
-#, c-format
-msgid "Skipping file %s on host %s\n"
-msgstr "Прескокнувам датотека %s кај домаќинот %s\n"
 
 #: ../src/gtk/view_dialog.c:36
 msgid "View"
@@ -3017,16 +3035,16 @@ msgstr "Ја гледам датотеката %s\n"
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Поглед: Не можам да ја отворам датотеката %s: %s\n"
 
-#: ../src/text/gftp-text.c:176
+#: ../src/text/gftp-text.c:166
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "Не можам да го отворам контролниот терминал %s\n"
 
-#: ../src/text/textui.c:79
+#: ../src/text/textui.c:80
 msgid "Username [anonymous]:"
 msgstr "Корисничко име [анонимно]:"
 
-#: ../src/text/textui.c:148
+#: ../src/text/textui.c:158
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
