@@ -167,12 +167,14 @@
 #define GFTP_OFF_T_PRINTF_MOD		"%lld"
 #define GFTP_OFF_T_11PRINTF_MOD		"%11lld"
 #define gftp_parse_file_size(str)	strtoll (str, NULL, 10)
+#define GFTP_OFF_T_PRINTF_CONVERSION	long long
 #else
 #define GFTP_OFF_T_HEX_PRINTF_MOD	"%lx"
 #define GFTP_OFF_T_INTL_PRINTF_MOD	"%'ld"
 #define GFTP_OFF_T_PRINTF_MOD		"%ld"
 #define GFTP_OFF_T_11PRINTF_MOD		"%11ld"
 #define gftp_parse_file_size(str)	strtol (str, NULL, 10)
+#define GFTP_OFF_T_PRINTF_CONVERSION	off_t
 #endif
 
 /* Server types (used by FTP protocol from SYST command) */

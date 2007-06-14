@@ -27,9 +27,11 @@ char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
   if (dest_str != NULL)
-    g_snprintf (dest_str, dest_len, GFTP_OFF_T_INTL_PRINTF_MOD, number);
+    g_snprintf (dest_str, dest_len, GFTP_OFF_T_INTL_PRINTF_MOD,
+                (GFTP_OFF_T_PRINTF_CONVERSION) number);
   else
-    dest_str = g_strdup_printf (GFTP_OFF_T_INTL_PRINTF_MOD, number);
+    dest_str = g_strdup_printf (GFTP_OFF_T_INTL_PRINTF_MOD,
+                                (GFTP_OFF_T_PRINTF_CONVERSION) number);
 
   return (dest_str);
 }
@@ -324,6 +326,15 @@ gftp_info (void)
 
   printf ("sizeof (off_t) = %d\n", sizeof (off_t));
 
+#ifdef HAVE_INTL_PRINTF
+  printf ("#define HAVE_INTL_PRINTF\n");
+#endif
+
+  printf ("GFTP_OFF_T_HEX_PRINTF_MOD = %s\n", GFTP_OFF_T_HEX_PRINTF_MOD);
+  printf ("GFTP_OFF_T_INTL_PRINTF_MOD = %s\n", GFTP_OFF_T_INTL_PRINTF_MOD);
+  printf ("GFTP_OFF_T_PRINTF_MOD = %s\n", GFTP_OFF_T_PRINTF_MOD);
+  printf ("GFTP_OFF_T_11PRINTF_MOD = %s\n", GFTP_OFF_T_11PRINTF_MOD);
+
 #ifdef HAVE_GETADDRINFO
   printf ("#define HAVE_GETADDRINFO\n");
 #endif
@@ -350,10 +361,6 @@ gftp_info (void)
 
 #ifdef HAVE_GETTEXT
   printf ("#define HAVE_GETTEXT\n");
-#endif
-
-#ifdef HAVE_INTL_PRINTF
-  printf ("#define HAVE_INTL_PRINTF\n");
 #endif
 
   printf ("glib version: %d.%d.%d\n", GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION,

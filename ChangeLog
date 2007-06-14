@@ -1,3 +1,9 @@
+2007-6-13 Brian Masney <masneyb@gftp.org>
+	* lib/misc.c (insert_commas) lib/gftp.h - explictly cast the number to
+	a long long if it is supported on the system. This fixes a problem
+	where the number is converted to an integer when the sizeof (off_t) !=
+	sizeof (long long)
+
 2007-5-18 Brian Masney <masneyb@gftp.org>
 	* lib/protocols.c (gftp_request_destroy) - initialize the 
 	request->server_type if the request structure isn't destroyed.
