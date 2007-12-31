@@ -1,24 +1,23 @@
-# translation of oc.po to Occitan
+# Translation of oc.po to Occitan
 # Occitan translation of gFTP.
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gftp package.
 #
 #
-# Yannig MARCHEGAY (Kokoyaya)  <yannig@marchegay.org>, 2007.
+# Yannig Marchegay (Kokoyaya)  <yannig@marchegay.org>, 2007.
 # Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-26 00:23+0200\n"
-"PO-Revision-Date: 2007-11-20 14:30+0100\n"
+"POT-Creation-Date: 2007-12-27 13:21+0100\n"
+"PO-Revision-Date: 2007-12-23 12:07+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: plurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../lib/bookmark.c:38
 #, c-format
@@ -30,7 +29,7 @@ msgstr ""
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr ""
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:563
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Error : impossible de crear lo repertòri %s : %s\n"
@@ -53,17 +52,17 @@ msgstr ""
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr ""
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3200
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3209
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Error : impossible de dobrir lo fichièr local %s : %s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2901 ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/protocols.c:2910 ../lib/sslcommon.c:497
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr ""
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2823 ../lib/sshv2.c:445
+#: ../lib/config_file.c:151 ../lib/protocols.c:2831 ../lib/sshv2.c:445
 #: ../lib/sslcommon.c:450
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -120,7 +119,8 @@ msgstr "Error gFTP : impossible de crear lo repertòri %s : %s\n"
 #: ../lib/config_file.c:609
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
-msgstr "Error  gFTP : impossible de trobar lo fichièr de configuracion principal %s\n"
+msgstr ""
+"Error  gFTP : impossible de trobar lo fichièr de configuracion principal %s\n"
 
 #: ../lib/config_file.c:611
 #, c-format
@@ -130,7 +130,8 @@ msgstr "Avètz fach un 'make install' ?\n"
 #: ../lib/config_file.c:620 ../lib/config_file.c:839
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
-msgstr "Error de gFTP : impossible de dobrir lo fichièr de configuracion %s : %s\n"
+msgstr ""
+"Error de gFTP : impossible de dobrir lo fichièr de configuracion %s : %s\n"
 
 #: ../lib/config_file.c:659
 #, c-format
@@ -173,8 +174,9 @@ msgid ""
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
 
-#: ../lib/config_file.c:1210 ../lib/protocols.c:391 ../lib/rfc2068.c:543
+#: ../lib/config_file.c:1210 ../lib/protocols.c:392 ../lib/rfc2068.c:543
 #: ../lib/rfc2068.c:544
+#, c-format
 msgid "<unknown>"
 msgstr "<desconegut>"
 
@@ -204,10 +206,10 @@ msgstr "Error : error al moment de tampar lo fichièr : %s\n"
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr ""
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1578
-#: ../lib/protocols.c:1579 ../lib/protocols.c:1620 ../lib/protocols.c:1621
-#: ../lib/protocols.c:1687 ../lib/protocols.c:1694 ../lib/protocols.c:1770
-#: ../lib/protocols.c:1771 ../lib/protocols.c:1807
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1586
+#: ../lib/protocols.c:1587 ../lib/protocols.c:1628 ../lib/protocols.c:1629
+#: ../lib/protocols.c:1695 ../lib/protocols.c:1702 ../lib/protocols.c:1778
+#: ../lib/protocols.c:1779 ../lib/protocols.c:1815
 msgid "unknown"
 msgstr "desconegut"
 
@@ -248,12 +250,12 @@ msgstr "Error : impossible de suprimir lo fichièr %s :%s\n"
 msgid "Successfully made directory %s\n"
 msgstr "Repertòri %s creat amb succès\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:592
+#: ../lib/fsp.c:563 ../lib/local.c:590
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr ""
 
-#: ../lib/fsp.c:575 ../lib/local.c:599
+#: ../lib/fsp.c:575 ../lib/local.c:597
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr ""
@@ -295,39 +297,34 @@ msgstr ""
 msgid "Could not get local directory listing %s: %s\n"
 msgstr ""
 
-#: ../lib/local.c:636
+#: ../lib/local.c:634
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr ""
 
-#: ../lib/local.c:643
+#: ../lib/local.c:641
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr ""
 
-#: ../lib/local.c:678
+#: ../lib/local.c:676
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr ""
 
-#: ../lib/local.c:685
+#: ../lib/local.c:683
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr ""
 
-#: ../lib/local.c:752
+#: ../lib/local.c:750
 msgid "local filesystem"
 msgstr "sistèma de fichièrs local"
 
-#: ../lib/misc.c:407
+#: ../lib/misc.c:414
 #, c-format
 msgid "usage: gftp "
 msgstr "sintaxi : gftp "
-
-#: ../lib/misc.c:407 ../lib/rfc2068.c:301 ../src/uicommon/gftpui.c:630
-#, c-format
-msgid "\n"
-msgstr "\n"
 
 # The following items are the proxy types listed under the Options dialog
 #. @null@
@@ -440,7 +437,7 @@ msgstr "Sonque un transferiment al còp"
 
 #: ../lib/options.h:71
 msgid "Do only one transfer at a time?"
-msgstr "Permetre sonque un transferiment al còp"
+msgstr "Permetre sonque un transferiment al meteis temps ?"
 
 #: ../lib/options.h:72
 msgid "Overwrite by Default"
@@ -448,7 +445,8 @@ msgstr "Remplaçar per defaut"
 
 #: ../lib/options.h:75
 msgid "Overwrite files by default or set to resume file transfers"
-msgstr "Remplaçar los fichièrs per defaut o contunhar los transferiments de fichièrs"
+msgstr ""
+"Remplaçar los fichièrs per defaut o contunhar los transferiments de fichièrs"
 
 #: ../lib/options.h:77
 msgid "Preserve file permissions"
@@ -511,7 +509,8 @@ msgid "Allow manual commands in GUI"
 msgstr ""
 
 #: ../lib/options.h:109
-msgid "Allow entering manual commands in the GUI (functions like the text port)"
+msgid ""
+"Allow entering manual commands in the GUI (functions like the text port)"
 msgstr ""
 
 #: ../lib/options.h:111
@@ -527,7 +526,8 @@ msgid "Connect to remote server on startup"
 msgstr ""
 
 #: ../lib/options.h:117
-msgid "Automatically connect to the remote server when the application is started."
+msgid ""
+"Automatically connect to the remote server when the application is started."
 msgstr ""
 
 #: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
@@ -540,7 +540,8 @@ msgid "Network timeout:"
 msgstr ""
 
 #: ../lib/options.h:125
-msgid "The timeout waiting for network input/output. This is NOT an idle timeout."
+msgid ""
+"The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 
 #: ../lib/options.h:127
@@ -714,132 +715,133 @@ msgstr "Favorit"
 msgid "FSP"
 msgstr "FSP"
 
-#: ../lib/protocols.c:234
+#: ../lib/protocols.c:235
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr ""
 
-#: ../lib/protocols.c:387
+#: ../lib/protocols.c:388
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr ""
 
-#: ../lib/protocols.c:398
+#: ../lib/protocols.c:399
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr ""
 
-#: ../lib/protocols.c:408
+#: ../lib/protocols.c:409
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr ""
 
-#: ../lib/protocols.c:471
+#: ../lib/protocols.c:472
 #, c-format
-msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:696
+#: ../lib/protocols.c:699
 #, c-format
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
 "match the current directory (%s)\n"
 msgstr ""
 
-#: ../lib/protocols.c:722
+#: ../lib/protocols.c:730
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:755
+#: ../lib/protocols.c:763
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Error : impossible de trobar lo favorit %s\n"
 
-#: ../lib/protocols.c:762
+#: ../lib/protocols.c:770
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr ""
 
-#: ../lib/protocols.c:884 ../lib/protocols.c:911
+#: ../lib/protocols.c:892 ../lib/protocols.c:919
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr ""
 
-#: ../lib/protocols.c:1201 ../lib/protocols.c:1216 ../lib/protocols.c:2398
-#: ../lib/protocols.c:2511
+#: ../lib/protocols.c:1209 ../lib/protocols.c:1224 ../lib/protocols.c:2406
+#: ../lib/protocols.c:2519
 #, c-format
 msgid "Looking up %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:1207 ../lib/protocols.c:1222 ../lib/protocols.c:2403
-#: ../lib/protocols.c:2516
+#: ../lib/protocols.c:1215 ../lib/protocols.c:1230 ../lib/protocols.c:2411
+#: ../lib/protocols.c:2524
 #, c-format
 msgid "Cannot look up hostname %s: %s\n"
 msgstr "Impossible de trobar lo nom d'òste %s : %s\n"
 
-#: ../lib/protocols.c:2133
+#: ../lib/protocols.c:2141
 #, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:2421
+#: ../lib/protocols.c:2429
 #, c-format
 msgid "Failed to create a socket: %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:2427 ../lib/protocols.c:2533
+#: ../lib/protocols.c:2435 ../lib/protocols.c:2541
 #, c-format
 msgid "Trying %s:%d\n"
 msgstr ""
 
-#: ../lib/protocols.c:2432 ../lib/protocols.c:2540
+#: ../lib/protocols.c:2440 ../lib/protocols.c:2548
 #, c-format
 msgid "Cannot connect to %s: %s\n"
 msgstr "Impossible de se connectar a %s : %s\n"
 
-#: ../lib/protocols.c:2470 ../lib/rfc959.c:706
+#: ../lib/protocols.c:2478 ../lib/rfc959.c:706
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:2494 ../lib/sshv2.c:1168
+#: ../lib/protocols.c:2502 ../lib/sshv2.c:1168
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 
-#: ../lib/protocols.c:2556 ../lib/protocols.c:3209 ../lib/rfc959.c:715
+#: ../lib/protocols.c:2564 ../lib/protocols.c:3218 ../lib/rfc959.c:715
 #: ../lib/rfc959.c:892
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:2563
+#: ../lib/protocols.c:2571
 #, c-format
 msgid "Connected to %s:%d\n"
 msgstr "Connectat a %s : %d\n"
 
-#: ../lib/protocols.c:2799 ../lib/protocols.c:2876 ../lib/sshv2.c:435
+#: ../lib/protocols.c:2807 ../lib/protocols.c:2885 ../lib/sshv2.c:435
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr ""
 
-#: ../lib/protocols.c:2946
+#: ../lib/protocols.c:2955
 #, c-format
 msgid "Cannot get socket flags: %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:2960
+#: ../lib/protocols.c:2969
 #, c-format
 msgid "Cannot set socket to non-blocking: %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:3106
+#: ../lib/protocols.c:3115
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 
-#: ../lib/protocols.c:3114
+#: ../lib/protocols.c:3123
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
@@ -939,11 +941,11 @@ msgstr "Comanda SITE"
 
 #: ../lib/rfc959.c:28
 msgid "user@host"
-msgstr "usuari@òste"
+msgstr "utilizaire@òste"
 
 #: ../lib/rfc959.c:29
 msgid "user@host:port"
-msgstr "usuari@òste:pòrt"
+msgstr "utilizaire@òste:pòrt"
 
 #: ../lib/rfc959.c:30
 msgid "AUTHENTICATE"
@@ -951,7 +953,7 @@ msgstr "AUTENTICAR"
 
 #: ../lib/rfc959.c:31
 msgid "user@host port"
-msgstr "usuari@òste pòrt"
+msgstr "utilizaire@òste pòrt"
 
 #: ../lib/rfc959.c:32
 msgid "user@host NOAUTH"
@@ -1091,7 +1093,8 @@ msgid "Failed to create a IPv6 socket: %s\n"
 msgstr ""
 
 #: ../lib/rfc959.c:903
-msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+msgid ""
+"Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 
 #: ../lib/rfc959.c:931 ../lib/rfc959.c:940
@@ -1295,7 +1298,7 @@ msgstr "Pas connectat"
 
 #: ../lib/sshv2.c:711
 msgid "Connection lost"
-msgstr "S'es perdut la connexion"
+msgstr "Connexion perduda"
 
 #: ../lib/sshv2.c:714
 msgid "Operation unsupported"
@@ -1511,7 +1514,7 @@ msgstr "a prepaus de"
 
 #: ../src/uicommon/gftpui.c:938
 msgid "Shows gFTP information"
-msgstr "Mostra las informacions sus gFTP"
+msgstr "Mostra las entresenhas sus gFTP"
 
 #: ../src/uicommon/gftpui.c:939
 msgid "ascii"
@@ -1742,7 +1745,8 @@ msgid "set"
 msgstr ""
 
 #: ../src/uicommon/gftpui.c:1002
-msgid "Show configuration file variables. You can also set variables by set var=val"
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
 
 #: ../src/uicommon/gftpui.c:1004
@@ -1772,12 +1776,12 @@ msgstr ""
 msgid "Stopping the transfer on host %s\n"
 msgstr ""
 
-#: ../src/uicommon/gftpui.c:1502
+#: ../src/uicommon/gftpui.c:1505
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr ""
 
-#: ../src/uicommon/gftpui.c:1558
+#: ../src/uicommon/gftpui.c:1561
 #, c-format
 msgid ""
 "There were %d files or directories that could not be transferred. Check the "
@@ -1920,32 +1924,32 @@ msgstr ""
 
 #: ../src/gtk/bookmarks.c:1206
 msgid "/File/New _Folder..."
-msgstr ""
+msgstr "/Fichièr/_Repertòri novèl..."
 
 #: ../src/gtk/bookmarks.c:1207
 msgid "/File/New _Item..."
-msgstr ""
+msgstr "/Fichièr/_Element novèl..."
 
 #: ../src/gtk/bookmarks.c:1208
 msgid "/File/_Delete"
-msgstr ""
+msgstr "/Fichièr/_Suprimir"
 
 #: ../src/gtk/bookmarks.c:1209
 msgid "/File/_Properties..."
-msgstr ""
+msgstr "/Fichièr/_Propietats..."
 
 # Keep the english word sep in here
 #: ../src/gtk/bookmarks.c:1210
 msgid "/File/sep"
-msgstr ""
+msgstr "/Fichièr/sep"
 
 #: ../src/gtk/bookmarks.c:1211
 msgid "/File/_Close"
-msgstr ""
+msgstr "/Fichièr/_Tampar"
 
 #: ../src/gtk/bookmarks.c:1229 ../src/gtk/bookmarks.c:1232
 msgid "Edit Bookmarks"
-msgstr "Editar los favorits"
+msgstr "Modificar los favorits"
 
 #: ../src/gtk/chmod_dialog.c:132 ../src/gtk/chmod_dialog.c:137
 #: ../src/gtk/chmod_dialog.c:142
@@ -1978,7 +1982,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr ""
 
-#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:790
+#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:789
 msgid "User"
 msgstr "Utilizaire"
 
@@ -1997,7 +2001,7 @@ msgstr "Escritura"
 msgid "Execute"
 msgstr "Executar"
 
-#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:791
+#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:790
 msgid "Group"
 msgstr "Grop"
 
@@ -2013,7 +2017,7 @@ msgstr ""
 #: ../src/gtk/delete_dialog.c:65
 #, c-format
 msgid "Are you sure you want to delete these %ld files"
-msgstr "Sètz segur que volètz suprimir aquestes %ld fichièrs ?"
+msgstr "Sètz segur que volètz suprimir aquestes %ld fichièrs"
 
 #: ../src/gtk/delete_dialog.c:69
 #, c-format
@@ -2397,20 +2401,20 @@ msgstr "Mot de pas : "
 msgid "Command: "
 msgstr "Comanda : "
 
-#: ../src/gtk/gftp-gtk.c:788 ../src/gtk/gftp-gtk.c:996
+#: ../src/gtk/gftp-gtk.c:787 ../src/gtk/gftp-gtk.c:996
 #: ../src/gtk/gtkui_transfer.c:228
 msgid "Filename"
 msgstr "Nom de fichièr"
 
-#: ../src/gtk/gftp-gtk.c:789
+#: ../src/gtk/gftp-gtk.c:788
 msgid "Size"
 msgstr "Talha"
 
-#: ../src/gtk/gftp-gtk.c:792
+#: ../src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "Data"
 
-#: ../src/gtk/gftp-gtk.c:793
+#: ../src/gtk/gftp-gtk.c:792
 msgid "Attribs"
 msgstr ""
 
@@ -2883,7 +2887,7 @@ msgstr ""
 #: ../src/gtk/view_dialog.c:240
 #, c-format
 msgid "Opening %s with %s\n"
-msgstr "Dobertura de %s amb %s\n"
+msgstr "Dobèrtura de %s amb %s\n"
 
 #: ../src/gtk/view_dialog.c:282
 #, c-format
@@ -2912,3 +2916,5 @@ msgid ""
 "c)"
 msgstr ""
 
+#~ msgid "\n"
+#~ msgstr "\n"
