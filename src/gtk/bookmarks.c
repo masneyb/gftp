@@ -81,7 +81,7 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 
   tempentry = g_malloc0 (sizeof (*tempentry));
 
-  dpos = tempentry->path = g_malloc ((gulong) strlen (edttxt) + 1);
+  dpos = tempentry->path = g_malloc0 ((gulong) strlen (edttxt) + 1);
   for (spos = edttxt; *spos != '\0';)
     {
       *dpos++ = *spos++;

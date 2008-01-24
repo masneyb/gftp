@@ -524,7 +524,7 @@ show_transfer (gftp_transfer * tdata)
                                        opendir_pixmap, opendir_bitmap, 
                                        FALSE, 
                                        tdata->numdirs + tdata->numfiles < 50);
-  transdata = g_malloc (sizeof (*transdata));
+  transdata = g_malloc0 (sizeof (*transdata));
   transdata->transfer = tdata;
   transdata->curfle = NULL;
   gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tdata->user_data, transdata);
@@ -549,7 +549,7 @@ show_transfer (gftp_transfer * tdata)
                                              tdata->user_data, 
                                              NULL, text, 5, NULL, NULL, NULL, 
                                              NULL, FALSE, FALSE);
-      transdata = g_malloc (sizeof (*transdata));
+      transdata = g_malloc0 (sizeof (*transdata));
       transdata->transfer = tdata;
       transdata->curfle = templist;
       gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->user_data, 

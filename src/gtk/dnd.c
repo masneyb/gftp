@@ -216,7 +216,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
         } 
       else
         {
-          str = g_malloc ((gulong) totlen + 1);
+          str = g_malloc0 ((gulong) totlen + 1);
           strcpy (str, tempstr);
         }
       g_free (tempstr);
@@ -262,7 +262,7 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
           if (len == 0)
             break;
 
-          tempstr = g_malloc ((gulong) len + 1);
+          tempstr = g_malloc0 ((gulong) len + 1);
           memcpy (tempstr, oldpos, len);
           tempstr[len] = '\0';
 

@@ -142,7 +142,7 @@ save_directory_listing (gpointer data)
 
   filew = gtk_file_selection_new (_("Save Directory Listing"));
 
-  str = g_malloc (sizeof (*str));
+  str = g_malloc0 (sizeof (*str));
   str->filew = filew;
   str->wdata = data;
 

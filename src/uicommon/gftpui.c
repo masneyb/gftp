@@ -874,7 +874,7 @@ _gftpui_common_cmd_transfer_files (void *fromuidata, gftp_request * fromrequest,
         }
 
       tdata->files = g_list_append (tdata->files, fle);
-      fle = g_malloc (sizeof (*fle));
+      fle = g_malloc0 (sizeof (*fle));
     }
 
   g_free (fle);
@@ -1262,7 +1262,7 @@ _gftpui_common_do_transfer_file (gftp_transfer * tdata, gftp_file * curfle)
   int ret;
 
   gftp_lookup_request_option (tdata->fromreq, "trans_blksize", &trans_blksize);
-  buf = g_malloc (trans_blksize);
+  buf = g_malloc0 (trans_blksize);
 
   memset (&updatetime, 0, sizeof (updatetime));
   gftpui_start_current_file_in_transfer (tdata);

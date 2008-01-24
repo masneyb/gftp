@@ -1281,7 +1281,7 @@ gftp_gtk_config_file_read_color (char *str, gftp_config_vars * cv, int line)
 
   gftp_config_parse_args (str, 3, line, &red, &green, &blue);
 
-  color = g_malloc (sizeof (*color));
+  color = g_malloc0 (sizeof (*color));
   color->red = strtol (red, NULL, 16);
   color->green = strtol (green, NULL, 16);
   color->blue = strtol (blue, NULL, 16);
