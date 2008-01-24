@@ -363,7 +363,7 @@ gftp_config_parse_args (char *str, int numargs, int lineno, char **first, ...)
       else
 	endpos = curpos + strlen (curpos);
 
-      *dest = g_malloc ((gulong) (endpos - curpos + 1));
+      *dest = g_malloc0 ((gulong) (endpos - curpos + 1));
       tempchar = *endpos;
       *endpos = '\0';
       strcpy (*dest, curpos);
@@ -395,8 +395,7 @@ gftp_config_parse_args (char *str, int numargs, int lineno, char **first, ...)
   while (numargs > 1)
     {
       dest = va_arg (argp, char **);
-      *dest = g_malloc (1);
-      **dest = '\0';
+      *dest = g_malloc0 (1);
       numargs--;
     }
   va_end (argp);
@@ -477,7 +476,7 @@ gftp_config_read_ext (char *buf, int line)
 {
   gftp_file_extensions * tempext;
 
-  tempext = g_malloc (sizeof (*tempext));
+  tempext = g_malloc0 (sizeof (*tempext));
   gftp_config_parse_args (buf, 4, line, &tempext->ext, &tempext->filename,
                           &tempext->ascii_binary, &tempext->view_program);
  
@@ -1121,7 +1120,7 @@ gftp_config_file_read_color (char *str, gftp_config_vars * cv, int line)
 
   gftp_config_parse_args (str, 3, line, &red, &green, &blue);
 
-  color = g_malloc (sizeof (*color));
+  color = g_malloc0 (sizeof (*color));
   color->red = strtol (red, NULL, 16);
   color->green = strtol (green, NULL, 16);
   color->blue = strtol (blue, NULL, 16);
@@ -1154,7 +1153,7 @@ gftp_config_file_copy_color (gftp_config_vars * cv, gftp_config_vars * dest_cv)
   if (dest_cv->flags & GFTP_CVARS_FLAGS_DYNMEM && dest_cv->value != NULL)
     g_free (dest_cv->value);
 
-  dest_cv->value = g_malloc (sizeof (gftp_color));
+  dest_cv->value = g_malloc0 (sizeof (gftp_color));
   memcpy (dest_cv->value, cv->value, sizeof (gftp_color));
   dest_cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
 }
@@ -1483,7 +1482,7 @@ gftp_copy_local_options (gftp_config_vars ** new_options_vars,
   *new_options_hash = g_hash_table_new (string_hash_function,
                                         string_hash_compare);
 
-  *new_options_vars = g_malloc ((gulong) sizeof (gftp_config_vars) * num_local_options_vars);
+  *new_options_vars = g_malloc0 ((gulong) sizeof (gftp_config_vars) * num_local_options_vars);
   memcpy (*new_options_vars, orig_options,
           sizeof (gftp_config_vars) * num_local_options_vars);
 

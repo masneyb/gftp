@@ -162,7 +162,7 @@ rfc2068_read_response (gftp_request * request)
         {
           params->extra_read_buffer_len = params->chunk_size * -1;
           params->chunk_size = 0;
-          params->extra_read_buffer = g_malloc ((gulong) params->extra_read_buffer_len + 1);
+          params->extra_read_buffer = g_malloc0 ((gulong) params->extra_read_buffer_len + 1);
           memcpy (params->extra_read_buffer, params->rbuf->curpos + (params->rbuf->cur_bufsize - params->extra_read_buffer_len), params->extra_read_buffer_len);
           params->extra_read_buffer[params->extra_read_buffer_len] = '\0';
           params->rbuf->cur_bufsize -= params->extra_read_buffer_len;
@@ -800,7 +800,7 @@ rfc2068_chunked_read (gftp_request * request, void *ptr, size_t size, int fd)
           /* The current chunk size is split between multiple packets.
              Save this chunk and read the next */
 
-          params->extra_read_buffer = g_malloc ((gulong) current_size + 1);
+          params->extra_read_buffer = g_malloc0 ((gulong) current_size + 1);
           memcpy (params->extra_read_buffer, stpos, current_size);
           params->extra_read_buffer[current_size] = '\0';
           params->extra_read_buffer_len = current_size;

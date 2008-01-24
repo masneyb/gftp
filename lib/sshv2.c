@@ -341,7 +341,7 @@ sshv2_gen_exec_args (gftp_request * request)
 
   args_len = 1;
   args_cur = 15;
-  args = g_malloc (sizeof (char *) * args_cur);
+  args = g_malloc0 (sizeof (char *) * args_cur);
   args[0] = g_strdup (tempstr);
 
   logstr = g_strdup (args[0]);
@@ -837,7 +837,7 @@ sshv2_read_response (gftp_request * request, sshv2_message * message,
     }
 
   message->command = buf[4];
-  message->buffer = g_malloc (message->length + 1);
+  message->buffer = g_malloc0 (message->length + 1);
 
   message->pos = message->buffer;
   message->end = message->buffer + message->length - 1;
@@ -1032,7 +1032,7 @@ sshv2_buffer_get_string (gftp_request * request, sshv2_message * message,
 
   if (return_string)
     {
-      string = g_malloc (len + 1);
+      string = g_malloc0 (len + 1);
       memcpy (string, message->pos, len);
       string[len] = '\0';
     }
@@ -1477,7 +1477,7 @@ sshv2_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
       if (!request->cached)
         {
-          request->last_dir_entry = g_malloc (params->message.length + 4);
+          request->last_dir_entry = g_malloc0 (params->message.length + 4);
           len = htonl (params->message.length);
           memcpy (request->last_dir_entry, &len, 4);
           request->last_dir_entry[4] = params->message.command;
@@ -1918,7 +1918,7 @@ sshv2_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
   if (params->transfer_buffer == NULL)
     {
       params->transfer_buffer_len = params->handle_len + 12;
-      params->transfer_buffer = g_malloc (params->transfer_buffer_len);
+      params->transfer_buffer = g_malloc0 (params->transfer_buffer_len);
       memcpy (params->transfer_buffer, params->handle, params->handle_len);
     }
 
@@ -1987,7 +1987,7 @@ sshv2_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
   if (params->transfer_buffer == NULL)
     {
       params->transfer_buffer_len = params->handle_len + size + 12;
-      params->transfer_buffer = g_malloc (params->transfer_buffer_len);
+      params->transfer_buffer = g_malloc0 (params->transfer_buffer_len);
       memcpy (params->transfer_buffer, params->handle, params->handle_len);
     }
 
@@ -2083,7 +2083,7 @@ sshv2_copy_param_options (gftp_request * dest_request,
   memcpy (dparms->handle, sparms->handle, sizeof (*dparms->handle));
   if (sparms->transfer_buffer != NULL)
     {
-      dparms->transfer_buffer = g_malloc (sparms->transfer_buffer_len);
+      dparms->transfer_buffer = g_malloc0 (sparms->transfer_buffer_len);
       memcpy (dparms->transfer_buffer, sparms->transfer_buffer,
               sparms->transfer_buffer_len);
     }

@@ -237,7 +237,7 @@ _gftp_ssl_create_dyn_mutex (const char *file, int line)
 { 
   struct CRYPTO_dynlock_value *value;
 
-  value = g_malloc (sizeof (*value));
+  value = g_malloc0 (sizeof (*value));
   value->mutex = g_mutex_new ();
   return (value);
 }
@@ -273,7 +273,7 @@ _gftp_ssl_thread_setup (void)
   return;
 #endif
 
-  gftp_ssl_mutexes = g_malloc (CRYPTO_num_locks( ) * sizeof (*gftp_ssl_mutexes));
+  gftp_ssl_mutexes = g_malloc0 (CRYPTO_num_locks( ) * sizeof (*gftp_ssl_mutexes));
 
   for (i = 0; i < CRYPTO_num_locks ( ); i++)
     gftp_ssl_mutexes[i] = g_mutex_new ();
