@@ -105,13 +105,6 @@
 #define AF_LOCAL AF_UNIX
 #endif
 
-#ifdef HAVE_GETADDRINFO
-#define HAVE_IPV6
-#define GFTP_GET_AI_FAMILY(request)	((request) != NULL && (request)->hostp != NULL ? (request)->hostp->ai_family : -1)
-#else
-#define GFTP_GET_AI_FAMILY(request)	AF_INET
-#endif
-
 /* Solaris needs this included for major()/minor() */
 #ifdef HAVE_SYS_MKDEV_H
 #include <sys/mkdev.h>
@@ -159,6 +152,10 @@
 # define GFTP_LOG_FUNCTION_ATTRIBUTES __attribute__((format(printf, 3, 4)))
 #else
 # define GFTP_LOG_FUNCTION_ATTRIBUTES
+#endif
+
+#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
+# define HAVE_IPV6
 #endif
 
 #if defined (_LARGEFILE_SOURCE) && !defined (__hppa__) && !defined (__hppa)
@@ -388,22 +385,15 @@ struct gftp_request_tag
   int wakeup_main_thread[2];	/* FD that gets written to by the threads
                                    to wakeup the parent */
 
-  /* One of these are used to lookup the IP address of the host we are
-     connecting to */
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-  struct addrinfo *hostp,
-                  *current_hostp;
-#else
-  struct hostent host, *hostp;
-  int curhost;
+  void *remote_addr;
+  size_t remote_addr_len;
 #endif
-
   int ai_family;
+
   int server_type;		/* The type of server we are connected to.
                                    See GFTP_DIRTYPE_* above */
-  unsigned int free_hostp : 1, 		/* Should we free the hostp structure 
-					   in gftp_destroy_request() */
-               use_proxy : 1,
+  unsigned int use_proxy : 1,
                always_connected : 1,
                need_hostport : 1,
                need_username : 1,
@@ -1023,13 +1013,9 @@ int gftp_connect_server 		( gftp_request * request,
 					  char *proxy_hostname,
 					  unsigned int proxy_port );
 
-#if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
-
 struct hostent *r_gethostbyname 	( const char *name, 
 					  struct hostent *result_buf, 
 					  int *h_errnop );
-
-#endif
 
 struct servent *r_getservbyname 	( const char *name, 
 					  const char *proto,

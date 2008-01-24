@@ -767,14 +767,8 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
                                   &ignore_pasv_address);
       if (ignore_pasv_address)
 	{
-#if defined (HAVE_GETADDRINFO)
-          memcpy (&data_addr.sin_addr,
-                  &((struct sockaddr_in *) request->current_hostp->ai_addr)->sin_addr,
-                  sizeof (data_addr.sin_addr));
-#else
-          memcpy (&data_addr.sin_addr, request->hostp->h_addr_list[request->curhost],
-                  request->hostp->h_length);
-#endif
+          memcpy (&data_addr.sin_addr, request->remote_addr,
+                  request->remote_addr_len);
 
           pos = (char *) &data_addr.sin_addr;
           request->logging_function (gftp_logging_error, request,
@@ -871,7 +865,6 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   struct sockaddr_in6 data_addr;
   char *pos, buf[64], *command;
   intptr_t passive_transfer;
-  socklen_t data_addr_len;
   rfc959_parms * parms;
   unsigned int port;
   int resp;
@@ -895,9 +888,8 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       return (GFTP_ERETRYABLE);
     }
 
-  data_addr_len = sizeof (data_addr);
   /* This condition shouldn't happen. We better check anyway... */
-  if (data_addr_len != request->current_hostp->ai_addrlen) 
+  if (sizeof (data_addr) != request->remote_addr_len) 
     {
       request->logging_function (gftp_logging_error, request,
 				 _("Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"));
@@ -905,7 +897,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
-  memset (&data_addr, 0, data_addr_len);
+  memset (&data_addr, 0, sizeof (data_addr));
   data_addr.sin6_family = AF_INET6;
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
@@ -943,11 +935,11 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
           return (GFTP_EFATAL);
         }
 
-      memcpy (&data_addr, request->current_hostp->ai_addr, data_addr_len);
+      memcpy (&data_addr, request->remote_addr, request->remote_addr_len);
       data_addr.sin6_port = htons (port);
 
       if (connect (parms->data_connection, (struct sockaddr *) &data_addr, 
-                   data_addr_len) == -1)
+                   request->remote_addr_len) == -1)
         {
           request->logging_function (gftp_logging_error, request,
                                     _("Cannot create a data connection: %s\n"),
@@ -958,11 +950,11 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
     }
   else
     {
-      memcpy (&data_addr, request->current_hostp->ai_addr, data_addr_len);
+      memcpy (&data_addr, request->remote_addr, request->remote_addr_len);
       data_addr.sin6_port = 0;
 
       if (bind (parms->data_connection, (struct sockaddr *) &data_addr, 
-                data_addr_len) == -1)
+                request->remote_addr_len) == -1)
 	{
 	  request->logging_function (gftp_logging_error, request,
 				     _("Cannot bind a port: %s\n"),
@@ -972,7 +964,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 	}
 
       if (getsockname (parms->data_connection, (struct sockaddr *) &data_addr, 
-                       &data_addr_len) == -1)
+                       &request->remote_addr_len) == -1)
         {
           request->logging_function (gftp_logging_error, request,
 				     _("Cannot get socket name: %s\n"),
@@ -1487,7 +1479,7 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 
       if (rsize != size)
         {
-          tempstr = g_malloc (rsize);
+          tempstr = g_malloc0 (rsize);
 
           for (i = 0, j = 0; i < size; i++)
             {

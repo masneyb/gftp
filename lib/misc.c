@@ -461,6 +461,8 @@ free_file_list (GList * filelist)
   while (templist != NULL)
     {
       tempfle = templist->data;
+      templist->data = NULL;
+
       gftp_file_destroy (tempfle, 1);
       templist = templist->next;
     }
@@ -488,6 +490,7 @@ copy_fdata (gftp_file * fle)
   if (fle->destfile)
     newfle->destfile = g_strdup (fle->destfile);
 
+  newfle->user_data = NULL;
   return (newfle);
 }
 
@@ -591,41 +594,26 @@ gftp_copy_request (gftp_request * req)
     newreq->account = g_strdup (req->account);
   if (req->directory)
     newreq->directory = g_strdup (req->directory);
+  if (req->url_prefix)
+    newreq->url_prefix = g_strdup (req->url_prefix);
   newreq->port = req->port;
   newreq->use_proxy = req->use_proxy;
   newreq->logging_function = req->logging_function;
   newreq->ai_family = req->ai_family;
 
-  if (req->hostp)
-    {
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-      struct addrinfo *hostp = req->hostp;
-      struct addrinfo *newhostp = newreq->hostp;
-      
-      while (hostp != NULL)
-        {
-          newhostp = g_malloc (sizeof(struct addrinfo));
-          memcpy (newhostp, hostp, sizeof (struct addrinfo));
-          newhostp->ai_addr = g_malloc (sizeof (struct sockaddr));
-          memcpy(newhostp->ai_addr, hostp->ai_addr, sizeof (struct sockaddr));
-          if (hostp->ai_canonname)
-            newhostp->ai_canonname = strdup(hostp->ai_canonname);
-
-          if (req->current_hostp == hostp)
-            newreq->current_hostp = newhostp;
-
-          hostp = hostp->ai_next; newhostp = newhostp->ai_next;
-        }
-#else
-      newreq->hostp = g_malloc (sizeof (struct hostent));
-      memcpy(newreq->hostp, req->hostp, sizeof (struct hostent));
-      newreq->host = req->host;
-      newreq->curhost = req->curhost;
-#endif
+  if (req->remote_addr == NULL)
+    {
+      newreq->remote_addr = NULL;
+      newreq->remote_addr_len = 0;
     }
   else
-    newreq->hostp = NULL;
-  newreq->free_hostp = 1;
+    {
+      newreq->remote_addr = g_malloc0 (req->remote_addr_len);
+      memcpy (newreq->remote_addr, req->remote_addr, req->remote_addr_len);
+      newreq->remote_addr_len = req->remote_addr_len;
+    }
+#endif
 
   gftp_copy_local_options (&newreq->local_options_vars, 
                            &newreq->local_options_hash,
@@ -942,8 +930,6 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
 }
 
 
-#if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
-
 struct hostent *
 r_gethostbyname (const char *name, struct hostent *result_buf, int *h_errnop)
 {
@@ -970,7 +956,6 @@ r_gethostbyname (const char *name, struct hostent *result_buf, int *h_errnop)
   return (hent);
 }
 
-#endif /* !HAVE_GETADDRINFO */
 
 struct servent *
 r_getservbyname (const char *name, const char *proto,
@@ -1027,7 +1012,7 @@ base64_encode (char *str)
   if (slen % 3 > 0)
     num++;
 
-  newstr = g_malloc ((gulong) num * 4 + 1);
+  newstr = g_malloc0 ((gulong) num * 4 + 1);
   newstr[num * 4] = '\0';
   newpos = newstr;
 
@@ -1264,7 +1249,7 @@ gftp_scramble_password (const char *password)
   if (strcmp (password, "@EMAIL@") == 0)
     return (g_strdup (password));
 
-  newstr = g_malloc ((gulong) strlen (password) * 2 + 2);
+  newstr = g_malloc0 ((gulong) strlen (password) * 2 + 2);
   newpos = newstr;
   
   *newpos++ = '$';
@@ -1292,7 +1277,7 @@ gftp_descramble_password (const char *password)
     return (g_strdup (password));
 
   passwordpos = password + 1;
-  newstr = g_malloc ((gulong) strlen (passwordpos) / 2 + 1);
+  newstr = g_malloc0 ((gulong) strlen (passwordpos) / 2 + 1);
   newpos = newstr;
  
   error = 0;

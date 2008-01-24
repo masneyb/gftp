@@ -1,4 +1,9 @@
 2008-01-24 Brian Masney <masneyb@gftp.org>
+	* lib/gftp.h lib/rfc959.c lib/protocols.c lib/misc.c - don't store
+	the structure from getaddrinfo()/gethostbyname() in the 
+	gftp_request structure. Instead, store the address of the current
+	server in a separate pointer.
+
 	* docs/sample.gftp/gftprc - updated the config file to the current
 	release
 
