@@ -225,8 +225,7 @@ _gftp_ssl_id_function (void)
 #if GLIB_MAJOR_VERSION > 1
   return ((unsigned long) g_thread_self ());
 #else
-  /* FIXME _ call pthread version. Once this is done, the #ifdef below can be
-     removed */
+  /* FIXME - call pthread version. */
   return (0);
 #endif
 } 

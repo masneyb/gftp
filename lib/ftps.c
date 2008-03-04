@@ -76,8 +76,7 @@ ftps_auth_tls_start (gftp_request * request)
   if (ret < 0)
     return (ret);
 
-  ret = '5'; /* FIXME */
-  /* ret = rfc959_send_command (request, "PROT P\r\n", -1, 1, 0); */
+  ret = rfc959_send_command (request, "PROT P\r\n", -1, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')

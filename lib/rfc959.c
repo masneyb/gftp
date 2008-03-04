@@ -1727,7 +1727,7 @@ rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
   else
     tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
 
-  ret = rfc959_send_command (request, tempstr, -1, 1, 0); /* FIXME - add length */
+  ret = rfc959_send_command (request, tempstr, -1, 1, 0);
   g_free (tempstr);
 
   if (ret < 0)
