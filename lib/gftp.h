@@ -668,6 +668,24 @@ void gftp_delete_cache_entry 		( gftp_request * request,
 					  char *descr,
 					  int ignore_directory );
 
+/* charset-conv.c */
+/*@null@*/ char * gftp_string_to_utf8	( gftp_request * request, 
+					  const char *str,
+					  size_t *dest_len );
+
+/*@null@*/ char * gftp_string_from_utf8	( gftp_request * request, 
+					  int force_local,
+					  const char *str,
+					  size_t *dest_len );
+
+/*@null@*/ char * gftp_filename_to_utf8	( gftp_request * request, 
+					  const char *str,
+					  size_t *dest_len );
+
+/*@null@*/ char * gftp_filename_from_utf8 ( gftp_request * request, 
+					  const char *str,
+					  size_t *dest_len );
+
 /* config_file.c */
 int gftp_config_parse_args 		( char *str, 
 					  int numargs, 
@@ -812,6 +830,15 @@ char * gftp_get_share_dir 		( void );
 int mkstemps 				( char *template,
 					  int suffix_len );
 
+/* parse-dir-listing.c */
+time_t parse_time 			( char *str,
+					  char **endpos );
+
+int gftp_parse_ls 			( gftp_request * request,
+					  const char *lsoutput, 
+					  gftp_file *fle,
+					  int fd );
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_FTPS_NUM				1
@@ -909,23 +936,6 @@ ssize_t gftp_put_next_file_chunk 	( gftp_request * request,
 
 int gftp_list_files 			( gftp_request * request );
 
-/*@null@*/ char * gftp_string_to_utf8	( gftp_request * request, 
-					  const char *str,
-					  size_t *dest_len );
-
-/*@null@*/ char * gftp_string_from_utf8	( gftp_request * request, 
-					  int force_local,
-					  const char *str,
-					  size_t *dest_len );
-
-/*@null@*/ char * gftp_filename_to_utf8	( gftp_request * request, 
-					  const char *str,
-					  size_t *dest_len );
-
-/*@null@*/ char * gftp_filename_from_utf8 ( gftp_request * request, 
-					  const char *str,
-					  size_t *dest_len );
-
 int gftp_parse_bookmark 		( gftp_request * request, 
 					  gftp_request * local_request,
 					  const char * bookmark,
@@ -996,22 +1006,9 @@ off_t gftp_get_file_size 		( gftp_request * request,
 void gftp_calc_kbs 			( gftp_transfer * tdata, 
 				 	  ssize_t num_read );
 
-time_t parse_time 			( char *str,
-					  char **endpos );
-
-int gftp_parse_ls 			( gftp_request * request,
-					  const char *lsoutput, 
-					  gftp_file *fle,
-					  int fd );
-
 int gftp_get_all_subdirs 		( gftp_transfer * transfer, 
 					  void (*update_func) 
 						( gftp_transfer * transfer ));
-
-int gftp_connect_server 		( gftp_request * request, 
-					  char *service,
-					  char *proxy_hostname,
-					  unsigned int proxy_port );
 
 struct hostent *r_gethostbyname 	( const char *name, 
 					  struct hostent *result_buf, 
@@ -1025,33 +1022,6 @@ struct servent *r_getservbyname 	( const char *name,
 int gftp_set_config_options 		( gftp_request * request );
 
 void print_file_list 			( GList * list );
-
-void gftp_free_getline_buffer 		( gftp_getline_buffer ** rbuf );
-
-ssize_t gftp_get_line 			( gftp_request * request, 
-					  /*@out@*/ gftp_getline_buffer ** rbuf,
-					  /*@out@*/ char * str, 
-					  size_t len, 
-					  int fd );
-
-ssize_t gftp_fd_read 			( gftp_request * request, 
-					  void *ptr, 
-					  size_t size, 
-					  int fd );
-
-ssize_t gftp_fd_write 			( gftp_request * request, 
-					  const char *ptr, 
-					  size_t size, 
-					  int fd );
-
-ssize_t gftp_writefmt 			( gftp_request * request, 
-					  int fd, 
-					  const char *fmt, 
-					  ... );
-
-int gftp_fd_set_sockblocking 		( gftp_request * request, 
-					  int fd, 
-					  int non_blocking );
 
 void gftp_swap_socks 			( gftp_request * dest, 
 					  gftp_request * source );
@@ -1117,4 +1087,38 @@ char *gftpui_protocol_ask_user_input	( gftp_request * request,
 void gftpui_protocol_update_timeout 	( gftp_request * request );
 
 #endif
+
+/* socket-connect.c */
+int gftp_connect_server 		( gftp_request * request, 
+					  char *service,
+					  char *proxy_hostname,
+					  unsigned int proxy_port );
+
+/* sockutils.c */
+ssize_t gftp_get_line 			( gftp_request * request, 
+					  /*@out@*/ gftp_getline_buffer ** rbuf,
+					  /*@out@*/ char * str, 
+					  size_t len, 
+					  int fd );
+
+void gftp_free_getline_buffer 		( gftp_getline_buffer ** rbuf );
+
+ssize_t gftp_fd_read 			( gftp_request * request, 
+					  void *ptr, 
+					  size_t size, 
+					  int fd );
+
+ssize_t gftp_fd_write 			( gftp_request * request, 
+					  const char *ptr, 
+					  size_t size, 
+					  int fd );
+
+ssize_t gftp_writefmt 			( gftp_request * request, 
+					  int fd, 
+					  const char *fmt, 
+					  ... );
+
+int gftp_fd_set_sockblocking 		( gftp_request * request, 
+					  int fd, 
+					  int non_blocking );
 
