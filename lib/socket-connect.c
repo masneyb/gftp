@@ -20,26 +20,21 @@
 #include "gftp.h"
 static const char cvsid[] = "$Id: protocols.c 952 2008-01-24 23:31:26Z masneyb $";
 
-/* FIXME - clean up this function */
 static int
 gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname, 
-                 unsigned int proxy_port)
+                 unsigned int proxy_port, void **connect_data)
 {
   gftp_config_list_vars * proxy_hosts;
   gftp_proxy_hosts * hostname;
   size_t hostlen, domlen;
   unsigned char addy[4];
-  struct sockaddr *addr;
   GList * templist;
   gint32 netaddr;
   char *pos;
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-  struct addrinfo hints, *hostp;
-  unsigned int port;
-  int errnum;
-  char serv[8];
-#else
-  struct hostent host, *hostp;
+
+#if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
+  struct hostent host;
+  int ret;
 #endif
 
   gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
@@ -50,48 +45,22 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
     return (proxy_hostname != NULL && 
             *proxy_hostname != '\0');
 
-  hostp = NULL;
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-  memset (&hints, 0, sizeof (hints));
-  hints.ai_flags = AI_CANONNAME;
-  hints.ai_family = PF_UNSPEC;
-  hints.ai_socktype = SOCK_STREAM;
 
-  port = request->use_proxy ? proxy_port : request->port;
-  if (port == 0)
-    strcpy (serv, service);
-  else
-    snprintf (serv, sizeof (serv), "%d", port);
-
-  request->logging_function (gftp_logging_misc, request,
-                             _("Looking up %s\n"), request->hostname);
-
-  if ((errnum = getaddrinfo (request->hostname, serv, &hints, 
-                             &hostp)) != 0)
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Cannot look up hostname %s: %s\n"),
-                                 request->hostname, gai_strerror (errnum));
-      return (GFTP_ERETRYABLE);
-    }
-
-  addr = hostp->ai_addr;
+  *connect_data = lookup_host_with_getaddrinfo (request, service,
+                                                proxy_hostname, proxy_port);
+  if (*connect_data == NULL)
+    return (GFTP_ERETRYABLE);
 
 #else /* !HAVE_GETADDRINFO */
-  request->logging_function (gftp_logging_misc, request,
-                             _("Looking up %s\n"), request->hostname);
 
-  if (!(hostp = r_gethostbyname (request->hostname, &host, NULL)))
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Cannot look up hostname %s: %s\n"),
-                                 request->hostname, g_strerror (errno));
-      return (GFTP_ERETRYABLE);
-    }
+  ret = lookup_host_with_gethostbyname (request, proxy_hostname, &host);
+  if (ret != 0)
+    return (ret);
 
-  addr = (struct sockaddr *) host.h_addr_list[0];
+  connect_data = NULL; /* FIXME */
 
-#endif /* HAVE_GETADDRINFO */
+#endif
 
   templist = proxy_hosts->list;
   while (templist != NULL)
@@ -111,7 +80,7 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
 
       if (hostname->ipv4_network_address != 0)
         {
-          memcpy (addy, addr, sizeof (*addy));
+          memcpy (addy, request->remote_addr, sizeof (*addy));
           netaddr =
             (((addy[0] & 0xff) << 24) | ((addy[1] & 0xff) << 16) |
              ((addy[2] & 0xff) << 8) | (addy[3] & 0xff)) & 
@@ -126,248 +95,23 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
 }
 
 
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-static int
-get_port (struct addrinfo *addr)
-{
-  struct sockaddr_in * saddr;
-  int port;
-
-  if (addr->ai_family == AF_INET)
-    {
-      saddr = (struct sockaddr_in *) addr->ai_addr;
-      port = ntohs (saddr->sin_port);
-    }
-  else
-    port = 0;
-
-  return (port);
-}
-
-
-static int
-gftp_connect_server_with_getaddr (gftp_request * request, char *service,
-                                  char *proxy_hostname, unsigned int proxy_port)
-{
-  struct addrinfo *hostp, *current_hostp;
-  char *connect_host, *disphost;
-  struct addrinfo hints, *res;
-  intptr_t enable_ipv6;
-  unsigned int port;
-  int ret, sock = -1;
-  char serv[8];
-
-  if ((ret = gftp_need_proxy (request, service, proxy_hostname,
-                                 proxy_port)) < 0)
-    return (ret);
-  else
-    request->use_proxy = ret;
-
-  gftp_lookup_request_option (request, "enable_ipv6", &enable_ipv6);
-
-  memset (&hints, 0, sizeof (hints));
-  hints.ai_flags = AI_CANONNAME;
-
-  hints.ai_family = enable_ipv6 ? PF_UNSPEC : AF_INET;
-  hints.ai_socktype = SOCK_STREAM;
-
-  if (request->use_proxy)
-    {
-      connect_host = proxy_hostname;
-      port = proxy_port;
-    }
-  else
-    {
-      connect_host = request->hostname;
-      port = request->port;
-    }
-
-  if (port == 0)
-    strcpy (serv, service); 
-  else
-    snprintf (serv, sizeof (serv), "%d", port);
-
-  request->logging_function (gftp_logging_misc, request,
-                             _("Looking up %s\n"), connect_host);
-  if ((ret = getaddrinfo (connect_host, serv, &hints, 
-                             &hostp)) != 0)
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Cannot look up hostname %s: %s\n"),
-                                 connect_host, gai_strerror (ret));
-      return (GFTP_ERETRYABLE);
-    }
-
-  disphost = connect_host;
-  for (res = hostp; res != NULL; res = res->ai_next)
-    {
-      disphost = res->ai_canonname ? res->ai_canonname : connect_host;
-      port = get_port (res);
-      if (!request->use_proxy)
-        request->port = port;
-
-      if ((sock = socket (res->ai_family, res->ai_socktype, 
-                          res->ai_protocol)) < 0)
-        {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Failed to create a socket: %s\n"),
-                                     g_strerror (errno));
-          continue; 
-        } 
-
-      request->logging_function (gftp_logging_misc, request,
-                                 _("Trying %s:%d\n"), disphost, port);
-
-      if (connect (sock, res->ai_addr, res->ai_addrlen) == -1)
-        {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Cannot connect to %s: %s\n"),
-                                     disphost, g_strerror (errno));
-          close (sock);
-          continue;
-        }
-
-      current_hostp = res;
-      request->ai_family = res->ai_family;
-      break;
-    }
-
-  if (res == NULL)
-    {
-      if (hostp != NULL)
-        freeaddrinfo (hostp);
-      
-      return (GFTP_ERETRYABLE);
-    }
-
-  request->remote_addr_len = current_hostp->ai_addrlen;
-  request->remote_addr = g_malloc0 (request->remote_addr_len);
-  memcpy (request->remote_addr, &((struct sockaddr_in *) current_hostp->ai_addr)->sin_addr,
-          request->remote_addr_len);
-
-  request->logging_function (gftp_logging_misc, request,
-                             _("Connected to %s:%d\n"), connect_host, port);
-
-  return (sock);
-}
-#endif
-
-
-static int
-gftp_connect_server_legacy (gftp_request * request, char *service,
-                            char *proxy_hostname, unsigned int proxy_port)
-{
-  struct sockaddr_in remote_address;
-  char *connect_host, *disphost;
-  struct hostent host, *hostp;
-  struct servent serv_struct;
-  int ret, sock, curhost;
-  unsigned int port;
-
-  if ((ret = gftp_need_proxy (request, service, proxy_hostname,
-                              proxy_port)) < 0)
-    return (ret);
-
-  request->use_proxy = ret;
-  if (request->use_proxy == 1)
-    hostp = NULL;
-
-  request->ai_family = AF_INET;
-  if ((sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Failed to create a IPv4 socket: %s\n"),
-                                 g_strerror (errno));
-      return (GFTP_ERETRYABLE);
-    }
-
-  memset (&remote_address, 0, sizeof (remote_address));
-  remote_address.sin_family = AF_INET;
-
-  if (request->use_proxy)
-    {
-      connect_host = proxy_hostname;
-      port = proxy_port;
-    }
-  else
-    {
-      connect_host = request->hostname;
-      port = request->port;
-    }
-
-  if (port == 0)
-    {
-      if (!r_getservbyname (service, "tcp", &serv_struct, NULL))
-        {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Cannot look up service name %s/tcp. Please check your services file\n"),
-                                     service);
-          close (sock);
-          return (GFTP_EFATAL);
-        }
-
-      port = ntohs (serv_struct.s_port);
-
-      if (!request->use_proxy)
-        request->port = port;
-    }
-
-  remote_address.sin_port = htons (port);
-
-  request->logging_function (gftp_logging_misc, request,
-                             _("Looking up %s\n"), connect_host);
-
-  if (!(hostp = r_gethostbyname (connect_host, &host, NULL)))
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Cannot look up hostname %s: %s\n"),
-                                 connect_host, g_strerror (errno));
-      close (sock);
-      return (GFTP_ERETRYABLE);
-    }
-
-  disphost = NULL;
-  for (curhost = 0;
-       host.h_addr_list[curhost] != NULL;
-       curhost++)
-    {
-      disphost = host.h_name;
-      memcpy (&remote_address.sin_addr,
-              host.h_addr_list[curhost],
-              host.h_length);
-      request->logging_function (gftp_logging_misc, request,
-                                 _("Trying %s:%d\n"),
-                                 host.h_name, port);
-
-      if (connect (sock, (struct sockaddr *) &remote_address,
-                   sizeof (remote_address)) == -1)
-        {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Cannot connect to %s: %s\n"),
-                                     connect_host, g_strerror (errno));
-        }
-      break;
-    }
-
-  if (host.h_addr_list[curhost] == NULL)
-    {
-      close (sock);
-      return (GFTP_ERETRYABLE);
-    }
-
-  return (sock);
-}
-
-
 int
 gftp_connect_server (gftp_request * request, char *service,
                      char *proxy_hostname, unsigned int proxy_port)
 {
-  int sock;
+  void *connect_data;
+  int sock, ret;
 
+  if ((ret = gftp_need_proxy (request, service, proxy_hostname,
+                              proxy_port, &connect_data)) < 0)
+    return (ret);
+  request->use_proxy = ret;
+
+  /* FIXME - pass connect_data to these functions. This is to bypass a
+     second DNS lookup */
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-  sock = gftp_connect_server_with_getaddr (request, service, proxy_hostname,
-                                           proxy_port);
+  sock = gftp_connect_server_with_getaddrinfo (request, service, proxy_hostname,
+                                               proxy_port);
 #else
   sock = gftp_connect_server_legacy (request, service, proxy_hostname,
                                      proxy_port);

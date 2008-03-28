@@ -385,10 +385,8 @@ struct gftp_request_tag
   int wakeup_main_thread[2];	/* FD that gets written to by the threads
                                    to wakeup the parent */
 
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   void *remote_addr;
   size_t remote_addr_len;
-#endif
   int ai_family;
 
   int server_type;		/* The type of server we are connected to.
@@ -1010,15 +1008,6 @@ int gftp_get_all_subdirs 		( gftp_transfer * transfer,
 					  void (*update_func) 
 						( gftp_transfer * transfer ));
 
-struct hostent *r_gethostbyname 	( const char *name, 
-					  struct hostent *result_buf, 
-					  int *h_errnop );
-
-struct servent *r_getservbyname 	( const char *name, 
-					  const char *proto,
-					  /*@out@*/ struct servent *result_buf, 
-					  int *h_errnop );
-
 int gftp_set_config_options 		( gftp_request * request );
 
 void print_file_list 			( GList * list );
@@ -1094,6 +1083,29 @@ int gftp_connect_server 		( gftp_request * request,
 					  char *proxy_hostname,
 					  unsigned int proxy_port );
 
+/* socket-connect-getaddrinfo.c */
+struct addrinfo * lookup_host_with_getaddrinfo
+					( gftp_request *request,
+					  char *service,
+					  char *proxy_hostname,
+					  int proxy_port );
+
+int gftp_connect_server_with_getaddrinfo
+					( gftp_request * request,
+					  char *service,
+					  char *proxy_hostname,
+					  unsigned int proxy_port );
+
+/* socket-connect-gethostbyname.c */
+int lookup_host_with_gethostbyname	( gftp_request *request,
+					  char *proxy_hostname,
+					  struct hostent *hostp );
+
+int gftp_connect_server_legacy		( gftp_request * request,
+					  char *service,
+					  char *proxy_hostname,
+					  unsigned int proxy_port );
+
 /* sockutils.c */
 ssize_t gftp_get_line 			( gftp_request * request, 
 					  /*@out@*/ gftp_getline_buffer ** rbuf,
@@ -1121,4 +1133,9 @@ ssize_t gftp_writefmt 			( gftp_request * request,
 int gftp_fd_set_sockblocking 		( gftp_request * request, 
 					  int fd, 
 					  int non_blocking );
+
+struct servent * r_getservbyname	( const char *name,
+					  const char *proto,
+					  struct servent *result_buf,
+					  int *h_errnop );
 

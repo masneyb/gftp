@@ -930,60 +930,6 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
 }
 
 
-struct hostent *
-r_gethostbyname (const char *name, struct hostent *result_buf, int *h_errnop)
-{
-  static GStaticMutex hostfunclock = G_STATIC_MUTEX_INIT; 
-  struct hostent *hent;
-
-  if (g_thread_supported ())
-    g_static_mutex_lock (&hostfunclock);
-
-  if ((hent = gethostbyname (name)) == NULL)
-    {
-      if (h_errnop)
-        *h_errnop = h_errno;
-    }
-  else
-    {
-      *result_buf = *hent;
-      hent = result_buf;
-    }
-
-  if (g_thread_supported ())
-    g_static_mutex_unlock (&hostfunclock);
-
-  return (hent);
-}
-
-
-struct servent *
-r_getservbyname (const char *name, const char *proto,
-                 struct servent *result_buf, int *h_errnop)
-{
-  static GStaticMutex servfunclock = G_STATIC_MUTEX_INIT;
-  struct servent *sent;
-
-  if (g_thread_supported ())
-    g_static_mutex_lock (&servfunclock);
-
-  if ((sent = getservbyname (name, proto)) == NULL)
-    {
-      if (h_errnop)
-        *h_errnop = h_errno;
-    }
-  else
-    {
-      *result_buf = *sent;
-      sent = result_buf;
-    }
-
-  if (g_thread_supported ())
-    g_static_mutex_unlock (&servfunclock);
-  return (sent);
-}
-
-
 char *
 base64_encode (char *str)
 {

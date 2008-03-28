@@ -358,3 +358,30 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
   return (0);
 }
 
+
+struct servent *
+r_getservbyname (const char *name, const char *proto,
+                 struct servent *result_buf, int *h_errnop)
+{
+  static GStaticMutex servfunclock = G_STATIC_MUTEX_INIT;
+  struct servent *sent;
+
+  if (g_thread_supported ())
+    g_static_mutex_lock (&servfunclock);
+
+  if ((sent = getservbyname (name, proto)) == NULL)
+    {
+      if (h_errnop)
+        *h_errnop = h_errno;
+    }
+  else
+    {
+      *result_buf = *sent;
+      sent = result_buf;
+    }
+
+  if (g_thread_supported ())
+    g_static_mutex_unlock (&servfunclock);
+  return (sent);
+}
+
