@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-22 23:10+0100\n"
+"POT-Creation-Date: 2008-07-31 11:06+0100\n"
 "PO-Revision-Date: 2007-05-02 22:32+0300\n"
 "Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
@@ -52,23 +52,29 @@ msgstr "خطأ فى اغلاق واصف الملف %s\n"
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "خطأ :لا يمكننى البحث بالملف %s:%s\n"
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3209
+#: ../lib/charset-conv.c:73
+#, c-format
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:1627
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "خطأ:لا يمكننى فتح مجلد محلى %s%s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2910 ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/sockutils.c:293 ../lib/sslcommon.c:496
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "خطأ تعذر فى الكتابة الى المقبس %s\n"
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2831 ../lib/sshv2.c:445
-#: ../lib/sslcommon.c:450
+#: ../lib/config_file.c:151 ../lib/sockutils.c:214 ../lib/sshv2.c:445
+#: ../lib/sslcommon.c:449
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "خطأ تعذر فى القراءة من المقبس %s\n"
 
-#: ../lib/config_file.c:183 ../lib/config_file.c:738
+#: ../lib/config_file.c:183 ../lib/config_file.c:737
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "خطأ جي‌إف‌تي‌بي‌ :اسم سيىء لملف علامة الموقع %s\n"
@@ -78,7 +84,7 @@ msgstr "خطأ جي‌إف‌تي‌بي‌ :اسم سيىء لملف علامة
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "تحذير جي‌إف‌تي‌بي‌ :تعذر ايجاد ملف علامة الموقع الرئيسى %s\n"
 
-#: ../lib/config_file.c:203 ../lib/config_file.c:744
+#: ../lib/config_file.c:203 ../lib/config_file.c:743
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "خطأ جي‌إف‌تي‌بي‌ :تعذر فتح ملف علامة الموقع %s%s\n"
@@ -93,71 +99,71 @@ msgstr "تحذير جي‌إف‌تي‌بي‌ :حدف سطر من %d ملف ع
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "تحذير جي‌إف‌تي‌بي‌ :السطر لا يملك %d التعبيرات الكافية \n"
 
-#: ../lib/config_file.c:505
+#: ../lib/config_file.c:504
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
 
-#: ../lib/config_file.c:508
+#: ../lib/config_file.c:507
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
 msgstr ""
 
-#: ../lib/config_file.c:588 ../lib/config_file.c:833
+#: ../lib/config_file.c:587 ../lib/config_file.c:832
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "خطأ جي‌إف‌تي‌بي‌ : اعداد سيىءلاءسم الملف %s\n"
 
-#: ../lib/config_file.c:599
+#: ../lib/config_file.c:598
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "خطأ جي‌إف‌تي‌بي‌:لا يمكن تكوين مجلد%s%s\n"
 
-#: ../lib/config_file.c:609
+#: ../lib/config_file.c:608
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "خطأ جي‌إف‌تي‌بي‌ :لا يمكن ايجاد اعدادات الملف الرئسية  %s\n"
 
-#: ../lib/config_file.c:611
+#: ../lib/config_file.c:610
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "هل تريد ان تقوم بالتنصيب ؟\n"
 
-#: ../lib/config_file.c:620 ../lib/config_file.c:839
+#: ../lib/config_file.c:619 ../lib/config_file.c:838
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "خطأ جي‌إف‌تي‌بي‌:لايمكن فتح ملف الاعدادات %s %s\n"
 
-#: ../lib/config_file.c:659
+#: ../lib/config_file.c:658
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr ""
 
-#: ../lib/config_file.c:665
+#: ../lib/config_file.c:664
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "تحدير جي‌إف‌تي‌بي‌ :الغاء سطر %d فى ملف الاعدادات %s\n"
 
-#: ../lib/config_file.c:672
+#: ../lib/config_file.c:671
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "خطأ جي‌إف‌تي‌بي‌ :اسم سيىء لملف الدخول %s\n"
 
-#: ../lib/config_file.c:678
+#: ../lib/config_file.c:677
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "تحذير جي‌إف‌تي‌بي‌ :لايمكن %sالفتح للكتابة %s\n"
 
-#: ../lib/config_file.c:733
+#: ../lib/config_file.c:732
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
 
-#: ../lib/config_file.c:734
+#: ../lib/config_file.c:733
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
 "is not secure. This is to avoid your password being easily remembered by "
@@ -165,21 +171,21 @@ msgid ""
 "this, all passwords were stored in plaintext."
 msgstr ""
 
-#: ../lib/config_file.c:846
+#: ../lib/config_file.c:845
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
 
-#: ../lib/config_file.c:1210 ../lib/protocols.c:392 ../lib/rfc2068.c:543
+#: ../lib/config_file.c:1209 ../lib/protocols.c:385 ../lib/rfc2068.c:543
 #: ../lib/rfc2068.c:544
 #, c-format
 msgid "<unknown>"
 msgstr "<مجهول>"
 
-#: ../lib/config_file.c:1290 ../lib/config_file.c:1353
-#: ../lib/config_file.c:1395 ../lib/config_file.c:1428
+#: ../lib/config_file.c:1289 ../lib/config_file.c:1352
+#: ../lib/config_file.c:1394 ../lib/config_file.c:1427
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
@@ -204,10 +210,11 @@ msgstr "خطأ غلق ملف الجلسة '%s': %s\n"
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "تعذر قبول الاتصال بالملقم%s\n"
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1586
-#: ../lib/protocols.c:1587 ../lib/protocols.c:1628 ../lib/protocols.c:1629
-#: ../lib/protocols.c:1695 ../lib/protocols.c:1702 ../lib/protocols.c:1778
-#: ../lib/protocols.c:1779 ../lib/protocols.c:1815
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/parse-dir-listing.c:337
+#: ../lib/parse-dir-listing.c:338 ../lib/parse-dir-listing.c:379
+#: ../lib/parse-dir-listing.c:380 ../lib/parse-dir-listing.c:446
+#: ../lib/parse-dir-listing.c:453 ../lib/parse-dir-listing.c:529
+#: ../lib/parse-dir-listing.c:530 ../lib/parse-dir-listing.c:566
 msgid "unknown"
 msgstr "مجهول "
 
@@ -258,7 +265,7 @@ msgstr "تمت اعادة التسمية بنجاح%s الى%s\n"
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "خطأ تعذر اعادة التسمية %sالى %s%s\n"
 
-#: ../lib/ftps.c:157
+#: ../lib/ftps.c:156
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
@@ -751,138 +758,75 @@ msgstr "مؤشّر"
 msgid "FSP"
 msgstr "FSP"
 
-#: ../lib/protocols.c:235
+#: ../lib/protocols.c:228
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "نقل الملف سيخفف لسرعة %.2fكب/ث\n"
 
-#: ../lib/protocols.c:388
+#: ../lib/protocols.c:381
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr ""
 
-#: ../lib/protocols.c:399
+#: ../lib/protocols.c:392
 #, fuzzy, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "تحميل قائمة المجلدات %sمن الذاكرة\n"
 
-#: ../lib/protocols.c:409
+#: ../lib/protocols.c:402
 #, fuzzy, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "تحميل قائمة المجلدات %sمن الذاكرة\n"
 
-#: ../lib/protocols.c:472
-#, c-format
-msgid ""
-"Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr ""
-
-#: ../lib/protocols.c:699
+#: ../lib/protocols.c:452
 #, c-format
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
 "match the current directory (%s)\n"
 msgstr ""
 
-#: ../lib/protocols.c:730
+#: ../lib/protocols.c:483
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "خطأ لا يمكن الكتابة للذاكرة%s\n"
 
-#: ../lib/protocols.c:763
+#: ../lib/protocols.c:516
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "خطأ :لايمكننى ايجاد علامة الموقع  %s\n"
 
-#: ../lib/protocols.c:770
+#: ../lib/protocols.c:523
 #, fuzzy, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr ""
 "خطأ فى علامة الموقع :هناك بعض المعلومات المفقودة الرجاء التاكد باءن لديك اسم "
 "مستخدم وكلمة مرور\n"
 
-#: ../lib/protocols.c:892 ../lib/protocols.c:919
+#: ../lib/protocols.c:645 ../lib/protocols.c:672
 #, fuzzy, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "البروتوكول “%s” غير مدعوم"
 
-#: ../lib/protocols.c:1209 ../lib/protocols.c:1224 ../lib/protocols.c:2406
-#: ../lib/protocols.c:2519
-#, c-format
-msgid "Looking up %s\n"
-msgstr "البحث عن%s\n"
-
-#: ../lib/protocols.c:1215 ../lib/protocols.c:1230 ../lib/protocols.c:2411
-#: ../lib/protocols.c:2524
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "تعذر البحث عن اسم المضيف%s%s\n"
-
-#: ../lib/protocols.c:2141
+#: ../lib/protocols.c:1155
 #, fuzzy, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr "فشل قراءة الوصلة الرمزيّة %s: %s"
 
-#: ../lib/protocols.c:2429
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "فشل فى تكوين مقبس%s\n"
-
-#: ../lib/protocols.c:2435 ../lib/protocols.c:2541
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "يحاول%s:%d\n"
-
-#: ../lib/protocols.c:2440 ../lib/protocols.c:2548
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "تعذر الاتصال ب%s%s\n"
-
-#: ../lib/protocols.c:2478 ../lib/rfc959.c:706
-#, fuzzy, c-format
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "فشل إنشاء المجلد “%s”."
-
-#: ../lib/protocols.c:2502 ../lib/sshv2.c:1168
-#, c-format
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
-msgstr ""
-
-#: ../lib/protocols.c:2564 ../lib/protocols.c:3218 ../lib/rfc959.c:715
-#: ../lib/rfc959.c:892
-#, fuzzy, c-format
-msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "خطأ :لا يمكننى البحث بالملف %s:%s\n"
-
-#: ../lib/protocols.c:2571
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "التصال ب %s%d\n"
-
-#: ../lib/protocols.c:2807 ../lib/protocols.c:2885 ../lib/sshv2.c:435
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "نفاذ الوقت%sللاتصال ب\n"
-
-#: ../lib/protocols.c:2955
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr "تعذر فى الحصول على علامات المقبس%s\n"
-
-#: ../lib/protocols.c:2969
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "تعذر فى اعداد المقبس لوضع غير-مسدود%s\n"
-
-#: ../lib/protocols.c:3115
+#: ../lib/protocols.c:1533
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "خطأ :الموقع البعيد %sفصل بعد الوصول للحد الاقص للمحاولات المعطية له \n"
 
-#: ../lib/protocols.c:3123
+#: ../lib/protocols.c:1541
 #, fuzzy, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "خطأ :الموقع البعيد %sفصل وسيعاد الاتصال عند%sث\n"
+
+#: ../lib/protocols.c:1636 ../lib/rfc959.c:715 ../lib/rfc959.c:885
+#: ../lib/socket-connect.c:126
+#, fuzzy, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr "خطأ :لا يمكننى البحث بالملف %s:%s\n"
 
 #: ../lib/pty.c:301
 #, c-format
@@ -1093,74 +1037,134 @@ msgid ""
 msgstr ""
 
 #: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
-#: ../lib/rfc959.c:855 ../lib/rfc959.c:1422
+#: ../lib/rfc959.c:849 ../lib/rfc959.c:1414
 #, fuzzy, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "إستجابة توثيق رديئة من النّادل."
+
+#: ../lib/rfc959.c:706 ../lib/socket-connect-gethostbyname.c:120
+#, fuzzy, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "فشل إنشاء المجلد “%s”."
 
 #: ../lib/rfc959.c:745 ../lib/rfc959.c:755
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "تعذر ايجاد عنوان IPخلال الاستجابة السلبية'%s'\n"
 
-#: ../lib/rfc959.c:781
+#: ../lib/rfc959.c:775
 #, fuzzy, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr "تعذر ايجاد عنوان IPخلال الاستجابة السلبية'%s'\n"
 
-#: ../lib/rfc959.c:792 ../lib/rfc959.c:953
+#: ../lib/rfc959.c:786 ../lib/rfc959.c:945
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "التعذر فى تكوين اتصال بالبيانات%s\n"
 
-#: ../lib/rfc959.c:804 ../lib/rfc959.c:825 ../lib/rfc959.c:978
+#: ../lib/rfc959.c:798 ../lib/rfc959.c:819 ../lib/rfc959.c:970
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "التعذر فى الحصول على اسم المقبس%s\n"
 
-#: ../lib/rfc959.c:815 ../lib/rfc959.c:968
+#: ../lib/rfc959.c:809 ../lib/rfc959.c:960
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "تعذر الارتباط بالمنفذ%s\n"
 
-#: ../lib/rfc959.c:834 ../lib/rfc959.c:987
+#: ../lib/rfc959.c:828 ../lib/rfc959.c:979
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "تعذر الاستماع الى المنفذ%d:%s\n"
 
-#: ../lib/rfc959.c:883
+#: ../lib/rfc959.c:876
 #, fuzzy, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "فشل إنشاء المجلد “%s”."
 
-#: ../lib/rfc959.c:903
+#: ../lib/rfc959.c:895
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 
-#: ../lib/rfc959.c:931 ../lib/rfc959.c:940
+#: ../lib/rfc959.c:923 ../lib/rfc959.c:932
 #, fuzzy, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "لا داعي للرّد"
 
-#: ../lib/rfc959.c:997
+#: ../lib/rfc959.c:989
 #, fuzzy, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "فشل فى تكوين ازواج المقبس %s\n"
 
-#: ../lib/rfc959.c:1084
+#: ../lib/rfc959.c:1076
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "تعذر قبول الاتصال بالملقم%s\n"
 
-#: ../lib/rfc959.c:1592
+#: ../lib/rfc959.c:1584
 msgid "total"
 msgstr "الكلى"
 
-#: ../lib/rfc959.c:1594
+#: ../lib/rfc959.c:1586
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "تعذر فى ترجمة الاستماع%s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:77
+#: ../lib/socket-connect-gethostbyname.c:64
+#, c-format
+msgid "Looking up %s\n"
+msgstr "البحث عن%s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:82
+#: ../lib/socket-connect-gethostbyname.c:69
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "تعذر البحث عن اسم المضيف%s%s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:115
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "فشل فى تكوين مقبس%s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:121
+#: ../lib/socket-connect-gethostbyname.c:134
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "يحاول%s:%d\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:127
+#: ../lib/socket-connect-gethostbyname.c:141
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "تعذر الاتصال ب%s%s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:152
+#: ../lib/socket-connect-gethostbyname.c:159
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "التصال ب %s%d\n"
+
+#: ../lib/socket-connect-gethostbyname.c:101 ../lib/sshv2.c:1168
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr ""
+
+#: ../lib/sockutils.c:190 ../lib/sockutils.c:268 ../lib/sshv2.c:435
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "نفاذ الوقت%sللاتصال ب\n"
+
+#: ../lib/sockutils.c:338
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "تعذر فى الحصول على علامات المقبس%s\n"
+
+#: ../lib/sockutils.c:352
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "تعذر فى اعداد المقبس لوضع غير-مسدود%s\n"
 
 #: ../lib/sshv2.c:28
 msgid "SSH"
@@ -1422,32 +1426,32 @@ msgid ""
 "connected to (%s). Aborting connection.\n"
 msgstr ""
 
-#: ../lib/sslcommon.c:306
+#: ../lib/sslcommon.c:305
 #, fuzzy
 msgid "Cannot initialize the OpenSSL library\n"
 msgstr "لا يمكن تشغيل مدير التفضيلات"
 
-#: ../lib/sslcommon.c:321
+#: ../lib/sslcommon.c:320
 msgid "Error loading default SSL certificates\n"
 msgstr ""
 
-#: ../lib/sslcommon.c:333
+#: ../lib/sslcommon.c:332
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr ""
 
-#: ../lib/sslcommon.c:353 ../lib/sslcommon.c:427 ../lib/sslcommon.c:475
+#: ../lib/sslcommon.c:352 ../lib/sslcommon.c:426 ../lib/sslcommon.c:474
 msgid "Error: SSL engine was not initialized\n"
 msgstr ""
 
-#: ../lib/sslcommon.c:370
+#: ../lib/sslcommon.c:369
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr ""
 
-#: ../lib/sslcommon.c:380
+#: ../lib/sslcommon.c:379
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr ""
 
-#: ../lib/sslcommon.c:401
+#: ../lib/sslcommon.c:400
 #, fuzzy, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "خطأ في معدل الإطارات."
