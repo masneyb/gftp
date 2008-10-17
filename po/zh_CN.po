@@ -2,92 +2,100 @@
 # Updated by llc <lilichange@163.net>, 2002
 # Funda Wang <fundawang@linux.net.cn>, 2003
 # Zhuo Li <mada@geekbone.org>, 2004
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-31 19:05+0100\n"
-"PO-Revision-Date: 2005-01-02 00:45+0800\n"
+"POT-Creation-Date: 2008-10-17 03:57+0000\n"
+"PO-Revision-Date: 2008-10-17 21:14+0800\n"
 "Last-Translator: Zhuo Li <mada@geekbone.org>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
-#: lib/bookmark.c:38
+#: ../lib/bookmark.c:38
 #, c-format
 msgid "Invalid URL %s\n"
 msgstr "无效的 URL %s\n"
 
-#: lib/cache.c:50 lib/cache.c:64 lib/cache.c:77
+#: ../lib/cache.c:50 ../lib/cache.c:64 ../lib/cache.c:77
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "错误：缓存索引文件里的第 %s 行非法\n"
 
-#: lib/cache.c:137 lib/local.c:477
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "错误：不能建立目录 %s：%s\n"
 
-#: lib/cache.c:161
+#: ../lib/cache.c:164
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "错误：不能创建临时文件：%s\n"
 
-#: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:157 lib/config_file.c:163
-#: lib/local.c:102 lib/local.c:217 lib/rfc2068.c:259 lib/sshv2.c:1069
+#: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
+#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:272
+#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1250
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "关闭文件描述时出错：%s\n"
 
-#: lib/cache.c:250 lib/local.c:136 lib/local.c:145 lib/local.c:192
+#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:184
+#: ../lib/local.c:193 ../lib/local.c:247
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "错误：无法定位文件 %s：%s\n"
 
-#: lib/config_file.c:126 lib/config_file.c:133 lib/protocols.c:2980
+#: ../lib/charset-conv.c:73
+#, c-format
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr "在将字符串“%s”从字符集 %s 转换成字符集 %s 时出错：%s\n"
+
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:1627
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "错误：无法打开本地文件 %s：%s\n"
 
-#: lib/config_file.c:143 lib/protocols.c:2687 lib/sslcommon.c:486
+#: ../lib/config_file.c:143 ../lib/sockutils.c:293 ../lib/sslcommon.c:496
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "错误：无法写套接字：%s\n"
 
-#: lib/config_file.c:151 lib/protocols.c:2611 lib/sshv2.c:364
-#: lib/sslcommon.c:439
+#: ../lib/config_file.c:151 ../lib/sockutils.c:214 ../lib/sshv2.c:445
+#: ../lib/sslcommon.c:449
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "错误：无法读套接字：%s\n"
 
-#: lib/config_file.c:183 lib/config_file.c:737
+#: ../lib/config_file.c:183 ../lib/config_file.c:737
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP 错误：不正确的书签文件名 %s\n"
 
-#: lib/config_file.c:192
+#: ../lib/config_file.c:192
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "警告：找不到主书签文件 %s\n"
 
-#: lib/config_file.c:203 lib/config_file.c:743
+#: ../lib/config_file.c:203 ../lib/config_file.c:743
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP 错误：不能打开书签文件 %s: %s\n"
 
-#: lib/config_file.c:295 lib/config_file.c:317
+#: ../lib/config_file.c:295 ../lib/config_file.c:317
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP 警告：跳过书签文件第 %d 行：%s\n"
 
-#: lib/config_file.c:347
+#: ../lib/config_file.c:347
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP 警告：第 %d 行参数不足\n"
 
-#: lib/config_file.c:505
+#: ../lib/config_file.c:504
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
@@ -96,7 +104,7 @@ msgstr ""
 "本节指定了本地子网中包含哪些主机，而无须使用代理服务器(若代理可用)。语法："
 "dont_use_proxy=.domain 或 dont_use_proxy=网络号/子网掩码"
 
-#: lib/config_file.c:508
+#: ../lib/config_file.c:507
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
@@ -104,60 +112,60 @@ msgstr ""
 "ext=文件扩展名:XPM file:Ascii 或 Binary (A 或 B)：查看程序。注意：除文件扩展"
 "名外的全部参数都是可选的"
 
-#: lib/config_file.c:587 lib/config_file.c:832
+#: ../lib/config_file.c:587 ../lib/config_file.c:832
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP 错误：不正确的配置文件名 %s\n"
 
-#: lib/config_file.c:598
+#: ../lib/config_file.c:598
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP 错误：不能建立目录 %s：%s\n"
 
-#: lib/config_file.c:608
+#: ../lib/config_file.c:608
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP 错误：找不到主配置文件 %s\n"
 
-#: lib/config_file.c:610
+#: ../lib/config_file.c:610
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "您是否进行了 make install?\n"
 
-#: lib/config_file.c:619 lib/config_file.c:838
+#: ../lib/config_file.c:619 ../lib/config_file.c:838
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP 错误：无法打开配置文件 %s：%s\n"
 
-#: lib/config_file.c:658
+#: ../lib/config_file.c:658
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr "由于配置文件中的第 %d 行分析出错，现在终止\n"
 
-#: lib/config_file.c:664
+#: ../lib/config_file.c:664
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP 警告：跳过配置文件第 %d 行：%s\n"
 
-#: lib/config_file.c:671
+#: ../lib/config_file.c:671
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP 错误：不正确的日志文件名 %s\n"
 
-#: lib/config_file.c:677
+#: ../lib/config_file.c:677
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP 警告：无法打开 %s 写入：%s\n"
 
-#: lib/config_file.c:732
+#: ../lib/config_file.c:732
 msgid ""
-"Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
-"gFTP 的数千文件。版权 (C) 1998-2003 Brian Masney <masneyb@gftp.org>。警告：您"
-"添加到此文件中的任何信息都会被覆盖"
+"gFTP 书签文件。版权所有 (C) 1998-2003 Brian Masney <masneyb@gftp.org>。警告：您"
+"添加到此文件中的任何信息都将被覆盖"
 
-#: lib/config_file.c:733
+#: ../lib/config_file.c:733
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
 "is not secure. This is to avoid your password being easily remembered by "
@@ -168,9 +176,10 @@ msgstr ""
 "当你在编辑这个文件的时候，通过站在你背后偷看你的输入从而记住你的输入。在这以"
 "前，所有的密码都是明文形式保存的。"
 
-#: lib/config_file.c:845
+#: ../lib/config_file.c:845
+#, fuzzy
 msgid ""
-"Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
@@ -178,199 +187,243 @@ msgstr ""
 "添加到此文件中的任何信息都会被覆盖。如果某个条目的注释里有一个(*)，则您不能"
 "在 gFTP 中修改它"
 
-#: lib/config_file.c:1209 lib/protocols.c:383 lib/protocols.c:455
-#: lib/protocols.c:526 lib/rfc2068.c:545 lib/rfc2068.c:546
+#: ../lib/config_file.c:1209 ../lib/protocols.c:385 ../lib/rfc2068.c:543
+#: ../lib/rfc2068.c:544
+#, c-format
 msgid "<unknown>"
 msgstr "<未知>"
 
-#: lib/config_file.c:1289 lib/config_file.c:1352 lib/config_file.c:1394
-#: lib/config_file.c:1427
+#: ../lib/config_file.c:1289 ../lib/config_file.c:1352
+#: ../lib/config_file.c:1394 ../lib/config_file.c:1427
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr "gFTP 严重错误：未在全局哈希表中找到配置选项“%s”\n"
 
-#: lib/ftps.c:157
+#: ../lib/fsp.c:189
+#, c-format
+msgid "Error: Cannot upload file %s\n"
+msgstr "错误：无法打上传地文件 %s\n"
+
+#: ../lib/fsp.c:199
+#, c-format
+msgid "Error: Cannot write to file %s: %s\n"
+msgstr "错误：无法写入文件 %s\n"
+
+#: ../lib/fsp.c:237
+#, c-format
+msgid "Error: Error closing file: %s\n"
+msgstr "错误：关闭文件出错：%s\n"
+
+#: ../lib/fsp.c:327
+#, fuzzy, c-format
+msgid "Corrupted file listing from FSP server %s\n"
+msgstr "正在从服务器上装入目录列表 %s(LC_TIME=%s)\n"
+
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/parse-dir-listing.c:337
+#: ../lib/parse-dir-listing.c:338 ../lib/parse-dir-listing.c:379
+#: ../lib/parse-dir-listing.c:380 ../lib/parse-dir-listing.c:446
+#: ../lib/parse-dir-listing.c:453 ../lib/parse-dir-listing.c:529
+#: ../lib/parse-dir-listing.c:530 ../lib/parse-dir-listing.c:566
+msgid "unknown"
+msgstr "未知"
+
+#: ../lib/fsp.c:377
+#, fuzzy, c-format
+msgid "Could not get FSP directory listing %s: %s\n"
+msgstr "无法获得本地目录列表 %s：%s\n"
+
+#: ../lib/fsp.c:436
+#, fuzzy, c-format
+msgid "Successfully changed directory to %s\n"
+msgstr "将本地目录更改为 %s 成功\n"
+
+#: ../lib/fsp.c:446
+#, fuzzy, c-format
+msgid "Could not change directory to %s\n"
+msgstr "无法将本地目录更改为 %s：%s\n"
+
+#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:480 ../lib/local.c:516
+#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:306
+#, c-format
+msgid "Successfully removed %s\n"
+msgstr "删除 %s 成功\n"
+
+#: ../lib/fsp.c:477 ../lib/local.c:486
+#, c-format
+msgid "Error: Could not remove directory %s: %s\n"
+msgstr "错误：无法删除目录 %s：%s\n"
+
+#: ../lib/fsp.c:506 ../lib/local.c:522 ../src/gtk/transfer.c:267
+#: ../src/gtk/view_dialog.c:310
+#, c-format
+msgid "Error: Could not remove file %s: %s\n"
+msgstr "错误：无法删除文件 %s：%s\n"
+
+#: ../lib/fsp.c:528 ../lib/local.c:554
+#, c-format
+msgid "Successfully made directory %s\n"
+msgstr "创建目录 %s 成功\n"
+
+#: ../lib/fsp.c:563 ../lib/local.c:590
+#, c-format
+msgid "Successfully renamed %s to %s\n"
+msgstr "将 %s 改名为 %s 成功\n"
+
+#: ../lib/fsp.c:575 ../lib/local.c:597
+#, c-format
+msgid "Error: Could not rename %s to %s: %s\n"
+msgstr "错误：无法将 %s 改名为 %s：%s\n"
+
+#: ../lib/ftps.c:156
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr "FTPS 支持不可用，原因是未将 SSL 支持编译进来。中止连接。\n"
 
-#: lib/https.c:91
+#: ../lib/https.c:91
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr "HTTPS 支持不可用，原因是未将 SSL 支持编译进来。中止连接。\n"
 
-#: lib/local.c:71 lib/local.c:407
-#, c-format
-msgid "Could not change local directory to %s: %s\n"
-msgstr "无法将本地目录更改为 %s：%s\n"
-
-#: lib/local.c:85 lib/local.c:392
+#: ../lib/local.c:66
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "无法获得当前工作目录：%s\n"
 
-#: lib/local.c:183
-#, c-format
-msgid "Error: Cannot truncate local file %s: %s\n"
-msgstr "错误：无法截断本地文件 %s：%s\n"
-
-#: lib/local.c:347
-#, c-format
-msgid "Could not get local directory listing %s: %s\n"
-msgstr "无法获得本地目录列表 %s：%s\n"
-
-#: lib/local.c:384
+#: ../lib/local.c:105
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "将本地目录更改为 %s 成功\n"
 
-#: lib/local.c:424 lib/local.c:447 src/gtk/transfer.c:260
-#: src/gtk/view_dialog.c:328
+#: ../lib/local.c:112
 #, c-format
-msgid "Successfully removed %s\n"
-msgstr "删除 %s 成功\n"
+msgid "Could not change local directory to %s: %s\n"
+msgstr "无法将本地目录更改为 %s：%s\n"
 
-#: lib/local.c:430
+#: ../lib/local.c:238
 #, c-format
-msgid "Error: Could not remove directory %s: %s\n"
-msgstr "错误：无法删除目录 %s：%s\n"
+msgid "Error: Cannot truncate local file %s: %s\n"
+msgstr "错误：无法截断本地文件 %s：%s\n"
 
-#: lib/local.c:453 src/gtk/transfer.c:264 src/gtk/view_dialog.c:332
+#: ../lib/local.c:424
 #, c-format
-msgid "Error: Could not remove file %s: %s\n"
-msgstr "错误：无法删除文件 %s：%s\n"
+msgid "Could not get local directory listing %s: %s\n"
+msgstr "无法获得本地目录列表 %s：%s\n"
 
-#: lib/local.c:470
-#, c-format
-msgid "Successfully made directory %s\n"
-msgstr "创建目录 %s 成功\n"
-
-#: lib/local.c:496
-#, c-format
-msgid "Successfully renamed %s to %s\n"
-msgstr "将 %s 改名为 %s 成功\n"
-
-#: lib/local.c:503
-#, c-format
-msgid "Error: Could not rename %s to %s: %s\n"
-msgstr "错误：无法将 %s 改名为 %s：%s\n"
-
-#: lib/local.c:520
+#: ../lib/local.c:634
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "将 %s 的权限更改为 %o 成功\n"
 
-#: lib/local.c:527
+#: ../lib/local.c:641
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "错误：无法将 %s 的权限更改为 %o：%s\n"
 
-#: lib/local.c:623
+#: ../lib/local.c:676
+#, fuzzy, c-format
+msgid "Successfully changed the time stamp of %s\n"
+msgstr "将 %s 的权限更改为 %o 成功\n"
+
+#: ../lib/local.c:683
+#, fuzzy, c-format
+msgid "Error: Could not change the time stamp of %s: %s\n"
+msgstr "错误：无法将 %s 的权限更改为 %o：%s\n"
+
+#: ../lib/local.c:750
 msgid "local filesystem"
 msgstr "本地文件系统"
 
-#: lib/misc.c:401
+#: ../lib/misc.c:414
 #, c-format
 msgid "usage: gftp "
 msgstr "用法：gftp "
 
-#: lib/misc.c:401 lib/rfc2068.c:303 src/uicommon/gftpui.c:662
-#, c-format
-msgid "\n"
-msgstr "\n"
-
-#: lib/options.h:24 lib/rfc959.c:26
+#. @null@
+#: ../lib/options.h:25 ../lib/rfc959.c:26
 msgid "none"
 msgstr "无"
 
-#: lib/options.h:24
+#: ../lib/options.h:25
 msgid "file"
 msgstr "文件"
 
-#: lib/options.h:24
+#: ../lib/options.h:26
 msgid "size"
 msgstr "大小"
 
-#: lib/options.h:25
+#: ../lib/options.h:26
 msgid "user"
 msgstr "用户"
 
-#: lib/options.h:25
+#: ../lib/options.h:27
 msgid "group"
 msgstr "群组"
 
-#: lib/options.h:26
+#: ../lib/options.h:28
 msgid "datetime"
 msgstr "时间日期"
 
-#: lib/options.h:26
+#: ../lib/options.h:29
 msgid "attribs"
 msgstr "属性"
 
-#: lib/options.h:28
+#. @null@
+#: ../lib/options.h:32
 msgid "descending"
 msgstr "降序"
 
-#: lib/options.h:28
+#: ../lib/options.h:33
 msgid "ascending"
 msgstr "升序"
 
-#: lib/options.h:34
+#: ../lib/options.h:40
 msgid "General"
 msgstr "常规"
 
-#: lib/options.h:37
+#: ../lib/options.h:43
 msgid "View program:"
 msgstr "查看程序："
 
-#: lib/options.h:38
+#: ../lib/options.h:44
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
 msgstr "用于查看文件的默认程序。如果为空，则使用内置的文件查看器"
 
-#: lib/options.h:40
+#: ../lib/options.h:46
 msgid "Edit program:"
 msgstr "编辑程序："
 
-#: lib/options.h:41
+#: ../lib/options.h:47
 msgid "The default program used to edit files."
 msgstr "用于编辑文件的默认程序。"
 
-#: lib/options.h:42
-msgid "Startup Directory:"
-msgstr "起始目录："
-
-#: lib/options.h:44
-msgid "The default directory gFTP will go to on startup"
-msgstr "gFTP 启动时自动转到的目录"
-
-#: lib/options.h:45
+#: ../lib/options.h:48
 msgid "Max Log Window Size:"
 msgstr "日志窗口最大大小："
 
-#: lib/options.h:47
+#: ../lib/options.h:50
 msgid "The maximum size of the log window in bytes for the GTK+ port"
 msgstr "日志窗口 GTK+ 移植的最大字节大小"
 
-#: lib/options.h:49
+#: ../lib/options.h:52
 msgid "Remote Character Sets:"
 msgstr "远程字符集："
 
-#: lib/options.h:51
+#: ../lib/options.h:54
 msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
 msgstr ""
 "这是用逗号分隔的字符集列表，gFTP 会使用这些字符集将远程信息转换为当前语系。"
 
-#: lib/options.h:53
+#: ../lib/options.h:56
 msgid "Remote LC_TIME:"
 msgstr "远程 LC_TIME："
 
-#: lib/options.h:55
+#: ../lib/options.h:58
 msgid ""
 "This is the value of LC_TIME for the remote site. This is so that dates can "
 "be parsed properly in the directory listings."
@@ -378,483 +431,435 @@ msgstr ""
 "这是远程站点所使用的 LC_TIME 的设置。它可以让目录列表的时候能够正确解析日期格"
 "式。"
 
-#: lib/options.h:57
+#: ../lib/options.h:60
 msgid "Cache TTL:"
 msgstr "缓存 TTL："
 
-#: lib/options.h:60
+#: ../lib/options.h:63
 msgid "The number of seconds to keep cache entries before they expire."
 msgstr "缓存过期前等待的秒数。"
 
-#: lib/options.h:63
+#: ../lib/options.h:66
 msgid "Append file transfers"
 msgstr "追加文件传输"
 
-#: lib/options.h:65
+#: ../lib/options.h:68
 msgid "Append new file transfers onto existing ones"
 msgstr "在已有文件后面追加新的传输文件"
 
-#: lib/options.h:66
+#: ../lib/options.h:69
 msgid "Do one transfer at a time"
 msgstr "每次进行一次传输"
 
-#: lib/options.h:68
+#: ../lib/options.h:71
 msgid "Do only one transfer at a time?"
 msgstr "是否每次只进行一次传输?"
 
-#: lib/options.h:69
+#: ../lib/options.h:72
 msgid "Overwrite by Default"
 msgstr "默认覆盖"
 
-#: lib/options.h:72
+#: ../lib/options.h:75
 msgid "Overwrite files by default or set to resume file transfers"
 msgstr "默认覆盖文件或者设置为续传文件"
 
-#: lib/options.h:74
+#: ../lib/options.h:77
 msgid "Preserve file permissions"
 msgstr "保留文件权限"
 
-#: lib/options.h:77
+#: ../lib/options.h:80
 msgid "Preserve file permissions of transfered files"
 msgstr "保留已传输文件的权限"
 
-#: lib/options.h:79
+#: ../lib/options.h:82
 msgid "Preserve file time"
 msgstr "保留文件时间"
 
-#: lib/options.h:82
+#: ../lib/options.h:85
 msgid "Preserve file times of transfered files"
 msgstr "保留已传输文件的时间"
 
-#: lib/options.h:84
+#: ../lib/options.h:87
 msgid "Refresh after each file transfer"
 msgstr "每个文件传输后刷新"
 
-#: lib/options.h:87
+#: ../lib/options.h:90
 msgid "Refresh the listbox after each file is transfered"
 msgstr "每个文件传输完成后刷新文件列表框"
 
-#: lib/options.h:89
+#: ../lib/options.h:92
 msgid "Sort directories first"
 msgstr "先排序目录"
 
-#: lib/options.h:92
+#: ../lib/options.h:95
 msgid "Put the directories first then the files"
 msgstr "先上传目录，再上传文件"
 
-#: lib/options.h:93
+#: ../lib/options.h:96
 msgid "Show hidden files"
 msgstr "显示隐藏文件"
 
-#: lib/options.h:96
+#: ../lib/options.h:99
 msgid "Show hidden files in the listboxes"
 msgstr "在文件列表框中显示隐藏文件"
 
-#: lib/options.h:97
+#: ../lib/options.h:100
 msgid "Show transfer status in title"
 msgstr "在标题中显示传输状态"
 
-#: lib/options.h:99
+#: ../lib/options.h:102
 msgid "Show the file transfer status in the titlebar"
 msgstr "在标题栏中显示文件传输状态"
 
-#: lib/options.h:100
+#: ../lib/options.h:103
 msgid "Start file transfers"
 msgstr "启动文件传输"
 
-#: lib/options.h:102
+#: ../lib/options.h:105
 msgid "Automatically start the file transfers when they get queued"
 msgstr "当文件进入队列时自动开始传输"
 
-#: lib/options.h:104
+#: ../lib/options.h:107
 msgid "Allow manual commands in GUI"
 msgstr "在 GUI 中允许使用手工命令"
 
-#: lib/options.h:106
+#: ../lib/options.h:109
 msgid ""
 "Allow entering manual commands in the GUI (functions like the text port)"
 msgstr "在 GUI 中允许输入手工命令(例如可以输入 port 命令的文本)"
 
-#: lib/options.h:108 src/gtk/options_dialog.c:1023
-#: src/gtk/options_dialog.c:1243
+#: ../lib/options.h:111
+#, fuzzy
+msgid "Remember last directory"
+msgstr "删除本地目录"
+
+#: ../lib/options.h:113
+msgid "Save the last local and remote directory when the application is closed"
+msgstr ""
+
+#: ../lib/options.h:115
+#, fuzzy
+msgid "Connect to remote server on startup"
+msgstr "与远程网站断开连接"
+
+#: ../lib/options.h:117
+msgid ""
+"Automatically connect to the remote server when the application is started."
+msgstr ""
+
+#: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
+#: ../src/gtk/options_dialog.c:1240
 msgid "Network"
 msgstr "网络"
 
-#: lib/options.h:110
+#: ../lib/options.h:122
 msgid "Network timeout:"
 msgstr "网络超时："
 
-#: lib/options.h:113
+#: ../lib/options.h:125
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr "等待网络输入/输出超时。这不是发呆超时。"
 
-#: lib/options.h:115
+#: ../lib/options.h:127
 msgid "Connect retries:"
 msgstr "连接重试次数："
 
-#: lib/options.h:118
+#: ../lib/options.h:130
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
 msgstr "自动重试次数。设置 0 为无限次"
 
-#: lib/options.h:120
+#: ../lib/options.h:132
 msgid "Retry sleep time:"
 msgstr "重试等待时间："
 
-#: lib/options.h:123
+#: ../lib/options.h:135
 msgid "The number of seconds to wait between retries"
 msgstr "重试间隔时间(秒)"
 
-#: lib/options.h:124
+#: ../lib/options.h:136
 msgid "Max KB/S:"
 msgstr "最大 KB/S："
 
-#: lib/options.h:127
+#: ../lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr "文件传输的最大速率 KB/s。(设置 0 为禁止)"
 
-#: lib/options.h:129
+#: ../lib/options.h:141
 msgid "Transfer Block Size:"
 msgstr "传输块大小："
 
-#: lib/options.h:132
+#: ../lib/options.h:144
 msgid ""
 "The block size that is used when transfering files. This should be a "
 "multiple of 1024."
 msgstr "在传输文件的过程中所使用的块大小。它应该是1024的倍数。"
 
-#: lib/options.h:135
+#: ../lib/options.h:147
 msgid "Default Protocol:"
 msgstr "默认协议："
 
-#: lib/options.h:137
+#: ../lib/options.h:149
 msgid "This specifies the default protocol to use"
 msgstr "这里指定要使用的默认协议"
 
-#: lib/options.h:139 lib/options.h:142
+#: ../lib/options.h:151 ../lib/options.h:154
 msgid "Enable IPv6 support"
 msgstr "启用 IPv6 的支持"
 
-#: lib/options.h:147
+#: ../lib/options.h:159
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
 msgstr "此处定义了双击文件列表框时发生的操作。0=查看文件 1=编辑文件 2=传输文件"
 
-#: lib/options.h:150
+#: ../lib/options.h:162
 msgid "The default width of the local files listbox"
 msgstr "本地文件列表框的默认宽度"
 
-#: lib/options.h:153
+#: ../lib/options.h:165
 msgid "The default width of the remote files listbox"
 msgstr "远程文件列表框的默认宽度"
 
-#: lib/options.h:156
+#: ../lib/options.h:168
 msgid "The default height of the local/remote files listboxes"
 msgstr "本地/远程文件列表框的默认高度"
 
-#: lib/options.h:159
+#: ../lib/options.h:171
 msgid "The default height of the transfer listbox"
 msgstr "传输列表框的默认高度"
 
-#: lib/options.h:162
+#: ../lib/options.h:174
 msgid "The default height of the logging window"
 msgstr "日志窗口的默认高度"
 
-#: lib/options.h:165
+#: ../lib/options.h:177
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
 msgstr "传输窗口文件名栏的宽度. 设置 0 为该栏宽度自动适应."
 
-#: lib/options.h:173 lib/options.h:179
+#: ../lib/options.h:190 ../lib/options.h:196
 msgid "The default column to sort by"
 msgstr "默认的排序依据列"
 
-#: lib/options.h:176 lib/options.h:182
+#: ../lib/options.h:193 ../lib/options.h:199
 msgid "Sort ascending or descending"
 msgstr "升序还是降序排序"
 
-#: lib/options.h:186 lib/options.h:204
+#: ../lib/options.h:203 ../lib/options.h:221
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
 msgstr "传输窗口文件名列的宽度。设置 0 为该列宽度自动适应。设置 -1 将禁用此列"
 
-#: lib/options.h:189 lib/options.h:207
+#: ../lib/options.h:206 ../lib/options.h:224
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "传输窗口大小列的宽度。设置 0 为该列宽度自动适应。设置 -1 将禁用此列"
 
-#: lib/options.h:192 lib/options.h:210
+#: ../lib/options.h:209 ../lib/options.h:227
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "传输窗口用户列的宽度。设置 0 为该列宽度自动适应。设置 -1 将禁用此列"
 
-#: lib/options.h:195 lib/options.h:213
+#: ../lib/options.h:212 ../lib/options.h:230
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "传输窗口群组列的宽度。设置 0 为该列宽度自动适应。设置 -1 将禁用此列"
 
-#: lib/options.h:198 lib/options.h:216
+#: ../lib/options.h:215 ../lib/options.h:233
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "传输窗口日期列的宽度。设置 0 为该列宽度自动适应。设置 -1 将禁用此列"
 
-#: lib/options.h:201 lib/options.h:219
+#: ../lib/options.h:218 ../lib/options.h:236
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "传输窗口属性列的宽度。设置 0 为该列宽度自动适应。设置 -1 将禁用此列"
 
-#: lib/options.h:222
+#: ../lib/options.h:239
 msgid "The color of the commands that are sent to the server"
 msgstr "发向服务器的命令颜色"
 
-#: lib/options.h:225
+#: ../lib/options.h:242
 msgid "The color of the commands that are received from the server"
 msgstr "从服务器发来的命令颜色"
 
-#: lib/options.h:228
+#: ../lib/options.h:245
 msgid "The color of the error messages"
 msgstr "错误信息的颜色"
 
-#: lib/options.h:231
+#: ../lib/options.h:248
 msgid "The color of the rest of the log messages"
 msgstr "其他日志信息的颜色"
 
-#: lib/options.h:237 lib/rfc959.c:40
+#: ../lib/options.h:254 ../lib/rfc959.c:40
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:240 lib/options.h:242
+#: ../lib/options.h:257 ../lib/options.h:259
 msgid "FTPS"
 msgstr "FTPS"
 
-#: lib/options.h:245 lib/rfc2068.c:27
+#: ../lib/options.h:262 ../lib/rfc2068.c:27
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:248 lib/options.h:250
+#: ../lib/options.h:265 ../lib/options.h:267
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: lib/options.h:253
+#: ../lib/options.h:270
 msgid "Local"
 msgstr "本地"
 
-#: lib/options.h:255
+#: ../lib/options.h:272
 msgid "SSH2"
 msgstr "SSH2"
 
-#: lib/options.h:257 src/gtk/bookmarks.c:886
+#: ../lib/options.h:274 ../src/gtk/bookmarks.c:883
 msgid "Bookmark"
 msgstr "书签"
 
-#: lib/protocols.c:225
+#: ../lib/options.h:275
+msgid "FSP"
+msgstr "FSP"
+
+#: ../lib/protocols.c:228
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "传输速度被限制为 %.2f KB/s\n"
 
-#: lib/protocols.c:379
+#: ../lib/protocols.c:381
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "设置 LC_TIME 成 '%s' 时出错。仍使用原来的设置 '%s'\n"
 
-#: lib/protocols.c:390
+#: ../lib/protocols.c:392
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "正在从缓存中装入目录列表 %s(LC_TIME=%s)\n"
 
-#: lib/protocols.c:400
+#: ../lib/protocols.c:402
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "正在从服务器上装入目录列表 %s(LC_TIME=%s)\n"
 
-#: lib/protocols.c:454 lib/protocols.c:486 lib/protocols.c:525
-#: lib/protocols.c:557
+#: ../lib/protocols.c:452
 #, c-format
 msgid ""
-"Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr "在将字符串“%s”从字符集 %s 转换成字符集 %s 时出错：%s\n"
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
+msgstr ""
 
-#. Don't use request->logging_function since the strings must be in UTF-8
-#. for the GTK+ 2.x port
-#: lib/protocols.c:469
-#, c-format
-msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
-msgstr "在将字符串“%s”从本地字符集转换成字符集 UTF-8 时出错：%s\n"
-
-#. Don't use request->logging_function since the strings must be in UTF-8
-#. for the GTK+ 2.x port
-#: lib/protocols.c:540
-#, c-format
-msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
-msgstr "在将字符串“%s”从字符集 UTF-8 转换成本地字符集时出错：%s\n"
-
-#: lib/protocols.c:626
+#: ../lib/protocols.c:483
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "错误：不能写入缓存：%s\n"
 
-#: lib/protocols.c:659
+#: ../lib/protocols.c:516
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "错误：找不到书签 %s\n"
 
-#: lib/protocols.c:666
+#: ../lib/protocols.c:523
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "书签错误：书签项 %s 没有主机名\n"
 
-#: lib/protocols.c:801
+#: ../lib/protocols.c:645 ../lib/protocols.c:672
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "协议“%s”目前尚不支持。\n"
 
-#: lib/protocols.c:1147 lib/protocols.c:1162 lib/protocols.c:2194
-#: lib/protocols.c:2304
+#: ../lib/protocols.c:1155
 #, c-format
-msgid "Looking up %s\n"
-msgstr "正在查阅 %s\n"
+msgid "Found recursive symbolic link %s\n"
+msgstr ""
 
-#: lib/protocols.c:1153 lib/protocols.c:1168 lib/protocols.c:2199
-#: lib/protocols.c:2309
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "无法查阅主机名 %s：%s\n"
-
-#: lib/protocols.c:1521 lib/protocols.c:1522 lib/protocols.c:1563
-#: lib/protocols.c:1564 lib/protocols.c:1627 lib/protocols.c:1634
-#: lib/protocols.c:1710 lib/protocols.c:1711 lib/protocols.c:1747
-msgid "unknown"
-msgstr "未知"
-
-#: lib/protocols.c:2217
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "创建套接字失败：%s\n"
-
-#: lib/protocols.c:2223 lib/protocols.c:2326
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "尝试 %s:%d\n"
-
-#: lib/protocols.c:2228 lib/protocols.c:2333
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "无法连接到 %s：%s\n"
-
-#: lib/protocols.c:2263 lib/rfc959.c:640
-#, c-format
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "创建 IPv4 套接字失败：%s\n"
-
-#: lib/protocols.c:2287 lib/sshv2.c:987
-#, c-format
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
-msgstr "无法查阅服务名称 %s/tcp。请检查您的服务文件\n"
-
-#: lib/protocols.c:2349 lib/protocols.c:2989 lib/rfc959.c:649 lib/rfc959.c:826
-#, c-format
-msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "错误：无法设置执行时关闭标志：%s\n"
-
-#: lib/protocols.c:2356
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "已连接到 %s:%d\n"
-
-#: lib/protocols.c:2587 lib/protocols.c:2662 lib/sshv2.c:355
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "连接到 %s 超时\n"
-
-#: lib/protocols.c:2730
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr "无法获得套接字标志：%s\n"
-
-#: lib/protocols.c:2744
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "无法设置套接字为非屏蔽：%s\n"
-
-#: lib/protocols.c:2879
+#: ../lib/protocols.c:1533
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "错误：远程服务器 %s 已断开连接。达到最大重试次数...放弃\n"
 
-#: lib/protocols.c:2887
+#: ../lib/protocols.c:1541
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "错误：远程服务器 %s 已断开连接。%d 秒后重新连接\n"
 
-#: lib/pty.c:297
+#: ../lib/protocols.c:1636 ../lib/rfc959.c:715 ../lib/rfc959.c:885
+#: ../lib/socket-connect.c:126
+#, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr "错误：无法设置执行时关闭标志：%s\n"
+
+#: ../lib/pty.c:301
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "无法打开主 pty %s：%s\n"
 
-#: lib/pty.c:305
+#: ../lib/pty.c:309
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "创建套接字对失败：%s\n"
 
-#: lib/pty.c:334
+#: ../lib/pty.c:338
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "错误：无法执行 ssh：%s\n"
 
-#: lib/pty.c:350
+#: ../lib/pty.c:354
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "无法创建另外的子进程：%s\n"
 
-#: lib/rfc2068.c:30 lib/rfc959.c:47
+#: ../lib/rfc2068.c:30 ../lib/rfc959.c:47
 msgid "Proxy hostname:"
 msgstr "代理主机名："
 
-#: lib/rfc2068.c:32 lib/rfc959.c:49
+#: ../lib/rfc2068.c:32 ../lib/rfc959.c:49
 msgid "Firewall hostname"
 msgstr "防火墙主机名"
 
-#: lib/rfc2068.c:33 lib/rfc959.c:50
+#: ../lib/rfc2068.c:33 ../lib/rfc959.c:50
 msgid "Proxy port:"
 msgstr "代理端口："
 
-#: lib/rfc2068.c:35 lib/rfc959.c:52
+#: ../lib/rfc2068.c:35 ../lib/rfc959.c:52
 msgid "Port to connect to on the firewall"
 msgstr "用于连接至防火墙的端口"
 
-#: lib/rfc2068.c:36 lib/rfc959.c:53
+#: ../lib/rfc2068.c:36 ../lib/rfc959.c:53
 msgid "Proxy username:"
 msgstr "代理用户名："
 
-#: lib/rfc2068.c:38 lib/rfc959.c:55
+#: ../lib/rfc2068.c:38 ../lib/rfc959.c:55
 msgid "Your firewall username"
 msgstr "您的防火墙用户名"
 
-#: lib/rfc2068.c:39 lib/rfc959.c:56
+#: ../lib/rfc2068.c:39 ../lib/rfc959.c:56
 msgid "Proxy password:"
 msgstr "代理密码："
 
-#: lib/rfc2068.c:41 lib/rfc959.c:58
+#: ../lib/rfc2068.c:41 ../lib/rfc959.c:58
 msgid "Your firewall password"
 msgstr "您的防火墙密码"
 
-#: lib/rfc2068.c:43
+#: ../lib/rfc2068.c:43
 msgid "Use HTTP/1.1"
 msgstr "使用 HTTP/1.1"
 
-#: lib/rfc2068.c:46
+#: ../lib/rfc2068.c:46
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "您是想使用 HTTP/1.1 还是 HTTP/1.0"
 
-#: lib/rfc2068.c:150 lib/rfc2068.c:843
+#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:840
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -863,83 +868,83 @@ msgstr ""
 "从服务器收到了错误的响应，断开连接\n"
 "远程服务器返回的块大小“%s”无效\n"
 
-#: lib/rfc2068.c:254 lib/rfc959.c:608 lib/sshv2.c:1064
+#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1245
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "正在断开与站点 %s 的连接\n"
 
-#: lib/rfc2068.c:303
+#: ../lib/rfc2068.c:301
 msgid "Starting the file transfer at offset "
 msgstr "正在从指定偏移处开始传输文件 "
 
-#: lib/rfc2068.c:324
+#: ../lib/rfc2068.c:322
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "无法接收文件 %s\n"
 
-#: lib/rfc2068.c:423 lib/sshv2.c:1146
+#: ../lib/rfc2068.c:421 ../lib/sshv2.c:1327
 msgid "Retrieving directory listing...\n"
 msgstr "正在接收目录列表...\n"
 
-#: lib/rfc2068.c:819 lib/sshv2.c:807
+#: ../lib/rfc2068.c:816 ../lib/sshv2.c:895
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "从服务器收到错误的回应，断开连接\n"
 
-#: lib/rfc959.c:27
+#: ../lib/rfc959.c:27
 msgid "SITE command"
 msgstr "SITE 命令"
 
-#: lib/rfc959.c:28
+#: ../lib/rfc959.c:28
 msgid "user@host"
 msgstr "user@host"
 
-#: lib/rfc959.c:29
+#: ../lib/rfc959.c:29
 msgid "user@host:port"
 msgstr "user@host:port"
 
-#: lib/rfc959.c:30
+#: ../lib/rfc959.c:30
 msgid "AUTHENTICATE"
 msgstr "AUTHENTICATE"
 
-#: lib/rfc959.c:31
+#: ../lib/rfc959.c:31
 msgid "user@host port"
 msgstr "user@host port"
 
-#: lib/rfc959.c:32
+#: ../lib/rfc959.c:32
 msgid "user@host NOAUTH"
 msgstr "user@host NOAUTH"
 
-#: lib/rfc959.c:33
+#: ../lib/rfc959.c:33
 msgid "HTTP Proxy"
 msgstr "HTTP代理"
 
-#: lib/rfc959.c:34
+#: ../lib/rfc959.c:34
 msgid "Custom"
 msgstr "自定义"
 
-#: lib/rfc959.c:43
+#: ../lib/rfc959.c:43
 msgid "Email address:"
 msgstr "电子邮件："
 
-#: lib/rfc959.c:45
+#: ../lib/rfc959.c:45
 msgid ""
 "This is the password that will be used whenever you log into a remote FTP "
 "server as anonymous"
 msgstr "这是您以匿名身份登录到远程 FTP 服务器时所用的密码"
 
-#: lib/rfc959.c:59
+#: ../lib/rfc959.c:59
 msgid "Proxy account:"
 msgstr "代理服务器的账户："
 
-#: lib/rfc959.c:61
+#: ../lib/rfc959.c:61
 msgid "Your firewall account (optional)"
 msgstr "您的防火墙账户(可选)"
 
-#: lib/rfc959.c:63
+#: ../lib/rfc959.c:63
 msgid "Proxy server type:"
 msgstr "代理服务器类型："
 
-#: lib/rfc959.c:66
+#: ../lib/rfc959.c:66
 #, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
@@ -954,11 +959,11 @@ msgstr ""
 "p 或者是代表 FTP 服务器的 h。占位符的第二个字符可以是 u(用户名)，p(密码)，h"
 "(主机)，o(端口)或 a(账户)。例如，要指定代理服务器的用户名，您可以输入 %pu"
 
-#: lib/rfc959.c:69
+#: ../lib/rfc959.c:69
 msgid "Ignore PASV address"
 msgstr "忽略 PASV 地址"
 
-#: lib/rfc959.c:72
+#: ../lib/rfc959.c:72
 msgid ""
 "If this is enabled, then the remote FTP server's PASV IP address field will "
 "be ignored and the host's IP address will be used instead. This is often "
@@ -966,11 +971,11 @@ msgid ""
 "address in a PASV reply."
 msgstr ""
 
-#: lib/rfc959.c:74
+#: ../lib/rfc959.c:74
 msgid "Passive file transfers"
 msgstr "被动传输文件"
 
-#: lib/rfc959.c:77
+#: ../lib/rfc959.c:77
 msgid ""
 "If this is enabled, then the remote FTP server will open up a port for the "
 "data connection. If you are behind a firewall, you will need to enable this. "
@@ -984,11 +989,11 @@ msgstr ""
 "FTP 服务器老旧到不支持此功能。如果禁用了此选项，gFTP 将会在客户端打开一个端"
 "口，而远程服务器将会试图连接到该端口。"
 
-#: lib/rfc959.c:79
+#: ../lib/rfc959.c:79
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "解析远程符号链接(LIST -L)"
 
-#: lib/rfc959.c:82
+#: ../lib/rfc959.c:82
 msgid ""
 "The remote FTP server will attempt to resolve symlinks in the directory "
 "listings. Generally, this is a good idea to leave enabled. The only time you "
@@ -998,11 +1003,11 @@ msgstr ""
 "远程 FTP 服务器将试图解析目录列表中的符号链接。通常情况下，启用此选项是个不错"
 "的选择。您想要禁用此选项的唯一情况是，远程 FTP 服务器不支持 LIST 的 -L 选项"
 
-#: lib/rfc959.c:84
+#: ../lib/rfc959.c:84
 msgid "Transfer files in ASCII mode"
 msgstr "以 ASCII 模式传输文件"
 
-#: lib/rfc959.c:87
+#: ../lib/rfc959.c:87
 msgid ""
 "If you are transfering a text file from Windows to UNIX box or vice versa, "
 "then you should enable this. Each system represents newlines differently for "
@@ -1014,310 +1019,371 @@ msgstr ""
 "系统中新起一行的表示方法都不同。如果您从 UNIX 向 UNIX 传输，那么就应该关闭此"
 "选项。如果您正在下载二进制数据，您也许要禁用此选项。"
 
-#: lib/rfc959.c:322 lib/rfc959.c:331 lib/rfc959.c:342 lib/rfc959.c:789
-#: lib/rfc959.c:1387
+#: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
+#: ../lib/rfc959.c:849 ../lib/rfc959.c:1414
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "收到来自服务器的错误响应 “%c”。\n"
 
-#: lib/rfc959.c:679 lib/rfc959.c:689
+#: ../lib/rfc959.c:706 ../lib/socket-connect-gethostbyname.c:120
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "创建 IPv4 套接字失败：%s\n"
+
+#: ../lib/rfc959.c:745 ../lib/rfc959.c:755
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "无法在 PASV 响应“%s”中找到 IP 地址\n"
 
-#: lib/rfc959.c:715
+#: ../lib/rfc959.c:775
 #, fuzzy, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr "无法在 PASV 响应“%s”中找到 IP 地址\n"
 
-#: lib/rfc959.c:726 lib/rfc959.c:887
+#: ../lib/rfc959.c:786 ../lib/rfc959.c:945
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "无法创建数据连接：%s\n"
 
-#: lib/rfc959.c:738 lib/rfc959.c:759 lib/rfc959.c:912
+#: ../lib/rfc959.c:798 ../lib/rfc959.c:819 ../lib/rfc959.c:970
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "无法获得套接字名称：%s\n"
 
-#: lib/rfc959.c:749 lib/rfc959.c:902
+#: ../lib/rfc959.c:809 ../lib/rfc959.c:960
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "无法绑定端口：%s\n"
 
-#: lib/rfc959.c:768 lib/rfc959.c:921
+#: ../lib/rfc959.c:828 ../lib/rfc959.c:979
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "无法监听端口 %d：%s\n"
 
-#: lib/rfc959.c:817
+#: ../lib/rfc959.c:876
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "创建 IPv6 套接字失败：%s\n"
 
-#: lib/rfc959.c:837
+#: ../lib/rfc959.c:895
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "错误：我们并不像通过 IPv6 连接。中止连接。\n"
 
-#: lib/rfc959.c:865 lib/rfc959.c:874
+#: ../lib/rfc959.c:923 ../lib/rfc959.c:932
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "无效的 EPSV 响应“%s”\n"
 
-#: lib/rfc959.c:931
+#: ../lib/rfc959.c:989
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "无法获得本地套接字的地址：%s\n"
 
-#: lib/rfc959.c:1005
+#: ../lib/rfc959.c:1076
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "无法接受来自服务器的连接：%s\n"
 
-#: lib/rfc959.c:1542
+#: ../lib/rfc959.c:1584
 msgid "total"
 msgstr "总共"
 
-#: lib/rfc959.c:1544 lib/sshv2.c:1351
+#: ../lib/rfc959.c:1586
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "警告：无法处理列表 %s\n"
 
-#: lib/sshv2.c:28
+#: ../lib/socket-connect-getaddrinfo.c:77
+#: ../lib/socket-connect-gethostbyname.c:64
+#, c-format
+msgid "Looking up %s\n"
+msgstr "正在查阅 %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:82
+#: ../lib/socket-connect-gethostbyname.c:69
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "无法查阅主机名 %s：%s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:115
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "创建套接字失败：%s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:121
+#: ../lib/socket-connect-gethostbyname.c:134
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "尝试 %s:%d\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:127
+#: ../lib/socket-connect-gethostbyname.c:141
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "无法连接到 %s：%s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:152
+#: ../lib/socket-connect-gethostbyname.c:159
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "已连接到 %s:%d\n"
+
+#: ../lib/socket-connect-gethostbyname.c:101 ../lib/sshv2.c:1168
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr "无法查阅服务名称 %s/tcp。请检查您的服务文件\n"
+
+#: ../lib/sockutils.c:190 ../lib/sockutils.c:268 ../lib/sshv2.c:435
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "连接到 %s 超时\n"
+
+#: ../lib/sockutils.c:338
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "无法获得套接字标志：%s\n"
+
+#: ../lib/sockutils.c:352
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "无法设置套接字为非屏蔽：%s\n"
+
+#: ../lib/sshv2.c:28
 msgid "SSH"
 msgstr "SSH"
 
-#: lib/sshv2.c:31
+#: ../lib/sshv2.c:31
 msgid "SSH Prog Name:"
 msgstr "SSH 程序名称："
 
-#: lib/sshv2.c:33
+#: ../lib/sshv2.c:33
 msgid "The path to the SSH executable"
 msgstr "SSH 程序的路径"
 
-#: lib/sshv2.c:34
+#: ../lib/sshv2.c:34
 msgid "SSH Extra Params:"
 msgstr "SSH 额外参数："
 
-#: lib/sshv2.c:36
+#: ../lib/sshv2.c:36
 msgid "Extra parameters to pass to the SSH program"
 msgstr "传递给 SSH 程序的额外参数"
 
-#: lib/sshv2.c:38
+#: ../lib/sshv2.c:38
 msgid "Need SSH User/Pass"
 msgstr "需要 SSH 用户名/密码"
 
-#: lib/sshv2.c:41
+#: ../lib/sshv2.c:41
 msgid "Require a username/password for SSH connections"
 msgstr "SSH 连接需要一个用户名/密码"
 
-#: lib/sshv2.c:298
+#: ../lib/sshv2.c:369
 #, c-format
 msgid "Running program %s\n"
 msgstr "正在运行程序：%s\n"
 
-#: lib/sshv2.c:307
+#: ../lib/sshv2.c:378
 msgid "Enter passphrase for RSA key"
 msgstr "输入 RSA 密钥的口令"
 
-#: lib/sshv2.c:308
+#: ../lib/sshv2.c:379
 msgid "Enter passphrase for key '"
 msgstr "输入口令用于保护密钥'"
 
-#: lib/sshv2.c:309
+#: ../lib/sshv2.c:380
 msgid "Password"
 msgstr "密码"
 
-#: lib/sshv2.c:310
+#: ../lib/sshv2.c:381
 msgid "password"
 msgstr "密码"
 
-#: lib/sshv2.c:414
+#: ../lib/sshv2.c:496
 msgid "(yes/no)?"
 msgstr "(yes/no)？"
 
-#: lib/sshv2.c:432
+#: ../lib/sshv2.c:514
 msgid "Enter PASSCODE:"
 msgstr "输入口令："
 
-#: lib/sshv2.c:436 src/gtk/gtkui.c:118 src/gtk/transfer.c:553
-#: src/gtk/transfer.c:563
+#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:562
+#: ../src/gtk/transfer.c:572
 msgid "Enter Password"
 msgstr "输入密码"
 
-#: lib/sshv2.c:437
+#: ../lib/sshv2.c:519
 msgid "Enter SecurID Password:"
 msgstr "输入SecurID密码："
 
-#: lib/sshv2.c:487
+#: ../lib/sshv2.c:567
 msgid "Error: An incorrect password was entered\n"
 msgstr "错误：输入的密码不对\n"
 
-#: lib/sshv2.c:516
+#: ../lib/sshv2.c:596
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d：协议初始化\n"
 
-#: lib/sshv2.c:520
+#: ../lib/sshv2.c:600
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d：协议版本 %d\n"
 
-#: lib/sshv2.c:529
+#: ../lib/sshv2.c:609
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d：打开 %s\n"
 
-#: lib/sshv2.c:534
+#: ../lib/sshv2.c:614
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d：关闭\n"
 
-#: lib/sshv2.c:537
+#: ../lib/sshv2.c:618
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d：打开目录 %s\n"
 
-#: lib/sshv2.c:542
+#: ../lib/sshv2.c:623
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d：读取目录\n"
 
-#: lib/sshv2.c:546
+#: ../lib/sshv2.c:627
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d：删除文件 %s\n"
 
-#: lib/sshv2.c:551
+#: ../lib/sshv2.c:632
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d：建立目录 %s\n"
 
-#: lib/sshv2.c:556
+#: ../lib/sshv2.c:637
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d：删除目录 %s\n"
 
-#: lib/sshv2.c:561
+#: ../lib/sshv2.c:642
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d：真实路径 %s\n"
 
-#: lib/sshv2.c:566
+#: ../lib/sshv2.c:647
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d：文件属性\n"
 
-#: lib/sshv2.c:570
+#: ../lib/sshv2.c:651
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d：Stat %s\n"
 
-#: lib/sshv2.c:590
+#: ../lib/sshv2.c:671
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d：Chmod %s %o\n"
 
-#: lib/sshv2.c:595
+#: ../lib/sshv2.c:676
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d：Utime %s %d\n"
 
-#: lib/sshv2.c:609 src/gtk/bookmarks.c:1045 src/gtk/bookmarks.c:1298
-#: src/gtk/chmod_dialog.c:253 src/gtk/gtkui_transfer.c:368
-#: src/gtk/misc-gtk.c:1011 src/gtk/options_dialog.c:1208
-#: src/gtk/options_dialog.c:1442
+#: ../lib/sshv2.c:690 ../src/gtk/bookmarks.c:1042 ../src/gtk/bookmarks.c:1292
+#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:376
+#: ../src/gtk/misc-gtk.c:995 ../src/gtk/options_dialog.c:1205
+#: ../src/gtk/options_dialog.c:1437
 msgid "OK"
 msgstr "确定"
 
-#: lib/sshv2.c:612
+#: ../lib/sshv2.c:693
 msgid "EOF"
 msgstr "文件结束"
 
-#: lib/sshv2.c:615
+#: ../lib/sshv2.c:696
 msgid "No such file or directory"
 msgstr "无此文件或目录"
 
-#: lib/sshv2.c:618
+#: ../lib/sshv2.c:699
 msgid "Permission denied"
 msgstr "权限不允许"
 
-#: lib/sshv2.c:621
+#: ../lib/sshv2.c:702
 msgid "Failure"
 msgstr "失败"
 
-#: lib/sshv2.c:624
+#: ../lib/sshv2.c:705
 msgid "Bad message"
 msgstr "错误信息"
 
-#: lib/sshv2.c:627
+#: ../lib/sshv2.c:708
 msgid "No connection"
 msgstr "无连接"
 
-#: lib/sshv2.c:630
+#: ../lib/sshv2.c:711
 msgid "Connection lost"
 msgstr "连接丢失"
 
-#: lib/sshv2.c:633
+#: ../lib/sshv2.c:714
 msgid "Operation unsupported"
 msgstr "操作不支持"
 
-#: lib/sshv2.c:636
+#: ../lib/sshv2.c:717
 msgid "Unknown message returned from server"
 msgstr "服务器返回的信息未知"
 
-#: lib/sshv2.c:671
+#: ../lib/sshv2.c:752
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "错误：信息大小 %d 太大\n"
 
-#: lib/sshv2.c:730 lib/sshv2.c:1166 lib/sshv2.c:1793 lib/sshv2.c:1931
+#: ../lib/sshv2.c:811 ../lib/sshv2.c:1346 ../lib/sshv2.c:1838
+#: ../lib/sshv2.c:1957
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "错误：服务器返回的信息大小 %d 太大\n"
 
-#: lib/sshv2.c:736
+#: ../lib/sshv2.c:817
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr "初始化与远程服务器的 SSH 连接出错。远程服务器返回的错误信息如下：\n"
 
-#: lib/sshv2.c:979
+#: ../lib/sshv2.c:1160
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "正在打开到 %s 的 SSH 连接\n"
 
-#: lib/sshv2.c:1031
+#: ../lib/sshv2.c:1212
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "成功登入 SSH 服务器 %s\n"
 
-#: lib/sslcommon.c:31
+#: ../lib/sslcommon.c:31
 msgid "SSL Engine"
 msgstr "SSL 引擎"
 
-#: lib/sslcommon.c:34
+#: ../lib/sslcommon.c:34
 msgid "SSL Entropy File:"
 msgstr "SSL 熵文件："
 
-#: lib/sslcommon.c:36
+#: ../lib/sslcommon.c:36
 msgid "SSL entropy file"
 msgstr "SSL 熵文件"
 
-#: lib/sslcommon.c:37
+#: ../lib/sslcommon.c:37
 msgid "Entropy Seed Length:"
 msgstr "熵种子长度："
 
-#: lib/sslcommon.c:39
+#: ../lib/sslcommon.c:39
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr "SSL 引擎种子的最大字节数"
 
-#: lib/sslcommon.c:41 lib/sslcommon.c:43
+#: ../lib/sslcommon.c:41 ../lib/sslcommon.c:43
 msgid "Verify SSL Peer"
 msgstr "验证对方 SSL"
 
-#: lib/sslcommon.c:107
+#: ../lib/sslcommon.c:107
 #, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
@@ -1330,56 +1396,56 @@ msgstr ""
 "主题 = %s\n"
 "错误 %i：%s\n"
 
-#: lib/sslcommon.c:129
+#: ../lib/sslcommon.c:129
 msgid "Cannot get peer certificate\n"
 msgstr "无法获得对方证书\n"
 
-#: lib/sslcommon.c:188
+#: ../lib/sslcommon.c:199
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
 "connected to (%s). Aborting connection.\n"
 msgstr "错误：SSL 证书中的主机(%s)和即将连接的主机(%s)不匹配。中止连接。\n"
 
-#: lib/sslcommon.c:295
+#: ../lib/sslcommon.c:305
 msgid "Cannot initialize the OpenSSL library\n"
 msgstr "无法初始化 OpenSSL 库\n"
 
-#: lib/sslcommon.c:310
+#: ../lib/sslcommon.c:320
 msgid "Error loading default SSL certificates\n"
 msgstr "装入默认 SSL 证书出错\n"
 
-#: lib/sslcommon.c:322
+#: ../lib/sslcommon.c:332
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "设置加密算法列表出错(无有效的加密算法)\n"
 
-#: lib/sslcommon.c:342 lib/sslcommon.c:416 lib/sslcommon.c:464
+#: ../lib/sslcommon.c:352 ../lib/sslcommon.c:426 ../lib/sslcommon.c:474
 msgid "Error: SSL engine was not initialized\n"
 msgstr "错误：SSL 引擎未初始化\n"
 
-#: lib/sslcommon.c:359
+#: ../lib/sslcommon.c:369
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "设置 SSL 连接出错(BIO 对象)\n"
 
-#: lib/sslcommon.c:369
+#: ../lib/sslcommon.c:379
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "设置 SSL 连接出错(SSL 对象)\n"
 
-#: lib/sslcommon.c:390
+#: ../lib/sslcommon.c:400
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "端点证书出错：%s\n"
 
-#: src/uicommon/gftpui.c:91
+#: ../src/uicommon/gftpui.c:56
+msgid "Operation canceled\n"
+msgstr "操作被取消\n"
+
+#: ../src/uicommon/gftpui.c:65
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "等待 %d 秒再重新尝试连接\n"
 
-#: src/uicommon/gftpui.c:101
-msgid "Operation canceled\n"
-msgstr "操作被取消\n"
-
-#: src/uicommon/gftpui.c:190
+#: ../src/uicommon/gftpui.c:157
 msgid ""
 ">. If you have any questions, comments, or suggestions about this program, "
 "please feel free to email them to me. You can always find out the latest "
@@ -1389,7 +1455,7 @@ msgstr ""
 "如果您对本程序有任何的问题，意见或建议，请给我们发邮件。您还可从我的网站 "
 "http://www.gftp.org/ 找到关于 gFTP 的最新消息\n"
 
-#: src/uicommon/gftpui.c:191
+#: ../src/uicommon/gftpui.c:158
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1398,73 +1464,73 @@ msgstr ""
 "使用 gFTP 软件无任何担保；细节请查阅 COPYING 文件。该软件是自由软件，欢迎您遵"
 "照某些条款分发该软件；细节请查阅 COPYING 文件\n"
 
-#: src/uicommon/gftpui.c:193 src/gtk/menu-items.c:505
+#: ../src/uicommon/gftpui.c:160 ../src/gtk/menu-items.c:491
 msgid "Translated by"
 msgstr "翻译者：GNOME 简体中文翻译组"
 
-#: src/uicommon/gftpui.c:240 src/uicommon/gftpui.c:282
-#: src/uicommon/gftpui.c:322 src/uicommon/gftpui.c:357
-#: src/uicommon/gftpui.c:392 src/uicommon/gftpui.c:427
-#: src/uicommon/gftpui.c:463 src/uicommon/gftpui.c:528
-#: src/uicommon/gftpui.c:609 src/uicommon/gftpui.c:872
+#: ../src/uicommon/gftpui.c:207 ../src/uicommon/gftpui.c:249
+#: ../src/uicommon/gftpui.c:289 ../src/uicommon/gftpui.c:324
+#: ../src/uicommon/gftpui.c:359 ../src/uicommon/gftpui.c:395
+#: ../src/uicommon/gftpui.c:431 ../src/uicommon/gftpui.c:496
+#: ../src/uicommon/gftpui.c:577 ../src/uicommon/gftpui.c:845
 msgid "Error: Not connected to a remote site\n"
 msgstr "错误：没有连接到远程站点\n"
 
-#: src/uicommon/gftpui.c:251
+#: ../src/uicommon/gftpui.c:218
 msgid "usage: chmod <mode> <file>\n"
 msgstr "用法：chmod <模式> <文件>\n"
 
-#: src/uicommon/gftpui.c:292
+#: ../src/uicommon/gftpui.c:259
 msgid "usage: rename <old name> <new name>\n"
 msgstr "用法：rename <旧名称> <新名称>\n"
 
-#: src/uicommon/gftpui.c:328
+#: ../src/uicommon/gftpui.c:295
 msgid "usage: delete <file>\n"
 msgstr "用法：delete <文件>\n"
 
-#: src/uicommon/gftpui.c:363
+#: ../src/uicommon/gftpui.c:330
 msgid "usage: rmdir <directory>\n"
 msgstr "用法：rmdir <目录>\n"
 
-#: src/uicommon/gftpui.c:398
+#: ../src/uicommon/gftpui.c:365
 msgid "usage: site <site command>\n"
 msgstr "用法：site <该站点支持的site命令>\n"
 
-#: src/uicommon/gftpui.c:433
+#: ../src/uicommon/gftpui.c:401
 msgid "usage: mkdir <new directory>\n"
 msgstr "用法：mkdir <新目录>\n"
 
-#: src/uicommon/gftpui.c:469 src/uicommon/gftpui.c:487
+#: ../src/uicommon/gftpui.c:437 ../src/uicommon/gftpui.c:455
 msgid "usage: chdir <directory>\n"
 msgstr "用法：chdir <目录>\n"
 
-#: src/uicommon/gftpui.c:560
+#: ../src/uicommon/gftpui.c:528
 msgid "Invalid argument\n"
 msgstr "无效的参数\n"
 
-#: src/uicommon/gftpui.c:573
+#: ../src/uicommon/gftpui.c:541
 msgid "Clear the directory cache\n"
 msgstr "清除目录缓存\n"
 
-#: src/uicommon/gftpui.c:662
+#: ../src/uicommon/gftpui.c:630
 msgid "usage: open "
 msgstr "用法： open "
 
-#: src/uicommon/gftpui.c:733
+#: ../src/uicommon/gftpui.c:706
 msgid "usage: set [variable = value]\n"
 msgstr "用法：set [变量 = 值]\n"
 
-#: src/uicommon/gftpui.c:747
+#: ../src/uicommon/gftpui.c:720
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "错误：变量 %s 不是一个有效的配置变量。\n"
 
-#: src/uicommon/gftpui.c:754
+#: ../src/uicommon/gftpui.c:727
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "错误：在 gFTP 的文本移植中变量 %s 不可用\n"
 
-#: src/uicommon/gftpui.c:836
+#: ../src/uicommon/gftpui.c:809
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1472,313 +1538,320 @@ msgstr ""
 "支持的命令：\n"
 "\n"
 
-#: src/uicommon/gftpui.c:879
+#: ../src/uicommon/gftpui.c:852
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "用法：%s <文件>\n"
 
-#: src/uicommon/gftpui.c:964
+#: ../src/uicommon/gftpui.c:937
 msgid "about"
 msgstr "about"
 
-#: src/uicommon/gftpui.c:965
+#: ../src/uicommon/gftpui.c:938
 msgid "Shows gFTP information"
 msgstr "显示 gFTP 的信息"
 
-#: src/uicommon/gftpui.c:966
+#: ../src/uicommon/gftpui.c:939
 msgid "ascii"
 msgstr "ascii"
 
-#: src/uicommon/gftpui.c:967
+#: ../src/uicommon/gftpui.c:940
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "将当前文件传输模式设为 Ascii 模式(仅对 FTP 有效)"
 
-#: src/uicommon/gftpui.c:968
+#: ../src/uicommon/gftpui.c:941
 msgid "binary"
 msgstr "binary"
 
-#: src/uicommon/gftpui.c:969
+#: ../src/uicommon/gftpui.c:942
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "将当前文件传输模式设为二进制模式(仅对 FTP 有效)"
 
-#: src/uicommon/gftpui.c:970
+#: ../src/uicommon/gftpui.c:943
 msgid "cd"
 msgstr "cd"
 
-#: src/uicommon/gftpui.c:971 src/uicommon/gftpui.c:973
+#: ../src/uicommon/gftpui.c:944 ../src/uicommon/gftpui.c:946
 msgid "Changes the remote working directory"
 msgstr "更改远程工作目录"
 
-#: src/uicommon/gftpui.c:972
+#: ../src/uicommon/gftpui.c:945
 msgid "chdir"
 msgstr "chdir"
 
-#: src/uicommon/gftpui.c:974
+#: ../src/uicommon/gftpui.c:947
 msgid "chmod"
 msgstr "chmod"
 
-#: src/uicommon/gftpui.c:975
+#: ../src/uicommon/gftpui.c:948
 msgid "Changes the permissions of a remote file"
 msgstr "更改远程文件的权限"
 
-#: src/uicommon/gftpui.c:976
+#: ../src/uicommon/gftpui.c:949
 msgid "clear"
 msgstr "clear"
 
-#: src/uicommon/gftpui.c:977
+#: ../src/uicommon/gftpui.c:950
 msgid "Available options: cache"
 msgstr "可用的选项：cache"
 
-#: src/uicommon/gftpui.c:978
+#: ../src/uicommon/gftpui.c:951
 msgid "close"
 msgstr "close"
 
-#: src/uicommon/gftpui.c:979
+#: ../src/uicommon/gftpui.c:952
 msgid "Disconnects from the remote site"
 msgstr "从远程网站断开连接"
 
-#: src/uicommon/gftpui.c:980
+#: ../src/uicommon/gftpui.c:953
 msgid "delete"
 msgstr "delete"
 
-#: src/uicommon/gftpui.c:981
+#: ../src/uicommon/gftpui.c:954
 msgid "Removes a remote file"
 msgstr "删除远程文件"
 
-#: src/uicommon/gftpui.c:982
-#, fuzzy
+#: ../src/uicommon/gftpui.c:955
 msgid "dir"
-msgstr "chdir"
+msgstr "dir"
 
-#: src/uicommon/gftpui.c:983 src/uicommon/gftpui.c:1009
+#: ../src/uicommon/gftpui.c:956 ../src/uicommon/gftpui.c:982
 msgid "Shows the directory listing for the current remote directory"
 msgstr "显示当前远程目录下的目录列表"
 
-#: src/uicommon/gftpui.c:984
+#: ../src/uicommon/gftpui.c:957
 msgid "get"
 msgstr "get"
 
-#: src/uicommon/gftpui.c:985 src/uicommon/gftpui.c:1011
+#: ../src/uicommon/gftpui.c:958 ../src/uicommon/gftpui.c:984
 msgid "Downloads remote file(s)"
 msgstr "下载远程文件"
 
-#: src/uicommon/gftpui.c:986
+#: ../src/uicommon/gftpui.c:959
 msgid "help"
 msgstr "help"
 
-#: src/uicommon/gftpui.c:987
+#: ../src/uicommon/gftpui.c:960
 msgid "Shows this help screen"
 msgstr "显示此帮助屏幕"
 
-#: src/uicommon/gftpui.c:988
+#: ../src/uicommon/gftpui.c:961
 msgid "lcd"
 msgstr "lcd"
 
-#: src/uicommon/gftpui.c:989 src/uicommon/gftpui.c:991
+#: ../src/uicommon/gftpui.c:962 ../src/uicommon/gftpui.c:964
 msgid "Changes the local working directory"
 msgstr "更改本地工作目录"
 
-#: src/uicommon/gftpui.c:990
+#: ../src/uicommon/gftpui.c:963
 msgid "lchdir"
 msgstr "lchdir"
 
-#: src/uicommon/gftpui.c:992
+#: ../src/uicommon/gftpui.c:965
 msgid "lchmod"
 msgstr "lchmod"
 
-#: src/uicommon/gftpui.c:993
+#: ../src/uicommon/gftpui.c:966
 msgid "Changes the permissions of a local file"
 msgstr "更改本地文件的权限"
 
-#: src/uicommon/gftpui.c:994
+#: ../src/uicommon/gftpui.c:967
 msgid "ldelete"
 msgstr "ldelete"
 
-#: src/uicommon/gftpui.c:995
+#: ../src/uicommon/gftpui.c:968
 msgid "Removes a local file"
 msgstr "删除本地文件"
 
-#: src/uicommon/gftpui.c:996
-#, fuzzy
+#: ../src/uicommon/gftpui.c:969
 msgid "ldir"
-msgstr "lchdir"
+msgstr "ldir"
 
-#: src/uicommon/gftpui.c:997 src/uicommon/gftpui.c:999
+#: ../src/uicommon/gftpui.c:970 ../src/uicommon/gftpui.c:972
 msgid "Shows the directory listing for the current local directory"
 msgstr "显示当前本地目录下的目录列表"
 
-#: src/uicommon/gftpui.c:998
+#: ../src/uicommon/gftpui.c:971
 msgid "lls"
 msgstr "lls"
 
-#: src/uicommon/gftpui.c:1000
+#: ../src/uicommon/gftpui.c:973
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: src/uicommon/gftpui.c:1001
+#: ../src/uicommon/gftpui.c:974
 msgid "Creates a local directory"
 msgstr "创建本地目录"
 
-#: src/uicommon/gftpui.c:1002
+#: ../src/uicommon/gftpui.c:975
 msgid "lpwd"
 msgstr "lpwd"
 
-#: src/uicommon/gftpui.c:1003
+#: ../src/uicommon/gftpui.c:976
 msgid "Show current local directory"
 msgstr "显示当前本地目录"
 
-#: src/uicommon/gftpui.c:1004
+#: ../src/uicommon/gftpui.c:977
 msgid "lrename"
 msgstr "lrename"
 
-#: src/uicommon/gftpui.c:1005
+#: ../src/uicommon/gftpui.c:978
 msgid "Rename a local file"
 msgstr "重命名本地文件"
 
-#: src/uicommon/gftpui.c:1006
+#: ../src/uicommon/gftpui.c:979
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: src/uicommon/gftpui.c:1007
+#: ../src/uicommon/gftpui.c:980
 msgid "Remove a local directory"
 msgstr "删除本地目录"
 
-#: src/uicommon/gftpui.c:1008
+#: ../src/uicommon/gftpui.c:981
 msgid "ls"
 msgstr "ls"
 
-#: src/uicommon/gftpui.c:1010
+#: ../src/uicommon/gftpui.c:983
 msgid "mget"
 msgstr "mget"
 
-#: src/uicommon/gftpui.c:1012
+#: ../src/uicommon/gftpui.c:985
 msgid "mkdir"
 msgstr "mkdir"
 
-#: src/uicommon/gftpui.c:1013
+#: ../src/uicommon/gftpui.c:986
 msgid "Creates a remote directory"
 msgstr "创建远程目录"
 
-#: src/uicommon/gftpui.c:1014
+#: ../src/uicommon/gftpui.c:987
 msgid "mput"
 msgstr "mput"
 
-#: src/uicommon/gftpui.c:1015 src/uicommon/gftpui.c:1019
+#: ../src/uicommon/gftpui.c:988 ../src/uicommon/gftpui.c:992
 msgid "Uploads local file(s)"
 msgstr "上传本地文件"
 
-#: src/uicommon/gftpui.c:1016
+#: ../src/uicommon/gftpui.c:989
 msgid "open"
 msgstr "open"
 
-#: src/uicommon/gftpui.c:1017
+#: ../src/uicommon/gftpui.c:990
 msgid "Opens a connection to a remote site"
 msgstr "打开到远程站点的连接"
 
-#: src/uicommon/gftpui.c:1018
+#: ../src/uicommon/gftpui.c:991
 msgid "put"
 msgstr "put"
 
-#: src/uicommon/gftpui.c:1020
+#: ../src/uicommon/gftpui.c:993
 msgid "pwd"
 msgstr "pwd"
 
-#: src/uicommon/gftpui.c:1021
+#: ../src/uicommon/gftpui.c:994
 msgid "Show current remote directory"
 msgstr "显示当前的远程目录"
 
-#: src/uicommon/gftpui.c:1022
+#: ../src/uicommon/gftpui.c:995
 msgid "quit"
 msgstr "quit"
 
-#: src/uicommon/gftpui.c:1023
+#: ../src/uicommon/gftpui.c:996
 msgid "Exit from gFTP"
 msgstr "退出 gFTP"
 
-#: src/uicommon/gftpui.c:1024
+#: ../src/uicommon/gftpui.c:997
 msgid "rename"
 msgstr "rename"
 
-#: src/uicommon/gftpui.c:1025
+#: ../src/uicommon/gftpui.c:998
 msgid "Rename a remote file"
 msgstr "重命名远程文件"
 
-#: src/uicommon/gftpui.c:1026
+#: ../src/uicommon/gftpui.c:999
 msgid "rmdir"
 msgstr "rmdir"
 
-#: src/uicommon/gftpui.c:1027
+#: ../src/uicommon/gftpui.c:1000
 msgid "Remove a remote directory"
 msgstr "删除远程目录"
 
-#: src/uicommon/gftpui.c:1028
+#: ../src/uicommon/gftpui.c:1001
 msgid "set"
 msgstr "set"
 
-#: src/uicommon/gftpui.c:1029
+#: ../src/uicommon/gftpui.c:1002
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr "显示配置文件变量。您还可以通过 set 变量= 值 的方法设置变量"
 
-#: src/uicommon/gftpui.c:1031
+#: ../src/uicommon/gftpui.c:1004
 msgid "site"
 msgstr "site"
 
-#: src/uicommon/gftpui.c:1032
+#: ../src/uicommon/gftpui.c:1005
 msgid "Run a site specific command"
 msgstr "运行站点特定的命令"
 
-#: src/uicommon/gftpui.c:1122
+#: ../src/uicommon/gftpui.c:1094
 msgid "Error: Command not recognized\n"
 msgstr "错误：命令不可识别\n"
 
-#: src/uicommon/gftpui.c:1375
-msgid "Error: Remote site disconnected after trying to transfer file\n"
-msgstr "错误：尝试传输文件后远程站点断开连接\n"
-
-#: src/uicommon/gftpui.c:1443
-#, c-format
-msgid "Could not download %s from %s\n"
-msgstr "无法从 %2$s 下载 %1$s\n"
-
-#: src/uicommon/gftpui.c:1467
+#: ../src/uicommon/gftpui.c:1304
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "成功传输 %s，速度 %.2f KB/s\n"
 
-#: src/uicommon/gftpui.c:1474
-#, fuzzy, c-format
-msgid "There was an error transfering the file %s"
-msgstr "未选中任何传输任务\n"
+#: ../src/uicommon/gftpui.c:1335
+#, c-format
+msgid "Skipping file %s on host %s\n"
+msgstr "正在跳过主机 %2$s 上的文件 %1$s\n"
 
-#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:213 src/gtk/gftp-gtk.c:1063
-#: src/gtk/misc-gtk.c:512 src/gtk/misc-gtk.c:520
+#: ../src/uicommon/gftpui.c:1359
+#, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "正在停止主机 %s 上的传输\n"
+
+#: ../src/uicommon/gftpui.c:1505
+#, c-format
+msgid "Could not download %s from %s\n"
+msgstr "无法从 %2$s 下载 %1$s\n"
+
+#: ../src/uicommon/gftpui.c:1561
+#, c-format
+msgid ""
+"There were %d files or directories that could not be transferred. Check the "
+"log for which items were not properly transferred."
+msgstr ""
+
+#: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
+#: ../src/gtk/gftp-gtk.c:1103 ../src/gtk/misc-gtk.c:505
+#: ../src/gtk/misc-gtk.c:513
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s：请先按停止按钮再进行别的操作\n"
 
-#: src/gtk/bookmarks.c:41
+#: ../src/gtk/bookmarks.c:41
 msgid "Run Bookmark"
 msgstr "运行书签"
 
-#: src/gtk/bookmarks.c:71
+#: ../src/gtk/bookmarks.c:71
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr "添加书签：必须为书签命名\n"
 
-#: src/gtk/bookmarks.c:78
+#: ../src/gtk/bookmarks.c:78
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr "添加书签：无法添加书签 %s 因为已存在同名书签\n"
 
-#: src/gtk/bookmarks.c:135 src/gtk/bookmarks.c:146
+#: ../src/gtk/bookmarks.c:135 ../src/gtk/bookmarks.c:146
 msgid "Add Bookmark"
 msgstr "添加书签"
 
-#: src/gtk/bookmarks.c:142
+#: ../src/gtk/bookmarks.c:142
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "添加书签：必须输入主机名\n"
 
-#: src/gtk/bookmarks.c:146
+#: ../src/gtk/bookmarks.c:146
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
@@ -1788,135 +1861,145 @@ msgstr ""
 "可以使用 / 分隔项目,将其划分为子书签\n"
 "(例：Linux Sites/Debian)"
 
-#: src/gtk/bookmarks.c:146
+#: ../src/gtk/bookmarks.c:146
 msgid "Remember password"
 msgstr "记住密码"
 
-#: src/gtk/bookmarks.c:473 src/gtk/bookmarks.c:483
+#: ../src/gtk/bookmarks.c:420
+#, fuzzy
+msgid "You must specify a name for the bookmark."
+msgstr "添加书签：必须为书签命名\n"
+
+#: ../src/gtk/bookmarks.c:472
 msgid "New Folder"
 msgstr "新建文件夹"
 
-#: src/gtk/bookmarks.c:474
+#: ../src/gtk/bookmarks.c:473
 msgid "Enter the name of the new folder to create"
 msgstr "输入要创建的文件夹名称"
 
-#: src/gtk/bookmarks.c:484
+#: ../src/gtk/bookmarks.c:482
+#, fuzzy
+msgid "New Item"
+msgstr "/文件(F)/新项目..."
+
+#: ../src/gtk/bookmarks.c:483
 msgid "Enter the name of the new item to create"
 msgstr "输入要创建的新项目名称"
 
-#: src/gtk/bookmarks.c:557
-#, c-format
+#: ../src/gtk/bookmarks.c:556
+#, fuzzy, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
-"%s and all it's children?"
+"%s and all its children?"
 msgstr ""
 "您确定想要删除书签\n"
 "%s 及其全部子书签吗？"
 
-#: src/gtk/bookmarks.c:558
+#: ../src/gtk/bookmarks.c:557
 msgid "Delete Bookmark"
 msgstr "删除书签"
 
-#: src/gtk/bookmarks.c:630
+#: ../src/gtk/bookmarks.c:629
 msgid "Bookmarks"
 msgstr "书签"
 
-#: src/gtk/bookmarks.c:850 src/gtk/bookmarks.c:853
+#: ../src/gtk/bookmarks.c:849 ../src/gtk/bookmarks.c:852
 msgid "Edit Entry"
 msgstr "编辑项目"
 
-#: src/gtk/bookmarks.c:891
+#: ../src/gtk/bookmarks.c:888
 msgid "Description:"
 msgstr "描述："
 
-#: src/gtk/bookmarks.c:906
+#: ../src/gtk/bookmarks.c:903
 msgid "Hostname:"
 msgstr "主机名："
 
-#: src/gtk/bookmarks.c:919
+#: ../src/gtk/bookmarks.c:916
 msgid "Port:"
 msgstr "端口："
 
-#: src/gtk/bookmarks.c:936
+#: ../src/gtk/bookmarks.c:933
 msgid "Protocol:"
 msgstr "协议："
 
-#: src/gtk/bookmarks.c:960
+#: ../src/gtk/bookmarks.c:957
 msgid "Remote Directory:"
 msgstr "远程目录："
 
-#: src/gtk/bookmarks.c:973
+#: ../src/gtk/bookmarks.c:970
 msgid "Local Directory:"
 msgstr "本地目录："
 
-#: src/gtk/bookmarks.c:990
+#: ../src/gtk/bookmarks.c:987
 msgid "Username:"
 msgstr "用户名："
 
-#: src/gtk/bookmarks.c:1003 src/text/textui.c:86
+#: ../src/gtk/bookmarks.c:1000 ../src/text/textui.c:92
 msgid "Password:"
 msgstr "密码："
 
-#: src/gtk/bookmarks.c:1017
+#: ../src/gtk/bookmarks.c:1014
 msgid "Account:"
 msgstr "帐户："
 
-#: src/gtk/bookmarks.c:1031
+#: ../src/gtk/bookmarks.c:1028
 msgid "Log in as ANONYMOUS"
 msgstr "匿名登录"
 
-#: src/gtk/bookmarks.c:1056 src/gtk/bookmarks.c:1309
-#: src/gtk/chmod_dialog.c:265 src/gtk/gtkui_transfer.c:380
-#: src/gtk/options_dialog.c:1219 src/gtk/options_dialog.c:1453
+#: ../src/gtk/bookmarks.c:1053 ../src/gtk/bookmarks.c:1303
+#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:388
+#: ../src/gtk/options_dialog.c:1216 ../src/gtk/options_dialog.c:1448
 msgid "  Cancel  "
 msgstr "   取消   "
 
-#: src/gtk/bookmarks.c:1065 src/gtk/options_dialog.c:1464
-msgid "Apply"
-msgstr "应用"
-
-#: src/gtk/bookmarks.c:1215
+#: ../src/gtk/bookmarks.c:1204
 msgid "/_File"
 msgstr "/文件(_F)"
 
-#: src/gtk/bookmarks.c:1216
+#: ../src/gtk/bookmarks.c:1205
 msgid "/File/tearoff"
 msgstr "/文件(F)/tearoff"
 
-#: src/gtk/bookmarks.c:1217
-msgid "/File/New Folder..."
+#: ../src/gtk/bookmarks.c:1206
+#, fuzzy
+msgid "/File/New _Folder..."
 msgstr "/文件(F)/新文件夹..."
 
-#: src/gtk/bookmarks.c:1218
-msgid "/File/New Item..."
+#: ../src/gtk/bookmarks.c:1207
+#, fuzzy
+msgid "/File/New _Item..."
 msgstr "/文件(F)/新项目..."
 
-#: src/gtk/bookmarks.c:1219
-msgid "/File/Delete"
+#: ../src/gtk/bookmarks.c:1208
+#, fuzzy
+msgid "/File/_Delete"
 msgstr "/文件(F)/删除"
 
-#: src/gtk/bookmarks.c:1220
-msgid "/File/Properties..."
+#: ../src/gtk/bookmarks.c:1209
+#, fuzzy
+msgid "/File/_Properties..."
 msgstr "/文件(F)/属性..."
 
-#: src/gtk/bookmarks.c:1221
+#: ../src/gtk/bookmarks.c:1210
 msgid "/File/sep"
 msgstr "/文件(F)/sep"
 
-#: src/gtk/bookmarks.c:1222
-msgid "/File/Close"
-msgstr "/文件(F)/关闭"
+#: ../src/gtk/bookmarks.c:1211
+msgid "/File/_Close"
+msgstr "/文件/关闭(_C)"
 
-#: src/gtk/bookmarks.c:1240 src/gtk/bookmarks.c:1243
+#: ../src/gtk/bookmarks.c:1229 ../src/gtk/bookmarks.c:1232
 msgid "Edit Bookmarks"
 msgstr "编辑书签"
 
-#: src/gtk/chmod_dialog.c:132 src/gtk/chmod_dialog.c:137
-#: src/gtk/chmod_dialog.c:142
+#: ../src/gtk/chmod_dialog.c:132 ../src/gtk/chmod_dialog.c:137
+#: ../src/gtk/chmod_dialog.c:142
 msgid "Chmod"
 msgstr "更改权限"
 
-#: src/gtk/chmod_dialog.c:162
+#: ../src/gtk/chmod_dialog.c:162
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
@@ -1924,86 +2007,91 @@ msgstr ""
 "您现在可以调整您的文件权限\n"
 "注意：不是所有的 FTP 服务器都支持 chmod 功能"
 
-#: src/gtk/chmod_dialog.c:172
+#: ../src/gtk/chmod_dialog.c:172
 msgid "Special"
 msgstr "特殊"
 
-#: src/gtk/chmod_dialog.c:180
+#: ../src/gtk/chmod_dialog.c:180
 msgid "SUID"
 msgstr "SUID"
 
-#: src/gtk/chmod_dialog.c:184
+#: ../src/gtk/chmod_dialog.c:184
 msgid "SGID"
 msgstr "SGID"
 
-#: src/gtk/chmod_dialog.c:188
+#: ../src/gtk/chmod_dialog.c:188
 msgid "Sticky"
 msgstr "置顶"
 
-#: src/gtk/chmod_dialog.c:192 src/gtk/gftp-gtk.c:748
+#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:789
 msgid "User"
 msgstr "用户"
 
-#: src/gtk/chmod_dialog.c:200 src/gtk/chmod_dialog.c:220
-#: src/gtk/chmod_dialog.c:240
+#: ../src/gtk/chmod_dialog.c:200 ../src/gtk/chmod_dialog.c:220
+#: ../src/gtk/chmod_dialog.c:240
 msgid "Read"
 msgstr "读"
 
-#: src/gtk/chmod_dialog.c:204 src/gtk/chmod_dialog.c:224
-#: src/gtk/chmod_dialog.c:244
+#: ../src/gtk/chmod_dialog.c:204 ../src/gtk/chmod_dialog.c:224
+#: ../src/gtk/chmod_dialog.c:244
 msgid "Write"
 msgstr "写"
 
-#: src/gtk/chmod_dialog.c:208 src/gtk/chmod_dialog.c:228
-#: src/gtk/chmod_dialog.c:248
+#: ../src/gtk/chmod_dialog.c:208 ../src/gtk/chmod_dialog.c:228
+#: ../src/gtk/chmod_dialog.c:248
 msgid "Execute"
 msgstr "执行"
 
-#: src/gtk/chmod_dialog.c:212 src/gtk/gftp-gtk.c:749
+#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:790
 msgid "Group"
 msgstr "群组"
 
-#: src/gtk/chmod_dialog.c:232
+#: ../src/gtk/chmod_dialog.c:232
 msgid "Other"
 msgstr "其它"
 
-#: src/gtk/delete_dialog.c:61
+#: ../src/gtk/delete_dialog.c:61
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr "确定要删除这 %ld 个文件和 %ld 个目录?"
 
-#: src/gtk/delete_dialog.c:65
+#: ../src/gtk/delete_dialog.c:65
 #, c-format
 msgid "Are you sure you want to delete these %ld files"
 msgstr "确定要删除这 %ld 个文件"
 
-#: src/gtk/delete_dialog.c:69
+#: ../src/gtk/delete_dialog.c:69
 #, c-format
 msgid "Are you sure you want to delete these %ld directories"
 msgstr "确定要删除这 %ld 个目录"
 
-#: src/gtk/delete_dialog.c:74
+#: ../src/gtk/delete_dialog.c:74
 msgid "Delete Files/Directories"
 msgstr "删除文件或目录"
 
-#: src/gtk/delete_dialog.c:90 src/gtk/options_dialog.c:1305
+#: ../src/gtk/delete_dialog.c:90 ../src/gtk/options_dialog.c:1302
 msgid "Delete"
 msgstr "删除"
 
-#: src/gtk/dnd.c:128 src/gtk/dnd.c:261
+#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1104 ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/misc-gtk.c:1004
+msgid "Connect"
+msgstr "连接"
+
+#: ../src/gtk/dnd.c:136 ../src/gtk/dnd.c:269
 #, c-format
 msgid "Received URL %s\n"
 msgstr "收到 URL %s\n"
 
-#: src/gtk/dnd.c:151 src/gtk/dnd.c:239
+#: ../src/gtk/dnd.c:159 ../src/gtk/dnd.c:247
 msgid "Drag-N-Drop"
 msgstr "拖曳操作"
 
-#: src/gtk/gftp-gtk.c:127
+#: ../src/gtk/gftp-gtk.c:144
 msgid "Exit"
 msgstr "退出"
 
-#: src/gtk/gftp-gtk.c:127
+#: ../src/gtk/gftp-gtk.c:144
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
@@ -2011,473 +2099,517 @@ msgstr ""
 "还有文件传输任务正在进行。\n"
 "您确定想要退出吗？"
 
-#: src/gtk/gftp-gtk.c:198
-msgid "Connect via URL"
-msgstr "通过 URL 连接"
+#: ../src/gtk/gftp-gtk.c:219 ../src/gtk/gftp-gtk.c:235
+msgid "Open Location"
+msgstr "打开位置"
 
-#: src/gtk/gftp-gtk.c:198
+#: ../src/gtk/gftp-gtk.c:219
 msgid "Enter a URL to connect to"
 msgstr "输入要连接的 URL"
 
-#: src/gtk/gftp-gtk.c:214
-msgid "OpenURL"
-msgstr "OpenURL"
-
-#: src/gtk/gftp-gtk.c:244
+#: ../src/gtk/gftp-gtk.c:265
 msgid "/_FTP"
 msgstr "/_FTP"
 
-#: src/gtk/gftp-gtk.c:245
+#: ../src/gtk/gftp-gtk.c:266
 msgid "/FTP/tearoff"
 msgstr "/FTP/tearoff"
 
-#: src/gtk/gftp-gtk.c:246
-msgid "/FTP/Window 1"
+#: ../src/gtk/gftp-gtk.c:267
+#, fuzzy
+msgid "/FTP/Window _1"
 msgstr "/FTP/Window 1"
 
-#: src/gtk/gftp-gtk.c:248
-msgid "/FTP/Window 2"
+#: ../src/gtk/gftp-gtk.c:269
+#, fuzzy
+msgid "/FTP/Window _2"
 msgstr "/FTP/Window 2"
 
-#: src/gtk/gftp-gtk.c:250 src/gtk/gftp-gtk.c:255 src/gtk/gftp-gtk.c:258
+#: ../src/gtk/gftp-gtk.c:271 ../src/gtk/gftp-gtk.c:276
+#: ../src/gtk/gftp-gtk.c:279
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
 
-#: src/gtk/gftp-gtk.c:251
-msgid "/FTP/Ascii"
-msgstr "/FTP/文本"
+#: ../src/gtk/gftp-gtk.c:272
+msgid "/FTP/_Ascii"
+msgstr "/FTP/_Ascii"
 
-#: src/gtk/gftp-gtk.c:253
-msgid "/FTP/Binary"
-msgstr "/FTP/二进制"
+#: ../src/gtk/gftp-gtk.c:274
+msgid "/FTP/_Binary"
+msgstr "/FTP/二进制(_B)"
 
-#: src/gtk/gftp-gtk.c:256
-msgid "/FTP/_Options..."
-msgstr "/FTP/选项(_O)..."
+#: ../src/gtk/gftp-gtk.c:277
+msgid "/FTP/_Preferences..."
+msgstr "/文件/属性(_P)..."
 
-#: src/gtk/gftp-gtk.c:259
+#: ../src/gtk/gftp-gtk.c:280
 msgid "/FTP/_Quit"
 msgstr "/FTP/退出(_Q)"
 
-#: src/gtk/gftp-gtk.c:260
+#: ../src/gtk/gftp-gtk.c:281
 msgid "/_Local"
 msgstr "/本地(_L)"
 
-#: src/gtk/gftp-gtk.c:261
+#: ../src/gtk/gftp-gtk.c:282
 msgid "/Local/tearoff"
 msgstr "/本地(L)/tearoff"
 
-#: src/gtk/gftp-gtk.c:262
-msgid "/Local/Open URL..."
+#: ../src/gtk/gftp-gtk.c:283
+#, fuzzy
+msgid "/Local/_Open Location..."
 msgstr "/本地(L)/打开 URL..."
 
-#: src/gtk/gftp-gtk.c:263
-msgid "/Local/Disconnect"
+#: ../src/gtk/gftp-gtk.c:285
+#, fuzzy
+msgid "/Local/D_isconnect"
 msgstr "/本地(L)/断开连接"
 
-#: src/gtk/gftp-gtk.c:264 src/gtk/gftp-gtk.c:270
+#: ../src/gtk/gftp-gtk.c:286 ../src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "/本地(L)/sep"
 
-#: src/gtk/gftp-gtk.c:265
-msgid "/Local/Change Filespec..."
+#: ../src/gtk/gftp-gtk.c:287
+#, fuzzy
+msgid "/Local/Change _Filespec..."
 msgstr "/本地(L)/改变文件类型..."
 
-#: src/gtk/gftp-gtk.c:266
-msgid "/Local/Show selected"
+#: ../src/gtk/gftp-gtk.c:289
+#, fuzzy
+msgid "/Local/_Show selected"
 msgstr "/本地(L)/只显示选中的"
 
-#: src/gtk/gftp-gtk.c:267
-msgid "/Local/Select All"
+#: ../src/gtk/gftp-gtk.c:290
+#, fuzzy
+msgid "/Local/Select _All"
 msgstr "/本地(L)/全选"
 
-#: src/gtk/gftp-gtk.c:268
+#: ../src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
 msgstr "/本地(L)/选中全部文件"
 
-#: src/gtk/gftp-gtk.c:269
+#: ../src/gtk/gftp-gtk.c:292
 msgid "/Local/Deselect All"
 msgstr "/本地(L)/全部不选"
 
-#: src/gtk/gftp-gtk.c:271
+#: ../src/gtk/gftp-gtk.c:294
 msgid "/Local/Save Directory Listing..."
 msgstr "/本地(L)/保存目录列表..."
 
-#: src/gtk/gftp-gtk.c:272
+#: ../src/gtk/gftp-gtk.c:295
 msgid "/Local/Send SITE Command..."
 msgstr "/本地(L)/发送 SITE 命令..."
 
-#: src/gtk/gftp-gtk.c:273
-msgid "/Local/Change Directory"
+#: ../src/gtk/gftp-gtk.c:296
+#, fuzzy
+msgid "/Local/_Change Directory"
 msgstr "/本地(L)/更改目录"
 
-#: src/gtk/gftp-gtk.c:274
-msgid "/Local/Chmod..."
+#: ../src/gtk/gftp-gtk.c:297
+#, fuzzy
+msgid "/Local/_Permissions..."
 msgstr "/本地(L)/更改权限..."
 
-#: src/gtk/gftp-gtk.c:275
-msgid "/Local/Make Directory..."
-msgstr "/本地(L)/新建目录..."
+#: ../src/gtk/gftp-gtk.c:299
+#, fuzzy
+msgid "/Local/_New Folder..."
+msgstr "/文件(F)/新文件夹..."
 
-#: src/gtk/gftp-gtk.c:276
-msgid "/Local/Rename..."
+#: ../src/gtk/gftp-gtk.c:300
+#, fuzzy
+msgid "/Local/Rena_me..."
 msgstr "/本地(L)/改名..."
 
-#: src/gtk/gftp-gtk.c:277
-msgid "/Local/Delete..."
+#: ../src/gtk/gftp-gtk.c:302
+#, fuzzy
+msgid "/Local/_Delete..."
 msgstr "/本地(L)/删除..."
 
-#: src/gtk/gftp-gtk.c:278
-msgid "/Local/Edit..."
+#: ../src/gtk/gftp-gtk.c:304
+#, fuzzy
+msgid "/Local/_Edit..."
 msgstr "/本地(L)/编辑..."
 
-#: src/gtk/gftp-gtk.c:279
-msgid "/Local/View..."
+#: ../src/gtk/gftp-gtk.c:305
+#, fuzzy
+msgid "/Local/_View..."
 msgstr "/本地(L)/查看..."
 
-#: src/gtk/gftp-gtk.c:280
-msgid "/Local/Refresh"
+#: ../src/gtk/gftp-gtk.c:306
+#, fuzzy
+msgid "/Local/_Refresh"
 msgstr "/本地(L)/刷新"
 
-#: src/gtk/gftp-gtk.c:281
+#: ../src/gtk/gftp-gtk.c:308
 msgid "/_Remote"
 msgstr "/远程(_R)"
 
-#: src/gtk/gftp-gtk.c:282
+#: ../src/gtk/gftp-gtk.c:309
 msgid "/Remote/tearoff"
 msgstr "/远程(R)/tearoff"
 
-#: src/gtk/gftp-gtk.c:283
-msgid "/Remote/Open _URL..."
+#: ../src/gtk/gftp-gtk.c:310
+#, fuzzy
+msgid "/Remote/_Open Location..."
 msgstr "/远程(R)/打开 _URL..."
 
-#: src/gtk/gftp-gtk.c:285
-msgid "/Remote/Disconnect"
+#: ../src/gtk/gftp-gtk.c:312
+#, fuzzy
+msgid "/Remote/D_isconnect"
 msgstr "/远程(R)/断开连接"
 
-#: src/gtk/gftp-gtk.c:287 src/gtk/gftp-gtk.c:293
+#: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/远程(R)/sep"
 
-#: src/gtk/gftp-gtk.c:288
-msgid "/Remote/Change Filespec..."
+#: ../src/gtk/gftp-gtk.c:315
+#, fuzzy
+msgid "/Remote/Change _Filespec..."
 msgstr "/远程(R)/改变文件类型..."
 
-#: src/gtk/gftp-gtk.c:289
-msgid "/Remote/Show selected"
+#: ../src/gtk/gftp-gtk.c:317
+#, fuzzy
+msgid "/Remote/_Show selected"
 msgstr "/远程(R)/只显示选中的"
 
-#: src/gtk/gftp-gtk.c:290
-msgid "/Remote/Select All"
+#: ../src/gtk/gftp-gtk.c:318
+#, fuzzy
+msgid "/Remote/Select _All"
 msgstr "/远程(R)/全选"
 
-#: src/gtk/gftp-gtk.c:291
+#: ../src/gtk/gftp-gtk.c:319
 msgid "/Remote/Select All Files"
 msgstr "/远程(R)/选中全部文件"
 
-#: src/gtk/gftp-gtk.c:292
+#: ../src/gtk/gftp-gtk.c:320
 msgid "/Remote/Deselect All"
 msgstr "/远程(R)/全部不选"
 
-#: src/gtk/gftp-gtk.c:294
+#: ../src/gtk/gftp-gtk.c:322
 msgid "/Remote/Save Directory Listing..."
 msgstr "/远程(R)/保存目录列表..."
 
-#: src/gtk/gftp-gtk.c:295
+#: ../src/gtk/gftp-gtk.c:323
 msgid "/Remote/Send SITE Command..."
 msgstr "/远程(R)/发送 SITE 命令..."
 
-#: src/gtk/gftp-gtk.c:296
-msgid "/Remote/Change Directory"
+#: ../src/gtk/gftp-gtk.c:324
+#, fuzzy
+msgid "/Remote/_Change Directory"
 msgstr "/远程(R)/更改目录"
 
-#: src/gtk/gftp-gtk.c:297
-msgid "/Remote/Chmod..."
+#: ../src/gtk/gftp-gtk.c:325
+#, fuzzy
+msgid "/Remote/_Permisssions..."
 msgstr "/远程(R)/更改权限..."
 
-#: src/gtk/gftp-gtk.c:298
-msgid "/Remote/Make Directory..."
-msgstr "/远程(R)/新建目录..."
+#: ../src/gtk/gftp-gtk.c:326
+#, fuzzy
+msgid "/Remote/_New Folder..."
+msgstr "/文件(F)/新文件夹..."
 
-#: src/gtk/gftp-gtk.c:299
-msgid "/Remote/Rename..."
+#: ../src/gtk/gftp-gtk.c:328
+#, fuzzy
+msgid "/Remote/Rena_me..."
 msgstr "/远程(R)/改名..."
 
-#: src/gtk/gftp-gtk.c:300
-msgid "/Remote/Delete..."
+#: ../src/gtk/gftp-gtk.c:330
+#, fuzzy
+msgid "/Remote/_Delete..."
 msgstr "/远程(_R)/删除..."
 
-#: src/gtk/gftp-gtk.c:301
-msgid "/Remote/Edit..."
+#: ../src/gtk/gftp-gtk.c:331
+#, fuzzy
+msgid "/Remote/_Edit..."
 msgstr "/远程(R)/编辑..."
 
-#: src/gtk/gftp-gtk.c:302
-msgid "/Remote/View..."
+#: ../src/gtk/gftp-gtk.c:332
+#, fuzzy
+msgid "/Remote/_View..."
 msgstr "/远程(R)/查看..."
 
-#: src/gtk/gftp-gtk.c:303
-msgid "/Remote/Refresh"
+#: ../src/gtk/gftp-gtk.c:333
+#, fuzzy
+msgid "/Remote/_Refresh"
 msgstr "/远程(R)/刷新"
 
-#: src/gtk/gftp-gtk.c:304
+#: ../src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
 msgstr "/书签(_B)"
 
-#: src/gtk/gftp-gtk.c:305
+#: ../src/gtk/gftp-gtk.c:336
 msgid "/Bookmarks/tearoff"
 msgstr "/书签(B)/tearoff"
 
-#: src/gtk/gftp-gtk.c:306
-msgid "/Bookmarks/Add bookmark"
+#: ../src/gtk/gftp-gtk.c:337
+#, fuzzy
+msgid "/Bookmarks/Add _Bookmark"
 msgstr "/书签(B)/添加书签"
 
-#: src/gtk/gftp-gtk.c:308
-msgid "/Bookmarks/Edit bookmarks"
+#: ../src/gtk/gftp-gtk.c:339
+#, fuzzy
+msgid "/Bookmarks/Edit Bookmarks"
 msgstr "/书签(B)/编辑书签"
 
-#: src/gtk/gftp-gtk.c:309
+#: ../src/gtk/gftp-gtk.c:340
 msgid "/Bookmarks/sep"
 msgstr "/书签(B)/sep"
 
-#: src/gtk/gftp-gtk.c:310
-msgid "/_Transfers"
+#: ../src/gtk/gftp-gtk.c:341
+#, fuzzy
+msgid "/_Transfer"
 msgstr "/传输(_T)"
 
-#: src/gtk/gftp-gtk.c:311
-msgid "/Transfers/tearoff"
+#: ../src/gtk/gftp-gtk.c:342
+#, fuzzy
+msgid "/Transfer/tearoff"
 msgstr "/传输(T)/tearoff"
 
-#: src/gtk/gftp-gtk.c:312
-msgid "/Transfers/Start Transfer"
-msgstr "/传输(T)/开始传输"
+#: ../src/gtk/gftp-gtk.c:343
+#, fuzzy
+msgid "/Transfer/_Start"
+msgstr "/传输(T)/tearoff"
 
-#: src/gtk/gftp-gtk.c:313
-msgid "/Transfers/Stop Transfer"
-msgstr "/传输(T)/停止传输"
-
-#: src/gtk/gftp-gtk.c:315 src/gtk/gftp-gtk.c:323
-msgid "/Transfers/sep"
+#: ../src/gtk/gftp-gtk.c:344
+#, fuzzy
+msgid "/Transfer/St_op"
 msgstr "/传输(T)/sep"
 
-#: src/gtk/gftp-gtk.c:316
-msgid "/Transfers/Skip Current File"
+#: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
+#, fuzzy
+msgid "/Transfer/sep"
+msgstr "/传输(T)/sep"
+
+#: ../src/gtk/gftp-gtk.c:347
+#, fuzzy
+msgid "/Transfer/Skip _Current File"
 msgstr "/传输(T)/跳过当前文件"
 
-#: src/gtk/gftp-gtk.c:317
-msgid "/Transfers/Remove File"
+#: ../src/gtk/gftp-gtk.c:348
+#, fuzzy
+msgid "/Transfer/_Remove File"
 msgstr "/传输(T)/删除文件"
 
-#: src/gtk/gftp-gtk.c:319
-msgid "/Transfers/Move File Up"
+#: ../src/gtk/gftp-gtk.c:350
+#, fuzzy
+msgid "/Transfer/Move File _Up"
 msgstr "/传输(T)/上移"
 
-#: src/gtk/gftp-gtk.c:321
-msgid "/Transfers/Move File Down"
+#: ../src/gtk/gftp-gtk.c:352
+#, fuzzy
+msgid "/Transfer/Move File _Down"
 msgstr "/传输(T)/下移"
 
-#: src/gtk/gftp-gtk.c:324
-msgid "/Transfers/Retrieve Files"
+#: ../src/gtk/gftp-gtk.c:355
+#, fuzzy
+msgid "/Transfer/_Retrieve Files"
 msgstr "/传输(T)/接收文件"
 
-#: src/gtk/gftp-gtk.c:325
-msgid "/Transfers/Put Files"
+#: ../src/gtk/gftp-gtk.c:356
+#, fuzzy
+msgid "/Transfer/_Put Files"
 msgstr "/传输(T)/上传文件"
 
-#: src/gtk/gftp-gtk.c:326
-msgid "/L_ogging"
+#: ../src/gtk/gftp-gtk.c:357
+#, fuzzy
+msgid "/L_og"
 msgstr "/日志(_O)"
 
-#: src/gtk/gftp-gtk.c:327
-msgid "/Logging/tearoff"
+#: ../src/gtk/gftp-gtk.c:358
+#, fuzzy
+msgid "/Log/tearoff"
 msgstr "/日志(O)/tearoff"
 
-#: src/gtk/gftp-gtk.c:328
-msgid "/Logging/Clear"
+#: ../src/gtk/gftp-gtk.c:359
+#, fuzzy
+msgid "/Log/_Clear"
 msgstr "/日志(O)/清除"
 
-#: src/gtk/gftp-gtk.c:329
-msgid "/Logging/View log"
-msgstr "/日志(O)/查看日志"
+#: ../src/gtk/gftp-gtk.c:360
+#, fuzzy
+msgid "/Log/_View"
+msgstr "/本地(L)/查看..."
 
-#: src/gtk/gftp-gtk.c:330
-msgid "/Logging/Save log..."
+#: ../src/gtk/gftp-gtk.c:361
+#, fuzzy
+msgid "/Log/_Save..."
 msgstr "/日志(O)/保存日志..."
 
-#: src/gtk/gftp-gtk.c:331
+#: ../src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
 msgstr "/工具(_S)"
 
-#: src/gtk/gftp-gtk.c:332
+#: ../src/gtk/gftp-gtk.c:363
 msgid "/Tools/tearoff"
 msgstr "/工具(S)/tearoff"
 
-#: src/gtk/gftp-gtk.c:333
-msgid "/Tools/Compare Windows"
+#: ../src/gtk/gftp-gtk.c:364
+#, fuzzy
+msgid "/Tools/C_ompare Windows"
 msgstr "/工具(S)/比较窗口"
 
-#: src/gtk/gftp-gtk.c:334
-msgid "/Tools/Clear Cache"
+#: ../src/gtk/gftp-gtk.c:365
+#, fuzzy
+msgid "/Tools/_Clear Cache"
 msgstr "/工具(S)/清除缓存"
 
-#: src/gtk/gftp-gtk.c:335
+#: ../src/gtk/gftp-gtk.c:366
 msgid "/Help"
 msgstr "/帮助(_H)"
 
-#: src/gtk/gftp-gtk.c:336
+#: ../src/gtk/gftp-gtk.c:367
 msgid "/Help/tearoff"
 msgstr "/帮助(H)/tearoff"
 
-#: src/gtk/gftp-gtk.c:337
-msgid "/Help/About"
+#: ../src/gtk/gftp-gtk.c:368
+#, fuzzy
+msgid "/Help/_About"
 msgstr "/帮助(H)/关于"
 
-#: src/gtk/gftp-gtk.c:458
+#: ../src/gtk/gftp-gtk.c:488
 msgid "Host: "
 msgstr "主机："
 
-#: src/gtk/gftp-gtk.c:460
+#: ../src/gtk/gftp-gtk.c:490
 msgid "_Host: "
 msgstr "主机(_H)："
 
-#: src/gtk/gftp-gtk.c:486
+#: ../src/gtk/gftp-gtk.c:516
 msgid "Port: "
 msgstr "端口："
 
-#: src/gtk/gftp-gtk.c:507
+#: ../src/gtk/gftp-gtk.c:537
 msgid "User: "
 msgstr "用户名："
 
-#: src/gtk/gftp-gtk.c:509
+#: ../src/gtk/gftp-gtk.c:539
 msgid "_User: "
 msgstr "用户名(_U)："
 
-#: src/gtk/gftp-gtk.c:534
+#: ../src/gtk/gftp-gtk.c:564
 msgid "Pass: "
 msgstr "密码："
 
-#: src/gtk/gftp-gtk.c:604
+#: ../src/gtk/gftp-gtk.c:636
 msgid "Command: "
 msgstr "命令： "
 
-#: src/gtk/gftp-gtk.c:746 src/gtk/gftp-gtk.c:952 src/gtk/gtkui_transfer.c:216
+#: ../src/gtk/gftp-gtk.c:787 ../src/gtk/gftp-gtk.c:996
+#: ../src/gtk/gtkui_transfer.c:228
 msgid "Filename"
 msgstr "文件名"
 
-#: src/gtk/gftp-gtk.c:747
+#: ../src/gtk/gftp-gtk.c:788
 msgid "Size"
 msgstr "大小"
 
-#: src/gtk/gftp-gtk.c:750
+#: ../src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "日期"
 
-#: src/gtk/gftp-gtk.c:751
+#: ../src/gtk/gftp-gtk.c:792
 msgid "Attribs"
 msgstr "属性"
 
-#: src/gtk/gftp-gtk.c:953
+#: ../src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "进度"
 
-#: src/gtk/gftp-gtk.c:1064 src/gtk/misc-gtk.c:946 src/gtk/misc-gtk.c:1020
-msgid "Connect"
-msgstr "连接"
-
-#: src/gtk/gftp-gtk.c:1094
+#: ../src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
 msgstr "错误：必须输入主机名来建立连接\n"
 
-#: src/gtk/gtkui.c:51
+#: ../src/gtk/gtkui.c:53
 msgid "Refresh"
 msgstr "刷新"
 
-#: src/gtk/gtkui.c:96
+#: ../src/gtk/gtkui.c:120
 msgid "Enter Username"
 msgstr "输入用户名"
 
-#: src/gtk/gtkui.c:97
+#: ../src/gtk/gtkui.c:121
 msgid "Please enter your username for this site"
 msgstr "请输入您在该服务器上所使用的用户名"
 
-#: src/gtk/gtkui.c:119 src/gtk/transfer.c:554 src/gtk/transfer.c:564
+#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:563 ../src/gtk/transfer.c:573
 msgid "Please enter your password for this site"
 msgstr "请输入您在该服务器上所使用的密码"
 
-#: src/gtk/gtkui.c:274
+#: ../src/gtk/gtkui.c:298
 msgid "Operation canceled...you must enter a string\n"
 msgstr "操作取消...必须输入一个字符串\n"
 
-#: src/gtk/gtkui.c:317
+#: ../src/gtk/gtkui.c:344
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: src/gtk/gtkui.c:320
+#: ../src/gtk/gtkui.c:347
 msgid "Make Directory"
 msgstr "建立目录"
 
-#: src/gtk/gtkui.c:320
+#: ../src/gtk/gtkui.c:347
 msgid "Enter name of directory to create"
 msgstr "输入要创建的目录名"
 
-#: src/gtk/gtkui.c:343 src/gtk/gtkui.c:355 src/gtk/misc-gtk.c:949
-#: src/gtk/misc-gtk.c:1023
+#: ../src/gtk/gtkui.c:370 ../src/gtk/gtkui.c:382 ../src/gtk/misc-gtk.c:932
+#: ../src/gtk/misc-gtk.c:1007
 msgid "Rename"
 msgstr "改名"
 
-#: src/gtk/gtkui.c:353
+#: ../src/gtk/gtkui.c:380
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "您想将 %s 改为什么名称？"
 
-#: src/gtk/gtkui.c:375 src/gtk/gtkui.c:378
+#: ../src/gtk/gtkui.c:402 ../src/gtk/gtkui.c:405
 msgid "Site"
 msgstr "站点"
 
-#: src/gtk/gtkui.c:378
+#: ../src/gtk/gtkui.c:405
 msgid "Enter site-specific command"
 msgstr "输入站点特定的命令"
 
-#: src/gtk/gtkui.c:379
+#: ../src/gtk/gtkui.c:406
 msgid "Prepend with SITE"
 msgstr ""
 
-#: src/gtk/gtkui.c:422 src/gtk/menu-items.c:250
+#: ../src/gtk/gtkui.c:449 ../src/gtk/menu-items.c:235
 msgid "Chdir"
 msgstr "Chdir"
 
-#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:449 src/gtk/transfer.c:532
-#: src/gtk/transfer.c:1011
+#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:473
+#: ../src/gtk/transfer.c:541 ../src/gtk/transfer.c:998
 msgid "Skipped"
 msgstr "已跳过"
 
-#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:511 src/gtk/transfer.c:536
+#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:520
+#: ../src/gtk/transfer.c:545
 msgid "Waiting..."
 msgstr "请稍候..."
 
-#: src/gtk/gtkui_transfer.c:124 src/gtk/gtkui_transfer.c:303
-#: src/gtk/gtkui_transfer.c:333
+#: ../src/gtk/gtkui_transfer.c:136 ../src/gtk/gtkui_transfer.c:314
+#: ../src/gtk/gtkui_transfer.c:341
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: src/gtk/gtkui_transfer.c:131 src/gtk/gtkui_transfer.c:309
-#: src/gtk/gtkui_transfer.c:339
+#: ../src/gtk/gtkui_transfer.c:143 ../src/gtk/gtkui_transfer.c:320
+#: ../src/gtk/gtkui_transfer.c:347
 msgid "Resume"
 msgstr "续传"
 
-#: src/gtk/gtkui_transfer.c:138 src/gtk/gtkui_transfer.c:306
+#: ../src/gtk/gtkui_transfer.c:150 ../src/gtk/gtkui_transfer.c:317
 msgid "Skip"
 msgstr "跳过"
 
-#: src/gtk/gtkui_transfer.c:219
+#: ../src/gtk/gtkui_transfer.c:231
 msgid "Action"
 msgstr "操作"
 
-#: src/gtk/gtkui_transfer.c:224 src/gtk/gtkui_transfer.c:233
-#: src/gtk/transfer.c:91
+#: ../src/gtk/gtkui_transfer.c:236 ../src/gtk/gtkui_transfer.c:245
+#: ../src/gtk/transfer.c:91
 msgid "Transfer Files"
 msgstr "传输文件"
 
-#: src/gtk/gtkui_transfer.c:245
+#: ../src/gtk/gtkui_transfer.c:257
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2485,103 +2617,101 @@ msgstr ""
 "下列文件同时存在于本地和远程计算机\n"
 "请选择如何操作"
 
-#: src/gtk/gtkui_transfer.c:312
+#: ../src/gtk/gtkui_transfer.c:323
 msgid "Error"
 msgstr "错误"
 
-#: src/gtk/gtkui_transfer.c:345
+#: ../src/gtk/gtkui_transfer.c:353
 msgid "Skip File"
 msgstr "跳过文件"
 
-#: src/gtk/gtkui_transfer.c:355
+#: ../src/gtk/gtkui_transfer.c:363
 msgid "Select All"
 msgstr "全部选中"
 
-#: src/gtk/gtkui_transfer.c:361
+#: ../src/gtk/gtkui_transfer.c:369
 msgid "Deselect All"
 msgstr "全部不选"
 
-#: src/gtk/menu-items.c:37
+#: ../src/gtk/menu-items.c:65
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr "更改文件类型：操作取消...必须输入字符串\n"
 
-#: src/gtk/menu-items.c:74 src/gtk/menu-items.c:77
+#: ../src/gtk/menu-items.c:83 ../src/gtk/menu-items.c:86
 msgid "Change Filespec"
 msgstr "更改文件类型"
 
-#: src/gtk/menu-items.c:77
+#: ../src/gtk/menu-items.c:86
 msgid "Enter the new file specification"
 msgstr "输入新的文件名指定"
 
-#: src/gtk/menu-items.c:105 src/gtk/menu-items.c:313 src/gtk/menu-items.c:377
-#: src/gtk/view_dialog.c:76 src/gtk/view_dialog.c:155
+#: ../src/gtk/menu-items.c:114 ../src/gtk/menu-items.c:299
+#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:81
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "错误：无法打开 %s 写入：%s\n"
 
-#: src/gtk/menu-items.c:134
+#: ../src/gtk/menu-items.c:143
 msgid "Save Directory Listing"
 msgstr "保存目录列表"
 
-#: src/gtk/menu-items.c:341 src/gtk/menu-items.c:405
+#: ../src/gtk/menu-items.c:327 ../src/gtk/menu-items.c:391
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "错误：向 %s 写入出错：%s\n"
 
-#: src/gtk/menu-items.c:416
+#: ../src/gtk/menu-items.c:402
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "成功写入日志文件到 %s\n"
 
-#: src/gtk/menu-items.c:428
+#: ../src/gtk/menu-items.c:414
 msgid "Save Log"
 msgstr "保存日志"
 
-#: src/gtk/menu-items.c:464
+#: ../src/gtk/menu-items.c:450
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr "找不到许可协议文件 COPYING。请确定该文件位于 %s 或 %s 中"
 
-#: src/gtk/menu-items.c:468 src/gtk/menu-items.c:473
+#: ../src/gtk/menu-items.c:454 ../src/gtk/menu-items.c:459
 msgid "About gFTP"
 msgstr "关于 gFTP"
 
-#: src/gtk/menu-items.c:504
+#: ../src/gtk/menu-items.c:490
 #, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
-"Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
 "%s\n"
-"版权 (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
+"版权所有 (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "官方主页：http://www.gftp.org/\n"
-"标志绘制：Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: src/gtk/menu-items.c:516
+#: ../src/gtk/menu-items.c:503
 msgid "About"
 msgstr "关于"
 
-#: src/gtk/menu-items.c:565
+#: ../src/gtk/menu-items.c:552
 msgid "License Agreement"
 msgstr "许可协议"
 
-#: src/gtk/menu-items.c:571 src/gtk/view_dialog.c:404
+#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:385
 msgid "  Close  "
 msgstr "  关闭  "
 
-#: src/gtk/menu-items.c:655
+#: ../src/gtk/menu-items.c:685
 msgid "Compare Windows"
 msgstr "比较窗口"
 
-#: src/gtk/misc-gtk.c:253
+#: ../src/gtk/misc-gtk.c:257
 msgid "Disconnect from the remote server"
 msgstr "与远程网站断开连接"
 
-#: src/gtk/misc-gtk.c:257
+#: ../src/gtk/misc-gtk.c:261
 msgid ""
 "Connect to the site specified in the host entry. If the host entry is blank, "
 "then a dialog is presented that will allow you to enter a URL."
@@ -2589,72 +2719,72 @@ msgstr ""
 "连接到主机项中指定的站点。如果主机项内容为空，那么会出现一个对话框让你输入一"
 "个URL"
 
-#: src/gtk/misc-gtk.c:304
+#: ../src/gtk/misc-gtk.c:308
 msgid "All Files"
 msgstr "全部文件"
 
-#: src/gtk/misc-gtk.c:311
+#: ../src/gtk/misc-gtk.c:318
 msgid "] (Cached) ["
 msgstr "] (已缓存) ["
 
-#: src/gtk/misc-gtk.c:336
+#: ../src/gtk/misc-gtk.c:329
 msgid "Not connected"
 msgstr "未连接"
 
-#: src/gtk/misc-gtk.c:439
+#: ../src/gtk/misc-gtk.c:431
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "打开文件 %s 出错：%s\n"
 
-#: src/gtk/misc-gtk.c:528
+#: ../src/gtk/misc-gtk.c:521
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s：未连接到远程站点\n"
 
-#: src/gtk/misc-gtk.c:535
+#: ../src/gtk/misc-gtk.c:528
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s：该功能在本协议中不可用\n"
 
-#: src/gtk/misc-gtk.c:543
+#: ../src/gtk/misc-gtk.c:536
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s：您只能选中一个项目\n"
 
-#: src/gtk/misc-gtk.c:550
+#: ../src/gtk/misc-gtk.c:543
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s：您至少得选中一个项目\n"
 
-#: src/gtk/misc-gtk.c:943 src/gtk/misc-gtk.c:1017
+#: ../src/gtk/misc-gtk.c:926 ../src/gtk/misc-gtk.c:1001
 msgid "Change"
 msgstr "更改"
 
-#: src/gtk/misc-gtk.c:1014 src/gtk/options_dialog.c:1280
+#: ../src/gtk/misc-gtk.c:998 ../src/gtk/options_dialog.c:1277
 msgid "Add"
 msgstr "添加"
 
-#: src/gtk/misc-gtk.c:1040
+#: ../src/gtk/misc-gtk.c:1024
 msgid "Cancel"
 msgstr "取消"
 
-#: src/gtk/misc-gtk.c:1110
+#: ../src/gtk/misc-gtk.c:1094
 msgid "  Yes  "
 msgstr "  是  "
 
-#: src/gtk/misc-gtk.c:1120
+#: ../src/gtk/misc-gtk.c:1104
 msgid "  No  "
 msgstr "  否  "
 
-#: src/gtk/misc-gtk.c:1180
+#: ../src/gtk/misc-gtk.c:1164
 msgid "Getting directory listings"
 msgstr "正在获取目录列表"
 
-#: src/gtk/misc-gtk.c:1200
+#: ../src/gtk/misc-gtk.c:1184
 msgid "  Stop  "
 msgstr "  停止  "
 
-#: src/gtk/misc-gtk.c:1210
+#: ../src/gtk/misc-gtk.c:1194
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2663,105 +2793,109 @@ msgstr ""
 "已接收 %ld 个目录\n"
 "和 %ld 个文件"
 
-#: src/gtk/misc-gtk.c:1286
+#: ../src/gtk/misc-gtk.c:1270
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "gFTP 错误：在 %2$s 或 %3$s 找不到文件 %1$s\n"
 
-#: src/gtk/options_dialog.c:959
+#: ../src/gtk/options_dialog.c:956
 msgid "Edit Host"
 msgstr "编辑主机"
 
-#: src/gtk/options_dialog.c:959
+#: ../src/gtk/options_dialog.c:956
 msgid "Add Host"
 msgstr "添加主机"
 
-#: src/gtk/options_dialog.c:1005
+#: ../src/gtk/options_dialog.c:1002
 msgid "Type:"
 msgstr "类型："
 
-#: src/gtk/options_dialog.c:1007
+#: ../src/gtk/options_dialog.c:1004
 msgid "_Type:"
 msgstr "类型(_T)："
 
-#: src/gtk/options_dialog.c:1017 src/gtk/options_dialog.c:1140
+#: ../src/gtk/options_dialog.c:1014 ../src/gtk/options_dialog.c:1137
 msgid "Domain"
 msgstr "域"
 
-#: src/gtk/options_dialog.c:1050
+#: ../src/gtk/options_dialog.c:1047
 msgid "Network Address"
 msgstr "网络地址"
 
-#: src/gtk/options_dialog.c:1052
+#: ../src/gtk/options_dialog.c:1049
 msgid "_Network address:"
 msgstr "网络地址(_N)："
 
-#: src/gtk/options_dialog.c:1091 src/gtk/options_dialog.c:1244
+#: ../src/gtk/options_dialog.c:1088 ../src/gtk/options_dialog.c:1241
 msgid "Netmask"
 msgstr "子网掩码"
 
-#: src/gtk/options_dialog.c:1093
+#: ../src/gtk/options_dialog.c:1090
 msgid "N_etmask:"
 msgstr "子网掩码(_E)："
 
-#: src/gtk/options_dialog.c:1142
+#: ../src/gtk/options_dialog.c:1139
 msgid "_Domain:"
 msgstr "域(_D)："
 
-#: src/gtk/options_dialog.c:1250
+#: ../src/gtk/options_dialog.c:1247
 msgid "Local Hosts"
 msgstr "本地主机"
 
-#: src/gtk/options_dialog.c:1291 src/gtk/view_dialog.c:105
+#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:34
 msgid "Edit"
 msgstr "编辑"
 
-#: src/gtk/options_dialog.c:1293
+#: ../src/gtk/options_dialog.c:1290
 msgid "_Edit"
 msgstr "编辑(_E)"
 
-#: src/gtk/options_dialog.c:1370 src/gtk/options_dialog.c:1375
+#: ../src/gtk/options_dialog.c:1367 ../src/gtk/options_dialog.c:1372
 msgid "Options"
 msgstr "选项"
 
-#: src/gtk/transfer.c:30
+#: ../src/gtk/options_dialog.c:1459
+msgid "Apply"
+msgstr "应用"
+
+#: ../src/gtk/transfer.c:30
 msgid "Receiving file names..."
 msgstr "正在接收文件名..."
 
-#: src/gtk/transfer.c:63 src/gtk/transfer.c:680
+#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:689
 msgid "Connecting..."
 msgstr "正在连接..."
 
-#: src/gtk/transfer.c:99
+#: ../src/gtk/transfer.c:99
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "接收文件：未连接到远程站点\n"
 
-#: src/gtk/transfer.c:351
+#: ../src/gtk/transfer.c:336
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "错误：子线程 %d 返回 %d\n"
 
-#: src/gtk/transfer.c:357
+#: ../src/gtk/transfer.c:345
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "子线程 %d 成功返回\n"
 
-#: src/gtk/transfer.c:361
+#: ../src/gtk/transfer.c:352
 #, c-format
 msgid "Error: Child %d did not terminate properly\n"
 msgstr "错误：子线程 %d 没有正常终止\n"
 
-#: src/gtk/transfer.c:371
+#: ../src/gtk/transfer.c:368
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "错误：无法获得关于文件 %s 的信息：%s\n"
 
-#: src/gtk/transfer.c:376
+#: ../src/gtk/transfer.c:374
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "文件 %s 没有更改\n"
 
-#: src/gtk/transfer.c:384
+#: ../src/gtk/transfer.c:382
 #, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2770,112 +2904,108 @@ msgstr ""
 "文件 %s 已经更改。\n"
 "您想要上传吗？"
 
-#: src/gtk/transfer.c:387
+#: ../src/gtk/transfer.c:385
 msgid "Edit File"
 msgstr "编辑文件"
 
-#: src/gtk/transfer.c:452
+#: ../src/gtk/transfer.c:476
 msgid "Finished"
 msgstr "已完成"
 
-#: src/gtk/transfer.c:492
-#, c-format
-msgid "Stopping the transfer of %s\n"
-msgstr "正在停止传输 %s\n"
+#: ../src/gtk/transfer.c:734
+#, fuzzy, c-format
+msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "已接收 %s，共 %s (速度 %.2fKB/s)，预计剩余时间 %02d:%02d:%02d"
 
-#: src/gtk/transfer.c:726
-#, c-format
-msgid "Unknown percentage complete. (File %ld of %ld)"
-msgstr "完成百分率未知。(文件 %ld 共 %ld )"
-
-#: src/gtk/transfer.c:730
-#, c-format
-msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
-msgstr "完成 %d%%，预计剩余时间 %02d:%02d:%02d。(第 %ld 个文件，共 %ld 个)"
-
-#: src/gtk/transfer.c:760
+#: ../src/gtk/transfer.c:739
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "已接收 %s，共 %s (速度 %.2fKB/s)，预计剩余时间 %02d:%02d:%02d"
 
-#: src/gtk/transfer.c:769
+#: ../src/gtk/transfer.c:750
+#, fuzzy, c-format
+msgid "Sent %s of %s, transfer stalled, unknown time remaining"
+msgstr "已接收 %s，共 %s，传输延迟，剩余时间未知"
+
+#: ../src/gtk/transfer.c:756
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "已接收 %s，共 %s，传输延迟，剩余时间未知"
 
-#: src/gtk/transfer.c:804
+#: ../src/gtk/transfer.c:800
+#, c-format
+msgid "Unknown percentage complete. (File %ld of %ld)"
+msgstr "完成百分率未知。(文件 %ld 共 %ld )"
+
+#: ../src/gtk/transfer.c:804
+#, c-format
+msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
+msgstr "完成 %d%%，预计剩余时间 %02d:%02d:%02d。(第 %ld 个文件，共 %ld 个)"
+
+#: ../src/gtk/transfer.c:842
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "正在接收文件名...%s 字节"
 
-#: src/gtk/transfer.c:883 src/gtk/transfer.c:905 src/gtk/transfer.c:939
-#: src/gtk/transfer.c:979 src/gtk/transfer.c:1032 src/gtk/transfer.c:1092
+#: ../src/gtk/transfer.c:921 ../src/gtk/transfer.c:943
+#: ../src/gtk/transfer.c:962 ../src/gtk/transfer.c:984
+#: ../src/gtk/transfer.c:1012 ../src/gtk/transfer.c:1072
 msgid "There are no file transfers selected\n"
 msgstr "未选中任何传输任务\n"
 
-#: src/gtk/transfer.c:923
-#, c-format
-msgid "Stopping the transfer on host %s\n"
-msgstr "正在停止主机 %s 上的传输\n"
-
-#: src/gtk/transfer.c:964 src/gtk/transfer.c:1017
-#, c-format
-msgid "Skipping file %s on host %s\n"
-msgstr "正在跳过主机 %2$s 上的文件 %1$s\n"
-
-#: src/gtk/view_dialog.c:36
+#: ../src/gtk/view_dialog.c:34
 msgid "View"
 msgstr "查看"
 
-#: src/gtk/view_dialog.c:48
+#: ../src/gtk/view_dialog.c:49
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "查看：%s 是目录。不能查看。\n"
 
-#: src/gtk/view_dialog.c:114
-msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "编辑：您必须在选项对话框中指定编辑器\n"
-
-#: src/gtk/view_dialog.c:127
+#: ../src/gtk/view_dialog.c:52
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "编辑：%s 是目录。不能编辑。\n"
 
-#: src/gtk/view_dialog.c:210
+#: ../src/gtk/view_dialog.c:123
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "编辑：您必须在选项对话框中指定编辑器\n"
+
+#: ../src/gtk/view_dialog.c:177
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "查看：无法创建另外的子进程：%s\n"
 
-#: src/gtk/view_dialog.c:213
+#: ../src/gtk/view_dialog.c:180
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "正在运行程序：%s %s\n"
 
-#: src/gtk/view_dialog.c:271
+#: ../src/gtk/view_dialog.c:240
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "正在用 %2$s 打开 %1$s\n"
 
-#: src/gtk/view_dialog.c:306
+#: ../src/gtk/view_dialog.c:282
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "正在查看文件 %s\n"
 
-#: src/gtk/view_dialog.c:313
+#: ../src/gtk/view_dialog.c:289
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "查看：无法打开文件 %s：%s\n"
 
-#: src/text/gftp-text.c:167
+#: ../src/text/gftp-text.c:166
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "无法打开控制终端 %s\n"
 
-#: src/text/textui.c:74
+#: ../src/text/textui.c:80
 msgid "Username [anonymous]:"
 msgstr "用户名［anonymous］："
 
-#: src/text/textui.c:143
+#: ../src/text/textui.c:158
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
@@ -2885,3 +3015,51 @@ msgstr ""
 "%s 已经存在。(源大小为 %s，目标大小为 %s)：\n"
 "(o)覆盖，(r)续传，(s)跳过，(O)覆盖所有，(R)续传所有，(S)跳过所有：(%c)"
 
+#~ msgid "\n"
+#~ msgstr "\n"
+
+#~ msgid "Startup Directory:"
+#~ msgstr "起始目录："
+
+#~ msgid "The default directory gFTP will go to on startup"
+#~ msgstr "gFTP 启动时自动转到的目录"
+
+#~ msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
+#~ msgstr "在将字符串“%s”从本地字符集转换成字符集 UTF-8 时出错：%s\n"
+
+#~ msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
+#~ msgstr "在将字符串“%s”从字符集 UTF-8 转换成本地字符集时出错：%s\n"
+
+#~ msgid "Error: Remote site disconnected after trying to transfer file\n"
+#~ msgstr "错误：尝试传输文件后远程站点断开连接\n"
+
+#, fuzzy
+#~ msgid "There was an error transfering the file %s"
+#~ msgstr "未选中任何传输任务\n"
+
+#~ msgid "Connect via URL"
+#~ msgstr "通过 URL 连接"
+
+#~ msgid "OpenURL"
+#~ msgstr "OpenURL"
+
+#~ msgid "/FTP/_Options..."
+#~ msgstr "/FTP/选项(_O)..."
+
+#~ msgid "/Local/Make Directory..."
+#~ msgstr "/本地(L)/新建目录..."
+
+#~ msgid "/Remote/Make Directory..."
+#~ msgstr "/远程(R)/新建目录..."
+
+#~ msgid "/Transfers/Start Transfer"
+#~ msgstr "/传输(T)/开始传输"
+
+#~ msgid "/Transfers/Stop Transfer"
+#~ msgstr "/传输(T)/停止传输"
+
+#~ msgid "/Logging/View log"
+#~ msgstr "/日志(O)/查看日志"
+
+#~ msgid "Stopping the transfer of %s\n"
+#~ msgstr "正在停止传输 %s\n"
