@@ -3,13 +3,15 @@
 #include <time.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <stddef.h>
+
 /* The FSP v2 protocol support library - public interface */
 
 /*
 This file is part of fsplib - FSP protocol stack implemented in C
 language. See http://fsp.sourceforge.net for more information.
 
-Copyright (c) 2003-2005 by Radim HSN Kolar (hsn@netmag.cz)
+Copyright (c) 2003-2005 by Radim HSN Kolar (hsn@sendmail.cz)
 
 You may copy or modify this file in any manner you wish, provided
 that this notice is always included, and that you hold the author
@@ -140,6 +142,12 @@ typedef struct FSP_FILE {
 		      unsigned int pos;          /* position of next packet */
 } FSP_FILE;
 
+
+typedef union dirent_workaround {
+      struct dirent dirent;
+      char fill[offsetof (struct dirent, d_name) + MAXNAMLEN + 1];
+} dirent_workaround;
+ 
 /* function prototypes */
 
 /* session management */

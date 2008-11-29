@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include "lock.h"
 
-#if defined(__NetBSD__) || defined(sun) || defined(hpux)
-#define	_SEM_SEMUN_UNDEFINED	/**/
-#endif
-
 /* ************ Locking functions ***************** */
 #ifndef FSP_NOLOCKING
 

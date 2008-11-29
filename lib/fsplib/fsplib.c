@@ -2,7 +2,7 @@
 This file is part of fsplib - FSP protocol stack implemented in C
 language. See http://fsp.sourceforge.net for more information.
 
-Copyright (c) 2003-2005 by Radim HSN Kolar (hsn@netmag.cz)
+Copyright (c) 2003-2005 by Radim HSN Kolar (hsn@sendmail.cz)
 
 You may copy or modify this file in any manner you wish, provided
 that this notice is always included, and that you hold the author
@@ -42,7 +42,7 @@ static int buildfilename(const FSP_SESSION *s,FSP_PKT *out,const char *dirname)
     len=strlen(dirname);
     if(len >= FSP_SPACE - 1)
     {
-	errno = ENAMETOOLONG;
+        errno = ENAMETOOLONG;
         return -1;
     }
     /* copy name + \0 */
@@ -52,13 +52,13 @@ static int buildfilename(const FSP_SESSION *s,FSP_PKT *out,const char *dirname)
     {
         out->buf[len]='\n';
         out->len++;
-	
+        
         len=strlen(s->password);
-	if(out->len+ len >= FSP_SPACE -1 )
-	{
-	    errno = ENAMETOOLONG;
-	    return -1;
-	}
+        if(out->len+ len >= FSP_SPACE -1 )
+        {
+            errno = ENAMETOOLONG;
+            return -1;
+        }
         memcpy(out->buf+out->len,s->password,len+1);
         out->len+=len;
     }
@@ -99,14 +99,14 @@ static char * directoryfromfilename(const char *filename)
 
     result=strrchr(filename,'/');
     if (result == NULL)
-	return strdup("");
+        return strdup("");
     pos=result-filename;
     tmp=malloc(pos+1);
     if(!tmp)
-	return NULL;
+        return NULL;
     memcpy(tmp,filename,pos);
     tmp[pos]='\0';
-    return tmp;		
+    return tmp;         
 }
 
 /* ************  Packet encoding / decoding *************** */
@@ -126,7 +126,7 @@ size_t fsp_pkt_write(const FSP_PKT *p,void *space)
     if(p->xlen + p->len > FSP_SPACE )
     {
         /* not enough space */
-	errno = EMSGSIZE;
+        errno = EMSGSIZE;
         return 0;
     }
     ptr=space;
@@ -165,14 +165,14 @@ int fsp_pkt_read(FSP_PKT *p,const void *space,size_t recv_len)
     
     if(recv_len<FSP_HSIZE)
     {
-	/* too short */
-	errno = ERANGE;
+        /* too short */
+        errno = ERANGE;
         return -1;
     }
     if(recv_len>FSP_MAXPACKET)
     {
-	/* too long */
-	errno = EMSGSIZE;
+        /* too long */
+        errno = EMSGSIZE;
         return -1;
     }
 
@@ -237,8 +237,8 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
 
     if(p == rpkt)
     {
-	errno = EINVAL;
-	return -2;
+        errno = EINVAL;
+        return -2;
     }
     FD_ZERO(&mask);
     /* get the next key */
@@ -246,9 +246,9 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
 
     retry = random() & 0xfff8;
     if (s->seq == retry)
-	s->seq ^= 0x1080;
+        s->seq ^= 0x1080;
     else
-	s->seq = retry;	
+        s->seq = retry; 
     dupes = retry = 0;
     t_delay = 0;
     /* compute initial delay here */
@@ -257,26 +257,26 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
     l_delay = 0;
     for(;;retry++)
     {
-	if(t_delay >= s->timeout)
-	{
+        if(t_delay >= s->timeout)
+        {
             client_set_key((FSP_LOCK *)s->lock,p->key);
-	    errno = ETIMEDOUT;
-	    return -1;
-	}
+            errno = ETIMEDOUT;
+            return -1;
+        }
         /* make a packet */
         p->seq = (s->seq) | (retry & 0x7);
         l=fsp_pkt_write(p,buf);
         
         /* We should compute next delay wait time here */
         gettimeofday(&start[retry & 0x7],NULL);
-	if(retry == 0 )
-	    w_delay=f_delay;
-	else
-	{
-	    w_delay=l_delay*3/2; 
-	}
+        if(retry == 0 )
+            w_delay=f_delay;
+        else
+        {
+            w_delay=l_delay*3/2; 
+        }
 
-	l_delay=w_delay;
+        l_delay=w_delay;
 
         /* send packet */
         if( send(s->fd,buf,l,0) < 0 )
@@ -284,28 +284,28 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
 #ifdef MAINTAINER_MODE
             printf("Send failed.\n");
 #endif
-	    if(errno == EBADF || errno == ENOTSOCK)
-	    {
+            if(errno == EBADF || errno == ENOTSOCK)
+            {
                 client_set_key((FSP_LOCK *)s->lock,p->key);
-		errno = EBADF;
-		return -1;
-	    }
+                errno = EBADF;
+                return -1;
+            }
             /* io terror */
             sleep(1);
             /* avoid wasting retry slot */
             retry--;
-	    t_delay += 1000;
+            t_delay += 1000;
             continue; 
         }
 
         /* keep delay value within sane limits */
-	if (w_delay > (int) s->maxdelay) 
-	    w_delay=s->maxdelay;
-	else
-	    if(w_delay < 1000 ) 
-		w_delay = 1000;
+        if (w_delay > (int) s->maxdelay) 
+            w_delay=s->maxdelay;
+        else
+            if(w_delay < 1000 ) 
+                w_delay = 1000;
 
-	t_delay += w_delay;
+        t_delay += w_delay;
         /* receive loop */
         while(1)
         {
@@ -333,11 +333,11 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
                     }
             r=recv(s->fd,buf,FSP_MAXPACKET,0);
             if(r < 0 )
-	    {
+            {
                 /* serious recv error */
                 client_set_key((FSP_LOCK *)s->lock,p->key);
                 return -1;
-	    }
+            }
 
             gettimeofday(&stop,NULL);
             w_delay-=1000*(stop.tv_sec -  start[retry & 0x7].tv_sec);
@@ -362,20 +362,20 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
             }
 
             /* check command code */
-	    if( (rpkt->cmd != p->cmd) && (rpkt->cmd != FSP_CC_ERR))
-	    {
-		dupes++;
-		continue;
-	    }
+            if( (rpkt->cmd != p->cmd) && (rpkt->cmd != FSP_CC_ERR))
+            {
+                dupes++;
+                continue;
+            }
 
             /* check correct filepos */
-	    if( (rpkt->pos != p->pos) && ( p->cmd == FSP_CC_GET_DIR ||
-		p->cmd == FSP_CC_GET_FILE || p->cmd == FSP_CC_UP_LOAD ||
-		p->cmd == FSP_CC_GRAB_FILE || p->cmd == FSP_CC_INFO) )
-	    {
-		dupes++;
-		continue;
-	    }
+            if( (rpkt->pos != p->pos) && ( p->cmd == FSP_CC_GET_DIR ||
+                p->cmd == FSP_CC_GET_FILE || p->cmd == FSP_CC_UP_LOAD ||
+                p->cmd == FSP_CC_GRAB_FILE || p->cmd == FSP_CC_INFO) )
+            {
+                dupes++;
+                continue;
+            }
 
             /* now we have a correct packet */
 
@@ -395,7 +395,7 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
 
             /* grab a next key */
             client_set_key((FSP_LOCK *)s->lock,rpkt->key);
-	    errno = 0;
+            errno = 0;
             return 0;
         }
     }
@@ -419,7 +419,7 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
     hints.ai_socktype = SOCK_DGRAM;
 
     if (port == 0)
-	strcpy(port_s,"fsp");
+        strcpy(port_s,"fsp");
     else
         sprintf(port_s,"%hu",port);
 
@@ -444,8 +444,8 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
     s=calloc(1,sizeof(FSP_SESSION));
     if ( !s )
     {
-	close(fd);
-	errno = ENOMEM;
+        close(fd);
+        errno = ENOMEM;
         return NULL;
     }
 
@@ -453,10 +453,10 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
 
     if ( !lock )
     {
-	close(fd);
-	free(s);
-	errno = ENOMEM;
-	return NULL;
+        close(fd);
+        free(s);
+        errno = ENOMEM;
+        return NULL;
     }
 
     s->lock=lock;
@@ -465,10 +465,10 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
     addrin = (struct sockaddr_in *)res->ai_addr;
     if ( client_init_key( (FSP_LOCK *)s->lock,addrin->sin_addr.s_addr,ntohs(addrin->sin_port)))
     {
-	free(s);
-	close(fd);
-	free(lock);
-	return NULL;
+        free(s);
+        close(fd);
+        free(lock);
+        return NULL;
     }
 
     s->fd=fd;
@@ -488,7 +488,7 @@ void fsp_close_session(FSP_SESSION *s)
     if( s == NULL)
         return;
     if ( s->fd == -1)
-	return;	
+        return; 
     /* Send bye packet */
     bye.cmd=FSP_CC_BYE;
     bye.len=bye.xlen=0;
@@ -521,7 +521,7 @@ FSP_DIR * fsp_opendir(FSP_SESSION *s,const char *dirname)
 
     if(buildfilename(s,&out,dirname))
     {
-	return NULL;
+        return NULL;
     }
     pos=0;
     blocksize=0;
@@ -568,11 +568,11 @@ FSP_DIR * fsp_opendir(FSP_SESSION *s,const char *dirname)
             break;
         }
         dir->data=tmp;
-	memcpy(dir->data + pos, in.buf,in.len);
+        memcpy(dir->data + pos, in.buf,in.len);
         pos += in.len;
-	if (in.len < blocksize)
-	    /* last block is smaller */
-	    break;
+        if (in.len < blocksize)
+            /* last block is smaller */
+            break;
     }
     if (pos == -1)
     {
@@ -583,7 +583,7 @@ FSP_DIR * fsp_opendir(FSP_SESSION *s,const char *dirname)
                 free(dir->data);
             free(dir);
         }
-	errno = EPERM;
+        errno = EPERM;
         return NULL;
     }
 
@@ -610,25 +610,25 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
     rc=fsp_readdir_native(dir,&fentry,&fresult);
 
     if (rc != 0)
-	return rc;
+        return rc;
 
 #ifdef HAVE_DIRENT_TYPE
     /* convert FSP dirent to OS dirent */
 
     if (fentry.type == FSP_RDTYPE_DIR )
-	entry->d_type=DT_DIR;
+        entry->d_type=DT_DIR;
     else
-	entry->d_type=DT_REG;
+        entry->d_type=DT_REG;
 #endif
 
     /* remove symlink destination */
     c=strchr(fentry.name,'\n');
     if (c)
     {
-	*c='\0';
-	rc=fentry.namlen-strlen(fentry.name);
-	fentry.reclen-=rc;
-	fentry.namlen-=rc;
+        *c='\0';
+        rc=fentry.namlen-strlen(fentry.name);
+        fentry.reclen-=rc;
+        fentry.namlen-=rc;
     }
 
 #ifdef HAVE_DIRENT_FILENO
@@ -637,23 +637,23 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
     entry->d_reclen = fentry.reclen;
     strncpy(entry->d_name,fentry.name,MAXNAMLEN);
 
-    if (fentry.namlen > MAXNAMLEN)
+    if (fentry.namlen >= MAXNAMLEN)
     {
-	entry->d_name[MAXNAMLEN] = '\0';
+        entry->d_name[MAXNAMLEN] = '\0';
 #ifdef HAVE_DIRENT_NAMLEN
-	entry->d_namlen = MAXNAMLEN;
+        entry->d_namlen = MAXNAMLEN;
     } else
     {
        entry->d_namlen = fentry.namlen;
-#endif       
+#endif
     }
 
     if (fresult == &fentry )
     {
-	*result = entry;
+        *result = entry;
     }
     else
-	*result = NULL;	
+        *result = NULL; 
 
     return 0; 
 }
@@ -678,7 +678,7 @@ int fsp_readdir_native(FSP_DIR *dir,FSP_RDENTRY *entry, FSP_RDENTRY **result)
             return 0;
        }
        if (dir->blocksize - (dir->dirpos % dir->blocksize) < 9)
-	   ftype= FSP_RDTYPE_SKIP;
+           ftype= FSP_RDTYPE_SKIP;
        else
            /* get the file type */
            ftype=dir->data[dir->dirpos+8];
@@ -693,7 +693,7 @@ int fsp_readdir_native(FSP_DIR *dir,FSP_RDENTRY *entry, FSP_RDENTRY **result)
            /* skip to next directory block */
            dir->dirpos = ( dir->dirpos / dir->blocksize + 1 ) * dir->blocksize;
 #ifdef MAINTAINER_MODE
-	   printf("new block dirpos: %d\n",dir->dirpos);
+           printf("new block dirpos: %d\n",dir->dirpos);
 #endif
            continue;
        }
@@ -706,25 +706,35 @@ int fsp_readdir_native(FSP_DIR *dir,FSP_RDENTRY *entry, FSP_RDENTRY **result)
        dir->dirpos += 9;
        /* read file name */
        entry->name[255] = '\0';
-       namelen = strlen( (char *) dir->data+dir->dirpos);
-       if (namelen >= sizeof(entry->name) - 1) {
-           /* skip over file name */
-            dir->dirpos += namelen +1;
-            /* pad to 4 byte boundary */
-            entry->reclen += (4 - dir->dirpos) & 3;
-            dir->dirpos += (4 - dir->dirpos) & 3;
-           continue;
+       strncpy(entry->name,(char *)( dir->data + dir->dirpos ),255);
+       /* check for ASCIIZ encoded filename */
+       if (memchr(dir->data + dir->dirpos,0,dir->datasize - dir->dirpos) != NULL)
+       {
+            namelen = strlen( (char *) dir->data+dir->dirpos);
        }
-       strncpy(entry->name,(char *)( dir->data + dir->dirpos ), sizeof(entry->name));
+       else
+       {
+            /* \0 terminator not found at end of filename */
+            *result = NULL;
+            return 0;
+       }
        /* skip over file name */
        dir->dirpos += namelen +1;
 
        /* set entry namelen field */
-       entry->namlen = namelen;
-       /* set record length */	   
+       if (namelen > 255)
+           entry->namlen = 255;
+       else
+           entry->namlen = namelen;
+       /* set record length */     
        entry->reclen = 10+namelen;
 
-       dir->dirpos += (4 - dir->dirpos) & 3;
+       /* pad to 4 byte boundary */
+       while( dir->dirpos & 0x3 )
+       {
+         dir->dirpos++;
+         entry->reclen++;
+       }
 
        /* and return it */
        *result=entry;
@@ -734,12 +744,12 @@ int fsp_readdir_native(FSP_DIR *dir,FSP_RDENTRY *entry, FSP_RDENTRY **result)
 
 struct dirent * fsp_readdir(FSP_DIR *dirp)
 {
-    static struct dirent entry;
+    static dirent_workaround entry;
     struct dirent *result;
     
     
     if (dirp == NULL) return NULL;
-    if ( fsp_readdir_r(dirp,&entry,&result) )
+    if ( fsp_readdir_r(dirp,&entry.dirent,&result) )
         return NULL;
     else
         return result;
@@ -777,56 +787,56 @@ FSP_FILE * fsp_fopen(FSP_SESSION *session, const char *path,const char *modeflag
 
     if(session == NULL || path == NULL || modeflags == NULL)
     {
-	errno = EINVAL;
-	return NULL;
+        errno = EINVAL;
+        return NULL;
     }
 
     f=calloc(1,sizeof(FSP_FILE));
     if (f == NULL)
     {
-	return NULL;
+        return NULL;
     }
 
     /* check and parse flags */
     switch (*modeflags++)
     {
-	case 'r':
-		  break;
+        case 'r':
+                  break;
         case 'w':
-		  f->writing=1;
-		  break;
+                  f->writing=1;
+                  break;
         case 'a':
-	          /* not supported */
-		  free(f);
-		  errno = ENOTSUP;
-		  return NULL;
+                  /* not supported */
+                  free(f);
+                  errno = ENOTSUP;
+                  return NULL;
         default:
-		  free(f);
-		  errno = EINVAL;
-		  return NULL;
+                  free(f);
+                  errno = EINVAL;
+                  return NULL;
     }
 
     if (*modeflags == '+' || ( *modeflags=='b' && modeflags[1]=='+'))
     {
-	free(f);
-	errno = ENOTSUP;
-	return NULL;
+        free(f);
+        errno = ENOTSUP;
+        return NULL;
     }
 
     /* build request packet */
     if(f->writing)
     {
-	f->out.cmd=FSP_CC_UP_LOAD;
+        f->out.cmd=FSP_CC_UP_LOAD;
     }
     else
     {
         if(buildfilename(session,&f->out,path))
-	{
-	    free(f);
+        {
+            free(f);
             return NULL;
-	}
+        }
         f->bufpos=FSP_SPACE;
-	f->out.cmd=FSP_CC_GET_FILE;
+        f->out.cmd=FSP_CC_GET_FILE;
     }
     f->out.xlen=0;
 
@@ -835,9 +845,9 @@ FSP_FILE * fsp_fopen(FSP_SESSION *session, const char *path,const char *modeflag
     f->name=strdup(path);
     if(f->name == NULL)
     {
-	free(f);
-	errno = ENOMEM;
-	return NULL;
+        free(f);
+        errno = ENOMEM;
+        return NULL;
     }
 
     return f;
@@ -856,54 +866,54 @@ size_t fsp_fread(void *dest,size_t size,size_t count,FSP_FILE *file)
 
     while(1)
     {
-	/* need more data? */
-	if(file->bufpos>=FSP_SPACE)
-	{
-	    /* fill the buffer */
-	    file->out.pos=file->pos;
-	    if(fsp_transaction(file->s,&file->out,&file->in))
-	    {
-	         file->err=1;
-		 return done/size;
-	    }
-	    if(file->in.cmd == FSP_CC_ERR)
-	    {
-		errno = EIO;
-		file->err=1;
-		return done/size;
-	    }
-	    file->bufpos=FSP_SPACE-file->in.len;
-	    if(file->bufpos > 0)
-	    {
-	       memmove(file->in.buf+file->bufpos,file->in.buf,file->in.len);
-	    }
-	    file->pos+=file->in.len;
-	}
-	havebytes=FSP_SPACE - file->bufpos;
-	if (havebytes == 0 )
-	{
-	    /* end of file! */
-	    file->eof=1;
-	    errno = 0;
-	    return done/size;
-	}
-	/* copy ready data to output buffer */
-	if(havebytes <= total )
-	{
-	    /* copy all we have */
-	    memcpy(ptr,file->in.buf+file->bufpos,havebytes);
-	    ptr+=havebytes;
-	    file->bufpos=FSP_SPACE;
-	    done+=havebytes;
-	    total-=havebytes;
-	} else
-	{
-	    /* copy bytes left */
-	    memcpy(ptr,file->in.buf+file->bufpos,total);
-	    file->bufpos+=total;
-	    errno = 0;
-	    return count;
-	}
+        /* need more data? */
+        if(file->bufpos>=FSP_SPACE)
+        {
+            /* fill the buffer */
+            file->out.pos=file->pos;
+            if(fsp_transaction(file->s,&file->out,&file->in))
+            {
+                 file->err=1;
+                 return done/size;
+            }
+            if(file->in.cmd == FSP_CC_ERR)
+            {
+                errno = EIO;
+                file->err=1;
+                return done/size;
+            }
+            file->bufpos=FSP_SPACE-file->in.len;
+            if(file->bufpos > 0)
+            {
+               memmove(file->in.buf+file->bufpos,file->in.buf,file->in.len);
+            }
+            file->pos+=file->in.len;
+        }
+        havebytes=FSP_SPACE - file->bufpos;
+        if (havebytes == 0 )
+        {
+            /* end of file! */
+            file->eof=1;
+            errno = 0;
+            return done/size;
+        }
+        /* copy ready data to output buffer */
+        if(havebytes <= total )
+        {
+            /* copy all we have */
+            memcpy(ptr,file->in.buf+file->bufpos,havebytes);
+            ptr+=havebytes;
+            file->bufpos=FSP_SPACE;
+            done+=havebytes;
+            total-=havebytes;
+        } else
+        {
+            /* copy bytes left */
+            memcpy(ptr,file->in.buf+file->bufpos,total);
+            file->bufpos+=total;
+            errno = 0;
+            return count;
+        }
     }
 }
 
@@ -913,7 +923,7 @@ size_t fsp_fwrite(const void * source, size_t size, size_t count, FSP_FILE * fil
     const char *ptr;
 
     if(file->eof || file->err)
-	return 0;
+        return 0;
 
     file->out.len=FSP_SPACE;
     total=count*size;
@@ -922,43 +932,43 @@ size_t fsp_fwrite(const void * source, size_t size, size_t count, FSP_FILE * fil
 
     while(1)
     {
-	/* need to write some data? */
-	if(file->bufpos>=FSP_SPACE)
-	{
-	    /* fill the buffer */
-	    file->out.pos=file->pos;
-	    if(fsp_transaction(file->s,&file->out,&file->in))
-	    {
-	         file->err=1;
-		 return done/size;
-	    }
-	    if(file->in.cmd == FSP_CC_ERR)
-	    {
-		errno = EIO;
-		file->err=1;
-		return done/size;
-	    }
-	    file->bufpos=0;
-	    file->pos+=file->out.len;
-	    done+=file->out.len;
-	}
-	freebytes=FSP_SPACE - file->bufpos;
-	/* copy input data to output buffer */
-	if(freebytes <= total )
-	{
-	    /* copy all we have */
-	    memcpy(file->out.buf+file->bufpos,ptr,freebytes);
-	    ptr+=freebytes;
-	    file->bufpos=FSP_SPACE;
-	    total-=freebytes;
-	} else
-	{
-	    /* copy bytes left */
-	    memcpy(file->out.buf+file->bufpos,ptr,total);
-	    file->bufpos+=total;
-	    errno = 0;
-	    return count;
-	}
+        /* need to write some data? */
+        if(file->bufpos>=FSP_SPACE)
+        {
+            /* fill the buffer */
+            file->out.pos=file->pos;
+            if(fsp_transaction(file->s,&file->out,&file->in))
+            {
+                 file->err=1;
+                 return done/size;
+            }
+            if(file->in.cmd == FSP_CC_ERR)
+            {
+                errno = EIO;
+                file->err=1;
+                return done/size;
+            }
+            file->bufpos=0;
+            file->pos+=file->out.len;
+            done+=file->out.len;
+        }
+        freebytes=FSP_SPACE - file->bufpos;
+        /* copy input data to output buffer */
+        if(freebytes <= total )
+        {
+            /* copy all we have */
+            memcpy(file->out.buf+file->bufpos,ptr,freebytes);
+            ptr+=freebytes;
+            file->bufpos=FSP_SPACE;
+            total-=freebytes;
+        } else
+        {
+            /* copy bytes left */
+            memcpy(file->out.buf+file->bufpos,ptr,total);
+            file->bufpos+=total;
+            errno = 0;
+            return count;
+        }
     }
 }
 
@@ -966,11 +976,11 @@ int fsp_fpurge(FSP_FILE *file)
 {
     if(file->writing)
     {
-	file->bufpos=0;
+        file->bufpos=0;
     }
     else
     {
-	file->bufpos=FSP_SPACE;
+        file->bufpos=FSP_SPACE;
     }
     errno = 0;
     return 0;
@@ -980,32 +990,32 @@ int fsp_fflush(FSP_FILE *file)
 {
     if(file == NULL)
     {
-	errno = ENOTSUP;
-	return -1;
+        errno = ENOTSUP;
+        return -1;
     }
     if(!file->writing)
     {
-	errno = EBADF;
-	return -1;
+        errno = EBADF;
+        return -1;
     }
     if(file->eof || file->bufpos==0)
     {
-	errno = 0;
-	return 0;
+        errno = 0;
+        return 0;
     }
 
     file->out.pos=file->pos;
     file->out.len=file->bufpos;
     if(fsp_transaction(file->s,&file->out,&file->in))
     {
-	 file->err=1;
-	 return -1;
+         file->err=1;
+         return -1;
     }
     if(file->in.cmd == FSP_CC_ERR)
     {
-	errno = EIO;
-	file->err=1;
-	return -1;
+        errno = EIO;
+        file->err=1;
+        return -1;
     }
     file->bufpos=0;
     file->pos+=file->out.len;
@@ -1025,13 +1035,13 @@ int fsp_fclose(FSP_FILE *file)
     if(file->writing)
     {
         if(fsp_fflush(file))
-	{  
-	    rc=-1;
-	}
-	else if(fsp_install(file->s,file->name,0))
-	{
-	    rc=-1;
-	}
+        {  
+            rc=-1;
+        }
+        else if(fsp_install(file->s,file->name,0))
+        {
+            rc=-1;
+        }
     }
     free(file->name);
     free(file);
@@ -1044,25 +1054,25 @@ int fsp_fseek(FSP_FILE *stream, long offset, int whence)
 
     switch(whence)
     {
-	case SEEK_SET:
-	              newoffset = offset;
-		      break;
+        case SEEK_SET:
+                      newoffset = offset;
+                      break;
         case SEEK_CUR:
-		      newoffset = stream->pos + offset;
-		      break;
+                      newoffset = stream->pos + offset;
+                      break;
         case SEEK_END:
-	              errno = ENOTSUP;
-		      return -1;
-	default:
-		      errno = EINVAL;
-		      return -1;
+                      errno = ENOTSUP;
+                      return -1;
+        default:
+                      errno = EINVAL;
+                      return -1;
     }
     if(stream->writing)
     {
-	if(fsp_fflush(stream))
-	{
-	    return -1;
-	}
+        if(fsp_fflush(stream))
+        {
+            return -1;
+        }
     }
     stream->pos=newoffset;
     stream->eof=0;
@@ -1078,7 +1088,7 @@ long fsp_ftell(FSP_FILE *f)
 void fsp_rewind(FSP_FILE *f)
 {
     if(f->writing)
-	fsp_fflush(f);
+        fsp_fflush(f);
     f->pos=0;
     f->err=0;
     f->eof=0;
@@ -1141,28 +1151,28 @@ int fsp_install(FSP_SESSION *s,const char *fname,time_t timestamp)
     out.pos=0;
     rc=0;
     if( buildfilename(s,&out,fname) )
-	rc=-1;
+        rc=-1;
     else
-	{
-	    if (timestamp != 0)
-	    {
-		/* add timestamp extra data */
-		*(uint32_t *)(out.buf+out.len)=htonl(timestamp);
-		out.xlen=4;
-		out.pos=4;
-	    }
-	    if(fsp_transaction(s,&out,&in))
-	    {
-		rc=-1;
-	    } else
-	    {
-		if(in.cmd == FSP_CC_ERR)
-		{
-		    rc=-1;
-		    errno = EPERM;
-		}
-	    }
-	}
+        {
+            if (timestamp != 0)
+            {
+                /* add timestamp extra data */
+                *(uint32_t *)(out.buf+out.len)=htonl(timestamp);
+                out.xlen=4;
+                out.pos=4;
+            }
+            if(fsp_transaction(s,&out,&in))
+            {
+                rc=-1;
+            } else
+            {
+                if(in.cmd == FSP_CC_ERR)
+                {
+                    rc=-1;
+                    errno = EPERM;
+                }
+            }
+        }
 
     return rc;
 }
@@ -1279,8 +1289,8 @@ int fsp_rename(FSP_SESSION *s,const char *from, const char *to)
        l=strlen(s->password)+1;
        if(out.len + out.xlen + l > FSP_SPACE)
        {
-	   errno = ENAMETOOLONG;
-	   return -1;
+           errno = ENAMETOOLONG;
+           return -1;
        }
        out.buf[out.len+out.xlen-1] = '\n';
        memcpy(out.buf+out.len+out.xlen,s->password,l);
@@ -1313,90 +1323,90 @@ int fsp_access(FSP_SESSION *s,const char *path, int mode)
     rc=fsp_stat(s,path,&sb);
     if(rc == -1)
     {
-	/* not found */
-	/* errno is set by fsp_stat */
-	return -1;
+        /* not found */
+        /* errno is set by fsp_stat */
+        return -1;
     }
 
     /* just test file existence */
     if(mode == F_OK)
     {
-	errno = 0;
-	return  0;
+        errno = 0;
+        return  0;
     }
 
     /* deny execute access to file */
     if (mode & X_OK)
     {
-	if(S_ISREG(sb.st_mode))
-	{
-	    errno = EACCES;
-	    return -1;
-	}
+        if(S_ISREG(sb.st_mode))
+        {
+            errno = EACCES;
+            return -1;
+        }
     }
     
     /* Need to get ACL of directory */
     if(S_ISDIR(sb.st_mode))
-	dir=NULL;
+        dir=NULL;
     else
-	dir=directoryfromfilename(path);	
+        dir=directoryfromfilename(path);        
     
     rc=fsp_getpro(s,dir==NULL?path:dir,&dirpro);
     /* get pro failure */
     if(rc)
     {
-	if(dir) free(dir);
-	errno = EACCES;
-	return -1;
+        if(dir) free(dir);
+        errno = EACCES;
+        return -1;
     }
     /* owner shortcut */
     if(dirpro & FSP_DIR_OWNER)
     {
-	if(dir) free(dir);
-	errno = 0;
-	return 0;
+        if(dir) free(dir);
+        errno = 0;
+        return 0;
     }
     /* check read access */
     if(mode & R_OK)
     {
-	if(dir)
-	{
-	    if(! (dirpro & FSP_DIR_GET))
-	    {
-		free(dir);
-		errno = EACCES;
-		return -1;
-	    }
-	} else
-	{
-	    if(! (dirpro & FSP_DIR_LIST))
-	    {
-		errno = EACCES;
-		return -1;
-	    }
-	}
+        if(dir)
+        {
+            if(! (dirpro & FSP_DIR_GET))
+            {
+                free(dir);
+                errno = EACCES;
+                return -1;
+            }
+        } else
+        {
+            if(! (dirpro & FSP_DIR_LIST))
+            {
+                errno = EACCES;
+                return -1;
+            }
+        }
     }
     /* check write access */
     if(mode & W_OK)
     {
-	if(dir)
-	{
-	    if( !(dirpro & FSP_DIR_DEL) || !(dirpro & FSP_DIR_ADD))
-	    {
-		free(dir);
-		errno = EACCES;
-		return -1;
-	    }
-	} else
-	{
-	    /* when checking directory for write access we are cheating
-	       by allowing ADD or DEL right */
-	    if( !(dirpro & FSP_DIR_DEL) && !(dirpro & FSP_DIR_ADD))
-	    {
-		errno = EACCES;
-		return -1;
-	    }
-	}
+        if(dir)
+        {
+            if( !(dirpro & FSP_DIR_DEL) || !(dirpro & FSP_DIR_ADD))
+            {
+                free(dir);
+                errno = EACCES;
+                return -1;
+            }
+        } else
+        {
+            /* when checking directory for write access we are cheating
+               by allowing ADD or DEL right */
+            if( !(dirpro & FSP_DIR_DEL) && !(dirpro & FSP_DIR_ADD))
+            {
+                errno = EACCES;
+                return -1;
+            }
+        }
     }
 
     if(dir) free(dir);
