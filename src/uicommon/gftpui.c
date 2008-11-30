@@ -811,6 +811,7 @@ gftpui_common_cmd_help (void *uidata, gftp_request * request,
       for (i=0; i<numrows; i++)
         {
           strncpy (commands, "\t", sizeof (commands));
+          size_t cmd_len = sizeof(commands) - strlen (commands);
 
           for (j=0; j<numcols; j++)
             {
@@ -820,7 +821,8 @@ gftpui_common_cmd_help (void *uidata, gftp_request * request,
 
               g_snprintf (cmdstr, sizeof (cmdstr), "%-10s",
                           gftpui_common_commands[ele].command);
-              strncat (commands, cmdstr, sizeof (commands));
+              strncat (commands, cmdstr, cmd_len);
+              cmd_len -= strlen(cmdstr);
             }
           gftpui_common_logfunc (gftp_logging_misc_nolog, request, "%s\n",
                                  commands);

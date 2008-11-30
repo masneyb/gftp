@@ -1,4 +1,12 @@
 2008-11-30 Brian Masney <masneyb@gftp.org>
+	* src/gtk/delete_dialog.c - fixed call to g_strdup_printf() where too
+	many arguments were passed in format string.
+
+	* lib/sslcommon.c - removed duplicate data variable
+
+	* src/uicommon/gftpui.c (gftpui_common_cmd_help) - fixed call to
+	strncat() where the supplied length was too long
+
 	* lib/ftps.c - warning fixes for the FTPS protocol when OpenSSL
 	support is disabled.
 

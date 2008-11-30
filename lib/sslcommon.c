@@ -139,7 +139,6 @@ gftp_ssl_post_connection_check (gftp_request * request)
  
           if (strcmp (extstr, "subjectAltName") == 0)
             {
-              unsigned char  *data;
               STACK_OF(CONF_VALUE) *val;
               CONF_VALUE   *nval;
               X509V3_EXT_METHOD *meth;
@@ -148,16 +147,14 @@ gftp_ssl_post_connection_check (gftp_request * request)
               if (!(meth = X509V3_EXT_get (ext)))
                 break;
 
-              data = ext->value->data;
-
 #if (OPENSSL_VERSION_NUMBER > 0x00907000L)
               if (meth->it)
-                ext_str = ASN1_item_d2i (NULL, &data, ext->value->length,
+                ext_str = ASN1_item_d2i (NULL, &ext->value->data, ext->value->length,
                                         ASN1_ITEM_ptr (meth->it));
               else
-                ext_str = meth->d2i (NULL, &data, ext->value->length);
+                ext_str = meth->d2i (NULL, &ext->value->data, ext->value->length);
 #else
-              ext_str = meth->d2i(NULL, &data, ext->value->length);
+              ext_str = meth->d2i(NULL, &ext->value->data, ext->value->length);
 #endif
               val = meth->i2v(meth, ext_str, NULL);
 
@@ -179,7 +176,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
     }
 
   if (!ok && (subj = X509_get_subject_name (cert)) &&
-      X509_NAME_get_text_by_NID (subj, NID_commonName, data, 256) > 0)
+      X509_NAME_get_text_by_NID (subj, NID_commonName, data, sizeof (data)) > 0)
     {
       data[sizeof (data) - 1] = '\0';
       /* Check for wildcard CN (must begin with *.) */
