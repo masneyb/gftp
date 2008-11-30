@@ -152,9 +152,7 @@ gftpui_common_about (gftp_logging_func logging_function, gpointer logdata)
 {
   char *str;
 
-  logging_function (gftp_logging_misc, logdata, "%s, Copyright (C) 1998-2007 Brian Masney <", gftp_version);
-  logging_function (gftp_logging_recv, logdata, "masneyb@gftp.org");
-  logging_function (gftp_logging_misc, logdata, _(">. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"));
+  logging_function (gftp_logging_misc, logdata, "%s, Copyright (C) 1998-2008 Brian Masney <masneyb@gftp.org>. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n", gftp_version);
   logging_function (gftp_logging_misc, logdata, _("gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"));
 
   str = _("Translated by");
