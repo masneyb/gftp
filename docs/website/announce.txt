@@ -1,51 +1,57 @@
-I am pleased to announce the availability of gFTP 2.0.18. Here is a
-summarized list of changes since version 2.0.18rc1. For a full list of changes,
+I am pleased to announce the availability of gFTP 2.0.19. Here is a
+summarized list of changes since version 2.0.18. For a full list of changes,
 please see the ChangeLog file that is included with the source distribution.
 
-* Added support for the FSP protocol (http://fsp.sourceforge.net/)
-* SSH2: Fixed segfault that could occur when renaming a file (bug introduced
-  in 2.0.18rc1)
-* SSH2: Fixes for parsing the directory listing from the commercial SSH server
-* FTP: added pasv_behind_router option. If this is enabled, then the IP
-  address that is in the PASV response will be ignored. Instead the IP
-  address of the remote host will be used
-* FTP: removed the quote filename functionality in the SITE CHMOD and
-  SITE UTIME commands
-* Chmod: Fixes for setting the group execute bit (bug introduced in 2.0.18rc1)
-* Fixes so that the text port will prompt you for your password when a URL is
-  entered on the command line
-* In the text port, convert the string from UTF8 to the users' current locale
-  before it is displayed
-* Fixes for when the host system does not have getaddrinfo() (bug introduced in
-  2.0.18rc1)
-* Rewrote and improved the URL parser so that the :, @ characters are allowed
-  in directories and passwords
-* Security Fix: Ignore the file paths that are returned by the remote server
-* FreeBSD and HP/UX fixes
-* GNOME HIG fixes
-* Many other small changes and improvements. See the ChangeLog file in the
-  distribution for a detailed list of changes.
-* Updated language translations (cs de en_CA en_GB es hu nl zh_CN)
+* Cleanups to the networking code
+* Fixed several segfaults.
+* Several i18n fixes
+* Added support for wildcard SSL certificates
+* Fixes for downloading files using SFTP where the user doesn't have write
+  access to the file.
+* Disable some features of the remote FTP server is a VMS server or OS/400
+* Fixed Solaris compile problem and pty issue under HPUX
+* Updated to use FSPLIB 0.9
+* Added Tango styled icon theme
+* The menus are now a little closer to other GNOME applications
+* New/updated language translations: ar bg ca cs da de dz el en_CA en_GB el es
+  fi fr gl gu he hu it ja ko lt lv mk nb ne nl no oc pt_BR pt_po ro ru rw sv
+  uk zh_HK zh_TW
 
 MD5SUMs:
 
-44b19442d06f6dc68c7211d66029d826  gftp-2.0.18.tar.bz2
-4d449f79b225b0831692e9caa39a2028  gftp-2.0.18.tar.gz
-d269b91a8f4cdee51377e9d54890ce45  gftp_2.0.18-1_all.deb
-36735f5377eaa31e1bd858791a37da39  gftp-common_2.0.18-1_i386.deb
-25f4c29856b4ddd793856e7f410b3427  gftp-gtk_2.0.18-1_i386.deb
-7f7e44a309396fda006ce70623233763  gftp-text_2.0.18-1_i386.deb
+4c0cab4b35e8666f5892b02125270a21  gftp-2.0.19.tar.gz
+5183cb4955d94be0e03c892585547c64  gftp-2.0.19.tar.bz2
+d2976ef80e17f789c5b7926bd6065970  gftp_2.0.19-1_all.deb
+efa1467c27573d41e04d2857d55f56ec  gftp-common_2.0.19-1_i386.deb
+49fd5e328a1d5c80a096b0e3b488f265  gftp-text_2.0.19-1_i386.deb
+d09d9557822ead8bd75ab3fc870285f0  gftp-gtk_2.0.19-1_i386.deb
 
 I would like to thank everyone that has contributed to this release by sending
 bug reports, suggestions, patches and translations. The following people have
-submitted patches or translations since 2.0.18rc1 was released:
+submitted patches or translations since 2.0.18 was released:
 
-Vincent van Adrighem, Frank Arnold, H.Merijn Brand, Laszlo Dvornik, Radim Kolar,
-Aurelien Jarno, Bernd Leibing, David Lodge, Francisco Javier F. Serrador,
-Miloslav Trmac, Pavel Vainerman, Jasper van Veghel, Adam Weinberger and
-Funda Wang
+Vincent van Adrighem, Djihed Afifi, Emmanuel Andry, Arangel, Frank Arnold,
+Žygimantas Beručka, Josep Puigdemont i Casamajó, Nikos Charonitakis,
+Abel Cheung, Pawan Chitrakar, Matthieu Crapet, Raivis Dejus, Damien Durand,
+Maxim Dziumanenko, Jonathan Ernst, Valek Filippov, Leonardo Ferreira Fontenelle,
+Allyn Fratkin, Vincent Fretin, Alessio Frusciante, Pema Geyleg, Dimitris Glezos,
+Filipe Gomes, Jorge Gonzalez, Yair Hershkovitz, Øivind Hoel, Alan Horkan,
+Khaled Hosny, Aurelien Jarno, Gabor Kelemen, Namhyung Kim, Chao-Hsiung Liao,
+David Lodge, Duarte Loreto, Henrique Machado, Nick Mainsbridge, Kjartan Maraas,
+Yannig Marchegay, Tino Meinen, Christophe Merlet, Steve Murphy, Jovan Naumovski,
+Nathaniel M Nelson, Kenneth Nielsen, Daniel Nylander, Alexander Orlov,
+Kostas Papadimas, Claude Paroz, Guilherme de S. Pastore, Ankit Patel,
+Davide Patti, Josep Puigdemont, Ignacio Casal Quinteiro, Stéphane Raimbault,
+Madhan Raj, Rostislav Raykov, Scott Reeves, Hendrik Richter, Owen Roberts,
+Changwoo Ryu, Matthias Scheler, Pavel Sefranek, Jens Seidel,
+Francisco Javier F. Serrador, Nickolay V. Shmyrev, Morita Sho, Alexander Shopov,
+Joerg Sonnenberger, Richard Stellingwerff, Miloslav Trmac, Mugurel Tudor,
+Ilkka Tuohela, Adam Weinberger, Jonh Wendell, Rob Wilkens and Shixin Zeng.
 
 If you find any bugs in this release, please report them using GNOME's Bugzilla.
+
+I would also like to apologize for the long delay getting this release out
+the door.
 
 Brian Masney
 http://www.gftp.org/
