@@ -149,10 +149,10 @@ gftp_ssl_post_connection_check (gftp_request * request)
 
 #if (OPENSSL_VERSION_NUMBER > 0x00907000L)
               if (meth->it)
-                ext_str = ASN1_item_d2i (NULL, &ext->value->data, ext->value->length,
+                ext_str = ASN1_item_d2i (NULL, (const unsigned char **) &ext->value->data, ext->value->length,
                                         ASN1_ITEM_ptr (meth->it));
               else
-                ext_str = meth->d2i (NULL, &ext->value->data, ext->value->length);
+                ext_str = meth->d2i (NULL, (const unsigned char **) &ext->value->data, ext->value->length);
 #else
               ext_str = meth->d2i(NULL, &ext->value->data, ext->value->length);
 #endif
