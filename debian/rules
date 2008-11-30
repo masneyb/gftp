@@ -11,14 +11,8 @@ DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 DEB_ARCH_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
-ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -g
-endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
-endif
-ifeq ($(DEB_ARCH_GNU_TYPE), "alpha")
-	CFLAGS += -mieee
 endif
 
 config.status: configure
@@ -28,14 +22,16 @@ config.status: configure
 	cp -f /usr/share/misc/config.sub config.sub
 	-test -r /usr/share/misc/config.guess && \
 	cp -f /usr/share/misc/config.guess config.guess
-				
-	./configure \
+
+	chmod +x ./configure
+	CFLAGS="-O2 -g -Wall -D_GNU_SOURCE" ./configure \
 		--host=$(DEB_HOST_GNU_TYPE) \
 		--build=$(DEB_BUILD_GNU_TYPE) \
 		--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
 		--infodir=\$${prefix}/share/info \
-		--enable-textport=yes 
+		--enable-textport=yes \
+		--disable-ssl
 
 build: build-stamp
 build-stamp: config.status
@@ -49,7 +45,7 @@ clean: debian-clean
 debian-clean:
 	dh_testdir
 	dh_testroot
-	-$(MAKE) distclean
+	[ ! -f Makefile ] || $(MAKE) distclean
 	-rm -f *-stamp
 	-rm -f config.sub config.guess
 
@@ -70,32 +66,23 @@ install: build
 
 	# Install parse-netrc.pl
 	install -m 755 $(CURDIR)/docs/parse-netrc.pl $(CURDIR)/debian/gftp-common/usr/share/doc/gftp-common/examples
-	
+
+	# Move bookmarks and gftprc to /etc/gftp
+	mv $(CURDIR)/debian/gftp-common/usr/share/gftp/gftprc $(CURDIR)/debian/gftp-common/etc/gftp
+	mv $(CURDIR)/debian/gftp-common/usr/share/gftp/bookmarks $(CURDIR)/debian/gftp-common/etc/gftp
+	ln -s /etc/gftp/gftprc $(CURDIR)/debian/gftp-common/usr/share/gftp/gftprc
+	ln -s /etc/gftp/bookmarks $(CURDIR)/debian/gftp-common/usr/share/gftp/bookmarks
+
 # Build architecture-independent files here.
 binary-indep: build install
 	dh_testdir -i
 	dh_testroot -i
-#	dh_installdebconf
 	dh_installdocs -i
-#	dh_installexamples
-#	dh_installmenu
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_installinit
-#	dh_installcron
-#	dh_installman
-#	dh_installinfo
 	dh_installchangelogs -i ChangeLog
 	dh_link -i
-#	dh_strip
 	dh_compress -i
 	dh_fixperms -i
-#	dh_makeshlibs
 	dh_installdeb -i
-#	dh_perl
-#	dh_shlibdeps
 	dh_gencontrol -i
 	dh_md5sums -i
 	dh_builddeb -i
@@ -105,21 +92,9 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
-
-	# Hack to remove files from the upstream tarball
-	-rm -f debian/dirs
-	-rm -f debian/docs
-	-rm -f debian/menu
-	
 	dh_installdebconf -a	
 	dh_installdocs -a
-#	dh_installexamples
 	dh_installmenu -a
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_installinit
 	dh_installcron -a
 	dh_installman -a
 	dh_installinfo -a	
@@ -128,9 +103,7 @@ binary-arch: build install
 	dh_strip -a
 	dh_compress -a
 	dh_fixperms -a
-#	dh_makeshlibs
 	dh_installdeb -a
-#	dh_perl
 	dh_shlibdeps -a
 	dh_gencontrol -a
 	dh_md5sums -a

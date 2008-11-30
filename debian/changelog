@@ -1,8 +1,220 @@
-gftp (2.0.18-1) unstable; urgency=low
+gftp (2.0.18-17) unstable; urgency=medium
 
-  * New release. See the ChangeLog file for details on changes in this release
+  * Remove Aurélien Jarno from the Uploaders field, as he no longer
+    wants to be involved. Thanks for your work until now!
+  * Bump Standards-Version to 3.7.3.
+  * Add the Homepage field and remove it from the long description.
+  * Add the Vcs-Git/Vcs-Browser fields.
+  * Add the XS-DM-Upload-Allowed field.
+  * Fix CVE-2006-7221: multiple off-by-one errors in fsplib.
+    (Closes: #437710)
+  * Fix lintian warning "debian-rules-ignores-make-clean-error
+    line 48".
+  * Fix lintian warnings "substvar-source-version-is-deprecated gftp",
+    "substvar-source-version-is-deprecated gftp-gtk", and
+    "substvar-source-version-is-deprecated gftp-text".
+    + Use suitable ${source:Version} and ${binary:Version} variables.
+  * Fix lintian warning "desktop-command-not-in-package
+    /usr/share/applications/gftp.desktop gftp".
+    + Use gftp-gtk instead.
+  * Fix lintian warning "desktop-entry-invalid-category Application
+    /usr/share/applications/gftp.desktop".
+    + Remove Application category.
+  * Fix lintian warning "menu-item-uses-apps-section
+    /usr/share/menu/gftp-gtk:6" and "menu-item-creates-new-section
+    Apps/Net /usr/share/menu/gftp-gtk:6".
+    + Replace Apps/Net by Applications/Network/File Transfer.
+  * Remove unused ${misc:Depends} variables from debian/control.
+  * Remove unused debhelper tools from debian/rules.
+  * Add debian/watch.
 
- -- Brian Masney <masneyb@gftp.org>  Fri, 04 Feb 2005 10:48:01 -0500
+ -- Aurélien GÉRÔME <ag@roxor.cx>  Sun, 09 Dec 2007 19:13:40 +0100
+
+gftp (2.0.18-16) unstable; urgency=low
+
+  * New maintainer: Aurélien GÉRÔME <ag@roxor.cx>. Thanks!
+  * Fix a crash when no password is given (closes: bug#389842).
+  * Make the package binNMUable.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun,  8 Oct 2006 18:48:39 +0200
+
+gftp (2.0.18-15) unstable; urgency=low
+
+  * Patches backported from upstream:
+    - fix a crash when stopping a file transfer.
+    - fix a crash when handling bookmarks (closes: bug#302811).
+  * Fix a crash when stopping the queue (closes: bug#375912).
+  * Correctly handle timeouts on systems using NPTL (closes: bug#373851).
+  * Correctly display the protocol name when connecting from a bookmark
+    (closes: bug#376236).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 20 Jul 2006 16:21:34 +0200
+
+gftp (2.0.18-14) unstable; urgency=low
+
+  * Fix handling of chmod values. Thanks to Matthieu Crapet for the
+    patch (closes: bug#364886).
+  * Fix a segfault while modifying bookmarks. Thanks to Matthieu Crapet for
+    the patch (closes: bug#322718).
+  * Bumped Standards-Version to 3.7.2 (no changes).
+  * Fixed FSF address in debian/copyright. 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 17 Jun 2006 18:23:16 +0200
+
+gftp (2.0.18-13) unstable; urgency=low
+
+  * Fix a typo in the package description (closes: bug#363605). 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 20 Apr 2006 03:27:40 +0200
+
+gftp (2.0.18-12) unstable; urgency=low
+
+  * Update the translation from CVS (closes: bug#362771).
+  * Fix the configuration file routines with japanese locales. Thanks to
+    Morita Sho for the patch (closes: bug#344695). 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Wed, 19 Apr 2006 15:47:51 +0200
+
+gftp (2.0.18-11) unstable; urgency=medium
+
+  * Fixed copy of addrinfo type linked list (closes: bug#339977).
+  * Removed circular dependency on gftp-gtk|gtk-text (closes: bug#339962).
+  * Fixed a typo in edit bookmarks window (closes: bug#326782).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 20 Nov 2005 02:47:57 +0100
+
+gftp (2.0.18-10) unstable; urgency=low
+
+  * Build-depends on libreadline5-dev | libreadline-dev instead of 
+    libreadline4-dev (closes: bug#326357).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Fri,  2 Sep 2005 23:07:03 +0200
+
+gftp (2.0.18-9) unstable; urgency=low
+
+  * Fixed the previous patch, when ai_canonname == NULL (closes: bug#325587).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 29 Aug 2005 18:01:46 +0200
+
+gftp (2.0.18-8) unstable; urgency=low
+
+  * The struct addrinfo are linked-list, copy them properly (closes:
+    bug#323874, bug#324912, #315018).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 27 Aug 2005 01:19:20 +0200
+
+gftp (2.0.18-7) unstable; urgency=low
+
+  * Fix default protocol option when SSL is disabled (closes: bug#321452).
+  * Preserve date/time and permissions on directory (closes: bug#320783).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Fri,  5 Aug 2005 23:46:13 +0200
+
+gftp (2.0.18-6) unstable; urgency=low
+
+  * German translation fixes by Jens Seidel (closes: bug#314094). 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 16 Jun 2005 15:58:00 +0200
+
+gftp (2.0.18-5) unstable; urgency=low
+
+  * Fixed a small typos in gftp.1 (closes: bug#301927).
+  * Downgrade alternative value to 90 instead of 100.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Fri, 15 Apr 2005 11:45:46 +0200
+
+gftp (2.0.18-4) unstable; urgency=medium
+
+  * Copy more data in gftp_copy_request() (closes: bug#298619).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Wed,  9 Mar 2005 00:59:35 +0100
+
+gftp (2.0.18-3) unstable; urgency=medium
+
+  * Fixed SSH mode flag when reading files (closes: bug#297647).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Wed,  2 Mar 2005 16:59:43 +0100
+
+gftp (2.0.18-2) unstable; urgency=high
+
+  * Fixed SSH offset computation on big endian machines 
+    (closes: bug#296608).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 24 Feb 2005 16:16:42 +0100
+
+gftp (2.0.18-1) unstable; urgency=medium
+
+  * New upstream version. 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Fri,  4 Feb 2005 17:33:37 +0100
+
+gftp (2.0.17+cvs20050102-3) unstable; urgency=low
+
+  * Added a patch to differentiate upload and download in the progress 
+    list (closes: bug#289957).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Wed, 12 Jan 2005 02:54:06 +0100
+
+gftp (2.0.17+cvs20050102-2) unstable; urgency=low
+
+  * Added a patch to fix segfault when dragging an URL during dialog
+    with the FTP server (closes: bug#222882). 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon,  3 Jan 2005 02:37:19 +0100
+
+gftp (2.0.17+cvs20050102-1) unstable; urgency=low
+
+  * New CVS version. 
+  * Added a patch to fix crash when renaming a file or creating a new
+    directory (closes: bug#288292).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun,  2 Jan 2005 23:35:51 +0100
+
+gftp (2.0.17+cvs20041230-1) unstable; urgency=low
+
+  * New CVS version.
+  * All patches from the previous version have been included in 
+    the CVS.
+  * Support for passive connections to servers behind a firewall has
+    been added (closes: bug#155044).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 30 Dec 2004 10:35:26 +0100
+
+gftp (2.0.17+cvs20041201-1) unstable; urgency=medium
+
+  * New CVS version.
+  * Patches pulled from bugzilla.gnome.org (not yet in CVS):
+    - gnome#157713: filename display in transfer dialog (closes: 
+      bug#280308)
+    - gnome#160118: chmod command (closes: bug#283834)
+    - gnome#159963: rename command with ssh connections (closes: 
+      bug#282507)
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu,  2 Dec 2004 01:50:33 +0100
+
+gftp (2.0.17+cvs20041105-1) unstable; urgency=low
+
+  * New CVS version:
+    - Fixed gftp.desktop (closes: bug#279848).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Fri,  5 Nov 2004 16:58:57 +0000
+
+gftp (2.0.17+cvs20041030-1) unstable; urgency=low
+
+  * New CVS version.
+  * Fixed protocol list generation (really closes: bug#278756).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 31 Oct 2004 13:50:18 +0000
+
+gftp (2.0.17+cvs20041029-1) unstable; urgency=low
+
+  * New CVS version:
+    - Better SSH handling (closes: bug#138250, bug#205016).
+    - Fixed segfault when modifying bookmarks (closes: bug#230848).
+    - Fixed segfault when deleting files (closes: bug#277386).
+    - Fixed default protocol selection (closes: bug#278756).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Fri, 29 Oct 2004 13:52:58 +0000
 
 gftp (2.0.17-1) unstable; urgency=low
 
@@ -351,8 +563,6 @@ gftp (2.0.5-1) stable; urgency=low
 
  -- Brian Masney <masneyb@seul.org>  Thu, 23 Sep 1999 18:51:08 -0500
 
-gftp (2.0.4-1) stable; urgency=low
-
 gftp (2.0.2-1) unstable; urgency=low
 
   * New upstream releases
@@ -391,13 +601,13 @@ gftp (1.12-1) unstable; urgency=low
 
  -- Martin Schulze <joey@finlandia.infodrom.north.de>  Fri,  5 Mar 1999 00:04:58 +0100
 
-gftp (1.11-1) unstable; urgency=low, closes=32772
+gftp (1.11-1) unstable; urgency=low
 
   * New upstream version, said to fix some crash bugs
 
  -- Martin Schulze <joey@finlandia.infodrom.north.de>  Tue,  9 Feb 1999 11:46:24 +0100
 
-gftp (1.1-1) unstable; urgency=low, closes=32772
+gftp (1.1-1) unstable; urgency=low
 
   * New upstream version (closes: Bug#32772)
 

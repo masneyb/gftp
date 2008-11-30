@@ -1,13 +1,17 @@
 Source: gftp
 Section: net
 Priority: optional
-Maintainer: Aurelien Jarno <aurel32@debian.org>
-Build-Depends: debhelper (>> 4.0.0), autotools-dev, libreadline4-dev, libgtk2.0-dev (>= 2.0.9), libglib2.0-dev (>= 2.2.0), imagemagick
-Standards-Version: 3.6.1
+Maintainer: Aurélien GÉRÔME <ag@roxor.cx> 
+Build-Depends: debhelper (>> 4.0.0), autotools-dev, libreadline5-dev | libreadline-dev, libgtk2.0-dev (>= 2.0.9), libglib2.0-dev (>= 2.2.0), imagemagick
+Standards-Version: 3.7.3
+Homepage: http://www.gftp.org/
+Vcs-Git: git://git.roxor.cx/git/gftp/
+Vcs-Browser: http://git.roxor.cx/?p=gftp
+XS-DM-Upload-Allowed: yes
 
 Package: gftp
 Architecture: all
-Depends: ${misc:Depends}, gftp-gtk (= ${Source-Version}), gftp-text (= ${Source-Version})
+Depends: gftp-gtk (>= ${source:Version}), gftp-text (>= ${source:Version})
 Description: X/GTK+ FTP client
  gFTP is a multithreaded FTP client, available in two versions:
   * version for X, written using GLib and GTK+
@@ -17,7 +21,7 @@ Description: X/GTK+ FTP client
 
 Package: gftp-gtk
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, gftp-common (= ${Source-Version})
+Depends: ${shlibs:Depends}, gftp-common (= ${binary:Version})
 Conflicts: gftp-common (<< 2.0.14-1)
 Description: X/GTK+ FTP client
  gFTP is a multithreaded FTP client. This version of it runs under X
@@ -34,15 +38,14 @@ Description: X/GTK+ FTP client
    * drag-n-drop support,
    * bookmarks menu,
    * support for SSH and SSH2 file transfers,
-   * support FXP transferts,
+   * support FXP transfers,
    * stop button, and many more features.
  .   
   Author:   Brian Masney <masneyb@gftp.org>
-  Homepage: http://www.gftp.org
 
 Package: gftp-text
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, gftp-common (= ${Source-Version})
+Depends: ${shlibs:Depends}, gftp-common (= ${binary:Version})
 Description: colored FTP client using GLib
  gFTP is a multithreaded FTP client. This version of it runs under console
  and was written using GLib.
@@ -62,11 +65,9 @@ Description: colored FTP client using GLib
    * stop button, and many more features.
  .   
   Author:   Brian Masney <masneyb@gftp.org>
-  Homepage: http://www.gftp.org
 
 Package: gftp-common
 Architecture: any
-Depends: ${misc:Depends}, gftp-gtk (= ${Source-Version}) | gftp-text (= ${Source-Version})
 Description: shared files for other gFTP packages
  gFTP is a multithreaded FTP client. This package contains the locale data
  used by both gftp-gtk and gftp-text, along with a common manual page.
@@ -86,5 +87,3 @@ Description: shared files for other gFTP packages
    * stop button, and many more features.
  .   
   Author:   Brian Masney <masneyb@gftp.org>
-  Homepage: http://www.gftp.org
-
