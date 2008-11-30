@@ -101,6 +101,19 @@ ftps_auth_tls_start (gftp_request * request)
 
   return (0);
 }
+
+/*@unused@*/ static int
+ftps_connect (gftp_request * request)
+{
+  if (request->datafd > 0)
+    return (0);
+
+  request->read_function = gftp_fd_read;
+  request->write_function = gftp_fd_write;
+
+  return (rfc959_connect (request));
+}
+
 #endif
 
 
