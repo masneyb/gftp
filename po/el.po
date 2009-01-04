@@ -1,21 +1,22 @@
-# translation of el.po to Greek
-# This file is distributed under the same license as the PACKAGE package.
+# translation of gftp.HEAD.el.po to
+# This file is distributed under the same license as the gFTP package.
 # Kostas: 584 messages, 08Oct2003, initial translation
 # Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
 # Kostas Papadimas <pkst@gnome.org>, 2003, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: el\n"
+"Project-Id-Version: gftp.HEAD.el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-13 03:24+0000\n"
-"PO-Revision-Date: 2007-03-22 16:42+0200\n"
-"Last-Translator: Nikos Charonitakis <nikosx@gmail.com>\n"
-"Language-Team: Greek <nls@tux.hellug.gr>\n"
+"POT-Creation-Date: 2009-01-04 13:08+0000\n"
+"PO-Revision-Date: 2009-01-04 04:14+0200\n"
+"Last-Translator: Marios Zintilis <m.zindilis@dmajor.org>\n"
+"Language-Team:  <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../lib/bookmark.c:38
 #, c-format
@@ -27,7 +28,7 @@ msgstr "Μη έγκυρο URL %s\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Σφάλμα: Μη έγκυρη γραμμή %s στο αρχείο καταλόγου cache\n"
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:571
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Σφάλμα: Αδυναμία δημιουργίας καταλόγου %s: %s\n"
@@ -38,35 +39,43 @@ msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Σφάλμα: Αδυναμία δημιουργίας προσωρινού αρχείου: %s\n"
 
 #: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
-#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:282
-#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1224
+#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:272
+#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1250
 #, c-format
 msgid "Error closing file descriptor: %s\n"
-msgstr "Σφάλμα κλεισίματος περιγραφέα αρχείου : %s\n"
+msgstr "Σφάλμα κλεισίματος περιγραφέα αρχείου: %s\n"
 
-#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:189
-#: ../lib/local.c:198 ../lib/local.c:257
+#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:184
+#: ../lib/local.c:193 ../lib/local.c:247
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Σφάλμα: Αδυναμία αναζήτησης στο αρχείο %s: %s\n"
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3158
+#: ../lib/charset-conv.c:73
+#, c-format
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+"Σφάλμα μετατροπής αλφαριθμητικού '%s' από κωδικοποίηση χαρακτήρων %s σε "
+"κωδικοποίηση χαρακτήρων %s: %s\n"
+
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:1627
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Σφάλμα: Αδυναμία ανοίγματος τοπικού αρχείου:%s: %s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2859 ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/sockutils.c:293 ../lib/sslcommon.c:493
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Σφάλμα: Αδυναμία εγγραφής στο socket: %s\n"
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2781 ../lib/sshv2.c:445
-#: ../lib/sslcommon.c:450
+#: ../lib/config_file.c:151 ../lib/sockutils.c:214 ../lib/sshv2.c:445
+#: ../lib/sslcommon.c:446
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Σφάλμα: Αδυναμία ανάγνωσης από socket: %s\n"
 
-#: ../lib/config_file.c:183 ../lib/config_file.c:738
+#: ../lib/config_file.c:183 ../lib/config_file.c:737
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "Σφάλμα gFTP: Εσφαλμένο όνομα αρχείου σελιδοδεικτών %s\n"
@@ -76,7 +85,7 @@ msgstr "Σφάλμα gFTP: Εσφαλμένο όνομα αρχείου σελι
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Προειδοποίηση: Αδυναμία εύρεσης κυρίως αρχείου σελιδοδεικτών %s\n"
 
-#: ../lib/config_file.c:203 ../lib/config_file.c:744
+#: ../lib/config_file.c:203 ../lib/config_file.c:743
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "Σφάλμα gFTP: Αδυναμία ανοίγματος αρχείου σελιδοδεικτών %s: %s\n"
@@ -92,73 +101,72 @@ msgstr ""
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "Προειδοποίηση gFTP: Η γραμμή %d δεν έχει αρκετές παραμέτρους\n"
 
-#: ../lib/config_file.c:505
+#: ../lib/config_file.c:504
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
-"Αυτή η ενότητα καθορίζει ποιά συστήματα βρίσκονται στο τοπικό subnet και δεν "
+"Αυτή η ενότητα καθορίζει ποιά συστήματα βρίσκονται στο τοπικό subnet και δε "
 "χρειάζονται να βγούν έξω στο διαμεσολαβητή (αν είναι διαθέσιμος). Σύνταξη: "
 "dont_use_proxy=.domain ή dont_use_proxy=network number/netmask"
 
-#: ../lib/config_file.c:508
+#: ../lib/config_file.c:507
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
 msgstr ""
 "ext=file επέκταση αρχείου:XPM αρχείο:Ascii ή Binary (A or B):πρόγραμμα "
-"προβολής. Σημείωση:Όλες οι παράμετροι εκτός της επέκτασης αρχείου είναι "
+"προβολής. Σημείωση: Όλες οι παράμετροι εκτός της επέκτασης αρχείου είναι "
 "προαιρετικές"
 
-#: ../lib/config_file.c:588 ../lib/config_file.c:833
+#: ../lib/config_file.c:587 ../lib/config_file.c:832
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "Σφάλμα gFTP: Εσφαλμένο όνομα αρχείου ρυθμίσεων %s\n"
 
-#: ../lib/config_file.c:599
+#: ../lib/config_file.c:598
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "Σφάλμα gFTP: Αδυναμία δημιουργίας καταλόγου  %s: %s\n"
 
-#: ../lib/config_file.c:609
+#: ../lib/config_file.c:608
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "Σφάλμα gFTP: Αδυναμία εύρεσης κύριου αρχείου ρυθμίσεων %s\n"
 
-#: ../lib/config_file.c:611
+#: ../lib/config_file.c:610
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "Κάνατε make install;\n"
 
-#: ../lib/config_file.c:620 ../lib/config_file.c:839
+#: ../lib/config_file.c:619 ../lib/config_file.c:838
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
-msgstr "Σφάλμα gFTP: Αδυναμία ανοίγματος αρχείου ρυθμίσεων  %s: %s\n"
+msgstr "Σφάλμα gFTP: Αδυναμία ανοίγματος αρχείου ρυθμίσεων %s: %s\n"
 
-#: ../lib/config_file.c:659
+#: ../lib/config_file.c:658
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr ""
 "Τερματισμός λόγω σφαλμάτων ανάλυσης στη γραμμή %d στο αρχείο ρυθμίσεων\n"
 
-#: ../lib/config_file.c:665
+#: ../lib/config_file.c:664
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "Προειδοποίηση gFTP: Υπερπήδηση γραμμής %d στο αρχείο ρυθμίσεων: %s\n"
 
-#: ../lib/config_file.c:672
+#: ../lib/config_file.c:671
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "Σφάλμα gFTP: Εσφαλμένο όνομα αρχείου καταγραφής %s\n"
 
-#: ../lib/config_file.c:678
+#: ../lib/config_file.c:677
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "Προειδοποίηση gFTP: Αδυναμία ανοίγματος %s για εγγραφή: %s\n"
 
-#: ../lib/config_file.c:733
-#, fuzzy
+#: ../lib/config_file.c:732
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
@@ -167,7 +175,7 @@ msgstr ""
 "Masney <masneyb@gftp.org>. Προειδοποίηση: Όποια σχόλια γράψετε σε αυτό το "
 "αρχείο θα αντικατασταθούν."
 
-#: ../lib/config_file.c:734
+#: ../lib/config_file.c:733
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
 "is not secure. This is to avoid your password being easily remembered by "
@@ -175,35 +183,34 @@ msgid ""
 "this, all passwords were stored in plaintext."
 msgstr ""
 "Σημείωση: Οι κωδικοί που περιλαμβάνονται σε αυτό το αρχείο είναι "
-"κωδικογραφημένοι. Αυτός ο αλγόριθμοςδεν είναι ασφαλής. Αυτό γίνεται για να "
-"αποφευχθεί η απομνημόνευση του κωδικού από κάποιον που είναι πίσωσας όταν "
+"κωδικογραφημένοι. Αυτός ο αλγόριθμος δεν είναι ασφαλής. Αυτό γίνεται για να "
+"αποφευχθεί η απομνημόνευση του κωδικού από κάποιον που είναι πίσω σας όταν "
 "επεξεργάζεστε αυτό το αρχείο. Πριν από αυτό όλοι οι κωδικοί ήταν σε απλό "
 "κείμενο."
 
-#: ../lib/config_file.c:846
-#, fuzzy
+#: ../lib/config_file.c:845
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
-"Αρχείο ρυθμίσεων για το gFTP. Πνευματικά δικαιώματα  (C) 1998-2003 Brian "
+"Αρχείο ρυθμίσεων για το gFTP. Πνευματικά δικαιώματα  (C) 1998-2007 Brian "
 "Masney <masneyb@gftp.org>. Προειδοποίηση: Όποια σχόλια γράψετε σε αυτό το "
-"αρχείο θα αντικατασταθούν. Αν μια εγγραφή έχει ένα (*) στο σχόλιο της, δεν "
-"θα μπορείτε να την αλλάξετε μέσα από το gFTP "
+"αρχείο θα αντικατασταθούν. Αν μια εγγραφή έχει ένα (*) στο σχόλιο της, δε θα "
+"μπορείτε να την αλλάξετε μέσα από το gFTP "
 
-#: ../lib/config_file.c:1210 ../lib/protocols.c:382 ../lib/rfc2068.c:546
-#: ../lib/rfc2068.c:547
+#: ../lib/config_file.c:1209 ../lib/protocols.c:385 ../lib/rfc2068.c:543
+#: ../lib/rfc2068.c:544
+#, c-format
 msgid "<unknown>"
 msgstr "<άγνωστο>"
 
-#: ../lib/config_file.c:1290 ../lib/config_file.c:1353
-#: ../lib/config_file.c:1395 ../lib/config_file.c:1428
+#: ../lib/config_file.c:1289 ../lib/config_file.c:1352
+#: ../lib/config_file.c:1394 ../lib/config_file.c:1427
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
-"ΜΟΙΡΑΙΟ Σφάλμα gFTP Error:Η επιλογή ρύθμισης '%s' δεν βρέθηκε στο global "
-"hash table\n"
+"ΜΟΙΡΑΙΟ Σφάλμα gFTP: Η ρύθμιση '%s' δεν βρέθηκε στο global hash table\n"
 
 #: ../lib/fsp.c:189
 #, c-format
@@ -213,7 +220,7 @@ msgstr "Σφάλμα: Αδυναμία ανεβάσματος αρχείου %s\
 #: ../lib/fsp.c:199
 #, c-format
 msgid "Error: Cannot write to file %s: %s\n"
-msgstr "Σφάλμα: Αδυναμία εγγραφής στο αρχείο  %s: %s\n"
+msgstr "Σφάλμα: Αδυναμία εγγραφής στο αρχείο %s: %s\n"
 
 #: ../lib/fsp.c:237
 #, c-format
@@ -223,12 +230,13 @@ msgstr "Σφάλμα: Σφάλμα κλεισίματος αρχείου: %s\n"
 #: ../lib/fsp.c:327
 #, c-format
 msgid "Corrupted file listing from FSP server %s\n"
-msgstr "Κατεστραμμένη λίστα αρχείων από τον εξυπηρετητή  FSP %s\n"
+msgstr "Κατεστραμμένη λίστα αρχείων από τον εξυπηρετητή FSP %s\n"
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1536
-#: ../lib/protocols.c:1537 ../lib/protocols.c:1578 ../lib/protocols.c:1579
-#: ../lib/protocols.c:1645 ../lib/protocols.c:1652 ../lib/protocols.c:1728
-#: ../lib/protocols.c:1729 ../lib/protocols.c:1765
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/parse-dir-listing.c:337
+#: ../lib/parse-dir-listing.c:338 ../lib/parse-dir-listing.c:379
+#: ../lib/parse-dir-listing.c:380 ../lib/parse-dir-listing.c:446
+#: ../lib/parse-dir-listing.c:453 ../lib/parse-dir-listing.c:529
+#: ../lib/parse-dir-listing.c:530 ../lib/parse-dir-listing.c:566
 msgid "unknown"
 msgstr "άγνωστο"
 
@@ -247,39 +255,39 @@ msgstr "Επιτυχής αλλαγή καταλόγου σε %s\n"
 msgid "Could not change directory to %s\n"
 msgstr "Αδυναμία αλλαγής καταλόγου σε %s\n"
 
-#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:490 ../lib/local.c:526
-#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:329
+#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:480 ../lib/local.c:516
+#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:306
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "Επιτυχής απομάκρυνση %s\n"
 
-#: ../lib/fsp.c:477 ../lib/local.c:496
+#: ../lib/fsp.c:477 ../lib/local.c:486
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Σφάλμα: Αδυναμία απομάκρυνσης καταλόγου  %s: %s\n"
 
-#: ../lib/fsp.c:506 ../lib/local.c:532 ../src/gtk/transfer.c:267
-#: ../src/gtk/view_dialog.c:333
+#: ../lib/fsp.c:506 ../lib/local.c:522 ../src/gtk/transfer.c:267
+#: ../src/gtk/view_dialog.c:310
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Σφάλμα: Αδυναμία απομάκρυνσης αρχείου %s: %s\n"
 
-#: ../lib/fsp.c:528 ../lib/local.c:564
+#: ../lib/fsp.c:528 ../lib/local.c:554
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "Επιτυχής δημιουργία καταλόγου %s\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:600
+#: ../lib/fsp.c:563 ../lib/local.c:590
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "Επιτυχής μετονομασία %s σε %s\n"
 
-#: ../lib/fsp.c:575 ../lib/local.c:607
+#: ../lib/fsp.c:575 ../lib/local.c:597
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Σφάλμα: Αδυναμία μετονομασίας %s σε %s: %s\n"
 
-#: ../lib/ftps.c:157
+#: ../lib/ftps.c:156
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
@@ -310,49 +318,44 @@ msgstr "Επιτυχής αλλαγή τοπικού καταλόγου σε %s\
 msgid "Could not change local directory to %s: %s\n"
 msgstr "Αδυναμία αλλαγής τοπικού καταλόγου σε %s: %s\n"
 
-#: ../lib/local.c:248
+#: ../lib/local.c:238
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "Σφάλμα: Αδυναμία truncate τοπικού αρχείου  %s: %s\n"
 
-#: ../lib/local.c:434
+#: ../lib/local.c:424
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
-msgstr "Αδυναμία λήψης λίστας τοπικού καταλόγου  %s: %s\n"
+msgstr "Αδυναμία λήψης λίστας τοπικού καταλόγου %s: %s\n"
 
-#: ../lib/local.c:644
+#: ../lib/local.c:634
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
-msgstr "Επιτυχής αλλαγής λειτουργίας κατάστασης από %s σε %o\n"
+msgstr "Επιτυχής αλλαγή κατάστασης λειτουργίας του %s σε %o\n"
 
-#: ../lib/local.c:651
+#: ../lib/local.c:641
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
-msgstr "Σφάλμα: Αδυναμία αλλαγής λειτουργίας κατάστασης από %s σε %o: %s\n"
+msgstr "Σφάλμα: Αδυναμία αλλαγής κατάστασης λειτουργίας του %s σε %o: %s\n"
 
-#: ../lib/local.c:686
-#, fuzzy, c-format
+#: ../lib/local.c:676
+#, c-format
 msgid "Successfully changed the time stamp of %s\n"
-msgstr "Επιτυχής αλλαγή καταλόγου σε %s\n"
+msgstr "Επιτυχής αλλαγή χρονικής σήμανσης του %s\n"
 
-#: ../lib/local.c:693
-#, fuzzy, c-format
+#: ../lib/local.c:683
+#, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
-msgstr "Σφάλμα: Αδυναμία αλλαγής λειτουργίας κατάστασης από %s σε %o: %s\n"
+msgstr "Σφάλμα: Αδυναμία αλλαγής χρονικής σήμανσης του %s: %s\n"
 
-#: ../lib/local.c:760
+#: ../lib/local.c:750
 msgid "local filesystem"
 msgstr "τοπικό σύστημα αρχείων"
 
-#: ../lib/misc.c:407
+#: ../lib/misc.c:414
 #, c-format
 msgid "usage: gftp "
 msgstr "χρήση: gftp "
-
-#: ../lib/misc.c:407 ../lib/rfc2068.c:304 ../src/uicommon/gftpui.c:630
-#, c-format
-msgid "\n"
-msgstr "\n"
 
 #. @null@
 #: ../lib/options.h:25 ../lib/rfc959.c:26
@@ -418,7 +421,7 @@ msgstr "Το προεπιλεγμένο πρόγραμμα για την επε�
 
 #: ../lib/options.h:48
 msgid "Max Log Window Size:"
-msgstr "Μέγιστο μέγεθος παραθύρου καταγραφής :"
+msgstr "Μέγιστο μέγεθος παραθύρου καταγραφής:"
 
 #: ../lib/options.h:50
 msgid "The maximum size of the log window in bytes for the GTK+ port"
@@ -433,8 +436,8 @@ msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
 msgstr ""
-"Αυτή είναι μια λίστα κωδικοποποίησης χαρακτήρων διαχωρισμένη με κόμμα που "
-"προσπαθεί να μετατρέψει τα απομακρυσμένα μηνύματα στο τρέχον locale"
+"Αυτή είναι μια λίστα κωδικοποποιήσεων χαρακτήρων διαχωρισμένη με κόμματα, "
+"που προσπαθεί να μετατρέψει τα απομακρυσμένα μηνύματα στο τρέχον locale"
 
 #: ../lib/options.h:56
 msgid "Remote LC_TIME:"
@@ -476,12 +479,12 @@ msgstr "Να γίνεται μόνο μια μεταφορά τη φορά?"
 
 #: ../lib/options.h:72
 msgid "Overwrite by Default"
-msgstr "Προεπιλεγμένη αντικατάσταση"
+msgstr "Αντικατάσταση ως προεπιλογή"
 
 #: ../lib/options.h:75
 msgid "Overwrite files by default or set to resume file transfers"
 msgstr ""
-" Προεπιλεγμένη αντικατάσταση αρχείων ή ορισμός για τη συνέχιση μεταφοράς "
+"Αντικατάσταση αρχείων ως προεπιλογή ή ορισμός για τη συνέχιση μεταφοράς "
 "αρχείων"
 
 #: ../lib/options.h:77
@@ -552,23 +555,24 @@ msgstr ""
 "κειμένου)"
 
 #: ../lib/options.h:111
-#, fuzzy
 msgid "Remember last directory"
-msgstr "Αφαίρεση ενός τοπικού καταλόγου"
+msgstr "Απομνημόνευση τελευταίου καταλόγου"
 
 #: ../lib/options.h:113
 msgid "Save the last local and remote directory when the application is closed"
 msgstr ""
+"Αποθήκευση του τελευταίου τοπικού και απομακρυσμένου καταλόγου όταν κλείνει "
+"η εφαρμογή."
 
 #: ../lib/options.h:115
-#, fuzzy
 msgid "Connect to remote server on startup"
-msgstr "Αποσύνδεση από τον απομακρυσμένο εξυπηρετητή"
+msgstr "Σύνδεση στον απομακρυσμένο εξυπηρετητή κατά την εκκίνηση"
 
 #: ../lib/options.h:117
 msgid ""
 "Automatically connect to the remote server when the application is started."
 msgstr ""
+"Αυτόματη σύνδεση στον απομακρυσμένο εξυπηρετητή όταν εκκινείται η εφαρμογή."
 
 #: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
 #: ../src/gtk/options_dialog.c:1240
@@ -784,35 +788,27 @@ msgstr "Σελιδοδείκτης"
 msgid "FSP"
 msgstr "FSP"
 
-#: ../lib/protocols.c:225
+#: ../lib/protocols.c:228
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Η μεταφορά αρχείου θα περιοριστεί σε %.2f KB/s\n"
 
-#: ../lib/protocols.c:378
+#: ../lib/protocols.c:381
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "Σφάλμα ορισμού LC_TIME σε '%s'. Επιστροφή σε '%s'\n"
 
-#: ../lib/protocols.c:389
+#: ../lib/protocols.c:392
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "Φόρτωση λίστας καταλόγου %s  από την cache (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:399
+#: ../lib/protocols.c:402
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "Φόρτωση λίστας καταλόγου %s  από διακομιστή (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:461
-#, c-format
-msgid ""
-"Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr ""
-"Σφάλμα μετατροπής αλφαριθμητικού '%s' από κωδικοποίηση χαρακτήρων %s σε "
-"κωδικοποίηση χαρακτήρων %s: %s\n"
-
-#: ../lib/protocols.c:654
+#: ../lib/protocols.c:452
 #, c-format
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
@@ -821,111 +817,52 @@ msgstr ""
 "Προειδοποίηση: Stripping path off of file '%s'. The stripped path (%s) "
 "doesn't match the current directory (%s)\n"
 
-#: ../lib/protocols.c:680
+#: ../lib/protocols.c:483
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Σφάλμα: Αδυναμία εγγραφής στη λανθάνουσα μνήμη: %s\n"
 
-#: ../lib/protocols.c:713
+#: ../lib/protocols.c:516
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Σφάλμα: Αδυναμία εύρεσης σελιδοδείκτη %s\n"
 
-#: ../lib/protocols.c:720
+#: ../lib/protocols.c:523
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr ""
 "Σφάλμα σελιδοδεικτών: Η καταχώρηση σελιδοδείκτη %s δεν έχει ένα όνομα "
 "συστήματος\n"
 
-#: ../lib/protocols.c:842 ../lib/protocols.c:869
+#: ../lib/protocols.c:645 ../lib/protocols.c:672
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Το πρωτόκολλο '%s' δεν υποστηρίζεται προς το παρόν.\n"
 
-#: ../lib/protocols.c:1159 ../lib/protocols.c:1174 ../lib/protocols.c:2356
-#: ../lib/protocols.c:2469
-#, c-format
-msgid "Looking up %s\n"
-msgstr "Αναζήτηση %s\n"
-
-#: ../lib/protocols.c:1165 ../lib/protocols.c:1180 ../lib/protocols.c:2361
-#: ../lib/protocols.c:2474
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "Αδυναμία αναζήτησης ονόματος συστήματος %s: %s\n"
-
-#: ../lib/protocols.c:2091
+#: ../lib/protocols.c:1155
 #, c-format
 msgid "Found recursive symbolic link %s\n"
-msgstr ""
+msgstr "Βρέθηκε κυκλικός συμβολικός σύνδεσμος %s\n"
 
-#: ../lib/protocols.c:2379
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "Αποτυχία δημιουργίας μιας υποδοχής: %s\n"
-
-#: ../lib/protocols.c:2385 ../lib/protocols.c:2491
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "Προσπάθεια %s:%d\n"
-
-#: ../lib/protocols.c:2390 ../lib/protocols.c:2498
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "Αδυναμία σύνδεσης σε %s: %s\n"
-
-#: ../lib/protocols.c:2428 ../lib/rfc959.c:706
-#, c-format
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "Αποτυχία δημιουργίας μιας  IPv4 socket: %s\n"
-
-#: ../lib/protocols.c:2452 ../lib/sshv2.c:1142
-#, c-format
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
-msgstr ""
-"Αδυναμια αναζήτησης ονόματος υπηρεσίας%s/tcp. Παρακαλώ ελέγξτε το αρχείο "
-"υπηρεσιών σας\n"
-
-#: ../lib/protocols.c:2514 ../lib/protocols.c:3167 ../lib/rfc959.c:715
-#: ../lib/rfc959.c:892
-#, c-format
-msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "Σφάλμα: Αποτυχία ορισμού κλεισίματος στο exec flag: %s\n"
-
-#: ../lib/protocols.c:2521
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "Σύνδεση σε %s:%d\n"
-
-#: ../lib/protocols.c:2757 ../lib/protocols.c:2834 ../lib/sshv2.c:435
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "Η σύνδεση στο %s υπερέβη το όριο χρόνου\n"
-
-#: ../lib/protocols.c:2904
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr "Αδυναμία λήψης socket flags: %s\n"
-
-#: ../lib/protocols.c:2918
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "Αδυναμία ορισμού υποδοχής σε non-blocking: %s\n"
-
-#: ../lib/protocols.c:3064
+#: ../lib/protocols.c:1533
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Σφάλμα: Η απομακρυσμένη σελίδα %s αποσυνδέθηκε. Το όριο επαναπροσπαθειών "
 "καλύφθηκε...παραίτηση\n"
 
-#: ../lib/protocols.c:3072
+#: ../lib/protocols.c:1541
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
 "Σφάλμα: Η απομακρυσμένη σελίδα %s αποσυνδέθηκε. Θα γίνει επανασύνδεση σε %d "
 "δευτερόλεπτα \n"
+
+#: ../lib/protocols.c:1636 ../lib/rfc959.c:715 ../lib/rfc959.c:885
+#: ../lib/socket-connect.c:126
+#, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr "Σφάλμα: Αποτυχία ορισμού κλεισίματος στο exec flag: %s\n"
 
 #: ../lib/pty.c:301
 #, c-format
@@ -987,7 +924,7 @@ msgstr "Χρήση HTTP/1.1"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Θέλετε να χρησιμοποιήσετε  HTTP/1.1 ή HTTP/1.0"
 
-#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:843
+#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:840
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -996,25 +933,25 @@ msgstr ""
 "Ελήφθη λανθασμένη απάντηση από τον εξυπηρετητή, αποσύνδεση\n"
 "Μή έγκυρο μέγεθος chunk '%s' η απόκριση από τον απομακρυσμένο εξυπηρετητή\n"
 
-#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1219
+#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1245
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Αποσύνδεση από την ιστοσελίδα %s\n"
 
-#: ../lib/rfc2068.c:304
+#: ../lib/rfc2068.c:301
 msgid "Starting the file transfer at offset "
 msgstr "Εκκίνηση της μεταφοράς αρχείου σε offset"
 
-#: ../lib/rfc2068.c:325
+#: ../lib/rfc2068.c:322
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "Αδυναμία λήψης αρχείου %s\n"
 
-#: ../lib/rfc2068.c:424 ../lib/sshv2.c:1301
+#: ../lib/rfc2068.c:421 ../lib/sshv2.c:1327
 msgid "Retrieving directory listing...\n"
 msgstr "Λήψη λίστας καταλόγου...\n"
 
-#: ../lib/rfc2068.c:819 ../lib/sshv2.c:895
+#: ../lib/rfc2068.c:816 ../lib/sshv2.c:895
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Ελήφθη λανθασμένη απάντηση από τον εξυπηρετητή, αποσύνδεση\n"
 
@@ -1166,75 +1103,137 @@ msgstr ""
 "δεδομένα, τότε θα θέλετε να το απενεργοποιήσετε."
 
 #: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
-#: ../lib/rfc959.c:855 ../lib/rfc959.c:1449
+#: ../lib/rfc959.c:849 ../lib/rfc959.c:1414
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Λήψη μη έγκυρης απάντησης '%c' από εξυπηρετητή.\n"
+
+#: ../lib/rfc959.c:706 ../lib/socket-connect-gethostbyname.c:120
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "Αποτυχία δημιουργίας μιας  IPv4 socket: %s\n"
 
 #: ../lib/rfc959.c:745 ../lib/rfc959.c:755
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "Δεν είναι δυνατή η εύρεση διεύθυνσης IP σε απάντηση PASV  '%s'\n"
 
-#: ../lib/rfc959.c:781
+#: ../lib/rfc959.c:775
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr "Αγνόηση διεύθυνσης IP σε PASV response, σύνδεση με %d.%d.%d.%d:%d\n"
 
-#: ../lib/rfc959.c:792 ../lib/rfc959.c:953
+#: ../lib/rfc959.c:786 ../lib/rfc959.c:945
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Αδυναμία δημιουργίας σύνδεσης δεδομένων : %s\n"
 
-#: ../lib/rfc959.c:804 ../lib/rfc959.c:825 ../lib/rfc959.c:978
+#: ../lib/rfc959.c:798 ../lib/rfc959.c:819 ../lib/rfc959.c:970
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Αδυναμία λήψης ονόματος υποδοχής: %s\n"
 
-#: ../lib/rfc959.c:815 ../lib/rfc959.c:968
+#: ../lib/rfc959.c:809 ../lib/rfc959.c:960
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Αδυναμία πρόσδεσης μιας θύρας: %s\n"
 
-#: ../lib/rfc959.c:834 ../lib/rfc959.c:987
+#: ../lib/rfc959.c:828 ../lib/rfc959.c:979
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Αδυναμία ακοής σε μια θύρα %d: %s\n"
 
-#: ../lib/rfc959.c:883
+#: ../lib/rfc959.c:876
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "Αποτυχία δημιουργίας IPv6 socket: %s\n"
 
-#: ../lib/rfc959.c:903
+#: ../lib/rfc959.c:895
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 "Σφάλμα: Δεν φαίνεται να έχουμε συνδεθεί μέσω  IPv6. Διακοπή σύνδεσης.\n"
 
-#: ../lib/rfc959.c:931 ../lib/rfc959.c:940
+#: ../lib/rfc959.c:923 ../lib/rfc959.c:932
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Μη έγκυρη απάντηση EPSV '%s'\n"
 
-#: ../lib/rfc959.c:997
+#: ../lib/rfc959.c:989
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Αδυναμία λήψης διεύθυνσης της τοπικής υποδοχής: %s\n"
 
-#: ../lib/rfc959.c:1084
+#: ../lib/rfc959.c:1076
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Αδυναμία αποδοχής σύνδεσης από τον εξυπηρετητή: %s\n"
 
-#: ../lib/rfc959.c:1619
+#: ../lib/rfc959.c:1584
 msgid "total"
 msgstr "σύνολο"
 
-#: ../lib/rfc959.c:1621
+#: ../lib/rfc959.c:1586
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Προειδοποίηση: Αδυναμία ανάλυσης λίστας %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:77
+#: ../lib/socket-connect-gethostbyname.c:64
+#, c-format
+msgid "Looking up %s\n"
+msgstr "Αναζήτηση %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:82
+#: ../lib/socket-connect-gethostbyname.c:69
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "Αδυναμία αναζήτησης ονόματος συστήματος %s: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:115
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "Αποτυχία δημιουργίας μιας υποδοχής: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:121
+#: ../lib/socket-connect-gethostbyname.c:134
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "Προσπάθεια %s:%d\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:127
+#: ../lib/socket-connect-gethostbyname.c:141
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "Αδυναμία σύνδεσης σε %s: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:152
+#: ../lib/socket-connect-gethostbyname.c:159
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "Σύνδεση σε %s:%d\n"
+
+#: ../lib/socket-connect-gethostbyname.c:101 ../lib/sshv2.c:1168
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr ""
+"Αδυναμια αναζήτησης ονόματος υπηρεσίας%s/tcp. Παρακαλώ ελέγξτε το αρχείο "
+"υπηρεσιών σας\n"
+
+#: ../lib/sockutils.c:190 ../lib/sockutils.c:268 ../lib/sshv2.c:435
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "Η σύνδεση στο %s υπερέβη το όριο χρόνου\n"
+
+#: ../lib/sockutils.c:338
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "Αδυναμία λήψης socket flags: %s\n"
+
+#: ../lib/sockutils.c:352
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "Αδυναμία ορισμού υποδοχής σε non-blocking: %s\n"
 
 #: ../lib/sshv2.c:28
 msgid "SSH"
@@ -1293,8 +1292,8 @@ msgstr "(yes/no)?"
 msgid "Enter PASSCODE:"
 msgstr "Εισάγετε PASSCODE:"
 
-#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:585
-#: ../src/gtk/transfer.c:595
+#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:562
+#: ../src/gtk/transfer.c:572
 msgid "Enter Password"
 msgstr "Εισάγετε κωδικό πρόσβασης"
 
@@ -1424,8 +1423,8 @@ msgstr "Επιστράφηκε άγνωστο μήνυμα από τον εξυ�
 msgid "Error: Message size %d too big\n"
 msgstr "Σφάλμα: Το μέγεθος του μηνύματος %d είναι πολύ μεγάλο\n"
 
-#: ../lib/sshv2.c:811 ../lib/sshv2.c:1320 ../lib/sshv2.c:1895
-#: ../lib/sshv2.c:2015
+#: ../lib/sshv2.c:811 ../lib/sshv2.c:1346 ../lib/sshv2.c:1838
+#: ../lib/sshv2.c:1957
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr ""
@@ -1440,12 +1439,12 @@ msgstr ""
 "απομακρυσμένο εξυπηρετητή. Ακολουθεί το μήνυμα σφάλματος από τον "
 "απομακρυσμένο εξυπηρετητή:\n"
 
-#: ../lib/sshv2.c:1134
+#: ../lib/sshv2.c:1160
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "Άνοιγμα σύνδεσης SSH σε %s\n"
 
-#: ../lib/sshv2.c:1186
+#: ../lib/sshv2.c:1212
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Επιτυχής είσοδος στον εξυπηρετητή SSH %s\n"
@@ -1491,7 +1490,7 @@ msgstr ""
 msgid "Cannot get peer certificate\n"
 msgstr "Αδυναμία λήψης πιστοποιητικού peer\n"
 
-#: ../lib/sslcommon.c:199
+#: ../lib/sslcommon.c:196
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
@@ -1500,31 +1499,31 @@ msgstr ""
 "ΣΦΑΛΜΑ: Το σύστημα στο πιστοποιητικό SSL (%s) δεν ταιριάζει με το σύστημα με "
 "το οποίο έγινε σύνδεση (%s). Διακοπή σύνδεσης.\n"
 
-#: ../lib/sslcommon.c:306
+#: ../lib/sslcommon.c:302
 msgid "Cannot initialize the OpenSSL library\n"
 msgstr "Αποτυχία αρχικοποίησης της βιβλιοθήκης OpenSSL\n"
 
-#: ../lib/sslcommon.c:321
+#: ../lib/sslcommon.c:317
 msgid "Error loading default SSL certificates\n"
 msgstr "Σφάλμα φόρτωσης εξ ορισμού πιστοποιητικών SSL\n"
 
-#: ../lib/sslcommon.c:333
+#: ../lib/sslcommon.c:329
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "Σφάλμα ορισμού λίστα αποτυπωμάτων ( μή έγκυρα αποτυπώματα)\n"
 
-#: ../lib/sslcommon.c:353 ../lib/sslcommon.c:427 ../lib/sslcommon.c:475
+#: ../lib/sslcommon.c:349 ../lib/sslcommon.c:423 ../lib/sslcommon.c:471
 msgid "Error: SSL engine was not initialized\n"
 msgstr "Σφάλμα: Η μηχανή SSL δεν αρχικοποιήθηκε\n"
 
-#: ../lib/sslcommon.c:370
+#: ../lib/sslcommon.c:366
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "Σφάλμα ορισμού σύνδεσης SSL (BIO object)\n"
 
-#: ../lib/sslcommon.c:380
+#: ../lib/sslcommon.c:376
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "Σφάλμα ορισμού σύνδεσης SSL (SSL object)\n"
 
-#: ../lib/sslcommon.c:401
+#: ../lib/sslcommon.c:397
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "Σφάλμα με peer certificate: %s\n"
@@ -1538,95 +1537,84 @@ msgstr "Η λειτουργία ακυρώθηκε\n"
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "Αναμονή %d  πριν την προσπάθεια επανασύνδεσης\n"
 
-#: ../src/uicommon/gftpui.c:157
-msgid ""
-">. If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ""
-">. Αν έχετε ερωτήσεις σχόλια, ή προτάσεις για αυτό το πρόγραμμα, παρακαλώ "
-"στείλτε μου με email. Μπορείτε πάντοτε να βρείτε τα τελευταία νέα για το "
-"gFTP στην ιστοσελίδα μου  http://www.gftp.org/. Αν βρείτε σφάλματα στην "
-"ελληνική μετάφραση στείλτε τα στο pkst@gnome.org\n"
-
-#: ../src/uicommon/gftpui.c:158
+#: ../src/uicommon/gftpui.c:156
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
 "conditions; for details, see the COPYING file\n"
 msgstr ""
-"Το gFTP χρησιμοποιείται με ΚΑΜΜΙΑ ΑΠΟΛΥΤΩΣ ΕΓΓΥΗΣΗ, για λεπτομέρειες δείτε "
-"το αρχείο COPYING. Αυτό είναι ένα ελευθερο λογισμικό, και είστε ευπρόσδεκτοι "
-"να το αναδιανείμετε, για επτομέρειες δείτε το αρχείο COPYING\n"
+"Το gFTP χρησιμοποιείται χωρίς ΚΑΜΜΙΑ ΑΠΟΛΥΤΩΣ ΕΓΓΥΗΣΗ, για λεπτομέρειες "
+"δείτε το αρχείο COPYING. Αυτό είναι ένα ελευθερο λογισμικό, και είστε "
+"ευπρόσδεκτοι να το αναδιανείμετε, για λεπτομέρειες δείτε το αρχείο COPYING\n"
 
-#: ../src/uicommon/gftpui.c:160 ../src/gtk/menu-items.c:491
+#: ../src/uicommon/gftpui.c:158 ../src/gtk/menu-items.c:491
 msgid "Translated by"
 msgstr "Μεταφράστηκε από"
 
-#: ../src/uicommon/gftpui.c:207 ../src/uicommon/gftpui.c:249
-#: ../src/uicommon/gftpui.c:289 ../src/uicommon/gftpui.c:324
-#: ../src/uicommon/gftpui.c:359 ../src/uicommon/gftpui.c:395
-#: ../src/uicommon/gftpui.c:431 ../src/uicommon/gftpui.c:496
-#: ../src/uicommon/gftpui.c:577 ../src/uicommon/gftpui.c:845
+#: ../src/uicommon/gftpui.c:205 ../src/uicommon/gftpui.c:247
+#: ../src/uicommon/gftpui.c:287 ../src/uicommon/gftpui.c:322
+#: ../src/uicommon/gftpui.c:357 ../src/uicommon/gftpui.c:393
+#: ../src/uicommon/gftpui.c:429 ../src/uicommon/gftpui.c:494
+#: ../src/uicommon/gftpui.c:575 ../src/uicommon/gftpui.c:845
 msgid "Error: Not connected to a remote site\n"
 msgstr "Σφάλμα : δεν υπάρχει σύνδεση σε απομακρυσμένη σελίδα\n"
 
-#: ../src/uicommon/gftpui.c:218
+#: ../src/uicommon/gftpui.c:216
 msgid "usage: chmod <mode> <file>\n"
 msgstr "χρήση : chmod <mode> <file>\n"
 
-#: ../src/uicommon/gftpui.c:259
+#: ../src/uicommon/gftpui.c:257
 msgid "usage: rename <old name> <new name>\n"
 msgstr "χρήση : μετονομασία <old name> <new name>\n"
 
-#: ../src/uicommon/gftpui.c:295
+#: ../src/uicommon/gftpui.c:293
 msgid "usage: delete <file>\n"
 msgstr "χρήση: διαγραφή  <file>\n"
 
-#: ../src/uicommon/gftpui.c:330
+#: ../src/uicommon/gftpui.c:328
 msgid "usage: rmdir <directory>\n"
 msgstr "χρήση: rmdir <directory>\n"
 
-#: ../src/uicommon/gftpui.c:365
+#: ../src/uicommon/gftpui.c:363
 msgid "usage: site <site command>\n"
 msgstr "χρήση:site <site command>\n"
 
-#: ../src/uicommon/gftpui.c:401
+#: ../src/uicommon/gftpui.c:399
 msgid "usage: mkdir <new directory>\n"
 msgstr "χρήση:  mkdir <new directory>\n"
 
-#: ../src/uicommon/gftpui.c:437 ../src/uicommon/gftpui.c:455
+#: ../src/uicommon/gftpui.c:435 ../src/uicommon/gftpui.c:453
 msgid "usage: chdir <directory>\n"
 msgstr "χρήση :  chdir <directory>\n"
 
-#: ../src/uicommon/gftpui.c:528
+#: ../src/uicommon/gftpui.c:526
 msgid "Invalid argument\n"
 msgstr "Μη έγκυρη παράμετρος\n"
 
-#: ../src/uicommon/gftpui.c:541
+#: ../src/uicommon/gftpui.c:539
 msgid "Clear the directory cache\n"
 msgstr "Εκκαθάριση της λανθάνουσας μνήμης καταλόγου\n"
 
-#: ../src/uicommon/gftpui.c:630
+#: ../src/uicommon/gftpui.c:628
 msgid "usage: open "
 msgstr "χρήση: open "
 
-#: ../src/uicommon/gftpui.c:706
+#: ../src/uicommon/gftpui.c:704
 msgid "usage: set [variable = value]\n"
 msgstr "χρήση:  set [variable = value]\n"
 
-#: ../src/uicommon/gftpui.c:720
+#: ../src/uicommon/gftpui.c:718
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "Σφάλμα: Η μεταβλητή %s δεν είναι μια έγκυρη μεταβλητή ρύθμισης.\n"
 
-#: ../src/uicommon/gftpui.c:727
+#: ../src/uicommon/gftpui.c:725
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr ""
 "Σφάλμα: Η μεταβλητή %s δεν είναι διαθέσιμη στην έκδοση κειμένου του gftp\n"
 
-#: ../src/uicommon/gftpui.c:809
+#: ../src/uicommon/gftpui.c:807
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1789,7 +1777,7 @@ msgstr "Προβολή τρέχοντος τοπικού καταλόγου"
 
 #: ../src/uicommon/gftpui.c:977
 msgid "lrename"
-msgstr "lrename"
+msgstr "Irename"
 
 #: ../src/uicommon/gftpui.c:978
 msgid "Rename a local file"
@@ -1894,35 +1882,37 @@ msgstr "Εκτέλεση μιας συγκεκριμένης για τη σελ�
 msgid "Error: Command not recognized\n"
 msgstr "Σφάλμα: Η εντολή δεν είναι αναγνωρίσιμη\n"
 
-#: ../src/uicommon/gftpui.c:1334
+#: ../src/uicommon/gftpui.c:1304
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "Επιτυχής μεταφορά %s σε %.2f KB/s\n"
 
-#: ../src/uicommon/gftpui.c:1365
+#: ../src/uicommon/gftpui.c:1335
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Προσπέραση αρχείου %s στο σύστημα %s\n"
 
-#: ../src/uicommon/gftpui.c:1389
+#: ../src/uicommon/gftpui.c:1359
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Διακοπή της μεταφοράς στο σύστημα  %s\n"
 
-#: ../src/uicommon/gftpui.c:1540
+#: ../src/uicommon/gftpui.c:1505
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Αδυναμία μεταφόρτωσης %s από %s\n"
 
-#: ../src/uicommon/gftpui.c:1596
+#: ../src/uicommon/gftpui.c:1561
 #, c-format
 msgid ""
 "There were %d files or directories that could not be transferred. Check the "
 "log for which items were not properly transferred."
 msgstr ""
+"%d αρχεία ή κατάλογοι δε μπόρεσαν να μεταφερθούν. Ελέγξτε στο αρχείο "
+"καταγραφής ποια στοιχεία δεν μεταφέρθηκαν κανονικά."
 
 #: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1096 ../src/gtk/misc-gtk.c:505
+#: ../src/gtk/gftp-gtk.c:1103 ../src/gtk/misc-gtk.c:505
 #: ../src/gtk/misc-gtk.c:513
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
@@ -1970,11 +1960,8 @@ msgid "Remember password"
 msgstr "Απομνημόνευση κωδικού"
 
 #: ../src/gtk/bookmarks.c:420
-#, fuzzy
 msgid "You must specify a name for the bookmark."
-msgstr ""
-"Προσθήκη Σελιδοδείκτη: Θα πρέπει να εισάγετε ένα όνομα για αυτόν τον "
-"σελιδοδείκτη\n"
+msgstr "Πρέπει να εισάγετε ένα όνομα για αυτόν το σελιδοδείκτη"
 
 #: ../src/gtk/bookmarks.c:472
 msgid "New Folder"
@@ -1993,7 +1980,7 @@ msgid "Enter the name of the new item to create"
 msgstr "Εισάγετε το όνομα για το νέο αντικείμενο που θα δημιουργήσετε"
 
 #: ../src/gtk/bookmarks.c:556
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
 "%s and all its children?"
@@ -2124,7 +2111,7 @@ msgstr "SGID"
 msgid "Sticky"
 msgstr "Sticky"
 
-#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:780
+#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:789
 msgid "User"
 msgstr "Χρήστης"
 
@@ -2143,7 +2130,7 @@ msgstr "Εγγραφή"
 msgid "Execute"
 msgstr "Εκτέλεση"
 
-#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:781
+#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:790
 msgid "Group"
 msgstr "Ομάδα"
 
@@ -2175,7 +2162,7 @@ msgstr "Διαγραφή αρχείων/καταλόγων"
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1097 ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1104 ../src/gtk/misc-gtk.c:929
 #: ../src/gtk/misc-gtk.c:1004
 msgid "Connect"
 msgstr "Σύνδεση"
@@ -2256,7 +2243,7 @@ msgstr "/Τοπικά/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:283
 msgid "/Local/_Open Location..."
-msgstr "/Τοπικά/_Άνοιγμα τοποθεσίας..."
+msgstr "/Τοπικά/Άνοιγμα _τοποθεσίας..."
 
 #: ../src/gtk/gftp-gtk.c:285
 msgid "/Local/D_isconnect"
@@ -2267,19 +2254,16 @@ msgid "/Local/sep"
 msgstr "/Τοπικά/sep"
 
 #: ../src/gtk/gftp-gtk.c:287
-#, fuzzy
 msgid "/Local/Change _Filespec..."
-msgstr "/Τοπικά/Αλλαγή χαρακτηρ Αρχείου..."
+msgstr "/Τοπικά/Α_λλαγή filespec..."
 
 #: ../src/gtk/gftp-gtk.c:289
-#, fuzzy
 msgid "/Local/_Show selected"
-msgstr "/Τοπικά/Εμφάνιση επιλεγμένων"
+msgstr "/Τοπικά/Εμ_φάνιση επιλεγμένων"
 
 #: ../src/gtk/gftp-gtk.c:290
-#, fuzzy
 msgid "/Local/Select _All"
-msgstr "/Τοπικά/Επιλογή όλων"
+msgstr "/Τοπικά/_Επιλογή όλων"
 
 #: ../src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
@@ -2298,22 +2282,20 @@ msgid "/Local/Send SITE Command..."
 msgstr "/Τοπικά/Αποστολή εντολής SITE..."
 
 #: ../src/gtk/gftp-gtk.c:296
-#, fuzzy
 msgid "/Local/_Change Directory"
-msgstr "/Τοπικά/Αλλαγή καταλόγου"
+msgstr "/Τοπικά/_Αλλαγή καταλόγου"
 
 #: ../src/gtk/gftp-gtk.c:297
-#, fuzzy
 msgid "/Local/_Permissions..."
-msgstr "/Τοπικά/Chmod..."
+msgstr "/Τοπικά/Δ_ικαιώματα..."
 
 #: ../src/gtk/gftp-gtk.c:299
 msgid "/Local/_New Folder..."
-msgstr "/Αρχείο/_Νέος φάκελος...."
+msgstr "/Τοπικά/Δημιουργία _καταλόγου..."
 
 #: ../src/gtk/gftp-gtk.c:300
 msgid "/Local/Rena_me..."
-msgstr "/Τοπικά/Μετ_ονομασία..."
+msgstr "/Τοπικά/_Μετονομασία..."
 
 #: ../src/gtk/gftp-gtk.c:302
 msgid "/Local/_Delete..."
@@ -2321,11 +2303,11 @@ msgstr "/Τοπικά/_Διαγραφή..."
 
 #: ../src/gtk/gftp-gtk.c:304
 msgid "/Local/_Edit..."
-msgstr "/Τοπικά/_Επεξεργασία..."
+msgstr "/Τοπικά/Επε_ξεργασία..."
 
 #: ../src/gtk/gftp-gtk.c:305
 msgid "/Local/_View..."
-msgstr "/Τοπικά/_Προβολή..."
+msgstr "/Τοπικά/Π_ροβολή..."
 
 #: ../src/gtk/gftp-gtk.c:306
 msgid "/Local/_Refresh"
@@ -2340,31 +2322,28 @@ msgid "/Remote/tearoff"
 msgstr "/Απομακρυσμένα/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:310
-#, fuzzy
 msgid "/Remote/_Open Location..."
-msgstr "/Απομακρυσμένα/Άνοιγμα _URL..."
+msgstr "/Απομακρυσμένα/Άνοιγμα _τοποθεσίας..."
 
 #: ../src/gtk/gftp-gtk.c:312
 msgid "/Remote/D_isconnect"
-msgstr "/Απομακρυσμένα/_Αποσύνδεση"
+msgstr "/Απομακρυσμένα/Α_ποσύνδεση"
 
 #: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/Απομακρυσμένα/sep"
 
 #: ../src/gtk/gftp-gtk.c:315
-#, fuzzy
 msgid "/Remote/Change _Filespec..."
-msgstr "/Απομακρυσμένα/Αλλαγή  Filespec..."
+msgstr "/Απομακρυσμένα/Α_λλαγή Filespec..."
 
 #: ../src/gtk/gftp-gtk.c:317
-#, fuzzy
 msgid "/Remote/_Show selected"
-msgstr "/Απομακρυσμένα/Προβολή επιλεγμένων"
+msgstr "/Απομακρυσμένα/Εμ_φάνιση επιλεγμένων"
 
 #: ../src/gtk/gftp-gtk.c:318
 msgid "/Remote/Select _All"
-msgstr "/Απομακρυσμένα/Επιλογή _όλων"
+msgstr "/Απομακρυσμένα/_Επιλογή όλων"
 
 #: ../src/gtk/gftp-gtk.c:319
 msgid "/Remote/Select All Files"
@@ -2384,17 +2363,15 @@ msgstr "/Απομακρυσμένα/Αποστολή εντολής SITE..."
 
 #: ../src/gtk/gftp-gtk.c:324
 msgid "/Remote/_Change Directory"
-msgstr "/Απομακρυσμένα/Α_λλαγή καταλόγου"
+msgstr "/Απομακρυσμένα/_Αλλαγή καταλόγου"
 
 #: ../src/gtk/gftp-gtk.c:325
-#, fuzzy
 msgid "/Remote/_Permisssions..."
-msgstr "/Απομακρυσμένα/Chmod..."
+msgstr "/Απομακρυσμένα/Δ_ικαιώματα..."
 
 #: ../src/gtk/gftp-gtk.c:326
-#, fuzzy
 msgid "/Remote/_New Folder..."
-msgstr "/Αρχείο/ Νέος Φάκελος...."
+msgstr "/Απομακρυσμένα/Νέος _κατάλογος...."
 
 #: ../src/gtk/gftp-gtk.c:328
 msgid "/Remote/Rena_me..."
@@ -2406,15 +2383,15 @@ msgstr "/Απομακρυσμένα/_Διαγραφή..."
 
 #: ../src/gtk/gftp-gtk.c:331
 msgid "/Remote/_Edit..."
-msgstr "/Απομακρυσμένα/_Επεξεργασία..."
+msgstr "/Απομακρυσμένα/Επε_ξεργασία..."
 
 #: ../src/gtk/gftp-gtk.c:332
 msgid "/Remote/_View..."
-msgstr "/Απομακρυσμένα/_Προβολή..."
+msgstr "/Απομακρυσμένα/Π_ροβολή..."
 
 #: ../src/gtk/gftp-gtk.c:333
 msgid "/Remote/_Refresh"
-msgstr "/Απομακρυσμένα/_Ανανέωση"
+msgstr "/Απομακρυσμένα/Α_νανέωση"
 
 #: ../src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
@@ -2437,84 +2414,68 @@ msgid "/Bookmarks/sep"
 msgstr "/Σελιδοδείκτες/sep"
 
 #: ../src/gtk/gftp-gtk.c:341
-#, fuzzy
 msgid "/_Transfer"
 msgstr "/_Μεταφορές"
 
 #: ../src/gtk/gftp-gtk.c:342
-#, fuzzy
 msgid "/Transfer/tearoff"
 msgstr "/Μεταφορές/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:343
-#, fuzzy
 msgid "/Transfer/_Start"
-msgstr "/Μεταφορές/tearoff"
+msgstr "/Μεταφορές/Έ_ναρξη"
 
 #: ../src/gtk/gftp-gtk.c:344
-#, fuzzy
 msgid "/Transfer/St_op"
-msgstr "/Μεταφορές/sep"
+msgstr "/Μεταφορές/_Διακοπή"
 
 #: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
-#, fuzzy
 msgid "/Transfer/sep"
 msgstr "/Μεταφορές/sep"
 
 #: ../src/gtk/gftp-gtk.c:347
-#, fuzzy
 msgid "/Transfer/Skip _Current File"
-msgstr "/Μεταφορές/Προσπέραση τρέχοντος αρχείου"
+msgstr "/Μεταφορές/Προσπέραση _τρέχοντος αρχείου"
 
 #: ../src/gtk/gftp-gtk.c:348
-#, fuzzy
 msgid "/Transfer/_Remove File"
-msgstr "/Μεταφορές/Αφαίρεση αρχείου"
+msgstr "/Μεταφορές/_Αφαίρεση αρχείου"
 
 #: ../src/gtk/gftp-gtk.c:350
-#, fuzzy
 msgid "/Transfer/Move File _Up"
-msgstr "/Μεταφορές/Μετακίνηση αρχείου πάνω"
+msgstr "/Μεταφορές/Μετακίνηση αρχείου _πάνω"
 
 #: ../src/gtk/gftp-gtk.c:352
-#, fuzzy
 msgid "/Transfer/Move File _Down"
-msgstr "/Μεταφορές/Μετακίνηση αρχείου κάτω"
+msgstr "/Μεταφορές/Μετακίνηση αρχείου _κάτω"
 
 #: ../src/gtk/gftp-gtk.c:355
-#, fuzzy
 msgid "/Transfer/_Retrieve Files"
-msgstr "/Μεταφορές/Λήψη αρχείων"
+msgstr "/Μεταφορές/_Λήψη αρχείων"
 
 #: ../src/gtk/gftp-gtk.c:356
-#, fuzzy
 msgid "/Transfer/_Put Files"
-msgstr "/Μεταφορές/Τοποθέτηση αρχείων"
+msgstr "/Μεταφορές/Τοπο_θέτηση αρχείων"
 
 #: ../src/gtk/gftp-gtk.c:357
-#, fuzzy
 msgid "/L_og"
 msgstr "/Καταγρα_φή"
 
 #: ../src/gtk/gftp-gtk.c:358
-#, fuzzy
 msgid "/Log/tearoff"
 msgstr "/Καταγραφή/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:359
-#, fuzzy
 msgid "/Log/_Clear"
-msgstr "/Καταγραφή/Εκκαθάριση"
+msgstr "/Καταγραφή/_Εκκαθάριση"
 
 #: ../src/gtk/gftp-gtk.c:360
-#, fuzzy
 msgid "/Log/_View"
-msgstr "/Καταγραφή/Προβολή καταγραφής"
+msgstr "/Καταγραφή/_Προβολή καταγραφής"
 
 #: ../src/gtk/gftp-gtk.c:361
-#, fuzzy
 msgid "/Log/_Save..."
-msgstr "/Καταγραφή/Αποθήκευση καταγραφής..."
+msgstr "/Καταγραφή/_Αποθήκευση καταγραφής..."
 
 #: ../src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
@@ -2525,14 +2486,12 @@ msgid "/Tools/tearoff"
 msgstr "/Εργαλεία/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:364
-#, fuzzy
 msgid "/Tools/C_ompare Windows"
-msgstr "/Εργαλεία/ Σύγκριση παραθύρων"
+msgstr "/Εργαλεία/Σύγκριση παρα_θύρων"
 
 #: ../src/gtk/gftp-gtk.c:365
-#, fuzzy
 msgid "/Tools/_Clear Cache"
-msgstr "/Εργαλεία/ Εκκαθάριση λανθάνουσας μνήμης"
+msgstr "/Εργαλεία/Εκκαθάριση _λανθάνουσας μνήμης"
 
 #: ../src/gtk/gftp-gtk.c:366
 msgid "/Help"
@@ -2543,9 +2502,8 @@ msgid "/Help/tearoff"
 msgstr "/Βοήθεια/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:368
-#, fuzzy
 msgid "/Help/_About"
-msgstr "/Βοήθεια/Περί"
+msgstr "/Βοήθεια/Π_ερί"
 
 #: ../src/gtk/gftp-gtk.c:488
 msgid "Host: "
@@ -2575,28 +2533,28 @@ msgstr "Κωδικός:"
 msgid "Command: "
 msgstr "Εντολή:"
 
-#: ../src/gtk/gftp-gtk.c:778 ../src/gtk/gftp-gtk.c:989
+#: ../src/gtk/gftp-gtk.c:787 ../src/gtk/gftp-gtk.c:996
 #: ../src/gtk/gtkui_transfer.c:228
 msgid "Filename"
 msgstr "Όνομα αρχείου"
 
-#: ../src/gtk/gftp-gtk.c:779
+#: ../src/gtk/gftp-gtk.c:788
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: ../src/gtk/gftp-gtk.c:782
+#: ../src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: ../src/gtk/gftp-gtk.c:783
+#: ../src/gtk/gftp-gtk.c:792
 msgid "Attribs"
 msgstr "Γνωρίσματα"
 
-#: ../src/gtk/gftp-gtk.c:990
+#: ../src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "Πρόοδος"
 
-#: ../src/gtk/gftp-gtk.c:1126
+#: ../src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Σφάλμα: Θα πρέπει να πληκτρολογήστε ένα σύστημα για να συνδεθείτε\n"
 
@@ -2612,7 +2570,7 @@ msgstr "Εισάγετε όνομα χρήστη"
 msgid "Please enter your username for this site"
 msgstr "Παρακαλώ εισάγετε το όνομα χρήστη για αυτήν τη σελίδα"
 
-#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:586 ../src/gtk/transfer.c:596
+#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:563 ../src/gtk/transfer.c:573
 msgid "Please enter your password for this site"
 msgstr "Παρακαλώ εισάγετε τον κωδικό σας για αυτήν τη σελίδα"
 
@@ -2658,13 +2616,13 @@ msgstr "Prepend with SITE"
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:496
-#: ../src/gtk/transfer.c:564 ../src/gtk/transfer.c:1021
+#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:473
+#: ../src/gtk/transfer.c:541 ../src/gtk/transfer.c:998
 msgid "Skipped"
 msgstr "Προσπεράστηκε"
 
-#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:543
-#: ../src/gtk/transfer.c:568
+#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:520
+#: ../src/gtk/transfer.c:545
 msgid "Waiting..."
 msgstr "Αναμονή..."
 
@@ -2731,8 +2689,7 @@ msgid "Enter the new file specification"
 msgstr "Εισάγετε τους νέους όρους αρχείου"
 
 #: ../src/gtk/menu-items.c:114 ../src/gtk/menu-items.c:299
-#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:76
-#: ../src/gtk/view_dialog.c:155
+#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:81
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Σφάλμα :Αδυναμία ανοίγματος %s για εγγραφή : %s\n"
@@ -2769,7 +2726,7 @@ msgid "About gFTP"
 msgstr "Περί του gFTP"
 
 #: ../src/gtk/menu-items.c:490
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
@@ -2777,7 +2734,7 @@ msgid ""
 msgstr ""
 "%s\n"
 "Πνευματικά (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
-"Επίσημη ισοσελίδα: http://www.gftp.org/\n"
+"Επίσημη ισtοσελίδα: http://www.gftp.org/\n"
 "Λογότυπο από: Aaron Worley <planet_hoth@yahoo.com>\n"
 
 #: ../src/gtk/menu-items.c:503
@@ -2788,7 +2745,7 @@ msgstr "Περί"
 msgid "License Agreement"
 msgstr "Άδεια χρήσης"
 
-#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:405
+#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:385
 msgid "  Close  "
 msgstr "  Κλείσιμο  "
 
@@ -2806,7 +2763,7 @@ msgid ""
 "then a dialog is presented that will allow you to enter a URL."
 msgstr ""
 "Σύνδεση στη σελίδα που καθορίζεται στην καταχώρηση συστήματος. Αν αυτό είναι "
-"κενό,τότε  παρουσιάζεται ένας διάλογος που σας επιτρέπει να εισάγετε ένα  "
+"κενό, τότε παρουσιάζεται ένας διάλογος που σας επιτρέπει να εισάγετε ένα  "
 "URL."
 
 #: ../src/gtk/misc-gtk.c:308
@@ -2933,7 +2890,7 @@ msgstr "Το_μέας:"
 msgid "Local Hosts"
 msgstr "Τοπικά συστήματα"
 
-#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:105
+#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:34
 msgid "Edit"
 msgstr "Επεξεργασία"
 
@@ -2953,7 +2910,7 @@ msgstr "Εφαρμογή"
 msgid "Receiving file names..."
 msgstr "Λήψη ονομάτων αρχείων..."
 
-#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:712
+#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:689
 msgid "Connecting..."
 msgstr "Γίνεται σύνδεση..."
 
@@ -2999,94 +2956,94 @@ msgstr ""
 msgid "Edit File"
 msgstr "Επεξεργασία αρχείου"
 
-#: ../src/gtk/transfer.c:499
+#: ../src/gtk/transfer.c:476
 msgid "Finished"
 msgstr "Ολοκληρώθηκε"
 
-#: ../src/gtk/transfer.c:757
-#, fuzzy, c-format
+#: ../src/gtk/transfer.c:734
+#, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
-msgstr "Ληφθ %s από %s σε %.2fKB/s, %02d:%02d:%02d υπολ. απομένων χρόνος"
+msgstr "Στάληκαν %s από %s σε %.2fKB/s, %02d:%02d:%02d υπολ. απομένων χρόνος"
 
-#: ../src/gtk/transfer.c:762
+#: ../src/gtk/transfer.c:739
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Ληφθ %s από %s σε %.2fKB/s, %02d:%02d:%02d υπολ. απομένων χρόνος"
 
-#: ../src/gtk/transfer.c:773
-#, fuzzy, c-format
+#: ../src/gtk/transfer.c:750
+#, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
-msgstr "Ληφθ %s από %s, η μεταφορά κόλλησε, άγνωστος απομένων χρόνος"
+msgstr "Στάληκαν %s από %s, η μεταφορά κόλλησε, άγνωστος απομένων χρόνος"
 
-#: ../src/gtk/transfer.c:779
+#: ../src/gtk/transfer.c:756
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Ληφθ %s από %s, η μεταφορά κόλλησε, άγνωστος απομένων χρόνος"
 
-#: ../src/gtk/transfer.c:823
+#: ../src/gtk/transfer.c:800
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "Ολοκληρώθηκε άγνωστο ποσοστό. (Αρχείο %ld από %ld)"
 
-#: ../src/gtk/transfer.c:827
+#: ../src/gtk/transfer.c:804
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr ""
 "%d%% ολοκληρώθηκαν, %02d:%02d:%02d υπολ. απομένων χρόνος. (Αρχείο %ld από %"
 "ld)"
 
-#: ../src/gtk/transfer.c:865
+#: ../src/gtk/transfer.c:842
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Λήψη ονομάτων αρχείων...%s bytes"
 
-#: ../src/gtk/transfer.c:944 ../src/gtk/transfer.c:966
-#: ../src/gtk/transfer.c:985 ../src/gtk/transfer.c:1007
-#: ../src/gtk/transfer.c:1035 ../src/gtk/transfer.c:1095
+#: ../src/gtk/transfer.c:921 ../src/gtk/transfer.c:943
+#: ../src/gtk/transfer.c:962 ../src/gtk/transfer.c:984
+#: ../src/gtk/transfer.c:1012 ../src/gtk/transfer.c:1072
 msgid "There are no file transfers selected\n"
 msgstr "Δεν υπάρχουν επιλεγμένες μεταφορές αρχείων\n"
 
-#: ../src/gtk/view_dialog.c:36
+#: ../src/gtk/view_dialog.c:34
 msgid "View"
 msgstr "Προβολή"
 
-#: ../src/gtk/view_dialog.c:48
+#: ../src/gtk/view_dialog.c:49
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "Προβολή: Το %s είναι ένας κατάλογος. Δεν μπορείτε να τον προβάλετε.\n"
 
-#: ../src/gtk/view_dialog.c:114
-msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr ""
-"Επεξεργασία:Θα πρέπει να καθορίσετε έναν επεξεργαστή στο διάλογο επιλογών\n"
-
-#: ../src/gtk/view_dialog.c:127
+#: ../src/gtk/view_dialog.c:52
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr ""
 "Επεξεργασία: Το %s είναι ένας κατάλογος. Δεν μπορείτε να το επεξεργαστείτε.\n"
 
-#: ../src/gtk/view_dialog.c:210
+#: ../src/gtk/view_dialog.c:123
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr ""
+"Επεξεργασία:Θα πρέπει να καθορίσετε έναν επεξεργαστή στο διάλογο επιλογών\n"
+
+#: ../src/gtk/view_dialog.c:177
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Προβολή: Αδυναμία δικράνωσης άλλης διεργασίας: %s\n"
 
-#: ../src/gtk/view_dialog.c:213
+#: ../src/gtk/view_dialog.c:180
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "Σε εκτέλεση πρόγραμμα : %s %s\n"
 
-#: ../src/gtk/view_dialog.c:272
+#: ../src/gtk/view_dialog.c:240
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "Άνοιγμα %s με %s\n"
 
-#: ../src/gtk/view_dialog.c:307
+#: ../src/gtk/view_dialog.c:282
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "Προβολή αρχείου %s\n"
 
-#: ../src/gtk/view_dialog.c:314
+#: ../src/gtk/view_dialog.c:289
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Προβολή: Αδυναμία ανοίγματος αρχείου %s: %s\n"
@@ -3098,7 +3055,7 @@ msgstr "Αδυναμία ανοίγματος τερματικού ελέγχο�
 
 #: ../src/text/textui.c:80
 msgid "Username [anonymous]:"
-msgstr "Όνομα Χρήστη  [anonymous]::"
+msgstr "Όνομα χρήστη [anonymous]:"
 
 #: ../src/text/textui.c:158
 #, c-format
@@ -3110,49 +3067,3 @@ msgstr ""
 "%s υπάρχει ήδη. (%s μέγεθος πηγής, %s μέγεθος προορισμού):\n"
 "(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
 "c)"
-
-#~ msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
-#~ msgstr ""
-#~ "Σφάλμα μετατροπής αλφαριθμητικού '%s' σε UTF-8 από το τρέχον locale: %s\n"
-
-#~ msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
-#~ msgstr ""
-#~ "Σφάλμα μετατροπής αλφαριθμητικού '%s' από UTF-8 στο τρέχον locale: %s\n"
-
-#~ msgid "Error: Remote site disconnected after trying to transfer file\n"
-#~ msgstr ""
-#~ "Σφάλμα: Η απομακρυσμένη σελίδα αποσυνδέθηκε μετά την προσπάθεια μεταφοράς "
-#~ "αρχείου\n"
-
-#~ msgid "There was an error transfering the file %s"
-#~ msgstr "Δημιουργήθηκε σφάλμα κατά τη μεταφορά του αρχείου %s"
-
-#~ msgid "Stopping the transfer of %s\n"
-#~ msgstr "Διακοπή της μεταφοράς από %s\n"
-
-#~ msgid "Startup Directory:"
-#~ msgstr "Κατάλογος εκκίνησης:"
-
-#~ msgid "The default directory gFTP will go to on startup"
-#~ msgstr "Ο προεπιλεγμένος κατάλογος από το οποίο θα ξεκινά το gFTP"
-
-#~ msgid "Connect via URL"
-#~ msgstr "Σύνδεση μέσω URL"
-
-#~ msgid "OpenURL"
-#~ msgstr "Άνοιγμα URL"
-
-#~ msgid "/FTP/_Options..."
-#~ msgstr "/FTP/_Επιλογές..."
-
-#~ msgid "/Local/Make Directory..."
-#~ msgstr "/Τοπικά/Δημιουργία καταλόγου..."
-
-#~ msgid "/Remote/Make Directory..."
-#~ msgstr "/Απομακρυσμένα/Δημιουργία καταλόγου..."
-
-#~ msgid "/Transfers/Start Transfer"
-#~ msgstr "/Μεταφορές/Έναρξη μεταφοράς"
-
-#~ msgid "/Transfers/Stop Transfer"
-#~ msgstr "/Μεταφορές/Διακοπή μεταφοράς"
