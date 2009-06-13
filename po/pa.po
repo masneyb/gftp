@@ -7,19 +7,19 @@
 # Amanpreet Singh Alam <aalam@redhat.cpm>, 2004.
 # Amanpreet Singh Alam <amanpreetalam@yahoo.com>, 2005.
 # A S Alam <apbrar@gmail.com>, 2007.
-# A S Alam <aalam@users.sf.net>, 2007.
+# A S Alam <aalam@users.sf.net>, 2007, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp.HEAD.pa\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-13 03:24+0000\n"
-"PO-Revision-Date: 2007-11-03 10:27+0530\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gftp&component=general\n"
+"POT-Creation-Date: 2009-04-17 14:23+0000\n"
+"PO-Revision-Date: 2009-06-13 08:11+0530\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
-"Language-Team: Panjabi <punjabi-l10n@users.sf.net>\n"
+"Language-Team: Punjabi/Panjabi <punjab-l10n@list.sf.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 0.3\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ../lib/bookmark.c:38
@@ -32,7 +32,7 @@ msgstr "ਗਲਤ URL %s\n"
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "ਗਲਤੀ: ਕੈਂਚੇ ਇੰਡੈਕਸ ਫਾਇਲ ਵਿੱਚ %s ਗਲਤ ਸਤਰ\n"
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:571
+#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "ਗਲਤੀ: ਡਾਇਰੈਕਟਰੀ %s ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕਦੀ ਹੈ: %s\n"
@@ -43,35 +43,40 @@ msgid "Error: Cannot create temporary file: %s\n"
 msgstr "ਗਲਤੀ: ਆਰਜ਼ੀ ਫਾਇਲ਼ ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕਦੀ ਹੈ: %s\n"
 
 #: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
-#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:282
-#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1224
+#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:272
+#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1250
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "ਗਲਤੀ ਫਾਇਲ ਵੇਰਵਾ ਕਰਤਾ ਨੂੰ ਬੰਦ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ: %s\n"
 
-#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:189
-#: ../lib/local.c:198 ../lib/local.c:257
+#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:184
+#: ../lib/local.c:193 ../lib/local.c:247
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "ਗਲਤੀ: ਫਾਇਲ %s ਲਈ ਪ੍ਰਾਪਤ ਨਹੀ: %s\n"
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3158
+#: ../lib/charset-conv.c:73
+#, c-format
+msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+
+#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:1627
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "ਗਲਤੀ: ਲੋਕਲ ਫਾਇਲ %s ਖੋਲ੍ਹੀ ਨਹੀਂ ਜਾ ਸਕਦੀ ਹੈ: %s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2859 ../lib/sslcommon.c:497
+#: ../lib/config_file.c:143 ../lib/sockutils.c:293 ../lib/sslcommon.c:493
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "ਗਲਤੀ: ਸਾਕਟ ਉੱਤੇ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s\n"
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2781 ../lib/sshv2.c:445
-#: ../lib/sslcommon.c:450
+#: ../lib/config_file.c:151 ../lib/sockutils.c:214 ../lib/sshv2.c:445
+#: ../lib/sslcommon.c:446
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "ਗਲਤੀ: ਸਾਕਟ ਤੋਂ ਪੜ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s\n"
 
-#: ../lib/config_file.c:183 ../lib/config_file.c:738
+#: ../lib/config_file.c:183 ../lib/config_file.c:737
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP ਗਲਤੀ: ਗਲਤ ਬੁੱਕਮਾਰਕ ਫਾਇਲ ਨਾਂ %s\n"
@@ -81,7 +86,7 @@ msgstr "gFTP ਗਲਤੀ: ਗਲਤ ਬੁੱਕਮਾਰਕ ਫਾਇਲ ਨ�
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "ਚੇਤਾਵਨੀ: ਮਾਸਟਰ ਬੁੱਕਮਾਰਕ ਫਾਇਲ %s ਨਹੀਂ ਲੱਭੀ ਜਾ ਸਕਦੀ ਹੈ।\n"
 
-#: ../lib/config_file.c:203 ../lib/config_file.c:744
+#: ../lib/config_file.c:203 ../lib/config_file.c:743
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP ਗਲਤੀ: ਬੁੱਕਮਾਰਕ ਫਾਇਲ %s ਖੋਲ੍ਹੀ ਨਹੀਂ ਜਾ ਸਕਦੀ ਹੈ: %s\n"
@@ -96,76 +101,76 @@ msgstr "gFTP ਚੇਤਾਵਨੀ: ਬੁੱਕਮਾਰਕ ਫਾਇਲ ਵਿ
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP ਚੇਤਾਵਨੀ: ਲਾਈਨ %d ਵਿੱਚ ਲੋੜੀਦੇ ਆਰਗੂਮੈਂਟ ਨਹੀਂ ਹਨ\n"
 
-#: ../lib/config_file.c:505
+#: ../lib/config_file.c:504
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 msgstr ""
-"ਇਹ ਸ਼ੈਕਸ਼ਨ ਵਿੱਚ ਸੈੱਟ ਕਰੋ ਕਿ ਕਿਹੜੇ ਹੋਸਟ ਲੋਕਲ ਸਬ-ਨੈੱਟ ਉੱਤੇ ਹਨ ਅਤੇ ਪਰਾਕਸੀ ਸਰਵਰ ਲਈ ਜਾਣ "
-"ਦੀ ਲੋੜ ਨਹੀਂ ਹੈ (ਜੇ ਉਪਲੱਬਧ ਹੋਵੇ ਤਾਂ)। ਸਨਟੈਕਸ: dont_use_proxy=.domain ਜਾਂ dont_use_proxy=network number/netmask"
+"ਇਹ ਸ਼ੈਕਸ਼ਨ ਵਿੱਚ ਸੈੱਟ ਕਰੋ ਕਿ ਕਿਹੜੇ ਹੋਸਟ ਲੋਕਲ ਸਬ-ਨੈੱਟ ਉੱਤੇ ਹਨ ਅਤੇ ਪਰਾਕਸੀ ਸਰਵਰ ਲਈ ਜਾਣ ਦੀ ਲੋੜ "
+"ਨਹੀਂ ਹੈ (ਜੇ ਉਪਲੱਬਧ ਹੋਵੇ ਤਾਂ)। ਸਨਟੈਕਸ: dont_use_proxy=.domain ਜਾਂ "
+"dont_use_proxy=network number/netmask"
 
-#: ../lib/config_file.c:508
+#: ../lib/config_file.c:507
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
 msgstr ""
 
-#: ../lib/config_file.c:588 ../lib/config_file.c:833
+#: ../lib/config_file.c:587 ../lib/config_file.c:832
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP ਗਲਤੀ: ਗਲਤ ਸੰਰਚਨਾ ਫਾਇਲ ਨਾਂ %s\n"
 
-#: ../lib/config_file.c:599
+#: ../lib/config_file.c:598
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP ਗਲਤੀ: %s ਡਾਇਰੈਕਟਰੀ ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕੀ: %s\n"
 
-#: ../lib/config_file.c:609
+#: ../lib/config_file.c:608
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP ਗਲਤੀ: ਮਾਸਟਰ ਸੰਰਚਨਾ ਫਾਇਲ %s ਨਹੀਂ ਲੱਭੀ ਜਾ ਸਕਦੀ।\n"
 
-#: ../lib/config_file.c:611
+#: ../lib/config_file.c:610
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "ਕੀ ਤੁਸੀਂ ਇੰਸਟਾਲ ਕਰਨਾ ਹੈ?\n"
 
-#: ../lib/config_file.c:620 ../lib/config_file.c:839
+#: ../lib/config_file.c:619 ../lib/config_file.c:838
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP ਗਲਤੀ: ਸੰਰਚਨਾ ਫਾਇਲ %s ਖੋਲੀ ਨਹੀ ਜਾ ਸਕੀ ਹੈ: %s\n"
 
-#: ../lib/config_file.c:659
+#: ../lib/config_file.c:658
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr "ਸੰਰਚਨਾ ਫਾਇਲ ਵਿੱਚ ਲਾਈਨ %d ਉੱਤੇ ਪਾਰਸ ਗਲਤੀਆਂ ਕਰਕੇ ਖਤਮ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ\n"
 
-#: ../lib/config_file.c:665
+#: ../lib/config_file.c:664
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP ਚੇਤਾਵਨੀ: ਸੰਰਚਨਾ ਫਾਇਲ ਵਿੱਚ %d ਲਾਈਨ ਛੱਡੀ ਜਾ ਰਹੀ ਹੈ: %s\n"
 
-#: ../lib/config_file.c:672
+#: ../lib/config_file.c:671
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP ਗਲਤੀ: ਲਾਗ ਫਾਇਲ ਨਾਂ %s ਗਲਤ ਹੈ \n"
 
-#: ../lib/config_file.c:678
+#: ../lib/config_file.c:677
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP ਚੇਤਾਵਨੀ: ਲਿਖਣ ਲਈ %s ਖੋਲ੍ਹੀ ਨਹੀਂ ਜਾ ਸਕਦੀ: %s\n"
 
-#: ../lib/config_file.c:733
+#: ../lib/config_file.c:732
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
 "gFTP ਲਈ ਬੁੱਕਮਾਰਕ ਫਾਇਲ ਹੈ। ਕਾਪੀਰਾਈਟ C) 1998-2007 Brian Masney <masneyb@gftp."
-"org>। ਚੇਤਾਵਨੀ: ਇਸ ਫਾਇਲ ਵਿੱਚ ਜੇ ਤੁਸੀਂ ਕੋਈ ਟਿੱਪਣੀ ਸ਼ਾਮਲ ਕੀਤੀ ਤਾਂ ਫਾਇਲ "
-"*ਉੱਤੇ* ਲਿਖਿਆ ਜਾਵੇਗਾ।"
+"org>। ਚੇਤਾਵਨੀ: ਇਸ ਫਾਇਲ ਵਿੱਚ ਜੇ ਤੁਸੀਂ ਕੋਈ ਟਿੱਪਣੀ ਸ਼ਾਮਲ ਕੀਤੀ ਤਾਂ ਫਾਇਲ *ਉੱਤੇ* ਲਿਖਿਆ ਜਾਵੇਗਾ।"
 
-#: ../lib/config_file.c:734
+#: ../lib/config_file.c:733
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
 "is not secure. This is to avoid your password being easily remembered by "
@@ -173,24 +178,24 @@ msgid ""
 "this, all passwords were stored in plaintext."
 msgstr ""
 
-#: ../lib/config_file.c:846
+#: ../lib/config_file.c:845
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
-"gFTP ਲਈ ਸੰਰਚਨਾ ਫਾਇਲ ਹੈ। ਕਾਪੀਰਾਈਟ C) 1998-2007 Brian Masney <masneyb@gftp."
-"org>। ਚੇਤਾਵਨੀ: ਇਸ ਫਾਇਲ ਵਿੱਚ ਜੇ ਤੁਸੀਂ ਕੋਈ ਟਿੱਪਣੀ ਸ਼ਾਮਲ ਕੀਤੀ ਤਾਂ ਫਾਇਲ "
-"*ਉੱਤੇ* ਲਿਖਿਆ ਜਾਵੇਗਾ। "
-"ਜੇ ਐਂਟਰੀ ਲਈ ਇਸ ਦੀ ਟਿੱਪਣੀ ਵਿੱਚ (*) ਹੋਵੇ ਤਾਂ ਤੁਸੀਂ ਇਸ ਨੂੰ gFTP ਵਿੱਚ ਬਦਲ ਨਹੀਂ ਸਕਦੇ ਹੋ।"
+"gFTP ਲਈ ਸੰਰਚਨਾ ਫਾਇਲ ਹੈ। ਕਾਪੀਰਾਈਟ C) 1998-2007 Brian Masney <masneyb@gftp.org>। "
+"ਚੇਤਾਵਨੀ: ਇਸ ਫਾਇਲ ਵਿੱਚ ਜੇ ਤੁਸੀਂ ਕੋਈ ਟਿੱਪਣੀ ਸ਼ਾਮਲ ਕੀਤੀ ਤਾਂ ਫਾਇਲ *ਉੱਤੇ* ਲਿਖਿਆ ਜਾਵੇਗਾ। ਜੇ "
+"ਐਂਟਰੀ ਲਈ ਇਸ ਦੀ ਟਿੱਪਣੀ ਵਿੱਚ (*) ਹੋਵੇ ਤਾਂ ਤੁਸੀਂ ਇਸ ਨੂੰ gFTP ਵਿੱਚ ਬਦਲ ਨਹੀਂ ਸਕਦੇ ਹੋ।"
 
-#: ../lib/config_file.c:1210 ../lib/protocols.c:382 ../lib/rfc2068.c:546
-#: ../lib/rfc2068.c:547
+#: ../lib/config_file.c:1209 ../lib/protocols.c:385 ../lib/rfc2068.c:543
+#: ../lib/rfc2068.c:544
+#, c-format
 msgid "<unknown>"
 msgstr "<ਅਣਜਾਣ>"
 
-#: ../lib/config_file.c:1290 ../lib/config_file.c:1353
-#: ../lib/config_file.c:1395 ../lib/config_file.c:1428
+#: ../lib/config_file.c:1289 ../lib/config_file.c:1352
+#: ../lib/config_file.c:1394 ../lib/config_file.c:1427
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr "ਘਾਤਕ gFTP ਗਲਤੀ: ਗਲੋਬਲ ਹੈਸ਼ ਟੇਬਲ ਵਿੱਚ ਸੰਰਚਨਾ ਚੋਣ '%s' ਨਹੀਂ ਲੱਭੀ\n"
@@ -213,12 +218,13 @@ msgstr "ਗਲਤੀ: ਫਾਇਲ ਬੰਦ ਕਰਨ ਦੌਰਾਨ ਗਲਤ
 #: ../lib/fsp.c:327
 #, c-format
 msgid "Corrupted file listing from FSP server %s\n"
-msgstr ""
+msgstr "FSP ਸਰਵਰ %s ਤੋਂ ਨਿਕਾਰਾ ਫਾਇਲ ਲਿਸਟ!\n"
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1536
-#: ../lib/protocols.c:1537 ../lib/protocols.c:1578 ../lib/protocols.c:1579
-#: ../lib/protocols.c:1645 ../lib/protocols.c:1652 ../lib/protocols.c:1728
-#: ../lib/protocols.c:1729 ../lib/protocols.c:1765
+#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/parse-dir-listing.c:337
+#: ../lib/parse-dir-listing.c:338 ../lib/parse-dir-listing.c:379
+#: ../lib/parse-dir-listing.c:380 ../lib/parse-dir-listing.c:446
+#: ../lib/parse-dir-listing.c:453 ../lib/parse-dir-listing.c:529
+#: ../lib/parse-dir-listing.c:530 ../lib/parse-dir-listing.c:566
 msgid "unknown"
 msgstr "ਅਣਜਾਣ"
 
@@ -237,51 +243,53 @@ msgstr "ਡਾਇਰੈਕਟਰੀ ਤੋਂ %s ਸਫਲਤਾਪੂਰਕ ਤ
 msgid "Could not change directory to %s\n"
 msgstr "ਡਾਇਰੈਕਟਰੀ ਤੋਂ %s ਤਬਦੀਲ ਨਹੀਂ ਹੋ ਸਕੀ\n"
 
-#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:490 ../lib/local.c:526
-#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:329
+#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:480 ../lib/local.c:516
+#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:306
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "%s ਸਫਲਤਾਪੂਰਕ ਹਟਾਇਆ ਗਿਆ\n"
 
-#: ../lib/fsp.c:477 ../lib/local.c:496
+#: ../lib/fsp.c:477 ../lib/local.c:486
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "ਗਲਤੀ: ਡਾਇਰੈਕਟਰੀ %s ਹਟਾਈ ਨਹੀਂ ਜਾ ਸਕੀ: %s\n"
 
-#: ../lib/fsp.c:506 ../lib/local.c:532 ../src/gtk/transfer.c:267
-#: ../src/gtk/view_dialog.c:333
+#: ../lib/fsp.c:506 ../lib/local.c:522 ../src/gtk/transfer.c:267
+#: ../src/gtk/view_dialog.c:310
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "ਗਲਤੀ: ਫਾਇਲ %s ਹਟਾਈ ਨਹੀਂ ਜਾ ਸਕਦੀ: %s\n"
 
-#: ../lib/fsp.c:528 ../lib/local.c:564
+#: ../lib/fsp.c:528 ../lib/local.c:554
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "ਡਾਇਰੈਕਟਰੀ %s ਸਫਲਤਾਪੂਰਕ ਬਣਾਈ ਗਈ ਹੈ\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:600
+#: ../lib/fsp.c:563 ../lib/local.c:590
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "%s ਦਾ %s ਵਿੱਚ ਨਾਂ-ਤਬਦੀਲ ਸਫਲਤਾਪੂਰਕ ਕੀਤਾ ਗਿਆ ਹੈ\n"
 
-#: ../lib/fsp.c:575 ../lib/local.c:607
+#: ../lib/fsp.c:575 ../lib/local.c:597
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "ਗਲਤੀ: %s ਦਾ ਨਾਂ %s ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s\n"
 
-#: ../lib/ftps.c:157
+#: ../lib/ftps.c:156
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
+"FTPS ਸਹਿਯੋਗ ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ, ਕਿਉਂਕਿ SSL ਸਹਿਯੋਗ ਕੰਪਾਇਲ ਨਹੀਂ "
+"ਕੀਤਾ। ਕੁਨੈਕਸ਼ਨ ਅਧੂਰਾ ਛੱਡਿਆ ਜਾ ਰਿਹਾ ਹੈ।\n"
 
 #: ../lib/https.c:91
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
-"HTTPS ਸਹਿਯੋਗ ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ, ਕਿਉਂਕਿ SSL ਸਹਿਯੋਗ ਇਸ ਵਿੱਚ ਕੰਪਾਇਲ ਨਹੀਂ ਹੈ। "
-"ਕੁਨੈਕਸ਼ਨ ਛੱਡਿਆ ਜਾ ਰਿਹਾ ਹੈ।\n"
+"HTTPS ਸਹਿਯੋਗ ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ, ਕਿਉਂਕਿ SSL ਸਹਿਯੋਗ ਇਸ ਵਿੱਚ ਕੰਪਾਇਲ ਨਹੀਂ ਹੈ। ਕੁਨੈਕਸ਼ਨ ਛੱਡਿਆ ਜਾ "
+"ਰਿਹਾ ਹੈ।\n"
 
 #: ../lib/local.c:66
 #, c-format
@@ -298,49 +306,44 @@ msgstr "ਲੋਕਲ ਡਾਇਰੈਕਟਰੀ ਨੂੰ %s ਲਈ ਬਦਲ�
 msgid "Could not change local directory to %s: %s\n"
 msgstr "ਲੋਕਲ ਡਾਇਰੈਕਟਰੀ %s ਲਈ ਨਹੀਂ ਬਦਲੀ ਜਾ ਸਕੀ: %s\n"
 
-#: ../lib/local.c:248
+#: ../lib/local.c:238
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "ਗਲਤੀ: ਲੋਕਲ ਫਾਇਲ %s ਲਈ ਨਹੀਂ ਜਾ ਸਕਦੀ: %s\n"
 
-#: ../lib/local.c:434
+#: ../lib/local.c:424
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "ਲੋਕਲ ਡਾਇਰੈਕਟਰੀ ਲਿਸਟਿੰਗ %s ਲਈ ਨਹੀਂ ਜਾ ਸਕੀ: %s\n"
 
-#: ../lib/local.c:644
+#: ../lib/local.c:634
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "%s ਦਾ ਢੰਗ %o ਸਫਲਤਾਪੂਰਕ ਤਬਦੀਲ ਕੀਤਾ ਗਿਆ ਹੈ\n"
 
-#: ../lib/local.c:651
+#: ../lib/local.c:641
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr ""
 
-#: ../lib/local.c:686
+#: ../lib/local.c:676
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
-msgstr ""
+msgstr "%s ਦੀ ਸਮਾਂ ਮੋਹਰ ਠੀਕ ਤਰ੍ਹਾਂ ਬਦਲੀ ਗਈ\n"
 
-#: ../lib/local.c:693
+#: ../lib/local.c:683
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
-msgstr ""
+msgstr "ਗਲਤੀ: %s ਲਈ ਸਮਾਂ-ਮੋਹਰ ਬਦਲੀ ਨਹੀਂ ਜਾ ਸਕੀ: %s\n"
 
-#: ../lib/local.c:760
+#: ../lib/local.c:750
 msgid "local filesystem"
 msgstr "ਲੋਕਲ ਫਾਇਲ ਸਿਸਟਮ"
 
-#: ../lib/misc.c:407
+#: ../lib/misc.c:414
 #, c-format
 msgid "usage: gftp "
 msgstr "ਵਰਤੋਂ: gftp "
-
-#: ../lib/misc.c:407 ../lib/rfc2068.c:304 ../src/uicommon/gftpui.c:630
-#, c-format
-msgid "\n"
-msgstr "\n"
 
 #. @null@
 #: ../lib/options.h:25 ../lib/rfc959.c:26
@@ -353,15 +356,15 @@ msgstr "ਫਾਇਲ"
 
 #: ../lib/options.h:26
 msgid "size"
-msgstr "ਆਕਾਰ"
+msgstr "ਸਾਈਜ਼"
 
 #: ../lib/options.h:26
 msgid "user"
-msgstr "ਉਪਭੋਗਤਾ"
+msgstr "ਯੂਜ਼ਰ"
 
 #: ../lib/options.h:27
 msgid "group"
-msgstr "ਸਮੂਹ"
+msgstr "ਗਰੁੱਪ"
 
 #: ../lib/options.h:28
 msgid "datetime"
@@ -369,7 +372,7 @@ msgstr "ਸਮਾਂ-ਮਿਤੀ"
 
 #: ../lib/options.h:29
 msgid "attribs"
-msgstr "ਵਿਸ਼ੇਸਤਾ"
+msgstr "ਵਿਸ਼ੇਸ਼ਤਾ"
 
 #. @null@
 #: ../lib/options.h:32
@@ -386,19 +389,19 @@ msgstr "ਸਧਾਰਨ"
 
 #: ../lib/options.h:43
 msgid "View program:"
-msgstr "ਕਾਰਜ ਵੇਖੋ:"
+msgstr "ਪਰੋਗਰਾਮ ਵੇਖੋ:"
 
 #: ../lib/options.h:44
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
 msgstr ""
-"ਫਾਇਲ ਵੇਖਣ ਲਈ ਵਰਤਣ ਵਾਸਤੇ ਡਿਫਾਲਟ ਪਰੋਗਰਾਮ ਹੈ। ਜੇ ਇਹ ਖਾਲੀ ਹੋਇਆ ਤਾਂ ਅੰਦਰੂਨੀ ਫਾਇਲ "
-"ਦਰਸ਼ਕ ਵਰਤਿਆ ਜਾਵੇਗਾ।"
+"ਫਾਇਲ ਵੇਖਣ ਲਈ ਵਰਤਣ ਵਾਸਤੇ ਡਿਫਾਲਟ ਪਰੋਗਰਾਮ ਹੈ। ਜੇ ਇਹ ਖਾਲੀ ਹੋਇਆ ਤਾਂ ਅੰਦਰੂਨੀ ਫਾਇਲ ਦਰਸ਼ਕ "
+"ਵਰਤਿਆ ਜਾਵੇਗਾ।"
 
 #: ../lib/options.h:46
 msgid "Edit program:"
-msgstr "ਕਾਰਜ ਸੋਧ:"
+msgstr "ਪਰੋਗਰਾਮ ਸੋਧ:"
 
 #: ../lib/options.h:47
 msgid "The default program used to edit files."
@@ -420,7 +423,9 @@ msgstr "ਰਿਮੋਟ ਅੱਖਰ ਸੈੱਟ:"
 msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
-msgstr "ਇਹ ਅੱਖਰ-ਸੈੱਟ ਦੀ ਇੱਕ ਕਾਮਿਆਂ ਨਾਲ ਵੱਖ ਕੀਤੀ ਲਿਸਟ ਹੈ, ਜੋ ਕਿ ਮੌਜੂਦਾ ਲੋਕੇਲ ਤੋਂ ਰਿਮੋਟ ਸੁਨੇਹੇ ਬਦਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਹੈ"
+msgstr ""
+"ਇਹ ਅੱਖਰ-ਸੈੱਟ ਦੀ ਇੱਕ ਕਾਮਿਆਂ ਨਾਲ ਵੱਖ ਕੀਤੀ ਲਿਸਟ ਹੈ, ਜੋ ਕਿ ਮੌਜੂਦਾ ਲੋਕੇਲ ਤੋਂ ਰਿਮੋਟ ਸੁਨੇਹੇ ਬਦਲਣ ਦੀ "
+"ਕੋਸ਼ਿਸ਼ ਹੈ"
 
 #: ../lib/options.h:56
 msgid "Remote LC_TIME:"
@@ -431,6 +436,8 @@ msgid ""
 "This is the value of LC_TIME for the remote site. This is so that dates can "
 "be parsed properly in the directory listings."
 msgstr ""
+"ਰਿਮੋਟ ਸਾਈਟ ਲਈ ਇਹ LC_TIME ਦਾ ਮੁੱਲ ਹੈ। ਇਹ ਤਾਂ ਹੈ ਕਿ ਤਾਂ ਕਿ ਡਾਇਰੈਕਟਰੀ ਵੇਖਾਉਣ ਦੌਰਾਨ ਮਿਤੀ ਨੂੰ ਪਾਰਸ "
+"ਕੀਤਾ ਜਾ ਸਕੇ।"
 
 #: ../lib/options.h:60
 msgid "Cache TTL:"
@@ -478,7 +485,7 @@ msgstr "ਫਾਇਲ ਟਾਈਮ ਰੱਖੋ"
 
 #: ../lib/options.h:85
 msgid "Preserve file times of transfered files"
-msgstr ""
+msgstr "ਟਰਾਂਸਫਰ ਕੀਤੀਆਂ ਫਾਇਲਾਂ ਦਾ ਫਾਇਲ ਸਮਾਂ ਸੁਰੱਖਿਅਤ ਰੱਖੋ"
 
 #: ../lib/options.h:87
 msgid "Refresh after each file transfer"
@@ -498,7 +505,7 @@ msgstr "ਪਹਿਲਾਂ ਡਾਇਰੈਕਟਰੀਆਂ ਰੱਖੋ ਅਤ
 
 #: ../lib/options.h:96
 msgid "Show hidden files"
-msgstr "ਲੁਕਵੀਆਂ ਫਾਇਲ਼ਾਂ ਵੇਖਾਓ"
+msgstr "ਲੁਕਵੀਆਂ ਫਾਇਲਾਂ ਵੇਖੋ"
 
 #: ../lib/options.h:99
 msgid "Show hidden files in the listboxes"
@@ -506,27 +513,27 @@ msgstr "ਲਿਸਟ-ਬਕਸੇ ਵਿੱਚ ਲੁਕਵੀਆਂ ਫਾਇ�
 
 #: ../lib/options.h:100
 msgid "Show transfer status in title"
-msgstr "ਟਾਇਟਲ ਵਿੱਚ ਟਰਾਂਸਫਰ ਸਟੇਟਸ ਵੇਖੋ"
+msgstr "ਟਾਈਟਲ ਵਿੱਚ ਟਰਾਂਸਫਰ ਸਟੇਟਸ ਵੇਖੋ"
 
 #: ../lib/options.h:102
 msgid "Show the file transfer status in the titlebar"
-msgstr ""
+msgstr "ਟਾਈਟਲ-ਪੱਟੀ ਵਿੱਚ ਫਾਇਲ ਟਰਾਂਸਫਰ ਹਾਲਤ ਵੇਖੋ"
 
 #: ../lib/options.h:103
 msgid "Start file transfers"
-msgstr "ਫਾਇਲ ਤਬਦੀਲੀ ਵੇਖਾਓ"
+msgstr "ਫਾਇਲ ਟਰਾਂਸਫਰ ਸ਼ੁਰੂ"
 
 #: ../lib/options.h:105
 msgid "Automatically start the file transfers when they get queued"
-msgstr ""
+msgstr "ਜਦੋਂ ਕਤਾਰ ਮਿਲੇ ਤਾਂ ਆਟੋਮੈਟਿਕ ਹੀ ਫਾਇਲ ਟਰਾਂਸਫਰ ਸ਼ੁਰੂ ਕਰੋ"
 
 #: ../lib/options.h:107
 msgid "Allow manual commands in GUI"
-msgstr ""
+msgstr "GUI ਵਿੱਚ ਦਸਤੀ ਕਮਾਂਡ ਮਨਜ਼ੂਰ"
 
 #: ../lib/options.h:109
 msgid "Allow entering manual commands in the GUI (functions like the text port)"
-msgstr ""
+msgstr "GUI ਵਿੱਚ ਦਸਤੀ ਕਮਾਂਡ ਦੇਣਾ ਮਨਜ਼ੂਰ (ਟੈਕਸਟ ਪੋਰਟ ਵਾਂਗ ਕੰਮ)"
 
 #: ../lib/options.h:111
 msgid "Remember last directory"
@@ -534,7 +541,7 @@ msgstr "ਆਖਰੀ ਡਾਇਰੈਕਟਰੀ ਯਾਦ ਰੱਖੋ"
 
 #: ../lib/options.h:113
 msgid "Save the last local and remote directory when the application is closed"
-msgstr ""
+msgstr "ਜਦੋਂ ਐਪਲੀਕੇਸ਼ਨ ਬੰਦ ਹੋਵੇ ਤਾਂ ਆਖਰੀ ਲੋਕਲ ਅਤੇ ਰਿਮੋਟ ਡਾਇਰੈਕਟਰੀ ਸੰਭਾਲੋ"
 
 #: ../lib/options.h:115
 msgid "Connect to remote server on startup"
@@ -542,7 +549,7 @@ msgstr "ਸ਼ੁਰੂ ਸਮੇਂ ਰਿਮੋਟ ਸਰਵਰ ਤੋਂ ਕ�
 
 #: ../lib/options.h:117
 msgid "Automatically connect to the remote server when the application is started."
-msgstr ""
+msgstr "ਜਦੋਂ ਐਪਲੀਕੇਸ਼ਨ ਚਾਲੂ ਹੋਵੇ ਤਾਂ ਆਟੋਮੈਟਿਕ ਹੀ ਰਿਮੋਟ ਸਰਵਰ ਨਾਲ ਕੁਨੈਕਟ ਕਰੋ।"
 
 #: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
 #: ../src/gtk/options_dialog.c:1240
@@ -563,7 +570,7 @@ msgstr "ਕੁਨੈਕਟ ਮੁੜ-ਟਰਾਈ:"
 
 #: ../lib/options.h:130
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
-msgstr ""
+msgstr "ਆਟੋਮੈਟਿਕ ਮੁੜ-ਟਰਾਈ ਕਰਨ ਦੀ ਗਿਣਤੀ। ਲਗਾਤਾਰ ਮੁੜ-ਟਰਾਈ ਕਰਨ ਲਈ 0 ਸੈੱਟ ਕਰੋ।"
 
 #: ../lib/options.h:132
 msgid "Retry sleep time:"
@@ -575,7 +582,7 @@ msgstr "ਰੀ-ਟਰਾਈਆਂ ਦੇ ਵਿੱਚ ਉਡੀਕ ਲਈ ਸਕ
 
 #: ../lib/options.h:136
 msgid "Max KB/S:"
-msgstr "ਅਧਿਕ KB/S:"
+msgstr "ਵੱਧੋ-ਵੱਧ KB/S:"
 
 #: ../lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
@@ -583,21 +590,21 @@ msgstr "ਵੱਧੋ-ਵੱਧ KB/s, ਜੋ ਇੱਕ ਫਾਇਲ ਟਰਾਂ�
 
 #: ../lib/options.h:141
 msgid "Transfer Block Size:"
-msgstr "ਤਬਦੀਲ ਬਲਾਕ ਅਕਾਰ:"
+msgstr "ਟਰਾਂਸਫਰ ਬਲਾਕ ਅਕਾਰ:"
 
 #: ../lib/options.h:144
 msgid ""
 "The block size that is used when transfering files. This should be a "
 "multiple of 1024."
-msgstr ""
+msgstr "ਫਾਇਲਾਂ ਟਰਾਂਸਫਰ ਕਰਨ ਲਈ ਬਲਾਕ ਦਾ ਸਾਈਜ਼ ਹੈ। ਇਹ 1024 ਦਾ ਗੁਣਾਂਕ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।"
 
 #: ../lib/options.h:147
 msgid "Default Protocol:"
-msgstr "ਮੂਲ ਪ੍ਰੋਟੋਕਾਲ:"
+msgstr "ਡਿਫਾਲਟ ਪਰੋਟੋਕਾਲ:"
 
 #: ../lib/options.h:149
 msgid "This specifies the default protocol to use"
-msgstr "ਇਹ ਵਰਤਣ ਲਈ ਮੂਲ ਪ੍ਰੋਟੋਕਾਲ ਨਿਰਧਾਰਤ ਕਰਦਾ ਹੈ"
+msgstr "ਇਹ ਵਰਤਣ ਲਈ ਡਿਫਾਲਟ ਪਰੋਟੋਕਾਲ ਦਿੰਦਾ ਹੈ"
 
 #: ../lib/options.h:151 ../lib/options.h:154
 msgid "Enable IPv6 support"
@@ -608,8 +615,8 @@ msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
 msgstr ""
-"ਇਹ ਤਹਿ ਕਰਦੀ ਹੈ ਕਿ ਜੇ ਤੁਸੀਂ ਫਾਇਲ ਲਿਸਟ-ਬਾਕਸ ਵਿੱਚ ਇੱਕ ਫਾਇਲ ਉੱਤੇ ਡਬਲ ਕਲਿੱਕ ਕਰੋ ਤਾਂ "
-"ਕੀ ਹੋਵੇਗਾ। 0=ਫਾਇਲ ਵੇਖੋ, 1=ਫਾਇਲ ਸੋਧ 2=ਫਾਇਲ ਟਰਾਂਸਫਰ"
+"ਇਹ ਤਹਿ ਕਰਦੀ ਹੈ ਕਿ ਜੇ ਤੁਸੀਂ ਫਾਇਲ ਲਿਸਟ-ਬਾਕਸ ਵਿੱਚ ਇੱਕ ਫਾਇਲ ਉੱਤੇ ਡਬਲ ਕਲਿੱਕ ਕਰੋ ਤਾਂ ਕੀ ਹੋਵੇਗਾ। "
+"0=ਫਾਇਲ ਵੇਖੋ, 1=ਫਾਇਲ ਸੋਧ 2=ਫਾਇਲ ਟਰਾਂਸਫਰ"
 
 #: ../lib/options.h:162
 msgid "The default width of the local files listbox"
@@ -629,19 +636,17 @@ msgstr "ਤਬਦੀਲ ਸੂਚੀਬਕਸੇ ਦੀ ਮੂਲ ਉਚਾਈ"
 
 #: ../lib/options.h:174
 msgid "The default height of the logging window"
-msgstr "ਲਾਗਿੰਨ ਝਰੋਖਾ ਦੀ ਮੂਲ ਉਚਾਈ"
+msgstr "ਲਾਗਇਨ ਵਿੰਡੋ ਦੀ ਡਿਫਾਲਟ ਉਚਾਈ"
 
 #: ../lib/options.h:177
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
-msgstr ""
-"ਟਰਾਂਸਫਰ ਵਿੰਡੋ ਵਿੱਚ ਫਾਇਲ-ਨਾਂ ਕਾਲਮ ਦੀ ਚੌੜਾਈ ਹੈ। ਇਹ ਕਾਲਮ ਨੂੰ ਆਟੋਮੈਟਿਕ ਸੈੱਟ ਕਰਨ ਲਈ "
-"ਇਹ 0 ਦਿਓ।"
+msgstr "ਟਰਾਂਸਫਰ ਵਿੰਡੋ ਵਿੱਚ ਫਾਇਲ-ਨਾਂ ਕਾਲਮ ਦੀ ਚੌੜਾਈ ਹੈ। ਇਹ ਕਾਲਮ ਨੂੰ ਆਟੋਮੈਟਿਕ ਸੈੱਟ ਕਰਨ ਲਈ ਇਹ 0 ਦਿਓ।"
 
 #: ../lib/options.h:190 ../lib/options.h:196
 msgid "The default column to sort by"
-msgstr "ਮੂਲ ਕਾਲਮ, ਜਿਸ ਰਾਹੀਂ ਕ੍ਰਮਬੱਧ ਕਰਨਾ ਹੈ"
+msgstr "ਡਿਫਾਲਟ ਕਾਲਮ, ਜਿਸ ਰਾਹੀਂ ਕ੍ਰਮਬੱਧ ਕਰਨਾ ਹੈ"
 
 #: ../lib/options.h:193 ../lib/options.h:199
 msgid "Sort ascending or descending"
@@ -652,8 +657,8 @@ msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
 msgstr ""
-"ਫਾਇਲ ਲਿਸਟਬਾਕਸ ਵਿੱਚ ਫਾਇਲ ਨਾਂ ਕਾਲਮ ਦੀ ਚੌੜਾਈ ਹੈ। ਇਸ ਦਾ ਡਿਫਾਲਟ 0 ਹੋਵੇਗਾ, ਜੇਕਰ ਤੁਸੀਂ ਚਾਹੁੰਦੇ ਹੋ ਕਿ ਇਹ "
-"ਆਟੋਮੈਟਿਕ ਢੰਗ ਨਾਲ ਰੀ-ਸਾਇਜ਼ ਹੋਵੇ। ਇਸ ਕਾਲਮ ਨੂੰ ਆਯੋਗ ਕਰਨ ਲ਼ਈ -1 ਦਿਓ।"
+"ਫਾਇਲ ਲਿਸਟਬਾਕਸ ਵਿੱਚ ਫਾਇਲ ਨਾਂ ਕਾਲਮ ਦੀ ਚੌੜਾਈ ਹੈ। ਇਸ ਦਾ ਡਿਫਾਲਟ 0 ਹੋਵੇਗਾ, ਜੇਕਰ ਤੁਸੀਂ ਚਾਹੁੰਦੇ "
+"ਹੋ ਕਿ ਇਹ ਆਟੋਮੈਟਿਕ ਢੰਗ ਨਾਲ ਰੀ-ਸਾਇਜ਼ ਹੋਵੇ। ਇਸ ਕਾਲਮ ਨੂੰ ਆਯੋਗ ਕਰਨ ਲ਼ਈ -1 ਦਿਓ।"
 
 #: ../lib/options.h:206 ../lib/options.h:224
 msgid ""
@@ -743,135 +748,73 @@ msgstr "ਬੁੱਕਮਾਰਕ"
 msgid "FSP"
 msgstr "FSP"
 
-#: ../lib/protocols.c:225
+#: ../lib/protocols.c:228
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "ਫਾਇਲ਼ ਤਬਦੀਲ ਦੀ ਗਤੀ %.2f KB/s\n"
 
-#: ../lib/protocols.c:378
+#: ../lib/protocols.c:381
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
-msgstr ""
+msgstr "LC_TIME '%s' ਸੈੱਟ ਕਰਨ ਲਈ ਗਲਤੀ। '%s' ਵਰਤਿਆ ਜਾ ਰਿਹਾ ਹੈ\n"
 
-#: ../lib/protocols.c:389
+#: ../lib/protocols.c:392
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
-msgstr ""
+msgstr "ਕੈਸ ਤੋਂ ਡਾਇਰੈਕਟਰੀ ਲਿਸਟ %s ਲੋਡ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:399
+#: ../lib/protocols.c:402
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
-msgstr ""
+msgstr "ਸਰਵਰ ਤੋਂ ਡਾਇਰੈਕਟਰੀ ਲਿਸਟ %s ਲੋਡ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:461
-#, c-format
-msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr ""
-
-#: ../lib/protocols.c:654
+#: ../lib/protocols.c:452
 #, c-format
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
 "match the current directory (%s)\n"
 msgstr ""
 
-#: ../lib/protocols.c:680
+#: ../lib/protocols.c:483
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
-msgstr "ਗਲਤੀ: ਕੈਂਚੇ ਲਈ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
+msgstr "ਗਲਤੀ: ਕੈਸ਼ ਲਈ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
 
-#: ../lib/protocols.c:713
+#: ../lib/protocols.c:516
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "ਗਲਤੀ: ਬੁੱਕਮਾਰਕ %s ਨੂੰ ਖੋਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ\n"
 
-#: ../lib/protocols.c:720
+#: ../lib/protocols.c:523
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "ਬੁੱਕਮਾਰਕ ਗਲਤੀ: ਬੁੱਕਮਾਰਕ ਐਂਟਰੀ %s ਲਈ ਹੋਸਟ ਨਾਂ ਨਹੀਂ\n"
 
-#: ../lib/protocols.c:842 ../lib/protocols.c:869
+#: ../lib/protocols.c:645 ../lib/protocols.c:672
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
-msgstr "ਪ੍ਰੋਟੋਕਾਲ '%s' ਇਸ ਮੌਕੇ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।\n"
+msgstr "ਪਰੋਟੋਕਾਲ '%s' ਇਸ ਮੌਕੇ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।\n"
 
-#: ../lib/protocols.c:1159 ../lib/protocols.c:1174 ../lib/protocols.c:2356
-#: ../lib/protocols.c:2469
-#, c-format
-msgid "Looking up %s\n"
-msgstr "%s ਦੀ ਖੋਜ ਜਾਰੀ\n"
-
-#: ../lib/protocols.c:1165 ../lib/protocols.c:1180 ../lib/protocols.c:2361
-#: ../lib/protocols.c:2474
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "ਹੋਸਟ ਨਾਂ %s ਨੂੰ ਲੱਭਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s\n"
-
-#: ../lib/protocols.c:2091
+#: ../lib/protocols.c:1155
 #, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr ""
 
-#: ../lib/protocols.c:2379
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "ਸਾਕਟ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s\n"
-
-#: ../lib/protocols.c:2385 ../lib/protocols.c:2491
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "%s ਲਈ ਕੋਸ਼ਿਸ ਜਾਰੀ:%d\n"
-
-#: ../lib/protocols.c:2390 ../lib/protocols.c:2498
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "%s ਨਾਲ ਜੁੜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
-
-#: ../lib/protocols.c:2428 ../lib/rfc959.c:706
-#, c-format
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "IPv4 ਸਾਕਟ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s\n"
-
-#: ../lib/protocols.c:2452 ../lib/sshv2.c:1142
-#, c-format
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
-msgstr "ਸਰਵਿਸ ਨਾਂ %s/tcp ਖੋਜੀ ਨਹੀਂ ਜਾ ਸਕਦੀ ਹੈ। ਆਪਣੀ ਸਰਵਿਸ ਫਾਇਲ ਚੈੱਕ ਕਰੋ ਜੀ\n"
-
-#: ../lib/protocols.c:2514 ../lib/protocols.c:3167 ../lib/rfc959.c:715
-#: ../lib/rfc959.c:892
-#, c-format
-msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "ਗਲਤੀ: exec ਨਿਸ਼ਾਨ ਤੇ ਬੰਦ ਦਿੱਤਾ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s\n"
-
-#: ../lib/protocols.c:2521
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "%s ਨਾਲ ਜੁੜਿਆ:%d\n"
-
-#: ../lib/protocols.c:2757 ../lib/protocols.c:2834 ../lib/sshv2.c:435
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "%s ਨਾਲ ਕੁਨੈਕਸ਼ਨ ਅੰਤਰਾਲ ਸਮਾਪਤ\n"
-
-#: ../lib/protocols.c:2904
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr "ਸਾਕਟ ਨਿਸ਼ਾਨ ਪ੍ਰਾਪਤ ਨਹੀਂ: %s\n"
-
-#: ../lib/protocols.c:2918
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "ਸਾਕਟ ਲਈ ਨਾ-ਪਾਬੰਦੀ ਨਹੀਂ ਹੋ ਸਕੀ: %s\n"
-
-#: ../lib/protocols.c:3064
+#: ../lib/protocols.c:1533
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "ਗਲਤੀ: ਰਿਮੋਟ ਸਾਇਟ %s ਨਾਲ ਕੁਨੈਕਸ਼ਨ ਟੁੱਟਿਆ ਹੈ। ਅਧਿਕਤਮ ਕੋਸ਼ਿਸ਼ਾਂ ਹੋਈ...ਛੱਡਿਆ ਜਾਦਾ ਹੈ\n"
 
-#: ../lib/protocols.c:3072
+#: ../lib/protocols.c:1541
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "ਗਲਤੀ: ਰਿਮੋਟ ਸਾਇਟ %s ਨਾਲ ਕੁਨੈਕਸ਼ਨ ਟੁੱਟਿਆ ਹੈ। %d ਸਕਿੰਟ ਵਿੱਚ ਜੁੜਿਆ ਜਾਵੇਗਾ।\n"
+
+#: ../lib/protocols.c:1636 ../lib/rfc959.c:715 ../lib/rfc959.c:885
+#: ../lib/socket-connect.c:126
+#, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr "ਗਲਤੀ: exec ਨਿਸ਼ਾਨ ਤੇ ਬੰਦ ਦਿੱਤਾ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s\n"
 
 #: ../lib/pty.c:301
 #, c-format
@@ -911,11 +854,11 @@ msgstr "ਫਾਇਲਵਾਲ ਤੇ ਜੁੜਨ ਲਈ ਪੋਰਟ"
 
 #: ../lib/rfc2068.c:36 ../lib/rfc959.c:53
 msgid "Proxy username:"
-msgstr "ਪਰਾਕਸੀ ਉਪਭੋਗਤਾ-ਨਾਂ:"
+msgstr "ਪਰਾਕਸੀ ਯੂਜ਼ਰ-ਨਾਂ:"
 
 #: ../lib/rfc2068.c:38 ../lib/rfc959.c:55
 msgid "Your firewall username"
-msgstr "ਤੁਹਾਡਾ ਫਾਇਰਵਾਲ ਉਪਭੋਗਤਾ ਨਾਂ"
+msgstr "ਤੁਹਾਡਾ ਫਾਇਰਵਾਲ ਯੂਜ਼ਰ-ਨਾਂ"
 
 #: ../lib/rfc2068.c:39 ../lib/rfc959.c:56
 msgid "Proxy password:"
@@ -933,7 +876,7 @@ msgstr "HTTP/1.1 ਵਰਤੋਂ"
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "ਕੀ ਤੁਸੀਂ HTTP/1.1 ਜਾਂ HTTP/1.0 ਵਰਤਣਾ ਚਾਹੁੰਦੇ ਹੋ"
 
-#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:843
+#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:840
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -942,25 +885,25 @@ msgstr ""
 "ਸਰਵਰ ਤੋਂ ਗਲਤ ਜਵਾਬ ਮਿਲਿਆ ਹੈ, ਡਿਸ-ਕੁਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ\n"
 "ਰਿਮੋਟ ਸਰਵਰ ਨੇ ਗਲਤ ਚੱਕ ਸਾਈਜ਼ '%s' ਵਾਪਸ ਭੇਜਿਆ ਹੈ\n"
 
-#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1219
+#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1245
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "ਸਾਇਟ %s ਤੋਂ ਕੁਨੈਕਸ਼ਨ ਟੁੱਟ ਗਿਆ\n"
 
-#: ../lib/rfc2068.c:304
+#: ../lib/rfc2068.c:301
 msgid "Starting the file transfer at offset "
 msgstr "ਆਫਸੈਟ ਤੇ ਫਾਇਲ ਤਬਦੀਲੀ ਸ਼ੁਰੂ ਹੋਈ"
 
-#: ../lib/rfc2068.c:325
+#: ../lib/rfc2068.c:322
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "ਫਾਇਲ਼ %s ਨੂੰ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ\n"
 
-#: ../lib/rfc2068.c:424 ../lib/sshv2.c:1301
+#: ../lib/rfc2068.c:421 ../lib/sshv2.c:1327
 msgid "Retrieving directory listing...\n"
 msgstr "ਡਾਇਰੈਕਟਰੀ ਸੂਚੀ ਪ੍ਰਾਪਤ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ...\n"
 
-#: ../lib/rfc2068.c:819 ../lib/sshv2.c:895
+#: ../lib/rfc2068.c:816 ../lib/sshv2.c:895
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "ਸਰਵਰ ਤੋਂ ਗਲਤ ਜਵਾਬ ਮਿਲਿਆ ਹੈ, ਬੰਦ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ\n"
 
@@ -1004,7 +947,7 @@ msgstr "ਈਮੇਲ ਐਡਰੈੱਸ:"
 msgid ""
 "This is the password that will be used whenever you log into a remote FTP "
 "server as anonymous"
-msgstr "ਇਹ ਤੁਹਾਡਾ ਪਾਸਵਰਡ ਹੈ, ਜੋ ਕਿ ਤੁਸੀਂ ਰਿਮੋਟ FTP ਸਰਵਰ ਨਾਲ ਅਗਿਆਤ ਉਪਭੋਗਤਾ ਤੇ ਲਾਗਿੰਨ ਕਰਨਾ ਹੋਵੇਗਾ"
+msgstr "ਇਹ ਤੁਹਾਡਾ ਪਾਸਵਰਡ ਹੈ, ਜੋ ਕਿ ਤੁਸੀਂ ਰਿਮੋਟ FTP ਸਰਵਰ ਨਾਲ ਅਗਿਆਤ ਯੂਜ਼ਰ ਵਜੋਂ ਲਾਗਇਨ ਕਰਨਾ ਹੋਵੇਗਾ"
 
 #: ../lib/rfc959.c:59
 msgid "Proxy account:"
@@ -1027,7 +970,12 @@ msgid ""
 "host of the FTP server. The second character can be u (user), p (pass), h "
 "(host), o (port) or a (account). For example, to specify the proxy user, you "
 "can you type in %pu"
-msgstr "ਇਹ ਤਹਿ ਕਰਦੀ ਹੈ ਕਿ ਤੁਹਾਡਾ ਪਰਾਕਸੀ ਸਰਵਰ ਸਾਨੂੰ ਕਿਵੇਂ ਲਾਗਇਨ ਕਰਨ ਦੇਣਾ ਚਾਹੁੰਦਾ ਹੈ। ਤੁਸੀਂ % ਨਾਲ ਸ਼ੁਰੂ ਹੋਣ ਵਾਲੀ 2 ਅੱਖਰਾਂ ਦੀ ਤਬਦੀਲ ਲਾਈਨ ਦੇ ਸਕਦੇ ਹੋ, ਜੋ ਕਿ ਠੀਕ ਡਾਟੇ ਨਾਲ ਬਦਲੀ ਜਾਵੇਗੀ। ਪਹਿਲਾਂ ਅੱਖਰ p ਪਰਾਕਸੀ ਲਈ ਹੋ ਸਕਦਾ ਹੈ ਜਾਂ h FTP ਸਰਵਰ ਦੇ ਹੋਸਟ ਲਈ। ਦੂਜਾ ਅੱਖਰ u (ਯੂਜ਼ਰ), p (ਪਾਸਵਰਡ), h (ਹੋਸਟ), o (ਪੋਰਟ), ਜਾਂ a (ਅਕਾਊਂਟ) ਲਈ ਹੋ ਸਕਦਾ ਹੈ। ਉਦਾਹਰਨ ਵਾਸਤੇ ਪਰਾਕਸੀ ਯੂਜ਼ਰ ਲਈ ਤੁਸੀਂ %pu ਲਿਖ ਸਕਦੇ ਹੋ।"
+msgstr ""
+"ਇਹ ਤਹਿ ਕਰਦੀ ਹੈ ਕਿ ਤੁਹਾਡਾ ਪਰਾਕਸੀ ਸਰਵਰ ਸਾਨੂੰ ਕਿਵੇਂ ਲਾਗਇਨ ਕਰਨ ਦੇਣਾ ਚਾਹੁੰਦਾ ਹੈ। ਤੁਸੀਂ % ਨਾਲ "
+"ਸ਼ੁਰੂ ਹੋਣ ਵਾਲੀ 2 ਅੱਖਰਾਂ ਦੀ ਤਬਦੀਲ ਲਾਈਨ ਦੇ ਸਕਦੇ ਹੋ, ਜੋ ਕਿ ਠੀਕ ਡਾਟੇ ਨਾਲ ਬਦਲੀ ਜਾਵੇਗੀ। ਪਹਿਲਾਂ "
+"ਅੱਖਰ p ਪਰਾਕਸੀ ਲਈ ਹੋ ਸਕਦਾ ਹੈ ਜਾਂ h FTP ਸਰਵਰ ਦੇ ਹੋਸਟ ਲਈ। ਦੂਜਾ ਅੱਖਰ u (ਯੂਜ਼ਰ), p "
+"(ਪਾਸਵਰਡ), h (ਹੋਸਟ), o (ਪੋਰਟ), ਜਾਂ a (ਅਕਾਊਂਟ) ਲਈ ਹੋ ਸਕਦਾ ਹੈ। ਉਦਾਹਰਨ ਵਾਸਤੇ ਪਰਾਕਸੀ ਯੂਜ਼ਰ "
+"ਲਈ ਤੁਸੀਂ %pu ਲਿਖ ਸਕਦੇ ਹੋ।"
 
 #: ../lib/rfc959.c:69
 msgid "Ignore PASV address"
@@ -1054,11 +1002,10 @@ msgid ""
 "gFTP will open up a port on the client side and the remote server will "
 "attempt to connect to it."
 msgstr ""
-"ਜੇ ਇਹ ਯੋਗ ਕੀਤਾ ਤਾਂ ਰਿਮੋਟ FTP ਸਰਵਰ ਇੱਕ ਡਾਟਾ ਕੁਨੈਕਸ਼ਨ ਲਈ ਇੱਕ ਪੋਰਟ ਖੋਲ੍ਹੇਗਾ। ਜੇ ਤੁਸੀਂ "
-"ਫਾਇਰਵਾਲ ਦੇ ਪਿੱਛੇ ਹੋ ਤਾਂ ਤੁਹਾਨੂੰ ਇਹ ਯੋਗ ਕਰਨ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਆਮ ਤੌਰ ਉੱਤੇ ਇਹ ਉਦੋਂ ਤੱਕ "
-"ਯੋਗ ਰੱਖਣਾ ਵਧੀਆ ਹੈ, ਜਦੋਂ ਤੱਕ ਕਿ ਤੁਸੀਂ ਇੱਕ ਪੁਰਾਣੇ FTP ਸਰਵਰ ਨਾਲ ਨਹੀਂ ਜੁੜ ਰਹੇ, ਜੋ ਕਿ "
-"ਇਸ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ। ਜੇ ਇਹ ਆਯੋਗ ਕੀਤਾ ਤਾਂ gFTP ਕਲਾਇਟ ਸਾਈਡ ਉੱਤੇ ਇੱਕ ਪੋਰਟ "
-"ਖੋਲ੍ਹੇਗਾ ਅਤੇ ਰਿਮੋਟ ਸਰਵਰ ਇਸ ਨਾਲ ਕੁਨੈਕਟ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੇਗਾ।"
+"ਜੇ ਇਹ ਯੋਗ ਕੀਤਾ ਤਾਂ ਰਿਮੋਟ FTP ਸਰਵਰ ਇੱਕ ਡਾਟਾ ਕੁਨੈਕਸ਼ਨ ਲਈ ਇੱਕ ਪੋਰਟ ਖੋਲ੍ਹੇਗਾ। ਜੇ ਤੁਸੀਂ ਫਾਇਰਵਾਲ ਦੇ "
+"ਪਿੱਛੇ ਹੋ ਤਾਂ ਤੁਹਾਨੂੰ ਇਹ ਯੋਗ ਕਰਨ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਆਮ ਤੌਰ ਉੱਤੇ ਇਹ ਉਦੋਂ ਤੱਕ ਯੋਗ ਰੱਖਣਾ ਵਧੀਆ ਹੈ, ਜਦੋਂ ਤੱਕ "
+"ਕਿ ਤੁਸੀਂ ਇੱਕ ਪੁਰਾਣੇ FTP ਸਰਵਰ ਨਾਲ ਨਹੀਂ ਜੁੜ ਰਹੇ, ਜੋ ਕਿ ਇਸ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ। ਜੇ ਇਹ ਆਯੋਗ ਕੀਤਾ "
+"ਤਾਂ gFTP ਕਲਾਇਟ ਸਾਈਡ ਉੱਤੇ ਇੱਕ ਪੋਰਟ ਖੋਲ੍ਹੇਗਾ ਅਤੇ ਰਿਮੋਟ ਸਰਵਰ ਇਸ ਨਾਲ ਕੁਨੈਕਟ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੇਗਾ।"
 
 #: ../lib/rfc959.c:79
 msgid "Resolve Remote Symlinks (LIST -L)"
@@ -1071,8 +1018,9 @@ msgid ""
 "will want to disable this is if the remote FTP server doesn't support the -L "
 "option to LIST"
 msgstr ""
-"ਰਿਮੋਟ FTP ਸਰਵਰ ਡਾਇਰੈਕਟਰੀ ਲਿਸਟ ਵਿੱਚ symlink ਲੱਭਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੇਗਾ। ਆਮ ਤੌਰ ਉੱਤੇ, "
-"ਇਹ ਚਾਲੂ ਛੱਡਣਾ ਠੀਕ ਹੈ। ਤੁਸੀਂ ਇਸ ਨੂੰ ਕੇਵਲ ਉਸੇ ਸਮੇਂ ਆਯੋਗ ਕਰਨਾ ਚਾਹੋਗੇ, ਜਦੋਂ ਕਿ ਰਿਮੋਟ FTP -L ਚੋਣ ਨਾਲ LIST ਲਈ ਸਹਿਯੋਗੀ ਨਾ ਹੋਵੇ।"
+"ਰਿਮੋਟ FTP ਸਰਵਰ ਡਾਇਰੈਕਟਰੀ ਲਿਸਟ ਵਿੱਚ symlink ਲੱਭਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੇਗਾ। ਆਮ ਤੌਰ ਉੱਤੇ, ਇਹ ਚਾਲੂ "
+"ਛੱਡਣਾ ਠੀਕ ਹੈ। ਤੁਸੀਂ ਇਸ ਨੂੰ ਕੇਵਲ ਉਸੇ ਸਮੇਂ ਆਯੋਗ ਕਰਨਾ ਚਾਹੋਗੇ, ਜਦੋਂ ਕਿ ਰਿਮੋਟ FTP -L ਚੋਣ ਨਾਲ LIST "
+"ਲਈ ਸਹਿਯੋਗੀ ਨਾ ਹੋਵੇ।"
 
 #: ../lib/rfc959.c:84
 msgid "Transfer files in ASCII mode"
@@ -1092,73 +1040,133 @@ msgstr ""
 "ਚੋਣ ਨੂੰ ਆਯੋਗ ਕਰ ਸਕਦੇ ਹੋ।"
 
 #: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
-#: ../lib/rfc959.c:855 ../lib/rfc959.c:1449
+#: ../lib/rfc959.c:849 ../lib/rfc959.c:1414
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "ਸਰਵਰ ਤੋਂ '%c' ਜਵਾਬ ਮਿਲਿਆ ਹੈ।\n"
+
+#: ../lib/rfc959.c:706 ../lib/socket-connect-gethostbyname.c:120
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "IPv4 ਸਾਕਟ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s\n"
 
 #: ../lib/rfc959.c:745 ../lib/rfc959.c:755
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "PASV ਜਵਾਬ '%s' ਵਿੱਚ ਕੋਈ IP ਐਡਰੈੱਸ ਨਹੀਂ ਲੱਭਿਆ ਜਾ ਸਕਿਆ\n"
 
-#: ../lib/rfc959.c:781
+#: ../lib/rfc959.c:775
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
-msgstr "PASV ਜਵਾਬ ਦੇ IP ਸਿਰਨਾਵੇਂ ਨੂੰ ਅਣਡਿੱਠਾ ਕੀਤਾ ਜਾਦਾ ਹੈ, %d.%d.%d.%d:%d ਤੇ ਜੁੜਿਆ ਜਾਦਾ ਹੈ\n"
+msgstr "PASV ਜਵਾਬ ਦੇ IP ਐਡਰੈੱਸ ਨੂੰ ਅਣਡਿੱਠਾ ਕੀਤਾ ਜਾਦਾ ਹੈ, %d.%d.%d.%d:%d ਤੇ ਜੁੜਿਆ ਜਾਦਾ ਹੈ\n"
 
-#: ../lib/rfc959.c:792 ../lib/rfc959.c:953
+#: ../lib/rfc959.c:786 ../lib/rfc959.c:945
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "ਡਾਟਾ ਕੁਨੈਕਸ਼ਨ ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ: %s\n"
 
-#: ../lib/rfc959.c:804 ../lib/rfc959.c:825 ../lib/rfc959.c:978
+#: ../lib/rfc959.c:798 ../lib/rfc959.c:819 ../lib/rfc959.c:970
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "ਸਾਕਟ ਨਾਂ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋ ਸਕਦਾ: %s\n"
 
-#: ../lib/rfc959.c:815 ../lib/rfc959.c:968
+#: ../lib/rfc959.c:809 ../lib/rfc959.c:960
 #, c-format
 msgid "Cannot bind a port: %s\n"
-msgstr "ਪੋਰਟ ਨਾਲ ਜੋੜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
+msgstr "ਪੋਰਟ ਨਾਲ ਬਾਈਡ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
 
-#: ../lib/rfc959.c:834 ../lib/rfc959.c:987
+#: ../lib/rfc959.c:828 ../lib/rfc959.c:979
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "ਪੋਰਟ %d ਤੇ ਸੁਣਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
 
-#: ../lib/rfc959.c:883
+#: ../lib/rfc959.c:876
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "ਇੱਕ IPv6 ਸਾਕਟ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s\n"
 
-#: ../lib/rfc959.c:903
+#: ../lib/rfc959.c:895
 msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "ਗਲਤੀ: ਇਹ ਜਾਪਦਾ ਹੈ ਕਿ ਅਸੀਂ IPv6 ਨਾਲ ਕੁਨੈਕਟ ਨਹੀਂ ਹੋ ਰਹੇ ਹਾਂ। ਕੁਨੈਕਸ਼ਨ ਅਧੂਰਾ ਛੱਡਿਆ।\n"
 
-#: ../lib/rfc959.c:931 ../lib/rfc959.c:940
+#: ../lib/rfc959.c:923 ../lib/rfc959.c:932
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "ਗਲਤ EPSV ਜਵਾਬ '%s'\n"
 
-#: ../lib/rfc959.c:997
+#: ../lib/rfc959.c:989
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "ਲੋਕਲ ਸਾਕਟ ਦਾ ਐਡਰੈੱਸ ਨਹੀਂ ਮਿਲਿਆ: %s\n"
 
-#: ../lib/rfc959.c:1084
+#: ../lib/rfc959.c:1076
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "ਸਰਵਰ ਤੋਂ ਕੁਨੈਕਸ਼ਨ ਸਵੀਕਾਰ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ: %s\n"
 
-#: ../lib/rfc959.c:1619
+#: ../lib/rfc959.c:1584
 msgid "total"
 msgstr "ਕੁੱਲ"
 
-#: ../lib/rfc959.c:1621
+#: ../lib/rfc959.c:1586
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "ਸਾਵਧਾਨ: %s ਸੂਚੀ ਨੂੰ ਪਾਰਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:77
+#: ../lib/socket-connect-gethostbyname.c:64
+#, c-format
+msgid "Looking up %s\n"
+msgstr "%s ਦੀ ਖੋਜ ਜਾਰੀ\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:82
+#: ../lib/socket-connect-gethostbyname.c:69
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "ਹੋਸਟ ਨਾਂ %s ਨੂੰ ਲੱਭਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:115
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "ਸਾਕਟ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:121
+#: ../lib/socket-connect-gethostbyname.c:134
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "%s ਲਈ ਕੋਸ਼ਿਸ ਜਾਰੀ:%d\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:127
+#: ../lib/socket-connect-gethostbyname.c:141
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "%s ਨਾਲ ਕੁਨੈਕਟ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:152
+#: ../lib/socket-connect-gethostbyname.c:159
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "%s ਨਾਲ ਕੁਨੈਕਟ ਕੀਤਾ:%d\n"
+
+#: ../lib/socket-connect-gethostbyname.c:101 ../lib/sshv2.c:1168
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr "ਸਰਵਿਸ ਨਾਂ %s/tcp ਖੋਜੀ ਨਹੀਂ ਜਾ ਸਕਦੀ ਹੈ। ਆਪਣੀ ਸਰਵਿਸ ਫਾਇਲ ਚੈੱਕ ਕਰੋ ਜੀ\n"
+
+#: ../lib/sockutils.c:190 ../lib/sockutils.c:268 ../lib/sshv2.c:435
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "%s ਨਾਲ ਕੁਨੈਕਸ਼ਨ ਅੰਤਰਾਲ ਸਮਾਪਤ\n"
+
+#: ../lib/sockutils.c:338
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "ਸਾਕਟ ਨਿਸ਼ਾਨ ਪ੍ਰਾਪਤ ਨਹੀਂ: %s\n"
+
+#: ../lib/sockutils.c:352
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "ਸਾਕਟ ਲਈ ਨਾ-ਪਾਬੰਦੀ ਨਹੀਂ ਹੋ ਸਕੀ: %s\n"
 
 #: ../lib/sshv2.c:28
 msgid "SSH"
@@ -1166,7 +1174,7 @@ msgstr "SSH"
 
 #: ../lib/sshv2.c:31
 msgid "SSH Prog Name:"
-msgstr "SSH ਕਾਰਜ ਨਾਂ:"
+msgstr "SSH ਪਰੋਗਰਾਮ ਨਾਂ:"
 
 #: ../lib/sshv2.c:33
 msgid "The path to the SSH executable"
@@ -1178,7 +1186,7 @@ msgstr "SSH ਵਾਧੂ ਮੁੱਲ:"
 
 #: ../lib/sshv2.c:36
 msgid "Extra parameters to pass to the SSH program"
-msgstr "SSH ਕਾਰਜ ਲਈ ਵਾਧੂ ਮੁੱਲ ਦਿਓ"
+msgstr "SSH ਪਰੋਗਰਾਮ ਲਈ ਵਾਧੂ ਮੁੱਲ ਦਿਓ"
 
 #: ../lib/sshv2.c:38
 msgid "Need SSH User/Pass"
@@ -1191,7 +1199,7 @@ msgstr "SSH ਕੁਨੈਕਸ਼ਨ ਲਈ ਯੂਜ਼ਰ ਨਾਂ/ਪਾਸਵ�
 #: ../lib/sshv2.c:369
 #, c-format
 msgid "Running program %s\n"
-msgstr "ਕਾਰਜ %s ਚੱਲ਼ ਰਿਹਾ ਹੈ\n"
+msgstr "ਪਰੋਗਰਾਮ %s ਚੱਲ਼ ਰਿਹਾ ਹੈ\n"
 
 #: ../lib/sshv2.c:378
 msgid "Enter passphrase for RSA key"
@@ -1215,10 +1223,10 @@ msgstr "(ਹਾਂ(yes)/ਨਹੀਂ(no))?"
 
 #: ../lib/sshv2.c:514
 msgid "Enter PASSCODE:"
-msgstr "ਪਾਸਵਰਡ ਦਿਓ:"
+msgstr "ਪਾਸਕੋਡ ਦਿਓ:"
 
-#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:585
-#: ../src/gtk/transfer.c:595
+#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:562
+#: ../src/gtk/transfer.c:572
 msgid "Enter Password"
 msgstr "ਪਾਸਵਰਡ ਦਿਓ"
 
@@ -1233,17 +1241,17 @@ msgstr "ਗਲਤੀ: ਗਲਤ ਪਾਸਵਰਡ ਦਿੱਤਾ ਗਿਆ ਹ
 #: ../lib/sshv2.c:596
 #, c-format
 msgid "%d: Protocol Initialization\n"
-msgstr "%d: ਪ੍ਰੋਟੋਕਾਲ ਸ਼ੁਰੂਆਤ\n"
+msgstr "%d: ਪਰੋਟੋਕਾਲ ਸ਼ੁਰੂਆਤ\n"
 
 #: ../lib/sshv2.c:600
 #, c-format
 msgid "%d: Protocol version %d\n"
-msgstr "%d: ਪ੍ਰੋਟੋਕਾਲ ਵਰਜਨ %d\n"
+msgstr "%d: ਪਰੋਟੋਕਾਲ ਵਰਜਨ %d\n"
 
 #: ../lib/sshv2.c:609
 #, c-format
 msgid "%d: Open %s\n"
-msgstr "%d: %s ਖੋਲੋ\n"
+msgstr "%d: %s ਖੋਲ੍ਹੋ\n"
 
 #: ../lib/sshv2.c:614
 #, c-format
@@ -1348,8 +1356,8 @@ msgstr "ਸਰਵਰ ਨੇ ਅਣਜਾਣ ਸੁਨੇਹਾ ਦਿੱਤਾ �
 msgid "Error: Message size %d too big\n"
 msgstr "ਗਲਤੀ: ਸੁਨੇਹਾ ਅਕਾਰ %d ਬਹੁਤ ਵੱਡਾ ਹੈ\n"
 
-#: ../lib/sshv2.c:811 ../lib/sshv2.c:1320 ../lib/sshv2.c:1895
-#: ../lib/sshv2.c:2015
+#: ../lib/sshv2.c:811 ../lib/sshv2.c:1346 ../lib/sshv2.c:1838
+#: ../lib/sshv2.c:1957
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "ਗਲਤੀ: ਸਰਵਰ ਤੋਂ ਸੁਨੇਹਾ ਅਕਾਰ %d ਬਹੁਤ ਵੱਡਾ ਹੈ\n"
@@ -1359,18 +1367,18 @@ msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr ""
-"ਰਿਮੋਟ ਸਰਵਰ ਨਾਲ SSH ਕੁਨੈਕਸ਼ਨ ਸ਼ੁਰੂ ਕਰਨ ਦੌਰਾਨ ਇੱਕ ਗਲਤੀ ਹੈ। "
-"ਰਿਮੋਟ ਸਰਵਰ ਵਲੋਂ ਅੱਗੇ ਦਿੱਤਾ ਗਲਤੀ ਸੁਨੇਹਾ ਮਿਲਿਆ:\n"
+"ਰਿਮੋਟ ਸਰਵਰ ਨਾਲ SSH ਕੁਨੈਕਸ਼ਨ ਸ਼ੁਰੂ ਕਰਨ ਦੌਰਾਨ ਇੱਕ ਗਲਤੀ ਹੈ। ਰਿਮੋਟ ਸਰਵਰ ਵਲੋਂ ਅੱਗੇ ਦਿੱਤਾ ਗਲਤੀ "
+"ਸੁਨੇਹਾ ਮਿਲਿਆ:\n"
 
-#: ../lib/sshv2.c:1134
+#: ../lib/sshv2.c:1160
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "%s ਤੇ SSH ਕੁਨੈਕਸ਼ਨ ਸਫਲਤਾਪੂਰਕ ਖੁੱਲਿਆ\n"
 
-#: ../lib/sshv2.c:1186
+#: ../lib/sshv2.c:1212
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
-msgstr "SSH ਸਰਵਰ %s ਤੇ ਸਫਲਤਾਪੂਰਕ ਲਾਗਿੰਨ ਕੀਤਾ ਗਿਆ\n"
+msgstr "SSH ਸਰਵਰ %s ਤੇ ਸਫਲਤਾਪੂਰਕ ਲਾਗਇਨ ਕੀਤਾ ਗਿਆ\n"
 
 #: ../lib/sslcommon.c:31
 msgid "SSL Engine"
@@ -1378,7 +1386,7 @@ msgstr "SSL ਇੰਜਣ"
 
 #: ../lib/sslcommon.c:34
 msgid "SSL Entropy File:"
-msgstr "SSL ਇਟ੍ਰੋਪੀ ਫਾਇਲ:"
+msgstr "SSL ਇੰਟ੍ਰੋਪੀ ਫਾਇਲ:"
 
 #: ../lib/sslcommon.c:36
 msgid "SSL entropy file"
@@ -1386,11 +1394,11 @@ msgstr "SSL ਇੰਟ੍ਰੋਪੀ ਫਾਇਲ"
 
 #: ../lib/sslcommon.c:37
 msgid "Entropy Seed Length:"
-msgstr "ਇਟ੍ਰੋਪੀ ਸੀਡ ਲੰਬਾਈ:"
+msgstr "ਇੰਟ੍ਰੋਪੀ ਸੀਡ ਲੰਬਾਈ:"
 
 #: ../lib/sslcommon.c:39
 msgid "The maximum number of bytes to seed the SSL engine with"
-msgstr "SSL ਨਾਲ ਅਧਿਕਤਮ ਬਾਈਟਾਂ ਦੀ ਗਿਣਤੀ"
+msgstr "SSL ਇੰਜਣ ਨਾਲ ਸੀਡ ਕਰਨ ਲਈ ਅਧਿਕਤਮ ਬਾਈਟਾਂ ਦੀ ਗਿਣਤੀ"
 
 #: ../lib/sslcommon.c:41 ../lib/sslcommon.c:43
 msgid "Verify SSL Peer"
@@ -1413,7 +1421,7 @@ msgstr ""
 msgid "Cannot get peer certificate\n"
 msgstr "ਪੀਅਰ ਸਰਟੀਫਿਕੇਟ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ\n"
 
-#: ../lib/sslcommon.c:199
+#: ../lib/sslcommon.c:196
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
@@ -1422,31 +1430,31 @@ msgstr ""
 "ਗਲਤੀ: SSL ਸਰਟੀਫਿਕੇਟ (%s) ਵਿੱਚ ਹੋਸਟ ਉਸ ਹੋਸਟ ਨਾਲ ਮਿਲਦਾ ਨਹੀਂ ਹੈ, ਜਿਸ ਨਾਲ ਅਸੀਂ ਕੁਨੈਕਟ "
 "ਕੀਤਾ ਹੈ (%s)। ਕੁਨੈਕਸ਼ਨ ਅਧੂਰਾ ਛੱਡਿਆ।\n"
 
-#: ../lib/sslcommon.c:306
+#: ../lib/sslcommon.c:302
 msgid "Cannot initialize the OpenSSL library\n"
 msgstr "OpenSSL ਬਾਈਨਰੀ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ\n"
 
-#: ../lib/sslcommon.c:321
+#: ../lib/sslcommon.c:317
 msgid "Error loading default SSL certificates\n"
-msgstr "ਮੂਲ SSL ਸਰਟੀਫਿਕੇਟ ਲੋਡ ਕਰਨ ਗਲਤੀ\n"
+msgstr "ਡਿਫਾਲਟ SSL ਸਰਟੀਫਿਕੇਟ ਲੋਡ ਕਰਨ ਗਲਤੀ\n"
 
-#: ../lib/sslcommon.c:333
+#: ../lib/sslcommon.c:329
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "ਸੀਫ਼ਰ ਲਿਸਟ ਸੈਟਿੰਗ ਗਲਤੀ (ਕੋਈ ਠੀਕ ਸੀਫ਼ਰ ਨਹੀਂ)\n"
 
-#: ../lib/sslcommon.c:353 ../lib/sslcommon.c:427 ../lib/sslcommon.c:475
+#: ../lib/sslcommon.c:349 ../lib/sslcommon.c:423 ../lib/sslcommon.c:471
 msgid "Error: SSL engine was not initialized\n"
 msgstr "ਗਲਤੀ: SSL ਇੰਜਣ ਚਾਲੂ ਨਹੀਂ ਹੋ ਸਕਿਆ\n"
 
-#: ../lib/sslcommon.c:370
+#: ../lib/sslcommon.c:366
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "ਗਲਤੀ, SSL ਕੁਨੈਕਸ਼ਨ ਬਣਾਉਣ ਦੌਰਾਨ (BIO ਇਕਾਈ)\n"
 
-#: ../lib/sslcommon.c:380
+#: ../lib/sslcommon.c:376
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "ਗਲਤੀ SSL ਕੁਨੈਕਸਨ ਬਣਾਉਣ ਦੌਰਾਨ (SSL ਇਕਾਈ)\n"
 
-#: ../lib/sslcommon.c:401
+#: ../lib/sslcommon.c:397
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "ਪੀਅਰ ਸਰਟੀਫਿਕੇਟ ਨਾਲ ਗਲਤੀ: %s\n"
@@ -1460,97 +1468,86 @@ msgstr "ਕਾਰਵਾਈ ਰੱਦ ਕੀਤੀ\n"
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "ਕੁਨੈਕਸ਼ਨ ਲਈ ਮੁੜ ਕੋਸ਼ਸ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ %d ਸਕਿੰਟ ਉਡੀਕ\n"
 
-#: ../src/uicommon/gftpui.c:157
-msgid ""
-">. If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ""
-"> ਜੇ ਤੁਹਾਨੂੰ ਇਸ ਪਰੋਗਰਾਮ ਬਾਰੇ ਕੋਈ ਸਵਾਲ, ਸੁਝਾਅ ਜਾਂ ਜਾਣਕਾਰੀ ਹੋਵੇ ਤਾਂ ਮੈਨੂੰ ਈਮੇਲ ਭੇਜਣ "
-"ਦੀ ਖੇਚਲ ਕਰਨੀ। ਤੁਸੀਂ ਮੇਰੀ ਵੈੱਬ ਸਾਇਟ http://www.gftp.org/ ਤੋਂ ਹਮੇਸ਼ਾ ਨਵਾਂ gFTP ਲੈ "
-"ਸਕਦੇ ਹੋ।\n"
-
-#: ../src/uicommon/gftpui.c:158
+#: ../src/uicommon/gftpui.c:156
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
 "conditions; for details, see the COPYING file\n"
 msgstr ""
-"gFTP ਦੀ ਅਸਲ ਵਿੱਚ ਕੋਈ ਵਾਰੰਟੀ ਨਹੀਂ ਹੈ। ਵੇਰਵੇ ਲਈ, ਤੁਸੀਂ COPYING ਫਾਇਲ ਵੇਖ "
-"ਸਕਦੇ ਹੋ। "
-"ਇਸ ਮੁਫਤ/ਮੁਕਤ ਸਾਫਟਵੇਅਰ ਹੈ ਅਤੇ ਤੁਹਾਨੂੰ ਕੁਝ ਸ਼ਰਤਾਂ ਉੱਤੇ ਇਸ ਨੂੰ ਮੁੜ-ਵੰਡਣ ਦਾ ਅਧਿਕਾਰ ਹੈ। "
-"ਵੇਰਵੇ ਲਈ COPYING ਫਾਇਲ ਵੇਖੋ।\n"
+"gFTP ਦੀ ਅਸਲ ਵਿੱਚ ਕੋਈ ਵਾਰੰਟੀ ਨਹੀਂ ਹੈ। ਵੇਰਵੇ ਲਈ, ਤੁਸੀਂ COPYING ਫਾਇਲ ਵੇਖ ਸਕਦੇ ਹੋ। ਇਸ ਮੁਫਤ/"
+"ਮੁਕਤ ਸਾਫਟਵੇਅਰ ਹੈ ਅਤੇ ਤੁਹਾਨੂੰ ਕੁਝ ਸ਼ਰਤਾਂ ਉੱਤੇ ਇਸ ਨੂੰ ਮੁੜ-ਵੰਡਣ ਦਾ ਅਧਿਕਾਰ ਹੈ। ਵੇਰਵੇ ਲਈ COPYING "
+"ਫਾਇਲ ਵੇਖੋ।\n"
 
-#: ../src/uicommon/gftpui.c:160 ../src/gtk/menu-items.c:491
+#: ../src/uicommon/gftpui.c:158 ../src/gtk/menu-items.c:491
 msgid "Translated by"
 msgstr ""
-"ਅਮਨਪ੍ਰੀਤ ਸਿੰਘ ਆਲਮ (amanpreetalam@yahoo.com)\n"
+"ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ (aalam@users.sf.net)\n"
 "Punjab Open Source Softrware Tercel\n"
-"http://punlinux.sf.net"
+"http://www.satluj.com"
 
-#: ../src/uicommon/gftpui.c:207 ../src/uicommon/gftpui.c:249
-#: ../src/uicommon/gftpui.c:289 ../src/uicommon/gftpui.c:324
-#: ../src/uicommon/gftpui.c:359 ../src/uicommon/gftpui.c:395
-#: ../src/uicommon/gftpui.c:431 ../src/uicommon/gftpui.c:496
-#: ../src/uicommon/gftpui.c:577 ../src/uicommon/gftpui.c:845
+#: ../src/uicommon/gftpui.c:205 ../src/uicommon/gftpui.c:247
+#: ../src/uicommon/gftpui.c:287 ../src/uicommon/gftpui.c:322
+#: ../src/uicommon/gftpui.c:357 ../src/uicommon/gftpui.c:393
+#: ../src/uicommon/gftpui.c:429 ../src/uicommon/gftpui.c:494
+#: ../src/uicommon/gftpui.c:575 ../src/uicommon/gftpui.c:845
 msgid "Error: Not connected to a remote site\n"
 msgstr "ਗਲਤੀ: ਰਿਮੋਟ ਸਾਇਟ ਨਾਲ ਜੁੜੇ ਨਹੀਂ\n"
 
-#: ../src/uicommon/gftpui.c:218
+#: ../src/uicommon/gftpui.c:216
 msgid "usage: chmod <mode> <file>\n"
 msgstr "ਵਰਤੋਂ: chmod <mode> <file>\n"
 
-#: ../src/uicommon/gftpui.c:259
+#: ../src/uicommon/gftpui.c:257
 msgid "usage: rename <old name> <new name>\n"
 msgstr "ਵਰਤੋਂ: rename <old name> <new name>\n"
 
-#: ../src/uicommon/gftpui.c:295
+#: ../src/uicommon/gftpui.c:293
 msgid "usage: delete <file>\n"
 msgstr "ਵਰਤੋਂ: delete <file>\n"
 
-#: ../src/uicommon/gftpui.c:330
+#: ../src/uicommon/gftpui.c:328
 msgid "usage: rmdir <directory>\n"
 msgstr "ਵਰਤੋਂ: rmdir <directory>\n"
 
-#: ../src/uicommon/gftpui.c:365
+#: ../src/uicommon/gftpui.c:363
 msgid "usage: site <site command>\n"
 msgstr "ਵਰਤੋਂ: site <site command>\n"
 
-#: ../src/uicommon/gftpui.c:401
+#: ../src/uicommon/gftpui.c:399
 msgid "usage: mkdir <new directory>\n"
 msgstr "ਵਰਤੋਂ: mkdir <new directory>\n"
 
-#: ../src/uicommon/gftpui.c:437 ../src/uicommon/gftpui.c:455
+#: ../src/uicommon/gftpui.c:435 ../src/uicommon/gftpui.c:453
 msgid "usage: chdir <directory>\n"
 msgstr "ਵਰਤੋਂ: chdir <directory>\n"
 
-#: ../src/uicommon/gftpui.c:528
+#: ../src/uicommon/gftpui.c:526
 msgid "Invalid argument\n"
 msgstr "ਗਲਤ ਮੁੱਲ\n"
 
-#: ../src/uicommon/gftpui.c:541
+#: ../src/uicommon/gftpui.c:539
 msgid "Clear the directory cache\n"
-msgstr "ਡਾਇਰੈਕਟਰੀ ਕੈਂਚੇ ਸਾਫ਼\n"
+msgstr "ਡਾਇਰੈਕਟਰੀ ਕੈਸ ਸਾਫ਼\n"
 
-#: ../src/uicommon/gftpui.c:630
+#: ../src/uicommon/gftpui.c:628
 msgid "usage: open "
 msgstr "ਵਰਤੋਂ: open "
 
-#: ../src/uicommon/gftpui.c:706
+#: ../src/uicommon/gftpui.c:704
 msgid "usage: set [variable = value]\n"
 msgstr "ਵਰਤੋਂ: set [variable = value]\n"
 
-#: ../src/uicommon/gftpui.c:720
+#: ../src/uicommon/gftpui.c:718
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
-msgstr "ਗਲਤੀ: ਮੁੱਲ %s ਠੀਕ ਸੰਰਚਨਾ ਮੁੱਲ ਨਹੀਨ ਹੈ।\n"
+msgstr "ਗਲਤੀ: ਮੁੱਲ %s ਠੀਕ ਸੰਰਚਨਾ ਮੁੱਲ ਨਹੀਂ ਹੈ।\n"
 
-#: ../src/uicommon/gftpui.c:727
+#: ../src/uicommon/gftpui.c:725
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "ਗਲਤੀ: ਮੁੱਲ %s gFTP ਦੇ ਪਾਠ ਢੰਗ ਦੌਰਾਨ ਉਪਲੱਬਧ ਹੈ\n"
 
-#: ../src/uicommon/gftpui.c:809
+#: ../src/uicommon/gftpui.c:807
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1569,7 +1566,7 @@ msgstr "about"
 
 #: ../src/uicommon/gftpui.c:938
 msgid "Shows gFTP information"
-msgstr "gFTP ਜਾਣਕਾਰੀ ਵੇਖਾਓ"
+msgstr "gFTP ਜਾਣਕਾਰੀ ਵੇਖੋ"
 
 #: ../src/uicommon/gftpui.c:939
 msgid "ascii"
@@ -1653,7 +1650,7 @@ msgstr "help"
 
 #: ../src/uicommon/gftpui.c:960
 msgid "Shows this help screen"
-msgstr "ਇਹ ਮੱਦਦ ਪਰਦਾ ਵੇਖਾਓ"
+msgstr "ਇਹ ਮੱਦਦ ਸਕਰੀਨ ਵੇਖੋ"
 
 #: ../src/uicommon/gftpui.c:961
 msgid "lcd"
@@ -1757,7 +1754,7 @@ msgstr "open"
 
 #: ../src/uicommon/gftpui.c:990
 msgid "Opens a connection to a remote site"
-msgstr "ਰਿਮੋਟ ਸਾਇਟ ਤੇ ਕੁਨੈਕਸ਼ਨ ਖੋਲੋ"
+msgstr "ਰਿਮੋਟ ਸਾਇਟ ਤੇ ਕੁਨੈਕਸ਼ਨ ਖੋਲ੍ਹੋ"
 
 #: ../src/uicommon/gftpui.c:991
 msgid "put"
@@ -1769,7 +1766,7 @@ msgstr "pwd"
 
 #: ../src/uicommon/gftpui.c:994
 msgid "Show current remote directory"
-msgstr "ਮੌਜੂਦਾ ਰਿਮੋਟ ਡਾਇਰੈਕਟਰੀ ਵੇਖਾਓ"
+msgstr "ਮੌਜੂਦਾ ਰਿਮੋਟ ਡਾਇਰੈਕਟਰੀ ਵੇਖੋ"
 
 #: ../src/uicommon/gftpui.c:995
 msgid "quit"
@@ -1785,7 +1782,7 @@ msgstr "rename"
 
 #: ../src/uicommon/gftpui.c:998
 msgid "Rename a remote file"
-msgstr "ਰਿਮੋਟ ਫਾਇਲ ਨਾਂ ਤਬਦੀਲ"
+msgstr "ਰਿਮੋਟ ਫਾਇਲ ਨਾਂ ਬਦਲੋ"
 
 #: ../src/uicommon/gftpui.c:999
 msgid "rmdir"
@@ -1815,27 +1812,27 @@ msgstr "ਸਾਇਟ ਖਾਸ ਕਮਾਂਡ ਚਲਾਓ"
 msgid "Error: Command not recognized\n"
 msgstr "ਗਲਤੀ: ਕਮਾਂਡ ਪਛਾਣੀ ਨਹੀਂ ਗਈ\n"
 
-#: ../src/uicommon/gftpui.c:1334
+#: ../src/uicommon/gftpui.c:1304
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "%s ਸਫਲਤਾਪੂਰਕ %.2f KB/s ਦਰ ਨਾਲ ਤਬਦੀਲ ਕੀਤੇ ਗਏ\n"
 
-#: ../src/uicommon/gftpui.c:1365
+#: ../src/uicommon/gftpui.c:1335
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "ਫਾਇਲ %s ਨੂੰ ਹੋਸਟ %s ਤੋਂ ਛੱਡਿਆ ਜਾਦਾ ਹੈ\n"
 
-#: ../src/uicommon/gftpui.c:1389
+#: ../src/uicommon/gftpui.c:1359
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "%s ਹੋਸਟ ਤੇ ਤਬਦੀਲੀ ਰੋਕੀ ਜਾ ਰਹੀ ਹੈ\n"
 
-#: ../src/uicommon/gftpui.c:1540
+#: ../src/uicommon/gftpui.c:1505
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "%s ਨੂੰ %s ਤੋਂ ਡਾਊਨਲੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ\n"
 
-#: ../src/uicommon/gftpui.c:1596
+#: ../src/uicommon/gftpui.c:1561
 #, c-format
 msgid ""
 "There were %d files or directories that could not be transferred. Check the "
@@ -1843,11 +1840,11 @@ msgid ""
 msgstr ""
 
 #: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1096 ../src/gtk/misc-gtk.c:505
+#: ../src/gtk/gftp-gtk.c:1103 ../src/gtk/misc-gtk.c:505
 #: ../src/gtk/misc-gtk.c:513
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
-msgstr "%s: ਕਿਰਪਾ ਕਰਕੇ ਕੁਝ ਵੀ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਰੋਕੋ ਬਟਨ ਦਬਾਓ\n"
+msgstr "%s: ਕੁਝ ਵੀ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਰੋਕੋ ਬਟਨ ਦਬਾਓ ਜੀ।\n"
 
 #: ../src/gtk/bookmarks.c:41
 msgid "Run Bookmark"
@@ -1902,7 +1899,7 @@ msgstr "ਨਵੀਂ ਆਈਟਮ"
 
 #: ../src/gtk/bookmarks.c:483
 msgid "Enter the name of the new item to create"
-msgstr "ਨਵੀਂ ਇਕਾਈ ਬਣਾਉਣ ਲ਼ਈ ਨਾਂ ਦਿਓ"
+msgstr "ਨਵੀਂ ਆਈਟਮ ਬਣਾਉਣ ਲਈ ਨਾਂ ਦਿਓ"
 
 #: ../src/gtk/bookmarks.c:556
 #, c-format
@@ -1939,7 +1936,7 @@ msgstr "ਪੋਰਟ:"
 
 #: ../src/gtk/bookmarks.c:933
 msgid "Protocol:"
-msgstr "ਪ੍ਰੋਟੋਕਾਲ:"
+msgstr "ਪਰੋਟੋਕਾਲ:"
 
 #: ../src/gtk/bookmarks.c:957
 msgid "Remote Directory:"
@@ -1951,7 +1948,7 @@ msgstr "ਲੋਕਲ ਡਾਇਰੈਕਟਰੀ:"
 
 #: ../src/gtk/bookmarks.c:987
 msgid "Username:"
-msgstr "ਉਪਭੋਗਤਾ ਨਾਂ:"
+msgstr "ਯੂਜ਼ਰ ਨਾਂ:"
 
 #: ../src/gtk/bookmarks.c:1000 ../src/text/textui.c:92
 msgid "Password:"
@@ -1963,7 +1960,7 @@ msgstr "ਅਕਾਊਂਟ:"
 
 #: ../src/gtk/bookmarks.c:1028
 msgid "Log in as ANONYMOUS"
-msgstr "ANONYMOUS ਵਾਂਗ ਲਾਗਿੰਨ"
+msgstr "ANONYMOUS ਵਾਂਗ ਲਾਗਇਨ"
 
 #: ../src/gtk/bookmarks.c:1053 ../src/gtk/bookmarks.c:1303
 #: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:388
@@ -1977,7 +1974,7 @@ msgstr "/ਫਾਇਲ(_F)"
 
 #: ../src/gtk/bookmarks.c:1205
 msgid "/File/tearoff"
-msgstr "/File/tearoff"
+msgstr "/ਫਾਇਲ/tearoff"
 
 #: ../src/gtk/bookmarks.c:1206
 msgid "/File/New _Folder..."
@@ -2034,11 +2031,11 @@ msgstr "SGID"
 
 #: ../src/gtk/chmod_dialog.c:188
 msgid "Sticky"
-msgstr "ਚਿਪਕਾਉ"
+msgstr "ਸਟਿੱਕੀ"
 
-#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:780
+#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:789
 msgid "User"
-msgstr "ਉਪਭੋਗਤਾ"
+msgstr "ਯੂਜ਼ਰ"
 
 #: ../src/gtk/chmod_dialog.c:200 ../src/gtk/chmod_dialog.c:220
 #: ../src/gtk/chmod_dialog.c:240
@@ -2055,9 +2052,9 @@ msgstr "ਲਿਖਣ"
 msgid "Execute"
 msgstr "ਚਲਾਉਣ"
 
-#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:781
+#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:790
 msgid "Group"
-msgstr "ਸਮੂਹ"
+msgstr "ਗਰੁੱਪ"
 
 #: ../src/gtk/chmod_dialog.c:232
 msgid "Other"
@@ -2086,10 +2083,10 @@ msgstr "ਫਾਇਲਾਂ/ਡਾਇਰੈਕਟਰੀਆਂ ਹਟਾਓ"
 msgid "Delete"
 msgstr "ਹਟਾਓ"
 
-#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1097 ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1104 ../src/gtk/misc-gtk.c:929
 #: ../src/gtk/misc-gtk.c:1004
 msgid "Connect"
-msgstr "ਜੁੜੋ"
+msgstr "ਕੁਨੈਕਟ"
 
 #: ../src/gtk/dnd.c:136 ../src/gtk/dnd.c:269
 #, c-format
@@ -2114,11 +2111,11 @@ msgstr ""
 
 #: ../src/gtk/gftp-gtk.c:219 ../src/gtk/gftp-gtk.c:235
 msgid "Open Location"
-msgstr ""
+msgstr "ਟਿਕਾਣਾ ਖੋਲ੍ਹੋ"
 
 #: ../src/gtk/gftp-gtk.c:219
 msgid "Enter a URL to connect to"
-msgstr "ਜੁੜਨ ਲਈ URL ਦਿਓ"
+msgstr "ਕੁਨੈਕਟ ਲਈ URL ਦਿਓ"
 
 #: ../src/gtk/gftp-gtk.c:265
 msgid "/_FTP"
@@ -2163,7 +2160,7 @@ msgstr "/ਲੋਕਲ(_L)"
 
 #: ../src/gtk/gftp-gtk.c:282
 msgid "/Local/tearoff"
-msgstr "/Local/tearoff"
+msgstr "/ਲੋਕਲ/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:283
 msgid "/Local/_Open Location..."
@@ -2175,15 +2172,15 @@ msgstr "/ਲੋਕਲ/ਡਿਸ-ਕੁਨੈਕਟ ਕਰੋ(_i)"
 
 #: ../src/gtk/gftp-gtk.c:286 ../src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
-msgstr "/Local/sep"
+msgstr "/ਲੋਕਲ/sep"
 
 #: ../src/gtk/gftp-gtk.c:287
 msgid "/Local/Change _Filespec..."
-msgstr "/ਲੋਕਲ/_Filespec ਤਬਦੀਲ..."
+msgstr "/ਲੋਕਲ/_Filespec ਬਦਲੋ..."
 
 #: ../src/gtk/gftp-gtk.c:289
 msgid "/Local/_Show selected"
-msgstr "/ਲੋਕਲ/ਚੁਣੇ ਵੇਖਾਓ(_S)"
+msgstr "/ਲੋਕਲ/ਚੁਣੇ ਵੇਖੋ(_S)"
 
 #: ../src/gtk/gftp-gtk.c:290
 msgid "/Local/Select _All"
@@ -2191,15 +2188,15 @@ msgstr "/ਲੋਕਲ/ਸਭ ਚੁਣੋ(_A)"
 
 #: ../src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
-msgstr "/ਲੋਕਲ/ਸਾਰੀਆਂ ਫਾਇਲਾਂ ਚੁਣੋ"
+msgstr "/ਲੋਕਲ/ਸਭ ਫਾਇਲਾਂ ਚੁਣੋ"
 
 #: ../src/gtk/gftp-gtk.c:292
 msgid "/Local/Deselect All"
-msgstr "/ਲੋਕਲ/ਸਾਰੇ ਨਾ ਚੁਣੋ"
+msgstr "/ਲੋਕਲ/ਸਭ ਨਾ ਚੁਣੋ"
 
 #: ../src/gtk/gftp-gtk.c:294
 msgid "/Local/Save Directory Listing..."
-msgstr "/ਲੋਕਲ/ਡਾਇਰੈਕਟਰੀ ਸੂਚੀ ਸੰਭਾਲੋ.."
+msgstr "/ਲੋਕਲ/ਡਾਇਰੈਕਟਰੀ ਲਿਸਟ ਸੰਭਾਲੋ.."
 
 #: ../src/gtk/gftp-gtk.c:295
 msgid "/Local/Send SITE Command..."
@@ -2243,7 +2240,7 @@ msgstr "/ਰਿਮੋਟ(_R)"
 
 #: ../src/gtk/gftp-gtk.c:309
 msgid "/Remote/tearoff"
-msgstr "/Remote/tearoff"
+msgstr "/ਰਿਮੋਟ/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:310
 msgid "/Remote/_Open Location..."
@@ -2255,7 +2252,7 @@ msgstr "/ਰਿਮੋਟ/ਡਿਸਕ-ਕੁਨੈਕਟ ਕਰੋ(_i)"
 
 #: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
-msgstr "/Remote/sep"
+msgstr "/ਰਿਮੋਟ/sep"
 
 #: ../src/gtk/gftp-gtk.c:315
 msgid "/Remote/Change _Filespec..."
@@ -2279,7 +2276,7 @@ msgstr "/ਰਿਮੋਟ/ਸਭ ਨਾ-ਚੁਣੇ"
 
 #: ../src/gtk/gftp-gtk.c:322
 msgid "/Remote/Save Directory Listing..."
-msgstr "/ਰਿਮੋਟ/ਡਾਇਰੈਕਟਰੀ ਸੂਚੀ ਸੰਭਾਲੋ..."
+msgstr "/ਰਿਮੋਟ/ਡਾਇਰੈਕਟਰੀ ਲਿਸਟ ਸੰਭਾਲੋ..."
 
 #: ../src/gtk/gftp-gtk.c:323
 msgid "/Remote/Send SITE Command..."
@@ -2315,7 +2312,7 @@ msgstr "/ਰਿਮੋਟ/ਵੇਖੋ(_V)..."
 
 #: ../src/gtk/gftp-gtk.c:333
 msgid "/Remote/_Refresh"
-msgstr "/ਰਿਮੋਟ/ਤਾਜ਼ਾ(_R)"
+msgstr "/ਰਿਮੋਟ/ਤਾਜ਼ਾ ਕਰੋ(_R)"
 
 #: ../src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
@@ -2323,7 +2320,7 @@ msgstr "/ਬੁੱਕਮਾਰਕ(_B)"
 
 #: ../src/gtk/gftp-gtk.c:336
 msgid "/Bookmarks/tearoff"
-msgstr "/Bookmarks/tearoff"
+msgstr "/ਬੁੱਕਮਾਰਕ/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:337
 msgid "/Bookmarks/Add _Bookmark"
@@ -2335,7 +2332,7 @@ msgstr "/ਬੁੱਕਮਾਰਕ/ਬੁੱਕਮਾਰਕ ਸੋਧ"
 
 #: ../src/gtk/gftp-gtk.c:340
 msgid "/Bookmarks/sep"
-msgstr "/Bookmarks/sep"
+msgstr "/ਬੁੱਕਮਾਰਕ/sep"
 
 #: ../src/gtk/gftp-gtk.c:341
 msgid "/_Transfer"
@@ -2387,7 +2384,7 @@ msgstr "/ਲਾਗ(_o)"
 
 #: ../src/gtk/gftp-gtk.c:358
 msgid "/Log/tearoff"
-msgstr "/Log/tearoff"
+msgstr "/ਲਾਗ/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:359
 msgid "/Log/_Clear"
@@ -2403,11 +2400,11 @@ msgstr "/ਲਾਗ/ਸੰਭਾਲੋ(_S)..."
 
 #: ../src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
-msgstr "/ਸੰਦ(_s)"
+msgstr "/ਟੂਲ(_s)"
 
 #: ../src/gtk/gftp-gtk.c:363
 msgid "/Tools/tearoff"
-msgstr "/ਸੰਦ/ਵੱਖ ਕਰੋ"
+msgstr "/ਟੂਲ/ਵੱਖ ਕਰੋ"
 
 #: ../src/gtk/gftp-gtk.c:364
 msgid "/Tools/C_ompare Windows"
@@ -2443,11 +2440,11 @@ msgstr "ਪੋਰਟ: "
 
 #: ../src/gtk/gftp-gtk.c:537
 msgid "User: "
-msgstr "ਉਪਭੋਗਤਾ: "
+msgstr "ਯੂਜ਼ਰ: "
 
 #: ../src/gtk/gftp-gtk.c:539
 msgid "_User: "
-msgstr "ਉਪਭੋਗਤਾ(_U): "
+msgstr "ਯੂਜ਼ਰ(_U): "
 
 #: ../src/gtk/gftp-gtk.c:564
 msgid "Pass: "
@@ -2457,30 +2454,30 @@ msgstr "ਪਾਸਵਰਡ: "
 msgid "Command: "
 msgstr "ਕਮਾਂਡ: "
 
-#: ../src/gtk/gftp-gtk.c:778 ../src/gtk/gftp-gtk.c:989
+#: ../src/gtk/gftp-gtk.c:787 ../src/gtk/gftp-gtk.c:996
 #: ../src/gtk/gtkui_transfer.c:228
 msgid "Filename"
 msgstr "ਫਾਇਲ ਨਾਂ"
 
-#: ../src/gtk/gftp-gtk.c:779
+#: ../src/gtk/gftp-gtk.c:788
 msgid "Size"
 msgstr "ਆਕਾਰ"
 
-#: ../src/gtk/gftp-gtk.c:782
+#: ../src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "ਮਿਤੀ"
 
-#: ../src/gtk/gftp-gtk.c:783
+#: ../src/gtk/gftp-gtk.c:792
 msgid "Attribs"
-msgstr "ਵਿਸ਼ੇਸਤਾ"
+msgstr "ਵਿਸ਼ੇਸ਼ਤਾ"
 
-#: ../src/gtk/gftp-gtk.c:990
+#: ../src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "ਤਰੱਕੀ"
 
-#: ../src/gtk/gftp-gtk.c:1126
+#: ../src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
-msgstr "ਗਲਤੀ: ਤਹਾਨੂੰ ਇਸ ਹੋਸਟ ਨਾਲ ਜੁੜਨ ਲਈ\n"
+msgstr "ਗਲਤੀ: ਤਹਾਨੂੰ ਇਸ ਹੋਸਟ ਨਾਲ ਕੁਨੈਕਟ ਲਈ ਦੇਣਾ ਲਾਜ਼ਮੀ\n"
 
 #: ../src/gtk/gtkui.c:53
 msgid "Refresh"
@@ -2492,11 +2489,11 @@ msgstr "ਯੂਜ਼ਰ ਨਾਂ ਦਿਓ"
 
 #: ../src/gtk/gtkui.c:121
 msgid "Please enter your username for this site"
-msgstr "ਕਿਰਪਾ ਕਰਕੇ ਇਸ ਸਾਇਟ ਲਈ ਆਪਣਾ ਯੂਜ਼ਰ ਨਾਂ ਦਿਓ"
+msgstr "ਇਸ ਸਾਇਟ ਲਈ ਆਪਣਾ ਯੂਜ਼ਰ ਨਾਂ ਦਿਓ ਜੀ"
 
-#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:586 ../src/gtk/transfer.c:596
+#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:563 ../src/gtk/transfer.c:573
 msgid "Please enter your password for this site"
-msgstr "ਕਿਰਪਾ ਕਰਕੇ ਇਸ ਸਾਇਟ ਲਈ ਆਪਣਾ ਪਾਸਵਰਡ ਦਿਓ"
+msgstr "ਇਸ ਸਾਇਟ ਲਈ ਆਪਣਾ ਪਾਸਵਰਡ ਦਿਓ ਜੀ"
 
 #: ../src/gtk/gtkui.c:298
 msgid "Operation canceled...you must enter a string\n"
@@ -2517,12 +2514,12 @@ msgstr "ਬਣਾਉਣ ਲਈ ਡਾਇਰੈਕਟਰੀ ਨਾਂ ਦਿਓ"
 #: ../src/gtk/gtkui.c:370 ../src/gtk/gtkui.c:382 ../src/gtk/misc-gtk.c:932
 #: ../src/gtk/misc-gtk.c:1007
 msgid "Rename"
-msgstr "ਨਾਂ-ਤਬਦੀਲ"
+msgstr "ਨਾਂ ਬਦਲੋ"
 
 #: ../src/gtk/gtkui.c:380
 #, c-format
 msgid "What would you like to rename %s to?"
-msgstr "ਕੀ ਤੁਸੀਂ %s ਦਾ ਨਾਂ ਤਬਦੀਲ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
+msgstr "ਕੀ ਤੁਸੀਂ %s ਦਾ ਨਾਂ ਬਦਲਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: ../src/gtk/gtkui.c:402 ../src/gtk/gtkui.c:405
 msgid "Site"
@@ -2534,26 +2531,26 @@ msgstr "ਸਾਇਟ-ਖਾਸ ਕਮਾਂਡ ਦਿਓ"
 
 #: ../src/gtk/gtkui.c:406
 msgid "Prepend with SITE"
-msgstr ""
+msgstr "SITE ਨਾਲ ਪਹਿਲਾਂ ਜੋੜੋ"
 
 #: ../src/gtk/gtkui.c:449 ../src/gtk/menu-items.c:235
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:496
-#: ../src/gtk/transfer.c:564 ../src/gtk/transfer.c:1021
+#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:473
+#: ../src/gtk/transfer.c:541 ../src/gtk/transfer.c:998
 msgid "Skipped"
 msgstr "ਛੱਡਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:543
-#: ../src/gtk/transfer.c:568
+#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:520
+#: ../src/gtk/transfer.c:545
 msgid "Waiting..."
 msgstr "ਉਡੀਕ ਜਾਰੀ ਹੈ..."
 
 #: ../src/gtk/gtkui_transfer.c:136 ../src/gtk/gtkui_transfer.c:314
 #: ../src/gtk/gtkui_transfer.c:341
 msgid "Overwrite"
-msgstr "ਉੱਪਰ-ਲਿਖੋ"
+msgstr "ਉੱਤੇ ਲਿਖੋ"
 
 #: ../src/gtk/gtkui_transfer.c:143 ../src/gtk/gtkui_transfer.c:320
 #: ../src/gtk/gtkui_transfer.c:347
@@ -2571,7 +2568,7 @@ msgstr "ਕਾਰਵਾਈ"
 #: ../src/gtk/gtkui_transfer.c:236 ../src/gtk/gtkui_transfer.c:245
 #: ../src/gtk/transfer.c:91
 msgid "Transfer Files"
-msgstr "ਫਾਇਲਾਂ ਤਬਦੀਲ"
+msgstr "ਫਾਇਲਾਂ ਟਰਾਂਸਫਰ"
 
 #: ../src/gtk/gtkui_transfer.c:257
 msgid ""
@@ -2610,8 +2607,7 @@ msgid "Enter the new file specification"
 msgstr "ਨਵੀਂ ਫਾਇਲ ਜਾਣਕਾਰੀ ਦਿਓ"
 
 #: ../src/gtk/menu-items.c:114 ../src/gtk/menu-items.c:299
-#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:76
-#: ../src/gtk/view_dialog.c:155
+#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:81
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "ਗਲਤੀ: %s ਨੂੰ ਲਿਖਣ ਲਈ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
@@ -2640,7 +2636,7 @@ msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr ""
-"COPYING ਲਾਇਸੈਂਸ ਸ਼ਰਤਾਂ ਨਹੀਂ ਲੱਭੀਆਂ ਹਨ। ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਯਕੀਨੀ ਬਣਾਓ ਕਿ %s ਜਾਂ %s ਵਿੱਚ ਤਾਂ "
+"COPYING ਲਾਇਸੈਂਸ ਸ਼ਰਤਾਂ ਨਹੀਂ ਲੱਭੀਆਂ ਹਨ। ਇਹ ਯਕੀਨੀ ਬਣਾਓ ਕਿ %s ਜਾਂ %s ਵਿੱਚ ਤਾਂ "
 "ਨਹੀਂ"
 
 #: ../src/gtk/menu-items.c:454 ../src/gtk/menu-items.c:459
@@ -2655,7 +2651,7 @@ msgid ""
 "Official Homepage: http://www.gftp.org/\n"
 msgstr ""
 "%s\n"
-"Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) ੧੯੯੮-੨੦੦੭ Brian Masney <masneyb@gftp.org>\n"
 "ਮੁੱਖ ਸਫਾ: http://www.gftp.org/\n"
 
 #: ../src/gtk/menu-items.c:503
@@ -2666,13 +2662,13 @@ msgstr "ਇਸ ਬਾਰੇ"
 msgid "License Agreement"
 msgstr "ਲਾਇਸੈਸ ਸ਼ਰਤਾਂ"
 
-#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:405
+#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:385
 msgid "  Close  "
 msgstr "  ਬੰਦ"
 
 #: ../src/gtk/menu-items.c:685
 msgid "Compare Windows"
-msgstr "ਝਰੋਖਾ ਤੁਲਨਾ"
+msgstr "ਵਿੰਡੋ ਤੁਲਨਾ"
 
 #: ../src/gtk/misc-gtk.c:257
 msgid "Disconnect from the remote server"
@@ -2690,21 +2686,21 @@ msgstr "ਸਭ ਫਾਇਲ਼ਾਂ"
 
 #: ../src/gtk/misc-gtk.c:318
 msgid "] (Cached) ["
-msgstr "] (ਕੈਂਚੇ) ["
+msgstr "] (ਕੈਸ ਕੀਤੇ) ["
 
 #: ../src/gtk/misc-gtk.c:329
 msgid "Not connected"
-msgstr "ਜੁੜਿਆ ਨਹੀਂ"
+msgstr "ਕੁਨੈਕਟ ਨਹੀਂ"
 
 #: ../src/gtk/misc-gtk.c:431
 #, c-format
 msgid "Error opening file %s: %s\n"
-msgstr "ਫਾਇਲ %s ਖੋਲਣ ਦੌਰਾਨ ਗਲਤੀ: %s\n"
+msgstr "ਫਾਇਲ %s ਖੋਲ੍ਹਣ ਦੌਰਾਨ ਗਲਤੀ: %s\n"
 
 #: ../src/gtk/misc-gtk.c:521
 #, c-format
 msgid "%s: Not connected to a remote site\n"
-msgstr "%s: ਰਿਮੋਟ ਸਾਇਟ ਨਾਲ ਜੁੜਿਆ ਨਹੀ\n"
+msgstr "%s: ਰਿਮੋਟ ਸਾਇਟ ਨਾਲ ਕੁਨੈਕਟ ਨਹੀਂ\n"
 
 #: ../src/gtk/misc-gtk.c:528
 #, c-format
@@ -2723,7 +2719,7 @@ msgstr "%s: ਤੁਹਾਨੂੰ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਇਕਾਈ 
 
 #: ../src/gtk/misc-gtk.c:926 ../src/gtk/misc-gtk.c:1001
 msgid "Change"
-msgstr "ਤਬਦੀਲ"
+msgstr "ਬਦਲੋ"
 
 #: ../src/gtk/misc-gtk.c:998 ../src/gtk/options_dialog.c:1277
 msgid "Add"
@@ -2735,11 +2731,11 @@ msgstr "ਰੱਦ"
 
 #: ../src/gtk/misc-gtk.c:1094
 msgid "  Yes  "
-msgstr " ਹਾਂ"
+msgstr " ਹਾਂ "
 
 #: ../src/gtk/misc-gtk.c:1104
 msgid "  No  "
-msgstr " ਨਹੀਂ"
+msgstr " ਨਹੀਂ "
 
 #: ../src/gtk/misc-gtk.c:1164
 msgid "Getting directory listings"
@@ -2747,7 +2743,7 @@ msgstr "ਡਾਇਰੈਕਟਰੀ ਸੂਚੀ ਪ੍ਰਾਪਤ ਕੀਤੀ
 
 #: ../src/gtk/misc-gtk.c:1184
 msgid "  Stop  "
-msgstr "  ਰੋਕੋ"
+msgstr "  ਰੋਕੋ "
 
 #: ../src/gtk/misc-gtk.c:1194
 #, c-format
@@ -2807,7 +2803,7 @@ msgstr "ਡੋਮੇਨ(_D):"
 msgid "Local Hosts"
 msgstr "ਲੋਕਲ ਹੋਸਟ"
 
-#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:105
+#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:34
 msgid "Edit"
 msgstr "ਸੋਧ"
 
@@ -2827,9 +2823,9 @@ msgstr "ਲਾਗੂ"
 msgid "Receiving file names..."
 msgstr "ਫਾਇਲ਼ ਨਾਂ ਪ੍ਰਾਪਤ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ..."
 
-#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:712
+#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:689
 msgid "Connecting..."
-msgstr "ਜੁੜ ਰਿਹਾ ਹੈ..."
+msgstr "ਕੁਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
 #: ../src/gtk/transfer.c:99
 msgid "Retrieve Files: Not connected to a remote site\n"
@@ -2873,90 +2869,90 @@ msgstr ""
 msgid "Edit File"
 msgstr "ਫਾਇਲ ਸੋਧ"
 
-#: ../src/gtk/transfer.c:499
+#: ../src/gtk/transfer.c:476
 msgid "Finished"
 msgstr "ਸਮਾਪਤ"
 
-#: ../src/gtk/transfer.c:757
+#: ../src/gtk/transfer.c:734
 #, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "%s, %s ਵਿੱਚੋਂ  %.2fKB/s ਰਾਹੀਂ ਭੇਜਿਆ, %02d:%02d:%02d ਬਾਕੀ ਸਮਾਂ"
 
-#: ../src/gtk/transfer.c:762
+#: ../src/gtk/transfer.c:739
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "ਪ੍ਰਾਪਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ %2s ਵਿੱਚੋਂ %1s ਇਸ ਤੇ %.2fKB/s, %02d:%02d:%02d ਬਾਕੀ ਸਮਾਂ"
 
-#: ../src/gtk/transfer.c:773
+#: ../src/gtk/transfer.c:750
 #, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
-msgstr ""
+msgstr "%2$s ਵਿੱਚੋਂ %1$s ਭੇਜੇ, ਟਰਾਂਸਫਰ ਰੁਕੀ, ਅਣਜਾਣ ਸਮਾਂ ਬਾਕੀ"
 
-#: ../src/gtk/transfer.c:779
+#: ../src/gtk/transfer.c:756
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "%s ਪ੍ਰਾਪਤੀ %s ਵਿੱਚੋਂ, ਤਬਦੀਲੀ ਸਥਿਰ ਹੋਈ, ਅਣਜਾਣਾ ਸਮਾਂ ਬਾਕੀ ਹੈ"
 
-#: ../src/gtk/transfer.c:823
+#: ../src/gtk/transfer.c:800
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "ਅਣਜਾਣ ਪ੍ਰਤੀਸ਼ਤ ਮੁਕੰਮਲ। (ਫਾਇਲ਼ %ld, %ld ਵਿੱਚੋਂ)"
 
-#: ../src/gtk/transfer.c:827
+#: ../src/gtk/transfer.c:804
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% ਸਮਾਪਤ, %02d:%02d:%02d ਬਾਕੀ ਰਹਿੰਦਾ ਸਮਾਂ (ਫਾਇਲ %2ld ਵਿੱਚੋਂ %1ld)"
 
-#: ../src/gtk/transfer.c:865
+#: ../src/gtk/transfer.c:842
 #, c-format
 msgid "Retrieving file names...%s bytes"
-msgstr "ਫਾਇਲ-ਨਾਂ ਪ੍ਰਾਪਤ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ...%s ਬਾਇਟ"
+msgstr "ਫਾਇਲ-ਨਾਂ ਲਏ ਜਾ ਰਹੇ ਹਨ...%s ਬਾਇਟ"
 
-#: ../src/gtk/transfer.c:944 ../src/gtk/transfer.c:966
-#: ../src/gtk/transfer.c:985 ../src/gtk/transfer.c:1007
-#: ../src/gtk/transfer.c:1035 ../src/gtk/transfer.c:1095
+#: ../src/gtk/transfer.c:921 ../src/gtk/transfer.c:943
+#: ../src/gtk/transfer.c:962 ../src/gtk/transfer.c:984
+#: ../src/gtk/transfer.c:1012 ../src/gtk/transfer.c:1072
 msgid "There are no file transfers selected\n"
-msgstr "ਤਬਦੀਲ ਕਰਨ ਲਈ ਕੋਈ ਫਾਇਲ ਚੁਣੀ ਨਹੀਂ ਗਈ\n"
+msgstr "ਟਰਾਂਸਫਰ ਕਰਨ ਲਈ ਕੋਈ ਫਾਇਲ ਚੁਣੀ ਨਹੀਂ ਗਈ\n"
 
-#: ../src/gtk/view_dialog.c:36
+#: ../src/gtk/view_dialog.c:34
 msgid "View"
 msgstr "ਵੇਖੋ"
 
-#: ../src/gtk/view_dialog.c:48
+#: ../src/gtk/view_dialog.c:49
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "ਵੇਖੋ: %s ਡਾਇਰੈਕਟਰੀ ਹੈ। ਇਸ ਨੂੰ ਵੇਖਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ।\n"
 
-#: ../src/gtk/view_dialog.c:114
-msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "ਸੋਧ: ਤੁਹਾਨੂੰ ਚੋਣ ਵਾਰਤਾਲਾਪ ਵਿੱਚ ਸੰਪਾਦਕ ਦੇਣਾ ਪਵੇਗਾ\n"
-
-#: ../src/gtk/view_dialog.c:127
+#: ../src/gtk/view_dialog.c:52
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "ਸੋਧ: %s ਡਾਇਰੈਕਟਰੀ ਹੈ। ਸੋਧਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।\n"
 
-#: ../src/gtk/view_dialog.c:210
+#: ../src/gtk/view_dialog.c:123
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "ਸੋਧ: ਤੁਹਾਨੂੰ ਚੋਣ ਡਾਈਲਾਗ ਵਿੱਚ ਸੰਪਾਦਕ ਦੇਣਾ ਪਵੇਗਾ\n"
+
+#: ../src/gtk/view_dialog.c:177
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "ਵੇਖੋ: ਹੋਰ ਕਾਰਜ ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
 
-#: ../src/gtk/view_dialog.c:213
+#: ../src/gtk/view_dialog.c:180
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "ਚੱਲ ਰਿਹਾ ਕਾਰਜ: %s %s\n"
 
-#: ../src/gtk/view_dialog.c:272
+#: ../src/gtk/view_dialog.c:240
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "%s ਨੂੰ %s ਨਾਲ ਖੋਲਿਆ ਜਾ ਰਿਹਾ ਹੈ\n"
 
-#: ../src/gtk/view_dialog.c:307
+#: ../src/gtk/view_dialog.c:282
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "ਫਾਇਲ %s ਵੇਖੀ ਜਾ ਰਹੀ ਹੈ\n"
 
-#: ../src/gtk/view_dialog.c:314
+#: ../src/gtk/view_dialog.c:289
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "ਵੇਖੋ: ਫਾਇਲ %s ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s\n"
@@ -2964,11 +2960,11 @@ msgstr "ਵੇਖੋ: ਫਾਇਲ %s ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜ
 #: ../src/text/gftp-text.c:166
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
-msgstr "ਕੰਟਰਲਿੰਗ ਟਰਮੀਨਕਲ %s ਖੋਲਿਆ ਨਹੀ ਜਾ ਸਕਦਾ\n"
+msgstr "ਕੰਟਰੋਲਿੰਗ ਟਰਮੀਨਲ %s ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ\n"
 
 #: ../src/text/textui.c:80
 msgid "Username [anonymous]:"
-msgstr "ਉਪਭੋਗਤਾ ਨਾਂ [anonymous]:"
+msgstr "ਯੂਜ਼ਰ ਨਾਂ [anonymous]:"
 
 #: ../src/text/textui.c:158
 #, c-format
@@ -2978,6 +2974,16 @@ msgid ""
 "c)"
 msgstr ""
 "%s ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ (%s ਸਰੋਤ ਅਕਾਰ, %s ਨਿਸ਼ਾਨਾ ਅਕਾਰ):\n"
-"ਉਪਰ ਲਿਖੋ(o), ਮੁੜ-ਪ੍ਰਾਪਤ(r), ਅਧੂਰਾ ਛੱਡੋ(s), ਸਭ ਉੱਪਰ ਲਿਖੋ(O), ਸਭ ਮੁੜ-ਪ੍ਰਾਪਤ(R), ਸਭ ਛੱਡੋ"
+"ਉੱਤੇ ਲਿਖੋ(o), ਮੁੜ-ਪ੍ਰਾਪਤ(r), ਅਧੂਰਾ ਛੱਡੋ(s), ਸਭ ਉੱਤੇ ਲਿਖੋ(O), ਸਭ ਮੁੜ-ਪ੍ਰਾਪਤ(R), ਸਭ ਛੱਡੋ"
 "(S): (%c)"
 
+#~ msgid "\n"
+#~ msgstr "\n"
+
+#~ msgid ""
+#~ ">. If you have any questions, comments, or suggestions about this "
+#~ "program, please feel free to email them to me. You can always find out "
+#~ "the latest news about gFTP from my website at http://www.gftp.org/\n"
+#~ msgstr ""
+#~ "> ਜੇ ਤੁਹਾਨੂੰ ਇਸ ਪਰੋਗਰਾਮ ਬਾਰੇ ਕੋਈ ਸਵਾਲ, ਸੁਝਾਅ ਜਾਂ ਜਾਣਕਾਰੀ ਹੋਵੇ ਤਾਂ ਮੈਨੂੰ ਈਮੇਲ ਭੇਜਣ ਦੀ ਖੇਚਲ "
+#~ "ਕਰਨੀ। ਤੁਸੀਂ ਮੇਰੀ ਵੈੱਬ ਸਾਇਟ http://www.gftp.org/ ਤੋਂ ਹਮੇਸ਼ਾ ਨਵਾਂ gFTP ਲੈ ਸਕਦੇ ਹੋ।\n"
