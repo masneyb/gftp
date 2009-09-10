@@ -1,0 +1,3003 @@
+# Slovenian translation of gftp.
+# Copyright (C) 2009 gftp's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gftp package.
+# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gftp master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gftp&component=general\n"
+"POT-Creation-Date: 2009-07-16 09:59+0000\n"
+"PO-Revision-Date: 2009-09-07 16:38+0100\n"
+"Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-Country: SLOVENIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../lib/bookmark.c:38
+#, c-format
+msgid "Invalid URL %s\n"
+msgstr "Neveljaven URL %s\n"
+
+#: ../lib/cache.c:50
+#: ../lib/cache.c:64
+#: ../lib/cache.c:77
+#, c-format
+msgid "Error: Invalid line %s in cache index file\n"
+msgstr "Napaka: Neveljavna vrstica %s v kazalu pomnilnika\n"
+
+#: ../lib/cache.c:138
+#: ../lib/fsp.c:535
+#: ../lib/local.c:561
+#, c-format
+msgid "Error: Could not make directory %s: %s\n"
+msgstr "Napaka: Ni mogoče ustvariti mape %s: %s\n"
+
+#: ../lib/cache.c:164
+#, c-format
+msgid "Error: Cannot create temporary file: %s\n"
+msgstr "Napaka: Ni mogoče ustvariti začasne datoteke: %s\n"
+
+#: ../lib/cache.c:186
+#: ../lib/cache.c:236
+#: ../lib/config_file.c:157
+#: ../lib/config_file.c:163
+#: ../lib/local.c:144
+#: ../lib/local.c:272
+#: ../lib/rfc2068.c:260
+#: ../lib/sshv2.c:1250
+#, c-format
+msgid "Error closing file descriptor: %s\n"
+msgstr "Napaka med zapiranjem opisnika datoteke: %s\n"
+
+#: ../lib/cache.c:254
+#: ../lib/fsp.c:127
+#: ../lib/fsp.c:207
+#: ../lib/local.c:184
+#: ../lib/local.c:193
+#: ../lib/local.c:247
+#, c-format
+msgid "Error: Cannot seek on file %s: %s\n"
+msgstr "Napaka: Ni mogoče iskati po datoteki %s: %s\n"
+
+#: ../lib/charset-conv.c:73
+#, c-format
+msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr "Napaka med pretvarjanjem niza '%s' iz znakovnega niza %s v znakovni niz %s: %s\n"
+
+#: ../lib/config_file.c:126
+#: ../lib/config_file.c:133
+#: ../lib/protocols.c:1627
+#, c-format
+msgid "Error: Cannot open local file %s: %s\n"
+msgstr "Napaka: Ni mogoče odpreti krajevne datoteke %s: %s\n"
+
+#: ../lib/config_file.c:143
+#: ../lib/sockutils.c:293
+#: ../lib/sslcommon.c:493
+#, c-format
+msgid "Error: Could not write to socket: %s\n"
+msgstr "Napaka: Ni mogoče pisati v vtič: %s\n"
+
+#: ../lib/config_file.c:151
+#: ../lib/sockutils.c:214
+#: ../lib/sshv2.c:445
+#: ../lib/sslcommon.c:446
+#, c-format
+msgid "Error: Could not read from socket: %s\n"
+msgstr "Napaka: Ni mogoče brati z vtiča: %s\n"
+
+#: ../lib/config_file.c:183
+#: ../lib/config_file.c:737
+#, c-format
+msgid "gFTP Error: Bad bookmarks file name %s\n"
+msgstr "gFTP napaka: Slabo ime datoteke z zaznamki %s\n"
+
+#: ../lib/config_file.c:192
+#, c-format
+msgid "Warning: Cannot find master bookmark file %s\n"
+msgstr "Opozorilo: Ni mogoče najti glavne datoteke z zaznamki %s\n"
+
+#: ../lib/config_file.c:203
+#: ../lib/config_file.c:743
+#, c-format
+msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
+msgstr "gFTP napaka: Ni mogoče odpreti datoteke z zaznamki %s: %s\n"
+
+#: ../lib/config_file.c:295
+#: ../lib/config_file.c:317
+#, c-format
+msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
+msgstr "gFTP opozorilo: Preskok vrstice %d v datoteki zaznamkov: %s\n"
+
+#: ../lib/config_file.c:347
+#, c-format
+msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
+msgstr "gFTP opozorilo: Vrstica %d nima dovolj argumentov\n"
+
+#: ../lib/config_file.c:504
+msgid "This section specifies which hosts are on the local subnet and won't need to go out the proxy server (if available). Syntax: dont_use_proxy=.domain or dont_use_proxy=network number/netmask"
+msgstr "Ta oddelek določa kateri gostitelji so na krajevni pod mreži in jim ni treba iti skozi posredniški strežnik (če je na voljo). Skladnja: dont_use_proxy=-domain alli dont_use_proxy=številka mreže/netmask "
+
+#: ../lib/config_file.c:507
+msgid "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: All arguments except the file extension are optional"
+msgstr "ext=pripona datoteke:XPM datoteka:Ascii ali Binarna (A ali B): program za ogled. Opomba. Vsi argumenti razen pripone datoteke so izbirni"
+
+#: ../lib/config_file.c:587
+#: ../lib/config_file.c:832
+#, c-format
+msgid "gFTP Error: Bad config file name %s\n"
+msgstr "gFTP napaka: Slabo ime nastavitvene datoteke %s\n"
+
+#: ../lib/config_file.c:598
+#, c-format
+msgid "gFTP Error: Could not make directory %s: %s\n"
+msgstr "gFTP napaka: Ni mogoče ustvariti mape %s: %s\n"
+
+#: ../lib/config_file.c:608
+#, c-format
+msgid "gFTP Error: Cannot find master config file %s\n"
+msgstr "gFTP napaka: Ni mogoče najti glavne nastavitvene datoteke %s\n"
+
+#: ../lib/config_file.c:610
+#, c-format
+msgid "Did you do a make install?\n"
+msgstr "Ste opravili namestitev?\n"
+
+#: ../lib/config_file.c:619
+#: ../lib/config_file.c:838
+#, c-format
+msgid "gFTP Error: Cannot open config file %s: %s\n"
+msgstr "gFTP napaka: Ni mogoče odpreti nastavitvene datoteke %s: %s\n"
+
+#: ../lib/config_file.c:658
+#, c-format
+msgid "Terminating due to parse errors at line %d in the config file\n"
+msgstr "Zapiranje zaradi napak razčlenjevanja v vrstici %d v nastavitveni datoteki\n"
+
+#: ../lib/config_file.c:664
+#, c-format
+msgid "gFTP Warning: Skipping line %d in config file: %s\n"
+msgstr "gFTP opozorilo: Preskok vrstice %d v nastavitveni datoteki: %s\n"
+
+#: ../lib/config_file.c:671
+#, c-format
+msgid "gFTP Error: Bad log file name %s\n"
+msgstr "gFTP napaka: Slabo ime dnevniške datoteke %s\n"
+
+#: ../lib/config_file.c:677
+#, c-format
+msgid "gFTP Warning: Cannot open %s for writing: %s\n"
+msgstr "gFTP opozorilo: Ni mogoče odpreti %s za pisanje: %s\n"
+
+#: ../lib/config_file.c:732
+msgid "Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten"
+msgstr "Datoteka z zaznamki za gFTP. Avtorske pravice (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Opozorilo: Vsi komentarji, ki jih boste dodali v to datoteko bodo prepisani"
+
+# scrambled ?
+#: ../lib/config_file.c:733
+msgid "Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext."
+msgstr "Opomba: Gesla v tej datoteki so . Ta algoritem ni varen. To naj bi preprečilo, da bi si vaša gesla lahko zapomnil nekdo, ki bi vam stal za rameni med urejanjem te datoteke. Pred tem so bila vsa gesla shranjena v navadnem besedilu."
+
+#: ../lib/config_file.c:845
+msgid "Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"
+msgstr "Nastavitvena datoteka za gFTP. Avtorske pravice (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Opozorilo: Vsi komentarji, ki jih dodate v to datoteko bodo bili prepisani. Če ima vnos v svojem komentarju (*), ga ni mogoče spremeniti znotraj gFTP"
+
+#: ../lib/config_file.c:1209
+#: ../lib/protocols.c:385
+#: ../lib/rfc2068.c:543
+#: ../lib/rfc2068.c:544
+#, c-format
+msgid "<unknown>"
+msgstr "<neznano>"
+
+#: ../lib/config_file.c:1289
+#: ../lib/config_file.c:1352
+#: ../lib/config_file.c:1394
+#: ../lib/config_file.c:1427
+#, c-format
+msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
+msgstr "USODNA gFTP napaka: Nastavitvena možnost '%s' ni bila najdena v globalnem izvlečku\n"
+
+#: ../lib/fsp.c:189
+#, c-format
+msgid "Error: Cannot upload file %s\n"
+msgstr "Napaka: Ni mogoče naložiti datoteke %s\n"
+
+#: ../lib/fsp.c:199
+#, c-format
+msgid "Error: Cannot write to file %s: %s\n"
+msgstr "Napaka: Ni mogoče pisati v datoteko %s: %s\n"
+
+#: ../lib/fsp.c:237
+#, c-format
+msgid "Error: Error closing file: %s\n"
+msgstr "Napaka: Napaka med zapiranjem datoteke: %s\n"
+
+#: ../lib/fsp.c:327
+#, c-format
+msgid "Corrupted file listing from FSP server %s\n"
+msgstr "Poškodovan seznam datotek z FSP strežnika %s\n"
+
+#: ../lib/fsp.c:339
+#: ../lib/fsp.c:340
+#: ../lib/parse-dir-listing.c:337
+#: ../lib/parse-dir-listing.c:338
+#: ../lib/parse-dir-listing.c:379
+#: ../lib/parse-dir-listing.c:380
+#: ../lib/parse-dir-listing.c:446
+#: ../lib/parse-dir-listing.c:453
+#: ../lib/parse-dir-listing.c:529
+#: ../lib/parse-dir-listing.c:530
+#: ../lib/parse-dir-listing.c:566
+msgid "unknown"
+msgstr "neznano"
+
+#: ../lib/fsp.c:377
+#, c-format
+msgid "Could not get FSP directory listing %s: %s\n"
+msgstr "Ni mogoče dobiti FSP seznama map %s: %s\n"
+
+#: ../lib/fsp.c:436
+#, c-format
+msgid "Successfully changed directory to %s\n"
+msgstr "Mapa uspešno spremenjena v %s\n"
+
+#: ../lib/fsp.c:446
+#, c-format
+msgid "Could not change directory to %s\n"
+msgstr "Ni mogoče spremeniti mape v %s\n"
+
+#: ../lib/fsp.c:471
+#: ../lib/fsp.c:500
+#: ../lib/local.c:480
+#: ../lib/local.c:516
+#: ../src/gtk/transfer.c:263
+#: ../src/gtk/view_dialog.c:306
+#, c-format
+msgid "Successfully removed %s\n"
+msgstr "%s uspešno odstranjen\n"
+
+#: ../lib/fsp.c:477
+#: ../lib/local.c:486
+#, c-format
+msgid "Error: Could not remove directory %s: %s\n"
+msgstr "Napaka: Ni mogoče odstraniti mape %s: %s\n"
+
+#: ../lib/fsp.c:506
+#: ../lib/local.c:522
+#: ../src/gtk/transfer.c:267
+#: ../src/gtk/view_dialog.c:310
+#, c-format
+msgid "Error: Could not remove file %s: %s\n"
+msgstr "Napaka: Ni mogoče odstraniti datoteke %s: %s\n"
+
+#: ../lib/fsp.c:528
+#: ../lib/local.c:554
+#, c-format
+msgid "Successfully made directory %s\n"
+msgstr "Mapa %s uspešno ustvarjena\n"
+
+#: ../lib/fsp.c:563
+#: ../lib/local.c:590
+#, c-format
+msgid "Successfully renamed %s to %s\n"
+msgstr "%s uspešno preimenovan v %s\n"
+
+#: ../lib/fsp.c:575
+#: ../lib/local.c:597
+#, c-format
+msgid "Error: Could not rename %s to %s: %s\n"
+msgstr "Napaka: Ni mogoče preimenovati %s v %s: %s\n"
+
+#: ../lib/ftps.c:156
+msgid "FTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"
+msgstr "FTPS podpora ni na voljo ker SSL podpora ni bila prevedena. Prekinjanje povezave.\n"
+
+#: ../lib/https.c:91
+msgid "HTTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"
+msgstr "HTTPS podpora ni na voljo ker SSL podpora ni bila prevedena. Prekinjanje povezave.\n"
+
+#: ../lib/local.c:66
+#, c-format
+msgid "Could not get current working directory: %s\n"
+msgstr "Ni mogoče dobiti trenutne delovne mape: %s\n"
+
+#: ../lib/local.c:105
+#, c-format
+msgid "Successfully changed local directory to %s\n"
+msgstr "Krajevna mapa je bila uspešno spremenjena v %s\n"
+
+#: ../lib/local.c:112
+#, c-format
+msgid "Could not change local directory to %s: %s\n"
+msgstr "Ni mogoče spremeniti krajevne mape v %s: %s\n"
+
+#: ../lib/local.c:238
+#, c-format
+msgid "Error: Cannot truncate local file %s: %s\n"
+msgstr "Napaka: Ni mogoče obrezati krajevne datoteke %s: %s\n"
+
+#: ../lib/local.c:424
+#, c-format
+msgid "Could not get local directory listing %s: %s\n"
+msgstr "Ni mogoče dobiti seznama krajevnih map %s: %s\n"
+
+#: ../lib/local.c:634
+#, c-format
+msgid "Successfully changed mode of %s to %o\n"
+msgstr "Način %s uspešno spremenjen v %o\n"
+
+#: ../lib/local.c:641
+#, c-format
+msgid "Error: Could not change mode of %s to %o: %s\n"
+msgstr "Napaka: Ni mogoče spremeniti načina %s v %o: %s\n"
+
+#: ../lib/local.c:676
+#, c-format
+msgid "Successfully changed the time stamp of %s\n"
+msgstr "Časovna znamka %s je bila uspešno spremenjena\n"
+
+#: ../lib/local.c:683
+#, c-format
+msgid "Error: Could not change the time stamp of %s: %s\n"
+msgstr "Napaka: Ni mogoče spremeniti časovne znamke %s: %s\n"
+
+#: ../lib/local.c:750
+msgid "local filesystem"
+msgstr "krajevni datotečni sistem"
+
+#: ../lib/misc.c:414
+#, c-format
+msgid "usage: gftp "
+msgstr "uporaba: gftp"
+
+#. @null@
+#: ../lib/options.h:25
+#: ../lib/rfc959.c:26
+msgid "none"
+msgstr "brez"
+
+#: ../lib/options.h:25
+msgid "file"
+msgstr "datoteka"
+
+#: ../lib/options.h:26
+msgid "size"
+msgstr "velikost"
+
+#: ../lib/options.h:26
+msgid "user"
+msgstr "uporabnik"
+
+#: ../lib/options.h:27
+msgid "group"
+msgstr "skupina"
+
+#: ../lib/options.h:28
+msgid "datetime"
+msgstr "datumčas"
+
+#: ../lib/options.h:29
+msgid "attribs"
+msgstr "atributi"
+
+#. @null@
+#: ../lib/options.h:32
+msgid "descending"
+msgstr "podajoče"
+
+#: ../lib/options.h:33
+msgid "ascending"
+msgstr "naraščajoče"
+
+#: ../lib/options.h:40
+msgid "General"
+msgstr "Splošno"
+
+#: ../lib/options.h:43
+msgid "View program:"
+msgstr "Program za ogled:"
+
+#: ../lib/options.h:44
+msgid "The default program used to view files. If this is blank, the internal file viewer will be used"
+msgstr "Privzet program za urejanje datotek. Če je to prazno bo uporabljen interni ogledovalec datotek"
+
+#: ../lib/options.h:46
+msgid "Edit program:"
+msgstr "Urejanje programa:"
+
+#: ../lib/options.h:47
+msgid "The default program used to edit files."
+msgstr "Privzet program za urejanje datotek."
+
+#: ../lib/options.h:48
+msgid "Max Log Window Size:"
+msgstr "Največja velikost dnevniškega okna:"
+
+#: ../lib/options.h:50
+msgid "The maximum size of the log window in bytes for the GTK+ port"
+msgstr "To je največja velikost dnevniškega okna v bajtih za GTK+ različico"
+
+#: ../lib/options.h:52
+msgid "Remote Character Sets:"
+msgstr "Oddaljen znakovni nizi:"
+
+#: ../lib/options.h:54
+msgid "This is a comma separated list of charsets to try to convert the remote messages to the current locale"
+msgstr "To je z vejico ločen seznam znakovnih nizov za poskus pretvorbe oddaljenih sporočil v trenutno lokalizacijo"
+
+#: ../lib/options.h:56
+msgid "Remote LC_TIME:"
+msgstr "Oddaljeni LC_TIME"
+
+#: ../lib/options.h:58
+msgid "This is the value of LC_TIME for the remote site. This is so that dates can be parsed properly in the directory listings."
+msgstr "To je vrednost LC_TIME za oddaljeno stran. To omogoča da so datumi pravilno prikazani v seznamu map."
+
+#: ../lib/options.h:60
+msgid "Cache TTL:"
+msgstr "Predpomnilnik TTL:"
+
+#: ../lib/options.h:63
+msgid "The number of seconds to keep cache entries before they expire."
+msgstr "Število sekund preden se vnosi predpomnilnika iztečejo."
+
+#: ../lib/options.h:66
+msgid "Append file transfers"
+msgstr "Pripenjanje prenosov datotek"
+
+#: ../lib/options.h:68
+msgid "Append new file transfers onto existing ones"
+msgstr "Pripenjanje novih prenosov datotek na obstoječe"
+
+#: ../lib/options.h:69
+msgid "Do one transfer at a time"
+msgstr "Samo en prenos naenkrat"
+
+#: ../lib/options.h:71
+msgid "Do only one transfer at a time?"
+msgstr "Samo en prenos naenkrat?"
+
+#: ../lib/options.h:72
+msgid "Overwrite by Default"
+msgstr "Privzeto prepiši"
+
+#: ../lib/options.h:75
+msgid "Overwrite files by default or set to resume file transfers"
+msgstr "Privzeto prepiši datoteke oziroma odpri za nadaljevanje prenosa datotek"
+
+#: ../lib/options.h:77
+msgid "Preserve file permissions"
+msgstr "Ohranitev dovoljenj datotek"
+
+#: ../lib/options.h:80
+msgid "Preserve file permissions of transfered files"
+msgstr "Ohranitev dovoljenj prenesenih datotek"
+
+#: ../lib/options.h:82
+msgid "Preserve file time"
+msgstr "Ohranitev časa datoteke"
+
+#: ../lib/options.h:85
+msgid "Preserve file times of transfered files"
+msgstr "Ohranitev časov datotek prenesenih datotek"
+
+#: ../lib/options.h:87
+msgid "Refresh after each file transfer"
+msgstr "Osvežitev po vsakem prenosu datoteke"
+
+#: ../lib/options.h:90
+msgid "Refresh the listbox after each file is transfered"
+msgstr "Osvežitev polja s seznamom po vsakem prenosu datoteke"
+
+#: ../lib/options.h:92
+msgid "Sort directories first"
+msgstr "Razvrstitev map najprej"
+
+#: ../lib/options.h:95
+msgid "Put the directories first then the files"
+msgstr "Postavitev map pred datoteke"
+
+#: ../lib/options.h:96
+msgid "Show hidden files"
+msgstr "Prikaz skritih datotek"
+
+#: ../lib/options.h:99
+msgid "Show hidden files in the listboxes"
+msgstr "Prikaz skritih datotek v polju seznama datotek"
+
+#: ../lib/options.h:100
+msgid "Show transfer status in title"
+msgstr "Prikaz stanja prenosa v naslovu"
+
+#: ../lib/options.h:102
+msgid "Show the file transfer status in the titlebar"
+msgstr "Prikaz stanja prenosov datotek v naslovni vrstici"
+
+#: ../lib/options.h:103
+msgid "Start file transfers"
+msgstr "Začni prenos datotek"
+
+#: ../lib/options.h:105
+msgid "Automatically start the file transfers when they get queued"
+msgstr "Samodejni zagon prenosov datotek ko so v čakalni vrsti"
+
+#: ../lib/options.h:107
+msgid "Allow manual commands in GUI"
+msgstr "Uporaba ročnih ukazov v GUI"
+
+#: ../lib/options.h:109
+msgid "Allow entering manual commands in the GUI (functions like the text port)"
+msgstr "Dovoljenje vnosa ročnih ukazov v GUI (funkcije kot besedna vrata)"
+
+#: ../lib/options.h:111
+msgid "Remember last directory"
+msgstr "Pomnenje zadnje mape"
+
+#: ../lib/options.h:113
+msgid "Save the last local and remote directory when the application is closed"
+msgstr "Shranitev zadnje krajevne in oddaljene mape ob zaprtju programa"
+
+#: ../lib/options.h:115
+msgid "Connect to remote server on startup"
+msgstr "Povezava z oddaljenim strežnikom ob zagonu"
+
+#: ../lib/options.h:117
+msgid "Automatically connect to the remote server when the application is started."
+msgstr "Samodejna povezava z oddaljenim strežnikom ob zagonu programa."
+
+#: ../lib/options.h:120
+#: ../src/gtk/options_dialog.c:1020
+#: ../src/gtk/options_dialog.c:1240
+msgid "Network"
+msgstr "Omrežje"
+
+#: ../lib/options.h:122
+msgid "Network timeout:"
+msgstr "Časovna omejitev povezave:"
+
+#: ../lib/options.h:125
+msgid "The timeout waiting for network input/output. This is NOT an idle timeout."
+msgstr "Časovna omejitev za čakanje mrežnega odvoda/dovoda. To NI časovna omejitev nedejavnosti."
+
+#: ../lib/options.h:127
+msgid "Connect retries:"
+msgstr "Število poskusov povezave:"
+
+#: ../lib/options.h:130
+msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
+msgstr "Število samodejnih poskusov. Številka 0 pomeni neskončno število poskusov"
+
+#: ../lib/options.h:132
+msgid "Retry sleep time:"
+msgstr "Čas med ponovnimi poskusi:"
+
+#: ../lib/options.h:135
+msgid "The number of seconds to wait between retries"
+msgstr "Čakanje med poskusi v sekundah"
+
+#: ../lib/options.h:136
+msgid "Max KB/S:"
+msgstr "Največ kB/s"
+
+#: ../lib/options.h:139
+msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
+msgstr "Največja hitrost v kB/s, ki jo lahko doseže prenos datoteke (0 za neomejno)"
+
+#: ../lib/options.h:141
+msgid "Transfer Block Size:"
+msgstr "Velikost bloka prenosa:"
+
+#: ../lib/options.h:144
+msgid "The block size that is used when transfering files. This should be a multiple of 1024."
+msgstr "Velikost bloka pri prenosu datotek. To naj bi bil mnogokratnik 1024."
+
+#: ../lib/options.h:147
+msgid "Default Protocol:"
+msgstr "Privzeti protokol:"
+
+#: ../lib/options.h:149
+msgid "This specifies the default protocol to use"
+msgstr "To določa uporabo privzetega protokola"
+
+#: ../lib/options.h:151
+#: ../lib/options.h:154
+msgid "Enable IPv6 support"
+msgstr "Omogoči IPv6 podporo"
+
+#: ../lib/options.h:159
+msgid "This defines what will happen when you double click a file in the file listboxes. 0=View file 1=Edit file 2=Transfer file"
+msgstr "To določa kaj se bo zgodilo ob dvakratnem kliku datoteke v polju seznama datotek. 0=Ogled datoteke 1=Urejanje datotek 2=Prenos datoteke"
+
+#: ../lib/options.h:162
+msgid "The default width of the local files listbox"
+msgstr "Privzeta širina polja s seznamom krajevnih datotek"
+
+#: ../lib/options.h:165
+msgid "The default width of the remote files listbox"
+msgstr "Privzeta širina polja s seznamom oddaljenih datotek"
+
+#: ../lib/options.h:168
+msgid "The default height of the local/remote files listboxes"
+msgstr "Privzeta višina polj s seznamom krajevnih/oddaljenih datotek"
+
+#: ../lib/options.h:171
+msgid "The default height of the transfer listbox"
+msgstr "Privzeta višina polja s seznamov prenosov"
+
+#: ../lib/options.h:174
+msgid "The default height of the logging window"
+msgstr "Privzeta višina dnevniškega okna"
+
+#: ../lib/options.h:177
+msgid "The width of the filename column in the transfer window. Set this to 0 to have this column automagically resize."
+msgstr "Širina stolpca imena datotek oknu prenosov. Če je vrednost 0, stolpec samodejno spreminja velikost."
+
+#: ../lib/options.h:190
+#: ../lib/options.h:196
+msgid "The default column to sort by"
+msgstr "Privzeta razvrstitev stolpcev"
+
+#: ../lib/options.h:193
+#: ../lib/options.h:199
+msgid "Sort ascending or descending"
+msgstr "Razvrstitev naraščajoče ali padajoče"
+
+#: ../lib/options.h:203
+#: ../lib/options.h:221
+msgid "The width of the filename column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
+msgstr "Širina stolpca imena datotek v polju seznama datotek. Če je vrednost 0, stolpec samodejno spreminja velikost. Če je vrednost -1 je ta stolpec onemogočen"
+
+#: ../lib/options.h:206
+#: ../lib/options.h:224
+msgid "The width of the size column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
+msgstr "Širina stolpca velikosti v polju seznama datotek. Če je vrednost 0, stolpec samodejno spreminja velikost. Če je vrednost -1 je ta stolpec onemogočen"
+
+#: ../lib/options.h:209
+#: ../lib/options.h:227
+msgid "The width of the user column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
+msgstr "Širina stolpca uporabnikov v polju seznama datotek. Če je vrednost 0, stolpec samodejno spreminja velikost. Če je vrednost -1 je ta stolpec onemogočen"
+
+#: ../lib/options.h:212
+#: ../lib/options.h:230
+msgid "The width of the group column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
+msgstr "Širina stolpca skupin v polju seznama datotek. Če je vrednost 0, stolpec samodejno spreminja velikost. Če je vrednost -1 je ta stolpec onemogočen"
+
+#: ../lib/options.h:215
+#: ../lib/options.h:233
+msgid "The width of the date column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
+msgstr "Širina stolpca datumov v polju seznama datotek. Če je vrednost 0, stolpec samodejno spreminja velikost. Če je vrednost -1 je ta stolpec onemogočen"
+
+#: ../lib/options.h:218
+#: ../lib/options.h:236
+msgid "The width of the attribs column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
+msgstr "Širina stolpca atributov v polju seznama datotek. Če je vrednost 0, stolpec samodejno spreminja velikost. Če je vrednost -1 je ta stolpec onemogočen"
+
+#: ../lib/options.h:239
+msgid "The color of the commands that are sent to the server"
+msgstr "Barva ukazov poslanih strežniku"
+
+#: ../lib/options.h:242
+msgid "The color of the commands that are received from the server"
+msgstr "Barva ukazov prejetih s strežnika"
+
+#: ../lib/options.h:245
+msgid "The color of the error messages"
+msgstr "Barva sporočil o napakah"
+
+#: ../lib/options.h:248
+msgid "The color of the rest of the log messages"
+msgstr "Barva preostanka dnevniških sporočil"
+
+#: ../lib/options.h:254
+#: ../lib/rfc959.c:40
+msgid "FTP"
+msgstr "FTP"
+
+#: ../lib/options.h:257
+#: ../lib/options.h:259
+msgid "FTPS"
+msgstr "FTPS"
+
+#: ../lib/options.h:262
+#: ../lib/rfc2068.c:27
+msgid "HTTP"
+msgstr "HTTP"
+
+#: ../lib/options.h:265
+#: ../lib/options.h:267
+msgid "HTTPS"
+msgstr "HTTPS"
+
+#: ../lib/options.h:270
+msgid "Local"
+msgstr "Krajevno"
+
+#: ../lib/options.h:272
+msgid "SSH2"
+msgstr "SSH2"
+
+#: ../lib/options.h:274
+#: ../src/gtk/bookmarks.c:883
+msgid "Bookmark"
+msgstr "Zaznamek"
+
+#: ../lib/options.h:275
+msgid "FSP"
+msgstr "FSP"
+
+#: ../lib/protocols.c:228
+#, c-format
+msgid "File transfer will be throttled to %.2f KB/s\n"
+msgstr "Prenos datoteke bo omejen na %.2f kB/s\n"
+
+# Izraz falling back ?
+#: ../lib/protocols.c:381
+#, c-format
+msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
+msgstr "Napaka med nastavljanjem LC_TIME na '%s'. Povrnjeno nazaj na '%s'\n"
+
+#: ../lib/protocols.c:392
+#, c-format
+msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
+msgstr "Nalaganje seznama map %s iz predpomnilnika (LC_TIME=%s)\n"
+
+#: ../lib/protocols.c:402
+#, c-format
+msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
+msgstr "Nalaganje seznama map %s s strežnika (LC_TIME=%s)\n"
+
+#: ../lib/protocols.c:452
+#, c-format
+msgid "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't match the current directory (%s)\n"
+msgstr "Opozorilo: Skrajševanje poti datoteke '%s'. Skrajšana pot (%s) se ne ujema s trenutno mapo (%s)\n"
+
+#: ../lib/protocols.c:483
+#, c-format
+msgid "Error: Cannot write to cache: %s\n"
+msgstr "Napaka: Ni mogoče pisati v predpomnilnik: %s\n"
+
+#: ../lib/protocols.c:516
+#, c-format
+msgid "Error: Could not find bookmark %s\n"
+msgstr "Napaka: Ni mogoče najti zaznamka %s\n"
+
+#: ../lib/protocols.c:523
+#, c-format
+msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
+msgstr "Napaka zaznamkov: Vnos zaznamka %s nima imena gostitelja\n"
+
+#: ../lib/protocols.c:645
+#: ../lib/protocols.c:672
+#, c-format
+msgid "The protocol '%s' is currently not supported.\n"
+msgstr "Protokol '%s' trenutno ni podprt.\n"
+
+#: ../lib/protocols.c:1155
+#, c-format
+msgid "Found recursive symbolic link %s\n"
+msgstr "Najdena je bila rekurzivna simbolna povezava %s\n"
+
+#: ../lib/protocols.c:1533
+#, c-format
+msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
+msgstr "Napaka: Oddaljena stran %s je prekinila povezavo. Največje število poskusov je doseženo ... konec povezovanja\n"
+
+#: ../lib/protocols.c:1541
+#, c-format
+msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
+msgstr "Napaka: Oddaljena stran %s je prekinila povezavo. Ponovna povezava v %d sekundah\n"
+
+# Je to pravilno ?
+#: ../lib/protocols.c:1636
+#: ../lib/rfc959.c:715
+#: ../lib/rfc959.c:885
+#: ../lib/socket-connect.c:126
+#, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr "Napaka: Ni mogoče nastaviti zastavice za zapiranje ob izvajanju: %s\n"
+
+#: ../lib/pty.c:301
+#, c-format
+msgid "Cannot open master pty %s: %s\n"
+msgstr "Ni mogoče odpreti glavnega pty %s: %s\n"
+
+#: ../lib/pty.c:309
+#, c-format
+msgid "Cannot create a socket pair: %s\n"
+msgstr "Ni mogoče ustvariti para vtičnikov: %s\n"
+
+#: ../lib/pty.c:338
+#, c-format
+msgid "Error: Cannot execute ssh: %s\n"
+msgstr "Napaka: Ni mogoče izvesti ssh: %s\n"
+
+#: ../lib/pty.c:354
+#, c-format
+msgid "Cannot fork another process: %s\n"
+msgstr "Ni mogoče vejiti drugega procesa: %s\n"
+
+#: ../lib/rfc2068.c:30
+#: ../lib/rfc959.c:47
+msgid "Proxy hostname:"
+msgstr "Ime gostitelja posrednika:"
+
+#: ../lib/rfc2068.c:32
+#: ../lib/rfc959.c:49
+msgid "Firewall hostname"
+msgstr "Ime gostitelja požarnega zidu:"
+
+#: ../lib/rfc2068.c:33
+#: ../lib/rfc959.c:50
+msgid "Proxy port:"
+msgstr "Vrata posrednika:"
+
+#: ../lib/rfc2068.c:35
+#: ../lib/rfc959.c:52
+msgid "Port to connect to on the firewall"
+msgstr "Vrata za povezavo na požarnem zidu"
+
+#: ../lib/rfc2068.c:36
+#: ../lib/rfc959.c:53
+msgid "Proxy username:"
+msgstr "Uporabniško ime posrednika:"
+
+#: ../lib/rfc2068.c:38
+#: ../lib/rfc959.c:55
+msgid "Your firewall username"
+msgstr "Uporabniško ime požarnega zidu"
+
+#: ../lib/rfc2068.c:39
+#: ../lib/rfc959.c:56
+msgid "Proxy password:"
+msgstr "Geslo posrednika:"
+
+#: ../lib/rfc2068.c:41
+#: ../lib/rfc959.c:58
+msgid "Your firewall password"
+msgstr "Vaše geslo požarnega zidu"
+
+#: ../lib/rfc2068.c:43
+msgid "Use HTTP/1.1"
+msgstr "Uporabljanje HTTP/1.1"
+
+#: ../lib/rfc2068.c:46
+msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
+msgstr "Želite uporabljati HTTP/1.1 ali HTTP/1.0"
+
+#: ../lib/rfc2068.c:151
+#: ../lib/rfc2068.c:840
+#, c-format
+msgid ""
+"Received wrong response from server, disconnecting\n"
+"Invalid chunk size '%s' returned by the remote server\n"
+msgstr ""
+"Prejet napačen odziv s strežnika, prekinjanje povezave\n"
+"Neveljavna velikost rezine '%s' je bila vrnjena z oddaljenega strežnika\n"
+
+#: ../lib/rfc2068.c:255
+#: ../lib/rfc959.c:679
+#: ../lib/sshv2.c:1245
+#, c-format
+msgid "Disconnecting from site %s\n"
+msgstr "Prekinjanje povezave s stranjo %s\n"
+
+#: ../lib/rfc2068.c:301
+msgid "Starting the file transfer at offset "
+msgstr "Začetek prenosa datoteke pri odmiku"
+
+#: ../lib/rfc2068.c:322
+#, c-format
+msgid "Cannot retrieve file %s\n"
+msgstr "Ni mogoče pridobiti datoteke %s\n"
+
+#: ../lib/rfc2068.c:421
+#: ../lib/sshv2.c:1327
+msgid "Retrieving directory listing...\n"
+msgstr "Pridobivanje seznama map ...\n"
+
+#: ../lib/rfc2068.c:816
+#: ../lib/sshv2.c:895
+msgid "Received wrong response from server, disconnecting\n"
+msgstr "Prejet napačen odziv s strežnika, prekinjanje povezave\n"
+
+#: ../lib/rfc959.c:27
+msgid "SITE command"
+msgstr "SITE ukaz"
+
+#: ../lib/rfc959.c:28
+msgid "user@host"
+msgstr "uporabnik@gostitelj"
+
+#: ../lib/rfc959.c:29
+msgid "user@host:port"
+msgstr "uporabnik@gostitelj:vrata"
+
+#: ../lib/rfc959.c:30
+msgid "AUTHENTICATE"
+msgstr "Overovitev"
+
+#: ../lib/rfc959.c:31
+msgid "user@host port"
+msgstr "uporabnik@gostitelj vrata"
+
+#: ../lib/rfc959.c:32
+msgid "user@host NOAUTH"
+msgstr "uporabnik@gostitelj NOAUTH"
+
+#: ../lib/rfc959.c:33
+msgid "HTTP Proxy"
+msgstr "HTTP posrednik"
+
+#: ../lib/rfc959.c:34
+msgid "Custom"
+msgstr "Po meri"
+
+#: ../lib/rfc959.c:43
+msgid "Email address:"
+msgstr "E-poštni naslov:"
+
+#: ../lib/rfc959.c:45
+msgid "This is the password that will be used whenever you log into a remote FTP server as anonymous"
+msgstr "To je geslo, ki bo uporabljeno ob prijavi v oddaljeni FTP strežnik kot anonimnež"
+
+#: ../lib/rfc959.c:59
+msgid "Proxy account:"
+msgstr "Posredniški račun:"
+
+#: ../lib/rfc959.c:61
+msgid "Your firewall account (optional)"
+msgstr "Vaš račun požarnega zidu (možnost)"
+
+#: ../lib/rfc959.c:63
+msgid "Proxy server type:"
+msgstr "Zvrst posredniškega strežnika"
+
+#: ../lib/rfc959.c:66
+#, no-c-format
+msgid "This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"
+msgstr "To določa kakšen način prijave pričakuje vaš posredniški strežnik. Mogoče je določiti  zamenjalni niz dolžine dveh znakov s predpono %, ki bo bila zamenjana s primernimi podatki. Prva črka je lahko ali p za posrednika ali h za gostitelja FTP strežnika. Drug znak je lahko u (uporabnik), p (geslo), h (gostitelj), o (vrata) ali a (račun). Tako se na primer za določitev uporabnika posrednika vnese %pu."
+
+#: ../lib/rfc959.c:69
+msgid "Ignore PASV address"
+msgstr "Preziranje PASV naslova"
+
+#: ../lib/rfc959.c:72
+msgid "If this is enabled, then the remote FTP server's PASV IP address field will be ignored and the host's IP address will be used instead. This is often needed for routers giving their internal rather then their external IP address in a PASV reply."
+msgstr "Izbrana možnost omogoča, da se PASV IP naslov oddaljenega FTP strežnika prezre. Namesto tega pa bo uporabljen IP naslov gostitelja. nastavitev se pogosto uporablja pri usmernike, ki v PASV odgovoru podajo svoj notranji namesto zunanjega IP naslova. "
+
+#: ../lib/rfc959.c:74
+msgid "Passive file transfers"
+msgstr "Pasivni prenosi datotek"
+
+#: ../lib/rfc959.c:77
+msgid "If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."
+msgstr "Izbrana možnost omogoča, daoddaljeni FTP strežnik odpre vrata za podatkovno povezavo. V primeru, da ima sistem požarni zid, mora biti ta možnost omogočena. Priporočeno je, da je možnost omogočena, razen v primerih povezave s starejšim FTP strežnikom, ki te podpore nimaa. Z izbrano možnostjo bo gFTP odprl vrata na strani odjemalca, oddaljeni strežnik pa se bo z njim povezal."
+
+#: ../lib/rfc959.c:79
+msgid "Resolve Remote Symlinks (LIST -L)"
+msgstr "Razreševanje oddaljenih simboličnih povezav (LIST -L)"
+
+#: ../lib/rfc959.c:82
+msgid "The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"
+msgstr "Oddaljeni FTP strežnik bo poskusil razrešiti simbolične povezave v seznamu map. V splošnem je dobro to omogočiti. To možnost je dobro onemogočiti le, če oddaljeni FTP strežnik ne podpira -L možnosti v LIST"
+
+#: ../lib/rfc959.c:84
+msgid "Transfer files in ASCII mode"
+msgstr "Prenos datotek v ASCII načinu"
+
+#: ../lib/rfc959.c:87
+msgid "If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."
+msgstr "Za prenašanje besedilnih datotek z Windows na UNIX sistem ali obratno, mora biti na možnost omogočena. Sistema uporabljata različen sistem zapisovanja novih vrstic v besedilnih datotekah. Pri prenosu iz UNIX na UNIX sistem, pa možnost ni zahtevana. Prav tako mora biti možnost onemogočena pri prenašanju binarnih podatkov."
+
+#: ../lib/rfc959.c:381
+#: ../lib/rfc959.c:390
+#: ../lib/rfc959.c:401
+#: ../lib/rfc959.c:849
+#: ../lib/rfc959.c:1414
+#, c-format
+msgid "Invalid response '%c' received from server.\n"
+msgstr "Neveljaven odziv '%c' prejet s strežnika.\n"
+
+#: ../lib/rfc959.c:706
+#: ../lib/socket-connect-gethostbyname.c:120
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "Ustvarjanje IPv4 vtiča je spodletelo: %s\n"
+
+#: ../lib/rfc959.c:745
+#: ../lib/rfc959.c:755
+#, c-format
+msgid "Cannot find an IP address in PASV response '%s'\n"
+msgstr "Ni mogoče najti IP naslova v PASV odzivu '%s'\n"
+
+#: ../lib/rfc959.c:775
+#, c-format
+msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
+msgstr "Preziranje IP naslovov v PASV odzivu, povezovanje z %d.%d.%d.%d:%d\n"
+
+#: ../lib/rfc959.c:786
+#: ../lib/rfc959.c:945
+#, c-format
+msgid "Cannot create a data connection: %s\n"
+msgstr "Ni mogoče začeti podatkovne povezave: %s\n"
+
+#: ../lib/rfc959.c:798
+#: ../lib/rfc959.c:819
+#: ../lib/rfc959.c:970
+#, c-format
+msgid "Cannot get socket name: %s\n"
+msgstr "Ni mogoče dobiti imena vtiča: %s\n"
+
+#: ../lib/rfc959.c:809
+#: ../lib/rfc959.c:960
+#, c-format
+msgid "Cannot bind a port: %s\n"
+msgstr "Ni mogoče vezati vrat: %s\n"
+
+#: ../lib/rfc959.c:828
+#: ../lib/rfc959.c:979
+#, c-format
+msgid "Cannot listen on port %d: %s\n"
+msgstr "Ni mogoče poslušati na vratih %d: %s\n"
+
+#: ../lib/rfc959.c:876
+#, c-format
+msgid "Failed to create a IPv6 socket: %s\n"
+msgstr "Ustvarjanje IPv6 vtiča je spodletelo: %s\n"
+
+#: ../lib/rfc959.c:895
+msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+msgstr "Napaka: Kaže da je povezave preko IPv6. Prekinjanje povezave.\n"
+
+#: ../lib/rfc959.c:923
+#: ../lib/rfc959.c:932
+#, c-format
+msgid "Invalid EPSV response '%s'\n"
+msgstr "Neveljaven EPSV odziv '%s'\n"
+
+#: ../lib/rfc959.c:989
+#, c-format
+msgid "Cannot get address of local socket: %s\n"
+msgstr "Ni mogoče dobiti naslova krajevnega vtiča: %s\n"
+
+#: ../lib/rfc959.c:1076
+#, c-format
+msgid "Cannot accept connection from server: %s\n"
+msgstr "Ni mogoče sprejeti povezave s strežnika: %s\n"
+
+#: ../lib/rfc959.c:1584
+msgid "total"
+msgstr "skupno"
+
+#: ../lib/rfc959.c:1586
+#, c-format
+msgid "Warning: Cannot parse listing %s\n"
+msgstr "Opozorilo: Ni mogoče razčleniti seznama %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:77
+#: ../lib/socket-connect-gethostbyname.c:64
+#, c-format
+msgid "Looking up %s\n"
+msgstr "Iskanje %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:82
+#: ../lib/socket-connect-gethostbyname.c:69
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "Ni mogoče najti imena gostitelja %s: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:115
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "Ni mogoče ustvariti vtiča: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:121
+#: ../lib/socket-connect-gethostbyname.c:134
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "Poskušanje %s:%d\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:127
+#: ../lib/socket-connect-gethostbyname.c:141
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "Ni se mogoče povezati z %s: %s\n"
+
+#: ../lib/socket-connect-getaddrinfo.c:152
+#: ../lib/socket-connect-gethostbyname.c:159
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "Povezava z %s:%d\n"
+
+#: ../lib/socket-connect-gethostbyname.c:101
+#: ../lib/sshv2.c:1168
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr "Ni mogoče najdi imena storitve %s/tcp. Prosimo preverite datoteko storitev\n"
+
+#: ../lib/sockutils.c:190
+#: ../lib/sockutils.c:268
+#: ../lib/sshv2.c:435
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "Povezava do %s se je iztekla\n"
+
+#: ../lib/sockutils.c:338
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "Ni mogoče dobiti zastavic vtiča: %s\n"
+
+#: ../lib/sockutils.c:352
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "Ni mogoče nastaviti vtiča kot ne-blokiranega: %s\n"
+
+#: ../lib/sshv2.c:28
+msgid "SSH"
+msgstr "SSH"
+
+#: ../lib/sshv2.c:31
+msgid "SSH Prog Name:"
+msgstr "SSH ime programa:"
+
+#: ../lib/sshv2.c:33
+msgid "The path to the SSH executable"
+msgstr "Pot do SSH izvedljive datoteke"
+
+#: ../lib/sshv2.c:34
+msgid "SSH Extra Params:"
+msgstr "SSH dodatni parametri"
+
+#: ../lib/sshv2.c:36
+msgid "Extra parameters to pass to the SSH program"
+msgstr "Dodatni parametri za SSH program"
+
+#: ../lib/sshv2.c:38
+msgid "Need SSH User/Pass"
+msgstr "Potrebuje SSH uporabniško ime/geslo"
+
+#: ../lib/sshv2.c:41
+msgid "Require a username/password for SSH connections"
+msgstr "Zahteva uporabniško ime/geslo za SSH povezave"
+
+#: ../lib/sshv2.c:369
+#, c-format
+msgid "Running program %s\n"
+msgstr "Poganjanje programa %s\n"
+
+#: ../lib/sshv2.c:378
+msgid "Enter passphrase for RSA key"
+msgstr "Vnesite geslo za RSA ključ"
+
+#: ../lib/sshv2.c:379
+msgid "Enter passphrase for key '"
+msgstr "Vnesite geslo za ključ '"
+
+#: ../lib/sshv2.c:380
+msgid "Password"
+msgstr "Geslo"
+
+#: ../lib/sshv2.c:381
+msgid "password"
+msgstr "geslo"
+
+#: ../lib/sshv2.c:496
+msgid "(yes/no)?"
+msgstr "(da/ne)?"
+
+#: ../lib/sshv2.c:514
+msgid "Enter PASSCODE:"
+msgstr "Vnesite prehodno geslo:"
+
+#: ../lib/sshv2.c:518
+#: ../src/gtk/gtkui.c:142
+#: ../src/gtk/transfer.c:562
+#: ../src/gtk/transfer.c:572
+msgid "Enter Password"
+msgstr "Vnesite geslo"
+
+#: ../lib/sshv2.c:519
+msgid "Enter SecurID Password:"
+msgstr "Vnesite SecurID geslo:"
+
+#: ../lib/sshv2.c:567
+msgid "Error: An incorrect password was entered\n"
+msgstr "Napaka: Vneseno je bilo neveljavno geslo\n"
+
+#: ../lib/sshv2.c:596
+#, c-format
+msgid "%d: Protocol Initialization\n"
+msgstr "%d: Inicializacija protokola\n"
+
+#: ../lib/sshv2.c:600
+#, c-format
+msgid "%d: Protocol version %d\n"
+msgstr "%d: Različica protokola %d\n"
+
+#: ../lib/sshv2.c:609
+#, c-format
+msgid "%d: Open %s\n"
+msgstr "%d: Odpri %s\n"
+
+#: ../lib/sshv2.c:614
+#, c-format
+msgid "%d: Close\n"
+msgstr "%d: Zapri\n"
+
+#: ../lib/sshv2.c:618
+#, c-format
+msgid "%d: Open Directory %s\n"
+msgstr "%d: Odpri mapo %s\n"
+
+#: ../lib/sshv2.c:623
+#, c-format
+msgid "%d: Read Directory\n"
+msgstr "%d: Beri mapo\n"
+
+#: ../lib/sshv2.c:627
+#, c-format
+msgid "%d: Remove file %s\n"
+msgstr "%d: Odstrani datoteko %s\n"
+
+#: ../lib/sshv2.c:632
+#, c-format
+msgid "%d: Make directory %s\n"
+msgstr "%d: Ustvari mapo %s\n"
+
+#: ../lib/sshv2.c:637
+#, c-format
+msgid "%d: Remove directory %s\n"
+msgstr "%d: Odstrani mapo %s\n"
+
+#: ../lib/sshv2.c:642
+#, c-format
+msgid "%d: Realpath %s\n"
+msgstr "%d: Realpath %s\n"
+
+#: ../lib/sshv2.c:647
+#, c-format
+msgid "%d: File attributes\n"
+msgstr "%d: Atributu datotek\n"
+
+#: ../lib/sshv2.c:651
+#, c-format
+msgid "%d: Stat %s\n"
+msgstr "%d Stanje %s\n"
+
+#: ../lib/sshv2.c:671
+#, c-format
+msgid "%d: Chmod %s %o\n"
+msgstr "%d: Chmod %s %o\n"
+
+#: ../lib/sshv2.c:676
+#, c-format
+msgid "%d: Utime %s %d\n"
+msgstr "%d: Utime %s %d\n"
+
+#: ../lib/sshv2.c:690
+#: ../src/gtk/bookmarks.c:1042
+#: ../src/gtk/bookmarks.c:1292
+#: ../src/gtk/chmod_dialog.c:253
+#: ../src/gtk/gtkui_transfer.c:376
+#: ../src/gtk/misc-gtk.c:995
+#: ../src/gtk/options_dialog.c:1205
+#: ../src/gtk/options_dialog.c:1437
+msgid "OK"
+msgstr "V redu"
+
+#: ../lib/sshv2.c:693
+msgid "EOF"
+msgstr "Konec datoteke"
+
+#: ../lib/sshv2.c:696
+msgid "No such file or directory"
+msgstr "Ni take datoteke ali mape"
+
+#: ../lib/sshv2.c:699
+msgid "Permission denied"
+msgstr "Dovoljenje zavrnjeno"
+
+#: ../lib/sshv2.c:702
+msgid "Failure"
+msgstr "Odpoved"
+
+#: ../lib/sshv2.c:705
+msgid "Bad message"
+msgstr "Slabo sporočilo"
+
+#: ../lib/sshv2.c:708
+msgid "No connection"
+msgstr "Ni povezave"
+
+#: ../lib/sshv2.c:711
+msgid "Connection lost"
+msgstr "Povezava je izgubljena"
+
+#: ../lib/sshv2.c:714
+msgid "Operation unsupported"
+msgstr "Dejanje ni podprto"
+
+#: ../lib/sshv2.c:717
+msgid "Unknown message returned from server"
+msgstr "Prejeto neznano sporočilo od strežnika"
+
+#: ../lib/sshv2.c:752
+#, c-format
+msgid "Error: Message size %d too big\n"
+msgstr "Napaka: Velikost sporočila %d je prevelika\n"
+
+#: ../lib/sshv2.c:811
+#: ../lib/sshv2.c:1346
+#: ../lib/sshv2.c:1838
+#: ../lib/sshv2.c:1957
+#, c-format
+msgid "Error: Message size %d too big from server\n"
+msgstr "Napaka: Velikost sporočila %d od strežnika je prevelika\n"
+
+#: ../lib/sshv2.c:817
+msgid "There was an error initializing a SSH connection with the remote server. The error message from the remote server follows:\n"
+msgstr "Prišlo je do napake pri inicalizacije SSL povezave z oddaljenim strežnikom. Napaka z oddaljenega strežnika je:\n"
+
+#: ../lib/sshv2.c:1160
+#, c-format
+msgid "Opening SSH connection to %s\n"
+msgstr "Odpiranje SSH povezave na %s\n"
+
+#: ../lib/sshv2.c:1212
+#, c-format
+msgid "Successfully logged into SSH server %s\n"
+msgstr "Uspešna prijava v SSH strežnik %s\n"
+
+#: ../lib/sslcommon.c:31
+msgid "SSL Engine"
+msgstr "SSL motor"
+
+#: ../lib/sslcommon.c:34
+msgid "SSL Entropy File:"
+msgstr "Datoteka entropije SSL"
+
+#: ../lib/sslcommon.c:36
+msgid "SSL entropy file"
+msgstr "Datoteka entropije SSL "
+
+#: ../lib/sslcommon.c:37
+msgid "Entropy Seed Length:"
+msgstr "Dolžina semena entropije:"
+
+#: ../lib/sslcommon.c:39
+msgid "The maximum number of bytes to seed the SSL engine with"
+msgstr "Največje število bajtov za sejanje SSL motorja"
+
+#: ../lib/sslcommon.c:41
+#: ../lib/sslcommon.c:43
+msgid "Verify SSL Peer"
+msgstr "Potrdi SSL vrstnika"
+
+#: ../lib/sslcommon.c:107
+#, c-format
+msgid ""
+"Error with certificate at depth: %i\n"
+"Issuer = %s\n"
+"Subject = %s\n"
+"Error %i:%s\n"
+msgstr ""
+"Napaka s certifikatom na globini: %i\n"
+"Izdajatelj = %s\n"
+"Predmet = %s\n"
+"Napaka %i:%s\n"
+
+#: ../lib/sslcommon.c:129
+msgid "Cannot get peer certificate\n"
+msgstr "Ni mogoče dobiti potrdila vrstnika\n"
+
+#: ../lib/sslcommon.c:196
+#, c-format
+msgid "ERROR: The host in the SSL certificate (%s) does not match the host that we connected to (%s). Aborting connection.\n"
+msgstr "Napaka: Gostitelj v SSL certifikatu (%s) se ne ujema z povezanim gostiteljem (%s). Prekinjanje povezave.\n"
+
+#: ../lib/sslcommon.c:302
+msgid "Cannot initialize the OpenSSL library\n"
+msgstr "Ni mogoče inicializirati OpenSSL knjižnice\n"
+
+#: ../lib/sslcommon.c:317
+msgid "Error loading default SSL certificates\n"
+msgstr "Napaka med nalaganjem privzetih certifikatov\n"
+
+#: ../lib/sslcommon.c:329
+msgid "Error setting cipher list (no valid ciphers)\n"
+msgstr "Napaka med nastavljanjem seznama čiperjev (ni veljavnih čiperjev)\n"
+
+#: ../lib/sslcommon.c:349
+#: ../lib/sslcommon.c:423
+#: ../lib/sslcommon.c:471
+msgid "Error: SSL engine was not initialized\n"
+msgstr "Napaka: SSL motor ni bil inicializiran\n"
+
+#: ../lib/sslcommon.c:366
+msgid "Error setting up SSL connection (BIO object)\n"
+msgstr "Napaka pri nastavljanju SSL povezave (BIO predmet)\n"
+
+#: ../lib/sslcommon.c:376
+msgid "Error setting up SSL connection (SSL object)\n"
+msgstr "Napaka pri nastavljanju SSL povezave (SSL predmet)\n"
+
+#: ../lib/sslcommon.c:397
+#, c-format
+msgid "Error with peer certificate: %s\n"
+msgstr "Napaka s potrdilom vrstnika: %s\n"
+
+#: ../src/uicommon/gftpui.c:56
+msgid "Operation canceled\n"
+msgstr "Operacija preklicana\n"
+
+#: ../src/uicommon/gftpui.c:65
+#, c-format
+msgid "Waiting %d seconds until trying to connect again\n"
+msgstr "Čakanje %d sekund pred poskusom ponovne povezave\n"
+
+#: ../src/uicommon/gftpui.c:156
+msgid "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"
+msgstr "gFTP je distribuiran BREZ KAKRŠNIHKOLI zagotovil; podrobnosti so v datoteki COPYING. To je prosto programje; lahko ga redistribuirate in/ali spreminjate pod določenimi pogoji. Za podrobnosti si oglejte COPYING datoteko\n"
+
+#: ../src/uicommon/gftpui.c:158
+#: ../src/gtk/menu-items.c:491
+msgid "Translated by"
+msgstr "Prevedel Andrej Žnidaršič"
+
+#: ../src/uicommon/gftpui.c:205
+#: ../src/uicommon/gftpui.c:247
+#: ../src/uicommon/gftpui.c:287
+#: ../src/uicommon/gftpui.c:322
+#: ../src/uicommon/gftpui.c:357
+#: ../src/uicommon/gftpui.c:393
+#: ../src/uicommon/gftpui.c:429
+#: ../src/uicommon/gftpui.c:494
+#: ../src/uicommon/gftpui.c:575
+#: ../src/uicommon/gftpui.c:845
+msgid "Error: Not connected to a remote site\n"
+msgstr "Napaka: Ni povezave z oddaljeno stranjo\n"
+
+#: ../src/uicommon/gftpui.c:216
+msgid "usage: chmod <mode> <file>\n"
+msgstr "uporaba: chmod <način> <datoteka>\n"
+
+#: ../src/uicommon/gftpui.c:257
+msgid "usage: rename <old name> <new name>\n"
+msgstr "uporaba: rename <staro ime> <novo ime>\n"
+
+#: ../src/uicommon/gftpui.c:293
+msgid "usage: delete <file>\n"
+msgstr "uporaba: delete <datoteka>\n"
+
+#: ../src/uicommon/gftpui.c:328
+msgid "usage: rmdir <directory>\n"
+msgstr "uporaba: rmdir <ime mape>\n"
+
+#: ../src/uicommon/gftpui.c:363
+msgid "usage: site <site command>\n"
+msgstr "uporaba: site <ukaz spletne stani>\n"
+
+#: ../src/uicommon/gftpui.c:399
+msgid "usage: mkdir <new directory>\n"
+msgstr "uporaba mkdir <nova mapa>\n"
+
+#: ../src/uicommon/gftpui.c:435
+#: ../src/uicommon/gftpui.c:453
+msgid "usage: chdir <directory>\n"
+msgstr "uporaba: chdir <mapa>\n"
+
+#: ../src/uicommon/gftpui.c:526
+msgid "Invalid argument\n"
+msgstr "Neveljaven argument\n"
+
+#: ../src/uicommon/gftpui.c:539
+msgid "Clear the directory cache\n"
+msgstr "Očisti predpomnilnik map\n"
+
+#: ../src/uicommon/gftpui.c:628
+msgid "usage: open "
+msgstr "uporaba: odpri"
+
+#: ../src/uicommon/gftpui.c:704
+msgid "usage: set [variable = value]\n"
+msgstr "uporaba: set [spremenljivka = vrednost]\n"
+
+#: ../src/uicommon/gftpui.c:718
+#, c-format
+msgid "Error: Variable %s is not a valid configuration variable.\n"
+msgstr "Napaka: Spremenljivka %s ni veljavna nastavitvena spremenljivka\n"
+
+#: ../src/uicommon/gftpui.c:725
+#, c-format
+msgid "Error: Variable %s is not available in the text port of gFTP\n"
+msgstr "Napaka: Spremenljivka %s ni dostopna v besedni različici gFTP\n"
+
+#: ../src/uicommon/gftpui.c:807
+msgid ""
+"Supported commands:\n"
+"\n"
+msgstr ""
+"Podprti ukazi:\n"
+"\n"
+
+#: ../src/uicommon/gftpui.c:852
+#, c-format
+msgid "usage: %s <filespec>\n"
+msgstr "uporaba: %s <filespec>\n"
+
+#: ../src/uicommon/gftpui.c:937
+msgid "about"
+msgstr "about"
+
+#: ../src/uicommon/gftpui.c:938
+msgid "Shows gFTP information"
+msgstr "Prikaže podrobnosti programa gFTP"
+
+#: ../src/uicommon/gftpui.c:939
+msgid "ascii"
+msgstr "ascii"
+
+#: ../src/uicommon/gftpui.c:940
+msgid "Sets the current file transfer mode to Ascii (only for FTP)"
+msgstr "Spremeni trenutni način prenosa v Ascii (samo za FTP)"
+
+#: ../src/uicommon/gftpui.c:941
+msgid "binary"
+msgstr "binary"
+
+#: ../src/uicommon/gftpui.c:942
+msgid "Sets the current file transfer mode to Binary (only for FTP)"
+msgstr "Nastavi trenutni način prenosa v binarnega (samo za FTP)"
+
+#: ../src/uicommon/gftpui.c:943
+msgid "cd"
+msgstr "cd"
+
+#: ../src/uicommon/gftpui.c:944
+#: ../src/uicommon/gftpui.c:946
+msgid "Changes the remote working directory"
+msgstr "Spremeni oddaljeno delovno mapo"
+
+#: ../src/uicommon/gftpui.c:945
+msgid "chdir"
+msgstr "chdir"
+
+#: ../src/uicommon/gftpui.c:947
+msgid "chmod"
+msgstr "chmod"
+
+#: ../src/uicommon/gftpui.c:948
+msgid "Changes the permissions of a remote file"
+msgstr "Spremeni dovoljenja oddaljene strani"
+
+#: ../src/uicommon/gftpui.c:949
+msgid "clear"
+msgstr "clear"
+
+#: ../src/uicommon/gftpui.c:950
+msgid "Available options: cache"
+msgstr "Dostopne možnosti: predpomnilnik"
+
+#: ../src/uicommon/gftpui.c:951
+msgid "close"
+msgstr "close"
+
+#: ../src/uicommon/gftpui.c:952
+msgid "Disconnects from the remote site"
+msgstr "Prekine povezavo z oddaljeno stranjo"
+
+#: ../src/uicommon/gftpui.c:953
+msgid "delete"
+msgstr "delete"
+
+#: ../src/uicommon/gftpui.c:954
+msgid "Removes a remote file"
+msgstr "Odstrani oddaljeno datoteko"
+
+#: ../src/uicommon/gftpui.c:955
+msgid "dir"
+msgstr "dir"
+
+#: ../src/uicommon/gftpui.c:956
+#: ../src/uicommon/gftpui.c:982
+msgid "Shows the directory listing for the current remote directory"
+msgstr "Prikaže seznam map za trenutno oddaljeno mapo"
+
+#: ../src/uicommon/gftpui.c:957
+msgid "get"
+msgstr "get"
+
+#: ../src/uicommon/gftpui.c:958
+#: ../src/uicommon/gftpui.c:984
+msgid "Downloads remote file(s)"
+msgstr "Prenese oddaljeno/e datoteko/e"
+
+#: ../src/uicommon/gftpui.c:959
+msgid "help"
+msgstr "pomoč"
+
+#: ../src/uicommon/gftpui.c:960
+msgid "Shows this help screen"
+msgstr "Prikaže ta zaslon pomoči"
+
+#: ../src/uicommon/gftpui.c:961
+msgid "lcd"
+msgstr "lcd"
+
+#: ../src/uicommon/gftpui.c:962
+#: ../src/uicommon/gftpui.c:964
+msgid "Changes the local working directory"
+msgstr "Spremeni krajevno delovno mapo"
+
+#: ../src/uicommon/gftpui.c:963
+msgid "lchdir"
+msgstr "lchdir"
+
+#: ../src/uicommon/gftpui.c:965
+msgid "lchmod"
+msgstr "lchmod"
+
+#: ../src/uicommon/gftpui.c:966
+msgid "Changes the permissions of a local file"
+msgstr "Spremeni dovoljenja krajevne datoteke"
+
+#: ../src/uicommon/gftpui.c:967
+msgid "ldelete"
+msgstr "ldelete"
+
+#: ../src/uicommon/gftpui.c:968
+msgid "Removes a local file"
+msgstr "Odstrani krajevno datoteko"
+
+#: ../src/uicommon/gftpui.c:969
+msgid "ldir"
+msgstr "ldir"
+
+#: ../src/uicommon/gftpui.c:970
+#: ../src/uicommon/gftpui.c:972
+msgid "Shows the directory listing for the current local directory"
+msgstr "Prikaže seznam map za trenutno krajevno mapo"
+
+#: ../src/uicommon/gftpui.c:971
+msgid "lls"
+msgstr "lls"
+
+#: ../src/uicommon/gftpui.c:973
+msgid "lmkdir"
+msgstr "lmkdir"
+
+#: ../src/uicommon/gftpui.c:974
+msgid "Creates a local directory"
+msgstr "Ustvari krajevno mapo"
+
+#: ../src/uicommon/gftpui.c:975
+msgid "lpwd"
+msgstr "lpwd"
+
+#: ../src/uicommon/gftpui.c:976
+msgid "Show current local directory"
+msgstr "Prikaži trenutno krajevno mapo"
+
+#: ../src/uicommon/gftpui.c:977
+msgid "lrename"
+msgstr "lrename"
+
+#: ../src/uicommon/gftpui.c:978
+msgid "Rename a local file"
+msgstr "Preimenuj krajevno datoteko."
+
+#: ../src/uicommon/gftpui.c:979
+msgid "lrmdir"
+msgstr "lrmdir"
+
+#: ../src/uicommon/gftpui.c:980
+msgid "Remove a local directory"
+msgstr "Odstrani krajevno mapo"
+
+#: ../src/uicommon/gftpui.c:981
+msgid "ls"
+msgstr "ls"
+
+#: ../src/uicommon/gftpui.c:983
+msgid "mget"
+msgstr "mget"
+
+#: ../src/uicommon/gftpui.c:985
+msgid "mkdir"
+msgstr "mkdir"
+
+#: ../src/uicommon/gftpui.c:986
+msgid "Creates a remote directory"
+msgstr "Ustvari oddaljeno mapo"
+
+#: ../src/uicommon/gftpui.c:987
+msgid "mput"
+msgstr "mput"
+
+#: ../src/uicommon/gftpui.c:988
+#: ../src/uicommon/gftpui.c:992
+msgid "Uploads local file(s)"
+msgstr "Naloži krajevno datotek(o)/(e)"
+
+#: ../src/uicommon/gftpui.c:989
+msgid "open"
+msgstr "open"
+
+#: ../src/uicommon/gftpui.c:990
+msgid "Opens a connection to a remote site"
+msgstr "Odpre povezavo z oddaljeno stranjo"
+
+#: ../src/uicommon/gftpui.c:991
+msgid "put"
+msgstr "put"
+
+#: ../src/uicommon/gftpui.c:993
+msgid "pwd"
+msgstr "pwd"
+
+#: ../src/uicommon/gftpui.c:994
+msgid "Show current remote directory"
+msgstr "Prikaži trenutno oddaljeno mapo"
+
+#: ../src/uicommon/gftpui.c:995
+msgid "quit"
+msgstr "quit"
+
+#: ../src/uicommon/gftpui.c:996
+msgid "Exit from gFTP"
+msgstr "Izhod iz programa gFTP"
+
+#: ../src/uicommon/gftpui.c:997
+msgid "rename"
+msgstr "rename"
+
+#: ../src/uicommon/gftpui.c:998
+msgid "Rename a remote file"
+msgstr "Odstranitev oddaljene datoteke"
+
+#: ../src/uicommon/gftpui.c:999
+msgid "rmdir"
+msgstr "rmdir"
+
+#: ../src/uicommon/gftpui.c:1000
+msgid "Remove a remote directory"
+msgstr "Odstranitev oddaljene mape"
+
+#: ../src/uicommon/gftpui.c:1001
+msgid "set"
+msgstr "nastavi"
+
+#: ../src/uicommon/gftpui.c:1002
+msgid "Show configuration file variables. You can also set variables by set var=val"
+msgstr "Prikaz spremenljivk nastavitvenih datotek. Spremenljivke je mogoče nastaviti z var=val"
+
+#: ../src/uicommon/gftpui.c:1004
+msgid "site"
+msgstr "spletišče"
+
+#: ../src/uicommon/gftpui.c:1005
+msgid "Run a site specific command"
+msgstr "Poganjanje posebnega ukaza za spletišče"
+
+#: ../src/uicommon/gftpui.c:1094
+msgid "Error: Command not recognized\n"
+msgstr "Napaka: Ukaz ni prepoznan\n"
+
+#: ../src/uicommon/gftpui.c:1304
+#, c-format
+msgid "Successfully transferred %s at %.2f KB/s\n"
+msgstr "%s uspešno preneseno pri %.2f kB/s\n"
+
+#: ../src/uicommon/gftpui.c:1335
+#, c-format
+msgid "Skipping file %s on host %s\n"
+msgstr "Spuščanje datoteke %s na gostitelju %s\n"
+
+#: ../src/uicommon/gftpui.c:1359
+#, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "Ustavljanje prenosa na gostitelju %s\n"
+
+#: ../src/uicommon/gftpui.c:1505
+#, c-format
+msgid "Could not download %s from %s\n"
+msgstr "Ni mogoče naložiti %s z %s\n"
+
+#: ../src/uicommon/gftpui.c:1561
+#, c-format
+msgid "There were %d files or directories that could not be transferred. Check the log for which items were not properly transferred."
+msgstr "%d datotek ali map ni bilo mogoče prenesti. Treba je preveriti dnevnik za predmete, ki niso bilo pravilno preneseni."
+
+#: ../src/gtk/bookmarks.c:40
+#: ../src/gtk/dnd.c:122
+#: ../src/gtk/gftp-gtk.c:234
+#: ../src/gtk/gftp-gtk.c:1103
+#: ../src/gtk/misc-gtk.c:505
+#: ../src/gtk/misc-gtk.c:513
+#, c-format
+msgid "%s: Please hit the stop button first to do anything else\n"
+msgstr "%s: Preden je mogoče narediti kaj drugega, je treba pritisniti stop gumb\n"
+
+#: ../src/gtk/bookmarks.c:41
+msgid "Run Bookmark"
+msgstr "Poženi zaznamek"
+
+#: ../src/gtk/bookmarks.c:71
+msgid "Add Bookmark: You must enter a name for the bookmark\n"
+msgstr "Dodajanje zaznamka: Treba je vnesti ime zaznamka\n"
+
+#: ../src/gtk/bookmarks.c:78
+#, c-format
+msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
+msgstr "Dodajanje zaznamka: Zaznamka %s ni mogoče dodati, ker to ime že obstaja\n"
+
+#: ../src/gtk/bookmarks.c:135
+#: ../src/gtk/bookmarks.c:146
+msgid "Add Bookmark"
+msgstr "Dodaj zaznamek"
+
+#: ../src/gtk/bookmarks.c:142
+msgid "Add Bookmark: You must enter a hostname\n"
+msgstr "Dodajanje zaznamka: Treba je vnesti ime gostitelja\n"
+
+#: ../src/gtk/bookmarks.c:146
+msgid ""
+"Enter the name of the bookmark you want to add\n"
+"You can separate items by a / to put it into a submenu\n"
+"(ex: Linux Sites/Debian)"
+msgstr ""
+"Pred dodajanjem je treba vnesti ime zaznamka\n"
+"Predmete je mogoče ločiti z / in jih dodati v podmeni\n"
+"(npr.: Linux Strani/Debian)"
+
+#: ../src/gtk/bookmarks.c:146
+msgid "Remember password"
+msgstr "Pomnjenje gesla"
+
+#: ../src/gtk/bookmarks.c:420
+msgid "You must specify a name for the bookmark."
+msgstr "Navedeno mora biti ime zaznamka"
+
+#: ../src/gtk/bookmarks.c:472
+msgid "New Folder"
+msgstr "Nova mapa"
+
+#: ../src/gtk/bookmarks.c:473
+msgid "Enter the name of the new folder to create"
+msgstr "Treba je vnesti ime nove mape"
+
+#: ../src/gtk/bookmarks.c:482
+msgid "New Item"
+msgstr "Nov predmet"
+
+#: ../src/gtk/bookmarks.c:483
+msgid "Enter the name of the new item to create"
+msgstr "Treba je vnesti ime novega predmeta"
+
+#: ../src/gtk/bookmarks.c:556
+#, c-format
+msgid ""
+"Are you sure you want to erase the bookmark\n"
+"%s and all its children?"
+msgstr ""
+"Ali ste prepričani, da želite izbrisati ta zaznamek\n"
+"%s in vse njegove otroke ?"
+
+#: ../src/gtk/bookmarks.c:557
+msgid "Delete Bookmark"
+msgstr "Izbriši zaznamek"
+
+#: ../src/gtk/bookmarks.c:629
+msgid "Bookmarks"
+msgstr "Zaznamki"
+
+#: ../src/gtk/bookmarks.c:849
+#: ../src/gtk/bookmarks.c:852
+msgid "Edit Entry"
+msgstr "Urejanje vnosa"
+
+#: ../src/gtk/bookmarks.c:888
+msgid "Description:"
+msgstr "Opis:"
+
+#: ../src/gtk/bookmarks.c:903
+msgid "Hostname:"
+msgstr "Ime gostitelja:"
+
+#: ../src/gtk/bookmarks.c:916
+msgid "Port:"
+msgstr "Vrata:"
+
+#: ../src/gtk/bookmarks.c:933
+msgid "Protocol:"
+msgstr "Protokol:"
+
+#: ../src/gtk/bookmarks.c:957
+msgid "Remote Directory:"
+msgstr "Oddaljen imenik:"
+
+#: ../src/gtk/bookmarks.c:970
+msgid "Local Directory:"
+msgstr "Krajevni imenik:"
+
+#: ../src/gtk/bookmarks.c:987
+msgid "Username:"
+msgstr "Uporabniško ime:"
+
+#: ../src/gtk/bookmarks.c:1000
+#: ../src/text/textui.c:92
+msgid "Password:"
+msgstr "Geslo:"
+
+#: ../src/gtk/bookmarks.c:1014
+msgid "Account:"
+msgstr "Račun:"
+
+#: ../src/gtk/bookmarks.c:1028
+msgid "Log in as ANONYMOUS"
+msgstr "Prijava kot anonimnež"
+
+#: ../src/gtk/bookmarks.c:1053
+#: ../src/gtk/bookmarks.c:1303
+#: ../src/gtk/chmod_dialog.c:265
+#: ../src/gtk/gtkui_transfer.c:388
+#: ../src/gtk/options_dialog.c:1216
+#: ../src/gtk/options_dialog.c:1448
+msgid "  Cancel  "
+msgstr "Prekliči"
+
+#: ../src/gtk/bookmarks.c:1204
+msgid "/_File"
+msgstr "/_Datoteka"
+
+#: ../src/gtk/bookmarks.c:1205
+msgid "/File/tearoff"
+msgstr "/Datoteka/odtrgaj"
+
+#: ../src/gtk/bookmarks.c:1206
+msgid "/File/New _Folder..."
+msgstr "/Datoteka/Nova _mapa ..."
+
+#: ../src/gtk/bookmarks.c:1207
+msgid "/File/New _Item..."
+msgstr "/Datoteka/Nov predme_t ..."
+
+#: ../src/gtk/bookmarks.c:1208
+msgid "/File/_Delete"
+msgstr "/Datoteka/Izbri_ši"
+
+#: ../src/gtk/bookmarks.c:1209
+msgid "/File/_Properties..."
+msgstr "/Datoteka/_Lastnosti ..."
+
+#: ../src/gtk/bookmarks.c:1210
+msgid "/File/sep"
+msgstr "/Datoteka/loči"
+
+#: ../src/gtk/bookmarks.c:1211
+msgid "/File/_Close"
+msgstr "/Datoteka/_Zapri"
+
+#: ../src/gtk/bookmarks.c:1229
+#: ../src/gtk/bookmarks.c:1232
+msgid "Edit Bookmarks"
+msgstr "Urejanje zaznamkov"
+
+#: ../src/gtk/chmod_dialog.c:132
+#: ../src/gtk/chmod_dialog.c:137
+#: ../src/gtk/chmod_dialog.c:142
+msgid "Chmod"
+msgstr "Chmod"
+
+#: ../src/gtk/chmod_dialog.c:162
+msgid ""
+"You can now adjust the attributes of your file(s)\n"
+"Note: Not all ftp servers support the chmod feature"
+msgstr ""
+"Sedaj je mogoče prilagoditi atribute vaših datotek\n"
+"Opomba: Vsi ftp strežniki ne podpirajo ukaza chmod."
+
+#: ../src/gtk/chmod_dialog.c:172
+msgid "Special"
+msgstr "Posebno"
+
+#: ../src/gtk/chmod_dialog.c:180
+msgid "SUID"
+msgstr "SUID"
+
+#: ../src/gtk/chmod_dialog.c:184
+msgid "SGID"
+msgstr "SGID"
+
+#: ../src/gtk/chmod_dialog.c:188
+msgid "Sticky"
+msgstr "Lepljivo"
+
+#: ../src/gtk/chmod_dialog.c:192
+#: ../src/gtk/gftp-gtk.c:789
+msgid "User"
+msgstr "Uporabnik"
+
+#: ../src/gtk/chmod_dialog.c:200
+#: ../src/gtk/chmod_dialog.c:220
+#: ../src/gtk/chmod_dialog.c:240
+msgid "Read"
+msgstr "Beri"
+
+#: ../src/gtk/chmod_dialog.c:204
+#: ../src/gtk/chmod_dialog.c:224
+#: ../src/gtk/chmod_dialog.c:244
+msgid "Write"
+msgstr "Zapiši"
+
+#: ../src/gtk/chmod_dialog.c:208
+#: ../src/gtk/chmod_dialog.c:228
+#: ../src/gtk/chmod_dialog.c:248
+msgid "Execute"
+msgstr "Zaženi"
+
+#: ../src/gtk/chmod_dialog.c:212
+#: ../src/gtk/gftp-gtk.c:790
+msgid "Group"
+msgstr "Skupina"
+
+#: ../src/gtk/chmod_dialog.c:232
+msgid "Other"
+msgstr "Ostalo"
+
+#: ../src/gtk/delete_dialog.c:61
+#, c-format
+msgid "Are you sure you want to delete these %ld files and %ld directories"
+msgstr "Ali ste prepričani, da želite izbrisati %ld datoteke in %ld map"
+
+#: ../src/gtk/delete_dialog.c:65
+#, c-format
+msgid "Are you sure you want to delete these %ld files"
+msgstr "Ali ste prepričani, da želite izbrisati %ld datoteke"
+
+#: ../src/gtk/delete_dialog.c:69
+#, c-format
+msgid "Are you sure you want to delete these %ld directories"
+msgstr "Ali ste prepričani, da želite izbrisati %ld mape"
+
+#: ../src/gtk/delete_dialog.c:74
+msgid "Delete Files/Directories"
+msgstr "Izbris datotek/map"
+
+#: ../src/gtk/delete_dialog.c:90
+#: ../src/gtk/options_dialog.c:1302
+msgid "Delete"
+msgstr "Izbriši"
+
+#: ../src/gtk/dnd.c:123
+#: ../src/gtk/gftp-gtk.c:1104
+#: ../src/gtk/misc-gtk.c:929
+#: ../src/gtk/misc-gtk.c:1004
+msgid "Connect"
+msgstr "Poveži"
+
+#: ../src/gtk/dnd.c:136
+#: ../src/gtk/dnd.c:269
+#, c-format
+msgid "Received URL %s\n"
+msgstr "Prejet URL %s\n"
+
+#: ../src/gtk/dnd.c:159
+#: ../src/gtk/dnd.c:247
+msgid "Drag-N-Drop"
+msgstr "Povleci in izpusti"
+
+#: ../src/gtk/gftp-gtk.c:144
+msgid "Exit"
+msgstr "Izhod"
+
+#: ../src/gtk/gftp-gtk.c:144
+msgid ""
+"There are file transfers in progress.\n"
+"Are you sure you want to exit?"
+msgstr ""
+"Trenutno potekajo prenosi datotek.\n"
+"Ali ste prepričani, da želite zapreti program?"
+
+#: ../src/gtk/gftp-gtk.c:219
+#: ../src/gtk/gftp-gtk.c:235
+msgid "Open Location"
+msgstr "Odpri mesto"
+
+#: ../src/gtk/gftp-gtk.c:219
+msgid "Enter a URL to connect to"
+msgstr "Vnesite URL za povezavo"
+
+#: ../src/gtk/gftp-gtk.c:265
+msgid "/_FTP"
+msgstr "/_FTP"
+
+#: ../src/gtk/gftp-gtk.c:266
+msgid "/FTP/tearoff"
+msgstr "/FTP/odtrgaj"
+
+#: ../src/gtk/gftp-gtk.c:267
+msgid "/FTP/Window _1"
+msgstr "/FTP/Okno _1"
+
+#: ../src/gtk/gftp-gtk.c:269
+msgid "/FTP/Window _2"
+msgstr "/FTP/Okno _2"
+
+#: ../src/gtk/gftp-gtk.c:271
+#: ../src/gtk/gftp-gtk.c:276
+#: ../src/gtk/gftp-gtk.c:279
+msgid "/FTP/sep"
+msgstr "/FTP/loči"
+
+#: ../src/gtk/gftp-gtk.c:272
+msgid "/FTP/_Ascii"
+msgstr "/FTP/_Ascii"
+
+#: ../src/gtk/gftp-gtk.c:274
+msgid "/FTP/_Binary"
+msgstr "/FTP/_Binarno"
+
+#: ../src/gtk/gftp-gtk.c:277
+msgid "/FTP/_Preferences..."
+msgstr "/FTP/Nasta_vitve ..."
+
+#: ../src/gtk/gftp-gtk.c:280
+msgid "/FTP/_Quit"
+msgstr "/FTP/Izho_d"
+
+#: ../src/gtk/gftp-gtk.c:281
+msgid "/_Local"
+msgstr "/_Krajevno"
+
+#: ../src/gtk/gftp-gtk.c:282
+msgid "/Local/tearoff"
+msgstr "/Krajevno/odtrgaj"
+
+#: ../src/gtk/gftp-gtk.c:283
+msgid "/Local/_Open Location..."
+msgstr "/Krajevno/Odpri mesto ..."
+
+#: ../src/gtk/gftp-gtk.c:285
+msgid "/Local/D_isconnect"
+msgstr "/Krajevno/Prekini povezavo"
+
+#: ../src/gtk/gftp-gtk.c:286
+#: ../src/gtk/gftp-gtk.c:293
+msgid "/Local/sep"
+msgstr "/Krajevno/loči"
+
+#: ../src/gtk/gftp-gtk.c:287
+msgid "/Local/Change _Filespec..."
+msgstr "/Krajevno/Spremeni speci_fikacije datotek"
+
+#: ../src/gtk/gftp-gtk.c:289
+msgid "/Local/_Show selected"
+msgstr "/Krajevno/Prikaži izbrane"
+
+#: ../src/gtk/gftp-gtk.c:290
+msgid "/Local/Select _All"
+msgstr "/Krajevno/Izberi vs_e"
+
+#: ../src/gtk/gftp-gtk.c:291
+msgid "/Local/Select All Files"
+msgstr "/Krajevno/Izberi vse datoteke"
+
+#: ../src/gtk/gftp-gtk.c:292
+msgid "/Local/Deselect All"
+msgstr "/Krajevno/Izberi nič"
+
+#: ../src/gtk/gftp-gtk.c:294
+msgid "/Local/Save Directory Listing..."
+msgstr "/Krajveno/Shrani seznam map ..."
+
+#: ../src/gtk/gftp-gtk.c:295
+msgid "/Local/Send SITE Command..."
+msgstr "/Krajevno/Pošlji SITE ukaz ..."
+
+#: ../src/gtk/gftp-gtk.c:296
+msgid "/Local/_Change Directory"
+msgstr "/Krajevno/Spremeni ma_po"
+
+#: ../src/gtk/gftp-gtk.c:297
+msgid "/Local/_Permissions..."
+msgstr "/Krajevno/Dovo_ljenja ..."
+
+#: ../src/gtk/gftp-gtk.c:299
+msgid "/Local/_New Folder..."
+msgstr "/Krajevno/_Nova mapa ..."
+
+#: ../src/gtk/gftp-gtk.c:300
+msgid "/Local/Rena_me..."
+msgstr "/Krajevno/Prei_menuj ..."
+
+#: ../src/gtk/gftp-gtk.c:302
+msgid "/Local/_Delete..."
+msgstr "/Krajevno/Iz_briši ..."
+
+#: ../src/gtk/gftp-gtk.c:304
+msgid "/Local/_Edit..."
+msgstr "/Krajevno/Ur_edi ..."
+
+#: ../src/gtk/gftp-gtk.c:305
+msgid "/Local/_View..."
+msgstr "/Krajevno/Po_gled ..."
+
+#: ../src/gtk/gftp-gtk.c:306
+msgid "/Local/_Refresh"
+msgstr "/Krajevno/_Osveži"
+
+#: ../src/gtk/gftp-gtk.c:308
+msgid "/_Remote"
+msgstr "/_Oddaljeno"
+
+#: ../src/gtk/gftp-gtk.c:309
+msgid "/Remote/tearoff"
+msgstr "/Oddaljeno/odtrgaj"
+
+#: ../src/gtk/gftp-gtk.c:310
+msgid "/Remote/_Open Location..."
+msgstr "/Oddaljeno/_Odpri mesto ..."
+
+#: ../src/gtk/gftp-gtk.c:312
+msgid "/Remote/D_isconnect"
+msgstr "/Oddaljeno/Prek_ini povezavo"
+
+#: ../src/gtk/gftp-gtk.c:314
+#: ../src/gtk/gftp-gtk.c:321
+msgid "/Remote/sep"
+msgstr "/Oddaljeno/loči"
+
+#: ../src/gtk/gftp-gtk.c:315
+msgid "/Remote/Change _Filespec..."
+msgstr "/Oddaljeno/Spremeni speci_fikacije datoteke ..."
+
+#: ../src/gtk/gftp-gtk.c:317
+msgid "/Remote/_Show selected"
+msgstr "/Oddaljeno/Prikaži izbrane"
+
+#: ../src/gtk/gftp-gtk.c:318
+msgid "/Remote/Select _All"
+msgstr "/Oddaljeno/Izberi _vse"
+
+#: ../src/gtk/gftp-gtk.c:319
+msgid "/Remote/Select All Files"
+msgstr "/Oddaljeno/Izberi vse datoteke"
+
+#: ../src/gtk/gftp-gtk.c:320
+msgid "/Remote/Deselect All"
+msgstr "/Oddaljeno/Izberi nič"
+
+#: ../src/gtk/gftp-gtk.c:322
+msgid "/Remote/Save Directory Listing..."
+msgstr "/Oddaljeno/Shrani seznam map ..."
+
+#: ../src/gtk/gftp-gtk.c:323
+msgid "/Remote/Send SITE Command..."
+msgstr "/Oddaljeno/Pošilji SITE ukaz ..."
+
+#: ../src/gtk/gftp-gtk.c:324
+msgid "/Remote/_Change Directory"
+msgstr "/Oddaljeno/Sp_remeni imenik"
+
+#: ../src/gtk/gftp-gtk.c:325
+msgid "/Remote/_Permisssions..."
+msgstr "/Oddaljeno/Do_voljenja ..."
+
+#: ../src/gtk/gftp-gtk.c:326
+msgid "/Remote/_New Folder..."
+msgstr "/Oddaljeno/_Nova mapa ..."
+
+#: ../src/gtk/gftp-gtk.c:328
+msgid "/Remote/Rena_me..."
+msgstr "/Oddaljeno/Prei_menuj ..."
+
+#: ../src/gtk/gftp-gtk.c:330
+msgid "/Remote/_Delete..."
+msgstr "/Oddaljeno/Iz_briši ..."
+
+#: ../src/gtk/gftp-gtk.c:331
+msgid "/Remote/_Edit..."
+msgstr "/Odaljeno/Ur_edi ..."
+
+#: ../src/gtk/gftp-gtk.c:332
+msgid "/Remote/_View..."
+msgstr "/Oddaljeno/_Pogled ..."
+
+#: ../src/gtk/gftp-gtk.c:333
+msgid "/Remote/_Refresh"
+msgstr "/Oddaljeno/Osve_ži"
+
+#: ../src/gtk/gftp-gtk.c:335
+msgid "/_Bookmarks"
+msgstr "/_Zaznamki"
+
+#: ../src/gtk/gftp-gtk.c:336
+msgid "/Bookmarks/tearoff"
+msgstr "/Zaznamki/odtrgaj"
+
+#: ../src/gtk/gftp-gtk.c:337
+msgid "/Bookmarks/Add _Bookmark"
+msgstr "/Zaznamki/Dodaj zaz_namek"
+
+#: ../src/gtk/gftp-gtk.c:339
+msgid "/Bookmarks/Edit Bookmarks"
+msgstr "/Zaznamki/Uredi zaznamke"
+
+#: ../src/gtk/gftp-gtk.c:340
+msgid "/Bookmarks/sep"
+msgstr "/Zaznamki/loči"
+
+#: ../src/gtk/gftp-gtk.c:341
+msgid "/_Transfer"
+msgstr "/_Prenos"
+
+#: ../src/gtk/gftp-gtk.c:342
+msgid "/Transfer/tearoff"
+msgstr "/Prenos/odtrgaj"
+
+#: ../src/gtk/gftp-gtk.c:343
+msgid "/Transfer/_Start"
+msgstr "/Prenos/Zago_n"
+
+#: ../src/gtk/gftp-gtk.c:344
+msgid "/Transfer/St_op"
+msgstr "/Prenos/Ust_avitev"
+
+#: ../src/gtk/gftp-gtk.c:346
+#: ../src/gtk/gftp-gtk.c:354
+msgid "/Transfer/sep"
+msgstr "/Prenos/loči"
+
+#: ../src/gtk/gftp-gtk.c:347
+msgid "/Transfer/Skip _Current File"
+msgstr "/Prenos/_Preskoči trenutno datoteko"
+
+#: ../src/gtk/gftp-gtk.c:348
+msgid "/Transfer/_Remove File"
+msgstr "/Prenos/Odst_rani datoteko"
+
+#: ../src/gtk/gftp-gtk.c:350
+msgid "/Transfer/Move File _Up"
+msgstr "/Prenos/Premakni datoteko navz_gor"
+
+#: ../src/gtk/gftp-gtk.c:352
+msgid "/Transfer/Move File _Down"
+msgstr "/Prenos/Premakni datoteko navz_dol"
+
+#: ../src/gtk/gftp-gtk.c:355
+msgid "/Transfer/_Retrieve Files"
+msgstr "/Prenos/P_ridobi datoteke"
+
+#: ../src/gtk/gftp-gtk.c:356
+msgid "/Transfer/_Put Files"
+msgstr "/Prenos/Nalo_ži datoteke"
+
+#: ../src/gtk/gftp-gtk.c:357
+msgid "/L_og"
+msgstr "/D_nevnik"
+
+#: ../src/gtk/gftp-gtk.c:358
+msgid "/Log/tearoff"
+msgstr "/Dnevnik/odtrgaj"
+
+#: ../src/gtk/gftp-gtk.c:359
+msgid "/Log/_Clear"
+msgstr "/Dnevnik/Po_čisti"
+
+#: ../src/gtk/gftp-gtk.c:360
+msgid "/Log/_View"
+msgstr "/Dnevnik/Po_glej"
+
+#: ../src/gtk/gftp-gtk.c:361
+msgid "/Log/_Save..."
+msgstr "/Dnevnik/_Shrani"
+
+#: ../src/gtk/gftp-gtk.c:362
+msgid "/Tool_s"
+msgstr "/Orod_ja"
+
+#: ../src/gtk/gftp-gtk.c:363
+msgid "/Tools/tearoff"
+msgstr "/Orodja/odtrgaj"
+
+#: ../src/gtk/gftp-gtk.c:364
+msgid "/Tools/C_ompare Windows"
+msgstr "/Orodja/Primerjaj O_kna"
+
+#: ../src/gtk/gftp-gtk.c:365
+msgid "/Tools/_Clear Cache"
+msgstr "/Orodja/Očisti pomni_lnik"
+
+#: ../src/gtk/gftp-gtk.c:366
+msgid "/Help"
+msgstr "/Pomoč"
+
+#: ../src/gtk/gftp-gtk.c:367
+msgid "/Help/tearoff"
+msgstr "/Pomoč/tearoff"
+
+#: ../src/gtk/gftp-gtk.c:368
+msgid "/Help/_About"
+msgstr "/Pomoč/O progr_amu"
+
+#: ../src/gtk/gftp-gtk.c:488
+msgid "Host: "
+msgstr "Gostitelj:"
+
+#: ../src/gtk/gftp-gtk.c:490
+msgid "_Host: "
+msgstr "Gos_titelj:"
+
+#: ../src/gtk/gftp-gtk.c:516
+msgid "Port: "
+msgstr "Vrata:"
+
+#: ../src/gtk/gftp-gtk.c:537
+msgid "User: "
+msgstr "Uporabniško ime:"
+
+#: ../src/gtk/gftp-gtk.c:539
+msgid "_User: "
+msgstr "_Uporabnik:"
+
+#: ../src/gtk/gftp-gtk.c:564
+msgid "Pass: "
+msgstr "Geslo:"
+
+#: ../src/gtk/gftp-gtk.c:636
+msgid "Command: "
+msgstr "Ukaz:"
+
+#: ../src/gtk/gftp-gtk.c:787
+#: ../src/gtk/gftp-gtk.c:996
+#: ../src/gtk/gtkui_transfer.c:228
+msgid "Filename"
+msgstr "Ime datoteke"
+
+#: ../src/gtk/gftp-gtk.c:788
+msgid "Size"
+msgstr "Velikost"
+
+#: ../src/gtk/gftp-gtk.c:791
+msgid "Date"
+msgstr "Datum"
+
+#: ../src/gtk/gftp-gtk.c:792
+msgid "Attribs"
+msgstr "Atributi"
+
+#: ../src/gtk/gftp-gtk.c:997
+msgid "Progress"
+msgstr "Potek"
+
+#: ../src/gtk/gftp-gtk.c:1133
+msgid "Error: You must type in a host to connect to\n"
+msgstr "Napaka: Treba je vnesti zvrst gostitelja za povezavo\n"
+
+#: ../src/gtk/gtkui.c:53
+msgid "Refresh"
+msgstr "Osveži"
+
+#: ../src/gtk/gtkui.c:120
+msgid "Enter Username"
+msgstr "Vnos uporabniškega imena"
+
+#: ../src/gtk/gtkui.c:121
+msgid "Please enter your username for this site"
+msgstr "Treba je vnesti uporabniško ime za prijavo v spletišče"
+
+#: ../src/gtk/gtkui.c:143
+#: ../src/gtk/transfer.c:563
+#: ../src/gtk/transfer.c:573
+msgid "Please enter your password for this site"
+msgstr "Treba je vnesti geslo za prijavo v spletišče"
+
+#: ../src/gtk/gtkui.c:298
+msgid "Operation canceled...you must enter a string\n"
+msgstr "Dejanje preklicano ... treba je vnesti niz\n"
+
+#: ../src/gtk/gtkui.c:344
+msgid "Mkdir"
+msgstr "Mkdir"
+
+#: ../src/gtk/gtkui.c:347
+msgid "Make Directory"
+msgstr "Ustvari mapo"
+
+#: ../src/gtk/gtkui.c:347
+msgid "Enter name of directory to create"
+msgstr "Vnos imena mape za ustvarjanje"
+
+#: ../src/gtk/gtkui.c:370
+#: ../src/gtk/gtkui.c:382
+#: ../src/gtk/misc-gtk.c:932
+#: ../src/gtk/misc-gtk.c:1007
+msgid "Rename"
+msgstr "Preimenuj"
+
+#: ../src/gtk/gtkui.c:380
+#, c-format
+msgid "What would you like to rename %s to?"
+msgstr "Kakšno naj bo novo ime %s ? "
+
+#: ../src/gtk/gtkui.c:402
+#: ../src/gtk/gtkui.c:405
+msgid "Site"
+msgstr "Stran"
+
+#: ../src/gtk/gtkui.c:405
+msgid "Enter site-specific command"
+msgstr "Vnos ukaza specifičnega za stran"
+
+#: ../src/gtk/gtkui.c:406
+msgid "Prepend with SITE"
+msgstr "Predpona s stranjo"
+
+#: ../src/gtk/gtkui.c:449
+#: ../src/gtk/menu-items.c:235
+msgid "Chdir"
+msgstr "Chdir"
+
+#: ../src/gtk/gtkui_transfer.c:60
+#: ../src/gtk/transfer.c:473
+#: ../src/gtk/transfer.c:541
+#: ../src/gtk/transfer.c:998
+msgid "Skipped"
+msgstr "Preskočeno"
+
+#: ../src/gtk/gtkui_transfer.c:62
+#: ../src/gtk/transfer.c:520
+#: ../src/gtk/transfer.c:545
+msgid "Waiting..."
+msgstr "Čakanje ..."
+
+#: ../src/gtk/gtkui_transfer.c:136
+#: ../src/gtk/gtkui_transfer.c:314
+#: ../src/gtk/gtkui_transfer.c:341
+msgid "Overwrite"
+msgstr "Prepiši"
+
+#: ../src/gtk/gtkui_transfer.c:143
+#: ../src/gtk/gtkui_transfer.c:320
+#: ../src/gtk/gtkui_transfer.c:347
+msgid "Resume"
+msgstr "Nadaljevanje"
+
+#: ../src/gtk/gtkui_transfer.c:150
+#: ../src/gtk/gtkui_transfer.c:317
+msgid "Skip"
+msgstr "Preskoči"
+
+#: ../src/gtk/gtkui_transfer.c:231
+msgid "Action"
+msgstr "Dejanje"
+
+#: ../src/gtk/gtkui_transfer.c:236
+#: ../src/gtk/gtkui_transfer.c:245
+#: ../src/gtk/transfer.c:91
+msgid "Transfer Files"
+msgstr "Prenos datotek"
+
+#: ../src/gtk/gtkui_transfer.c:257
+msgid ""
+"The following file(s) exist on both the local and remote computer\n"
+"Please select what you would like to do"
+msgstr ""
+"Izpisane datoteke obstajajo na krajevnem in oddaljenem računalniku.\n"
+"Prosim, izberite ustrezno dejanje"
+
+#: ../src/gtk/gtkui_transfer.c:323
+msgid "Error"
+msgstr "Napaka"
+
+#: ../src/gtk/gtkui_transfer.c:353
+msgid "Skip File"
+msgstr "Preskoči datoteko"
+
+#: ../src/gtk/gtkui_transfer.c:363
+msgid "Select All"
+msgstr "Izberi vse"
+
+#: ../src/gtk/gtkui_transfer.c:369
+msgid "Deselect All"
+msgstr "Odstrani izbor"
+
+#: ../src/gtk/menu-items.c:65
+msgid "Change Filespec: Operation canceled...you must enter a string\n"
+msgstr "Sprememba določil: Dejanje je prekinjeno ... vnesti je treba niz\n"
+
+#: ../src/gtk/menu-items.c:83
+#: ../src/gtk/menu-items.c:86
+msgid "Change Filespec"
+msgstr "Spremembadoločil datoteke"
+
+#: ../src/gtk/menu-items.c:86
+msgid "Enter the new file specification"
+msgstr "Vnos določil nove datoteke"
+
+#: ../src/gtk/menu-items.c:114
+#: ../src/gtk/menu-items.c:299
+#: ../src/gtk/menu-items.c:363
+#: ../src/gtk/view_dialog.c:81
+#, c-format
+msgid "Error: Cannot open %s for writing: %s\n"
+msgstr "Napaka: Ni mogoče odpreti %s za pisanje: %s\n"
+
+#: ../src/gtk/menu-items.c:143
+msgid "Save Directory Listing"
+msgstr "Shranjevanje seznama map"
+
+#: ../src/gtk/menu-items.c:327
+#: ../src/gtk/menu-items.c:391
+#, c-format
+msgid "Error: Error writing to %s: %s\n"
+msgstr "Napaka: Napaka med pisanjem v %s: %s\n"
+
+#: ../src/gtk/menu-items.c:402
+#, c-format
+msgid "Successfully wrote the log file to %s\n"
+msgstr "Dnevniška datoteka uspešno zapisana v %s\n"
+
+#: ../src/gtk/menu-items.c:414
+msgid "Save Log"
+msgstr "Shranjevanje dnevnika"
+
+#: ../src/gtk/menu-items.c:450
+#, c-format
+msgid "Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"
+msgstr "Ni mogoče najti datoteke o licenčnem dogovoru COPYING. Treba se je prepričati, da je v %s ali %s"
+
+#: ../src/gtk/menu-items.c:454
+#: ../src/gtk/menu-items.c:459
+msgid "About gFTP"
+msgstr "O gFTP"
+
+#: ../src/gtk/menu-items.c:490
+#, c-format
+msgid ""
+"%s\n"
+"Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
+"Official Homepage: http://www.gftp.org/\n"
+msgstr ""
+"%s\n"
+"Avtorske pravice (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
+"Uradna domača stran: http://www.gftp.org/\n"
+
+#: ../src/gtk/menu-items.c:503
+msgid "About"
+msgstr "O programu"
+
+#: ../src/gtk/menu-items.c:552
+msgid "License Agreement"
+msgstr "Licenčni dogovor"
+
+#: ../src/gtk/menu-items.c:558
+#: ../src/gtk/view_dialog.c:385
+msgid "  Close  "
+msgstr "Zapri"
+
+#: ../src/gtk/menu-items.c:685
+msgid "Compare Windows"
+msgstr "Primerjava oken"
+
+#: ../src/gtk/misc-gtk.c:257
+msgid "Disconnect from the remote server"
+msgstr "Prekinitev povezave z oddaljenim strežnikom"
+
+#: ../src/gtk/misc-gtk.c:261
+msgid "Connect to the site specified in the host entry. If the host entry is blank, then a dialog is presented that will allow you to enter a URL."
+msgstr "Povezava do strani določene v vnosu gostiteljev. Če je vnos gostitelja prazen, potem se prikaže pogovorno okno, ki omogoča vnos URL-ja."
+
+#: ../src/gtk/misc-gtk.c:308
+msgid "All Files"
+msgstr "Vse datoteke"
+
+#: ../src/gtk/misc-gtk.c:318
+msgid "] (Cached) ["
+msgstr "] (V pomnilniku) ["
+
+#: ../src/gtk/misc-gtk.c:329
+msgid "Not connected"
+msgstr "Ni povezave"
+
+#: ../src/gtk/misc-gtk.c:431
+#, c-format
+msgid "Error opening file %s: %s\n"
+msgstr "Napaka med odpiranjem datoteke %s: %s\n"
+
+#: ../src/gtk/misc-gtk.c:521
+#, c-format
+msgid "%s: Not connected to a remote site\n"
+msgstr "%s: Ni povezave z oddaljenim spletiščem\n"
+
+#: ../src/gtk/misc-gtk.c:528
+#, c-format
+msgid "%s: This feature is not available using this protocol\n"
+msgstr "%s: Možnost z uporabo tega protokola ni na voljo\n"
+
+#: ../src/gtk/misc-gtk.c:536
+#, c-format
+msgid "%s: You must only have one item selected\n"
+msgstr "%s; Izbran mora natanko en predmet\n"
+
+#: ../src/gtk/misc-gtk.c:543
+#, c-format
+msgid "%s: You must have at least one item selected\n"
+msgstr "%s: Izbran mora biti vsaj en predmet\n"
+
+#: ../src/gtk/misc-gtk.c:926
+#: ../src/gtk/misc-gtk.c:1001
+msgid "Change"
+msgstr "Spremeni"
+
+#: ../src/gtk/misc-gtk.c:998
+#: ../src/gtk/options_dialog.c:1277
+msgid "Add"
+msgstr "Dodaj"
+
+#: ../src/gtk/misc-gtk.c:1024
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: ../src/gtk/misc-gtk.c:1094
+msgid "  Yes  "
+msgstr "Da"
+
+#: ../src/gtk/misc-gtk.c:1104
+msgid "  No  "
+msgstr "Ne"
+
+#: ../src/gtk/misc-gtk.c:1164
+msgid "Getting directory listings"
+msgstr "Pridobivanje seznama map"
+
+#: ../src/gtk/misc-gtk.c:1184
+msgid "  Stop  "
+msgstr "Ustavi"
+
+#: ../src/gtk/misc-gtk.c:1194
+#, c-format
+msgid ""
+"Received %ld directories\n"
+"and %ld files"
+msgstr ""
+"Prejetih %ld map\n"
+"in %ld datotek"
+
+#: ../src/gtk/misc-gtk.c:1270
+#, c-format
+msgid "gFTP Error: Cannot find file %s in %s or %s\n"
+msgstr "gFTP napaka: Ni mogoče najdi datoteke %s v %s ali %s\n"
+
+#: ../src/gtk/options_dialog.c:956
+msgid "Edit Host"
+msgstr "Urejanje gostitelja:"
+
+#: ../src/gtk/options_dialog.c:956
+msgid "Add Host"
+msgstr "Dodajanje gostitelja:"
+
+#: ../src/gtk/options_dialog.c:1002
+msgid "Type:"
+msgstr "Vrsta:"
+
+#: ../src/gtk/options_dialog.c:1004
+msgid "_Type:"
+msgstr "Vrs_ta:"
+
+#: ../src/gtk/options_dialog.c:1014
+#: ../src/gtk/options_dialog.c:1137
+msgid "Domain"
+msgstr "Domena"
+
+#: ../src/gtk/options_dialog.c:1047
+msgid "Network Address"
+msgstr "Omrežni naslov"
+
+#: ../src/gtk/options_dialog.c:1049
+msgid "_Network address:"
+msgstr "Omrež_ni naslov:"
+
+#: ../src/gtk/options_dialog.c:1088
+#: ../src/gtk/options_dialog.c:1241
+msgid "Netmask"
+msgstr "Omrežna maska"
+
+#: ../src/gtk/options_dialog.c:1090
+msgid "N_etmask:"
+msgstr "Omrežna _maska:"
+
+#: ../src/gtk/options_dialog.c:1139
+msgid "_Domain:"
+msgstr "_Domena:"
+
+#: ../src/gtk/options_dialog.c:1247
+msgid "Local Hosts"
+msgstr "Krajevni gostitelji"
+
+#: ../src/gtk/options_dialog.c:1288
+#: ../src/gtk/view_dialog.c:34
+msgid "Edit"
+msgstr "Uredi"
+
+#: ../src/gtk/options_dialog.c:1290
+msgid "_Edit"
+msgstr "_Uredi"
+
+#: ../src/gtk/options_dialog.c:1367
+#: ../src/gtk/options_dialog.c:1372
+msgid "Options"
+msgstr "Možnosti"
+
+#: ../src/gtk/options_dialog.c:1459
+msgid "Apply"
+msgstr "Uporabi"
+
+#: ../src/gtk/transfer.c:30
+msgid "Receiving file names..."
+msgstr "Prejemanje imen datotek ..."
+
+#: ../src/gtk/transfer.c:63
+#: ../src/gtk/transfer.c:689
+msgid "Connecting..."
+msgstr "Povezovanje ..."
+
+#: ../src/gtk/transfer.c:99
+msgid "Retrieve Files: Not connected to a remote site\n"
+msgstr "Pridobivanje datotek: Ni povezave z oddaljeno stranjo\n"
+
+#: ../src/gtk/transfer.c:336
+#, c-format
+msgid "Error: Child %d returned %d\n"
+msgstr "Napaka: Otrok %d je vrnjen z napako %d\n"
+
+#: ../src/gtk/transfer.c:345
+#, c-format
+msgid "Child %d returned successfully\n"
+msgstr "Otrok %d se je uspešno vrnil\n"
+
+#: ../src/gtk/transfer.c:352
+#, c-format
+msgid "Error: Child %d did not terminate properly\n"
+msgstr "Napaka: Otrok %d ni primerno končal\n"
+
+#: ../src/gtk/transfer.c:368
+#, c-format
+msgid "Error: Cannot get information about file %s: %s\n"
+msgstr "Napaka: Ni mogoče dobiti podrobnosti o datoteki %s: %s\n"
+
+#: ../src/gtk/transfer.c:374
+#, c-format
+msgid "File %s was not changed\n"
+msgstr "Datoteka %s ni bila spremenjena\n"
+
+#: ../src/gtk/transfer.c:382
+#, c-format
+msgid ""
+"File %s has changed.\n"
+"Would you like to upload it?"
+msgstr ""
+"Datoteka %s je bila spremenjena.\n"
+"Ali jo želite naložiti ?"
+
+#: ../src/gtk/transfer.c:385
+msgid "Edit File"
+msgstr "Urejanje datoteke"
+
+#: ../src/gtk/transfer.c:476
+msgid "Finished"
+msgstr "Končano"
+
+#: ../src/gtk/transfer.c:734
+#, c-format
+msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "Poslano %s od %s pri %.2fkB/s, %02d:%02d:%02d ocenjen preostali čas"
+
+#: ../src/gtk/transfer.c:739
+#, c-format
+msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "Prejeto %s od %s pri %.2fkB/s, %02d:%02d:%02d ocenjen preostali čas"
+
+#: ../src/gtk/transfer.c:750
+#, c-format
+msgid "Sent %s of %s, transfer stalled, unknown time remaining"
+msgstr "Poslano %s od %s, prenos je zastal, ostaja neznan čas"
+
+#: ../src/gtk/transfer.c:756
+#, c-format
+msgid "Recv %s of %s, transfer stalled, unknown time remaining"
+msgstr "Prejeto %s od %s, prenos je zastal, ostaja neznan čas"
+
+#: ../src/gtk/transfer.c:800
+#, c-format
+msgid "Unknown percentage complete. (File %ld of %ld)"
+msgstr "Neznan odstotek končan. (Datoteka %ld od %ld)"
+
+#: ../src/gtk/transfer.c:804
+#, c-format
+msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
+msgstr "%d%% končano, %02d:%02d:%02d ocenjen preostali čas. (Datoteka %ld od %ld)"
+
+#: ../src/gtk/transfer.c:842
+#, c-format
+msgid "Retrieving file names...%s bytes"
+msgstr "Pridobivanje imen datotek ... %s bajtov"
+
+#: ../src/gtk/transfer.c:921
+#: ../src/gtk/transfer.c:943
+#: ../src/gtk/transfer.c:962
+#: ../src/gtk/transfer.c:984
+#: ../src/gtk/transfer.c:1012
+#: ../src/gtk/transfer.c:1072
+msgid "There are no file transfers selected\n"
+msgstr "Izbran ni noben prenos podatkov\n"
+
+#: ../src/gtk/view_dialog.c:34
+msgid "View"
+msgstr "Pogled"
+
+#: ../src/gtk/view_dialog.c:49
+#, c-format
+msgid "View: %s is a directory. Cannot view it.\n"
+msgstr "Pogled: %s je mapa. Ni je mogoče pogledati.\n"
+
+#: ../src/gtk/view_dialog.c:52
+#, c-format
+msgid "Edit: %s is a directory. Cannot edit it.\n"
+msgstr "Urejanje: %s je mapa. Ni je mogoče urejati.\n"
+
+#: ../src/gtk/view_dialog.c:123
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "Urejanje: Treba je določiti urejevalnik v pogovornem oknu nastavitev\n"
+
+#: ../src/gtk/view_dialog.c:177
+#, c-format
+msgid "View: Cannot fork another process: %s\n"
+msgstr "Pogled: Ni mogoče vejiti drugega procesa: %s\n"
+
+#: ../src/gtk/view_dialog.c:180
+#, c-format
+msgid "Running program: %s %s\n"
+msgstr "Poganjanje programa: %s %s\n"
+
+#: ../src/gtk/view_dialog.c:240
+#, c-format
+msgid "Opening %s with %s\n"
+msgstr "Odpiranje %s z %s\n"
+
+#: ../src/gtk/view_dialog.c:282
+#, c-format
+msgid "Viewing file %s\n"
+msgstr "Ogledovanje datoteke %s\n"
+
+#: ../src/gtk/view_dialog.c:289
+#, c-format
+msgid "View: Cannot open file %s: %s\n"
+msgstr "Ogled: Ni mogoče odpreti datoteke %s: %s\n"
+
+#: ../src/text/gftp-text.c:166
+#, c-format
+msgid "Cannot open controlling terminal %s\n"
+msgstr "Ni mogoče odpreti nadzornega terminala %s\n"
+
+#: ../src/text/textui.c:80
+msgid "Username [anonymous]:"
+msgstr "Uporabniško ime [anonimno]:"
+
+#: ../src/text/textui.c:158
+#, c-format
+msgid ""
+"%s already exists. (%s source size, %s destination size):\n"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%c)"
+msgstr ""
+"%s že obstaja. (%s velikost vira, %s velikost cilja):\n"
+"(p)repiši, (n)adaljuj, pre(s)koči, (P)repiši vse, (N)adaljuj vse, Pre(S)koči vse: (%c)"
+
