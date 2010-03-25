@@ -339,6 +339,18 @@ gftpui_mkdir_dialog (gpointer data)
 }
 
 
+int
+gftpui_common_run_rename_check(gftpui_callback_data * cdata)
+{
+  if(access(cdata->input_string, F_OK))
+    return (gftpui_common_run_rename(cdata));
+  else
+    ftp_log (gftp_logging_error, NULL,
+         _("Operation canceled...a file with the new name already exists\n"));
+  return -1;
+}
+
+
 void
 gftpui_rename_dialog (gpointer data)
 {
@@ -353,7 +365,7 @@ gftpui_rename_dialog (gpointer data)
   cdata = g_malloc0 (sizeof (*cdata));
   cdata->request = wdata->request;
   cdata->uidata = wdata;
-  cdata->run_function = gftpui_common_run_rename;
+  cdata->run_function = gftpui_common_run_rename_check;
 
   if (!check_status (_("Rename"), wdata, gftpui_common_use_threads (wdata->request), 1, 1, wdata->request->rename != NULL))
     return;
