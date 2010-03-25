@@ -305,7 +305,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Remote/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
     {N_("/Remote/_Open Location..."), "<control>O", openurl_dialog, 0,
 	MS_(GTK_STOCK_OPEN)},
-    {N_("/Remote/D_isconnect"), "<control>D", gftpui_disconnect, 0,
+    {N_("/Remote/D_isconnect"), "<control>I", gftpui_disconnect, 0,
 	MS_(GTK_STOCK_CLOSE)},
     {N_("/Remote/sep"), NULL, 0, 0, MN_("<Separator>")},
     {N_("/Remote/Change _Filespec..."), "<control>F", change_filespec, 0,
