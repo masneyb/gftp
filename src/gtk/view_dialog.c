@@ -44,8 +44,21 @@ do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
   if (S_ISDIR (curfle->st_mode))
     {
       if (is_view)
-        ftp_log (gftp_logging_error, NULL,
-                 _("View: %s is a directory. Cannot view it.\n"), curfle->file);
+      {
+        if (strcmp (gftp_protocols[fromwdata->request->protonum].name, "Local") == 0)
+        {
+          gchar* argv[] = { (gchar*) "xdg-open", curfle->file, NULL };
+          ftp_log (gftp_logging_misc, NULL, _("View directory: %s %s\n"), argv[0], argv[1]);
+          if (!g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL))
+            ftp_log (gftp_logging_error, NULL,
+                   _("Couldn't execute command: %s\n"), argv[0]);
+        }
+        else
+        {
+          ftp_log (gftp_logging_error, NULL,
+                 _("View: %s is a remote directory. Cannot view it.\n"), curfle->file);
+        }
+      }
       else
         ftp_log (gftp_logging_error, NULL,
                  _("Edit: %s is a directory. Cannot edit it.\n"), curfle->file);
