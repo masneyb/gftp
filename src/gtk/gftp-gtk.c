@@ -250,6 +250,27 @@ gftp_gtk_refresh (gftp_window_data * wdata)
 }
 
 
+static void
+navi_up_directory(gftp_window_data * wdata)
+{
+  char *directory;
+  if(gtk_widget_is_focus(window1.listbox))
+  {
+      wdata=&window1;
+  }
+  else
+  {
+      if (!GFTP_IS_CONNECTED (window2.request))
+        return;
+      wdata=&window2;
+  }
+  directory = gftp_build_path (wdata->request, wdata->request->directory,
+                               "..", NULL);
+  gftpui_run_chdir (wdata, directory);
+  g_free (directory);
+}
+
+
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
@@ -283,6 +304,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Local/Change _Filespec..."), "<control><shift>F", change_filespec, 0,
      MN_(NULL)},
     {N_("/Local/_Show selected"), NULL, show_selected, 0, MN_(NULL)},
+    {N_("/Local/Navigate _up"), "<alt>Up", navi_up_directory, 0, MN_(NULL)},
     {N_("/Local/Select _All"), "<control><shift>A", selectall, 0, MN_(NULL)},
     {N_("/Local/Select All Files"), NULL, selectallfiles, 0, MN_(NULL)},
     {N_("/Local/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
@@ -311,6 +333,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Remote/Change _Filespec..."), "<control>F", change_filespec, 0,
         MN_(NULL)},
     {N_("/Remote/_Show selected"), NULL, show_selected, 0, MN_(NULL)},
+    {N_("/Remote/Navigate _up"), "<alt>Up", navi_up_directory, 0, MN_(NULL)},
     {N_("/Remote/Select _All"), "<control>A", selectall, 0, MN_(NULL)},
     {N_("/Remote/Select All Files"), NULL, selectallfiles, 0, MN_(NULL)},
     {N_("/Remote/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
