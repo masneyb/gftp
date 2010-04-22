@@ -754,16 +754,16 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
   gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 2, tempstr);
   g_free (tempstr);
 
-  if (fle->user)
-    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 3, fle->user);
-  if (fle->group)
-    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 4, fle->group);
   if ((str = ctime (&fle->datetime)))
     {
       if ((pos = strchr (str, '\n')) != NULL)
         *pos = '\0';
-      gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 5, str);
+      gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 3, str);
     }
+  if (fle->user)
+    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 4, fle->user);
+  if (fle->group)
+    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 5, fle->group);
 
   attribs = gftp_convert_attributes_from_mode_t (fle->st_mode);
   gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 6, attribs);
