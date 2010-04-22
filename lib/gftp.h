@@ -214,9 +214,9 @@ typedef struct gftp_file_tag gftp_file;
 
 #define GFTP_SORT_COL_FILE			1
 #define GFTP_SORT_COL_SIZE			2
-#define GFTP_SORT_COL_USER			3
-#define GFTP_SORT_COL_GROUP			4
-#define GFTP_SORT_COL_DATETIME			5
+#define GFTP_SORT_COL_DATETIME			3
+#define GFTP_SORT_COL_USER			4
+#define GFTP_SORT_COL_GROUP			5
 #define GFTP_SORT_COL_ATTRIBS			6
 
 #define GFTP_IS_SPECIAL_DEVICE(mode)	(S_ISBLK (mode) || S_ISCHR (mode))

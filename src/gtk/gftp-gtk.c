@@ -79,11 +79,11 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   ret = get_column (&GTK_CLIST (window1.listbox)->column[2]);
   gftp_set_global_option ("local_size_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window1.listbox)->column[3]);
-  gftp_set_global_option ("local_user_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window1.listbox)->column[4]);
-  gftp_set_global_option ("local_group_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window1.listbox)->column[5]);
   gftp_set_global_option ("local_date_width", GINT_TO_POINTER (ret));
+  ret = get_column (&GTK_CLIST (window1.listbox)->column[4]);
+  gftp_set_global_option ("local_user_width", GINT_TO_POINTER (ret));
+  ret = get_column (&GTK_CLIST (window1.listbox)->column[5]);
+  gftp_set_global_option ("local_group_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window1.listbox)->column[6]);
   gftp_set_global_option ("local_attribs_width", GINT_TO_POINTER (ret));
 
@@ -92,11 +92,11 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   ret = get_column (&GTK_CLIST (window2.listbox)->column[2]);
   gftp_set_global_option ("remote_size_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window2.listbox)->column[3]);
-  gftp_set_global_option ("remote_user_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window2.listbox)->column[4]);
-  gftp_set_global_option ("remote_group_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window2.listbox)->column[5]);
   gftp_set_global_option ("remote_date_width", GINT_TO_POINTER (ret));
+  ret = get_column (&GTK_CLIST (window2.listbox)->column[4]);
+  gftp_set_global_option ("remote_user_width", GINT_TO_POINTER (ret));
+  ret = get_column (&GTK_CLIST (window2.listbox)->column[5]);
+  gftp_set_global_option ("remote_group_width", GINT_TO_POINTER (ret));
   ret = get_column (&GTK_CLIST (window2.listbox)->column[6]);
   gftp_set_global_option ("remote_attribs_width", GINT_TO_POINTER (ret));
 
@@ -718,7 +718,7 @@ list_doaction (gftp_window_data * wdata)
       }
     }
 
-  if (!S_ISDIR (tempfle->st_mode) && !success)
+  if (tempfle && !S_ISDIR (tempfle->st_mode) && !success)
     {
       switch (list_dblclk_action)
         {
@@ -818,9 +818,9 @@ CreateFTPWindow (gftp_window_data * wdata)
   titles[0] = "";
   titles[1] = _("Filename");
   titles[2] = _("Size");
-  titles[3] = _("User");
-  titles[4] = _("Group");
-  titles[5] = _("Date");
+  titles[3] = _("Date");
+  titles[4] = _("User");
+  titles[5] = _("Group");
   titles[6] = _("Attribs");
 
   wdata->request = gftp_request_new ();
@@ -894,15 +894,15 @@ CreateFTPWindow (gftp_window_data * wdata)
   gftp_lookup_global_option (tempstr, &colwidth);
   setup_column (wdata->listbox, 2, colwidth);
 
-  g_snprintf (tempstr, sizeof (tempstr), "%s_user_width", wdata->prefix_col_str);
+  g_snprintf (tempstr, sizeof (tempstr), "%s_date_width", wdata->prefix_col_str);
   gftp_lookup_global_option (tempstr, &colwidth);
   setup_column (wdata->listbox, 3, colwidth);
 
-  g_snprintf (tempstr, sizeof (tempstr), "%s_group_width", wdata->prefix_col_str);
+  g_snprintf (tempstr, sizeof (tempstr), "%s_user_width", wdata->prefix_col_str);
   gftp_lookup_global_option (tempstr, &colwidth);
   setup_column (wdata->listbox, 4, colwidth);
 
-  g_snprintf (tempstr, sizeof (tempstr), "%s_date_width", wdata->prefix_col_str);
+  g_snprintf (tempstr, sizeof (tempstr), "%s_group_width", wdata->prefix_col_str);
   gftp_lookup_global_option (tempstr, &colwidth);
   setup_column (wdata->listbox, 5, colwidth);
 

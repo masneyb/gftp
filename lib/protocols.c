@@ -110,7 +110,7 @@ gftp_file_destroy (gftp_file * file, int free_it)
   if (file->destfile)
     g_free (file->destfile);
 
-  if (free_it)
+  if (free_it && file)
     g_free (file);
   else
     memset (file, 0, sizeof (*file));
