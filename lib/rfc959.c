@@ -85,6 +85,11 @@ static gftp_config_vars config_vars[] =
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("If you are transferring a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transferring from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."), 
    GFTP_PORT_ALL, NULL},
+   {"pretransfer_command", N_("PRET before transfer"), 
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
+   N_("With this option checked, gFTP will try to tell the server what it intends to do before a transfer actually happens. By way of the PRET command, an extension for distributed FTP servers, you will be able to connect to a master server and receive files from a slave node, possibly avoiding bandwidth problems."),
+   GFTP_PORT_ALL, NULL},
 
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
@@ -1236,10 +1241,19 @@ rfc959_get_file (gftp_request * request, const char *filename,
 {
   char *tempstr;
   int ret;
+  intptr_t pretransfer;
+  intptr_t passive_transfer;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
+
+  gftp_lookup_request_option (request, "pretransfer_command", &pretransfer);
+  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
+
+  if (passive_transfer && pretransfer) {
+    ret = rfc959_generate_and_send_command (request, "PRET RETR", filename,1, 0);
+  }
 
   ret = rfc959_setup_file_transfer (request, filename, startsize, "RETR");
   if (ret < 0)
@@ -1264,6 +1278,8 @@ rfc959_put_file (gftp_request * request, const char *filename,
 {
   rfc959_parms * parms;
   int ret;
+  intptr_t pretransfer;
+  intptr_t passive_transfer;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
@@ -1271,6 +1287,13 @@ rfc959_put_file (gftp_request * request, const char *filename,
 
   if ((ret = rfc959_set_data_type (request, filename)) < 0)
     return (ret);
+
+  gftp_lookup_request_option (request, "pretransfer_command", &pretransfer);
+  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
+
+  if (passive_transfer && pretransfer) {
+    ret = rfc959_generate_and_send_command (request, "PRET STOR", filename,1, 0);
+  }
 
   parms = request->protocol_data;
   if (parms->data_connection < 0 && 
