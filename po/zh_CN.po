@@ -1,17 +1,19 @@
 # Simplified Chinese translation of gftp.
+# Copyright (C) 2010 Free Software Foundation, Inc.
 # Updated by llc <lilichange@163.net>, 2002
 # Funda Wang <fundawang@linux.net.cn>, 2003
 # Zhuo Li <mada@geekbone.org>, 2004
+# du baodao <centerpoint@139.com>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.0.15\n"
+"Project-Id-Version: gftp master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gftp&component=general\n"
-"POT-Creation-Date: 2009-12-05 12:33+0000\n"
-"PO-Revision-Date: 2009-12-08 15:32+0800\n"
-"Last-Translator: zhangping <zhangping159@gmail.com>\n"
-"Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
+"POT-Creation-Date: 2010-01-27 00:53+0000\n"
+"PO-Revision-Date: 2010-07-25 19:18+0800\n"
+"Last-Translator: du baodao <centerpoint@139.com>\n"
+"Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -178,13 +180,12 @@ msgstr ""
 "前，所有的密码都是明文形式保存的。"
 
 #: ../lib/config_file.c:845
-#, fuzzy
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
-"gFTP 的配置文件。版权 (C) 1998-2003 Brian Masney <masneyb@gftp.org>。警告：您"
+"gFTP 的配置文件。版权 (C) 1998-2007 Brian Masney <masneyb@gftp.org>。警告：您"
 "添加到此文件中的任何信息都会被覆盖。如果某个条目的注释里有一个(*)，则您不能"
 "在 gFTP 中修改它"
 
@@ -206,10 +207,9 @@ msgid "Error: Cannot upload file %s\n"
 msgstr "错误：无法打上传地文件 %s\n"
 
 #: ../lib/fsp.c:199
-#, fuzzy, c-format
-#| msgid "Error: Cannot seek on file %s: %s\n"
+#, c-format
 msgid "Error: Cannot write to file %s: %s\n"
-msgstr "错误：无法定位文件 %s：%s\n"
+msgstr "错误：无法写入文件 %s：%s\n"
 
 # msgid "Error: Cannot write to file %s: %s\n"
 # msgstr "错误：无法写入文件 %s\n"
@@ -219,9 +219,9 @@ msgid "Error: Error closing file: %s\n"
 msgstr "错误：关闭文件出错：%s\n"
 
 #: ../lib/fsp.c:327
-#, fuzzy, c-format
+#, c-format
 msgid "Corrupted file listing from FSP server %s\n"
-msgstr "正在从服务器上装入目录列表 %s(LC_TIME=%s)\n"
+msgstr "从 FSP 服务器 %s 获得文件列表中断\n"
 
 #: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/parse-dir-listing.c:337
 #: ../lib/parse-dir-listing.c:338 ../lib/parse-dir-listing.c:379
@@ -232,19 +232,19 @@ msgid "unknown"
 msgstr "未知"
 
 #: ../lib/fsp.c:377
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get FSP directory listing %s: %s\n"
-msgstr "无法获得本地目录列表 %s：%s\n"
+msgstr "无法获得 FSP 目录列表 %s：%s\n"
 
 #: ../lib/fsp.c:436
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully changed directory to %s\n"
-msgstr "将本地目录更改为 %s 成功\n"
+msgstr "目录更改为 %s 成功\n"
 
 #: ../lib/fsp.c:446
-#, fuzzy, c-format
+#, c-format
 msgid "Could not change directory to %s\n"
-msgstr "无法将本地目录更改为 %s：%s\n"
+msgstr "无法将目录更改为 %s\n"
 
 #: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:480 ../lib/local.c:516
 #: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:306
@@ -326,14 +326,14 @@ msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "错误：无法将 %s 的权限更改为 %o：%s\n"
 
 #: ../lib/local.c:676
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully changed the time stamp of %s\n"
-msgstr "将 %s 的权限更改为 %o 成功\n"
+msgstr "成功更改 %s 的时间戳\n"
 
 #: ../lib/local.c:683
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
-msgstr "错误：无法将 %s 的权限更改为 %o：%s\n"
+msgstr "错误：无法更改时间戳：%s: %s\n"
 
 #: ../lib/local.c:750
 msgid "local filesystem"
@@ -533,18 +533,16 @@ msgid ""
 msgstr "在 GUI 中允许输入手工命令(例如可以输入 port 命令的文本)"
 
 #: ../lib/options.h:111
-#, fuzzy
 msgid "Remember last directory"
-msgstr "删除本地目录"
+msgstr "记住最近的目录"
 
 #: ../lib/options.h:113
 msgid "Save the last local and remote directory when the application is closed"
 msgstr "程序关闭时保存最近的本地和远程目录"
 
 #: ../lib/options.h:115
-#, fuzzy
 msgid "Connect to remote server on startup"
-msgstr "与远程网站断开连接"
+msgstr "在启动时连接到远程服务器。"
 
 #: ../lib/options.h:117
 msgid ""
@@ -785,7 +783,7 @@ msgstr "协议“%s”目前尚不支持。\n"
 #: ../lib/protocols.c:1155
 #, c-format
 msgid "Found recursive symbolic link %s\n"
-msgstr ""
+msgstr "发现循环的符号连接 %s\n"
 
 #: ../lib/protocols.c:1533
 #, c-format
@@ -974,6 +972,8 @@ msgid ""
 "needed for routers giving their internal rather then their external IP "
 "address in a PASV reply."
 msgstr ""
+"如果启用此项，会忽略远程 FTP 服务器的 PASV IP 地址域并使用主机的 IP 地址。如"
+"果在 PASV 回应中路由器给出的是它的内部而不是外部 IP 地址，通常需要启用此项。"
 
 #: ../lib/rfc959.c:74
 msgid "Passive file transfers"
@@ -1040,9 +1040,9 @@ msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "无法在 PASV 响应“%s”中找到 IP 地址\n"
 
 #: ../lib/rfc959.c:775
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
-msgstr "无法在 PASV 响应“%s”中找到 IP 地址\n"
+msgstr "在 PASV 响应中忽略 IP 地址，连接到 %d.%d.%d.%d:%d\n"
 
 #: ../lib/rfc959.c:786 ../lib/rfc959.c:945
 #, c-format
@@ -1860,9 +1860,8 @@ msgid "Remember password"
 msgstr "记住密码"
 
 #: ../src/gtk/bookmarks.c:420
-#, fuzzy
 msgid "You must specify a name for the bookmark."
-msgstr "添加书签：必须为书签命名\n"
+msgstr "必须为书签命名。"
 
 #: ../src/gtk/bookmarks.c:472
 msgid "New Folder"
@@ -1873,16 +1872,15 @@ msgid "Enter the name of the new folder to create"
 msgstr "输入要创建的文件夹名称"
 
 #: ../src/gtk/bookmarks.c:482
-#, fuzzy
 msgid "New Item"
-msgstr "/文件(F)/新项目..."
+msgstr "新项目"
 
 #: ../src/gtk/bookmarks.c:483
 msgid "Enter the name of the new item to create"
 msgstr "输入要创建的新项目名称"
 
 #: ../src/gtk/bookmarks.c:556
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
 "%s and all its children?"
@@ -1957,24 +1955,20 @@ msgid "/File/tearoff"
 msgstr "/文件(F)/tearoff"
 
 #: ../src/gtk/bookmarks.c:1206
-#, fuzzy
 msgid "/File/New _Folder..."
-msgstr "/文件(F)/新文件夹..."
+msgstr "/文件(F)/新文件夹(_F)..."
 
 #: ../src/gtk/bookmarks.c:1207
-#, fuzzy
 msgid "/File/New _Item..."
-msgstr "/文件(F)/新项目..."
+msgstr "/文件(F)/新项目(I)..."
 
 #: ../src/gtk/bookmarks.c:1208
-#, fuzzy
 msgid "/File/_Delete"
-msgstr "/文件(F)/删除"
+msgstr "/文件(F)/删除(_D)"
 
 #: ../src/gtk/bookmarks.c:1209
-#, fuzzy
 msgid "/File/_Properties..."
-msgstr "/文件(F)/属性..."
+msgstr "/文件(F)/属性(_P)..."
 
 #: ../src/gtk/bookmarks.c:1210
 msgid "/File/sep"
@@ -2110,14 +2104,12 @@ msgid "/FTP/tearoff"
 msgstr "/FTP/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:267
-#, fuzzy
 msgid "/FTP/Window _1"
-msgstr "/FTP/Window 1"
+msgstr "/FTP/窗口 _1"
 
 #: ../src/gtk/gftp-gtk.c:269
-#, fuzzy
 msgid "/FTP/Window _2"
-msgstr "/FTP/Window 2"
+msgstr "/FTP/窗口 _2"
 
 #: ../src/gtk/gftp-gtk.c:271 ../src/gtk/gftp-gtk.c:276
 #: ../src/gtk/gftp-gtk.c:279
@@ -2149,33 +2141,28 @@ msgid "/Local/tearoff"
 msgstr "/本地(L)/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:283
-#, fuzzy
 msgid "/Local/_Open Location..."
-msgstr "/本地(L)/打开 URL..."
+msgstr "/本地(L)/打开位置(_O)..."
 
 #: ../src/gtk/gftp-gtk.c:285
-#, fuzzy
 msgid "/Local/D_isconnect"
-msgstr "/本地(L)/断开连接"
+msgstr "/本地(L)/断开连接(_D)"
 
 #: ../src/gtk/gftp-gtk.c:286 ../src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "/本地(L)/sep"
 
 #: ../src/gtk/gftp-gtk.c:287
-#, fuzzy
 msgid "/Local/Change _Filespec..."
-msgstr "/本地(L)/改变文件类型..."
+msgstr "/本地(L)/改变文件类型(_F)..."
 
 #: ../src/gtk/gftp-gtk.c:289
-#, fuzzy
 msgid "/Local/_Show selected"
-msgstr "/本地(L)/只显示选中的"
+msgstr "/本地(L)/显示选中的(_S)"
 
 #: ../src/gtk/gftp-gtk.c:290
-#, fuzzy
 msgid "/Local/Select _All"
-msgstr "/本地(L)/全选"
+msgstr "/本地(L)/全选(_A)"
 
 #: ../src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
@@ -2194,44 +2181,36 @@ msgid "/Local/Send SITE Command..."
 msgstr "/本地(L)/发送 SITE 命令..."
 
 #: ../src/gtk/gftp-gtk.c:296
-#, fuzzy
 msgid "/Local/_Change Directory"
-msgstr "/本地(L)/更改目录"
+msgstr "/本地(L)/更改目录(_C)"
 
 #: ../src/gtk/gftp-gtk.c:297
-#, fuzzy
 msgid "/Local/_Permissions..."
-msgstr "/本地(L)/更改权限..."
+msgstr "/本地(L)/权限(_P)..."
 
 #: ../src/gtk/gftp-gtk.c:299
-#, fuzzy
 msgid "/Local/_New Folder..."
-msgstr "/文件(F)/新文件夹..."
+msgstr "/本地(L)/新文件夹(_N)..."
 
 #: ../src/gtk/gftp-gtk.c:300
-#, fuzzy
 msgid "/Local/Rena_me..."
-msgstr "/本地(L)/改名..."
+msgstr "/本地(L)/改名(_m)..."
 
 #: ../src/gtk/gftp-gtk.c:302
-#, fuzzy
 msgid "/Local/_Delete..."
-msgstr "/本地(L)/删除..."
+msgstr "/本地(L)/删除(_D)..."
 
 #: ../src/gtk/gftp-gtk.c:304
-#, fuzzy
 msgid "/Local/_Edit..."
-msgstr "/本地(L)/编辑..."
+msgstr "/本地(L)/编辑(_E)..."
 
 #: ../src/gtk/gftp-gtk.c:305
-#, fuzzy
 msgid "/Local/_View..."
-msgstr "/本地(L)/查看..."
+msgstr "/本地(L)/查看(_V)..."
 
 #: ../src/gtk/gftp-gtk.c:306
-#, fuzzy
 msgid "/Local/_Refresh"
-msgstr "/本地(L)/刷新"
+msgstr "/本地(L)/刷新(_R)"
 
 #: ../src/gtk/gftp-gtk.c:308
 msgid "/_Remote"
@@ -2242,33 +2221,28 @@ msgid "/Remote/tearoff"
 msgstr "/远程(R)/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:310
-#, fuzzy
 msgid "/Remote/_Open Location..."
-msgstr "/远程(R)/打开 _URL..."
+msgstr "/远程(R)/打开位置(_O)..."
 
 #: ../src/gtk/gftp-gtk.c:312
-#, fuzzy
 msgid "/Remote/D_isconnect"
-msgstr "/远程(R)/断开连接"
+msgstr "/远程(R)/断开连接(_I)"
 
 #: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/远程(R)/sep"
 
 #: ../src/gtk/gftp-gtk.c:315
-#, fuzzy
 msgid "/Remote/Change _Filespec..."
-msgstr "/远程(R)/改变文件类型..."
+msgstr "/远程(R)/改变文件类型(_F)..."
 
 #: ../src/gtk/gftp-gtk.c:317
-#, fuzzy
 msgid "/Remote/_Show selected"
-msgstr "/远程(R)/只显示选中的"
+msgstr "/远程(R)/显示选中的(_S)"
 
 #: ../src/gtk/gftp-gtk.c:318
-#, fuzzy
 msgid "/Remote/Select _All"
-msgstr "/远程(R)/全选"
+msgstr "/远程(R)/全选(_A)"
 
 #: ../src/gtk/gftp-gtk.c:319
 msgid "/Remote/Select All Files"
@@ -2287,44 +2261,36 @@ msgid "/Remote/Send SITE Command..."
 msgstr "/远程(R)/发送 SITE 命令..."
 
 #: ../src/gtk/gftp-gtk.c:324
-#, fuzzy
 msgid "/Remote/_Change Directory"
-msgstr "/远程(R)/更改目录"
+msgstr "/远程(R)/更改目录(_C)"
 
 #: ../src/gtk/gftp-gtk.c:325
-#, fuzzy
 msgid "/Remote/_Permisssions..."
-msgstr "/远程(R)/更改权限..."
+msgstr "/远程(R)/更改权限(_P)..."
 
 #: ../src/gtk/gftp-gtk.c:326
-#, fuzzy
 msgid "/Remote/_New Folder..."
-msgstr "/文件(F)/新文件夹..."
+msgstr "/文件(F)/新文件夹(_N)..."
 
 #: ../src/gtk/gftp-gtk.c:328
-#, fuzzy
 msgid "/Remote/Rena_me..."
-msgstr "/远程(R)/改名..."
+msgstr "/远程(R)/改名(_m)..."
 
 #: ../src/gtk/gftp-gtk.c:330
-#, fuzzy
 msgid "/Remote/_Delete..."
-msgstr "/远程(_R)/删除..."
+msgstr "/远程(R)/删除(_D)..."
 
 #: ../src/gtk/gftp-gtk.c:331
-#, fuzzy
 msgid "/Remote/_Edit..."
-msgstr "/远程(R)/编辑..."
+msgstr "/远程(R)/编辑(_E)..."
 
 #: ../src/gtk/gftp-gtk.c:332
-#, fuzzy
 msgid "/Remote/_View..."
-msgstr "/远程(R)/查看..."
+msgstr "/远程(R)/查看(_V)..."
 
 #: ../src/gtk/gftp-gtk.c:333
-#, fuzzy
 msgid "/Remote/_Refresh"
-msgstr "/远程(R)/刷新"
+msgstr "/远程(R)/刷新(_R)"
 
 #: ../src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
@@ -2335,12 +2301,10 @@ msgid "/Bookmarks/tearoff"
 msgstr "/书签(B)/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:337
-#, fuzzy
 msgid "/Bookmarks/Add _Bookmark"
-msgstr "/书签(B)/添加书签"
+msgstr "/书签(B)/添加书签(_B)"
 
 #: ../src/gtk/gftp-gtk.c:339
-#, fuzzy
 msgid "/Bookmarks/Edit Bookmarks"
 msgstr "/书签(B)/编辑书签"
 
@@ -2349,84 +2313,68 @@ msgid "/Bookmarks/sep"
 msgstr "/书签(B)/sep"
 
 #: ../src/gtk/gftp-gtk.c:341
-#, fuzzy
 msgid "/_Transfer"
 msgstr "/传输(_T)"
 
 #: ../src/gtk/gftp-gtk.c:342
-#, fuzzy
 msgid "/Transfer/tearoff"
 msgstr "/传输(T)/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:343
-#, fuzzy
 msgid "/Transfer/_Start"
-msgstr "/传输(T)/tearoff"
+msgstr "/传输(T)/开始(_S)"
 
 #: ../src/gtk/gftp-gtk.c:344
-#, fuzzy
 msgid "/Transfer/St_op"
-msgstr "/传输(T)/sep"
+msgstr "/传输(T)/停止(_o)"
 
 #: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
-#, fuzzy
 msgid "/Transfer/sep"
 msgstr "/传输(T)/sep"
 
 #: ../src/gtk/gftp-gtk.c:347
-#, fuzzy
 msgid "/Transfer/Skip _Current File"
-msgstr "/传输(T)/跳过当前文件"
+msgstr "/传输(T)/跳过当前文件(_C)"
 
 #: ../src/gtk/gftp-gtk.c:348
-#, fuzzy
 msgid "/Transfer/_Remove File"
-msgstr "/传输(T)/删除文件"
+msgstr "/传输(T)/删除文件(_R)"
 
 #: ../src/gtk/gftp-gtk.c:350
-#, fuzzy
 msgid "/Transfer/Move File _Up"
-msgstr "/传输(T)/上移"
+msgstr "/传输(T)/上移文件(_U)"
 
 #: ../src/gtk/gftp-gtk.c:352
-#, fuzzy
 msgid "/Transfer/Move File _Down"
-msgstr "/传输(T)/下移"
+msgstr "/传输(T)/下移文件(_D)"
 
 #: ../src/gtk/gftp-gtk.c:355
-#, fuzzy
 msgid "/Transfer/_Retrieve Files"
-msgstr "/传输(T)/接收文件"
+msgstr "/传输(T)/接收文件(_R)"
 
 #: ../src/gtk/gftp-gtk.c:356
-#, fuzzy
 msgid "/Transfer/_Put Files"
-msgstr "/传输(T)/上传文件"
+msgstr "/传输(T)/上传文件(_P)"
 
 #: ../src/gtk/gftp-gtk.c:357
-#, fuzzy
 msgid "/L_og"
 msgstr "/日志(_O)"
 
 #: ../src/gtk/gftp-gtk.c:358
-#, fuzzy
 msgid "/Log/tearoff"
 msgstr "/日志(O)/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:359
-#, fuzzy
 msgid "/Log/_Clear"
-msgstr "/日志(O)/清除"
+msgstr "/日志(O)/清除(_C)"
 
 #: ../src/gtk/gftp-gtk.c:360
-#, fuzzy
 msgid "/Log/_View"
-msgstr "/本地(L)/查看..."
+msgstr "/日志(O)/查看(_V)..."
 
 #: ../src/gtk/gftp-gtk.c:361
-#, fuzzy
 msgid "/Log/_Save..."
-msgstr "/日志(O)/保存日志..."
+msgstr "/日志(O)/保存日志(_S)..."
 
 #: ../src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
@@ -2437,14 +2385,12 @@ msgid "/Tools/tearoff"
 msgstr "/工具(S)/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:364
-#, fuzzy
 msgid "/Tools/C_ompare Windows"
-msgstr "/工具(S)/比较窗口"
+msgstr "/工具(S)/比较窗口(_O)"
 
 #: ../src/gtk/gftp-gtk.c:365
-#, fuzzy
 msgid "/Tools/_Clear Cache"
-msgstr "/工具(S)/清除缓存"
+msgstr "/工具(S)/清除缓存(_C)"
 
 #: ../src/gtk/gftp-gtk.c:366
 msgid "/Help"
@@ -2455,9 +2401,8 @@ msgid "/Help/tearoff"
 msgstr "/帮助(H)/tearoff"
 
 #: ../src/gtk/gftp-gtk.c:368
-#, fuzzy
 msgid "/Help/_About"
-msgstr "/帮助(H)/关于"
+msgstr "/帮助(H)/关于(_A)"
 
 #: ../src/gtk/gftp-gtk.c:488
 msgid "Host: "
@@ -2564,7 +2509,7 @@ msgstr "输入站点特定的命令"
 
 #: ../src/gtk/gtkui.c:406
 msgid "Prepend with SITE"
-msgstr ""
+msgstr "把站点名称附加到开头"
 
 #: ../src/gtk/gtkui.c:449 ../src/gtk/menu-items.c:235
 msgid "Chdir"
@@ -2907,7 +2852,7 @@ msgid "Finished"
 msgstr "已完成"
 
 #: ../src/gtk/transfer.c:734
-#, fuzzy, c-format
+#, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "已接收 %s，共 %s (速度 %.2fKB/s)，预计剩余时间 %02d:%02d:%02d"
 
@@ -2917,7 +2862,7 @@ msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "已接收 %s，共 %s (速度 %.2fKB/s)，预计剩余时间 %02d:%02d:%02d"
 
 #: ../src/gtk/transfer.c:750
-#, fuzzy, c-format
+#, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
 msgstr "已接收 %s，共 %s，传输延迟，剩余时间未知"
 
