@@ -84,7 +84,7 @@ static gftp_config_vars config_vars[] =
   {"ascii_transfers", N_("Transfer files in ASCII mode"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."), 
+   N_("If you are transferring a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transferring from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."), 
    GFTP_PORT_ALL, NULL},
 
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
@@ -1497,7 +1497,7 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
       tempstr = buf;
     }
 
-  /* I need to ensure that the entire buffer has been transfered properly due
+  /* I need to ensure that the entire buffer has been transferred properly due
      to the ascii conversion that may occur. 
      FIXME - the ascii conversion doesn't occur properly when the \n occurs
      at the beginning of the buffer. I need to remember the last character

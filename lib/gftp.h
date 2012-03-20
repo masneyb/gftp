@@ -251,8 +251,8 @@ struct gftp_file_tag
   unsigned int selected : 1,	/* Is this file selected? */
                was_sel : 1,	/* Was this file selected before  */
                shown : 1,	/* Is this file shown? */
-               done_view : 1,	/* View the file when done transfering? */
-               done_edit : 1,	/* Edit the file when done transfering? */
+               done_view : 1,	/* View the file when done transferring? */
+               done_edit : 1,	/* Edit the file when done transferring? */
                done_rm : 1,	/* Remove the file when done */
                transfer_done : 1, /* Is current file transfer done? */
                retry_transfer : 1, /* Is current file transfer done? */
@@ -532,11 +532,11 @@ typedef struct gftp_transfer_tag
        current_file_number,
        current_file_retries;
 
-  off_t curtrans,		/* Current transfered bytes for this file */
+  off_t curtrans,		/* Current transferred bytes for this file */
         tot_file_trans,		/* Total number of bytes in the file being
                                    transferred */
         curresumed,		/* Resumed bytes for this file */
-        trans_bytes,		/* Amount of data transfered for entire 
+        trans_bytes,		/* Amount of data transferred for entire 
 				   transfer */
         total_bytes, 		/* Grand total bytes for whole transfer */
         resumed_bytes;		/* Grand total of resumed bytes for whole 
