@@ -4,17 +4,27 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Zbigniew Chyla <zbigniew.chyla@gmail.com>, 2002-2003.
+# Arkadiusz Lipiec <a.lipiec@elka.pw.edu.pl>, 2002.
+# Artur Flinta <aflinta@at.kernel.pl>, 2003.
+# Piotr Drąg <piotrdrag@gmail.com>, 2008-2013.
+# Aviary.pl <gnomepl@aviary.pl>, 2008-2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: pl\n"
+"Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-20 23:10+0200\n"
-"PO-Revision-Date: 2009-05-17 15:57+0200\n"
+"POT-Creation-Date: 2013-06-12 17:59+0200\n"
+"PO-Revision-Date: 2013-06-12 18:00+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Aviary.pl <gnomepl@aviary.pl>\n"
+"Language-Team: Polish <gnomepl@aviary.pl>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-Country: Poland\n"
 
 #: ../lib/bookmark.c:38
 #, c-format
@@ -54,8 +64,8 @@ msgstr "Błąd: nie można zmienić położenia w pliku %s: %s\n"
 msgid ""
 "Error converting string '%s' from character set %s to character set %s: %s\n"
 msgstr ""
-"Błąd podczas konwertowania łańcucha \"%s\" z zestawu znaków %s do zestawu %"
-"s: %s\n"
+"Błąd podczas konwertowania łańcucha \"%s\" z zestawu znaków %s do zestawu "
+"%s: %s\n"
 
 #: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:1627
 #, c-format
@@ -206,7 +216,7 @@ msgstr "<nieznany>"
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
-"POWAŻNY błąd programu gFTP: nie znaleziono opcji konfiguracji \"%s\" w "
+"KRYTYCZNY błąd programu gFTP: nie znaleziono opcji konfiguracji \"%s\" w "
 "globalnej tabeli skrótów\n"
 
 #: ../lib/fsp.c:189
@@ -486,7 +496,7 @@ msgid "Preserve file permissions"
 msgstr "Zachowywanie uprawnień plików"
 
 #: ../lib/options.h:80
-msgid "Preserve file permissions of transfered files"
+msgid "Preserve file permissions of transferred files"
 msgstr "Zachowywanie uprawnień przesyłanych plików"
 
 #: ../lib/options.h:82
@@ -494,7 +504,7 @@ msgid "Preserve file time"
 msgstr "Zachowywanie czasów plików"
 
 #: ../lib/options.h:85
-msgid "Preserve file times of transfered files"
+msgid "Preserve file times of transferred files"
 msgstr "Zachowywanie czasów przesyłanych plików"
 
 #: ../lib/options.h:87
@@ -502,7 +512,7 @@ msgid "Refresh after each file transfer"
 msgstr "Odświeżanie po każdym przesyłaniu"
 
 #: ../lib/options.h:90
-msgid "Refresh the listbox after each file is transfered"
+msgid "Refresh the listbox after each file is transferred"
 msgstr "Odświeżanie listy plików po przesłaniu każdego pliku"
 
 #: ../lib/options.h:92
@@ -618,7 +628,7 @@ msgstr "Rozmiar bloku przesyłania:"
 
 #: ../lib/options.h:144
 msgid ""
-"The block size that is used when transfering files. This should be a "
+"The block size that is used when transferring files. This should be a "
 "multiple of 1024."
 msgstr ""
 "Rozmiar bloku użytego podczas przesyłania plików. Powinno być "
@@ -830,7 +840,7 @@ msgstr "Błąd zakładek: wpis zakładki %s nie zawiera nazwy komputera\n"
 #: ../lib/protocols.c:645 ../lib/protocols.c:672
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
-msgstr "Protokół \"%s\" nie jest aktualnie obsługiwany.\n"
+msgstr "Protokół \"%s\" nie jest obecnie obsługiwany.\n"
 
 #: ../lib/protocols.c:1155
 #, c-format
@@ -878,11 +888,11 @@ msgstr "Nie można rozdzielić drugiego procesu: %s\n"
 
 #: ../lib/rfc2068.c:30 ../lib/rfc959.c:47
 msgid "Proxy hostname:"
-msgstr "Nazwa hosta pośrednika:"
+msgstr "Nazwa komputera pośrednika:"
 
 #: ../lib/rfc2068.c:32 ../lib/rfc959.c:49
 msgid "Firewall hostname"
-msgstr "Nazwa hosta zapory sieciowej"
+msgstr "Nazwa komputera zapory sieciowej"
 
 #: ../lib/rfc2068.c:33 ../lib/rfc959.c:50
 msgid "Proxy port:"
@@ -1078,9 +1088,9 @@ msgstr "Przesyłanie plików w trybie ASCII"
 
 #: ../lib/rfc959.c:87
 msgid ""
-"If you are transfering a text file from Windows to UNIX box or vice versa, "
+"If you are transferring a text file from Windows to UNIX box or vice versa, "
 "then you should enable this. Each system represents newlines differently for "
-"text files. If you are transfering from UNIX to UNIX, then it is safe to "
+"text files. If you are transferring from UNIX to UNIX, then it is safe to "
 "leave this off. If you are downloading binary data, you will want to disable "
 "this."
 msgstr ""
@@ -1099,7 +1109,7 @@ msgstr "Otrzymano z serwera nieprawidłowa odpowiedź \"%c\".\n"
 #: ../lib/rfc959.c:706 ../lib/socket-connect-gethostbyname.c:120
 #, c-format
 msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "Utworzenie gniazda IPv4 nie powiodło się: %s\n"
+msgstr "Utworzenie gniazda IPv4 się nie powiodło: %s\n"
 
 #: ../lib/rfc959.c:745 ../lib/rfc959.c:755
 #, c-format
@@ -1134,7 +1144,7 @@ msgstr "Nie można nasłuchiwać na porcie %d: %s\n"
 #: ../lib/rfc959.c:876
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
-msgstr "Utworzenie gniazda IPv6 nie powiodło się: %s\n"
+msgstr "Utworzenie gniazda IPv6 się nie powiodło: %s\n"
 
 #: ../lib/rfc959.c:895
 msgid ""
@@ -1180,7 +1190,7 @@ msgstr "Nie można znaleźć nazwy komputera %s: %s\n"
 #: ../lib/socket-connect-getaddrinfo.c:115
 #, c-format
 msgid "Failed to create a socket: %s\n"
-msgstr "Utworzenie gniazda nie powiodło się: %s\n"
+msgstr "Utworzenie gniazda się nie powiodło: %s\n"
 
 #: ../lib/socket-connect-getaddrinfo.c:121
 #: ../lib/socket-connect-gethostbyname.c:134
@@ -1192,7 +1202,7 @@ msgstr "Próba połączenia z %s:%d\n"
 #: ../lib/socket-connect-gethostbyname.c:141
 #, c-format
 msgid "Cannot connect to %s: %s\n"
-msgstr "Nie można połączyć się z %s: %s\n"
+msgstr "Nie można się połączyć z %s: %s\n"
 
 #: ../lib/socket-connect-getaddrinfo.c:152
 #: ../lib/socket-connect-gethostbyname.c:159
@@ -1537,8 +1547,11 @@ msgstr ""
 msgid "Translated by"
 msgstr ""
 "Tłumaczenie:\n"
-"Aviary.pl <gnomepl@aviary.pl>, 2008\n"
-"Piotr Drąg <piotrdrag@gmail.com>, 2008"
+"Zbigniew Chyla <zbigniew.chyla@gmail.com>, 2002-2003\n"
+"Arkadiusz Lipiec <a.lipiec@elka.pw.edu.pl>, 2002\n"
+"Artur Flinta <aflinta@at.kernel.pl>, 2003\n"
+"Piotr Drąg <piotrdrag@gmail.com>, 2008-2013\n"
+"Aviary.pl <gnomepl@aviary.pl>, 2008-2013"
 
 #: ../src/uicommon/gftpui.c:205 ../src/uicommon/gftpui.c:247
 #: ../src/uicommon/gftpui.c:287 ../src/uicommon/gftpui.c:322
@@ -1600,7 +1613,7 @@ msgstr "Błąd: zmienna %s nie jest prawidłową zmienną konfiguracji.\n"
 #: ../src/uicommon/gftpui.c:725
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
-msgstr "Błąd: Zzmienna %s jest niedostępna w tekstowej wersji gFTP\n"
+msgstr "Błąd: zmienna %s jest niedostępna w tekstowej wersji gFTP\n"
 
 #: ../src/uicommon/gftpui.c:807
 msgid ""
@@ -1897,7 +1910,7 @@ msgid ""
 "log for which items were not properly transferred."
 msgstr ""
 "Nie można przesłać %d plików lub katalogów. Proszę sprawdzić dziennik, aby "
-"dowiedzieć się które elementy nie zostały poprawnie przesłane."
+"dowiedzieć się, które elementy nie zostały poprawnie przesłane."
 
 #: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
 #: ../src/gtk/gftp-gtk.c:1103 ../src/gtk/misc-gtk.c:505
@@ -1928,7 +1941,7 @@ msgstr "Dodaj zakładkę"
 
 #: ../src/gtk/bookmarks.c:142
 msgid "Add Bookmark: You must enter a hostname\n"
-msgstr "Dodanie zakładki: należy podać nazwę hosta\n"
+msgstr "Dodanie zakładki: należy podać nazwę komputera\n"
 
 #: ../src/gtk/bookmarks.c:146
 msgid ""
@@ -2491,7 +2504,7 @@ msgstr "/Pomoc/_O programie"
 
 #: ../src/gtk/gftp-gtk.c:488
 msgid "Host: "
-msgstr "Host: "
+msgstr "Komputer: "
 
 #: ../src/gtk/gftp-gtk.c:490
 msgid "_Host: "
@@ -2540,7 +2553,7 @@ msgstr "Postęp"
 
 #: ../src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
-msgstr "Błąd: należy podać host do połączenia się\n"
+msgstr "Błąd: należy podać komputer do połączenia się\n"
 
 #: ../src/gtk/gtkui.c:53
 msgid "Refresh"
@@ -2699,7 +2712,7 @@ msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr ""
-"Nie można znaleźć pliku umowy licencyjnej COPYING. Proszę upewnić się, że "
+"Nie można znaleźć pliku umowy licencyjnej COPYING. Proszę się upewnić, że "
 "znajduje się ona w katalogu %s lub %s"
 
 #: ../src/gtk/menu-items.c:454 ../src/gtk/menu-items.c:459
@@ -2715,7 +2728,7 @@ msgid ""
 msgstr ""
 "%s\n"
 "Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
-"Oficjalna strona domowa: http://www.gftp.org/\n"
+"Oficjalna witryna: http://www.gftp.org/\n"
 
 #: ../src/gtk/menu-items.c:503
 msgid "About"
@@ -2742,8 +2755,8 @@ msgid ""
 "Connect to the site specified in the host entry. If the host entry is blank, "
 "then a dialog is presented that will allow you to enter a URL."
 msgstr ""
-"Łączy się z serwerem podaną w polu hosta. Jeśli pole komputera jest puste, "
-"zostanie wyświetlone okno dialogowe pozwalające na podanie adresu URL."
+"Łączy się z serwerem podaną w polu komputera. Jeśli pole komputera jest "
+"puste, zostanie wyświetlone okno dialogowe pozwalające na podanie adresu URL."
 
 #: ../src/gtk/misc-gtk.c:308
 msgid "All Files"
@@ -3040,9 +3053,9 @@ msgstr "Użytkownik [anonymous]:"
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
-"c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: "
+"(%c)"
 msgstr ""
 "Plik %s już istnieje. (rozmiar źródłowy %s, rozmiar docelowy %s):\n"
-"(o)zastąp, (r)wznów, (s)pomiń, (O)zastąp wszystko, (R)wznów wszystko, (S)"
-"pomiń wszystko: (%c)"
+"(o)zastąp, (r)wznów, (s)pomiń, (O)zastąp wszystko, (R)wznów wszystko, "
+"(S)pomiń wszystko: (%c)"
