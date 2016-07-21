@@ -13,6 +13,11 @@ AC_ARG_ENABLE(gtk20,
               enable_gtk20=$enableval, 
               enable_gtk20="yes")
 
+AC_ARG_ENABLE(gtk30,
+              [  --enable-gtk30          Enable GTK+ 3.0 (Experimental)],
+              enable_gtk30=$enableval,
+              enable_gtk30="no")
+
 AC_ARG_ENABLE(gtkport, 
               [  --disable-gtkport	  Disable compiling the GTK+ port], 
               enable_gtkport=$enableval, 
@@ -23,7 +28,7 @@ AC_ARG_ENABLE(textport,
               enable_textport=$enableval, 
               enable_textport="yes")
 AC_ARG_ENABLE(ssl, 
-              [  --disable-ssl		Disable SSL support], 
+              [  --disable-ssl		  Disable SSL support], 
               enable_ssl=$enableval, 
               enable_ssl="yes")
 
@@ -37,7 +42,6 @@ AC_EXEEXT
 AC_PROG_RANLIB
 AC_SYS_LARGEFILE
 dnl AC_ISC_POSIX
-AM_C_PROTOTYPES
 AC_C_CONST
 AC_C_INLINE
 AC_INTL_PRINTF
@@ -79,14 +83,12 @@ AC_CHECK_TYPE(union semun, ,AC_DEFINE(_SEM_SEMUN_UNDEFINED,1,[Define if you do n
 #include <sys/sem.h>
 ])
 
-if test "x$enable_gtk20" = "xyes" ; then
+if test "x$GFTP_TEXT" = "x" ; then
   PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.0.0, found_glib20=1, found_glib20=0)
-else
-  found_glib20=0;
-fi
-
-if test "x$GFTP_TEXT" = "x" -a $found_glib20 = 0 ; then
-  AM_PATH_GLIB(1.2.3, , AC_MSG_ERROR(gFTP needs GLIB 1.2.3 or higher))
+  if test "x$found_glib20" = "x0" ; then
+    AC_CHECK_LIB(glib, g_main_iterate, HAVE_GLIB=1)
+    echo "Found a version of glib 1.x gFTP needs GLIB 1.2.3 or higher"
+  fi
 fi
 
 EXTRA_LIBS=""
@@ -197,15 +199,37 @@ PTHREAD_LIBS=""
 GTHREAD_LIBS=""
 
 if test "x$enable_gtkport" = "xyes" ; then
-  if test $found_glib20 = 1 -a "x$enable_gtk20" = "xyes" ; then
-    PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0, GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk20 or install GTK+ 2.0))
-  fi
 
   if test "x$GFTP_GTK" = "x" ; then
-    AM_PATH_GTK(1.2.3, GFTP_GTK=gftp-gtk, AC_MSG_WARN(gFTP needs GTK+ 1.2.3 or higher for the graphical version. Only building the text version))
-    GTHREAD_LIBS="-lgthread"
+    PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.0.0], found_glib20=1, found_glib20=0)
+
+    PKG_CHECK_MODULES(GTHREADS, gthread-2.0 >=  2.2.0, HAVE_GTHREADS="yes")
+    AC_SUBST(GTHREADS_CFLAGS)
+    AC_SUBST(GTHREADS_LIBS)
+    if test "x$HAVE_GTHREADS" = xyes ; then
+      GTHREAD_LIBS="-lgthread-2.0"
+    fi
+
+    if test "x$enable_gtk20" = "xyes" ; then
+      if test "x$enable_gtk30" = "xyes" ; then
+        AC_MSG_ERROR(GTK 2.0 configuration cannot be built while experimental GTK 3.0 support is enabled)
+      fi 
+      dnl Test for gtk+-2.0
+      PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk20 or install GTK+ 2.0))
+    fi
+    if test "x$enable_gtk30" = "xyes" ; then
+      if test "x$enable_gtk20" = "xyes" ; then 
+        AC_MSG_ERROR(GTK 3.0 experimental configuration cannot be built while GTK 2.0 support is enabled)
+      fi
+      dnl Test for gtk+-3.0
+      PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 3.0. Run configure without --enable-gtk30 or install GTK+ 3.0))
+    fi
   else
-    GTHREAD_LIBS="-lgthread-2.0"
+    PKG_CHECK_MODULES([GLIB], [glib-1.0 >= 1.0.0])
+    if test "x$HAVE_GTHREADS" != xyes ; then
+      AC_CHECK_LIB(gthread, g_thread_init, GTHREAD_LIBS="-lgthread")
+    fi
+
   fi
 
   if test "x$GFTP_GTK" = xgftp-gtk; then
