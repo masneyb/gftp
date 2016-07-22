@@ -3,11 +3,17 @@
 
 #ifdef __APPLE__
 #include <dlfcn.h>
-#include <Carbon/Carbon.h>
 
-typedef void (*_pGetCurrentProcess)(const char *psn);
-typedef void (*_pCPSEnableForegroundOperation)(const char *psn, unsigned int *arg2, unsigned int *arg3, unsigned int *arg4, unsigned int *arg5);
-typedef void (*_pSetFrontProcess)(const char *psn);
+struct ProcessSerialNumber {
+   unsigned long highLongOfPSN;
+   unsigned long lowLongOfPSN;
+};
+typedef struct ProcessSerialNumber ProcessSerialNumber;
+typedef ProcessSerialNumber * ProcessSerialNumberPtr;
+
+typedef void (*_pGetCurrentProcess)(struct ProcessSerialNumber *psn);
+typedef void (*_pCPSEnableForegroundOperation)(struct ProcessSerialNumber *psn, int val2, int val3, int val4, int val5);
+typedef void (*_pSetFrontProcess)(struct ProcessSerialNumber *psn);
 
 static inline void mac_gtk_foreground_hack(void)
 {
@@ -22,10 +28,9 @@ static inline void mac_gtk_foreground_hack(void)
    * CPSEnableForegroundOperation( &psn );
    * SetFrontProcess( &psn );
    */
+    int val2 = 0, val3 = 0, val4 = 0, val5 = 0;
 
     void *carbon_framework = dlopen("/System/Library/Frameworks/Carbon.framework/Carbon", RTLD_LAZY|RTLD_NOW|RTLD_GLOBAL);
-
-    int arg2, arg3, arg4, arg5;
 
     _pGetCurrentProcess pGetCurrentProcess;
     _pCPSEnableForegroundOperation pCPSEnableForegroundOperation;
@@ -37,7 +42,7 @@ static inline void mac_gtk_foreground_hack(void)
 
     ProcessSerialNumber psn;
     (void)pGetCurrentProcess(&psn);
-    (void)pCPSEnableForegroundOperation(&psn, arg2, arg3, arg4, arg5);
+    (void)pCPSEnableForegroundOperation(&psn, val2, val3, val4, val5);
     (void)pSetFrontProcess(&psn);
 
     dlclose(carbon_framework);

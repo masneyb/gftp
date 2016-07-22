@@ -1370,7 +1370,9 @@ main (int argc, char **argv)
   gftpui_common_init (&argc, &argv, ftp_log);
   gftpui_common_child_process_done = 0;
 
+#if !GLIB_CHECK_VERSION(2,31,0)
   g_thread_init (NULL);
+#endif
 
 #if GTK_MAJOR_VERSION > 1
   gdk_threads_init();
