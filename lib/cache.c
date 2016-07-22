@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-static const char cvsid[] = "$Id$";
 
 struct gftp_cache_entry_tag
 {

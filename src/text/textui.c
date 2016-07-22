@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp-text.h"
-static const char cvsid[] = "$Id$";
 
 void
 gftpui_lookup_file_colors (gftp_file * fle, char **start_color,

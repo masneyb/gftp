@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
-static const char cvsid[] = "$Id$";
 
 static void
 _gftp_gtk_free_del_data (gftp_transfer * transfer, gftp_dialog_data * ddata)

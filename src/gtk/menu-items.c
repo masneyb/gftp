@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
-static const char cvsid[] = "$Id$";
 
 static void
 update_window_listbox (gftp_window_data * wdata)

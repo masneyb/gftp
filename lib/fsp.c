@@ -19,7 +19,6 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-static const char cvsid[] = "$Id$";
 
 #define FSP_USE_SHAREMEM_AND_SEMOP 1
 #include "fsplib/fsplib.h"

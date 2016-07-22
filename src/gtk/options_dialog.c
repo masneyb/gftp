@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
-static const char cvsid[] = "$Id$";
 
 static GtkWidget * proxy_list, * new_proxy_domain, * network1,
                  * network2, * network3, * network4, * netmask1, * netmask2, 

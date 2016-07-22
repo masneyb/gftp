@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-static const char cvsid[] = "$Id: protocols.c 952 2008-01-24 23:31:26Z masneyb $";
 
 static int
 gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname, 

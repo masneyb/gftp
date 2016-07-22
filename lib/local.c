@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-static const char cvsid[] = "$Id$";
 
 typedef struct local_protocol_data_tag
 {

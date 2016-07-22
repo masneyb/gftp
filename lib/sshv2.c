@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-static const char cvsid[] = "$Id$";
 
 #define SSH_MAX_HANDLE_SIZE		256
 #define SSH_MAX_STRING_SIZE		34000
