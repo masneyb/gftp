@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
-static const char cvsid[] = "$Id$";
 
 static int num_transfers_in_progress = 0;
 
