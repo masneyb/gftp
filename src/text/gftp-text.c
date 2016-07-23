@@ -78,8 +78,6 @@ gftp_text_write_string (gftp_request * request, char *string)
           printf ("%s\n", stpos);
           stpos = endpos + 1;
         }
-
-      sw = sw;
     }
   while (stpos != endpos);
 
