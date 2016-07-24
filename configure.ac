@@ -323,7 +323,7 @@ AM_GNU_GETTEXT
 AC_CHECK_PROG(DB2HTML, db2html, true, false)
 AM_CONDITIONAL(HAVE_DOCBOOK, $DB2HTML)
 
-AC_CONFIG_FILES(po/Makefile.in
+AC_CONFIG_FILES(po/Makefile.in 
 	intl/Makefile
 	Makefile
 	docs/Makefile

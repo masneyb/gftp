@@ -252,6 +252,9 @@ void stop_button				( GtkWidget * widget,
 
 void gftpui_show_or_hide_command 		( void );
 
+/* gftp-gtk-mac-init.c */
+void gftp_gtk_mac_foreground_init		( void );
+
 /* gtkui.c */
 void gftpui_run_command 			( GtkWidget * widget,
 						  gpointer data );
@@ -304,8 +307,6 @@ void compare_windows 				( gpointer data );
 void about_dialog 				( gpointer data );
 
 /* misc-gtk.c */
-void fix_display				( void );
-
 void remove_files_window			( gftp_window_data * wdata );
 
 void ftp_log					( gftp_logging_level level,

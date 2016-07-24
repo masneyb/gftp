@@ -7,940 +7,898 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-13 03:24+0000\n"
+"POT-Creation-Date: 2016-07-24 02:50-0700\n"
 "PO-Revision-Date: 2007-03-27 21:53+0530\n"
 "Last-Translator: yangka <yanang_ka@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
+"Language: dz\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.10.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../lib/bookmark.c:38
+#: lib/bookmark.c:37
 #, c-format
 msgid "Invalid URL %s\n"
 msgstr "ནུས་མེད་ URL %s\n"
 
-#: ../lib/cache.c:50
-#: ../lib/cache.c:64
-#: ../lib/cache.c:77
+#: lib/cache.c:49 lib/cache.c:63 lib/cache.c:76
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "འཛོལ་བ་: འདྲ་མཛོད་ཟུར་ཐོ་ཡིག་སྣོད་ནང་ %s ནུས་མེད་གྲལ་ཐིག་\n"
 
-#: ../lib/cache.c:138
-#: ../lib/fsp.c:535
-#: ../lib/local.c:571
+#: lib/cache.c:137 lib/fsp.c:534 lib/local.c:560
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "འཛོལ་བ: %s: %sསྣོད་ཐོ་བཟོ་མ་ཚུགས \n"
 
-#: ../lib/cache.c:164
+#: lib/cache.c:163
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "འཛོལ་བ: གནས་སྐབས་ཀྱི་ཡིག་སྣོད་ %s གསར་བསྐྲུན་འབད་མི་ཚུགས།\n"
 
-#: ../lib/cache.c:186
-#: ../lib/cache.c:236
-#: ../lib/config_file.c:157
-#: ../lib/config_file.c:163
-#: ../lib/local.c:144
-#: ../lib/local.c:282
-#: ../lib/rfc2068.c:260
-#: ../lib/sshv2.c:1224
+#: lib/cache.c:185 lib/cache.c:235 lib/config_file.c:156 lib/config_file.c:162
+#: lib/local.c:143 lib/local.c:271 lib/rfc2068.c:259 lib/sshv2.c:1249
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "འཛོལ་བ: འགྲེལ་བཤད་པའི་ཡིག་སྣོད་ %s ཁ་བསྡམས་དོ།\n"
 
-#: ../lib/cache.c:254
-#: ../lib/fsp.c:127
-#: ../lib/fsp.c:207
-#: ../lib/local.c:189
-#: ../lib/local.c:198
-#: ../lib/local.c:257
+#: lib/cache.c:253 lib/fsp.c:126 lib/fsp.c:206 lib/local.c:183 lib/local.c:192
+#: lib/local.c:246
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "འཛོལ་བ: %s: %s ཡིག་སྣོད་ནང་ལུ་འཚོལ་མ་ཐོབ།\n"
 
-#: ../lib/config_file.c:126
-#: ../lib/config_file.c:133
-#: ../lib/protocols.c:3158
+#: lib/charset-conv.c:72
+#, c-format
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+"ཡིག་འབྲུའི་ཆ་ཚན་ %s: %s ལུ་ཡིག་འབྲུའི་ཆ་ཚན་ %s ནང་ལས་ '%s' ཡིག་རྒྱུན་གཞི་བསྒྱུར་འབད་ནི་ལུ་འཛོལ་"
+"བ།\n"
+
+#: lib/config_file.c:125 lib/config_file.c:132 lib/protocols.c:1626
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "འཛོལ་བ: ཉེ་གནས་ཡིག་སྣོད་ %s: %s ཁ་ཕྱེ་མི་བཏུབ།\n"
 
-#: ../lib/config_file.c:143
-#: ../lib/protocols.c:2859
-#: ../lib/sslcommon.c:497
+#: lib/config_file.c:142 lib/sockutils.c:292 lib/sslcommon.c:504
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "འཛོལ་བ:%s སོ་ཀེཊི་ལུ་འབྲི་མ་ཚུགས།\n"
 
-#: ../lib/config_file.c:151
-#: ../lib/protocols.c:2781
-#: ../lib/sshv2.c:445
-#: ../lib/sslcommon.c:450
+#: lib/config_file.c:150 lib/sockutils.c:213 lib/sshv2.c:444
+#: lib/sslcommon.c:457
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "འཛོལ་བ: སོ་ཀེཊི་ %s ནང་ལས་ལྷག་མ་ཚུགས།\n"
 
-#: ../lib/config_file.c:183
-#: ../lib/config_file.c:738
+#: lib/config_file.c:182 lib/config_file.c:736
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP འཛོལ་བ: བྱང་ཉེས་དེབ་རྟགས་ཚུ་ཡིག་སྣོད་ཀྱི་མིང་ %s\n"
 
-#: ../lib/config_file.c:192
+#: lib/config_file.c:191
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "ཉེན་བརྡ: དེབ་རྟགས་ཡིག་སྣོད་ཨམ་ %s འཚོལ་མི་ཐོབ།\n"
 
-#: ../lib/config_file.c:203
-#: ../lib/config_file.c:744
+#: lib/config_file.c:202 lib/config_file.c:742
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP འཛོལ་བ: དེབ་རྟགས་ཚུ་གི་ཡིག་སྣོད་ %s: %s ཁ་ཕྱེ་མི་བཏུབ།\n"
 
-#: ../lib/config_file.c:295
-#: ../lib/config_file.c:317
+#: lib/config_file.c:294 lib/config_file.c:316
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP ཉེན་བརྡ: གོམ་འགྱོ་ནིའི་གྲལ་ཐིག་ %d དེབ་རྟགས་ཚུ་གི་ཡིག་སྣོད་ %s ནང་ལུ།\n"
 
-#: ../lib/config_file.c:347
+#: lib/config_file.c:346
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP ཉེན་བརྡ: གྲལ་ཐིག་ %d འདི་ལུ་སྒྲུབ་རྟགས་ཚུ་ལངམ་སྦེ་མིན་འདུག།\n"
 
-#: ../lib/config_file.c:505
-msgid "This section specifies which hosts are on the local subnet and won't need to go out the proxy server (if available). Syntax: dont_use_proxy=.domain or dont_use_proxy=network number/netmask"
-msgstr "དབྱེ་ཚན་འདི་གིས་ཉེ་གནས་སབ་ནེཊི་ལུ་ཡོད་མི་ཧོསིཊི་ཚུ་གསལ་བཀོད་འབདཝ་ཨིནམ་དང་(ཐོབ་ཚུགས་པ་ཅིན་)པོརོག་སི་སར་བར་ལས་ཕྱི་གར་འགྱོ་མི་དགོ། ཚིག་སྦྱོར: པོརོག་སི་ལག་ལེན་མ་འཐབ་=ཌོ་མེན་ ཡང་ན་ པོརོག་སི་ལག་ལེན་མ་འཐབ་=ཡོངས་འབྲེལ་ཨང་/ནེཊི་མཱསིཀ"
+#: lib/config_file.c:503
+msgid ""
+"This section specifies which hosts are on the local subnet and won't need to "
+"go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
+"dont_use_proxy=network number/netmask"
+msgstr ""
+"དབྱེ་ཚན་འདི་གིས་ཉེ་གནས་སབ་ནེཊི་ལུ་ཡོད་མི་ཧོསིཊི་ཚུ་གསལ་བཀོད་འབདཝ་ཨིནམ་དང་(ཐོབ་ཚུགས་པ་ཅིན་)པོརོག་སི་"
+"སར་བར་ལས་ཕྱི་གར་འགྱོ་མི་དགོ། ཚིག་སྦྱོར: པོརོག་སི་ལག་ལེན་མ་འཐབ་=ཌོ་མེན་ ཡང་ན་ པོརོག་སི་ལག་ལེན་མ་"
+"འཐབ་=ཡོངས་འབྲེལ་ཨང་/ནེཊི་མཱསིཀ"
 
-#: ../lib/config_file.c:508
-msgid "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: All arguments except the file extension are optional"
-msgstr "ཨི་ཨེགས་ཊི=ཡིག་སྣོད་རྒྱ་བསྐྱེད: ཨེགས་པི་ཨེམ་ཡིག་སྣོད: ཨེ་ཨེས་སི་ཨའི་ཨའི་ ཡང་ན་ ཟུང་ལྡན་ (ཨེ་ ཡང་ན་ བི་): མཐོང་བྱེད་ལས་རིམ། དྲན་འཛིན: ཡིག་སྣོད་རྒྱ་བསྐྱེད་འདི་མ་གཏོགས་སྒྲུབ་རྟགས་ཚུ་ཆ་མཉམ་གདམ་ཁ་ཅན་ཨིན།"
+#: lib/config_file.c:506
+msgid ""
+"ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
+"All arguments except the file extension are optional"
+msgstr ""
+"ཨི་ཨེགས་ཊི=ཡིག་སྣོད་རྒྱ་བསྐྱེད: ཨེགས་པི་ཨེམ་ཡིག་སྣོད: ཨེ་ཨེས་སི་ཨའི་ཨའི་ ཡང་ན་ ཟུང་ལྡན་ (ཨེ་ ཡང་ན་ "
+"བི་): མཐོང་བྱེད་ལས་རིམ། དྲན་འཛིན: ཡིག་སྣོད་རྒྱ་བསྐྱེད་འདི་མ་གཏོགས་སྒྲུབ་རྟགས་ཚུ་ཆ་མཉམ་གདམ་ཁ་ཅན་ཨིན།"
 
-#: ../lib/config_file.c:588
-#: ../lib/config_file.c:833
+#: lib/config_file.c:586 lib/config_file.c:831
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP འཛོལ་བ: རིམ་སྒྲིག་བྱང་ཉེས་ཡིག་སྣོད་ཀྱི་མིང་ %s\n"
 
-#: ../lib/config_file.c:599
+#: lib/config_file.c:597
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP འཛོལ་བ: སྣོད་ཐོ་ %s: %s བཟོ་མ་ཚུགས།\n"
 
-#: ../lib/config_file.c:609
+#: lib/config_file.c:607
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP འཛོལ་བ: རིམ་སྒྲིག་ཡིག་སྣོད་ཨམ ་%s འཚོལ་མི་ཐོབ།\n"
 
-#: ../lib/config_file.c:611
+#: lib/config_file.c:609
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "ཁྱོད་ཀྱིས་གཞི་བཙུགས་ཀྱི་ལཱ་བཟོ་ཡི་ག?\n"
 
-#: ../lib/config_file.c:620
-#: ../lib/config_file.c:839
+#: lib/config_file.c:618 lib/config_file.c:837
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP འཛོལ་བ: རིམ་སྒྲིག་ཡིག་སྣོད་ %s: %s ཁ་ཕྱེ་མི་བཏུབ།\n"
 
-#: ../lib/config_file.c:659
+#: lib/config_file.c:657
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
-msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་འདི་ནང་གི་གྲལ་ཐིག་%d འདི་ལུ་མིང་དཔྱད་འབད་ནིའི་འཛོལ་བ་ཚུ་ལུ་བརྟེན་རྩ་གྲོལ་འབད་དོ།\n"
+msgstr ""
+"རིམ་སྒྲིག་ཡིག་སྣོད་འདི་ནང་གི་གྲལ་ཐིག་%d འདི་ལུ་མིང་དཔྱད་འབད་ནིའི་འཛོལ་བ་ཚུ་ལུ་བརྟེན་རྩ་གྲོལ་འབད་དོ།\n"
 
-#: ../lib/config_file.c:665
+#: lib/config_file.c:663
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP ཉེན་བརྡ: གོམ་འགྱོ་ནིའི་གྲལ་ཐིག་ %d རིམ་སྒྲིག་ཡིག་སྣོད་ %s ནང་ལུ།\n"
 
-#: ../lib/config_file.c:672
+#: lib/config_file.c:670
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP འཛོལ་བ: བྱང་ཉེས་དྲན་དེབ་ཡིག་སྣོད་ཀྱི་མིང་ %s\n"
 
-#: ../lib/config_file.c:678
+#: lib/config_file.c:676
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP ཉེན་བརྡ: %s འབྲི་ནི་གི་དོན་ལུ་ %s ཁ་ཕྱེ་མི་བཏུབ།\n"
 
-#: ../lib/config_file.c:733
-msgid "Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten"
-msgstr "gFTP གི་དོན་ལུ་ཡིག་སྣོད་དེབ་རྟགས་ཚུ། Copyright (C) ༡༩༩༨-༢༠༠༣ བརཱའིན་མཱས་ནེ་ <masneyb@gftp.org>. ཉེན་བརྡ: ཁྱོད་ཀྱིས་ཡིག་སྣོད་འདི་ལུ་གང་རུང་གི་བསམ་བཀོད་ཚུ་ཁ་སྐོང་འབད་བ་ཅིན་ཚབ་སྲུང་འབད་འོང་།"
+#: lib/config_file.c:731
+msgid ""
+"Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten"
+msgstr ""
+"gFTP གི་དོན་ལུ་ཡིག་སྣོད་དེབ་རྟགས་ཚུ། Copyright (C) ༡༩༩༨-༢༠༠༣ བརཱའིན་མཱས་ནེ་ <masneyb@gftp."
+"org>. ཉེན་བརྡ: ཁྱོད་ཀྱིས་ཡིག་སྣོད་འདི་ལུ་གང་རུང་གི་བསམ་བཀོད་ཚུ་ཁ་སྐོང་འབད་བ་ཅིན་ཚབ་སྲུང་འབད་འོང་།"
 
-#: ../lib/config_file.c:734
-msgid "Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext."
-msgstr "དྲན་འཛིན: ཆོག་ཡིག་ཚུ་ནང་ན་ཡོད་མི་གི་ཡིག་སྣོད་འདི་གེ་ར་སླ་བསྲེ་ནུག། འ་ནི་ཨཱལ་གོ་རི་དམ་འདི་མཐའ་བཙན་མིན་འདུག། འ་ནི་འདི་ཁྱོད་ཀྱིས་ཡིག་སྣོད་འདི་ནང་ཆོག་ཡིག་ཐོ་བཀོད་འབདཝ་ད་རྒྱབ་ཁ་ལས་བལྟ་སྡོད་མི་ཚུ་གིས་འཇམ་ཏོང་ཏོ་སྦེ་སེམས་ཁར་བཞག་ནི་ལས་སྤང་ནིའི་དོན་ལུ་ཨིན། འདི་གི་གོང་ལུ་ ཆོག་ཡིག་ཚུ་ཆ་མཉམ་ཚིག་ཡིག་རྐྱང་པོ་ནང་ལུ་བསག་མཛོད་འབད་འདི་ཡོད།"
+#: lib/config_file.c:732
+msgid ""
+"Note: The passwords contained inside this file are scrambled. This algorithm "
+"is not secure. This is to avoid your password being easily remembered by "
+"someone standing over your shoulder while you're editing this file. Prior to "
+"this, all passwords were stored in plaintext."
+msgstr ""
+"དྲན་འཛིན: ཆོག་ཡིག་ཚུ་ནང་ན་ཡོད་མི་གི་ཡིག་སྣོད་འདི་གེ་ར་སླ་བསྲེ་ནུག། འ་ནི་ཨཱལ་གོ་རི་དམ་འདི་མཐའ་བཙན་"
+"མིན་འདུག། འ་ནི་འདི་ཁྱོད་ཀྱིས་ཡིག་སྣོད་འདི་ནང་ཆོག་ཡིག་ཐོ་བཀོད་འབདཝ་ད་རྒྱབ་ཁ་ལས་བལྟ་སྡོད་མི་ཚུ་གིས་འཇམ་"
+"ཏོང་ཏོ་སྦེ་སེམས་ཁར་བཞག་ནི་ལས་སྤང་ནིའི་དོན་ལུ་ཨིན། འདི་གི་གོང་ལུ་ ཆོག་ཡིག་ཚུ་ཆ་མཉམ་ཚིག་ཡིག་རྐྱང་པོ་ནང་"
+"ལུ་བསག་མཛོད་འབད་འདི་ཡོད།"
 
-#: ../lib/config_file.c:846
-msgid "Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"
-msgstr "gFTP གི་དོན་ལུ་རིམ་སྒྲིག་ཡིག་སྣོད།Copyright (C) ༡༩༩༨-༢༠༠༣ བརཱའིན་མཱས་ནེ་<masneyb@gftp.org> ཉེན་བརྡ: ཁྱོད་ཀྱིས་ཡིག་སྣོད་འདི་ལུ་གང་རུང་གི་བསམ་བཀོད་ཚུ་ཁ་སྐོང་འབད་བ་ཅིན་ཚབ་སྲུང་འབད་འོང་། ཐོ་བཀོད་ལུ་ཁོ་རའི་བསམ་བཀོད་ནང་ལུ་ (*) ཡོད་པ་ཅིན་ ཁྱོད་ཀྱིས་ gFTP ནང་ལུ་བསྒྱུར་བཅོས་འབད་མི་ཚུགས།"
+#: lib/config_file.c:844
+msgid ""
+"Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
+"org>. Warning: Any comments that you add to this file WILL be overwritten. "
+"If a entry has a (*) in it's comment, you can't change it inside gFTP"
+msgstr ""
+"gFTP གི་དོན་ལུ་རིམ་སྒྲིག་ཡིག་སྣོད།Copyright (C) ༡༩༩༨-༢༠༠༣ བརཱའིན་མཱས་ནེ་<masneyb@gftp.org> "
+"ཉེན་བརྡ: ཁྱོད་ཀྱིས་ཡིག་སྣོད་འདི་ལུ་གང་རུང་གི་བསམ་བཀོད་ཚུ་ཁ་སྐོང་འབད་བ་ཅིན་ཚབ་སྲུང་འབད་འོང་། ཐོ་བཀོད་"
+"ལུ་ཁོ་རའི་བསམ་བཀོད་ནང་ལུ་ (*) ཡོད་པ་ཅིན་ ཁྱོད་ཀྱིས་ gFTP ནང་ལུ་བསྒྱུར་བཅོས་འབད་མི་ཚུགས།"
 
-#: ../lib/config_file.c:1210
-#: ../lib/protocols.c:382
-#: ../lib/rfc2068.c:546
-#: ../lib/rfc2068.c:547
+#: lib/config_file.c:1208 lib/protocols.c:384 lib/rfc2068.c:542
+#: lib/rfc2068.c:543
 msgid "<unknown>"
 msgstr "<མ་ཤེསཔ་>"
 
-#: ../lib/config_file.c:1290
-#: ../lib/config_file.c:1353
-#: ../lib/config_file.c:1395
-#: ../lib/config_file.c:1428
+#: lib/config_file.c:1288 lib/config_file.c:1351 lib/config_file.c:1393
+#: lib/config_file.c:1426
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr "འཚུབ་ཆེན་ gFTP འཛོལ་བ: རིམ་སྒྲིག་གདམ་ཁ་ '%s' འདི་སྤྱི་ཁྱབ་དྲྭ་རྟགས་ཐིག་ཁྲམ་ནང་ལུ་མ་ཐོབ།\n"
 
-#: ../lib/fsp.c:189
+#: lib/fsp.c:188
 #, c-format
 msgid "Error: Cannot upload file %s\n"
 msgstr "འཛོལ་བ: ཡིག་སྣོད་ %s བཙུགས་སྐྱེལ་འབད་མི་བཏུབ།\n"
 
-#: ../lib/fsp.c:199
+#: lib/fsp.c:198
 #, c-format
 msgid "Error: Cannot write to file %s: %s\n"
 msgstr "འཛོལ་བ:  %s: %s་ ཡིག་སྣོད་ལུ་འབྲི་མི་བཏུབ།\n"
 
-#: ../lib/fsp.c:237
+#: lib/fsp.c:236
 #, c-format
 msgid "Error: Error closing file: %s\n"
 msgstr "འཛོལ་བ: ཡིག་སྣོད་ %s ཁ་བསྡམས་ནིའི་འཛོལ་བ།\n"
 
-#: ../lib/fsp.c:327
+#: lib/fsp.c:326
 #, c-format
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "ཨེཕ་ཨེས་པི་སར་བར་ %s ནང་ལས་ངན་ཅན་ཡིག་སྣོད་ཐོ་བཀོད་འབད་དོ།\n"
 
-#: ../lib/fsp.c:339
-#: ../lib/fsp.c:340
-#: ../lib/protocols.c:1536
-#: ../lib/protocols.c:1537
-#: ../lib/protocols.c:1578
-#: ../lib/protocols.c:1579
-#: ../lib/protocols.c:1645
-#: ../lib/protocols.c:1652
-#: ../lib/protocols.c:1728
-#: ../lib/protocols.c:1729
-#: ../lib/protocols.c:1765
+#: lib/fsp.c:338 lib/fsp.c:339 lib/parse-dir-listing.c:336
+#: lib/parse-dir-listing.c:337 lib/parse-dir-listing.c:378
+#: lib/parse-dir-listing.c:379 lib/parse-dir-listing.c:445
+#: lib/parse-dir-listing.c:452 lib/parse-dir-listing.c:528
+#: lib/parse-dir-listing.c:529 lib/parse-dir-listing.c:565
 msgid "unknown"
 msgstr "མ་ཤེསཔ།"
 
-#: ../lib/fsp.c:377
+#: lib/fsp.c:376
 #, c-format
 msgid "Could not get FSP directory listing %s: %s\n"
 msgstr "%s: %s ཨེཕ་ཨེས་པི་ སྣོད་ཐོ་ཐོ་བཀོད་འབད་ནི་ཐོབ་མ་ཚུགས།\n"
 
-#: ../lib/fsp.c:436
+#: lib/fsp.c:435
 #, c-format
 msgid "Successfully changed directory to %s\n"
 msgstr "%s ལུ་སྣོད་ཐོ་འདི་མཐར་འཁྱོལཝ་སྦེ་བསྒྱུར་བཅོས་འབད་ཡོ།\n"
 
-#: ../lib/fsp.c:446
+#: lib/fsp.c:445
 #, c-format
 msgid "Could not change directory to %s\n"
 msgstr "སྣོད་ཐོ་འདི་ %s ལུ་བསྒྱུར་བཅོས་འབད་མ་ཚུགས།\n"
 
-#: ../lib/fsp.c:471
-#: ../lib/fsp.c:500
-#: ../lib/local.c:490
-#: ../lib/local.c:526
-#: ../src/gtk/transfer.c:263
-#: ../src/gtk/view_dialog.c:329
+#: lib/fsp.c:470 lib/fsp.c:499 lib/local.c:479 lib/local.c:515
+#: src/gtk/transfer.c:262 src/gtk/view_dialog.c:305
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr " %s མཐར་འཁྱོལཝ་སྦེ་རྩ་བསྐྲད་གཏང་ཡོད།\n"
 
-#: ../lib/fsp.c:477
-#: ../lib/local.c:496
+#: lib/fsp.c:476 lib/local.c:485
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "འཛོལ་བ: སྣོད་ཐོ་%s: %s རྩ་བསྐྲད་གཏང་མ་ཚུགས།\n"
 
-#: ../lib/fsp.c:506
-#: ../lib/local.c:532
-#: ../src/gtk/transfer.c:267
-#: ../src/gtk/view_dialog.c:333
+#: lib/fsp.c:505 lib/local.c:521 src/gtk/transfer.c:266
+#: src/gtk/view_dialog.c:309
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "འཛོལ་བ:ཡིག་སྣོད་%s: %s་རྩ བསྐྲད་གཏང་མ་ཚུགས།\n"
 
-#: ../lib/fsp.c:528
-#: ../lib/local.c:564
+#: lib/fsp.c:527 lib/local.c:553
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "%s སྣོད་ཐོ་མཐར་འཁྱོལཝ་སྦེ་བཟོ་ཡོད།\n"
 
-#: ../lib/fsp.c:563
-#: ../lib/local.c:600
+#: lib/fsp.c:562 lib/local.c:589
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "%s ལས་ %s ལུ་མཐར་འཁྱོལཝ་སྦེ་བསྐྱར་མིང་བཏགས་ཡོད།\n"
 
-#: ../lib/fsp.c:575
-#: ../lib/local.c:607
+#: lib/fsp.c:574 lib/local.c:596
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "འཛོལ་བ:  %s ལས་ %s: %s་ལུ་བསྐྱར་མིང་བཏགས་མ་ཚུགས།\n"
 
-#: ../lib/ftps.c:157
-msgid "FTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"
-msgstr "བར་བཤོལ་འབད་ནིའི་མཐུད་ལམ་ནང་ལུ་ཨེས་ཨེས་ཨེལ་རྒྱབ་སྐྱོར་འདི་ཕྱོགས་སྒྲིག་མ་འབདཝ་ལས་ཚུར་ཨེཕ་ཊི་པི་ཨེས་རྒྱབ་སྐྱོར་ཐོབ་མི་ཚུགས།\n"
+#: lib/ftps.c:153
+msgid ""
+"FTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
+msgstr ""
+"བར་བཤོལ་འབད་ནིའི་མཐུད་ལམ་ནང་ལུ་ཨེས་ཨེས་ཨེལ་རྒྱབ་སྐྱོར་འདི་ཕྱོགས་སྒྲིག་མ་འབདཝ་ལས་ཚུར་ཨེཕ་ཊི་པི་ཨེས་རྒྱབ་"
+"སྐྱོར་ཐོབ་མི་ཚུགས།\n"
 
-#: ../lib/https.c:91
-msgid "HTTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"
-msgstr "བར་བཤོལ་འབད་ནིའི་མཐུད་ལམ་ནང་ལུ་ཨེས་ཨེས་ཨེལ་རྒྱབ་སྐྱོར་འདི་ཕྱོགས་སྒྲིག་མ་འབདཝ་ལས་ཚུར་ཨེཆ་ཊི་ཊི་པི་ཨེས་རྒྱབ་སྐྱོར་ཐོབ་མི་ཚུགས།\n"
+#: lib/https.c:90
+msgid ""
+"HTTPS Support unavailable since SSL support was not compiled in. Aborting "
+"connection.\n"
+msgstr ""
+"བར་བཤོལ་འབད་ནིའི་མཐུད་ལམ་ནང་ལུ་ཨེས་ཨེས་ཨེལ་རྒྱབ་སྐྱོར་འདི་ཕྱོགས་སྒྲིག་མ་འབདཝ་ལས་ཚུར་ཨེཆ་ཊི་ཊི་པི་ཨེས་"
+"རྒྱབ་སྐྱོར་ཐོབ་མི་ཚུགས།\n"
 
-#: ../lib/local.c:66
+#: lib/local.c:65
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "ད་ལྟོ་ལཱ་འབད་བཞིན་པའི་སྣོད་ཐོ་ %s འདི་ཐོབ་མ་ཚུགས།\n"
 
-#: ../lib/local.c:105
+#: lib/local.c:104
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "ཉེ་གནས་ཡིག་སྣོད་འདི་ %s ལུ་མཐར་འཁྱོལཝ་སྦེ་བསྒྱུར་བཅོས་འབད་ཡོད།\n"
 
-#: ../lib/local.c:112
+#: lib/local.c:111
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
 msgstr "ལུ་ཉེ་གནས་སྣོད་ཐོ་འདི་ %s: %s ལུ་བསྒྱུར་བཅོས་འབད་མ་ཚུགས།\n"
 
-#: ../lib/local.c:248
+#: lib/local.c:237
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "འཛོལ་བ: ཉེ་གནས་ཡིག་སྣོད་ %s: %s འདི་ཆུང་ཀུ་བཟོ་མི་བཏུབ།\n"
 
-#: ../lib/local.c:434
+#: lib/local.c:423
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "%s: %s ཉེ་གནས་ཡིག་སྣོད་ཐོ་བཀོད་འབད་ནི་ཐོབ་མ་ཚུགས།\n"
 
-#: ../lib/local.c:644
+#: lib/local.c:633
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "%s གི་ཐབས་ལམ་འདི་ %o མཐར་འཁྱོལཝ་སྦེ་བསྒྱུར་བཅོས་འབད་ཡོད།\n"
 
-#: ../lib/local.c:651
+#: lib/local.c:640
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "འཛོལ་བ:  %s གི་ཐབས་ལམ་འདི་ %o: %s ལུ་བསྒྱུར་བཅོས་འབད་མ་ཚུགས།\n"
 
-#: ../lib/local.c:686
+#: lib/local.c:675
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr "གི་དུས་ཚོད་སིཊེམཔི་འདི་བསྒྱུར་བཅོས་འབད་ནི་མཐར་འཁྱོལ་ཡོདཔ།%s \n"
 
-#: ../lib/local.c:693
+#: lib/local.c:682
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr "འཛོལ་བ:  %s གི་ཐབས་ལམ་འདི་  %s ལུ་བསྒྱུར་བཅོས་འབད་མ་ཚུགས།\n"
 
-#: ../lib/local.c:760
+#: lib/local.c:749
 msgid "local filesystem"
 msgstr "ཉེ་གནས་ཡིག་སྣོད་རིམ་ལུགས།"
 
-#: ../lib/misc.c:407
+#: lib/misc.c:413
 #, c-format
 msgid "usage: gftp "
 msgstr "ལག་ལེན: gftp "
 
-#: ../lib/misc.c:407
-#: ../lib/rfc2068.c:304
-#: ../src/uicommon/gftpui.c:630
-#, c-format
-msgid "\n"
-msgstr "\n"
-
-#. @null@
-#: ../lib/options.h:25
-#: ../lib/rfc959.c:26
+#: lib/options.h:25 lib/rfc959.c:25
 msgid "none"
 msgstr "ཅི་མེད།"
 
-#: ../lib/options.h:25
+#: lib/options.h:25
 msgid "file"
 msgstr "ཡིག་སྣོད།"
 
-#: ../lib/options.h:26
+#: lib/options.h:26
 msgid "size"
 msgstr "ཚད།"
 
-#: ../lib/options.h:26
+#: lib/options.h:26
 msgid "user"
 msgstr "ལག་ལེན་པ།"
 
-#: ../lib/options.h:27
+#: lib/options.h:27
 msgid "group"
 msgstr "སྡེ་ཚན།"
 
-#: ../lib/options.h:28
+#: lib/options.h:28
 msgid "datetime"
 msgstr "ཚེས་གྲངས་ཆུ་ཚོད།"
 
-#: ../lib/options.h:29
+#: lib/options.h:29
 msgid "attribs"
 msgstr "ཁྱད་ཆོས་ཚུ།"
 
-#. @null@
-#: ../lib/options.h:32
+#: lib/options.h:32
 msgid "descending"
 msgstr "མར་འབབ།"
 
-#: ../lib/options.h:33
+#: lib/options.h:33
 msgid "ascending"
 msgstr "ཡར་འཛེགས།"
 
-#: ../lib/options.h:40
+#: lib/options.h:40
 msgid "General"
 msgstr "ཡོངས་ཁྱབ།"
 
-#: ../lib/options.h:43
+#: lib/options.h:43
 msgid "View program:"
 msgstr "མཐོང་སྣང་ལས་རིམ:"
 
-#: ../lib/options.h:44
-msgid "The default program used to view files. If this is blank, the internal file viewer will be used"
-msgstr "ཡིག་སྣོད་ཚུ་སྟོན་ནི་ལུ་སྔོན་སྒྲིག་ལས་རིམ་འདི་ལག་ལེན་འཐབ་ཨིན། འ་ནི་འདི་སྟོངམ་ཨིན་པ་ཅིན་ ནང་འཁོད་ཀྱི་ཡིག་སྣོད་མཐོང་བྱེད་འདི་ལག་ལེན་འཐབ་འོང་།"
+#: lib/options.h:44
+msgid ""
+"The default program used to view files. If this is blank, the internal file "
+"viewer will be used"
+msgstr ""
+"ཡིག་སྣོད་ཚུ་སྟོན་ནི་ལུ་སྔོན་སྒྲིག་ལས་རིམ་འདི་ལག་ལེན་འཐབ་ཨིན། འ་ནི་འདི་སྟོངམ་ཨིན་པ་ཅིན་ ནང་འཁོད་ཀྱི་ཡིག་"
+"སྣོད་མཐོང་བྱེད་འདི་ལག་ལེན་འཐབ་འོང་།"
 
-#: ../lib/options.h:46
+#: lib/options.h:46
 msgid "Edit program:"
 msgstr "ལས་རིམ་ཞུན་དག་འབད:"
 
-#: ../lib/options.h:47
+#: lib/options.h:47
 msgid "The default program used to edit files."
 msgstr "ཡིག་སྣོད་ཚུ་ཞུན་དག་འབད་ནི་ལུ་སྔོན་སྒྲིག་ལས་རིམ།"
 
-#: ../lib/options.h:48
+#: lib/options.h:48
 msgid "Max Log Window Size:"
 msgstr "དྲན་དེབ་མཐོ་ཤོས་ཝིན་ཌོ་གི་ཚད:"
 
-#: ../lib/options.h:50
+#: lib/options.h:50
 msgid "The maximum size of the log window in bytes for the GTK+ port"
 msgstr " GTK+ འདྲེན་ལམ་འདི་གི་དོན་ལུ་བཱའིཊིས་ནང་གི་དྲན་དེབ་ཝིན་ཌོ་འདི་གི་མང་མཐའི་ཚད།"
 
-#: ../lib/options.h:52
+#: lib/options.h:52
 msgid "Remote Character Sets:"
 msgstr "ཐག་རིང་གི་ཡིག་འབྲུའི་ཆ་ཚན་ཚུ:"
 
-#: ../lib/options.h:54
-msgid "This is a comma separated list of charsets to try to convert the remote messages to the current locale"
-msgstr "ད་ལྟོའི་ལོ་ཀེལ་འདི་ལུ་ཐག་རིང་གི་འཕྲིན་དོན་ཚུ་གཞི་བསྒྱུར་འབད་ནི་ལུ་འབད་རྩོལ་བསྐྱེད་ནི་ལུ་འ་ནི་འདི་ཡིག་འབྲུའི་གཞི་སྒྲིག་ཚུ་གི་ལྷོད་རྟགས་སོ་སོ་འཕྱེལ་ཡོད་པའི་ཐོ་ཡིག་ཨིན།"
+#: lib/options.h:54
+msgid ""
+"This is a comma separated list of charsets to try to convert the remote "
+"messages to the current locale"
+msgstr ""
+"ད་ལྟོའི་ལོ་ཀེལ་འདི་ལུ་ཐག་རིང་གི་འཕྲིན་དོན་ཚུ་གཞི་བསྒྱུར་འབད་ནི་ལུ་འབད་རྩོལ་བསྐྱེད་ནི་ལུ་འ་ནི་འདི་ཡིག་འབྲུའི་"
+"གཞི་སྒྲིག་ཚུ་གི་ལྷོད་རྟགས་སོ་སོ་འཕྱེལ་ཡོད་པའི་ཐོ་ཡིག་ཨིན།"
 
-#: ../lib/options.h:56
+#: lib/options.h:56
 msgid "Remote LC_TIME:"
 msgstr "ཐག་རིང་གི་ LC_TIME:"
 
-#: ../lib/options.h:58
-msgid "This is the value of LC_TIME for the remote site. This is so that dates can be parsed properly in the directory listings."
-msgstr "ཐག་རིང་གི་ས་ཁོངས་ཀྱི་དོན་ལུ་འ་ནི་འདི་ LC_TIME ་ཀྱི་གནས་གོང་ཨིན། འ་ནི་འདི་གིས་སྣོད་ཐོ་ཐོ་བཀོད་འབད་ནིའི་ནང་ལུ་ཚེས་གྲངས་ཚུ་ཚུལ་ལྡན་སྦེ་མིང་དཔྱད་འབད་ཚུགས།"
+#: lib/options.h:58
+msgid ""
+"This is the value of LC_TIME for the remote site. This is so that dates can "
+"be parsed properly in the directory listings."
+msgstr ""
+"ཐག་རིང་གི་ས་ཁོངས་ཀྱི་དོན་ལུ་འ་ནི་འདི་ LC_TIME ་ཀྱི་གནས་གོང་ཨིན། འ་ནི་འདི་གིས་སྣོད་ཐོ་ཐོ་བཀོད་འབད་"
+"ནིའི་ནང་ལུ་ཚེས་གྲངས་ཚུ་ཚུལ་ལྡན་སྦེ་མིང་དཔྱད་འབད་ཚུགས།"
 
-#: ../lib/options.h:60
+#: lib/options.h:60
 msgid "Cache TTL:"
 msgstr "འདྲ་མཛོད་ ཊི་ཊི་ཨེལ:"
 
-#: ../lib/options.h:63
+#: lib/options.h:63
 msgid "The number of seconds to keep cache entries before they expire."
 msgstr "དེ་ཚུ་དུས་ཡོལ་བའི་ཧེ་མ་འདྲ་མཛོད་ཐོ་བཀོད་ཚུ་བཞག་ནི་ལུ་སྐར་ཆ་ཚུ་གི་ཨང་།"
 
-#: ../lib/options.h:66
+#: lib/options.h:66
 msgid "Append file transfers"
 msgstr "ཡིག་སྣོད་གནས་སོར་ཚུ་མཇུག་སྣོན་འབད།"
 
-#: ../lib/options.h:68
+#: lib/options.h:68
 msgid "Append new file transfers onto existing ones"
 msgstr "ཡོད་བཞིན་པའི་གུ་ལུ་ཡིག་སྣོད་གསརཔ་གནས་སོར་ཚུ་མཇུག་བསྣོན་འབད།"
 
-#: ../lib/options.h:69
+#: lib/options.h:69
 msgid "Do one transfer at a time"
 msgstr "ཐེངས་ཅིག་ལུ་གནས་སོར་གཅིག་འབད།"
 
-#: ../lib/options.h:71
+#: lib/options.h:71
 msgid "Do only one transfer at a time?"
 msgstr "ཐེངས་ཅིག་ལུ་གནས་སོར་གཅིག་རྐྱངམ་ཅིག་འབད?"
 
-#: ../lib/options.h:72
+#: lib/options.h:72
 msgid "Overwrite by Default"
 msgstr "སྔོན་སྒྲིག་གིས་ཚབ་སྲུང་འབད་ནི།"
 
-#: ../lib/options.h:75
+#: lib/options.h:75
 msgid "Overwrite files by default or set to resume file transfers"
-msgstr "ཡིག་སྣོད་གནས་སོར་ཚུ་བསྐྱར་ལོག་འབད་ནི་ལུ་ཆ་ཚན་ ཡང་ན་ སྔོན་སྒྲིག་གིས་ཚབ་སྲུང་འབད་བའི་ཡིག་སྣོད་ཚུ།"
+msgstr ""
+"ཡིག་སྣོད་གནས་སོར་ཚུ་བསྐྱར་ལོག་འབད་ནི་ལུ་ཆ་ཚན་ ཡང་ན་ སྔོན་སྒྲིག་གིས་ཚབ་སྲུང་འབད་བའི་ཡིག་སྣོད་ཚུ།"
 
-#: ../lib/options.h:77
+#: lib/options.h:77
 msgid "Preserve file permissions"
 msgstr "ཡིག་སྣོད་གནང་བ་ཚུ་ཉམས་སྲུང་འབད།"
 
-#: ../lib/options.h:80
-msgid "Preserve file permissions of transfered files"
+#: lib/options.h:80
+#, fuzzy
+msgid "Preserve file permissions of transferred files"
 msgstr "གནས་སོར་འབད་ཡོད་པའི་ཡིག་སྣོད་ཚུ་གི་ཡིག་སྣོད་གནང་བ་ཚུ་ཉམས་སྲུང་འབད།"
 
-#: ../lib/options.h:82
+#: lib/options.h:82
 msgid "Preserve file time"
 msgstr "ཡིག་སྣོད་ཀྱི་ཆུ་ཚོད་ཉམས་སྲུང་འབད།"
 
-#: ../lib/options.h:85
-msgid "Preserve file times of transfered files"
+#: lib/options.h:85
+#, fuzzy
+msgid "Preserve file times of transferred files"
 msgstr "གནས་སོར་འབད་ཡོད་པའི་ཡིག་སྣོད་ཚུ་གི་ཡིག་སྣོད་ཆུ་ཚོད་ཚུ་ཉམས་སྲུང་འབད།"
 
-#: ../lib/options.h:87
+#: lib/options.h:87
 msgid "Refresh after each file transfer"
 msgstr "ཡིག་སྣོད་གནས་སོར་རེ་རེའི་ཤུལ་ལས་ཡང་སེལ་འབད།"
 
-#: ../lib/options.h:90
-msgid "Refresh the listbox after each file is transfered"
+#: lib/options.h:90
+#, fuzzy
+msgid "Refresh the listbox after each file is transferred"
 msgstr "ཡིག་སྣོད་རེ་རེ་གནས་སོར་འབད་བའི་ཤུལ་ལས་ཐོ་ཡིག་སྒྲོམ་འདི་ཡང་སེལ་འབད།"
 
-#: ../lib/options.h:92
+#: lib/options.h:92
 msgid "Sort directories first"
 msgstr "དང་པ་སྣོད་ཐོ་ཚུ་དབྱེ་སེལ་འབད།"
 
-#: ../lib/options.h:95
+#: lib/options.h:95
 msgid "Put the directories first then the files"
 msgstr "དང་པ་སྣོད་ཐོ་འདི་ཚུ་དང་དེ་ལས་ཡིག་སྣོད་ཚུ་བཙུགས།"
 
-#: ../lib/options.h:96
+#: lib/options.h:96
 msgid "Show hidden files"
 msgstr "གསང་བའི་ཡིག་སྣོད་ཚུ་སྟོན།"
 
-#: ../lib/options.h:99
+#: lib/options.h:99
 msgid "Show hidden files in the listboxes"
 msgstr "ཐོ་ཡིག་སྒྲོམ་ཚུ་ནང་ལུ་གསང་བའི་ཡིག་སྣོད་ཚུ་སྟོན།"
 
-#: ../lib/options.h:100
+#: lib/options.h:100
 msgid "Show transfer status in title"
 msgstr "གནས་སོར་གནས་ཚད་འདི་མགོ་མིང་ནང་སྦེ་སྟོན།"
 
-#: ../lib/options.h:102
+#: lib/options.h:102
 msgid "Show the file transfer status in the titlebar"
 msgstr "ཡིག་སྣོད་གནས་སོར་གནས་ཚད་འདི་མགོ་མིང་ཕྲ་རིང་ནང་ལུ་སྟོན།"
 
-#: ../lib/options.h:103
+#: lib/options.h:103
 msgid "Start file transfers"
 msgstr "ཡིག་སྣོད་གནས་སོར་ཚུ་འགོ་བཙུགས།"
 
-#: ../lib/options.h:105
+#: lib/options.h:105
 msgid "Automatically start the file transfers when they get queued"
 msgstr "དེ་ཚུ་གིས་མི་གྲལ་ཐོབ་ད་ཡིག་སྣོད་གནས་སོར་ཚུ་རང་བཞིན་གྱིས་འགོ་བཙུགསཔ་ཨིན།"
 
-#: ../lib/options.h:107
+#: lib/options.h:107
 msgid "Allow manual commands in GUI"
 msgstr "ཇི་ཡུ་ཨའི་ ནང་ལུ་ལག་དེབ་བརྡ་བཀོད་ཚུ་འབད་བཅུག།"
 
-#: ../lib/options.h:109
-msgid "Allow entering manual commands in the GUI (functions like the text port)"
+#: lib/options.h:109
+msgid ""
+"Allow entering manual commands in the GUI (functions like the text port)"
 msgstr "(ལས་འགན་ཚུ་ཚིག་ཡིག་བཟུམ་སྦེ་) ཇི་ཡུ་ཨའི་ ནང་ལུ་ལག་དེབ་བརྡ་བཀོད་ཚུ་ཐོ་བཀོད་འབད་བཅུག། "
 
-#: ../lib/options.h:111
+#: lib/options.h:111
 msgid "Remember last directory"
 msgstr "ཧེ་མ་གི་སྣོད་ཐོ་འདི་ སེམས་ཁར་དྲན།"
 
-#: ../lib/options.h:113
+#: lib/options.h:113
 msgid "Save the last local and remote directory when the application is closed"
 msgstr "གློག་རིམ་འདི་ ཁ་བསྡམས་ཡོདཔ་ད་ མཇུག་གི་ཉེ་གནས་དང་ ཐག་རིང་གི་སྣོད་ཐོ་དེ་ སྲུངས་བཞག"
 
-#: ../lib/options.h:115
+#: lib/options.h:115
 msgid "Connect to remote server on startup"
 msgstr "ཐག་རིང་གི་སར་བར་ནང་ལས་མཐུད་ལམ་མཐུད་ནི།"
 
-#: ../lib/options.h:117
-msgid "Automatically connect to the remote server when the application is started."
+#: lib/options.h:117
+msgid ""
+"Automatically connect to the remote server when the application is started."
 msgstr "གློག་རིམ་འདི་ འགོ་བཙུགས་ཡོད་པའི་སྐབས་ ཐག་རིང་གི་སར་བར་ལུ་རང་བཞིན་གྱིས་མཐུདཔ་ཨིན།"
 
-#: ../lib/options.h:120
-#: ../src/gtk/options_dialog.c:1020
-#: ../src/gtk/options_dialog.c:1240
+#: lib/options.h:120 src/gtk/options_dialog.c:1019
+#: src/gtk/options_dialog.c:1239
 msgid "Network"
 msgstr "ཡོངས་འབྲེལ།"
 
-#: ../lib/options.h:122
+#: lib/options.h:122
 msgid "Network timeout:"
 msgstr "ཡོངས་འབྲེལ་ངལ་མཚམས:"
 
-#: ../lib/options.h:125
-msgid "The timeout waiting for network input/output. This is NOT an idle timeout."
+#: lib/options.h:125
+msgid ""
+"The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr "ཡོངས་འབྲེལ་ཨིན་པུཊི་/ཨའུཊི་པུཊི་ གི་དོན་ལུ་ངལ་མཚམས་བསྒུག་དོ། འ་ནི་འདི་ལས་མེད་ངལ་མཚམས་མེན།"
 
-#: ../lib/options.h:127
+#: lib/options.h:127
 msgid "Connect retries:"
 msgstr "སླར་རྩོལ་ཚུ་མཐུད:"
 
-#: ../lib/options.h:130
+#: lib/options.h:130
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
-msgstr "རང་བཞིན་-སླར་རྩོལ་ཚུ་གིས་འབད་ནི་གི་ཨང་། ངེས་པ་མེདཔ་སྦེ་སླར་རྩོལ་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད།"
+msgstr ""
+"རང་བཞིན་-སླར་རྩོལ་ཚུ་གིས་འབད་ནི་གི་ཨང་། ངེས་པ་མེདཔ་སྦེ་སླར་རྩོལ་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད།"
 
-#: ../lib/options.h:132
+#: lib/options.h:132
 msgid "Retry sleep time:"
 msgstr "བསྒུག་ནིའི་དུས་ཚོད་ལུ་སླར་རྩོལ་འབད:"
 
-#: ../lib/options.h:135
+#: lib/options.h:135
 msgid "The number of seconds to wait between retries"
 msgstr "སླར་རྩོལ་འབད་ནི་ཚུ་གི་བར་ན་བསྒུག་ནིའི་སྐར་ཆ་ཚུ་གི་ཨང་།"
 
-#: ../lib/options.h:136
+#: lib/options.h:136
 msgid "Max KB/S:"
 msgstr "མཐོ་ཤོས་  KB/S:"
 
-#: ../lib/options.h:139
+#: lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
-msgstr "མང་མཐའ་ KB/s ཡིག་སྣོད་གནས་སོར་འདི་གིས་(གཞི་སྒྲིག་ ལས་ ༠ ལས་ ལྕོགས་མིན་བཟོ་ནི་) ཐོབ་ཚུགས།"
+msgstr ""
+"མང་མཐའ་ KB/s ཡིག་སྣོད་གནས་སོར་འདི་གིས་(གཞི་སྒྲིག་ ལས་ ༠ ལས་ ལྕོགས་མིན་བཟོ་ནི་) ཐོབ་ཚུགས།"
 
-#: ../lib/options.h:141
+#: lib/options.h:141
 msgid "Transfer Block Size:"
 msgstr "སྡེབ་ཚན་གྱི་ཚད་གནས་སོར་འབད:"
 
-#: ../lib/options.h:144
-msgid "The block size that is used when transfering files. This should be a multiple of 1024."
-msgstr "ཡོག་སྣོད་ཚུ་གནས་སོར་འབདཝ་ད་ལག་ལེན་འཐབ་ཡོད་པའི་སྡེབ་ཚན་གྱི་ཚད། འ་ནི་འདི་ ༡༠༢༤ གི་སྣ་མང་སྦེ་འོང་དགོ།"
+#: lib/options.h:144
+#, fuzzy
+msgid ""
+"The block size that is used when transferring files. This should be a "
+"multiple of 1024."
+msgstr ""
+"ཡོག་སྣོད་ཚུ་གནས་སོར་འབདཝ་ད་ལག་ལེན་འཐབ་ཡོད་པའི་སྡེབ་ཚན་གྱི་ཚད། འ་ནི་འདི་ ༡༠༢༤ གི་སྣ་མང་སྦེ་འོང་"
+"དགོ།"
 
-#: ../lib/options.h:147
+#: lib/options.h:147
 msgid "Default Protocol:"
 msgstr "སྔོན་སྒྲིག་གནད་སྤེལ་ལམ་ལུགས:"
 
-#: ../lib/options.h:149
+#: lib/options.h:149
 msgid "This specifies the default protocol to use"
 msgstr "འ་ནི་འདི་གིས་སྔོན་སྒྲིག་གནད་སྤེལ་ལམ་ལུགས་ལག་ལེན་འཐབ་ནི་ལུ་གསལ་བཀོད་འབདཝ་ཨིན།"
 
-#: ../lib/options.h:151
-#: ../lib/options.h:154
+#: lib/options.h:151 lib/options.h:154
 msgid "Enable IPv6 support"
 msgstr "IPv6 གི་རྒྱབ་སྐྱོར་ལྕོགས་ཅན་བཟོ།"
 
-#: ../lib/options.h:159
-msgid "This defines what will happen when you double click a file in the file listboxes. 0=View file 1=Edit file 2=Transfer file"
-msgstr "ཁྱོད་ཀྱིས་ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ཚུ་ནང་གི་ཡིག་སྣོད་འདི་གཡེབ་གཏང་ཐེངས་གཉིས་འབདཝ་ད་ག་ཅི་འབ་དའོང་ག་འ་ནི་འདི་གིས་ངེས་འཛིན་འབདཝ་ཨིན།  0=མཐོང་སྣང་ཡིག་སྣོད་ 1=ཞུན་དག་ཡིག་སྣོད་ 2=གནས་སོར་ཡིག་སྣོད།"
+#: lib/options.h:159
+msgid ""
+"This defines what will happen when you double click a file in the file "
+"listboxes. 0=View file 1=Edit file 2=Transfer file"
+msgstr ""
+"ཁྱོད་ཀྱིས་ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ཚུ་ནང་གི་ཡིག་སྣོད་འདི་གཡེབ་གཏང་ཐེངས་གཉིས་འབདཝ་ད་ག་ཅི་འབ་དའོང་ག་འ་ནི་"
+"འདི་གིས་ངེས་འཛིན་འབདཝ་ཨིན།  0=མཐོང་སྣང་ཡིག་སྣོད་ 1=ཞུན་དག་ཡིག་སྣོད་ 2=གནས་སོར་ཡིག་སྣོད།"
 
-#: ../lib/options.h:162
+#: lib/options.h:162
 msgid "The default width of the local files listbox"
 msgstr "ཉེ་གནས་ཡིག་སྣོད་ཚུ་གི་ཐོ་ཡིག་སྒྲོམ་གྱི་སྔོན་སྒྲིག་རྒྱ་ཚད།"
 
-#: ../lib/options.h:165
+#: lib/options.h:165
 msgid "The default width of the remote files listbox"
 msgstr "ཐག་རིང་གི་ཡིག་སྣོད་ཚུ་གི་ཐོ་ཡིག་སྒྲོམ་གྱི་སྔོན་སྒྲིག་རྒྱ་ཚད།"
 
-#: ../lib/options.h:168
+#: lib/options.h:168
 msgid "The default height of the local/remote files listboxes"
 msgstr "ཉེ་གནས་/ཐག་རིང་གི་ཡིག་སྣོད་ཚུ་གི་ཐོ་ཡིག་སྒྲོམ་གྱི་སྔོན་སྒྲིག་མཐོ་ཚད།"
 
-#: ../lib/options.h:171
+#: lib/options.h:171
 msgid "The default height of the transfer listbox"
 msgstr "གནས་སོར་ཐོ་ཡིག་སྒྲོམ་འདི་གི་སྔོན་སྒྲིག་མཐོ་ཚད།"
 
-#: ../lib/options.h:174
+#: lib/options.h:174
 msgid "The default height of the logging window"
 msgstr "དྲན་དེབ་འབད་ནིའི་ཝིན་ཌོ་གི་སྔོན་སྒྲིག་མཐོ་ཚད།"
 
-#: ../lib/options.h:177
-msgid "The width of the filename column in the transfer window. Set this to 0 to have this column automagically resize."
-msgstr "གནས་སོར་ཝིན་ཌོ་ནང་གི་ཡིག་སྣོད་ཀྱི་མིང་ཀེར་ཐིག་འདི་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གྱིས་ཚད་བསྐྱར་བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད།"
+#: lib/options.h:177
+msgid ""
+"The width of the filename column in the transfer window. Set this to 0 to "
+"have this column automagically resize."
+msgstr ""
+"གནས་སོར་ཝིན་ཌོ་ནང་གི་ཡིག་སྣོད་ཀྱི་མིང་ཀེར་ཐིག་འདི་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གྱིས་ཚད་"
+"བསྐྱར་བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད།"
 
-#: ../lib/options.h:190
-#: ../lib/options.h:196
+#: lib/options.h:190 lib/options.h:196
 msgid "The default column to sort by"
 msgstr "གིས་དབྱེ་སེལ་འབད་ནི་ལུ་སྔོན་སྒྲིག་ཀེར་ཐིག།"
 
-#: ../lib/options.h:193
-#: ../lib/options.h:199
+#: lib/options.h:193 lib/options.h:199
 msgid "Sort ascending or descending"
 msgstr "ཡར་འཛེགས་ ཡང་ན་ མར་འབབ་དབྱེ་སེལ་འབད།"
 
-#: ../lib/options.h:203
-#: ../lib/options.h:221
-msgid "The width of the filename column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ཡིག་སྣོད་མིང་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གྱིས་ཚད་བསྐྱར་བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
+#: lib/options.h:203 lib/options.h:221
+msgid ""
+"The width of the filename column in the file listboxes. Set this to 0 to "
+"have this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ཡིག་སྣོད་མིང་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གྱིས་ཚད་བསྐྱར་"
+"བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་"
+"འབད།"
 
-#: ../lib/options.h:206
-#: ../lib/options.h:224
-msgid "The width of the size column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ཚད་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
+#: lib/options.h:206 lib/options.h:224
+msgid ""
+"The width of the size column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ཚད་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་འབད་ནི་ལུ་"
+"འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
 
-#: ../lib/options.h:209
-#: ../lib/options.h:227
-msgid "The width of the user column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ལག་ལེན་པའི་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
+#: lib/options.h:209 lib/options.h:227
+msgid ""
+"The width of the user column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ལག་ལེན་པའི་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་"
+"འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
 
-#: ../lib/options.h:212
-#: ../lib/options.h:230
-msgid "The width of the group column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་སྡེ་ཚན་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
+#: lib/options.h:212 lib/options.h:230
+msgid ""
+"The width of the group column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་སྡེ་ཚན་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་འབད་ནི་"
+"ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
 
-#: ../lib/options.h:215
-#: ../lib/options.h:233
-msgid "The width of the date column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ཚེས་གྲངས་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
+#: lib/options.h:215 lib/options.h:233
+msgid ""
+"The width of the date column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ཚེས་གྲངས་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་འབད་"
+"ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
 
-#: ../lib/options.h:218
-#: ../lib/options.h:236
-msgid "The width of the attribs column in the file listboxes. Set this to 0 to have this column automagically resize. Set this to -1 to disable this column"
-msgstr "ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ཁྱད་ཆོས་ཚུ་གི་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
+#: lib/options.h:218 lib/options.h:236
+msgid ""
+"The width of the attribs column in the file listboxes. Set this to 0 to have "
+"this column automagically resize. Set this to -1 to disable this column"
+msgstr ""
+"ཡིག་སྣོད་ཐོ་ཡིག་སྒྲོམ་ནང་གི་ཁྱད་ཆོས་ཚུ་གི་ཀེར་ཐིག་གི་རྒྱ་ཚད། ཀེར་ཐིག་འདི་རང་བཞིན་མིག་འཕྲུལ་གིས་བསྐྱར་བཟོ་"
+"འབད་ནི་ལུ་འ་ནི་འདི་ ༠ ལུ་གཞི་སྒྲིག་འབད། ཀེར་ཐིག་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་འ་ནི་འདི་ -༡ ལུ་གཞི་སྒྲིག་འབད།"
 
-#: ../lib/options.h:239
+#: lib/options.h:239
 msgid "The color of the commands that are sent to the server"
 msgstr "སར་བར་ལུ་གཏང་ཡོད་མི་བརྡ་བཀོད་ཚུ་གི་ཚོས་གཞི།"
 
-#: ../lib/options.h:242
+#: lib/options.h:242
 msgid "The color of the commands that are received from the server"
 msgstr "སར་བར་ལས་ཐོབ་ཡོད་པའི་བརྡ་བཀོད་ཚུ་གི་ཚོས་གཞི།"
 
-#: ../lib/options.h:245
+#: lib/options.h:245
 msgid "The color of the error messages"
 msgstr "འཛོལ་བའི་འཕྲིན་དོན་ཚུ་གི་ཚོས་གཞི།"
 
-#: ../lib/options.h:248
+#: lib/options.h:248
 msgid "The color of the rest of the log messages"
 msgstr "དྲན་དེབ་འཕྲིན་དོན་ཚུ་གི་ངལ་འཚོ་བའི་ཚོས་གཞི།"
 
-#: ../lib/options.h:254
-#: ../lib/rfc959.c:40
+#: lib/options.h:254 lib/rfc959.c:39
 msgid "FTP"
 msgstr "ཨེཕ་ཊི་པི།"
 
-#: ../lib/options.h:257
-#: ../lib/options.h:259
+#: lib/options.h:257 lib/options.h:259
 msgid "FTPS"
 msgstr "ཨེཕ་ཊི་པི་ཨེས།"
 
-#: ../lib/options.h:262
-#: ../lib/rfc2068.c:27
+#: lib/options.h:262 lib/rfc2068.c:26
 msgid "HTTP"
 msgstr "ཨེཆ་ཊི་ཊི་པི།"
 
-#: ../lib/options.h:265
-#: ../lib/options.h:267
+#: lib/options.h:265 lib/options.h:267
 msgid "HTTPS"
 msgstr "ཨེཆ་ཊི་ཊི་པི་ཨེས།"
 
-#: ../lib/options.h:270
+#: lib/options.h:270
 msgid "Local"
 msgstr "ཉེ་གནས།"
 
-#: ../lib/options.h:272
+#: lib/options.h:272
 msgid "SSH2"
 msgstr "ཨེས་ཨེས་ཨེཆ་༢"
 
-#: ../lib/options.h:274
-#: ../src/gtk/bookmarks.c:883
+#: lib/options.h:274 src/gtk/bookmarks.c:882
 msgid "Bookmark"
 msgstr "དེབ་རྟགས།"
 
-#: ../lib/options.h:275
+#: lib/options.h:275
 msgid "FSP"
 msgstr "ཨེཕ་ཨེས་པི།"
 
-#: ../lib/protocols.c:225
+#: lib/protocols.c:227
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "ཡིག་སྣོད་གནས་སོར་འདི་ %.2f KB/s ལུ་ཕབ་འོང་།\n"
 
-#: ../lib/protocols.c:378
+#: lib/protocols.c:380
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "'%s' ལུ་  LC_TIME གཞི་སྒྲིག་འབད་ནི་ལུ་འཛོལ་བ། '%s'ལུ་ལོག་འབུད་ནི།\n"
 
-#: ../lib/protocols.c:389
+#: lib/protocols.c:391
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "འདྲ་མཛོད་ (LC_TIME=%s) ནང་ལས་ %s ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་མངོན་གསལ་འབད་དོ།\n"
 
-#: ../lib/protocols.c:399
+#: lib/protocols.c:401
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "སར་བར་ (LC_TIME=%s) ནང་ལས་ %s ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་མངོན་གསལ་འབད་དོ།\n"
 
-#: ../lib/protocols.c:461
+#: lib/protocols.c:451
 #, c-format
-msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr "ཡིག་འབྲུའི་ཆ་ཚན་ %s: %s ལུ་ཡིག་འབྲུའི་ཆ་ཚན་ %s ནང་ལས་ '%s' ཡིག་རྒྱུན་གཞི་བསྒྱུར་འབད་ནི་ལུ་འཛོལ་བ།\n"
+msgid ""
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
+msgstr ""
+"ཉེན་བརྡ: ཡིག་སྣོད་ '%s' ནང་ལས་འགྲུལ་ལམ་བཏོན་བཀོ་དོ། བཏོན་བཀོ་ཡོད་པའི་འགྲུལ་ལམ་ (%s) འདི་ད་ལྟོའི་"
+"སྣོད་ཐོ་ (%s) དང་མཐུན་སྒྲིག་མིན་འདུག།\n"
 
-#: ../lib/protocols.c:654
-#, c-format
-msgid "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't match the current directory (%s)\n"
-msgstr "ཉེན་བརྡ: ཡིག་སྣོད་ '%s' ནང་ལས་འགྲུལ་ལམ་བཏོན་བཀོ་དོ། བཏོན་བཀོ་ཡོད་པའི་འགྲུལ་ལམ་ (%s) འདི་ད་ལྟོའི་སྣོད་ཐོ་ (%s) དང་མཐུན་སྒྲིག་མིན་འདུག།\n"
-
-#: ../lib/protocols.c:680
+#: lib/protocols.c:482
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "འཛོལ་བ: འདྲ་མཛོད་ %s ལུ་འབྲི་མི་བཏུབ།\n"
 
-#: ../lib/protocols.c:713
+#: lib/protocols.c:515
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "འཛོལ་བ: %s དེབ་རྟགས་འཚོལ་མ་ཐོབ།\n"
 
-#: ../lib/protocols.c:720
+#: lib/protocols.c:522
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "དེབ་རྟགས་ཚུ་འཛོལ་བ: དེབ་རྟགས་ཐོ་བཀོད་ %s འདི་ལུ་ཧོསཊི་མིང་མིན་འདུག།\n"
 
-#: ../lib/protocols.c:842
-#: ../lib/protocols.c:869
+#: lib/protocols.c:644 lib/protocols.c:671
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "གནད་སྤེལ་ལམ་ལུགས་  '%s'འདི་ལུ་ད་ལྟོ་རྒྱབ་སྐྱོར་མ་འབད་བས།\n"
 
-#: ../lib/protocols.c:1159
-#: ../lib/protocols.c:1174
-#: ../lib/protocols.c:2356
-#: ../lib/protocols.c:2469
-#, c-format
-msgid "Looking up %s\n"
-msgstr "%s ལུ་བལྟ་དོ།\n"
-
-#: ../lib/protocols.c:1165
-#: ../lib/protocols.c:1180
-#: ../lib/protocols.c:2361
-#: ../lib/protocols.c:2474
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "ཧོསཊི་མིང་ %s: %s ལུ་བལྟ་མི་ཚུགས།\n"
-
-#: ../lib/protocols.c:2091
+#: lib/protocols.c:1154
 #, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr "ལོག་རིམ་བརྡ་མཚོན་པའི་འབྲེལ་མཐུད་ཐོབ་ཡོདཔ། %s\n"
 
-#: ../lib/protocols.c:2379
+#: lib/protocols.c:1532
 #, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "སོ་ཀེཊི་ %s གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ནུག།\n"
+msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
+msgstr ""
+"འཛོལ་བ: ཐག་རིང་གི་ས་ཁོངས་  %s གི་མཐུད་ལམ་བཏོག་ནུག། སླར་རྩོལ་འདི་མང་ཐོ་ལུ་ལྷོད་ཚར་ཡི་...བཤོལ་"
+"བཞག་དོ།\n"
 
-#: ../lib/protocols.c:2385
-#: ../lib/protocols.c:2491
+#: lib/protocols.c:1540
 #, c-format
-msgid "Trying %s:%d\n"
-msgstr "%s:%d འབད་རྩོལ་བསྐྱེད་དོ།\n"
+msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
+msgstr ""
+"འཛོལ་བ: ཐག་རིང་གི་ས་ཁོངས་ %s འདི་མཐུད་ལམ་བཏོག་ནུག། %d སྐར་ཆ་ཚུ་ནང་སླར་མཐུད་འབད་འོང་།\n"
 
-#: ../lib/protocols.c:2390
-#: ../lib/protocols.c:2498
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr " %s: %s ལུ་མཐུད་མི་བཏུབ།\n"
-
-#: ../lib/protocols.c:2428
-#: ../lib/rfc959.c:706
-#, c-format
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "IPv4 སོ་ཀེཊི་ %s འདི་གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ནུག།\n"
-
-#: ../lib/protocols.c:2452
-#: ../lib/sshv2.c:1142
-#, c-format
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
-msgstr "ཞབས་ཏོག་མིང་ %s/tcp ལུ་བལྟ་མི་ཚུགས། ཁྱོད་ཀྱི་ཞབས་ཏོག་ཚུ་གི་ཡིག་སྣོད་ཞིབ་དཔྱད་འབད་གནང་།\n"
-
-#: ../lib/protocols.c:2514
-#: ../lib/protocols.c:3167
-#: ../lib/rfc959.c:715
-#: ../lib/rfc959.c:892
+#: lib/protocols.c:1635 lib/rfc959.c:714 lib/rfc959.c:884
+#: lib/socket-connect.c:125
 #, c-format
 msgid "Error: Cannot set close on exec flag: %s\n"
 msgstr "འཛོལ་བ: exec ཟུར་རྟགས་ %s འདི་ལུ་ཁ་བསྡམཧ་ནིའི་གཞི་སྒྲིག་འབད་མི་བཏུབ།\n"
 
-#: ../lib/protocols.c:2521
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "%s:%d ལུ་མཐུད་ནུག།\n"
-
-#: ../lib/protocols.c:2757
-#: ../lib/protocols.c:2834
-#: ../lib/sshv2.c:435
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "%s ལུ་མཐུད་ལམ་ ངལ་མཚམས།\n"
-
-#: ../lib/protocols.c:2904
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr "སོ་ཀེཊི་ཟུར་རྟགས་ཚུ་  %s ཐོབ་མི་ཚུགས།\n"
-
-#: ../lib/protocols.c:2918
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "འགག་ནི་མེད་པའི་  %s ལུ་སོ་ཀེཊི་གཞི་སྒྲིག་འབད་མི་བཏུབ།\n"
-
-#: ../lib/protocols.c:3064
-#, c-format
-msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
-msgstr "འཛོལ་བ: ཐག་རིང་གི་ས་ཁོངས་  %s གི་མཐུད་ལམ་བཏོག་ནུག། སླར་རྩོལ་འདི་མང་ཐོ་ལུ་ལྷོད་ཚར་ཡི་...བཤོལ་བཞག་དོ།\n"
-
-#: ../lib/protocols.c:3072
-#, c-format
-msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
-msgstr "འཛོལ་བ: ཐག་རིང་གི་ས་ཁོངས་ %s འདི་མཐུད་ལམ་བཏོག་ནུག། %d སྐར་ཆ་ཚུ་ནང་སླར་མཐུད་འབད་འོང་།\n"
-
-#: ../lib/pty.c:301
+#: lib/pty.c:300
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "པི་ཊི་ཝའི་ %s: %s ཨམ་འདི་ཁ་ཕྱེ་མི་བཏུབ།\n"
 
-#: ../lib/pty.c:309
+#: lib/pty.c:308
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "སོ་ཀེཊི་ཟུང་ %s འདི་གསར་བསྐྲུན་འབད་མི་བཏུབ།\n"
 
-#: ../lib/pty.c:338
+#: lib/pty.c:337
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "འཛོལ་བ: ཨེསི་ཨེསི་ཨེཆ་  %s འདི་ལག་ལེན་འཐབ་མི་བཏུབ།\n"
 
-#: ../lib/pty.c:354
+#: lib/pty.c:353
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "གཞན་ལས་སྦྱོར་ %s འདི་ཁ་སྤེལ་མི་བཏུབ།\n"
 
-#: ../lib/rfc2068.c:30
-#: ../lib/rfc959.c:47
+#: lib/rfc2068.c:29 lib/rfc959.c:46
 msgid "Proxy hostname:"
 msgstr "པོརོག་སི་ཧོསཊི་མིང:"
 
-#: ../lib/rfc2068.c:32
-#: ../lib/rfc959.c:49
+#: lib/rfc2068.c:31 lib/rfc959.c:48
 msgid "Firewall hostname"
 msgstr "ཕ་ཡེར་ཝཱལ་ཧོསཊི་མིང་།"
 
-#: ../lib/rfc2068.c:33
-#: ../lib/rfc959.c:50
+#: lib/rfc2068.c:32 lib/rfc959.c:49
 msgid "Proxy port:"
 msgstr "པོརོག་སི་འདྲེན་ལམ:"
 
-#: ../lib/rfc2068.c:35
-#: ../lib/rfc959.c:52
+#: lib/rfc2068.c:34 lib/rfc959.c:51
 msgid "Port to connect to on the firewall"
 msgstr "ཕ་ཡེར་ཝཱལ་འདི་གུ་ལུ་མཐུད་ནི་གི་འདྲེན་ལམ།"
 
-#: ../lib/rfc2068.c:36
-#: ../lib/rfc959.c:53
+#: lib/rfc2068.c:35 lib/rfc959.c:52
 msgid "Proxy username:"
 msgstr "པོརོག་སི་ལག་ལེན་པའི་མིང:"
 
-#: ../lib/rfc2068.c:38
-#: ../lib/rfc959.c:55
+#: lib/rfc2068.c:37 lib/rfc959.c:54
 msgid "Your firewall username"
 msgstr "ཁྱོད་ཀྱི་ཕ་ཡེར་ཝཱལ་ལག་ལེན་པའི་མིང་།"
 
-#: ../lib/rfc2068.c:39
-#: ../lib/rfc959.c:56
+#: lib/rfc2068.c:38 lib/rfc959.c:55
 msgid "Proxy password:"
 msgstr "པོརོག་སི་ཆོག་ཡིག:"
 
-#: ../lib/rfc2068.c:41
-#: ../lib/rfc959.c:58
+#: lib/rfc2068.c:40 lib/rfc959.c:57
 msgid "Your firewall password"
 msgstr "ཁྱོད་ཀྱི་ཕ་ཡེར་ཝཱལ་ཆོག་ཡིག།"
 
-#: ../lib/rfc2068.c:43
+#: lib/rfc2068.c:42
 msgid "Use HTTP/1.1"
 msgstr "ཨེཆ་ཊིཊི་པི་/ ༡.༡ ལག་ལེན་འཐབ།"
 
-#: ../lib/rfc2068.c:46
+#: lib/rfc2068.c:45
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "ཁྱོད་ ཨེཆ་ཊི་ཊི་པི་/ ༡.༡ ཡང་ན་ ཨེཆ་ཊི་ཊི་པི་/ ༡.༠ ལག་ལེན་འཐབ་ནི་ཨིན་ན།"
 
-#: ../lib/rfc2068.c:151
-#: ../lib/rfc2068.c:843
+#: lib/rfc2068.c:150 lib/rfc2068.c:839
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -949,442 +907,533 @@ msgstr ""
 "སར་བར་ལས་ལན་ཕྱི་འགྱུར་ལེན་ནུག་ མཐུད་ལམ་བཏོག་དོ་\n"
 " ཐག་རིང་གི་སར་བར་འདི་གིས་སླར་ལོག་འབད་བའི་ནུས་མེད་དུམ་བུ་གི་ཚད་ '%s'\n"
 
-#: ../lib/rfc2068.c:255
-#: ../lib/rfc959.c:679
-#: ../lib/sshv2.c:1219
+#: lib/rfc2068.c:254 lib/rfc959.c:678 lib/sshv2.c:1244
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "ས་ཁོངས་ %s ལས་མཐུད་ལམ་བཏོག་དོ།\n"
 
-#: ../lib/rfc2068.c:304
+#: lib/rfc2068.c:300
 msgid "Starting the file transfer at offset "
 msgstr "པར་ལེན་ལུ་ཡིག་སྣོད་གནས་སོར་འདི་འགོ་བཙུགས་དོ།"
 
-#: ../lib/rfc2068.c:325
+#: lib/rfc2068.c:321
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "ཡིག་སྣོད་ %s འདི་སླར་འདྲེན་འབད་མི་བཏུབ།\n"
 
-#: ../lib/rfc2068.c:424
-#: ../lib/sshv2.c:1301
+#: lib/rfc2068.c:420 lib/sshv2.c:1326
 msgid "Retrieving directory listing...\n"
 msgstr "སྣོད་ཐོ་ཐོ་བཀོད་འབད་ནི་ལུ་སླར་འདྲེན་འབད་དོ་...\n"
 
-#: ../lib/rfc2068.c:819
-#: ../lib/sshv2.c:895
+#: lib/rfc2068.c:815 lib/sshv2.c:894
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "སར་བར་ལས་ལན་ཕྱི་འགྱུར་ལེན་ནུག་ མཐུད་ལམ་བཏོག་དོ་\n"
 
-#: ../lib/rfc959.c:27
+#: lib/rfc959.c:26
 msgid "SITE command"
 msgstr "ས་ཁོངས་ཀྱི་བརྡ་བཀོད།"
 
-#: ../lib/rfc959.c:28
+#: lib/rfc959.c:27
 msgid "user@host"
 msgstr "user@host"
 
-#: ../lib/rfc959.c:29
+#: lib/rfc959.c:28
 msgid "user@host:port"
 msgstr "user@host:port"
 
-#: ../lib/rfc959.c:30
+#: lib/rfc959.c:29
 msgid "AUTHENTICATE"
 msgstr "བདེན་བཤད་འབད་ནི།"
 
-#: ../lib/rfc959.c:31
+#: lib/rfc959.c:30
 msgid "user@host port"
 msgstr "user@host port"
 
-#: ../lib/rfc959.c:32
+#: lib/rfc959.c:31
 msgid "user@host NOAUTH"
 msgstr "user@host NOAUTH"
 
-#: ../lib/rfc959.c:33
+#: lib/rfc959.c:32
 msgid "HTTP Proxy"
 msgstr "ཨེཆ་ཊི་ཊི་པི་ པོརོག་སི་"
 
-#: ../lib/rfc959.c:34
+#: lib/rfc959.c:33
 msgid "Custom"
 msgstr "སྲོལ་སྒྲིག།"
 
-#: ../lib/rfc959.c:43
+#: lib/rfc959.c:42
 msgid "Email address:"
 msgstr "གློག་འཕྲིན་ཁ་བྱང:"
 
-#: ../lib/rfc959.c:45
-msgid "This is the password that will be used whenever you log into a remote FTP server as anonymous"
-msgstr "འ་ནི་ཆོག་ཡིག་འདི་ནམ་རང་འབད་རུང་ཁྱོད་ཀྱིས་མིང་མེདཔ་སྦེ་ཐག་རིང་གི་ཨེཕ་ཊི་པི་སར་བར་ནང་ལུ་ནང་བསྐྱོད་འབདཝ་ད་ལག་ལེན་འཐབ་ནི་ཨིན།"
+#: lib/rfc959.c:44
+msgid ""
+"This is the password that will be used whenever you log into a remote FTP "
+"server as anonymous"
+msgstr ""
+"འ་ནི་ཆོག་ཡིག་འདི་ནམ་རང་འབད་རུང་ཁྱོད་ཀྱིས་མིང་མེདཔ་སྦེ་ཐག་རིང་གི་ཨེཕ་ཊི་པི་སར་བར་ནང་ལུ་ནང་བསྐྱོད་"
+"འབདཝ་ད་ལག་ལེན་འཐབ་ནི་ཨིན།"
 
-#: ../lib/rfc959.c:59
+#: lib/rfc959.c:58
 msgid "Proxy account:"
 msgstr "པོརོག་སི་རྩིས་ཐོ:"
 
-#: ../lib/rfc959.c:61
+#: lib/rfc959.c:60
 msgid "Your firewall account (optional)"
 msgstr "ཁྱོད་ཀྱི་ཕ་ཡེར་ཝཱལ་རྩིས་ཐོ་གི་ (གདམ་ཁ་ཅན)"
 
-#: ../lib/rfc959.c:63
+#: lib/rfc959.c:62
 msgid "Proxy server type:"
 msgstr "པོརོག་སི་སར་བར་གྱི་དབྱེ་བ:"
 
-#: ../lib/rfc959.c:66
+#: lib/rfc959.c:65
 #, no-c-format
-msgid "This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"
-msgstr "ཁྱོད་ཀྱི་པོརོག་སི་སར་བར་འདི་གིས་ནང་བསྐྱོད་འབད་ནི་ལུ་ང་བཅས་ལས་ག་དེ་སྦེ་རེ་བ་བསྐྱེདཔ་ཨིན་ན་འ་ནི་འདི་གིས་གསལ་བཀོད་འབདཝ་ཨིན། ཚུལ་ལྡན་གནད་སྡུད་མཉམ་ཚབ་བཙུགས་འབད་ནི་ཨིན་མི་ % དེ་གིས་སྔ་གོང་ལས་གཏན་བཟོ་འབད་ཡོད་མི་ཡིག་འབྲུ་གཉིས་ཀྱི་ཚབ་མ་ཡིག་རྒྱུན་འདི་ཁྱོད་ཀྱིས་གསལ་བཀོད་འབད་ཚུགས། ཡིག་འབྲུ་དང་པམ་འདི་ཡང་ཅིན་པོརོག་སི་གི་དོན་ལུ་པི་འོང་ནི་དང་ ཡང་ན་ ཨེཕ་ཊི་པི་སར་བར་འདི་གི་ཧོསཊི་གི་དོན་ལུ་ཨེཆ་འོང་ནི་ཨིན། ཡིག་འབྲུ་གཉིས་པམ་འདི་ ཡུ་ (ལག་ལེན་པ་), པི (རྩིས་སྤྲོད་), ཨེཆ་ (ཧོསཊི་) ,ཨོ་ (འདྲེན་ལམ་),ཡང་ན་ཨེ་(རྩིས་ཐོ་)འོང་ནི་ཨིན། དཔེར་བརྗོད་བཀོད་པ་ཅིན་ པོརོག་སི་ལག་ལེན་པ་འདི་གསལ་བཀོད་འབད་ནི་ལུ་ ཁྱོད་ཀྱ ས་ %pu ནང་ཡིག་དཔར་རྐྱབས་ཚུགས།"
+msgid ""
+"This specifies how your proxy server expects us to log in. You can specify a "
+"2 character replacement string prefixed by a % that will be replaced with "
+"the proper data. The first character can be either p for proxy or h for the "
+"host of the FTP server. The second character can be u (user), p (pass), h "
+"(host), o (port) or a (account). For example, to specify the proxy user, you "
+"can you type in %pu"
+msgstr ""
+"ཁྱོད་ཀྱི་པོརོག་སི་སར་བར་འདི་གིས་ནང་བསྐྱོད་འབད་ནི་ལུ་ང་བཅས་ལས་ག་དེ་སྦེ་རེ་བ་བསྐྱེདཔ་ཨིན་ན་འ་ནི་འདི་གིས་"
+"གསལ་བཀོད་འབདཝ་ཨིན། ཚུལ་ལྡན་གནད་སྡུད་མཉམ་ཚབ་བཙུགས་འབད་ནི་ཨིན་མི་ % དེ་གིས་སྔ་གོང་ལས་གཏན་བཟོ་"
+"འབད་ཡོད་མི་ཡིག་འབྲུ་གཉིས་ཀྱི་ཚབ་མ་ཡིག་རྒྱུན་འདི་ཁྱོད་ཀྱིས་གསལ་བཀོད་འབད་ཚུགས། ཡིག་འབྲུ་དང་པམ་འདི་ཡང་"
+"ཅིན་པོརོག་སི་གི་དོན་ལུ་པི་འོང་ནི་དང་ ཡང་ན་ ཨེཕ་ཊི་པི་སར་བར་འདི་གི་ཧོསཊི་གི་དོན་ལུ་ཨེཆ་འོང་ནི་ཨིན། ཡིག་"
+"འབྲུ་གཉིས་པམ་འདི་ ཡུ་ (ལག་ལེན་པ་), པི (རྩིས་སྤྲོད་), ཨེཆ་ (ཧོསཊི་) ,ཨོ་ (འདྲེན་ལམ་),ཡང་ན་ཨེ་(རྩིས་"
+"ཐོ་)འོང་ནི་ཨིན། དཔེར་བརྗོད་བཀོད་པ་ཅིན་ པོརོག་སི་ལག་ལེན་པ་འདི་གསལ་བཀོད་འབད་ནི་ལུ་ ཁྱོད་ཀྱ ས་ %pu "
+"ནང་ཡིག་དཔར་རྐྱབས་ཚུགས།"
 
-#: ../lib/rfc959.c:69
+#: lib/rfc959.c:68
 msgid "Ignore PASV address"
 msgstr "པི་ཨེ་ཨེསི་ཝི་ ཁ་བྱང་འདི་སྣང་མེད་བཞག།"
 
-#: ../lib/rfc959.c:72
-msgid "If this is enabled, then the remote FTP server's PASV IP address field will be ignored and the host's IP address will be used instead. This is often needed for routers giving their internal rather then their external IP address in a PASV reply."
-msgstr "འ་ནི་འདི་ལྕོགས་ཅན་ཨིན་པ་ཅིན་ དེ་ལས་ཐག་རིང་གི་ ཨེཕ་ཊི་པི་ སར་བར་ཚུ་ པི་ཨེ་ཨེསི་ཝི་ ཨའི་པི་ ཁ་བྱང་གི་ས་སྒོ་འདི་སྣང་མེད་བཞག་ནི་དང་ཚབ་ལུ་ཧོསཊི་ཨའི་པི་ཁ་བྱང་འདི་ལག་ལེན་འཐབ་འོང་། འ་ནི་འདི་འཕྲལ་འཕྲལ་རང་རོ་ཊར་ཚུ་གིས་ པི་ཨེ་ཨེསི་ཝི་ ལན་གསལ་ནང་ཁོང་གི་ཕྱིའི་ཨའི་པི་ཁ་བྱང་ལས་ལྷག་འདི་ནང་འཁོད་ཨའི་པི་ཁ་བྱང་འདི་འབྱིན་ནིའི་དོན་ལུ་དགོཔ་ཨིན།"
+#: lib/rfc959.c:71
+msgid ""
+"If this is enabled, then the remote FTP server's PASV IP address field will "
+"be ignored and the host's IP address will be used instead. This is often "
+"needed for routers giving their internal rather then their external IP "
+"address in a PASV reply."
+msgstr ""
+"འ་ནི་འདི་ལྕོགས་ཅན་ཨིན་པ་ཅིན་ དེ་ལས་ཐག་རིང་གི་ ཨེཕ་ཊི་པི་ སར་བར་ཚུ་ པི་ཨེ་ཨེསི་ཝི་ ཨའི་པི་ ཁ་བྱང་གི་"
+"ས་སྒོ་འདི་སྣང་མེད་བཞག་ནི་དང་ཚབ་ལུ་ཧོསཊི་ཨའི་པི་ཁ་བྱང་འདི་ལག་ལེན་འཐབ་འོང་། འ་ནི་འདི་འཕྲལ་འཕྲལ་རང་"
+"རོ་ཊར་ཚུ་གིས་ པི་ཨེ་ཨེསི་ཝི་ ལན་གསལ་ནང་ཁོང་གི་ཕྱིའི་ཨའི་པི་ཁ་བྱང་ལས་ལྷག་འདི་ནང་འཁོད་ཨའི་པི་ཁ་བྱང་"
+"འདི་འབྱིན་ནིའི་དོན་ལུ་དགོཔ་ཨིན།"
 
-#: ../lib/rfc959.c:74
+#: lib/rfc959.c:73
 msgid "Passive file transfers"
 msgstr "བྱ་ཡུལ་གྱི་ཡིག་སྣོད་གནས་སོར་ཚུ།"
 
-#: ../lib/rfc959.c:77
-msgid "If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."
-msgstr "འ་ནི་འདི་ལྕོགས་ཅན་ཨིན་པ་ཅིན་ དེ་ལས་ཐག་རིང་གི་ ཨེཕ་ཊི་པི་སར་བར་འདི་གིས་གནད་སྡུད་མཐུད་ལམ་གྱི་དོན་ལུ་འདྲེན་ལམ་འདི་ཁ་ཕྱེ་འོང་། ཁྱོད་ཕ་ཡེར་ཝཱལ་གྱི་རྒྱབ་ཁར་ཡོད་པ་ཅིན་ ཁྱོད་ཀྱིས་འ་ནི་འདི་ཡོངས་ཁྱབ་སྦེ་ལྕོགས་ཅན་བཟོ་དགོ་ འདི་ལུ་རྒྱབ་སྐྱོར་མ་འབད་བའི་ ཨེཕ་ཊི་པི་ སར་བར་རྙིངམ་འདི་ལུ་མ་མཐུད་ཚུན་ཚོད་ཁྱོད་ཀྱིས་འ་ནི་འདི་ལྕོགས་ཅན་སྦེ་བཞག་ནི་ལུ་གནས་སྐབས་ལེགས་ཤོམ་ཨིན། འ་ནི་འདི་ལྕོགས་མིན་ཐལ་ཡོད་པ་ཅིན་ དེ་ལས་ ཇི་ཨེཕ་ཊི་པི་ འདི་གིས་ཞབས་ཏོག་སྤྱོད་མི་གི་ཕྱོགས་ལུ་འདྲེན་ལམ་ཁ་ཕྱེ་ནི་དང་ཐག་རིང་གི་སར་བར་འདི་གིས་འདི་ལུ་མཐུད་ནི་ལུ་དཔའ་བཅམ་འོང་།"
+#: lib/rfc959.c:76
+msgid ""
+"If this is enabled, then the remote FTP server will open up a port for the "
+"data connection. If you are behind a firewall, you will need to enable this. "
+"Generally, it is a good idea to keep this enabled unless you are connecting "
+"to an older FTP server that doesn't support this. If this is disabled, then "
+"gFTP will open up a port on the client side and the remote server will "
+"attempt to connect to it."
+msgstr ""
+"འ་ནི་འདི་ལྕོགས་ཅན་ཨིན་པ་ཅིན་ དེ་ལས་ཐག་རིང་གི་ ཨེཕ་ཊི་པི་སར་བར་འདི་གིས་གནད་སྡུད་མཐུད་ལམ་གྱི་དོན་ལུ་"
+"འདྲེན་ལམ་འདི་ཁ་ཕྱེ་འོང་། ཁྱོད་ཕ་ཡེར་ཝཱལ་གྱི་རྒྱབ་ཁར་ཡོད་པ་ཅིན་ ཁྱོད་ཀྱིས་འ་ནི་འདི་ཡོངས་ཁྱབ་སྦེ་ལྕོགས་ཅན་"
+"བཟོ་དགོ་ འདི་ལུ་རྒྱབ་སྐྱོར་མ་འབད་བའི་ ཨེཕ་ཊི་པི་ སར་བར་རྙིངམ་འདི་ལུ་མ་མཐུད་ཚུན་ཚོད་ཁྱོད་ཀྱིས་འ་ནི་འདི་"
+"ལྕོགས་ཅན་སྦེ་བཞག་ནི་ལུ་གནས་སྐབས་ལེགས་ཤོམ་ཨིན། འ་ནི་འདི་ལྕོགས་མིན་ཐལ་ཡོད་པ་ཅིན་ དེ་ལས་ ཇི་ཨེཕ་ཊི་"
+"པི་ འདི་གིས་ཞབས་ཏོག་སྤྱོད་མི་གི་ཕྱོགས་ལུ་འདྲེན་ལམ་ཁ་ཕྱེ་ནི་དང་ཐག་རིང་གི་སར་བར་འདི་གིས་འདི་ལུ་མཐུད་ནི་"
+"ལུ་དཔའ་བཅམ་འོང་།"
 
-#: ../lib/rfc959.c:79
+#: lib/rfc959.c:78
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "ཐག་རིང་གི་བརྡ་མཚོན་འབྲེལ་ལམ་ (LIST -L) ཚུ་མོས་མཐུན་བཟོ།"
 
-#: ../lib/rfc959.c:82
-msgid "The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"
-msgstr "ཐག་རིང་གི་ ཨེཕ་ཊི་པི་ སར་བར་འདི་གིས་ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་འདི་ནང་གི་བརྡ་མཚོན་འབྲེལ་ལམ་ཚུ་མོས་མཐུན་འབད་ནི་ལུ་དཔའ་བཅམ་འོང་། ཡོངས་ཁྱབ་ལུ་ འ་ནི་འདི་ལྕོགས་ཅན་འབད་བཞག་ནི་ལུ་གནས་སྐབས་ལེགས་ཤོམ་ཨིན། ཁྱོད་ཀྱིས་འ་ནི་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་དགོ་པའི་ཆུ་ཚོད་འདི་ཐག་རིང་གི་ ཨེཕ་ཊི་པི་ སར་བར་འདི་གིས་ -ཨེལ་ གདམ་ཁ་འདི་ཐོ་ཡིག་ལུ་རྒྱབ་སྐྱོར་མ་འབདཝ་ད་ཨིན།"
+#: lib/rfc959.c:81
+msgid ""
+"The remote FTP server will attempt to resolve symlinks in the directory "
+"listings. Generally, this is a good idea to leave enabled. The only time you "
+"will want to disable this is if the remote FTP server doesn't support the -L "
+"option to LIST"
+msgstr ""
+"ཐག་རིང་གི་ ཨེཕ་ཊི་པི་ སར་བར་འདི་གིས་ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་འདི་ནང་གི་བརྡ་མཚོན་འབྲེལ་ལམ་ཚུ་མོས་"
+"མཐུན་འབད་ནི་ལུ་དཔའ་བཅམ་འོང་། ཡོངས་ཁྱབ་ལུ་ འ་ནི་འདི་ལྕོགས་ཅན་འབད་བཞག་ནི་ལུ་གནས་སྐབས་ལེགས་ཤོམ་"
+"ཨིན། ཁྱོད་ཀྱིས་འ་ནི་འདི་ལྕོགས་མིན་བཟོ་ནི་ལུ་དགོ་པའི་ཆུ་ཚོད་འདི་ཐག་རིང་གི་ ཨེཕ་ཊི་པི་ སར་བར་འདི་གིས་ -"
+"ཨེལ་ གདམ་ཁ་འདི་ཐོ་ཡིག་ལུ་རྒྱབ་སྐྱོར་མ་འབདཝ་ད་ཨིན།"
 
-#: ../lib/rfc959.c:84
+#: lib/rfc959.c:83
 msgid "Transfer files in ASCII mode"
 msgstr "ཨེ་ཨེསི་སི་ཨའི་ཨའི་ ཐབས་ལམ་ནང་ལུ་ཡིག་སྣོད་ཚུ་གནས་སོར་འབད།"
 
-#: ../lib/rfc959.c:87
-msgid "If you are transfering a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transfering from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."
-msgstr "ཁྱོད་ཀྱིས་ ཚིག་ཡིག་ཡིག་སྣོད་འདི་ཝིན་ཌོསི་ནང་ལས་ལུགས་ལྡོག་ལུ་དང་ ཡང་ཅིན་ ཡུ་ནིགསི་སྒྲོམ་ལུ་གནས་སོར་འབད་བ་ཅིན་ དེ་ལས་ཁྱོད་ཀྱིས་འ་ནི་འདི་ལྕོགས་ཅན་བཟོ་དགོ། རིམ་ལུགས་རེ་རེ་གིས་ཚིག་ཡིག་ཡིག་སྣོད་ཚུ་གི་དོན་ལུ་གྲལ་ཐིག་གསརཔ་སོ་སོ་སྦེ་ཁྱད་ཚབ་འབདཝ་ཨིན། ཁྱོད་ཀྱིས་ཡུ་ནིགསི་ལས་ཡུ་ནིགསི་ལུ་གནས་སོར་འབདཝ་ཨིན་པ་ཅིན་ཁྱོད་ཀྱིས་འ་ནི་འིད་ལྕོགས་མིན་བཟོ་དགོ།"
+#: lib/rfc959.c:86
+#, fuzzy
+msgid ""
+"If you are transferring a text file from Windows to UNIX box or vice versa, "
+"then you should enable this. Each system represents newlines differently for "
+"text files. If you are transferring from UNIX to UNIX, then it is safe to "
+"leave this off. If you are downloading binary data, you will want to disable "
+"this."
+msgstr ""
+"ཁྱོད་ཀྱིས་ ཚིག་ཡིག་ཡིག་སྣོད་འདི་ཝིན་ཌོསི་ནང་ལས་ལུགས་ལྡོག་ལུ་དང་ ཡང་ཅིན་ ཡུ་ནིགསི་སྒྲོམ་ལུ་གནས་སོར་འབད་"
+"བ་ཅིན་ དེ་ལས་ཁྱོད་ཀྱིས་འ་ནི་འདི་ལྕོགས་ཅན་བཟོ་དགོ། རིམ་ལུགས་རེ་རེ་གིས་ཚིག་ཡིག་ཡིག་སྣོད་ཚུ་གི་དོན་ལུ་གྲལ་"
+"ཐིག་གསརཔ་སོ་སོ་སྦེ་ཁྱད་ཚབ་འབདཝ་ཨིན། ཁྱོད་ཀྱིས་ཡུ་ནིགསི་ལས་ཡུ་ནིགསི་ལུ་གནས་སོར་འབདཝ་ཨིན་པ་ཅིན་ཁྱོད་"
+"ཀྱིས་འ་ནི་འིད་ལྕོགས་མིན་བཟོ་དགོ།"
 
-#: ../lib/rfc959.c:381
-#: ../lib/rfc959.c:390
-#: ../lib/rfc959.c:401
-#: ../lib/rfc959.c:855
-#: ../lib/rfc959.c:1449
+#: lib/rfc959.c:380 lib/rfc959.c:389 lib/rfc959.c:400 lib/rfc959.c:848
+#: lib/rfc959.c:1413
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "ལན་ནུས་མེད་ '%c' སར་བར་ལས་འཐོབ་ནུག།\n"
 
-#: ../lib/rfc959.c:745
-#: ../lib/rfc959.c:755
+#: lib/rfc959.c:705 lib/socket-connect-gethostbyname.c:119
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "IPv4 སོ་ཀེཊི་ %s འདི་གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ནུག།\n"
+
+#: lib/rfc959.c:744 lib/rfc959.c:754
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "པི་ཨེ་ཨེསི་ཝི་ ལན་  '%s'ནང་ལུ་ཨའི་པི་ཁ་བྱང་འཚོལ་མ་ཐོབ།'\n"
 
-#: ../lib/rfc959.c:781
+#: lib/rfc959.c:774
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr "པི་ཨེ་ཨེསི་ཝི་ ལན་ནང་ལུ་ཨའི་པི་ཁ་བྱང་སྣང་མེད་བཞག་དོ་ %d.%d %d.%d:%d ལུ་མཐུད་དོ།\n"
 
-#: ../lib/rfc959.c:792
-#: ../lib/rfc959.c:953
+#: lib/rfc959.c:785 lib/rfc959.c:944
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "གནད་སྡུད་མཐུད་ལམ་ %s་གསར་བསྐྲུན་འབད་དོ།\n"
 
-#: ../lib/rfc959.c:804
-#: ../lib/rfc959.c:825
-#: ../lib/rfc959.c:978
+#: lib/rfc959.c:797 lib/rfc959.c:818 lib/rfc959.c:969
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "སོ་ཀེཊི་གི་མིང་%s འདི་ཐོབ་མི་ཚུགས།\n"
 
-#: ../lib/rfc959.c:815
-#: ../lib/rfc959.c:968
+#: lib/rfc959.c:808 lib/rfc959.c:959
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "འདྲེན་ལམ་ %s འདི་བསྡམས་མི་བཏུབ།\n"
 
-#: ../lib/rfc959.c:834
-#: ../lib/rfc959.c:987
+#: lib/rfc959.c:827 lib/rfc959.c:978
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "འདྲེན་ལམ་ %d: %s ལུ་ཉན་མི་བཏུབ།\n"
 
-#: ../lib/rfc959.c:883
+#: lib/rfc959.c:875
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr " IPv6 སོ་ཀེཊི་ %s འདི་གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ནུག།\n"
 
-#: ../lib/rfc959.c:903
-msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+#: lib/rfc959.c:894
+msgid ""
+"Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "འཛོལ་བ: ང་བཅས་ཚུ་ IPv6 མཐུད་དོ་བཟུམ་མི་མཐོང་བས། མཐུད་ལམ་བར་བཤོལ་འབད་དོ།\n"
 
-#: ../lib/rfc959.c:931
-#: ../lib/rfc959.c:940
+#: lib/rfc959.c:922 lib/rfc959.c:931
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "EPSV ལན་ '%s'འདི་ནུས་མེད།\n"
 
-#: ../lib/rfc959.c:997
+#: lib/rfc959.c:988
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "ཉེ་གནས་སོ་ཀེཊི་ %s གི་ཁ་བྱང་ཐོབ་མ་ཚུགས།\n"
 
-#: ../lib/rfc959.c:1084
+#: lib/rfc959.c:1075
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "སར་བར་ %s ལས་མཐུད་ལམ་དང་ལེན་འབད་མི་བཏུབ།\n"
 
-#: ../lib/rfc959.c:1619
+#: lib/rfc959.c:1583
 msgid "total"
 msgstr "བསྡོམས།"
 
-#: ../lib/rfc959.c:1621
+#: lib/rfc959.c:1585
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "ཉེན་བརྡ་: ཐོ་བཀོད་འབད་ནིའི་ %s འདི་མིང་དཔྱད་འབད་མི་བཏུབ།\n"
 
-#: ../lib/sshv2.c:28
+#: lib/socket-connect-getaddrinfo.c:76 lib/socket-connect-gethostbyname.c:63
+#, c-format
+msgid "Looking up %s\n"
+msgstr "%s ལུ་བལྟ་དོ།\n"
+
+#: lib/socket-connect-getaddrinfo.c:81 lib/socket-connect-gethostbyname.c:68
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "ཧོསཊི་མིང་ %s: %s ལུ་བལྟ་མི་ཚུགས།\n"
+
+#: lib/socket-connect-getaddrinfo.c:114
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "སོ་ཀེཊི་ %s གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ནུག།\n"
+
+#: lib/socket-connect-getaddrinfo.c:120 lib/socket-connect-gethostbyname.c:133
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "%s:%d འབད་རྩོལ་བསྐྱེད་དོ།\n"
+
+#: lib/socket-connect-getaddrinfo.c:126 lib/socket-connect-gethostbyname.c:140
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr " %s: %s ལུ་མཐུད་མི་བཏུབ།\n"
+
+#: lib/socket-connect-getaddrinfo.c:151 lib/socket-connect-gethostbyname.c:158
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "%s:%d ལུ་མཐུད་ནུག།\n"
+
+#: lib/socket-connect-gethostbyname.c:100 lib/sshv2.c:1167
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr "ཞབས་ཏོག་མིང་ %s/tcp ལུ་བལྟ་མི་ཚུགས། ཁྱོད་ཀྱི་ཞབས་ཏོག་ཚུ་གི་ཡིག་སྣོད་ཞིབ་དཔྱད་འབད་གནང་།\n"
+
+#: lib/sockutils.c:189 lib/sockutils.c:267 lib/sshv2.c:434
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "%s ལུ་མཐུད་ལམ་ ངལ་མཚམས།\n"
+
+#: lib/sockutils.c:337
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "སོ་ཀེཊི་ཟུར་རྟགས་ཚུ་  %s ཐོབ་མི་ཚུགས།\n"
+
+#: lib/sockutils.c:351
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "འགག་ནི་མེད་པའི་  %s ལུ་སོ་ཀེཊི་གཞི་སྒྲིག་འབད་མི་བཏུབ།\n"
+
+#: lib/sshv2.c:27
 msgid "SSH"
 msgstr "ཨེསི་ཨེསི་ཨེཆ།"
 
-#: ../lib/sshv2.c:31
+#: lib/sshv2.c:30
 msgid "SSH Prog Name:"
 msgstr "ཨེསི་ཨེསི་ཨེཆ་ ལས་རིམ་གྱི་མིང་:"
 
-#: ../lib/sshv2.c:33
+#: lib/sshv2.c:32
 msgid "The path to the SSH executable"
 msgstr "ཨེསི་ཨོསི་ཨེཆ་ ལག་ལེན་འཐབ་བཏུབ་མི་འདི་གི་འགྲུལ་ལམ།"
 
-#: ../lib/sshv2.c:34
+#: lib/sshv2.c:33
 msgid "SSH Extra Params:"
 msgstr "ཨེསི་ཨེསི་ཨེཆ་ ཐེབས་ཚད་བཟུང་ཚུ:"
 
-#: ../lib/sshv2.c:36
+#: lib/sshv2.c:35
 msgid "Extra parameters to pass to the SSH program"
 msgstr "ཨེསི་ཨེསི་ཨེཆ་ ལས་རིམ་འདི་ལུ་རྩིས་སྤྲོད་ནི་གི་ཐེབས་ཚད་བཟུང་ཚུ།"
 
-#: ../lib/sshv2.c:38
+#: lib/sshv2.c:37
 msgid "Need SSH User/Pass"
 msgstr "ཨེསི་ཨོསི་ཨེཆ་ ལག་ལེན་པ/རྩིས་སྤྲོད་ དགོ།"
 
-#: ../lib/sshv2.c:41
+#: lib/sshv2.c:40
 msgid "Require a username/password for SSH connections"
 msgstr "ཨེསི་ཨེསི་ཨེཆ་ མཐུད་ལམ་ཚུ་གི་དོན་ལུ་ལག་ལེན་པའི་མིང་/ཆོག་ཡིག་དགོས་མཁོ་ཡོད།"
 
-#: ../lib/sshv2.c:369
+#: lib/sshv2.c:368
 #, c-format
 msgid "Running program %s\n"
 msgstr "ལས་རིམ་ %s འདི་གཡོག་བཀོལ་དོ།\n"
 
-#: ../lib/sshv2.c:378
+#: lib/sshv2.c:377
 msgid "Enter passphrase for RSA key"
 msgstr "ཨར་ཨེསི་ཨེ་ ལྡེ་མིག་བུ་གི་དོན་ལུ་ཆོག་ཚིག་བཙུགས།"
 
-#: ../lib/sshv2.c:379
+#: lib/sshv2.c:378
 msgid "Enter passphrase for key '"
 msgstr "ལྡེ་མིག་བུ་གི་དོན་ལུ་ཆོག་ཚིག་བཙུགས།"
 
-#: ../lib/sshv2.c:380
+#: lib/sshv2.c:379
 msgid "Password"
 msgstr "ཆོག་ཚིག།"
 
-#: ../lib/sshv2.c:381
+#: lib/sshv2.c:380
 msgid "password"
 msgstr "ཆོག་ཚིག།"
 
-#: ../lib/sshv2.c:496
+#: lib/sshv2.c:495
 msgid "(yes/no)?"
 msgstr "(ཨིན་/མེན)?"
 
-#: ../lib/sshv2.c:514
+#: lib/sshv2.c:513
 msgid "Enter PASSCODE:"
 msgstr "ཆོག་རྟགས་བཙུགས:"
 
-#: ../lib/sshv2.c:518
-#: ../src/gtk/gtkui.c:142
-#: ../src/gtk/transfer.c:585
-#: ../src/gtk/transfer.c:595
+#: lib/sshv2.c:517 src/gtk/gtkui.c:141 src/gtk/transfer.c:561
+#: src/gtk/transfer.c:571
 msgid "Enter Password"
 msgstr "ཆོག་ཡིག་བཙུགས།"
 
-#: ../lib/sshv2.c:519
+#: lib/sshv2.c:518
 msgid "Enter SecurID Password:"
 msgstr "མཐའ་བཙན་ཨའི་ཌི་ཆོག་ཡིག་བཙུགས:"
 
-#: ../lib/sshv2.c:567
+#: lib/sshv2.c:566
 msgid "Error: An incorrect password was entered\n"
 msgstr "འཛོལ་བ: བདེན་མེད་ཀྱི་ཆོག་ཡིག་བཙུགས་ནུག།\n"
 
-#: ../lib/sshv2.c:596
+#: lib/sshv2.c:595
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: གནད་སྤེལ་ལམ་ལུགས་འགོ་འབྱེད།\n"
 
-#: ../lib/sshv2.c:600
+#: lib/sshv2.c:599
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: གནད་སྤེལ་ལམ་ལུགས་ཀྱི་ཐོན་རིམ་ %d\n"
 
-#: ../lib/sshv2.c:609
+#: lib/sshv2.c:608
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: ཁ་ཕྱེ་ %s\n"
 
-#: ../lib/sshv2.c:614
+#: lib/sshv2.c:613
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: བསྡམས་\n"
 
-#: ../lib/sshv2.c:618
+#: lib/sshv2.c:617
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: སྣོད་ཐོ་ཁ་ཕྱེ་ %s\n"
 
-#: ../lib/sshv2.c:623
+#: lib/sshv2.c:622
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: སྣོད་ཐོ་ལྷ\n"
 
-#: ../lib/sshv2.c:627
+#: lib/sshv2.c:626
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d:ཡིག་སྣོད་རྩ་བསྐྲད་གཏང་ %s\n"
 
-#: ../lib/sshv2.c:632
+#: lib/sshv2.c:631
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: སྣོད་ཐོ་བཟོ་ %s\n"
 
-#: ../lib/sshv2.c:637
+#: lib/sshv2.c:636
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: སྣོད་ཐོ་རྩ་བསྐྲོད་གཏང་ %s\n"
 
-#: ../lib/sshv2.c:642
+#: lib/sshv2.c:641
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: འགྲུལ་ལམ་ངོ་མ་ %s\n"
 
-#: ../lib/sshv2.c:647
+#: lib/sshv2.c:646
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: ཡིག་སྣོད་ཀྱི་ཁྱད་ཆོས་ཚུ་\n"
 
-#: ../lib/sshv2.c:651
+#: lib/sshv2.c:650
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Stat %s\n"
 
-#: ../lib/sshv2.c:671
+#: lib/sshv2.c:670
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: ../lib/sshv2.c:676
+#: lib/sshv2.c:675
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: ../lib/sshv2.c:690
-#: ../src/gtk/bookmarks.c:1042
-#: ../src/gtk/bookmarks.c:1292
-#: ../src/gtk/chmod_dialog.c:253
-#: ../src/gtk/gtkui_transfer.c:376
-#: ../src/gtk/misc-gtk.c:995
-#: ../src/gtk/options_dialog.c:1205
-#: ../src/gtk/options_dialog.c:1437
+#: lib/sshv2.c:689 src/gtk/bookmarks.c:1041 src/gtk/bookmarks.c:1291
+#: src/gtk/chmod_dialog.c:252 src/gtk/gtkui_transfer.c:375
+#: src/gtk/misc-gtk.c:994 src/gtk/options_dialog.c:1204
+#: src/gtk/options_dialog.c:1436
 msgid "OK"
 msgstr "བཏུབ།"
 
-#: ../lib/sshv2.c:693
+#: lib/sshv2.c:692
 msgid "EOF"
 msgstr "ཨི་ཨོ་ཨེཕ།"
 
-#: ../lib/sshv2.c:696
+#: lib/sshv2.c:695
 msgid "No such file or directory"
 msgstr "འདི་བཟུམ་མའི་ཡིག་སྣོད་ ཡང་ན་ སྣོད་ཐོ་མིན་འདུག།"
 
-#: ../lib/sshv2.c:699
+#: lib/sshv2.c:698
 msgid "Permission denied"
 msgstr "གནང་བ་ཉན་མ་བཏུབ།"
 
-#: ../lib/sshv2.c:702
+#: lib/sshv2.c:701
 msgid "Failure"
 msgstr "འཐུས་ཤོར།"
 
-#: ../lib/sshv2.c:705
+#: lib/sshv2.c:704
 msgid "Bad message"
 msgstr "འཕྲིན་དོན་བྱང་ཉེས།"
 
-#: ../lib/sshv2.c:708
+#: lib/sshv2.c:707
 msgid "No connection"
 msgstr "མཐུད་ལམ་མིན་འདུག།"
 
-#: ../lib/sshv2.c:711
+#: lib/sshv2.c:710
 msgid "Connection lost"
 msgstr "མཐུད་ལམ་བརླག་སྟོར་ཞུགས་ནུག།"
 
-#: ../lib/sshv2.c:714
+#: lib/sshv2.c:713
 msgid "Operation unsupported"
 msgstr "བཀོལ་སྤྱོད་ལུ་རྒྱབ་སྐྱོར་མིན་འདུག།"
 
-#: ../lib/sshv2.c:717
+#: lib/sshv2.c:716
 msgid "Unknown message returned from server"
 msgstr "སར་བར་ལས་མ་ཤེས་པའི་འཕྲིན་དོན་སླར་ལོག་འབད་ནུག།"
 
-#: ../lib/sshv2.c:752
+#: lib/sshv2.c:751
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "འཛོལ་བ: འཕྲིན་དོན་གྱི་ཚད་ %d འདི་ན་མེད་ས་མེད་སྦོམ།\n"
 
-#: ../lib/sshv2.c:811
-#: ../lib/sshv2.c:1320
-#: ../lib/sshv2.c:1895
-#: ../lib/sshv2.c:2015
+#: lib/sshv2.c:810 lib/sshv2.c:1345 lib/sshv2.c:1837 lib/sshv2.c:1956
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "འཛོལ་བ: འཕྲིན་དོན་གྱི་ཚད་  %d སར་བར་ནང་ལས་ན་མེད་ས་མེད་སྦོམ།\n"
 
-#: ../lib/sshv2.c:817
-msgid "There was an error initializing a SSH connection with the remote server. The error message from the remote server follows:\n"
-msgstr "ཐག་རིང་གི་སར་བར་མཉམ་ ཨེསི་ཨེསི་ཨེཆ་ མཐུད་ལམ་འགོ་འབྱེད་འབདཝ་ད་འཛོལ་བ་འདུག། ཐག་རིང་གི་སར་བར་འདི་ལས་འཛོལ་བའི་འཕྲིན་དོན་རྗེས་སུ་འབྲང་དོ།\n"
+#: lib/sshv2.c:816
+msgid ""
+"There was an error initializing a SSH connection with the remote server. The "
+"error message from the remote server follows:\n"
+msgstr ""
+"ཐག་རིང་གི་སར་བར་མཉམ་ ཨེསི་ཨེསི་ཨེཆ་ མཐུད་ལམ་འགོ་འབྱེད་འབདཝ་ད་འཛོལ་བ་འདུག། ཐག་རིང་གི་སར་བར་"
+"འདི་ལས་འཛོལ་བའི་འཕྲིན་དོན་རྗེས་སུ་འབྲང་དོ།\n"
 
-#: ../lib/sshv2.c:1134
+#: lib/sshv2.c:1159
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "%s འདི་ལུ་ ཨེསི་ཨེསི་ཨེཆ་ མཐུད་ལམ་ཁ་ཕྱེ་དོ།\n"
 
-#: ../lib/sshv2.c:1186
+#: lib/sshv2.c:1211
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "ཨེསི་ཨེསི་ཨེཆ་ སར་བར་ %s ནང་ལུ་མཐར་འཁྱོལཝ་སྦེ་ནང་བསྐྱོད་འབད་ཡོད།\n"
 
-#: ../lib/sslcommon.c:31
+#: lib/sslcommon.c:30
 msgid "SSL Engine"
 msgstr "ཨེསི་ཨེསི་ཨེལ་ མ་འཕྲུལ།"
 
-#: ../lib/sslcommon.c:34
+#: lib/sslcommon.c:33
 msgid "SSL Entropy File:"
 msgstr "ཨེསི་ཨེསི་ཨེལ་ ཨིན་ཊོ་པི་ ཡིག་སྣོད:"
 
-#: ../lib/sslcommon.c:36
+#: lib/sslcommon.c:35
 msgid "SSL entropy file"
 msgstr "ཨེསི་ཨེསི་ཨེལ་ ཨིན་ཊོ་པི་ ཡིག་སྣོད།"
 
-#: ../lib/sslcommon.c:37
+#: lib/sslcommon.c:36
 msgid "Entropy Seed Length:"
 msgstr "ཨིན་ཊོ་པི་སོན་གྱི་རིང་ཚད:"
 
-#: ../lib/sslcommon.c:39
+#: lib/sslcommon.c:38
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr "ཨེསི་ཨེསི་ཨེལ་ མ་འཕྲུལ་མཉམ་སོན་བཏབ་ནི་གི་བཱའིཊི་ཚུ་གི་མང་མཐའི་ཨང་།"
 
-#: ../lib/sslcommon.c:41
-#: ../lib/sslcommon.c:43
+#: lib/sslcommon.c:40 lib/sslcommon.c:42
 msgid "Verify SSL Peer"
 msgstr "ཨེསི་ཨེསི་ཨེལ་ དོ་མཉམ་བདེན་སྦྱོར་འབད།"
 
-#: ../lib/sslcommon.c:107
+#: lib/sslcommon.c:106
 #, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
@@ -1397,137 +1446,134 @@ msgstr ""
 " དོན་ཚན་= %s\n"
 " འཛོལ་བ་%i:%s\n"
 
-#: ../lib/sslcommon.c:129
+#: lib/sslcommon.c:128
 msgid "Cannot get peer certificate\n"
 msgstr "དོ་མཉམ་ལག་ཁྱེར་ཐོབ་མི་ཚུགས།\n"
 
-#: ../lib/sslcommon.c:199
+#: lib/sslcommon.c:195
 #, c-format
-msgid "ERROR: The host in the SSL certificate (%s) does not match the host that we connected to (%s). Aborting connection.\n"
-msgstr "འཛོལ་བ: ཨེསི་ཨེསི་ཨེལ་ ལག་ཁྱེར་ (%s) ནང་གི་ཧོསཊི་འདི་ང་བཅས་ཀྱིས་ (%s) ལུ་མཐུད་ཡོད་པའི་ཧོསཊི་འདི་དང་མི་མཐུན་བས། མཐུད་ལམ་བར་བཤོལ་འབད་དོ།\n"
+msgid ""
+"ERROR: The host in the SSL certificate (%s) does not match the host that we "
+"connected to (%s). Aborting connection.\n"
+msgstr ""
+"འཛོལ་བ: ཨེསི་ཨེསི་ཨེལ་ ལག་ཁྱེར་ (%s) ནང་གི་ཧོསཊི་འདི་ང་བཅས་ཀྱིས་ (%s) ལུ་མཐུད་ཡོད་པའི་ཧོསཊི་འདི་"
+"དང་མི་མཐུན་བས། མཐུད་ལམ་བར་བཤོལ་འབད་དོ།\n"
 
-#: ../lib/sslcommon.c:306
+#: lib/sslcommon.c:312
 msgid "Cannot initialize the OpenSSL library\n"
 msgstr "ཁ་ཕྱེ་ ཨེསི་ཨེསི་ཨེལ་དཔེ་མཛོད་འདི་འགོ་འབྱེད་འབད་མི་བཏུབ།\n"
 
-#: ../lib/sslcommon.c:321
+#: lib/sslcommon.c:327
 msgid "Error loading default SSL certificates\n"
 msgstr "སྔོན་སྒྲིག་ ཨེསི་ཨེསི་ཨེལ་ ལག་ཁྱེར་ཚུ་མངོན་གསལ་འབད་ནི་ལུ་འཛོལ་བ།\n"
 
-#: ../lib/sslcommon.c:333
+#: lib/sslcommon.c:339
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "གསང་ཡིག་ཐོ་ཡིག་གཞི་སྒྲིག་འབད་ནི་ལུ་འཛོལ་བ་(ནུས་ཅན་གསང་ཡིག་ཚུ་མིན་འདུག)\n"
 
-#: ../lib/sslcommon.c:353
-#: ../lib/sslcommon.c:427
-#: ../lib/sslcommon.c:475
+#: lib/sslcommon.c:359 lib/sslcommon.c:434 lib/sslcommon.c:482
 msgid "Error: SSL engine was not initialized\n"
 msgstr "འཛོལ་བ: ཨེསི་ཨེསི་ཨེལ་མ་འཕྲུལ་འདི་འགོ་འབྱེད་མ་འབད་བས།\n"
 
-#: ../lib/sslcommon.c:370
+#: lib/sslcommon.c:376
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "ཨེསི་ཨེསི་ཨེལ་མཐུད་ལམ་གཞི་སྒྲིག་འབདཝ་ད་འཛོལ་བ་(བི་ཨའི་ཨོ་ དངོས་པོ)\n"
 
-#: ../lib/sslcommon.c:380
+#: lib/sslcommon.c:386
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "ཨེསི་ཨེསི་ཨེལ་ མཐུད་ལམ་གཞི་སྒྲིག་འབདཝ་ད་འཛོལ་བ་ (ཨེསི་ཨེསི་ཨེལ་ དངོས་པོ)\n"
 
-#: ../lib/sslcommon.c:401
+#: lib/sslcommon.c:407
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "དོ་མཉམ་ཡག་ཁྱེར་ %s མཉམ་འཛོལ་བ།\n"
 
-#: ../src/uicommon/gftpui.c:56
+#: src/uicommon/gftpui.c:60
 msgid "Operation canceled\n"
 msgstr "བཀོལ་སྤྱོད་ཆ་མེད་གཏང་ནུག།\n"
 
-#: ../src/uicommon/gftpui.c:65
+#: src/uicommon/gftpui.c:69
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "ལོག་མཐུད་ནི་ལུ་འབད་རྩོལ་མ་བསྐྱེད་ཚུན་ཚོད་ %d སྐར་ཆ་ཚུ་བསྒུག་དོ།\n"
 
-#: ../src/uicommon/gftpui.c:157
-msgid ">. If you have any questions, comments, or suggestions about this program, please feel free to email them to me. You can always find out the latest news about gFTP from my website at http://www.gftp.org/\n"
-msgstr "> ཁྱོད་ལུ་གང་རུང་གི་དྲི་བ་ཚུ་ བསམ་བཀོད་ཚུ་ ཡང་ན་ ལས་རིམ་འདི་གི་སྐོར་ལས་བསམ་འཆར་ཚུ་ཡོད་པ་ཅིན་ ང་ལུ་དེ་དེ་ཚུ་གློག་འཕྲིན་གཏང་ནི་ལུ་ཚོར་སྣང་རང་དབང་འབད་གནང་། ང་བཅས་ཀྱི་ཝེབ་ཀྱི་ས་ཁོངས་http://www.gftp.org/ ནང་ལས་ཇི་ཨེཕ་ཊི་པི་གི་སྐོར་ལས་མཐའ་འཇུག་གི་གནས་ཚུལ་འདི་ཁྱོད་ཀྱིས་ཨ་རྟག་རང་འཚོལ་ཚུགས།\n"
+#: src/uicommon/gftpui.c:160
+msgid ""
+"gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
+"This is free software, and you are welcome to redistribute it under certain "
+"conditions; for details, see the COPYING file\n"
+msgstr ""
+"ཇི་ཨེཕ་ཊི་པི་འདི་ཡང་དག་སྦེ་ཉེན་ལེན་མེད་པར་འོངམ་ཨིན་ རྒྱས་བཤད་ཀྱི་དོན་ལུ་ འདྲ་བཤུས་འབད་ནིའི་ཡིག་སྣོད་"
+"འདི་བལྟ། འ་ནི་འདི་མཉེན་ཆས་དལཝ་ཨིནམ་དང་ཁྱོད་ཀྱིས་འདི་ལོག་བཀྲམ་སྤེལ་འབད་བཏུབ་དེ་འབདཝ་ད་འོག་གི་ལམ་"
+"ལུགས་དང་འཁྲིལ་དགོ་ རྒྱས་བཤད་ཀྱི་དོན་ལུ་ འདྲ་བཤུས་འབད་ནིའི་ཡིག་སྣོད་འདི་བལྟ།\n"
 
-#: ../src/uicommon/gftpui.c:158
-msgid "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. This is free software, and you are welcome to redistribute it under certain conditions; for details, see the COPYING file\n"
-msgstr "ཇི་ཨེཕ་ཊི་པི་འདི་ཡང་དག་སྦེ་ཉེན་ལེན་མེད་པར་འོངམ་ཨིན་ རྒྱས་བཤད་ཀྱི་དོན་ལུ་ འདྲ་བཤུས་འབད་ནིའི་ཡིག་སྣོད་འདི་བལྟ། འ་ནི་འདི་མཉེན་ཆས་དལཝ་ཨིནམ་དང་ཁྱོད་ཀྱིས་འདི་ལོག་བཀྲམ་སྤེལ་འབད་བཏུབ་དེ་འབདཝ་ད་འོག་གི་ལམ་ལུགས་དང་འཁྲིལ་དགོ་ རྒྱས་བཤད་ཀྱི་དོན་ལུ་ འདྲ་བཤུས་འབད་ནིའི་ཡིག་སྣོད་འདི་བལྟ།\n"
-
-#: ../src/uicommon/gftpui.c:160
-#: ../src/gtk/menu-items.c:491
+#: src/uicommon/gftpui.c:162 src/gtk/menu-items.c:490
 msgid "Translated by"
 msgstr "གིས་སྐད་བསྒྱུར་འབད་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:207
-#: ../src/uicommon/gftpui.c:249
-#: ../src/uicommon/gftpui.c:289
-#: ../src/uicommon/gftpui.c:324
-#: ../src/uicommon/gftpui.c:359
-#: ../src/uicommon/gftpui.c:395
-#: ../src/uicommon/gftpui.c:431
-#: ../src/uicommon/gftpui.c:496
-#: ../src/uicommon/gftpui.c:577
-#: ../src/uicommon/gftpui.c:845
+#: src/uicommon/gftpui.c:209 src/uicommon/gftpui.c:251
+#: src/uicommon/gftpui.c:291 src/uicommon/gftpui.c:326
+#: src/uicommon/gftpui.c:361 src/uicommon/gftpui.c:397
+#: src/uicommon/gftpui.c:433 src/uicommon/gftpui.c:498
+#: src/uicommon/gftpui.c:579 src/uicommon/gftpui.c:849
 msgid "Error: Not connected to a remote site\n"
 msgstr "འཛོལ་བ: ཐག་རིང་གི་ས་ཁོངས་འདི་ལུ་མ་མཐུད་བས་\n"
 
-#: ../src/uicommon/gftpui.c:218
+#: src/uicommon/gftpui.c:220
 msgid "usage: chmod <mode> <file>\n"
 msgstr "ལག་ལེན་:chmod <ཐབས་ལམ་> <ཡིག་སྣོད་>\n"
 
-#: ../src/uicommon/gftpui.c:259
+#: src/uicommon/gftpui.c:261
 msgid "usage: rename <old name> <new name>\n"
 msgstr "ལག་ལེན་: བསྐྱར་མིང་བཏགས་ <མིང་རྙིངམ་> <མིང་གསརཔ་>\n"
 
-#: ../src/uicommon/gftpui.c:295
+#: src/uicommon/gftpui.c:297
 msgid "usage: delete <file>\n"
 msgstr "ལག་ལེན་: བཏོན་གཏང་ <ཡིག་སྣོད་>\n"
 
-#: ../src/uicommon/gftpui.c:330
+#: src/uicommon/gftpui.c:332
 msgid "usage: rmdir <directory>\n"
 msgstr "ལག་ལེན་: rmdir <སྣོད་ཐོ་>\n"
 
-#: ../src/uicommon/gftpui.c:365
+#: src/uicommon/gftpui.c:367
 msgid "usage: site <site command>\n"
 msgstr "ལག་ལེན་: ས་ཁོངས་ <ས་ཁོངས་བརྡ་བཀོད་>\n"
 
-#: ../src/uicommon/gftpui.c:401
+#: src/uicommon/gftpui.c:403
 msgid "usage: mkdir <new directory>\n"
 msgstr "ལག་ལེན་:  mkdir <སྣོད་ཐོ་གསརཔ་>\n"
 
-#: ../src/uicommon/gftpui.c:437
-#: ../src/uicommon/gftpui.c:455
+#: src/uicommon/gftpui.c:439 src/uicommon/gftpui.c:457
 msgid "usage: chdir <directory>\n"
 msgstr "ལག་ལེན་: chdir <སྣོད་ཐོ་>\n"
 
-#: ../src/uicommon/gftpui.c:528
+#: src/uicommon/gftpui.c:530
 msgid "Invalid argument\n"
 msgstr "སྒྲུབ་རྟགས་ནུས་མེད།\n"
 
-#: ../src/uicommon/gftpui.c:541
+#: src/uicommon/gftpui.c:543
 msgid "Clear the directory cache\n"
 msgstr "སྣོད་ཐོ་འདྲ་མཛོད་འདི་བསལ།\n"
 
-#: ../src/uicommon/gftpui.c:630
+#: src/uicommon/gftpui.c:632
 msgid "usage: open "
 msgstr "ལག་ལེན་: ཁ་ཕྱེ།"
 
-#: ../src/uicommon/gftpui.c:706
+#: src/uicommon/gftpui.c:708
 msgid "usage: set [variable = value]\n"
 msgstr "ལག་ལེན་: གཞི་སྒྲིག་  [འགྱུར་ཅན་ = གནས་གོང་]\n"
 
-#: ../src/uicommon/gftpui.c:720
+#: src/uicommon/gftpui.c:722
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "འཛོལ་བ: འགྱུར་ཅན་ %s འདི་ནུས་ཅན་རིམ་སྒྲིག་འགྱུར་ཅན་མེན།\n"
 
-#: ../src/uicommon/gftpui.c:727
+#: src/uicommon/gftpui.c:729
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "འཛོལ་བ:འགྱུར་ཅན་ %s འདི་ཇི་ཨེཕ་ཊི་པི་གི་ཚིག་ཡིག་འདྲེན་ལམ་ནང་ལུ་ཐོབ་ཚུགས་མིན་འདུག།\n"
 
-#: ../src/uicommon/gftpui.c:809
+#: src/uicommon/gftpui.c:811
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1535,327 +1581,325 @@ msgstr ""
 "རྒྱབ་སྐྱོར་འབད་ཡོད་པའི་བསམ་བཀོད་ཚུ་:\n"
 "\n"
 
-#: ../src/uicommon/gftpui.c:852
+#: src/uicommon/gftpui.c:856
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "ལག་ལེན་:%s <ཕ་ཡེལ་ཨིསི་པེཀ་>\n"
 
-#: ../src/uicommon/gftpui.c:937
+#: src/uicommon/gftpui.c:941
 msgid "about"
 msgstr "སྐོར་ལས།"
 
-#: ../src/uicommon/gftpui.c:938
+#: src/uicommon/gftpui.c:942
 msgid "Shows gFTP information"
 msgstr "ཇི་ཨེཕ་ཊི་པི་གི་བརྡ་དོན་སྟོནམ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:939
+#: src/uicommon/gftpui.c:943
 msgid "ascii"
 msgstr "ཨིསི་ཀི།"
 
-#: ../src/uicommon/gftpui.c:940
+#: src/uicommon/gftpui.c:944
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "(ཨེཕ་ཊི་པི་རྐྱངམ་གཅིག་གི་དོན་ལུ་) ཨིསི་ཀི་ལུ་ད་ལྟོའི་ཡིག་སྣོད་གནས་སོར་ཐབས་ལམ་འདི་གཞི་སྒྲིག་འབད།"
 
-#: ../src/uicommon/gftpui.c:941
+#: src/uicommon/gftpui.c:945
 msgid "binary"
 msgstr "ཟུང་ལྡན།"
 
-#: ../src/uicommon/gftpui.c:942
+#: src/uicommon/gftpui.c:946
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
-msgstr "(ཨེཕ་ཊི་པི་གི་དོན་ལུ་རྐྱངམ་གཅིག་) ཟུང་ལྡན་ལུ་ད་ལྟོའི་ཡིག་སྣོད་གནས་སོར་ཐབས་ལམ་འདི་གཞི་སྒྲིག་འབདཝ་ཨིན།"
+msgstr ""
+"(ཨེཕ་ཊི་པི་གི་དོན་ལུ་རྐྱངམ་གཅིག་) ཟུང་ལྡན་ལུ་ད་ལྟོའི་ཡིག་སྣོད་གནས་སོར་ཐབས་ལམ་འདི་གཞི་སྒྲིག་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:943
+#: src/uicommon/gftpui.c:947
 msgid "cd"
 msgstr "སི་ཌི།"
 
-#: ../src/uicommon/gftpui.c:944
-#: ../src/uicommon/gftpui.c:946
+#: src/uicommon/gftpui.c:948 src/uicommon/gftpui.c:950
 msgid "Changes the remote working directory"
 msgstr "ཐག་རིང་གི་ལཱ་འབད་ནིའི་སྣོད་ཐོ་འདི་བསྒྱུར་བཅོས་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:945
+#: src/uicommon/gftpui.c:949
 msgid "chdir"
 msgstr "chdir"
 
-#: ../src/uicommon/gftpui.c:947
+#: src/uicommon/gftpui.c:951
 msgid "chmod"
 msgstr "chmod"
 
-#: ../src/uicommon/gftpui.c:948
+#: src/uicommon/gftpui.c:952
 msgid "Changes the permissions of a remote file"
 msgstr "ཐག་རིང་གི་ཡིག་སྣོད་ཀྱི་གནང་བ་ཚུ་བསྒྱུར་བཅོས་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:949
+#: src/uicommon/gftpui.c:953
 msgid "clear"
 msgstr "བསལ།"
 
-#: ../src/uicommon/gftpui.c:950
+#: src/uicommon/gftpui.c:954
 msgid "Available options: cache"
 msgstr "ཐོབ་ཚུགས་པའི་གདམ་ཁ་ཚུ་:འདྲ་མཛོད།"
 
-#: ../src/uicommon/gftpui.c:951
+#: src/uicommon/gftpui.c:955
 msgid "close"
 msgstr "ཁ་བསྡམས།"
 
-#: ../src/uicommon/gftpui.c:952
+#: src/uicommon/gftpui.c:956
 msgid "Disconnects from the remote site"
 msgstr "ཐག་རིང་གི་ས་ཁོངས་ལས་མཐུད་ལམ་བཏོགཔ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:953
+#: src/uicommon/gftpui.c:957
 msgid "delete"
 msgstr "བཏོན་གཏང་།"
 
-#: ../src/uicommon/gftpui.c:954
+#: src/uicommon/gftpui.c:958
 msgid "Removes a remote file"
 msgstr "ཐག་རིང་གི་ཡིག་སྣོད་རྩ་བསྐྲད་གཏངམ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:955
+#: src/uicommon/gftpui.c:959
 msgid "dir"
 msgstr "dir"
 
-#: ../src/uicommon/gftpui.c:956
-#: ../src/uicommon/gftpui.c:982
+#: src/uicommon/gftpui.c:960 src/uicommon/gftpui.c:986
 msgid "Shows the directory listing for the current remote directory"
 msgstr "ད་ལྟོའི་ཐག་རིང་གི་སྣོད་ཐོའི་དོན་ལུ་ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་སྟོནམ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:957
+#: src/uicommon/gftpui.c:961
 msgid "get"
 msgstr "ལེན།"
 
-#: ../src/uicommon/gftpui.c:958
-#: ../src/uicommon/gftpui.c:984
+#: src/uicommon/gftpui.c:962 src/uicommon/gftpui.c:988
 msgid "Downloads remote file(s)"
 msgstr "ཐག་རིང་གི་ཡིག་སྣོད་(ཚུ་)ཕབ་ལེན་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:959
+#: src/uicommon/gftpui.c:963
 msgid "help"
 msgstr "གྲོགས་རམ།"
 
-#: ../src/uicommon/gftpui.c:960
+#: src/uicommon/gftpui.c:964
 msgid "Shows this help screen"
 msgstr "གྲོགས་རམ་གསལ་གཞི་འ་ནི་འདི་སྟོནམ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:961
+#: src/uicommon/gftpui.c:965
 msgid "lcd"
 msgstr "lcd"
 
-#: ../src/uicommon/gftpui.c:962
-#: ../src/uicommon/gftpui.c:964
+#: src/uicommon/gftpui.c:966 src/uicommon/gftpui.c:968
 msgid "Changes the local working directory"
 msgstr "ཉེ་གནས་ལཱ་འབད་ནིའི་སྣོད་ཐོ་འདི་བསྒྱུར་བཅོས་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:963
+#: src/uicommon/gftpui.c:967
 msgid "lchdir"
 msgstr "lchdir"
 
-#: ../src/uicommon/gftpui.c:965
+#: src/uicommon/gftpui.c:969
 msgid "lchmod"
 msgstr "lchmod"
 
-#: ../src/uicommon/gftpui.c:966
+#: src/uicommon/gftpui.c:970
 msgid "Changes the permissions of a local file"
 msgstr "ཉེ་གནས་ཡིག་སྣོད་ཀྱི་གནང་བ་ཚུ་བསྒྱུར་བཅོས་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:967
+#: src/uicommon/gftpui.c:971
 msgid "ldelete"
 msgstr "ldelete"
 
-#: ../src/uicommon/gftpui.c:968
+#: src/uicommon/gftpui.c:972
 msgid "Removes a local file"
 msgstr "ཉེ་གནས་ཡིག་སྣོད་རྩ་བསྐྲད་གཏངམ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:969
+#: src/uicommon/gftpui.c:973
 msgid "ldir"
 msgstr "ldir"
 
-#: ../src/uicommon/gftpui.c:970
-#: ../src/uicommon/gftpui.c:972
+#: src/uicommon/gftpui.c:974 src/uicommon/gftpui.c:976
 msgid "Shows the directory listing for the current local directory"
 msgstr "ད་ལྟོའི་ཉེ་གནས་སྣོད་ཐོ་འདི་ལུ་ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་འདི་སྟོནམ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:971
+#: src/uicommon/gftpui.c:975
 msgid "lls"
 msgstr "lls"
 
-#: ../src/uicommon/gftpui.c:973
+#: src/uicommon/gftpui.c:977
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: ../src/uicommon/gftpui.c:974
+#: src/uicommon/gftpui.c:978
 msgid "Creates a local directory"
 msgstr "ཉེ་གནས་སྣོད་ཐོ་གསར་བསྐྲུན་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:975
+#: src/uicommon/gftpui.c:979
 msgid "lpwd"
 msgstr "lpwd"
 
-#: ../src/uicommon/gftpui.c:976
+#: src/uicommon/gftpui.c:980
 msgid "Show current local directory"
 msgstr "ད་ལྟོའི་ཉེ་གནས་སྣོད་ཐོ་འདི་སྟོན།"
 
-#: ../src/uicommon/gftpui.c:977
+#: src/uicommon/gftpui.c:981
 msgid "lrename"
 msgstr "lrename"
 
-#: ../src/uicommon/gftpui.c:978
+#: src/uicommon/gftpui.c:982
 msgid "Rename a local file"
 msgstr "ཉེ་གནས་ཡིག་སྣོད་ལུ་བསྐྱར་མིང་བཏགས།"
 
-#: ../src/uicommon/gftpui.c:979
+#: src/uicommon/gftpui.c:983
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: ../src/uicommon/gftpui.c:980
+#: src/uicommon/gftpui.c:984
 msgid "Remove a local directory"
 msgstr "ཉེ་གནས་སྣོད་ཐོ་རྩ་བསྐྲད་གཏང་།"
 
-#: ../src/uicommon/gftpui.c:981
+#: src/uicommon/gftpui.c:985
 msgid "ls"
 msgstr "ls"
 
-#: ../src/uicommon/gftpui.c:983
+#: src/uicommon/gftpui.c:987
 msgid "mget"
 msgstr "mget"
 
-#: ../src/uicommon/gftpui.c:985
+#: src/uicommon/gftpui.c:989
 msgid "mkdir"
 msgstr "mkdir"
 
-#: ../src/uicommon/gftpui.c:986
+#: src/uicommon/gftpui.c:990
 msgid "Creates a remote directory"
 msgstr "ཐག་རིང་གི་སྣོད་ཐོ་གསར་བསྐྲུན་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:987
+#: src/uicommon/gftpui.c:991
 msgid "mput"
 msgstr "mput"
 
-#: ../src/uicommon/gftpui.c:988
-#: ../src/uicommon/gftpui.c:992
+#: src/uicommon/gftpui.c:992 src/uicommon/gftpui.c:996
 msgid "Uploads local file(s)"
 msgstr "ཉེ་གནས་ཡིག་སྣོད་ཚུ་བཙུགས་སྐྱེལ་འབདཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:989
+#: src/uicommon/gftpui.c:993
 msgid "open"
 msgstr "ཁ་ཕྱེ།"
 
-#: ../src/uicommon/gftpui.c:990
+#: src/uicommon/gftpui.c:994
 msgid "Opens a connection to a remote site"
 msgstr "ཐག་རིང་གི་ས་ཁོངས་འདི་ལུ་མཐུད་ལམ་ཁ་ཕྱེཝ་ཨིན།"
 
-#: ../src/uicommon/gftpui.c:991
+#: src/uicommon/gftpui.c:995
 msgid "put"
 msgstr "བཙུགས།"
 
-#: ../src/uicommon/gftpui.c:993
+#: src/uicommon/gftpui.c:997
 msgid "pwd"
 msgstr "pwd"
 
-#: ../src/uicommon/gftpui.c:994
+#: src/uicommon/gftpui.c:998
 msgid "Show current remote directory"
 msgstr "ད་ལྟོའི་ཐག་རིང་གི་སྣོད་ཐོ་འདི་སྟོན།"
 
-#: ../src/uicommon/gftpui.c:995
+#: src/uicommon/gftpui.c:999
 msgid "quit"
 msgstr "སྤང་།"
 
-#: ../src/uicommon/gftpui.c:996
+#: src/uicommon/gftpui.c:1000
 msgid "Exit from gFTP"
 msgstr "ཇི་ཨེཕ་ཊི་པི་ནང་ལས་ཕྱིར་ཐོན་འབད།"
 
-#: ../src/uicommon/gftpui.c:997
+#: src/uicommon/gftpui.c:1001
 msgid "rename"
 msgstr "བསྐྱར་མིང་བཏགས།"
 
-#: ../src/uicommon/gftpui.c:998
+#: src/uicommon/gftpui.c:1002
 msgid "Rename a remote file"
 msgstr "ཐག་རིང་གི་ཡིག་སྣོད་ལུ་བསྐྱར་མིང་བཏགས།"
 
-#: ../src/uicommon/gftpui.c:999
+#: src/uicommon/gftpui.c:1003
 msgid "rmdir"
 msgstr "rmdir"
 
-#: ../src/uicommon/gftpui.c:1000
+#: src/uicommon/gftpui.c:1004
 msgid "Remove a remote directory"
 msgstr "ཐག་རིང་གི་སྣོད་ཐོ་རྩ་བསྐྲད་གཏང་།"
 
-#: ../src/uicommon/gftpui.c:1001
+#: src/uicommon/gftpui.c:1005
 msgid "set"
 msgstr "གཞི་སྒྲིག"
 
-#: ../src/uicommon/gftpui.c:1002
-msgid "Show configuration file variables. You can also set variables by set var=val"
-msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་འགྱུར་ཅན་ཚུ་སྟོན། ཁྱོད་ཀྱིས་ཡང་གཞི་སྒྲིག་ var=val གིས་འགྱུར་ཅན་ཚུ་གཞི་སྒྲིག་འབད་ཚུགས།"
+#: src/uicommon/gftpui.c:1006
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
+msgstr ""
+"རིམ་སྒྲིག་ཡིག་སྣོད་འགྱུར་ཅན་ཚུ་སྟོན། ཁྱོད་ཀྱིས་ཡང་གཞི་སྒྲིག་ var=val གིས་འགྱུར་ཅན་ཚུ་གཞི་སྒྲིག་འབད་ཚུགས།"
 
-#: ../src/uicommon/gftpui.c:1004
+#: src/uicommon/gftpui.c:1008
 msgid "site"
 msgstr "ས་ཁོངས།"
 
-#: ../src/uicommon/gftpui.c:1005
+#: src/uicommon/gftpui.c:1009
 msgid "Run a site specific command"
 msgstr "ས་ཁོངས་ཀྱི་དམིགས་བསལ་བརྡ་བཀོད་འདི་གཡོག་བཀོལ།"
 
-#: ../src/uicommon/gftpui.c:1094
+#: src/uicommon/gftpui.c:1098
 msgid "Error: Command not recognized\n"
 msgstr "འཛོལ་བ: བརྡ་བཀོད་འདི་ངོས་འཛིན་མ་འབད་བས།\n"
 
-#: ../src/uicommon/gftpui.c:1334
+#: src/uicommon/gftpui.c:1308
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "%s འདི་  %.2f KB/s་ལུ་མཐར་འཁྱོལཝ་སྦེ་གནས་སོར་འབད་ནུག། \n"
 
-#: ../src/uicommon/gftpui.c:1365
+#: src/uicommon/gftpui.c:1339
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "ཧོསཊི་ %s གུ་ལུ་ ཡིག་སྣོད་ %s གོམ་འགྱོ་དོ།\n"
 
-#: ../src/uicommon/gftpui.c:1389
+#: src/uicommon/gftpui.c:1363
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "ཧོསཊི་  %s ལུ་གནས་སོར་འབད་ནི་འདི་བཀག་དོ།\n"
 
-#: ../src/uicommon/gftpui.c:1540
+#: src/uicommon/gftpui.c:1509
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "%s ལས་ %s ལུ་ཕབ་ལེན་འབད་མ་བཏུབ།\n"
 
-#: ../src/uicommon/gftpui.c:1596
+#: src/uicommon/gftpui.c:1565
 #, c-format
-msgid "There were %d files or directories that could not be transferred. Check the log for which items were not properly transferred."
-msgstr "ཡིག་སྣོད་ཚུ་ཡང་ན་སྣོད་ཐོ་ཚུ་ %d གནས་སོར་འབད་མ་ཚུགས་པར་ཡོདཔ།  རྣམ་གྲངས་ཚུ་གི་དོན་ལུ་ཚུལ་ལྡན་སྦེ་གནས་སོར་མ་འབད་བར་ཡོད་མི་དྲེན་དེབ་འདི་ཞིབ་དཔྱད་འབད།"
+msgid ""
+"There were %d files or directories that could not be transferred. Check the "
+"log for which items were not properly transferred."
+msgstr ""
+"ཡིག་སྣོད་ཚུ་ཡང་ན་སྣོད་ཐོ་ཚུ་ %d གནས་སོར་འབད་མ་ཚུགས་པར་ཡོདཔ།  རྣམ་གྲངས་ཚུ་གི་དོན་ལུ་ཚུལ་ལྡན་སྦེ་"
+"གནས་སོར་མ་འབད་བར་ཡོད་མི་དྲེན་དེབ་འདི་ཞིབ་དཔྱད་འབད།"
 
-#: ../src/gtk/bookmarks.c:40
-#: ../src/gtk/dnd.c:122
-#: ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1096
-#: ../src/gtk/misc-gtk.c:505
-#: ../src/gtk/misc-gtk.c:513
+#: src/gtk/bookmarks.c:39 src/gtk/dnd.c:121 src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:1103 src/gtk/misc-gtk.c:504 src/gtk/misc-gtk.c:512
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: གང་རུང་གཅིག་འབད་ནི་ལུ་དང་པ་རང་བཀག་ནིའི་ཨེབ་རྟ་འདི་ཨེབ་གནང་།\n"
 
-#: ../src/gtk/bookmarks.c:41
+#: src/gtk/bookmarks.c:40
 msgid "Run Bookmark"
 msgstr "དེབ་རྟགས་གཡོག་བཀོལ།"
 
-#: ../src/gtk/bookmarks.c:71
+#: src/gtk/bookmarks.c:70
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr "དེབ་རྟགས་ཁ་སྐོང་རྐྱབས: དེབ་རྟགས་ཀྱི་དོན་ལུ་ཁྱོད་ཀྱིས་མིང་ངེས་པར་བཙུགས་དགོ།\n"
 
-#: ../src/gtk/bookmarks.c:78
+#: src/gtk/bookmarks.c:77
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
-msgstr "དེབ་རྟགས་ཁ་སྐོང་རྐྱབས: དེབ་རྟགས་ %s ཁ་སྐོང་རྐྱབཧ་མི་བཏུབ་ག་ཅི་སྦེ་ཟེར་བ་ཅིན་མིང་དེ་ཧེ་མ་ལས་ཡོདཔ་ཨིན།\n"
+msgstr ""
+"དེབ་རྟགས་ཁ་སྐོང་རྐྱབས: དེབ་རྟགས་ %s ཁ་སྐོང་རྐྱབཧ་མི་བཏུབ་ག་ཅི་སྦེ་ཟེར་བ་ཅིན་མིང་དེ་ཧེ་མ་ལས་ཡོདཔ་"
+"ཨིན།\n"
 
-#: ../src/gtk/bookmarks.c:135
-#: ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:134 src/gtk/bookmarks.c:145
 msgid "Add Bookmark"
 msgstr "དེབ་རྟགས་ཁ་སྐོང་རྐྱབས།"
 
-#: ../src/gtk/bookmarks.c:142
+#: src/gtk/bookmarks.c:141
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "དེབ་རྟགས་ཁ་སྐོང་རྐྱབས: ཁྱོད་ཀྱིས་ཧོསཊི་མིང་ངེས་པར་བཙུགས་དགོ།\n"
 
-#: ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:145
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
@@ -1865,31 +1909,31 @@ msgstr ""
 " ཡན་ལག་དཀར་ཆག་ནང་བཙུགས་ནི་ལུ་ཁྱོད་ཀྱིས་རྣམ་གྲངས་ཚུ་ / གིས་སོ་སོ་འཕྱེལ་ཚུགས།\n"
 "(ex: Linux Sites/Debian)"
 
-#: ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:145
 msgid "Remember password"
 msgstr "ཆོག་ཡིག་སེམས་ཁར་བཞག"
 
-#: ../src/gtk/bookmarks.c:420
+#: src/gtk/bookmarks.c:419
 msgid "You must specify a name for the bookmark."
 msgstr "ཁྱོད་ཀྱིས་དེབ་རྟགས་ཀྱི་དོན་ལུ་ མིང་ཅིག་གསལ་བཀོད་འབད་དགོཔ་ཨིན།"
 
-#: ../src/gtk/bookmarks.c:472
+#: src/gtk/bookmarks.c:471
 msgid "New Folder"
 msgstr "སྣོད་འཛིན་གསརཔ།"
 
-#: ../src/gtk/bookmarks.c:473
+#: src/gtk/bookmarks.c:472
 msgid "Enter the name of the new folder to create"
 msgstr "གསར་བསྐྲུན་འབད་ནི་ལུ་སྣོད་འཛིན་འདི་གི་མིང་བཙུགས།"
 
-#: ../src/gtk/bookmarks.c:482
+#: src/gtk/bookmarks.c:481
 msgid "New Item"
 msgstr "རྣམ་གྲངས་གསརཔ།"
 
-#: ../src/gtk/bookmarks.c:483
+#: src/gtk/bookmarks.c:482
 msgid "Enter the name of the new item to create"
 msgstr "གསར་བསྐྲུན་འབད་ནི་ལུ་རྣམ་གྲངས་གསརཔ་འདི་གི་མིང་བཙུགས།"
 
-#: ../src/gtk/bookmarks.c:556
+#: src/gtk/bookmarks.c:555
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1898,113 +1942,106 @@ msgstr ""
 "ཁྱོད་ཀྱིས་ དེབ་རྟགས་དང་ དེའི་ཆ་ལག་ཚུ་ཀྲེག་གཏང་ནི་དེ་ \n"
 "%s ངེས་གཏན་ཨིན་ན?"
 
-#: ../src/gtk/bookmarks.c:557
+#: src/gtk/bookmarks.c:556
 msgid "Delete Bookmark"
 msgstr "དེབ་རྟགས་བཏོན་གཏང་།"
 
-#: ../src/gtk/bookmarks.c:629
+#: src/gtk/bookmarks.c:628
 msgid "Bookmarks"
 msgstr "དེབ་རྟགས་ཚུ།"
 
-#: ../src/gtk/bookmarks.c:849
-#: ../src/gtk/bookmarks.c:852
+#: src/gtk/bookmarks.c:848 src/gtk/bookmarks.c:851
 msgid "Edit Entry"
 msgstr "ཐོ་བཀོད་ཞུན་དག་འབད།"
 
-#: ../src/gtk/bookmarks.c:888
+#: src/gtk/bookmarks.c:887
 msgid "Description:"
 msgstr "འགྲེལ་བཤད་:"
 
-#: ../src/gtk/bookmarks.c:903
+#: src/gtk/bookmarks.c:902
 msgid "Hostname:"
 msgstr "ཧོསཊི་གི་མིང་:"
 
-#: ../src/gtk/bookmarks.c:916
+#: src/gtk/bookmarks.c:915
 msgid "Port:"
 msgstr "འདྲེན་ལམ:"
 
-#: ../src/gtk/bookmarks.c:933
+#: src/gtk/bookmarks.c:932
 msgid "Protocol:"
 msgstr "གནད་སྤེལ་ལམ་ལུགས:"
 
-#: ../src/gtk/bookmarks.c:957
+#: src/gtk/bookmarks.c:956
 msgid "Remote Directory:"
 msgstr "ཐག་རིང་གི་སྣོད་ཐོ:"
 
-#: ../src/gtk/bookmarks.c:970
+#: src/gtk/bookmarks.c:969
 msgid "Local Directory:"
 msgstr "ཉེ་གནས་སྣོད་ཐོ:"
 
-#: ../src/gtk/bookmarks.c:987
+#: src/gtk/bookmarks.c:986
 msgid "Username:"
 msgstr "ལག་ལེན་པའི་མིང་:"
 
-#: ../src/gtk/bookmarks.c:1000
-#: ../src/text/textui.c:92
+#: src/gtk/bookmarks.c:999 src/text/textui.c:91
 msgid "Password:"
 msgstr "ཆོག་ཡིག:"
 
-#: ../src/gtk/bookmarks.c:1014
+#: src/gtk/bookmarks.c:1013
 msgid "Account:"
 msgstr "རྩིས་ཐོ:"
 
-#: ../src/gtk/bookmarks.c:1028
+#: src/gtk/bookmarks.c:1027
 msgid "Log in as ANONYMOUS"
 msgstr "མིང་མེདཔ་སྦེ་ནང་བསྐྱོད་འབད།"
 
-#: ../src/gtk/bookmarks.c:1053
-#: ../src/gtk/bookmarks.c:1303
-#: ../src/gtk/chmod_dialog.c:265
-#: ../src/gtk/gtkui_transfer.c:388
-#: ../src/gtk/options_dialog.c:1216
-#: ../src/gtk/options_dialog.c:1448
+#: src/gtk/bookmarks.c:1052 src/gtk/bookmarks.c:1302
+#: src/gtk/chmod_dialog.c:264 src/gtk/gtkui_transfer.c:387
+#: src/gtk/options_dialog.c:1215 src/gtk/options_dialog.c:1447
 msgid "  Cancel  "
 msgstr "  ཆ་མེད་གཏང་  "
 
-#: ../src/gtk/bookmarks.c:1204
+#: src/gtk/bookmarks.c:1203
 msgid "/_File"
 msgstr "/ཡིག་སྣོད།(_F)"
 
-#: ../src/gtk/bookmarks.c:1205
+#: src/gtk/bookmarks.c:1204
 msgid "/File/tearoff"
 msgstr "/ཡིག་སྣོད་/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/bookmarks.c:1206
+#: src/gtk/bookmarks.c:1205
 msgid "/File/New _Folder..."
 msgstr "/ཡིག་སྣོད་/སྣོད་འཛིན་_གསརཔ།..."
 
-#: ../src/gtk/bookmarks.c:1207
+#: src/gtk/bookmarks.c:1206
 msgid "/File/New _Item..."
 msgstr "/ཡིག་སྣོད་/རྣམ་གྲངས་_གསརཔ།..."
 
-#: ../src/gtk/bookmarks.c:1208
+#: src/gtk/bookmarks.c:1207
 msgid "/File/_Delete"
 msgstr "/ཡིག་སྣོད་/_བཏོན་གཏང་།"
 
-#: ../src/gtk/bookmarks.c:1209
+#: src/gtk/bookmarks.c:1208
 msgid "/File/_Properties..."
 msgstr "/ཡིག་སྣོད་/_རྒྱུ་དངོས།..."
 
-#: ../src/gtk/bookmarks.c:1210
+#: src/gtk/bookmarks.c:1209
 msgid "/File/sep"
 msgstr "/ཡིག་སྣོད་/ཨེསི་ཨི་པི།"
 
-#: ../src/gtk/bookmarks.c:1211
+#: src/gtk/bookmarks.c:1210
 msgid "/File/_Close"
 msgstr "/ཡིག་སྣོད་/_ཁ་བསྡམས།"
 
-#: ../src/gtk/bookmarks.c:1229
-#: ../src/gtk/bookmarks.c:1232
+#: src/gtk/bookmarks.c:1228 src/gtk/bookmarks.c:1231
 msgid "Edit Bookmarks"
 msgstr "དེབ་རྟགས་ཚུ་ཞུན་དག་འབད།"
 
-#: ../src/gtk/chmod_dialog.c:132
-#: ../src/gtk/chmod_dialog.c:137
-#: ../src/gtk/chmod_dialog.c:142
+#: src/gtk/chmod_dialog.c:131 src/gtk/chmod_dialog.c:136
+#: src/gtk/chmod_dialog.c:141
 msgid "Chmod"
 msgstr "Chmod"
 
-#: ../src/gtk/chmod_dialog.c:162
+#: src/gtk/chmod_dialog.c:161
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
@@ -2012,101 +2049,91 @@ msgstr ""
 "ཁྱོད་ཀྱིས་ད་ལྟོ་ཁྱོད་རའི་ཡིག་སྣོད་ཚུ་གི་ཁྱོད་ཆོས་ཚུ་བདེ་སྒྲིག་འབད་ཚུགས་\n"
 " དྲན་འཛིན:  chmod ཁྱོད་རྣམ་འདི་ ftp སར་བར་ཚུ་ཆ་མཉམ་གྱིས་རྒྱབ་སྐྱོར་མི་འབད།"
 
-#: ../src/gtk/chmod_dialog.c:172
+#: src/gtk/chmod_dialog.c:171
 msgid "Special"
 msgstr "དམིགས་བསལ།"
 
-#: ../src/gtk/chmod_dialog.c:180
+#: src/gtk/chmod_dialog.c:179
 msgid "SUID"
 msgstr "ཨེསི་ཡུ་ཨའི་ཌི།"
 
-#: ../src/gtk/chmod_dialog.c:184
+#: src/gtk/chmod_dialog.c:183
 msgid "SGID"
 msgstr "ཨེསི་ཇི་ཨའི་ཌི།"
 
-#: ../src/gtk/chmod_dialog.c:188
+#: src/gtk/chmod_dialog.c:187
 msgid "Sticky"
 msgstr "རྩི་ཅན།"
 
-#: ../src/gtk/chmod_dialog.c:192
-#: ../src/gtk/gftp-gtk.c:780
+#: src/gtk/chmod_dialog.c:191 src/gtk/gftp-gtk.c:789
 msgid "User"
 msgstr "ལག་ལེན་པ།"
 
-#: ../src/gtk/chmod_dialog.c:200
-#: ../src/gtk/chmod_dialog.c:220
-#: ../src/gtk/chmod_dialog.c:240
+#: src/gtk/chmod_dialog.c:199 src/gtk/chmod_dialog.c:219
+#: src/gtk/chmod_dialog.c:239
 msgid "Read"
 msgstr "ལྷག"
 
-#: ../src/gtk/chmod_dialog.c:204
-#: ../src/gtk/chmod_dialog.c:224
-#: ../src/gtk/chmod_dialog.c:244
+#: src/gtk/chmod_dialog.c:203 src/gtk/chmod_dialog.c:223
+#: src/gtk/chmod_dialog.c:243
 msgid "Write"
 msgstr "འབྲི།"
 
-#: ../src/gtk/chmod_dialog.c:208
-#: ../src/gtk/chmod_dialog.c:228
-#: ../src/gtk/chmod_dialog.c:248
+#: src/gtk/chmod_dialog.c:207 src/gtk/chmod_dialog.c:227
+#: src/gtk/chmod_dialog.c:247
 msgid "Execute"
 msgstr "ལག་ལེན་འཐབ་ནི།"
 
-#: ../src/gtk/chmod_dialog.c:212
-#: ../src/gtk/gftp-gtk.c:781
+#: src/gtk/chmod_dialog.c:211 src/gtk/gftp-gtk.c:790
 msgid "Group"
 msgstr "སྡེ་ཚན།"
 
-#: ../src/gtk/chmod_dialog.c:232
+#: src/gtk/chmod_dialog.c:231
 msgid "Other"
 msgstr "གཞན།"
 
-#: ../src/gtk/delete_dialog.c:61
+#: src/gtk/delete_dialog.c:60
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr "ཁྱོད་ཀྱིས་འ་ནི་ %ld ཡིག་སྣོད་ཚུ་དང་ %ld སྣོད་ཐོ་ཚུ་བཏོན་གཏང་ནི་ལུ་ངེས་ཏིག་ཨིན་ན།"
 
-#: ../src/gtk/delete_dialog.c:65
+#: src/gtk/delete_dialog.c:64
 #, c-format
 msgid "Are you sure you want to delete these %ld files"
 msgstr "ཁྱོད་ཀྱིས་འ་ནི་ %ld ཡིག་སྣོད་ཚུ་བཏོན་གཏང་ནི་ལུ་ངེས་ཏིག་ཨིན་ན།"
 
-#: ../src/gtk/delete_dialog.c:69
+#: src/gtk/delete_dialog.c:68
 #, c-format
 msgid "Are you sure you want to delete these %ld directories"
 msgstr "ཁྱོད་ཀྱིས་འ་ནི་ %ld སྣོད་ཐོ་ཚུ་བཏོན་གཏང་ནི་ལུ་ངེས་ཏིག་ཨིན་ན།"
 
-#: ../src/gtk/delete_dialog.c:74
+#: src/gtk/delete_dialog.c:73
 msgid "Delete Files/Directories"
 msgstr "ཡིག་སྣོད་ཚུ་/སྣོད་ཐོ་ཚུ་བཏོན་གཏང་།"
 
-#: ../src/gtk/delete_dialog.c:90
-#: ../src/gtk/options_dialog.c:1302
+#: src/gtk/delete_dialog.c:89 src/gtk/options_dialog.c:1301
 msgid "Delete"
 msgstr "བཏོན་གཏང་།"
 
-#: ../src/gtk/dnd.c:123
-#: ../src/gtk/gftp-gtk.c:1097
-#: ../src/gtk/misc-gtk.c:929
-#: ../src/gtk/misc-gtk.c:1004
+#: src/gtk/dnd.c:122 src/gtk/gftp-gtk.c:1104 src/gtk/misc-gtk.c:928
+#: src/gtk/misc-gtk.c:1003
 msgid "Connect"
 msgstr "མཐུད།"
 
-#: ../src/gtk/dnd.c:136
-#: ../src/gtk/dnd.c:269
+#: src/gtk/dnd.c:135 src/gtk/dnd.c:268
 #, c-format
 msgid "Received URL %s\n"
 msgstr "ཡུ་ཨར་ཨེལ་ %s ཐོབ་ཅི།\n"
 
-#: ../src/gtk/dnd.c:159
-#: ../src/gtk/dnd.c:247
+#: src/gtk/dnd.c:158 src/gtk/dnd.c:246
 msgid "Drag-N-Drop"
 msgstr "འདྲུད་-དང་-བཀོག་བཞག"
 
-#: ../src/gtk/gftp-gtk.c:144
+#: src/gtk/gftp-gtk.c:144
 msgid "Exit"
 msgstr "ཕྱིར་ཐོན།"
 
-#: ../src/gtk/gftp-gtk.c:144
+#: src/gtk/gftp-gtk.c:144
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
@@ -2114,487 +2141,465 @@ msgstr ""
 "ཡར་འཕེལ་ནང་ལུ་ཡིག་སྣོད་གནས་སོར་ཚུ་ཡོད།\n"
 " ཁྱོད་ཀྱིས་ཕྱིར་ཐོན་འབད་ནི་ལུ་ངེས་ཏིག་ཨིན་ན?"
 
-#: ../src/gtk/gftp-gtk.c:219
-#: ../src/gtk/gftp-gtk.c:235
+#: src/gtk/gftp-gtk.c:219 src/gtk/gftp-gtk.c:235
 msgid "Open Location"
 msgstr "གནས་ཁོངས་ཁ་ཕྱེ།"
 
-#: ../src/gtk/gftp-gtk.c:219
+#: src/gtk/gftp-gtk.c:219
 msgid "Enter a URL to connect to"
 msgstr "ལུ་ མཐུད་ནིའི་དོན་ལུ་ཡུ་ཨར་ཨེལ་བཙུགས།"
 
-#: ../src/gtk/gftp-gtk.c:265
+#: src/gtk/gftp-gtk.c:265
 msgid "/_FTP"
 msgstr "/ཨེཕ་ཊི་པི་(_F)"
 
-#: ../src/gtk/gftp-gtk.c:266
+#: src/gtk/gftp-gtk.c:266
 msgid "/FTP/tearoff"
 msgstr "/_ཨེཕ་ཊི་པི་/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:267
+#: src/gtk/gftp-gtk.c:267
 msgid "/FTP/Window _1"
 msgstr "/_ཨེཕ་ཊི་པི་/ཝིན་ཌོ _༡།"
 
-#: ../src/gtk/gftp-gtk.c:269
+#: src/gtk/gftp-gtk.c:269
 msgid "/FTP/Window _2"
 msgstr "/_ཨེཕ་ཊི་པི་/ཝིན་ཌོ་_ ༢།"
 
-#: ../src/gtk/gftp-gtk.c:271
-#: ../src/gtk/gftp-gtk.c:276
-#: ../src/gtk/gftp-gtk.c:279
+#: src/gtk/gftp-gtk.c:271 src/gtk/gftp-gtk.c:276 src/gtk/gftp-gtk.c:279
 msgid "/FTP/sep"
 msgstr "/_ཨེཕ་ཊི་པི་/ཨེསི་ཨི་པི།"
 
-#: ../src/gtk/gftp-gtk.c:272
+#: src/gtk/gftp-gtk.c:272
 msgid "/FTP/_Ascii"
 msgstr "/ཨེཕ་ཊི་པི་/_ཨེ་ཨེསི་སི་ཨའི་ཨའི།"
 
-#: ../src/gtk/gftp-gtk.c:274
+#: src/gtk/gftp-gtk.c:274
 msgid "/FTP/_Binary"
 msgstr "/ཨེཕ་ཊི་པི་/_ཟུང་ལྡན།"
 
-#: ../src/gtk/gftp-gtk.c:277
+#: src/gtk/gftp-gtk.c:277
 msgid "/FTP/_Preferences..."
 msgstr "/ཨེཕ་ཊི་པི་ /_གདའ་གདམ་ཚུ།..."
 
-#: ../src/gtk/gftp-gtk.c:280
+#: src/gtk/gftp-gtk.c:280
 msgid "/FTP/_Quit"
 msgstr "/ཨེཕ་ཊི་པི་/སྤང་(_Q)"
 
-#: ../src/gtk/gftp-gtk.c:281
+#: src/gtk/gftp-gtk.c:281
 msgid "/_Local"
 msgstr "/ཉེ་གནས་(_L)"
 
-#: ../src/gtk/gftp-gtk.c:282
+#: src/gtk/gftp-gtk.c:282
 msgid "/Local/tearoff"
 msgstr "/ཉེ་གནས་/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:283
+#: src/gtk/gftp-gtk.c:283
 msgid "/Local/_Open Location..."
 msgstr "/ཉེ་གནས་/ _ཉེ་གནས་ཁ་ཕྱེ།..."
 
-#: ../src/gtk/gftp-gtk.c:285
+#: src/gtk/gftp-gtk.c:285
 msgid "/Local/D_isconnect"
 msgstr "/ཉེ་གནས་/མཐུད་ལམ་_བཏོག་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:286
-#: ../src/gtk/gftp-gtk.c:293
+#: src/gtk/gftp-gtk.c:286 src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "/ཉེ་གནས་/ཨེསི་ཨི་པི།"
 
-#: ../src/gtk/gftp-gtk.c:287
+#: src/gtk/gftp-gtk.c:287
 msgid "/Local/Change _Filespec..."
 msgstr "/ཉེ་གནས་/ཡིག་སྣོད་_གསལ་བཀོད་བསྒྱུར་བཅོས་འབད།..."
 
-#: ../src/gtk/gftp-gtk.c:289
+#: src/gtk/gftp-gtk.c:289
 msgid "/Local/_Show selected"
 msgstr "/ཉེ་གནས་/_སེལ་འཐུ་གྲུབ་ཡོད་མི་སྟོན།"
 
-#: ../src/gtk/gftp-gtk.c:290
+#: src/gtk/gftp-gtk.c:290
 msgid "/Local/Select _All"
 msgstr "/ཉེ་གནས་/ཆ་མཉམ་_སེལ་འཐུ་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:291
+#: src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
 msgstr "/ཉེ་གནས་/ཡིག་སྣོད་ཚུ་ཆ་མཉམ་སེལ་འཐུ་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:292
+#: src/gtk/gftp-gtk.c:292
 msgid "/Local/Deselect All"
 msgstr "/ཉེ་གནས་/སེལ་འཐུ་བཤོལ་ཆ་མཉམ།"
 
-#: ../src/gtk/gftp-gtk.c:294
+#: src/gtk/gftp-gtk.c:294
 msgid "/Local/Save Directory Listing..."
 msgstr "/ཉེ་གནས་/ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་སྲུང་བཞག་..."
 
-#: ../src/gtk/gftp-gtk.c:295
+#: src/gtk/gftp-gtk.c:295
 msgid "/Local/Send SITE Command..."
 msgstr "/ཉེ་གནས་/ས་ཁོངས་ཀྱི་བརྡ་བཀོད་གཏང་..."
 
-#: ../src/gtk/gftp-gtk.c:296
+#: src/gtk/gftp-gtk.c:296
 msgid "/Local/_Change Directory"
 msgstr "/ཉེ་གནས་/_སྣོད་ཐོ་བསྒྱུར་བཅོས་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:297
+#: src/gtk/gftp-gtk.c:297
 msgid "/Local/_Permissions..."
 msgstr "/ཉེ་གནས་/_གནང་བ་ཚུ།..."
 
-#: ../src/gtk/gftp-gtk.c:299
+#: src/gtk/gftp-gtk.c:299
 msgid "/Local/_New Folder..."
 msgstr "/ཉེ་གནས་/_སྣོད་འཛིན་གསརཔ།..."
 
-#: ../src/gtk/gftp-gtk.c:300
+#: src/gtk/gftp-gtk.c:300
 msgid "/Local/Rena_me..."
 msgstr "/ཉེ་གནས་/བསྐྱར་མིང་_བཏགས།..."
 
-#: ../src/gtk/gftp-gtk.c:302
+#: src/gtk/gftp-gtk.c:302
 msgid "/Local/_Delete..."
 msgstr "/ཉེ་གནས་/_བཏོན་གཏང་།..."
 
-#: ../src/gtk/gftp-gtk.c:304
+#: src/gtk/gftp-gtk.c:304
 msgid "/Local/_Edit..."
 msgstr "/ཉེ་གནས་/_ཞུན་དག་འབད།..."
 
-#: ../src/gtk/gftp-gtk.c:305
+#: src/gtk/gftp-gtk.c:305
 msgid "/Local/_View..."
 msgstr "/ཉེ་གནས་/_མཐོང་སྣང་།..."
 
-#: ../src/gtk/gftp-gtk.c:306
+#: src/gtk/gftp-gtk.c:306
 msgid "/Local/_Refresh"
 msgstr "/ཉེ་གནས་/_ཡང་སེལ་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:308
+#: src/gtk/gftp-gtk.c:308
 msgid "/_Remote"
 msgstr "/ཐག་རིང་གི(_R)"
 
-#: ../src/gtk/gftp-gtk.c:309
+#: src/gtk/gftp-gtk.c:309
 msgid "/Remote/tearoff"
 msgstr "/ཐག་རིང་གི་/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:310
+#: src/gtk/gftp-gtk.c:310
 msgid "/Remote/_Open Location..."
 msgstr "/ཐག་རིང་གི་/_གནས་ཁོངས་ཁ་ཕྱེ།..."
 
-#: ../src/gtk/gftp-gtk.c:312
+#: src/gtk/gftp-gtk.c:312
 msgid "/Remote/D_isconnect"
 msgstr "/ཐག་རིང་གི་/_མཐུད་ལམ་བཏོག་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:314
-#: ../src/gtk/gftp-gtk.c:321
+#: src/gtk/gftp-gtk.c:314 src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/ཐག་རིང་གི་/ཨེསི་ཨི་པི།"
 
-#: ../src/gtk/gftp-gtk.c:315
+#: src/gtk/gftp-gtk.c:315
 msgid "/Remote/Change _Filespec..."
 msgstr "/ཐག་རིང་གི་/ཡིག་སྣོད་གསལ་བཀོད་_བསྒྱུར་བཅོས་འབད།..."
 
-#: ../src/gtk/gftp-gtk.c:317
+#: src/gtk/gftp-gtk.c:317
 msgid "/Remote/_Show selected"
 msgstr "/ཐག་རིང་གི་/_སེལ་འཐུ་གྲུབ་ཡོད་མི་སྟོན།"
 
-#: ../src/gtk/gftp-gtk.c:318
+#: src/gtk/gftp-gtk.c:318
 msgid "/Remote/Select _All"
 msgstr "/ཐག་རིང་གི་/ཆ་མཉམ་སེལ་འཐུ་_འབད།"
 
-#: ../src/gtk/gftp-gtk.c:319
+#: src/gtk/gftp-gtk.c:319
 msgid "/Remote/Select All Files"
 msgstr "/ཐག་རིང་གི་/ཡིག་སྣོད་ཚུ་ཆ་མཉམ་སེལ་འཐུ་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:320
+#: src/gtk/gftp-gtk.c:320
 msgid "/Remote/Deselect All"
 msgstr "/ཐག་རིང་གི་/ཆ་མཉམ་སེལ་འཐུ་བཤོལ།"
 
-#: ../src/gtk/gftp-gtk.c:322
+#: src/gtk/gftp-gtk.c:322
 msgid "/Remote/Save Directory Listing..."
 msgstr "/ཐག་རིང་གི་/ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་སྲུང་བཞག་འབད་..."
 
-#: ../src/gtk/gftp-gtk.c:323
+#: src/gtk/gftp-gtk.c:323
 msgid "/Remote/Send SITE Command..."
 msgstr "/ཐག་རིང་གི་/ས་ཁོངས་ཀྱི་བརྡ་བཀོད་གཏང་..."
 
-#: ../src/gtk/gftp-gtk.c:324
+#: src/gtk/gftp-gtk.c:324
 msgid "/Remote/_Change Directory"
 msgstr "/ཐག་རིང་གི་/_སྣོད་ཐོ་བསྒྱུར་བཅོས་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:325
+#: src/gtk/gftp-gtk.c:325
 msgid "/Remote/_Permisssions..."
 msgstr "/ཐག་རིང་གི་/_གནང་བ་ཚུ།..."
 
-#: ../src/gtk/gftp-gtk.c:326
+#: src/gtk/gftp-gtk.c:326
 msgid "/Remote/_New Folder..."
 msgstr "/ཐག་རིང་གི་/_སྣོད་འཛིན་གསརཔ།..."
 
-#: ../src/gtk/gftp-gtk.c:328
+#: src/gtk/gftp-gtk.c:328
 msgid "/Remote/Rena_me..."
 msgstr "/ཐག་རིང་གི་/བསྐྱར་མིང་_བཏགས།..."
 
-#: ../src/gtk/gftp-gtk.c:330
+#: src/gtk/gftp-gtk.c:330
 msgid "/Remote/_Delete..."
 msgstr "/ཐག་རིང་གི་/_བཏོན་གཏང་།..."
 
-#: ../src/gtk/gftp-gtk.c:331
+#: src/gtk/gftp-gtk.c:331
 msgid "/Remote/_Edit..."
 msgstr "/ཐག་རིང་གི་/_ཞུན་དག་འབད།..."
 
-#: ../src/gtk/gftp-gtk.c:332
+#: src/gtk/gftp-gtk.c:332
 msgid "/Remote/_View..."
 msgstr "/ཐག་རིང་གི་/_མཐོང་སྣང་།..."
 
-#: ../src/gtk/gftp-gtk.c:333
+#: src/gtk/gftp-gtk.c:333
 msgid "/Remote/_Refresh"
 msgstr "/ཐག་རིང་གི་/_ཡང་སེལ་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:335
+#: src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
 msgstr "/དེབ་རྟགས་ཚུ་(_B)"
 
-#: ../src/gtk/gftp-gtk.c:336
+#: src/gtk/gftp-gtk.c:336
 msgid "/Bookmarks/tearoff"
 msgstr "/དེབ་རྟགས་ཚུ་/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:337
+#: src/gtk/gftp-gtk.c:337
 msgid "/Bookmarks/Add _Bookmark"
 msgstr "/དེབ་རྟགས་ཚུ་/དེབ་རྟགས་_ཁ་སྐོང་བརྐྱབ།"
 
-#: ../src/gtk/gftp-gtk.c:339
+#: src/gtk/gftp-gtk.c:339
 msgid "/Bookmarks/Edit Bookmarks"
 msgstr "/དེབ་རྟགས་ཚུ་/ དེབ་རྟགས་ཚུ་ཞུན་དག་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:340
+#: src/gtk/gftp-gtk.c:340
 msgid "/Bookmarks/sep"
 msgstr "/དེབ་རྟགས་ཚུ་/ཨེསི་ཨི་པི།"
 
-#: ../src/gtk/gftp-gtk.c:341
+#: src/gtk/gftp-gtk.c:341
 msgid "/_Transfer"
 msgstr "/_གནས་སོར།"
 
-#: ../src/gtk/gftp-gtk.c:342
+#: src/gtk/gftp-gtk.c:342
 msgid "/Transfer/tearoff"
 msgstr "/གནས་སོར་/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:343
+#: src/gtk/gftp-gtk.c:343
 msgid "/Transfer/_Start"
 msgstr "/གནས་སོར་/_འགོ་བཙུགས།"
 
-#: ../src/gtk/gftp-gtk.c:344
+#: src/gtk/gftp-gtk.c:344
 msgid "/Transfer/St_op"
 msgstr "/གནས་སོར་/བཀག_།"
 
-#: ../src/gtk/gftp-gtk.c:346
-#: ../src/gtk/gftp-gtk.c:354
+#: src/gtk/gftp-gtk.c:346 src/gtk/gftp-gtk.c:354
 msgid "/Transfer/sep"
 msgstr "/གནས་སོར་/ཨེསི་ཨི་པི།"
 
-#: ../src/gtk/gftp-gtk.c:347
+#: src/gtk/gftp-gtk.c:347
 msgid "/Transfer/Skip _Current File"
 msgstr "/གནས་སོར་/ད་ལྟོའི་ཡིག་སྣོད་_གོམ་འགྱོ།"
 
-#: ../src/gtk/gftp-gtk.c:348
+#: src/gtk/gftp-gtk.c:348
 msgid "/Transfer/_Remove File"
 msgstr "/གནས་སོར་/_ཡིག་སྣོད་རྩ་བསྐྲད་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:350
+#: src/gtk/gftp-gtk.c:350
 msgid "/Transfer/Move File _Up"
 msgstr "/གནས་སོར་/ཡིག་སྣོད་ཡར་_སྤོ།"
 
-#: ../src/gtk/gftp-gtk.c:352
+#: src/gtk/gftp-gtk.c:352
 msgid "/Transfer/Move File _Down"
 msgstr "/གནས་སོར་/ཡིག་སྣོད་མར་_སྤོ།"
 
-#: ../src/gtk/gftp-gtk.c:355
+#: src/gtk/gftp-gtk.c:355
 msgid "/Transfer/_Retrieve Files"
 msgstr "/གནས་སོར་/ཡིག་སྣོད་ཚུ་_སླར་འདྲེན་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:356
+#: src/gtk/gftp-gtk.c:356
 msgid "/Transfer/_Put Files"
 msgstr "/གནས་སོར་/_ཡིག་སྣོད་ཚུ་བཙུགས།"
 
-#: ../src/gtk/gftp-gtk.c:357
+#: src/gtk/gftp-gtk.c:357
 msgid "/L_og"
 msgstr "/དྲན་_དེབ།"
 
-#: ../src/gtk/gftp-gtk.c:358
+#: src/gtk/gftp-gtk.c:358
 msgid "/Log/tearoff"
 msgstr "/དྲན་དེབ་/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:359
+#: src/gtk/gftp-gtk.c:359
 msgid "/Log/_Clear"
 msgstr "/དྲན་དེབ་/_བསལ།"
 
-#: ../src/gtk/gftp-gtk.c:360
+#: src/gtk/gftp-gtk.c:360
 msgid "/Log/_View"
 msgstr "/དྲན་དེབ་/_མཐོང་སྣང་།"
 
-#: ../src/gtk/gftp-gtk.c:361
+#: src/gtk/gftp-gtk.c:361
 msgid "/Log/_Save..."
 msgstr "/དྲན་དེབ་/_སྲུངས་བཞག་འབད།..."
 
-#: ../src/gtk/gftp-gtk.c:362
+#: src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
 msgstr "/ལག་ཆས་ཚུ་(_s)"
 
-#: ../src/gtk/gftp-gtk.c:363
+#: src/gtk/gftp-gtk.c:363
 msgid "/Tools/tearoff"
 msgstr "/ལག་ཆས་ཚུ་/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:364
+#: src/gtk/gftp-gtk.c:364
 msgid "/Tools/C_ompare Windows"
 msgstr "/ལག་ཆས་ཚུ་/ཝིན་ཌོསི་_ག་བསྡུར་འབད།"
 
-#: ../src/gtk/gftp-gtk.c:365
+#: src/gtk/gftp-gtk.c:365
 msgid "/Tools/_Clear Cache"
 msgstr "/ལག་ཆས་ཚུ་/_འདྲ་མཛོད་བསལ།"
 
-#: ../src/gtk/gftp-gtk.c:366
+#: src/gtk/gftp-gtk.c:366
 msgid "/Help"
 msgstr "/གྲོགས་རམ།"
 
-#: ../src/gtk/gftp-gtk.c:367
+#: src/gtk/gftp-gtk.c:367
 msgid "/Help/tearoff"
 msgstr "/གྲོགས་རམ/འཕྲལ་གཏང་།"
 
-#: ../src/gtk/gftp-gtk.c:368
+#: src/gtk/gftp-gtk.c:368
 msgid "/Help/_About"
 msgstr "/གྲོགས་རམ་/_སྐོར་ལས།"
 
-#: ../src/gtk/gftp-gtk.c:488
+#: src/gtk/gftp-gtk.c:488
 msgid "Host: "
 msgstr "ཧོསཊི་:"
 
-#: ../src/gtk/gftp-gtk.c:490
+#: src/gtk/gftp-gtk.c:490
 msgid "_Host: "
 msgstr "ཧོསཊི་:(_H)"
 
-#: ../src/gtk/gftp-gtk.c:516
+#: src/gtk/gftp-gtk.c:516
 msgid "Port: "
 msgstr "འདྲེན་ལམ་:"
 
-#: ../src/gtk/gftp-gtk.c:537
+#: src/gtk/gftp-gtk.c:537
 msgid "User: "
 msgstr "ལག་ལེན་པ་:"
 
-#: ../src/gtk/gftp-gtk.c:539
+#: src/gtk/gftp-gtk.c:539
 msgid "_User: "
 msgstr "ལག་ལེན་པ་:(_U)"
 
-#: ../src/gtk/gftp-gtk.c:564
+#: src/gtk/gftp-gtk.c:564
 msgid "Pass: "
 msgstr "རྩིས་སྤྲོད་:"
 
-#: ../src/gtk/gftp-gtk.c:636
+#: src/gtk/gftp-gtk.c:636
 msgid "Command: "
 msgstr "བརྡ་བཀོད་:"
 
-#: ../src/gtk/gftp-gtk.c:778
-#: ../src/gtk/gftp-gtk.c:989
-#: ../src/gtk/gtkui_transfer.c:228
+#: src/gtk/gftp-gtk.c:787 src/gtk/gftp-gtk.c:996 src/gtk/gtkui_transfer.c:227
 msgid "Filename"
 msgstr "ཡིག་སྣོད་ཀྱི་མིང་།"
 
-#: ../src/gtk/gftp-gtk.c:779
+#: src/gtk/gftp-gtk.c:788
 msgid "Size"
 msgstr "ཚད།"
 
-#: ../src/gtk/gftp-gtk.c:782
+#: src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "ཚེས་གྲངས།"
 
-#: ../src/gtk/gftp-gtk.c:783
+#: src/gtk/gftp-gtk.c:792
 msgid "Attribs"
 msgstr "ཁྱད་ཆོས་ཚུ།"
 
-#: ../src/gtk/gftp-gtk.c:990
+#: src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "ཡར་འཕེལ།"
 
-#: ../src/gtk/gftp-gtk.c:1126
+#: src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
 msgstr "འཛོལ་བ་:ལུ་ མཐུད་ནི་ལུ་ཧོསཊི་ནང་ལུ་ཁྱོད་ཀྱིས་ངེས་པར་ཡིག་དཔར་རྐྱབས་དགོ།\n"
 
-#: ../src/gtk/gtkui.c:53
+#: src/gtk/gtkui.c:52
 msgid "Refresh"
 msgstr "ཡང་སེལ་འབད།"
 
-#: ../src/gtk/gtkui.c:120
+#: src/gtk/gtkui.c:119
 msgid "Enter Username"
 msgstr "ལག་ལེན་པའི་མིང་བཙེགས།"
 
-#: ../src/gtk/gtkui.c:121
+#: src/gtk/gtkui.c:120
 msgid "Please enter your username for this site"
 msgstr "ས་ཁོངས་འདི་གི་དོན་ལུ་ཁྱོད་ཀྱི་ལག་ལེན་པའི་མིང་བཙུགས་གནང་།"
 
-#: ../src/gtk/gtkui.c:143
-#: ../src/gtk/transfer.c:586
-#: ../src/gtk/transfer.c:596
+#: src/gtk/gtkui.c:142 src/gtk/transfer.c:562 src/gtk/transfer.c:572
 msgid "Please enter your password for this site"
 msgstr "ས་ཁོངས་འདི་གི་དོན་ལུ་ཁྱོད་ཀྱི་ཆོག་ཡིག་བཙུགསགནང་།"
 
-#: ../src/gtk/gtkui.c:298
+#: src/gtk/gtkui.c:297
 msgid "Operation canceled...you must enter a string\n"
 msgstr "བཀོལ་སྤྱོད་ཆ་མེད་གཏང་ནུག་...ཁྱོད་ཀྱིས་ཡིག་རྒྱུན་ངེས་པར་བཙུགས་དགོ།\n"
 
-#: ../src/gtk/gtkui.c:344
+#: src/gtk/gtkui.c:343
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: ../src/gtk/gtkui.c:347
+#: src/gtk/gtkui.c:346
 msgid "Make Directory"
 msgstr "སྣོད་ཐོ་བཟོ།"
 
-#: ../src/gtk/gtkui.c:347
+#: src/gtk/gtkui.c:346
 msgid "Enter name of directory to create"
 msgstr "གསར་བསྐྲུན་འབད་ནི་ལུ་སྣོད་ཐོ་གི་མིང་བཙུགས།"
 
-#: ../src/gtk/gtkui.c:370
-#: ../src/gtk/gtkui.c:382
-#: ../src/gtk/misc-gtk.c:932
-#: ../src/gtk/misc-gtk.c:1007
+#: src/gtk/gtkui.c:369 src/gtk/gtkui.c:381 src/gtk/misc-gtk.c:931
+#: src/gtk/misc-gtk.c:1006
 msgid "Rename"
 msgstr "བསྐྱར་མིང་།"
 
-#: ../src/gtk/gtkui.c:380
+#: src/gtk/gtkui.c:379
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "%s ལུ་ཁྱོད་ཀྱིས་བསྐྱར་མིང་ག་ཅི་བཏགས་ནི?"
 
-#: ../src/gtk/gtkui.c:402
-#: ../src/gtk/gtkui.c:405
+#: src/gtk/gtkui.c:401 src/gtk/gtkui.c:404
 msgid "Site"
 msgstr "ས་ཁོངས།"
 
-#: ../src/gtk/gtkui.c:405
+#: src/gtk/gtkui.c:404
 msgid "Enter site-specific command"
 msgstr "ས་ཁོངས་-དམིགས་བསལ་གྱི་བརྡ་བཀོད་བཙུགས།"
 
-#: ../src/gtk/gtkui.c:406
+#: src/gtk/gtkui.c:405
 msgid "Prepend with SITE"
 msgstr "ས་གོངས་མཉམ་པིརི་པེནཌི་"
 
-#: ../src/gtk/gtkui.c:449
-#: ../src/gtk/menu-items.c:235
+#: src/gtk/gtkui.c:448 src/gtk/menu-items.c:234
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60
-#: ../src/gtk/transfer.c:496
-#: ../src/gtk/transfer.c:564
-#: ../src/gtk/transfer.c:1021
+#: src/gtk/gtkui_transfer.c:59 src/gtk/transfer.c:472 src/gtk/transfer.c:540
+#: src/gtk/transfer.c:997
 msgid "Skipped"
 msgstr "གོམ་འགྱོ་ནུག"
 
-#: ../src/gtk/gtkui_transfer.c:62
-#: ../src/gtk/transfer.c:543
-#: ../src/gtk/transfer.c:568
+#: src/gtk/gtkui_transfer.c:61 src/gtk/transfer.c:519 src/gtk/transfer.c:544
 msgid "Waiting..."
 msgstr "བསྒུག་དོ་..."
 
-#: ../src/gtk/gtkui_transfer.c:136
-#: ../src/gtk/gtkui_transfer.c:314
-#: ../src/gtk/gtkui_transfer.c:341
+#: src/gtk/gtkui_transfer.c:135 src/gtk/gtkui_transfer.c:313
+#: src/gtk/gtkui_transfer.c:340
 msgid "Overwrite"
 msgstr "ཚབ་སྲུང་འབད་ནི།"
 
-#: ../src/gtk/gtkui_transfer.c:143
-#: ../src/gtk/gtkui_transfer.c:320
-#: ../src/gtk/gtkui_transfer.c:347
+#: src/gtk/gtkui_transfer.c:142 src/gtk/gtkui_transfer.c:319
+#: src/gtk/gtkui_transfer.c:346
 msgid "Resume"
 msgstr "བསྐྱར་ལོག"
 
-#: ../src/gtk/gtkui_transfer.c:150
-#: ../src/gtk/gtkui_transfer.c:317
+#: src/gtk/gtkui_transfer.c:149 src/gtk/gtkui_transfer.c:316
 msgid "Skip"
 msgstr "གོམ་འགྱོ།"
 
-#: ../src/gtk/gtkui_transfer.c:231
+#: src/gtk/gtkui_transfer.c:230
 msgid "Action"
 msgstr "བྱ་བ།"
 
-#: ../src/gtk/gtkui_transfer.c:236
-#: ../src/gtk/gtkui_transfer.c:245
-#: ../src/gtk/transfer.c:91
+#: src/gtk/gtkui_transfer.c:235 src/gtk/gtkui_transfer.c:244
+#: src/gtk/transfer.c:90
 msgid "Transfer Files"
 msgstr "གནས་སོར་ཡིག་སྣོད་ཚུ།"
 
-#: ../src/gtk/gtkui_transfer.c:257
+#: src/gtk/gtkui_transfer.c:256
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2602,74 +2607,74 @@ msgstr ""
 "འོག་གི་ཡིག་སྣོད་ཚུ་ཉེ་གནས་དང་ཐག་རིང་གི་གློག་རིག་གཉིས་ཆ་རང་ལུ་ཡོད།\n"
 " ཁྱོད་ཀྱིས་ག་ཅི་འབད་དགོ་མནོ་མི་འདི་སེལ་འཐུ་འབད་གནང་།"
 
-#: ../src/gtk/gtkui_transfer.c:323
+#: src/gtk/gtkui_transfer.c:322
 msgid "Error"
 msgstr "འཛོལ་བ།"
 
-#: ../src/gtk/gtkui_transfer.c:353
+#: src/gtk/gtkui_transfer.c:352
 msgid "Skip File"
 msgstr "ཡིག་སྣོད་གོམ་འགྱོ།"
 
-#: ../src/gtk/gtkui_transfer.c:363
+#: src/gtk/gtkui_transfer.c:362
 msgid "Select All"
 msgstr "ཆ་མཉམ་སེལ་འཐུ་འབད།"
 
-#: ../src/gtk/gtkui_transfer.c:369
+#: src/gtk/gtkui_transfer.c:368
 msgid "Deselect All"
 msgstr "ཆ་མཉམ་སུལ་འཐུ་བཤོལ།"
 
-#: ../src/gtk/menu-items.c:65
+#: src/gtk/menu-items.c:64
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
-msgstr "ཡིག་སྣོད་གསལ་བཀོད་བསྒྱུར་བཅོས་འབད་: བཀོལ་སྤྱོད་ཆ་མེད་གཏང་ནུག་...ཁྱོད་ཀྱིས་ཡིག་རྒྱུན་ངེས་པར་བཙུགས་དགོ།\n"
+msgstr ""
+"ཡིག་སྣོད་གསལ་བཀོད་བསྒྱུར་བཅོས་འབད་: བཀོལ་སྤྱོད་ཆ་མེད་གཏང་ནུག་...ཁྱོད་ཀྱིས་ཡིག་རྒྱུན་ངེས་པར་བཙུགས་"
+"དགོ།\n"
 
-#: ../src/gtk/menu-items.c:83
-#: ../src/gtk/menu-items.c:86
+#: src/gtk/menu-items.c:82 src/gtk/menu-items.c:85
 msgid "Change Filespec"
 msgstr "ཡིག་སྣོད་གསལ་བཀོད་བསྒྱུར་བཅོས་འབད།"
 
-#: ../src/gtk/menu-items.c:86
+#: src/gtk/menu-items.c:85
 msgid "Enter the new file specification"
 msgstr "ཡིག་སྣོད་གསརཔ་གསལ་བཀོད་འདི་བཙུགས།"
 
-#: ../src/gtk/menu-items.c:114
-#: ../src/gtk/menu-items.c:299
-#: ../src/gtk/menu-items.c:363
-#: ../src/gtk/view_dialog.c:76
-#: ../src/gtk/view_dialog.c:155
+#: src/gtk/menu-items.c:113 src/gtk/menu-items.c:298 src/gtk/menu-items.c:362
+#: src/gtk/view_dialog.c:80
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "འཛོལ་བ་:%s འབྲི་ནིའི་དོན་ལུ་ %s ཁ་ཕྱེ་མི་བཏུབ།\n"
 
-#: ../src/gtk/menu-items.c:143
+#: src/gtk/menu-items.c:142
 msgid "Save Directory Listing"
 msgstr "ཐོ་བཀོད་འབད་ནིའི་སྣོད་ཐོ་སྲུང་བཞག་འབད།"
 
-#: ../src/gtk/menu-items.c:327
-#: ../src/gtk/menu-items.c:391
+#: src/gtk/menu-items.c:326 src/gtk/menu-items.c:390
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "འཛོལ་བ་: %s: %s འབྲི་ནི་ལུ་འཛོལ་བ།\n"
 
-#: ../src/gtk/menu-items.c:402
+#: src/gtk/menu-items.c:401
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "%s ལུ་དྲན་དེབ་ཡིག་སྣོད་འདི་མཐར་འཁྱོལཝ་སྦེ་བྲིས་ནུག\n"
 
-#: ../src/gtk/menu-items.c:414
+#: src/gtk/menu-items.c:413
 msgid "Save Log"
 msgstr "དྲན་དེབ་སྲུང་བཞག་འབད།"
 
-#: ../src/gtk/menu-items.c:450
+#: src/gtk/menu-items.c:449
 #, c-format
-msgid "Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"
-msgstr "ཆོག་ཐམ་གན་འཛིན་ཡིག་སྣོད་འདྲ་བཤུས་འབད་ནི་འདི་འཚོལ་མི་ཐོབ། འ་ནི་འདི་ %s ནང་ལུ་ ཡང་ཅིན་ %s ནང་ལུ་ཡོདཔ་ངེས་ཏིག་བཟོ་གནང་།"
+msgid ""
+"Cannot find the license agreement file COPYING. Please make sure it is in "
+"either %s or in %s"
+msgstr ""
+"ཆོག་ཐམ་གན་འཛིན་ཡིག་སྣོད་འདྲ་བཤུས་འབད་ནི་འདི་འཚོལ་མི་ཐོབ། འ་ནི་འདི་ %s ནང་ལུ་ ཡང་ཅིན་ %s ནང་ལུ་"
+"ཡོདཔ་ངེས་ཏིག་བཟོ་གནང་།"
 
-#: ../src/gtk/menu-items.c:454
-#: ../src/gtk/menu-items.c:459
+#: src/gtk/menu-items.c:453 src/gtk/menu-items.c:458
 msgid "About gFTP"
 msgstr "ཇི་ཨེཕ་ཊི་པི་གི་སྐོར་ལས།"
 
-#: ../src/gtk/menu-items.c:490
+#: src/gtk/menu-items.c:489
 #, c-format
 msgid ""
 "%s\n"
@@ -2681,99 +2686,100 @@ msgstr ""
 "གཞུང་འབྲེལ་ཁྱིམ་གྱི་ཤོག་ལེབ་: http://www.gftp.org/\n"
 "གིས་ལས་རྟགས་: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: ../src/gtk/menu-items.c:503
+#: src/gtk/menu-items.c:502
 msgid "About"
 msgstr "སྐོར་ལས།"
 
-#: ../src/gtk/menu-items.c:552
+#: src/gtk/menu-items.c:551
 msgid "License Agreement"
 msgstr "ཆོག་ཐམ་གན་འཛིན།"
 
-#: ../src/gtk/menu-items.c:558
-#: ../src/gtk/view_dialog.c:405
+#: src/gtk/menu-items.c:557 src/gtk/view_dialog.c:384
 msgid "  Close  "
 msgstr "  ཁ་བསྡམས་  "
 
-#: ../src/gtk/menu-items.c:685
+#: src/gtk/menu-items.c:684
 msgid "Compare Windows"
 msgstr "ཝིན་ཌོ་ཚུ་ག་བསྡུར་འབད།"
 
-#: ../src/gtk/misc-gtk.c:257
+#: src/gtk/misc-gtk.c:256
 msgid "Disconnect from the remote server"
 msgstr "ཐག་རིང་གི་སར་བར་ནང་ལས་མཐུད་ལམ་བཏོགས་ནི།"
 
-#: ../src/gtk/misc-gtk.c:261
-msgid "Connect to the site specified in the host entry. If the host entry is blank, then a dialog is presented that will allow you to enter a URL."
-msgstr "ཧོསཊི་ཐོ་བཀོད་འདི་ནང་ལུ་གསལ་བཀོད་འབད་མི་ས་ཁོངས་འདི་ལུ་མཐུད། ཧོསཊི་ཐོ་བཀོད་འདི་སྟོངམ་ཨིན་པ་ཅིན་ ཌའི་ལོག་འདི་ཡོདཔ་ལས་དེ་གིས་ཁྱོད་ལུ་ཡུ་ཨར་ཨེལ་འདི་བཙུགས་བཅུག་འོང་།"
+#: src/gtk/misc-gtk.c:260
+msgid ""
+"Connect to the site specified in the host entry. If the host entry is blank, "
+"then a dialog is presented that will allow you to enter a URL."
+msgstr ""
+"ཧོསཊི་ཐོ་བཀོད་འདི་ནང་ལུ་གསལ་བཀོད་འབད་མི་ས་ཁོངས་འདི་ལུ་མཐུད། ཧོསཊི་ཐོ་བཀོད་འདི་སྟོངམ་ཨིན་པ་ཅིན་ ཌའི་"
+"ལོག་འདི་ཡོདཔ་ལས་དེ་གིས་ཁྱོད་ལུ་ཡུ་ཨར་ཨེལ་འདི་བཙུགས་བཅུག་འོང་།"
 
-#: ../src/gtk/misc-gtk.c:308
+#: src/gtk/misc-gtk.c:307
 msgid "All Files"
 msgstr "ཡིག་སྣོད་ཚུ་ཆ་མཉམ།"
 
-#: ../src/gtk/misc-gtk.c:318
+#: src/gtk/misc-gtk.c:317
 msgid "] (Cached) ["
 msgstr "] (འདྲ་མཛོད་འབད་ཡོད་) ["
 
-#: ../src/gtk/misc-gtk.c:329
+#: src/gtk/misc-gtk.c:328
 msgid "Not connected"
 msgstr "མ་མཐུད་པས།"
 
-#: ../src/gtk/misc-gtk.c:431
+#: src/gtk/misc-gtk.c:430
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "%s: %s ཁ་ཕྱེ་ནི་ལུ་འཛོལ་བ།\n"
 
-#: ../src/gtk/misc-gtk.c:521
+#: src/gtk/misc-gtk.c:520
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: ཐག་རིང་གི་ས་ཁོངས་འདི་ལུ་མ་མཐུད་པས།\n"
 
-#: ../src/gtk/misc-gtk.c:528
+#: src/gtk/misc-gtk.c:527
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s:གནད་སྤེལ་ལམ་ལུགས་འདི་ལག་ལེན་འཐབ་འདི་འ་ནི་ཁྱད་རྣམ་འདི་ཐོབ་མི་ཚུགས།\n"
 
-#: ../src/gtk/misc-gtk.c:536
+#: src/gtk/misc-gtk.c:535
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: ཁྱོད་ལུ་སེལ་འཐུ་འབད་ཡོད་པའི་རྣམ་གྲངས་གཅིག་རྐྱངམ་ཅིག་ངེས་པར་འོང་དགོ།\n"
 
-#: ../src/gtk/misc-gtk.c:543
+#: src/gtk/misc-gtk.c:542
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: ཁྱོད་ལུ་སེལ་འཐུ་འབད་ཡོད་པའི་རྣམ་གྲངས་ཉུང་མཐའ་རང་གཅིག་ངེས་པར་འོང་དགོ།\n"
 
-#: ../src/gtk/misc-gtk.c:926
-#: ../src/gtk/misc-gtk.c:1001
+#: src/gtk/misc-gtk.c:925 src/gtk/misc-gtk.c:1000
 msgid "Change"
 msgstr "བསྒྱུར་བཅོས།"
 
-#: ../src/gtk/misc-gtk.c:998
-#: ../src/gtk/options_dialog.c:1277
+#: src/gtk/misc-gtk.c:997 src/gtk/options_dialog.c:1276
 msgid "Add"
 msgstr "ཁ་སྐོང་།"
 
-#: ../src/gtk/misc-gtk.c:1024
+#: src/gtk/misc-gtk.c:1023
 msgid "Cancel"
 msgstr "ཆ་མེད་གཏང་།"
 
-#: ../src/gtk/misc-gtk.c:1094
+#: src/gtk/misc-gtk.c:1093
 msgid "  Yes  "
 msgstr "ཨིན།"
 
-#: ../src/gtk/misc-gtk.c:1104
+#: src/gtk/misc-gtk.c:1103
 msgid "  No  "
 msgstr "མེན།"
 
-#: ../src/gtk/misc-gtk.c:1164
+#: src/gtk/misc-gtk.c:1163
 msgid "Getting directory listings"
 msgstr "སྣོད་ཐོ་ཐོ་བཀོད་འབད་མི་ཚུ་ཐོབ་དོ།"
 
-#: ../src/gtk/misc-gtk.c:1184
+#: src/gtk/misc-gtk.c:1183
 msgid "  Stop  "
 msgstr "བཀག"
 
-#: ../src/gtk/misc-gtk.c:1194
+#: src/gtk/misc-gtk.c:1193
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2782,114 +2788,109 @@ msgstr ""
 "ཐོབ་ཅི་ %ld སྣོད་ཐོ་ཚུ་\n"
 "དང་ %ld ཡིག་སྣོད་ཚུ།"
 
-#: ../src/gtk/misc-gtk.c:1270
+#: src/gtk/misc-gtk.c:1269
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "gFTP འཛོལ་བ་: ཡིག་སྣོད་ %s ནང་ %s ཡང་ན་ %s འདི་འཚོལ་མི་ཐོབ།\n"
 
-#: ../src/gtk/options_dialog.c:956
+#: src/gtk/options_dialog.c:955
 msgid "Edit Host"
 msgstr "ཧོསཊི་ཞུན་དག་འབད།"
 
-#: ../src/gtk/options_dialog.c:956
+#: src/gtk/options_dialog.c:955
 msgid "Add Host"
 msgstr "ཧོསཊི་ཁ་སྐོང་རྐྱབས།"
 
-#: ../src/gtk/options_dialog.c:1002
+#: src/gtk/options_dialog.c:1001
 msgid "Type:"
 msgstr "ཡིག་དཔར་རྐྱབས་:"
 
-#: ../src/gtk/options_dialog.c:1004
+#: src/gtk/options_dialog.c:1003
 msgid "_Type:"
 msgstr "ཡིག་དཔར་རྐྱབས་:(_T)"
 
-#: ../src/gtk/options_dialog.c:1014
-#: ../src/gtk/options_dialog.c:1137
+#: src/gtk/options_dialog.c:1013 src/gtk/options_dialog.c:1136
 msgid "Domain"
 msgstr "ཌོ་མེན།"
 
-#: ../src/gtk/options_dialog.c:1047
+#: src/gtk/options_dialog.c:1046
 msgid "Network Address"
 msgstr "ཡོངས་འབྲེལ་ཁ་བྱང་།"
 
-#: ../src/gtk/options_dialog.c:1049
+#: src/gtk/options_dialog.c:1048
 msgid "_Network address:"
 msgstr "ཡོངས་འབྲེལ་ཁ་བྱང་:(_N)"
 
-#: ../src/gtk/options_dialog.c:1088
-#: ../src/gtk/options_dialog.c:1241
+#: src/gtk/options_dialog.c:1087 src/gtk/options_dialog.c:1240
 msgid "Netmask"
 msgstr "ནེཊི་མཱསིཀ།"
 
-#: ../src/gtk/options_dialog.c:1090
+#: src/gtk/options_dialog.c:1089
 msgid "N_etmask:"
 msgstr "ནེཊི་མཱསིཀ་:(_e)"
 
-#: ../src/gtk/options_dialog.c:1139
+#: src/gtk/options_dialog.c:1138
 msgid "_Domain:"
 msgstr "ཌོ་མེན་:(_D)"
 
-#: ../src/gtk/options_dialog.c:1247
+#: src/gtk/options_dialog.c:1246
 msgid "Local Hosts"
 msgstr "ཉེ་གནས་ཀྱི་ཧོསཊི་ཚུ།"
 
-#: ../src/gtk/options_dialog.c:1288
-#: ../src/gtk/view_dialog.c:105
+#: src/gtk/options_dialog.c:1287 src/gtk/view_dialog.c:33
 msgid "Edit"
 msgstr "ཞུན་དག"
 
-#: ../src/gtk/options_dialog.c:1290
+#: src/gtk/options_dialog.c:1289
 msgid "_Edit"
 msgstr "ཞུན་དག་(_E)"
 
-#: ../src/gtk/options_dialog.c:1367
-#: ../src/gtk/options_dialog.c:1372
+#: src/gtk/options_dialog.c:1366 src/gtk/options_dialog.c:1371
 msgid "Options"
 msgstr "གདམ་ཁ་ཚུ།"
 
-#: ../src/gtk/options_dialog.c:1459
+#: src/gtk/options_dialog.c:1458
 msgid "Apply"
 msgstr "འཇུག་སྤྱོད་འབད།"
 
-#: ../src/gtk/transfer.c:30
+#: src/gtk/transfer.c:29
 msgid "Receiving file names..."
 msgstr "ཡིག་སྣོད་ཀྱིས་མིང་ཚུ་ཐོབ་དོ་..."
 
-#: ../src/gtk/transfer.c:63
-#: ../src/gtk/transfer.c:712
+#: src/gtk/transfer.c:62 src/gtk/transfer.c:688
 msgid "Connecting..."
 msgstr "མཐུད་དོ་..."
 
-#: ../src/gtk/transfer.c:99
+#: src/gtk/transfer.c:98
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "ཡིག་སྣོད་ཚུ་སླར་འདྲེན་འབད་: ཐག་རིང་གི་ས་ཁོངས་འདི་ལུ་མ་མཐུད།\n"
 
-#: ../src/gtk/transfer.c:336
+#: src/gtk/transfer.c:335
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "འཛོལ་བ: ཆ་ལག་ %d སླར་ལོག་ཡོདཔ་ %d\n"
 
-#: ../src/gtk/transfer.c:345
+#: src/gtk/transfer.c:344
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "ཆ་ལག་ %d མཐར་འཁྱོལཝ་སྦེ་སླར་ལོག་འབད་ནུག།\n"
 
-#: ../src/gtk/transfer.c:352
+#: src/gtk/transfer.c:351
 #, c-format
 msgid "Error: Child %d did not terminate properly\n"
 msgstr "འཛོལ་བ: ཆ་ལག་ %d འདི་ཚུལ་ལྡན་སྦེ་རྩ་གྲོལ་མ་གཏང་བས།\n"
 
-#: ../src/gtk/transfer.c:368
+#: src/gtk/transfer.c:367
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "འཛོལ་བ: ཡིག་སྣོད་  %s: %s གི་སྐོར་ལས་བརྡ་དོན་ཐོབ་མི་ཚུགས།\n"
 
-#: ../src/gtk/transfer.c:374
+#: src/gtk/transfer.c:373
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "ཡིག་སྣོད་ %s འདི་བསྒྱུར་བཅོས་མ་འབད་བས།\n"
 
-#: ../src/gtk/transfer.c:382
+#: src/gtk/transfer.c:381
 #, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2898,147 +2899,170 @@ msgstr ""
 "ཡིག་སྣོད་ %s འདི་བསྒྱུར་བཅོས་འབད་ཡོད།\n"
 " ཁྱོད་ཀྱིས་འདི་བཙུགས་སྐྱེལ་འབད་ནི་ཨིན་ན?"
 
-#: ../src/gtk/transfer.c:385
+#: src/gtk/transfer.c:384
 msgid "Edit File"
 msgstr "ཡིག་སྣོད་ཞུན་དག་འབད།"
 
-#: ../src/gtk/transfer.c:499
+#: src/gtk/transfer.c:475
 msgid "Finished"
 msgstr "མཇུག་བསྡུ་ཡོད།"
 
-#: ../src/gtk/transfer.c:757
+#: src/gtk/transfer.c:733
 #, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "%s བཅུག་པའི་ ཕོག་ཚོད་ཀྱི་  %s at %.2fKB/s, %02d:%02d:%02d དུས་ཚོད་ལྷག་ལུས།"
 
-#: ../src/gtk/transfer.c:762
+#: src/gtk/transfer.c:738
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "%s ཐོབ་ནུག་ %s གི་ནང་ལས་%.2fKB/s, %02d:%02d:%02d est ཆུ་ཚོད་ལྷག་ལུས།"
 
-#: ../src/gtk/transfer.c:773
+#: src/gtk/transfer.c:749
 #, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
 msgstr "%s གནས་སོར་གཞི་བཙུགས་ཀྱི་ བཅུག་པའི་%s མ་ཤེས་པའི་དུས་ཚོད་ལྷག་ལུས།"
 
-#: ../src/gtk/transfer.c:779
+#: src/gtk/transfer.c:755
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "%s གི་ %s ཐོབ་དོ་ གནས་སོར་བཙུགས་ཡོད་ མ་ཤེས་པའི་ཆུ་ཚོད་ལྷག་ལུས།"
 
-#: ../src/gtk/transfer.c:823
+#: src/gtk/transfer.c:799
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "མ་ཤེས་པའི་བརྒྱ་ཆ་མཇུག་བསྡུ་ཡོད།  ( %ld གི་ཡིག་སྣོད་ %ld)"
 
-#: ../src/gtk/transfer.c:827
+#: src/gtk/transfer.c:803
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% མཇུག་བསྡུ་ %02d:%02d:%02d est. ཆུ་ཚོད་ལྷག་ལུས། ( %ld གི་ཡིག་སྣོད་ %ld)"
 
-#: ../src/gtk/transfer.c:865
+#: src/gtk/transfer.c:841
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "ཡིག་སྣོད་ཀྱི་མིང་ཚུ་...%s བཱའིཊི་ཚུ་སླར་འདྲེན་འབད་དོ།"
 
-#: ../src/gtk/transfer.c:944
-#: ../src/gtk/transfer.c:966
-#: ../src/gtk/transfer.c:985
-#: ../src/gtk/transfer.c:1007
-#: ../src/gtk/transfer.c:1035
-#: ../src/gtk/transfer.c:1095
+#: src/gtk/transfer.c:920 src/gtk/transfer.c:942 src/gtk/transfer.c:961
+#: src/gtk/transfer.c:983 src/gtk/transfer.c:1011 src/gtk/transfer.c:1071
 msgid "There are no file transfers selected\n"
 msgstr "ཡིག་སྣོད་གནས་སོར་ཚུ་སེལ་འཐུ་འབད་འདི་མིན་འདུག།\n"
 
-#: ../src/gtk/view_dialog.c:36
+#: src/gtk/view_dialog.c:33
 msgid "View"
 msgstr "མཐོང་སྣང་།"
 
-#: ../src/gtk/view_dialog.c:48
+#: src/gtk/view_dialog.c:48
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "མཐོང་སྣང་: %s འདི་སྣོད་ཐོ་ཨིན། དེ་མཐོང་སྣང་འབད་མི་བཏུབ།\n"
 
-#: ../src/gtk/view_dialog.c:114
-msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "ཞུན་དག་: གདམ་ཁ་ཚུ་གི་ཌའི་ལོག་འདི་ནང་ཞུན་དགཔ་འདི་ཁྱོད་ཀྱིས་ངེས་པར་གསལ་བཀོད་འབད་དགོ།\n"
-
-#: ../src/gtk/view_dialog.c:127
+#: src/gtk/view_dialog.c:51
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "ཞུན་དག་: %s འདི་སྣོད་ཐོ་ཅིག་ཨིན། འདི་ཞུན་དག་རྐྱབས་མི་ཚུགས།\n"
 
-#: ../src/gtk/view_dialog.c:210
+#: src/gtk/view_dialog.c:122
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "ཞུན་དག་: གདམ་ཁ་ཚུ་གི་ཌའི་ལོག་འདི་ནང་ཞུན་དགཔ་འདི་ཁྱོད་ཀྱིས་ངེས་པར་གསལ་བཀོད་འབད་དགོ།\n"
+
+#: src/gtk/view_dialog.c:176
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "མཐོང་སྣང་:ལས་སྦྱོར་གཞན་ཁ་སྤེལ་མི་བཏུབ་: %s\n"
 
-#: ../src/gtk/view_dialog.c:213
+#: src/gtk/view_dialog.c:179
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "ལས་རིམ་གཡོག་བཀོལ་བའི་བསྒང་: %s %s\n"
 
-#: ../src/gtk/view_dialog.c:272
+#: src/gtk/view_dialog.c:239
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "%s མཉམ་ %s ཁ་ཕྱེ་དོ།\n"
 
-#: ../src/gtk/view_dialog.c:307
+#: src/gtk/view_dialog.c:281
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "ཡིག་སྣོད་ %s སྟོན་དོ།\n"
 
-#: ../src/gtk/view_dialog.c:314
+#: src/gtk/view_dialog.c:288
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "མཐོང་སྣང་: ཡིག་སྣོད་  %s: %s འདི་ཁ་ཕྱེ་མི་བཏུབ།\n"
 
-#: ../src/text/gftp-text.c:166
+#: src/text/gftp-text.c:163
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "ཚད་འཛིན་འབད་ནིའི་རྩ་གྲོལ་ %s འདི་ཁ་ཕྱེ་མི་བཏུབ།\n"
 
-#: ../src/text/textui.c:80
+#: src/text/textui.c:79
 msgid "Username [anonymous]:"
 msgstr "ལག་ལེན་པའི་མིང་ [མིང་མེདཔ་]:"
 
-#: ../src/text/textui.c:158
+#: src/text/textui.c:157
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: "
+"(%c)"
 msgstr ""
 "%s ཧེ་མ་ལས་ཡོདཔ། (%s་འབྱུང་ཁུངས་ཀྱི་ཚད་ %s འགྲོ་ཡུལ་གྱི་ཚད་):\n"
-" (o) ཚབ་སྲུང་ (r) བསྐྱར་ལོག་ (s) གོམ་འགྱོ་ (O) ཆ་མཉམ་ཚབ་སྲུང་འབད་ (R) ཆ་མཉམ་བསྐྱར་ལོག་འབད་ (S) ཆ་མཉམ་གོམ་འགྱོ་ (%c)"
+" (o) ཚབ་སྲུང་ (r) བསྐྱར་ལོག་ (s) གོམ་འགྱོ་ (O) ཆ་མཉམ་ཚབ་སྲུང་འབད་ (R) ཆ་མཉམ་བསྐྱར་ལོག་"
+"འབད་ (S) ཆ་མཉམ་གོམ་འགྱོ་ (%c)"
+
+#~ msgid "\n"
+#~ msgstr "\n"
+
+#~ msgid ""
+#~ ">. If you have any questions, comments, or suggestions about this "
+#~ "program, please feel free to email them to me. You can always find out "
+#~ "the latest news about gFTP from my website at http://www.gftp.org/\n"
+#~ msgstr ""
+#~ "> ཁྱོད་ལུ་གང་རུང་གི་དྲི་བ་ཚུ་ བསམ་བཀོད་ཚུ་ ཡང་ན་ ལས་རིམ་འདི་གི་སྐོར་ལས་བསམ་འཆར་ཚུ་ཡོད་པ་"
+#~ "ཅིན་ ང་ལུ་དེ་དེ་ཚུ་གློག་འཕྲིན་གཏང་ནི་ལུ་ཚོར་སྣང་རང་དབང་འབད་གནང་། ང་བཅས་ཀྱི་ཝེབ་ཀྱི་ས་ཁོངས་"
+#~ "http://www.gftp.org/ ནང་ལས་ཇི་ཨེཕ་ཊི་པི་གི་སྐོར་ལས་མཐའ་འཇུག་གི་གནས་ཚུལ་འདི་ཁྱོད་ཀྱིས་ཨ་"
+#~ "རྟག་རང་འཚོལ་ཚུགས།\n"
 
 #~ msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
 #~ msgstr "ད་ལྟོའི་ལོ་ཀེལ་ %s ནང་ལས་ UTF-8 ལུ་ '%s' ཡིག་རྒྱུན་གཞི་བསྒྱུར་འབད་ནི་ལུ་འཛོལ་བ།\n"
+
 #~ msgid "Error converting string '%s' to current locale from UTF-8: %s\n"
 #~ msgstr "UTF-8:%s ནང་ལས་ད་ལྟོའི་ལོ་ཀེལ་ལུ་ '%s' ཡིག་རྒྱུན་གཞི་བསྒྱུར་འབད་ནུ་ལུ་འཛོལ་བ།\n"
+
 #~ msgid "Error: Remote site disconnected after trying to transfer file\n"
 #~ msgstr ""
 #~ "འཛོལ་བ: གནས་སོར་ཡིག་སྣོད་ལུ་འབད་རྩོལ་བསྐྱེད་པའི་ཤུལ་ལས་ཐག་རིང་ས་ཁོངས་ཀྱི་མཐུད་ལམ་འདི་བཏོགས་"
 #~ "ནུག།\n"
+
 #~ msgid "There was an error transfering the file %s"
 #~ msgstr "ཡིག་སྣོད་ %s འདི་གནས་སོར་འབད་ནི་ལུ་འཛོལ་བ་འདུག།"
+
 #~ msgid "Startup Directory:"
 #~ msgstr "སྣོད་ཐོ་འགོ་བཙུགས:"
+
 #~ msgid "The default directory gFTP will go to on startup"
 #~ msgstr "སྔོན་སྒྲིག་སྣོད་ཐོ་gFTP འདི་གིས་འགོ་བཙུགས་ནི་ལུ་འགྱོ་འོང་།"
+
 #~ msgid "Connect via URL"
 #~ msgstr "བརྒྱུད་དེ་ ཡུ་ཨར་ཨེལ་ མཐུད།"
+
 #~ msgid "OpenURL"
 #~ msgstr "ཡུ་ཨར་ཨེལ་ཁ་ཕྱེ།"
+
 #~ msgid "/FTP/_Options..."
 #~ msgstr "/ཨེཕ་ཊི་པི་/གདམ་ཁ་ཚུ་...(_O)"
+
 #~ msgid "/Local/Make Directory..."
 #~ msgstr "/ཉེ་གནས་/སྣོད་ཐོ་བཟོ་..."
+
 #~ msgid "/Remote/Make Directory..."
 #~ msgstr "/ཐག་རིང་གི་/སྣོད་ཐོ་བཟོ་..."
+
 #~ msgid "/Transfers/Start Transfer"
 #~ msgstr "/གནས་སོར་ཚུ་/གནས་སོར་འགོ་བཙུགས།"
+
 #~ msgid "/Transfers/Stop Transfer"
 #~ msgstr "/གནས་སོར་ཚུ་/གནས་སོར་བཀག་བཞག"
+
 #~ msgid "Stopping the transfer of %s\n"
 #~ msgstr "%s གི་གནས་སོར་འདི་བསྒུག་དོ།\n"
-

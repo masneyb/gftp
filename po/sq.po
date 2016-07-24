@@ -7,98 +7,95 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-14 14:36+0200\n"
+"POT-Creation-Date: 2016-07-24 02:50-0700\n"
 "PO-Revision-Date: 2004-09-03 18:05+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
+"Language: sq\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/bookmark.c:39
+#: lib/bookmark.c:37
 #, c-format
 msgid "Invalid URL %s\n"
 msgstr "URL %s e pavlefshme\n"
 
-#: lib/cache.c:50 lib/cache.c:64 lib/cache.c:77
+#: lib/cache.c:49 lib/cache.c:63 lib/cache.c:76
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Gabim: Rresht i pavlefshëm %s tek file index i cache\n"
 
-#: lib/cache.c:137 lib/local.c:534
+#: lib/cache.c:137 lib/fsp.c:534 lib/local.c:560
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Gabim: I pamundur krijimi i directory %s: %s\n"
 
-#: lib/cache.c:161
-#, c-format
-#, fuzzy
+#: lib/cache.c:163
+#, fuzzy, c-format
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Gabim j"
 
-#: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:148 lib/config_file.c:154
-#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:262 lib/sshv2.c:1038
-#, c-format
-#, fuzzy
+#: lib/cache.c:185 lib/cache.c:235 lib/config_file.c:156 lib/config_file.c:162
+#: lib/local.c:143 lib/local.c:271 lib/rfc2068.c:259 lib/sshv2.c:1249
+#, fuzzy, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Gabim j"
 
-#: lib/cache.c:250 lib/local.c:132 lib/local.c:141 lib/local.c:188
-#, c-format
-#, fuzzy
+#: lib/cache.c:253 lib/fsp.c:126 lib/fsp.c:206 lib/local.c:183 lib/local.c:192
+#: lib/local.c:246
+#, fuzzy, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Gabim në j"
 
-#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2803
+#: lib/charset-conv.c:72
 #, c-format
-#, fuzzy
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+
+#: lib/config_file.c:125 lib/config_file.c:132 lib/protocols.c:1626
+#, fuzzy, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Gabim hap lokal j"
 
-#: lib/config_file.c:134 lib/protocols.c:2507 lib/sslcommon.c:480
-#, c-format
-#, fuzzy
+#: lib/config_file.c:142 lib/sockutils.c:292 lib/sslcommon.c:504
+#, fuzzy, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Gabim nuk socket j"
 
-#: lib/config_file.c:142 lib/protocols.c:2435 lib/sshv2.c:316
-#: lib/sslcommon.c:434
-#, c-format
-#, fuzzy
+#: lib/config_file.c:150 lib/sockutils.c:213 lib/sshv2.c:444
+#: lib/sslcommon.c:457
+#, fuzzy, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Gabim nuk socket j"
 
-#: lib/config_file.c:174 lib/config_file.c:730
-#, c-format
-#, fuzzy
+#: lib/config_file.c:182 lib/config_file.c:736
+#, fuzzy, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP Gabim emri j"
 
-#: lib/config_file.c:183
-#, c-format
-#, fuzzy
+#: lib/config_file.c:191
+#, fuzzy, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Kujdes gjej j"
 
-#: lib/config_file.c:194 lib/config_file.c:736
-#, c-format
-#, fuzzy
+#: lib/config_file.c:202 lib/config_file.c:742
+#, fuzzy, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP Gabim hap j"
 
-#: lib/config_file.c:286 lib/config_file.c:308
-#, c-format
-#, fuzzy
+#: lib/config_file.c:294 lib/config_file.c:316
+#, fuzzy, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP Kujdes në j"
 
-#: lib/config_file.c:338
-#, c-format
-#, fuzzy
+#: lib/config_file.c:346
+#, fuzzy, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP Kujdes Linja j"
 
-#: lib/config_file.c:499
+#: lib/config_file.c:503
 #, fuzzy
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
@@ -106,75 +103,67 @@ msgid ""
 "dont_use_proxy=network number/netmask"
 msgstr "në lokal dhe server"
 
-#: lib/config_file.c:502
+#: lib/config_file.c:506
 #, fuzzy
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
 msgstr "Binar A B programi Shënim Gjithçka"
 
-#: lib/config_file.c:580 lib/config_file.c:819
-#, c-format
-#, fuzzy
+#: lib/config_file.c:586 lib/config_file.c:831
+#, fuzzy, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP Gabim emri j"
 
-#: lib/config_file.c:591
-#, c-format
-#, fuzzy
+#: lib/config_file.c:597
+#, fuzzy, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP Gabim nuk j"
 
-#: lib/config_file.c:601
-#, c-format
-#, fuzzy
+#: lib/config_file.c:607
+#, fuzzy, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP Gabim gjej j"
 
-#: lib/config_file.c:603
-#, c-format
-#, fuzzy
+#: lib/config_file.c:609
+#, fuzzy, c-format
 msgid "Did you do a make install?\n"
 msgstr "a instalo j"
 
-#: lib/config_file.c:612 lib/config_file.c:825
-#, c-format
-#, fuzzy
+#: lib/config_file.c:618 lib/config_file.c:837
+#, fuzzy, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP Gabim hap j"
 
-#: lib/config_file.c:651
-#, c-format
-#, fuzzy
+#: lib/config_file.c:657
+#, fuzzy, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr "në j"
 
-#: lib/config_file.c:657
-#, c-format
-#, fuzzy
+#: lib/config_file.c:663
+#, fuzzy, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP Kujdes në j"
 
-#: lib/config_file.c:664
-#, c-format
-#, fuzzy
+#: lib/config_file.c:670
+#, fuzzy, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP Gabim emri j"
 
-#: lib/config_file.c:670
-#, c-format
-#, fuzzy
+#: lib/config_file.c:676
+#, fuzzy, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTP Kujdes hap për j"
 
-#: lib/config_file.c:725
+#: lib/config_file.c:731
 #, fuzzy
 msgid ""
-"Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
-msgstr "Libërshënues për gFTP Copyright C<masneyb@gftp.org> Kujdes komente shto"
+msgstr ""
+"Libërshënues për gFTP Copyright C<masneyb@gftp.org> Kujdes komente shto"
 
-#: lib/config_file.c:726
+#: lib/config_file.c:732
 #, fuzzy
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
@@ -183,26 +172,103 @@ msgid ""
 "this, all passwords were stored in plaintext."
 msgstr "Shënim është nuk është password nga Parardhës në."
 
-#: lib/config_file.c:832
+#: lib/config_file.c:844
 #, fuzzy
 msgid ""
-"Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
-msgstr "Konfigurim për gFTP Copyright C<masneyb@gftp.org> Kujdes komente shto a a në komenti gFTP"
+msgstr ""
+"Konfigurim për gFTP Copyright C<masneyb@gftp.org> Kujdes komente shto a a në "
+"komenti gFTP"
 
-#: lib/config_file.c:1196 lib/rfc2068.c:560 lib/rfc2068.c:561
+#: lib/config_file.c:1208 lib/protocols.c:384 lib/rfc2068.c:542
+#: lib/rfc2068.c:543
 msgid "<unknown>"
 msgstr ""
 
-#: lib/config_file.c:1272 lib/config_file.c:1335 lib/config_file.c:1377
-#: lib/config_file.c:1410
-#, c-format
-#, fuzzy
+#: lib/config_file.c:1288 lib/config_file.c:1351 lib/config_file.c:1393
+#: lib/config_file.c:1426
+#, fuzzy, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr "gFTP Gabim Konfigurim nuk në tabelë j"
 
-#: lib/ftps.c:156
+#: lib/fsp.c:188
+#, fuzzy, c-format
+msgid "Error: Cannot upload file %s\n"
+msgstr "Gabim hap lokal j"
+
+#: lib/fsp.c:198
+#, fuzzy, c-format
+msgid "Error: Cannot write to file %s: %s\n"
+msgstr "Gabim në j"
+
+#: lib/fsp.c:236
+#, fuzzy, c-format
+msgid "Error: Error closing file: %s\n"
+msgstr "Gabim Gabim j"
+
+#: lib/fsp.c:326
+#, fuzzy, c-format
+msgid "Corrupted file listing from FSP server %s\n"
+msgstr "server j"
+
+#: lib/fsp.c:338 lib/fsp.c:339 lib/parse-dir-listing.c:336
+#: lib/parse-dir-listing.c:337 lib/parse-dir-listing.c:378
+#: lib/parse-dir-listing.c:379 lib/parse-dir-listing.c:445
+#: lib/parse-dir-listing.c:452 lib/parse-dir-listing.c:528
+#: lib/parse-dir-listing.c:529 lib/parse-dir-listing.c:565
+msgid "unknown"
+msgstr "nuk njihet"
+
+#: lib/fsp.c:376
+#, fuzzy, c-format
+msgid "Could not get FSP directory listing %s: %s\n"
+msgstr "nuk merr lokal j"
+
+#: lib/fsp.c:435
+#, fuzzy, c-format
+msgid "Successfully changed directory to %s\n"
+msgstr "lokal j"
+
+#: lib/fsp.c:445
+#, fuzzy, c-format
+msgid "Could not change directory to %s\n"
+msgstr "nuk lokal j"
+
+#: lib/fsp.c:470 lib/fsp.c:499 lib/local.c:479 lib/local.c:515
+#: src/gtk/transfer.c:262 src/gtk/view_dialog.c:305
+#, fuzzy, c-format
+msgid "Successfully removed %s\n"
+msgstr "j"
+
+#: lib/fsp.c:476 lib/local.c:485
+#, fuzzy, c-format
+msgid "Error: Could not remove directory %s: %s\n"
+msgstr "Gabim nuk hiq j"
+
+#: lib/fsp.c:505 lib/local.c:521 src/gtk/transfer.c:266
+#: src/gtk/view_dialog.c:309
+#, fuzzy, c-format
+msgid "Error: Could not remove file %s: %s\n"
+msgstr "Gabim nuk hiq j"
+
+#: lib/fsp.c:527 lib/local.c:553
+#, fuzzy, c-format
+msgid "Successfully made directory %s\n"
+msgstr "j"
+
+#: lib/fsp.c:562 lib/local.c:589
+#, fuzzy, c-format
+msgid "Successfully renamed %s to %s\n"
+msgstr "j"
+
+#: lib/fsp.c:574 lib/local.c:596
+#, fuzzy, c-format
+msgid "Error: Could not rename %s to %s: %s\n"
+msgstr "Gabim nuk j"
+
+#: lib/ftps.c:153
 #, fuzzy
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
@@ -216,850 +282,743 @@ msgid ""
 "connection.\n"
 msgstr "Suporti nuk në j"
 
-#: lib/local.c:67 lib/local.c:464
-#, c-format
-#, fuzzy
-msgid "Could not change local directory to %s: %s\n"
-msgstr "nuk lokal j"
-
-#: lib/local.c:81 lib/local.c:449
-#, c-format
-#, fuzzy
+#: lib/local.c:65
+#, fuzzy, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "nuk merr j"
 
-#: lib/local.c:179
-#, c-format
-#, fuzzy
-msgid "Error: Cannot truncate local file %s: %s\n"
-msgstr "Gabim lokal j"
-
-#: lib/local.c:404
-#, c-format
-#, fuzzy
-msgid "Could not get local directory listing %s: %s\n"
-msgstr "nuk merr lokal j"
-
-#: lib/local.c:441
-#, c-format
-#, fuzzy
+#: lib/local.c:104
+#, fuzzy, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "lokal j"
 
-#: lib/local.c:481 lib/local.c:504 src/gtk/transfer.c:229
-#: src/gtk/view_dialog.c:328
-#, c-format
-#, fuzzy
-msgid "Successfully removed %s\n"
-msgstr "j"
+#: lib/local.c:111
+#, fuzzy, c-format
+msgid "Could not change local directory to %s: %s\n"
+msgstr "nuk lokal j"
 
-#: lib/local.c:487
-#, c-format
-#, fuzzy
-msgid "Error: Could not remove directory %s: %s\n"
-msgstr "Gabim nuk hiq j"
+#: lib/local.c:237
+#, fuzzy, c-format
+msgid "Error: Cannot truncate local file %s: %s\n"
+msgstr "Gabim lokal j"
 
-#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:332
-#, c-format
-#, fuzzy
-msgid "Error: Could not remove file %s: %s\n"
-msgstr "Gabim nuk hiq j"
+#: lib/local.c:423
+#, fuzzy, c-format
+msgid "Could not get local directory listing %s: %s\n"
+msgstr "nuk merr lokal j"
 
-#: lib/local.c:527
-#, c-format
-#, fuzzy
-msgid "Successfully made directory %s\n"
-msgstr "j"
-
-#: lib/local.c:553
-#, c-format
-#, fuzzy
-msgid "Successfully renamed %s to %s\n"
-msgstr "j"
-
-#: lib/local.c:560
-#, c-format
-#, fuzzy
-msgid "Error: Could not rename %s to %s: %s\n"
-msgstr "Gabim nuk j"
-
-#: lib/local.c:583
-#, c-format
-#, fuzzy
-msgid "Successfully changed mode of %s to %d\n"
+#: lib/local.c:633
+#, fuzzy, c-format
+msgid "Successfully changed mode of %s to %o\n"
 msgstr "modaliteti nga j"
 
-#: lib/local.c:590
-#, c-format
-#, fuzzy
-msgid "Error: Could not change mode of %s to %d: %s\n"
+#: lib/local.c:640
+#, fuzzy, c-format
+msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "Gabim nuk modaliteti nga j"
 
+#: lib/local.c:675
+#, fuzzy, c-format
+msgid "Successfully changed the time stamp of %s\n"
+msgstr "modaliteti nga j"
+
 #: lib/local.c:682
+#, fuzzy, c-format
+msgid "Error: Could not change the time stamp of %s: %s\n"
+msgstr "Gabim nuk modaliteti nga j"
+
+#: lib/local.c:749
 #, fuzzy
 msgid "local filesystem"
 msgstr "lokal"
 
-#: lib/misc.c:418
+#: lib/misc.c:413
 #, c-format
 msgid "usage: gftp "
 msgstr ""
 
-#. GRUT modified this item
-#: lib/misc.c:418 src/uicommon/gftpui.c:627
-#, c-format
-msgid "\n"
-msgstr "\n"
-
-#. GRUT modified this item
-#: lib/options.h:24 lib/rfc959.c:26
+#: lib/options.h:25 lib/rfc959.c:25
 msgid "none"
 msgstr "asnjë"
 
-#: lib/options.h:24
+#: lib/options.h:25
 msgid "file"
 msgstr ""
 
-#: lib/options.h:24
+#: lib/options.h:26
 #, fuzzy
 msgid "size"
 msgstr "madhësia"
 
-#. GRUT modified this item
-#: lib/options.h:25
+#: lib/options.h:26
 msgid "user"
 msgstr "përdorues"
 
-#: lib/options.h:25
+#: lib/options.h:27
 #, fuzzy
 msgid "group"
 msgstr "grupi"
 
-#: lib/options.h:26
+#: lib/options.h:28
 msgid "datetime"
 msgstr ""
 
-#: lib/options.h:26
+#: lib/options.h:29
 msgid "attribs"
 msgstr ""
 
-#: lib/options.h:28
+#: lib/options.h:32
 msgid "descending"
 msgstr ""
 
-#: lib/options.h:28
+#: lib/options.h:33
 msgid "ascending"
 msgstr ""
 
-#. GRUT modified this item
-#: lib/options.h:34
+#: lib/options.h:40
 msgid "General"
 msgstr "Të përgjithshme"
 
-#: lib/options.h:37
+#: lib/options.h:43
 #, fuzzy
 msgid "View program:"
 msgstr "Paraqitja programi:"
 
-#: lib/options.h:38
+#: lib/options.h:44
 #, fuzzy
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
 msgstr "prezgjedhur programi shfaq është në të bardhë i brendshëm"
 
-#: lib/options.h:40
+#: lib/options.h:46
 #, fuzzy
 msgid "Edit program:"
 msgstr "Ndrysho programi:"
 
-#: lib/options.h:41
+#: lib/options.h:47
 #, fuzzy
 msgid "The default program used to edit files."
 msgstr "prezgjedhur programi ndrysho."
 
-#: lib/options.h:42
-#, fuzzy
-msgid "Startup Directory:"
-msgstr "Directory:"
-
-#: lib/options.h:44
-#, fuzzy
-msgid "The default directory gFTP will go to on startup"
-msgstr "prezgjedhur gFTP në"
-
-#: lib/options.h:45
+#: lib/options.h:48
 #, fuzzy
 msgid "Max Log Window Size:"
 msgstr "Log Dritarja Madhësia:"
 
-#: lib/options.h:47
+#: lib/options.h:50
 #, fuzzy
 msgid "The maximum size of the log window in bytes for the GTK+ port"
 msgstr "maksimum madhësia nga dritare në bytes për"
 
-#: lib/options.h:49
+#: lib/options.h:52
 #, fuzzy
 msgid "Remote Character Sets:"
 msgstr "Në distancë Simboli:"
 
-#: lib/options.h:51
+#: lib/options.h:54
 #, fuzzy
 msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
 msgstr "është a presje lista nga konvertoje nÃ« distancÃ« lokale"
 
-#: lib/options.h:53
+#: lib/options.h:56
 #, fuzzy
 msgid "Remote LC_TIME:"
 msgstr "Në distancë:"
 
-#: lib/options.h:55
+#: lib/options.h:58
 #, fuzzy
 msgid ""
 "This is the value of LC_TIME for the remote site. This is so that dates can "
 "be parsed properly in the directory listings."
 msgstr "është nga për nÃ« distancÃ« siti është në."
 
-#: lib/options.h:57
+#: lib/options.h:60
 #, fuzzy
 msgid "Cache TTL:"
 msgstr "Cache TTL:"
 
-#: lib/options.h:60
+#: lib/options.h:63
 #, fuzzy
 msgid "The number of seconds to keep cache entries before they expire."
 msgstr "nga sekonda përpara."
 
-#: lib/options.h:63
+#: lib/options.h:66
 #, fuzzy
 msgid "Append file transfers"
 msgstr "Var (në fund)"
 
-#: lib/options.h:65
+#: lib/options.h:68
 #, fuzzy
 msgid "Append new file transfers onto existing ones"
 msgstr "Var (në fund) i ri"
 
-#: lib/options.h:66
+#: lib/options.h:69
 #, fuzzy
 msgid "Do one transfer at a time"
 msgstr "Bëje a ora"
 
-#: lib/options.h:68
+#: lib/options.h:71
 #, fuzzy
 msgid "Do only one transfer at a time?"
 msgstr "Bëje a ora?"
 
-#: lib/options.h:69
+#: lib/options.h:72
 #, fuzzy
 msgid "Overwrite by Default"
 msgstr "Mbishkruaj nga E prezgjedhur"
 
-#: lib/options.h:72
+#: lib/options.h:75
 #, fuzzy
 msgid "Overwrite files by default or set to resume file transfers"
 msgstr "Mbishkruaj nga prezgjedhur"
 
-#: lib/options.h:74
+#: lib/options.h:77
 #, fuzzy
 msgid "Preserve file permissions"
 msgstr "të drejtat"
 
-#: lib/options.h:77
+#: lib/options.h:80
 #, fuzzy
-msgid "Preserve file permissions of transfered files"
+msgid "Preserve file permissions of transferred files"
 msgstr "të drejtat nga"
 
-#: lib/options.h:79
+#: lib/options.h:82
+#, fuzzy
+msgid "Preserve file time"
+msgstr "të drejtat"
+
+#: lib/options.h:85
+#, fuzzy
+msgid "Preserve file times of transferred files"
+msgstr "të drejtat nga"
+
+#: lib/options.h:87
 #, fuzzy
 msgid "Refresh after each file transfer"
 msgstr "Rifresko mbas"
 
-#: lib/options.h:82
+#: lib/options.h:90
 #, fuzzy
-msgid "Refresh the listbox after each file is transfered"
+msgid "Refresh the listbox after each file is transferred"
 msgstr "Rifresko mbas është"
 
-#: lib/options.h:84
+#: lib/options.h:92
 #, fuzzy
 msgid "Sort directories first"
 msgstr "Renditja i pari"
 
-#: lib/options.h:87
+#: lib/options.h:95
 #, fuzzy
 msgid "Put the directories first then the files"
 msgstr "i pari"
 
-#: lib/options.h:88
+#: lib/options.h:96
 #, fuzzy
 msgid "Show hidden files"
 msgstr "Shfaq"
 
-#: lib/options.h:91
+#: lib/options.h:99
 #, fuzzy
 msgid "Show hidden files in the listboxes"
 msgstr "Shfaq në"
 
-#: lib/options.h:92
+#: lib/options.h:100
 #, fuzzy
 msgid "Show transfer status in title"
 msgstr "Shfaq gjendja në titulli"
 
-#: lib/options.h:94
+#: lib/options.h:102
 #, fuzzy
 msgid "Show the file transfer status in the titlebar"
 msgstr "Shfaq gjendja në"
 
-#: lib/options.h:95
+#: lib/options.h:103
 #, fuzzy
 msgid "Start file transfers"
 msgstr "Fillo"
 
-#: lib/options.h:97
+#: lib/options.h:105
 #, fuzzy
 msgid "Automatically start the file transfers when they get queued"
 msgstr "nisje merr"
 
-#: lib/options.h:99
+#: lib/options.h:107
 #, fuzzy
 msgid "Allow manual commands in GUI"
 msgstr "Lejo manual në GUI (interfaqja)"
 
-#: lib/options.h:101
+#: lib/options.h:109
 #, fuzzy
-msgid "Allow entering manual commands in the GUI (functions like the text port)"
+msgid ""
+"Allow entering manual commands in the GUI (functions like the text port)"
 msgstr "Lejo manual në GUI (interfaqja) tekst"
 
-#. GRUT modified this item
-#: lib/options.h:103 src/gtk/options_dialog.c:1049
-#: src/gtk/options_dialog.c:1142
+#: lib/options.h:111
+#, fuzzy
+msgid "Remember last directory"
+msgstr "Hiq a lokal"
+
+#: lib/options.h:113
+msgid "Save the last local and remote directory when the application is closed"
+msgstr ""
+
+#: lib/options.h:115
+msgid "Connect to remote server on startup"
+msgstr ""
+
+#: lib/options.h:117
+msgid ""
+"Automatically connect to the remote server when the application is started."
+msgstr ""
+
+#: lib/options.h:120 src/gtk/options_dialog.c:1019
+#: src/gtk/options_dialog.c:1239
 msgid "Network"
 msgstr "Rrjeti"
 
-#: lib/options.h:105
+#: lib/options.h:122
 #, fuzzy
 msgid "Network timeout:"
 msgstr "Rrjeti:"
 
-#: lib/options.h:108
+#: lib/options.h:125
 #, fuzzy
-msgid "The timeout waiting for network input/output. This is NOT an idle timeout."
+msgid ""
+"The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr "për është."
 
-#: lib/options.h:110
+#: lib/options.h:127
 #, fuzzy
 msgid "Connect retries:"
 msgstr "Lidhu:"
 
-#: lib/options.h:113
+#: lib/options.h:130
 #, fuzzy
-msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
+msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
 msgstr "nga"
 
-#: lib/options.h:115
+#: lib/options.h:132
 #, fuzzy
 msgid "Retry sleep time:"
 msgstr "Anullo ora:"
 
-#: lib/options.h:118
+#: lib/options.h:135
 #, fuzzy
 msgid "The number of seconds to wait between retries"
 msgstr "nga sekonda"
 
-#: lib/options.h:119
+#: lib/options.h:136
 #, fuzzy
 msgid "Max KB/S:"
 msgstr "KB S:"
 
-#: lib/options.h:122
+#: lib/options.h:139
 #, fuzzy
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr "maksimum KB a merr ç'aktivo"
 
-#: lib/options.h:125
+#: lib/options.h:141
+#, fuzzy
+msgid "Transfer Block Size:"
+msgstr "Transferimi Files"
+
+#: lib/options.h:144
+msgid ""
+"The block size that is used when transferring files. This should be a "
+"multiple of 1024."
+msgstr ""
+
+#: lib/options.h:147
 #, fuzzy
 msgid "Default Protocol:"
 msgstr "E prezgjedhur Protokolli:"
 
-#: lib/options.h:127
+#: lib/options.h:149
 #, fuzzy
 msgid "This specifies the default protocol to use"
 msgstr "prezgjedhur"
 
-#: lib/options.h:129 lib/options.h:132
+#: lib/options.h:151 lib/options.h:154
 #, fuzzy
 msgid "Enable IPv6 support"
 msgstr "Aktivo"
 
-#: lib/options.h:137
+#: lib/options.h:159
 #, fuzzy
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
 msgstr "a në Paraqitja Ndrysho Transferimi"
 
-#: lib/options.h:140
+#: lib/options.h:162
 #, fuzzy
 msgid "The default width of the local files listbox"
 msgstr "prezgjedhur gjerësia nga lokal"
 
-#: lib/options.h:143
+#: lib/options.h:165
 #, fuzzy
 msgid "The default width of the remote files listbox"
 msgstr "prezgjedhur gjerësia nga nÃ« distancÃ«"
 
-#: lib/options.h:146
+#: lib/options.h:168
 #, fuzzy
 msgid "The default height of the local/remote files listboxes"
 msgstr "prezgjedhur lartësia nga lokal nÃ« distancÃ«"
 
-#: lib/options.h:149
+#: lib/options.h:171
 #, fuzzy
 msgid "The default height of the transfer listbox"
 msgstr "prezgjedhur lartësia nga"
 
-#: lib/options.h:152
+#: lib/options.h:174
 #, fuzzy
 msgid "The default height of the logging window"
 msgstr "prezgjedhur lartësia nga dritare"
 
-#: lib/options.h:155
+#: lib/options.h:177
 #, fuzzy
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
 msgstr "gjerësia nga në dritare."
 
-#: lib/options.h:159 lib/options.h:165
+#: lib/options.h:190 lib/options.h:196
 #, fuzzy
 msgid "The default column to sort by"
 msgstr "prezgjedhur nga"
 
-#: lib/options.h:162 lib/options.h:168
+#: lib/options.h:193 lib/options.h:199
 #, fuzzy
 msgid "Sort ascending or descending"
 msgstr "Renditja"
 
-#: lib/options.h:172 lib/options.h:190
+#: lib/options.h:203 lib/options.h:221
 #, fuzzy
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
 msgstr "gjerësia nga në ç'aktivo"
 
-#: lib/options.h:175 lib/options.h:193
+#: lib/options.h:206 lib/options.h:224
 #, fuzzy
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "gjerësia nga madhësia në ç'aktivo"
 
-#: lib/options.h:178 lib/options.h:196
+#: lib/options.h:209 lib/options.h:227
 #, fuzzy
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "gjerësia nga përdorues në ç'aktivo"
 
-#: lib/options.h:181 lib/options.h:199
+#: lib/options.h:212 lib/options.h:230
 #, fuzzy
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "gjerësia nga grupi në ç'aktivo"
 
-#: lib/options.h:184 lib/options.h:202
+#: lib/options.h:215 lib/options.h:233
 #, fuzzy
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "gjerësia nga data në ç'aktivo"
 
-#: lib/options.h:187 lib/options.h:205
+#: lib/options.h:218 lib/options.h:236
 #, fuzzy
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
 msgstr "gjerësia nga në ç'aktivo"
 
-#: lib/options.h:208
+#: lib/options.h:239
 #, fuzzy
 msgid "The color of the commands that are sent to the server"
 msgstr "nga server"
 
-#: lib/options.h:211
+#: lib/options.h:242
 #, fuzzy
 msgid "The color of the commands that are received from the server"
 msgstr "nga server"
 
-#: lib/options.h:214
+#: lib/options.h:245
 #, fuzzy
 msgid "The color of the error messages"
 msgstr "nga gabim"
 
-#: lib/options.h:217
+#: lib/options.h:248
 #, fuzzy
 msgid "The color of the rest of the log messages"
 msgstr "nga nga"
 
-#. GRUT modified this item
-#: lib/options.h:223 lib/rfc959.c:40
+#: lib/options.h:254 lib/rfc959.c:39
 msgid "FTP"
 msgstr "FTP"
 
-#: lib/options.h:226 lib/options.h:228
+#: lib/options.h:257 lib/options.h:259
 msgid "FTPS"
 msgstr ""
 
-#. GRUT modified this item
-#: lib/options.h:231 lib/rfc2068.c:27
+#: lib/options.h:262 lib/rfc2068.c:26
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:234 lib/options.h:236
+#: lib/options.h:265 lib/options.h:267
 msgid "HTTPS"
 msgstr ""
 
-#. GRUT modified this item
-#: lib/options.h:239
+#: lib/options.h:270
 msgid "Local"
 msgstr "Lokale"
 
-#: lib/options.h:241
+#: lib/options.h:272
 msgid "SSH2"
 msgstr ""
 
-#. GRUT modified this item
-#: lib/options.h:243 src/gtk/bookmarks.c:883
+#: lib/options.h:274 src/gtk/bookmarks.c:882
 msgid "Bookmark"
 msgstr "Libërshënues"
 
-#: lib/protocols.c:222
-#, c-format
+#: lib/options.h:275
 #, fuzzy
+msgid "FSP"
+msgstr "FTP"
+
+#: lib/protocols.c:227
+#, fuzzy, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "File KB j"
 
-#: lib/protocols.c:362
-#, c-format
-#, fuzzy
+#: lib/protocols.c:380
+#, fuzzy, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "Gabim mbrapa j"
 
-#: lib/protocols.c:370
-#, c-format
-#, fuzzy
+#: lib/protocols.c:391
+#, fuzzy, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "j"
 
-#: lib/protocols.c:380
-#, c-format
-#, fuzzy
+#: lib/protocols.c:401
+#, fuzzy, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "server j"
 
-#: lib/protocols.c:576
+#: lib/protocols.c:451
 #, c-format
-#, fuzzy
+msgid ""
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
+msgstr ""
+
+#: lib/protocols.c:482
+#, fuzzy, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Gabim j"
 
-#: lib/protocols.c:608
-#, c-format
-#, fuzzy
+#: lib/protocols.c:515
+#, fuzzy, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Gabim nuk gjej j"
 
-#: lib/protocols.c:615
-#, c-format
-#, fuzzy
+#: lib/protocols.c:522
+#, fuzzy, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Libërshënues Gabim nuk a emri i host j"
 
-#: lib/protocols.c:724
-#, c-format
-#, fuzzy
+#: lib/protocols.c:644 lib/protocols.c:671
+#, fuzzy, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "është nuk j"
 
-#: lib/protocols.c:1067 lib/protocols.c:1082 lib/protocols.c:2029
-#: lib/protocols.c:2136
+#: lib/protocols.c:1154
 #, c-format
-#, fuzzy
-msgid "Looking up %s\n"
-msgstr "sipër j"
+msgid "Found recursive symbolic link %s\n"
+msgstr ""
 
-#: lib/protocols.c:1073 lib/protocols.c:1088 lib/protocols.c:2034
-#: lib/protocols.c:2141
-#, c-format
-#, fuzzy
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "sipër emri i host j"
-
-#. GRUT modified this item
-#: lib/protocols.c:1386 lib/protocols.c:1387 lib/protocols.c:1428
-#: lib/protocols.c:1429 lib/protocols.c:1489 lib/protocols.c:1496
-#: lib/protocols.c:1573 lib/protocols.c:1574 lib/protocols.c:1608
-msgid "unknown"
-msgstr "nuk njihet"
-
-#: lib/protocols.c:2052
-#, c-format
-#, fuzzy
-msgid "Failed to create a socket: %s\n"
-msgstr "Dështoi a socket j"
-
-#: lib/protocols.c:2058 lib/protocols.c:2155
-#, c-format
-#, fuzzy
-msgid "Trying %s:%d\n"
-msgstr "j"
-
-#: lib/protocols.c:2063 lib/protocols.c:2162
-#, c-format
-#, fuzzy
-msgid "Cannot connect to %s: %s\n"
-msgstr "j"
-
-#: lib/protocols.c:2095 lib/rfc959.c:628
-#, c-format
-#, fuzzy
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "Dështoi a socket j"
-
-#: lib/protocols.c:2119 lib/sshv2.c:947
-#, c-format
-#, fuzzy
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
-msgstr "sipër emri j"
-
-#: lib/protocols.c:2178 lib/protocols.c:2812 lib/rfc959.c:637 lib/rfc959.c:791
-#, c-format
-#, fuzzy
-msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "Gabim mbylle në j"
-
-#: lib/protocols.c:2185
-#, c-format
-#, fuzzy
-msgid "Connected to %s:%d\n"
-msgstr "I lidhur j"
-
-#: lib/protocols.c:2415 lib/protocols.c:2486 lib/sshv2.c:307
-#, c-format
-#, fuzzy
-msgid "Connection to %s timed out\n"
-msgstr "Lidhja j"
-
-#: lib/protocols.c:2555
-#, c-format
-#, fuzzy
-msgid "Cannot get socket flags: %s\n"
-msgstr "merr socket j"
-
-#: lib/protocols.c:2569
-#, c-format
-#, fuzzy
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "socket j"
-
-#: lib/protocols.c:2706
-#, c-format
-#, fuzzy
+#: lib/protocols.c:1532
+#, fuzzy, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "Gabim Në distancë siti sipër j"
 
-#: lib/protocols.c:2714
-#, c-format
-#, fuzzy
+#: lib/protocols.c:1540
+#, fuzzy, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "Gabim Në distancë siti në sekonda j"
 
-#: lib/pty.c:296
-#, c-format
-#, fuzzy
+#: lib/protocols.c:1635 lib/rfc959.c:714 lib/rfc959.c:884
+#: lib/socket-connect.c:125
+#, fuzzy, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr "Gabim mbylle në j"
+
+#: lib/pty.c:300
+#, fuzzy, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "hap j"
 
-#: lib/pty.c:304
-#, c-format
-#, fuzzy
+#: lib/pty.c:308
+#, fuzzy, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "a socket j"
 
-#: lib/pty.c:332
-#, c-format
-#, fuzzy
+#: lib/pty.c:337
+#, fuzzy, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "Gabim ekzekuto j"
 
-#: lib/pty.c:348
-#, c-format
-#, fuzzy
+#: lib/pty.c:353
+#, fuzzy, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "duplikim j"
 
-#. GRUT modified this item
-#: lib/rfc2068.c:30 lib/rfc959.c:47
+#: lib/rfc2068.c:29 lib/rfc959.c:46
 msgid "Proxy hostname:"
 msgstr "Emri i serverit proxy:"
 
-#: lib/rfc2068.c:32 lib/rfc959.c:49
+#: lib/rfc2068.c:31 lib/rfc959.c:48
 #, fuzzy
 msgid "Firewall hostname"
 msgstr "Firewall emri i host"
 
-#. GRUT modified this item
-#: lib/rfc2068.c:33 lib/rfc959.c:50
+#: lib/rfc2068.c:32 lib/rfc959.c:49
 msgid "Proxy port:"
 msgstr "Porta e Proxy:"
 
-#: lib/rfc2068.c:35 lib/rfc959.c:52
+#: lib/rfc2068.c:34 lib/rfc959.c:51
 #, fuzzy
 msgid "Port to connect to on the firewall"
 msgstr "Porta në"
 
-#: lib/rfc2068.c:36 lib/rfc959.c:53
+#: lib/rfc2068.c:35 lib/rfc959.c:52
 #, fuzzy
 msgid "Proxy username:"
 msgstr "Proxy përdoruesi:"
 
-#: lib/rfc2068.c:38 lib/rfc959.c:55
+#: lib/rfc2068.c:37 lib/rfc959.c:54
 #, fuzzy
 msgid "Your firewall username"
 msgstr "përdoruesi"
 
-#: lib/rfc2068.c:39 lib/rfc959.c:56
+#: lib/rfc2068.c:38 lib/rfc959.c:55
 #, fuzzy
 msgid "Proxy password:"
 msgstr "Proxy password:"
 
-#: lib/rfc2068.c:41 lib/rfc959.c:58
+#: lib/rfc2068.c:40 lib/rfc959.c:57
 #, fuzzy
 msgid "Your firewall password"
 msgstr "password"
 
-#: lib/rfc2068.c:43
+#: lib/rfc2068.c:42
 #, fuzzy
 msgid "Use HTTP/1.1"
 msgstr "HTTP 1"
 
-#: lib/rfc2068.c:46
+#: lib/rfc2068.c:45
 #, fuzzy
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Bëje 0"
 
-#: lib/rfc2068.c:153 lib/rfc2068.c:853
-#, c-format
-#, fuzzy
+#: lib/rfc2068.c:150 lib/rfc2068.c:839
+#, fuzzy, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
 "Invalid chunk size '%s' returned by the remote server\n"
 msgstr "Marrë server madhësia nga nÃ« distancÃ« server j"
 
-#: lib/rfc2068.c:257 lib/rfc959.c:597 lib/sshv2.c:1033
-#, c-format
-#, fuzzy
+#: lib/rfc2068.c:254 lib/rfc959.c:678 lib/sshv2.c:1244
+#, fuzzy, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "siti j"
 
-#: lib/rfc2068.c:307
-#, c-format
+#: lib/rfc2068.c:300
 #, fuzzy
-msgid "Starting the file transfer at offset %lld\n"
+msgid "Starting the file transfer at offset "
 msgstr "Duke filluar j"
 
-#: lib/rfc2068.c:315
-#, c-format
-#, fuzzy
-msgid "Starting the file transfer at offset %ld\n"
-msgstr "Duke filluar j"
-
-#: lib/rfc2068.c:336
-#, c-format
-#, fuzzy
+#: lib/rfc2068.c:321
+#, fuzzy, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "j"
 
-#: lib/rfc2068.c:435 lib/sshv2.c:1118
+#: lib/rfc2068.c:420 lib/sshv2.c:1326
 #, fuzzy
 msgid "Retrieving directory listing...\n"
 msgstr "j"
 
-#: lib/rfc2068.c:834 lib/sshv2.c:771 lib/sshv2.c:784 lib/sshv2.c:806
-#: lib/sshv2.c:874 lib/sshv2.c:989 lib/sshv2.c:1080 lib/sshv2.c:1148
-#: lib/sshv2.c:1261 lib/sshv2.c:1274 lib/sshv2.c:1287 lib/sshv2.c:1300
-#: lib/sshv2.c:1356 lib/sshv2.c:1421 lib/sshv2.c:1881 lib/sshv2.c:1984
-#: lib/sshv2.c:2078 lib/sshv2.c:2163 lib/sshv2.c:2249
+#: lib/rfc2068.c:815 lib/sshv2.c:894
 #, fuzzy
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Marrë server j"
 
-#: lib/rfc959.c:27
+#: lib/rfc959.c:26
 msgid "SITE command"
 msgstr ""
 
-#: lib/rfc959.c:28
+#: lib/rfc959.c:27
 msgid "user@host"
 msgstr ""
 
-#: lib/rfc959.c:29
+#: lib/rfc959.c:28
 msgid "user@host:port"
 msgstr ""
 
-#: lib/rfc959.c:30
+#: lib/rfc959.c:29
 msgid "AUTHENTICATE"
 msgstr ""
 
-#: lib/rfc959.c:31
+#: lib/rfc959.c:30
 msgid "user@host port"
 msgstr ""
 
-#: lib/rfc959.c:32
+#: lib/rfc959.c:31
 msgid "user@host NOAUTH"
 msgstr ""
 
-#: lib/rfc959.c:33
+#: lib/rfc959.c:32
 #, fuzzy
 msgid "HTTP Proxy"
 msgstr "Proxy"
 
-#. GRUT modified this item
-#: lib/rfc959.c:34
+#: lib/rfc959.c:33
 msgid "Custom"
 msgstr "E personalizuar"
 
-#: lib/rfc959.c:43
+#: lib/rfc959.c:42
 #, fuzzy
 msgid "Email address:"
 msgstr "Email:"
 
-#: lib/rfc959.c:45
+#: lib/rfc959.c:44
 #, fuzzy
 msgid ""
 "This is the password that will be used whenever you log into a remote FTP "
 "server as anonymous"
 msgstr "është password a nÃ« distancÃ« FTP server"
 
-#: lib/rfc959.c:59
+#: lib/rfc959.c:58
 #, fuzzy
 msgid "Proxy account:"
 msgstr "Proxy:"
 
-#: lib/rfc959.c:61
+#: lib/rfc959.c:60
 msgid "Your firewall account (optional)"
 msgstr ""
 
-#: lib/rfc959.c:63
+#: lib/rfc959.c:62
 #, fuzzy
 msgid "Proxy server type:"
 msgstr "Proxy server lloji:"
 
-#: lib/rfc959.c:66
-#, no-c-format
-#, fuzzy
+#: lib/rfc959.c:65
+#, fuzzy, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
 "2 character replacement string prefixed by a % that will be replaced with "
@@ -1067,13 +1026,27 @@ msgid ""
 "host of the FTP server. The second character can be u (user), p (pass), h "
 "(host), o (port) or a (account). For example, to specify the proxy user, you "
 "can you type in %pu"
-msgstr "server në Ti a nga a me i pari për për nga FTP server sekondë përdorues a përdorues lloji në"
+msgstr ""
+"server në Ti a nga a me i pari për për nga FTP server sekondë përdorues a "
+"përdorues lloji në"
 
-#: lib/rfc959.c:69
+#: lib/rfc959.c:68
+msgid "Ignore PASV address"
+msgstr ""
+
+#: lib/rfc959.c:71
+msgid ""
+"If this is enabled, then the remote FTP server's PASV IP address field will "
+"be ignored and the host's IP address will be used instead. This is often "
+"needed for routers giving their internal rather then their external IP "
+"address in a PASV reply."
+msgstr ""
+
+#: lib/rfc959.c:73
 msgid "Passive file transfers"
 msgstr ""
 
-#: lib/rfc959.c:72
+#: lib/rfc959.c:76
 #, fuzzy
 msgid ""
 "If this is enabled, then the remote FTP server will open up a port for the "
@@ -1082,389 +1055,425 @@ msgid ""
 "to an older FTP server that doesn't support this. If this is disabled, then "
 "gFTP will open up a port on the client side and the remote server will "
 "attempt to connect to it."
-msgstr "është aktiv nÃ« distancÃ« FTP server hap sipër a për a aktiv është a aktiv e(i) vjetër FTP server është jo aktiv gFTP hap sipër a në dhe nÃ« distancÃ« server."
+msgstr ""
+"është aktiv nÃ« distancÃ« FTP server hap sipër a për a aktiv është a aktiv "
+"e(i) vjetër FTP server është jo aktiv gFTP hap sipër a në dhe nÃ« distancÃ« "
+"server."
 
-#: lib/rfc959.c:74
+#: lib/rfc959.c:78
 #, fuzzy
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "Në distancë LISTË L"
 
-#: lib/rfc959.c:77
+#: lib/rfc959.c:81
 #, fuzzy
 msgid ""
 "The remote FTP server will attempt to resolve symlinks in the directory "
 "listings. Generally, this is a good idea to leave enabled. The only time you "
 "will want to disable this is if the remote FTP server doesn't support the -L "
 "option to LIST"
-msgstr "nÃ« distancÃ« FTP server në është a aktiv ora ç'aktivo është nÃ« distancÃ« FTP server L LISTË"
+msgstr ""
+"nÃ« distancÃ« FTP server në është a aktiv ora ç'aktivo është nÃ« distancÃ« "
+"FTP server L LISTË"
 
-#: lib/rfc959.c:79
+#: lib/rfc959.c:83
 #, fuzzy
 msgid "Transfer files in ASCII mode"
 msgstr "Transferimi në ASCII modaliteti"
 
-#: lib/rfc959.c:82
+#: lib/rfc959.c:86
 #, fuzzy
 msgid ""
-"If you are transfering a text file from Windows to UNIX box or vice versa, "
+"If you are transferring a text file from Windows to UNIX box or vice versa, "
 "then you should enable this. Each system represents newlines differently for "
-"text files. If you are transfering from UNIX to UNIX, then it is safe to "
+"text files. If you are transferring from UNIX to UNIX, then it is safe to "
 "leave this off. If you are downloading binary data, you will want to disable "
 "this."
 msgstr "a tekst Dritaret aktiv sistemi për tekst është ç'aktivo."
 
-#: lib/rfc959.c:317 lib/rfc959.c:326 lib/rfc959.c:337 lib/rfc959.c:755
-#: lib/rfc959.c:1359
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:380 lib/rfc959.c:389 lib/rfc959.c:400 lib/rfc959.c:848
+#: lib/rfc959.c:1413
+#, fuzzy, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "E pavlefshme server j"
 
-#: lib/rfc959.c:667 lib/rfc959.c:677
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:705 lib/socket-connect-gethostbyname.c:119
+#, fuzzy, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "Dështoi a socket j"
+
+#: lib/rfc959.c:744 lib/rfc959.c:754
+#, fuzzy, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "gjej në j"
 
-#: lib/rfc959.c:692 lib/rfc959.c:853
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:774
+#, fuzzy, c-format
+msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
+msgstr "gjej në j"
+
+#: lib/rfc959.c:785 lib/rfc959.c:944
+#, fuzzy, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "a j"
 
-#: lib/rfc959.c:704 lib/rfc959.c:725 lib/rfc959.c:878
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:797 lib/rfc959.c:818 lib/rfc959.c:969
+#, fuzzy, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "merr socket emri j"
 
-#: lib/rfc959.c:715 lib/rfc959.c:868
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:808 lib/rfc959.c:959
+#, fuzzy, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "a j"
 
-#: lib/rfc959.c:734 lib/rfc959.c:887
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:827 lib/rfc959.c:978
+#, fuzzy, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "në j"
 
-#: lib/rfc959.c:782
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:875
+#, fuzzy, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "Dështoi a socket j"
 
-#: lib/rfc959.c:802
+#: lib/rfc959.c:894
 #, fuzzy
-msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+msgid ""
+"Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "Gabim j"
 
-#: lib/rfc959.c:831 lib/rfc959.c:840
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:922 lib/rfc959.c:931
+#, fuzzy, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "E pavlefshme j"
 
-#: lib/rfc959.c:897
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:988
+#, fuzzy, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "merr nga lokal socket j"
 
-#: lib/rfc959.c:971
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:1075
+#, fuzzy, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "server j"
 
-#: lib/rfc959.c:1501
+#: lib/rfc959.c:1583
 msgid "total"
 msgstr ""
 
-#: lib/rfc959.c:1503
-#, c-format
-#, fuzzy
+#: lib/rfc959.c:1585
+#, fuzzy, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Kujdes j"
 
-#. GRUT modified this item
-#: lib/sshv2.c:28
+#: lib/socket-connect-getaddrinfo.c:76 lib/socket-connect-gethostbyname.c:63
+#, fuzzy, c-format
+msgid "Looking up %s\n"
+msgstr "sipër j"
+
+#: lib/socket-connect-getaddrinfo.c:81 lib/socket-connect-gethostbyname.c:68
+#, fuzzy, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "sipër emri i host j"
+
+#: lib/socket-connect-getaddrinfo.c:114
+#, fuzzy, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "Dështoi a socket j"
+
+#: lib/socket-connect-getaddrinfo.c:120 lib/socket-connect-gethostbyname.c:133
+#, fuzzy, c-format
+msgid "Trying %s:%d\n"
+msgstr "j"
+
+#: lib/socket-connect-getaddrinfo.c:126 lib/socket-connect-gethostbyname.c:140
+#, fuzzy, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "j"
+
+#: lib/socket-connect-getaddrinfo.c:151 lib/socket-connect-gethostbyname.c:158
+#, fuzzy, c-format
+msgid "Connected to %s:%d\n"
+msgstr "I lidhur j"
+
+#: lib/socket-connect-gethostbyname.c:100 lib/sshv2.c:1167
+#, fuzzy, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr "sipër emri j"
+
+#: lib/sockutils.c:189 lib/sockutils.c:267 lib/sshv2.c:434
+#, fuzzy, c-format
+msgid "Connection to %s timed out\n"
+msgstr "Lidhja j"
+
+#: lib/sockutils.c:337
+#, fuzzy, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "merr socket j"
+
+#: lib/sockutils.c:351
+#, fuzzy, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "socket j"
+
+#: lib/sshv2.c:27
 msgid "SSH"
 msgstr "SSH"
 
-#: lib/sshv2.c:31
+#: lib/sshv2.c:30
 #, fuzzy
 msgid "SSH Prog Name:"
 msgstr "SSH Emri:"
 
-#: lib/sshv2.c:33
+#: lib/sshv2.c:32
 #, fuzzy
 msgid "The path to the SSH executable"
 msgstr "shtegu SSH e ekzekutueshme"
 
-#: lib/sshv2.c:34
+#: lib/sshv2.c:33
 #, fuzzy
 msgid "SSH Extra Params:"
 msgstr "SSH Shtesë:"
 
-#: lib/sshv2.c:36
+#: lib/sshv2.c:35
 #, fuzzy
 msgid "Extra parameters to pass to the SSH program"
 msgstr "Shtesë SSH programi"
 
 #: lib/sshv2.c:37
 #, fuzzy
-msgid "SSH2 sftp-server path:"
-msgstr "server shtegu:"
-
-#: lib/sshv2.c:39
-#, fuzzy
-msgid "Default remote SSH2 sftp-server path"
-msgstr "E prezgjedhur nÃ« distancÃ« server shtegu"
-
-#: lib/sshv2.c:41
-#, fuzzy
 msgid "Need SSH User/Pass"
 msgstr "SSH Përdoruesi"
 
-#: lib/sshv2.c:44
+#: lib/sshv2.c:40
 #, fuzzy
 msgid "Require a username/password for SSH connections"
 msgstr "a përdoruesi password për SSH"
 
-#: lib/sshv2.c:45
-msgid "Use SSH2 SFTP subsys"
-msgstr ""
-
-#: lib/sshv2.c:48
-#, fuzzy
-msgid ""
-"Call ssh with the -s sftp flag. This is helpful because you won't have to "
-"know the remote path to the remote sftp-server"
-msgstr "Thirrje me është nÃ« distancÃ« shtegu nÃ« distancÃ« server"
-
-#: lib/sshv2.c:254
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:368
+#, fuzzy, c-format
 msgid "Running program %s\n"
 msgstr "Në ekzekutim programi j"
 
-#. GRUT modified this item
-#: lib/sshv2.c:350 lib/sshv2.c:374
-msgid "WARNING"
-msgstr "KUJDES"
+#: lib/sshv2.c:377
+msgid "Enter passphrase for RSA key"
+msgstr ""
 
-#: lib/sshv2.c:431
+#: lib/sshv2.c:378
+msgid "Enter passphrase for key '"
+msgstr ""
+
+#: lib/sshv2.c:379
+#, fuzzy
+msgid "Password"
+msgstr "Fjalëkalimi:"
+
+#: lib/sshv2.c:380
+#, fuzzy
+msgid "password"
+msgstr "Fjalëkalimi:"
+
+#: lib/sshv2.c:495
+msgid "(yes/no)?"
+msgstr ""
+
+#: lib/sshv2.c:513
+msgid "Enter PASSCODE:"
+msgstr ""
+
+#: lib/sshv2.c:517 src/gtk/gtkui.c:141 src/gtk/transfer.c:561
+#: src/gtk/transfer.c:571
+msgid "Enter Password"
+msgstr "Shkruaj fjalëkalimin"
+
+#: lib/sshv2.c:518
+#, fuzzy
+msgid "Enter SecurID Password:"
+msgstr "Shkruaj fjalëkalimin"
+
+#: lib/sshv2.c:566
 #, fuzzy
 msgid "Error: An incorrect password was entered\n"
 msgstr "Gabim password j"
 
-#: lib/sshv2.c:434
-#, fuzzy
-msgid "Please correct the above warning to connect to this host.\n"
-msgstr "j"
-
-#: lib/sshv2.c:473
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:595
+#, fuzzy, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "Protokolli j"
 
-#: lib/sshv2.c:479
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:599
+#, fuzzy, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "Protokolli versioni j"
 
-#: lib/sshv2.c:488
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:608
+#, fuzzy, c-format
 msgid "%d: Open %s\n"
 msgstr "Hap j"
 
-#: lib/sshv2.c:493
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:613
+#, fuzzy, c-format
 msgid "%d: Close\n"
 msgstr "Mbyll j"
 
-#: lib/sshv2.c:499
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:617
+#, fuzzy, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "Hap Directory j"
 
-#: lib/sshv2.c:504
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:622
+#, fuzzy, c-format
 msgid "%d: Read Directory\n"
 msgstr "Lexo Directory j"
 
-#: lib/sshv2.c:508
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:626
+#, fuzzy, c-format
 msgid "%d: Remove file %s\n"
 msgstr "Hiq j"
 
-#: lib/sshv2.c:513
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:631
+#, fuzzy, c-format
 msgid "%d: Make directory %s\n"
 msgstr "j"
 
-#: lib/sshv2.c:518
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:636
+#, fuzzy, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "Hiq j"
 
-#: lib/sshv2.c:523
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:641
+#, fuzzy, c-format
 msgid "%d: Realpath %s\n"
 msgstr "j"
 
-#: lib/sshv2.c:528
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:646
+#, fuzzy, c-format
 msgid "%d: File attributes\n"
 msgstr "File j"
 
-#: lib/sshv2.c:532
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:650
+#, fuzzy, c-format
 msgid "%d: Stat %s\n"
 msgstr "j"
 
-#: lib/sshv2.c:549
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:670
+#, fuzzy, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "j"
 
-#: lib/sshv2.c:554
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:675
+#, fuzzy, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "j"
 
-#. GRUT modified this item
-#: lib/sshv2.c:567 src/gtk/bookmarks.c:1042 src/gtk/bookmarks.c:1296
-#: src/gtk/chmod_dialog.c:260 src/gtk/gtkui_transfer.c:361
-#: src/gtk/misc-gtk.c:970 src/gtk/options_dialog.c:1107
-#: src/gtk/options_dialog.c:1309
+#: lib/sshv2.c:689 src/gtk/bookmarks.c:1041 src/gtk/bookmarks.c:1291
+#: src/gtk/chmod_dialog.c:252 src/gtk/gtkui_transfer.c:375
+#: src/gtk/misc-gtk.c:994 src/gtk/options_dialog.c:1204
+#: src/gtk/options_dialog.c:1436
 msgid "OK"
 msgstr "OK"
 
-#: lib/sshv2.c:570
+#: lib/sshv2.c:692
 msgid "EOF"
 msgstr ""
 
-#: lib/sshv2.c:573
+#: lib/sshv2.c:695
 #, fuzzy
 msgid "No such file or directory"
 msgstr "Jo"
 
-#. GRUT modified this item
-#. GRUT modified this item
-#: lib/sshv2.c:576
+#: lib/sshv2.c:698
 msgid "Permission denied"
 msgstr "Ndalohet hyrja"
 
-#: lib/sshv2.c:579
+#: lib/sshv2.c:701
 msgid "Failure"
 msgstr ""
 
-#: lib/sshv2.c:582
+#: lib/sshv2.c:704
 #, fuzzy
 msgid "Bad message"
 msgstr "mesazh"
 
-#: lib/sshv2.c:585
+#: lib/sshv2.c:707
 #, fuzzy
 msgid "No connection"
 msgstr "Jo"
 
-#: lib/sshv2.c:588
+#: lib/sshv2.c:710
 #, fuzzy
 msgid "Connection lost"
 msgstr "Lidhja"
 
-#: lib/sshv2.c:591
+#: lib/sshv2.c:713
 #, fuzzy
 msgid "Operation unsupported"
 msgstr "Veprimi"
 
-#: lib/sshv2.c:594
+#: lib/sshv2.c:716
 #, fuzzy
 msgid "Unknown message returned from server"
 msgstr "Nuk njihet mesazh server"
 
-#: lib/sshv2.c:631
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:751
+#, fuzzy, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Gabim Mesazh madhësia j"
 
-#: lib/sshv2.c:689 lib/sshv2.c:1157 lib/sshv2.c:1993 lib/sshv2.c:2087
-#: lib/sshv2.c:2175
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:810 lib/sshv2.c:1345 lib/sshv2.c:1837 lib/sshv2.c:1956
+#, fuzzy, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Gabim Mesazh madhësia server j"
 
-#: lib/sshv2.c:695
+#: lib/sshv2.c:816
 #, fuzzy
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
-msgstr "gabim a SSH me nÃ« distancÃ« server gabim mesazh nÃ« distancÃ« server j"
+msgstr ""
+"gabim a SSH me nÃ« distancÃ« server gabim mesazh nÃ« distancÃ« server j"
 
-#: lib/sshv2.c:924
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:1159
+#, fuzzy, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "SSH j"
 
-#: lib/sshv2.c:1000
-#, c-format
-#, fuzzy
+#: lib/sshv2.c:1211
+#, fuzzy, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "SSH server j"
 
-#: lib/sslcommon.c:31
+#: lib/sslcommon.c:30
 msgid "SSL Engine"
 msgstr ""
 
-#: lib/sslcommon.c:34
+#: lib/sslcommon.c:33
 #, fuzzy
 msgid "SSL Entropy File:"
 msgstr "File:"
 
-#: lib/sslcommon.c:36
+#: lib/sslcommon.c:35
 msgid "SSL entropy file"
 msgstr ""
 
-#: lib/sslcommon.c:37
+#: lib/sslcommon.c:36
 #, fuzzy
 msgid "Entropy Seed Length:"
 msgstr "Lulja Gjatësia:"
 
-#: lib/sslcommon.c:39
+#: lib/sslcommon.c:38
 #, fuzzy
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr "maksimum nga bytes me"
 
-#: lib/sslcommon.c:41 lib/sslcommon.c:43
+#: lib/sslcommon.c:40 lib/sslcommon.c:42
 #, fuzzy
 msgid "Verify SSL Peer"
 msgstr "Verifikimi"
 
-#: lib/sslcommon.c:107
-#, c-format
-#, fuzzy
+#: lib/sslcommon.c:106
+#, fuzzy, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
 "Issuer = %s\n"
@@ -1472,75 +1481,64 @@ msgid ""
 "Error %i:%s\n"
 msgstr "Gabim me j"
 
-#: lib/sslcommon.c:129
+#: lib/sslcommon.c:128
 #, fuzzy
 msgid "Cannot get peer certificate\n"
 msgstr "merr j"
 
-#: lib/sslcommon.c:188
-#, c-format
-#, fuzzy
+#: lib/sslcommon.c:195
+#, fuzzy, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
 "connected to (%s). Aborting connection.\n"
 msgstr "GABIM në nuk j"
 
-#: lib/sslcommon.c:295
+#: lib/sslcommon.c:312
 #, fuzzy
 msgid "Cannot initialize the OpenSSL library\n"
 msgstr "OpenSSL j"
 
-#: lib/sslcommon.c:310
+#: lib/sslcommon.c:327
 #, fuzzy
 msgid "Error loading default SSL certificates\n"
 msgstr "Gabim prezgjedhur j"
 
-#: lib/sslcommon.c:322
+#: lib/sslcommon.c:339
 #, fuzzy
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "Gabim lista jo j"
 
-#: lib/sslcommon.c:342 lib/sslcommon.c:414 lib/sslcommon.c:461
+#: lib/sslcommon.c:359 lib/sslcommon.c:434 lib/sslcommon.c:482
 #, fuzzy
 msgid "Error: SSL engine was not initialized\n"
 msgstr "Gabim nuk j"
 
-#: lib/sslcommon.c:359
+#: lib/sslcommon.c:376
 #, fuzzy
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "Gabim sipër j"
 
-#: lib/sslcommon.c:369
+#: lib/sslcommon.c:386
 #, fuzzy
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "Gabim sipër j"
 
-#: lib/sslcommon.c:390
-#, c-format
-#, fuzzy
+#: lib/sslcommon.c:407
+#, fuzzy, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "Gabim me j"
 
-#: src/uicommon/gftpui.c:70
-#, c-format
-#, fuzzy
-msgid "Waiting %d seconds until trying to connect again\n"
-msgstr "Në pritje sekonda deri më j"
-
-#: src/uicommon/gftpui.c:80 src/gtk/delete_dialog.c:89 src/gtk/transfer.c:213
+#: src/uicommon/gftpui.c:60
 #, fuzzy
 msgid "Operation canceled\n"
 msgstr "Veprimi j"
 
-#: src/uicommon/gftpui.c:157
-#, fuzzy
-msgid ""
-">. If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
-msgstr "çdo komente informacione programi Ti gjithmonÃ« gjej informacione gFTPhttp://www.gftp.org/ j"
+#: src/uicommon/gftpui.c:69
+#, fuzzy, c-format
+msgid "Waiting %d seconds until trying to connect again\n"
+msgstr "Në pritje sekonda deri më j"
 
-#: src/uicommon/gftpui.c:158
+#: src/uicommon/gftpui.c:160
 #, fuzzy
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
@@ -1548,433 +1546,436 @@ msgid ""
 "conditions; for details, see the COPYING file\n"
 msgstr "gFTP me JO për detajet është dhe për detajet j"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:160 src/gtk/menu-items.c:497
+#: src/uicommon/gftpui.c:162 src/gtk/menu-items.c:490
 msgid "Translated by"
 msgstr "Përkthyer nga"
 
-#: src/uicommon/gftpui.c:207 src/uicommon/gftpui.c:249
-#: src/uicommon/gftpui.c:289 src/uicommon/gftpui.c:324
-#: src/uicommon/gftpui.c:359 src/uicommon/gftpui.c:394
-#: src/uicommon/gftpui.c:430 src/uicommon/gftpui.c:493
-#: src/uicommon/gftpui.c:574 src/uicommon/gftpui.c:840
+#: src/uicommon/gftpui.c:209 src/uicommon/gftpui.c:251
+#: src/uicommon/gftpui.c:291 src/uicommon/gftpui.c:326
+#: src/uicommon/gftpui.c:361 src/uicommon/gftpui.c:397
+#: src/uicommon/gftpui.c:433 src/uicommon/gftpui.c:498
+#: src/uicommon/gftpui.c:579 src/uicommon/gftpui.c:849
 #, fuzzy
 msgid "Error: Not connected to a remote site\n"
 msgstr "Gabim Not a nÃ« distancÃ« siti j"
 
-#: src/uicommon/gftpui.c:218
+#: src/uicommon/gftpui.c:220
 #, fuzzy
 msgid "usage: chmod <mode> <file>\n"
 msgstr "<mode><file> j"
 
-#: src/uicommon/gftpui.c:259
+#: src/uicommon/gftpui.c:261
 #, fuzzy
 msgid "usage: rename <old name> <new name>\n"
 msgstr "<old name><new name> j"
 
-#: src/uicommon/gftpui.c:295
+#: src/uicommon/gftpui.c:297
 #, fuzzy
 msgid "usage: delete <file>\n"
 msgstr "elemino<file> j"
 
-#: src/uicommon/gftpui.c:330
+#: src/uicommon/gftpui.c:332
 #, fuzzy
 msgid "usage: rmdir <directory>\n"
 msgstr "<directory> j"
 
-#: src/uicommon/gftpui.c:365
+#: src/uicommon/gftpui.c:367
 #, fuzzy
 msgid "usage: site <site command>\n"
 msgstr "siti<site command> j"
 
-#: src/uicommon/gftpui.c:400
+#: src/uicommon/gftpui.c:403
 #, fuzzy
 msgid "usage: mkdir <new directory>\n"
 msgstr "<new directory> j"
 
-#: src/uicommon/gftpui.c:436 src/uicommon/gftpui.c:453
+#: src/uicommon/gftpui.c:439 src/uicommon/gftpui.c:457
 #, fuzzy
 msgid "usage: chdir <directory>\n"
 msgstr "<directory> j"
 
-#: src/uicommon/gftpui.c:525
+#: src/uicommon/gftpui.c:530
 #, fuzzy
 msgid "Invalid argument\n"
 msgstr "E pavlefshme j"
 
-#: src/uicommon/gftpui.c:538
+#: src/uicommon/gftpui.c:543
 #, fuzzy
 msgid "Clear the directory cache\n"
 msgstr "Pastro j"
 
-#: src/uicommon/gftpui.c:627
+#: src/uicommon/gftpui.c:632
 #, fuzzy
 msgid "usage: open "
 msgstr "hap "
 
-#: src/uicommon/gftpui.c:703
+#: src/uicommon/gftpui.c:708
 #, fuzzy
 msgid "usage: set [variable = value]\n"
 msgstr "j"
 
-#: src/uicommon/gftpui.c:717
-#, c-format
-#, fuzzy
+#: src/uicommon/gftpui.c:722
+#, fuzzy, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "Gabim E ndryshueshme është nuk a j"
 
-#: src/uicommon/gftpui.c:724
-#, c-format
-#, fuzzy
+#: src/uicommon/gftpui.c:729
+#, fuzzy, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "Gabim E ndryshueshme është nuk në tekst nga gFTP j"
 
-#: src/uicommon/gftpui.c:804
+#: src/uicommon/gftpui.c:811
 #, fuzzy
 msgid ""
 "Supported commands:\n"
 "\n"
 msgstr "j j"
 
-#: src/uicommon/gftpui.c:847
-#, c-format
-#, fuzzy
+#: src/uicommon/gftpui.c:856
+#, fuzzy, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "<filespec> j"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:932
+#: src/uicommon/gftpui.c:941
 msgid "about"
 msgstr "informacione"
 
-#: src/uicommon/gftpui.c:933
+#: src/uicommon/gftpui.c:942
 #, fuzzy
 msgid "Shows gFTP information"
 msgstr "gFTP"
 
-#: src/uicommon/gftpui.c:934
+#: src/uicommon/gftpui.c:943
 msgid "ascii"
 msgstr ""
 
-#: src/uicommon/gftpui.c:935
+#: src/uicommon/gftpui.c:944
 #, fuzzy
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "modaliteti për FTP"
 
-#: src/uicommon/gftpui.c:936
+#: src/uicommon/gftpui.c:945
 msgid "binary"
 msgstr ""
 
-#: src/uicommon/gftpui.c:937
+#: src/uicommon/gftpui.c:946
 #, fuzzy
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "modaliteti Binar për FTP"
 
-#: src/uicommon/gftpui.c:938
+#: src/uicommon/gftpui.c:947
 msgid "cd"
 msgstr ""
 
-#: src/uicommon/gftpui.c:939 src/uicommon/gftpui.c:941
+#: src/uicommon/gftpui.c:948 src/uicommon/gftpui.c:950
 #, fuzzy
 msgid "Changes the remote working directory"
 msgstr "nÃ« distancÃ«"
 
-#: src/uicommon/gftpui.c:940
+#: src/uicommon/gftpui.c:949
 msgid "chdir"
 msgstr ""
 
-#: src/uicommon/gftpui.c:942
+#: src/uicommon/gftpui.c:951
 msgid "chmod"
 msgstr ""
 
-#: src/uicommon/gftpui.c:943
+#: src/uicommon/gftpui.c:952
 #, fuzzy
 msgid "Changes the permissions of a remote file"
 msgstr "të drejtat nga a nÃ« distancÃ«"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:944
+#: src/uicommon/gftpui.c:953
 msgid "clear"
 msgstr "pastro"
 
-#: src/uicommon/gftpui.c:945
+#: src/uicommon/gftpui.c:954
 #, fuzzy
 msgid "Available options: cache"
 msgstr "Në dispozicion"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:946
+#: src/uicommon/gftpui.c:955
 msgid "close"
 msgstr "mbylle"
 
-#: src/uicommon/gftpui.c:947
+#: src/uicommon/gftpui.c:956
 #, fuzzy
 msgid "Disconnects from the remote site"
 msgstr "nÃ« distancÃ« siti"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:948
+#: src/uicommon/gftpui.c:957
 msgid "delete"
 msgstr "elemino"
 
-#: src/uicommon/gftpui.c:949
+#: src/uicommon/gftpui.c:958
 #, fuzzy
 msgid "Removes a remote file"
 msgstr "a nÃ« distancÃ«"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:950
-msgid "get"
-msgstr "merr"
-
-#: src/uicommon/gftpui.c:951 src/uicommon/gftpui.c:975
-#, fuzzy
-msgid "Downloads remote file(s)"
-msgstr "Shkarkime nÃ« distancÃ«"
-
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:952
-msgid "help"
-msgstr "ndihmë"
-
-#: src/uicommon/gftpui.c:953
-#, fuzzy
-msgid "Shows this help screen"
-msgstr "ndihmë"
-
-#: src/uicommon/gftpui.c:954
-msgid "lcd"
-msgstr ""
-
-#: src/uicommon/gftpui.c:955 src/uicommon/gftpui.c:957
-#, fuzzy
-msgid "Changes the local working directory"
-msgstr "lokal"
-
-#: src/uicommon/gftpui.c:956
-msgid "lchdir"
-msgstr ""
-
-#: src/uicommon/gftpui.c:958
-msgid "lchmod"
-msgstr ""
-
 #: src/uicommon/gftpui.c:959
-#, fuzzy
-msgid "Changes the permissions of a local file"
-msgstr "të drejtat nga a lokal"
-
-#: src/uicommon/gftpui.c:960
-msgid "ldelete"
+msgid "dir"
 msgstr ""
 
-#: src/uicommon/gftpui.c:961
-#, fuzzy
-msgid "Removes a local file"
-msgstr "a lokal"
-
-#: src/uicommon/gftpui.c:962
-msgid "lls"
-msgstr ""
-
-#: src/uicommon/gftpui.c:963
-#, fuzzy
-msgid "Shows the directory listing for the current local directory"
-msgstr "për lokal"
-
-#: src/uicommon/gftpui.c:964
-msgid "lmkdir"
-msgstr ""
-
-#: src/uicommon/gftpui.c:965
-#, fuzzy
-msgid "Creates a local directory"
-msgstr "a lokal"
-
-#: src/uicommon/gftpui.c:966
-msgid "lpwd"
-msgstr ""
-
-#: src/uicommon/gftpui.c:967
-#, fuzzy
-msgid "Show current local directory"
-msgstr "Shfaq lokal"
-
-#: src/uicommon/gftpui.c:968
-msgid "lrename"
-msgstr ""
-
-#: src/uicommon/gftpui.c:969
-#, fuzzy
-msgid "Rename a local file"
-msgstr "Riemërto a lokal"
-
-#: src/uicommon/gftpui.c:970
-msgid "lrmdir"
-msgstr ""
-
-#: src/uicommon/gftpui.c:971
-#, fuzzy
-msgid "Remove a local directory"
-msgstr "Hiq a lokal"
-
-#: src/uicommon/gftpui.c:972
-msgid "ls"
-msgstr ""
-
-#: src/uicommon/gftpui.c:973
+#: src/uicommon/gftpui.c:960 src/uicommon/gftpui.c:986
 #, fuzzy
 msgid "Shows the directory listing for the current remote directory"
 msgstr "për nÃ« distancÃ«"
 
-#: src/uicommon/gftpui.c:974
-msgid "mget"
+#: src/uicommon/gftpui.c:961
+msgid "get"
+msgstr "merr"
+
+#: src/uicommon/gftpui.c:962 src/uicommon/gftpui.c:988
+#, fuzzy
+msgid "Downloads remote file(s)"
+msgstr "Shkarkime nÃ« distancÃ«"
+
+#: src/uicommon/gftpui.c:963
+msgid "help"
+msgstr "ndihmë"
+
+#: src/uicommon/gftpui.c:964
+#, fuzzy
+msgid "Shows this help screen"
+msgstr "ndihmë"
+
+#: src/uicommon/gftpui.c:965
+msgid "lcd"
 msgstr ""
 
-#: src/uicommon/gftpui.c:976
-msgid "mkdir"
+#: src/uicommon/gftpui.c:966 src/uicommon/gftpui.c:968
+#, fuzzy
+msgid "Changes the local working directory"
+msgstr "lokal"
+
+#: src/uicommon/gftpui.c:967
+msgid "lchdir"
+msgstr ""
+
+#: src/uicommon/gftpui.c:969
+msgid "lchmod"
+msgstr ""
+
+#: src/uicommon/gftpui.c:970
+#, fuzzy
+msgid "Changes the permissions of a local file"
+msgstr "të drejtat nga a lokal"
+
+#: src/uicommon/gftpui.c:971
+msgid "ldelete"
+msgstr ""
+
+#: src/uicommon/gftpui.c:972
+#, fuzzy
+msgid "Removes a local file"
+msgstr "a lokal"
+
+#: src/uicommon/gftpui.c:973
+msgid "ldir"
+msgstr ""
+
+#: src/uicommon/gftpui.c:974 src/uicommon/gftpui.c:976
+#, fuzzy
+msgid "Shows the directory listing for the current local directory"
+msgstr "për lokal"
+
+#: src/uicommon/gftpui.c:975
+msgid "lls"
 msgstr ""
 
 #: src/uicommon/gftpui.c:977
+msgid "lmkdir"
+msgstr ""
+
+#: src/uicommon/gftpui.c:978
+#, fuzzy
+msgid "Creates a local directory"
+msgstr "a lokal"
+
+#: src/uicommon/gftpui.c:979
+msgid "lpwd"
+msgstr ""
+
+#: src/uicommon/gftpui.c:980
+#, fuzzy
+msgid "Show current local directory"
+msgstr "Shfaq lokal"
+
+#: src/uicommon/gftpui.c:981
+msgid "lrename"
+msgstr ""
+
+#: src/uicommon/gftpui.c:982
+#, fuzzy
+msgid "Rename a local file"
+msgstr "Riemërto a lokal"
+
+#: src/uicommon/gftpui.c:983
+msgid "lrmdir"
+msgstr ""
+
+#: src/uicommon/gftpui.c:984
+#, fuzzy
+msgid "Remove a local directory"
+msgstr "Hiq a lokal"
+
+#: src/uicommon/gftpui.c:985
+msgid "ls"
+msgstr ""
+
+#: src/uicommon/gftpui.c:987
+msgid "mget"
+msgstr ""
+
+#: src/uicommon/gftpui.c:989
+msgid "mkdir"
+msgstr ""
+
+#: src/uicommon/gftpui.c:990
 #, fuzzy
 msgid "Creates a remote directory"
 msgstr "a nÃ« distancÃ«"
 
-#: src/uicommon/gftpui.c:978
+#: src/uicommon/gftpui.c:991
 msgid "mput"
 msgstr ""
 
-#: src/uicommon/gftpui.c:979 src/uicommon/gftpui.c:983
+#: src/uicommon/gftpui.c:992 src/uicommon/gftpui.c:996
 #, fuzzy
 msgid "Uploads local file(s)"
 msgstr "Ngarkime lokal"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:980
+#: src/uicommon/gftpui.c:993
 msgid "open"
 msgstr "hap"
 
-#: src/uicommon/gftpui.c:981
+#: src/uicommon/gftpui.c:994
 #, fuzzy
 msgid "Opens a connection to a remote site"
 msgstr "a a nÃ« distancÃ« siti"
 
-#: src/uicommon/gftpui.c:982
+#: src/uicommon/gftpui.c:995
 msgid "put"
 msgstr ""
 
-#: src/uicommon/gftpui.c:984
+#: src/uicommon/gftpui.c:997
 msgid "pwd"
 msgstr ""
 
-#: src/uicommon/gftpui.c:985
+#: src/uicommon/gftpui.c:998
 #, fuzzy
 msgid "Show current remote directory"
 msgstr "Shfaq nÃ« distancÃ«"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:986
+#: src/uicommon/gftpui.c:999
 msgid "quit"
 msgstr "dil"
 
-#: src/uicommon/gftpui.c:987
+#: src/uicommon/gftpui.c:1000
 #, fuzzy
 msgid "Exit from gFTP"
 msgstr "Dalja gFTP"
 
-#: src/uicommon/gftpui.c:988
+#: src/uicommon/gftpui.c:1001
 msgid "rename"
 msgstr ""
 
-#: src/uicommon/gftpui.c:989
+#: src/uicommon/gftpui.c:1002
 #, fuzzy
 msgid "Rename a remote file"
 msgstr "Riemërto a nÃ« distancÃ«"
 
-#: src/uicommon/gftpui.c:990
+#: src/uicommon/gftpui.c:1003
 msgid "rmdir"
 msgstr ""
 
-#: src/uicommon/gftpui.c:991
+#: src/uicommon/gftpui.c:1004
 #, fuzzy
 msgid "Remove a remote directory"
 msgstr "Hiq a nÃ« distancÃ«"
 
-#: src/uicommon/gftpui.c:992
+#: src/uicommon/gftpui.c:1005
 msgid "set"
 msgstr ""
 
-#: src/uicommon/gftpui.c:993
+#: src/uicommon/gftpui.c:1006
 #, fuzzy
-msgid "Show configuration file variables. You can also set variables by set var=val"
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
 msgstr "Shfaq Ti nga"
 
-#. GRUT modified this item
-#: src/uicommon/gftpui.c:995
+#: src/uicommon/gftpui.c:1008
 msgid "site"
 msgstr "siti"
 
-#: src/uicommon/gftpui.c:996
+#: src/uicommon/gftpui.c:1009
 #, fuzzy
 msgid "Run a site specific command"
 msgstr "Ekzekuto a siti"
 
-#: src/uicommon/gftpui.c:1086
+#: src/uicommon/gftpui.c:1098
 #, fuzzy
 msgid "Error: Command not recognized\n"
 msgstr "Gabim Komanda nuk j"
 
-#: src/uicommon/gftpui.c:1336
-#, fuzzy
-msgid "Error: Remote site disconnected after trying to transfer file\n"
-msgstr "Gabim Në distancë siti mbas j"
-
-#: src/uicommon/gftpui.c:1405
-#, c-format
-#, fuzzy
-msgid "Could not download %s from %s\n"
-msgstr "nuk j"
-
-#: src/uicommon/gftpui.c:1428
-#, c-format
-#, fuzzy
+#: src/uicommon/gftpui.c:1308
+#, fuzzy, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "KB j"
 
-#: src/gtk/bookmarks.c:40 src/gtk/gftp-gtk.c:199 src/gtk/gftp-gtk.c:1014
-#: src/gtk/misc-gtk.c:478 src/gtk/misc-gtk.c:486
+#: src/uicommon/gftpui.c:1339
+#, fuzzy, c-format
+msgid "Skipping file %s on host %s\n"
+msgstr "në j"
+
+#: src/uicommon/gftpui.c:1363
+#, fuzzy, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "në j"
+
+#: src/uicommon/gftpui.c:1509
+#, fuzzy, c-format
+msgid "Could not download %s from %s\n"
+msgstr "nuk j"
+
+#: src/uicommon/gftpui.c:1565
 #, c-format
-#, fuzzy
+msgid ""
+"There were %d files or directories that could not be transferred. Check the "
+"log for which items were not properly transferred."
+msgstr ""
+
+#: src/gtk/bookmarks.c:39 src/gtk/dnd.c:121 src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:1103 src/gtk/misc-gtk.c:504 src/gtk/misc-gtk.c:512
+#, fuzzy, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "ndalo i pari j"
 
-#: src/gtk/bookmarks.c:41
+#: src/gtk/bookmarks.c:40
 #, fuzzy
 msgid "Run Bookmark"
 msgstr "Ekzekuto Libërshënues"
 
-#: src/gtk/bookmarks.c:71
+#: src/gtk/bookmarks.c:70
 #, fuzzy
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr "Shto Libërshënues Ti shkruaj a emri për j"
 
-#: src/gtk/bookmarks.c:78
-#, c-format
-#, fuzzy
+#: src/gtk/bookmarks.c:77
+#, fuzzy, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr "Shto Libërshënues shto emri ekziston j"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:135 src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:134 src/gtk/bookmarks.c:145
 msgid "Add Bookmark"
 msgstr "Shto libërshënues"
 
-#: src/gtk/bookmarks.c:142
+#: src/gtk/bookmarks.c:141
 #, fuzzy
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "Shto Libërshënues Ti shkruaj a emri i host j"
 
-#: src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:145
 #, fuzzy
 msgid ""
 "Enter the name of the bookmark you want to add\n"
@@ -1982,1245 +1983,1311 @@ msgid ""
 "(ex: Linux Sites/Debian)"
 msgstr "Shto emri nga shto elementët nga a a j Linux Site"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:145
 msgid "Remember password"
 msgstr "Kujto fjalëkalimin"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:474 src/gtk/bookmarks.c:484
+#: src/gtk/bookmarks.c:419
+#, fuzzy
+msgid "You must specify a name for the bookmark."
+msgstr "Shto Libërshënues Ti shkruaj a emri për j"
+
+#: src/gtk/bookmarks.c:471
 msgid "New Folder"
 msgstr "Kartelë e Re"
 
-#: src/gtk/bookmarks.c:475
+#: src/gtk/bookmarks.c:472
 #, fuzzy
 msgid "Enter the name of the new folder to create"
 msgstr "Shto emri nga i ri kartelë"
 
-#: src/gtk/bookmarks.c:485
+#: src/gtk/bookmarks.c:481
+#, fuzzy
+msgid "New Item"
+msgstr "File E re."
+
+#: src/gtk/bookmarks.c:482
 #, fuzzy
 msgid "Enter the name of the new item to create"
 msgstr "Shto emri nga i ri element"
 
-#: src/gtk/bookmarks.c:558
-#, c-format
-#, fuzzy
+#: src/gtk/bookmarks.c:555
+#, fuzzy, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
-"%s and all it's children?"
+"%s and all its children?"
 msgstr "j dhe?"
 
-#: src/gtk/bookmarks.c:559
+#: src/gtk/bookmarks.c:556
 #, fuzzy
 msgid "Delete Bookmark"
 msgstr "Elemino Libërshënues"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:586
+#: src/gtk/bookmarks.c:628
 msgid "Bookmarks"
 msgstr "Libërshënues"
 
-#: src/gtk/bookmarks.c:847 src/gtk/bookmarks.c:850
+#: src/gtk/bookmarks.c:848 src/gtk/bookmarks.c:851
 #, fuzzy
 msgid "Edit Entry"
 msgstr "Ndrysho"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:888
+#: src/gtk/bookmarks.c:887
 msgid "Description:"
 msgstr "Përshkrimi:"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:903
+#: src/gtk/bookmarks.c:902
 msgid "Hostname:"
 msgstr "Emri i host:"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:916
+#: src/gtk/bookmarks.c:915
 msgid "Port:"
 msgstr "Porta:"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:933
+#: src/gtk/bookmarks.c:932
 msgid "Protocol:"
 msgstr "Protokolli:"
 
-#: src/gtk/bookmarks.c:957
+#: src/gtk/bookmarks.c:956
 #, fuzzy
 msgid "Remote Directory:"
 msgstr "Në distancë Directory:"
 
-#: src/gtk/bookmarks.c:970
+#: src/gtk/bookmarks.c:969
 #, fuzzy
 msgid "Local Directory:"
 msgstr "Lokale Directory:"
 
-#. GRUT modified this item
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:987
+#: src/gtk/bookmarks.c:986
 msgid "Username:"
 msgstr "Përdoruesi:"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:1000 src/text/textui.c:82
+#: src/gtk/bookmarks.c:999 src/text/textui.c:91
 msgid "Password:"
 msgstr "Fjalëkalimi:"
 
-#: src/gtk/bookmarks.c:1014
+#: src/gtk/bookmarks.c:1013
 #, fuzzy
 msgid "Account:"
 msgstr "Llogaria:"
 
-#: src/gtk/bookmarks.c:1028
+#: src/gtk/bookmarks.c:1027
 #, fuzzy
 msgid "Log in as ANONYMOUS"
 msgstr "Log në"
 
-#: src/gtk/bookmarks.c:1053 src/gtk/bookmarks.c:1307
-#: src/gtk/chmod_dialog.c:272 src/gtk/gtkui_transfer.c:373
-#: src/gtk/options_dialog.c:1118 src/gtk/options_dialog.c:1320
+#: src/gtk/bookmarks.c:1052 src/gtk/bookmarks.c:1302
+#: src/gtk/chmod_dialog.c:264 src/gtk/gtkui_transfer.c:387
+#: src/gtk/options_dialog.c:1215 src/gtk/options_dialog.c:1447
 #, fuzzy
 msgid "  Cancel  "
 msgstr "Anullo "
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:1063 src/gtk/options_dialog.c:1331
-msgid "Apply"
-msgstr "Apliko"
-
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:1213
+#: src/gtk/bookmarks.c:1203
 msgid "/_File"
 msgstr "/_File"
 
-#: src/gtk/bookmarks.c:1214
+#: src/gtk/bookmarks.c:1204
 #, fuzzy
 msgid "/File/tearoff"
 msgstr "File"
 
-#: src/gtk/bookmarks.c:1215
+#: src/gtk/bookmarks.c:1205
 #, fuzzy
-msgid "/File/New Folder..."
+msgid "/File/New _Folder..."
 msgstr "File E re Kartelë."
 
-#: src/gtk/bookmarks.c:1216
+#: src/gtk/bookmarks.c:1206
 #, fuzzy
-msgid "/File/New Item..."
+msgid "/File/New _Item..."
 msgstr "File E re."
 
-#: src/gtk/bookmarks.c:1217
+#: src/gtk/bookmarks.c:1207
 #, fuzzy
-msgid "/File/Delete"
+msgid "/File/_Delete"
 msgstr "File Elemino"
 
-#: src/gtk/bookmarks.c:1218
+#: src/gtk/bookmarks.c:1208
 #, fuzzy
-msgid "/File/Properties..."
+msgid "/File/_Properties..."
 msgstr "File Pronësitë."
 
-#: src/gtk/bookmarks.c:1219
+#: src/gtk/bookmarks.c:1209
 #, fuzzy
 msgid "/File/sep"
 msgstr "File"
 
-#: src/gtk/bookmarks.c:1220
+#: src/gtk/bookmarks.c:1210
 #, fuzzy
-msgid "/File/Close"
+msgid "/File/_Close"
 msgstr "File Mbyll"
 
-#. GRUT modified this item
-#: src/gtk/bookmarks.c:1238 src/gtk/bookmarks.c:1241
+#: src/gtk/bookmarks.c:1228 src/gtk/bookmarks.c:1231
 msgid "Edit Bookmarks"
 msgstr "Ndrysho libërshënuesit"
 
-#: src/gtk/chmod_dialog.c:139 src/gtk/chmod_dialog.c:144
-#: src/gtk/chmod_dialog.c:149
+#: src/gtk/chmod_dialog.c:131 src/gtk/chmod_dialog.c:136
+#: src/gtk/chmod_dialog.c:141
 msgid "Chmod"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:169
+#: src/gtk/chmod_dialog.c:161
 #, fuzzy
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
 msgstr "Ti tani nga Not karakteristika"
 
-#. GRUT modified this item
-#: src/gtk/chmod_dialog.c:179
+#: src/gtk/chmod_dialog.c:171
 msgid "Special"
 msgstr "Speciale"
 
-#: src/gtk/chmod_dialog.c:187
+#: src/gtk/chmod_dialog.c:179
 msgid "SUID"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:191
+#: src/gtk/chmod_dialog.c:183
 msgid "SGID"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:195
+#: src/gtk/chmod_dialog.c:187
 msgid "Sticky"
 msgstr ""
 
-#. GRUT modified this item
-#: src/gtk/chmod_dialog.c:199 src/gtk/gftp-gtk.c:698
+#: src/gtk/chmod_dialog.c:191 src/gtk/gftp-gtk.c:789
 msgid "User"
 msgstr "Përdoruesi"
 
-#. GRUT modified this item
-#: src/gtk/chmod_dialog.c:207 src/gtk/chmod_dialog.c:227
-#: src/gtk/chmod_dialog.c:247
+#: src/gtk/chmod_dialog.c:199 src/gtk/chmod_dialog.c:219
+#: src/gtk/chmod_dialog.c:239
 msgid "Read"
 msgstr "Lexo"
 
-#. GRUT modified this item
-#. GRUT modified this item
-#: src/gtk/chmod_dialog.c:211 src/gtk/chmod_dialog.c:231
-#: src/gtk/chmod_dialog.c:251
+#: src/gtk/chmod_dialog.c:203 src/gtk/chmod_dialog.c:223
+#: src/gtk/chmod_dialog.c:243
 msgid "Write"
 msgstr "Shkrim"
 
-#. GRUT modified this item
-#: src/gtk/chmod_dialog.c:215 src/gtk/chmod_dialog.c:235
-#: src/gtk/chmod_dialog.c:255
+#: src/gtk/chmod_dialog.c:207 src/gtk/chmod_dialog.c:227
+#: src/gtk/chmod_dialog.c:247
 msgid "Execute"
 msgstr "Ekzekuto"
 
-#: src/gtk/chmod_dialog.c:219 src/gtk/gftp-gtk.c:699
+#: src/gtk/chmod_dialog.c:211 src/gtk/gftp-gtk.c:790
 #, fuzzy
 msgid "Group"
 msgstr "Grupi"
 
-#: src/gtk/chmod_dialog.c:239
+#: src/gtk/chmod_dialog.c:231
 #, fuzzy
 msgid "Other"
 msgstr "Tjetër"
 
-#: src/gtk/delete_dialog.c:156
-#, c-format
-#, fuzzy
+#: src/gtk/delete_dialog.c:60
+#, fuzzy, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr "elemino dhe"
 
-#: src/gtk/delete_dialog.c:158
+#: src/gtk/delete_dialog.c:64
+#, fuzzy, c-format
+msgid "Are you sure you want to delete these %ld files"
+msgstr "elemino dhe"
+
+#: src/gtk/delete_dialog.c:68
+#, fuzzy, c-format
+msgid "Are you sure you want to delete these %ld directories"
+msgstr "elemino dhe"
+
+#: src/gtk/delete_dialog.c:73
 #, fuzzy
 msgid "Delete Files/Directories"
 msgstr "Elemino Files Directories"
 
-#. GRUT modified this item
-#: src/gtk/delete_dialog.c:176 src/gtk/options_dialog.c:1192
+#: src/gtk/delete_dialog.c:89 src/gtk/options_dialog.c:1301
 msgid "Delete"
 msgstr "Elemino"
 
-#: src/gtk/dnd.c:128 src/gtk/dnd.c:260
-#, c-format
-#, fuzzy
+#: src/gtk/dnd.c:122 src/gtk/gftp-gtk.c:1104 src/gtk/misc-gtk.c:928
+#: src/gtk/misc-gtk.c:1003
+msgid "Connect"
+msgstr "Lidhu"
+
+#: src/gtk/dnd.c:135 src/gtk/dnd.c:268
+#, fuzzy, c-format
 msgid "Received URL %s\n"
 msgstr "Marrë URL j"
 
-#: src/gtk/dnd.c:151 src/gtk/dnd.c:238
+#: src/gtk/dnd.c:158 src/gtk/dnd.c:246
 #, fuzzy
 msgid "Drag-N-Drop"
 msgstr "N Hidh"
 
-#. GRUT modified this item
-#. GRUT modified this item
-#: src/gtk/gftp-gtk.c:112
+#: src/gtk/gftp-gtk.c:144
 msgid "Exit"
 msgstr "Dalja"
 
-#: src/gtk/gftp-gtk.c:112
+#: src/gtk/gftp-gtk.c:144
 #, fuzzy
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
 msgstr "në?"
 
-#: src/gtk/gftp-gtk.c:184
+#: src/gtk/gftp-gtk.c:219 src/gtk/gftp-gtk.c:235
 #, fuzzy
-msgid "Connect via URL"
-msgstr "Lidhu URL"
+msgid "Open Location"
+msgstr "Mundësitë"
 
-#: src/gtk/gftp-gtk.c:184
+#: src/gtk/gftp-gtk.c:219
 #, fuzzy
 msgid "Enter a URL to connect to"
 msgstr "Shto a URL"
 
-#: src/gtk/gftp-gtk.c:200
-msgid "OpenURL"
-msgstr ""
-
-#: src/gtk/gftp-gtk.c:223
+#: src/gtk/gftp-gtk.c:265
 #, fuzzy
 msgid "/_FTP"
 msgstr "FTP"
 
-#: src/gtk/gftp-gtk.c:224
+#: src/gtk/gftp-gtk.c:266
 #, fuzzy
 msgid "/FTP/tearoff"
 msgstr "FTP"
 
-#: src/gtk/gftp-gtk.c:225
+#: src/gtk/gftp-gtk.c:267
 #, fuzzy
-msgid "/FTP/Window 1"
+msgid "/FTP/Window _1"
 msgstr "FTP Dritarja"
 
-#: src/gtk/gftp-gtk.c:226
+#: src/gtk/gftp-gtk.c:269
 #, fuzzy
-msgid "/FTP/Window 2"
+msgid "/FTP/Window _2"
 msgstr "FTP Dritarja 2"
 
-#: src/gtk/gftp-gtk.c:227 src/gtk/gftp-gtk.c:230 src/gtk/gftp-gtk.c:233
+#: src/gtk/gftp-gtk.c:271 src/gtk/gftp-gtk.c:276 src/gtk/gftp-gtk.c:279
 #, fuzzy
 msgid "/FTP/sep"
 msgstr "FTP"
 
-#: src/gtk/gftp-gtk.c:228
+#: src/gtk/gftp-gtk.c:272
 #, fuzzy
-msgid "/FTP/Ascii"
+msgid "/FTP/_Ascii"
 msgstr "FTP"
 
-#: src/gtk/gftp-gtk.c:229
+#: src/gtk/gftp-gtk.c:274
 #, fuzzy
-msgid "/FTP/Binary"
+msgid "/FTP/_Binary"
 msgstr "FTP Binar"
 
-#: src/gtk/gftp-gtk.c:231
+#: src/gtk/gftp-gtk.c:277
 #, fuzzy
-msgid "/FTP/_Options..."
-msgstr "FTP Mundësitë."
+msgid "/FTP/_Preferences..."
+msgstr "File Pronësitë."
 
-#: src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:280
 #, fuzzy
 msgid "/FTP/_Quit"
 msgstr "FTP Dalja"
 
-#: src/gtk/gftp-gtk.c:235
+#: src/gtk/gftp-gtk.c:281
 #, fuzzy
 msgid "/_Local"
 msgstr "Lokale"
 
-#: src/gtk/gftp-gtk.c:236
+#: src/gtk/gftp-gtk.c:282
 #, fuzzy
 msgid "/Local/tearoff"
 msgstr "Lokale"
 
-#: src/gtk/gftp-gtk.c:237
+#: src/gtk/gftp-gtk.c:283
 #, fuzzy
-msgid "/Local/Open _URL..."
+msgid "/Local/_Open Location..."
 msgstr "Lokale Hap URL."
 
-#: src/gtk/gftp-gtk.c:238
+#: src/gtk/gftp-gtk.c:285
 #, fuzzy
-msgid "/Local/Disconnect"
+msgid "/Local/D_isconnect"
 msgstr "Lokale Shkëputu"
 
-#: src/gtk/gftp-gtk.c:239 src/gtk/gftp-gtk.c:245
+#: src/gtk/gftp-gtk.c:286 src/gtk/gftp-gtk.c:293
 #, fuzzy
 msgid "/Local/sep"
 msgstr "Lokale"
 
-#: src/gtk/gftp-gtk.c:240
+#: src/gtk/gftp-gtk.c:287
 #, fuzzy
-msgid "/Local/Change Filespec..."
+msgid "/Local/Change _Filespec..."
 msgstr "Lokale Ndrysho."
 
-#: src/gtk/gftp-gtk.c:241
+#: src/gtk/gftp-gtk.c:289
 #, fuzzy
-msgid "/Local/Show selected"
+msgid "/Local/_Show selected"
 msgstr "Lokale Shfaq"
 
-#: src/gtk/gftp-gtk.c:242
+#: src/gtk/gftp-gtk.c:290
 #, fuzzy
-msgid "/Local/Select All"
+msgid "/Local/Select _All"
 msgstr "Lokale Zgjidh Gjithçka"
 
-#: src/gtk/gftp-gtk.c:243
+#: src/gtk/gftp-gtk.c:291
 #, fuzzy
 msgid "/Local/Select All Files"
 msgstr "Lokale Zgjidh Gjithçka Files"
 
-#: src/gtk/gftp-gtk.c:244
+#: src/gtk/gftp-gtk.c:292
 #, fuzzy
 msgid "/Local/Deselect All"
 msgstr "Lokale Gjithçka"
 
-#: src/gtk/gftp-gtk.c:246
+#: src/gtk/gftp-gtk.c:294
 #, fuzzy
 msgid "/Local/Save Directory Listing..."
 msgstr "Lokale Ruaj Directory."
 
-#: src/gtk/gftp-gtk.c:247
+#: src/gtk/gftp-gtk.c:295
 #, fuzzy
 msgid "/Local/Send SITE Command..."
 msgstr "Lokale Dërgo Komanda."
 
-#: src/gtk/gftp-gtk.c:248
+#: src/gtk/gftp-gtk.c:296
 #, fuzzy
-msgid "/Local/Change Directory"
+msgid "/Local/_Change Directory"
 msgstr "Lokale Ndrysho Directory"
 
-#: src/gtk/gftp-gtk.c:249
+#: src/gtk/gftp-gtk.c:297
 #, fuzzy
-msgid "/Local/Chmod..."
+msgid "/Local/_Permissions..."
 msgstr "Lokale."
 
-#: src/gtk/gftp-gtk.c:250
+#: src/gtk/gftp-gtk.c:299
 #, fuzzy
-msgid "/Local/Make Directory..."
-msgstr "Lokale Directory."
+msgid "/Local/_New Folder..."
+msgstr "File E re Kartelë."
 
-#: src/gtk/gftp-gtk.c:251
+#: src/gtk/gftp-gtk.c:300
 #, fuzzy
-msgid "/Local/Rename..."
+msgid "/Local/Rena_me..."
 msgstr "Lokale Riemërto."
 
-#: src/gtk/gftp-gtk.c:252
+#: src/gtk/gftp-gtk.c:302
 #, fuzzy
-msgid "/Local/Delete..."
+msgid "/Local/_Delete..."
 msgstr "Lokale Elemino."
 
-#: src/gtk/gftp-gtk.c:253
+#: src/gtk/gftp-gtk.c:304
 #, fuzzy
-msgid "/Local/Edit..."
+msgid "/Local/_Edit..."
 msgstr "Lokale Ndrysho."
 
-#: src/gtk/gftp-gtk.c:254
+#: src/gtk/gftp-gtk.c:305
 #, fuzzy
-msgid "/Local/View..."
+msgid "/Local/_View..."
 msgstr "Lokale Paraqitja."
 
-#: src/gtk/gftp-gtk.c:255
+#: src/gtk/gftp-gtk.c:306
 #, fuzzy
-msgid "/Local/Refresh"
+msgid "/Local/_Refresh"
 msgstr "Lokale Rifresko"
 
-#: src/gtk/gftp-gtk.c:256
+#: src/gtk/gftp-gtk.c:308
 #, fuzzy
 msgid "/_Remote"
 msgstr "Në distancë"
 
-#: src/gtk/gftp-gtk.c:257
+#: src/gtk/gftp-gtk.c:309
 #, fuzzy
 msgid "/Remote/tearoff"
 msgstr "Në distancë"
 
-#: src/gtk/gftp-gtk.c:258
+#: src/gtk/gftp-gtk.c:310
 #, fuzzy
-msgid "/Remote/Open _URL..."
+msgid "/Remote/_Open Location..."
 msgstr "Në distancë Hap URL."
 
-#: src/gtk/gftp-gtk.c:260
+#: src/gtk/gftp-gtk.c:312
 #, fuzzy
-msgid "/Remote/Disconnect"
+msgid "/Remote/D_isconnect"
 msgstr "Në distancë Shkëputu"
 
-#: src/gtk/gftp-gtk.c:262 src/gtk/gftp-gtk.c:268
+#: src/gtk/gftp-gtk.c:314 src/gtk/gftp-gtk.c:321
 #, fuzzy
 msgid "/Remote/sep"
 msgstr "Në distancë"
 
-#: src/gtk/gftp-gtk.c:263
+#: src/gtk/gftp-gtk.c:315
 #, fuzzy
-msgid "/Remote/Change Filespec..."
+msgid "/Remote/Change _Filespec..."
 msgstr "Në distancë Ndrysho."
 
-#: src/gtk/gftp-gtk.c:264
+#: src/gtk/gftp-gtk.c:317
 #, fuzzy
-msgid "/Remote/Show selected"
+msgid "/Remote/_Show selected"
 msgstr "Në distancë Shfaq"
 
-#: src/gtk/gftp-gtk.c:265
+#: src/gtk/gftp-gtk.c:318
 #, fuzzy
-msgid "/Remote/Select All"
+msgid "/Remote/Select _All"
 msgstr "Në distancë Zgjidh Gjithçka"
 
-#: src/gtk/gftp-gtk.c:266
+#: src/gtk/gftp-gtk.c:319
 #, fuzzy
 msgid "/Remote/Select All Files"
 msgstr "Në distancë Zgjidh Gjithçka Files"
 
-#: src/gtk/gftp-gtk.c:267
+#: src/gtk/gftp-gtk.c:320
 #, fuzzy
 msgid "/Remote/Deselect All"
 msgstr "Në distancë Gjithçka"
 
-#: src/gtk/gftp-gtk.c:269
+#: src/gtk/gftp-gtk.c:322
 #, fuzzy
 msgid "/Remote/Save Directory Listing..."
 msgstr "Në distancë Ruaj Directory."
 
-#: src/gtk/gftp-gtk.c:270
+#: src/gtk/gftp-gtk.c:323
 #, fuzzy
 msgid "/Remote/Send SITE Command..."
 msgstr "Në distancë Dërgo Komanda."
 
-#: src/gtk/gftp-gtk.c:271
+#: src/gtk/gftp-gtk.c:324
 #, fuzzy
-msgid "/Remote/Change Directory"
+msgid "/Remote/_Change Directory"
 msgstr "Në distancë Ndrysho Directory"
 
-#: src/gtk/gftp-gtk.c:272
+#: src/gtk/gftp-gtk.c:325
 #, fuzzy
-msgid "/Remote/Chmod..."
+msgid "/Remote/_Permisssions..."
 msgstr "Në distancë."
 
-#: src/gtk/gftp-gtk.c:273
+#: src/gtk/gftp-gtk.c:326
 #, fuzzy
-msgid "/Remote/Make Directory..."
-msgstr "Në distancë Directory."
+msgid "/Remote/_New Folder..."
+msgstr "File E re Kartelë."
 
-#: src/gtk/gftp-gtk.c:274
+#: src/gtk/gftp-gtk.c:328
 #, fuzzy
-msgid "/Remote/Rename..."
+msgid "/Remote/Rena_me..."
 msgstr "Në distancë Riemërto."
 
-#: src/gtk/gftp-gtk.c:275
+#: src/gtk/gftp-gtk.c:330
 #, fuzzy
-msgid "/Remote/Delete..."
+msgid "/Remote/_Delete..."
 msgstr "Në distancë Elemino."
 
-#: src/gtk/gftp-gtk.c:276
+#: src/gtk/gftp-gtk.c:331
 #, fuzzy
-msgid "/Remote/Edit..."
+msgid "/Remote/_Edit..."
 msgstr "Në distancë Ndrysho."
 
-#: src/gtk/gftp-gtk.c:277
+#: src/gtk/gftp-gtk.c:332
 #, fuzzy
-msgid "/Remote/View..."
+msgid "/Remote/_View..."
 msgstr "Në distancë Paraqitja."
 
-#: src/gtk/gftp-gtk.c:278
+#: src/gtk/gftp-gtk.c:333
 #, fuzzy
-msgid "/Remote/Refresh"
+msgid "/Remote/_Refresh"
 msgstr "Në distancë Rifresko"
 
-#: src/gtk/gftp-gtk.c:279
+#: src/gtk/gftp-gtk.c:335
 #, fuzzy
 msgid "/_Bookmarks"
 msgstr "Libërshënues"
 
-#: src/gtk/gftp-gtk.c:280
+#: src/gtk/gftp-gtk.c:336
 #, fuzzy
 msgid "/Bookmarks/tearoff"
 msgstr "Libërshënues"
 
-#: src/gtk/gftp-gtk.c:281
+#: src/gtk/gftp-gtk.c:337
 #, fuzzy
-msgid "/Bookmarks/Add bookmark"
+msgid "/Bookmarks/Add _Bookmark"
 msgstr "Libërshënues Shto"
 
-#: src/gtk/gftp-gtk.c:283
+#: src/gtk/gftp-gtk.c:339
 #, fuzzy
-msgid "/Bookmarks/Edit bookmarks"
+msgid "/Bookmarks/Edit Bookmarks"
 msgstr "Libërshënues Ndrysho"
 
-#: src/gtk/gftp-gtk.c:284
+#: src/gtk/gftp-gtk.c:340
 #, fuzzy
 msgid "/Bookmarks/sep"
 msgstr "Libërshënues"
 
-#: src/gtk/gftp-gtk.c:285
+#: src/gtk/gftp-gtk.c:341
 #, fuzzy
-msgid "/_Transfers"
+msgid "/_Transfer"
 msgstr "Transferime"
 
-#: src/gtk/gftp-gtk.c:286
+#: src/gtk/gftp-gtk.c:342
 #, fuzzy
-msgid "/Transfers/tearoff"
+msgid "/Transfer/tearoff"
 msgstr "Transferime"
 
-#: src/gtk/gftp-gtk.c:287
+#: src/gtk/gftp-gtk.c:343
 #, fuzzy
-msgid "/Transfers/Start Transfer"
-msgstr "Transferime Fillo Transferimi"
-
-#: src/gtk/gftp-gtk.c:288
-#, fuzzy
-msgid "/Transfers/Stop Transfer"
-msgstr "Transferime Ndal Transferimi"
-
-#: src/gtk/gftp-gtk.c:290 src/gtk/gftp-gtk.c:298
-#, fuzzy
-msgid "/Transfers/sep"
+msgid "/Transfer/_Start"
 msgstr "Transferime"
 
-#: src/gtk/gftp-gtk.c:291
+#: src/gtk/gftp-gtk.c:344
 #, fuzzy
-msgid "/Transfers/Skip Current File"
+msgid "/Transfer/St_op"
+msgstr "Transferime"
+
+#: src/gtk/gftp-gtk.c:346 src/gtk/gftp-gtk.c:354
+#, fuzzy
+msgid "/Transfer/sep"
+msgstr "Transferime"
+
+#: src/gtk/gftp-gtk.c:347
+#, fuzzy
+msgid "/Transfer/Skip _Current File"
 msgstr "Transferime Kapërce Aktual File"
 
-#: src/gtk/gftp-gtk.c:292
+#: src/gtk/gftp-gtk.c:348
 #, fuzzy
-msgid "/Transfers/Remove File"
+msgid "/Transfer/_Remove File"
 msgstr "Transferime Hiq File"
 
-#: src/gtk/gftp-gtk.c:294
+#: src/gtk/gftp-gtk.c:350
 #, fuzzy
-msgid "/Transfers/Move File _Up"
+msgid "/Transfer/Move File _Up"
 msgstr "Transferime Lëvize File Sipër"
 
-#: src/gtk/gftp-gtk.c:296
+#: src/gtk/gftp-gtk.c:352
 #, fuzzy
-msgid "/Transfers/Move File _Down"
+msgid "/Transfer/Move File _Down"
 msgstr "Transferime Lëvize File Poshtë"
 
-#: src/gtk/gftp-gtk.c:299
+#: src/gtk/gftp-gtk.c:355
 #, fuzzy
-msgid "/Transfers/Retrieve Files"
+msgid "/Transfer/_Retrieve Files"
 msgstr "Transferime Files"
 
-#: src/gtk/gftp-gtk.c:300
+#: src/gtk/gftp-gtk.c:356
 #, fuzzy
-msgid "/Transfers/Put Files"
+msgid "/Transfer/_Put Files"
 msgstr "Transferime Files"
 
-#: src/gtk/gftp-gtk.c:301
+#: src/gtk/gftp-gtk.c:357
 #, fuzzy
-msgid "/L_ogging"
+msgid "/L_og"
 msgstr "L"
 
-#: src/gtk/gftp-gtk.c:302
+#: src/gtk/gftp-gtk.c:358
 #, fuzzy
-msgid "/Logging/tearoff"
+msgid "/Log/tearoff"
 msgstr "Hyrje"
 
-#: src/gtk/gftp-gtk.c:303
+#: src/gtk/gftp-gtk.c:359
 #, fuzzy
-msgid "/Logging/Clear"
+msgid "/Log/_Clear"
 msgstr "Hyrje Pastro"
 
-#: src/gtk/gftp-gtk.c:304
+#: src/gtk/gftp-gtk.c:360
 #, fuzzy
-msgid "/Logging/View log..."
-msgstr "Hyrje Paraqitja."
+msgid "/Log/_View"
+msgstr "Lokale Paraqitja."
 
-#: src/gtk/gftp-gtk.c:305
+#: src/gtk/gftp-gtk.c:361
 #, fuzzy
-msgid "/Logging/Save log..."
+msgid "/Log/_Save..."
 msgstr "Hyrje Ruaj."
 
-#: src/gtk/gftp-gtk.c:306
+#: src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:307
+#: src/gtk/gftp-gtk.c:363
 #, fuzzy
 msgid "/Tools/tearoff"
 msgstr "Veglat"
 
-#: src/gtk/gftp-gtk.c:308
+#: src/gtk/gftp-gtk.c:364
 #, fuzzy
-msgid "/Tools/Compare Windows"
+msgid "/Tools/C_ompare Windows"
 msgstr "Veglat Krahaso Dritaret"
 
-#: src/gtk/gftp-gtk.c:309
+#: src/gtk/gftp-gtk.c:365
 #, fuzzy
-msgid "/Tools/Clear Cache"
+msgid "/Tools/_Clear Cache"
 msgstr "Veglat Pastro Cache"
 
-#. GRUT modified this item
-#: src/gtk/gftp-gtk.c:310
-msgid "/_Help"
+#: src/gtk/gftp-gtk.c:366
+#, fuzzy
+msgid "/Help"
 msgstr "/_Ndihmë"
 
-#: src/gtk/gftp-gtk.c:311
+#: src/gtk/gftp-gtk.c:367
 #, fuzzy
 msgid "/Help/tearoff"
 msgstr "Ndihmë"
 
-#: src/gtk/gftp-gtk.c:312
+#: src/gtk/gftp-gtk.c:368
 #, fuzzy
-msgid "/Help/About..."
+msgid "/Help/_About"
 msgstr "Informacione."
 
-#: src/gtk/gftp-gtk.c:430
+#: src/gtk/gftp-gtk.c:488
 #, fuzzy
 msgid "Host: "
 msgstr "Host "
 
-#: src/gtk/gftp-gtk.c:448
+#: src/gtk/gftp-gtk.c:490
+#, fuzzy
+msgid "_Host: "
+msgstr "Host "
+
+#: src/gtk/gftp-gtk.c:516
 #, fuzzy
 msgid "Port: "
 msgstr "Porta "
 
-#. GRUT modified this item
-#: src/gtk/gftp-gtk.c:466
+#: src/gtk/gftp-gtk.c:537
 msgid "User: "
 msgstr "Përdoruesi:"
 
-#: src/gtk/gftp-gtk.c:484
+#: src/gtk/gftp-gtk.c:539
+#, fuzzy
+msgid "_User: "
+msgstr "Përdoruesi:"
+
+#: src/gtk/gftp-gtk.c:564
 msgid "Pass: "
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:553
+#: src/gtk/gftp-gtk.c:636
 #, fuzzy
 msgid "Command: "
 msgstr "Komanda "
 
-#. GRUT modified this item
-#: src/gtk/gftp-gtk.c:696 src/gtk/gftp-gtk.c:903 src/gtk/gtkui_transfer.c:216
+#: src/gtk/gftp-gtk.c:787 src/gtk/gftp-gtk.c:996 src/gtk/gtkui_transfer.c:227
 msgid "Filename"
 msgstr "Emri i file"
 
-#: src/gtk/gftp-gtk.c:697
+#: src/gtk/gftp-gtk.c:788
 #, fuzzy
 msgid "Size"
 msgstr "Madhësia"
 
-#. GRUT modified this item
-#: src/gtk/gftp-gtk.c:700
+#: src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "Data"
 
-#: src/gtk/gftp-gtk.c:701
+#: src/gtk/gftp-gtk.c:792
 msgid "Attribs"
 msgstr ""
 
-#. GRUT modified this item
-#: src/gtk/gftp-gtk.c:904
+#: src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "Progresi"
 
-#. GRUT modified this item
-#: src/gtk/gftp-gtk.c:1015 src/gtk/misc-gtk.c:905 src/gtk/misc-gtk.c:979
-msgid "Connect"
-msgstr "Lidhu"
-
-#: src/gtk/gftp-gtk.c:1045
+#: src/gtk/gftp-gtk.c:1133
 #, fuzzy
 msgid "Error: You must type in a host to connect to\n"
 msgstr "Gabim Ti lloji në a j"
 
-#. GRUT modified this item
-#: src/gtk/gtkui.c:51
+#: src/gtk/gtkui.c:52
 msgid "Refresh"
 msgstr "Rifresko"
 
-#: src/gtk/gtkui.c:93
+#: src/gtk/gtkui.c:119
 #, fuzzy
 msgid "Enter Username"
 msgstr "Shto Përdoruesi"
 
-#: src/gtk/gtkui.c:94
+#: src/gtk/gtkui.c:120
 #, fuzzy
 msgid "Please enter your username for this site"
 msgstr "shkruaj përdoruesi për siti"
 
-#. GRUT modified this item
-#: src/gtk/gtkui.c:115 src/gtk/transfer.c:508 src/gtk/transfer.c:519
-msgid "Enter Password"
-msgstr "Shkruaj fjalëkalimin"
-
-#: src/gtk/gtkui.c:116 src/gtk/transfer.c:509 src/gtk/transfer.c:520
+#: src/gtk/gtkui.c:142 src/gtk/transfer.c:562 src/gtk/transfer.c:572
 #, fuzzy
 msgid "Please enter your password for this site"
 msgstr "shkruaj password për siti"
 
-#: src/gtk/gtkui.c:272
+#: src/gtk/gtkui.c:297
 #, fuzzy
 msgid "Operation canceled...you must enter a string\n"
 msgstr "Veprimi shkruaj a j"
 
-#: src/gtk/gtkui.c:310
+#: src/gtk/gtkui.c:343
 msgid "Mkdir"
 msgstr ""
 
-#: src/gtk/gtkui.c:313
+#: src/gtk/gtkui.c:346
 #, fuzzy
 msgid "Make Directory"
 msgstr "Directory"
 
-#: src/gtk/gtkui.c:313
+#: src/gtk/gtkui.c:346
 #, fuzzy
 msgid "Enter name of directory to create"
 msgstr "Shto emri nga"
 
-#. GRUT modified this item
-#: src/gtk/gtkui.c:336 src/gtk/gtkui.c:348 src/gtk/misc-gtk.c:908
-#: src/gtk/misc-gtk.c:982
+#: src/gtk/gtkui.c:369 src/gtk/gtkui.c:381 src/gtk/misc-gtk.c:931
+#: src/gtk/misc-gtk.c:1006
 msgid "Rename"
 msgstr "Riemërto"
 
-#: src/gtk/gtkui.c:346
-#, c-format
-#, fuzzy
+#: src/gtk/gtkui.c:379
+#, fuzzy, c-format
 msgid "What would you like to rename %s to?"
 msgstr "Çfarë?"
 
-#: src/gtk/gtkui.c:368 src/gtk/gtkui.c:371
+#: src/gtk/gtkui.c:401 src/gtk/gtkui.c:404
 msgid "Site"
 msgstr ""
 
-#: src/gtk/gtkui.c:371
+#: src/gtk/gtkui.c:404
 #, fuzzy
 msgid "Enter site-specific command"
 msgstr "Shto siti"
 
-#: src/gtk/gtkui.c:414 src/gtk/menu-items.c:250
+#: src/gtk/gtkui.c:405
+msgid "Prepend with SITE"
+msgstr ""
+
+#: src/gtk/gtkui.c:448 src/gtk/menu-items.c:234
 msgid "Chdir"
 msgstr ""
 
-#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:403 src/gtk/transfer.c:486
-#: src/gtk/transfer.c:965
+#: src/gtk/gtkui_transfer.c:59 src/gtk/transfer.c:472 src/gtk/transfer.c:540
+#: src/gtk/transfer.c:997
 msgid "Skipped"
 msgstr ""
 
-#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:465 src/gtk/transfer.c:490
+#: src/gtk/gtkui_transfer.c:61 src/gtk/transfer.c:519 src/gtk/transfer.c:544
 #, fuzzy
 msgid "Waiting..."
 msgstr "Në pritje."
 
-#. GRUT modified this item
-#: src/gtk/gtkui_transfer.c:124 src/gtk/gtkui_transfer.c:299
-#: src/gtk/gtkui_transfer.c:326
+#: src/gtk/gtkui_transfer.c:135 src/gtk/gtkui_transfer.c:313
+#: src/gtk/gtkui_transfer.c:340
 msgid "Overwrite"
 msgstr "Mbishkruaj"
 
-#. GRUT modified this item
-#: src/gtk/gtkui_transfer.c:131 src/gtk/gtkui_transfer.c:305
-#: src/gtk/gtkui_transfer.c:332
+#: src/gtk/gtkui_transfer.c:142 src/gtk/gtkui_transfer.c:319
+#: src/gtk/gtkui_transfer.c:346
 msgid "Resume"
 msgstr "Vazhdo"
 
-#. GRUT modified this item
-#: src/gtk/gtkui_transfer.c:138 src/gtk/gtkui_transfer.c:302
+#: src/gtk/gtkui_transfer.c:149 src/gtk/gtkui_transfer.c:316
 msgid "Skip"
 msgstr "Kapërce"
 
-#. GRUT modified this item
-#: src/gtk/gtkui_transfer.c:219
+#: src/gtk/gtkui_transfer.c:230
 msgid "Action"
 msgstr "Veprimi"
 
-#: src/gtk/gtkui_transfer.c:224 src/gtk/gtkui_transfer.c:233
-#: src/gtk/transfer.c:92
+#: src/gtk/gtkui_transfer.c:235 src/gtk/gtkui_transfer.c:244
+#: src/gtk/transfer.c:90
 #, fuzzy
 msgid "Transfer Files"
 msgstr "Transferimi Files"
 
-#: src/gtk/gtkui_transfer.c:245
+#: src/gtk/gtkui_transfer.c:256
 #, fuzzy
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
 msgstr "në lokal dhe nÃ« distancÃ« zgjidh"
 
-#. GRUT modified this item
-#: src/gtk/gtkui_transfer.c:308
+#: src/gtk/gtkui_transfer.c:322
 msgid "Error"
 msgstr "Gabim"
 
-#: src/gtk/gtkui_transfer.c:338
+#: src/gtk/gtkui_transfer.c:352
 #, fuzzy
 msgid "Skip File"
 msgstr "Kapërce File"
 
-#. GRUT modified this item
-#: src/gtk/gtkui_transfer.c:348
+#: src/gtk/gtkui_transfer.c:362
 msgid "Select All"
 msgstr "Zgjidh gjithçka"
 
-#: src/gtk/gtkui_transfer.c:354
+#: src/gtk/gtkui_transfer.c:368
 #, fuzzy
 msgid "Deselect All"
 msgstr "Gjithçka"
 
-#: src/gtk/menu-items.c:37
+#: src/gtk/menu-items.c:64
 #, fuzzy
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr "Ndrysho Veprimi shkruaj a j"
 
-#: src/gtk/menu-items.c:74 src/gtk/menu-items.c:77
+#: src/gtk/menu-items.c:82 src/gtk/menu-items.c:85
 #, fuzzy
 msgid "Change Filespec"
 msgstr "Ndrysho"
 
-#: src/gtk/menu-items.c:77
+#: src/gtk/menu-items.c:85
 #, fuzzy
 msgid "Enter the new file specification"
 msgstr "Shto i ri"
 
-#: src/gtk/menu-items.c:105 src/gtk/menu-items.c:313 src/gtk/menu-items.c:373
-#: src/gtk/view_dialog.c:76 src/gtk/view_dialog.c:155
-#, c-format
-#, fuzzy
+#: src/gtk/menu-items.c:113 src/gtk/menu-items.c:298 src/gtk/menu-items.c:362
+#: src/gtk/view_dialog.c:80
+#, fuzzy, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Gabim hap për j"
 
-#: src/gtk/menu-items.c:134
+#: src/gtk/menu-items.c:142
 #, fuzzy
 msgid "Save Directory Listing"
 msgstr "Ruaj Directory"
 
-#: src/gtk/menu-items.c:337 src/gtk/menu-items.c:397
-#, c-format
-#, fuzzy
+#: src/gtk/menu-items.c:326 src/gtk/menu-items.c:390
+#, fuzzy, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Gabim Gabim j"
 
-#: src/gtk/menu-items.c:408
-#, c-format
-#, fuzzy
+#: src/gtk/menu-items.c:401
+#, fuzzy, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "j"
 
-#: src/gtk/menu-items.c:420
+#: src/gtk/menu-items.c:413
 #, fuzzy
 msgid "Save Log"
 msgstr "Ruaj Log"
 
-#: src/gtk/menu-items.c:456
-#, c-format
-#, fuzzy
+#: src/gtk/menu-items.c:449
+#, fuzzy, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr "gjej liçenca është në në"
 
-#: src/gtk/menu-items.c:460 src/gtk/menu-items.c:465
+#: src/gtk/menu-items.c:453 src/gtk/menu-items.c:458
 #, fuzzy
 msgid "About gFTP"
 msgstr "Informacione gFTP"
 
-#: src/gtk/menu-items.c:496
-#, c-format
-#, fuzzy
+#: src/gtk/menu-items.c:489
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
-"Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr "C<masneyb@gftp.org>http://www.gftp.org/ nga<planet_hoth@yahoo.com> j"
 
-#. GRUT modified this item
-#: src/gtk/menu-items.c:508
+#: src/gtk/menu-items.c:502
 msgid "About"
 msgstr "Informacione"
 
-#: src/gtk/menu-items.c:557
+#: src/gtk/menu-items.c:551
 #, fuzzy
 msgid "License Agreement"
 msgstr "Liçenca"
 
-#: src/gtk/menu-items.c:563 src/gtk/view_dialog.c:404
+#: src/gtk/menu-items.c:557 src/gtk/view_dialog.c:384
 #, fuzzy
 msgid "  Close  "
 msgstr "Mbyll "
 
-#: src/gtk/menu-items.c:647
+#: src/gtk/menu-items.c:684
 #, fuzzy
 msgid "Compare Windows"
 msgstr "Krahaso Dritaret"
 
-#. GRUT modified this item
-#: src/gtk/misc-gtk.c:287
+#: src/gtk/misc-gtk.c:256
+#, fuzzy
+msgid "Disconnect from the remote server"
+msgstr "nÃ« distancÃ« siti"
+
+#: src/gtk/misc-gtk.c:260
+msgid ""
+"Connect to the site specified in the host entry. If the host entry is blank, "
+"then a dialog is presented that will allow you to enter a URL."
+msgstr ""
+
+#: src/gtk/misc-gtk.c:307
 msgid "All Files"
 msgstr "Të gjithë files"
 
-#: src/gtk/misc-gtk.c:294
+#: src/gtk/misc-gtk.c:317
 #, fuzzy
 msgid "] (Cached) ["
 msgstr "Në cache"
 
-#. GRUT modified this item
-#: src/gtk/misc-gtk.c:319
+#: src/gtk/misc-gtk.c:328
 msgid "Not connected"
 msgstr "Jo i lidhur"
 
-#: src/gtk/misc-gtk.c:405
-#, c-format
-#, fuzzy
+#: src/gtk/misc-gtk.c:430
+#, fuzzy, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "Gabim j"
 
-#: src/gtk/misc-gtk.c:494
-#, c-format
-#, fuzzy
+#: src/gtk/misc-gtk.c:520
+#, fuzzy, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "Not a nÃ« distancÃ« siti j"
 
-#: src/gtk/misc-gtk.c:501
-#, c-format
-#, fuzzy
+#: src/gtk/misc-gtk.c:527
+#, fuzzy, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "karakteristika është nuk j"
 
-#: src/gtk/misc-gtk.c:509
-#, c-format
-#, fuzzy
+#: src/gtk/misc-gtk.c:535
+#, fuzzy, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "Ti element j"
 
-#: src/gtk/misc-gtk.c:516
-#, c-format
-#, fuzzy
+#: src/gtk/misc-gtk.c:542
+#, fuzzy, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "Ti element j"
 
-#. GRUT modified this item
-#: src/gtk/misc-gtk.c:902 src/gtk/misc-gtk.c:976
+#: src/gtk/misc-gtk.c:925 src/gtk/misc-gtk.c:1000
 msgid "Change"
 msgstr "Ndrysho"
 
-#: src/gtk/misc-gtk.c:973 src/gtk/options_dialog.c:1178
+#: src/gtk/misc-gtk.c:997 src/gtk/options_dialog.c:1276
 #, fuzzy
 msgid "Add"
 msgstr "Shto"
 
-#. GRUT modified this item
-#. GRUT modified this item
-#: src/gtk/misc-gtk.c:999
+#: src/gtk/misc-gtk.c:1023
 msgid "Cancel"
 msgstr "Anullo"
 
-#: src/gtk/misc-gtk.c:1069
+#: src/gtk/misc-gtk.c:1093
 #, fuzzy
 msgid "  Yes  "
 msgstr "Po "
 
-#: src/gtk/misc-gtk.c:1079
+#: src/gtk/misc-gtk.c:1103
 #, fuzzy
 msgid "  No  "
 msgstr "Jo "
 
-#: src/gtk/misc-gtk.c:1139
+#: src/gtk/misc-gtk.c:1163
 msgid "Getting directory listings"
 msgstr ""
 
-#: src/gtk/misc-gtk.c:1159
+#: src/gtk/misc-gtk.c:1183
 #, fuzzy
 msgid "  Stop  "
 msgstr "Ndal "
 
-#: src/gtk/misc-gtk.c:1169
-#, c-format
-#, fuzzy
+#: src/gtk/misc-gtk.c:1193
+#, fuzzy, c-format
 msgid ""
 "Received %ld directories\n"
 "and %ld files"
 msgstr "Marrë"
 
-#: src/gtk/misc-gtk.c:1245
-#, c-format
-#, fuzzy
+#: src/gtk/misc-gtk.c:1269
+#, fuzzy, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "gFTP Gabim gjej në j"
 
-#: src/gtk/options_dialog.c:918
+#: src/gtk/options_dialog.c:955
 #, fuzzy
 msgid "Edit Host"
 msgstr "Ndrysho"
 
-#: src/gtk/options_dialog.c:918
+#: src/gtk/options_dialog.c:955
 #, fuzzy
 msgid "Add Host"
 msgstr "Shto"
 
-#. GRUT modified this item
-#: src/gtk/options_dialog.c:950 src/gtk/options_dialog.c:1041
+#: src/gtk/options_dialog.c:1001
+msgid "Type:"
+msgstr ""
+
+#: src/gtk/options_dialog.c:1003
+msgid "_Type:"
+msgstr ""
+
+#: src/gtk/options_dialog.c:1013 src/gtk/options_dialog.c:1136
 msgid "Domain"
 msgstr "Domain"
 
-#: src/gtk/options_dialog.c:970
+#: src/gtk/options_dialog.c:1046
 #, fuzzy
 msgid "Network Address"
 msgstr "Rrjeti Adresa"
 
-#. GRUT modified this item
-#: src/gtk/options_dialog.c:1003 src/gtk/options_dialog.c:1143
+#: src/gtk/options_dialog.c:1048
+#, fuzzy
+msgid "_Network address:"
+msgstr "Rrjeti Adresa"
+
+#: src/gtk/options_dialog.c:1087 src/gtk/options_dialog.c:1240
 msgid "Netmask"
 msgstr "Netmask"
 
-#: src/gtk/options_dialog.c:1149
+#: src/gtk/options_dialog.c:1089
+#, fuzzy
+msgid "N_etmask:"
+msgstr "Netmask"
+
+#: src/gtk/options_dialog.c:1138
+#, fuzzy
+msgid "_Domain:"
+msgstr "Domain"
+
+#: src/gtk/options_dialog.c:1246
 #, fuzzy
 msgid "Local Hosts"
 msgstr "Lokale"
 
-#. GRUT modified this item
-#: src/gtk/options_dialog.c:1185 src/gtk/view_dialog.c:105
+#: src/gtk/options_dialog.c:1287 src/gtk/view_dialog.c:33
 msgid "Edit"
 msgstr "Ndrysho"
 
-#. GRUT modified this item
-#: src/gtk/options_dialog.c:1247 src/gtk/options_dialog.c:1252
+#: src/gtk/options_dialog.c:1289
+#, fuzzy
+msgid "_Edit"
+msgstr "Ndrysho"
+
+#: src/gtk/options_dialog.c:1366 src/gtk/options_dialog.c:1371
 msgid "Options"
 msgstr "Mundësitë"
 
-#: src/gtk/transfer.c:30
+#: src/gtk/options_dialog.c:1458
+msgid "Apply"
+msgstr "Apliko"
+
+#: src/gtk/transfer.c:29
 #, fuzzy
 msgid "Receiving file names..."
 msgstr "Duke marrë."
 
-#. GRUT modified this item
-#: src/gtk/transfer.c:62 src/gtk/transfer.c:639
+#: src/gtk/transfer.c:62 src/gtk/transfer.c:688
 msgid "Connecting..."
 msgstr "Duke u lidhur..."
 
-#: src/gtk/transfer.c:100
+#: src/gtk/transfer.c:98
 #, fuzzy
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "Files Not a nÃ« distancÃ« siti j"
 
-#: src/gtk/transfer.c:315
-#, c-format
-#, fuzzy
+#: src/gtk/transfer.c:335
+#, fuzzy, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "Gabim Bir j"
 
-#: src/gtk/transfer.c:318
-#, c-format
-#, fuzzy
+#: src/gtk/transfer.c:344
+#, fuzzy, c-format
 msgid "Child %d returned successfully\n"
 msgstr "Bir j"
 
-#: src/gtk/transfer.c:325
-#, c-format
-#, fuzzy
+#: src/gtk/transfer.c:351
+#, fuzzy, c-format
+msgid "Error: Child %d did not terminate properly\n"
+msgstr "Gabim Bir j"
+
+#: src/gtk/transfer.c:367
+#, fuzzy, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "Gabim merr informacione j"
 
-#: src/gtk/transfer.c:330
-#, c-format
-#, fuzzy
+#: src/gtk/transfer.c:373
+#, fuzzy, c-format
 msgid "File %s was not changed\n"
 msgstr "File nuk j"
 
-#: src/gtk/transfer.c:338
-#, c-format
-#, fuzzy
+#: src/gtk/transfer.c:381
+#, fuzzy, c-format
 msgid ""
 "File %s has changed.\n"
 "Would you like to upload it?"
 msgstr "File?"
 
-#: src/gtk/transfer.c:341
+#: src/gtk/transfer.c:384
 #, fuzzy
 msgid "Edit File"
 msgstr "Ndrysho File"
 
-#: src/gtk/transfer.c:406
+#: src/gtk/transfer.c:475
 #, fuzzy
 msgid "Finished"
 msgstr "Përfundoi"
 
-#: src/gtk/transfer.c:446
-#, c-format
-#, fuzzy
-msgid "Stopping the transfer of %s\n"
-msgstr "nga j"
+#: src/gtk/transfer.c:733
+#, fuzzy, c-format
+msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "nga ora"
 
-#: src/gtk/transfer.c:684
-#, c-format
-#, fuzzy
-msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
-msgstr "ora File nga"
-
-#: src/gtk/transfer.c:714
-#, c-format
-#, fuzzy
+#: src/gtk/transfer.c:738
+#, fuzzy, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "nga ora"
 
-#: src/gtk/transfer.c:723
-#, c-format
-#, fuzzy
+#: src/gtk/transfer.c:749
+#, fuzzy, c-format
+msgid "Sent %s of %s, transfer stalled, unknown time remaining"
+msgstr "nga nuk njihet ora"
+
+#: src/gtk/transfer.c:755
+#, fuzzy, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "nga nuk njihet ora"
 
-#: src/gtk/transfer.c:758
+#: src/gtk/transfer.c:799
 #, c-format
-#, fuzzy
+msgid "Unknown percentage complete. (File %ld of %ld)"
+msgstr ""
+
+#: src/gtk/transfer.c:803
+#, fuzzy, c-format
+msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
+msgstr "ora File nga"
+
+#: src/gtk/transfer.c:841
+#, fuzzy, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "bytes"
 
-#: src/gtk/transfer.c:837 src/gtk/transfer.c:859 src/gtk/transfer.c:893
-#: src/gtk/transfer.c:933 src/gtk/transfer.c:986 src/gtk/transfer.c:1046
+#: src/gtk/transfer.c:920 src/gtk/transfer.c:942 src/gtk/transfer.c:961
+#: src/gtk/transfer.c:983 src/gtk/transfer.c:1011 src/gtk/transfer.c:1071
 #, fuzzy
 msgid "There are no file transfers selected\n"
 msgstr "jo j"
 
-#: src/gtk/transfer.c:877
-#, c-format
-#, fuzzy
-msgid "Stopping the transfer on host %s\n"
-msgstr "në j"
-
-#: src/gtk/transfer.c:918 src/gtk/transfer.c:971
-#, c-format
-#, fuzzy
-msgid "Skipping file %s on host %s\n"
-msgstr "në j"
-
-#: src/gtk/view_dialog.c:36
+#: src/gtk/view_dialog.c:33
 #, fuzzy
 msgid "View"
 msgstr "Paraqitja"
 
 #: src/gtk/view_dialog.c:48
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "Paraqitja është a shfaq j"
 
-#: src/gtk/view_dialog.c:114
+#: src/gtk/view_dialog.c:51
+#, fuzzy, c-format
+msgid "Edit: %s is a directory. Cannot edit it.\n"
+msgstr "Ndrysho është a ndrysho j"
+
+#: src/gtk/view_dialog.c:122
 #, fuzzy
 msgid "Edit: You must specify an editor in the options dialog\n"
 msgstr "Ndrysho Ti në dialog j"
 
-#: src/gtk/view_dialog.c:127
-#, c-format
-#, fuzzy
-msgid "Edit: %s is a directory. Cannot edit it.\n"
-msgstr "Ndrysho është a ndrysho j"
-
-#: src/gtk/view_dialog.c:210
-#, c-format
-#, fuzzy
+#: src/gtk/view_dialog.c:176
+#, fuzzy, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Paraqitja duplikim j"
 
-#: src/gtk/view_dialog.c:213
-#, c-format
-#, fuzzy
+#: src/gtk/view_dialog.c:179
+#, fuzzy, c-format
 msgid "Running program: %s %s\n"
 msgstr "Në ekzekutim programi j"
 
-#: src/gtk/view_dialog.c:271
-#, c-format
-#, fuzzy
+#: src/gtk/view_dialog.c:239
+#, fuzzy, c-format
 msgid "Opening %s with %s\n"
 msgstr "me j"
 
-#: src/gtk/view_dialog.c:306
-#, c-format
-#, fuzzy
+#: src/gtk/view_dialog.c:281
+#, fuzzy, c-format
 msgid "Viewing file %s\n"
 msgstr "j"
 
-#: src/gtk/view_dialog.c:313
-#, c-format
-#, fuzzy
+#: src/gtk/view_dialog.c:288
+#, fuzzy, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Paraqitja hap j"
 
-#: src/text/gftp-text.c:169
-#, c-format
-#, fuzzy
+#: src/text/gftp-text.c:163
+#, fuzzy, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "hap terminal j"
 
-#: src/text/textui.c:70
+#: src/text/textui.c:79
 #, fuzzy
 msgid "Username [anonymous]:"
 msgstr "Përdoruesi:"
 
-#: src/text/textui.c:139
-#, c-format
-#, fuzzy
+#: src/text/textui.c:157
+#, fuzzy, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
-"c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: "
+"(%c)"
 msgstr "ekziston madhësia madhësia j O Gjithçka R Gjithçka S Gjithçka"
 
+#~ msgid "\n"
+#~ msgstr "\n"
+
+#, fuzzy
+#~ msgid "Startup Directory:"
+#~ msgstr "Directory:"
+
+#, fuzzy
+#~ msgid "The default directory gFTP will go to on startup"
+#~ msgstr "prezgjedhur gFTP në"
+
+#, fuzzy
+#~ msgid "Starting the file transfer at offset %lld\n"
+#~ msgstr "Duke filluar j"
+
+#, fuzzy
+#~ msgid "SSH2 sftp-server path:"
+#~ msgstr "server shtegu:"
+
+#, fuzzy
+#~ msgid "Default remote SSH2 sftp-server path"
+#~ msgstr "E prezgjedhur nÃ« distancÃ« server shtegu"
+
+#, fuzzy
+#~ msgid ""
+#~ "Call ssh with the -s sftp flag. This is helpful because you won't have to "
+#~ "know the remote path to the remote sftp-server"
+#~ msgstr "Thirrje me është nÃ« distancÃ« shtegu nÃ« distancÃ« server"
+
+#~ msgid "WARNING"
+#~ msgstr "KUJDES"
+
+#, fuzzy
+#~ msgid "Please correct the above warning to connect to this host.\n"
+#~ msgstr "j"
+
+#, fuzzy
+#~ msgid ""
+#~ ">. If you have any questions, comments, or suggestions about this "
+#~ "program, please feel free to email them to me. You can always find out "
+#~ "the latest news about gFTP from my website at http://www.gftp.org/\n"
+#~ msgstr ""
+#~ "çdo komente informacione programi Ti gjithmonÃ« gjej informacione "
+#~ "gFTPhttp://www.gftp.org/ j"
+
+#, fuzzy
+#~ msgid "Error: Remote site disconnected after trying to transfer file\n"
+#~ msgstr "Gabim Në distancë siti mbas j"
+
+#, fuzzy
+#~ msgid "Connect via URL"
+#~ msgstr "Lidhu URL"
+
+#, fuzzy
+#~ msgid "/FTP/_Options..."
+#~ msgstr "FTP Mundësitë."
+
+#, fuzzy
+#~ msgid "/Local/Make Directory..."
+#~ msgstr "Lokale Directory."
+
+#, fuzzy
+#~ msgid "/Remote/Make Directory..."
+#~ msgstr "Në distancë Directory."
+
+#, fuzzy
+#~ msgid "/Transfers/Start Transfer"
+#~ msgstr "Transferime Fillo Transferimi"
+
+#, fuzzy
+#~ msgid "/Transfers/Stop Transfer"
+#~ msgstr "Transferime Ndal Transferimi"
+
+#, fuzzy
+#~ msgid "/Logging/View log..."
+#~ msgstr "Hyrje Paraqitja."
+
+#, fuzzy
+#~ msgid "Stopping the transfer of %s\n"
+#~ msgstr "nga j"

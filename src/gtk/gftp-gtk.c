@@ -1419,6 +1419,8 @@ main (int argc, char **argv)
 
   mac_gtk_foreground_hack();
 
+  gftp_gtk_mac_foreground_init ();
+
   gtk_main ();
   GDK_THREADS_LEAVE ();
 

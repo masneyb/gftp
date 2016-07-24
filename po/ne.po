@@ -16,91 +16,97 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp.HEAD.ne\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-13 03:24+0000\n"
+"POT-Creation-Date: 2016-07-24 02:50-0700\n"
 "PO-Revision-Date: 2007-12-07 19:52+0545\n"
 "Last-Translator: Shyam Krishna Bal <balshyam24@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
+"Language: ne\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=n !=1\n"
 
-#: ../lib/bookmark.c:38
+#: lib/bookmark.c:37
 #, c-format
 msgid "Invalid URL %s\n"
 msgstr "अवैध यूआरएल %s\n"
 
-#: ../lib/cache.c:50 ../lib/cache.c:64 ../lib/cache.c:77
+#: lib/cache.c:49 lib/cache.c:63 lib/cache.c:76
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "त्रुटि: क्यास अनुक्रमणिका फाइलमा अवैध लाइन %s\n"
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:571
+#: lib/cache.c:137 lib/fsp.c:534 lib/local.c:560
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "त्रुटि: डाइरेक्टरी %s बनाउन सकिएन: %s\n"
 
-#: ../lib/cache.c:164
+#: lib/cache.c:163
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "त्रुटि: अस्थायी फाइल सिर्जना गर्न सकिएन: %s\n"
 
-#: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
-#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:282
-#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1224
+#: lib/cache.c:185 lib/cache.c:235 lib/config_file.c:156 lib/config_file.c:162
+#: lib/local.c:143 lib/local.c:271 lib/rfc2068.c:259 lib/sshv2.c:1249
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "फाइल वर्णक बन्द गर्दा त्रुटि: %s\n"
 
-#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:189
-#: ../lib/local.c:198 ../lib/local.c:257
+#: lib/cache.c:253 lib/fsp.c:126 lib/fsp.c:206 lib/local.c:183 lib/local.c:192
+#: lib/local.c:246
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "त्रुटि: फाइल %s मा खोज्न सकिएन: %s\n"
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3158
+#: lib/charset-conv.c:72
+#, c-format
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr "वर्ण समूह %s बाट वर्ण समूह %s मा स्ट्रिङ '%s' बदलने क्रममा त्रुटि: %s\n"
+
+#: lib/config_file.c:125 lib/config_file.c:132 lib/protocols.c:1626
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "त्रुटि: स्थानीय फाइल %s खोल्न सकिएन: %s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2859 ../lib/sslcommon.c:497
+#: lib/config_file.c:142 lib/sockutils.c:292 lib/sslcommon.c:504
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "त्रुटि: सकेटमा लेख्न सकिएन: %s\n"
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2781 ../lib/sshv2.c:445
-#: ../lib/sslcommon.c:450
+#: lib/config_file.c:150 lib/sockutils.c:213 lib/sshv2.c:444
+#: lib/sslcommon.c:457
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "त्रुटि: सकेटबाट पढ्न सकिएन: %s\n"
 
-#: ../lib/config_file.c:183 ../lib/config_file.c:738
+#: lib/config_file.c:182 lib/config_file.c:736
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "जीएफटीपी त्रुटि: खराब पुस्तकचिनो फाइल नाम %s\n"
 
-#: ../lib/config_file.c:192
+#: lib/config_file.c:191
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "चेतावनी: मास्टर पुस्तकचिनो फाइल %s फेला पार्न सकिएन\n"
 
-#: ../lib/config_file.c:203 ../lib/config_file.c:744
+#: lib/config_file.c:202 lib/config_file.c:742
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "जीएफटीपी त्रुटि: पुस्तकचिनो फाइल %s खोल्न सकिएन: %s\n"
 
-#: ../lib/config_file.c:295 ../lib/config_file.c:317
+#: lib/config_file.c:294 lib/config_file.c:316
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "जीएफटीपी चेतावनी: पुस्तकचिनो फाइलमा लाइन %d फड्काइदै: %s\n"
 
-#: ../lib/config_file.c:347
+#: lib/config_file.c:346
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "जीएफटीपी चेतावनी: लाइन %d सँग प्रर्याप्त तर्कहरू छैनन्\n"
 
-#: ../lib/config_file.c:505
+#: lib/config_file.c:503
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
@@ -110,7 +116,7 @@ msgstr ""
 "वाक्यबाट बाहिर निस्कन जरूरी पर्दैन।Syntax: dont_use_proxy=.domain or "
 "dont_use_proxy=network number/netmask"
 
-#: ../lib/config_file.c:508
+#: lib/config_file.c:506
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
@@ -118,52 +124,52 @@ msgstr ""
 "ext=फाइल विस्तार:XPM फाइल:Ascii वा वाइनरि (A वा B):दर्शक कार्यक्रम। द्रष्टब्य: फाइल "
 "विस्तार बाहेक सबै तर्कहरू विकल्प हुन्"
 
-#: ../lib/config_file.c:588 ../lib/config_file.c:833
+#: lib/config_file.c:586 lib/config_file.c:831
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "जीएफटीपी त्रुटि: खराब config फाइल नाम %s\n"
 
-#: ../lib/config_file.c:599
+#: lib/config_file.c:597
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "जीएफटीपी त्रुटि: डाइरेक्टरी %s बनाउन सकिएन: %s\n"
 
-#: ../lib/config_file.c:609
+#: lib/config_file.c:607
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "जीएफटीपी त्रुटि: मास्टर config फाइल %s फेला पार्न सकिएन\n"
 
-#: ../lib/config_file.c:611
+#: lib/config_file.c:609
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "के तपाईँले स्थापना बनाउनु भएको थियो?\n"
 
-#: ../lib/config_file.c:620 ../lib/config_file.c:839
+#: lib/config_file.c:618 lib/config_file.c:837
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "जीएफटीपी त्रुटि: समायोजन फाइल %s खोल्न सकिएन: %s\n"
 
-#: ../lib/config_file.c:659
+#: lib/config_file.c:657
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr "समायोजन फाइलमा लाइन %d मा व्याख्या गर्दा त्रुटि भएकोले अन्त्य भयो\n"
 
-#: ../lib/config_file.c:665
+#: lib/config_file.c:663
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "जीएफटीपी चेतावनी: config फाइलमा लाइन %d फड्काइदैछ: %s\n"
 
-#: ../lib/config_file.c:672
+#: lib/config_file.c:670
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "जीएफटीपी त्रुटि: खराब लग फाइल नाम %s\n"
 
-#: ../lib/config_file.c:678
+#: lib/config_file.c:676
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "जीएफटीपी चेतावनी: लेख्नका लागि %s खोल्न सकिएन: %s\n"
 
-#: ../lib/config_file.c:733
+#: lib/config_file.c:731
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
@@ -171,7 +177,7 @@ msgstr ""
 "जीएफटीपीका लागि पुस्तकचिनो फाइल । सर्वाधिकार (C) १९९८-२००३ ब्राइन मास्ने "
 "<masneyb@gftp.org>. चेतावनी: तपाईँले थप गर्नुभएको कुनै टिप्पणी अधिलेखन हुँनेछ।"
 
-#: ../lib/config_file.c:734
+#: lib/config_file.c:732
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
 "is not secure. This is to avoid your password being easily remembered by "
@@ -183,7 +189,7 @@ msgstr ""
 "सजिलै सम्झन सकिन्छ, यसलाई हटाउनु हो। यो भन्दा पहिले सबै पासवर्डलाई सादापाठमा सङ्ग्रह "
 "गरिन्छ।"
 
-#: ../lib/config_file.c:846
+#: lib/config_file.c:844
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
@@ -193,209 +199,205 @@ msgstr ""
 "<masneyb@gftp.org>. चेतावनी: तपाईँले थप गर्नुभएको कुनै टिप्पणी अधिलेखन हुँनेछ। यदि त्यको "
 "टिप्पणीमा (*) प्रविष्ट छ भने, तपाईँले त्यो जीएफटीपी भित्र परिवर्तन गर्न सक्नु हुन्न ।"
 
-#: ../lib/config_file.c:1210 ../lib/protocols.c:382 ../lib/rfc2068.c:546
-#: ../lib/rfc2068.c:547
+#: lib/config_file.c:1208 lib/protocols.c:384 lib/rfc2068.c:542
+#: lib/rfc2068.c:543
 msgid "<unknown>"
 msgstr "<unknown>"
 
-#: ../lib/config_file.c:1290 ../lib/config_file.c:1353
-#: ../lib/config_file.c:1395 ../lib/config_file.c:1428
+#: lib/config_file.c:1288 lib/config_file.c:1351 lib/config_file.c:1393
+#: lib/config_file.c:1426
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr "घातक जीएफटीपी त्रुटि: कन्फिग विकल्प '%s' विश्वव्यापी ह्यास तालीकामा फेला परेन\n"
 
-#: ../lib/fsp.c:189
+#: lib/fsp.c:188
 #, c-format
 msgid "Error: Cannot upload file %s\n"
 msgstr "त्रुटि: फाइल %s अपलोड गर्न सकिएन\n"
 
-#: ../lib/fsp.c:199
+#: lib/fsp.c:198
 #, c-format
 msgid "Error: Cannot write to file %s: %s\n"
 msgstr "त्रुटि: फाइल %s मा लेख्न सकिएन: %s\n"
 
-#: ../lib/fsp.c:237
+#: lib/fsp.c:236
 #, c-format
 msgid "Error: Error closing file: %s\n"
 msgstr "त्रुटि: फाइल बन्द गर्दा त्रुटि: %s\n"
 
-#: ../lib/fsp.c:327
+#: lib/fsp.c:326
 #, c-format
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "FSP सर्भर %s बाट फाइल सूची नष्ट भयो\n"
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1536
-#: ../lib/protocols.c:1537 ../lib/protocols.c:1578 ../lib/protocols.c:1579
-#: ../lib/protocols.c:1645 ../lib/protocols.c:1652 ../lib/protocols.c:1728
-#: ../lib/protocols.c:1729 ../lib/protocols.c:1765
+#: lib/fsp.c:338 lib/fsp.c:339 lib/parse-dir-listing.c:336
+#: lib/parse-dir-listing.c:337 lib/parse-dir-listing.c:378
+#: lib/parse-dir-listing.c:379 lib/parse-dir-listing.c:445
+#: lib/parse-dir-listing.c:452 lib/parse-dir-listing.c:528
+#: lib/parse-dir-listing.c:529 lib/parse-dir-listing.c:565
 msgid "unknown"
 msgstr "अज्ञात"
 
-#: ../lib/fsp.c:377
+#: lib/fsp.c:376
 #, c-format
 msgid "Could not get FSP directory listing %s: %s\n"
 msgstr "FSP डाइरेक्टरी सूची %s प्राप्त गर्न सकिएन: %s\n"
 
-#: ../lib/fsp.c:436
+#: lib/fsp.c:435
 #, c-format
 msgid "Successfully changed directory to %s\n"
 msgstr "डाइरेक्टरी सफलतापूर्वक %s मा परिवर्तन भयो\n"
 
-#: ../lib/fsp.c:446
+#: lib/fsp.c:445
 #, c-format
 msgid "Could not change directory to %s\n"
 msgstr "डाइरेक्टरी %s मा परिवर्तन भएन\n"
 
-#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:490 ../lib/local.c:526
-#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:329
+#: lib/fsp.c:470 lib/fsp.c:499 lib/local.c:479 lib/local.c:515
+#: src/gtk/transfer.c:262 src/gtk/view_dialog.c:305
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "सफलतापूर्वक %s हटाइयो\n"
 
-#: ../lib/fsp.c:477 ../lib/local.c:496
+#: lib/fsp.c:476 lib/local.c:485
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "त्रुटि: डाइरेक्टरी %s हटाउन सकिएन: %s\n"
 
-#: ../lib/fsp.c:506 ../lib/local.c:532 ../src/gtk/transfer.c:267
-#: ../src/gtk/view_dialog.c:333
+#: lib/fsp.c:505 lib/local.c:521 src/gtk/transfer.c:266
+#: src/gtk/view_dialog.c:309
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "त्रुटि: फाइल %s हटाउन सकिएन: %s\n"
 
-#: ../lib/fsp.c:528 ../lib/local.c:564
+#: lib/fsp.c:527 lib/local.c:553
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "सफलतापूर्वक डाइरेक्टरी %s बन्यो\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:600
+#: lib/fsp.c:562 lib/local.c:589
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "सफलतापूर्वक %s %s मा पुन: नामकरण गरियो\n"
 
-#: ../lib/fsp.c:575 ../lib/local.c:607
+#: lib/fsp.c:574 lib/local.c:596
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "त्रुटि: %s बाट %s मा पुन: नामकरण गर्न सकिएन: %s\n"
 
-#: ../lib/ftps.c:157
+#: lib/ftps.c:153
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
-msgstr "SSLसमर्थन बाट FTPS समर्थन उपलब्ध नहुँदा कम्पाइल भएका छैनन् । जडान परित्याग गर्दैछ ।\n"
+msgstr ""
+"SSLसमर्थन बाट FTPS समर्थन उपलब्ध नहुँदा कम्पाइल भएका छैनन् । जडान परित्याग गर्दैछ ।\n"
 
-#: ../lib/https.c:91
+#: lib/https.c:90
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
-msgstr "SSLसमर्थन बाट HTTPS समर्थन उपलब्ध नहुँदा कम्पाइल भएका छैनन् । जडान परित्याग गर्दैछ ।\n"
+msgstr ""
+"SSLसमर्थन बाट HTTPS समर्थन उपलब्ध नहुँदा कम्पाइल भएका छैनन् । जडान परित्याग गर्दैछ ।\n"
 
-#: ../lib/local.c:66
+#: lib/local.c:65
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "हालको काम गर्ने डाइरेक्टरी पाउन सकिएन: %s\n"
 
-#: ../lib/local.c:105
+#: lib/local.c:104
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "सफलतापूर्वक स्थानीय डाइरेक्टरी %s मा परिवर्तन गरियो\n"
 
-#: ../lib/local.c:112
+#: lib/local.c:111
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
 msgstr "स्थानीय डाइरेक्टरी %s मा परिवर्तन हुन सकिएन: %s\n"
 
-#: ../lib/local.c:248
+#: lib/local.c:237
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "त्रुटि: स्थानीय फाइल %s काट्न सकिएन: %s\n"
 
-#: ../lib/local.c:434
+#: lib/local.c:423
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "स्थानीय डाइरेक्टरीको सूची %s प्राप्त गर्न सकिएन: %s\n"
 
-#: ../lib/local.c:644
+#: lib/local.c:633
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "सफलतापूर्वक %s को शैली %o मा परिवर्तन भयो\n"
 
-#: ../lib/local.c:651
+#: lib/local.c:640
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "त्रुटि: %s को शैली %o मा परिवर्तन हुन सकेन: %s\n"
 
-#: ../lib/local.c:686
+#: lib/local.c:675
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr "%s को टाइम स्ट्याम्प सफलतापूर्वक परिवर्तन भयो\n"
 
-#: ../lib/local.c:693
+#: lib/local.c:682
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr "त्रुटि: %s को टाइम स्ट्याम्प परिवर्तन गर्न सकेन: %s\n"
 
-#: ../lib/local.c:760
+#: lib/local.c:749
 msgid "local filesystem"
 msgstr "स्थानीय फाइलप्रणाली"
 
-#: ../lib/misc.c:407
+#: lib/misc.c:413
 #, c-format
 msgid "usage: gftp "
 msgstr "प्रयोग: gftp"
 
-#: ../lib/misc.c:407 ../lib/rfc2068.c:304 ../src/uicommon/gftpui.c:630
-#, c-format
-msgid "\n"
-msgstr "\n"
-
-#. @null@
-#: ../lib/options.h:25 ../lib/rfc959.c:26
+#: lib/options.h:25 lib/rfc959.c:25
 msgid "none"
 msgstr "कुनै पनि होइन"
 
-#: ../lib/options.h:25
+#: lib/options.h:25
 msgid "file"
 msgstr "फाइल"
 
-#: ../lib/options.h:26
+#: lib/options.h:26
 msgid "size"
 msgstr "साइज"
 
-#: ../lib/options.h:26
+#: lib/options.h:26
 msgid "user"
 msgstr "प्रयोगकर्ता"
 
-#: ../lib/options.h:27
+#: lib/options.h:27
 msgid "group"
 msgstr "समूह"
 
-#: ../lib/options.h:28
+#: lib/options.h:28
 msgid "datetime"
 msgstr "मितिसमय"
 
-#: ../lib/options.h:29
+#: lib/options.h:29
 msgid "attribs"
 msgstr "विशेषता"
 
-#. @null@
-#: ../lib/options.h:32
+#: lib/options.h:32
 msgid "descending"
 msgstr "घट्दो क्रम"
 
-#: ../lib/options.h:33
+#: lib/options.h:33
 msgid "ascending"
 msgstr "बददो क्रम"
 
-#: ../lib/options.h:40
+#: lib/options.h:40
 msgid "General"
 msgstr "साधारण"
 
-#: ../lib/options.h:43
+#: lib/options.h:43
 msgid "View program:"
 msgstr "दृश्य कार्यक्रम:"
 
-#: ../lib/options.h:44
+#: lib/options.h:44
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
@@ -403,216 +405,229 @@ msgstr ""
 "पूर्वनिर्धारित कार्यक्रम फाइलहरू हेर्न प्रयोग गरिन्छ। यदि यो खाली छ भने, आन्तरिक फाइल "
 "दर्शक प्रयोग गरिन्छ"
 
-#: ../lib/options.h:46
+#: lib/options.h:46
 msgid "Edit program:"
 msgstr "कार्यक्रम सम्पादन:"
 
-#: ../lib/options.h:47
+#: lib/options.h:47
 msgid "The default program used to edit files."
 msgstr "फाइलहरू सम्पादन गर्न प्रयोग गरिएका पूर्वनिर्धारित कार्यक्रम ।"
 
-#: ../lib/options.h:48
+#: lib/options.h:48
 msgid "Max Log Window Size:"
 msgstr "अधिक्तम लग सञ्झ्याल साइज:"
 
-#: ../lib/options.h:50
+#: lib/options.h:50
 msgid "The maximum size of the log window in bytes for the GTK+ port"
 msgstr "GTK+ port का लागि बाइटसमा लग सञ्झ्यालको अधिकतम साइज"
 
-#: ../lib/options.h:52
+#: lib/options.h:52
 msgid "Remote Character Sets:"
 msgstr "टाढाको क्यारेक्टर सेट:"
 
-#: ../lib/options.h:54
+#: lib/options.h:54
 msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
-msgstr "यो हालको लोकेलमा टाढाको सन्देशहरू रूपान्तरण गर्न प्रयास गर्ने क्यारेक्टर सेटको अल्पबिराम छुट्टयाइएको सूची हो"
+msgstr ""
+"यो हालको लोकेलमा टाढाको सन्देशहरू रूपान्तरण गर्न प्रयास गर्ने क्यारेक्टर सेटको अल्पबिराम "
+"छुट्टयाइएको सूची हो"
 
-#: ../lib/options.h:56
+#: lib/options.h:56
 msgid "Remote LC_TIME:"
 msgstr "टाढाको LC_TIME:"
 
-#: ../lib/options.h:58
+#: lib/options.h:58
 msgid ""
 "This is the value of LC_TIME for the remote site. This is so that dates can "
 "be parsed properly in the directory listings."
-msgstr "यो टाढाको साइटका लागि LC_TIME को मान हो । त्यसैले मितिलाई डाइरेक्टरी सूचीमा सही तरीकाले पद वर्णन गर्न सकिन्छ ।"
+msgstr ""
+"यो टाढाको साइटका लागि LC_TIME को मान हो । त्यसैले मितिलाई डाइरेक्टरी सूचीमा सही "
+"तरीकाले पद वर्णन गर्न सकिन्छ ।"
 
-#: ../lib/options.h:60
+#: lib/options.h:60
 msgid "Cache TTL:"
 msgstr "क्यास TTL:"
 
-#: ../lib/options.h:63
+#: lib/options.h:63
 msgid "The number of seconds to keep cache entries before they expire."
 msgstr "क्यास प्रविष्टिहरूको समय समाप्त हुनु अघि राख्नका लागि सेकेन्डको सङ्ख्या ।"
 
-#: ../lib/options.h:66
+#: lib/options.h:66
 msgid "Append file transfers"
 msgstr "फाइल स्थानान्तरण थप्नुहोस्"
 
-#: ../lib/options.h:68
+#: lib/options.h:68
 msgid "Append new file transfers onto existing ones"
 msgstr "अवस्थित एउटामा नयाँ फाइल स्थानान्तरण थप्नुहोस्"
 
-#: ../lib/options.h:69
+#: lib/options.h:69
 msgid "Do one transfer at a time"
 msgstr "एक समयमा एउटा स्थानान्तरण गर्नुहोस्"
 
-#: ../lib/options.h:71
+#: lib/options.h:71
 msgid "Do only one transfer at a time?"
 msgstr "एक पटकमा एउटा मात्र स्थानान्तरण गर्नुहुन्छ?"
 
-#: ../lib/options.h:72
+#: lib/options.h:72
 msgid "Overwrite by Default"
 msgstr "पूर्वनिर्धारित अनुसार अधिलेखन गर्नुहोस्"
 
-#: ../lib/options.h:75
+#: lib/options.h:75
 msgid "Overwrite files by default or set to resume file transfers"
 msgstr "पूर्वनिर्धारितद्वारा फाइल अधिलेखन गर्नुहोस् वा फाइल स्थानान्तरण संक्षेपमा मिलाउनुहोस्"
 
-#: ../lib/options.h:77
+#: lib/options.h:77
 msgid "Preserve file permissions"
 msgstr "फाइल अनुमतिहरू संरक्षित गर्नुहोस्"
 
-#: ../lib/options.h:80
-msgid "Preserve file permissions of transfered files"
+#: lib/options.h:80
+#, fuzzy
+msgid "Preserve file permissions of transferred files"
 msgstr "स्थानान्तरण गरिएका फाइलहरूको फाइल अनुमतिहरू संरक्षित गर्नुहोस्"
 
-#: ../lib/options.h:82
+#: lib/options.h:82
 msgid "Preserve file time"
 msgstr "फाइल समय संरक्षित गर्नुहोस्"
 
-#: ../lib/options.h:85
-msgid "Preserve file times of transfered files"
+#: lib/options.h:85
+#, fuzzy
+msgid "Preserve file times of transferred files"
 msgstr "स्थानान्तरण गरिएका फाइलहरूको फाइल समय संरक्षित गर्नुहोस्"
 
-#: ../lib/options.h:87
+#: lib/options.h:87
 msgid "Refresh after each file transfer"
 msgstr "हरेक फाइल स्थानान्तरण पछि ताजा पार्नुहोस्"
 
-#: ../lib/options.h:90
-msgid "Refresh the listbox after each file is transfered"
+#: lib/options.h:90
+#, fuzzy
+msgid "Refresh the listbox after each file is transferred"
 msgstr "हरेक फाइल स्थानान्तरण पछि सूची बाकस ताजा पार्नुहोस्"
 
-#: ../lib/options.h:92
+#: lib/options.h:92
 msgid "Sort directories first"
 msgstr "पहिले डाइरेक्टरीहरू क्रमबद्ध गर्नुहोस्"
 
-#: ../lib/options.h:95
+#: lib/options.h:95
 msgid "Put the directories first then the files"
 msgstr "पहिले डाइरेक्टरीहरू त्यसपछि फाइल राख्नुहोस्"
 
-#: ../lib/options.h:96
+#: lib/options.h:96
 msgid "Show hidden files"
 msgstr "लुकेका फाइलहरू देखाउनुहोस्"
 
-#: ../lib/options.h:99
+#: lib/options.h:99
 msgid "Show hidden files in the listboxes"
 msgstr "सूची बाकसहरूमा लुकेका फाइलहरू देखाउनुहोस्"
 
-#: ../lib/options.h:100
+#: lib/options.h:100
 msgid "Show transfer status in title"
 msgstr "शीर्षकमा स्थानान्तरण वस्तुस्थिति देखाउनुहोस्"
 
-#: ../lib/options.h:102
+#: lib/options.h:102
 msgid "Show the file transfer status in the titlebar"
 msgstr "शीर्षकपट्टीमा फाइल स्थानान्तरण वस्तुस्थिति देखाउनुहोस्"
 
-#: ../lib/options.h:103
+#: lib/options.h:103
 msgid "Start file transfers"
 msgstr "फाइल स्थानान्तरण सुरु गर्नुहोस्"
 
-#: ../lib/options.h:105
+#: lib/options.h:105
 msgid "Automatically start the file transfers when they get queued"
 msgstr "फाइलहरू लाम लगाउने वित्तिकै स्थानान्तरण स्वचालित रूपमा सुरु हुन्छ"
 
-#: ../lib/options.h:107
+#: lib/options.h:107
 msgid "Allow manual commands in GUI"
 msgstr "GUI मा म्यानुअल आदेश अनुमति दिनुहोस्"
 
-#: ../lib/options.h:109
-msgid "Allow entering manual commands in the GUI (functions like the text port)"
+#: lib/options.h:109
+msgid ""
+"Allow entering manual commands in the GUI (functions like the text port)"
 msgstr "GUI (पाठ पोर्ट जस्तो प्रकार्य) मा म्यानुअल आदेशहरू प्रविष्ट गर्न अनुमति दिनुहोस्"
 
-#: ../lib/options.h:111
+#: lib/options.h:111
 msgid "Remember last directory"
 msgstr "अन्तिम डाइरेक्टरी सम्झनुहोस्"
 
-#: ../lib/options.h:113
+#: lib/options.h:113
 msgid "Save the last local and remote directory when the application is closed"
 msgstr "अनुप्रयोग बन्द हुँदा अन्तिम स्थानीय र टाढाको डाइरेक्टरी बचत गर्नुहोस्"
 
-#: ../lib/options.h:115
+#: lib/options.h:115
 msgid "Connect to remote server on startup"
 msgstr "सुरुआतमा टाढाको सर्भर जडान गर्नुहोस्"
 
-#: ../lib/options.h:117
-msgid "Automatically connect to the remote server when the application is started."
+#: lib/options.h:117
+msgid ""
+"Automatically connect to the remote server when the application is started."
 msgstr "अनुप्रयोग सुरु हुँदा स्वचालित रूपमा टाढाको सर्भरमा जडान गर्नुहोस् ।"
 
-#: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
-#: ../src/gtk/options_dialog.c:1240
+#: lib/options.h:120 src/gtk/options_dialog.c:1019
+#: src/gtk/options_dialog.c:1239
 msgid "Network"
 msgstr "सञ्जाल"
 
-#: ../lib/options.h:122
+#: lib/options.h:122
 msgid "Network timeout:"
 msgstr "सञ्जाल समय समाप्त:"
 
-#: ../lib/options.h:125
-msgid "The timeout waiting for network input/output. This is NOT an idle timeout."
-msgstr "सञ्जाल आगत/निर्गतका लागि प्रतिक्षा गर्दा समय समाप्ताप्त भयो। यो एउटा मन कल्पित समय समिाप्त  होइन।"
+#: lib/options.h:125
+msgid ""
+"The timeout waiting for network input/output. This is NOT an idle timeout."
+msgstr ""
+"सञ्जाल आगत/निर्गतका लागि प्रतिक्षा गर्दा समय समाप्ताप्त भयो। यो एउटा मन कल्पित समय "
+"समिाप्त  होइन।"
 
-#: ../lib/options.h:127
+#: lib/options.h:127
 msgid "Connect retries:"
 msgstr "पुन:प्रयासहरू जडान गर्नुहोस्:"
 
-#: ../lib/options.h:130
+#: lib/options.h:130
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
 msgstr "स्वत पुन:कोशिस गर्नेको सङ्ख्या। यसलाई धेरै पटक पुन:कोशिस गर्न ० मा सेट गर्नुहोस्।"
 
-#: ../lib/options.h:132
+#: lib/options.h:132
 msgid "Retry sleep time:"
 msgstr "स्थिर समय पुन:प्रयास गर्नुहोस्:"
 
-#: ../lib/options.h:135
+#: lib/options.h:135
 msgid "The number of seconds to wait between retries"
 msgstr "पुन:प्रयासको बीचमा पर्खनका लागि सेकेण्ड"
 
-#: ../lib/options.h:136
+#: lib/options.h:136
 msgid "Max KB/S:"
 msgstr "अधिकतम किलो बाइट/सेकेन्ड:"
 
-#: ../lib/options.h:139
+#: lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr ""
 "एउटा फाइल स्थानान्तरण हुनका लागि अधिकतम किलो बाइट/सेकेन्ड । (अक्षम गर्न ० मा सेट "
 "गर्नुहोस्)"
 
-#: ../lib/options.h:141
+#: lib/options.h:141
 msgid "Transfer Block Size:"
 msgstr "स्थानान्तर खण्ड साइज:"
 
-#: ../lib/options.h:144
+#: lib/options.h:144
+#, fuzzy
 msgid ""
-"The block size that is used when transfering files. This should be a "
+"The block size that is used when transferring files. This should be a "
 "multiple of 1024."
 msgstr "खण्ड साइज फाइल स्थानान्तर गर्दा प्रयोग गरिन्छ। यो १०२४ को गुणक हुनुपर्छ।"
 
-#: ../lib/options.h:147
+#: lib/options.h:147
 msgid "Default Protocol:"
 msgstr "पूर्वनिर्धारित प्रोटोकल:"
 
-#: ../lib/options.h:149
+#: lib/options.h:149
 msgid "This specifies the default protocol to use"
 msgstr "यसले प्रयोग गर्नलाई पूर्वनिर्धारित प्रोटोकोल निर्दिष्ट गर्दछ"
 
-#: ../lib/options.h:151 ../lib/options.h:154
+#: lib/options.h:151 lib/options.h:154
 msgid "Enable IPv6 support"
 msgstr "IPv6 समर्थन सक्षम पार्नुहोस्"
 
-#: ../lib/options.h:159
+#: lib/options.h:159
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -620,27 +635,27 @@ msgstr ""
 "यसले फाइल सूची बाकसहरूमा तपाईँले फाइलमा दुई पटक क्लिक गर्दा के हुन्छ भनि वर्णन गर्दछ। "
 "०=दृश्य फाइल १=सम्पादन फाइल २=स्थानान्तर फाइल"
 
-#: ../lib/options.h:162
+#: lib/options.h:162
 msgid "The default width of the local files listbox"
 msgstr "स्थानीय फाइलहरूको सूची बाकसको पूर्वनिर्धारित चौडाइ"
 
-#: ../lib/options.h:165
+#: lib/options.h:165
 msgid "The default width of the remote files listbox"
 msgstr "टाढाका फाइलहरूको सूची बाकसको पूर्वनिर्धारित चौडाइ"
 
-#: ../lib/options.h:168
+#: lib/options.h:168
 msgid "The default height of the local/remote files listboxes"
 msgstr "स्थानीय/टाढाका फाइलहरूको सूची बाकसको पूर्वनिर्धारित उचाइ"
 
-#: ../lib/options.h:171
+#: lib/options.h:171
 msgid "The default height of the transfer listbox"
 msgstr "स्थानान्तर सूची बाकसको पूर्वनिर्धारित उचाइ"
 
-#: ../lib/options.h:174
+#: lib/options.h:174
 msgid "The default height of the logging window"
 msgstr "सञ्झ्याल लग गर्दाको पूर्वनिर्धारित उचाइ"
 
-#: ../lib/options.h:177
+#: lib/options.h:177
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -648,15 +663,15 @@ msgstr ""
 "स्थानान्तर सञ्झ्यालमा फाइलनाम स्तम्भको चौडाइ। यो स्तम्भलाई स्वत: दुई स्वत: तरिकाले पुन:"
 "साइज दिन यसलाई ० मा सेट गर्नुहोस्।"
 
-#: ../lib/options.h:190 ../lib/options.h:196
+#: lib/options.h:190 lib/options.h:196
 msgid "The default column to sort by"
 msgstr "क्रमबद्ध तरीकाले मिलाउन पूर्वनिर्धारण स्तम्भ"
 
-#: ../lib/options.h:193 ../lib/options.h:199
+#: lib/options.h:193 lib/options.h:199
 msgid "Sort ascending or descending"
 msgstr "बददो क्रम वा घट्दो क्रममा क्रमबद्ध गर्नुहोस्"
 
-#: ../lib/options.h:203 ../lib/options.h:221
+#: lib/options.h:203 lib/options.h:221
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -664,7 +679,7 @@ msgstr ""
 "फाइल सूचीबाकसहरूमा फाइलनाम स्तम्भको चौडाइ छ। यो स्तम्भलाई स्वत: तरिकाले पुन:साइज दिन "
 "यसलाई ० मा सेट गर्नुहोस्। यो स्तम्भलाई अक्षम गर्न यसलाई -१ मा सेट गर्नुहोस्।"
 
-#: ../lib/options.h:206 ../lib/options.h:224
+#: lib/options.h:206 lib/options.h:224
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -672,7 +687,7 @@ msgstr ""
 "फाइल सूचीबाकसहरूमा साइज स्तम्भको चौडाइ छ। यो स्तम्भलाई स्वत: तरिकाले पुन:साइज दिन "
 "यसलाई ० मा सेट गर्नुहोस्। यो स्तम्भलाई अक्षम गर्न यसलाई -१ मा सेट गर्नुहोस्।"
 
-#: ../lib/options.h:209 ../lib/options.h:227
+#: lib/options.h:209 lib/options.h:227
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -680,7 +695,7 @@ msgstr ""
 "फाइल सूचीबाकसहरूमा प्रयोगकर्ता स्तम्भको चौडाइ छ। यो स्तम्भलाई स्वत: तरिकाले पुन:साइज "
 "दिन यसलाई ० मा सेट गर्नुहोस्। यो स्तम्भलाई अक्षम गर्न यसलाई -१ मा सेट गर्नुहोस्।"
 
-#: ../lib/options.h:212 ../lib/options.h:230
+#: lib/options.h:212 lib/options.h:230
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -688,7 +703,7 @@ msgstr ""
 "फाइल सूचीबाकसहरूमा समूह स्तम्भको चौडाइ छ। यो स्तम्भलाई स्वत: तरिकाले पुन:साइज दिन "
 "यसलाई ० मा सेट गर्नुहोस्। यो स्तम्भलाई अक्षम गर्न यसलाई -१ मा सेट गर्नुहोस्"
 
-#: ../lib/options.h:215 ../lib/options.h:233
+#: lib/options.h:215 lib/options.h:233
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -696,7 +711,7 @@ msgstr ""
 "फाइल सूचीबाकसहरूमा मिति स्तम्भको चौडाइ छ। यो स्तम्भलाई स्वत: तरिकाले पुन:साइज दिन "
 "यसलाई ० मा सेट गर्नुहोस्। यो स्तम्भलाई अक्षम गर्न यसलाई -१ मा सेट गर्नुहोस्"
 
-#: ../lib/options.h:218 ../lib/options.h:236
+#: lib/options.h:218 lib/options.h:236
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -704,80 +719,75 @@ msgstr ""
 "फाइल सूचीबाकसहरूमा गुण स्तम्भको चौडाइ छ। यो स्तम्भलाई स्वत:जादुई तरिकाले पुन:साइज दिन "
 "यसलाई ० मा सेट गर्नुहोस्। यो स्तम्भलाई अक्षम गर्न यसलाई -१ मा सेट गर्नुहोस्"
 
-#: ../lib/options.h:239
+#: lib/options.h:239
 msgid "The color of the commands that are sent to the server"
 msgstr "आदेशहरूको रङ जुन सर्भरमा पठाइन्छ"
 
-#: ../lib/options.h:242
+#: lib/options.h:242
 msgid "The color of the commands that are received from the server"
 msgstr "आदेशहरूको रङ जुन सर्भरबाट प्राप्त गरिन्छ"
 
-#: ../lib/options.h:245
+#: lib/options.h:245
 msgid "The color of the error messages"
 msgstr "त्रुटि भएका सन्देशहरूको रङ"
 
-#: ../lib/options.h:248
+#: lib/options.h:248
 msgid "The color of the rest of the log messages"
 msgstr "लग सन्देशहरूको बाँकीको रङ"
 
-#: ../lib/options.h:254 ../lib/rfc959.c:40
+#: lib/options.h:254 lib/rfc959.c:39
 msgid "FTP"
 msgstr "एफटीपी"
 
-#: ../lib/options.h:257 ../lib/options.h:259
+#: lib/options.h:257 lib/options.h:259
 msgid "FTPS"
 msgstr "एफटीपीहरू"
 
-#: ../lib/options.h:262 ../lib/rfc2068.c:27
+#: lib/options.h:262 lib/rfc2068.c:26
 msgid "HTTP"
 msgstr "एचटीटीपी"
 
-#: ../lib/options.h:265 ../lib/options.h:267
+#: lib/options.h:265 lib/options.h:267
 msgid "HTTPS"
 msgstr "एचटीटीपीहरू"
 
-#: ../lib/options.h:270
+#: lib/options.h:270
 msgid "Local"
 msgstr "स्थानीय"
 
-#: ../lib/options.h:272
+#: lib/options.h:272
 msgid "SSH2"
 msgstr "SSH2"
 
-#: ../lib/options.h:274 ../src/gtk/bookmarks.c:883
+#: lib/options.h:274 src/gtk/bookmarks.c:882
 msgid "Bookmark"
 msgstr "पुस्तकचिनो"
 
-#: ../lib/options.h:275
+#: lib/options.h:275
 msgid "FSP"
 msgstr "एफएसपी"
 
-#: ../lib/protocols.c:225
+#: lib/protocols.c:227
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "फाइल स्थानान्तरण %.2f किलो बाइट/सेकेन्डमा सङ्कुचन गरिनेछ\n"
 
-#: ../lib/protocols.c:378
+#: lib/protocols.c:380
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "LC_TIME '%s' मा मिलाउदा त्रुटि भयो। '%s' को पछाडि झर्दैछ\n"
 
-#: ../lib/protocols.c:389
+#: lib/protocols.c:391
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "क्यासबाट डाइरेक्टरी सूची %s लोड हुँदैछ (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:399
+#: lib/protocols.c:401
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "सर्भरबाट डाइरेक्टरी सूची %s लोड हुँदैछ (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:461
-#, c-format
-msgid "Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr "वर्ण समूह %s बाट वर्ण समूह %s मा स्ट्रिङ '%s' बदलने क्रममा त्रुटि: %s\n"
-
-#: ../lib/protocols.c:654
+#: lib/protocols.c:451
 #, c-format
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
@@ -786,165 +796,108 @@ msgstr ""
 "चेतावनी: फाइल '%s' को धर्के मार्ग बन्द छ। धर्के मार्ग (%s) चालु डाइरेक्टरी (%s)सँग जोडा "
 "मिलेन\n"
 
-#: ../lib/protocols.c:680
+#: lib/protocols.c:482
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "त्रुटि: क्यासमा लेख्न सकिएन: %s\n"
 
-#: ../lib/protocols.c:713
+#: lib/protocols.c:515
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "त्रुटि: पुस्तकचिनो %s फेला पार्न सकिएन\n"
 
-#: ../lib/protocols.c:720
+#: lib/protocols.c:522
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "पुस्तकचिनोमा त्रुटि: प्रविष्ट गरिएको पुस्तकचिनो %s मा होस्टनाम छैन\n"
 
-#: ../lib/protocols.c:842 ../lib/protocols.c:869
+#: lib/protocols.c:644 lib/protocols.c:671
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "प्रोटोकोल '%s' ले अहिले समर्थन गरिराखेको छैन ।\n"
 
-#: ../lib/protocols.c:1159 ../lib/protocols.c:1174 ../lib/protocols.c:2356
-#: ../lib/protocols.c:2469
-#, c-format
-msgid "Looking up %s\n"
-msgstr "%s निगारानी गरिँदै\n"
-
-#: ../lib/protocols.c:1165 ../lib/protocols.c:1180 ../lib/protocols.c:2361
-#: ../lib/protocols.c:2474
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "होस्टनाम %s हेर्न सकिएन: %s\n"
-
-#: ../lib/protocols.c:2091
+#: lib/protocols.c:1154
 #, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr "पुनरावृत्तिक साङ्केतिक लिङ्क %s फेला पर्यो\n"
 
-#: ../lib/protocols.c:2379
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "सकेट सिर्जना गर्न असफल भयो: %s\n"
-
-#: ../lib/protocols.c:2385 ../lib/protocols.c:2491
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "%s कोशिस गर्दै:%d\n"
-
-#: ../lib/protocols.c:2390 ../lib/protocols.c:2498
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "%s मा जडान गर्न सकिएन: %s\n"
-
-#: ../lib/protocols.c:2428 ../lib/rfc959.c:706
-#, c-format
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "IPv4 सकेट सिर्जना गर्न सकिएन: %s\n"
-
-#: ../lib/protocols.c:2452 ../lib/sshv2.c:1142
-#, c-format
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
-msgstr "सेवा नाम %s/tcp हेर्न सकिएन। कृपया तपाईँको सेवा फाइलहरू जाँच्नुहोस्\n"
-
-#: ../lib/protocols.c:2514 ../lib/protocols.c:3167 ../lib/rfc959.c:715
-#: ../lib/rfc959.c:892
-#, c-format
-msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "त्रुटि: exec झण्डामा बन्द सेट गर्न सकिँदैन: %s\n"
-
-#: ../lib/protocols.c:2521
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "%s मा जडान भयो:%d\n"
-
-#: ../lib/protocols.c:2757 ../lib/protocols.c:2834 ../lib/sshv2.c:435
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "%s मा जडान समय समाप्ति भयो\n"
-
-#: ../lib/protocols.c:2904
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr "सकेट झण्डाहरू प्राप्त गर्न सकिएन: %s\n"
-
-#: ../lib/protocols.c:2918
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "नरोकिनेमा सकेट सेट गर्न सकिँदैन: %s\n"
-
-#: ../lib/protocols.c:3064
+#: lib/protocols.c:1532
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "त्रुटि: टाढाको साइट %s सम्पर्क बिच्छेद भयो। अधिकतम कोशिसहरू पुगिसके...छोड्दैछ \n"
 
-#: ../lib/protocols.c:3072
+#: lib/protocols.c:1540
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr "त्रुटि: टाढाको साइट %s सम्पर्क बिच्छेद भयो। के %d दोस्रोमा पुन: जडान हुँनेछ\n"
 
-#: ../lib/pty.c:301
+#: lib/protocols.c:1635 lib/rfc959.c:714 lib/rfc959.c:884
+#: lib/socket-connect.c:125
+#, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr "त्रुटि: exec झण्डामा बन्द सेट गर्न सकिँदैन: %s\n"
+
+#: lib/pty.c:300
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "मास्टर pty %s खोल्न सकिएन: %s\n"
 
-#: ../lib/pty.c:309
+#: lib/pty.c:308
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "सकेट जोडा सिर्जना गर्न सकिएन: %s\n"
 
-#: ../lib/pty.c:338
+#: lib/pty.c:337
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "त्रुटि: ssh कार्यान्वयन गर्न सकिएन: %s\n"
 
-#: ../lib/pty.c:354
+#: lib/pty.c:353
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "अर्को प्रक्रिया फोर्क गर्न सकिएन: %s\n"
 
-#: ../lib/rfc2068.c:30 ../lib/rfc959.c:47
+#: lib/rfc2068.c:29 lib/rfc959.c:46
 msgid "Proxy hostname:"
 msgstr "प्रोक्सी होस्टनाम:"
 
-#: ../lib/rfc2068.c:32 ../lib/rfc959.c:49
+#: lib/rfc2068.c:31 lib/rfc959.c:48
 msgid "Firewall hostname"
 msgstr "फायरवाल होस्टनाम"
 
-#: ../lib/rfc2068.c:33 ../lib/rfc959.c:50
+#: lib/rfc2068.c:32 lib/rfc959.c:49
 msgid "Proxy port:"
 msgstr "प्रोक्सी पोर्ट:"
 
-#: ../lib/rfc2068.c:35 ../lib/rfc959.c:52
+#: lib/rfc2068.c:34 lib/rfc959.c:51
 msgid "Port to connect to on the firewall"
 msgstr "फायरवालमा जडान गर्न पोर्ट"
 
-#: ../lib/rfc2068.c:36 ../lib/rfc959.c:53
+#: lib/rfc2068.c:35 lib/rfc959.c:52
 msgid "Proxy username:"
 msgstr "प्रोक्सी प्रयोगकर्ता नाम:"
 
-#: ../lib/rfc2068.c:38 ../lib/rfc959.c:55
+#: lib/rfc2068.c:37 lib/rfc959.c:54
 msgid "Your firewall username"
 msgstr "तपाईँको फायरवाल प्रयोगकर्ता नाम"
 
-#: ../lib/rfc2068.c:39 ../lib/rfc959.c:56
+#: lib/rfc2068.c:38 lib/rfc959.c:55
 msgid "Proxy password:"
 msgstr "प्रोक्सी पासवर्ड:"
 
-#: ../lib/rfc2068.c:41 ../lib/rfc959.c:58
+#: lib/rfc2068.c:40 lib/rfc959.c:57
 msgid "Your firewall password"
 msgstr "तपाईँको फायरवाल पासवर्ड"
 
-#: ../lib/rfc2068.c:43
+#: lib/rfc2068.c:42
 msgid "Use HTTP/1.1"
 msgstr "एचटीटीपी/१.१ प्रयोग गर्नुहोस्"
 
-#: ../lib/rfc2068.c:46
+#: lib/rfc2068.c:45
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "तपाईँ HTTP/१.१ वा HTTP/१.० प्रयोग गर्न चाहनुहुन्छ"
 
-#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:843
+#: lib/rfc2068.c:150 lib/rfc2068.c:839
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -953,83 +906,85 @@ msgstr ""
 "सर्भरबाट गलत प्रतिक्रिया पाउनु भयो, बिच्छेदन भयो\n"
 "टाढाको सर्भरले फिर्ता पठाएको अमान्य टुक्राको साइज '%s'\n"
 
-#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1219
+#: lib/rfc2068.c:254 lib/rfc959.c:678 lib/sshv2.c:1244
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "साइट %s बाट विच्छेदन हुँदैछ\n"
 
-#: ../lib/rfc2068.c:304
+#: lib/rfc2068.c:300
 msgid "Starting the file transfer at offset "
 msgstr "अपसेटमा फाइल स्थानान्तर सुरु हुँदैछ"
 
-#: ../lib/rfc2068.c:325
+#: lib/rfc2068.c:321
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "फाइल %s पुन:प्राप्त गर्न सकिएन\n"
 
-#: ../lib/rfc2068.c:424 ../lib/sshv2.c:1301
+#: lib/rfc2068.c:420 lib/sshv2.c:1326
 msgid "Retrieving directory listing...\n"
 msgstr "डाइरेक्टरी सूची पुन:प्राप्त गर्दैछ...\n"
 
-#: ../lib/rfc2068.c:819 ../lib/sshv2.c:895
+#: lib/rfc2068.c:815 lib/sshv2.c:894
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "सर्भरबाट गलत प्रतिक्रिया पाउँनु भयो, बिच्छेदन हुँदैछ\n"
 
-#: ../lib/rfc959.c:27
+#: lib/rfc959.c:26
 msgid "SITE command"
 msgstr "SITE आदेश"
 
-#: ../lib/rfc959.c:28
+#: lib/rfc959.c:27
 msgid "user@host"
 msgstr "user@host"
 
-#: ../lib/rfc959.c:29
+#: lib/rfc959.c:28
 msgid "user@host:port"
 msgstr "user@host:पोर्ट"
 
-#: ../lib/rfc959.c:30
+#: lib/rfc959.c:29
 msgid "AUTHENTICATE"
 msgstr "प्रमाणीकरण गर्नुहोस्"
 
-#: ../lib/rfc959.c:31
+#: lib/rfc959.c:30
 msgid "user@host port"
 msgstr "user@host पोर्ट"
 
-#: ../lib/rfc959.c:32
+#: lib/rfc959.c:31
 msgid "user@host NOAUTH"
 msgstr "user@host NOAUTH"
 
-#: ../lib/rfc959.c:33
+#: lib/rfc959.c:32
 msgid "HTTP Proxy"
 msgstr "HTTP प्रोक्सी"
 
-#: ../lib/rfc959.c:34
+#: lib/rfc959.c:33
 msgid "Custom"
 msgstr "अनुकूल"
 
-#: ../lib/rfc959.c:43
+#: lib/rfc959.c:42
 msgid "Email address:"
 msgstr "इमेल ठेगाना:"
 
-#: ../lib/rfc959.c:45
+#: lib/rfc959.c:44
 msgid ""
 "This is the password that will be used whenever you log into a remote FTP "
 "server as anonymous"
-msgstr "यो पासवर्ड हो जुन बेनामीको रूपमा टाढाको FTP मा जुन बेला पनि लग गरी प्रयोग गर्न सक्नु हुन्छ"
+msgstr ""
+"यो पासवर्ड हो जुन बेनामीको रूपमा टाढाको FTP मा जुन बेला पनि लग गरी प्रयोग गर्न सक्नु "
+"हुन्छ"
 
-#: ../lib/rfc959.c:59
+#: lib/rfc959.c:58
 msgid "Proxy account:"
 msgstr "प्रोक्सी खाता:"
 
-#: ../lib/rfc959.c:61
+#: lib/rfc959.c:60
 msgid "Your firewall account (optional)"
 msgstr "तपाईँको फायरवाल खाता (वैकल्पिक)"
 
-#: ../lib/rfc959.c:63
+#: lib/rfc959.c:62
 msgid "Proxy server type:"
 msgstr "प्रोक्सी सर्भर प्रकार:"
 
-#: ../lib/rfc959.c:66
+#: lib/rfc959.c:65
 #, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
@@ -1045,26 +1000,26 @@ msgstr ""
 "दोस्रो वर्ण p (प्रयोगकर्ता), p (पास), h (होस्ट), o (पोर्ट) वा l (खाता) हुनसक्छ। "
 "उदाहरणका लागि, प्रोक्सी प्रयोगकर्ता उल्लेख गर्न तपाईँले %pu मा टाइप गर्न सक्नुहुन्छ।"
 
-#: ../lib/rfc959.c:69
+#: lib/rfc959.c:68
 msgid "Ignore PASV address"
 msgstr "PASV ठेगाना उपेक्षा गर्नुहोस्"
 
-#: ../lib/rfc959.c:72
+#: lib/rfc959.c:71
 msgid ""
 "If this is enabled, then the remote FTP server's PASV IP address field will "
 "be ignored and the host's IP address will be used instead. This is often "
 "needed for routers giving their internal rather then their external IP "
 "address in a PASV reply."
 msgstr ""
-"यदि यसलाई सक्रिय गर्नुभयो भने टाढाका FTP सर्भरको PASV आईपी ठेगाना क्षेत्रलाई उपेक्षा गरिन्छ र "
-"यसको सट्टामा होस्टको आईपी ठेगाना प्रयोग गरिन्छ। यो रुटरका लागि चाहिन्छ जसले PASV जवाफ "
-"पठाउनेमा बाहिरिको सट्टा भित्रि आईपी ठेगाना दिन्छ।"
+"यदि यसलाई सक्रिय गर्नुभयो भने टाढाका FTP सर्भरको PASV आईपी ठेगाना क्षेत्रलाई उपेक्षा "
+"गरिन्छ र यसको सट्टामा होस्टको आईपी ठेगाना प्रयोग गरिन्छ। यो रुटरका लागि चाहिन्छ जसले "
+"PASV जवाफ पठाउनेमा बाहिरिको सट्टा भित्रि आईपी ठेगाना दिन्छ।"
 
-#: ../lib/rfc959.c:74
+#: lib/rfc959.c:73
 msgid "Passive file transfers"
 msgstr "निस्क्रिय फाइल स्थानान्तरण"
 
-#: ../lib/rfc959.c:77
+#: lib/rfc959.c:76
 msgid ""
 "If this is enabled, then the remote FTP server will open up a port for the "
 "data connection. If you are behind a firewall, you will need to enable this. "
@@ -1073,35 +1028,36 @@ msgid ""
 "gFTP will open up a port on the client side and the remote server will "
 "attempt to connect to it."
 msgstr ""
-"यदि यसलाई सक्रिय भयो भने टाढाको FTP सर्भरले डेटा जडानका लागि पोर्ट खोल्दछ। सामान्यतया "
-"यसलाई सक्रिय गर्नु नै राम्रो उपाय हुन्छ जबसम्म तपाईँ पुरानो FTP सर्भर, जसले आधार दिंदैन, "
-"त्यसैसंगजोडिरहनु भएको छ। यदि यो निस्क्रिय भयो भने जीएफटीपीले ग्राहक पक्षमा एउटा "
-"पोर्ट खोल्दछ र टाढाको सर्भरले यसलाई जोड्दछ।"
+"यदि यसलाई सक्रिय भयो भने टाढाको FTP सर्भरले डेटा जडानका लागि पोर्ट खोल्दछ। "
+"सामान्यतया यसलाई सक्रिय गर्नु नै राम्रो उपाय हुन्छ जबसम्म तपाईँ पुरानो FTP सर्भर, जसले "
+"आधार दिंदैन, त्यसैसंगजोडिरहनु भएको छ। यदि यो निस्क्रिय भयो भने जीएफटीपीले ग्राहक पक्षमा "
+"एउटा पोर्ट खोल्दछ र टाढाको सर्भरले यसलाई जोड्दछ।"
 
-#: ../lib/rfc959.c:79
+#: lib/rfc959.c:78
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "टाढाको सांकेतिक सम्बन्धहरू समाधान गर्नुहोस् (LIST -L)"
 
-#: ../lib/rfc959.c:82
+#: lib/rfc959.c:81
 msgid ""
 "The remote FTP server will attempt to resolve symlinks in the directory "
 "listings. Generally, this is a good idea to leave enabled. The only time you "
 "will want to disable this is if the remote FTP server doesn't support the -L "
 "option to LIST"
 msgstr ""
-"टाढाको FTP सर्भरले डाइरेक्टरी सूचीमा प्रणाली सम्बन्ध समाधान गर्न कोशिस गर्नेछ । सामान्यतया "
-"यसलाई सक्रिय छाड्नु नै राम्रो उपाय हो। यदि टाढाको FTP "
-"सर्भरले LIST मा -L विकल्पलाई आधार दिंदैन भने यसलाई निस्क्रिय पार्ने मात्र समय ।"
+"टाढाको FTP सर्भरले डाइरेक्टरी सूचीमा प्रणाली सम्बन्ध समाधान गर्न कोशिस गर्नेछ । "
+"सामान्यतया यसलाई सक्रिय छाड्नु नै राम्रो उपाय हो। यदि टाढाको FTP सर्भरले LIST मा -L "
+"विकल्पलाई आधार दिंदैन भने यसलाई निस्क्रिय पार्ने मात्र समय ।"
 
-#: ../lib/rfc959.c:84
+#: lib/rfc959.c:83
 msgid "Transfer files in ASCII mode"
 msgstr "ASCII मोडमा फाइलहरू स्थानान्तर गर्नुहोस्"
 
-#: ../lib/rfc959.c:87
+#: lib/rfc959.c:86
+#, fuzzy
 msgid ""
-"If you are transfering a text file from Windows to UNIX box or vice versa, "
+"If you are transferring a text file from Windows to UNIX box or vice versa, "
 "then you should enable this. Each system represents newlines differently for "
-"text files. If you are transfering from UNIX to UNIX, then it is safe to "
+"text files. If you are transferring from UNIX to UNIX, then it is safe to "
 "leave this off. If you are downloading binary data, you will want to disable "
 "this."
 msgstr ""
@@ -1111,312 +1067,368 @@ msgstr ""
 "भने यसलाई बन्द गर्नु नै सुरक्षित हुन्छ। यदि तपाईँले बाइनरी डेटा डाउनलोड गर्दै हुनुहुन्छ भने "
 "तपाईँले यसलाई निस्क्रिय गर्नुपर्छ।"
 
-#: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
-#: ../lib/rfc959.c:855 ../lib/rfc959.c:1449
+#: lib/rfc959.c:380 lib/rfc959.c:389 lib/rfc959.c:400 lib/rfc959.c:848
+#: lib/rfc959.c:1413
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "सर्भरबाट अवैध प्रतिक्रिया '%c' प्राप्त भयो।\n"
 
-#: ../lib/rfc959.c:745 ../lib/rfc959.c:755
+#: lib/rfc959.c:705 lib/socket-connect-gethostbyname.c:119
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "IPv4 सकेट सिर्जना गर्न सकिएन: %s\n"
+
+#: lib/rfc959.c:744 lib/rfc959.c:754
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "PASV प्रतिक्रिया '%s' मा आईपी ठेगाना फेला पार्न सकिएन\n"
 
-#: ../lib/rfc959.c:781
+#: lib/rfc959.c:774
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
-msgstr "PASV प्रतिक्रियामा आईपी ठेगाना उपेक्षा गर्दैछ, %d.%d.%d.%d:%d मा सम्पर्क राख्दैछ\n"
+msgstr ""
+"PASV प्रतिक्रियामा आईपी ठेगाना उपेक्षा गर्दैछ, %d.%d.%d.%d:%d मा सम्पर्क राख्दैछ\n"
 
-#: ../lib/rfc959.c:792 ../lib/rfc959.c:953
+#: lib/rfc959.c:785 lib/rfc959.c:944
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "डेटा सम्पर्क सिर्जना गर्न सकिएन: %s\n"
 
-#: ../lib/rfc959.c:804 ../lib/rfc959.c:825 ../lib/rfc959.c:978
+#: lib/rfc959.c:797 lib/rfc959.c:818 lib/rfc959.c:969
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "सकेट नाम पाउन सकिएन: %s\n"
 
-#: ../lib/rfc959.c:815 ../lib/rfc959.c:968
+#: lib/rfc959.c:808 lib/rfc959.c:959
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "पोर्ट बाइन्ड गर्न सकिएन: %s\n"
 
-#: ../lib/rfc959.c:834 ../lib/rfc959.c:987
+#: lib/rfc959.c:827 lib/rfc959.c:978
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "पोर्ट %d मा सुन्न सकिएन: %s\n"
 
-#: ../lib/rfc959.c:883
+#: lib/rfc959.c:875
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "IPv6 सकेट सिर्जना गर्न असफल: %s\n"
 
-#: ../lib/rfc959.c:903
-msgid "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
+#: lib/rfc959.c:894
+msgid ""
+"Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "त्रुटि: यो IPv6 मार्फत हामी जडानमा छौं जस्तो देखिदैन। जडान परित्याग गर्दैछ ।\n"
 
-#: ../lib/rfc959.c:931 ../lib/rfc959.c:940
+#: lib/rfc959.c:922 lib/rfc959.c:931
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "अवैध EPSV प्रतिक्रिया '%s'\n"
 
-#: ../lib/rfc959.c:997
+#: lib/rfc959.c:988
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "स्थानीय सकेटको ठेगाना पाउन सकिएन: %s\n"
 
-#: ../lib/rfc959.c:1084
+#: lib/rfc959.c:1075
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "सर्भरबाट सम्पर्क स्वीकार गर्न सकिएन: %s\n"
 
-#: ../lib/rfc959.c:1619
+#: lib/rfc959.c:1583
 msgid "total"
 msgstr "जम्मा"
 
-#: ../lib/rfc959.c:1621
+#: lib/rfc959.c:1585
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "चेतावनी: सूची %s पद वर्णन गर्न सकिएन\n"
 
-#: ../lib/sshv2.c:28
+#: lib/socket-connect-getaddrinfo.c:76 lib/socket-connect-gethostbyname.c:63
+#, c-format
+msgid "Looking up %s\n"
+msgstr "%s निगारानी गरिँदै\n"
+
+#: lib/socket-connect-getaddrinfo.c:81 lib/socket-connect-gethostbyname.c:68
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "होस्टनाम %s हेर्न सकिएन: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:114
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "सकेट सिर्जना गर्न असफल भयो: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:120 lib/socket-connect-gethostbyname.c:133
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "%s कोशिस गर्दै:%d\n"
+
+#: lib/socket-connect-getaddrinfo.c:126 lib/socket-connect-gethostbyname.c:140
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "%s मा जडान गर्न सकिएन: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:151 lib/socket-connect-gethostbyname.c:158
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "%s मा जडान भयो:%d\n"
+
+#: lib/socket-connect-gethostbyname.c:100 lib/sshv2.c:1167
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr "सेवा नाम %s/tcp हेर्न सकिएन। कृपया तपाईँको सेवा फाइलहरू जाँच्नुहोस्\n"
+
+#: lib/sockutils.c:189 lib/sockutils.c:267 lib/sshv2.c:434
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "%s मा जडान समय समाप्ति भयो\n"
+
+#: lib/sockutils.c:337
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "सकेट झण्डाहरू प्राप्त गर्न सकिएन: %s\n"
+
+#: lib/sockutils.c:351
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "नरोकिनेमा सकेट सेट गर्न सकिँदैन: %s\n"
+
+#: lib/sshv2.c:27
 msgid "SSH"
 msgstr "SSH"
 
-#: ../lib/sshv2.c:31
+#: lib/sshv2.c:30
 msgid "SSH Prog Name:"
 msgstr "SSH Prog नाम:"
 
-#: ../lib/sshv2.c:33
+#: lib/sshv2.c:32
 msgid "The path to the SSH executable"
 msgstr "कार्यान्वयनयोग्य SSH लाई मार्ग"
 
-#: ../lib/sshv2.c:34
+#: lib/sshv2.c:33
 msgid "SSH Extra Params:"
 msgstr "SSH अतिरिक्त परिमिति:"
 
-#: ../lib/sshv2.c:36
+#: lib/sshv2.c:35
 msgid "Extra parameters to pass to the SSH program"
 msgstr "SSH कार्यक्रममा पास हुन अतिरिक्त परिमिति"
 
-#: ../lib/sshv2.c:38
+#: lib/sshv2.c:37
 msgid "Need SSH User/Pass"
 msgstr "SSH प्रयोगकर्ता/पास आवश्यक छ"
 
-#: ../lib/sshv2.c:41
+#: lib/sshv2.c:40
 msgid "Require a username/password for SSH connections"
 msgstr "SSH जडानका लागि प्रयोगकर्ता नाम/पासवर्डको आवश्यता पर्छ"
 
-#: ../lib/sshv2.c:369
+#: lib/sshv2.c:368
 #, c-format
 msgid "Running program %s\n"
 msgstr "कार्यक्रम %s परिचालन भइरहेको छ\n"
 
-#: ../lib/sshv2.c:378
+#: lib/sshv2.c:377
 msgid "Enter passphrase for RSA key"
 msgstr "RSA कुञ्जीका लागि पासफ्रेज वाक्य प्रविष्ट गर्नुहोस्"
 
-#: ../lib/sshv2.c:379
+#: lib/sshv2.c:378
 msgid "Enter passphrase for key '"
 msgstr "कुञ्जीका लागि पासफ्रेज वाक्य प्रविष्ट गर्नुहोस् '"
 
-#: ../lib/sshv2.c:380
+#: lib/sshv2.c:379
 msgid "Password"
 msgstr "पासवर्ड"
 
-#: ../lib/sshv2.c:381
+#: lib/sshv2.c:380
 msgid "password"
 msgstr "पासवर्ड"
 
-#: ../lib/sshv2.c:496
+#: lib/sshv2.c:495
 msgid "(yes/no)?"
 msgstr "(हो/होइन)?"
 
-#: ../lib/sshv2.c:514
+#: lib/sshv2.c:513
 msgid "Enter PASSCODE:"
 msgstr "PASSCODE प्रविष्ट गर्नुहोस्:"
 
-#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:585
-#: ../src/gtk/transfer.c:595
+#: lib/sshv2.c:517 src/gtk/gtkui.c:141 src/gtk/transfer.c:561
+#: src/gtk/transfer.c:571
 msgid "Enter Password"
 msgstr "पासवर्ड प्रविष्ट गर्नुहोस्"
 
-#: ../lib/sshv2.c:519
+#: lib/sshv2.c:518
 msgid "Enter SecurID Password:"
 msgstr "सुरक्षित आईडी पासवर्ड प्रविष्ट गर्नुहोस्:"
 
-#: ../lib/sshv2.c:567
+#: lib/sshv2.c:566
 msgid "Error: An incorrect password was entered\n"
 msgstr "त्रुटि: गलत पासवर्ड प्रविष्टि भयो\n"
 
-#: ../lib/sshv2.c:596
+#: lib/sshv2.c:595
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: प्रोटोकोल प्रारम्भिकरण\n"
 
-#: ../lib/sshv2.c:600
+#: lib/sshv2.c:599
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: प्रोटोकोल संस्करण %d\n"
 
-#: ../lib/sshv2.c:609
+#: lib/sshv2.c:608
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: %s खोल्नुहोस्\n"
 
-#: ../lib/sshv2.c:614
+#: lib/sshv2.c:613
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: बन्द गर्नुहोस्\n"
 
-#: ../lib/sshv2.c:618
+#: lib/sshv2.c:617
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: डाइरेक्टरी %s खोल्नुहोस्\n"
 
-#: ../lib/sshv2.c:623
+#: lib/sshv2.c:622
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: डाइरेक्टरी पढ्नुहोस्\n"
 
-#: ../lib/sshv2.c:627
+#: lib/sshv2.c:626
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: फाइल %s हटाउनुहोस्\n"
 
-#: ../lib/sshv2.c:632
+#: lib/sshv2.c:631
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: डाइरेक्टरी %s बनाउनुहोस्\n"
 
-#: ../lib/sshv2.c:637
+#: lib/sshv2.c:636
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: डाइरेक्टरी %s हटाउनुहोस्\n"
 
-#: ../lib/sshv2.c:642
+#: lib/sshv2.c:641
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: वास्तविक मार्ग %s\n"
 
-#: ../lib/sshv2.c:647
+#: lib/sshv2.c:646
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: फाइल विशेषता\n"
 
-#: ../lib/sshv2.c:651
+#: lib/sshv2.c:650
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: वस्तुस्थिति %s\n"
 
-#: ../lib/sshv2.c:671
+#: lib/sshv2.c:670
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: ../lib/sshv2.c:676
+#: lib/sshv2.c:675
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: ../lib/sshv2.c:690 ../src/gtk/bookmarks.c:1042 ../src/gtk/bookmarks.c:1292
-#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:376
-#: ../src/gtk/misc-gtk.c:995 ../src/gtk/options_dialog.c:1205
-#: ../src/gtk/options_dialog.c:1437
+#: lib/sshv2.c:689 src/gtk/bookmarks.c:1041 src/gtk/bookmarks.c:1291
+#: src/gtk/chmod_dialog.c:252 src/gtk/gtkui_transfer.c:375
+#: src/gtk/misc-gtk.c:994 src/gtk/options_dialog.c:1204
+#: src/gtk/options_dialog.c:1436
 msgid "OK"
 msgstr "ठीक छ"
 
-#: ../lib/sshv2.c:693
+#: lib/sshv2.c:692
 msgid "EOF"
 msgstr "EOF"
 
-#: ../lib/sshv2.c:696
+#: lib/sshv2.c:695
 msgid "No such file or directory"
 msgstr "त्यस्तो फाइल वा डाइरेक्टरी होइन"
 
-#: ../lib/sshv2.c:699
+#: lib/sshv2.c:698
 msgid "Permission denied"
 msgstr "अनुमति अस्वीकार गरियो"
 
-#: ../lib/sshv2.c:702
+#: lib/sshv2.c:701
 msgid "Failure"
 msgstr "असफलता"
 
-#: ../lib/sshv2.c:705
+#: lib/sshv2.c:704
 msgid "Bad message"
 msgstr "खराब सन्देश"
 
-#: ../lib/sshv2.c:708
+#: lib/sshv2.c:707
 msgid "No connection"
 msgstr "जडान छैन"
 
-#: ../lib/sshv2.c:711
+#: lib/sshv2.c:710
 msgid "Connection lost"
 msgstr "जडान नष्ट भयो"
 
-#: ../lib/sshv2.c:714
+#: lib/sshv2.c:713
 msgid "Operation unsupported"
 msgstr "सञ्चालन असमर्थित भयो"
 
-#: ../lib/sshv2.c:717
+#: lib/sshv2.c:716
 msgid "Unknown message returned from server"
 msgstr "सर्भरबाट अज्ञात सन्देश फर्कियो"
 
-#: ../lib/sshv2.c:752
+#: lib/sshv2.c:751
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "त्रुटि: सन्देश साइज %d निकै ठूलो छ\n"
 
-#: ../lib/sshv2.c:811 ../lib/sshv2.c:1320 ../lib/sshv2.c:1895
-#: ../lib/sshv2.c:2015
+#: lib/sshv2.c:810 lib/sshv2.c:1345 lib/sshv2.c:1837 lib/sshv2.c:1956
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "त्रुटि: सर्भरबाट सन्देश साइज %d निकै ठूलो छ\n"
 
-#: ../lib/sshv2.c:817
+#: lib/sshv2.c:816
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr ""
-"टाढाको सर्भरसँग SSH जडान प्रारम्भ गर्ने त्यहाँ एउटा त्रुटि छ । टाढाको सर्भरबाट गलत सन्देश निम्न "
-"छन्:\n"
+"टाढाको सर्भरसँग SSH जडान प्रारम्भ गर्ने त्यहाँ एउटा त्रुटि छ । टाढाको सर्भरबाट गलत सन्देश "
+"निम्न छन्:\n"
 
-#: ../lib/sshv2.c:1134
+#: lib/sshv2.c:1159
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "%s मा SSH जडान खुल्दैछ\n"
 
-#: ../lib/sshv2.c:1186
+#: lib/sshv2.c:1211
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "SSH सर्भर %s मा सफलतापूर्वक लग भयो\n"
 
-#: ../lib/sslcommon.c:31
+#: lib/sslcommon.c:30
 msgid "SSL Engine"
 msgstr "SSL इन्जिन"
 
-#: ../lib/sslcommon.c:34
+#: lib/sslcommon.c:33
 msgid "SSL Entropy File:"
 msgstr "SSL इनट्रोपि फाइल:"
 
-#: ../lib/sslcommon.c:36
+#: lib/sslcommon.c:35
 msgid "SSL entropy file"
 msgstr "SSL इनट्रोपि फाइल"
 
-#: ../lib/sslcommon.c:37
+#: lib/sslcommon.c:36
 msgid "Entropy Seed Length:"
 msgstr "इनट्रोपि सीड लम्बाइ:"
 
-#: ../lib/sslcommon.c:39
+#: lib/sslcommon.c:38
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr "SSL इन्जिनसँग सीड गर्नका लागि अधिकतम सङ्ख्यामा बाइटस्"
 
-#: ../lib/sslcommon.c:41 ../lib/sslcommon.c:43
+#: lib/sslcommon.c:40 lib/sslcommon.c:42
 msgid "Verify SSL Peer"
 msgstr "समान SSL तुलना गर्नुहोस्"
 
-#: ../lib/sslcommon.c:107
+#: lib/sslcommon.c:106
 #, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
@@ -1429,11 +1441,11 @@ msgstr ""
 "विषय = %s\n"
 "त्रुटि %i:%s\n"
 
-#: ../lib/sslcommon.c:129
+#: lib/sslcommon.c:128
 msgid "Cannot get peer certificate\n"
 msgstr "समान प्रमाणपत्र पाउन सकिएन\n"
 
-#: ../lib/sslcommon.c:199
+#: lib/sslcommon.c:195
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
@@ -1442,55 +1454,45 @@ msgstr ""
 "त्रुटि: SSL प्रमाणपत्र (%s) मा भएको होस्ट हामीले जडान गरेको (%s).होस्टसंगजोडा मिल्दैन । "
 "जडान परित्याग गर्दैछ।\n"
 
-#: ../lib/sslcommon.c:306
+#: lib/sslcommon.c:312
 msgid "Cannot initialize the OpenSSL library\n"
 msgstr "OpenSSL लाइब्रेरी थालनी गर्न सकिएन\n"
 
-#: ../lib/sslcommon.c:321
+#: lib/sslcommon.c:327
 msgid "Error loading default SSL certificates\n"
 msgstr "पूर्वनिर्धारित SSL प्रमाणपत्रहरू लोड गर्ने क्रममा त्रुटि\n"
 
-#: ../lib/sslcommon.c:333
+#: lib/sslcommon.c:339
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "सिफर सूची मिलाउने क्रममा त्रुटि (वैध सिफरहरू होइन)\n"
 
-#: ../lib/sslcommon.c:353 ../lib/sslcommon.c:427 ../lib/sslcommon.c:475
+#: lib/sslcommon.c:359 lib/sslcommon.c:434 lib/sslcommon.c:482
 msgid "Error: SSL engine was not initialized\n"
 msgstr "त्रुटि: SSL इन्जिन प्रारम्भ भएको छैन\n"
 
-#: ../lib/sslcommon.c:370
+#: lib/sslcommon.c:376
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "SSL जडान मिलाउने क्रममा त्रुटि (BIO वस्तु)\n"
 
-#: ../lib/sslcommon.c:380
+#: lib/sslcommon.c:386
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "SSL जडान मिलाउने क्रममा त्रुटि (SSL वस्तु)\n"
 
-#: ../lib/sslcommon.c:401
+#: lib/sslcommon.c:407
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "समान प्रमाणपत्रसँग त्रुटि: %s\n"
 
-#: ../src/uicommon/gftpui.c:56
+#: src/uicommon/gftpui.c:60
 msgid "Operation canceled\n"
 msgstr "सञ्चालन रद्द भयो\n"
 
-#: ../src/uicommon/gftpui.c:65
+#: src/uicommon/gftpui.c:69
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "फेरि जडान गर्न कोशिस गरून्जेल %d सेकेण्डलाई प्रतिक्षा गर्दै\n"
 
-#: ../src/uicommon/gftpui.c:157
-msgid ""
-">. If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ""
-">. यदि यस कार्यक्रमका बारेमा तपाईँको केही प्रश्न, टिप्पणी, वा सुझाव छ भने, कृपया खुल्ला "
-"रूपले मलाई उनीहरूलाई इमेल गर्नुहोस्। तपाईँले जहिले पनि मेरो वेबसाइट http://www.gftp.org/ "
-"बाट जी एफ टी पी का बारेमा भरखरैको नयाँ खबर फेला पार्न सक्नुहुन्छ।\n"
-
-#: ../src/uicommon/gftpui.c:158
+#: src/uicommon/gftpui.c:160
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1500,73 +1502,73 @@ msgstr ""
 "हेर्नुहोस्। यो सफ्टवेयर सित्तैमा हो , र यो कुनै निश्चित अवस्थामा पुन:वितरण गर्न तपाईँलाई "
 "स्वागत छ; विस्तृत विवरणका लागि, प्रतिलिपि फाइल हेर्नुहोस्।\n"
 
-#: ../src/uicommon/gftpui.c:160 ../src/gtk/menu-items.c:491
+#: src/uicommon/gftpui.c:162 src/gtk/menu-items.c:490
 msgid "Translated by"
 msgstr "अनुवाद"
 
-#: ../src/uicommon/gftpui.c:207 ../src/uicommon/gftpui.c:249
-#: ../src/uicommon/gftpui.c:289 ../src/uicommon/gftpui.c:324
-#: ../src/uicommon/gftpui.c:359 ../src/uicommon/gftpui.c:395
-#: ../src/uicommon/gftpui.c:431 ../src/uicommon/gftpui.c:496
-#: ../src/uicommon/gftpui.c:577 ../src/uicommon/gftpui.c:845
+#: src/uicommon/gftpui.c:209 src/uicommon/gftpui.c:251
+#: src/uicommon/gftpui.c:291 src/uicommon/gftpui.c:326
+#: src/uicommon/gftpui.c:361 src/uicommon/gftpui.c:397
+#: src/uicommon/gftpui.c:433 src/uicommon/gftpui.c:498
+#: src/uicommon/gftpui.c:579 src/uicommon/gftpui.c:849
 msgid "Error: Not connected to a remote site\n"
 msgstr "त्रुटि: टाढाको साइटमा सम्पर्क भएको छैन\n"
 
-#: ../src/uicommon/gftpui.c:218
+#: src/uicommon/gftpui.c:220
 msgid "usage: chmod <mode> <file>\n"
 msgstr "उपयोग: chmod <mode> <file>\n"
 
-#: ../src/uicommon/gftpui.c:259
+#: src/uicommon/gftpui.c:261
 msgid "usage: rename <old name> <new name>\n"
 msgstr "उपयोग: <old name> <new name> पुन: नामकरण गर्नुहोस्\n"
 
-#: ../src/uicommon/gftpui.c:295
+#: src/uicommon/gftpui.c:297
 msgid "usage: delete <file>\n"
 msgstr "उपयोग:<file>मेट्नुहोस्\n"
 
-#: ../src/uicommon/gftpui.c:330
+#: src/uicommon/gftpui.c:332
 msgid "usage: rmdir <directory>\n"
 msgstr "उपयोग: rmdir <directory>\n"
 
-#: ../src/uicommon/gftpui.c:365
+#: src/uicommon/gftpui.c:367
 msgid "usage: site <site command>\n"
 msgstr "उपयोग: साइट <site command>\n"
 
-#: ../src/uicommon/gftpui.c:401
+#: src/uicommon/gftpui.c:403
 msgid "usage: mkdir <new directory>\n"
 msgstr "उपयोग: mkdir <new directory>\n"
 
-#: ../src/uicommon/gftpui.c:437 ../src/uicommon/gftpui.c:455
+#: src/uicommon/gftpui.c:439 src/uicommon/gftpui.c:457
 msgid "usage: chdir <directory>\n"
 msgstr "उपयोग: chdir <directory>\n"
 
-#: ../src/uicommon/gftpui.c:528
+#: src/uicommon/gftpui.c:530
 msgid "Invalid argument\n"
 msgstr "अवैध तर्कहरू\n"
 
-#: ../src/uicommon/gftpui.c:541
+#: src/uicommon/gftpui.c:543
 msgid "Clear the directory cache\n"
 msgstr "डाइरेक्टरी क्यास खाली गर्नुहोस्\n"
 
-#: ../src/uicommon/gftpui.c:630
+#: src/uicommon/gftpui.c:632
 msgid "usage: open "
 msgstr "उपयोग: खोल्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:706
+#: src/uicommon/gftpui.c:708
 msgid "usage: set [variable = value]\n"
 msgstr "उपयोग: [चल = मान] सेट गर्नुहोस्\n"
 
-#: ../src/uicommon/gftpui.c:720
+#: src/uicommon/gftpui.c:722
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "त्रुटि: चल %s वैध कन्फिगरेसन चल होइन ।\n"
 
-#: ../src/uicommon/gftpui.c:727
+#: src/uicommon/gftpui.c:729
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "त्रुटि: चल %s जीएफटीपीको पाठ पोर्टमा उपलब्ध छैन\n"
 
-#: ../src/uicommon/gftpui.c:809
+#: src/uicommon/gftpui.c:811
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1574,319 +1576,322 @@ msgstr ""
 "समर्थित आदेशहरू:\n"
 "\n"
 
-#: ../src/uicommon/gftpui.c:852
+#: src/uicommon/gftpui.c:856
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "उपयोग: %s <filespec>\n"
 
-#: ../src/uicommon/gftpui.c:937
+#: src/uicommon/gftpui.c:941
 msgid "about"
 msgstr "बारेमा"
 
-#: ../src/uicommon/gftpui.c:938
+#: src/uicommon/gftpui.c:942
 msgid "Shows gFTP information"
 msgstr "जीएफटीपी जानकारी देखाउँछ"
 
-#: ../src/uicommon/gftpui.c:939
+#: src/uicommon/gftpui.c:943
 msgid "ascii"
 msgstr "ascii"
 
-#: ../src/uicommon/gftpui.c:940
+#: src/uicommon/gftpui.c:944
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "Ascii (FTPका लागि मात्र) मा चालु फाइल फाइल स्थानान्तर मोड सेट गर्दछ"
 
-#: ../src/uicommon/gftpui.c:941
+#: src/uicommon/gftpui.c:945
 msgid "binary"
 msgstr "बाइनरी"
 
-#: ../src/uicommon/gftpui.c:942
+#: src/uicommon/gftpui.c:946
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "बाइनरीमा चालु फाइल स्थानान्तर मोड सेट गर्यो (FTP का लागि मात्र)"
 
-#: ../src/uicommon/gftpui.c:943
+#: src/uicommon/gftpui.c:947
 msgid "cd"
 msgstr "cd"
 
-#: ../src/uicommon/gftpui.c:944 ../src/uicommon/gftpui.c:946
+#: src/uicommon/gftpui.c:948 src/uicommon/gftpui.c:950
 msgid "Changes the remote working directory"
 msgstr "टाढा काम गर्ने डाइरेक्टरी परिवर्तन गर्दछ"
 
-#: ../src/uicommon/gftpui.c:945
+#: src/uicommon/gftpui.c:949
 msgid "chdir"
 msgstr "chdir"
 
-#: ../src/uicommon/gftpui.c:947
+#: src/uicommon/gftpui.c:951
 msgid "chmod"
 msgstr "chmod"
 
-#: ../src/uicommon/gftpui.c:948
+#: src/uicommon/gftpui.c:952
 msgid "Changes the permissions of a remote file"
 msgstr "टाढाको फाइलको अनुमतिहरू परिवर्तन गर्दछ"
 
-#: ../src/uicommon/gftpui.c:949
+#: src/uicommon/gftpui.c:953
 msgid "clear"
 msgstr "खाली गर्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:950
+#: src/uicommon/gftpui.c:954
 msgid "Available options: cache"
 msgstr "उपलब्ध विकल्पहरू: क्यास"
 
-#: ../src/uicommon/gftpui.c:951
+#: src/uicommon/gftpui.c:955
 msgid "close"
 msgstr "बन्द गर्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:952
+#: src/uicommon/gftpui.c:956
 msgid "Disconnects from the remote site"
 msgstr "टाढाको साइटबाट जडान बिच्छेद गराउँछ ।"
 
-#: ../src/uicommon/gftpui.c:953
+#: src/uicommon/gftpui.c:957
 msgid "delete"
 msgstr "मेट्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:954
+#: src/uicommon/gftpui.c:958
 msgid "Removes a remote file"
 msgstr "टाढाको फाइल हटाउँछ"
 
-#: ../src/uicommon/gftpui.c:955
+#: src/uicommon/gftpui.c:959
 msgid "dir"
 msgstr "dir"
 
-#: ../src/uicommon/gftpui.c:956 ../src/uicommon/gftpui.c:982
+#: src/uicommon/gftpui.c:960 src/uicommon/gftpui.c:986
 msgid "Shows the directory listing for the current remote directory"
 msgstr "हाल टाढाका डाइरेक्टरीका लागि डाइरेक्टरी सूची देखाउँछ ।"
 
-#: ../src/uicommon/gftpui.c:957
+#: src/uicommon/gftpui.c:961
 msgid "get"
 msgstr "प्राप्त गर्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:958 ../src/uicommon/gftpui.c:984
+#: src/uicommon/gftpui.c:962 src/uicommon/gftpui.c:988
 msgid "Downloads remote file(s)"
 msgstr "टाढाको फाइल(हरू) डाउनलोड गर्दछ ।"
 
-#: ../src/uicommon/gftpui.c:959
+#: src/uicommon/gftpui.c:963
 msgid "help"
 msgstr "मद्दत"
 
-#: ../src/uicommon/gftpui.c:960
+#: src/uicommon/gftpui.c:964
 msgid "Shows this help screen"
 msgstr "यो मद्दत पर्दा देखाउँछ"
 
-#: ../src/uicommon/gftpui.c:961
+#: src/uicommon/gftpui.c:965
 msgid "lcd"
 msgstr "lcd"
 
-#: ../src/uicommon/gftpui.c:962 ../src/uicommon/gftpui.c:964
+#: src/uicommon/gftpui.c:966 src/uicommon/gftpui.c:968
 msgid "Changes the local working directory"
 msgstr "स्थानीय काम गर्ने डाइरेक्टरी परिवर्तन गर्दछ"
 
-#: ../src/uicommon/gftpui.c:963
+#: src/uicommon/gftpui.c:967
 msgid "lchdir"
 msgstr "lchdir"
 
-#: ../src/uicommon/gftpui.c:965
+#: src/uicommon/gftpui.c:969
 msgid "lchmod"
 msgstr "lchmod"
 
-#: ../src/uicommon/gftpui.c:966
+#: src/uicommon/gftpui.c:970
 msgid "Changes the permissions of a local file"
 msgstr "स्थानीय फाइलको अनुमतिहरू परिवर्तन गर्दछ"
 
-#: ../src/uicommon/gftpui.c:967
+#: src/uicommon/gftpui.c:971
 msgid "ldelete"
 msgstr "ldelete"
 
-#: ../src/uicommon/gftpui.c:968
+#: src/uicommon/gftpui.c:972
 msgid "Removes a local file"
 msgstr "स्थानीय फाइल हटाउँदछ"
 
-#: ../src/uicommon/gftpui.c:969
+#: src/uicommon/gftpui.c:973
 msgid "ldir"
 msgstr "ldir"
 
-#: ../src/uicommon/gftpui.c:970 ../src/uicommon/gftpui.c:972
+#: src/uicommon/gftpui.c:974 src/uicommon/gftpui.c:976
 msgid "Shows the directory listing for the current local directory"
 msgstr "हालको स्थानीय डाइरेक्टरीका लागि डाइरेक्टरी सूची देखाउँछ"
 
-#: ../src/uicommon/gftpui.c:971
+#: src/uicommon/gftpui.c:975
 msgid "lls"
 msgstr "lls"
 
-#: ../src/uicommon/gftpui.c:973
+#: src/uicommon/gftpui.c:977
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: ../src/uicommon/gftpui.c:974
+#: src/uicommon/gftpui.c:978
 msgid "Creates a local directory"
 msgstr "स्थानीय डाइरेक्टरी सिर्जना गर्दछ"
 
-#: ../src/uicommon/gftpui.c:975
+#: src/uicommon/gftpui.c:979
 msgid "lpwd"
 msgstr "lpwd"
 
-#: ../src/uicommon/gftpui.c:976
+#: src/uicommon/gftpui.c:980
 msgid "Show current local directory"
 msgstr "हालको स्थानीय डाइरेक्टरी देखाउनुहोस्"
 
-#: ../src/uicommon/gftpui.c:977
+#: src/uicommon/gftpui.c:981
 msgid "lrename"
 msgstr "lrename"
 
-#: ../src/uicommon/gftpui.c:978
+#: src/uicommon/gftpui.c:982
 msgid "Rename a local file"
 msgstr "स्थानीय फाइल पुन: नामकरण गर्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:979
+#: src/uicommon/gftpui.c:983
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: ../src/uicommon/gftpui.c:980
+#: src/uicommon/gftpui.c:984
 msgid "Remove a local directory"
 msgstr "स्थानीय डाइरेक्टरी हटाउनुहोस्"
 
-#: ../src/uicommon/gftpui.c:981
+#: src/uicommon/gftpui.c:985
 msgid "ls"
 msgstr "ls"
 
-#: ../src/uicommon/gftpui.c:983
+#: src/uicommon/gftpui.c:987
 msgid "mget"
 msgstr "mget"
 
-#: ../src/uicommon/gftpui.c:985
+#: src/uicommon/gftpui.c:989
 msgid "mkdir"
 msgstr "mkdir"
 
-#: ../src/uicommon/gftpui.c:986
+#: src/uicommon/gftpui.c:990
 msgid "Creates a remote directory"
 msgstr "टाढाको डाइरेक्टरी सिर्जना गर्दछ"
 
-#: ../src/uicommon/gftpui.c:987
+#: src/uicommon/gftpui.c:991
 msgid "mput"
 msgstr "mput"
 
-#: ../src/uicommon/gftpui.c:988 ../src/uicommon/gftpui.c:992
+#: src/uicommon/gftpui.c:992 src/uicommon/gftpui.c:996
 msgid "Uploads local file(s)"
 msgstr "स्थानीय फाइल(हरू) अपलोड गर्दछ"
 
-#: ../src/uicommon/gftpui.c:989
+#: src/uicommon/gftpui.c:993
 msgid "open"
 msgstr "खोल्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:990
+#: src/uicommon/gftpui.c:994
 msgid "Opens a connection to a remote site"
 msgstr "टाढाको साइटमा जडान खोल्छ"
 
-#: ../src/uicommon/gftpui.c:991
+#: src/uicommon/gftpui.c:995
 msgid "put"
 msgstr "राख्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:993
+#: src/uicommon/gftpui.c:997
 msgid "pwd"
 msgstr "pwd"
 
-#: ../src/uicommon/gftpui.c:994
+#: src/uicommon/gftpui.c:998
 msgid "Show current remote directory"
 msgstr "हाल टाढाको डाइरेक्टरी देखाउनुहोस्"
 
-#: ../src/uicommon/gftpui.c:995
+#: src/uicommon/gftpui.c:999
 msgid "quit"
 msgstr "अन्त्य गर्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:996
+#: src/uicommon/gftpui.c:1000
 msgid "Exit from gFTP"
 msgstr "जीएफटीपीबाट निस्कनुहोस्"
 
-#: ../src/uicommon/gftpui.c:997
+#: src/uicommon/gftpui.c:1001
 msgid "rename"
 msgstr "पुन: नामकरण गर्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:998
+#: src/uicommon/gftpui.c:1002
 msgid "Rename a remote file"
 msgstr "टाढाको फाइल पुन: नामकरण गर्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:999
+#: src/uicommon/gftpui.c:1003
 msgid "rmdir"
 msgstr "rmdir"
 
-#: ../src/uicommon/gftpui.c:1000
+#: src/uicommon/gftpui.c:1004
 msgid "Remove a remote directory"
 msgstr "टाढाको डाइरेक्टरी हटाउनुहोस्"
 
-#: ../src/uicommon/gftpui.c:1001
+#: src/uicommon/gftpui.c:1005
 msgid "set"
 msgstr "सेट गर्नुहोस्"
 
-#: ../src/uicommon/gftpui.c:1002
-msgid "Show configuration file variables. You can also set variables by set var=val"
-msgstr "कन्फिगर फाइल चलहरू देखाउनुहोस् । तपाईँले var=val सेट द्वारा पनि चलहरू सेट गर्न सक्नुहुन्छ"
+#: src/uicommon/gftpui.c:1006
+msgid ""
+"Show configuration file variables. You can also set variables by set var=val"
+msgstr ""
+"कन्फिगर फाइल चलहरू देखाउनुहोस् । तपाईँले var=val सेट द्वारा पनि चलहरू सेट गर्न सक्नुहुन्छ"
 
-#: ../src/uicommon/gftpui.c:1004
+#: src/uicommon/gftpui.c:1008
 msgid "site"
 msgstr "साइट"
 
-#: ../src/uicommon/gftpui.c:1005
+#: src/uicommon/gftpui.c:1009
 msgid "Run a site specific command"
 msgstr "साइट निर्दिष्ट आदेश चलाउनुहोस्"
 
-#: ../src/uicommon/gftpui.c:1094
+#: src/uicommon/gftpui.c:1098
 msgid "Error: Command not recognized\n"
 msgstr "त्रुटि: आदेश चिनिएको छैन\n"
 
-#: ../src/uicommon/gftpui.c:1334
+#: src/uicommon/gftpui.c:1308
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "%s %.2f किलो बाइट/सेकेन्ड मा सफलतापूर्वक स्थानान्तर भयो\n"
 
-#: ../src/uicommon/gftpui.c:1365
+#: src/uicommon/gftpui.c:1339
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "होस्ट %s मा फाइल %s फड्काउदै\n"
 
-#: ../src/uicommon/gftpui.c:1389
+#: src/uicommon/gftpui.c:1363
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "होस्ट %s मा स्थानान्तरण रोक्दै\n"
 
-#: ../src/uicommon/gftpui.c:1540
+#: src/uicommon/gftpui.c:1509
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "%s बाट %s डाउनलोड हुन सकेन\n"
 
-#: ../src/uicommon/gftpui.c:1596
+#: src/uicommon/gftpui.c:1565
 #, c-format
 msgid ""
 "There were %d files or directories that could not be transferred. Check the "
 "log for which items were not properly transferred."
-msgstr "त्यहाँ %d फाइल वा डाइरेक्टरीहरू छन् जुन स्थानान्तरण गर्न सकिँदैन । राम्रो सँग स्थानान्तरण नभएको वस्तुको लग जाँच्नुहोस् ।"
+msgstr ""
+"त्यहाँ %d फाइल वा डाइरेक्टरीहरू छन् जुन स्थानान्तरण गर्न सकिँदैन । राम्रो सँग स्थानान्तरण "
+"नभएको वस्तुको लग जाँच्नुहोस् ।"
 
-#: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1096 ../src/gtk/misc-gtk.c:505
-#: ../src/gtk/misc-gtk.c:513
+#: src/gtk/bookmarks.c:39 src/gtk/dnd.c:121 src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:1103 src/gtk/misc-gtk.c:504 src/gtk/misc-gtk.c:512
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: केही गर्नुभन्दा पहिले कृपया 'रोक्नुहोस्' बटनमा थिच्नुहोस्\n"
 
-#: ../src/gtk/bookmarks.c:41
+#: src/gtk/bookmarks.c:40
 msgid "Run Bookmark"
 msgstr "पुस्तकचिनो चलाउनुहोस्"
 
-#: ../src/gtk/bookmarks.c:71
+#: src/gtk/bookmarks.c:70
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr "पुस्तकचिनो थप्नुहोस्: पुस्तकचिनोका लागि तपाईँले नाम प्रविष्ट गर्नुपर्छ\n"
 
-#: ../src/gtk/bookmarks.c:78
+#: src/gtk/bookmarks.c:77
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr "पुस्तकचिनो थप्नुहोस्: पुस्तकचिनो %s थप्न सकिँदैन किनभने त्यो नाम पहिले नै अवस्थित छ\n"
 
-#: ../src/gtk/bookmarks.c:135 ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:134 src/gtk/bookmarks.c:145
 msgid "Add Bookmark"
 msgstr "पुस्तकचिनो थप्नुहोस्"
 
-#: ../src/gtk/bookmarks.c:142
+#: src/gtk/bookmarks.c:141
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "पुस्तकचिनो थप्नुहोस्: तपाईँले होस्टनाम प्रविष्ट गर्नुपर्छ\n"
 
-#: ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:145
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
@@ -1896,31 +1901,31 @@ msgstr ""
 "तपाईँले वस्तु a बाट छुट्याउन सक्नुहुन्छ / उपमेनुमा राख्न सक्नुहुन्छ\n"
 "(ex: Linux Sites/Debian)"
 
-#: ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:145
 msgid "Remember password"
 msgstr "पासवर्ड सम्झनुहोस्"
 
-#: ../src/gtk/bookmarks.c:420
+#: src/gtk/bookmarks.c:419
 msgid "You must specify a name for the bookmark."
 msgstr "तपाईँले पुस्तकचिनोका लागि नाम निर्दिष्ट गर्नुपर्छ ।"
 
-#: ../src/gtk/bookmarks.c:472
+#: src/gtk/bookmarks.c:471
 msgid "New Folder"
 msgstr "नयाँ फोल्डर"
 
-#: ../src/gtk/bookmarks.c:473
+#: src/gtk/bookmarks.c:472
 msgid "Enter the name of the new folder to create"
 msgstr "सिर्जनाका लागि नयाँ फोल्डरको नाम प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/bookmarks.c:482
+#: src/gtk/bookmarks.c:481
 msgid "New Item"
 msgstr "नयाँ वस्तु"
 
-#: ../src/gtk/bookmarks.c:483
+#: src/gtk/bookmarks.c:482
 msgid "Enter the name of the new item to create"
 msgstr "सिर्जनाका लागि नयाँ वस्तुको नाम प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/bookmarks.c:556
+#: src/gtk/bookmarks.c:555
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1929,106 +1934,106 @@ msgstr ""
 "तपाईँ साँच्चिकै पुस्तकचिनो %s र त्यसको सबै शाखाहरू मेट्नु\n"
 "चाहनुहुन्छ ?"
 
-#: ../src/gtk/bookmarks.c:557
+#: src/gtk/bookmarks.c:556
 msgid "Delete Bookmark"
 msgstr "पुस्तकचिनो मेट्नुहोस्"
 
-#: ../src/gtk/bookmarks.c:629
+#: src/gtk/bookmarks.c:628
 msgid "Bookmarks"
 msgstr "पुस्तकचिनोहरू"
 
-#: ../src/gtk/bookmarks.c:849 ../src/gtk/bookmarks.c:852
+#: src/gtk/bookmarks.c:848 src/gtk/bookmarks.c:851
 msgid "Edit Entry"
 msgstr "प्रविष्टि सम्पादन गर्नुहोस्"
 
-#: ../src/gtk/bookmarks.c:888
+#: src/gtk/bookmarks.c:887
 msgid "Description:"
 msgstr "वर्णन:"
 
-#: ../src/gtk/bookmarks.c:903
+#: src/gtk/bookmarks.c:902
 msgid "Hostname:"
 msgstr "होस्टनाम:"
 
-#: ../src/gtk/bookmarks.c:916
+#: src/gtk/bookmarks.c:915
 msgid "Port:"
 msgstr "पोर्ट:"
 
-#: ../src/gtk/bookmarks.c:933
+#: src/gtk/bookmarks.c:932
 msgid "Protocol:"
 msgstr "प्रोटोकल:"
 
-#: ../src/gtk/bookmarks.c:957
+#: src/gtk/bookmarks.c:956
 msgid "Remote Directory:"
 msgstr "टाढाको डाइरेक्टरी:"
 
-#: ../src/gtk/bookmarks.c:970
+#: src/gtk/bookmarks.c:969
 msgid "Local Directory:"
 msgstr "स्थानीय डाइरेक्टरी:"
 
-#: ../src/gtk/bookmarks.c:987
+#: src/gtk/bookmarks.c:986
 msgid "Username:"
 msgstr "प्रयोगकर्ता नाम:"
 
-#: ../src/gtk/bookmarks.c:1000 ../src/text/textui.c:92
+#: src/gtk/bookmarks.c:999 src/text/textui.c:91
 msgid "Password:"
 msgstr "पासवर्ड:"
 
-#: ../src/gtk/bookmarks.c:1014
+#: src/gtk/bookmarks.c:1013
 msgid "Account:"
 msgstr "खाता:"
 
-#: ../src/gtk/bookmarks.c:1028
+#: src/gtk/bookmarks.c:1027
 msgid "Log in as ANONYMOUS"
 msgstr "बेनामी रूपमा लगइन गर्नुहोस्"
 
-#: ../src/gtk/bookmarks.c:1053 ../src/gtk/bookmarks.c:1303
-#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:388
-#: ../src/gtk/options_dialog.c:1216 ../src/gtk/options_dialog.c:1448
+#: src/gtk/bookmarks.c:1052 src/gtk/bookmarks.c:1302
+#: src/gtk/chmod_dialog.c:264 src/gtk/gtkui_transfer.c:387
+#: src/gtk/options_dialog.c:1215 src/gtk/options_dialog.c:1447
 msgid "  Cancel  "
 msgstr "  रद्द गर्नुहोस्  "
 
-#: ../src/gtk/bookmarks.c:1204
+#: src/gtk/bookmarks.c:1203
 msgid "/_File"
 msgstr "/_File"
 
-#: ../src/gtk/bookmarks.c:1205
+#: src/gtk/bookmarks.c:1204
 msgid "/File/tearoff"
 msgstr "/File/tearoff"
 
-#: ../src/gtk/bookmarks.c:1206
+#: src/gtk/bookmarks.c:1205
 msgid "/File/New _Folder..."
 msgstr "/File/New _Folder..."
 
-#: ../src/gtk/bookmarks.c:1207
+#: src/gtk/bookmarks.c:1206
 msgid "/File/New _Item..."
 msgstr "/File/New _Item..."
 
-#: ../src/gtk/bookmarks.c:1208
+#: src/gtk/bookmarks.c:1207
 msgid "/File/_Delete"
 msgstr "/File/_Delete"
 
-#: ../src/gtk/bookmarks.c:1209
+#: src/gtk/bookmarks.c:1208
 msgid "/File/_Properties..."
 msgstr "/File/_Properties..."
 
-#: ../src/gtk/bookmarks.c:1210
+#: src/gtk/bookmarks.c:1209
 msgid "/File/sep"
 msgstr "/File/sep"
 
-#: ../src/gtk/bookmarks.c:1211
+#: src/gtk/bookmarks.c:1210
 msgid "/File/_Close"
 msgstr "/File/_Close"
 
-#: ../src/gtk/bookmarks.c:1229 ../src/gtk/bookmarks.c:1232
+#: src/gtk/bookmarks.c:1228 src/gtk/bookmarks.c:1231
 msgid "Edit Bookmarks"
 msgstr "पुस्तकचिनोहरू सम्पादन गर्नुहोस्"
 
-#: ../src/gtk/chmod_dialog.c:132 ../src/gtk/chmod_dialog.c:137
-#: ../src/gtk/chmod_dialog.c:142
+#: src/gtk/chmod_dialog.c:131 src/gtk/chmod_dialog.c:136
+#: src/gtk/chmod_dialog.c:141
 msgid "Chmod"
 msgstr "Chmod"
 
-#: ../src/gtk/chmod_dialog.c:162
+#: src/gtk/chmod_dialog.c:161
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
@@ -2036,91 +2041,91 @@ msgstr ""
 "अब तपाईँले तपाईँको फाइलहरूको विशेषता समायोजन गर्न सक्नुहुन्छ\n"
 "द्रष्टब्य: सबै ftp सर्भरले chmod विशेषतालाई समर्थन गर्दैन"
 
-#: ../src/gtk/chmod_dialog.c:172
+#: src/gtk/chmod_dialog.c:171
 msgid "Special"
 msgstr "विशेष"
 
-#: ../src/gtk/chmod_dialog.c:180
+#: src/gtk/chmod_dialog.c:179
 msgid "SUID"
 msgstr "SUID"
 
-#: ../src/gtk/chmod_dialog.c:184
+#: src/gtk/chmod_dialog.c:183
 msgid "SGID"
 msgstr "SGID"
 
-#: ../src/gtk/chmod_dialog.c:188
+#: src/gtk/chmod_dialog.c:187
 msgid "Sticky"
 msgstr "टाँसिने"
 
-#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:780
+#: src/gtk/chmod_dialog.c:191 src/gtk/gftp-gtk.c:789
 msgid "User"
 msgstr "प्रयोगकर्ता"
 
-#: ../src/gtk/chmod_dialog.c:200 ../src/gtk/chmod_dialog.c:220
-#: ../src/gtk/chmod_dialog.c:240
+#: src/gtk/chmod_dialog.c:199 src/gtk/chmod_dialog.c:219
+#: src/gtk/chmod_dialog.c:239
 msgid "Read"
 msgstr "पढ्नुहोस्"
 
-#: ../src/gtk/chmod_dialog.c:204 ../src/gtk/chmod_dialog.c:224
-#: ../src/gtk/chmod_dialog.c:244
+#: src/gtk/chmod_dialog.c:203 src/gtk/chmod_dialog.c:223
+#: src/gtk/chmod_dialog.c:243
 msgid "Write"
 msgstr "लेख्नुहोस्"
 
-#: ../src/gtk/chmod_dialog.c:208 ../src/gtk/chmod_dialog.c:228
-#: ../src/gtk/chmod_dialog.c:248
+#: src/gtk/chmod_dialog.c:207 src/gtk/chmod_dialog.c:227
+#: src/gtk/chmod_dialog.c:247
 msgid "Execute"
 msgstr "कार्यान्वयन गर्नुहोस्"
 
-#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:781
+#: src/gtk/chmod_dialog.c:211 src/gtk/gftp-gtk.c:790
 msgid "Group"
 msgstr "समूह"
 
-#: ../src/gtk/chmod_dialog.c:232
+#: src/gtk/chmod_dialog.c:231
 msgid "Other"
 msgstr "अन्य"
 
-#: ../src/gtk/delete_dialog.c:61
+#: src/gtk/delete_dialog.c:60
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr "तपाईँ यी %ld फाइलहरू र %ld डाइरेक्टरीहरू मेट्न चाहनुहुन्छ"
 
-#: ../src/gtk/delete_dialog.c:65
+#: src/gtk/delete_dialog.c:64
 #, c-format
 msgid "Are you sure you want to delete these %ld files"
 msgstr "तपाईँ यी %ld फाइलहरू मेट्न चाहनुहुन्छ"
 
-#: ../src/gtk/delete_dialog.c:69
+#: src/gtk/delete_dialog.c:68
 #, c-format
 msgid "Are you sure you want to delete these %ld directories"
 msgstr "तपाईँ यी %ld डाइरेक्टरीहरू मेट्न चाहनुहुन्छ"
 
-#: ../src/gtk/delete_dialog.c:74
+#: src/gtk/delete_dialog.c:73
 msgid "Delete Files/Directories"
 msgstr "फाइलहरू/डाइरेक्टरीहरू मेट्नुहोस्"
 
-#: ../src/gtk/delete_dialog.c:90 ../src/gtk/options_dialog.c:1302
+#: src/gtk/delete_dialog.c:89 src/gtk/options_dialog.c:1301
 msgid "Delete"
 msgstr "मेट्नुहोस्"
 
-#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1097 ../src/gtk/misc-gtk.c:929
-#: ../src/gtk/misc-gtk.c:1004
+#: src/gtk/dnd.c:122 src/gtk/gftp-gtk.c:1104 src/gtk/misc-gtk.c:928
+#: src/gtk/misc-gtk.c:1003
 msgid "Connect"
 msgstr "जडान गर्नुहोस्"
 
-#: ../src/gtk/dnd.c:136 ../src/gtk/dnd.c:269
+#: src/gtk/dnd.c:135 src/gtk/dnd.c:268
 #, c-format
 msgid "Received URL %s\n"
 msgstr "यूआरएल %s प्राप्त गरियो\n"
 
-#: ../src/gtk/dnd.c:159 ../src/gtk/dnd.c:247
+#: src/gtk/dnd.c:158 src/gtk/dnd.c:246
 msgid "Drag-N-Drop"
 msgstr "तानेर छोड्नुहोस्"
 
-#: ../src/gtk/gftp-gtk.c:144
+#: src/gtk/gftp-gtk.c:144
 msgid "Exit"
 msgstr "निस्कनुहोस्"
 
-#: ../src/gtk/gftp-gtk.c:144
+#: src/gtk/gftp-gtk.c:144
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
@@ -2128,468 +2133,465 @@ msgstr ""
 "त्यहाँ फाइल स्थानान्तरणहरू प्रगतिमा छ ।\n"
 "तपाईँ साँच्चिकै अन्त्य गर्न चाहनुहुन्छ ?"
 
-#: ../src/gtk/gftp-gtk.c:219 ../src/gtk/gftp-gtk.c:235
+#: src/gtk/gftp-gtk.c:219 src/gtk/gftp-gtk.c:235
 msgid "Open Location"
 msgstr "स्थान खोल्नुहोस्"
 
-#: ../src/gtk/gftp-gtk.c:219
+#: src/gtk/gftp-gtk.c:219
 msgid "Enter a URL to connect to"
 msgstr "यसमा जडान गर्न यूआरएल प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/gftp-gtk.c:265
+#: src/gtk/gftp-gtk.c:265
 msgid "/_FTP"
 msgstr "/FTP"
 
-#: ../src/gtk/gftp-gtk.c:266
+#: src/gtk/gftp-gtk.c:266
 msgid "/FTP/tearoff"
 msgstr "/FTP/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:267
+#: src/gtk/gftp-gtk.c:267
 msgid "/FTP/Window _1"
 msgstr "/FTP/Window _1"
 
-#: ../src/gtk/gftp-gtk.c:269
+#: src/gtk/gftp-gtk.c:269
 msgid "/FTP/Window _2"
 msgstr "/FTP/Window _2"
 
-#: ../src/gtk/gftp-gtk.c:271 ../src/gtk/gftp-gtk.c:276
-#: ../src/gtk/gftp-gtk.c:279
+#: src/gtk/gftp-gtk.c:271 src/gtk/gftp-gtk.c:276 src/gtk/gftp-gtk.c:279
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
 
-#: ../src/gtk/gftp-gtk.c:272
+#: src/gtk/gftp-gtk.c:272
 msgid "/FTP/_Ascii"
 msgstr "/FTP/_Ascii"
 
-#: ../src/gtk/gftp-gtk.c:274
+#: src/gtk/gftp-gtk.c:274
 msgid "/FTP/_Binary"
 msgstr "/FTP/_Binary"
 
-#: ../src/gtk/gftp-gtk.c:277
+#: src/gtk/gftp-gtk.c:277
 msgid "/FTP/_Preferences..."
 msgstr "/FTP/_Preferences..."
 
-#: ../src/gtk/gftp-gtk.c:280
+#: src/gtk/gftp-gtk.c:280
 msgid "/FTP/_Quit"
 msgstr "/FTP/_Quit"
 
-#: ../src/gtk/gftp-gtk.c:281
+#: src/gtk/gftp-gtk.c:281
 msgid "/_Local"
 msgstr "/_Local"
 
-#: ../src/gtk/gftp-gtk.c:282
+#: src/gtk/gftp-gtk.c:282
 msgid "/Local/tearoff"
 msgstr "/Local/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:283
+#: src/gtk/gftp-gtk.c:283
 msgid "/Local/_Open Location..."
 msgstr "/Local/_Open Location..."
 
-#: ../src/gtk/gftp-gtk.c:285
+#: src/gtk/gftp-gtk.c:285
 msgid "/Local/D_isconnect"
 msgstr "/Local/D_isconnect"
 
-#: ../src/gtk/gftp-gtk.c:286 ../src/gtk/gftp-gtk.c:293
+#: src/gtk/gftp-gtk.c:286 src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "/Local/sep"
 
-#: ../src/gtk/gftp-gtk.c:287
+#: src/gtk/gftp-gtk.c:287
 msgid "/Local/Change _Filespec..."
 msgstr "/Local/Change _Filespec..."
 
-#: ../src/gtk/gftp-gtk.c:289
+#: src/gtk/gftp-gtk.c:289
 msgid "/Local/_Show selected"
 msgstr "/Local/_Show selected"
 
-#: ../src/gtk/gftp-gtk.c:290
+#: src/gtk/gftp-gtk.c:290
 msgid "/Local/Select _All"
 msgstr "/Local/Select _All"
 
-#: ../src/gtk/gftp-gtk.c:291
+#: src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
 msgstr "/Local/Select All Files"
 
-#: ../src/gtk/gftp-gtk.c:292
+#: src/gtk/gftp-gtk.c:292
 msgid "/Local/Deselect All"
 msgstr "/Local/Deselect All"
 
-#: ../src/gtk/gftp-gtk.c:294
+#: src/gtk/gftp-gtk.c:294
 msgid "/Local/Save Directory Listing..."
 msgstr "/Local/Save Directory Listing..."
 
-#: ../src/gtk/gftp-gtk.c:295
+#: src/gtk/gftp-gtk.c:295
 msgid "/Local/Send SITE Command..."
 msgstr "/Local/Send SITE Command..."
 
-#: ../src/gtk/gftp-gtk.c:296
+#: src/gtk/gftp-gtk.c:296
 msgid "/Local/_Change Directory"
 msgstr "/Local/_Change Directory"
 
-#: ../src/gtk/gftp-gtk.c:297
+#: src/gtk/gftp-gtk.c:297
 msgid "/Local/_Permissions..."
 msgstr "/Local/_Permissions..."
 
-#: ../src/gtk/gftp-gtk.c:299
+#: src/gtk/gftp-gtk.c:299
 msgid "/Local/_New Folder..."
 msgstr "/Local/_New Folder..."
 
-#: ../src/gtk/gftp-gtk.c:300
+#: src/gtk/gftp-gtk.c:300
 msgid "/Local/Rena_me..."
 msgstr "/Local/Rena_me..."
 
-#: ../src/gtk/gftp-gtk.c:302
+#: src/gtk/gftp-gtk.c:302
 msgid "/Local/_Delete..."
 msgstr "/Local/_Delete..."
 
-#: ../src/gtk/gftp-gtk.c:304
+#: src/gtk/gftp-gtk.c:304
 msgid "/Local/_Edit..."
 msgstr "/Local/_Edit..."
 
-#: ../src/gtk/gftp-gtk.c:305
+#: src/gtk/gftp-gtk.c:305
 msgid "/Local/_View..."
 msgstr "/Local/_View..."
 
-#: ../src/gtk/gftp-gtk.c:306
+#: src/gtk/gftp-gtk.c:306
 msgid "/Local/_Refresh"
 msgstr "/Local/_Refresh"
 
-#: ../src/gtk/gftp-gtk.c:308
+#: src/gtk/gftp-gtk.c:308
 msgid "/_Remote"
 msgstr "/_Remote"
 
-#: ../src/gtk/gftp-gtk.c:309
+#: src/gtk/gftp-gtk.c:309
 msgid "/Remote/tearoff"
 msgstr "/Remote/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:310
+#: src/gtk/gftp-gtk.c:310
 msgid "/Remote/_Open Location..."
 msgstr "/Remote/_Open Location..."
 
-#: ../src/gtk/gftp-gtk.c:312
+#: src/gtk/gftp-gtk.c:312
 msgid "/Remote/D_isconnect"
 msgstr "/Remote/D_isconnect"
 
-#: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
+#: src/gtk/gftp-gtk.c:314 src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/Remote/sep"
 
-#: ../src/gtk/gftp-gtk.c:315
+#: src/gtk/gftp-gtk.c:315
 msgid "/Remote/Change _Filespec..."
 msgstr "/Remote/Change _Filespec..."
 
-#: ../src/gtk/gftp-gtk.c:317
+#: src/gtk/gftp-gtk.c:317
 msgid "/Remote/_Show selected"
 msgstr "/Remote/_Show selected"
 
-#: ../src/gtk/gftp-gtk.c:318
+#: src/gtk/gftp-gtk.c:318
 msgid "/Remote/Select _All"
 msgstr "/Remote/Select _All"
 
-#: ../src/gtk/gftp-gtk.c:319
+#: src/gtk/gftp-gtk.c:319
 msgid "/Remote/Select All Files"
 msgstr "/Remote/Select All Files"
 
-#: ../src/gtk/gftp-gtk.c:320
+#: src/gtk/gftp-gtk.c:320
 msgid "/Remote/Deselect All"
 msgstr "/Remote/Deselect All"
 
-#: ../src/gtk/gftp-gtk.c:322
+#: src/gtk/gftp-gtk.c:322
 msgid "/Remote/Save Directory Listing..."
 msgstr "/Remote/Save Directory Listing..."
 
-#: ../src/gtk/gftp-gtk.c:323
+#: src/gtk/gftp-gtk.c:323
 msgid "/Remote/Send SITE Command..."
 msgstr "/Remote/Send SITE Command..."
 
-#: ../src/gtk/gftp-gtk.c:324
+#: src/gtk/gftp-gtk.c:324
 msgid "/Remote/_Change Directory"
 msgstr "/Remote/_Change Directory"
 
-#: ../src/gtk/gftp-gtk.c:325
+#: src/gtk/gftp-gtk.c:325
 msgid "/Remote/_Permisssions..."
 msgstr "/Remote/_Permisssions..."
 
-#: ../src/gtk/gftp-gtk.c:326
+#: src/gtk/gftp-gtk.c:326
 msgid "/Remote/_New Folder..."
 msgstr "/Remote/_New Folder..."
 
-#: ../src/gtk/gftp-gtk.c:328
+#: src/gtk/gftp-gtk.c:328
 msgid "/Remote/Rena_me..."
 msgstr "/Remote/Rena_me..."
 
-#: ../src/gtk/gftp-gtk.c:330
+#: src/gtk/gftp-gtk.c:330
 msgid "/Remote/_Delete..."
 msgstr "/Remote/_Delete..."
 
-#: ../src/gtk/gftp-gtk.c:331
+#: src/gtk/gftp-gtk.c:331
 msgid "/Remote/_Edit..."
 msgstr "/Remote/_Edit..."
 
-#: ../src/gtk/gftp-gtk.c:332
+#: src/gtk/gftp-gtk.c:332
 msgid "/Remote/_View..."
 msgstr "/Remote/_View..."
 
-#: ../src/gtk/gftp-gtk.c:333
+#: src/gtk/gftp-gtk.c:333
 msgid "/Remote/_Refresh"
 msgstr "/Remote/_Refresh"
 
-#: ../src/gtk/gftp-gtk.c:335
+#: src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
 msgstr "/_Bookmarks"
 
-#: ../src/gtk/gftp-gtk.c:336
+#: src/gtk/gftp-gtk.c:336
 msgid "/Bookmarks/tearoff"
 msgstr "/Bookmarks/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:337
+#: src/gtk/gftp-gtk.c:337
 msgid "/Bookmarks/Add _Bookmark"
 msgstr "/Bookmarks/Add _Bookmark"
 
-#: ../src/gtk/gftp-gtk.c:339
+#: src/gtk/gftp-gtk.c:339
 msgid "/Bookmarks/Edit Bookmarks"
 msgstr "/Bookmarks/Edit Bookmarks"
 
-#: ../src/gtk/gftp-gtk.c:340
+#: src/gtk/gftp-gtk.c:340
 msgid "/Bookmarks/sep"
 msgstr "/Bookmarks/sep"
 
-#: ../src/gtk/gftp-gtk.c:341
+#: src/gtk/gftp-gtk.c:341
 msgid "/_Transfer"
 msgstr "/_Transfer"
 
-#: ../src/gtk/gftp-gtk.c:342
+#: src/gtk/gftp-gtk.c:342
 msgid "/Transfer/tearoff"
 msgstr "/Transfer/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:343
+#: src/gtk/gftp-gtk.c:343
 msgid "/Transfer/_Start"
 msgstr "/Transfer/_Start"
 
-#: ../src/gtk/gftp-gtk.c:344
+#: src/gtk/gftp-gtk.c:344
 msgid "/Transfer/St_op"
 msgstr "/Transfer/St_op"
 
-#: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
+#: src/gtk/gftp-gtk.c:346 src/gtk/gftp-gtk.c:354
 msgid "/Transfer/sep"
 msgstr "/Transfer/sep"
 
-#: ../src/gtk/gftp-gtk.c:347
+#: src/gtk/gftp-gtk.c:347
 msgid "/Transfer/Skip _Current File"
 msgstr "/Transfer/Skip _Current File"
 
-#: ../src/gtk/gftp-gtk.c:348
+#: src/gtk/gftp-gtk.c:348
 msgid "/Transfer/_Remove File"
 msgstr "/Transfer/_Remove File"
 
-#: ../src/gtk/gftp-gtk.c:350
+#: src/gtk/gftp-gtk.c:350
 msgid "/Transfer/Move File _Up"
 msgstr "/Transfer/Move File _Up"
 
-#: ../src/gtk/gftp-gtk.c:352
+#: src/gtk/gftp-gtk.c:352
 msgid "/Transfer/Move File _Down"
 msgstr "/Transfer/Move File _Down"
 
-#: ../src/gtk/gftp-gtk.c:355
+#: src/gtk/gftp-gtk.c:355
 msgid "/Transfer/_Retrieve Files"
 msgstr "/Transfer/_Retrieve Files"
 
-#: ../src/gtk/gftp-gtk.c:356
+#: src/gtk/gftp-gtk.c:356
 msgid "/Transfer/_Put Files"
 msgstr "/Transfer/_Put Files"
 
-#: ../src/gtk/gftp-gtk.c:357
+#: src/gtk/gftp-gtk.c:357
 msgid "/L_og"
 msgstr "/L_og"
 
-#: ../src/gtk/gftp-gtk.c:358
+#: src/gtk/gftp-gtk.c:358
 msgid "/Log/tearoff"
 msgstr "/Log/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:359
+#: src/gtk/gftp-gtk.c:359
 msgid "/Log/_Clear"
 msgstr "/Log/_Clear"
 
-#: ../src/gtk/gftp-gtk.c:360
+#: src/gtk/gftp-gtk.c:360
 msgid "/Log/_View"
 msgstr "/Log/_View"
 
-#: ../src/gtk/gftp-gtk.c:361
+#: src/gtk/gftp-gtk.c:361
 msgid "/Log/_Save..."
 msgstr "/Log/_Save..."
 
-#: ../src/gtk/gftp-gtk.c:362
+#: src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
 msgstr "/उपकरणहरू"
 
-#: ../src/gtk/gftp-gtk.c:363
+#: src/gtk/gftp-gtk.c:363
 msgid "/Tools/tearoff"
 msgstr "/उपकरणहरू/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:364
+#: src/gtk/gftp-gtk.c:364
 msgid "/Tools/C_ompare Windows"
 msgstr "/Tools/C_ompare Windows"
 
-#: ../src/gtk/gftp-gtk.c:365
+#: src/gtk/gftp-gtk.c:365
 msgid "/Tools/_Clear Cache"
 msgstr "/Tools/_Clear Cache"
 
-#: ../src/gtk/gftp-gtk.c:366
+#: src/gtk/gftp-gtk.c:366
 msgid "/Help"
 msgstr "/Help"
 
-#: ../src/gtk/gftp-gtk.c:367
+#: src/gtk/gftp-gtk.c:367
 msgid "/Help/tearoff"
 msgstr "/Help/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:368
+#: src/gtk/gftp-gtk.c:368
 msgid "/Help/_About"
 msgstr "/Help/_About"
 
-#: ../src/gtk/gftp-gtk.c:488
+#: src/gtk/gftp-gtk.c:488
 msgid "Host: "
 msgstr "होस्ट: "
 
-#: ../src/gtk/gftp-gtk.c:490
+#: src/gtk/gftp-gtk.c:490
 msgid "_Host: "
 msgstr "होस्ट: "
 
-#: ../src/gtk/gftp-gtk.c:516
+#: src/gtk/gftp-gtk.c:516
 msgid "Port: "
 msgstr "पोर्ट: "
 
-#: ../src/gtk/gftp-gtk.c:537
+#: src/gtk/gftp-gtk.c:537
 msgid "User: "
 msgstr "प्रयोगकर्ता: "
 
-#: ../src/gtk/gftp-gtk.c:539
+#: src/gtk/gftp-gtk.c:539
 msgid "_User: "
 msgstr "प्रयोगकर्ता: "
 
-#: ../src/gtk/gftp-gtk.c:564
+#: src/gtk/gftp-gtk.c:564
 msgid "Pass: "
 msgstr "पास: "
 
-#: ../src/gtk/gftp-gtk.c:636
+#: src/gtk/gftp-gtk.c:636
 msgid "Command: "
 msgstr "आदेश:"
 
-#: ../src/gtk/gftp-gtk.c:778 ../src/gtk/gftp-gtk.c:989
-#: ../src/gtk/gtkui_transfer.c:228
+#: src/gtk/gftp-gtk.c:787 src/gtk/gftp-gtk.c:996 src/gtk/gtkui_transfer.c:227
 msgid "Filename"
 msgstr "फाइलनाम"
 
-#: ../src/gtk/gftp-gtk.c:779
+#: src/gtk/gftp-gtk.c:788
 msgid "Size"
 msgstr "साइज"
 
-#: ../src/gtk/gftp-gtk.c:782
+#: src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "मिति"
 
-#: ../src/gtk/gftp-gtk.c:783
+#: src/gtk/gftp-gtk.c:792
 msgid "Attribs"
 msgstr "विशेषता"
 
-#: ../src/gtk/gftp-gtk.c:990
+#: src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "प्रगति"
 
-#: ../src/gtk/gftp-gtk.c:1126
+#: src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
 msgstr "त्रुटि: तपाईँले जडान गर्नका लागि होस्टमा टाइप गर्नुपर्छ\n"
 
-#: ../src/gtk/gtkui.c:53
+#: src/gtk/gtkui.c:52
 msgid "Refresh"
 msgstr "ताजा पार्नुहोस्"
 
-#: ../src/gtk/gtkui.c:120
+#: src/gtk/gtkui.c:119
 msgid "Enter Username"
 msgstr "प्रयोगकर्ताको नाम प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/gtkui.c:121
+#: src/gtk/gtkui.c:120
 msgid "Please enter your username for this site"
 msgstr "यो साइटका लागि तपाईँको प्रयोगकर्तानाम प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:586 ../src/gtk/transfer.c:596
+#: src/gtk/gtkui.c:142 src/gtk/transfer.c:562 src/gtk/transfer.c:572
 msgid "Please enter your password for this site"
 msgstr "यो साइटका लागि तपाईँको पासवर्ड प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/gtkui.c:298
+#: src/gtk/gtkui.c:297
 msgid "Operation canceled...you must enter a string\n"
 msgstr "सञ्चालन रद्द भयो...तपाईँले स्ट्रिङ प्रविष्ट गर्नुपर्छ\n"
 
-#: ../src/gtk/gtkui.c:344
+#: src/gtk/gtkui.c:343
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: ../src/gtk/gtkui.c:347
+#: src/gtk/gtkui.c:346
 msgid "Make Directory"
 msgstr "डाइरेक्टरी बनाउनुहोस्"
 
-#: ../src/gtk/gtkui.c:347
+#: src/gtk/gtkui.c:346
 msgid "Enter name of directory to create"
 msgstr "सिर्जनाका लागि डाइरेक्टरीको नाम प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/gtkui.c:370 ../src/gtk/gtkui.c:382 ../src/gtk/misc-gtk.c:932
-#: ../src/gtk/misc-gtk.c:1007
+#: src/gtk/gtkui.c:369 src/gtk/gtkui.c:381 src/gtk/misc-gtk.c:931
+#: src/gtk/misc-gtk.c:1006
 msgid "Rename"
 msgstr "पुन: नामकरण गर्नुहोस्"
 
-#: ../src/gtk/gtkui.c:380
+#: src/gtk/gtkui.c:379
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr " %s लाई  केमा पुन: नामकरण गर्न चाहनुहुन्छ ?"
 
-#: ../src/gtk/gtkui.c:402 ../src/gtk/gtkui.c:405
+#: src/gtk/gtkui.c:401 src/gtk/gtkui.c:404
 msgid "Site"
 msgstr "साइट"
 
-#: ../src/gtk/gtkui.c:405
+#: src/gtk/gtkui.c:404
 msgid "Enter site-specific command"
 msgstr "साइट उल्लेख भएको आदेश प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/gtkui.c:406
+#: src/gtk/gtkui.c:405
 msgid "Prepend with SITE"
 msgstr "SITE सँग प्रिपेन्ड"
 
-#: ../src/gtk/gtkui.c:449 ../src/gtk/menu-items.c:235
+#: src/gtk/gtkui.c:448 src/gtk/menu-items.c:234
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:496
-#: ../src/gtk/transfer.c:564 ../src/gtk/transfer.c:1021
+#: src/gtk/gtkui_transfer.c:59 src/gtk/transfer.c:472 src/gtk/transfer.c:540
+#: src/gtk/transfer.c:997
 msgid "Skipped"
 msgstr "फड्काइयो"
 
-#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:543
-#: ../src/gtk/transfer.c:568
+#: src/gtk/gtkui_transfer.c:61 src/gtk/transfer.c:519 src/gtk/transfer.c:544
 msgid "Waiting..."
 msgstr "प्रतिक्षा गर्दैछ..."
 
-#: ../src/gtk/gtkui_transfer.c:136 ../src/gtk/gtkui_transfer.c:314
-#: ../src/gtk/gtkui_transfer.c:341
+#: src/gtk/gtkui_transfer.c:135 src/gtk/gtkui_transfer.c:313
+#: src/gtk/gtkui_transfer.c:340
 msgid "Overwrite"
 msgstr "अधिलेखन गर्नुहोस्"
 
-#: ../src/gtk/gtkui_transfer.c:143 ../src/gtk/gtkui_transfer.c:320
-#: ../src/gtk/gtkui_transfer.c:347
+#: src/gtk/gtkui_transfer.c:142 src/gtk/gtkui_transfer.c:319
+#: src/gtk/gtkui_transfer.c:346
 msgid "Resume"
 msgstr "पुन: निरन्तरता दिनुहोस्"
 
-#: ../src/gtk/gtkui_transfer.c:150 ../src/gtk/gtkui_transfer.c:317
+#: src/gtk/gtkui_transfer.c:149 src/gtk/gtkui_transfer.c:316
 msgid "Skip"
 msgstr "फड्काउनुहोस्"
 
-#: ../src/gtk/gtkui_transfer.c:231
+#: src/gtk/gtkui_transfer.c:230
 msgid "Action"
 msgstr "कार्य"
 
-#: ../src/gtk/gtkui_transfer.c:236 ../src/gtk/gtkui_transfer.c:245
-#: ../src/gtk/transfer.c:91
+#: src/gtk/gtkui_transfer.c:235 src/gtk/gtkui_transfer.c:244
+#: src/gtk/transfer.c:90
 msgid "Transfer Files"
 msgstr "फाइलहरू स्थानान्तरण गर्नुहोस्"
 
-#: ../src/gtk/gtkui_transfer.c:257
+#: src/gtk/gtkui_transfer.c:256
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2597,71 +2599,72 @@ msgstr ""
 "निम्न फाइल(हरू) दुवै स्थानीय र टाढाको कम्प्युटरमा अवस्थित छ\n"
 "तपाईँ के गर्न चाहनुहुन्छ कृपया छान्नुहोस्"
 
-#: ../src/gtk/gtkui_transfer.c:323
+#: src/gtk/gtkui_transfer.c:322
 msgid "Error"
 msgstr "त्रुट्टि"
 
-#: ../src/gtk/gtkui_transfer.c:353
+#: src/gtk/gtkui_transfer.c:352
 msgid "Skip File"
 msgstr "फाइल फड्काउनुहोस्"
 
-#: ../src/gtk/gtkui_transfer.c:363
+#: src/gtk/gtkui_transfer.c:362
 msgid "Select All"
 msgstr "सबै चयन गर्नुहोस्"
 
-#: ../src/gtk/gtkui_transfer.c:369
+#: src/gtk/gtkui_transfer.c:368
 msgid "Deselect All"
 msgstr "सबै चयनबाट हटाउनुहोस्"
 
-#: ../src/gtk/menu-items.c:65
+#: src/gtk/menu-items.c:64
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr "Filespec परिवर्तन: सञ्चालन रद्द भयो...तपाईँले स्ट्रिङ प्रविष्ट गर्नु पर्दछ\n"
 
-#: ../src/gtk/menu-items.c:83 ../src/gtk/menu-items.c:86
+#: src/gtk/menu-items.c:82 src/gtk/menu-items.c:85
 msgid "Change Filespec"
 msgstr "फाइलस्पेस परिवर्तन गर्नुहोस्"
 
-#: ../src/gtk/menu-items.c:86
+#: src/gtk/menu-items.c:85
 msgid "Enter the new file specification"
 msgstr "विशेष रूपमा उल्लेख गरिएको नयाँ फाइल प्रविष्ट गर्नुहोस्"
 
-#: ../src/gtk/menu-items.c:114 ../src/gtk/menu-items.c:299
-#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:76
-#: ../src/gtk/view_dialog.c:155
+#: src/gtk/menu-items.c:113 src/gtk/menu-items.c:298 src/gtk/menu-items.c:362
+#: src/gtk/view_dialog.c:80
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "त्रुटि: लेख्नका लागि %s खोल्न सकिएन: %s\n"
 
-#: ../src/gtk/menu-items.c:143
+#: src/gtk/menu-items.c:142
 msgid "Save Directory Listing"
 msgstr "डाइरेक्टरी सूची बचत गर्नुहोस्"
 
-#: ../src/gtk/menu-items.c:327 ../src/gtk/menu-items.c:391
+#: src/gtk/menu-items.c:326 src/gtk/menu-items.c:390
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "त्रुटि: %s मा लेख्दा त्रुटि: %s\n"
 
-#: ../src/gtk/menu-items.c:402
+#: src/gtk/menu-items.c:401
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "%s मा सफलतापूर्वक लग फाइल लेखियो\n"
 
-#: ../src/gtk/menu-items.c:414
+#: src/gtk/menu-items.c:413
 msgid "Save Log"
 msgstr "लग बचत गर्नुहोस्"
 
-#: ../src/gtk/menu-items.c:450
+#: src/gtk/menu-items.c:449
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
-msgstr "अनुमतिपत्र सहमती फाइलको COPYING फेला परेन। कृपया यो %s वा %s मा छ भन्ने निश्चित गर्नुहोस्"
+msgstr ""
+"अनुमतिपत्र सहमती फाइलको COPYING फेला परेन। कृपया यो %s वा %s मा छ भन्ने निश्चित "
+"गर्नुहोस्"
 
-#: ../src/gtk/menu-items.c:454 ../src/gtk/menu-items.c:459
+#: src/gtk/menu-items.c:453 src/gtk/menu-items.c:458
 msgid "About gFTP"
 msgstr "जीएफटीपी का बारेमा"
 
-#: ../src/gtk/menu-items.c:490
+#: src/gtk/menu-items.c:489
 #, c-format
 msgid ""
 "%s\n"
@@ -2672,27 +2675,27 @@ msgstr ""
 "प्रतिलिपिअधिकार (C) 1998-2007 ब्रियन मास्ने <masneyb@gftp.org>\n"
 "आधिकारिक गृहपृष्ठ: http://www.gftp.org/\n"
 
-#: ../src/gtk/menu-items.c:503
+#: src/gtk/menu-items.c:502
 msgid "About"
 msgstr "बारेमा"
 
-#: ../src/gtk/menu-items.c:552
+#: src/gtk/menu-items.c:551
 msgid "License Agreement"
 msgstr "अनुमतिपत्र सम्झौता"
 
-#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:405
+#: src/gtk/menu-items.c:557 src/gtk/view_dialog.c:384
 msgid "  Close  "
 msgstr "  बन्द गर्नुहोस्  "
 
-#: ../src/gtk/menu-items.c:685
+#: src/gtk/menu-items.c:684
 msgid "Compare Windows"
 msgstr "सञ्झ्याल तुलना गर्नुहोस्"
 
-#: ../src/gtk/misc-gtk.c:257
+#: src/gtk/misc-gtk.c:256
 msgid "Disconnect from the remote server"
 msgstr "टाढाको सर्भरबाट विच्छेदन गर्नुहोस्"
 
-#: ../src/gtk/misc-gtk.c:261
+#: src/gtk/misc-gtk.c:260
 msgid ""
 "Connect to the site specified in the host entry. If the host entry is blank, "
 "then a dialog is presented that will allow you to enter a URL."
@@ -2700,72 +2703,72 @@ msgstr ""
 "होस्ट प्रविष्टमा उल्लेख गरिएको साइटसँग जडान गर्नुहोस्। यदि होस्ट प्रविष्ट खाली छ भने, "
 "संवाद प्रस्तुत गरिन्छ जसले तपाईँलाई यूआरएल भित्र छिर्न अनुमति दिन्छ ।"
 
-#: ../src/gtk/misc-gtk.c:308
+#: src/gtk/misc-gtk.c:307
 msgid "All Files"
 msgstr "सबै फाइलहरू"
 
-#: ../src/gtk/misc-gtk.c:318
+#: src/gtk/misc-gtk.c:317
 msgid "] (Cached) ["
 msgstr "] (क्यास गरिएको) ["
 
-#: ../src/gtk/misc-gtk.c:329
+#: src/gtk/misc-gtk.c:328
 msgid "Not connected"
 msgstr "जडान छैन"
 
-#: ../src/gtk/misc-gtk.c:431
+#: src/gtk/misc-gtk.c:430
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "फाइल %s खोल्ने क्रममा त्रुटि: %s\n"
 
-#: ../src/gtk/misc-gtk.c:521
+#: src/gtk/misc-gtk.c:520
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: टाढाको साइटमा जडान छैन\n"
 
-#: ../src/gtk/misc-gtk.c:528
+#: src/gtk/misc-gtk.c:527
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s: यो प्रोटोकोल प्रयोग गर्दा यो विशेषता उपलब्ध छैन\n"
 
-#: ../src/gtk/misc-gtk.c:536
+#: src/gtk/misc-gtk.c:535
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: तपाईँले एउटा मात्र वस्तु चयन गरेको हुनुपर्दछ\n"
 
-#: ../src/gtk/misc-gtk.c:543
+#: src/gtk/misc-gtk.c:542
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: तपाईँले कम्तिमा एउटा मात्र वस्तु चयन गरेको हुनुपर्दछ\n"
 
-#: ../src/gtk/misc-gtk.c:926 ../src/gtk/misc-gtk.c:1001
+#: src/gtk/misc-gtk.c:925 src/gtk/misc-gtk.c:1000
 msgid "Change"
 msgstr "परिवर्तन गर्नुहोस्"
 
-#: ../src/gtk/misc-gtk.c:998 ../src/gtk/options_dialog.c:1277
+#: src/gtk/misc-gtk.c:997 src/gtk/options_dialog.c:1276
 msgid "Add"
 msgstr "थप्नुहोस्"
 
-#: ../src/gtk/misc-gtk.c:1024
+#: src/gtk/misc-gtk.c:1023
 msgid "Cancel"
 msgstr "रद्द गर्नुहोस्"
 
-#: ../src/gtk/misc-gtk.c:1094
+#: src/gtk/misc-gtk.c:1093
 msgid "  Yes  "
 msgstr "  हो  "
 
-#: ../src/gtk/misc-gtk.c:1104
+#: src/gtk/misc-gtk.c:1103
 msgid "  No  "
 msgstr "  होइन  "
 
-#: ../src/gtk/misc-gtk.c:1164
+#: src/gtk/misc-gtk.c:1163
 msgid "Getting directory listings"
 msgstr "डाइरेक्टरी सूची प्राप्त गर्दैछ"
 
-#: ../src/gtk/misc-gtk.c:1184
+#: src/gtk/misc-gtk.c:1183
 msgid "  Stop  "
 msgstr "  रोक्नुहोस्  "
 
-#: ../src/gtk/misc-gtk.c:1194
+#: src/gtk/misc-gtk.c:1193
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2774,109 +2777,109 @@ msgstr ""
 "%ld डाइरेक्टरीहरू\n"
 "र %ld फाइलहरू प्राप्त गरियो"
 
-#: ../src/gtk/misc-gtk.c:1270
+#: src/gtk/misc-gtk.c:1269
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "जीएफटीपी त्रुटि: फाइल %s भित्र %s वा %s फेला परेन\n"
 
-#: ../src/gtk/options_dialog.c:956
+#: src/gtk/options_dialog.c:955
 msgid "Edit Host"
 msgstr "होस्ट सम्पादन गर्नुहोस्"
 
-#: ../src/gtk/options_dialog.c:956
+#: src/gtk/options_dialog.c:955
 msgid "Add Host"
 msgstr "होस्ट थप्नुहोस्"
 
-#: ../src/gtk/options_dialog.c:1002
+#: src/gtk/options_dialog.c:1001
 msgid "Type:"
 msgstr "प्रकार:"
 
-#: ../src/gtk/options_dialog.c:1004
+#: src/gtk/options_dialog.c:1003
 msgid "_Type:"
 msgstr "प्रकार:"
 
-#: ../src/gtk/options_dialog.c:1014 ../src/gtk/options_dialog.c:1137
+#: src/gtk/options_dialog.c:1013 src/gtk/options_dialog.c:1136
 msgid "Domain"
 msgstr "डोमेन"
 
-#: ../src/gtk/options_dialog.c:1047
+#: src/gtk/options_dialog.c:1046
 msgid "Network Address"
 msgstr "सञ्जाल ठेगाना"
 
-#: ../src/gtk/options_dialog.c:1049
+#: src/gtk/options_dialog.c:1048
 msgid "_Network address:"
 msgstr "सञ्जाल ठेगाना:"
 
-#: ../src/gtk/options_dialog.c:1088 ../src/gtk/options_dialog.c:1241
+#: src/gtk/options_dialog.c:1087 src/gtk/options_dialog.c:1240
 msgid "Netmask"
 msgstr "नेटमास्क"
 
-#: ../src/gtk/options_dialog.c:1090
+#: src/gtk/options_dialog.c:1089
 msgid "N_etmask:"
 msgstr "नेटमास्क:"
 
-#: ../src/gtk/options_dialog.c:1139
+#: src/gtk/options_dialog.c:1138
 msgid "_Domain:"
 msgstr "डोमेन:"
 
-#: ../src/gtk/options_dialog.c:1247
+#: src/gtk/options_dialog.c:1246
 msgid "Local Hosts"
 msgstr "स्थानीय होस्टहरू"
 
-#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:105
+#: src/gtk/options_dialog.c:1287 src/gtk/view_dialog.c:33
 msgid "Edit"
 msgstr "सम्पादन गर्नुहोस्"
 
-#: ../src/gtk/options_dialog.c:1290
+#: src/gtk/options_dialog.c:1289
 msgid "_Edit"
 msgstr "सम्पादन"
 
-#: ../src/gtk/options_dialog.c:1367 ../src/gtk/options_dialog.c:1372
+#: src/gtk/options_dialog.c:1366 src/gtk/options_dialog.c:1371
 msgid "Options"
 msgstr "विकल्पहरू"
 
-#: ../src/gtk/options_dialog.c:1459
+#: src/gtk/options_dialog.c:1458
 msgid "Apply"
 msgstr "लागू गर्नुहोस्"
 
-#: ../src/gtk/transfer.c:30
+#: src/gtk/transfer.c:29
 msgid "Receiving file names..."
 msgstr "फाइलनाम प्राप्त गर्दैछ..."
 
-#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:712
+#: src/gtk/transfer.c:62 src/gtk/transfer.c:688
 msgid "Connecting..."
 msgstr "जडान गर्दैछ..."
 
-#: ../src/gtk/transfer.c:99
+#: src/gtk/transfer.c:98
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "फाइलहरू पुन:प्राप्त गर्नुहोस्: टाढाको साइटमा जडान भएको छैन\n"
 
-#: ../src/gtk/transfer.c:336
+#: src/gtk/transfer.c:335
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "त्रुटि:शाखा %d ले %d फिर्ता भयो\n"
 
-#: ../src/gtk/transfer.c:345
+#: src/gtk/transfer.c:344
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "शाखा %d सफलतापूर्वक फर्कियो\n"
 
-#: ../src/gtk/transfer.c:352
+#: src/gtk/transfer.c:351
 #, c-format
 msgid "Error: Child %d did not terminate properly\n"
 msgstr "त्रुटि: शाखा %d ठीक तरिकाले अन्त्य भएन\n"
 
-#: ../src/gtk/transfer.c:368
+#: src/gtk/transfer.c:367
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "त्रुटि: फाइल %s का बारेमा कुनै जानकारी पाउन सकिएन: %s\n"
 
-#: ../src/gtk/transfer.c:374
+#: src/gtk/transfer.c:373
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "फाइल %s परिवर्तन भएको छैन\n"
 
-#: ../src/gtk/transfer.c:382
+#: src/gtk/transfer.c:381
 #, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2885,115 +2888,126 @@ msgstr ""
 "फाइल %s परिवर्तन भइसक्यो।\n"
 "के तपाईँ त्यसलाई अपलोड गर्न चाहनुहुन्छ?"
 
-#: ../src/gtk/transfer.c:385
+#: src/gtk/transfer.c:384
 msgid "Edit File"
 msgstr "फाइल सम्पादन गर्नुहोस्"
 
-#: ../src/gtk/transfer.c:499
+#: src/gtk/transfer.c:475
 msgid "Finished"
 msgstr "समाप्त भयो"
 
-#: ../src/gtk/transfer.c:757
+#: src/gtk/transfer.c:733
 #, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "%3$.2fKB/s मा %1$s को %2$s पठाइयो, %4$02d:%5$02d:%6$02d est. बाँकी समय"
 
-#: ../src/gtk/transfer.c:762
+#: src/gtk/transfer.c:738
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
-msgstr " at %3$.2fKB/s मा %1$s को %2$s Recv , %4$02d:%5$02d:%6$02d est. बाँकी समय"
+msgstr ""
+" at %3$.2fKB/s मा %1$s को %2$s Recv , %4$02d:%5$02d:%6$02d est. बाँकी समय"
 
-#: ../src/gtk/transfer.c:773
+#: src/gtk/transfer.c:749
 #, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
 msgstr "%s को %s पठाइयो, स्थानान्तरण थाक गरियो, अज्ञात बाँकी समय"
 
-#: ../src/gtk/transfer.c:779
+#: src/gtk/transfer.c:755
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Recv %s को %s, स्थानान्तरण थाक गरियो, अज्ञात बाँकी समय"
 
-#: ../src/gtk/transfer.c:823
+#: src/gtk/transfer.c:799
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "अज्ञात प्रतिशत समाप्त भयो । (%ld को फाइल %ld)"
 
-#: ../src/gtk/transfer.c:827
+#: src/gtk/transfer.c:803
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% समाप्त भयो, %02d:%02d:%02d est. बाँकी समय । (%ld को फाइल %ld)"
 
-#: ../src/gtk/transfer.c:865
+#: src/gtk/transfer.c:841
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "फाइल नामहरू पुन: प्राप्त गर्दैछ...%s बाईटस्"
 
-#: ../src/gtk/transfer.c:944 ../src/gtk/transfer.c:966
-#: ../src/gtk/transfer.c:985 ../src/gtk/transfer.c:1007
-#: ../src/gtk/transfer.c:1035 ../src/gtk/transfer.c:1095
+#: src/gtk/transfer.c:920 src/gtk/transfer.c:942 src/gtk/transfer.c:961
+#: src/gtk/transfer.c:983 src/gtk/transfer.c:1011 src/gtk/transfer.c:1071
 msgid "There are no file transfers selected\n"
 msgstr "स्थानान्तरणका लागि कुनै पनि फाइल चयन गरिएको छैन\n"
 
-#: ../src/gtk/view_dialog.c:36
+#: src/gtk/view_dialog.c:33
 msgid "View"
 msgstr "दृश्य"
 
-#: ../src/gtk/view_dialog.c:48
+#: src/gtk/view_dialog.c:48
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "दृश्य: %s डाइरेक्टरी हो । यसलाई हेर्न सकिँदैन ।\n"
 
-#: ../src/gtk/view_dialog.c:114
-msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "सम्पादन: तपाईँले विकल्प संवादमा सम्पादक उल्लेख गर्नु पर्दछ\n"
-
-#: ../src/gtk/view_dialog.c:127
+#: src/gtk/view_dialog.c:51
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "सम्पादन: %s डाइरेक्टरी हो । यसलाई सम्पादन गर्न सकिँदैन ।\n"
 
-#: ../src/gtk/view_dialog.c:210
+#: src/gtk/view_dialog.c:122
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "सम्पादन: तपाईँले विकल्प संवादमा सम्पादक उल्लेख गर्नु पर्दछ\n"
+
+#: src/gtk/view_dialog.c:176
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "दृश्य: अर्को प्रक्रिया फोर्क गर्न सकिएन: %s\n"
 
-#: ../src/gtk/view_dialog.c:213
+#: src/gtk/view_dialog.c:179
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "चलिरहेको कार्यक्रम: %s %s\n"
 
-#: ../src/gtk/view_dialog.c:272
+#: src/gtk/view_dialog.c:239
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "%s सँगै %s खुल्दैछ\n"
 
-#: ../src/gtk/view_dialog.c:307
+#: src/gtk/view_dialog.c:281
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "फाइल %s हेर्दैछ\n"
 
-#: ../src/gtk/view_dialog.c:314
+#: src/gtk/view_dialog.c:288
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "दृश्य: फाइल %s खोल्न सकिएन: %s\n"
 
-#: ../src/text/gftp-text.c:166
+#: src/text/gftp-text.c:163
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "टर्निमल नियन्त्रण गर्ने %s खोल्न सकिएन\n"
 
-#: ../src/text/textui.c:80
+#: src/text/textui.c:79
 msgid "Username [anonymous]:"
 msgstr "प्रयोगकर्ता नाम [बेनामी]:"
 
-#: ../src/text/textui.c:158
+#: src/text/textui.c:157
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
-"c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: "
+"(%c)"
 msgstr ""
 "%s पहिले नै अवस्थित छ। (%s स्रोत साइज, %s गन्तव्य साइज):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
-"c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: "
+"(%c)"
 
+#~ msgid "\n"
+#~ msgstr "\n"
+
+#~ msgid ""
+#~ ">. If you have any questions, comments, or suggestions about this "
+#~ "program, please feel free to email them to me. You can always find out "
+#~ "the latest news about gFTP from my website at http://www.gftp.org/\n"
+#~ msgstr ""
+#~ ">. यदि यस कार्यक्रमका बारेमा तपाईँको केही प्रश्न, टिप्पणी, वा सुझाव छ भने, कृपया "
+#~ "खुल्ला रूपले मलाई उनीहरूलाई इमेल गर्नुहोस्। तपाईँले जहिले पनि मेरो वेबसाइट http://www."
+#~ "gftp.org/ बाट जी एफ टी पी का बारेमा भरखरैको नयाँ खबर फेला पार्न सक्नुहुन्छ।\n"

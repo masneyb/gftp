@@ -9,87 +9,96 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-21 19:48+0100\n"
+"POT-Creation-Date: 2016-07-24 02:50-0700\n"
 "PO-Revision-Date: 2004-02-21 17:19-0600\n"
 "Last-Translator: Chanchai Junlouchai <taz@opentle.org>\n"
 "Language-Team: Thai <L10n@opentle.org>\n"
+"Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.2\n"
 
-#: lib/bookmark.c:39
+#: lib/bookmark.c:37
 #, c-format
 msgid "Invalid URL %s\n"
 msgstr "URL ไม่ถูกต้อง %s\n"
 
-#: lib/cache.c:50 lib/cache.c:64 lib/cache.c:77
+#: lib/cache.c:49 lib/cache.c:63 lib/cache.c:76
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "ผิดพลาด: ในไฟล์ดัชนีแคชบรรทัดที่ %s ไม่ถูกต้อง\n"
 
-#: lib/cache.c:137 lib/local.c:534
+#: lib/cache.c:137 lib/fsp.c:534 lib/local.c:560
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถสร้างไดเรกทอรี %s: %s\n"
 
-#: lib/cache.c:161
+#: lib/cache.c:163
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถสร้างไฟล์ชั่วคราว: %s\n"
 
-#: lib/cache.c:183 lib/cache.c:232 lib/config_file.c:148 lib/config_file.c:154
-#: lib/local.c:98 lib/local.c:213 lib/rfc2068.c:265 lib/sshv2.c:1000
+#: lib/cache.c:185 lib/cache.c:235 lib/config_file.c:156 lib/config_file.c:162
+#: lib/local.c:143 lib/local.c:271 lib/rfc2068.c:259 lib/sshv2.c:1249
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "ผิดพลาด: การปิดตัวเก็บรายละเอียดไฟล์ผิดพลาด: %s\n"
 
-#: lib/cache.c:250 lib/local.c:132 lib/local.c:141 lib/local.c:188
+#: lib/cache.c:253 lib/fsp.c:126 lib/fsp.c:206 lib/local.c:183 lib/local.c:192
+#: lib/local.c:246
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถค้นหาไฟล์ %s: %s\n"
 
-#: lib/config_file.c:117 lib/config_file.c:124 lib/protocols.c:2750
+#: lib/charset-conv.c:72
+#, c-format
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+
+#: lib/config_file.c:125 lib/config_file.c:132 lib/protocols.c:1626
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถเปิดไฟล์ที่เครื่อง %s: %s\n"
 
-#: lib/config_file.c:134 lib/protocols.c:2455 lib/sslcommon.c:467
+#: lib/config_file.c:142 lib/sockutils.c:292 lib/sslcommon.c:504
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถเขียนลงในซ็อกเก็ต: %s\n"
 
-#: lib/config_file.c:142 lib/protocols.c:2383 lib/sslcommon.c:421
+#: lib/config_file.c:150 lib/sockutils.c:213 lib/sshv2.c:444
+#: lib/sslcommon.c:457
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถอ่านจากซ็อกเก็ต: %s\n"
 
-#: lib/config_file.c:174 lib/config_file.c:730
+#: lib/config_file.c:182 lib/config_file.c:736
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP เกิดความผิดพลาด: ชื่อไฟล์บุ๊กมาร์กไม่เป็นที่ยอมรับ %s\n"
 
-#: lib/config_file.c:183
+#: lib/config_file.c:191
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "คำเตือน: ไม่พบไฟล์บุ๊กมาร์กต้นแบบ %s\n"
 
-#: lib/config_file.c:194 lib/config_file.c:736
+#: lib/config_file.c:202 lib/config_file.c:742
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP เกิดความผิดพลาด: ไม่สามารถเปิดไฟล์บุ๊กมาร์ก %s: %s\n"
 
-#: lib/config_file.c:286 lib/config_file.c:308
+#: lib/config_file.c:294 lib/config_file.c:316
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "คำเตือน gFTP: กำลังข้ามบรรทัด %d ในไฟล์บุ๊กมาร์ก: %s\n"
 
-#: lib/config_file.c:338
+#: lib/config_file.c:346
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "คำเตือน gFTP: บรรทัด %d มีอาร์กิวเมนต์ไม่เพียงพอ\n"
 
-#: lib/config_file.c:499
+#: lib/config_file.c:503
 #, fuzzy
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
@@ -100,7 +109,7 @@ msgstr ""
 "(ถ้ามีอยู่) Syntax: dont_use_proxy=.domain or dont_use_proxy=network number/"
 "netmask "
 
-#: lib/config_file.c:502
+#: lib/config_file.c:506
 #, fuzzy
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
@@ -109,61 +118,61 @@ msgstr ""
 "ext=นามสกุลของไฟล์:XPM file:Ascii or Binary (A or B):viewer program. หมายเหตุ: "
 "ทุกอาร์กิวเมนต์ยกเว้น นามสกุลของไฟล์ เป็นตัวเลือก"
 
-#: lib/config_file.c:580 lib/config_file.c:819
+#: lib/config_file.c:586 lib/config_file.c:831
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP เกิดความผิดพลาด: ชื่อไฟล์การปรับแต่งไม่ถูกต้อง %s\n"
 
-#: lib/config_file.c:591
+#: lib/config_file.c:597
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP เกิดความผิดพลาด: ไม่สามารถสร้างไดเรกทอรี %s: %s\n"
 
-#: lib/config_file.c:601
+#: lib/config_file.c:607
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP เกิดความผิดพลาด: ไม่พบไฟล์การปรับแต่งต้นฉบับ %s\n"
 
-#: lib/config_file.c:603
+#: lib/config_file.c:609
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "คุณจะทำการติดตั้งใช่หรือไม่?\n"
 
-#: lib/config_file.c:612 lib/config_file.c:825
+#: lib/config_file.c:618 lib/config_file.c:837
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP เกิดความผิดพลาด: ไม่สามารถเปิดไฟล์การปรับแต่ง %s: %s\n"
 
-#: lib/config_file.c:651
+#: lib/config_file.c:657
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr ""
 
-#: lib/config_file.c:657
+#: lib/config_file.c:663
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "คำเตือน gFTP: กำลังข้ามบรรทัด %d ในไฟล์การปรับแต่ง: %s\n"
 
-#: lib/config_file.c:664
+#: lib/config_file.c:670
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP เกิดความผิดพลาด: ชื่อไฟล์การบันทึกการปฏิบัติการไม่ถูกต้อง %s\n"
 
-#: lib/config_file.c:670
+#: lib/config_file.c:676
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "คำเตือน gFTP: ไม่สามารถเปิด %s สำหรับการเขียน: %s\n"
 
-#: lib/config_file.c:725
+#: lib/config_file.c:731
 #, fuzzy
 msgid ""
-"Bookmarks file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
 msgstr ""
 "ไฟล์บุ๊กมาร์กสำหรับ gFTP สงวนลิขสิทธิ์  (C) 1998-2002 Brian Masney <masneyb@gftp.org> "
 "คำเตือน: ข้อคิดเห็นใดที่คุณเพิ่มลงในไฟล์นี้จะถูกเขียนทับ"
 
-#: lib/config_file.c:726
+#: lib/config_file.c:732
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
 "is not secure. This is to avoid your password being easily remembered by "
@@ -171,10 +180,10 @@ msgid ""
 "this, all passwords were stored in plaintext."
 msgstr ""
 
-#: lib/config_file.c:832
+#: lib/config_file.c:844
 #, fuzzy
 msgid ""
-"Config file for gFTP. Copyright (C) 1998-2003 Brian Masney <masneyb@gftp."
+"Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
@@ -182,328 +191,430 @@ msgstr ""
 "คำเตือน: ข้อคิดเห็นใดๆ ที่คุณเพิ่มลงในไฟล์นี้จะถูกเขียนทับ หากรายการใดมีรูปเครื่องหมาย (*) "
 "อยู่ในข้อคิดเห็นนั้น คุณไม่สามารถเปลี่ยนแปลงมันได้จากภายใน gFTP"
 
-#: lib/config_file.c:1196 lib/rfc2068.c:568 lib/rfc2068.c:569
+#: lib/config_file.c:1208 lib/protocols.c:384 lib/rfc2068.c:542
+#: lib/rfc2068.c:543
 msgid "<unknown>"
 msgstr "<ไม่รู้จัก>"
 
-#: lib/config_file.c:1272 lib/config_file.c:1335 lib/config_file.c:1377
-#: lib/config_file.c:1410
+#: lib/config_file.c:1288 lib/config_file.c:1351 lib/config_file.c:1393
+#: lib/config_file.c:1426
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr ""
 
-#: lib/ftps.c:138
+#: lib/fsp.c:188
+#, fuzzy, c-format
+msgid "Error: Cannot upload file %s\n"
+msgstr "ผิดพลาด: ไม่สามารถเปิดไฟล์ที่เครื่อง %s: %s\n"
+
+#: lib/fsp.c:198
+#, fuzzy, c-format
+msgid "Error: Cannot write to file %s: %s\n"
+msgstr "ผิดพลาด: ไม่สามารถค้นหาไฟล์ %s: %s\n"
+
+#: lib/fsp.c:236
+#, fuzzy, c-format
+msgid "Error: Error closing file: %s\n"
+msgstr "ผิดพลาด: ผิดพลาดขณะเขียนไปยัง %s: %s\n"
+
+#: lib/fsp.c:326
+#, fuzzy, c-format
+msgid "Corrupted file listing from FSP server %s\n"
+msgstr "ไม่สามารถยอมรับการเชื่อมต่อจากเซิร์ฟเวอร์: %s\n"
+
+#: lib/fsp.c:338 lib/fsp.c:339 lib/parse-dir-listing.c:336
+#: lib/parse-dir-listing.c:337 lib/parse-dir-listing.c:378
+#: lib/parse-dir-listing.c:379 lib/parse-dir-listing.c:445
+#: lib/parse-dir-listing.c:452 lib/parse-dir-listing.c:528
+#: lib/parse-dir-listing.c:529 lib/parse-dir-listing.c:565
+msgid "unknown"
+msgstr "ไม่รู้จัก"
+
+#: lib/fsp.c:376
+#, fuzzy, c-format
+msgid "Could not get FSP directory listing %s: %s\n"
+msgstr "ไม่พบรายชื่อไดเรกทอรีบนเครื่องผู้ใช้ %s: %s\n"
+
+#: lib/fsp.c:435
+#, fuzzy, c-format
+msgid "Successfully changed directory to %s\n"
+msgstr "เปลี่ยนไดเรกทอรีบนเครื่องไปยัง %s ได้สำเร็จ\n"
+
+#: lib/fsp.c:445
+#, fuzzy, c-format
+msgid "Could not change directory to %s\n"
+msgstr "ผิดพลาด: ไม่สามารถเปลี่ยนไดเรกทอรี่ท้องถิ่นไปยัง %s: %s\n"
+
+#: lib/fsp.c:470 lib/fsp.c:499 lib/local.c:479 lib/local.c:515
+#: src/gtk/transfer.c:262 src/gtk/view_dialog.c:305
+#, c-format
+msgid "Successfully removed %s\n"
+msgstr "ย้ายออกเรียบร้อยแล้ว %s\n"
+
+#: lib/fsp.c:476 lib/local.c:485
+#, c-format
+msgid "Error: Could not remove directory %s: %s\n"
+msgstr "ผิดพลาด: ไม่สามารถย้ายไดเรกทอรีออกได้ %s : %s\n"
+
+#: lib/fsp.c:505 lib/local.c:521 src/gtk/transfer.c:266
+#: src/gtk/view_dialog.c:309
+#, c-format
+msgid "Error: Could not remove file %s: %s\n"
+msgstr "ผิดพลาด: ไม่สามารถย้ายไฟล์ออกได้ %s : %s\n"
+
+#: lib/fsp.c:527 lib/local.c:553
+#, c-format
+msgid "Successfully made directory %s\n"
+msgstr "สร้างไดเรกทอรี %s ได้สำเร็จ\n"
+
+#: lib/fsp.c:562 lib/local.c:589
+#, c-format
+msgid "Successfully renamed %s to %s\n"
+msgstr "เปลี่ยนชื่อจาก %s ไปเป็น %s ได้สำเร็จ\n"
+
+#: lib/fsp.c:574 lib/local.c:596
+#, c-format
+msgid "Error: Could not rename %s to %s: %s\n"
+msgstr "ผิดพลาด: ไม่สามารถเปลี่ยนชื่อ %s ไปเป็น %s: %s\n"
+
+#: lib/ftps.c:153
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
 
-#: lib/https.c:89
+#: lib/https.c:90
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
 msgstr ""
 
-#: lib/local.c:67 lib/local.c:464
-#, c-format
-msgid "Could not change local directory to %s: %s\n"
-msgstr "ผิดพลาด: ไม่สามารถเปลี่ยนไดเรกทอรี่ท้องถิ่นไปยัง %s: %s\n"
-
-#: lib/local.c:81 lib/local.c:449
+#: lib/local.c:65
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "ไม่สามารถรับไดเรกทอรีที่ใช้งานอยู่ขณะนี้: %s\n"
 
-#: lib/local.c:179
-#, c-format
-msgid "Error: Cannot truncate local file %s: %s\n"
-msgstr "ผิดพลาด: ไม่สามารถตัดไฟล์ที่อยู่บนเครื่องให้สั้นลง %s: %s\n"
-
-#: lib/local.c:404
-#, fuzzy, c-format
-msgid "Could not get local directory listing %s: %s\n"
-msgstr "ไม่พบรายชื่อไดเรกทอรีบนเครื่องผู้ใช้ %s: %s\n"
-
-#: lib/local.c:441
+#: lib/local.c:104
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "เปลี่ยนไดเรกทอรีบนเครื่องไปยัง %s ได้สำเร็จ\n"
 
-#: lib/local.c:481 lib/local.c:504 src/gtk/transfer.c:229
-#: src/gtk/view_dialog.c:316
+#: lib/local.c:111
 #, c-format
-msgid "Successfully removed %s\n"
-msgstr "ย้ายออกเรียบร้อยแล้ว %s\n"
+msgid "Could not change local directory to %s: %s\n"
+msgstr "ผิดพลาด: ไม่สามารถเปลี่ยนไดเรกทอรี่ท้องถิ่นไปยัง %s: %s\n"
 
-#: lib/local.c:487
+#: lib/local.c:237
 #, c-format
-msgid "Error: Could not remove directory %s: %s\n"
-msgstr "ผิดพลาด: ไม่สามารถย้ายไดเรกทอรีออกได้ %s : %s\n"
+msgid "Error: Cannot truncate local file %s: %s\n"
+msgstr "ผิดพลาด: ไม่สามารถตัดไฟล์ที่อยู่บนเครื่องให้สั้นลง %s: %s\n"
 
-#: lib/local.c:510 src/gtk/transfer.c:233 src/gtk/view_dialog.c:320
-#, c-format
-msgid "Error: Could not remove file %s: %s\n"
-msgstr "ผิดพลาด: ไม่สามารถย้ายไฟล์ออกได้ %s : %s\n"
+#: lib/local.c:423
+#, fuzzy, c-format
+msgid "Could not get local directory listing %s: %s\n"
+msgstr "ไม่พบรายชื่อไดเรกทอรีบนเครื่องผู้ใช้ %s: %s\n"
 
-#: lib/local.c:527
-#, c-format
-msgid "Successfully made directory %s\n"
-msgstr "สร้างไดเรกทอรี %s ได้สำเร็จ\n"
-
-#: lib/local.c:553
-#, c-format
-msgid "Successfully renamed %s to %s\n"
-msgstr "เปลี่ยนชื่อจาก %s ไปเป็น %s ได้สำเร็จ\n"
-
-#: lib/local.c:560
-#, c-format
-msgid "Error: Could not rename %s to %s: %s\n"
-msgstr "ผิดพลาด: ไม่สามารถเปลี่ยนชื่อ %s ไปเป็น %s: %s\n"
-
-#: lib/local.c:583
-#, c-format
-msgid "Successfully changed mode of %s to %d\n"
+#: lib/local.c:633
+#, fuzzy, c-format
+msgid "Successfully changed mode of %s to %o\n"
 msgstr "เปลี่ยนโหมดจาก %s ไปยัง %d ได้สำเร็จ\n"
 
-#: lib/local.c:590
-#, c-format
-msgid "Error: Could not change mode of %s to %d: %s\n"
+#: lib/local.c:640
+#, fuzzy, c-format
+msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถเปลี่ยนโหมดจาก %s ไปยัง %d: %s\n"
 
+#: lib/local.c:675
+#, fuzzy, c-format
+msgid "Successfully changed the time stamp of %s\n"
+msgstr "เปลี่ยนโหมดจาก %s ไปยัง %d ได้สำเร็จ\n"
+
 #: lib/local.c:682
+#, fuzzy, c-format
+msgid "Error: Could not change the time stamp of %s: %s\n"
+msgstr "ผิดพลาด: ไม่สามารถเปลี่ยนโหมดจาก %s ไปยัง %d: %s\n"
+
+#: lib/local.c:749
 msgid "local filesystem"
 msgstr "ระบบไฟล์บนเครื่อง"
 
-#: lib/misc.c:415
+#: lib/misc.c:413
 #, c-format
 msgid "usage: gftp "
 msgstr ""
 
-#: lib/misc.c:415 src/uicommon/gftpui.c:616
-#, c-format
-msgid "\n"
-msgstr ""
-
-#: lib/options.h:24 lib/rfc959.c:26
+#: lib/options.h:25 lib/rfc959.c:25
 msgid "none"
 msgstr "ไม่มี"
 
-#: lib/options.h:24
+#: lib/options.h:25
 msgid "file"
 msgstr "ไฟล์"
 
-#: lib/options.h:24
+#: lib/options.h:26
 msgid "size"
 msgstr "ขนาด"
 
-#: lib/options.h:25
+#: lib/options.h:26
 msgid "user"
 msgstr "ผู้ใช้"
 
-#: lib/options.h:25
+#: lib/options.h:27
 msgid "group"
 msgstr "กลุ่ม"
 
-#: lib/options.h:26
+#: lib/options.h:28
 msgid "datetime"
 msgstr ""
 
-#: lib/options.h:26
+#: lib/options.h:29
 msgid "attribs"
 msgstr "คุณลักษณะ"
 
-#: lib/options.h:28
+#: lib/options.h:32
 msgid "descending"
 msgstr ""
 
-#: lib/options.h:28
+#: lib/options.h:33
 msgid "ascending"
 msgstr ""
 
-#: lib/options.h:34
+#: lib/options.h:40
 msgid "General"
 msgstr "ทั่วไป"
 
-#: lib/options.h:37
+#: lib/options.h:43
 msgid "View program:"
 msgstr "โปรแกรมดูไฟล์:"
 
-#: lib/options.h:38
+#: lib/options.h:44
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
 msgstr ""
 "โปรแกรมปริยายนี้ใช้สำหรับดูไฟล์ต่างๆ หากไม่พบไฟล์ใดๆ โปรแกรมดูไฟล์ภายในจะถูกนำมาใช้งาน"
 
-#: lib/options.h:40
+#: lib/options.h:46
 msgid "Edit program:"
 msgstr "โปรแกรมแก้ไข:"
 
-#: lib/options.h:41
+#: lib/options.h:47
 msgid "The default program used to edit files."
 msgstr "โปรแกรมปริยายที่ใช้เพื่อแก้ไขไฟล์"
 
-#: lib/options.h:42
-msgid "Startup Directory:"
-msgstr "ไดเรกทอรีเริ่มต้น:"
-
-#: lib/options.h:44
-msgid "The default directory gFTP will go to on startup"
-msgstr "ไดเรกทอรีปริยายของ gFTP จะเริ่มการทำงาน"
-
-#: lib/options.h:45
+#: lib/options.h:48
 msgid "Max Log Window Size:"
 msgstr "ขนาดหน้าต่างการบันทึกการปฏิบัติการสูงสุด:"
 
-#: lib/options.h:47
+#: lib/options.h:50
 msgid "The maximum size of the log window in bytes for the GTK+ port"
 msgstr "ขนาดสูงสุดของหน้าต่างการบันทึกการปฏิบัติการที่มีหน่วยเป็นไบต์ของพอร์ต GTK+"
 
-#: lib/options.h:49
+#: lib/options.h:52
 msgid "Remote Character Sets:"
 msgstr ""
 
-#: lib/options.h:51
+#: lib/options.h:54
 msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
 msgstr ""
 
-#: lib/options.h:53
+#: lib/options.h:56
+msgid "Remote LC_TIME:"
+msgstr ""
+
+#: lib/options.h:58
+msgid ""
+"This is the value of LC_TIME for the remote site. This is so that dates can "
+"be parsed properly in the directory listings."
+msgstr ""
+
+#: lib/options.h:60
 msgid "Cache TTL:"
 msgstr ""
 
-#: lib/options.h:56
+#: lib/options.h:63
 msgid "The number of seconds to keep cache entries before they expire."
 msgstr "่"
 
-#: lib/options.h:59
+#: lib/options.h:66
 msgid "Append file transfers"
 msgstr "การถ่ายโอนไฟล์แบบต่อข้อมูล"
 
-#: lib/options.h:61
+#: lib/options.h:68
 msgid "Append new file transfers onto existing ones"
 msgstr "แนบไฟล์ใหม่ที่จะถ่ายโอนไปยังไฟล์ที่มีอยู่แล้ว"
 
-#: lib/options.h:62
+#: lib/options.h:69
 msgid "Do one transfer at a time"
 msgstr "ถ่ายโอนทีละไฟล์ต่อหนึ่งครั้ง"
 
-#: lib/options.h:64
+#: lib/options.h:71
 msgid "Do only one transfer at a time?"
 msgstr "ทำการถ่ายโอนทีละไฟล์ต่อหนึ่งครั้ง ใช่หรือไม่?"
 
-#: lib/options.h:65
+#: lib/options.h:72
 msgid "Overwrite by Default"
 msgstr "เขียนทับโดยค่าปริยาย"
 
-#: lib/options.h:68
+#: lib/options.h:75
 msgid "Overwrite files by default or set to resume file transfers"
 msgstr "เขียนทับไฟล์โดยค่าปริยายหรือตั้งให้ทำการถ่ายโอนไฟล์อีกครั้ง"
 
-#: lib/options.h:70
+#: lib/options.h:77
 msgid "Preserve file permissions"
 msgstr ""
 
-#: lib/options.h:73
-msgid "Preserve file permissions of transfered files"
+#: lib/options.h:80
+#, fuzzy
+msgid "Preserve file permissions of transferred files"
 msgstr "คงสิทธิ์ที่อนุญาตของไฟล์ทางไกลไว้"
 
-#: lib/options.h:75
+#: lib/options.h:82
+msgid "Preserve file time"
+msgstr ""
+
+#: lib/options.h:85
+#, fuzzy
+msgid "Preserve file times of transferred files"
+msgstr "คงสิทธิ์ที่อนุญาตของไฟล์ทางไกลไว้"
+
+#: lib/options.h:87
 msgid "Refresh after each file transfer"
 msgstr "เรียกใหม่หลังการถ่ายโอนแต่ละไฟล์"
 
-#: lib/options.h:78
-msgid "Refresh the listbox after each file is transfered"
+#: lib/options.h:90
+#, fuzzy
+msgid "Refresh the listbox after each file is transferred"
 msgstr "เรียกกล่องรายการใหม่หลังจากถ่ายโอนแต่ละไฟล์เรียบร้อย"
 
-#: lib/options.h:80
+#: lib/options.h:92
 msgid "Sort directories first"
 msgstr "เรียงตามไดเรกทอรีเป็นลำดับแรก"
 
-#: lib/options.h:83
+#: lib/options.h:95
 msgid "Put the directories first then the files"
 msgstr "วางไดเรกทอรีก่อนแล้วตามด้วยไฟล์"
 
-#: lib/options.h:84
+#: lib/options.h:96
 msgid "Show hidden files"
 msgstr "แสดงไฟล์ซ่อน"
 
-#: lib/options.h:87
+#: lib/options.h:99
 msgid "Show hidden files in the listboxes"
 msgstr "แสดงไฟล์ซ่อนที่อยู่ในกล่องรายการ"
 
-#: lib/options.h:88
+#: lib/options.h:100
 msgid "Show transfer status in title"
 msgstr "แสดงสถานะการถ่ายโอนบนหัวเรื่อง"
 
-#: lib/options.h:90
+#: lib/options.h:102
 msgid "Show the file transfer status in the titlebar"
 msgstr "แสดงสถานะการถ่ายโอนบนแถบหัวเรื่อง"
 
-#: lib/options.h:91
+#: lib/options.h:103
+msgid "Start file transfers"
+msgstr "เริ่มการถ่ายโอนไฟล์"
+
+#: lib/options.h:105
+#, fuzzy
+msgid "Automatically start the file transfers when they get queued"
+msgstr "เริ่มการถ่ายโอนไฟล์อัตโนมัติ เมื่อมีไฟล์อยู่ในคิวแล้ว"
+
+#: lib/options.h:107
 msgid "Allow manual commands in GUI"
 msgstr ""
 
-#: lib/options.h:93
+#: lib/options.h:109
 msgid ""
 "Allow entering manual commands in the GUI (functions like the text port)"
 msgstr ""
 
-#: lib/options.h:95 src/gtk/options_dialog.c:1051
-#: src/gtk/options_dialog.c:1144
+#: lib/options.h:111
+#, fuzzy
+msgid "Remember last directory"
+msgstr "ย้ายไดเรกทอรีบนเครื่อง"
+
+#: lib/options.h:113
+msgid "Save the last local and remote directory when the application is closed"
+msgstr ""
+
+#: lib/options.h:115
+msgid "Connect to remote server on startup"
+msgstr ""
+
+#: lib/options.h:117
+msgid ""
+"Automatically connect to the remote server when the application is started."
+msgstr ""
+
+#: lib/options.h:120 src/gtk/options_dialog.c:1019
+#: src/gtk/options_dialog.c:1239
 msgid "Network"
 msgstr "เครือข่าย"
 
-#: lib/options.h:97
+#: lib/options.h:122
 msgid "Network timeout:"
 msgstr "การหมดเวลาการเชื่อมต่อเครือข่าย:"
 
-#: lib/options.h:100
+#: lib/options.h:125
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 
-#: lib/options.h:102
+#: lib/options.h:127
 msgid "Connect retries:"
 msgstr "ลองเชื่อมต่อใหม่:"
 
-#: lib/options.h:105
-msgid "The number of auto-retries to do. Set this to 0 to retry indefinately"
+#: lib/options.h:130
+#, fuzzy
+msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
 msgstr ""
 "จำนวนครั้งในการลองเชื่อมต่อใหม่อัตโนมัติ กำหนดค่านี้ให้เป็น 0 "
 "เมื่อต้องการให้เชื่อมต่อใหม่อย่างไม่มีกำหนด "
 
-#: lib/options.h:107
+#: lib/options.h:132
 msgid "Retry sleep time:"
 msgstr "เวลาพักในการลองใหม่:"
 
-#: lib/options.h:110
+#: lib/options.h:135
 msgid "The number of seconds to wait between retries"
 msgstr "จำนวนวินาทีในการรอระหว่างลองใหม่"
 
-#: lib/options.h:111
+#: lib/options.h:136
 msgid "Max KB/S:"
 msgstr "ค่าสูงสุด (กิโลไบต์/วินาที):"
 
-#: lib/options.h:114
+#: lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr ""
 "ค่าสูงสุด (กิโลโบต์/วินาที) ของการถ่ายโอนไฟล์ที่สามารถรับได้ (กำหนดให้เป็น 0 เมื่อไม่ใช้งาน)"
 
-#: lib/options.h:117
+#: lib/options.h:141
+#, fuzzy
+msgid "Transfer Block Size:"
+msgstr "ถ่ายโอนไฟล์"
+
+#: lib/options.h:144
+msgid ""
+"The block size that is used when transferring files. This should be a "
+"multiple of 1024."
+msgstr ""
+
+#: lib/options.h:147
 msgid "Default Protocol:"
 msgstr "โพรโตคอลปริยาย"
 
-#: lib/options.h:119
+#: lib/options.h:149
 msgid "This specifies the default protocol to use"
 msgstr "โพรโตคอลปริยายที่กำหนดให้ในการใช้งาน"
 
-#: lib/options.h:121 lib/options.h:124
+#: lib/options.h:151 lib/options.h:154
 msgid "Enable IPv6 support"
 msgstr ""
 
-#: lib/options.h:129
+#: lib/options.h:159
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -511,42 +622,42 @@ msgstr ""
 "นี่เป็นการกำหนดว่าอะไรจะเกิดขึ้นเมื่อคุณคลิ้กซ้ำที่ไฟล์ในกล่องรายการไฟล์ 0=ดูไฟล์ 1=แก้ไขไฟล์ "
 "2=ถ่ายโอนไฟล์"
 
-#: lib/options.h:132
+#: lib/options.h:162
 msgid "The default width of the local files listbox"
 msgstr "ความกว้างปริยายของกล่องรายการไฟล์ที่เครื่อง"
 
-#: lib/options.h:135
+#: lib/options.h:165
 msgid "The default width of the remote files listbox"
 msgstr "ความกว้างปริยายของกล่องรายการไฟล์ที่เครื่องฝั่งโน้น"
 
-#: lib/options.h:138
+#: lib/options.h:168
 msgid "The default height of the local/remote files listboxes"
 msgstr "ความสูงปริยายของกล่องรายการไฟล์ที่เครื่อง/ไฟล์ที่เครื่องฝั่งโน้น"
 
-#: lib/options.h:141
+#: lib/options.h:171
 msgid "The default height of the transfer listbox"
 msgstr "ความสูงปริยายของกล่องรายการการถ่ายโอน"
 
-#: lib/options.h:144
+#: lib/options.h:174
 msgid "The default height of the logging window"
 msgstr "ความสูงปริยายของหน้าต่างการติดตามการใช้งาน"
 
-#: lib/options.h:147
+#: lib/options.h:177
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
 msgstr ""
 "ความกว้างของคอลัมน์ชื่อไฟล์ในหน้าต่างถ่ายโอน กำหนดค่านี้ให้เป็น 0 เพื่อให้ปรับขนาดคอลัมน์ได้อัตโนมัติ"
 
-#: lib/options.h:151 lib/options.h:157
+#: lib/options.h:190 lib/options.h:196
 msgid "The default column to sort by"
 msgstr "คอลัมน์ปริยายเรียงลำดับโดย"
 
-#: lib/options.h:154 lib/options.h:160
+#: lib/options.h:193 lib/options.h:199
 msgid "Sort ascending or descending"
 msgstr "เรียงลำดับจากน้อยไปมาก หรือ จากมากไปน้อย"
 
-#: lib/options.h:164 lib/options.h:182
+#: lib/options.h:203 lib/options.h:221
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -554,7 +665,7 @@ msgstr ""
 "ความกว้างของคอลัมน์ชื่อไฟล์ในกล่องรายการไฟล์ กำหนดค่านี้ให้เป็น 0 "
 "เพื่อให้ปรับขนาดคอลัมน์ได้อัตโนมัติ กำหนดให้เป็น -1 เมื่อปิดการใช้งาน"
 
-#: lib/options.h:167 lib/options.h:185
+#: lib/options.h:206 lib/options.h:224
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -562,7 +673,7 @@ msgstr ""
 "ความกว้างของขนาดคอลัมน์ในกล่องรายการไฟล์ กำหนดค่านี้ให้เป็น 0 "
 "เพื่อให้ปรับขนาดคอลัมน์ได้อัตโนมัติ กำหนดให้เป็น -1 เมื่อปิดการใช้งาน"
 
-#: lib/options.h:170 lib/options.h:188
+#: lib/options.h:209 lib/options.h:227
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -570,7 +681,7 @@ msgstr ""
 "ความกว้างของคอลัมน์ผู้ใช้ในกล่องรายการไฟล์ กำหนดค่านี้ให้เป็น 0 เพื่อให้ปรับขนาดคอลัมน์ได้อัตโนมัติ "
 "กำหนดให้เป็น -1 เมื่อปิดการใช้งาน"
 
-#: lib/options.h:173 lib/options.h:191
+#: lib/options.h:212 lib/options.h:230
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -578,7 +689,7 @@ msgstr ""
 "ความกว้างของคอลัมน์กลุ่มในกล่องรายการไฟล์ กำหนดค่านี้ให้เป็น 0 เพื่อให้ปรับขนาดคอลัมน์ได้อัตโนมัติ "
 "กำหนดให้เป็น -1 เมื่อปิดการใช้งาน"
 
-#: lib/options.h:176 lib/options.h:194
+#: lib/options.h:215 lib/options.h:233
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -586,7 +697,7 @@ msgstr ""
 "ความกว้างของคอลัมน์วันที่ในกล่องรายการไฟล์ กำหนดค่านี้ให้เป็น 0 เพื่อให้ปรับขนาดคอลัมน์ได้อัตโนมัติ "
 "กำหนดให้เป็น -1 เมื่อปิดการใช้งาน"
 
-#: lib/options.h:179 lib/options.h:197
+#: lib/options.h:218 lib/options.h:236
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -594,314 +705,269 @@ msgstr ""
 "ความกว้างของคอลัมน์คุณลักษณะในกล่องรายการไฟล์ กำหนดค่านี้ให้เป็น 0 "
 "เพื่อให้ปรับขนาดคอลัมน์ได้อัตโนมัติ กำหนดให้เป็น -1 เมื่อปิดการใช้งาน"
 
-#: lib/options.h:200
+#: lib/options.h:239
 msgid "The color of the commands that are sent to the server"
 msgstr "สีสำหรับคำสั่งที่ถูกส่งไปยังเซิร์ฟเวอร์"
 
-#: lib/options.h:203
+#: lib/options.h:242
 msgid "The color of the commands that are received from the server"
 msgstr "สีสำหรับคำสั่งที่ได้รับจากเซิร์ฟเวอร์"
 
-#: lib/options.h:206
+#: lib/options.h:245
 msgid "The color of the error messages"
 msgstr "สีสำหรับข้อความผิดพลาด"
 
-#: lib/options.h:209
+#: lib/options.h:248
 msgid "The color of the rest of the log messages"
 msgstr "สีที่เตรียมไว้สำหรับข้อความบันทึกการปฏิบัติการ"
 
-#: lib/options.h:215 lib/rfc959.c:40
+#: lib/options.h:254 lib/rfc959.c:39
 msgid "FTP"
 msgstr ""
 
-#: lib/options.h:218 lib/options.h:220
+#: lib/options.h:257 lib/options.h:259
 msgid "FTPS"
 msgstr ""
 
-#: lib/options.h:223 lib/rfc2068.c:27
+#: lib/options.h:262 lib/rfc2068.c:26
 msgid "HTTP"
 msgstr "HTTP"
 
-#: lib/options.h:226 lib/options.h:228
+#: lib/options.h:265 lib/options.h:267
 msgid "HTTPS"
 msgstr ""
 
-#: lib/options.h:231
+#: lib/options.h:270
 msgid "Local"
 msgstr "เครื่องที่ใช้"
 
-#: lib/options.h:233
+#: lib/options.h:272
 msgid "SSH2"
 msgstr ""
 
-#: lib/options.h:235 src/gtk/bookmarks.c:858
+#: lib/options.h:274 src/gtk/bookmarks.c:882
 #, fuzzy
 msgid "Bookmark"
 msgstr "บุ๊กมาร์ก"
 
-#: lib/protocols.c:221
+#: lib/options.h:275
+msgid "FSP"
+msgstr ""
+
+#: lib/protocols.c:227
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "การถ่ายโอนไฟล์จะถูกจำกัดที่ %.2f กิโลไบต์/วินาที\n"
 
-#: lib/protocols.c:329
+#: lib/protocols.c:380
 #, c-format
-msgid "Loading directory listing %s from cache\n"
+msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
+msgstr ""
+
+#: lib/protocols.c:391
+#, fuzzy, c-format
+msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "กำลังโหลดรายชื่อไดเรกทอรี %s จากแคช\n"
 
-#: lib/protocols.c:546
+#: lib/protocols.c:401
+#, fuzzy, c-format
+msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
+msgstr "กำลังโหลดรายชื่อไดเรกทอรี %s จากแคช\n"
+
+#: lib/protocols.c:451
+#, c-format
+msgid ""
+"Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
+"match the current directory (%s)\n"
+msgstr ""
+
+#: lib/protocols.c:482
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถเขียนลงแคช: %s\n"
 
-#: lib/protocols.c:578
+#: lib/protocols.c:515
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "ผิดพลาด: ไม่พบบุ๊กมาร์ก %s \n"
 
-#: lib/protocols.c:585
+#: lib/protocols.c:522
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "บุ๊กมาร์กผิดพลาด: รายการในบุ๊กมาร์ก %s หายไป ดูให้แน่ใจว่ามีชื่อโฮสต์และชื่อผู้ใช้\n"
 
-#: lib/protocols.c:693
+#: lib/protocols.c:644 lib/protocols.c:671
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr ""
 
-#: lib/protocols.c:1036 lib/protocols.c:1051 lib/protocols.c:1974
-#: lib/protocols.c:2083
+#: lib/protocols.c:1154
 #, c-format
-msgid "Looking up %s\n"
-msgstr "กำลังค้นหา %s\n"
-
-#: lib/protocols.c:1042 lib/protocols.c:1057 lib/protocols.c:1979
-#: lib/protocols.c:2088
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "ไม่สามารถค้นหาชื่อโฮสต์ %s: %s\n"
-
-#: lib/protocols.c:1348 lib/protocols.c:1349 lib/protocols.c:1390
-#: lib/protocols.c:1391 lib/protocols.c:1450 lib/protocols.c:1457
-#: lib/protocols.c:1536 lib/protocols.c:1537 lib/protocols.c:1571
-msgid "unknown"
-msgstr "ไม่รู้จัก"
-
-#: lib/protocols.c:1997
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "สร้างซ็อกเก็ตล้มเหลว: %s\n"
-
-#: lib/protocols.c:2003 lib/protocols.c:2102
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "พยายาม %s:%d\n"
-
-#: lib/protocols.c:2008 lib/protocols.c:2109
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "ไม่สามารถเชื่อมต่อไปยัง %s: %s\n"
-
-#: lib/protocols.c:2040 lib/rfc959.c:630
-#, c-format
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "สร้าง IPv4 ซ็อกเก็ตล้มเหลว: %s\n"
-
-#: lib/protocols.c:2064 lib/sshv2.c:898
-#, c-format
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgid "Found recursive symbolic link %s\n"
 msgstr ""
 
-#: lib/protocols.c:2126 lib/protocols.c:2759 lib/rfc959.c:639 lib/rfc959.c:786
-#, c-format
-msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr ""
-
-#: lib/protocols.c:2133
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "เชื่อมต่อไปยัง %s:%d\n"
-
-#: lib/protocols.c:2363 lib/protocols.c:2434
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "หมดเวลาการเชื่อมต่อไปยัง %s\n"
-
-#: lib/protocols.c:2503
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr "ไม่ได้รับค่าสถานะซ็อกเก็ต: %s\n"
-
-#: lib/protocols.c:2517
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "ไม่สามารถตั้งค่าซ็อกเก็ตให้เป็นแบบไม่มีจำกัด (non-blocking): %s\n"
-
-#: lib/protocols.c:2653
+#: lib/protocols.c:1532
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr "ผิดพลาด: ไซต์ทางไกล %s ถูกยกเลิกการเชื่อมต่อ ลองใหม่จนถึงค่าสูงสุด...กำลังจะยกเลิก\n"
 
-#: lib/protocols.c:2661
+#: lib/protocols.c:1540
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
 "ผิดพลาด: ไซต์ทางไกล %s ถูกยกเลิกการเชื่อมต่อ จะทำการเชื่อมต่ออีกครั้งในเวลา %d วินาที\n"
 
-#: lib/pty.c:288
+#: lib/protocols.c:1635 lib/rfc959.c:714 lib/rfc959.c:884
+#: lib/socket-connect.c:125
 #, c-format
-msgid "Cannot create a socket pair: %s\n"
-msgstr "ไม่สามารถสร้างคู่ซ็อกเก็ต: %s\n"
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr ""
 
-#: lib/pty.c:307 lib/pty.c:364
-#, c-format
-msgid "Error: Cannot execute ssh: %s\n"
-msgstr "ผิดพลาด: ไม่สามารถประมวลผล ssh: %s\n"
-
-#: lib/pty.c:320 lib/pty.c:375
-#, c-format
-msgid "Cannot fork another process: %s\n"
-msgstr "ไม่สามารถแตกโพรเซสได้: %s\n"
-
-#: lib/pty.c:338
+#: lib/pty.c:300
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "ไม่สามารถเปิด pty ต้นฉบับ %s: %s\n"
 
-#: lib/rfc2068.c:30 lib/rfc959.c:47
+#: lib/pty.c:308
+#, c-format
+msgid "Cannot create a socket pair: %s\n"
+msgstr "ไม่สามารถสร้างคู่ซ็อกเก็ต: %s\n"
+
+#: lib/pty.c:337
+#, c-format
+msgid "Error: Cannot execute ssh: %s\n"
+msgstr "ผิดพลาด: ไม่สามารถประมวลผล ssh: %s\n"
+
+#: lib/pty.c:353
+#, c-format
+msgid "Cannot fork another process: %s\n"
+msgstr "ไม่สามารถแตกโพรเซสได้: %s\n"
+
+#: lib/rfc2068.c:29 lib/rfc959.c:46
 msgid "Proxy hostname:"
 msgstr "ชื่อโฮสต์พร็อกซี:"
 
-#: lib/rfc2068.c:32 lib/rfc959.c:49
+#: lib/rfc2068.c:31 lib/rfc959.c:48
 msgid "Firewall hostname"
 msgstr "ชื่อโฮสต์ไฟร์วอลล์"
 
-#: lib/rfc2068.c:33 lib/rfc959.c:50
+#: lib/rfc2068.c:32 lib/rfc959.c:49
 msgid "Proxy port:"
 msgstr "พอร์ตพร็อกซี:"
 
-#: lib/rfc2068.c:35 lib/rfc959.c:52
+#: lib/rfc2068.c:34 lib/rfc959.c:51
 msgid "Port to connect to on the firewall"
 msgstr "พอร์ตเพื่อเชื่อมต่อไปยังไฟร์วอลล์"
 
-#: lib/rfc2068.c:36 lib/rfc959.c:53
+#: lib/rfc2068.c:35 lib/rfc959.c:52
 msgid "Proxy username:"
 msgstr "ชื่อผู้ใช้พร็อกซี:"
 
-#: lib/rfc2068.c:38 lib/rfc959.c:55
+#: lib/rfc2068.c:37 lib/rfc959.c:54
 msgid "Your firewall username"
 msgstr "ชื่อผู้ใช้ไฟร์วอลล์ของคุณ"
 
-#: lib/rfc2068.c:39 lib/rfc959.c:56
+#: lib/rfc2068.c:38 lib/rfc959.c:55
 msgid "Proxy password:"
 msgstr "รหัสผ่านพร็อกซี:"
 
-#: lib/rfc2068.c:41 lib/rfc959.c:58
+#: lib/rfc2068.c:40 lib/rfc959.c:57
 msgid "Your firewall password"
 msgstr "รหัสผ่านไฟร์วอลล์ของคุณ"
 
-#: lib/rfc2068.c:43
+#: lib/rfc2068.c:42
 msgid "Use HTTP/1.1"
 msgstr "ใช้ HTTP/1.1"
 
-#: lib/rfc2068.c:46
+#: lib/rfc2068.c:45
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "คุณต้องการใช้ HTTP/1.1 หรือ HTTP/1.0?"
 
-#: lib/rfc2068.c:154 lib/rfc2068.c:866
+#: lib/rfc2068.c:150 lib/rfc2068.c:839
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
 "Invalid chunk size '%s' returned by the remote server\n"
 msgstr ""
 
-#: lib/rfc2068.c:260 lib/rfc959.c:599 lib/sshv2.c:995
+#: lib/rfc2068.c:254 lib/rfc959.c:678 lib/sshv2.c:1244
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "ยกเลิกการเชื่อมต่อจากไซต์ %s\n"
 
-#: lib/rfc2068.c:310
-#, c-format
-msgid "Starting the file transfer at offset %lld\n"
-msgstr "กำลังเริ่มต้นถ่ายโอนไฟล์ที่ออฟเซต %lld\n"
-
-#: lib/rfc2068.c:318
-#, c-format
-msgid "Starting the file transfer at offset %ld\n"
+#: lib/rfc2068.c:300
+#, fuzzy
+msgid "Starting the file transfer at offset "
 msgstr "กำลังเริ่มต้นถ่ายโอนไฟล์ที่ออฟเซต %ld\n"
 
-#: lib/rfc2068.c:340
+#: lib/rfc2068.c:321
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "ไม่สามารถเรียกไฟล์กลับคืน %s\n"
 
-#: lib/rfc2068.c:442 lib/sshv2.c:1080
+#: lib/rfc2068.c:420 lib/sshv2.c:1326
 msgid "Retrieving directory listing...\n"
 msgstr "กำลังเรียกกลับคืนรายชื่อไดเรกทอรี...\n"
 
-#: lib/rfc2068.c:847 lib/sshv2.c:716 lib/sshv2.c:729 lib/sshv2.c:751
-#: lib/sshv2.c:819 lib/sshv2.c:951 lib/sshv2.c:1042 lib/sshv2.c:1110
-#: lib/sshv2.c:1223 lib/sshv2.c:1236 lib/sshv2.c:1249 lib/sshv2.c:1262
-#: lib/sshv2.c:1318 lib/sshv2.c:1383 lib/sshv2.c:1843 lib/sshv2.c:1946
-#: lib/sshv2.c:2040 lib/sshv2.c:2125 lib/sshv2.c:2211
+#: lib/rfc2068.c:815 lib/sshv2.c:894
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "ได้รับการตอบสนองไม่ถูกต้องจากเซิร์ฟเวอร์, กำลังยกเลิกการเชื่อมต่อ\n"
 
-#: lib/rfc959.c:27
+#: lib/rfc959.c:26
 msgid "SITE command"
 msgstr "คำสั่ง SITE"
 
-#: lib/rfc959.c:28
+#: lib/rfc959.c:27
 msgid "user@host"
 msgstr ""
 
-#: lib/rfc959.c:29
+#: lib/rfc959.c:28
 msgid "user@host:port"
 msgstr ""
 
-#: lib/rfc959.c:30
+#: lib/rfc959.c:29
 msgid "AUTHENTICATE"
 msgstr "ได้รับการรับรองความถูกต้อง"
 
-#: lib/rfc959.c:31
+#: lib/rfc959.c:30
 msgid "user@host port"
 msgstr ""
 
-#: lib/rfc959.c:32
+#: lib/rfc959.c:31
 msgid "user@host NOAUTH"
 msgstr ""
 
-#: lib/rfc959.c:33
+#: lib/rfc959.c:32
 msgid "HTTP Proxy"
 msgstr "พร็อกซี HTTP"
 
-#: lib/rfc959.c:34
+#: lib/rfc959.c:33
 msgid "Custom"
 msgstr "กำหนดเอง"
 
-#: lib/rfc959.c:43
+#: lib/rfc959.c:42
 msgid "Email address:"
 msgstr "ที่อยู่อีเมล์:"
 
-#: lib/rfc959.c:45
+#: lib/rfc959.c:44
 msgid ""
 "This is the password that will be used whenever you log into a remote FTP "
 "server as anonymous"
 msgstr ""
 
-#: lib/rfc959.c:59
+#: lib/rfc959.c:58
 msgid "Proxy account:"
 msgstr "บัญชีผู้ใช้พร็อกซี:"
 
-#: lib/rfc959.c:61
+#: lib/rfc959.c:60
 msgid "Your firewall account (optional)"
 msgstr "บัญชีผู้ใช้ไฟร์วอลล์ของคุณ (ที่เป็นตัวเลือก)"
 
-#: lib/rfc959.c:63
+#: lib/rfc959.c:62
 msgid "Proxy server type:"
 msgstr "ประเภทเซิร์ฟเวอร์พร็อกซี"
 
-#: lib/rfc959.c:66
+#: lib/rfc959.c:65
 #, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
@@ -912,11 +978,23 @@ msgid ""
 "can you type in %pu"
 msgstr ""
 
-#: lib/rfc959.c:69
+#: lib/rfc959.c:68
+msgid "Ignore PASV address"
+msgstr ""
+
+#: lib/rfc959.c:71
+msgid ""
+"If this is enabled, then the remote FTP server's PASV IP address field will "
+"be ignored and the host's IP address will be used instead. This is often "
+"needed for routers giving their internal rather then their external IP "
+"address in a PASV reply."
+msgstr ""
+
+#: lib/rfc959.c:73
 msgid "Passive file transfers"
 msgstr ""
 
-#: lib/rfc959.c:72
+#: lib/rfc959.c:76
 msgid ""
 "If this is enabled, then the remote FTP server will open up a port for the "
 "data connection. If you are behind a firewall, you will need to enable this. "
@@ -926,11 +1004,11 @@ msgid ""
 "attempt to connect to it."
 msgstr ""
 
-#: lib/rfc959.c:74
+#: lib/rfc959.c:78
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr ""
 
-#: lib/rfc959.c:77
+#: lib/rfc959.c:81
 msgid ""
 "The remote FTP server will attempt to resolve symlinks in the directory "
 "listings. Generally, this is a good idea to leave enabled. The only time you "
@@ -938,327 +1016,381 @@ msgid ""
 "option to LIST"
 msgstr ""
 
-#: lib/rfc959.c:79
+#: lib/rfc959.c:83
 msgid "Transfer files in ASCII mode"
 msgstr "ถ่ายโอนไฟล์ในรูปแบบ ASCII"
 
-#: lib/rfc959.c:82
+#: lib/rfc959.c:86
 msgid ""
-"If you are transfering a text file from Windows to UNIX box or vice versa, "
+"If you are transferring a text file from Windows to UNIX box or vice versa, "
 "then you should enable this. Each system represents newlines differently for "
-"text files. If you are transfering from UNIX to UNIX, then it is safe to "
+"text files. If you are transferring from UNIX to UNIX, then it is safe to "
 "leave this off. If you are downloading binary data, you will want to disable "
 "this."
 msgstr ""
 
-#: lib/rfc959.c:317 lib/rfc959.c:326 lib/rfc959.c:337
+#: lib/rfc959.c:380 lib/rfc959.c:389 lib/rfc959.c:400 lib/rfc959.c:848
+#: lib/rfc959.c:1413
 #, c-format
-msgid "Received invalid response to PWD command: '%s'\n"
-msgstr "ได้รับการตอบสนองที่ไม่ถูกต้องจากคำสั่ง PWD: '%s'\n"
+msgid "Invalid response '%c' received from server.\n"
+msgstr ""
 
-#: lib/rfc959.c:668 lib/rfc959.c:678
+#: lib/rfc959.c:705 lib/socket-connect-gethostbyname.c:119
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "สร้าง IPv4 ซ็อกเก็ตล้มเหลว: %s\n"
+
+#: lib/rfc959.c:744 lib/rfc959.c:754
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "ไม่พบที่อยู่ IP ในการตอบสนอง PASV '%s'\n"
 
-#: lib/rfc959.c:693 lib/rfc959.c:848
+#: lib/rfc959.c:774
+#, fuzzy, c-format
+msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
+msgstr "ไม่พบที่อยู่ IP ในการตอบสนอง PASV '%s'\n"
+
+#: lib/rfc959.c:785 lib/rfc959.c:944
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "ไม่สามารถสร้างการเชื่อมต่อข้อมูล: %s\n"
 
-#: lib/rfc959.c:705 lib/rfc959.c:726 lib/rfc959.c:873
+#: lib/rfc959.c:797 lib/rfc959.c:818 lib/rfc959.c:969
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "ไม่ได้รับชื่อซ็อกเก็ต: %s\n"
 
-#: lib/rfc959.c:716 lib/rfc959.c:863
+#: lib/rfc959.c:808 lib/rfc959.c:959
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "ไม่สามารถไบด์พอร์ต: %s\n"
 
-#: lib/rfc959.c:735 lib/rfc959.c:882
+#: lib/rfc959.c:827 lib/rfc959.c:978
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "ไม่สามารถฟังบนพอร์ต %d: %s\n"
 
-#: lib/rfc959.c:777
+#: lib/rfc959.c:875
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "สร้าง IPv6ซ็อกเก็ตล้มเหลว: %s\n"
 
-#: lib/rfc959.c:797
+#: lib/rfc959.c:894
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr ""
 
-#: lib/rfc959.c:826 lib/rfc959.c:835
+#: lib/rfc959.c:922 lib/rfc959.c:931
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr ""
 
-#: lib/rfc959.c:892
+#: lib/rfc959.c:988
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "ไม่สามารถทราบค่าที่อยู่ของซ็อกเก็ตในเครื่องได้: %s\n"
 
-#: lib/rfc959.c:965
+#: lib/rfc959.c:1075
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "ไม่สามารถยอมรับการเชื่อมต่อจากเซิร์ฟเวอร์: %s\n"
 
-#: lib/rfc959.c:1478
+#: lib/rfc959.c:1583
 msgid "total"
 msgstr "ทั้งหมด"
 
-#: lib/rfc959.c:1480
+#: lib/rfc959.c:1585
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "คำเตือน: ไม่สามารถแปลค่ารายชื่อ %s\n"
 
-#: lib/sshv2.c:28
+#: lib/socket-connect-getaddrinfo.c:76 lib/socket-connect-gethostbyname.c:63
+#, c-format
+msgid "Looking up %s\n"
+msgstr "กำลังค้นหา %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:81 lib/socket-connect-gethostbyname.c:68
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "ไม่สามารถค้นหาชื่อโฮสต์ %s: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:114
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "สร้างซ็อกเก็ตล้มเหลว: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:120 lib/socket-connect-gethostbyname.c:133
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "พยายาม %s:%d\n"
+
+#: lib/socket-connect-getaddrinfo.c:126 lib/socket-connect-gethostbyname.c:140
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "ไม่สามารถเชื่อมต่อไปยัง %s: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:151 lib/socket-connect-gethostbyname.c:158
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "เชื่อมต่อไปยัง %s:%d\n"
+
+#: lib/socket-connect-gethostbyname.c:100 lib/sshv2.c:1167
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr ""
+
+#: lib/sockutils.c:189 lib/sockutils.c:267 lib/sshv2.c:434
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "หมดเวลาการเชื่อมต่อไปยัง %s\n"
+
+#: lib/sockutils.c:337
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "ไม่ได้รับค่าสถานะซ็อกเก็ต: %s\n"
+
+#: lib/sockutils.c:351
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "ไม่สามารถตั้งค่าซ็อกเก็ตให้เป็นแบบไม่มีจำกัด (non-blocking): %s\n"
+
+#: lib/sshv2.c:27
 msgid "SSH"
 msgstr "โพรโตคอล SSH"
 
-#: lib/sshv2.c:31
+#: lib/sshv2.c:30
 msgid "SSH Prog Name:"
 msgstr "ชื่อโปรแกรม SSH:"
 
-#: lib/sshv2.c:33
+#: lib/sshv2.c:32
 msgid "The path to the SSH executable"
 msgstr "เส้นทางที่ให้โพรโตคอล SSH ปฏิบัติการ"
 
-#: lib/sshv2.c:34
+#: lib/sshv2.c:33
 msgid "SSH Extra Params:"
 msgstr "พารามิเตอร์พิเศษของโพรโตคอล SSH:"
 
-#: lib/sshv2.c:36
+#: lib/sshv2.c:35
 msgid "Extra parameters to pass to the SSH program"
 msgstr "พารามิเตอร์พิเศษเพื่อส่งผ่านไปยังโปรแกรม SSH"
 
 #: lib/sshv2.c:37
-msgid "SSH2 sftp-server path:"
-msgstr ""
-
-#: lib/sshv2.c:39
-#, fuzzy
-msgid "Default remote SSH2 sftp-server path"
-msgstr "เส้นทางปริยายของ SSH2 sftp-server ติดต่อไปยังเซิร์ฟเวอร์"
-
-#: lib/sshv2.c:41
 msgid "Need SSH User/Pass"
 msgstr "ต้องการชื่อผู้ใช้และรหัสผ่านของโพรโตคอล SSH"
 
-#: lib/sshv2.c:44
+#: lib/sshv2.c:40
 msgid "Require a username/password for SSH connections"
 msgstr "เรียกหาชื่อผู้ใช้หรือรหัสผ่านในการเชื่อมต่อโพรโตคอล SSH"
 
-#: lib/sshv2.c:45
-msgid "Use ssh-askpass utility"
-msgstr ""
-
-#: lib/sshv2.c:48
-#, fuzzy
-msgid "Use the ssh-askpass utility to supply the remote password"
-msgstr "ใช้อรรถประโยชน์ ssh-askpass เพื่อจับรหัสผ่านของผู้ใช้"
-
-#: lib/sshv2.c:50
-msgid "Use SSH2 SFTP subsys"
-msgstr "ใช้ระบบย่อยของโพรโตคอล SSH2 SFTP"
-
-#: lib/sshv2.c:53
-#, fuzzy
-msgid ""
-"Call ssh with the -s sftp flag. This is helpful because you won't have to "
-"know the remote path to the remote sftp-server"
-msgstr ""
-"เรียก ssh ด้วยค่าสถานะ -s  ผ่านคำสั่ง sftp   "
-"เนื่องจากคุณไม่จำเป็นต้องรู้เส้นทางในการติดต่อไปยัง sftp-server ไปยังเซิร์ฟเวอร์"
-
-#: lib/sshv2.c:259
+#: lib/sshv2.c:368
 #, c-format
 msgid "Running program %s\n"
 msgstr "โปรแกรมกำลังทำงาน %s\n"
 
-#: lib/sshv2.c:306 lib/sshv2.c:331
-msgid "WARNING"
-msgstr "คำเตือน"
+#: lib/sshv2.c:377
+msgid "Enter passphrase for RSA key"
+msgstr ""
 
-#: lib/sshv2.c:373
+#: lib/sshv2.c:378
+msgid "Enter passphrase for key '"
+msgstr ""
+
+#: lib/sshv2.c:379
+#, fuzzy
+msgid "Password"
+msgstr "รหัสผ่าน:"
+
+#: lib/sshv2.c:380
+#, fuzzy
+msgid "password"
+msgstr "รหัสผ่าน:"
+
+#: lib/sshv2.c:495
+msgid "(yes/no)?"
+msgstr ""
+
+#: lib/sshv2.c:513
+msgid "Enter PASSCODE:"
+msgstr ""
+
+#: lib/sshv2.c:517 src/gtk/gtkui.c:141 src/gtk/transfer.c:561
+#: src/gtk/transfer.c:571
+msgid "Enter Password"
+msgstr "ใส่รหัสผ่าน"
+
+#: lib/sshv2.c:518
+#, fuzzy
+msgid "Enter SecurID Password:"
+msgstr "ใส่รหัสผ่าน"
+
+#: lib/sshv2.c:566
 msgid "Error: An incorrect password was entered\n"
 msgstr "ผิดพลาด: ใส่รหัสผ่านผิดพลาด\n"
 
-#: lib/sshv2.c:376
-msgid ""
-"Please connect to this host with the command line SSH utility and answer "
-"this question appropriately.\n"
-msgstr ""
-"โปรดเชื่อมต่อไปยังโฮสต์นี้โดยใช้บรรทัดคำสั่งอรรถประโยชน์ SSH และตอบคำถามนี้อย่างเหมาะสม\n"
-
-#: lib/sshv2.c:379
-msgid "Please correct the above warning to connect to this host.\n"
-msgstr "โปรดแก้ไขตามคำเตือนข้างต้นเพื่อเชื่อมต่อไปยังโฮสต์นี้\n"
-
-#: lib/sshv2.c:418
+#: lib/sshv2.c:595
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: การเริ่มการเรียกใช้โพรโตคอล\n"
 
-#: lib/sshv2.c:424
+#: lib/sshv2.c:599
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: รุ่นโพรโตคอล %d\n"
 
-#: lib/sshv2.c:433
+#: lib/sshv2.c:608
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: เปิด %s\n"
 
-#: lib/sshv2.c:438
+#: lib/sshv2.c:613
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: ปิด\n"
 
-#: lib/sshv2.c:444
+#: lib/sshv2.c:617
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: เปิดไดเรกทอรี %s\n"
 
-#: lib/sshv2.c:449
+#: lib/sshv2.c:622
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: อ่านไดเรกทอรี\n"
 
-#: lib/sshv2.c:453
+#: lib/sshv2.c:626
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: ย้ายไฟล์ %s ออก\n"
 
-#: lib/sshv2.c:458
+#: lib/sshv2.c:631
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: สร้างไดเรกทอรี %s\n"
 
-#: lib/sshv2.c:463
+#: lib/sshv2.c:636
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: ย้ายไดเรกทอรี %s ออก\n"
 
-#: lib/sshv2.c:468
+#: lib/sshv2.c:641
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: เส้นทางจริง %s\n"
 
-#: lib/sshv2.c:473
+#: lib/sshv2.c:646
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: คุณสมบัติไฟล์\n"
 
-#: lib/sshv2.c:477
+#: lib/sshv2.c:650
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: เริ่ม %s\n"
 
-#: lib/sshv2.c:494
+#: lib/sshv2.c:670
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: เปลี่ยนสิทธิ์การเข้าถึงไฟล์ (Chmod) %s %o\n"
 
-#: lib/sshv2.c:499
+#: lib/sshv2.c:675
 #, fuzzy, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: วันและเวลาที่มีการแก้ไขโดยใช้การเรียกจากระบบ (Utime) %s %d\n"
 
-#: lib/sshv2.c:512 src/gtk/bookmarks.c:1017 src/gtk/bookmarks.c:1263
-#: src/gtk/chmod_dialog.c:281 src/gtk/gtkui_transfer.c:361
-#: src/gtk/misc-gtk.c:956 src/gtk/options_dialog.c:1109
-#: src/gtk/options_dialog.c:1311
+#: lib/sshv2.c:689 src/gtk/bookmarks.c:1041 src/gtk/bookmarks.c:1291
+#: src/gtk/chmod_dialog.c:252 src/gtk/gtkui_transfer.c:375
+#: src/gtk/misc-gtk.c:994 src/gtk/options_dialog.c:1204
+#: src/gtk/options_dialog.c:1436
 msgid "OK"
 msgstr "ตกลง"
 
-#: lib/sshv2.c:515
+#: lib/sshv2.c:692
 msgid "EOF"
 msgstr "สิ้นสุดไฟล์"
 
-#: lib/sshv2.c:518
+#: lib/sshv2.c:695
 msgid "No such file or directory"
 msgstr "ไม่มีไฟล์หรือไดเรกทอรีเช่นนี้"
 
-#: lib/sshv2.c:521
+#: lib/sshv2.c:698
 msgid "Permission denied"
 msgstr "การเปลี่ยนสิทธิ์ได้รับการปฏิเสธ"
 
-#: lib/sshv2.c:524
+#: lib/sshv2.c:701
 msgid "Failure"
 msgstr "ล้มเหลว"
 
-#: lib/sshv2.c:527
+#: lib/sshv2.c:704
 msgid "Bad message"
 msgstr "ข้อความไม่เป็นที่ยอมรับ"
 
-#: lib/sshv2.c:530
+#: lib/sshv2.c:707
 msgid "No connection"
 msgstr "ไม่มีการเชื่อมต่อ"
 
-#: lib/sshv2.c:533
+#: lib/sshv2.c:710
 msgid "Connection lost"
 msgstr "การเชื่อมต่อสูญหาย"
 
-#: lib/sshv2.c:536
+#: lib/sshv2.c:713
 msgid "Operation unsupported"
 msgstr "การดำเนินการไม่ได้รับการสนับสนุน"
 
-#: lib/sshv2.c:539
+#: lib/sshv2.c:716
 msgid "Unknown message returned from server"
 msgstr "ได้รับข้อความที่ไม่รู้จักจากเซิร์ฟเวอร์"
 
-#: lib/sshv2.c:576
+#: lib/sshv2.c:751
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "ผิดพลาด: ขนาดข้อความ %d ใหญ่เกินไป\n"
 
-#: lib/sshv2.c:634 lib/sshv2.c:1119 lib/sshv2.c:1955 lib/sshv2.c:2049
-#: lib/sshv2.c:2137
+#: lib/sshv2.c:810 lib/sshv2.c:1345 lib/sshv2.c:1837 lib/sshv2.c:1956
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "ผิดพลาด: ขนาดข้อความจากเซิร์ฟเวอร์ %d ใหญ่เกินไป\n"
 
-#: lib/sshv2.c:640
+#: lib/sshv2.c:816
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr ""
 
-#: lib/sshv2.c:869
+#: lib/sshv2.c:1159
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "กำลังเปิดการเชื่อมต่อ SSH เพื่อติดต่อไปยัง %s\n"
 
-#: lib/sshv2.c:962
+#: lib/sshv2.c:1211
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "บันทึกข้อมูลไปยัง SSH ที่เซิร์ฟเวอร์  %s ได้สำเร็จ\n"
 
-#: lib/sslcommon.c:31
+#: lib/sslcommon.c:30
 msgid "SSL Engine"
 msgstr ""
 
-#: lib/sslcommon.c:34
+#: lib/sslcommon.c:33
 msgid "SSL Entropy File:"
 msgstr ""
 
-#: lib/sslcommon.c:36
+#: lib/sslcommon.c:35
 msgid "SSL entropy file"
 msgstr ""
 
-#: lib/sslcommon.c:37
+#: lib/sslcommon.c:36
 msgid "Entropy Seed Length:"
 msgstr ""
 
-#: lib/sslcommon.c:39
+#: lib/sslcommon.c:38
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr ""
 
-#: lib/sslcommon.c:99
+#: lib/sslcommon.c:40 lib/sslcommon.c:42
+msgid "Verify SSL Peer"
+msgstr ""
+
+#: lib/sslcommon.c:106
 #, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
@@ -1267,66 +1399,56 @@ msgid ""
 "Error %i:%s\n"
 msgstr ""
 
-#: lib/sslcommon.c:121
+#: lib/sslcommon.c:128
 msgid "Cannot get peer certificate\n"
 msgstr ""
 
-#: lib/sslcommon.c:180
+#: lib/sslcommon.c:195
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
 "connected to (%s). Aborting connection.\n"
 msgstr ""
 
-#: lib/sslcommon.c:287
-msgid "Cannot initialized the OpenSSL library\n"
+#: lib/sslcommon.c:312
+msgid "Cannot initialize the OpenSSL library\n"
 msgstr ""
 
-#: lib/sslcommon.c:302
+#: lib/sslcommon.c:327
 msgid "Error loading default SSL certificates\n"
 msgstr ""
 
-#: lib/sslcommon.c:313
+#: lib/sslcommon.c:339
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr ""
 
-#: lib/sslcommon.c:332 lib/sslcommon.c:401 lib/sslcommon.c:448
+#: lib/sslcommon.c:359 lib/sslcommon.c:434 lib/sslcommon.c:482
 msgid "Error: SSL engine was not initialized\n"
 msgstr ""
 
-#: lib/sslcommon.c:349
+#: lib/sslcommon.c:376
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr ""
 
-#: lib/sslcommon.c:359
+#: lib/sslcommon.c:386
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr ""
 
-#: lib/sslcommon.c:377
+#: lib/sslcommon.c:407
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:61
+#: src/uicommon/gftpui.c:60
+msgid "Operation canceled\n"
+msgstr "การดำเนินการถูกยกเลิก\n"
+
+#: src/uicommon/gftpui.c:69
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "รอ %d วินาที จนกว่าจะเชื่อมต่อใหม่อีกครั้ง\n"
 
-#: src/uicommon/gftpui.c:72 src/gtk/chmod_dialog.c:74
-#: src/gtk/delete_dialog.c:89 src/gtk/transfer.c:213
-msgid "Operation canceled\n"
-msgstr "การดำเนินการถูกยกเลิก\n"
-
-#: src/uicommon/gftpui.c:146
-msgid ""
-">. If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ""
-">.ถ้าคุณมีคำถาม ข้อคิดเห็น หรือคำแนะนำเกี่ยวกับโปรแกรมนี้ โปรดส่งอี-เมล์มายังเรา "
-"และคุณสามารถพบข่าวล่าสุดเกี่ยวกับ gFTP จากเวบไซต์ http://www.gftp.org/\n"
-
-#: src/uicommon/gftpui.c:147
+#: src/uicommon/gftpui.c:160
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1335,73 +1457,73 @@ msgstr ""
 "โปรแกรม gFTP ไม่มีการรับประกันใดๆ; คุณสามารถดูรายละเอียดได้จากไฟล์สำเนา โปรแกรม gFTP "
 "เป็นซอฟต์แวร์เสรี คุณสามารถปรับปรุงใหม่ภายใต้เงื่อนไขที่กำหนด ซึ่งมีรายละเอียดอยู่ในไฟล์สำเนา\n"
 
-#: src/uicommon/gftpui.c:149 src/gtk/menu-items.c:495
+#: src/uicommon/gftpui.c:162 src/gtk/menu-items.c:490
 msgid "Translated by"
 msgstr "แปลโดย"
 
-#: src/uicommon/gftpui.c:196 src/uicommon/gftpui.c:238
-#: src/uicommon/gftpui.c:278 src/uicommon/gftpui.c:313
-#: src/uicommon/gftpui.c:348 src/uicommon/gftpui.c:383
-#: src/uicommon/gftpui.c:419 src/uicommon/gftpui.c:482
-#: src/uicommon/gftpui.c:563 src/uicommon/gftpui.c:828
+#: src/uicommon/gftpui.c:209 src/uicommon/gftpui.c:251
+#: src/uicommon/gftpui.c:291 src/uicommon/gftpui.c:326
+#: src/uicommon/gftpui.c:361 src/uicommon/gftpui.c:397
+#: src/uicommon/gftpui.c:433 src/uicommon/gftpui.c:498
+#: src/uicommon/gftpui.c:579 src/uicommon/gftpui.c:849
 msgid "Error: Not connected to a remote site\n"
 msgstr "ผิดพลาด: ไม่สามารถเชื่อมต่อไปยังไซต์ทางไกลได้\n"
 
-#: src/uicommon/gftpui.c:207
+#: src/uicommon/gftpui.c:220
 msgid "usage: chmod <mode> <file>\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:248
+#: src/uicommon/gftpui.c:261
 msgid "usage: rename <old name> <new name>\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:284
+#: src/uicommon/gftpui.c:297
 msgid "usage: delete <file>\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:319
+#: src/uicommon/gftpui.c:332
 msgid "usage: rmdir <directory>\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:354
+#: src/uicommon/gftpui.c:367
 msgid "usage: site <site command>\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:389
+#: src/uicommon/gftpui.c:403
 msgid "usage: mkdir <new directory>\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:425 src/uicommon/gftpui.c:442
+#: src/uicommon/gftpui.c:439 src/uicommon/gftpui.c:457
 msgid "usage: chdir <directory>\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:514
+#: src/uicommon/gftpui.c:530
 msgid "Invalid argument\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:527
+#: src/uicommon/gftpui.c:543
 msgid "Clear the directory cache\n"
 msgstr "ลบแคชไดเรกทอรี\n"
 
-#: src/uicommon/gftpui.c:616
+#: src/uicommon/gftpui.c:632
 msgid "usage: open "
 msgstr ""
 
-#: src/uicommon/gftpui.c:691
+#: src/uicommon/gftpui.c:708
 msgid "usage: set [variable = value]\n"
 msgstr ""
 
-#: src/uicommon/gftpui.c:705
+#: src/uicommon/gftpui.c:722
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "ผิดพลาด: ตัวแปร %s เป็นตัวแปรการปรับแต่งค่าที่ไม่ถูกต้อง\n"
 
-#: src/uicommon/gftpui.c:712
+#: src/uicommon/gftpui.c:729
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "ผิดพลาด: ตัวแปร %s ไม่มีอยู่ในพอร์ตข้อความของ gFTP\n"
 
-#: src/uicommon/gftpui.c:792
+#: src/uicommon/gftpui.c:811
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1409,287 +1531,309 @@ msgstr ""
 "คำลั่งสนับสนุน:\n"
 "\n"
 
-#: src/uicommon/gftpui.c:835
+#: src/uicommon/gftpui.c:856
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "ใช้: %s <filespec>\n"
 
-#: src/uicommon/gftpui.c:920
+#: src/uicommon/gftpui.c:941
 msgid "about"
 msgstr "เกี่ยวกับ"
 
-#: src/uicommon/gftpui.c:921
+#: src/uicommon/gftpui.c:942
 msgid "Shows gFTP information"
 msgstr "แสดงข้อมูล gFTP"
 
-#: src/uicommon/gftpui.c:922
+#: src/uicommon/gftpui.c:943
 msgid "ascii"
 msgstr "แอสกี "
 
-#: src/uicommon/gftpui.c:923
+#: src/uicommon/gftpui.c:944
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "ตั้งค่าโหมดถ่ายโอนไฟล์ปัจจุบันไปเป็นแอสกี (เฉพาะ FTP เท่านั้น)"
 
-#: src/uicommon/gftpui.c:924
+#: src/uicommon/gftpui.c:945
 msgid "binary"
 msgstr "ฐานสอง"
 
-#: src/uicommon/gftpui.c:925
+#: src/uicommon/gftpui.c:946
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "ตั้งค่าโหมดถ่ายโอนไฟล์ปัจจุบันไปเป็นฐานสอง (เฉพาะ FTP เท่านั้น)"
 
-#: src/uicommon/gftpui.c:926
+#: src/uicommon/gftpui.c:947
 msgid "cd"
 msgstr "เปลี่ยนไดเรกทอรี (cd)"
 
-#: src/uicommon/gftpui.c:927 src/uicommon/gftpui.c:929
+#: src/uicommon/gftpui.c:948 src/uicommon/gftpui.c:950
 msgid "Changes the remote working directory"
 msgstr "เปลี่ยนไดเรกทอรีที่ใช้งานที่เครื่องทางไกล"
 
-#: src/uicommon/gftpui.c:928
+#: src/uicommon/gftpui.c:949
 msgid "chdir"
 msgstr "เปลี่ยนไดเรกทอรี (chdir)"
 
-#: src/uicommon/gftpui.c:930
+#: src/uicommon/gftpui.c:951
 msgid "chmod"
 msgstr "เปลี่ยนสิทธิ์การเข้าถึงไฟล์ (chmod)"
 
-#: src/uicommon/gftpui.c:931
+#: src/uicommon/gftpui.c:952
 msgid "Changes the permissions of a remote file"
 msgstr "เปลี่ยนสิทธิ์ที่อนุญาตของไฟล์ทางไกล"
 
-#: src/uicommon/gftpui.c:932
+#: src/uicommon/gftpui.c:953
 msgid "clear"
 msgstr "ล้าง"
 
-#: src/uicommon/gftpui.c:933
+#: src/uicommon/gftpui.c:954
 msgid "Available options: cache"
 msgstr "ตัวเลือกที่มีอยู่: แคช"
 
-#: src/uicommon/gftpui.c:934
+#: src/uicommon/gftpui.c:955
 msgid "close"
 msgstr "ปิด"
 
-#: src/uicommon/gftpui.c:935
+#: src/uicommon/gftpui.c:956
 msgid "Disconnects from the remote site"
 msgstr "ยกเลิกการเชื่อมต่อจากไซต์ทางไกล"
 
-#: src/uicommon/gftpui.c:936
+#: src/uicommon/gftpui.c:957
 msgid "delete"
 msgstr "ลบ"
 
-#: src/uicommon/gftpui.c:937
+#: src/uicommon/gftpui.c:958
 msgid "Removes a remote file"
 msgstr "ย้ายไฟล์ทางไกลออก"
 
-#: src/uicommon/gftpui.c:938
+#: src/uicommon/gftpui.c:959
+#, fuzzy
+msgid "dir"
+msgstr "เปลี่ยนไดเรกทอรี (chdir)"
+
+#: src/uicommon/gftpui.c:960 src/uicommon/gftpui.c:986
+msgid "Shows the directory listing for the current remote directory"
+msgstr "แสดงรายชื่อไดเรกทอรีปัจจุบันที่เครื่องทางไกล"
+
+#: src/uicommon/gftpui.c:961
 msgid "get"
 msgstr "ได้รับ"
 
-#: src/uicommon/gftpui.c:939 src/uicommon/gftpui.c:963
+#: src/uicommon/gftpui.c:962 src/uicommon/gftpui.c:988
 msgid "Downloads remote file(s)"
 msgstr "ดาว์นโหลดไฟล์ทางไกล"
 
-#: src/uicommon/gftpui.c:940
+#: src/uicommon/gftpui.c:963
 msgid "help"
 msgstr "ช่วยเหลือ"
 
-#: src/uicommon/gftpui.c:941
+#: src/uicommon/gftpui.c:964
 msgid "Shows this help screen"
 msgstr "แสดงหน้าจอช่วยเหลือ"
 
-#: src/uicommon/gftpui.c:942
+#: src/uicommon/gftpui.c:965
 msgid "lcd"
 msgstr "เปลี่ยนไดเรกทอรี (lcd)"
 
-#: src/uicommon/gftpui.c:943 src/uicommon/gftpui.c:945
+#: src/uicommon/gftpui.c:966 src/uicommon/gftpui.c:968
 msgid "Changes the local working directory"
 msgstr "เปลี่ยนไดเรกทอรีที่ใช้งาน"
 
-#: src/uicommon/gftpui.c:944
+#: src/uicommon/gftpui.c:967
 msgid "lchdir"
 msgstr "เปลี่ยนไดเรกทอรีบนเครื่องที่ใช้ (lchdir)"
 
-#: src/uicommon/gftpui.c:946
+#: src/uicommon/gftpui.c:969
 msgid "lchmod"
 msgstr "เปลี่ยนสิทธิ์การเข้าถึงไฟล์บนเครื่องที่ใช้ (lchmod)"
 
-#: src/uicommon/gftpui.c:947
+#: src/uicommon/gftpui.c:970
 msgid "Changes the permissions of a local file"
 msgstr "เปลี่ยนสิทธิ์ที่อนุญาตของไฟล์บนเครื่อง"
 
-#: src/uicommon/gftpui.c:948
+#: src/uicommon/gftpui.c:971
 #, fuzzy
 msgid "ldelete"
 msgstr "ลบไฟล์บนเครื่องที่ใช้ (ldelete)"
 
-#: src/uicommon/gftpui.c:949
+#: src/uicommon/gftpui.c:972
 msgid "Removes a local file"
 msgstr "ย้ายไฟล์บนเครื่องที่ใช้"
 
-#: src/uicommon/gftpui.c:950
+#: src/uicommon/gftpui.c:973
+msgid "ldir"
+msgstr ""
+
+#: src/uicommon/gftpui.c:974 src/uicommon/gftpui.c:976
+msgid "Shows the directory listing for the current local directory"
+msgstr "แสดงรายชื่อไดเรกทอรีสำหรับไดเรกทอรีปัจจุบันบนเครื่อง"
+
+#: src/uicommon/gftpui.c:975
 #, fuzzy
 msgid "lls"
 msgstr "เรียกดูไฟล์ในไดเรกทอรีปัจจุบัน (lls)"
 
-#: src/uicommon/gftpui.c:951
-msgid "Shows the directory listing for the current local directory"
-msgstr "แสดงรายชื่อไดเรกทอรีสำหรับไดเรกทอรีปัจจุบันบนเครื่อง"
-
-#: src/uicommon/gftpui.c:952
+#: src/uicommon/gftpui.c:977
 #, fuzzy
 msgid "lmkdir"
 msgstr "สร้างไดเรกทอรี (lmkdir)"
 
-#: src/uicommon/gftpui.c:953
+#: src/uicommon/gftpui.c:978
 msgid "Creates a local directory"
 msgstr "สร้างไดเรกทอรีบนเครื่อง"
 
-#: src/uicommon/gftpui.c:954
+#: src/uicommon/gftpui.c:979
 #, fuzzy
 msgid "lpwd"
 msgstr "ตรวจสอบไดเรกทอรีบนเครื่องที่ใช้ (lpwd)"
 
-#: src/uicommon/gftpui.c:955
+#: src/uicommon/gftpui.c:980
 msgid "Show current local directory"
 msgstr "แสดงไดเรกทอรีปัจจุบันบนเครื่อง"
 
-#: src/uicommon/gftpui.c:956
+#: src/uicommon/gftpui.c:981
 #, fuzzy
 msgid "lrename"
 msgstr "แก้ไขชื่อ (lrename)"
 
-#: src/uicommon/gftpui.c:957
+#: src/uicommon/gftpui.c:982
 msgid "Rename a local file"
 msgstr "เปลี่ยนชื่อไฟล์บนเครื่อง"
 
-#: src/uicommon/gftpui.c:958
+#: src/uicommon/gftpui.c:983
 #, fuzzy
 msgid "lrmdir"
 msgstr "ลบไดเรกทอรี (lrmdir)"
 
-#: src/uicommon/gftpui.c:959
+#: src/uicommon/gftpui.c:984
 msgid "Remove a local directory"
 msgstr "ย้ายไดเรกทอรีบนเครื่อง"
 
-#: src/uicommon/gftpui.c:960
+#: src/uicommon/gftpui.c:985
 #, fuzzy
 msgid "ls"
 msgstr "เรียกดูไฟล์ในไดเรกทอรีปัจจุบัน (ls)"
 
-#: src/uicommon/gftpui.c:961
-msgid "Shows the directory listing for the current remote directory"
-msgstr "แสดงรายชื่อไดเรกทอรีปัจจุบันที่เครื่องทางไกล"
-
-#: src/uicommon/gftpui.c:962
+#: src/uicommon/gftpui.c:987
 #, fuzzy
 msgid "mget"
 msgstr "ดาว์นโหลดไฟล์มายังเครื่องที่ใช้มากกว่า 1 ไฟล์ (mget)"
 
-#: src/uicommon/gftpui.c:964
+#: src/uicommon/gftpui.c:989
 #, fuzzy
 msgid "mkdir"
 msgstr "สร้างไดเรกทอรี (mkdir)"
 
-#: src/uicommon/gftpui.c:965
+#: src/uicommon/gftpui.c:990
 msgid "Creates a remote directory"
 msgstr "สร้างไดเรกทอรีที่เครื่องทางไกล"
 
-#: src/uicommon/gftpui.c:966
+#: src/uicommon/gftpui.c:991
 #, fuzzy
 msgid "mput"
 msgstr "อัพโหลดไฟล์ไปยังเครื่องทางไกลมากกว่า 1 ไฟล์ (mput)"
 
-#: src/uicommon/gftpui.c:967 src/uicommon/gftpui.c:971
+#: src/uicommon/gftpui.c:992 src/uicommon/gftpui.c:996
 msgid "Uploads local file(s)"
 msgstr "อัพโหลดไฟล์บนเครื่องที่ใช้"
 
-#: src/uicommon/gftpui.c:968
+#: src/uicommon/gftpui.c:993
 msgid "open"
 msgstr "เปิด"
 
-#: src/uicommon/gftpui.c:969
+#: src/uicommon/gftpui.c:994
 msgid "Opens a connection to a remote site"
 msgstr "เปิดการเชื่อมต่อไปยังไซต์ทางไกล"
 
-#: src/uicommon/gftpui.c:970
+#: src/uicommon/gftpui.c:995
 #, fuzzy
 msgid "put"
 msgstr "อัพโหลดไฟล์ไปยังเครื่องทางไกล 1 ไฟล์ (put)"
 
-#: src/uicommon/gftpui.c:972
+#: src/uicommon/gftpui.c:997
 #, fuzzy
 msgid "pwd"
 msgstr "ตรวจสอบไดเรกทอรีปัจจุบัน (pwd)"
 
-#: src/uicommon/gftpui.c:973
+#: src/uicommon/gftpui.c:998
 msgid "Show current remote directory"
 msgstr "แสดงไดเรกทอรีปัจจุบันของเครื่องทางไกล"
 
-#: src/uicommon/gftpui.c:974
+#: src/uicommon/gftpui.c:999
 msgid "quit"
 msgstr "ออก"
 
-#: src/uicommon/gftpui.c:975
+#: src/uicommon/gftpui.c:1000
 msgid "Exit from gFTP"
 msgstr "ออกจากโปรแกรม gFTP"
 
-#: src/uicommon/gftpui.c:976
+#: src/uicommon/gftpui.c:1001
 msgid "rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: src/uicommon/gftpui.c:977
+#: src/uicommon/gftpui.c:1002
 msgid "Rename a remote file"
 msgstr "เปลี่ยนชื่อไฟล์ที่เครื่องทางไกล"
 
-#: src/uicommon/gftpui.c:978
+#: src/uicommon/gftpui.c:1003
 #, fuzzy
 msgid "rmdir"
 msgstr "ลบไดเรกทอรี (rmdir)"
 
-#: src/uicommon/gftpui.c:979
+#: src/uicommon/gftpui.c:1004
 msgid "Remove a remote directory"
 msgstr "ย้ายไดเรกทอรีทางไกล"
 
-#: src/uicommon/gftpui.c:980
+#: src/uicommon/gftpui.c:1005
 msgid "set"
 msgstr "ตั้งค่า"
 
-#: src/uicommon/gftpui.c:981
+#: src/uicommon/gftpui.c:1006
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr "แสดงตัวแปรไฟล์การปรับแต่งค่า คุณสามารถตั้งค่าตัวแปรได้โดยกำหนด var=val"
 
-#: src/uicommon/gftpui.c:983
+#: src/uicommon/gftpui.c:1008
 #, fuzzy
 msgid "site"
 msgstr "ไซต์"
 
-#: src/uicommon/gftpui.c:984
+#: src/uicommon/gftpui.c:1009
 #, fuzzy
 msgid "Run a site specific command"
 msgstr "ใส่คำสั่งระบุไซต์"
 
-#: src/uicommon/gftpui.c:1074
+#: src/uicommon/gftpui.c:1098
 msgid "Error: Command not recognized\n"
 msgstr "ผิดพลาด: เป็นคำสั่งที่ไม่รู้จัก\n"
 
-#: src/uicommon/gftpui.c:1324
-msgid "Error: Remote site disconnected after trying to transfer file\n"
-msgstr "ผิดพลาด: ไซต์ทางไกลถูกยกเลิกการเชื่อมต่อ หลังจากที่พยายามถ่ายโอนไฟล์\n"
-
-#: src/uicommon/gftpui.c:1390
-#, c-format
-msgid "Could not download %s from %s\n"
-msgstr "ไม่สามารถดาวน์โหลด %s จาก %s\n"
-
-#: src/uicommon/gftpui.c:1413
+#: src/uicommon/gftpui.c:1308
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "ถ่ายโอน %s ได้สำเร็จ ที่ %.2f กิโลไบต์/วินาที\n"
 
-#: src/gtk/bookmarks.c:39 src/gtk/gftp-gtk.c:194 src/gtk/gftp-gtk.c:1009
-#: src/gtk/misc-gtk.c:478 src/gtk/misc-gtk.c:486
+#: src/uicommon/gftpui.c:1339
+#, c-format
+msgid "Skipping file %s on host %s\n"
+msgstr "กำลังข้ามไฟล์ %s บนโฮสต์ %s\n"
+
+#: src/uicommon/gftpui.c:1363
+#, c-format
+msgid "Stopping the transfer on host %s\n"
+msgstr "กำลังหยุดการถ่ายโอนบนโฮสต์ %s\n"
+
+#: src/uicommon/gftpui.c:1509
+#, c-format
+msgid "Could not download %s from %s\n"
+msgstr "ไม่สามารถดาวน์โหลด %s จาก %s\n"
+
+#: src/uicommon/gftpui.c:1565
+#, c-format
+msgid ""
+"There were %d files or directories that could not be transferred. Check the "
+"log for which items were not properly transferred."
+msgstr ""
+
+#: src/gtk/bookmarks.c:39 src/gtk/dnd.c:121 src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:1103 src/gtk/misc-gtk.c:504 src/gtk/misc-gtk.c:512
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: โปรดกดปุ่มหยุดก่อนที่จะทำสิ่งอื่นต่อไป\n"
@@ -1729,7 +1873,12 @@ msgstr ""
 msgid "Remember password"
 msgstr "จดจำรหัสผ่าน"
 
-#: src/gtk/bookmarks.c:471 src/gtk/bookmarks.c:481
+#: src/gtk/bookmarks.c:419
+#, fuzzy
+msgid "You must specify a name for the bookmark."
+msgstr "เพิ่มบุ๊กมาร์ก: คุณต้องใส่ชื่อบุ๊กมาร์ก\n"
+
+#: src/gtk/bookmarks.c:471
 msgid "New Folder"
 msgstr "โฟลเดอร์ใหม่"
 
@@ -1737,15 +1886,20 @@ msgstr "โฟลเดอร์ใหม่"
 msgid "Enter the name of the new folder to create"
 msgstr "ใส่ชื่อของโฟลเดอร์ใหม่ที่จะสร้าง"
 
+#: src/gtk/bookmarks.c:481
+#, fuzzy
+msgid "New Item"
+msgstr "/ไฟล์/รายการใหม่..."
+
 #: src/gtk/bookmarks.c:482
 msgid "Enter the name of the new item to create"
 msgstr "ใส่ชื่อของรายการใหม่ที่จะสร้าง"
 
 #: src/gtk/bookmarks.c:555
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
-"%s and all it's children?"
+"%s and all its children?"
 msgstr ""
 "คุณแน่ใจหรือไม่ว่าคุณต้องการลบบุ๊กมาร์ก\n"
 " %s และรายการย่อยในนั้นทั้งหมด?"
@@ -1754,106 +1908,107 @@ msgstr ""
 msgid "Delete Bookmark"
 msgstr "ลบบุ๊กมาร์ก"
 
-#: src/gtk/bookmarks.c:583
+#: src/gtk/bookmarks.c:628
 msgid "Bookmarks"
 msgstr "บุ๊กมาร์ก"
 
-#: src/gtk/bookmarks.c:823 src/gtk/bookmarks.c:826
+#: src/gtk/bookmarks.c:848 src/gtk/bookmarks.c:851
 msgid "Edit Entry"
 msgstr "แก้ไขรายการ"
 
-#: src/gtk/bookmarks.c:863
+#: src/gtk/bookmarks.c:887
 msgid "Description:"
 msgstr "รายละเอียด:"
 
-#: src/gtk/bookmarks.c:878
+#: src/gtk/bookmarks.c:902
 msgid "Hostname:"
 msgstr "ชื่อโฮสต์:"
 
-#: src/gtk/bookmarks.c:891
+#: src/gtk/bookmarks.c:915
 msgid "Port:"
 msgstr "พอร์ต:"
 
-#: src/gtk/bookmarks.c:908
+#: src/gtk/bookmarks.c:932
 msgid "Protocol:"
 msgstr "โพรโตคอล:"
 
-#: src/gtk/bookmarks.c:932
+#: src/gtk/bookmarks.c:956
 msgid "Remote Directory:"
 msgstr "ไดเรกทอรีทางไกล:"
 
-#: src/gtk/bookmarks.c:945
+#: src/gtk/bookmarks.c:969
 msgid "Local Directory:"
 msgstr "ไดเรกทอรีบนเครื่อง:"
 
-#: src/gtk/bookmarks.c:962
+#: src/gtk/bookmarks.c:986
 msgid "Username:"
 msgstr "ชื่อผู้ใช้:"
 
-#: src/gtk/bookmarks.c:975 src/text/textui.c:82
+#: src/gtk/bookmarks.c:999 src/text/textui.c:91
 msgid "Password:"
 msgstr "รหัสผ่าน:"
 
-#: src/gtk/bookmarks.c:989
+#: src/gtk/bookmarks.c:1013
 msgid "Account:"
 msgstr "บัญชีผู้ใช้:"
 
-#: src/gtk/bookmarks.c:1003
+#: src/gtk/bookmarks.c:1027
 msgid "Log in as ANONYMOUS"
 msgstr "เข้าสู่ระบบโดยไม่ระบุชื่อ"
 
-#: src/gtk/bookmarks.c:1029 src/gtk/bookmarks.c:1273
-#: src/gtk/chmod_dialog.c:293 src/gtk/gtkui_transfer.c:373
-#: src/gtk/options_dialog.c:1120 src/gtk/options_dialog.c:1322
+#: src/gtk/bookmarks.c:1052 src/gtk/bookmarks.c:1302
+#: src/gtk/chmod_dialog.c:264 src/gtk/gtkui_transfer.c:387
+#: src/gtk/options_dialog.c:1215 src/gtk/options_dialog.c:1447
 msgid "  Cancel  "
 msgstr "  ยกเลิก  "
 
-#: src/gtk/bookmarks.c:1039 src/gtk/options_dialog.c:1333
-msgid "Apply"
-msgstr "ประยุกต์"
-
-#: src/gtk/bookmarks.c:1189
+#: src/gtk/bookmarks.c:1203
 msgid "/_File"
 msgstr "/ไฟล์ (_F)"
 
-#: src/gtk/bookmarks.c:1190
+#: src/gtk/bookmarks.c:1204
 msgid "/File/tearoff"
 msgstr "/ไฟล์/tearoff"
 
-#: src/gtk/bookmarks.c:1191
-msgid "/File/New Folder..."
+#: src/gtk/bookmarks.c:1205
+#, fuzzy
+msgid "/File/New _Folder..."
 msgstr "/ไฟล์/โฟลเดอร์ใหม่..."
 
-#: src/gtk/bookmarks.c:1192
-msgid "/File/New Item..."
+#: src/gtk/bookmarks.c:1206
+#, fuzzy
+msgid "/File/New _Item..."
 msgstr "/ไฟล์/รายการใหม่..."
 
-#: src/gtk/bookmarks.c:1193
-msgid "/File/Delete"
+#: src/gtk/bookmarks.c:1207
+#, fuzzy
+msgid "/File/_Delete"
 msgstr "/ไฟล์/ลบ"
 
-#: src/gtk/bookmarks.c:1194
-msgid "/File/Properties..."
+#: src/gtk/bookmarks.c:1208
+#, fuzzy
+msgid "/File/_Properties..."
 msgstr "/ไฟล์/คุณสมบัติ..."
 
-#: src/gtk/bookmarks.c:1195
+#: src/gtk/bookmarks.c:1209
 msgid "/File/sep"
 msgstr "/ไฟล์/sep"
 
-#: src/gtk/bookmarks.c:1196
-msgid "/File/Close"
+#: src/gtk/bookmarks.c:1210
+#, fuzzy
+msgid "/File/_Close"
 msgstr "/ไฟล์/ปิด"
 
-#: src/gtk/bookmarks.c:1207 src/gtk/bookmarks.c:1210
+#: src/gtk/bookmarks.c:1228 src/gtk/bookmarks.c:1231
 msgid "Edit Bookmarks"
 msgstr "แก้ไขบุ๊กมาร์ก"
 
-#: src/gtk/chmod_dialog.c:160 src/gtk/chmod_dialog.c:165
-#: src/gtk/chmod_dialog.c:170
+#: src/gtk/chmod_dialog.c:131 src/gtk/chmod_dialog.c:136
+#: src/gtk/chmod_dialog.c:141
 msgid "Chmod"
 msgstr "เปลี่ยนสิทธิ์การเข้าถึงไฟล์ (Chmod)"
 
-#: src/gtk/chmod_dialog.c:190
+#: src/gtk/chmod_dialog.c:161
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
@@ -1861,76 +2016,91 @@ msgstr ""
 "คุณสามารถปรับเปลี่ยนคุณลักษณะไฟล์ของคุณในตอนนี้\n"
 " หมายเหตุ: ไม่ใช่เซิร์ฟเวอร์ ftp ทั้งหมดจะสนับสนุนคุณสมบัติ chmod "
 
-#: src/gtk/chmod_dialog.c:200
+#: src/gtk/chmod_dialog.c:171
 msgid "Special"
 msgstr "พิเศษ"
 
-#: src/gtk/chmod_dialog.c:208
+#: src/gtk/chmod_dialog.c:179
 msgid "SUID"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:212
+#: src/gtk/chmod_dialog.c:183
 msgid "SGID"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:216
+#: src/gtk/chmod_dialog.c:187
 msgid "Sticky"
 msgstr ""
 
-#: src/gtk/chmod_dialog.c:220 src/gtk/gftp-gtk.c:693
+#: src/gtk/chmod_dialog.c:191 src/gtk/gftp-gtk.c:789
 msgid "User"
 msgstr "ผู้ใช้"
 
-#: src/gtk/chmod_dialog.c:228 src/gtk/chmod_dialog.c:248
-#: src/gtk/chmod_dialog.c:268
+#: src/gtk/chmod_dialog.c:199 src/gtk/chmod_dialog.c:219
+#: src/gtk/chmod_dialog.c:239
 msgid "Read"
 msgstr "อ่าน"
 
-#: src/gtk/chmod_dialog.c:232 src/gtk/chmod_dialog.c:252
-#: src/gtk/chmod_dialog.c:272
+#: src/gtk/chmod_dialog.c:203 src/gtk/chmod_dialog.c:223
+#: src/gtk/chmod_dialog.c:243
 msgid "Write"
 msgstr "เขียน"
 
-#: src/gtk/chmod_dialog.c:236 src/gtk/chmod_dialog.c:256
-#: src/gtk/chmod_dialog.c:276
+#: src/gtk/chmod_dialog.c:207 src/gtk/chmod_dialog.c:227
+#: src/gtk/chmod_dialog.c:247
 msgid "Execute"
 msgstr "ประมวลผล"
 
-#: src/gtk/chmod_dialog.c:240 src/gtk/gftp-gtk.c:694
+#: src/gtk/chmod_dialog.c:211 src/gtk/gftp-gtk.c:790
 msgid "Group"
 msgstr "กลุ่ม"
 
-#: src/gtk/chmod_dialog.c:260
+#: src/gtk/chmod_dialog.c:231
 msgid "Other"
 msgstr "อื่นๆ"
 
-#: src/gtk/delete_dialog.c:156
+#: src/gtk/delete_dialog.c:60
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์ %ld ไฟล์ และ %ld ไดเรกทอรีเหล่านี้"
 
-#: src/gtk/delete_dialog.c:158
+#: src/gtk/delete_dialog.c:64
+#, fuzzy, c-format
+msgid "Are you sure you want to delete these %ld files"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์ %ld ไฟล์ และ %ld ไดเรกทอรีเหล่านี้"
+
+#: src/gtk/delete_dialog.c:68
+#, fuzzy, c-format
+msgid "Are you sure you want to delete these %ld directories"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์ %ld ไฟล์ และ %ld ไดเรกทอรีเหล่านี้"
+
+#: src/gtk/delete_dialog.c:73
 msgid "Delete Files/Directories"
 msgstr "ลบไฟล์/ไดเรกทอรี"
 
-#: src/gtk/delete_dialog.c:176 src/gtk/options_dialog.c:1194
+#: src/gtk/delete_dialog.c:89 src/gtk/options_dialog.c:1301
 msgid "Delete"
 msgstr "ลบ"
 
-#: src/gtk/dnd.c:146 src/gtk/dnd.c:233
-msgid "Drag-N-Drop"
-msgstr "ลากแล้วปล่อย"
+#: src/gtk/dnd.c:122 src/gtk/gftp-gtk.c:1104 src/gtk/misc-gtk.c:928
+#: src/gtk/misc-gtk.c:1003
+msgid "Connect"
+msgstr "เชื่อมต่อ"
 
-#: src/gtk/dnd.c:255
+#: src/gtk/dnd.c:135 src/gtk/dnd.c:268
 #, c-format
 msgid "Received URL %s\n"
 msgstr "ได้รับ URL แล้ว %s\n"
 
-#: src/gtk/gftp-gtk.c:113
+#: src/gtk/dnd.c:158 src/gtk/dnd.c:246
+msgid "Drag-N-Drop"
+msgstr "ลากแล้วปล่อย"
+
+#: src/gtk/gftp-gtk.c:144
 msgid "Exit"
 msgstr "ออกจากโปรแกรม"
 
-#: src/gtk/gftp-gtk.c:113
+#: src/gtk/gftp-gtk.c:144
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
@@ -1938,629 +2108,695 @@ msgstr ""
 "ขณะนี้กำลังทำการถ่ายโอนไฟล์อยู่\n"
 " คุณแน่ใจว่าต้องการออกจากโปรแกรม?"
 
-#: src/gtk/gftp-gtk.c:179
-msgid "Connect via URL"
-msgstr "เชื่อมต่อโดย URL"
+#: src/gtk/gftp-gtk.c:219 src/gtk/gftp-gtk.c:235
+#, fuzzy
+msgid "Open Location"
+msgstr "ตัวเลือก"
 
-#: src/gtk/gftp-gtk.c:179
+#: src/gtk/gftp-gtk.c:219
 msgid "Enter a URL to connect to"
 msgstr "ใส่ URL เพื่อเชื่อมต่อไป"
 
-#: src/gtk/gftp-gtk.c:195
-msgid "OpenURL"
-msgstr "เปิด URL"
-
-#: src/gtk/gftp-gtk.c:218
+#: src/gtk/gftp-gtk.c:265
 msgid "/_FTP"
 msgstr "/_FTP(_F)"
 
-#: src/gtk/gftp-gtk.c:219
+#: src/gtk/gftp-gtk.c:266
 msgid "/FTP/tearoff"
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:220
-msgid "/FTP/Window 1"
+#: src/gtk/gftp-gtk.c:267
+#, fuzzy
+msgid "/FTP/Window _1"
 msgstr "/FTP/หน้าต่าง 1"
 
-#: src/gtk/gftp-gtk.c:221
-msgid "/FTP/Window 2"
+#: src/gtk/gftp-gtk.c:269
+#, fuzzy
+msgid "/FTP/Window _2"
 msgstr "/FTP/หน้าต่าง 2"
 
-#: src/gtk/gftp-gtk.c:222 src/gtk/gftp-gtk.c:225 src/gtk/gftp-gtk.c:228
+#: src/gtk/gftp-gtk.c:271 src/gtk/gftp-gtk.c:276 src/gtk/gftp-gtk.c:279
 msgid "/FTP/sep"
 msgstr "/FTP/sep"
 
-#: src/gtk/gftp-gtk.c:223
-msgid "/FTP/Ascii"
+#: src/gtk/gftp-gtk.c:272
+#, fuzzy
+msgid "/FTP/_Ascii"
 msgstr "/FTP/แอสกี"
 
-#: src/gtk/gftp-gtk.c:224
-msgid "/FTP/Binary"
+#: src/gtk/gftp-gtk.c:274
+#, fuzzy
+msgid "/FTP/_Binary"
 msgstr "/FTP/ไบนารี"
 
-#: src/gtk/gftp-gtk.c:226
-msgid "/FTP/_Options..."
-msgstr "/FTP/ตัวเลือก (_O)..."
+#: src/gtk/gftp-gtk.c:277
+#, fuzzy
+msgid "/FTP/_Preferences..."
+msgstr "/ไฟล์/คุณสมบัติ..."
 
-#: src/gtk/gftp-gtk.c:229
+#: src/gtk/gftp-gtk.c:280
 msgid "/FTP/_Quit"
 msgstr "/FTP/ออก (_Q)"
 
-#: src/gtk/gftp-gtk.c:230
+#: src/gtk/gftp-gtk.c:281
 msgid "/_Local"
 msgstr "/เครื่องที่ใช้ (_L)"
 
-#: src/gtk/gftp-gtk.c:231
+#: src/gtk/gftp-gtk.c:282
 msgid "/Local/tearoff"
 msgstr "/เครื่องที่ใช้/tearoff"
 
-#: src/gtk/gftp-gtk.c:232
-msgid "/Local/Open _URL..."
+#: src/gtk/gftp-gtk.c:283
+#, fuzzy
+msgid "/Local/_Open Location..."
 msgstr "/เครื่องที่ใช้/เปิด _URL (_U)..."
 
-#: src/gtk/gftp-gtk.c:233
-msgid "/Local/Disconnect"
+#: src/gtk/gftp-gtk.c:285
+#, fuzzy
+msgid "/Local/D_isconnect"
 msgstr "/เครื่องที่ใช้/ยกเลิกการเชื่อมต่อ"
 
-#: src/gtk/gftp-gtk.c:234 src/gtk/gftp-gtk.c:240
+#: src/gtk/gftp-gtk.c:286 src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "/เครื่องที่ใช้/sep"
 
-#: src/gtk/gftp-gtk.c:235
-msgid "/Local/Change Filespec..."
+#: src/gtk/gftp-gtk.c:287
+#, fuzzy
+msgid "/Local/Change _Filespec..."
 msgstr "/เครื่องที่ใช้/เปลี่ยนการเรียกดูไฟล์ตามรูปแบบที่กำหนด"
 
-#: src/gtk/gftp-gtk.c:236
-msgid "/Local/Show selected"
+#: src/gtk/gftp-gtk.c:289
+#, fuzzy
+msgid "/Local/_Show selected"
 msgstr "/เครื่องที่ใช้/แสดงที่ถูกเลือกไว้"
 
-#: src/gtk/gftp-gtk.c:237
-msgid "/Local/Select All"
+#: src/gtk/gftp-gtk.c:290
+#, fuzzy
+msgid "/Local/Select _All"
 msgstr "/เครื่องที่ใช้/เลือกทั้งหมด"
 
-#: src/gtk/gftp-gtk.c:238
+#: src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
 msgstr "/เครื่องที่ใช้/เลือกไฟล์ทั้งหมด"
 
-#: src/gtk/gftp-gtk.c:239
+#: src/gtk/gftp-gtk.c:292
 msgid "/Local/Deselect All"
 msgstr "/เครื่องที่ใช้/ยกเลิกการเลือกทั้งหมด"
 
-#: src/gtk/gftp-gtk.c:241
+#: src/gtk/gftp-gtk.c:294
 msgid "/Local/Save Directory Listing..."
 msgstr "/เครื่องที่ใช้/บันทึกรายชื่อในไดเรกทอรีที่กำลังใช้งาน..."
 
-#: src/gtk/gftp-gtk.c:242
+#: src/gtk/gftp-gtk.c:295
 msgid "/Local/Send SITE Command..."
 msgstr "/เครื่องที่ใช้/ส่งSITE..."
 
-#: src/gtk/gftp-gtk.c:243
-msgid "/Local/Change Directory"
+#: src/gtk/gftp-gtk.c:296
+#, fuzzy
+msgid "/Local/_Change Directory"
 msgstr "/เครื่องที่ใช้/เปลี่ยนไดเรกทอรี"
 
-#: src/gtk/gftp-gtk.c:244
-msgid "/Local/Chmod..."
+#: src/gtk/gftp-gtk.c:297
+#, fuzzy
+msgid "/Local/_Permissions..."
 msgstr "/เครื่องที่ใช้/Chmod..."
 
-#: src/gtk/gftp-gtk.c:245
-msgid "/Local/Make Directory..."
-msgstr "/เครื่องที่ใช้/สร้างไดเรกทอรี..."
+#: src/gtk/gftp-gtk.c:299
+#, fuzzy
+msgid "/Local/_New Folder..."
+msgstr "/ไฟล์/โฟลเดอร์ใหม่..."
 
-#: src/gtk/gftp-gtk.c:246
-msgid "/Local/Rename..."
+#: src/gtk/gftp-gtk.c:300
+#, fuzzy
+msgid "/Local/Rena_me..."
 msgstr "/เครื่องที่ใช้/เปลี่ยนชื่อ..."
 
-#: src/gtk/gftp-gtk.c:247
-msgid "/Local/Delete..."
+#: src/gtk/gftp-gtk.c:302
+#, fuzzy
+msgid "/Local/_Delete..."
 msgstr "/เครื่องที่ใช้/ลบ..."
 
-#: src/gtk/gftp-gtk.c:248
-msgid "/Local/Edit..."
+#: src/gtk/gftp-gtk.c:304
+#, fuzzy
+msgid "/Local/_Edit..."
 msgstr "/เครื่องที่ใช้/แก้ไข..."
 
-#: src/gtk/gftp-gtk.c:249
-msgid "/Local/View..."
+#: src/gtk/gftp-gtk.c:305
+#, fuzzy
+msgid "/Local/_View..."
 msgstr "/เครื่องที่ใช้/แสดง..."
 
-#: src/gtk/gftp-gtk.c:250
-msgid "/Local/Refresh"
+#: src/gtk/gftp-gtk.c:306
+#, fuzzy
+msgid "/Local/_Refresh"
 msgstr "/เครื่องที่ใช้/เรียกใหม่"
 
-#: src/gtk/gftp-gtk.c:251
+#: src/gtk/gftp-gtk.c:308
 msgid "/_Remote"
 msgstr "/เครื่องทางไกล (_R)"
 
-#: src/gtk/gftp-gtk.c:252
+#: src/gtk/gftp-gtk.c:309
 msgid "/Remote/tearoff"
 msgstr "/เครื่องทางไกล/tearoff"
 
-#: src/gtk/gftp-gtk.c:253
-msgid "/Remote/Open _URL..."
+#: src/gtk/gftp-gtk.c:310
+#, fuzzy
+msgid "/Remote/_Open Location..."
 msgstr "/เครื่องทางไกล/เปิด _URL(_U)..."
 
-#: src/gtk/gftp-gtk.c:255
-msgid "/Remote/Disconnect"
+#: src/gtk/gftp-gtk.c:312
+#, fuzzy
+msgid "/Remote/D_isconnect"
 msgstr "/เครื่องทางไกล/ยกเลิกการเชื่อมต่อ"
 
-#: src/gtk/gftp-gtk.c:257 src/gtk/gftp-gtk.c:263
+#: src/gtk/gftp-gtk.c:314 src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "/เครื่องทางไกล/sep"
 
-#: src/gtk/gftp-gtk.c:258
-msgid "/Remote/Change Filespec..."
+#: src/gtk/gftp-gtk.c:315
+#, fuzzy
+msgid "/Remote/Change _Filespec..."
 msgstr "/เครื่องทางไกล/เปลี่ยนการกำหนดรูปแบบของไฟล์"
 
-#: src/gtk/gftp-gtk.c:259
-msgid "/Remote/Show selected"
+#: src/gtk/gftp-gtk.c:317
+#, fuzzy
+msgid "/Remote/_Show selected"
 msgstr "/เครื่องทางไกล/แสดงที่เลือกไว้"
 
-#: src/gtk/gftp-gtk.c:260
-msgid "/Remote/Select All"
+#: src/gtk/gftp-gtk.c:318
+#, fuzzy
+msgid "/Remote/Select _All"
 msgstr "/เครื่องทางไกล/เลือกทั้งหมด"
 
-#: src/gtk/gftp-gtk.c:261
+#: src/gtk/gftp-gtk.c:319
 msgid "/Remote/Select All Files"
 msgstr "/เครื่องทางไกล/เลือกไฟล์ทั้งหมด"
 
-#: src/gtk/gftp-gtk.c:262
+#: src/gtk/gftp-gtk.c:320
 msgid "/Remote/Deselect All"
 msgstr "/เครื่องทางไกล/ยกเลิกการเลือกทั้งหมด"
 
-#: src/gtk/gftp-gtk.c:264
+#: src/gtk/gftp-gtk.c:322
 msgid "/Remote/Save Directory Listing..."
 msgstr "/เครื่องทางไกล/บันทึกรายชื่อในไดเรกทอรีที่กำลังใช้งาน..."
 
-#: src/gtk/gftp-gtk.c:265
+#: src/gtk/gftp-gtk.c:323
 msgid "/Remote/Send SITE Command..."
 msgstr "/เครื่องทางไกล/ส่งSITE..."
 
-#: src/gtk/gftp-gtk.c:266
-msgid "/Remote/Change Directory"
+#: src/gtk/gftp-gtk.c:324
+#, fuzzy
+msgid "/Remote/_Change Directory"
 msgstr "/เครื่องทางไกล/เปลี่ยนไดเรกทอรี"
 
-#: src/gtk/gftp-gtk.c:267
-msgid "/Remote/Chmod..."
+#: src/gtk/gftp-gtk.c:325
+#, fuzzy
+msgid "/Remote/_Permisssions..."
 msgstr "/เครื่องทางไกล/Chmod..."
 
-#: src/gtk/gftp-gtk.c:268
-msgid "/Remote/Make Directory..."
-msgstr "/เครื่องทางไกล/สร้างไดเรกทอรี"
+#: src/gtk/gftp-gtk.c:326
+#, fuzzy
+msgid "/Remote/_New Folder..."
+msgstr "/ไฟล์/โฟลเดอร์ใหม่..."
 
-#: src/gtk/gftp-gtk.c:269
-msgid "/Remote/Rename..."
+#: src/gtk/gftp-gtk.c:328
+#, fuzzy
+msgid "/Remote/Rena_me..."
 msgstr "/เครื่องทางไกล/เปลี่ยนชื่อ..."
 
-#: src/gtk/gftp-gtk.c:270
-msgid "/Remote/Delete..."
+#: src/gtk/gftp-gtk.c:330
+#, fuzzy
+msgid "/Remote/_Delete..."
 msgstr "/เครื่องทางไกล/ลบ.."
 
-#: src/gtk/gftp-gtk.c:271
-msgid "/Remote/Edit..."
+#: src/gtk/gftp-gtk.c:331
+#, fuzzy
+msgid "/Remote/_Edit..."
 msgstr "/เครื่องทางไกล/แก้ไข..."
 
-#: src/gtk/gftp-gtk.c:272
-msgid "/Remote/View..."
+#: src/gtk/gftp-gtk.c:332
+#, fuzzy
+msgid "/Remote/_View..."
 msgstr "/เครื่องทางไกล/แสดง..."
 
-#: src/gtk/gftp-gtk.c:273
-msgid "/Remote/Refresh"
+#: src/gtk/gftp-gtk.c:333
+#, fuzzy
+msgid "/Remote/_Refresh"
 msgstr "/เครื่องทางไกล/เรียกใหม่"
 
-#: src/gtk/gftp-gtk.c:274
+#: src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
 msgstr "/บุ๊กมาร์ก (_B)"
 
-#: src/gtk/gftp-gtk.c:275
+#: src/gtk/gftp-gtk.c:336
 msgid "/Bookmarks/tearoff"
 msgstr "/บุ๊กมาร์ก/tearoff"
 
-#: src/gtk/gftp-gtk.c:276
-msgid "/Bookmarks/Add bookmark"
+#: src/gtk/gftp-gtk.c:337
+#, fuzzy
+msgid "/Bookmarks/Add _Bookmark"
 msgstr "/บุ๊กมาร์ก/เพิ่มบุ๊กมาร์ก"
 
-#: src/gtk/gftp-gtk.c:278
-msgid "/Bookmarks/Edit bookmarks"
+#: src/gtk/gftp-gtk.c:339
+#, fuzzy
+msgid "/Bookmarks/Edit Bookmarks"
 msgstr "/บุ๊กมาร์ก/แก้ไขบุ๊กมาร์ก"
 
-#: src/gtk/gftp-gtk.c:279
+#: src/gtk/gftp-gtk.c:340
 msgid "/Bookmarks/sep"
 msgstr "/บุ๊กมาร์ก/sep"
 
-#: src/gtk/gftp-gtk.c:280
-msgid "/_Transfers"
+#: src/gtk/gftp-gtk.c:341
+#, fuzzy
+msgid "/_Transfer"
 msgstr "/ถ่ายโอน (_T)"
 
-#: src/gtk/gftp-gtk.c:281
-msgid "/Transfers/tearoff"
+#: src/gtk/gftp-gtk.c:342
+#, fuzzy
+msgid "/Transfer/tearoff"
 msgstr "/ถ่ายโอน/tearoff"
 
-#: src/gtk/gftp-gtk.c:282
-msgid "/Transfers/Start Transfer"
-msgstr "/ถ่ายโอน/เริ่มการถ่ายโอน"
+#: src/gtk/gftp-gtk.c:343
+#, fuzzy
+msgid "/Transfer/_Start"
+msgstr "/ถ่ายโอน/tearoff"
 
-#: src/gtk/gftp-gtk.c:283
-msgid "/Transfers/Stop Transfer"
-msgstr "/ถ่ายโอน/หยุดการถ่ายโอน"
-
-#: src/gtk/gftp-gtk.c:285 src/gtk/gftp-gtk.c:293
-msgid "/Transfers/sep"
+#: src/gtk/gftp-gtk.c:344
+#, fuzzy
+msgid "/Transfer/St_op"
 msgstr "/ถ่ายโอน/sep"
 
-#: src/gtk/gftp-gtk.c:286
-msgid "/Transfers/Skip Current File"
+#: src/gtk/gftp-gtk.c:346 src/gtk/gftp-gtk.c:354
+#, fuzzy
+msgid "/Transfer/sep"
+msgstr "/ถ่ายโอน/sep"
+
+#: src/gtk/gftp-gtk.c:347
+#, fuzzy
+msgid "/Transfer/Skip _Current File"
 msgstr "/ถ่ายโอน/ข้ามไฟล์ปัจจุบัน"
 
-#: src/gtk/gftp-gtk.c:287
-msgid "/Transfers/Remove File"
+#: src/gtk/gftp-gtk.c:348
+#, fuzzy
+msgid "/Transfer/_Remove File"
 msgstr "/ถ่ายโอน/ย้ายไฟล์ออก"
 
-#: src/gtk/gftp-gtk.c:289
-msgid "/Transfers/Move File _Up"
+#: src/gtk/gftp-gtk.c:350
+#, fuzzy
+msgid "/Transfer/Move File _Up"
 msgstr "/ถ่ายโอน/ย้ายไฟล์ไปอยู่ระดับสูงกว่าเดิม (_U)"
 
-#: src/gtk/gftp-gtk.c:291
-msgid "/Transfers/Move File _Down"
+#: src/gtk/gftp-gtk.c:352
+#, fuzzy
+msgid "/Transfer/Move File _Down"
 msgstr "/ถ่ายโอน/ย้ายไฟล์ไปอยู่ระดับต่ำกว่าเดิม (_D)"
 
-#: src/gtk/gftp-gtk.c:294
-msgid "/Transfers/Retrieve Files"
+#: src/gtk/gftp-gtk.c:355
+#, fuzzy
+msgid "/Transfer/_Retrieve Files"
 msgstr "/ถ่ายโอน/เรียกคืนไฟล์"
 
-#: src/gtk/gftp-gtk.c:295
-msgid "/Transfers/Put Files"
+#: src/gtk/gftp-gtk.c:356
+#, fuzzy
+msgid "/Transfer/_Put Files"
 msgstr "/ถ่ายโอน/วางไฟล์"
 
-#: src/gtk/gftp-gtk.c:296
-msgid "/L_ogging"
+#: src/gtk/gftp-gtk.c:357
+#, fuzzy
+msgid "/L_og"
 msgstr "/การติดตามการทำงาน (_O)"
 
-#: src/gtk/gftp-gtk.c:297
-msgid "/Logging/tearoff"
+#: src/gtk/gftp-gtk.c:358
+#, fuzzy
+msgid "/Log/tearoff"
 msgstr "/การติดตามการทำงาน/tearoff"
 
-#: src/gtk/gftp-gtk.c:298
-msgid "/Logging/Clear"
+#: src/gtk/gftp-gtk.c:359
+#, fuzzy
+msgid "/Log/_Clear"
 msgstr "/การติดตามการทำงาน/ลบ"
 
-#: src/gtk/gftp-gtk.c:299
-msgid "/Logging/View log..."
-msgstr "/การติดตามการทำงาน/แสดงการบันทึกการปฏิบัติการ..."
+#: src/gtk/gftp-gtk.c:360
+#, fuzzy
+msgid "/Log/_View"
+msgstr "/เครื่องที่ใช้/แสดง..."
 
-#: src/gtk/gftp-gtk.c:300
-msgid "/Logging/Save log..."
+#: src/gtk/gftp-gtk.c:361
+#, fuzzy
+msgid "/Log/_Save..."
 msgstr "/การติดตามการทำงาน/บันทึกการปฏิบัติการ..."
 
-#: src/gtk/gftp-gtk.c:301
+#: src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
 msgstr "/เครื่องมือ (_S)"
 
-#: src/gtk/gftp-gtk.c:302
+#: src/gtk/gftp-gtk.c:363
 msgid "/Tools/tearoff"
 msgstr "/เครื่องมือ/tearoff"
 
-#: src/gtk/gftp-gtk.c:303
-msgid "/Tools/Compare Windows"
+#: src/gtk/gftp-gtk.c:364
+#, fuzzy
+msgid "/Tools/C_ompare Windows"
 msgstr "/เครื่องมือ/หน้าต่างเปรียบเทียบ"
 
-#: src/gtk/gftp-gtk.c:304
-msgid "/Tools/Clear Cache"
+#: src/gtk/gftp-gtk.c:365
+#, fuzzy
+msgid "/Tools/_Clear Cache"
 msgstr "/เครื่องมือ/ลบแคช"
 
-#: src/gtk/gftp-gtk.c:305
-msgid "/_Help"
+#: src/gtk/gftp-gtk.c:366
+#, fuzzy
+msgid "/Help"
 msgstr "/ช่วยเหลือ (_H)"
 
-#: src/gtk/gftp-gtk.c:306
+#: src/gtk/gftp-gtk.c:367
 msgid "/Help/tearoff"
 msgstr "/ช่วยเหลือ/tearoff"
 
-#: src/gtk/gftp-gtk.c:307
-msgid "/Help/About..."
+#: src/gtk/gftp-gtk.c:368
+#, fuzzy
+msgid "/Help/_About"
 msgstr "/ช่วยเหลือ/เกี่ยวกับ..."
 
-#: src/gtk/gftp-gtk.c:425
+#: src/gtk/gftp-gtk.c:488
 msgid "Host: "
 msgstr "โฮสต์:"
 
-#: src/gtk/gftp-gtk.c:443
+#: src/gtk/gftp-gtk.c:490
+#, fuzzy
+msgid "_Host: "
+msgstr "โฮสต์:"
+
+#: src/gtk/gftp-gtk.c:516
 msgid "Port: "
 msgstr "พอร์ต:"
 
-#: src/gtk/gftp-gtk.c:461
+#: src/gtk/gftp-gtk.c:537
 msgid "User: "
 msgstr "ผู้ใช้:"
 
-#: src/gtk/gftp-gtk.c:479
+#: src/gtk/gftp-gtk.c:539
+#, fuzzy
+msgid "_User: "
+msgstr "ผู้ใช้:"
+
+#: src/gtk/gftp-gtk.c:564
 msgid "Pass: "
 msgstr "รหัสผ่าน:"
 
-#: src/gtk/gftp-gtk.c:548
+#: src/gtk/gftp-gtk.c:636
 msgid "Command: "
 msgstr ""
 
-#: src/gtk/gftp-gtk.c:691 src/gtk/gftp-gtk.c:898 src/gtk/gtkui_transfer.c:216
+#: src/gtk/gftp-gtk.c:787 src/gtk/gftp-gtk.c:996 src/gtk/gtkui_transfer.c:227
 msgid "Filename"
 msgstr "ชื่อไฟล์"
 
-#: src/gtk/gftp-gtk.c:692
+#: src/gtk/gftp-gtk.c:788
 msgid "Size"
 msgstr "ขนาด"
 
-#: src/gtk/gftp-gtk.c:695
+#: src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "วันที่"
 
-#: src/gtk/gftp-gtk.c:696
+#: src/gtk/gftp-gtk.c:792
 msgid "Attribs"
 msgstr "คุณลักษณะ"
 
-#: src/gtk/gftp-gtk.c:899
+#: src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "ความก้าวหน้า"
 
-#: src/gtk/gftp-gtk.c:1010 src/gtk/misc-gtk.c:891 src/gtk/misc-gtk.c:965
-msgid "Connect"
-msgstr "เชื่อมต่อ"
-
-#: src/gtk/gftp-gtk.c:1040
+#: src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
 msgstr "ผิดพลาด: คุณต้องพิมพ์ลงในโฮสต์เพื่อเชื่อมต่อไปยัง\n"
 
-#: src/gtk/gtkui.c:51
+#: src/gtk/gtkui.c:52
 msgid "Refresh"
 msgstr "เรียกใหม่"
 
-#: src/gtk/gtkui.c:93
+#: src/gtk/gtkui.c:119
 msgid "Enter Username"
 msgstr "ชื่อผู้ใช้:"
 
-#: src/gtk/gtkui.c:94
+#: src/gtk/gtkui.c:120
 msgid "Please enter your username for this site"
 msgstr "โปรดใสชื่อผู้ใช้ของคุณสำหรับไซต์นี้"
 
-#: src/gtk/gtkui.c:115 src/gtk/transfer.c:508 src/gtk/transfer.c:519
-msgid "Enter Password"
-msgstr "ใส่รหัสผ่าน"
-
-#: src/gtk/gtkui.c:116 src/gtk/transfer.c:509 src/gtk/transfer.c:520
+#: src/gtk/gtkui.c:142 src/gtk/transfer.c:562 src/gtk/transfer.c:572
 msgid "Please enter your password for this site"
 msgstr "โปรดใส่รหัสผ่านของคุณสำหรับไซต์นี้"
 
-#: src/gtk/gtkui.c:272
+#: src/gtk/gtkui.c:297
 msgid "Operation canceled...you must enter a string\n"
 msgstr "การดำเนินการถูกยกเลิก...คุณต้องใส่ชุดตัวอักษร\n"
 
-#: src/gtk/gtkui.c:310
+#: src/gtk/gtkui.c:343
 msgid "Mkdir"
 msgstr "สร้างไดเรกทอรี (Mkdir)"
 
-#: src/gtk/gtkui.c:313
+#: src/gtk/gtkui.c:346
 msgid "Make Directory"
 msgstr "สร้างไดเรกทอรี"
 
-#: src/gtk/gtkui.c:313
+#: src/gtk/gtkui.c:346
 msgid "Enter name of directory to create"
 msgstr "ใส่ชื่อของไดเรกทอรีที่จะสร้าง"
 
-#: src/gtk/gtkui.c:336 src/gtk/gtkui.c:348 src/gtk/misc-gtk.c:894
-#: src/gtk/misc-gtk.c:968
+#: src/gtk/gtkui.c:369 src/gtk/gtkui.c:381 src/gtk/misc-gtk.c:931
+#: src/gtk/misc-gtk.c:1006
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: src/gtk/gtkui.c:346
+#: src/gtk/gtkui.c:379
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "คุณต้องการจะเปลี่ยนชื่อ %s เป็นอะไร?"
 
-#: src/gtk/gtkui.c:368 src/gtk/gtkui.c:371
+#: src/gtk/gtkui.c:401 src/gtk/gtkui.c:404
 msgid "Site"
 msgstr "ไซต์"
 
-#: src/gtk/gtkui.c:371
+#: src/gtk/gtkui.c:404
 msgid "Enter site-specific command"
 msgstr "ใส่คำสั่งระบุไซต์"
 
-#: src/gtk/gtkui.c:409 src/gtk/menu-items.c:250
+#: src/gtk/gtkui.c:405
+msgid "Prepend with SITE"
+msgstr ""
+
+#: src/gtk/gtkui.c:448 src/gtk/menu-items.c:234
 #, fuzzy
 msgid "Chdir"
 msgstr "เปลี่ยนไดเรกทอรี (Chdir)"
 
-#: src/gtk/gtkui_transfer.c:60 src/gtk/transfer.c:403 src/gtk/transfer.c:486
-#: src/gtk/transfer.c:963
+#: src/gtk/gtkui_transfer.c:59 src/gtk/transfer.c:472 src/gtk/transfer.c:540
+#: src/gtk/transfer.c:997
 msgid "Skipped"
 msgstr "ถูกข้าม"
 
-#: src/gtk/gtkui_transfer.c:62 src/gtk/transfer.c:465 src/gtk/transfer.c:490
+#: src/gtk/gtkui_transfer.c:61 src/gtk/transfer.c:519 src/gtk/transfer.c:544
 msgid "Waiting..."
 msgstr "กำลังรอ..."
 
-#: src/gtk/gtkui_transfer.c:124 src/gtk/gtkui_transfer.c:299
-#: src/gtk/gtkui_transfer.c:326
+#: src/gtk/gtkui_transfer.c:135 src/gtk/gtkui_transfer.c:313
+#: src/gtk/gtkui_transfer.c:340
 msgid "Overwrite"
 msgstr "เขียนทับ"
 
-#: src/gtk/gtkui_transfer.c:131 src/gtk/gtkui_transfer.c:305
-#: src/gtk/gtkui_transfer.c:332
+#: src/gtk/gtkui_transfer.c:142 src/gtk/gtkui_transfer.c:319
+#: src/gtk/gtkui_transfer.c:346
 msgid "Resume"
 msgstr "เริ่มต้นทำงานใหม่"
 
-#: src/gtk/gtkui_transfer.c:138 src/gtk/gtkui_transfer.c:302
+#: src/gtk/gtkui_transfer.c:149 src/gtk/gtkui_transfer.c:316
 msgid "Skip"
 msgstr "ข้าม"
 
-#: src/gtk/gtkui_transfer.c:219
+#: src/gtk/gtkui_transfer.c:230
 msgid "Action"
 msgstr "ดำเนินการ"
 
-#: src/gtk/gtkui_transfer.c:224 src/gtk/gtkui_transfer.c:233
-#: src/gtk/transfer.c:92
+#: src/gtk/gtkui_transfer.c:235 src/gtk/gtkui_transfer.c:244
+#: src/gtk/transfer.c:90
 msgid "Transfer Files"
 msgstr "ถ่ายโอนไฟล์"
 
-#: src/gtk/gtkui_transfer.c:245
+#: src/gtk/gtkui_transfer.c:256
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
 msgstr "ไฟล์ที่กล่าวถึงอยู่นี้มีอยู่ทั้งในเครื่องที่ใช้และเครื่องทางไกล โปรดเลือกว่าอะไรที่คุณอยากให้ทำ"
 
-#: src/gtk/gtkui_transfer.c:308
+#: src/gtk/gtkui_transfer.c:322
 msgid "Error"
 msgstr ""
 
-#: src/gtk/gtkui_transfer.c:338
+#: src/gtk/gtkui_transfer.c:352
 msgid "Skip File"
 msgstr "ข้ามไฟล์"
 
-#: src/gtk/gtkui_transfer.c:348
+#: src/gtk/gtkui_transfer.c:362
 msgid "Select All"
 msgstr "เลือกทั้งหมด"
 
-#: src/gtk/gtkui_transfer.c:354
+#: src/gtk/gtkui_transfer.c:368
 msgid "Deselect All"
 msgstr "ไม่เลือกทั้งหมด"
 
-#: src/gtk/menu-items.c:37
+#: src/gtk/menu-items.c:64
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr "เปลี่ยนการกำหนดรูปแบบของไฟล์: การดำเนินการถูกยกเลิก...คุณต้องใส่ชุดตัวอักษร\n"
 
-#: src/gtk/menu-items.c:74 src/gtk/menu-items.c:77
+#: src/gtk/menu-items.c:82 src/gtk/menu-items.c:85
 msgid "Change Filespec"
 msgstr "เปลี่ยนแปลงการกำหนดไฟลรูปแบบของไฟล์"
 
-#: src/gtk/menu-items.c:77
+#: src/gtk/menu-items.c:85
 msgid "Enter the new file specification"
 msgstr "ใส่การกำหนดไฟล์ใหม่"
 
-#: src/gtk/menu-items.c:105 src/gtk/menu-items.c:313 src/gtk/menu-items.c:371
-#: src/gtk/view_dialog.c:76 src/gtk/view_dialog.c:143
+#: src/gtk/menu-items.c:113 src/gtk/menu-items.c:298 src/gtk/menu-items.c:362
+#: src/gtk/view_dialog.c:80
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถเปิด %s ในการเขียนได้: %s\n"
 
-#: src/gtk/menu-items.c:134
+#: src/gtk/menu-items.c:142
 msgid "Save Directory Listing"
 msgstr "บันทึกรายชื่อในไดเรกทอรีที่กำลังใช้งาน"
 
-#: src/gtk/menu-items.c:337 src/gtk/menu-items.c:395
+#: src/gtk/menu-items.c:326 src/gtk/menu-items.c:390
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "ผิดพลาด: ผิดพลาดขณะเขียนไปยัง %s: %s\n"
 
-#: src/gtk/menu-items.c:406
+#: src/gtk/menu-items.c:401
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "เขียนไฟล์การบันทึกการปฏิบัติการไปยัง %s ได้สำเร็จ\n"
 
-#: src/gtk/menu-items.c:418
+#: src/gtk/menu-items.c:413
 msgid "Save Log"
 msgstr "บันทึกการปฏิบัติการ"
 
-#: src/gtk/menu-items.c:454
+#: src/gtk/menu-items.c:449
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
 "either %s or in %s"
 msgstr "ไม่พบไฟล์ข้อตกลงการอนุญาตใช้สิทธิ์สำเนา โปรดแน่ใจว่ามันไม่ได้อยู่ใน %s หรือใน %s"
 
-#: src/gtk/menu-items.c:458 src/gtk/menu-items.c:463
+#: src/gtk/menu-items.c:453 src/gtk/menu-items.c:458
 msgid "About gFTP"
 msgstr "เกี่ยวกับ gFTP"
 
-#: src/gtk/menu-items.c:494
-#, c-format
+#: src/gtk/menu-items.c:489
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>\n"
+"Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "Official Homepage: http://www.gftp.org/\n"
-"Logo by: Aaron Worley <planet_hoth@yahoo.com>\n"
 msgstr ""
 "%s\n"
 "สงวนลิขสิทธิ์ (C) 1998-2002 Brian Masney <masneyb@gftp.org>\n"
 "โฮมเพจทางการ : http://www.gftp.org/\n"
 "โลโก้โดย: Aaron Worley <planet_hoth@yahoo.com>\n"
 
-#: src/gtk/menu-items.c:506
+#: src/gtk/menu-items.c:502
 msgid "About"
 msgstr "เกี่ยวกับ"
 
-#: src/gtk/menu-items.c:555
+#: src/gtk/menu-items.c:551
 msgid "License Agreement"
 msgstr "ข้อตกลงการอนุญาตใช้สิทธิ์"
 
-#: src/gtk/menu-items.c:561 src/gtk/view_dialog.c:392
+#: src/gtk/menu-items.c:557 src/gtk/view_dialog.c:384
 msgid "  Close  "
 msgstr "  ปิด  "
 
-#: src/gtk/menu-items.c:643
+#: src/gtk/menu-items.c:684
 msgid "Compare Windows"
 msgstr "หน้าต่างเปรียบเทียบ"
 
-#: src/gtk/misc-gtk.c:287
+#: src/gtk/misc-gtk.c:256
+#, fuzzy
+msgid "Disconnect from the remote server"
+msgstr "ยกเลิกการเชื่อมต่อจากไซต์ทางไกล"
+
+#: src/gtk/misc-gtk.c:260
+msgid ""
+"Connect to the site specified in the host entry. If the host entry is blank, "
+"then a dialog is presented that will allow you to enter a URL."
+msgstr ""
+
+#: src/gtk/misc-gtk.c:307
 msgid "All Files"
 msgstr "ไฟล์ทั้งหมด"
 
-#: src/gtk/misc-gtk.c:294
+#: src/gtk/misc-gtk.c:317
 msgid "] (Cached) ["
 msgstr ""
 
-#: src/gtk/misc-gtk.c:319
+#: src/gtk/misc-gtk.c:328
 msgid "Not connected"
 msgstr "ไม่ได้ถูกเชื่อมต่อ"
 
-#: src/gtk/misc-gtk.c:405
+#: src/gtk/misc-gtk.c:430
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "การเปิดไฟล์ %s: %s ผิดพลาด\n"
 
-#: src/gtk/misc-gtk.c:494
+#: src/gtk/misc-gtk.c:520
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: ไม่ถูกเชื่อมต่อไปยังไซต์ทางไกล\n"
 
-#: src/gtk/misc-gtk.c:501
+#: src/gtk/misc-gtk.c:527
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s: คุณสมบัตินี้ไม่มีอยู่ในการใช้โพรโตคอลนี้\n"
 
-#: src/gtk/misc-gtk.c:509
+#: src/gtk/misc-gtk.c:535
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: คุณต้องมีอย่างเพียงหนึ่งรายการที่เลือกไว้\n"
 
-#: src/gtk/misc-gtk.c:516
+#: src/gtk/misc-gtk.c:542
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: คุณต้องมีอย่างน้อยหนึ่งรายการที่เลือกไว้\n"
 
-#: src/gtk/misc-gtk.c:888 src/gtk/misc-gtk.c:962
+#: src/gtk/misc-gtk.c:925 src/gtk/misc-gtk.c:1000
 msgid "Change"
 msgstr "เปลี่ยน"
 
-#: src/gtk/misc-gtk.c:959 src/gtk/options_dialog.c:1180
+#: src/gtk/misc-gtk.c:997 src/gtk/options_dialog.c:1276
 msgid "Add"
 msgstr "เพิ่ม"
 
-#: src/gtk/misc-gtk.c:985
+#: src/gtk/misc-gtk.c:1023
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: src/gtk/misc-gtk.c:1055
+#: src/gtk/misc-gtk.c:1093
 msgid "  Yes  "
 msgstr "  ใช่  "
 
-#: src/gtk/misc-gtk.c:1065
+#: src/gtk/misc-gtk.c:1103
 msgid "  No  "
 msgstr "  ไม่  "
 
-#: src/gtk/misc-gtk.c:1124
+#: src/gtk/misc-gtk.c:1163
 msgid "Getting directory listings"
 msgstr "กำลังรับรายชื่อไดเรกทอรี"
 
-#: src/gtk/misc-gtk.c:1144
+#: src/gtk/misc-gtk.c:1183
 msgid "  Stop  "
 msgstr "  หยุด  "
 
-#: src/gtk/misc-gtk.c:1154
+#: src/gtk/misc-gtk.c:1193
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2569,76 +2805,113 @@ msgstr ""
 "ได้รับ %ld ไดเรกทอรี\n"
 " และ %ld ไฟล์ "
 
-#: src/gtk/misc-gtk.c:1228
+#: src/gtk/misc-gtk.c:1269
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "gFTP เกิดความผิดพลาด: ไม่พบไฟล์ %s ใน %s หรือ %s\n"
 
-#: src/gtk/options_dialog.c:920
+#: src/gtk/options_dialog.c:955
 msgid "Edit Host"
 msgstr "แก้ไขโฮสต์"
 
-#: src/gtk/options_dialog.c:920
+#: src/gtk/options_dialog.c:955
 msgid "Add Host"
 msgstr "เพิ่มโฮสต์"
 
-#: src/gtk/options_dialog.c:952 src/gtk/options_dialog.c:1043
+#: src/gtk/options_dialog.c:1001
+msgid "Type:"
+msgstr ""
+
+#: src/gtk/options_dialog.c:1003
+msgid "_Type:"
+msgstr ""
+
+#: src/gtk/options_dialog.c:1013 src/gtk/options_dialog.c:1136
 msgid "Domain"
 msgstr "โดเมน"
 
-#: src/gtk/options_dialog.c:972
+#: src/gtk/options_dialog.c:1046
 msgid "Network Address"
 msgstr "ที่อยู่เครือข่าย"
 
-#: src/gtk/options_dialog.c:1005 src/gtk/options_dialog.c:1145
+#: src/gtk/options_dialog.c:1048
+#, fuzzy
+msgid "_Network address:"
+msgstr "ที่อยู่เครือข่าย"
+
+#: src/gtk/options_dialog.c:1087 src/gtk/options_dialog.c:1240
 msgid "Netmask"
 msgstr "ค่าของหมายเลข IP (Netmask)"
 
-#: src/gtk/options_dialog.c:1151
+#: src/gtk/options_dialog.c:1089
+#, fuzzy
+msgid "N_etmask:"
+msgstr "ค่าของหมายเลข IP (Netmask)"
+
+#: src/gtk/options_dialog.c:1138
+#, fuzzy
+msgid "_Domain:"
+msgstr "โดเมน"
+
+#: src/gtk/options_dialog.c:1246
 msgid "Local Hosts"
 msgstr "โฮสต์เครื่องที่ใช้"
 
-#: src/gtk/options_dialog.c:1187 src/gtk/view_dialog.c:105
+#: src/gtk/options_dialog.c:1287 src/gtk/view_dialog.c:33
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: src/gtk/options_dialog.c:1249 src/gtk/options_dialog.c:1254
+#: src/gtk/options_dialog.c:1289
+#, fuzzy
+msgid "_Edit"
+msgstr "แก้ไข"
+
+#: src/gtk/options_dialog.c:1366 src/gtk/options_dialog.c:1371
 msgid "Options"
 msgstr "ตัวเลือก"
 
-#: src/gtk/transfer.c:30
+#: src/gtk/options_dialog.c:1458
+msgid "Apply"
+msgstr "ประยุกต์"
+
+#: src/gtk/transfer.c:29
 msgid "Receiving file names..."
 msgstr "กำลังรับชื่อไฟล์..."
 
-#: src/gtk/transfer.c:62 src/gtk/transfer.c:639
+#: src/gtk/transfer.c:62 src/gtk/transfer.c:688
 msgid "Connecting..."
 msgstr "กำลังเชื่อมต่อ..."
 
-#: src/gtk/transfer.c:100
+#: src/gtk/transfer.c:98
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "เรียกไฟล์กลับคืน: ไม่ถูกเชื่อมต่อไปยังไซต์ทางไกล\n"
 
-#: src/gtk/transfer.c:315
+#: src/gtk/transfer.c:335
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "ผิดพลาด: ส่วนย่อย %d  ส่งกลับคืน %d\n"
 
-#: src/gtk/transfer.c:318
+#: src/gtk/transfer.c:344
 #, fuzzy, c-format
 msgid "Child %d returned successfully\n"
 msgstr "ส่วนย่อย %d ส่งกลับคืนได้สำเร็จ\n"
 
-#: src/gtk/transfer.c:325
+#: src/gtk/transfer.c:351
+#, fuzzy, c-format
+msgid "Error: Child %d did not terminate properly\n"
+msgstr "ผิดพลาด: ส่วนย่อย %d  ส่งกลับคืน %d\n"
+
+#: src/gtk/transfer.c:367
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "ผิดพลาด: ไม่สามารถรับข้อมูลเกี่ยวกับไฟล์ %s: %s\n"
 
-#: src/gtk/transfer.c:330
+#: src/gtk/transfer.c:373
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "ไฟล์ %s ไม่มีการเปลี่ยนแปลง\n"
 
-#: src/gtk/transfer.c:338
+#: src/gtk/transfer.c:381
 #, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2647,55 +2920,55 @@ msgstr ""
 "ไฟล์ %s มีการเปลี่ยนแปลง\n"
 " คุณต้องการที่จะอัพโหลดใช่หรือไม่?"
 
-#: src/gtk/transfer.c:341
+#: src/gtk/transfer.c:384
 msgid "Edit File"
 msgstr "แก้ไขไฟล์"
 
-#: src/gtk/transfer.c:406
+#: src/gtk/transfer.c:475
 msgid "Finished"
 msgstr "เสร็จแล้ว"
 
-#: src/gtk/transfer.c:446
-#, c-format
-msgid "Stopping the transfer of %s\n"
-msgstr "กำลังหยุดการถ่ายโอนจาก %s\n"
+#: src/gtk/transfer.c:733
+#, fuzzy, c-format
+msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
+msgstr "ได้รับ %s จาก %s ที่ %.2f กิโลไบต์/วินาที, ยังต้องใช้เวลาอีกประมาณ %02d:%02d:%02d"
 
-#: src/gtk/transfer.c:683
-#, c-format
-msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
-msgstr "เรียบร้อยแล้ว %d%%, เวลาที่เหลือโดยประมาณ %02d:%02d:%02d (%ld จาก %ld ไฟล์ )"
-
-#: src/gtk/transfer.c:713
+#: src/gtk/transfer.c:738
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "ได้รับ %s จาก %s ที่ %.2f กิโลไบต์/วินาที, ยังต้องใช้เวลาอีกประมาณ %02d:%02d:%02d"
 
-#: src/gtk/transfer.c:722
+#: src/gtk/transfer.c:749
+#, fuzzy, c-format
+msgid "Sent %s of %s, transfer stalled, unknown time remaining"
+msgstr "ได้รับ %s จาก %s, ถ่ายโอนล่าช้า, ยังไม่ทราบเวลาที่เหลืออยู่"
+
+#: src/gtk/transfer.c:755
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "ได้รับ %s จาก %s, ถ่ายโอนล่าช้า, ยังไม่ทราบเวลาที่เหลืออยู่"
 
-#: src/gtk/transfer.c:757
+#: src/gtk/transfer.c:799
+#, c-format
+msgid "Unknown percentage complete. (File %ld of %ld)"
+msgstr ""
+
+#: src/gtk/transfer.c:803
+#, c-format
+msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
+msgstr "เรียบร้อยแล้ว %d%%, เวลาที่เหลือโดยประมาณ %02d:%02d:%02d (%ld จาก %ld ไฟล์ )"
+
+#: src/gtk/transfer.c:841
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "กำลังเรียกไฟล์กลับคืน...%s ไบต์"
 
-#: src/gtk/transfer.c:835 src/gtk/transfer.c:857 src/gtk/transfer.c:891
-#: src/gtk/transfer.c:931 src/gtk/transfer.c:984 src/gtk/transfer.c:1044
+#: src/gtk/transfer.c:920 src/gtk/transfer.c:942 src/gtk/transfer.c:961
+#: src/gtk/transfer.c:983 src/gtk/transfer.c:1011 src/gtk/transfer.c:1071
 msgid "There are no file transfers selected\n"
 msgstr "ไม่มีไฟล์ถูกเลือกสำหรับถ่ายโอน\n"
 
-#: src/gtk/transfer.c:875
-#, c-format
-msgid "Stopping the transfer on host %s\n"
-msgstr "กำลังหยุดการถ่ายโอนบนโฮสต์ %s\n"
-
-#: src/gtk/transfer.c:916 src/gtk/transfer.c:969
-#, c-format
-msgid "Skipping file %s on host %s\n"
-msgstr "กำลังข้ามไฟล์ %s บนโฮสต์ %s\n"
-
-#: src/gtk/view_dialog.c:36
+#: src/gtk/view_dialog.c:33
 msgid "View"
 msgstr "แสดง"
 
@@ -2704,65 +2977,140 @@ msgstr "แสดง"
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "แสดง: %s เป็นไดเรกทอรี ไม่สามารถแสดงได้\n"
 
-#: src/gtk/view_dialog.c:114
-msgid "Edit: You must specify an editor in the options dialog\n"
-msgstr "แก้ไข: คุณจะต้องระบุเครื่องมือแก้ไขในไดอะล็อกตัวเลือก\n"
-
-#: src/gtk/view_dialog.c:127
+#: src/gtk/view_dialog.c:51
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "แก้ไข: %s เป็นไดเรกทอรี ไม่สามารถแก้ไขได้\n"
 
-#: src/gtk/view_dialog.c:198
+#: src/gtk/view_dialog.c:122
+msgid "Edit: You must specify an editor in the options dialog\n"
+msgstr "แก้ไข: คุณจะต้องระบุเครื่องมือแก้ไขในไดอะล็อกตัวเลือก\n"
+
+#: src/gtk/view_dialog.c:176
 #, fuzzy, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "มุมมอง: ไม่สามารถแตกเป็นกระบวนการย่อยเพื่อให้บริการได้: %s\n"
 
-#: src/gtk/view_dialog.c:201
+#: src/gtk/view_dialog.c:179
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "โปรแกรมกำลังทำงาน: %s %s\n"
 
-#: src/gtk/view_dialog.c:259
+#: src/gtk/view_dialog.c:239
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "กำลังเปิด %s ด้วย %s\n"
 
-#: src/gtk/view_dialog.c:294
+#: src/gtk/view_dialog.c:281
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "กำลังแสดงไฟล์ %s\n"
 
-#: src/gtk/view_dialog.c:301
+#: src/gtk/view_dialog.c:288
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "มุมมอง: ไม่สามารถเปิดไฟล์ %s: %s\n"
 
-#: src/text/gftp-text.c:169
+#: src/text/gftp-text.c:163
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr ""
 
-#: src/text/textui.c:70
+#: src/text/textui.c:79
 msgid "Username [anonymous]:"
 msgstr "ชื่อผู้ใช้ [anonymous]:"
 
-#: src/text/textui.c:139
+#: src/text/textui.c:157
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
-"c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: "
+"(%c)"
 msgstr ""
+
+#~ msgid "Startup Directory:"
+#~ msgstr "ไดเรกทอรีเริ่มต้น:"
+
+#~ msgid "The default directory gFTP will go to on startup"
+#~ msgstr "ไดเรกทอรีปริยายของ gFTP จะเริ่มการทำงาน"
+
+#~ msgid "Starting the file transfer at offset %lld\n"
+#~ msgstr "กำลังเริ่มต้นถ่ายโอนไฟล์ที่ออฟเซต %lld\n"
+
+#~ msgid "Received invalid response to PWD command: '%s'\n"
+#~ msgstr "ได้รับการตอบสนองที่ไม่ถูกต้องจากคำสั่ง PWD: '%s'\n"
+
+#, fuzzy
+#~ msgid "Default remote SSH2 sftp-server path"
+#~ msgstr "เส้นทางปริยายของ SSH2 sftp-server ติดต่อไปยังเซิร์ฟเวอร์"
+
+#, fuzzy
+#~ msgid "Use the ssh-askpass utility to supply the remote password"
+#~ msgstr "ใช้อรรถประโยชน์ ssh-askpass เพื่อจับรหัสผ่านของผู้ใช้"
+
+#~ msgid "Use SSH2 SFTP subsys"
+#~ msgstr "ใช้ระบบย่อยของโพรโตคอล SSH2 SFTP"
+
+#, fuzzy
+#~ msgid ""
+#~ "Call ssh with the -s sftp flag. This is helpful because you won't have to "
+#~ "know the remote path to the remote sftp-server"
+#~ msgstr ""
+#~ "เรียก ssh ด้วยค่าสถานะ -s  ผ่านคำสั่ง sftp   "
+#~ "เนื่องจากคุณไม่จำเป็นต้องรู้เส้นทางในการติดต่อไปยัง sftp-server ไปยังเซิร์ฟเวอร์"
+
+#~ msgid "WARNING"
+#~ msgstr "คำเตือน"
+
+#~ msgid ""
+#~ "Please connect to this host with the command line SSH utility and answer "
+#~ "this question appropriately.\n"
+#~ msgstr ""
+#~ "โปรดเชื่อมต่อไปยังโฮสต์นี้โดยใช้บรรทัดคำสั่งอรรถประโยชน์ SSH และตอบคำถามนี้อย่างเหมาะสม\n"
+
+#~ msgid "Please correct the above warning to connect to this host.\n"
+#~ msgstr "โปรดแก้ไขตามคำเตือนข้างต้นเพื่อเชื่อมต่อไปยังโฮสต์นี้\n"
+
+#~ msgid ""
+#~ ">. If you have any questions, comments, or suggestions about this "
+#~ "program, please feel free to email them to me. You can always find out "
+#~ "the latest news about gFTP from my website at http://www.gftp.org/\n"
+#~ msgstr ""
+#~ ">.ถ้าคุณมีคำถาม ข้อคิดเห็น หรือคำแนะนำเกี่ยวกับโปรแกรมนี้ โปรดส่งอี-เมล์มายังเรา "
+#~ "และคุณสามารถพบข่าวล่าสุดเกี่ยวกับ gFTP จากเวบไซต์ http://www.gftp.org/\n"
+
+#~ msgid "Error: Remote site disconnected after trying to transfer file\n"
+#~ msgstr "ผิดพลาด: ไซต์ทางไกลถูกยกเลิกการเชื่อมต่อ หลังจากที่พยายามถ่ายโอนไฟล์\n"
+
+#~ msgid "Connect via URL"
+#~ msgstr "เชื่อมต่อโดย URL"
+
+#~ msgid "OpenURL"
+#~ msgstr "เปิด URL"
+
+#~ msgid "/FTP/_Options..."
+#~ msgstr "/FTP/ตัวเลือก (_O)..."
+
+#~ msgid "/Local/Make Directory..."
+#~ msgstr "/เครื่องที่ใช้/สร้างไดเรกทอรี..."
+
+#~ msgid "/Remote/Make Directory..."
+#~ msgstr "/เครื่องทางไกล/สร้างไดเรกทอรี"
+
+#~ msgid "/Transfers/Start Transfer"
+#~ msgstr "/ถ่ายโอน/เริ่มการถ่ายโอน"
+
+#~ msgid "/Transfers/Stop Transfer"
+#~ msgstr "/ถ่ายโอน/หยุดการถ่ายโอน"
+
+#~ msgid "/Logging/View log..."
+#~ msgstr "/การติดตามการทำงาน/แสดงการบันทึกการปฏิบัติการ..."
+
+#~ msgid "Stopping the transfer of %s\n"
+#~ msgstr "กำลังหยุดการถ่ายโอนจาก %s\n"
 
 #~ msgid "Enter your email address here"
 #~ msgstr "ใส่ที่อยู่อีเมล์ของคุณได้ที่นี่"
-
-#~ msgid "Start file transfers"
-#~ msgstr "เริ่มการถ่ายโอนไฟล์"
-
-#~ msgid "Automatically start the file transfers when they get queued?"
-#~ msgstr "เริ่มการถ่ายโอนไฟล์อัตโนมัติ เมื่อมีไฟล์อยู่ในคิวแล้ว"
 
 #~ msgid "Send PASV command or PORT command for data transfers"
 #~ msgstr "ส่งคำสั่ง PASV หรือ PORT ในการถ่ายโอนข้อมูล"
