@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
-#include "port.h"
 
 static GtkItemFactory *log_factory, *dl_factory;
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
@@ -1416,8 +1415,6 @@ main (int argc, char **argv)
 
   _setup_window1 ();
   _setup_window2 (argc, argv);
-
-  mac_gtk_foreground_hack();
 
   gftp_gtk_mac_foreground_init ();
 
