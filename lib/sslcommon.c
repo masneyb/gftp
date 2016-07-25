@@ -218,12 +218,7 @@ _gftp_ssl_locking_function (int mode, int n, const char * file, int line)
 static unsigned long
 _gftp_ssl_id_function (void)
 { 
-#if GLIB_MAJOR_VERSION > 1
   return ((unsigned long) g_thread_self ());
-#else
-  /* FIXME - call pthread version. */
-  return (0);
-#endif
 } 
 
 

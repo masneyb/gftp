@@ -29,9 +29,7 @@ GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
           * upload_right_arrow, * openurl_btn;
 GtkTooltips * openurl_tooltip;
 GtkAdjustment * logwdw_vadj;
-#if GTK_MAJOR_VERSION > 1
 GtkTextMark * logwdw_textmark;
-#endif
 int local_start, remote_start, trans_start;
 GHashTable * graphic_hash_table = NULL;
 GtkItemFactoryEntry * menus = NULL;
@@ -483,11 +481,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_container_border_width (GTK_CONTAINER (openurl_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), openurl_btn, FALSE, FALSE, 0);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_label_new (_("Host: "));
-#else
   tempwid = gtk_label_new_with_mnemonic (_("_Host: "));
-#endif
 
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
@@ -506,10 +500,8 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gftp_lookup_global_option ("host_value", &tempstr);
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry), tempstr);
-#if GTK_MAJOR_VERSION > 1
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid),
                                  GTK_COMBO (hostedit)->entry);
-#endif
   gtk_box_pack_start (GTK_BOX (box), hostedit, TRUE, TRUE, 0);
 
   tempwid = gtk_label_new (_("Port: "));
@@ -532,11 +524,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), portedit, FALSE, FALSE, 0);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_label_new (_("User: "));
-#else
   tempwid = gtk_label_new_with_mnemonic (_("_User: "));
-#endif
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
   useredit = gtk_combo_new ();
@@ -554,10 +542,8 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gftp_lookup_global_option ("user_value", &tempstr);
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (useredit)->entry), tempstr);
-#if GTK_MAJOR_VERSION > 1
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid),
                                  GTK_COMBO (useredit)->entry);
-#endif
   gtk_box_pack_start (GTK_BOX (box), useredit, TRUE, TRUE, 0);
 
   tempwid = gtk_label_new (_("Pass: "));
@@ -599,12 +585,8 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_option_menu_set_menu (GTK_OPTION_MENU (optionmenu), protocol_menu);
   gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), num);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = toolbar_pixmap (parent, "stop.xpm");
-#else
   tempwid = gtk_image_new_from_stock (GTK_STOCK_STOP,
                                       GTK_ICON_SIZE_LARGE_TOOLBAR);
-#endif
 
   stop_btn = gtk_button_new ();
 
@@ -909,12 +891,10 @@ CreateFTPWindows (GtkWidget * ui)
   gftp_config_list_vars * tmplistvar;
   char *dltitles[2];
   intptr_t tmplookup;
-#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
   GtkTextTag *tag;
   GdkColor * fore;
-#endif
 
   memset (&window1, 0, sizeof (window1));
   memset (&window2, 0, sizeof (window2));
@@ -950,12 +930,8 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_container_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = toolbar_pixmap (ui, "right.xpm");
-#else
   tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD,
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
-#endif
 
   upload_right_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), upload_right_arrow, TRUE, FALSE, 0);
@@ -963,12 +939,8 @@ CreateFTPWindows (GtkWidget * ui)
 			     GTK_SIGNAL_FUNC (put_files), NULL);
   gtk_container_add (GTK_CONTAINER (upload_right_arrow), tempwid);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = toolbar_pixmap (ui, "left.xpm");
-#else
   tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_BACK,
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
-#endif
 
   download_left_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), download_left_arrow, TRUE, FALSE, 0);
@@ -1016,24 +988,6 @@ CreateFTPWindows (GtkWidget * ui)
   gftp_lookup_global_option ("log_height", &tmplookup);
   gtk_widget_set_size_request (log_table, -1, tmplookup);
 
-#if GTK_MAJOR_VERSION == 1
-  logwdw = gtk_text_new (NULL, NULL);
-
-  gtk_text_set_editable (GTK_TEXT (logwdw), FALSE);
-  gtk_text_set_word_wrap (GTK_TEXT (logwdw), TRUE);
-
-  gtk_table_attach (GTK_TABLE (log_table), logwdw, 0, 1, 0, 1,
-		    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-		    0, 0);
-  gtk_signal_connect (GTK_OBJECT (logwdw), "button_press_event",
-		      GTK_SIGNAL_FUNC (menu_mouse_click), 
-                      (gpointer) log_factory);
-
-  tempwid = gtk_vscrollbar_new (GTK_TEXT (logwdw)->vadj);
-  gtk_table_attach (GTK_TABLE (log_table), tempwid, 1, 2, 0, 1,
-		    GTK_FILL, GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0);
-  logwdw_vadj = GTK_TEXT (logwdw)->vadj;
-#else
   logwdw = gtk_text_view_new ();
   gtk_text_view_set_editable (GTK_TEXT_VIEW (logwdw), FALSE);
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (logwdw), FALSE);
@@ -1068,7 +1022,7 @@ CreateFTPWindows (GtkWidget * ui)
   logwdw_vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (tempwid));
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
   logwdw_textmark = gtk_text_buffer_create_mark (textbuf, "end", &iter, 1);
-#endif
+
   gtk_paned_pack2 (GTK_PANED (logpane), log_table, 1, 1);
   gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
 
@@ -1208,19 +1162,13 @@ sortrows (GtkCList * clist, gint column, gpointer data)
     {
       sort_wid = gtk_clist_get_column_widget (clist, 0);
       gtk_widget_destroy (sort_wid);
-#if GTK_MAJOR_VERSION == 1
-      if (sortasds)
-	sort_wid = toolbar_pixmap (wdata->listbox, "down.xpm");
-      else
-	sort_wid = toolbar_pixmap (wdata->listbox, "up.xpm");
-#else
+
       if (sortasds)
         sort_wid = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, 
                                              GTK_ICON_SIZE_SMALL_TOOLBAR);
       else
         sort_wid = gtk_image_new_from_stock (GTK_STOCK_SORT_DESCENDING, 
                                              GTK_ICON_SIZE_SMALL_TOOLBAR);
-#endif
 
       gtk_clist_set_column_widget (clist, 0, sort_wid);
     }
@@ -1373,9 +1321,7 @@ main (int argc, char **argv)
   g_thread_init (NULL);
 #endif
 
-#if GTK_MAJOR_VERSION > 1
   gdk_threads_init();
-#endif
   GDK_THREADS_ENTER ();
   main_thread_id = pthread_self ();
   gtk_set_locale ();

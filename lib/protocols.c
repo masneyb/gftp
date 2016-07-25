@@ -149,7 +149,6 @@ gftp_disconnect (gftp_request * request)
     }
 #endif
 
-#if GLIB_MAJOR_VERSION > 1
   if (request->iconv_from_initialized)
     {
       g_iconv_close (request->iconv_from);
@@ -167,7 +166,6 @@ gftp_disconnect (gftp_request * request)
     g_free (request->iconv_charset);
     request->iconv_charset = NULL;
   }
-#endif
 
   request->cached = 0;
   if (request->disconnect == NULL)

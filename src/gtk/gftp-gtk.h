@@ -50,22 +50,12 @@
   trequest->datafd > 0 && !trequest->always_connected && \
   compare_request (trequest, (wdata)->request, 0))
 
-#if GTK_MAJOR_VERSION == 1
-  #define gtk_widget_set_size_request(widget, width, height)	\
-				gtk_widget_set_usize (widget, width, height)
-#endif
-
 /* These 2 defines are for creating menu items with stock icons in GTK+ 2.0. 
    If we are using version 1.2, it will disable the stock items since it's not
    supported */
 
-#if GTK_MAJOR_VERSION < 2
-#define MS_(a) NULL
-#define MN_(a) a
-#else
 #define MS_(a) "<StockItem>",a
 #define MN_(a) a,NULL
-#endif
 
 /* These are used for the MakeEditDialog function. I have these types to make
    it easier for creating dialogs with GTK+ 1.2 and GTK+ 2.0 */
@@ -183,9 +173,7 @@ extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
                  * upload_right_arrow, * openurl_btn;
 extern GtkTooltips * openurl_tooltip;
 extern GtkAdjustment * logwdw_vadj;
-#if GTK_MAJOR_VERSION > 1
 extern GtkTextMark * logwdw_textmark;
-#endif
 extern int local_start, remote_start, trans_start;
 extern GHashTable * graphic_hash_table;
 extern GtkItemFactoryEntry * menus;
