@@ -45,16 +45,11 @@ ftp_log (gftp_logging_level level, gftp_request * request,
   char *logstr;
   va_list argp;
   size_t len;
-#if GTK_MAJOR_VERSION == 1
-  gftp_color * color;
-  GdkColor fore;
-#else
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
   const char *descr;
   char *utf8_str;
   size_t destlen;
-#endif
 
   va_start (argp, string);
   if (strcmp (string, "%s") == 0)
@@ -69,7 +64,6 @@ ftp_log (gftp_logging_level level, gftp_request * request,
     }
   va_end (argp);
 
-#if GTK_MAJOR_VERSION > 1
   if ((utf8_str = gftp_string_to_utf8 (request, logstr, &destlen)) != NULL)
     {
       if (free_logstr)
@@ -79,7 +73,6 @@ ftp_log (gftp_logging_level level, gftp_request * request,
 
       logstr = utf8_str;
     }
-#endif
 
   if (pthread_self () != main_thread_id)
     {
@@ -118,46 +111,6 @@ ftp_log (gftp_logging_level level, gftp_request * request,
 
   gftp_lookup_global_option ("max_log_window_size", &max_log_window_size);
 
-#if GTK_MAJOR_VERSION == 1
-  switch (level)
-    {
-      case gftp_logging_send:
-        gftp_lookup_global_option ("send_color", &color);
-        break;
-      case gftp_logging_recv:
-        gftp_lookup_global_option ("recv_color", &color);
-        break;
-      case gftp_logging_error:
-        gftp_lookup_global_option ("error_color", &color);
-        break;
-      default:
-        gftp_lookup_global_option ("misc_color", &color);
-        break;
-    }
-
-  memset (&fore, 0, sizeof (fore));
-  fore.red = color->red;
-  fore.green = color->green;
-  fore.blue = color->blue;
-
-  gtk_text_freeze (GTK_TEXT (logwdw));
-  gtk_text_insert (GTK_TEXT (logwdw), NULL, &fore, NULL, logstr, -1);
-
-  len = gtk_text_get_length (GTK_TEXT (logwdw));
-  if (max_log_window_size > 0 && len > max_log_window_size)
-    {
-      delsize = len - max_log_window_size;
-      gtk_text_set_point (GTK_TEXT (logwdw), delsize);
-      gtk_text_backward_delete (GTK_TEXT (logwdw), delsize);
-      len = max_log_window_size;
-    }
-  gtk_text_set_point (GTK_TEXT (logwdw), len);
-
-  gtk_text_thaw (GTK_TEXT (logwdw));
-
-  if (upd)
-    gtk_adjustment_set_value (logwdw_vadj, logwdw_vadj->upper);
-#else
   switch (level)
     {
       case gftp_logging_send:
@@ -198,7 +151,6 @@ ftp_log (gftp_logging_level level, gftp_request * request,
           gtk_text_buffer_delete (textbuf, &iter, &iter2);
         }
     }
-#endif
 
   if (free_logstr)
     g_free (logstr);
@@ -447,13 +399,8 @@ gftp_free_pixmap (char *filename)
   if ((graphic = g_hash_table_lookup (graphic_hash_table, filename)) == NULL)
     return;
 
-#if GTK_MAJOR_VERSION == 1
-  gdk_pixmap_unref (graphic->pixmap);
-  gdk_bitmap_unref (graphic->bitmap);
-#else
   g_object_unref (graphic->pixmap);
   g_object_unref (graphic->bitmap);
-#endif
 
   g_hash_table_remove (graphic_hash_table, filename);
   g_free (graphic->filename);
@@ -787,48 +734,6 @@ destroy_dialog (gftp_dialog_data * ddata)
 }
 
 
-#if GTK_MAJOR_VERSION == 1
-static void
-ok_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
-{
-  if (ddata->edit == NULL)
-    {
-      gtk_widget_destroy (ddata->dialog);
-      ddata->dialog = NULL;
-      ddata->checkbox = NULL;
-    }
- 
-  if (ddata->yesfunc != NULL)
-    ddata->yesfunc (ddata->yespointer, ddata);
-
-  if (ddata->edit != NULL &&
-      ddata->dialog != NULL)
-    gtk_widget_destroy (ddata->dialog);
-
-  g_free (ddata);
-}
-
-
-static void
-cancel_dialog_response (GtkWidget * widget, gftp_dialog_data * ddata)
-{
-  if (ddata->edit == NULL)
-    {
-      gtk_widget_destroy (ddata->dialog);
-      ddata->dialog = NULL;
-      ddata->checkbox = NULL;
-    }
- 
-  if (ddata->nofunc != NULL)
-    ddata->nofunc (ddata->nopointer, ddata);
-
-  if (ddata->edit != NULL &&
-      ddata->dialog != NULL)
-    gtk_widget_destroy (ddata->dialog);
-
-  g_free (ddata);
-}
-#else
 static void
 dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
 {
@@ -857,7 +762,6 @@ dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
 
   g_free (ddata);
 }
-#endif
 
 
 static gint
@@ -868,20 +772,12 @@ dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 
   if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return)
     {
-#if GTK_MAJOR_VERSION == 1
-      ok_dialog_response (widget, data);
-#else
       dialog_response (widget, GTK_RESPONSE_YES, data);
-#endif
       return (TRUE);
     }
   else if (event->keyval == GDK_Escape)
     {
-#if GTK_MAJOR_VERSION == 1
-      cancel_dialog_response (widget, data);
-#else
       dialog_response (widget, GTK_RESPONSE_NO, data);
-#endif
       return (TRUE);
     }
 
@@ -905,14 +801,6 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   ddata->nofunc = cancelfunc;
   ddata->nopointer = cancelptr;
 
-#if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
-  gtk_container_border_width (GTK_CONTAINER
-			      (GTK_DIALOG (dialog)->action_area), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-#else
   switch (okbutton)
     {
       case gftp_dialog_button_ok:
@@ -941,7 +829,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
                                         yes_text,
                                         GTK_RESPONSE_YES,
                                         NULL);
-#endif
+
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "edit", "gFTP");
@@ -987,51 +875,8 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
       gtk_widget_show (ddata->checkbox);
     }
       
-#if GTK_MAJOR_VERSION == 1
-  switch (okbutton)
-    {
-      case gftp_dialog_button_ok:
-        yes_text = _("OK");
-        break;
-      case gftp_dialog_button_create:
-        yes_text = _("Add");
-        break;
-      case gftp_dialog_button_change:
-        yes_text = _("Change");
-        break;
-      case gftp_dialog_button_connect:
-        yes_text = _("Connect");
-        break;
-      case gftp_dialog_button_rename:
-        yes_text = _("Rename");
-        break;
-      default:
-        yes_text = "";
-        break;
-    }
-
-  tempwid = gtk_button_new_with_label (yes_text);
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-                      GTK_SIGNAL_FUNC (ok_dialog_response),
-                      ddata);
-  gtk_widget_grab_default (tempwid);
-  gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("Cancel"));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-                      GTK_SIGNAL_FUNC (cancel_dialog_response),
-                      ddata);
-  gtk_widget_show (tempwid);
-#else
   g_signal_connect (GTK_OBJECT (dialog), "response",
                     G_CALLBACK (dialog_response), ddata);
-#endif
 
   gtk_widget_show (dialog);
 }
@@ -1044,9 +889,6 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
 {
   GtkWidget * text, * dialog;
   gftp_dialog_data * ddata;
-#if GTK_MAJOR_VERSION == 1
-  GtkWidget * tempwid;
-#endif
 
   ddata = g_malloc0 (sizeof (*ddata));
   ddata->yesfunc = yesfunc;
@@ -1054,21 +896,13 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   ddata->nofunc = nofunc;
   ddata->nopointer = nopointer;
 
-#if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 
-                              5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 15);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-#else
   dialog = gtk_dialog_new_with_buttons (_(diagtxt), NULL, 0,
                                         GTK_STOCK_NO,
                                         GTK_RESPONSE_NO,
                                         GTK_STOCK_YES,
                                         GTK_RESPONSE_YES,
                                         NULL);
-#endif
+
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -1089,29 +923,8 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), text, TRUE, TRUE, 0);
   gtk_widget_show (text);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_button_new_with_label (_("  Yes  "));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-                      FALSE, FALSE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-                      GTK_SIGNAL_FUNC (ok_dialog_response), ddata);
-
-  gtk_widget_grab_default (tempwid);
-  gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("  No  "));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-                      FALSE, FALSE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-                      GTK_SIGNAL_FUNC (cancel_dialog_response), ddata);
-  gtk_widget_show (tempwid);
-
-#else
   g_signal_connect (GTK_OBJECT (dialog), "response",
                     G_CALLBACK (dialog_response), ddata);
-#endif
 
   gtk_widget_show (dialog);
 }
@@ -1153,9 +966,7 @@ update_directory_download_progress (gftp_transfer * transfer)
     {
       dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
       gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
-#if GTK_MAJOR_VERSION > 1
       gtk_window_set_decorated (GTK_WINDOW (dialog), 0);
-#endif
       gtk_grab_add (dialog);
       gtk_signal_connect (GTK_OBJECT (dialog), "delete_event",
                           GTK_SIGNAL_FUNC (delete_event), NULL);

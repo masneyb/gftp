@@ -192,7 +192,6 @@ gftpui_gtk_cancel (GtkWidget * widget, gpointer data)
 }
 
 
-#if GTK_MAJOR_VERSION > 1
 static void
 gftpui_gtk_transfer_action (GtkWidget * widget, gint response,
                             gpointer user_data)
@@ -210,7 +209,6 @@ gftpui_gtk_transfer_action (GtkWidget * widget, gint response,
         gtk_widget_destroy (widget);
     }
 }   
-#endif
 
 
 void
@@ -229,25 +227,13 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   dltitles[2] = tdata->toreq->hostname;
   dltitles[3] = _("Action");
 
-#if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_grab_add (dialog);
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Transfer Files"));
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 35);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-
-  gtk_signal_connect_object (GTK_OBJECT (dialog), "delete_event",
-                             GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                             GTK_OBJECT (dialog));
-#else
   dialog = gtk_dialog_new_with_buttons (_("Transfer Files"), NULL, 0, 
                                         GTK_STOCK_CANCEL,
                                         GTK_RESPONSE_CANCEL,
                                         GTK_STOCK_OK,
                                         GTK_RESPONSE_OK,
                                         NULL);
-#endif
+
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "transfer", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
@@ -266,13 +252,9 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   tdata->clist = gtk_clist_new_with_titles (4, dltitles);
   gtk_container_add (GTK_CONTAINER (scroll), tdata->clist);
 
-#if GTK_MAJOR_VERSION == 1
-  gtk_clist_set_selection_mode (GTK_CLIST (tdata->clist),
-				GTK_SELECTION_EXTENDED);
-#else
   gtk_clist_set_selection_mode (GTK_CLIST (tdata->clist),
 				GTK_SELECTION_MULTIPLE);
-#endif
+
   gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 0, 100);
   gtk_clist_set_column_justification (GTK_CLIST (tdata->clist), 1,
 				      GTK_JUSTIFY_RIGHT);
@@ -371,33 +353,8 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 		      GTK_SIGNAL_FUNC (gftpui_gtk_trans_unselectall), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_button_new_with_label (_("OK"));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-                      GTK_SIGNAL_FUNC (gftpui_gtk_ok), (gpointer) tdata);
-  gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_grab_default (tempwid);
-  gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("  Cancel  "));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (gftpui_gtk_cancel), (gpointer) tdata);
-  gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (tempwid);
-#else
   g_signal_connect (GTK_OBJECT (dialog), "response",
                     G_CALLBACK (gftpui_gtk_transfer_action),(gpointer) tdata);
-#endif
 
   gtk_widget_show (dialog);
   dialog = NULL;

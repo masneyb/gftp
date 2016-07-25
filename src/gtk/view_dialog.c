@@ -220,10 +220,8 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   int doclose;
   ssize_t n;
   char * non_utf8;
-#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
-#endif
 
   doclose = 1;
   stlen = strlen (filename);
@@ -313,18 +311,11 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   if (non_utf8 != filename && non_utf8)
     g_free (non_utf8);
 
-#if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), filename);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
-                              5);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-#else
   dialog = gtk_dialog_new_with_buttons (filename, NULL, 0,
                                         GTK_STOCK_CLOSE,
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
-#endif
+
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "fileview", "gFTP");
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 5);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
@@ -340,23 +331,6 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   table = gtk_table_new (1, 2, FALSE);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), table, TRUE, TRUE, 0);
 
-#if GTK_MAJOR_VERSION == 1
-  view = gtk_text_new (NULL, NULL);
-  gtk_text_set_editable (GTK_TEXT (view), FALSE);
-  gtk_text_set_word_wrap (GTK_TEXT (view), TRUE);
-
-  gtk_table_attach (GTK_TABLE (table), view, 0, 1, 0, 1,
-		    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-		    0, 0);
-  gtk_widget_show (view);
-
-  tempwid = gtk_vscrollbar_new (GTK_TEXT (view)->vadj);
-  gtk_table_attach (GTK_TABLE (table), tempwid, 1, 2, 0, 1,
-		    GTK_FILL, GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0);
-  gtk_widget_show (tempwid);
-
-  vadj = GTK_TEXT (view)->vadj;
-#else
   view = gtk_text_view_new ();
   gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
@@ -376,35 +350,20 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   gtk_widget_show (tempwid);
 
   vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (tempwid));
-#endif
   gtk_widget_set_size_request (table, 500, 400);
   gtk_widget_show (table);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_button_new_with_label (_("  Close  "));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      FALSE, FALSE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (tempwid);
-#else
   g_signal_connect_swapped (GTK_OBJECT (dialog), "response",
                             G_CALLBACK (gtk_widget_destroy),
                             GTK_OBJECT (dialog));
-#endif
 
   buf[sizeof (buf) - 1] = '\0';
   while ((n = read (fd, buf, sizeof (buf) - 1)) > 0)
     {
       buf[n] = '\0';
-#if GTK_MAJOR_VERSION == 1
-      gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL, buf, -1);
-#else
       textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
       gtk_text_buffer_get_iter_at_offset (textbuf, &iter, -1);
       gtk_text_buffer_insert (textbuf, &iter, buf, -1);
-#endif
     }
 
   if (doclose)

@@ -126,11 +126,7 @@ gftpui_prompt_username (void *uidata, gftp_request * request)
   while (request->stopable)
     {
       GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-      g_main_iteration (TRUE);
-#else
       g_main_context_iteration (NULL, TRUE);
-#endif
     }
 }
 
@@ -148,11 +144,7 @@ gftpui_prompt_password (void *uidata, gftp_request * request)
   while (request->stopable)
     {
       GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-      g_main_iteration (TRUE);
-#else
       g_main_context_iteration (NULL, TRUE);
-#endif
     }
 }
 
@@ -248,11 +240,7 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
   while (wdata->request->stopable)
     {
       GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-      g_main_iteration (TRUE);
-#else
       g_main_context_iteration (NULL, TRUE);
-#endif
     }
 
   _gftpui_teardown_wakeup_main_thread (cdata->request, handler);
@@ -534,11 +522,7 @@ gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
       while (answer == -1)
         {
           GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-          g_main_iteration (TRUE);
-#else
           g_main_context_iteration (NULL, TRUE);
-#endif
         }
     }
 
@@ -590,11 +574,7 @@ gftpui_protocol_ask_user_input (gftp_request * request, char *title,
       while (*buf == '\0' && *(buf + 1) == ' ')
         {
           GDK_THREADS_LEAVE ();
-#if GTK_MAJOR_VERSION == 1
-          g_main_iteration (TRUE);
-#else
           g_main_context_iteration (NULL, TRUE);
-#endif
         }
     }
 

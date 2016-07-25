@@ -102,7 +102,6 @@ dochmod (GtkWidget * widget, gftp_window_data * wdata)
 }
 
 
-#if GTK_MAJOR_VERSION > 1
 static void
 chmod_action (GtkWidget * widget, gint response, gpointer wdata)
 {
@@ -115,7 +114,6 @@ chmod_action (GtkWidget * widget, gint response, gpointer wdata)
         gtk_widget_destroy (widget);
     }
 }
-#endif
 
 
 void
@@ -131,20 +129,13 @@ chmod_dialog (gpointer data)
   if (!check_status (_("Chmod"), wdata, gftpui_common_use_threads (wdata->request), 0, 1, wdata->request->chmod != NULL))
     return;
 
-#if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Chmod"));
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
-                              5);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-#else
   dialog = gtk_dialog_new_with_buttons (_("Chmod"), NULL, 0,
                                         GTK_STOCK_CANCEL,
                                         GTK_RESPONSE_CANCEL,
                                         GTK_STOCK_OK,
                                         GTK_RESPONSE_OK,
                                         NULL);
-#endif
+
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "Chmod", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
@@ -248,31 +239,8 @@ chmod_dialog (gpointer data)
   gtk_box_pack_start (GTK_BOX (vbox), ox, FALSE, FALSE, 0);
   gtk_widget_show (ox);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_button_new_with_label (_("OK"));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (dochmod), (gpointer) wdata);
-  gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_grab_default (tempwid);
-  gtk_widget_show (tempwid);
-
-  tempwid = gtk_button_new_with_label (_("  Cancel  "));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      TRUE, TRUE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (tempwid);
-#else
   g_signal_connect (GTK_OBJECT (dialog), "response",
                     G_CALLBACK (chmod_action), wdata);
-#endif
 
   if (IS_ONE_SELECTED (wdata))
     {
