@@ -218,12 +218,7 @@ _gftp_ssl_locking_function (int mode, int n, const char * file, int line)
 static unsigned long
 _gftp_ssl_id_function (void)
 { 
-#if GLIB_MAJOR_VERSION > 1
   return ((unsigned long) g_thread_self ());
-#else
-  /* FIXME - call pthread version. */
-  return (0);
-#endif
 } 
 
 
@@ -233,7 +228,11 @@ _gftp_ssl_create_dyn_mutex (const char *file, int line)
   struct CRYPTO_dynlock_value *value;
 
   value = g_malloc0 (sizeof (*value));
+#if GLIB_CHECK_VERSION(2,31,0)
+  g_mutex_init (value->mutex);
+#else
   value->mutex = g_mutex_new ();
+#endif
   return (value);
 }
 
@@ -253,7 +252,9 @@ static void
 _gftp_ssl_destroy_dyn_mutex (struct CRYPTO_dynlock_value *l,
                              const char *file, int line)
 {
-  g_mutex_free (l->mutex);
+#if GLIB_CHECK_VERSION (2,31,0)
+  gftp_g_mutex_free (l->mutex);
+#endif 
   g_free (l);
 }
 
@@ -271,7 +272,12 @@ _gftp_ssl_thread_setup (void)
   gftp_ssl_mutexes = g_malloc0 (CRYPTO_num_locks( ) * sizeof (*gftp_ssl_mutexes));
 
   for (i = 0; i < CRYPTO_num_locks ( ); i++)
-    gftp_ssl_mutexes[i] = g_mutex_new ();
+
+#if GLIB_CHECK_VERSION(2,31,0)
+   g_mutex_init (gftp_ssl_mutexes[i]);
+#else
+   gftp_ssl_mutexes[i] = g_mutex_new ();
+#endif
 
   CRYPTO_set_id_callback (_gftp_ssl_id_function);
   CRYPTO_set_locking_callback (_gftp_ssl_locking_function);
@@ -411,8 +417,9 @@ gftp_ssl_session_setup (gftp_request * request)
 ssize_t 
 gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
 {
+  int *err;
+  err = 0;
   ssize_t ret;
-  int err;
 
   g_return_val_if_fail (request->ssl != NULL, GFTP_EFATAL);
 
@@ -429,7 +436,7 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
     {
       if ((ret = SSL_read (request->ssl, ptr, size)) < 0)
         { 
-          err = SSL_get_error (request->ssl, ret);
+          *err = SSL_get_error (request->ssl, ret);
           if (errno == EINTR || errno == EAGAIN)
             {
               if (request->cancel)

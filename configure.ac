@@ -323,7 +323,12 @@ AM_GNU_GETTEXT
 AC_CHECK_PROG(DB2HTML, db2html, true, false)
 AM_CONDITIONAL(HAVE_DOCBOOK, $DB2HTML)
 
+<<<<<<< HEAD:configure.ac
+AC_CONFIG_FILES(po/Makefile.in 
+	intl/Makefile
+=======
 AC_CONFIG_FILES(
+>>>>>>> 06f54cef98bf54bc4917566fe6b3c403e8330402:configure.ac
 	Makefile
 	docs/Makefile
 	docs/sample.gftp/Makefile

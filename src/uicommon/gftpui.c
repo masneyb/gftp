@@ -19,7 +19,12 @@
 
 #include "gftpui.h"
 
+#if GLIB_CHECK_VERSION(2,31,0)
+GMutex gftpui_common_transfer_mutex;
+#else
 GStaticMutex gftpui_common_transfer_mutex = G_STATIC_MUTEX_INIT;
+#endif
+
 volatile sig_atomic_t gftpui_common_child_process_done = 0;
 volatile sig_atomic_t gftpui_common_num_child_threads = 0;
 static gftp_logging_func gftpui_common_logfunc;

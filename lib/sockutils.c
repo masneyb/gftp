@@ -362,7 +362,11 @@ struct servent *
 r_getservbyname (const char *name, const char *proto,
                  struct servent *result_buf, int *h_errnop)
 {
+#if GLIB_CHECK_VERSION(2,31,0)
+  static GMutex servfunclock;
+#else
   static GStaticMutex servfunclock = G_STATIC_MUTEX_INIT;
+#endif
   struct servent *sent;
 
   if (g_thread_supported ())

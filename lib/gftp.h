@@ -494,14 +494,45 @@ struct gftp_request_tag
   SSL * ssl;
 #endif
 
-#if GLIB_MAJOR_VERSION > 1
   GIConv iconv_to, iconv_from; 
   unsigned int iconv_from_initialized : 1,
                iconv_to_initialized : 1;
   char *iconv_charset;
-#endif
 };
 
+/* Support deprecated functions for older glibs */
+#if GLIB_CHECK_VERSION(2,31,0)
+  #undef g_static_mutex_lock
+  #define g_static_mutex_lock g_mutex_lock
+  #undef g_static_mutex_unlock
+  #define g_static_mutex_unlock g_mutex_unlock
+
+  /* If I understand it correctly, we wouldn't normally get away with this
+   * but since we are already iniitializing it by calling malloc on the pointer
+   * I thnk we get a pass on having to change:
+   * GStaticMutex pointer to an (addressed) GMutex variable
+   *
+   * I suspect this will cause problems for someone down the road
+   */
+  #define g_static_mutex_init g_mutex_init
+
+  /* Thanks to libvert for writing these two wrappers */
+  static inline GMutex *gftp_g_mutex_new(void)
+  {
+    GMutex *mutex;
+
+    mutex = g_new(GMutex, 1);
+    g_mutex_init(mutex);
+
+    return mutex;
+  }
+
+  static inline void gftp_g_mutex_free(GMutex *mutex)
+  {
+    g_mutex_clear(mutex);
+    g_free(mutex);
+  }
+#endif
 
 typedef struct gftp_transfer_tag
 {
@@ -545,8 +576,13 @@ typedef struct gftp_transfer_tag
   void * fromwdata,
        * towdata;
 
+#if GLIB_CHECK_VERSION(2,31,0)
+  GMutex statmutex,
+               structmutex;
+#else
   GStaticMutex statmutex,
                structmutex;
+#endif
 
   void *user_data;
   void *thread_id;

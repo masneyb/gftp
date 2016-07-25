@@ -1,96 +1,103 @@
 # Finnish messages file for gFTP
 # Copyright (C) 1999 Brian Masney <masneyb@gftp.org>
-# 
+#
 # Ilkka Tuohela, <hile@iki.fi> 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gftp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-14 21:58+0300\n"
+"POT-Creation-Date: 2016-07-24 02:50-0700\n"
 "PO-Revision-Date: 2006-10-22 08:20+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../lib/bookmark.c:38
+#: lib/bookmark.c:37
 #, c-format
 msgid "Invalid URL %s\n"
 msgstr "Virheellinen URL %s\n"
 
-#: ../lib/cache.c:50 ../lib/cache.c:64 ../lib/cache.c:77
+#: lib/cache.c:49 lib/cache.c:63 lib/cache.c:76
 #, c-format
 msgid "Error: Invalid line %s in cache index file\n"
 msgstr "Virhe: Virheellinen rivi %s välimuistin indeksitiedostossa\n"
 
-#: ../lib/cache.c:138 ../lib/fsp.c:535 ../lib/local.c:561
+#: lib/cache.c:137 lib/fsp.c:534 lib/local.c:560
 #, c-format
 msgid "Error: Could not make directory %s: %s\n"
 msgstr "Virhe: kansiota %s ei voida luoda: %s\n"
 
-#: ../lib/cache.c:164
+#: lib/cache.c:163
 #, c-format
 msgid "Error: Cannot create temporary file: %s\n"
 msgstr "Virhe: Väliaikaistiedoston luonti epäonnistui: %s\n"
 
-#: ../lib/cache.c:186 ../lib/cache.c:236 ../lib/config_file.c:157
-#: ../lib/config_file.c:163 ../lib/local.c:144 ../lib/local.c:272
-#: ../lib/rfc2068.c:260 ../lib/sshv2.c:1250
+#: lib/cache.c:185 lib/cache.c:235 lib/config_file.c:156 lib/config_file.c:162
+#: lib/local.c:143 lib/local.c:271 lib/rfc2068.c:259 lib/sshv2.c:1249
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr "Virhe suljettaessa tiedostokuvaajaa: %s\n"
 
-#: ../lib/cache.c:254 ../lib/fsp.c:127 ../lib/fsp.c:207 ../lib/local.c:184
-#: ../lib/local.c:193 ../lib/local.c:247
+#: lib/cache.c:253 lib/fsp.c:126 lib/fsp.c:206 lib/local.c:183 lib/local.c:192
+#: lib/local.c:246
 #, c-format
 msgid "Error: Cannot seek on file %s: %s\n"
 msgstr "Virhe siirryttäessä tiedostossa %s: %s\n"
 
-#: ../lib/config_file.c:126 ../lib/config_file.c:133 ../lib/protocols.c:3209
+#: lib/charset-conv.c:72
+#, c-format
+msgid ""
+"Error converting string '%s' from character set %s to character set %s: %s\n"
+msgstr ""
+"Virhe muunnettaessa merkkijonoa '%s' merkistöstä %s merkistöön %s: %s\n"
+
+#: lib/config_file.c:125 lib/config_file.c:132 lib/protocols.c:1626
 #, c-format
 msgid "Error: Cannot open local file %s: %s\n"
 msgstr "Virhe: Paikallisen tiedoston %s avaaminen epäonnistui: %s\n"
 
-#: ../lib/config_file.c:143 ../lib/protocols.c:2910 ../lib/sslcommon.c:497
+#: lib/config_file.c:142 lib/sockutils.c:292 lib/sslcommon.c:504
 #, c-format
 msgid "Error: Could not write to socket: %s\n"
 msgstr "Virhe: Pistokkeeseen ei voida kirjoittaa: %s\n"
 
-#: ../lib/config_file.c:151 ../lib/protocols.c:2831 ../lib/sshv2.c:445
-#: ../lib/sslcommon.c:450
+#: lib/config_file.c:150 lib/sockutils.c:213 lib/sshv2.c:444
+#: lib/sslcommon.c:457
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
 msgstr "Virhe: Pistokkeesta ei voitu lukea: %s\n"
 
-#: ../lib/config_file.c:183 ../lib/config_file.c:738
+#: lib/config_file.c:182 lib/config_file.c:736
 #, c-format
 msgid "gFTP Error: Bad bookmarks file name %s\n"
 msgstr "gFTP:n Virhe: Kirjanmerkkitiedoston nimi %s on virheellinen\n"
 
-#: ../lib/config_file.c:192
+#: lib/config_file.c:191
 #, c-format
 msgid "Warning: Cannot find master bookmark file %s\n"
 msgstr "Varoitus: Kirjanmerkkitiedostoa %s ei löydy\n"
 
-#: ../lib/config_file.c:203 ../lib/config_file.c:744
+#: lib/config_file.c:202 lib/config_file.c:742
 #, c-format
 msgid "gFTP Error: Cannot open bookmarks file %s: %s\n"
 msgstr "gFTP:n Virhe: Kirjanmerkkitiedostoa %s ei voida avata: %s\n"
 
-#: ../lib/config_file.c:295 ../lib/config_file.c:317
+#: lib/config_file.c:294 lib/config_file.c:316
 #, c-format
 msgid "gFTP Warning: Skipping line %d in bookmarks file: %s\n"
 msgstr "gFTP:n varoitus: Rivi %d ohitettu kirjanmerkkitiedostossa: %s\n"
 
-#: ../lib/config_file.c:347
+#: lib/config_file.c:346
 #, c-format
 msgid "gFTP Warning: Line %d doesn't have enough arguments\n"
 msgstr "gFTP Varoitus: Rivillä %d ei ole tarpeeksi argumentteja\n"
 
-#: ../lib/config_file.c:505
+#: lib/config_file.c:503
 msgid ""
 "This section specifies which hosts are on the local subnet and won't need to "
 "go out the proxy server (if available). Syntax: dont_use_proxy=.domain or "
@@ -100,7 +107,7 @@ msgstr ""
 "vaadi välityspalvelimen käyttöä. Syntaksi: dont_use_proxy=.toimialue tai "
 "dont_use_proxy=verkko/maski"
 
-#: ../lib/config_file.c:508
+#: lib/config_file.c:506
 msgid ""
 "ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: "
 "All arguments except the file extension are optional"
@@ -109,52 +116,52 @@ msgstr ""
 "Huomautus: Kaikki vaihtoehdot tiedostopäätettä lukuunottamatta ovat "
 "valinnaisia."
 
-#: ../lib/config_file.c:588 ../lib/config_file.c:833
+#: lib/config_file.c:586 lib/config_file.c:831
 #, c-format
 msgid "gFTP Error: Bad config file name %s\n"
 msgstr "gFTP Virhe: Virheellinen konfigurointitiedoston nimi %s\n"
 
-#: ../lib/config_file.c:599
+#: lib/config_file.c:597
 #, c-format
 msgid "gFTP Error: Could not make directory %s: %s\n"
 msgstr "gFTP virhe: Kansion %s luominen epäonnistui: %s\n"
 
-#: ../lib/config_file.c:609
+#: lib/config_file.c:607
 #, c-format
 msgid "gFTP Error: Cannot find master config file %s\n"
 msgstr "gFTP Virhe: Pääkonfigurointitiedostoa ei löydy %s \n"
 
-#: ../lib/config_file.c:611
+#: lib/config_file.c:609
 #, c-format
 msgid "Did you do a make install?\n"
 msgstr "Oletko asentanut ohjelman komennolla \"make install\"?\n"
 
-#: ../lib/config_file.c:620 ../lib/config_file.c:839
+#: lib/config_file.c:618 lib/config_file.c:837
 #, c-format
 msgid "gFTP Error: Cannot open config file %s: %s\n"
 msgstr "gFTP Virhe: Konfigurointitiedoston %s avaaminen epäonnistui: %s\n"
 
-#: ../lib/config_file.c:659
+#: lib/config_file.c:657
 #, c-format
 msgid "Terminating due to parse errors at line %d in the config file\n"
 msgstr "Kesksytetään johtuen tulkintavirheistä asetustiedoston rivillä %d\n"
 
-#: ../lib/config_file.c:665
+#: lib/config_file.c:663
 #, c-format
 msgid "gFTP Warning: Skipping line %d in config file: %s\n"
 msgstr "gFTP Varoitus: Rivi %d ohitettu konfigurointitiedostossa: %s\n"
 
-#: ../lib/config_file.c:672
+#: lib/config_file.c:670
 #, c-format
 msgid "gFTP Error: Bad log file name %s\n"
 msgstr "gFTP:n virhe: Virheellinen kirjautumistiedoston nimi %s\n"
 
-#: ../lib/config_file.c:678
+#: lib/config_file.c:676
 #, c-format
 msgid "gFTP Warning: Cannot open %s for writing: %s\n"
 msgstr "gFTPn virhe: Tiedostoa %s ei voida avata kirjotettavaksi: %s \n"
 
-#: ../lib/config_file.c:733
+#: lib/config_file.c:731
 msgid ""
 "Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten"
@@ -163,7 +170,7 @@ msgstr ""
 "<masneyb@gftp.org>.Varoitus: kaikki kommentit, joita tähän tiedostoon "
 "lisätään, ylikirjoitetaan automaattisesti"
 
-#: ../lib/config_file.c:734
+#: lib/config_file.c:732
 msgid ""
 "Note: The passwords contained inside this file are scrambled. This algorithm "
 "is not secure. This is to avoid your password being easily remembered by "
@@ -175,104 +182,104 @@ msgstr ""
 "katsoa vierestä ja muistaa salasanoja, kun muokkaat tätä tiedostoa. Aiemmin "
 "salasanat oli talennettu selväkielisenä tekstinä."
 
-#: ../lib/config_file.c:846
+#: lib/config_file.c:844
 msgid ""
 "Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp."
 "org>. Warning: Any comments that you add to this file WILL be overwritten. "
 "If a entry has a (*) in it's comment, you can't change it inside gFTP"
 msgstr ""
-"gFTP:n asetustiedosto. Tekijänoikeudet (C) 1998-2007 Brian Masney <masney@gftp."
-"org>Varoitus: Kaikki kommentit joita tähän tiedostoon lisätään, "
+"gFTP:n asetustiedosto. Tekijänoikeudet (C) 1998-2007 Brian Masney "
+"<masney@gftp.org>Varoitus: Kaikki kommentit joita tähän tiedostoon lisätään, "
 "ylikirjiotetaan automaattisesti. Jos asetus on merkitty merkillä (*), sitä "
 "ei voi muuttaa ohjelmasta käsin."
 
-#: ../lib/config_file.c:1210 ../lib/protocols.c:392 ../lib/rfc2068.c:543
-#: ../lib/rfc2068.c:544
-#, c-format
+#: lib/config_file.c:1208 lib/protocols.c:384 lib/rfc2068.c:542
+#: lib/rfc2068.c:543
 msgid "<unknown>"
 msgstr "<tuntematon>"
 
-#: ../lib/config_file.c:1290 ../lib/config_file.c:1353
-#: ../lib/config_file.c:1395 ../lib/config_file.c:1428
+#: lib/config_file.c:1288 lib/config_file.c:1351 lib/config_file.c:1393
+#: lib/config_file.c:1426
 #, c-format
 msgid "FATAL gFTP Error: Config option '%s' not found in global hash table\n"
 msgstr "VAKAVA gFTP:n virhe: Asetusta \"%s\" ei löydy hajautustaulusta\n"
 
-#: ../lib/fsp.c:189
+#: lib/fsp.c:188
 #, c-format
 msgid "Error: Cannot upload file %s\n"
 msgstr "Virhe: Tiedostoa %s ei voida viedä\n"
 
-#: ../lib/fsp.c:199
+#: lib/fsp.c:198
 #, c-format
 msgid "Error: Cannot write to file %s: %s\n"
 msgstr "Virhe: Tiedostoon %s ei voida kirjoittaa: %s\n"
 
-#: ../lib/fsp.c:237
+#: lib/fsp.c:236
 #, c-format
 msgid "Error: Error closing file: %s\n"
 msgstr "Virhe: Virhe suljettaessa tiedostoa: %s\n"
 
-#: ../lib/fsp.c:327
+#: lib/fsp.c:326
 #, c-format
 msgid "Corrupted file listing from FSP server %s\n"
 msgstr "Epäkelpo tiedostolistaus FSP-palvelimelta %s\n"
 
-#: ../lib/fsp.c:339 ../lib/fsp.c:340 ../lib/protocols.c:1586
-#: ../lib/protocols.c:1587 ../lib/protocols.c:1628 ../lib/protocols.c:1629
-#: ../lib/protocols.c:1695 ../lib/protocols.c:1702 ../lib/protocols.c:1778
-#: ../lib/protocols.c:1779 ../lib/protocols.c:1815
+#: lib/fsp.c:338 lib/fsp.c:339 lib/parse-dir-listing.c:336
+#: lib/parse-dir-listing.c:337 lib/parse-dir-listing.c:378
+#: lib/parse-dir-listing.c:379 lib/parse-dir-listing.c:445
+#: lib/parse-dir-listing.c:452 lib/parse-dir-listing.c:528
+#: lib/parse-dir-listing.c:529 lib/parse-dir-listing.c:565
 msgid "unknown"
 msgstr "tuntematon"
 
-#: ../lib/fsp.c:377
+#: lib/fsp.c:376
 #, c-format
 msgid "Could not get FSP directory listing %s: %s\n"
 msgstr "FSP-kansion listausta %s ei voitu hakea: %s\n"
 
-#: ../lib/fsp.c:436
+#: lib/fsp.c:435
 #, c-format
 msgid "Successfully changed directory to %s\n"
 msgstr "Siirryttiin kansioon %s onnistuneesti\n"
 
-#: ../lib/fsp.c:446
+#: lib/fsp.c:445
 #, c-format
 msgid "Could not change directory to %s\n"
 msgstr "Kansioon %s ei voitu siirtyä\n"
 
-#: ../lib/fsp.c:471 ../lib/fsp.c:500 ../lib/local.c:480 ../lib/local.c:516
-#: ../src/gtk/transfer.c:263 ../src/gtk/view_dialog.c:306
+#: lib/fsp.c:470 lib/fsp.c:499 lib/local.c:479 lib/local.c:515
+#: src/gtk/transfer.c:262 src/gtk/view_dialog.c:305
 #, c-format
 msgid "Successfully removed %s\n"
 msgstr "Kohde %s poistettu\n"
 
-#: ../lib/fsp.c:477 ../lib/local.c:486
+#: lib/fsp.c:476 lib/local.c:485
 #, c-format
 msgid "Error: Could not remove directory %s: %s\n"
 msgstr "Virhe: Kansiota %s ei voida poistaa: %s\n"
 
-#: ../lib/fsp.c:506 ../lib/local.c:522 ../src/gtk/transfer.c:267
-#: ../src/gtk/view_dialog.c:310
+#: lib/fsp.c:505 lib/local.c:521 src/gtk/transfer.c:266
+#: src/gtk/view_dialog.c:309
 #, c-format
 msgid "Error: Could not remove file %s: %s\n"
 msgstr "Virhe: Tiedostoa %s ei voida poistaa: %s\n"
 
-#: ../lib/fsp.c:528 ../lib/local.c:554
+#: lib/fsp.c:527 lib/local.c:553
 #, c-format
 msgid "Successfully made directory %s\n"
 msgstr "Luotu kansio %s\n"
 
-#: ../lib/fsp.c:563 ../lib/local.c:590
+#: lib/fsp.c:562 lib/local.c:589
 #, c-format
 msgid "Successfully renamed %s to %s\n"
 msgstr "Kohde %s nimetty uudestaan nimelle %s\n"
 
-#: ../lib/fsp.c:575 ../lib/local.c:597
+#: lib/fsp.c:574 lib/local.c:596
 #, c-format
 msgid "Error: Could not rename %s to %s: %s\n"
 msgstr "Virhe: %s ei voida nimetä uudestaan nimelle %s: %s\n"
 
-#: ../lib/ftps.c:157
+#: lib/ftps.c:153
 msgid ""
 "FTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
@@ -280,7 +287,7 @@ msgstr ""
 "FTPS-tuki ei ole käytettävissä, koska SSL-tukea ei käännetty mukaan. Yhteys "
 "katkaistaan.\n"
 
-#: ../lib/https.c:91
+#: lib/https.c:90
 msgid ""
 "HTTPS Support unavailable since SSL support was not compiled in. Aborting "
 "connection.\n"
@@ -288,109 +295,107 @@ msgstr ""
 "HTTPS-tuki ei ole käytettävissä, koska SSL-tukea ei käännetty mukaan. Yhteys "
 "katkaistaan.\n"
 
-#: ../lib/local.c:66
+#: lib/local.c:65
 #, c-format
 msgid "Could not get current working directory: %s\n"
 msgstr "Tämänhetkistä työhakemistoa ei löytynyt: %s\n"
 
-#: ../lib/local.c:105
+#: lib/local.c:104
 #, c-format
 msgid "Successfully changed local directory to %s\n"
 msgstr "Paikallinen kansio vaihdettu: %s\n"
 
-#: ../lib/local.c:112
+#: lib/local.c:111
 #, c-format
 msgid "Could not change local directory to %s: %s\n"
 msgstr "Paikalliseen kansioon %s ei voida vaihtaa: %s\n"
 
-#: ../lib/local.c:238
+#: lib/local.c:237
 #, c-format
 msgid "Error: Cannot truncate local file %s: %s\n"
 msgstr "Virhe: Paikallisen tiedoston %s lyhentäminen: %s\n"
 
-#: ../lib/local.c:424
+#: lib/local.c:423
 #, c-format
 msgid "Could not get local directory listing %s: %s\n"
 msgstr "Paikallista kansiolistausta %s ei voitu avata: %s\n"
 
-#: ../lib/local.c:634
+#: lib/local.c:633
 #, c-format
 msgid "Successfully changed mode of %s to %o\n"
 msgstr "Kohteen %s oikeudet vaihdettiin onnistuneesti arvoon %o\n"
 
-#: ../lib/local.c:641
+#: lib/local.c:640
 #, c-format
 msgid "Error: Could not change mode of %s to %o: %s\n"
 msgstr "Virhe: Kohteen %s oikeuksia ei voitu asettaa arvoon %o: %s\n"
 
-#: ../lib/local.c:676
+#: lib/local.c:675
 #, c-format
 msgid "Successfully changed the time stamp of %s\n"
 msgstr "Muutettiin kohteen %s aikaleimaa onnistuneesti\n"
 
-#: ../lib/local.c:683
+#: lib/local.c:682
 #, c-format
 msgid "Error: Could not change the time stamp of %s: %s\n"
 msgstr "Virhe: Kohteen %s aikaleimaa ei voitu muuttaa: %s\n"
 
-#: ../lib/local.c:750
+#: lib/local.c:749
 msgid "local filesystem"
 msgstr "paikallinen tiedostojärjestelmä"
 
-#: ../lib/misc.c:414
+#: lib/misc.c:413
 #, c-format
 msgid "usage: gftp "
 msgstr "käyttö: gftp"
 
 # The following items are the proxy types listed under the Options dialog
-#. @null@
-#: ../lib/options.h:25 ../lib/rfc959.c:26
+#: lib/options.h:25 lib/rfc959.c:25
 msgid "none"
 msgstr "Ei välityspalvelinta"
 
 # The following few items are from the Edit Bookmarks dialog
-#: ../lib/options.h:25
+#: lib/options.h:25
 msgid "file"
 msgstr "tiedosto"
 
-#: ../lib/options.h:26
+#: lib/options.h:26
 msgid "size"
 msgstr "koko"
 
-#: ../lib/options.h:26
+#: lib/options.h:26
 msgid "user"
 msgstr "käyttäjä"
 
-#: ../lib/options.h:27
+#: lib/options.h:27
 msgid "group"
 msgstr "ryhmä"
 
-#: ../lib/options.h:28
+#: lib/options.h:28
 msgid "datetime"
 msgstr "aikaleima"
 
-#: ../lib/options.h:29
+#: lib/options.h:29
 msgid "attribs"
 msgstr "ominaisuudet"
 
-#. @null@
-#: ../lib/options.h:32
+#: lib/options.h:32
 msgid "descending"
 msgstr "laskeva"
 
-#: ../lib/options.h:33
+#: lib/options.h:33
 msgid "ascending"
 msgstr "nouseva"
 
-#: ../lib/options.h:40
+#: lib/options.h:40
 msgid "General"
 msgstr "Yleistä"
 
-#: ../lib/options.h:43
+#: lib/options.h:43
 msgid "View program:"
 msgstr "Katseluohjelma:"
 
-#: ../lib/options.h:44
+#: lib/options.h:44
 msgid ""
 "The default program used to view files. If this is blank, the internal file "
 "viewer will be used"
@@ -398,27 +403,27 @@ msgstr ""
 "Tiedostojen katseluun käytetty oletusohjelma. Jos arvo on tyhjä käytetään "
 "sisäistä katselinta"
 
-#: ../lib/options.h:46
+#: lib/options.h:46
 msgid "Edit program:"
 msgstr "Muokkausohjelma:"
 
-#: ../lib/options.h:47
+#: lib/options.h:47
 msgid "The default program used to edit files."
 msgstr "Tiedostojen muokkaamiseen käytettävä oletusohjelma."
 
-#: ../lib/options.h:48
+#: lib/options.h:48
 msgid "Max Log Window Size:"
 msgstr "Loki-ikkunan maksimikoko"
 
-#: ../lib/options.h:50
+#: lib/options.h:50
 msgid "The maximum size of the log window in bytes for the GTK+ port"
 msgstr "GTK+-version loki-ikkunan maksimikoko tavuina"
 
-#: ../lib/options.h:52
+#: lib/options.h:52
 msgid "Remote Character Sets:"
 msgstr "Etäpalvelinten merkistöt:"
 
-#: ../lib/options.h:54
+#: lib/options.h:54
 msgid ""
 "This is a comma separated list of charsets to try to convert the remote "
 "messages to the current locale"
@@ -426,11 +431,11 @@ msgstr ""
 "Tämä on pilkuilla eroteltu lista merkistöjä, joiden avulla etäviestejä "
 "yritetään muuntaa paikalliseen merkistöön"
 
-#: ../lib/options.h:56
+#: lib/options.h:56
 msgid "Remote LC_TIME:"
 msgstr "Etäpalvelimen LC_TIME:"
 
-#: ../lib/options.h:58
+#: lib/options.h:58
 msgid ""
 "This is the value of LC_TIME for the remote site. This is so that dates can "
 "be parsed properly in the directory listings."
@@ -438,191 +443,194 @@ msgstr ""
 "Tämä on LC_TIME-muuttujan arvo etäpalvelimelle. Tämän muuttujan avulla "
 "palvelimen päiväykset voidaan esittää oikein hakemistolistauksissa."
 
-#: ../lib/options.h:60
+#: lib/options.h:60
 msgid "Cache TTL:"
 msgstr "Välimuistin TTL:"
 
-#: ../lib/options.h:63
+#: lib/options.h:63
 msgid "The number of seconds to keep cache entries before they expire."
 msgstr "Monenko sekunnin päästä välimuistin tiedot vanhenevat."
 
-#: ../lib/options.h:66
+#: lib/options.h:66
 msgid "Append file transfers"
 msgstr "Lisää tiedostonsiirrot"
 
-#: ../lib/options.h:68
+#: lib/options.h:68
 msgid "Append new file transfers onto existing ones"
 msgstr "Lisää uudet tiedostonsiirrot olemassaoleviin"
 
-#: ../lib/options.h:69
+#: lib/options.h:69
 msgid "Do one transfer at a time"
 msgstr "Tee vain yksi siirto kerrallaan"
 
-#: ../lib/options.h:71
+#: lib/options.h:71
 msgid "Do only one transfer at a time?"
 msgstr "Siirretäänkö vain yksi tiedosto kerrallaan?"
 
-#: ../lib/options.h:72
+#: lib/options.h:72
 msgid "Overwrite by Default"
 msgstr "Ylikirjoita oletuksena"
 
-#: ../lib/options.h:75
+#: lib/options.h:75
 msgid "Overwrite files by default or set to resume file transfers"
 msgstr "Ylikirjoita tiedostot oletuksena tai aseta tiedostojen haun jatkaminen"
 
-#: ../lib/options.h:77
+#: lib/options.h:77
 msgid "Preserve file permissions"
 msgstr "Säilytä tiedostojen oikeudet"
 
-#: ../lib/options.h:80
-msgid "Preserve file permissions of transfered files"
+#: lib/options.h:80
+#, fuzzy
+msgid "Preserve file permissions of transferred files"
 msgstr "Säilytä siirrettyjen tiedostojen oikeudet"
 
-#: ../lib/options.h:82
+#: lib/options.h:82
 msgid "Preserve file time"
 msgstr "Säilytä tiedostojen aikaleima"
 
-#: ../lib/options.h:85
-msgid "Preserve file times of transfered files"
+#: lib/options.h:85
+#, fuzzy
+msgid "Preserve file times of transferred files"
 msgstr "Säilytä siirrettyjen tiedostojen aikaleimat"
 
-#: ../lib/options.h:87
+#: lib/options.h:87
 msgid "Refresh after each file transfer"
 msgstr "Päivitä jokaisen siirron jälkeen"
 
-#: ../lib/options.h:90
-msgid "Refresh the listbox after each file is transfered"
+#: lib/options.h:90
+#, fuzzy
+msgid "Refresh the listbox after each file is transferred"
 msgstr "Päivitä lista jokaisen siirretyn tiedoston jälkeen"
 
-#: ../lib/options.h:92
+#: lib/options.h:92
 msgid "Sort directories first"
 msgstr "Järjestä kansiot ensin"
 
-#: ../lib/options.h:95
+#: lib/options.h:95
 msgid "Put the directories first then the files"
 msgstr "Näytä kansiot ennen tiedostoja"
 
-#: ../lib/options.h:96
+#: lib/options.h:96
 msgid "Show hidden files"
 msgstr "Näytä piilotetut tiedostot"
 
-#: ../lib/options.h:99
+#: lib/options.h:99
 msgid "Show hidden files in the listboxes"
 msgstr "Näytä piilotetut tiedostot listoissa"
 
-#: ../lib/options.h:100
+#: lib/options.h:100
 msgid "Show transfer status in title"
 msgstr "Näytä siirron tila otsikossa"
 
-#: ../lib/options.h:102
+#: lib/options.h:102
 msgid "Show the file transfer status in the titlebar"
 msgstr "Näytä tiedostojen siirron tila ikkunan nimessä"
 
-#: ../lib/options.h:103
+#: lib/options.h:103
 msgid "Start file transfers"
 msgstr "Käynnistä tiedostojen siirto"
 
-#: ../lib/options.h:105
+#: lib/options.h:105
 msgid "Automatically start the file transfers when they get queued"
 msgstr "Aloita tiedostojen siirto automaattisesti kun ne laitetaan jonoon"
 
-#: ../lib/options.h:107
+#: lib/options.h:107
 msgid "Allow manual commands in GUI"
 msgstr "Salli kirjoitetut komennot graafisesta liittymästä"
 
-#: ../lib/options.h:109
+#: lib/options.h:109
 msgid ""
 "Allow entering manual commands in the GUI (functions like the text port)"
 msgstr ""
 "Salli komentojen syöttäminen graafisesta käyttöliittymästä, esimerkiksi "
 "tekstin portti-funktiot"
 
-#: ../lib/options.h:111
+#: lib/options.h:111
 msgid "Remember last directory"
 msgstr "Muista viimeisin kansio"
 
-#: ../lib/options.h:113
+#: lib/options.h:113
 msgid "Save the last local and remote directory when the application is closed"
 msgstr "Tallenna viimeisin paikallinen ja etäkansio suljettaessa ohjelma"
 
-#: ../lib/options.h:115
+#: lib/options.h:115
 msgid "Connect to remote server on startup"
 msgstr "Avaa yhteys palvelimeen käynnistettäessä"
 
-#: ../lib/options.h:117
+#: lib/options.h:117
 msgid ""
 "Automatically connect to the remote server when the application is started."
-msgstr ""
-"Yhdistä palvelimelle automaattisesti käynnistettäessä sovellusta."
+msgstr "Yhdistä palvelimelle automaattisesti käynnistettäessä sovellusta."
 
-#: ../lib/options.h:120 ../src/gtk/options_dialog.c:1020
-#: ../src/gtk/options_dialog.c:1240
+#: lib/options.h:120 src/gtk/options_dialog.c:1019
+#: src/gtk/options_dialog.c:1239
 msgid "Network"
 msgstr "Verkko"
 
-#: ../lib/options.h:122
+#: lib/options.h:122
 msgid "Network timeout:"
 msgstr "Verkon aikakatkaisu:"
 
-#: ../lib/options.h:125
+#: lib/options.h:125
 msgid ""
 "The timeout waiting for network input/output. This is NOT an idle timeout."
 msgstr ""
 "Aikakatkaisu verkkoliikenteen odottamiselle. Tämä on eri asia kuin "
 "joutilaana olon aikakatkaisu."
 
-#: ../lib/options.h:127
+#: lib/options.h:127
 msgid "Connect retries:"
 msgstr "Uudelleenyrityksiä:"
 
-#: ../lib/options.h:130
+#: lib/options.h:130
 msgid "The number of auto-retries to do. Set this to 0 to retry indefinitely"
 msgstr ""
 "Kuinka monta kertaa yritetään automaattisesti uudestaan. Aseta arvoon 0, jos "
 "haluat yrittää ikuisesti"
 
-#: ../lib/options.h:132
+#: lib/options.h:132
 msgid "Retry sleep time:"
 msgstr "Uudelleenyrityksen odotusaika:"
 
-#: ../lib/options.h:135
+#: lib/options.h:135
 msgid "The number of seconds to wait between retries"
 msgstr "Odotusaika uudelleenyritysten välillä"
 
-#: ../lib/options.h:136
+#: lib/options.h:136
 msgid "Max KB/S:"
 msgstr "Max kt/s:"
 
-#: ../lib/options.h:139
+#: lib/options.h:139
 msgid "The maximum KB/s a file transfer can get. (Set to 0 to disable)"
 msgstr ""
 "Suurin käytettävä siirtonopeus (kt/s). (Arvo 0 poistaa asetuksen käytöstä)"
 
-#: ../lib/options.h:141
+#: lib/options.h:141
 msgid "Transfer Block Size:"
 msgstr "Siirron lohkokoko:"
 
-#: ../lib/options.h:144
+#: lib/options.h:144
+#, fuzzy
 msgid ""
-"The block size that is used when transfering files. This should be a "
+"The block size that is used when transferring files. This should be a "
 "multiple of 1024."
 msgstr ""
 "Tiedostojen siirrossa käytettävä lohkokoko. Tämän tulee olla luvun 1024 "
 "moninkerta."
 
-#: ../lib/options.h:147
+#: lib/options.h:147
 msgid "Default Protocol:"
 msgstr "Oletusprotokolla:"
 
-#: ../lib/options.h:149
+#: lib/options.h:149
 msgid "This specifies the default protocol to use"
 msgstr "Valitsee oletuksena käytettävän protokollan"
 
-#: ../lib/options.h:151 ../lib/options.h:154
+#: lib/options.h:151 lib/options.h:154
 msgid "Enable IPv6 support"
 msgstr "Käytä IPv6-tukea"
 
-#: ../lib/options.h:159
+#: lib/options.h:159
 msgid ""
 "This defines what will happen when you double click a file in the file "
 "listboxes. 0=View file 1=Edit file 2=Transfer file"
@@ -630,27 +638,27 @@ msgstr ""
 "Tämä määrittää mitä tapahtuu, kun kaksoisnapsautat tiedostoa listassa. "
 "0=Näytä tiedosto 1= Muokkaa tiedostoa 2=Siirrä tiedosto"
 
-#: ../lib/options.h:162
+#: lib/options.h:162
 msgid "The default width of the local files listbox"
 msgstr "Paikallisten tiedostojen luetteloikkunan oletusleveys"
 
-#: ../lib/options.h:165
+#: lib/options.h:165
 msgid "The default width of the remote files listbox"
 msgstr "Palvelimella olevien tiedostojen luetteloikkunan oletusleveys"
 
-#: ../lib/options.h:168
+#: lib/options.h:168
 msgid "The default height of the local/remote files listboxes"
 msgstr "Tiedostojen luetteloikkunoiden oletuskorkeus."
 
-#: ../lib/options.h:171
+#: lib/options.h:171
 msgid "The default height of the transfer listbox"
 msgstr "Siirto-ikkunan oletuskorkeus"
 
-#: ../lib/options.h:174
+#: lib/options.h:174
 msgid "The default height of the logging window"
 msgstr "Loki-ikkunan oletuskorkeus "
 
-#: ../lib/options.h:177
+#: lib/options.h:177
 msgid ""
 "The width of the filename column in the transfer window. Set this to 0 to "
 "have this column automagically resize."
@@ -658,15 +666,15 @@ msgstr ""
 "Tiedostonimi-sarakkeen leveys siirtoikkunassa. Aseta arvoksi 0, jos haluat "
 "sarakken koon muuttuvan automaattisesti."
 
-#: ../lib/options.h:190 ../lib/options.h:196
+#: lib/options.h:190 lib/options.h:196
 msgid "The default column to sort by"
 msgstr "Järjestykseen käytettävä oletussarake"
 
-#: ../lib/options.h:193 ../lib/options.h:199
+#: lib/options.h:193 lib/options.h:199
 msgid "Sort ascending or descending"
 msgstr "Nouseva vai laskeva järjestys"
 
-#: ../lib/options.h:203 ../lib/options.h:221
+#: lib/options.h:203 lib/options.h:221
 msgid ""
 "The width of the filename column in the file listboxes. Set this to 0 to "
 "have this column automagically resize. Set this to -1 to disable this column"
@@ -674,7 +682,7 @@ msgstr ""
 "Tiedostonimi-sarakkeen leveys tiedostolistaikkunoissa. Aseta arvoksi 0, jos "
 "haluat sarakken koon muuttuvan automaattisesti."
 
-#: ../lib/options.h:206 ../lib/options.h:224
+#: lib/options.h:206 lib/options.h:224
 msgid ""
 "The width of the size column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -683,7 +691,7 @@ msgstr ""
 "sarakken koon muuttuvan automaattisesti. Aseta arvoksi -1, jos haluat "
 "piilottaa tämän sarakkeen."
 
-#: ../lib/options.h:209 ../lib/options.h:227
+#: lib/options.h:209 lib/options.h:227
 msgid ""
 "The width of the user column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -692,7 +700,7 @@ msgstr ""
 "haluat sarakken koon muuttuvan automaattisesti. Aseta arvoksi -1, jos haluat "
 "piilottaa tämän sarakkeen."
 
-#: ../lib/options.h:212 ../lib/options.h:230
+#: lib/options.h:212 lib/options.h:230
 msgid ""
 "The width of the group column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -701,7 +709,7 @@ msgstr ""
 "sarakken koon muuttuvan automaattisesti. Aseta arvoksi -1, jos haluat "
 "piilottaa tämän sarakkeen."
 
-#: ../lib/options.h:215 ../lib/options.h:233
+#: lib/options.h:215 lib/options.h:233
 msgid ""
 "The width of the date column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -710,7 +718,7 @@ msgstr ""
 "haluat sarakken koon muuttuvan automaattisesti. Aseta arvoksi -1, jos haluat "
 "piilottaa tämän sarakkeen."
 
-#: ../lib/options.h:218 ../lib/options.h:236
+#: lib/options.h:218 lib/options.h:236
 msgid ""
 "The width of the attribs column in the file listboxes. Set this to 0 to have "
 "this column automagically resize. Set this to -1 to disable this column"
@@ -719,82 +727,75 @@ msgstr ""
 "haluat sarakken koon muuttuvan automaattisesti. Aseta arvoksi -1, jos haluat "
 "piilottaa tämän sarakkeen."
 
-#: ../lib/options.h:239
+#: lib/options.h:239
 msgid "The color of the commands that are sent to the server"
 msgstr "Palvelimelle lähetettyjen komentojen väri"
 
-#: ../lib/options.h:242
+#: lib/options.h:242
 msgid "The color of the commands that are received from the server"
 msgstr "Palvelimelta vastaanotettujen komentojen väri"
 
-#: ../lib/options.h:245
+#: lib/options.h:245
 msgid "The color of the error messages"
 msgstr "Virheviestien väri"
 
-#: ../lib/options.h:248
+#: lib/options.h:248
 msgid "The color of the rest of the log messages"
 msgstr "Muiden lokiviestien väri"
 
-#: ../lib/options.h:254 ../lib/rfc959.c:40
+#: lib/options.h:254 lib/rfc959.c:39
 msgid "FTP"
 msgstr "FTP"
 
-#: ../lib/options.h:257 ../lib/options.h:259
+#: lib/options.h:257 lib/options.h:259
 msgid "FTPS"
 msgstr "FTPS"
 
-#: ../lib/options.h:262 ../lib/rfc2068.c:27
+#: lib/options.h:262 lib/rfc2068.c:26
 msgid "HTTP"
 msgstr "HTTP"
 
-#: ../lib/options.h:265 ../lib/options.h:267
+#: lib/options.h:265 lib/options.h:267
 msgid "HTTPS"
 msgstr "HTTPS"
 
-#: ../lib/options.h:270
+#: lib/options.h:270
 msgid "Local"
 msgstr "Paikallinen"
 
-#: ../lib/options.h:272
+#: lib/options.h:272
 msgid "SSH2"
 msgstr "SSH2"
 
-#: ../lib/options.h:274 ../src/gtk/bookmarks.c:883
+#: lib/options.h:274 src/gtk/bookmarks.c:882
 msgid "Bookmark"
 msgstr "Kirjanmerkki"
 
-#: ../lib/options.h:275
+#: lib/options.h:275
 msgid "FSP"
 msgstr "FSP"
 
-#: ../lib/protocols.c:235
+#: lib/protocols.c:227
 #, c-format
 msgid "File transfer will be throttled to %.2f KB/s\n"
 msgstr "Tiedostonsiirtonopeus rajataan arvoon %.2f Kt/s\n"
 
-#: ../lib/protocols.c:388
+#: lib/protocols.c:380
 #, c-format
 msgid "Error setting LC_TIME to '%s'. Falling back to '%s'\n"
 msgstr "Virhe asetettaessa LC_TIME arvoon \"%s\". Käytetään arvoa \"%s\"\n"
 
-#: ../lib/protocols.c:399
+#: lib/protocols.c:391
 #, c-format
 msgid "Loading directory listing %s from cache (LC_TIME=%s)\n"
 msgstr "Ladataan kansiolistausta %s välimuistista (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:409
+#: lib/protocols.c:401
 #, c-format
 msgid "Loading directory listing %s from server (LC_TIME=%s)\n"
 msgstr "Ladataan kansiolistausta %s palvelimelta (LC_TIME=%s)\n"
 
-#: ../lib/protocols.c:472
-#, c-format
-msgid ""
-"Error converting string '%s' from character set %s to character set %s: %s\n"
-msgstr ""
-"Virhe muunnettaessa merkkijonoa '%s' merkistöstä %s merkistöön %s: %s\n"
-
-#: ../lib/protocols.c:699
+#: lib/protocols.c:451
 #, c-format
 msgid ""
 "Warning: Stripping path off of file '%s'. The stripped path (%s) doesn't "
@@ -803,169 +804,112 @@ msgstr ""
 "Varoitus: poistetaan polku tiedostonimestä \"%s\". Polku (%s) ei vastaa "
 "nykyistä hakemistoa (%s)\n"
 
-#: ../lib/protocols.c:730
+#: lib/protocols.c:482
 #, c-format
 msgid "Error: Cannot write to cache: %s\n"
 msgstr "Virhe: Välimuistiin ei voida kirjoittaa: %s\n"
 
-#: ../lib/protocols.c:763
+#: lib/protocols.c:515
 #, c-format
 msgid "Error: Could not find bookmark %s\n"
 msgstr "Virhe: Kirjanmerkkiä %s ei löydy\n"
 
-#: ../lib/protocols.c:770
+#: lib/protocols.c:522
 #, c-format
 msgid "Bookmarks Error: The bookmark entry %s does not have a hostname\n"
 msgstr "Virhe kirjanmerkeissä: Kirjanmerkissä %s ei ole isäntänimeä\n"
 
-#: ../lib/protocols.c:892 ../lib/protocols.c:919
+#: lib/protocols.c:644 lib/protocols.c:671
 #, c-format
 msgid "The protocol '%s' is currently not supported.\n"
 msgstr "Protokolla '%s' ei ole tuettu.\n"
 
-#: ../lib/protocols.c:1209 ../lib/protocols.c:1224 ../lib/protocols.c:2406
-#: ../lib/protocols.c:2519
-#, c-format
-msgid "Looking up %s\n"
-msgstr "Etsitään nimeä %s\n"
-
-#: ../lib/protocols.c:1215 ../lib/protocols.c:1230 ../lib/protocols.c:2411
-#: ../lib/protocols.c:2524
-#, c-format
-msgid "Cannot look up hostname %s: %s\n"
-msgstr "Isäntänimeä %s ei voida selvittää: %s\n"
-
-#: ../lib/protocols.c:2141
+#: lib/protocols.c:1154
 #, c-format
 msgid "Found recursive symbolic link %s\n"
 msgstr "Löytyi rekursiivinen symbolinen linkki %s\n"
 
-#: ../lib/protocols.c:2429
-#, c-format
-msgid "Failed to create a socket: %s\n"
-msgstr "Pistokkeen luominen epäonnistui: %s\n"
-
-#: ../lib/protocols.c:2435 ../lib/protocols.c:2541
-#, c-format
-msgid "Trying %s:%d\n"
-msgstr "Yritetään %s: %d\n"
-
-#: ../lib/protocols.c:2440 ../lib/protocols.c:2548
-#, c-format
-msgid "Cannot connect to %s: %s\n"
-msgstr "Yhteyttä kohteeseen %s ei voida avata: %s\n"
-
-#: ../lib/protocols.c:2478 ../lib/rfc959.c:706
-#, c-format
-msgid "Failed to create a IPv4 socket: %s\n"
-msgstr "Virhe luotaessa IPv4-pistoketta: %s\n"
-
-#: ../lib/protocols.c:2502 ../lib/sshv2.c:1168
-#, c-format
-msgid "Cannot look up service name %s/tcp. Please check your services file\n"
-msgstr "Palvelun nimeä %s/tcp ei löydy. Tarkista services-tiedostosi\n"
-
-#: ../lib/protocols.c:2564 ../lib/protocols.c:3218 ../lib/rfc959.c:715
-#: ../lib/rfc959.c:892
-#, c-format
-msgid "Error: Cannot set close on exec flag: %s\n"
-msgstr "Virhe: \"Sulje suoritettaessa\"-lipun asetus ei onnistu: %s\n"
-
-#: ../lib/protocols.c:2571
-#, c-format
-msgid "Connected to %s:%d\n"
-msgstr "Yhteys avattu kohteeseen %s:%d\n"
-
-#: ../lib/protocols.c:2807 ../lib/protocols.c:2885 ../lib/sshv2.c:435
-#, c-format
-msgid "Connection to %s timed out\n"
-msgstr "Yhteys kohteeseen %s aikakatkaistu\n"
-
-#: ../lib/protocols.c:2955
-#, c-format
-msgid "Cannot get socket flags: %s\n"
-msgstr "Pistokkeen lippujen arvoja ei voitu lukea: %s\n"
-
-#: ../lib/protocols.c:2969
-#, c-format
-msgid "Cannot set socket to non-blocking: %s\n"
-msgstr "Pistoketta ei voitu asettaa non-blocking-tilaan: %s\n"
-
-#: ../lib/protocols.c:3115
+#: lib/protocols.c:1532
 #, c-format
 msgid "Error: Remote site %s disconnected. Max retries reached...giving up\n"
 msgstr ""
 "Virhe: Yhteys palvelimeen %s katkaistu. Maksimi määrä uusintayrityksiä "
 "täynnä...Lopetetaan\n"
 
-#: ../lib/protocols.c:3123
+#: lib/protocols.c:1540
 #, c-format
 msgid "Error: Remote site %s disconnected. Will reconnect in %d seconds\n"
 msgstr ""
 "Virhe: Yhteys palvelimeen %s katkaistu. Yritetään uudelleen %d sek. "
 "kuluttua\n"
 
-#: ../lib/pty.c:301
+#: lib/protocols.c:1635 lib/rfc959.c:714 lib/rfc959.c:884
+#: lib/socket-connect.c:125
+#, c-format
+msgid "Error: Cannot set close on exec flag: %s\n"
+msgstr "Virhe: \"Sulje suoritettaessa\"-lipun asetus ei onnistu: %s\n"
+
+#: lib/pty.c:300
 #, c-format
 msgid "Cannot open master pty %s: %s\n"
 msgstr "Päätelaitettä %s ei voitu avata: %s\n"
 
-#: ../lib/pty.c:309
+#: lib/pty.c:308
 #, c-format
 msgid "Cannot create a socket pair: %s\n"
 msgstr "Pistokeparia ei voitu luoda: %s\n"
 
-#: ../lib/pty.c:338
+#: lib/pty.c:337
 #, c-format
 msgid "Error: Cannot execute ssh: %s\n"
 msgstr "Virhe: Ohjelmaa ssh ei voitu suorittaa: %s\n"
 
-#: ../lib/pty.c:354
+#: lib/pty.c:353
 #, c-format
 msgid "Cannot fork another process: %s\n"
 msgstr "Virhe: Uutta prosessia ei voitu käynnnistää: %s\n"
 
-#: ../lib/rfc2068.c:30 ../lib/rfc959.c:47
+#: lib/rfc2068.c:29 lib/rfc959.c:46
 msgid "Proxy hostname:"
 msgstr "Välimuistin isäntänimi:"
 
-#: ../lib/rfc2068.c:32 ../lib/rfc959.c:49
+#: lib/rfc2068.c:31 lib/rfc959.c:48
 msgid "Firewall hostname"
 msgstr "Palomuurin isäntänimi"
 
-#: ../lib/rfc2068.c:33 ../lib/rfc959.c:50
+#: lib/rfc2068.c:32 lib/rfc959.c:49
 msgid "Proxy port:"
 msgstr "Välimuistin portti:"
 
-#: ../lib/rfc2068.c:35 ../lib/rfc959.c:52
+#: lib/rfc2068.c:34 lib/rfc959.c:51
 msgid "Port to connect to on the firewall"
 msgstr "Palomuuriin yhteyttä avattaessa käytettävä portti"
 
-#: ../lib/rfc2068.c:36 ../lib/rfc959.c:53
+#: lib/rfc2068.c:35 lib/rfc959.c:52
 msgid "Proxy username:"
 msgstr "Välimuistin käyttäjätunnus:"
 
-#: ../lib/rfc2068.c:38 ../lib/rfc959.c:55
+#: lib/rfc2068.c:37 lib/rfc959.c:54
 msgid "Your firewall username"
 msgstr "Käyttäjätunnuksesi palomuurin välimuistissa"
 
-#: ../lib/rfc2068.c:39 ../lib/rfc959.c:56
+#: lib/rfc2068.c:38 lib/rfc959.c:55
 msgid "Proxy password:"
 msgstr "Välimuistin salasana:"
 
-#: ../lib/rfc2068.c:41 ../lib/rfc959.c:58
+#: lib/rfc2068.c:40 lib/rfc959.c:57
 msgid "Your firewall password"
 msgstr "Salasanasi palomuurin välimuistissa"
 
-#: ../lib/rfc2068.c:43
+#: lib/rfc2068.c:42
 msgid "Use HTTP/1.1"
 msgstr "Käytä HTTP/1.1"
 
-#: ../lib/rfc2068.c:46
+#: lib/rfc2068.c:45
 msgid "Do you want to use HTTP/1.1 or HTTP/1.0"
 msgstr "Käytetäänkö HTTP/1.1- vai HTTP/1.0-protokollaa"
 
-#: ../lib/rfc2068.c:151 ../lib/rfc2068.c:840
+#: lib/rfc2068.c:150 lib/rfc2068.c:839
 #, c-format
 msgid ""
 "Received wrong response from server, disconnecting\n"
@@ -974,65 +918,65 @@ msgstr ""
 "Saatiin virheellinen vastaus palvelimelta, yhteys katkaistaan\n"
 "Palvelin ilmoitti virheellisen palasenkoon \"%s\"\n"
 
-#: ../lib/rfc2068.c:255 ../lib/rfc959.c:679 ../lib/sshv2.c:1245
+#: lib/rfc2068.c:254 lib/rfc959.c:678 lib/sshv2.c:1244
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr "Katkaistaan yhteys palvelimeen %s\n"
 
-#: ../lib/rfc2068.c:301
+#: lib/rfc2068.c:300
 msgid "Starting the file transfer at offset "
 msgstr "Aloitetaan tiedostonsiirto kohdasta "
 
-#: ../lib/rfc2068.c:322
+#: lib/rfc2068.c:321
 #, c-format
 msgid "Cannot retrieve file %s\n"
 msgstr "Tiedostoa %s ei voida hakea\n"
 
-#: ../lib/rfc2068.c:421 ../lib/sshv2.c:1327
+#: lib/rfc2068.c:420 lib/sshv2.c:1326
 msgid "Retrieving directory listing...\n"
 msgstr "Noudetaan kansiolistausta...\n"
 
-#: ../lib/rfc2068.c:816 ../lib/sshv2.c:895
+#: lib/rfc2068.c:815 lib/sshv2.c:894
 msgid "Received wrong response from server, disconnecting\n"
 msgstr "Saatiin väärä vastaus palvelimelta, suljetaan yhteys\n"
 
-#: ../lib/rfc959.c:27
+#: lib/rfc959.c:26
 msgid "SITE command"
 msgstr "SITE komento"
 
-#: ../lib/rfc959.c:28
+#: lib/rfc959.c:27
 msgid "user@host"
 msgstr "käyttäjä@kone"
 
-#: ../lib/rfc959.c:29
+#: lib/rfc959.c:28
 msgid "user@host:port"
 msgstr "käyttäjä@kone:Portti"
 
-#: ../lib/rfc959.c:30
+#: lib/rfc959.c:29
 msgid "AUTHENTICATE"
 msgstr "Autentikointi"
 
-#: ../lib/rfc959.c:31
+#: lib/rfc959.c:30
 msgid "user@host port"
 msgstr "käyttäjä@kone Portti"
 
-#: ../lib/rfc959.c:32
+#: lib/rfc959.c:31
 msgid "user@host NOAUTH"
 msgstr "käyttäjä@kone NOAUTH"
 
-#: ../lib/rfc959.c:33
+#: lib/rfc959.c:32
 msgid "HTTP Proxy"
 msgstr "HTTP välityspalvelin"
 
-#: ../lib/rfc959.c:34
+#: lib/rfc959.c:33
 msgid "Custom"
 msgstr "Käyttäjän määrittelemä"
 
-#: ../lib/rfc959.c:43
+#: lib/rfc959.c:42
 msgid "Email address:"
 msgstr "Sähköpostiosoite:"
 
-#: ../lib/rfc959.c:45
+#: lib/rfc959.c:44
 msgid ""
 "This is the password that will be used whenever you log into a remote FTP "
 "server as anonymous"
@@ -1040,19 +984,19 @@ msgstr ""
 "Tämä on salasana, joka lähetetään kun otat yhteyttä FTP-palvelimelle "
 "anonyyminä käyttäjänä"
 
-#: ../lib/rfc959.c:59
+#: lib/rfc959.c:58
 msgid "Proxy account:"
 msgstr "Välityspalvelimen käyttäjätili:"
 
-#: ../lib/rfc959.c:61
+#: lib/rfc959.c:60
 msgid "Your firewall account (optional)"
 msgstr "Palomuurin käyttäjätili (ei pakollinen)"
 
-#: ../lib/rfc959.c:63
+#: lib/rfc959.c:62
 msgid "Proxy server type:"
 msgstr "Välimuistin tyyppi:"
 
-#: ../lib/rfc959.c:66
+#: lib/rfc959.c:65
 #, no-c-format
 msgid ""
 "This specifies how your proxy server expects us to log in. You can specify a "
@@ -1069,11 +1013,11 @@ msgstr ""
 "(salasana), h (verkkonimi), o (portti) tai a (tili). Voit esimerkiksi antaa "
 "välimuistin käyttäjän merkkijonolla %pu"
 
-#: ../lib/rfc959.c:69
+#: lib/rfc959.c:68
 msgid "Ignore PASV address"
 msgstr "Jätä huomioimatta PASV-osoite"
 
-#: ../lib/rfc959.c:72
+#: lib/rfc959.c:71
 msgid ""
 "If this is enabled, then the remote FTP server's PASV IP address field will "
 "be ignored and the host's IP address will be used instead. This is often "
@@ -1085,11 +1029,11 @@ msgstr ""
 "tarvitaan esimerkiksi tapauksessa, jossa reititin antaa PASV-vastauksessa "
 "sisäisen IP-osoitteen ulkoisen sijasta."
 
-#: ../lib/rfc959.c:74
+#: lib/rfc959.c:73
 msgid "Passive file transfers"
 msgstr "Passiivinen tiedostonsiirto"
 
-#: ../lib/rfc959.c:77
+#: lib/rfc959.c:76
 msgid ""
 "If this is enabled, then the remote FTP server will open up a port for the "
 "data connection. If you are behind a firewall, you will need to enable this. "
@@ -1105,11 +1049,11 @@ msgstr ""
 "portin asiakkan puolelta ja etäpalvelin yrittää ottaa tähän porttiin "
 "yhteyttä."
 
-#: ../lib/rfc959.c:79
+#: lib/rfc959.c:78
 msgid "Resolve Remote Symlinks (LIST -L)"
 msgstr "Selvitä etäpalvelimen symboliset linkit (LIST -L)"
 
-#: ../lib/rfc959.c:82
+#: lib/rfc959.c:81
 msgid ""
 "The remote FTP server will attempt to resolve symlinks in the directory "
 "listings. Generally, this is a good idea to leave enabled. The only time you "
@@ -1120,15 +1064,16 @@ msgstr ""
 "Yleensä tämä valitsin on hyvä jättää käyttöön. Tämä valitsin tulisi poistaa "
 "käytöstä vain silloin kun FTP-palvelin ei tue komennon LIST valitsinta -L"
 
-#: ../lib/rfc959.c:84
+#: lib/rfc959.c:83
 msgid "Transfer files in ASCII mode"
 msgstr "Lähetä ASCII-tilassa"
 
-#: ../lib/rfc959.c:87
+#: lib/rfc959.c:86
+#, fuzzy
 msgid ""
-"If you are transfering a text file from Windows to UNIX box or vice versa, "
+"If you are transferring a text file from Windows to UNIX box or vice versa, "
 "then you should enable this. Each system represents newlines differently for "
-"text files. If you are transfering from UNIX to UNIX, then it is safe to "
+"text files. If you are transferring from UNIX to UNIX, then it is safe to "
 "leave this off. If you are downloading binary data, you will want to disable "
 "this."
 msgstr ""
@@ -1138,274 +1083,328 @@ msgstr ""
 "tämän asetuksen asettamatta. Jos haet binääritiedostja, tulee tämä jättää "
 "asettamatta."
 
-#: ../lib/rfc959.c:381 ../lib/rfc959.c:390 ../lib/rfc959.c:401
-#: ../lib/rfc959.c:855 ../lib/rfc959.c:1422
+#: lib/rfc959.c:380 lib/rfc959.c:389 lib/rfc959.c:400 lib/rfc959.c:848
+#: lib/rfc959.c:1413
 #, c-format
 msgid "Invalid response '%c' received from server.\n"
 msgstr "Virheellinen vastaus '%c' palvelimelta.\n"
 
-#: ../lib/rfc959.c:745 ../lib/rfc959.c:755
+#: lib/rfc959.c:705 lib/socket-connect-gethostbyname.c:119
+#, c-format
+msgid "Failed to create a IPv4 socket: %s\n"
+msgstr "Virhe luotaessa IPv4-pistoketta: %s\n"
+
+#: lib/rfc959.c:744 lib/rfc959.c:754
 #, c-format
 msgid "Cannot find an IP address in PASV response '%s'\n"
 msgstr "PASV-vastauksesta '%s' ei löydy IP-osoitetta\n"
 
-#: ../lib/rfc959.c:781
+#: lib/rfc959.c:774
 #, c-format
 msgid "Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"
 msgstr ""
 "Jätetään huomioimatta IP-osoite PASV-vastauksessa, otetaan yhteyttä "
 "osoitteeseen %d.%d.%d.%d:%d\n"
 
-#: ../lib/rfc959.c:792 ../lib/rfc959.c:953
+#: lib/rfc959.c:785 lib/rfc959.c:944
 #, c-format
 msgid "Cannot create a data connection: %s\n"
 msgstr "Data-yhteyttä ei voida luoda: %s\n"
 
-#: ../lib/rfc959.c:804 ../lib/rfc959.c:825 ../lib/rfc959.c:978
+#: lib/rfc959.c:797 lib/rfc959.c:818 lib/rfc959.c:969
 #, c-format
 msgid "Cannot get socket name: %s\n"
 msgstr "Pistokkeen nimeä ei voida selvittää: %s\n"
 
-#: ../lib/rfc959.c:815 ../lib/rfc959.c:968
+#: lib/rfc959.c:808 lib/rfc959.c:959
 #, c-format
 msgid "Cannot bind a port: %s\n"
 msgstr "Porttiin ei voida sitoa: %s\n"
 
-#: ../lib/rfc959.c:834 ../lib/rfc959.c:987
+#: lib/rfc959.c:827 lib/rfc959.c:978
 #, c-format
 msgid "Cannot listen on port %d: %s\n"
 msgstr "Porttia %d ei voida kuunnella: %s\n"
 
-#: ../lib/rfc959.c:883
+#: lib/rfc959.c:875
 #, c-format
 msgid "Failed to create a IPv6 socket: %s\n"
 msgstr "IPv6-pistokkeen luonti epäonnistui: %s\n"
 
-#: ../lib/rfc959.c:903
+#: lib/rfc959.c:894
 msgid ""
 "Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"
 msgstr "Virhe: näyttää että yhteys ei ole IPv6-yhteys. Yhteys katkaistaan.\n"
 
-#: ../lib/rfc959.c:931 ../lib/rfc959.c:940
+#: lib/rfc959.c:922 lib/rfc959.c:931
 #, c-format
 msgid "Invalid EPSV response '%s'\n"
 msgstr "Virheellinen EPSV-vastaus \"%s\"\n"
 
-#: ../lib/rfc959.c:997
+#: lib/rfc959.c:988
 #, c-format
 msgid "Cannot get address of local socket: %s\n"
 msgstr "Paikallisen pistokkeen osoitetta ei löydy: %s\n"
 
-#: ../lib/rfc959.c:1084
+#: lib/rfc959.c:1075
 #, c-format
 msgid "Cannot accept connection from server: %s\n"
 msgstr "Yhteyttä palvelimelta ei voi hyväksyä: %s\n"
 
-#: ../lib/rfc959.c:1592
+#: lib/rfc959.c:1583
 msgid "total"
 msgstr "kaikkiaan"
 
-#: ../lib/rfc959.c:1594
+#: lib/rfc959.c:1585
 #, c-format
 msgid "Warning: Cannot parse listing %s\n"
 msgstr "Varoitus: Listaista %s ei voida tulkita\n"
 
-#: ../lib/sshv2.c:28
+#: lib/socket-connect-getaddrinfo.c:76 lib/socket-connect-gethostbyname.c:63
+#, c-format
+msgid "Looking up %s\n"
+msgstr "Etsitään nimeä %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:81 lib/socket-connect-gethostbyname.c:68
+#, c-format
+msgid "Cannot look up hostname %s: %s\n"
+msgstr "Isäntänimeä %s ei voida selvittää: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:114
+#, c-format
+msgid "Failed to create a socket: %s\n"
+msgstr "Pistokkeen luominen epäonnistui: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:120 lib/socket-connect-gethostbyname.c:133
+#, c-format
+msgid "Trying %s:%d\n"
+msgstr "Yritetään %s: %d\n"
+
+#: lib/socket-connect-getaddrinfo.c:126 lib/socket-connect-gethostbyname.c:140
+#, c-format
+msgid "Cannot connect to %s: %s\n"
+msgstr "Yhteyttä kohteeseen %s ei voida avata: %s\n"
+
+#: lib/socket-connect-getaddrinfo.c:151 lib/socket-connect-gethostbyname.c:158
+#, c-format
+msgid "Connected to %s:%d\n"
+msgstr "Yhteys avattu kohteeseen %s:%d\n"
+
+#: lib/socket-connect-gethostbyname.c:100 lib/sshv2.c:1167
+#, c-format
+msgid "Cannot look up service name %s/tcp. Please check your services file\n"
+msgstr "Palvelun nimeä %s/tcp ei löydy. Tarkista services-tiedostosi\n"
+
+#: lib/sockutils.c:189 lib/sockutils.c:267 lib/sshv2.c:434
+#, c-format
+msgid "Connection to %s timed out\n"
+msgstr "Yhteys kohteeseen %s aikakatkaistu\n"
+
+#: lib/sockutils.c:337
+#, c-format
+msgid "Cannot get socket flags: %s\n"
+msgstr "Pistokkeen lippujen arvoja ei voitu lukea: %s\n"
+
+#: lib/sockutils.c:351
+#, c-format
+msgid "Cannot set socket to non-blocking: %s\n"
+msgstr "Pistoketta ei voitu asettaa non-blocking-tilaan: %s\n"
+
+#: lib/sshv2.c:27
 msgid "SSH"
 msgstr "SSH"
 
-#: ../lib/sshv2.c:31
+#: lib/sshv2.c:30
 msgid "SSH Prog Name:"
 msgstr "SSSH-ohjelman nimi:"
 
-#: ../lib/sshv2.c:33
+#: lib/sshv2.c:32
 msgid "The path to the SSH executable"
 msgstr "Polku ohjelmaan SSH"
 
-#: ../lib/sshv2.c:34
+#: lib/sshv2.c:33
 msgid "SSH Extra Params:"
 msgstr "SSH:n lisäparametrit:"
 
-#: ../lib/sshv2.c:36
+#: lib/sshv2.c:35
 msgid "Extra parameters to pass to the SSH program"
 msgstr "Lisäparametrit annettavaksi SSH-komennolle"
 
-#: ../lib/sshv2.c:38
+#: lib/sshv2.c:37
 msgid "Need SSH User/Pass"
 msgstr "Vaaditaan SSH käyttäjätunnus/salasana"
 
-#: ../lib/sshv2.c:41
+#: lib/sshv2.c:40
 msgid "Require a username/password for SSH connections"
 msgstr "Vaadi käyttäjätunnus ja salasana  SSH-yhteyksille"
 
-#: ../lib/sshv2.c:369
+#: lib/sshv2.c:368
 #, c-format
 msgid "Running program %s\n"
 msgstr "Suoritetaan ohjelma %s\n"
 
-#: ../lib/sshv2.c:378
+#: lib/sshv2.c:377
 msgid "Enter passphrase for RSA key"
 msgstr "Anna salalause RSA-avaimelle"
 
-#: ../lib/sshv2.c:379
+#: lib/sshv2.c:378
 msgid "Enter passphrase for key '"
 msgstr "Anna salalause avaimelle '"
 
-#: ../lib/sshv2.c:380
+#: lib/sshv2.c:379
 msgid "Password"
 msgstr "Salasana:"
 
-#: ../lib/sshv2.c:381
+#: lib/sshv2.c:380
 msgid "password"
 msgstr "salasana"
 
-#: ../lib/sshv2.c:496
+#: lib/sshv2.c:495
 msgid "(yes/no)?"
 msgstr "(kyllä/ei)?"
 
-#: ../lib/sshv2.c:514
+#: lib/sshv2.c:513
 msgid "Enter PASSCODE:"
 msgstr "Syötä tunnuskoodi:"
 
-#: ../lib/sshv2.c:518 ../src/gtk/gtkui.c:142 ../src/gtk/transfer.c:562
-#: ../src/gtk/transfer.c:572
+#: lib/sshv2.c:517 src/gtk/gtkui.c:141 src/gtk/transfer.c:561
+#: src/gtk/transfer.c:571
 msgid "Enter Password"
 msgstr "Syötä salasana"
 
-#: ../lib/sshv2.c:519
+#: lib/sshv2.c:518
 msgid "Enter SecurID Password:"
 msgstr "Syötä SecurID-salasana:"
 
-#: ../lib/sshv2.c:567
+#: lib/sshv2.c:566
 msgid "Error: An incorrect password was entered\n"
 msgstr "Virhe: Syötetty salasana oli virheellinen\n"
 
-#: ../lib/sshv2.c:596
+#: lib/sshv2.c:595
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr "%d: Protokollan alustus\n"
 
-#: ../lib/sshv2.c:600
+#: lib/sshv2.c:599
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr "%d: Protokollan versio %d\n"
 
-#: ../lib/sshv2.c:609
+#: lib/sshv2.c:608
 #, c-format
 msgid "%d: Open %s\n"
 msgstr "%d: Avaa %s\n"
 
-#: ../lib/sshv2.c:614
+#: lib/sshv2.c:613
 #, c-format
 msgid "%d: Close\n"
 msgstr "%d: Sulje\n"
 
-#: ../lib/sshv2.c:618
+#: lib/sshv2.c:617
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr "%d: Avaa kansio %s\n"
 
-#: ../lib/sshv2.c:623
+#: lib/sshv2.c:622
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr "%d: Lue kansio\n"
 
-#: ../lib/sshv2.c:627
+#: lib/sshv2.c:626
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr "%d: Poista tiedosto %s\n"
 
-#: ../lib/sshv2.c:632
+#: lib/sshv2.c:631
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr "%d: Luo kansio %s\n"
 
-#: ../lib/sshv2.c:637
+#: lib/sshv2.c:636
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr "%d: Poista kansio %s\n"
 
-#: ../lib/sshv2.c:642
+#: lib/sshv2.c:641
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr "%d: Todellinen polku %s\n"
 
-#: ../lib/sshv2.c:647
+#: lib/sshv2.c:646
 #, c-format
 msgid "%d: File attributes\n"
 msgstr "%d: Tiedoston ominaisuudet\n"
 
-#: ../lib/sshv2.c:651
+#: lib/sshv2.c:650
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr "%d: Stat %s\n"
 
-#: ../lib/sshv2.c:671
+#: lib/sshv2.c:670
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr "%d: Chmod %s %o\n"
 
-#: ../lib/sshv2.c:676
+#: lib/sshv2.c:675
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr "%d: Utime %s %d\n"
 
-#: ../lib/sshv2.c:690 ../src/gtk/bookmarks.c:1042 ../src/gtk/bookmarks.c:1292
-#: ../src/gtk/chmod_dialog.c:253 ../src/gtk/gtkui_transfer.c:376
-#: ../src/gtk/misc-gtk.c:995 ../src/gtk/options_dialog.c:1205
-#: ../src/gtk/options_dialog.c:1437
+#: lib/sshv2.c:689 src/gtk/bookmarks.c:1041 src/gtk/bookmarks.c:1291
+#: src/gtk/chmod_dialog.c:252 src/gtk/gtkui_transfer.c:375
+#: src/gtk/misc-gtk.c:994 src/gtk/options_dialog.c:1204
+#: src/gtk/options_dialog.c:1436
 msgid "OK"
 msgstr "OK"
 
-#: ../lib/sshv2.c:693
+#: lib/sshv2.c:692
 msgid "EOF"
 msgstr "EOF"
 
-#: ../lib/sshv2.c:696
+#: lib/sshv2.c:695
 msgid "No such file or directory"
 msgstr "Tiedostoa tai hakemistoa ei ole"
 
-#: ../lib/sshv2.c:699
+#: lib/sshv2.c:698
 msgid "Permission denied"
 msgstr "Lupa evätty"
 
 # The following few items are from the Edit Bookmarks dialog
-#: ../lib/sshv2.c:702
+#: lib/sshv2.c:701
 msgid "Failure"
 msgstr "Epäonnistui"
 
-#: ../lib/sshv2.c:705
+#: lib/sshv2.c:704
 msgid "Bad message"
 msgstr "Virheellinen viesti"
 
-#: ../lib/sshv2.c:708
+#: lib/sshv2.c:707
 msgid "No connection"
 msgstr "Ei yhteyttä"
 
-#: ../lib/sshv2.c:711
+#: lib/sshv2.c:710
 msgid "Connection lost"
 msgstr "Yhteys katkaistu"
 
-#: ../lib/sshv2.c:714
+#: lib/sshv2.c:713
 msgid "Operation unsupported"
 msgstr "Tuntematon toiminto"
 
-#: ../lib/sshv2.c:717
+#: lib/sshv2.c:716
 msgid "Unknown message returned from server"
 msgstr "Palvelin palautti tuntemattoman viestin"
 
-#: ../lib/sshv2.c:752
+#: lib/sshv2.c:751
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr "Virhe: viestin koko %d on liian suuri\n"
 
-#: ../lib/sshv2.c:811 ../lib/sshv2.c:1346 ../lib/sshv2.c:1838
-#: ../lib/sshv2.c:1957
+#: lib/sshv2.c:810 lib/sshv2.c:1345 lib/sshv2.c:1837 lib/sshv2.c:1956
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr "Virhe: palvelimen palauttaman viestin koko %d on liian suuri\n"
 
-#: ../lib/sshv2.c:817
+#: lib/sshv2.c:816
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
@@ -1413,41 +1412,41 @@ msgstr ""
 "Virhe alustettaessa SSH-yhteyttä palvelimeen. Virheviesti palvelimelta oli "
 "seuraava:\n"
 
-#: ../lib/sshv2.c:1160
+#: lib/sshv2.c:1159
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr "Avataan SSH-yhteys palvelimelle %s\n"
 
-#: ../lib/sshv2.c:1212
+#: lib/sshv2.c:1211
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr "Kirjauduttiin onnistuneesti SSH-palvelimelle %s\n"
 
-#: ../lib/sslcommon.c:31
+#: lib/sslcommon.c:30
 msgid "SSL Engine"
 msgstr "SSL-moottori"
 
-#: ../lib/sslcommon.c:34
+#: lib/sslcommon.c:33
 msgid "SSL Entropy File:"
 msgstr "SSL:n entropiatiedosto:"
 
-#: ../lib/sslcommon.c:36
+#: lib/sslcommon.c:35
 msgid "SSL entropy file"
 msgstr "SSL:n entropiatiedosto"
 
-#: ../lib/sslcommon.c:37
+#: lib/sslcommon.c:36
 msgid "Entropy Seed Length:"
 msgstr "Entropian syötteen pituus:"
 
-#: ../lib/sslcommon.c:39
+#: lib/sslcommon.c:38
 msgid "The maximum number of bytes to seed the SSL engine with"
 msgstr "Enimmäismäärä tavuja, joilla SSL-moottorin entropia alustetaan"
 
-#: ../lib/sslcommon.c:41 ../lib/sslcommon.c:43
+#: lib/sslcommon.c:40 lib/sslcommon.c:42
 msgid "Verify SSL Peer"
 msgstr "Varmista SSL-kohde"
 
-#: ../lib/sslcommon.c:107
+#: lib/sslcommon.c:106
 #, c-format
 msgid ""
 "Error with certificate at depth: %i\n"
@@ -1460,11 +1459,11 @@ msgstr ""
 "Kohde = %s\n"
 "Virhe %i: %s\n"
 
-#: ../lib/sslcommon.c:129
+#: lib/sslcommon.c:128
 msgid "Cannot get peer certificate\n"
 msgstr "Vastapään varmennetta ei löydy\n"
 
-#: ../lib/sslcommon.c:199
+#: lib/sslcommon.c:195
 #, c-format
 msgid ""
 "ERROR: The host in the SSL certificate (%s) does not match the host that we "
@@ -1473,55 +1472,45 @@ msgstr ""
 "VIRHE: palvelin SSL-varmenteessa (%s) ei ole sama kuin palvelin, johon "
 "yhteys otettiin (%s). Yhteys katkaistaan.\n"
 
-#: ../lib/sslcommon.c:306
+#: lib/sslcommon.c:312
 msgid "Cannot initialize the OpenSSL library\n"
 msgstr "OpenSSL-kirjastoa ei voitu alustaa\n"
 
-#: ../lib/sslcommon.c:321
+#: lib/sslcommon.c:327
 msgid "Error loading default SSL certificates\n"
 msgstr "Virhe ladattaessa SSL oletusvarmenteita\n"
 
-#: ../lib/sslcommon.c:333
+#: lib/sslcommon.c:339
 msgid "Error setting cipher list (no valid ciphers)\n"
 msgstr "Virhe alustettaessa cipher-listaa (ei kelvollisia ciphereitä)\n"
 
-#: ../lib/sslcommon.c:353 ../lib/sslcommon.c:427 ../lib/sslcommon.c:475
+#: lib/sslcommon.c:359 lib/sslcommon.c:434 lib/sslcommon.c:482
 msgid "Error: SSL engine was not initialized\n"
 msgstr "Virhe: SSL-moottoria ei alustettu\n"
 
-#: ../lib/sslcommon.c:370
+#: lib/sslcommon.c:376
 msgid "Error setting up SSL connection (BIO object)\n"
 msgstr "Virhe alustettaessa SSL-yhteyttä (BIO-olio)\n"
 
-#: ../lib/sslcommon.c:380
+#: lib/sslcommon.c:386
 msgid "Error setting up SSL connection (SSL object)\n"
 msgstr "Virhe alustettaessa SSL-yhteyttä (SSL-olio)\n"
 
-#: ../lib/sslcommon.c:401
+#: lib/sslcommon.c:407
 #, c-format
 msgid "Error with peer certificate: %s\n"
 msgstr "Virhe vastapään varmenteessa: %s\n"
 
-#: ../src/uicommon/gftpui.c:56
+#: src/uicommon/gftpui.c:60
 msgid "Operation canceled\n"
 msgstr "Toiminto peruttu\n"
 
-#: ../src/uicommon/gftpui.c:65
+#: src/uicommon/gftpui.c:69
 #, c-format
 msgid "Waiting %d seconds until trying to connect again\n"
 msgstr "Yhdistämistä yritetään uudestaan %d sek. kuluttua\n"
 
-#: ../src/uicommon/gftpui.c:157
-msgid ""
-">. If you have any questions, comments, or suggestions about this program, "
-"please feel free to email them to me. You can always find out the latest "
-"news about gFTP from my website at http://www.gftp.org/\n"
-msgstr ""
-">. Jos sinulla on kysymyksiä, kommentteja tai ehdotuksia tästä ohjelmasta, "
-"ole hyvä ja lähetä sähköpostia. Viimeisimmät uutiset löytyvät aina ohjelman "
-"kotisivulta osoitteesta http://www.gftp.org/\n"
-
-#: ../src/uicommon/gftpui.c:158
+#: src/uicommon/gftpui.c:160
 msgid ""
 "gFTP comes with ABSOLUTELY NO WARRANTY; for details, see the COPYING file. "
 "This is free software, and you are welcome to redistribute it under certain "
@@ -1532,76 +1521,76 @@ msgstr ""
 "edelleen tiettyjen ehtojen mukaisesti. Lisätietoja sekä ohjelman lisenssi "
 "löytyvät COPYING-tiedostosta.\n"
 
-#: ../src/uicommon/gftpui.c:160 ../src/gtk/menu-items.c:491
+#: src/uicommon/gftpui.c:162 src/gtk/menu-items.c:490
 msgid "Translated by"
 msgstr ""
 "Suomentanut:Ilkka Tuohela, 2006\n"
 "\n"
 "http://www.gnome.fi/"
 
-#: ../src/uicommon/gftpui.c:207 ../src/uicommon/gftpui.c:249
-#: ../src/uicommon/gftpui.c:289 ../src/uicommon/gftpui.c:324
-#: ../src/uicommon/gftpui.c:359 ../src/uicommon/gftpui.c:395
-#: ../src/uicommon/gftpui.c:431 ../src/uicommon/gftpui.c:496
-#: ../src/uicommon/gftpui.c:577 ../src/uicommon/gftpui.c:845
+#: src/uicommon/gftpui.c:209 src/uicommon/gftpui.c:251
+#: src/uicommon/gftpui.c:291 src/uicommon/gftpui.c:326
+#: src/uicommon/gftpui.c:361 src/uicommon/gftpui.c:397
+#: src/uicommon/gftpui.c:433 src/uicommon/gftpui.c:498
+#: src/uicommon/gftpui.c:579 src/uicommon/gftpui.c:849
 msgid "Error: Not connected to a remote site\n"
 msgstr "Virhe: Ei yhteyttä palvelimeen\n"
 
-#: ../src/uicommon/gftpui.c:218
+#: src/uicommon/gftpui.c:220
 msgid "usage: chmod <mode> <file>\n"
 msgstr "käyttö: chmod <tila> <tiedosto>\n"
 
-#: ../src/uicommon/gftpui.c:259
+#: src/uicommon/gftpui.c:261
 msgid "usage: rename <old name> <new name>\n"
 msgstr "käyttö: rename <vanha nimi> <uusi nimi>\n"
 
-#: ../src/uicommon/gftpui.c:295
+#: src/uicommon/gftpui.c:297
 msgid "usage: delete <file>\n"
 msgstr "käyttö: delete <tiedosto>\n"
 
-#: ../src/uicommon/gftpui.c:330
+#: src/uicommon/gftpui.c:332
 msgid "usage: rmdir <directory>\n"
 msgstr "käyttö: rmdir <kansio>\n"
 
-#: ../src/uicommon/gftpui.c:365
+#: src/uicommon/gftpui.c:367
 msgid "usage: site <site command>\n"
 msgstr "käyttö site <palvelinkomento>\n"
 
-#: ../src/uicommon/gftpui.c:401
+#: src/uicommon/gftpui.c:403
 msgid "usage: mkdir <new directory>\n"
 msgstr "käyttö: mkdir <uusi kansio>\n"
 
-#: ../src/uicommon/gftpui.c:437 ../src/uicommon/gftpui.c:455
+#: src/uicommon/gftpui.c:439 src/uicommon/gftpui.c:457
 msgid "usage: chdir <directory>\n"
 msgstr "käyttö: chdir <kansio>\n"
 
-#: ../src/uicommon/gftpui.c:528
+#: src/uicommon/gftpui.c:530
 msgid "Invalid argument\n"
 msgstr "Virheellinen argumentti\n"
 
-#: ../src/uicommon/gftpui.c:541
+#: src/uicommon/gftpui.c:543
 msgid "Clear the directory cache\n"
 msgstr "Tyhjennä kansiovälimuisti\n"
 
-#: ../src/uicommon/gftpui.c:630
+#: src/uicommon/gftpui.c:632
 msgid "usage: open "
 msgstr "käyttö: open "
 
-#: ../src/uicommon/gftpui.c:706
+#: src/uicommon/gftpui.c:708
 msgid "usage: set [variable = value]\n"
 msgstr "käyttö: set [muuttuja = arvo]\n"
 
-#: ../src/uicommon/gftpui.c:720
+#: src/uicommon/gftpui.c:722
 #, c-format
 msgid "Error: Variable %s is not a valid configuration variable.\n"
 msgstr "Virhe: muuttuja %s ei ole kelvollinen asetusmuuttuja.\n"
 
-#: ../src/uicommon/gftpui.c:727
+#: src/uicommon/gftpui.c:729
 #, c-format
 msgid "Error: Variable %s is not available in the text port of gFTP\n"
 msgstr "Virhe: muuttuja %s ei ole käytettävissä gftp:n tekstiversiossa\n"
 
-#: ../src/uicommon/gftpui.c:809
+#: src/uicommon/gftpui.c:811
 msgid ""
 "Supported commands:\n"
 "\n"
@@ -1609,325 +1598,324 @@ msgstr ""
 "Tuetut komennot:\n"
 "\n"
 
-#: ../src/uicommon/gftpui.c:852
+#: src/uicommon/gftpui.c:856
 #, c-format
 msgid "usage: %s <filespec>\n"
 msgstr "käyttö: %s <tiedostomäärittely>\n"
 
-#: ../src/uicommon/gftpui.c:937
+#: src/uicommon/gftpui.c:941
 msgid "about"
 msgstr "tietoja"
 
-#: ../src/uicommon/gftpui.c:938
+#: src/uicommon/gftpui.c:942
 msgid "Shows gFTP information"
 msgstr "Näyttää tietoa gFTP:stä"
 
-#: ../src/uicommon/gftpui.c:939
+#: src/uicommon/gftpui.c:943
 msgid "ascii"
 msgstr "ascii"
 
-#: ../src/uicommon/gftpui.c:940
+#: src/uicommon/gftpui.c:944
 msgid "Sets the current file transfer mode to Ascii (only for FTP)"
 msgstr "Asettaa tiedoston siirtotilaksi ASCII (vain FTP)"
 
-#: ../src/uicommon/gftpui.c:941
+#: src/uicommon/gftpui.c:945
 msgid "binary"
 msgstr "binary"
 
-#: ../src/uicommon/gftpui.c:942
+#: src/uicommon/gftpui.c:946
 msgid "Sets the current file transfer mode to Binary (only for FTP)"
 msgstr "Asettaa tiedoston siirtotilaksi binäärin (vain FTP)"
 
-#: ../src/uicommon/gftpui.c:943
+#: src/uicommon/gftpui.c:947
 msgid "cd"
 msgstr "cd"
 
-#: ../src/uicommon/gftpui.c:944 ../src/uicommon/gftpui.c:946
+#: src/uicommon/gftpui.c:948 src/uicommon/gftpui.c:950
 msgid "Changes the remote working directory"
 msgstr "Vaihtaa kansiota etäpalvelimella"
 
-#: ../src/uicommon/gftpui.c:945
+#: src/uicommon/gftpui.c:949
 msgid "chdir"
 msgstr "chdir"
 
-#: ../src/uicommon/gftpui.c:947
+#: src/uicommon/gftpui.c:951
 msgid "chmod"
 msgstr "chmod"
 
-#: ../src/uicommon/gftpui.c:948
+#: src/uicommon/gftpui.c:952
 msgid "Changes the permissions of a remote file"
 msgstr "Vaihtaa etäpalvelimen tiedoston oikeuksia"
 
-#: ../src/uicommon/gftpui.c:949
+#: src/uicommon/gftpui.c:953
 msgid "clear"
 msgstr "tyhjennä"
 
-#: ../src/uicommon/gftpui.c:950
+#: src/uicommon/gftpui.c:954
 msgid "Available options: cache"
 msgstr "Käytettävät vaihtoehdot: välimuisti"
 
-#: ../src/uicommon/gftpui.c:951
+#: src/uicommon/gftpui.c:955
 msgid "close"
 msgstr "sulje"
 
-#: ../src/uicommon/gftpui.c:952
+#: src/uicommon/gftpui.c:956
 msgid "Disconnects from the remote site"
 msgstr "Katkaisee yhteyden etäpalvelimeen"
 
-#: ../src/uicommon/gftpui.c:953
+#: src/uicommon/gftpui.c:957
 msgid "delete"
 msgstr "poista"
 
-#: ../src/uicommon/gftpui.c:954
+#: src/uicommon/gftpui.c:958
 msgid "Removes a remote file"
 msgstr "Poistaa tiedoston etäpalvelimelta"
 
-#: ../src/uicommon/gftpui.c:955
+#: src/uicommon/gftpui.c:959
 msgid "dir"
 msgstr "dir"
 
-#: ../src/uicommon/gftpui.c:956 ../src/uicommon/gftpui.c:982
+#: src/uicommon/gftpui.c:960 src/uicommon/gftpui.c:986
 msgid "Shows the directory listing for the current remote directory"
 msgstr "Näyttää etäpalvelimen kansion tiedostolistauksen"
 
-#: ../src/uicommon/gftpui.c:957
+#: src/uicommon/gftpui.c:961
 msgid "get"
 msgstr "get"
 
-#: ../src/uicommon/gftpui.c:958 ../src/uicommon/gftpui.c:984
+#: src/uicommon/gftpui.c:962 src/uicommon/gftpui.c:988
 msgid "Downloads remote file(s)"
 msgstr "Hae tiedostot"
 
-#: ../src/uicommon/gftpui.c:959
+#: src/uicommon/gftpui.c:963
 msgid "help"
 msgstr "O_hje"
 
-#: ../src/uicommon/gftpui.c:960
+#: src/uicommon/gftpui.c:964
 msgid "Shows this help screen"
 msgstr "Näyttää ohjeikkunan"
 
-#: ../src/uicommon/gftpui.c:961
+#: src/uicommon/gftpui.c:965
 msgid "lcd"
 msgstr "lcd"
 
-#: ../src/uicommon/gftpui.c:962 ../src/uicommon/gftpui.c:964
+#: src/uicommon/gftpui.c:966 src/uicommon/gftpui.c:968
 msgid "Changes the local working directory"
 msgstr "Vaihtaa paikallista kansiota"
 
-#: ../src/uicommon/gftpui.c:963
+#: src/uicommon/gftpui.c:967
 msgid "lchdir"
 msgstr "lchdir"
 
-#: ../src/uicommon/gftpui.c:965
+#: src/uicommon/gftpui.c:969
 msgid "lchmod"
 msgstr "lchmod"
 
-#: ../src/uicommon/gftpui.c:966
+#: src/uicommon/gftpui.c:970
 msgid "Changes the permissions of a local file"
 msgstr "Muuttaa paikallisten tiedostojen oikeuksia"
 
-#: ../src/uicommon/gftpui.c:967
+#: src/uicommon/gftpui.c:971
 msgid "ldelete"
 msgstr "ldelete"
 
-#: ../src/uicommon/gftpui.c:968
+#: src/uicommon/gftpui.c:972
 msgid "Removes a local file"
 msgstr "Poistaa paikallisen tiedoston"
 
-#: ../src/uicommon/gftpui.c:969
+#: src/uicommon/gftpui.c:973
 msgid "ldir"
 msgstr "ldir"
 
-#: ../src/uicommon/gftpui.c:970 ../src/uicommon/gftpui.c:972
+#: src/uicommon/gftpui.c:974 src/uicommon/gftpui.c:976
 msgid "Shows the directory listing for the current local directory"
 msgstr "Näyttää paikallisen kansion tiedostolistauksen"
 
-#: ../src/uicommon/gftpui.c:971
+#: src/uicommon/gftpui.c:975
 msgid "lls"
 msgstr "lls"
 
-#: ../src/uicommon/gftpui.c:973
+#: src/uicommon/gftpui.c:977
 msgid "lmkdir"
 msgstr "lmkdir"
 
-#: ../src/uicommon/gftpui.c:974
+#: src/uicommon/gftpui.c:978
 msgid "Creates a local directory"
 msgstr "Luo paikallisen kansion"
 
-#: ../src/uicommon/gftpui.c:975
+#: src/uicommon/gftpui.c:979
 msgid "lpwd"
 msgstr "lpwd"
 
-#: ../src/uicommon/gftpui.c:976
+#: src/uicommon/gftpui.c:980
 msgid "Show current local directory"
 msgstr "Näyttää nykyisen paikallisen kansion"
 
-#: ../src/uicommon/gftpui.c:977
+#: src/uicommon/gftpui.c:981
 msgid "lrename"
 msgstr "lrename"
 
-#: ../src/uicommon/gftpui.c:978
+#: src/uicommon/gftpui.c:982
 msgid "Rename a local file"
 msgstr "Nimeä paikallinen tiedosto uudestaan"
 
-#: ../src/uicommon/gftpui.c:979
+#: src/uicommon/gftpui.c:983
 msgid "lrmdir"
 msgstr "lrmdir"
 
-#: ../src/uicommon/gftpui.c:980
+#: src/uicommon/gftpui.c:984
 msgid "Remove a local directory"
 msgstr "Poista paikallinen kansio"
 
-#: ../src/uicommon/gftpui.c:981
+#: src/uicommon/gftpui.c:985
 msgid "ls"
 msgstr "ls"
 
-#: ../src/uicommon/gftpui.c:983
+#: src/uicommon/gftpui.c:987
 msgid "mget"
 msgstr "mget"
 
-#: ../src/uicommon/gftpui.c:985
+#: src/uicommon/gftpui.c:989
 msgid "mkdir"
 msgstr "mkdir"
 
-#: ../src/uicommon/gftpui.c:986
+#: src/uicommon/gftpui.c:990
 msgid "Creates a remote directory"
 msgstr "Luo kansion etäpalvelimelle"
 
-#: ../src/uicommon/gftpui.c:987
+#: src/uicommon/gftpui.c:991
 msgid "mput"
 msgstr "mput"
 
-#: ../src/uicommon/gftpui.c:988 ../src/uicommon/gftpui.c:992
+#: src/uicommon/gftpui.c:992 src/uicommon/gftpui.c:996
 msgid "Uploads local file(s)"
 msgstr "Lähettää paikkallisia tiedostoja"
 
-#: ../src/uicommon/gftpui.c:989
+#: src/uicommon/gftpui.c:993
 msgid "open"
 msgstr "open"
 
-#: ../src/uicommon/gftpui.c:990
+#: src/uicommon/gftpui.c:994
 msgid "Opens a connection to a remote site"
 msgstr "Avaa yhteyden palvelimelle"
 
-#: ../src/uicommon/gftpui.c:991
+#: src/uicommon/gftpui.c:995
 msgid "put"
 msgstr "put"
 
-#: ../src/uicommon/gftpui.c:993
+#: src/uicommon/gftpui.c:997
 msgid "pwd"
 msgstr "pwd"
 
-#: ../src/uicommon/gftpui.c:994
+#: src/uicommon/gftpui.c:998
 msgid "Show current remote directory"
 msgstr "Näytä nykyinen kansio etäpalvelimella"
 
-#: ../src/uicommon/gftpui.c:995
+#: src/uicommon/gftpui.c:999
 msgid "quit"
 msgstr "quit"
 
-#: ../src/uicommon/gftpui.c:996
+#: src/uicommon/gftpui.c:1000
 msgid "Exit from gFTP"
 msgstr "Sulje gftp"
 
-#: ../src/uicommon/gftpui.c:997
+#: src/uicommon/gftpui.c:1001
 msgid "rename"
 msgstr "rename"
 
-#: ../src/uicommon/gftpui.c:998
+#: src/uicommon/gftpui.c:1002
 msgid "Rename a remote file"
 msgstr "Nimeä tiedosto palvelimella uudestaan"
 
-#: ../src/uicommon/gftpui.c:999
+#: src/uicommon/gftpui.c:1003
 msgid "rmdir"
 msgstr "rmdir"
 
-#: ../src/uicommon/gftpui.c:1000
+#: src/uicommon/gftpui.c:1004
 msgid "Remove a remote directory"
 msgstr "Poista kansio etäpalvelimelta"
 
-#: ../src/uicommon/gftpui.c:1001
+#: src/uicommon/gftpui.c:1005
 msgid "set"
 msgstr "set"
 
-#: ../src/uicommon/gftpui.c:1002
+#: src/uicommon/gftpui.c:1006
 msgid ""
 "Show configuration file variables. You can also set variables by set var=val"
 msgstr ""
 "Näytä asetusmuuttujia. Voit myös asettaa niiden arvoja komennolla set var=val"
 
-#: ../src/uicommon/gftpui.c:1004
+#: src/uicommon/gftpui.c:1008
 msgid "site"
 msgstr "site"
 
-#: ../src/uicommon/gftpui.c:1005
+#: src/uicommon/gftpui.c:1009
 msgid "Run a site specific command"
 msgstr "Suorita sijaintikohtainen komento"
 
-#: ../src/uicommon/gftpui.c:1094
+#: src/uicommon/gftpui.c:1098
 msgid "Error: Command not recognized\n"
 msgstr "Virhe: Komentoa ei tunnistettu\n"
 
-#: ../src/uicommon/gftpui.c:1304
+#: src/uicommon/gftpui.c:1308
 #, c-format
 msgid "Successfully transferred %s at %.2f KB/s\n"
 msgstr "Siirrettiin onnistuneesti %s nopeudella %.2f kt/s\n"
 
-#: ../src/uicommon/gftpui.c:1335
+#: src/uicommon/gftpui.c:1339
 #, c-format
 msgid "Skipping file %s on host %s\n"
 msgstr "Ohitetaan tiedosto %s palvelimella %s\n"
 
-#: ../src/uicommon/gftpui.c:1359
+#: src/uicommon/gftpui.c:1363
 #, c-format
 msgid "Stopping the transfer on host %s\n"
 msgstr "Keskeytetään siirto palvelimella %s\n"
 
-#: ../src/uicommon/gftpui.c:1505
+#: src/uicommon/gftpui.c:1509
 #, c-format
 msgid "Could not download %s from %s\n"
 msgstr "Tiedostoa %s ei voida hakea kohteesta %s\n"
 
-#: ../src/uicommon/gftpui.c:1561
+#: src/uicommon/gftpui.c:1565
 #, c-format
 msgid ""
 "There were %d files or directories that could not be transferred. Check the "
 "log for which items were not properly transferred."
 msgstr ""
-"%d tiedostoa tai kansiota ei voitu siirtää. Tarkista lokista, mitä ei "
-"voitu siirtää."
+"%d tiedostoa tai kansiota ei voitu siirtää. Tarkista lokista, mitä ei voitu "
+"siirtää."
 
-#: ../src/gtk/bookmarks.c:40 ../src/gtk/dnd.c:122 ../src/gtk/gftp-gtk.c:234
-#: ../src/gtk/gftp-gtk.c:1103 ../src/gtk/misc-gtk.c:505
-#: ../src/gtk/misc-gtk.c:513
+#: src/gtk/bookmarks.c:39 src/gtk/dnd.c:121 src/gtk/gftp-gtk.c:234
+#: src/gtk/gftp-gtk.c:1103 src/gtk/misc-gtk.c:504 src/gtk/misc-gtk.c:512
 #, c-format
 msgid "%s: Please hit the stop button first to do anything else\n"
 msgstr "%s: paina pysäytyspainiketta ennen kuin teet mitään muuta\n"
 
-#: ../src/gtk/bookmarks.c:41
+#: src/gtk/bookmarks.c:40
 msgid "Run Bookmark"
 msgstr "Avaa kirjanmerkki"
 
-#: ../src/gtk/bookmarks.c:71
+#: src/gtk/bookmarks.c:70
 msgid "Add Bookmark: You must enter a name for the bookmark\n"
 msgstr "Kirjanmerkin lisäys: kirjanmerkille täytyy antaa nimi\n"
 
-#: ../src/gtk/bookmarks.c:78
+#: src/gtk/bookmarks.c:77
 #, c-format
 msgid "Add Bookmark: Cannot add bookmark %s because that name already exists\n"
 msgstr ""
 "Kirjanmerkin lisäys: kirjanmerkkiä %s ei voida lisätä, koska sen niminen "
 "kirjanmerkki on jo olemassa\n"
 
-#: ../src/gtk/bookmarks.c:135 ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:134 src/gtk/bookmarks.c:145
 msgid "Add Bookmark"
 msgstr "Lisää kirjanmerkki"
 
-#: ../src/gtk/bookmarks.c:142
+#: src/gtk/bookmarks.c:141
 msgid "Add Bookmark: You must enter a hostname\n"
 msgstr "Kirjanmerkin lisäys: Isäntänimi täytyy antaa\n"
 
-#: ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:145
 msgid ""
 "Enter the name of the bookmark you want to add\n"
 "You can separate items by a / to put it into a submenu\n"
@@ -1938,31 +1926,31 @@ msgstr ""
 "valikkoon\n"
 "Esimerkki: Linux-sivut/Debian"
 
-#: ../src/gtk/bookmarks.c:146
+#: src/gtk/bookmarks.c:145
 msgid "Remember password"
 msgstr "Muista salasana"
 
-#: ../src/gtk/bookmarks.c:420
+#: src/gtk/bookmarks.c:419
 msgid "You must specify a name for the bookmark."
 msgstr "Kirjanmerkille täytyy antaa nimi."
 
-#: ../src/gtk/bookmarks.c:472
+#: src/gtk/bookmarks.c:471
 msgid "New Folder"
 msgstr "Uusi kansio"
 
-#: ../src/gtk/bookmarks.c:473
+#: src/gtk/bookmarks.c:472
 msgid "Enter the name of the new folder to create"
 msgstr "Anna nimi kansiolle jonka haluat luoda"
 
-#: ../src/gtk/bookmarks.c:482
+#: src/gtk/bookmarks.c:481
 msgid "New Item"
 msgstr "Uusi kohta"
 
-#: ../src/gtk/bookmarks.c:483
+#: src/gtk/bookmarks.c:482
 msgid "Enter the name of the new item to create"
 msgstr "Anna luotavan kohteen nimi"
 
-#: ../src/gtk/bookmarks.c:556
+#: src/gtk/bookmarks.c:555
 #, c-format
 msgid ""
 "Are you sure you want to erase the bookmark\n"
@@ -1971,109 +1959,109 @@ msgstr ""
 "Haluatko varmasti poistaa kirjanmerkin\n"
 "%s ja kaikki sen alla olevat kirjanmerkit?"
 
-#: ../src/gtk/bookmarks.c:557
+#: src/gtk/bookmarks.c:556
 msgid "Delete Bookmark"
 msgstr "Poista kirjanmerkki"
 
-#: ../src/gtk/bookmarks.c:629
+#: src/gtk/bookmarks.c:628
 msgid "Bookmarks"
 msgstr "Kirjanmerkit"
 
-#: ../src/gtk/bookmarks.c:849 ../src/gtk/bookmarks.c:852
+#: src/gtk/bookmarks.c:848 src/gtk/bookmarks.c:851
 msgid "Edit Entry"
 msgstr "Muokkaa"
 
-#: ../src/gtk/bookmarks.c:888
+#: src/gtk/bookmarks.c:887
 msgid "Description:"
 msgstr "Kuvaus:"
 
-#: ../src/gtk/bookmarks.c:903
+#: src/gtk/bookmarks.c:902
 msgid "Hostname:"
 msgstr "Koneen osoite:"
 
-#: ../src/gtk/bookmarks.c:916
+#: src/gtk/bookmarks.c:915
 msgid "Port:"
 msgstr "Portti:"
 
-#: ../src/gtk/bookmarks.c:933
+#: src/gtk/bookmarks.c:932
 msgid "Protocol:"
 msgstr "Protokolla:"
 
-#: ../src/gtk/bookmarks.c:957
+#: src/gtk/bookmarks.c:956
 msgid "Remote Directory:"
 msgstr "Etäpalvelimen kansio:"
 
-#: ../src/gtk/bookmarks.c:970
+#: src/gtk/bookmarks.c:969
 msgid "Local Directory:"
 msgstr "Paikallinen kansio:"
 
-#: ../src/gtk/bookmarks.c:987
+#: src/gtk/bookmarks.c:986
 msgid "Username:"
 msgstr "Käyttäjätunnus:"
 
-#: ../src/gtk/bookmarks.c:1000 ../src/text/textui.c:92
+#: src/gtk/bookmarks.c:999 src/text/textui.c:91
 msgid "Password:"
 msgstr "Salasana:"
 
-#: ../src/gtk/bookmarks.c:1014
+#: src/gtk/bookmarks.c:1013
 msgid "Account:"
 msgstr "Käyttäjätili:"
 
-#: ../src/gtk/bookmarks.c:1028
+#: src/gtk/bookmarks.c:1027
 msgid "Log in as ANONYMOUS"
 msgstr "Kirjaudu sisään nimettömänä"
 
-#: ../src/gtk/bookmarks.c:1053 ../src/gtk/bookmarks.c:1303
-#: ../src/gtk/chmod_dialog.c:265 ../src/gtk/gtkui_transfer.c:388
-#: ../src/gtk/options_dialog.c:1216 ../src/gtk/options_dialog.c:1448
+#: src/gtk/bookmarks.c:1052 src/gtk/bookmarks.c:1302
+#: src/gtk/chmod_dialog.c:264 src/gtk/gtkui_transfer.c:387
+#: src/gtk/options_dialog.c:1215 src/gtk/options_dialog.c:1447
 msgid "  Cancel  "
 msgstr "  Peruuta  "
 
 # The following few items are from the Edit Bookmarks dialog
-#: ../src/gtk/bookmarks.c:1204
+#: src/gtk/bookmarks.c:1203
 msgid "/_File"
 msgstr "_Tiedosto"
 
 # Keep the english word tearoff in here 
-#: ../src/gtk/bookmarks.c:1205
+#: src/gtk/bookmarks.c:1204
 msgid "/File/tearoff"
 msgstr "tearoff"
 
-#: ../src/gtk/bookmarks.c:1206
+#: src/gtk/bookmarks.c:1205
 msgid "/File/New _Folder..."
 msgstr "Uusi kansio..."
 
-#: ../src/gtk/bookmarks.c:1207
+#: src/gtk/bookmarks.c:1206
 msgid "/File/New _Item..."
 msgstr "Uusi _kohta... "
 
-#: ../src/gtk/bookmarks.c:1208
+#: src/gtk/bookmarks.c:1207
 msgid "/File/_Delete"
 msgstr "_Poista"
 
-#: ../src/gtk/bookmarks.c:1209
+#: src/gtk/bookmarks.c:1208
 msgid "/File/_Properties..."
 msgstr "_Ominaisuudet..."
 
 # Keep the english word sep in here
-#: ../src/gtk/bookmarks.c:1210
+#: src/gtk/bookmarks.c:1209
 msgid "/File/sep"
 msgstr "sep"
 
-#: ../src/gtk/bookmarks.c:1211
+#: src/gtk/bookmarks.c:1210
 msgid "/File/_Close"
 msgstr "_Sulje"
 
-#: ../src/gtk/bookmarks.c:1229 ../src/gtk/bookmarks.c:1232
+#: src/gtk/bookmarks.c:1228 src/gtk/bookmarks.c:1231
 msgid "Edit Bookmarks"
 msgstr "Muokkaa kirjanmerkkejä"
 
-#: ../src/gtk/chmod_dialog.c:132 ../src/gtk/chmod_dialog.c:137
-#: ../src/gtk/chmod_dialog.c:142
+#: src/gtk/chmod_dialog.c:131 src/gtk/chmod_dialog.c:136
+#: src/gtk/chmod_dialog.c:141
 msgid "Chmod"
 msgstr "Chmod"
 
-#: ../src/gtk/chmod_dialog.c:162
+#: src/gtk/chmod_dialog.c:161
 msgid ""
 "You can now adjust the attributes of your file(s)\n"
 "Note: Not all ftp servers support the chmod feature"
@@ -2082,93 +2070,93 @@ msgstr ""
 "Huom: Kaikki FTP-palvelimet eivät tue tätä ominaisuutta."
 
 # This is the column header under chmod for SUID and SGID
-#: ../src/gtk/chmod_dialog.c:172
+#: src/gtk/chmod_dialog.c:171
 msgid "Special"
 msgstr "Yleiset"
 
 # Set user id
-#: ../src/gtk/chmod_dialog.c:180
+#: src/gtk/chmod_dialog.c:179
 msgid "SUID"
 msgstr "SUID"
 
 # Set group id
-#: ../src/gtk/chmod_dialog.c:184
+#: src/gtk/chmod_dialog.c:183
 msgid "SGID"
 msgstr "SGID"
 
-#: ../src/gtk/chmod_dialog.c:188
+#: src/gtk/chmod_dialog.c:187
 msgid "Sticky"
 msgstr "Sticky"
 
-#: ../src/gtk/chmod_dialog.c:192 ../src/gtk/gftp-gtk.c:789
+#: src/gtk/chmod_dialog.c:191 src/gtk/gftp-gtk.c:789
 msgid "User"
 msgstr "Käyttäjä"
 
-#: ../src/gtk/chmod_dialog.c:200 ../src/gtk/chmod_dialog.c:220
-#: ../src/gtk/chmod_dialog.c:240
+#: src/gtk/chmod_dialog.c:199 src/gtk/chmod_dialog.c:219
+#: src/gtk/chmod_dialog.c:239
 msgid "Read"
 msgstr "Luku"
 
-#: ../src/gtk/chmod_dialog.c:204 ../src/gtk/chmod_dialog.c:224
-#: ../src/gtk/chmod_dialog.c:244
+#: src/gtk/chmod_dialog.c:203 src/gtk/chmod_dialog.c:223
+#: src/gtk/chmod_dialog.c:243
 msgid "Write"
 msgstr "Kirjoitus"
 
-#: ../src/gtk/chmod_dialog.c:208 ../src/gtk/chmod_dialog.c:228
-#: ../src/gtk/chmod_dialog.c:248
+#: src/gtk/chmod_dialog.c:207 src/gtk/chmod_dialog.c:227
+#: src/gtk/chmod_dialog.c:247
 msgid "Execute"
 msgstr "Suoritus"
 
-#: ../src/gtk/chmod_dialog.c:212 ../src/gtk/gftp-gtk.c:790
+#: src/gtk/chmod_dialog.c:211 src/gtk/gftp-gtk.c:790
 msgid "Group"
 msgstr "Ryhmä"
 
-#: ../src/gtk/chmod_dialog.c:232
+#: src/gtk/chmod_dialog.c:231
 msgid "Other"
 msgstr "Muut"
 
-#: ../src/gtk/delete_dialog.c:61
+#: src/gtk/delete_dialog.c:60
 #, c-format
 msgid "Are you sure you want to delete these %ld files and %ld directories"
 msgstr "Haluatko varmasti poistaa nämä %ld tiedostoa ja %ld kansiota"
 
-#: ../src/gtk/delete_dialog.c:65
+#: src/gtk/delete_dialog.c:64
 #, c-format
 msgid "Are you sure you want to delete these %ld files"
 msgstr "Haluatko varmasti poistaa nämä %ld tiedostoa"
 
-#: ../src/gtk/delete_dialog.c:69
+#: src/gtk/delete_dialog.c:68
 #, c-format
 msgid "Are you sure you want to delete these %ld directories"
 msgstr "Haluatko varmasti poistaa nämä %ld kansiota"
 
-#: ../src/gtk/delete_dialog.c:74
+#: src/gtk/delete_dialog.c:73
 msgid "Delete Files/Directories"
 msgstr "Poista tiedostoja tai kansioita"
 
-#: ../src/gtk/delete_dialog.c:90 ../src/gtk/options_dialog.c:1302
+#: src/gtk/delete_dialog.c:89 src/gtk/options_dialog.c:1301
 msgid "Delete"
 msgstr "Poista"
 
-#: ../src/gtk/dnd.c:123 ../src/gtk/gftp-gtk.c:1104 ../src/gtk/misc-gtk.c:929
-#: ../src/gtk/misc-gtk.c:1004
+#: src/gtk/dnd.c:122 src/gtk/gftp-gtk.c:1104 src/gtk/misc-gtk.c:928
+#: src/gtk/misc-gtk.c:1003
 msgid "Connect"
 msgstr "Yhdistä"
 
-#: ../src/gtk/dnd.c:136 ../src/gtk/dnd.c:269
+#: src/gtk/dnd.c:135 src/gtk/dnd.c:268
 #, c-format
 msgid "Received URL %s\n"
 msgstr "Saatiin URL %s\n"
 
-#: ../src/gtk/dnd.c:159 ../src/gtk/dnd.c:247
+#: src/gtk/dnd.c:158 src/gtk/dnd.c:246
 msgid "Drag-N-Drop"
 msgstr "Drag-N-Drop"
 
-#: ../src/gtk/gftp-gtk.c:144
+#: src/gtk/gftp-gtk.c:144
 msgid "Exit"
 msgstr "Lopeta"
 
-#: ../src/gtk/gftp-gtk.c:144
+#: src/gtk/gftp-gtk.c:144
 msgid ""
 "There are file transfers in progress.\n"
 "Are you sure you want to exit?"
@@ -2176,469 +2164,466 @@ msgstr ""
 "Tiedostonsiirtoja on vielä käynnissä.\n"
 "Oletko varma, että haluat poistua ohjelmasta?"
 
-#: ../src/gtk/gftp-gtk.c:219 ../src/gtk/gftp-gtk.c:235
+#: src/gtk/gftp-gtk.c:219 src/gtk/gftp-gtk.c:235
 msgid "Open Location"
 msgstr "Avaa sijainti"
 
-#: ../src/gtk/gftp-gtk.c:219
+#: src/gtk/gftp-gtk.c:219
 msgid "Enter a URL to connect to"
 msgstr "Syötä URL, johon otetaan yhteyttä"
 
-#: ../src/gtk/gftp-gtk.c:265
+#: src/gtk/gftp-gtk.c:265
 msgid "/_FTP"
 msgstr "_FTP"
 
-#: ../src/gtk/gftp-gtk.c:266
+#: src/gtk/gftp-gtk.c:266
 msgid "/FTP/tearoff"
 msgstr "tearoff"
 
-#: ../src/gtk/gftp-gtk.c:267
+#: src/gtk/gftp-gtk.c:267
 msgid "/FTP/Window _1"
 msgstr "Ikkuna _1"
 
-#: ../src/gtk/gftp-gtk.c:269
+#: src/gtk/gftp-gtk.c:269
 msgid "/FTP/Window _2"
 msgstr "Ikkuna _2"
 
-#: ../src/gtk/gftp-gtk.c:271 ../src/gtk/gftp-gtk.c:276
-#: ../src/gtk/gftp-gtk.c:279
+#: src/gtk/gftp-gtk.c:271 src/gtk/gftp-gtk.c:276 src/gtk/gftp-gtk.c:279
 msgid "/FTP/sep"
 msgstr "sep"
 
-#: ../src/gtk/gftp-gtk.c:272
+#: src/gtk/gftp-gtk.c:272
 msgid "/FTP/_Ascii"
 msgstr "_Ascii"
 
-#: ../src/gtk/gftp-gtk.c:274
+#: src/gtk/gftp-gtk.c:274
 msgid "/FTP/_Binary"
 msgstr "_Binääri"
 
-#: ../src/gtk/gftp-gtk.c:277
+#: src/gtk/gftp-gtk.c:277
 msgid "/FTP/_Preferences..."
 msgstr "_Ominaisuudet..."
 
-#: ../src/gtk/gftp-gtk.c:280
+#: src/gtk/gftp-gtk.c:280
 msgid "/FTP/_Quit"
 msgstr "_Lopeta"
 
-#: ../src/gtk/gftp-gtk.c:281
+#: src/gtk/gftp-gtk.c:281
 msgid "/_Local"
 msgstr "/_Paikalliset"
 
-#: ../src/gtk/gftp-gtk.c:282
+#: src/gtk/gftp-gtk.c:282
 msgid "/Local/tearoff"
 msgstr "/Paikalliset/tearoff"
 
-#: ../src/gtk/gftp-gtk.c:283
+#: src/gtk/gftp-gtk.c:283
 msgid "/Local/_Open Location..."
 msgstr "_Avaa _sijainti..."
 
-#: ../src/gtk/gftp-gtk.c:285
+#: src/gtk/gftp-gtk.c:285
 msgid "/Local/D_isconnect"
 msgstr "_Katkaise yhteys"
 
-#: ../src/gtk/gftp-gtk.c:286 ../src/gtk/gftp-gtk.c:293
+#: src/gtk/gftp-gtk.c:286 src/gtk/gftp-gtk.c:293
 msgid "/Local/sep"
 msgstr "sep"
 
-#: ../src/gtk/gftp-gtk.c:287
+#: src/gtk/gftp-gtk.c:287
 msgid "/Local/Change _Filespec..."
 msgstr "Muuta _tiedostomäärityksiä..."
 
-#: ../src/gtk/gftp-gtk.c:289
+#: src/gtk/gftp-gtk.c:289
 msgid "/Local/_Show selected"
 msgstr "Näytä _valitut"
 
-#: ../src/gtk/gftp-gtk.c:290
+#: src/gtk/gftp-gtk.c:290
 msgid "/Local/Select _All"
 msgstr "Valitse k_aikki"
 
-#: ../src/gtk/gftp-gtk.c:291
+#: src/gtk/gftp-gtk.c:291
 msgid "/Local/Select All Files"
 msgstr "Valitse kaikki tiedostot"
 
-#: ../src/gtk/gftp-gtk.c:292
+#: src/gtk/gftp-gtk.c:292
 msgid "/Local/Deselect All"
 msgstr "Kumoa valinnat"
 
-#: ../src/gtk/gftp-gtk.c:294
+#: src/gtk/gftp-gtk.c:294
 msgid "/Local/Save Directory Listing..."
 msgstr "Tallenna kansiolistaus..."
 
-#: ../src/gtk/gftp-gtk.c:295
+#: src/gtk/gftp-gtk.c:295
 msgid "/Local/Send SITE Command..."
 msgstr "lähetä SITE-komento..."
 
-#: ../src/gtk/gftp-gtk.c:296
+#: src/gtk/gftp-gtk.c:296
 msgid "/Local/_Change Directory"
 msgstr "Vaihda _kansiota"
 
-#: ../src/gtk/gftp-gtk.c:297
+#: src/gtk/gftp-gtk.c:297
 msgid "/Local/_Permissions..."
 msgstr "_Oikeudet..."
 
-#: ../src/gtk/gftp-gtk.c:299
+#: src/gtk/gftp-gtk.c:299
 msgid "/Local/_New Folder..."
 msgstr "Uusi _kansio..."
 
-#: ../src/gtk/gftp-gtk.c:300
+#: src/gtk/gftp-gtk.c:300
 msgid "/Local/Rena_me..."
 msgstr "Nimeä _uudelleen..."
 
-#: ../src/gtk/gftp-gtk.c:302
+#: src/gtk/gftp-gtk.c:302
 msgid "/Local/_Delete..."
 msgstr "_Poista..."
 
-#: ../src/gtk/gftp-gtk.c:304
+#: src/gtk/gftp-gtk.c:304
 msgid "/Local/_Edit..."
 msgstr "_Muokkaa..."
 
-#: ../src/gtk/gftp-gtk.c:305
+#: src/gtk/gftp-gtk.c:305
 msgid "/Local/_View..."
 msgstr "_Näytä..."
 
-#: ../src/gtk/gftp-gtk.c:306
+#: src/gtk/gftp-gtk.c:306
 msgid "/Local/_Refresh"
 msgstr "_Päivitä"
 
-#: ../src/gtk/gftp-gtk.c:308
+#: src/gtk/gftp-gtk.c:308
 msgid "/_Remote"
 msgstr "/P_alvelin"
 
-#: ../src/gtk/gftp-gtk.c:309
+#: src/gtk/gftp-gtk.c:309
 msgid "/Remote/tearoff"
 msgstr "tearoff"
 
-#: ../src/gtk/gftp-gtk.c:310
+#: src/gtk/gftp-gtk.c:310
 msgid "/Remote/_Open Location..."
 msgstr "Avaa _sijanti..."
 
-#: ../src/gtk/gftp-gtk.c:312
+#: src/gtk/gftp-gtk.c:312
 msgid "/Remote/D_isconnect"
 msgstr "_Katkaise yhteys"
 
-#: ../src/gtk/gftp-gtk.c:314 ../src/gtk/gftp-gtk.c:321
+#: src/gtk/gftp-gtk.c:314 src/gtk/gftp-gtk.c:321
 msgid "/Remote/sep"
 msgstr "sep"
 
-#: ../src/gtk/gftp-gtk.c:315
+#: src/gtk/gftp-gtk.c:315
 msgid "/Remote/Change _Filespec..."
 msgstr "Vaihda tiedostomäärittelyjä..."
 
-#: ../src/gtk/gftp-gtk.c:317
+#: src/gtk/gftp-gtk.c:317
 msgid "/Remote/_Show selected"
 msgstr "_Näytä valitut"
 
-#: ../src/gtk/gftp-gtk.c:318
+#: src/gtk/gftp-gtk.c:318
 msgid "/Remote/Select _All"
 msgstr "Valitse k_aikki"
 
-#: ../src/gtk/gftp-gtk.c:319
+#: src/gtk/gftp-gtk.c:319
 msgid "/Remote/Select All Files"
 msgstr "Valitse kaikki tiedostot"
 
-#: ../src/gtk/gftp-gtk.c:320
+#: src/gtk/gftp-gtk.c:320
 msgid "/Remote/Deselect All"
 msgstr "Kumoa valinnat"
 
-#: ../src/gtk/gftp-gtk.c:322
+#: src/gtk/gftp-gtk.c:322
 msgid "/Remote/Save Directory Listing..."
 msgstr "Tallenna kansiolistaus..."
 
-#: ../src/gtk/gftp-gtk.c:323
+#: src/gtk/gftp-gtk.c:323
 msgid "/Remote/Send SITE Command..."
 msgstr "lähetä SITE-komento..."
 
-#: ../src/gtk/gftp-gtk.c:324
+#: src/gtk/gftp-gtk.c:324
 msgid "/Remote/_Change Directory"
 msgstr "Vaihda _kansiota"
 
-#: ../src/gtk/gftp-gtk.c:325
+#: src/gtk/gftp-gtk.c:325
 msgid "/Remote/_Permisssions..."
 msgstr "_Oikeudet..."
 
-#: ../src/gtk/gftp-gtk.c:326
+#: src/gtk/gftp-gtk.c:326
 msgid "/Remote/_New Folder..."
 msgstr "Uusi _kansio..."
 
-#: ../src/gtk/gftp-gtk.c:328
+#: src/gtk/gftp-gtk.c:328
 msgid "/Remote/Rena_me..."
 msgstr "Nimeä _uudelleen..."
 
-#: ../src/gtk/gftp-gtk.c:330
+#: src/gtk/gftp-gtk.c:330
 msgid "/Remote/_Delete..."
 msgstr "_Poista..."
 
-#: ../src/gtk/gftp-gtk.c:331
+#: src/gtk/gftp-gtk.c:331
 msgid "/Remote/_Edit..."
 msgstr "_Muokkaa..."
 
-#: ../src/gtk/gftp-gtk.c:332
+#: src/gtk/gftp-gtk.c:332
 msgid "/Remote/_View..."
 msgstr "_Näytä..."
 
-#: ../src/gtk/gftp-gtk.c:333
+#: src/gtk/gftp-gtk.c:333
 msgid "/Remote/_Refresh"
 msgstr "_Päivitä"
 
-#: ../src/gtk/gftp-gtk.c:335
+#: src/gtk/gftp-gtk.c:335
 msgid "/_Bookmarks"
 msgstr "_Kirjanmerkit"
 
-#: ../src/gtk/gftp-gtk.c:336
+#: src/gtk/gftp-gtk.c:336
 msgid "/Bookmarks/tearoff"
 msgstr "tearoff"
 
-#: ../src/gtk/gftp-gtk.c:337
+#: src/gtk/gftp-gtk.c:337
 msgid "/Bookmarks/Add _Bookmark"
 msgstr "Lisää _kirjanmerkki"
 
-#: ../src/gtk/gftp-gtk.c:339
+#: src/gtk/gftp-gtk.c:339
 msgid "/Bookmarks/Edit Bookmarks"
 msgstr "_Muokkaa kirjanmerkkejä"
 
-#: ../src/gtk/gftp-gtk.c:340
+#: src/gtk/gftp-gtk.c:340
 msgid "/Bookmarks/sep"
 msgstr "sep"
 
-#: ../src/gtk/gftp-gtk.c:341
+#: src/gtk/gftp-gtk.c:341
 msgid "/_Transfer"
 msgstr "S_iirrot"
 
-#: ../src/gtk/gftp-gtk.c:342
+#: src/gtk/gftp-gtk.c:342
 msgid "/Transfer/tearoff"
 msgstr "tearoff"
 
-#: ../src/gtk/gftp-gtk.c:343
+#: src/gtk/gftp-gtk.c:343
 msgid "/Transfer/_Start"
 msgstr "_Aloita"
 
-#: ../src/gtk/gftp-gtk.c:344
+#: src/gtk/gftp-gtk.c:344
 msgid "/Transfer/St_op"
 msgstr "_Lopeta"
 
-#: ../src/gtk/gftp-gtk.c:346 ../src/gtk/gftp-gtk.c:354
+#: src/gtk/gftp-gtk.c:346 src/gtk/gftp-gtk.c:354
 msgid "/Transfer/sep"
 msgstr "sep"
 
-#: ../src/gtk/gftp-gtk.c:347
+#: src/gtk/gftp-gtk.c:347
 msgid "/Transfer/Skip _Current File"
 msgstr "Ohita _tämänhetkinen tiedosto"
 
-#: ../src/gtk/gftp-gtk.c:348
+#: src/gtk/gftp-gtk.c:348
 msgid "/Transfer/_Remove File"
 msgstr "_Poista tiedosto"
 
-#: ../src/gtk/gftp-gtk.c:350
+#: src/gtk/gftp-gtk.c:350
 msgid "/Transfer/Move File _Up"
 msgstr "Siirrä tiedostoa _ylöspäin"
 
-#: ../src/gtk/gftp-gtk.c:352
+#: src/gtk/gftp-gtk.c:352
 msgid "/Transfer/Move File _Down"
 msgstr "Siirrä tiedostoa _alaspäin"
 
-#: ../src/gtk/gftp-gtk.c:355
+#: src/gtk/gftp-gtk.c:355
 msgid "/Transfer/_Retrieve Files"
 msgstr "_Hae tiedostoja"
 
-#: ../src/gtk/gftp-gtk.c:356
+#: src/gtk/gftp-gtk.c:356
 msgid "/Transfer/_Put Files"
 msgstr "_Vie tiedostoja"
 
-#: ../src/gtk/gftp-gtk.c:357
+#: src/gtk/gftp-gtk.c:357
 msgid "/L_og"
 msgstr "_Loki"
 
-#: ../src/gtk/gftp-gtk.c:358
+#: src/gtk/gftp-gtk.c:358
 msgid "/Log/tearoff"
 msgstr "tearoff"
 
-#: ../src/gtk/gftp-gtk.c:359
+#: src/gtk/gftp-gtk.c:359
 msgid "/Log/_Clear"
 msgstr "_Tyhjennä"
 
-#: ../src/gtk/gftp-gtk.c:360
+#: src/gtk/gftp-gtk.c:360
 msgid "/Log/_View"
 msgstr "_Näytä"
 
-#: ../src/gtk/gftp-gtk.c:361
+#: src/gtk/gftp-gtk.c:361
 msgid "/Log/_Save..."
 msgstr "_Tallenna..."
 
-#: ../src/gtk/gftp-gtk.c:362
+#: src/gtk/gftp-gtk.c:362
 msgid "/Tool_s"
 msgstr "/T_yökalut"
 
-#: ../src/gtk/gftp-gtk.c:363
+#: src/gtk/gftp-gtk.c:363
 msgid "/Tools/tearoff"
 msgstr "tearoff"
 
-#: ../src/gtk/gftp-gtk.c:364
+#: src/gtk/gftp-gtk.c:364
 msgid "/Tools/C_ompare Windows"
 msgstr "_Vertaile ikkunoita"
 
-#: ../src/gtk/gftp-gtk.c:365
+#: src/gtk/gftp-gtk.c:365
 msgid "/Tools/_Clear Cache"
 msgstr "_Tyhjennä välimuisti"
 
-#: ../src/gtk/gftp-gtk.c:366
+#: src/gtk/gftp-gtk.c:366
 msgid "/Help"
 msgstr "O_hje"
 
-#: ../src/gtk/gftp-gtk.c:367
+#: src/gtk/gftp-gtk.c:367
 msgid "/Help/tearoff"
 msgstr "tearoff"
 
-#: ../src/gtk/gftp-gtk.c:368
+#: src/gtk/gftp-gtk.c:368
 msgid "/Help/_About"
 msgstr "_Tietoja"
 
-#: ../src/gtk/gftp-gtk.c:488
+#: src/gtk/gftp-gtk.c:488
 msgid "Host: "
 msgstr "Palvelin: "
 
-#: ../src/gtk/gftp-gtk.c:490
+#: src/gtk/gftp-gtk.c:490
 msgid "_Host: "
 msgstr "_Palvelin: "
 
-#: ../src/gtk/gftp-gtk.c:516
+#: src/gtk/gftp-gtk.c:516
 msgid "Port: "
 msgstr "Portti: "
 
-#: ../src/gtk/gftp-gtk.c:537
+#: src/gtk/gftp-gtk.c:537
 msgid "User: "
 msgstr "Käyttäjätunnus: "
 
-#: ../src/gtk/gftp-gtk.c:539
+#: src/gtk/gftp-gtk.c:539
 msgid "_User: "
 msgstr "_Käyttäjätunnus: "
 
-#: ../src/gtk/gftp-gtk.c:564
+#: src/gtk/gftp-gtk.c:564
 msgid "Pass: "
 msgstr "Salasana: "
 
-#: ../src/gtk/gftp-gtk.c:636
+#: src/gtk/gftp-gtk.c:636
 msgid "Command: "
 msgstr "Komento: "
 
-#: ../src/gtk/gftp-gtk.c:787 ../src/gtk/gftp-gtk.c:996
-#: ../src/gtk/gtkui_transfer.c:228
+#: src/gtk/gftp-gtk.c:787 src/gtk/gftp-gtk.c:996 src/gtk/gtkui_transfer.c:227
 msgid "Filename"
 msgstr "Tiedostonimi"
 
-#: ../src/gtk/gftp-gtk.c:788
+#: src/gtk/gftp-gtk.c:788
 msgid "Size"
 msgstr "Koko"
 
-#: ../src/gtk/gftp-gtk.c:791
+#: src/gtk/gftp-gtk.c:791
 msgid "Date"
 msgstr "Päivämäärä"
 
-#: ../src/gtk/gftp-gtk.c:792
+#: src/gtk/gftp-gtk.c:792
 msgid "Attribs"
 msgstr "Atribuutit"
 
-#: ../src/gtk/gftp-gtk.c:997
+#: src/gtk/gftp-gtk.c:997
 msgid "Progress"
 msgstr "Edistyminen"
 
-#: ../src/gtk/gftp-gtk.c:1133
+#: src/gtk/gftp-gtk.c:1133
 msgid "Error: You must type in a host to connect to\n"
 msgstr ""
 "Virhe: Sinun on annettava palvelimen nimi, jotta yhteys voidaan luoda.\n"
 
-#: ../src/gtk/gtkui.c:53
+#: src/gtk/gtkui.c:52
 msgid "Refresh"
 msgstr "Päivitä"
 
-#: ../src/gtk/gtkui.c:120
+#: src/gtk/gtkui.c:119
 msgid "Enter Username"
 msgstr "Anna käyttäjätunnus"
 
-#: ../src/gtk/gtkui.c:121
+#: src/gtk/gtkui.c:120
 msgid "Please enter your username for this site"
 msgstr "Anna käyttäjätunnuksesi tälle palvelimelle"
 
-#: ../src/gtk/gtkui.c:143 ../src/gtk/transfer.c:563 ../src/gtk/transfer.c:573
+#: src/gtk/gtkui.c:142 src/gtk/transfer.c:562 src/gtk/transfer.c:572
 msgid "Please enter your password for this site"
 msgstr "Anna salasanasi tälle palvelimelle"
 
-#: ../src/gtk/gtkui.c:298
+#: src/gtk/gtkui.c:297
 msgid "Operation canceled...you must enter a string\n"
 msgstr "Toiminto keskeytetty: sinun täytyy syöttää merkkijono\n"
 
-#: ../src/gtk/gtkui.c:344
+#: src/gtk/gtkui.c:343
 msgid "Mkdir"
 msgstr "Mkdir"
 
-#: ../src/gtk/gtkui.c:347
+#: src/gtk/gtkui.c:346
 msgid "Make Directory"
 msgstr "Luo kansion"
 
-#: ../src/gtk/gtkui.c:347
+#: src/gtk/gtkui.c:346
 msgid "Enter name of directory to create"
 msgstr "Anna luotavan kansion nimi"
 
-#: ../src/gtk/gtkui.c:370 ../src/gtk/gtkui.c:382 ../src/gtk/misc-gtk.c:932
-#: ../src/gtk/misc-gtk.c:1007
+#: src/gtk/gtkui.c:369 src/gtk/gtkui.c:381 src/gtk/misc-gtk.c:931
+#: src/gtk/misc-gtk.c:1006
 msgid "Rename"
 msgstr "Nimeä uudestaan"
 
-#: ../src/gtk/gtkui.c:380
+#: src/gtk/gtkui.c:379
 #, c-format
 msgid "What would you like to rename %s to?"
 msgstr "Minkä haluat antaa %s uudeksi nimeksi?"
 
-#: ../src/gtk/gtkui.c:402 ../src/gtk/gtkui.c:405
+#: src/gtk/gtkui.c:401 src/gtk/gtkui.c:404
 msgid "Site"
 msgstr "Palvelinkomento"
 
-#: ../src/gtk/gtkui.c:405
+#: src/gtk/gtkui.c:404
 msgid "Enter site-specific command"
 msgstr "Syötä palvelinkohtainen komento"
 
-#: ../src/gtk/gtkui.c:406
+#: src/gtk/gtkui.c:405
 msgid "Prepend with SITE"
 msgstr "Lisää eteen SITE"
 
-#: ../src/gtk/gtkui.c:449 ../src/gtk/menu-items.c:235
+#: src/gtk/gtkui.c:448 src/gtk/menu-items.c:234
 msgid "Chdir"
 msgstr "Chdir"
 
-#: ../src/gtk/gtkui_transfer.c:60 ../src/gtk/transfer.c:473
-#: ../src/gtk/transfer.c:541 ../src/gtk/transfer.c:998
+#: src/gtk/gtkui_transfer.c:59 src/gtk/transfer.c:472 src/gtk/transfer.c:540
+#: src/gtk/transfer.c:997
 msgid "Skipped"
 msgstr "Ohitettu"
 
-#: ../src/gtk/gtkui_transfer.c:62 ../src/gtk/transfer.c:520
-#: ../src/gtk/transfer.c:545
+#: src/gtk/gtkui_transfer.c:61 src/gtk/transfer.c:519 src/gtk/transfer.c:544
 msgid "Waiting..."
 msgstr "Odotetaan..."
 
-#: ../src/gtk/gtkui_transfer.c:136 ../src/gtk/gtkui_transfer.c:314
-#: ../src/gtk/gtkui_transfer.c:341
+#: src/gtk/gtkui_transfer.c:135 src/gtk/gtkui_transfer.c:313
+#: src/gtk/gtkui_transfer.c:340
 msgid "Overwrite"
 msgstr "Ylikirjoita"
 
-#: ../src/gtk/gtkui_transfer.c:143 ../src/gtk/gtkui_transfer.c:320
-#: ../src/gtk/gtkui_transfer.c:347
+#: src/gtk/gtkui_transfer.c:142 src/gtk/gtkui_transfer.c:319
+#: src/gtk/gtkui_transfer.c:346
 msgid "Resume"
 msgstr "Yritä uudestaan"
 
-#: ../src/gtk/gtkui_transfer.c:150 ../src/gtk/gtkui_transfer.c:317
+#: src/gtk/gtkui_transfer.c:149 src/gtk/gtkui_transfer.c:316
 msgid "Skip"
 msgstr "Ohita"
 
-#: ../src/gtk/gtkui_transfer.c:231
+#: src/gtk/gtkui_transfer.c:230
 msgid "Action"
 msgstr "Toimenpide"
 
-#: ../src/gtk/gtkui_transfer.c:236 ../src/gtk/gtkui_transfer.c:245
-#: ../src/gtk/transfer.c:91
+#: src/gtk/gtkui_transfer.c:235 src/gtk/gtkui_transfer.c:244
+#: src/gtk/transfer.c:90
 msgid "Transfer Files"
 msgstr "Tiedostojen siirto"
 
-#: ../src/gtk/gtkui_transfer.c:257
+#: src/gtk/gtkui_transfer.c:256
 msgid ""
 "The following file(s) exist on both the local and remote computer\n"
 "Please select what you would like to do"
@@ -2646,59 +2631,59 @@ msgstr ""
 "Seuraavat tiedostot ovat olemassa sekä paikallisesti että palvelimessa\n"
 "Valitse toimenpide"
 
-#: ../src/gtk/gtkui_transfer.c:323
+#: src/gtk/gtkui_transfer.c:322
 msgid "Error"
 msgstr "Virhe"
 
-#: ../src/gtk/gtkui_transfer.c:353
+#: src/gtk/gtkui_transfer.c:352
 msgid "Skip File"
 msgstr "Ohita tiedosto"
 
-#: ../src/gtk/gtkui_transfer.c:363
+#: src/gtk/gtkui_transfer.c:362
 msgid "Select All"
 msgstr "Valitse kaikki"
 
-#: ../src/gtk/gtkui_transfer.c:369
+#: src/gtk/gtkui_transfer.c:368
 msgid "Deselect All"
 msgstr "Kumoa valinnat"
 
-#: ../src/gtk/menu-items.c:65
+#: src/gtk/menu-items.c:64
 msgid "Change Filespec: Operation canceled...you must enter a string\n"
 msgstr "Muuta tiedostomääritystä: toiminto keskeytetty, syötä merkkijono\n"
 
-#: ../src/gtk/menu-items.c:83 ../src/gtk/menu-items.c:86
+#: src/gtk/menu-items.c:82 src/gtk/menu-items.c:85
 msgid "Change Filespec"
 msgstr "Muuta tiedostomäärittelyä"
 
-#: ../src/gtk/menu-items.c:86
+#: src/gtk/menu-items.c:85
 msgid "Enter the new file specification"
 msgstr "Syötä uusi tiedostomäärittely"
 
-#: ../src/gtk/menu-items.c:114 ../src/gtk/menu-items.c:299
-#: ../src/gtk/menu-items.c:363 ../src/gtk/view_dialog.c:81
+#: src/gtk/menu-items.c:113 src/gtk/menu-items.c:298 src/gtk/menu-items.c:362
+#: src/gtk/view_dialog.c:80
 #, c-format
 msgid "Error: Cannot open %s for writing: %s\n"
 msgstr "Virhe: Tiedostoa %s ei voi avata kirjoitettavaksi: %s\n"
 
-#: ../src/gtk/menu-items.c:143
+#: src/gtk/menu-items.c:142
 msgid "Save Directory Listing"
 msgstr "Tallenna hakemistolistaus"
 
-#: ../src/gtk/menu-items.c:327 ../src/gtk/menu-items.c:391
+#: src/gtk/menu-items.c:326 src/gtk/menu-items.c:390
 #, c-format
 msgid "Error: Error writing to %s: %s\n"
 msgstr "Virhe: Virhe kirjoitettaessa tiedostoon %s: %s\n"
 
-#: ../src/gtk/menu-items.c:402
+#: src/gtk/menu-items.c:401
 #, c-format
 msgid "Successfully wrote the log file to %s\n"
 msgstr "Lokitiedosto kirjoitettu onnistuneesti tiedostoon %s\n"
 
-#: ../src/gtk/menu-items.c:414
+#: src/gtk/menu-items.c:413
 msgid "Save Log"
 msgstr "Tallenna loki"
 
-#: ../src/gtk/menu-items.c:450
+#: src/gtk/menu-items.c:449
 #, c-format
 msgid ""
 "Cannot find the license agreement file COPYING. Please make sure it is in "
@@ -2707,11 +2692,11 @@ msgstr ""
 "Lisenssisopimuksen tiedostoa COPYING ei löydy. Tarkista että se on joko "
 "paikassa %s tai %s"
 
-#: ../src/gtk/menu-items.c:454 ../src/gtk/menu-items.c:459
+#: src/gtk/menu-items.c:453 src/gtk/menu-items.c:458
 msgid "About gFTP"
 msgstr "Tietoja gFTPstä"
 
-#: ../src/gtk/menu-items.c:490
+#: src/gtk/menu-items.c:489
 #, c-format
 msgid ""
 "%s\n"
@@ -2722,27 +2707,27 @@ msgstr ""
 "Tekijänoikeudet (©) 1998-2007 Brian Masney <masneyb@gftp.org>\n"
 "Virallinen kotisivu: http://www.gftp.org/\n"
 
-#: ../src/gtk/menu-items.c:503
+#: src/gtk/menu-items.c:502
 msgid "About"
 msgstr "Tietoja"
 
-#: ../src/gtk/menu-items.c:552
+#: src/gtk/menu-items.c:551
 msgid "License Agreement"
 msgstr "Lisenssisopimus"
 
-#: ../src/gtk/menu-items.c:558 ../src/gtk/view_dialog.c:385
+#: src/gtk/menu-items.c:557 src/gtk/view_dialog.c:384
 msgid "  Close  "
 msgstr "  Sulje  "
 
-#: ../src/gtk/menu-items.c:685
+#: src/gtk/menu-items.c:684
 msgid "Compare Windows"
 msgstr "Vertaile ikkunoita"
 
-#: ../src/gtk/misc-gtk.c:257
+#: src/gtk/misc-gtk.c:256
 msgid "Disconnect from the remote server"
 msgstr "Katkaise yhteys palvelimeen"
 
-#: ../src/gtk/misc-gtk.c:261
+#: src/gtk/misc-gtk.c:260
 msgid ""
 "Connect to the site specified in the host entry. If the host entry is blank, "
 "then a dialog is presented that will allow you to enter a URL."
@@ -2750,72 +2735,72 @@ msgstr ""
 "Yhdistä palvelinmäärittelyssä mainittuun palvelimeen. Jos palvelinta ei ole "
 "annettu, voit syöttää URLin näytettävään ikkunaan."
 
-#: ../src/gtk/misc-gtk.c:308
+#: src/gtk/misc-gtk.c:307
 msgid "All Files"
 msgstr "Kaikki tiedostot"
 
-#: ../src/gtk/misc-gtk.c:318
+#: src/gtk/misc-gtk.c:317
 msgid "] (Cached) ["
 msgstr "] (välimuistissa) ["
 
-#: ../src/gtk/misc-gtk.c:329
+#: src/gtk/misc-gtk.c:328
 msgid "Not connected"
 msgstr "Ei yhteyttä"
 
-#: ../src/gtk/misc-gtk.c:431
+#: src/gtk/misc-gtk.c:430
 #, c-format
 msgid "Error opening file %s: %s\n"
 msgstr "Virhe avattaessa tiedostoa %s: %s\n"
 
-#: ../src/gtk/misc-gtk.c:521
+#: src/gtk/misc-gtk.c:520
 #, c-format
 msgid "%s: Not connected to a remote site\n"
 msgstr "%s: ei yhteyttä palvelimeen\n"
 
-#: ../src/gtk/misc-gtk.c:528
+#: src/gtk/misc-gtk.c:527
 #, c-format
 msgid "%s: This feature is not available using this protocol\n"
 msgstr "%s: Tämä ominaisuus ei ole käytettävissä tällä protokollalla\n"
 
-#: ../src/gtk/misc-gtk.c:536
+#: src/gtk/misc-gtk.c:535
 #, c-format
 msgid "%s: You must only have one item selected\n"
 msgstr "%s: Vain yksi kohta voi olla valittuna\n"
 
-#: ../src/gtk/misc-gtk.c:543
+#: src/gtk/misc-gtk.c:542
 #, c-format
 msgid "%s: You must have at least one item selected\n"
 msgstr "%s: Vähintään yksi kohta täytyy olla valittuna\n"
 
-#: ../src/gtk/misc-gtk.c:926 ../src/gtk/misc-gtk.c:1001
+#: src/gtk/misc-gtk.c:925 src/gtk/misc-gtk.c:1000
 msgid "Change"
 msgstr "Muuta"
 
-#: ../src/gtk/misc-gtk.c:998 ../src/gtk/options_dialog.c:1277
+#: src/gtk/misc-gtk.c:997 src/gtk/options_dialog.c:1276
 msgid "Add"
 msgstr "Lisää"
 
-#: ../src/gtk/misc-gtk.c:1024
+#: src/gtk/misc-gtk.c:1023
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: ../src/gtk/misc-gtk.c:1094
+#: src/gtk/misc-gtk.c:1093
 msgid "  Yes  "
 msgstr "  Kyllä  "
 
-#: ../src/gtk/misc-gtk.c:1104
+#: src/gtk/misc-gtk.c:1103
 msgid "  No  "
 msgstr "  Ei  "
 
-#: ../src/gtk/misc-gtk.c:1164
+#: src/gtk/misc-gtk.c:1163
 msgid "Getting directory listings"
 msgstr "Nodetaan tiedostolistausta"
 
-#: ../src/gtk/misc-gtk.c:1184
+#: src/gtk/misc-gtk.c:1183
 msgid "  Stop  "
 msgstr "   Pysäytä   "
 
-#: ../src/gtk/misc-gtk.c:1194
+#: src/gtk/misc-gtk.c:1193
 #, c-format
 msgid ""
 "Received %ld directories\n"
@@ -2824,109 +2809,109 @@ msgstr ""
 "Noudettu %ld kansio\n"
 "ja %ld tiedostoa"
 
-#: ../src/gtk/misc-gtk.c:1270
+#: src/gtk/misc-gtk.c:1269
 #, c-format
 msgid "gFTP Error: Cannot find file %s in %s or %s\n"
 msgstr "Virhe: Tiedostoa %s ei löydy paikoista %s tai %s\n"
 
-#: ../src/gtk/options_dialog.c:956
+#: src/gtk/options_dialog.c:955
 msgid "Edit Host"
 msgstr "Muokkaa palvelinta"
 
-#: ../src/gtk/options_dialog.c:956
+#: src/gtk/options_dialog.c:955
 msgid "Add Host"
 msgstr "Lisää palvelin"
 
-#: ../src/gtk/options_dialog.c:1002
+#: src/gtk/options_dialog.c:1001
 msgid "Type:"
 msgstr "Tyyppi:"
 
-#: ../src/gtk/options_dialog.c:1004
+#: src/gtk/options_dialog.c:1003
 msgid "_Type:"
 msgstr "_Tyyppi:"
 
-#: ../src/gtk/options_dialog.c:1014 ../src/gtk/options_dialog.c:1137
+#: src/gtk/options_dialog.c:1013 src/gtk/options_dialog.c:1136
 msgid "Domain"
 msgstr "Aluenimi"
 
-#: ../src/gtk/options_dialog.c:1047
+#: src/gtk/options_dialog.c:1046
 msgid "Network Address"
 msgstr "Verkko-osoite"
 
-#: ../src/gtk/options_dialog.c:1049
+#: src/gtk/options_dialog.c:1048
 msgid "_Network address:"
 msgstr "_Verkko-osoite:"
 
-#: ../src/gtk/options_dialog.c:1088 ../src/gtk/options_dialog.c:1241
+#: src/gtk/options_dialog.c:1087 src/gtk/options_dialog.c:1240
 msgid "Netmask"
 msgstr "Verkkopeite"
 
-#: ../src/gtk/options_dialog.c:1090
+#: src/gtk/options_dialog.c:1089
 msgid "N_etmask:"
 msgstr "V_erkkopeite:"
 
-#: ../src/gtk/options_dialog.c:1139
+#: src/gtk/options_dialog.c:1138
 msgid "_Domain:"
 msgstr "_Aluenimi:"
 
-#: ../src/gtk/options_dialog.c:1247
+#: src/gtk/options_dialog.c:1246
 msgid "Local Hosts"
 msgstr "Paikalliset palvelimet"
 
-#: ../src/gtk/options_dialog.c:1288 ../src/gtk/view_dialog.c:34
+#: src/gtk/options_dialog.c:1287 src/gtk/view_dialog.c:33
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: ../src/gtk/options_dialog.c:1290
+#: src/gtk/options_dialog.c:1289
 msgid "_Edit"
 msgstr "_Muokkaa"
 
-#: ../src/gtk/options_dialog.c:1367 ../src/gtk/options_dialog.c:1372
+#: src/gtk/options_dialog.c:1366 src/gtk/options_dialog.c:1371
 msgid "Options"
 msgstr "Valinnat"
 
-#: ../src/gtk/options_dialog.c:1459
+#: src/gtk/options_dialog.c:1458
 msgid "Apply"
 msgstr "Käytä"
 
-#: ../src/gtk/transfer.c:30
+#: src/gtk/transfer.c:29
 msgid "Receiving file names..."
 msgstr "Vastaanotetaan tiedostolistausta..."
 
-#: ../src/gtk/transfer.c:63 ../src/gtk/transfer.c:689
+#: src/gtk/transfer.c:62 src/gtk/transfer.c:688
 msgid "Connecting..."
 msgstr "Yhdistetään..."
 
-#: ../src/gtk/transfer.c:99
+#: src/gtk/transfer.c:98
 msgid "Retrieve Files: Not connected to a remote site\n"
 msgstr "Tiedostojen haku: ei yhteyttä etäpalvelimelle\n"
 
-#: ../src/gtk/transfer.c:336
+#: src/gtk/transfer.c:335
 #, c-format
 msgid "Error: Child %d returned %d\n"
 msgstr "Virhe: Lapsiprosessi %d palautti arvon %d\n"
 
-#: ../src/gtk/transfer.c:345
+#: src/gtk/transfer.c:344
 #, c-format
 msgid "Child %d returned successfully\n"
 msgstr "Lapsiprosessi %d päättyi onnistuneesti\n"
 
-#: ../src/gtk/transfer.c:352
+#: src/gtk/transfer.c:351
 #, c-format
 msgid "Error: Child %d did not terminate properly\n"
 msgstr "Virhe: Lapsiprosessi %d ei päättynyt onnistuneesti\n"
 
-#: ../src/gtk/transfer.c:368
+#: src/gtk/transfer.c:367
 #, c-format
 msgid "Error: Cannot get information about file %s: %s\n"
 msgstr "Virhe: Tietoja tiedostosta %s ei voida hakea: %s\n"
 
-#: ../src/gtk/transfer.c:374
+#: src/gtk/transfer.c:373
 #, c-format
 msgid "File %s was not changed\n"
 msgstr "Tiedost %s ei ole muuttunut\n"
 
-#: ../src/gtk/transfer.c:382
+#: src/gtk/transfer.c:381
 #, c-format
 msgid ""
 "File %s has changed.\n"
@@ -2935,117 +2920,125 @@ msgstr ""
 "Tiedosto %s on muuttunut.\n"
 "Haluatko siirtää sen palvelimelle?"
 
-#: ../src/gtk/transfer.c:385
+#: src/gtk/transfer.c:384
 msgid "Edit File"
 msgstr "Muokkaa tiedostoa"
 
-#: ../src/gtk/transfer.c:476
+#: src/gtk/transfer.c:475
 msgid "Finished"
 msgstr "Valmis"
 
-#: ../src/gtk/transfer.c:734
+#: src/gtk/transfer.c:733
 #, c-format
 msgid "Sent %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Lähetetty %s/%s nopeudella %.2fkt/s, %02d:%02d:%02d aikaa jäljellä"
 
-#: ../src/gtk/transfer.c:739
+#: src/gtk/transfer.c:738
 #, c-format
 msgid "Recv %s of %s at %.2fKB/s, %02d:%02d:%02d est. time remaining"
 msgstr "Noudettu %s/%s nopeudella %.2fkt/s, %02d:%02d:%02d aikaa jäljellä"
 
-#: ../src/gtk/transfer.c:750
+#: src/gtk/transfer.c:749
 #, c-format
 msgid "Sent %s of %s, transfer stalled, unknown time remaining"
 msgstr "Lähetetty %s/%s, haku pysähtynyt, jäljellä oleva aika tuntematon"
 
-#: ../src/gtk/transfer.c:756
+#: src/gtk/transfer.c:755
 #, c-format
 msgid "Recv %s of %s, transfer stalled, unknown time remaining"
 msgstr "Noudettu %s/%s, haku pysähtynyt, jäljellä oleva aika tuntematon"
 
-#: ../src/gtk/transfer.c:800
+#: src/gtk/transfer.c:799
 #, c-format
 msgid "Unknown percentage complete. (File %ld of %ld)"
 msgstr "Tuntematon määrä siirretty. (Tiedosto %ld/%ld)"
 
-#: ../src/gtk/transfer.c:804
+#: src/gtk/transfer.c:803
 #, c-format
 msgid "%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"
 msgstr "%d%% valmiina, %02d:%02d:%02d aikaa jäljellä (tiedost %ld/%ld)"
 
-#: ../src/gtk/transfer.c:842
+#: src/gtk/transfer.c:841
 #, c-format
 msgid "Retrieving file names...%s bytes"
 msgstr "Nodetaan tiedostojen nimiä... %s tavua"
 
-#: ../src/gtk/transfer.c:921 ../src/gtk/transfer.c:943
-#: ../src/gtk/transfer.c:962 ../src/gtk/transfer.c:984
-#: ../src/gtk/transfer.c:1012 ../src/gtk/transfer.c:1072
+#: src/gtk/transfer.c:920 src/gtk/transfer.c:942 src/gtk/transfer.c:961
+#: src/gtk/transfer.c:983 src/gtk/transfer.c:1011 src/gtk/transfer.c:1071
 msgid "There are no file transfers selected\n"
 msgstr "Tiedostonsiirtoja ei ole valittu\n"
 
-#: ../src/gtk/view_dialog.c:34
+#: src/gtk/view_dialog.c:33
 msgid "View"
 msgstr "Näyttö"
 
-#: ../src/gtk/view_dialog.c:49
+#: src/gtk/view_dialog.c:48
 #, c-format
 msgid "View: %s is a directory. Cannot view it.\n"
 msgstr "Näyttö: %s on kansio eikä sitä voida näyttää.\n"
 
-#: ../src/gtk/view_dialog.c:52
+#: src/gtk/view_dialog.c:51
 #, c-format
 msgid "Edit: %s is a directory. Cannot edit it.\n"
 msgstr "Muokkaus: %s on kansio eikä sitä voida muokata.\n"
 
-#: ../src/gtk/view_dialog.c:123
+#: src/gtk/view_dialog.c:122
 msgid "Edit: You must specify an editor in the options dialog\n"
 msgstr "Muokkaus: muokkain täytyy määritellä asetuksissa\n"
 
-#: ../src/gtk/view_dialog.c:177
+#: src/gtk/view_dialog.c:176
 #, c-format
 msgid "View: Cannot fork another process: %s\n"
 msgstr "Näyttö: Uutta prosessia ei voitu käynnistä: %s\n"
 
-#: ../src/gtk/view_dialog.c:180
+#: src/gtk/view_dialog.c:179
 #, c-format
 msgid "Running program: %s %s\n"
 msgstr "Suoritetaan ohjelma: %s %s\n"
 
-#: ../src/gtk/view_dialog.c:240
+#: src/gtk/view_dialog.c:239
 #, c-format
 msgid "Opening %s with %s\n"
 msgstr "Avataan %s ohjelmalla %s\n"
 
-#: ../src/gtk/view_dialog.c:282
+#: src/gtk/view_dialog.c:281
 #, c-format
 msgid "Viewing file %s\n"
 msgstr "Näytetään tiedostoa %s\n"
 
-#: ../src/gtk/view_dialog.c:289
+#: src/gtk/view_dialog.c:288
 #, c-format
 msgid "View: Cannot open file %s: %s\n"
 msgstr "Näyttö: Tiedoston %s avaaminen epäonnistui: %s\n"
 
-#: ../src/text/gftp-text.c:166
+#: src/text/gftp-text.c:163
 #, c-format
 msgid "Cannot open controlling terminal %s\n"
 msgstr "Ohjaavaa päätettä  %s ei voida avata\n"
 
-#: ../src/text/textui.c:80
+#: src/text/textui.c:79
 msgid "Username [anonymous]:"
 msgstr "Käyttäjätunnus: [anonymous]:"
 
-#: ../src/text/textui.c:158
+#: src/text/textui.c:157
 #, c-format
 msgid ""
 "%s already exists. (%s source size, %s destination size):\n"
-"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: (%"
-"c)"
+"(o)verwrite, (r)esume, (s)kip, (O)verwrite All, (R)esume All, (S)kip All: "
+"(%c)"
 msgstr ""
 "%s on jo olemassa. (%s lähdekoko, %s kohdekoko):\n"
 "ylikirjoita (o), jatka (r), ohita (s), ylikirjoita kaikki (O),\n"
 "jatka kaikkia (R) tai ohita kaikki (S): (%c)"
+
+#~ msgid ""
+#~ ">. If you have any questions, comments, or suggestions about this "
+#~ "program, please feel free to email them to me. You can always find out "
+#~ "the latest news about gFTP from my website at http://www.gftp.org/\n"
+#~ msgstr ""
+#~ ">. Jos sinulla on kysymyksiä, kommentteja tai ehdotuksia tästä "
+#~ "ohjelmasta, ole hyvä ja lähetä sähköpostia. Viimeisimmät uutiset löytyvät "
+#~ "aina ohjelman kotisivulta osoitteesta http://www.gftp.org/\n"
 
 #~ msgid "Error converting string '%s' to UTF-8 from current locale: %s\n"
 #~ msgstr ""
