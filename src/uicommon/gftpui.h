@@ -88,7 +88,7 @@ typedef struct _gftpui_common_curtrans_data
 extern sigjmp_buf gftpui_common_jmp_environment;
 extern volatile int gftpui_common_use_jmp_environment;
 extern gftpui_common_methods gftpui_common_commands[];
-extern GStaticMutex gftpui_common_transfer_mutex;
+extern GMutex gftpui_common_transfer_mutex;
 extern volatile sig_atomic_t gftpui_common_child_process_done;
 
 /* gftpui.c */

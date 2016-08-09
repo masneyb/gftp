@@ -112,7 +112,7 @@ gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
   gftp_file * tempfle;
   int curpos;
 
-  g_static_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
 
   curpos = 0;
   filelist = tdata->files;
@@ -125,7 +125,7 @@ gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
       gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, transfer_str);
     }
 
-  g_static_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 }
 
 
@@ -158,7 +158,7 @@ gftpui_gtk_ok (GtkWidget * widget, gpointer data)
   GList * templist;
 
   tdata = data;
-  g_static_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
   for (templist = tdata->files; templist != NULL; templist = templist->next)
     {
       tempfle = templist->data;
@@ -175,7 +175,7 @@ gftpui_gtk_ok (GtkWidget * widget, gpointer data)
   else
     tdata->show = 1;
 
-  g_static_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 }
 
 
@@ -185,10 +185,10 @@ gftpui_gtk_cancel (GtkWidget * widget, gpointer data)
   gftp_transfer * tdata;
 
   tdata = data;
-  g_static_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
   tdata->show = 0;
   tdata->done = tdata->ready = 1;
-  g_static_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 }
 
 
