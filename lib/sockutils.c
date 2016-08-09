@@ -345,7 +345,12 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
   else
     flags &= ~O_NONBLOCK;
 
+#ifdef __APPLE__
+  int opt = 1;
+  if (ioctl(fd, FIONBIO, &opt) < 0)
+#else
   if (fcntl (fd, F_SETFL, flags) < 0)
+#endif
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Cannot set socket to non-blocking: %s\n"),
