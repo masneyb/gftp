@@ -1433,7 +1433,7 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
   gftp_lookup_request_option (tdata->fromreq, "maxkbs", &maxkbs.f);
 
   if (g_thread_supported ())
-    g_static_mutex_lock (&tdata->statmutex);
+    g_mutex_lock (&tdata->statmutex);
 
   gettimeofday (&tv, NULL);
 
@@ -1456,13 +1456,13 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
       if (waitusecs > 0)
         {
           if (g_thread_supported ())
-            g_static_mutex_unlock (&tdata->statmutex);
+            g_mutex_unlock (&tdata->statmutex);
 
           waited = 1;
           usleep (waitusecs);
 
           if (g_thread_supported ())
-            g_static_mutex_lock (&tdata->statmutex);
+            g_mutex_lock (&tdata->statmutex);
         }
 
     }
@@ -1473,7 +1473,7 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
     memcpy (&tdata->lasttime, &tv, sizeof (tdata->lasttime));
 
   if (g_thread_supported ())
-    g_static_mutex_unlock (&tdata->statmutex);
+    g_mutex_unlock (&tdata->statmutex);
 }
 
 
@@ -1500,12 +1500,12 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
   gftp_lookup_request_option (tdata->fromreq, "sleep_time", &sleep_time);
 
   if (g_thread_supported ())
-    g_static_mutex_lock (&tdata->structmutex);
+    g_mutex_lock (&tdata->structmutex);
 
   if (tdata->curfle == NULL)
     {
       if (g_thread_supported ())
-        g_static_mutex_unlock (&tdata->structmutex);
+        g_mutex_unlock (&tdata->structmutex);
 
       return (GFTP_EFATAL);
     }
@@ -1513,7 +1513,7 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
   tempfle = tdata->curfle->data;
 
   if (g_thread_supported ())
-    g_static_mutex_unlock (&tdata->structmutex);
+    g_mutex_unlock (&tdata->structmutex);
 
   gftp_disconnect (tdata->fromreq);
   gftp_disconnect (tdata->toreq);
@@ -1562,7 +1562,7 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
           (ret2 = gftp_connect (tdata->toreq)) == 0)
         {
           if (g_thread_supported ())
-            g_static_mutex_lock (&tdata->structmutex);
+            g_mutex_lock (&tdata->structmutex);
 
           tdata->resumed_bytes = tdata->resumed_bytes + tdata->trans_bytes - tdata->curresumed - tdata->curtrans;
           tdata->trans_bytes = 0;
@@ -1593,7 +1593,7 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
           gettimeofday (&tdata->starttime, NULL);
 
           if (g_thread_supported ())
-            g_static_mutex_unlock (&tdata->structmutex);
+            g_mutex_unlock (&tdata->structmutex);
 
           return (GFTP_ERETRYABLE);
         }

@@ -545,8 +545,8 @@ typedef struct gftp_transfer_tag
   void * fromwdata,
        * towdata;
 
-  GStaticMutex statmutex,
-               structmutex;
+  GMutex statmutex,
+         structmutex;
 
   void *user_data;
   void *thread_id;

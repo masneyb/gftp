@@ -554,8 +554,8 @@ gftp_tdata_new (void)
   tdata->statmutex = init_mutex;
   tdata->structmutex = init_mutex;
 #else
-  g_static_mutex_init (&tdata->statmutex);
-  g_static_mutex_init (&tdata->structmutex);
+  g_mutex_init (&tdata->statmutex);
+  g_mutex_init (&tdata->structmutex);
 #endif
 
   return (tdata);
