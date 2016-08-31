@@ -323,7 +323,7 @@ gftp_info (void)
   printf ("#define _FILE_OFFSET_BITS %d\n", _FILE_OFFSET_BITS);
 #endif
 
-  printf ("sizeof (off_t) = %lu\n", sizeof (off_t));
+  printf ("sizeof (off_t) = %d\n", sizeof (off_t));
 
 #ifdef HAVE_INTL_PRINTF
   printf ("#define HAVE_INTL_PRINTF\n");
