@@ -346,6 +346,7 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
   else
     flags &= ~O_NONBLOCK;
 
+#ifndef __APPLE__
   if (fcntl (fd, F_SETFL, flags) < 0)
     {
       request->logging_function (gftp_logging_error, request,
@@ -354,6 +355,7 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
     }
+#endif
 
   return (0);
 }
