@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-text.h"
+static const char cvsid[] = "$Id$";
 
 unsigned int
 gftp_text_get_win_size (void)

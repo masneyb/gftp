@@ -20,6 +20,7 @@
 #include "gftp.h"
 #include "ftpcommon.h"
 
+static const char cvsid[] = "$Id$";
 
 static gftp_textcomboedt_data gftp_proxy_type[] = {
   {N_("none"), "", 0},

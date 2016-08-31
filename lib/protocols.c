@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 gftp_request *
 gftp_request_new (void)

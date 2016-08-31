@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
+static const char cvsid[] = "$Id$";
 
 static gftp_file * curfle;
 

@@ -20,6 +20,7 @@
 #include "gftp.h"
 #include "ftpcommon.h"
 
+static const char cvsid[] = "$Id$";
 
 #ifdef USE_SSL
 static int

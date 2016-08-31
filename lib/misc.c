@@ -19,6 +19,7 @@
 
 #include "gftp.h"
 #include "options.h"
+static const char cvsid[] = "$Id$";
 
 #ifdef HAVE_INTL_PRINTF
 

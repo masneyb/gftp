@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
+static const char cvsid[] = "$Id$";
 
 static GtkItemFactory *log_factory, *dl_factory;
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,

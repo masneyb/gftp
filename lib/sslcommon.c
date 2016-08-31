@@ -19,6 +19,7 @@
 
 #include "gftp.h"
 
+static const char cvsid[] = "$Id$";
 
 /* Some of the functions in here was taken either entirely or partially from
  * the O'Reilly book Network Security with OpenSSL */

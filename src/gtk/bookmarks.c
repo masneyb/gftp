@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
+static const char cvsid[] = "$Id$";
 
 static GtkWidget * bm_dialog = NULL, * edit_bookmarks_dialog = NULL;
 static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
