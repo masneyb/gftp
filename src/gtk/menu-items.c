@@ -262,11 +262,6 @@ clearlog (gpointer data)
 {
   gint len;
 
-#if GTK_MAJOR_VERSION == 1
-  len = gtk_text_get_length (GTK_TEXT (logwdw));
-  gtk_text_set_point (GTK_TEXT (logwdw), len);
-  gtk_text_backward_delete (GTK_TEXT (logwdw), len);
-#else
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
 
@@ -275,7 +270,6 @@ clearlog (gpointer data)
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, len);
   gtk_text_buffer_delete (textbuf, &iter, &iter2);
-#endif
 }
 
 
@@ -286,10 +280,8 @@ viewlog (gpointer data)
   gint textlen;
   ssize_t len;
   int fd;
-#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
-#endif
 
   tempstr = g_strconcat (g_get_tmp_dir (), "/gftp-view.XXXXXXXXXX", NULL);
   if ((fd = mkstemp (tempstr)) < 0)
@@ -302,10 +294,6 @@ viewlog (gpointer data)
     }
   chmod (tempstr, S_IRUSR | S_IWUSR);
   
-#if GTK_MAJOR_VERSION == 1
-  textlen = gtk_text_get_length (GTK_TEXT (logwdw));
-  txt = gtk_editable_get_chars (GTK_EDITABLE (logwdw), 0, -1);
-#else
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
   textlen = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
@@ -315,7 +303,7 @@ viewlog (gpointer data)
   /* gtk_text_buffer_get_char_count() returns the number of characters,
      not bytes. So get the number of bytes that need to be written out */
   textlen = strlen (txt);
-#endif
+
   pos = txt;
 
   while (textlen > 0)
@@ -350,10 +338,8 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
   ssize_t len;
   FILE *fd;
   int ok;
-#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
-#endif
 
   filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
   if ((fd = fopen (filename, "w")) == NULL)
@@ -364,10 +350,6 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
       return;
     }
 
-#if GTK_MAJOR_VERSION == 1
-  textlen = gtk_text_get_length (GTK_TEXT (logwdw));
-  txt = gtk_editable_get_chars (GTK_EDITABLE (logwdw), 0, -1);
-#else
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
   textlen = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
@@ -377,7 +359,6 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
   /* gtk_text_buffer_get_char_count() returns the number of characters,
      not bytes. So get the number of bytes that need to be written out */
   textlen = strlen (txt);
-#endif
 
   ok = 1;
   pos = txt;
@@ -439,27 +420,18 @@ about_dialog (gpointer data)
   char *tempstr, *temp1str, *no_license_agreement, *str, buf[255], *share_dir;
   size_t len;
   FILE * fd;
-#if GTK_MAJOR_VERSION > 1
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
   gint textlen;
-#endif
 
   share_dir = gftp_get_share_dir ();
   no_license_agreement = g_strdup_printf (_("Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"), BASE_CONF_DIR, share_dir);
 
-#if GTK_MAJOR_VERSION == 1
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), _("About gFTP"));
-  gtk_container_border_width (GTK_CONTAINER
-			      (GTK_DIALOG (dialog)->action_area), 5);
-  gtk_box_set_homogeneous (GTK_BOX (GTK_DIALOG (dialog)->action_area), TRUE);
-#else
   dialog = gtk_dialog_new_with_buttons (_("About gFTP"), NULL, 0,
                                         GTK_STOCK_CLOSE,
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
-#endif
+
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "about", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
@@ -512,21 +484,6 @@ about_dialog (gpointer data)
   gtk_box_pack_start (GTK_BOX (box), tempwid, TRUE, TRUE, 0);
   gtk_widget_show (tempwid);
 
-#if GTK_MAJOR_VERSION == 1
-  view = gtk_text_new (NULL, NULL);
-  gtk_text_set_editable (GTK_TEXT (view), FALSE);
-  gtk_text_set_word_wrap (GTK_TEXT (view), TRUE);
-
-  gtk_table_attach (GTK_TABLE (tempwid), view, 0, 1, 0, 1,
-                    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-                    0, 0);
-  gtk_widget_show (view);
-
-  vscroll = gtk_vscrollbar_new (GTK_TEXT (view)->vadj);
-  gtk_table_attach (GTK_TABLE (tempwid), vscroll, 1, 2, 0, 1,
-                    GTK_FILL, GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0);
-  gtk_widget_show (vscroll);
-#else
   view = gtk_text_view_new ();
   gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
@@ -546,28 +503,15 @@ about_dialog (gpointer data)
   gtk_widget_show (vscroll);
 
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-#endif
 
   label = gtk_label_new (_("License Agreement"));
   gtk_widget_show (label);
 
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), box, label);
 
-#if GTK_MAJOR_VERSION == 1
-  tempwid = gtk_button_new_with_label (_("  Close  "));
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), tempwid,
-		      FALSE, FALSE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (tempwid), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_grab_default (tempwid);
-  gtk_widget_show (tempwid);
-#else
   g_signal_connect_swapped (GTK_OBJECT (dialog), "response",
                             G_CALLBACK (gtk_widget_destroy),
                             GTK_OBJECT (dialog));
-#endif
 
   tempstr = g_strconcat ("/usr/share/common-licenses/GPL", NULL);
   if (access (tempstr, F_OK) != 0)
@@ -582,14 +526,9 @@ about_dialog (gpointer data)
           tempstr = gftp_expand_path (NULL, BASE_CONF_DIR "/COPYING");
 	  if (access (tempstr, F_OK) != 0)
 	    {
-#if GTK_MAJOR_VERSION == 1
-	      gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL,
-			       no_license_agreement, -1);
-#else
               textlen = gtk_text_buffer_get_char_count (textbuf);
               gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
               gtk_text_buffer_insert (textbuf, &iter, no_license_agreement, -1);
-#endif
 	      gtk_widget_show (dialog);
 	      return;
 	    }
@@ -598,14 +537,9 @@ about_dialog (gpointer data)
 
   if ((fd = fopen (tempstr, "r")) == NULL)
     {
-#if GTK_MAJOR_VERSION == 1
-      gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL,
-		       no_license_agreement, -1);
-#else
       textlen = gtk_text_buffer_get_char_count (textbuf);
       gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
       gtk_text_buffer_insert (textbuf, &iter, no_license_agreement, -1);
-#endif
       gtk_widget_show (dialog);
       g_free (tempstr);
       return;
@@ -616,13 +550,9 @@ about_dialog (gpointer data)
   while ((len = fread (buf, 1, sizeof (buf) - 1, fd)))
     {
       buf[len] = '\0';
-#if GTK_MAJOR_VERSION == 1
-      gtk_text_insert (GTK_TEXT (view), NULL, NULL, NULL, buf, -1);
-#else
       textlen = gtk_text_buffer_get_char_count (textbuf);
       gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
       gtk_text_buffer_insert (textbuf, &iter, buf, -1);
-#endif
     }
   fclose (fd);
   gtk_widget_show (dialog);
