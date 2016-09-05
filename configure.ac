@@ -201,7 +201,7 @@ GTHREAD_LIBS=""
 if test "x$enable_gtkport" = "xyes" ; then
 
   if test "x$GFTP_GTK" = "x" ; then
-    PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.0.0], found_glib20=1, found_glib20=0)
+    PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.31.0], found_glib20=1, found_glib20=0)
 
     PKG_CHECK_MODULES(GTHREADS, gthread-2.0 >=  2.2.0, HAVE_GTHREADS="yes")
     AC_SUBST(GTHREADS_CFLAGS)
@@ -225,7 +225,7 @@ if test "x$enable_gtkport" = "xyes" ; then
       PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 3.0. Run configure without --enable-gtk30 or install GTK+ 3.0))
     fi
   else
-    PKG_CHECK_MODULES([GLIB], [glib-1.0 >= 1.0.0])
+    PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.31.0])
     if test "x$HAVE_GTHREADS" != xyes ; then
       AC_CHECK_LIB(gthread, g_thread_init, GTHREAD_LIBS="-lgthread")
     fi
