@@ -469,7 +469,7 @@ CreateConnectToolbar (GtkWidget * parent)
 
   openurl_tooltip = gtk_tooltips_new ();
 
-  tempwid = toolbar_pixmap (parent, "connect.xpm");
+  tempwid = toolbar_image (parent, "connect.xpm");
   openurl_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (openurl_btn), tempwid);
   gtk_signal_connect_object (GTK_OBJECT (openurl_btn), "clicked",

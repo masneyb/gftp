@@ -317,7 +317,7 @@ void update_window_info				( void );
 
 void update_window				( gftp_window_data * wdata );
 
-GtkWidget * toolbar_pixmap			( GtkWidget * widget,
+GtkWidget * toolbar_image			( GtkWidget * widget,
 						  char *filename );
 
 gftp_graphic * open_xpm				( GtkWidget * widget,
@@ -383,7 +383,7 @@ int progress_timeout 				( gpointer data );
 
 void display_cached_logs			( void );
 
-char * get_xpm_path 				( char *filename, 
+char * get_image_path 				( char *filename, 
 						  int quit_on_err );
 
 /* options_dialog.c */

@@ -921,7 +921,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
 
   if (gftp_icon != NULL)
     {
-      if ((tempstr = get_xpm_path (gftp_icon->filename, 0)) != NULL)
+      if ((tempstr = get_image_path (gftp_icon->filename, 0)) != NULL)
         {
          gtk_window_set_default_icon_from_file (tempstr, NULL);
 	 g_free (tempstr);

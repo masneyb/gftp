@@ -454,7 +454,7 @@ about_dialog (gpointer data)
   gtk_container_border_width (GTK_CONTAINER (box), 10);
   gtk_widget_show (box);
 
-  tempwid = toolbar_pixmap (dialog, "gftp-logo.xpm");
+  tempwid = toolbar_image (dialog, "gftp-logo.xpm");
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
 
