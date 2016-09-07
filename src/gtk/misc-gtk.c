@@ -335,21 +335,19 @@ update_window (gftp_window_data * wdata)
 
 
 GtkWidget *
-toolbar_pixmap (GtkWidget * widget, char *filename)
+toolbar_image (GtkWidget * widget, char *filename)
 {
   gftp_graphic * graphic;
   GtkWidget *pix;
+  char *exfile;
 
   if (filename == NULL || *filename == '\0')
     return (NULL);
 
-  graphic = open_xpm (widget, filename);
+  if ((exfile = get_image_path (filename, 0)) == NULL)
+    return (NULL);
 
-  if (graphic == NULL)
-    return (NULL);
-    
-  if ((pix = gtk_pixmap_new (graphic->pixmap, graphic->bitmap)) == NULL)
-    return (NULL);
+  pix = gtk_image_new_from_file(exfile);
 
   gtk_widget_show (pix);
   return (pix);
@@ -368,7 +366,7 @@ open_xpm (GtkWidget * widget, char *filename)
 
   style = gtk_widget_get_style (widget);
 
-  if ((exfile = get_xpm_path (filename, 0)) == NULL)
+  if ((exfile = get_image_path (filename, 0)) == NULL)
     return (NULL);
 
   graphic = g_malloc0 (sizeof (*graphic));
@@ -434,7 +432,6 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
   *pix = graphic->pixmap;
   *bitmap = graphic->bitmap;
 }
-
 
 int
 check_status (char *name, gftp_window_data *wdata,
@@ -1050,9 +1047,8 @@ display_cached_logs (void)
   pthread_mutex_unlock (&log_mutex);
 }
 
-
 char *
-get_xpm_path (char *filename, int quit_on_err)
+get_image_path (char *filename, int quit_on_err)
 {
   char *tempstr, *exfile, *share_dir;
 
