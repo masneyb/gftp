@@ -1027,6 +1027,9 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_paned_pack2 (GTK_PANED (logpane), log_table, 1, 1);
   gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
 
+  gtk_container_set_border_width (GTK_CONTAINER (transfer_scroll), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (tempwid), 5);
+
   gtk_widget_show_all (mainvbox);
   gftpui_show_or_hide_command ();
   return (mainvbox);
