@@ -1168,10 +1168,10 @@ sortrows (GtkCList * clist, gint column, gpointer data)
       gtk_widget_destroy (sort_wid);
 
       if (sortasds)
-        sort_wid = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, 
+        sort_wid = gtk_image_new_from_icon_name ("view-sort-ascending",
                                              GTK_ICON_SIZE_SMALL_TOOLBAR);
       else
-        sort_wid = gtk_image_new_from_stock (GTK_STOCK_SORT_DESCENDING, 
+        sort_wid = gtk_image_new_from_icon_name ("view-sort-descending",
                                              GTK_ICON_SIZE_SMALL_TOOLBAR);
 
       gtk_clist_set_column_widget (clist, 0, sort_wid);
