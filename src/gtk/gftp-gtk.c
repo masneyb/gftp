@@ -27,7 +27,6 @@ gftp_window_data window1, window2, *other_wdata, *current_wdata;
 GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
           * dlwdw, * optionmenu, * gftpui_command_widget, * download_left_arrow,
           * upload_right_arrow, * openurl_btn;
-GtkTooltips * openurl_tooltip;
 GtkAdjustment * logwdw_vadj;
 GtkTextMark * logwdw_textmark;
 int local_start, remote_start, trans_start;
@@ -466,8 +465,6 @@ CreateConnectToolbar (GtkWidget * parent)
   box = gtk_hbox_new (FALSE, 4);
   gtk_container_add (GTK_CONTAINER (toolbar), box);
   gtk_container_border_width (GTK_CONTAINER (box), 5);
-
-  openurl_tooltip = gtk_tooltips_new ();
 
   tempwid = toolbar_image (parent, "connect.xpm");
   openurl_btn = gtk_button_new ();

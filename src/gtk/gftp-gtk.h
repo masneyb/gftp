@@ -181,7 +181,6 @@ extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
                  * portedit, * logwdw, * dlwdw, * optionmenu,
                  * gftpui_command_widget, * download_left_arrow,
                  * upload_right_arrow, * openurl_btn;
-extern GtkTooltips * openurl_tooltip;
 extern GtkAdjustment * logwdw_vadj;
 #if GTK_MAJOR_VERSION > 1
 extern GtkTextMark * logwdw_textmark;

@@ -203,19 +203,19 @@ if test "x$enable_gtkport" = "xyes" ; then
   if test "x$GFTP_GTK" = "x" ; then
     PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.31.0], found_glib20=1, found_glib20=0)
 
-    PKG_CHECK_MODULES(GTHREADS, gthread-2.0 >=  2.2.0, HAVE_GTHREADS="yes")
-    AC_SUBST(GTHREADS_CFLAGS)
-    AC_SUBST(GTHREADS_LIBS)
-    if test "x$HAVE_GTHREADS" = xyes ; then
-      GTHREAD_LIBS="-lgthread-2.0"
-    fi
-
     if test "x$enable_gtk20" = "xyes" ; then
       if test "x$enable_gtk30" = "xyes" ; then
         AC_MSG_ERROR(GTK 2.0 configuration cannot be built while experimental GTK 3.0 support is enabled)
       fi 
       dnl Test for gtk+-2.0
       PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk20 or install GTK+ 2.0))
+
+      PKG_CHECK_MODULES(GTHREADS, gthread-2.0 >=  2.2.0, HAVE_GTHREADS="yes")
+      AC_SUBST(GTHREADS_CFLAGS)
+      AC_SUBST(GTHREADS_LIBS)
+      if test "x$HAVE_GTHREADS" = xyes ; then
+        GTHREAD_LIBS="-lgthread-2.0"
+      fi
     fi
     if test "x$enable_gtk30" = "xyes" ; then
       if test "x$enable_gtk20" = "xyes" ; then 
