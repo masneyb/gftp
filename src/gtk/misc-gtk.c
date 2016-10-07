@@ -337,7 +337,6 @@ update_window (gftp_window_data * wdata)
 GtkWidget *
 toolbar_image (GtkWidget * widget, char *filename)
 {
-  gftp_graphic * graphic;
   GtkWidget *pix;
   char *exfile;
 
