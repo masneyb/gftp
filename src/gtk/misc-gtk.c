@@ -204,12 +204,11 @@ update_window_info (void)
               j++;
             }
 
-          gtk_tooltips_set_tip (GTK_TOOLTIPS(openurl_tooltip), openurl_btn,
-                                _("Disconnect from the remote server"), NULL);
+          gtk_widget_set_tooltip_text (openurl_btn, _("Disconnect from the remote server"));
         }
       else
-        gtk_tooltips_set_tip (GTK_TOOLTIPS(openurl_tooltip), openurl_btn,
-                              _("Connect to the site specified in the host entry. If the host entry is blank, then a dialog is presented that will allow you to enter a URL."), NULL);
+        gtk_widget_set_tooltip_text (openurl_btn,
+                              _("Connect to the site specified in the host entry. If the host entry is blank, then a dialog is presented that will allow you to enter a URL."));
     }
 
   update_window (&window1);
