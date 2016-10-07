@@ -26,11 +26,9 @@ char *
 insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
   if (dest_str != NULL)
-    g_snprintf (dest_str, dest_len, GFTP_OFF_T_INTL_PRINTF_MOD,
-                (GFTP_OFF_T_PRINTF_CONVERSION) number);
+    g_snprintf (dest_str, dest_len, GFTP_OFF_T_INTL_PRINTF_MOD, number);
   else
-    dest_str = g_strdup_printf (GFTP_OFF_T_INTL_PRINTF_MOD,
-                                (GFTP_OFF_T_PRINTF_CONVERSION) number);
+    dest_str = g_strdup_printf (GFTP_OFF_T_INTL_PRINTF_MOD, number);
 
   return (dest_str);
 }
