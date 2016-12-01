@@ -19,6 +19,7 @@
 /*****************************************************************************/
 
 #include "gftpui.h"
+static const char cvsid[] = "$Id$";
 
 int
 gftpui_common_run_mkdir (gftpui_callback_data * cdata)

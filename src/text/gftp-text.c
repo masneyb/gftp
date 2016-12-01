@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-text.h"
+static const char cvsid[] = "$Id$";
 
 unsigned int
 gftp_text_get_win_size (void)
@@ -78,6 +79,8 @@ gftp_text_write_string (gftp_request * request, char *string)
           printf ("%s\n", stpos);
           stpos = endpos + 1;
         }
+
+      sw = sw;
     }
   while (stpos != endpos);
 

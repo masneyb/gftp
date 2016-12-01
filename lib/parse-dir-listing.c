@@ -19,6 +19,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id: protocols.c 952 2008-01-24 23:31:26Z masneyb $";
 
 static char *
 copy_token (/*@out@*/ char **dest, char *source)

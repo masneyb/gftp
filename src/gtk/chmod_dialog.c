@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
+static const char cvsid[] = "$Id$";
 
 static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow,
                  *ox;

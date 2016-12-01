@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id: protocols.c 952 2008-01-24 23:31:26Z masneyb $";
 
 ssize_t
 gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf, 
@@ -345,6 +346,7 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
   else
     flags &= ~O_NONBLOCK;
 
+#ifndef __APPLE__
   if (fcntl (fd, F_SETFL, flags) < 0)
     {
       request->logging_function (gftp_logging_error, request,
@@ -353,6 +355,7 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
     }
+#endif
 
   return (0);
 }

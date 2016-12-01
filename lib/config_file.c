@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+static const char cvsid[] = "$Id$";
 
 void
 gftp_add_bookmark (gftp_bookmarks_var * newentry)

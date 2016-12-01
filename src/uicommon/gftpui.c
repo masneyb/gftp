@@ -18,6 +18,7 @@
 /*****************************************************************************/
 
 #include "gftpui.h"
+static const char cvsid[] = "$Id$";
 
 GMutex gftpui_common_transfer_mutex;
 volatile sig_atomic_t gftpui_common_child_process_done = 0;
