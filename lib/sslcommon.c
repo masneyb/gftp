@@ -47,6 +47,7 @@ static gftp_config_vars config_vars[] =
 static GMutex * gftp_ssl_mutexes = NULL;
 static volatile int gftp_ssl_initialized = 0;
 static SSL_CTX * ctx = NULL;
+static GHashTable * ssl_map = NULL;
 
 struct CRYPTO_dynlock_value
 { 
@@ -66,6 +67,25 @@ ssl_register_module (void)
     }
 }
 
+static SSL*
+getSSLForFd (int fd)
+{
+  SSL* ssl= ssl_map?(SSL*)g_hash_table_lookup (ssl_map, &fd):NULL;
+  return ssl;
+}
+
+static void
+setSSLForFd (int fd, SSL* ssl)
+{
+  if (ssl)
+    {
+      int *key = g_new (gint, 1);
+      *key = fd;
+      g_hash_table_insert (ssl_map, key, ssl);
+    }
+  else
+    g_hash_table_remove (ssl_map, &fd);
+}
 
 static int
 gftp_ssl_get_index (void)
@@ -120,22 +140,22 @@ gftp_ssl_post_connection_check (gftp_request * request)
   X509_EXTENSION *ext;
   X509_NAME *subj;
   X509 *cert;
+  SSL* ssl = getSSLForFd (request->datafd);
  
   ok = 0;
-  if (!(cert = SSL_get_peer_certificate (request->ssl)))
+  if (!(cert = SSL_get_peer_certificate (ssl)))
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Cannot get peer certificate\n"));
       return (X509_V_ERR_APPLICATION_VERIFICATION);
     }
-         
+
   if ((extcount = X509_get_ext_count (cert)) > 0)
     {
       for (i = 0; i < extcount; i++)
         {
           ext = X509_get_ext (cert, i);
           extstr = (char *) OBJ_nid2sn (OBJ_obj2nid (X509_EXTENSION_get_object (ext)));
- 
           if (strcmp (extstr, "subjectAltName") == 0)
             {
               STACK_OF(CONF_VALUE) *val;
@@ -208,10 +228,9 @@ gftp_ssl_post_connection_check (gftp_request * request)
           return (X509_V_ERR_APPLICATION_VERIFICATION);
         }
     }
- 
   X509_free (cert);
 
-  return (SSL_get_verify_result(request->ssl));
+  return (SSL_get_verify_result (ssl));
 }
 
 
@@ -263,7 +282,7 @@ static void
 _gftp_ssl_destroy_dyn_mutex (struct CRYPTO_dynlock_value *l,
                              const char *file, int line)
 {
-  g_mutex_clear(&l->mutex);
+  g_mutex_clear (&l->mutex);
   g_free (l);
 }
 
@@ -339,33 +358,49 @@ gftp_ssl_startup (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
+  ssl_map = g_hash_table_new_full (g_int_hash, g_int_equal, g_free, NULL);
+
   return (0);
 }
 
+static void
+gftp_ssl_abort (gftp_request * request, int fd)
+{
+  /* disconnect only for errors on the main (control) channel */
+  if(fd == request->datafd)
+    gftp_disconnect (request);
+}
 
 int
-gftp_ssl_session_setup (gftp_request * request)
+gftp_ssl_session_setup_ex (gftp_request * request, int fd)
 {
   intptr_t verify_ssl_peer;
   BIO * bio;
   long ret;
+  SSL* ssl = getSSLForFd (fd);
 
-  g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
+  /* ensure the data socket is open and tls is not yet started on it */
+  g_return_val_if_fail (fd > 0, GFTP_EFATAL);
+  g_return_val_if_fail (ssl == 0, GFTP_EFATAL);
 
   if (!gftp_ssl_initialized)
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Error: SSL engine was not initialized\n"));
-      gftp_disconnect (request);
+      gftp_ssl_abort (request, fd);
       return (GFTP_EFATAL);
     }
 
   /* FIXME - take this out. I need to find out how to do timeouts with the SSL
-     functions (a select() or poll() like function) */
-
-  if (gftp_fd_set_sockblocking (request, request->datafd, 0) < 0)
+   * functions (a select() or poll() like function)
+   *
+   * In the meantime, set the data socket to blocking for tls negotiation
+   */
+  int non_blocking = gftp_fd_get_sockblocking (request, fd);
+  if (non_blocking < 0 || non_blocking == 1 &&
+      gftp_fd_set_sockblocking (request, fd, 0) < 0)
     {
-      gftp_disconnect (request);
+      gftp_ssl_abort (request, fd);
       return (GFTP_ERETRYABLE);
     }
 
@@ -373,58 +408,105 @@ gftp_ssl_session_setup (gftp_request * request)
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Error setting up SSL connection (BIO object)\n"));
-      gftp_disconnect (request);
+      gftp_ssl_abort (request, fd);
       return (GFTP_EFATAL);
     }
 
-  BIO_set_fd (bio, request->datafd, BIO_NOCLOSE);
+  BIO_set_fd (bio, fd, BIO_NOCLOSE);
 
-  if ((request->ssl = SSL_new (ctx)) == NULL)
+  if ((ssl = SSL_new (ctx)) == NULL)
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Error setting up SSL connection (SSL object)\n"));
-      gftp_disconnect (request);
+      gftp_ssl_abort (request, fd);
       return (GFTP_EFATAL);
     }
 
-  SSL_set_bio (request->ssl, bio, bio);
-  SSL_set_ex_data (request->ssl, gftp_ssl_get_index (), request);
+  SSL_set_bio (ssl, bio, bio);
+  SSL_set_ex_data (ssl, gftp_ssl_get_index (), request);
 
-  if (SSL_connect (request->ssl) <= 0)
+  /*
+   * for secondary connections, reuse the session ID from the
+   * primary connection.  this is required for FTPS data connections,
+   * which must reuse the control channel's session.
+   */
+  if (fd != request->datafd)
+    SSL_set_session (ssl, SSL_get1_session (getSSLForFd (request->datafd)));
+
+  if (SSL_connect (ssl) <= 0)
     {
-      gftp_disconnect (request);
+      gftp_ssl_abort (request, fd);
       return (GFTP_EFATAL);
     }
 
-  gftp_lookup_request_option (request, "verify_ssl_peer", &verify_ssl_peer);
+  setSSLForFd (fd, ssl);
 
-  if (verify_ssl_peer && 
-      (ret = gftp_ssl_post_connection_check (request)) != X509_V_OK)
+  /* perform cert check only on the main (control) channel */
+  if (fd == request->datafd)
     {
-      if (ret != X509_V_ERR_APPLICATION_VERIFICATION)
-        request->logging_function (gftp_logging_error, request,
-                                   _("Error with peer certificate: %s\n"),
-                                   X509_verify_cert_error_string (ret));
-      gftp_disconnect (request);
-      return (GFTP_EFATAL);
-    }
+      gftp_lookup_request_option (request, "verify_ssl_peer", &verify_ssl_peer);
 
+      if (verify_ssl_peer && 
+          (ret = gftp_ssl_post_connection_check (request)) != X509_V_OK)
+        {
+          if (ret != X509_V_ERR_APPLICATION_VERIFICATION)
+            request->logging_function (gftp_logging_error, request,
+                                       _("Error with peer certificate: %s\n"),
+                                       X509_verify_cert_error_string (ret));
+          gftp_ssl_abort (request, fd);
+          return (GFTP_EFATAL);
+        }
+    }
+  
   request->logging_function (gftp_logging_misc, request,
-                             "SSL connection established using %s (%s)\n", 
-                             SSL_get_cipher_version (request->ssl), 
-                             SSL_get_cipher_name (request->ssl));
+                             "SSL%s connection established using %s (%s)\n", 
+                             fd == request->datafd?"":" data", 
+                             SSL_get_cipher_version (ssl), 
+                             SSL_get_cipher_name (ssl));
+
+  /* restore the socket's previous blocking state */
+  if (non_blocking &&
+      (ret = gftp_fd_set_sockblocking (request, fd, 1)) < 0)
+    {
+      gftp_ssl_abort (request, fd);
+      return ret;
+    }
 
   return (0);
 }
 
+int
+gftp_ssl_session_setup (gftp_request * request)
+{
+  return gftp_ssl_session_setup_ex (request, request->datafd);
+}
+
+void
+gftp_ssl_session_close_ex (gftp_request * request, int fd)
+{
+  SSL* ssl = getSSLForFd (fd);
+  if(ssl)
+    {
+      SSL_shutdown (ssl);
+      SSL_free (ssl);
+      setSSLForFd(fd, NULL);
+    }
+}
+
+void
+gftp_ssl_session_close (gftp_request * request)
+{
+  gftp_ssl_session_close_ex (request, request->datafd);
+}
 
 ssize_t 
 gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
 {
-  ssize_t ret;
+  int ret;
   int err;
+  SSL* ssl = getSSLForFd (fd);
 
-  g_return_val_if_fail (request->ssl != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (ssl != NULL, GFTP_EFATAL);
 
   if (!gftp_ssl_initialized)
     {
@@ -437,14 +519,14 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
   ret = 0;
   do
     {
-      if ((ret = SSL_read (request->ssl, ptr, size)) < 0)
+      if ((ret = SSL_read (ssl, ptr, size)) < 0)
         { 
-          err = SSL_get_error (request->ssl, ret);
+          err = SSL_get_error (ssl, ret);
           if (errno == EINTR || errno == EAGAIN)
             {
               if (request->cancel)
                 {
-                  gftp_disconnect (request);
+                  gftp_ssl_abort (request, fd);
                   return (GFTP_ERETRYABLE);
                 }
 
@@ -454,7 +536,7 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
           request->logging_function (gftp_logging_error, request,
                                    _("Error: Could not read from socket: %s\n"),
                                     g_strerror (errno));
-          gftp_disconnect (request);
+          gftp_ssl_abort (request, fd);
 
           return (GFTP_ERETRYABLE);
         }
@@ -470,9 +552,10 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
 ssize_t 
 gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
 {
-  size_t ret, w_ret;
+  int ret, w_ret;
+  SSL* ssl = getSSLForFd (fd);
  
-  g_return_val_if_fail (request->ssl != NULL, GFTP_EFATAL);
+  g_return_val_if_fail (ssl != NULL, GFTP_EFATAL);
 
   if (!gftp_ssl_initialized)
     {
@@ -484,14 +567,16 @@ gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
   ret = 0;
   do
     {
-      w_ret = SSL_write (request->ssl, ptr, size);
+      w_ret = SSL_write (ssl, ptr, size);
       if (w_ret <= 0)
         {
-          if (errno == EINTR || errno == EAGAIN)
+          int ssl_err = SSL_get_error (ssl, w_ret);
+          if (ssl_err == SSL_ERROR_WANT_WRITE ||
+              errno == EINTR || errno == EAGAIN)
             {
               if (request != NULL && request->cancel)
                 {
-                  gftp_disconnect (request);
+                  gftp_ssl_abort (request, fd);
                   return (GFTP_ERETRYABLE);
                 }
 
@@ -501,7 +586,7 @@ gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
           request->logging_function (gftp_logging_error, request,
                                     _("Error: Could not write to socket: %s\n"),
                                     g_strerror (errno));
-          gftp_disconnect (request);
+          gftp_ssl_abort (request, fd);
 
           return (GFTP_ERETRYABLE);
         }

@@ -22,20 +22,28 @@
 
 
 #ifdef USE_SSL
+
 static int
 ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
-  int resetptr;
+  rfc959_parms * params;
+  int resetptr = 0, resetdata = 0;
   size_t ret;
 
-  if (request->cached)
+  params = request->protocol_data;
+  if (request->cached &&
+     request->read_function == gftp_ssl_read)
     {
       request->read_function = gftp_fd_read;
       request->write_function = gftp_fd_write;
       resetptr = 1;
+      if (params->data_conn_read == gftp_ssl_read)
+	{
+	  params->data_conn_read = gftp_fd_read;
+	  params->data_conn_write = gftp_fd_write;
+	  resetdata = 1;
+	}
     }
-  else
-    resetptr = 0;
 
   ret = rfc959_get_next_file (request, fle, fd);
 
@@ -43,11 +51,29 @@ ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
     {
       request->read_function = gftp_ssl_read;
       request->write_function = gftp_ssl_write;
+      if (resetdata)
+	{
+	  params->data_conn_read = gftp_ssl_read;
+	  params->data_conn_write = gftp_ssl_write;
+	}
     }
 
   return (ret);
 }
 
+static int 
+ftps_data_conn_tls_start (gftp_request * request)
+{
+  rfc959_parms * params = request->protocol_data;
+  return gftp_ssl_session_setup_ex (request, params->data_connection);
+}
+
+static void
+ftps_data_conn_tls_close (gftp_request * request)
+{
+  rfc959_parms * params = request->protocol_data;
+  gftp_ssl_session_close_ex (request, params->data_connection);
+}
 
 static int 
 ftps_auth_tls_start (gftp_request * request)
@@ -78,8 +104,10 @@ ftps_auth_tls_start (gftp_request * request)
     return (ret);
   else if (ret == '2')
     {
+      params->data_conn_tls_start = ftps_data_conn_tls_start;
       params->data_conn_read = gftp_ssl_read;
       params->data_conn_write = gftp_ssl_write;
+      params->data_conn_tls_close = ftps_data_conn_tls_close;
     }
   else
     {
