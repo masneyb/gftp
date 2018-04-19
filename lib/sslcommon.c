@@ -44,13 +44,13 @@ static gftp_config_vars config_vars[] =
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };  
 
-static GMutex ** gftp_ssl_mutexes = NULL;
+static GMutex * gftp_ssl_mutexes = NULL;
 static volatile int gftp_ssl_initialized = 0;
 static SSL_CTX * ctx = NULL;
 
 struct CRYPTO_dynlock_value
 { 
-  GMutex * mutex;
+  GMutex mutex;
 };
 
 
@@ -146,14 +146,24 @@ gftp_ssl_post_connection_check (gftp_request * request)
               if (!(meth = X509V3_EXT_get (ext)))
                 break;
 
+	      /*
+	       * The *_d2i functions side-effect the input pointer;
+	       * thus, we must make a mutable copy of the pointer
+	       * rather than passing in the one from the struct.
+	       * If we do not do this, it won't fault right away,
+	       * but it will fault later when we free the struct,
+	       * as the heap would be corrupt.
+	       */
+	      unsigned char* mutable_ptr = ext->value->data;
+
 #if (OPENSSL_VERSION_NUMBER > 0x00907000L)
               if (meth->it)
-                ext_str = ASN1_item_d2i (NULL, (const unsigned char **) &ext->value->data, ext->value->length,
+                ext_str = ASN1_item_d2i (NULL, &mutable_ptr, ext->value->length,
                                         ASN1_ITEM_ptr (meth->it));
               else
-                ext_str = meth->d2i (NULL, (const unsigned char **) &ext->value->data, ext->value->length);
+                ext_str = meth->d2i (NULL, &mutable_ptr, ext->value->length);
 #else
-              ext_str = meth->d2i(NULL, &ext->value->data, ext->value->length);
+              ext_str = meth->d2i(NULL, &mutable_ptr, ext->value->length);
 #endif
               val = meth->i2v(meth, ext_str, NULL);
 
@@ -209,9 +219,9 @@ static void
 _gftp_ssl_locking_function (int mode, int n, const char * file, int line)
 {
   if (mode & CRYPTO_LOCK)
-    g_mutex_lock (gftp_ssl_mutexes[n]);
+    g_mutex_lock (&gftp_ssl_mutexes[n]);
   else
-    g_mutex_unlock (gftp_ssl_mutexes[n]);
+    g_mutex_unlock (&gftp_ssl_mutexes[n]);
 }
 
 
@@ -233,7 +243,7 @@ _gftp_ssl_create_dyn_mutex (const char *file, int line)
   struct CRYPTO_dynlock_value *value;
 
   value = g_malloc0 (sizeof (*value));
-  g_mutex_init (value->mutex);
+  g_mutex_init (&value->mutex);
   return (value);
 }
 
@@ -243,9 +253,9 @@ _gftp_ssl_dyn_mutex_lock (int mode, struct CRYPTO_dynlock_value *l,
                           const char *file, int line)
 {
   if (mode & CRYPTO_LOCK)
-    g_mutex_lock (l->mutex);
+    g_mutex_lock (&l->mutex);
   else
-    g_mutex_unlock (l->mutex);
+    g_mutex_unlock (&l->mutex);
 }
 
 
@@ -253,7 +263,7 @@ static void
 _gftp_ssl_destroy_dyn_mutex (struct CRYPTO_dynlock_value *l,
                              const char *file, int line)
 {
-  g_mutex_clear(l->mutex);
+  g_mutex_clear(&l->mutex);
   g_free (l);
 }
 
@@ -271,7 +281,7 @@ _gftp_ssl_thread_setup (void)
   gftp_ssl_mutexes = g_malloc0 (CRYPTO_num_locks( ) * sizeof (*gftp_ssl_mutexes));
 
   for (i = 0; i < CRYPTO_num_locks ( ); i++)
-    g_mutex_init (gftp_ssl_mutexes[i]);
+    g_mutex_init (&gftp_ssl_mutexes[i]);
 
   CRYPTO_set_id_callback (_gftp_ssl_id_function);
   CRYPTO_set_locking_callback (_gftp_ssl_locking_function);
