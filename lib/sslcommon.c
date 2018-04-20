@@ -47,7 +47,7 @@ static gftp_config_vars config_vars[] =
 static GMutex * gftp_ssl_mutexes = NULL;
 static volatile int gftp_ssl_initialized = 0;
 static SSL_CTX * ctx = NULL;
-static GHashTable * ssl_map = NULL;
+static GHashTable * gftp_ssl_map = NULL;
 
 struct CRYPTO_dynlock_value
 { 
@@ -68,23 +68,23 @@ ssl_register_module (void)
 }
 
 static SSL*
-getSSLForFd (int fd)
+gftp_get_ssl_for_fd (int fd)
 {
-  SSL* ssl= ssl_map?(SSL*)g_hash_table_lookup (ssl_map, &fd):NULL;
+  SSL* ssl= gftp_ssl_map?(SSL*)g_hash_table_lookup (gftp_ssl_map, &fd):NULL;
   return ssl;
 }
 
 static void
-setSSLForFd (int fd, SSL* ssl)
+gftp_set_ssl_for_fd (int fd, SSL* ssl)
 {
   if (ssl)
     {
       int *key = g_new (gint, 1);
       *key = fd;
-      g_hash_table_insert (ssl_map, key, ssl);
+      g_hash_table_insert (gftp_ssl_map, key, ssl);
     }
   else
-    g_hash_table_remove (ssl_map, &fd);
+    g_hash_table_remove (gftp_ssl_map, &fd);
 }
 
 static int
@@ -140,7 +140,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
   X509_EXTENSION *ext;
   X509_NAME *subj;
   X509 *cert;
-  SSL* ssl = getSSLForFd (request->datafd);
+  SSL* ssl = gftp_get_ssl_for_fd (request->datafd);
  
   ok = 0;
   if (!(cert = SSL_get_peer_certificate (ssl)))
@@ -160,7 +160,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
             {
               STACK_OF(CONF_VALUE) *val;
               CONF_VALUE   *nval;
-              X509V3_EXT_METHOD *meth;
+              const X509V3_EXT_METHOD *meth;
               void *ext_str = NULL;
  
               if (!(meth = X509V3_EXT_get (ext)))
@@ -174,7 +174,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
 	       * but it will fault later when we free the struct,
 	       * as the heap would be corrupt.
 	       */
-	      unsigned char* mutable_ptr = ext->value->data;
+	      const unsigned char* mutable_ptr = ext->value->data;
 
 #if (OPENSSL_VERSION_NUMBER > 0x00907000L)
               if (meth->it)
@@ -358,7 +358,7 @@ gftp_ssl_startup (gftp_request * request)
       return (GFTP_EFATAL);
     }
 
-  ssl_map = g_hash_table_new_full (g_int_hash, g_int_equal, g_free, NULL);
+  gftp_ssl_map = g_hash_table_new_full (g_int_hash, g_int_equal, g_free, NULL);
 
   return (0);
 }
@@ -377,7 +377,7 @@ gftp_ssl_session_setup_ex (gftp_request * request, int fd)
   intptr_t verify_ssl_peer;
   BIO * bio;
   long ret;
-  SSL* ssl = getSSLForFd (fd);
+  SSL* ssl = gftp_get_ssl_for_fd (fd);
 
   /* ensure the data socket is open and tls is not yet started on it */
   g_return_val_if_fail (fd > 0, GFTP_EFATAL);
@@ -431,7 +431,7 @@ gftp_ssl_session_setup_ex (gftp_request * request, int fd)
    * which must reuse the control channel's session.
    */
   if (fd != request->datafd)
-    SSL_set_session (ssl, SSL_get1_session (getSSLForFd (request->datafd)));
+    SSL_set_session (ssl, SSL_get1_session (gftp_get_ssl_for_fd (request->datafd)));
 
   if (SSL_connect (ssl) <= 0)
     {
@@ -439,7 +439,7 @@ gftp_ssl_session_setup_ex (gftp_request * request, int fd)
       return (GFTP_EFATAL);
     }
 
-  setSSLForFd (fd, ssl);
+  gftp_set_ssl_for_fd (fd, ssl);
 
   /* perform cert check only on the main (control) channel */
   if (fd == request->datafd)
@@ -484,12 +484,12 @@ gftp_ssl_session_setup (gftp_request * request)
 void
 gftp_ssl_session_close_ex (gftp_request * request, int fd)
 {
-  SSL* ssl = getSSLForFd (fd);
+  SSL* ssl = gftp_get_ssl_for_fd (fd);
   if(ssl)
     {
       SSL_shutdown (ssl);
       SSL_free (ssl);
-      setSSLForFd(fd, NULL);
+      gftp_set_ssl_for_fd(fd, NULL);
     }
 }
 
@@ -504,7 +504,7 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
 {
   int ret;
   int err;
-  SSL* ssl = getSSLForFd (fd);
+  SSL* ssl = gftp_get_ssl_for_fd (fd);
 
   g_return_val_if_fail (ssl != NULL, GFTP_EFATAL);
 
@@ -553,7 +553,7 @@ ssize_t
 gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
 {
   int ret, w_ret;
-  SSL* ssl = getSSLForFd (fd);
+  SSL* ssl = gftp_get_ssl_for_fd (fd);
  
   g_return_val_if_fail (ssl != NULL, GFTP_EFATAL);
 
