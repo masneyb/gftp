@@ -39,6 +39,7 @@
 #define _LARGEFILE64_SOURCE 1
 #endif
 
+#include <sys/sysmacros.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
