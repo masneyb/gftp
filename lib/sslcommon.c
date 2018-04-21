@@ -338,6 +338,12 @@ gftp_ssl_startup (gftp_request * request)
   RAND_load_file (entropy_source, entropy_len);
 
   ctx = SSL_CTX_new (SSLv23_method ());
+  if (ctx == NULL)
+    {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Could not initialize SSL Context\n"));
+      return (GFTP_EFATAL);
+    }
 
   if (SSL_CTX_set_default_verify_paths (ctx) != 1)
     {

@@ -690,7 +690,8 @@ create_transfer (gftp_transfer * tdata)
   if (tdata->thread_id == NULL)
     tdata->thread_id = g_malloc0 (sizeof (pthread_t));
 
-  pthread_create (tdata->thread_id, NULL, _gftpui_transfer_files, tdata);
+  if (pthread_create (tdata->thread_id, NULL, _gftpui_transfer_files, tdata) != 0)
+    perror("pthread_create failed");
 }
 
 

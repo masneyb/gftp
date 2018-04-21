@@ -235,7 +235,8 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
   thread_data->cdata = cdata;
 
   handler = _gftpui_setup_wakeup_main_thread (cdata->request);
-  pthread_create (&wdata->tid, NULL, _gftpui_gtk_thread_func, thread_data);
+  if (pthread_create (&wdata->tid, NULL, _gftpui_gtk_thread_func, thread_data) != 0)
+    perror("pthread_create failed");
 
   while (wdata->request->stopable)
     {
