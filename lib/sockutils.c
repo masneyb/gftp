@@ -323,6 +323,24 @@ gftp_writefmt (gftp_request * request, int fd, const char *fmt, ...)
   return (ret);
 }
 
+int
+gftp_fd_get_sockblocking (gftp_request * request, int fd)
+{
+  int flags;
+
+  g_return_val_if_fail (fd >= 0, GFTP_EFATAL);
+
+  if ((flags = fcntl (fd, F_GETFL, 0)) < 0)
+    {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Cannot get socket flags: %s\n"),
+                                 g_strerror (errno));
+      gftp_disconnect (request);
+      return (GFTP_ERETRYABLE);
+    }
+
+  return (flags & O_NONBLOCK) != 0;
+}
 
 int
 gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)

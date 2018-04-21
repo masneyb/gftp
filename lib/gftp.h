@@ -485,9 +485,6 @@ struct gftp_request_tag
   gftp_config_vars * local_options_vars;
   int num_local_options_vars;
   GHashTable * local_options_hash;
-#ifdef USE_SSL
-  SSL * ssl;
-#endif
 
 #if GLIB_MAJOR_VERSION > 1
   GIConv iconv_to, iconv_from; 
@@ -1045,6 +1042,9 @@ int gftp_ssl_startup 			( gftp_request * request );
 
 int gftp_ssl_session_setup 		( gftp_request * request );
 
+int gftp_ssl_session_setup_ex 		( gftp_request * request,
+					  int fd );
+
 void gftp_ssl_free 			( gftp_request * request );
 
 ssize_t gftp_ssl_read 			( gftp_request * request, 
@@ -1056,6 +1056,10 @@ ssize_t gftp_ssl_write 			( gftp_request * request,
 					  const char *ptr, 
 					  size_t size, 
 					  int fd );
+void gftp_ssl_session_close_ex          ( gftp_request * request,
+					  int fd );
+
+void gftp_ssl_session_close             ( gftp_request * request );
 #endif /* USE_SSL */
 
 /* UI dependent functions that must be implemented */
@@ -1124,6 +1128,9 @@ ssize_t gftp_writefmt 			( gftp_request * request,
 					  int fd, 
 					  const char *fmt, 
 					  ... );
+
+int gftp_fd_get_sockblocking 		( gftp_request * request, 
+					  int fd );
 
 int gftp_fd_set_sockblocking 		( gftp_request * request, 
 					  int fd, 

@@ -29,10 +29,12 @@ struct rfc959_params_tag
   unsigned int is_ascii_transfer : 1,
                is_fxp_transfer : 1;
   int (*auth_tls_start) (gftp_request * request);
+  int (*data_conn_tls_start) (gftp_request * request);
   ssize_t (*data_conn_read) (gftp_request * request, void *ptr, size_t size,
                              int fd);
   ssize_t (*data_conn_write) (gftp_request * request, const char *ptr,
                               size_t size, int fd);
+  void (*data_conn_tls_close) (gftp_request * request);
 };
 
 typedef struct rfc959_params_tag rfc959_parms;

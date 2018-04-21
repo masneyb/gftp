@@ -660,6 +660,9 @@ rfc959_close_data_connection (gftp_request * request)
   parms = request->protocol_data;
   if (parms->data_connection != -1)
     {
+      if(parms->data_conn_tls_close != NULL)
+	parms->data_conn_tls_close(request);
+
       close (parms->data_connection);
       parms->data_connection = -1;
     }
@@ -671,12 +674,16 @@ rfc959_disconnect (gftp_request * request)
 {
   g_return_if_fail (request != NULL);
 
-  rfc959_close_data_connection (request);
   if (request->datafd > 0)
     {
+      rfc959_close_data_connection (request);
+
       request->logging_function (gftp_logging_misc, request,
 				 _("Disconnecting from site %s\n"),
 				 request->hostname);
+#ifdef USE_SSL
+      gftp_ssl_session_close (request);
+#endif
       close (request->datafd);
       request->datafd = -1;
     }
@@ -1081,6 +1088,10 @@ rfc959_accept_active_connection (gftp_request * request)
   close (parms->data_connection);
   parms->data_connection = infd;
 
+  if(parms->data_conn_tls_start != NULL &&
+     (ret = parms->data_conn_tls_start(request)) < 0)
+    return ret;
+
   if ((ret = gftp_fd_set_sockblocking (request, parms->data_connection, 1)) < 0)
     return (ret);
 
@@ -1209,6 +1220,11 @@ rfc959_setup_file_transfer (gftp_request * request, const char *filename,
   if (!passive_transfer &&
       (ret = rfc959_accept_active_connection (request)) < 0)
     return (ret);
+
+  if (passive_transfer &&
+      parms->data_conn_tls_start != NULL &&
+      (ret = parms->data_conn_tls_start (request)) < 0)
+    return ret;
 
   return (0);
 }
@@ -1372,7 +1388,7 @@ rfc959_abort_transfer (gftp_request * request)
   if (request->datafd > 0)
     {
       if ((ret = rfc959_read_response (request, 0)) < 0)
-        gftp_disconnect (request);
+	  gftp_disconnect (request);
     }
 
   return (0);
@@ -1382,6 +1398,7 @@ rfc959_abort_transfer (gftp_request * request)
 static int
 rfc959_list_files (gftp_request * request)
 {
+  rfc959_parms * params = request->protocol_data;
   intptr_t show_hidden_files, resolve_symlinks, passive_transfer;
   char *tempstr, parms[3];
   int ret;
@@ -1418,6 +1435,8 @@ rfc959_list_files (gftp_request * request)
   ret = 0;
   if (!passive_transfer)
     ret = rfc959_accept_active_connection (request);
+  else if (params->data_conn_tls_start != NULL)
+    ret = params->data_conn_tls_start(request);
 
   return (ret);
 }
@@ -1845,8 +1864,10 @@ rfc959_copy_param_options (gftp_request * dest_request,
   dparms->is_ascii_transfer = sparms->is_ascii_transfer;
   dparms->is_fxp_transfer = sparms->is_fxp_transfer;
   dparms->auth_tls_start = sparms->auth_tls_start;
+  dparms->data_conn_tls_start = sparms->data_conn_tls_start;
   dparms->data_conn_read = sparms->data_conn_read;
   dparms->data_conn_write = sparms->data_conn_write;
+  dparms->data_conn_tls_close = sparms->data_conn_tls_close;
 
   dest_request->read_function = src_request->read_function;
   dest_request->write_function = src_request->write_function;
@@ -1924,8 +1945,10 @@ rfc959_init (gftp_request * request)
   parms = request->protocol_data;
   parms->data_connection = -1; 
   parms->auth_tls_start = NULL;
+  parms->data_conn_tls_start = NULL;
   parms->data_conn_read = gftp_fd_read;
   parms->data_conn_write = gftp_fd_write;
+  parms->data_conn_tls_close = NULL;
 
   return (gftp_set_config_options (request));
 }
