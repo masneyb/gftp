@@ -341,7 +341,7 @@ CreateMenus (GtkWidget * parent)
     {N_("/Remote/Save Directory Listing..."), NULL, save_directory_listing, 0, MN_(NULL)},
     {N_("/Remote/Send SITE Command..."), NULL, gftpui_site_dialog, 0, MN_(NULL)},
     {N_("/Remote/_Change Directory"), NULL, gftpui_chdir_dialog, 0, MN_(NULL)},
-    {N_("/Remote/_Permisssions..."), "<control>P", chmod_dialog, 0, MN_(NULL)},
+    {N_("/Remote/_Permissions..."), "<control>P", chmod_dialog, 0, MN_(NULL)},
     {N_("/Remote/_New Folder..."), "<control>N", gftpui_mkdir_dialog, 0,
         MN_(NULL)},
     {N_("/Remote/Rena_me..."), "<control>M", gftpui_rename_dialog, 0,
