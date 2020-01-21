@@ -423,8 +423,34 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
     else
         sprintf(port_s,"%hu",port);
 
-    if ( getaddrinfo(host,port_s,&hints,&res) )
+    if ( (fd = getaddrinfo(host,port_s,&hints,&res)) != 0 )
     {
+        if ( fd != EAI_SYSTEM )
+        {
+           /* We need to set errno ourself */
+           switch (fd)
+           {
+               case EAI_SOCKTYPE:
+               case EAI_SERVICE:
+               case EAI_FAMILY:
+                  errno = EOPNOTSUPP;
+                  break;
+               case EAI_AGAIN:
+                  errno = EAGAIN;
+                  break;
+               case EAI_FAIL:
+                  errno = ECONNRESET;
+                  break;
+               case EAI_BADFLAGS:
+                  errno = EINVAL;
+                  break;
+               case EAI_MEMORY:
+                  errno = ENOMEM;
+                  break;
+               default:
+                  errno = EFAULT;
+           }
+        }
         return NULL; /* host not found */
     }
 
@@ -664,7 +690,7 @@ int fsp_readdir_native(FSP_DIR *dir,FSP_RDENTRY *entry, FSP_RDENTRY **result)
     unsigned char ftype;
     int namelen;
 
-    if (dir == NULL || entry == NULL || *result == NULL)
+    if (dir == NULL || entry == NULL || result == NULL)
         return -EINVAL;
     if (dir->dirpos<0 || dir->dirpos % 4)
         return -ESPIPE;
