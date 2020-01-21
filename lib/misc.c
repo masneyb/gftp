@@ -541,20 +541,12 @@ compare_request (gftp_request * request1, gftp_request * request2,
 gftp_transfer *
 gftp_tdata_new (void)
 {
-#if GLIB_MAJOR_VERSION == 1
-  static GStaticMutex init_mutex = G_STATIC_MUTEX_INIT;
-#endif
   gftp_transfer * tdata;
 
   tdata = g_malloc0 (sizeof (*tdata));
 
-#if GLIB_MAJOR_VERSION == 1
-  tdata->statmutex = init_mutex;
-  tdata->structmutex = init_mutex;
-#else
   g_mutex_init (&tdata->statmutex);
   g_mutex_init (&tdata->structmutex);
-#endif
 
   return (tdata);
 }
@@ -1168,10 +1160,7 @@ gftp_locale_init (void)
   setlocale (LC_ALL, "");
   textdomain ("gftp");
   bindtextdomain ("gftp", LOCALE_DIR);
-
-#if GLIB_MAJOR_VERSION > 1
   bind_textdomain_codeset ("gftp", "UTF-8");
-#endif
 
 #endif /* HAVE_GETTEXT */
 }

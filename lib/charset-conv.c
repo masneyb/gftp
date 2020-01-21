@@ -20,8 +20,6 @@
 
 #include "gftp.h"
 
-#if GLIB_MAJOR_VERSION > 1
-
 static /*@null@*/ char *
 _gftp_get_next_charset (char **curpos)
 {
@@ -225,38 +223,5 @@ gftp_filename_from_utf8 (gftp_request * request, const char *str,
 {
   return (_do_convert_string (request, 1, 0, str, dest_len, 1));
 }
-
-#else
-
-char *
-gftp_string_to_utf8 (gftp_request * request, const char *str, size_t dest_len)
-{
-  return (NULL);
-}
-
-
-char *
-gftp_string_from_utf8 (gftp_request * request, int force_local, const char *str,
-                       size_t dest_len)
-{
-  return (NULL);
-}
-
-
-char *
-gftp_filename_to_utf8 (gftp_request * request, const char *str, size_t dest_len)
-{
-  return (NULL);
-}
-
-
-char *
-gftp_filename_from_utf8 (gftp_request * request, int force_local,
-                         const char *str, size_t dest_len)
-{
-  return (NULL);
-}
-
-#endif
 
 
