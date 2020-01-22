@@ -416,148 +416,34 @@ clear_cache (gpointer data)
 void 
 about_dialog (gpointer data)
 {
-  GtkWidget * tempwid, * notebook, * box, * label, * view, * vscroll, * dialog;
-  char *tempstr, *temp1str, *no_license_agreement, *str, buf[255], *share_dir;
-  size_t len;
-  FILE * fd;
-  GtkTextBuffer * textbuf;
-  GtkTextIter iter;
-  gint textlen;
-
-  share_dir = gftp_get_share_dir ();
-  no_license_agreement = g_strdup_printf (_("Cannot find the license agreement file COPYING. Please make sure it is in either %s or in %s"), BASE_CONF_DIR, share_dir);
-
-  dialog = gtk_dialog_new_with_buttons (_("About gFTP"), NULL, 0,
-                                        GTK_STOCK_CLOSE,
-                                        GTK_RESPONSE_CLOSE,
-                                        NULL);
-
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "about", "gFTP");
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
-  gtk_widget_realize (dialog);
-
-  if (gftp_icon != NULL)
+    const gchar * authors[] =
     {
-      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, gftp_version);
+        "Brian Masney <masneyb@gftp.org>",
+        NULL
+    };
+    /* TRANSLATORS: Replace this string with your names, one name per line. */
+    gchar * translators = _("Translated by");
+    char * logopath = get_image_path ("gftp-logo.xpm", 0); /* misc-gtk.c */
+
+    /* Create and initialize the dialog. */
+    GtkWidget * about_dlg = gtk_about_dialog_new();
+    gtk_container_set_border_width(GTK_CONTAINER(about_dlg), 2);
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dlg), VERSION);
+    gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG(about_dlg), "gFTP");
+    if (logopath) {
+       gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about_dlg), gdk_pixbuf_new_from_file(logopath, NULL));
+       g_free (logopath);
     }
+    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about_dlg), "Copyright (C) 1998-2020");
+    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dlg), _("A multithreaded ftp client"));
+    gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(about_dlg), "This program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.");
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about_dlg), "http://www.gftp.org");
+    gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about_dlg), authors);
+    gtk_about_dialog_set_translator_credits(GTK_ABOUT_DIALOG(about_dlg), translators);
 
-  notebook = gtk_notebook_new ();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
-		      TRUE, 0);
-  gtk_widget_show (notebook);
-
-  box = gtk_vbox_new (TRUE, 5);
-  gtk_container_border_width (GTK_CONTAINER (box), 10);
-  gtk_widget_show (box);
-
-  tempwid = toolbar_image (dialog, "gftp-logo.xpm");
-  gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
-  gtk_widget_show (tempwid);
-
-  tempstr = g_strdup_printf (_("%s\nCopyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>\nOfficial Homepage: http://www.gftp.org/\n"), gftp_version);
-  str = _("Translated by");
-  if (strcmp (str, "Translated by") != 0)
-    {
-      tempstr = g_realloc (tempstr,
-                           (gulong) (strlen (tempstr) + strlen (str) + 1));
-      strcat (tempstr, str);
-    }
-  tempwid = gtk_label_new (tempstr);
-  g_free (tempstr);
-  gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
-  gtk_widget_show (tempwid);
-
-  label = gtk_label_new (_("About"));
-  gtk_widget_show (label);
-
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), box, label);
-
-  box = gtk_vbox_new (FALSE, 5);
-  gtk_container_border_width (GTK_CONTAINER (box), 10);
-  gtk_widget_show (box);
-
-  tempwid = gtk_table_new (1, 2, FALSE);
-  gtk_box_pack_start (GTK_BOX (box), tempwid, TRUE, TRUE, 0);
-  gtk_widget_show (tempwid);
-
-  view = gtk_text_view_new ();
-  gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
-  gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
-  gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
-
-  vscroll = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (vscroll),
-                                 GTK_POLICY_AUTOMATIC,
-                                 GTK_POLICY_AUTOMATIC);
-
-  gtk_container_add (GTK_CONTAINER (vscroll), view);
-  gtk_widget_show (view);
-
-  gtk_table_attach (GTK_TABLE (tempwid), vscroll, 0, 1, 0, 1,
-                    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-                    0, 0);
-  gtk_widget_show (vscroll);
-
-  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-
-  label = gtk_label_new (_("License Agreement"));
-  gtk_widget_show (label);
-
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), box, label);
-
-  g_signal_connect_swapped (GTK_OBJECT (dialog), "response",
-                            G_CALLBACK (gtk_widget_destroy),
-                            GTK_OBJECT (dialog));
-
-  tempstr = g_strconcat ("/usr/share/common-licenses/GPL", NULL);
-  if (access (tempstr, F_OK) != 0)
-    {
-      g_free (tempstr);
-      temp1str = g_strconcat (share_dir, "/COPYING", NULL);
-      tempstr = gftp_expand_path (NULL, temp1str);
-      g_free (temp1str);
-      if (access (tempstr, F_OK) != 0)
-	{
-	  g_free (tempstr);
-          tempstr = gftp_expand_path (NULL, BASE_CONF_DIR "/COPYING");
-	  if (access (tempstr, F_OK) != 0)
-	    {
-              textlen = gtk_text_buffer_get_char_count (textbuf);
-              gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
-              gtk_text_buffer_insert (textbuf, &iter, no_license_agreement, -1);
-	      gtk_widget_show (dialog);
-	      return;
-	    }
-	}
-    }
-
-  if ((fd = fopen (tempstr, "r")) == NULL)
-    {
-      textlen = gtk_text_buffer_get_char_count (textbuf);
-      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
-      gtk_text_buffer_insert (textbuf, &iter, no_license_agreement, -1);
-      gtk_widget_show (dialog);
-      g_free (tempstr);
-      return;
-    }
-  g_free (tempstr);
-
-  memset (buf, 0, sizeof (buf));
-  while ((len = fread (buf, 1, sizeof (buf) - 1, fd)))
-    {
-      buf[len] = '\0';
-      textlen = gtk_text_buffer_get_char_count (textbuf);
-      gtk_text_buffer_get_iter_at_offset (textbuf, &iter, textlen);
-      gtk_text_buffer_insert (textbuf, &iter, buf, -1);
-    }
-  fclose (fd);
-  gtk_widget_show (dialog);
-  g_free (no_license_agreement);
-  gftp_free_pixmap ("gftp-logo.xpm");
+    /* Display the dialog, wait for the user to click OK, and dismiss the dialog. */
+    gtk_dialog_run(GTK_DIALOG(about_dlg));
+    gtk_widget_destroy(about_dlg);
 }
 
 

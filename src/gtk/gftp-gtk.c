@@ -400,13 +400,13 @@ CreateMenus (GtkWidget * parent)
   i += len;
   /* Local Menu */
   local_start = i;
-  local_len = 21;
+  local_len = 22;
   create_item_factory (factory, local_len, menu_items + i, &window1);
 
   i += local_len;
   /* Remote Menu */
   remote_start = i;
-  remote_len = 21;
+  remote_len = 22;
   create_item_factory (factory, remote_len, menu_items + i, &window2);
 
   i += remote_len;
