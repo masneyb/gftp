@@ -5,8 +5,4 @@ find . -name Makefile.in -exec rm -f {} \;
 find . -name Makefile -exec rm -f {} \;
 find . -name "*~" -exec rm -f {} \;
 find . -name ".#*" -exec rm -f {} \;
-rm -rf intl
-rm -rf autom4te.cache
-rm -rf docs/gftp-faq docs/gftp-faq.junk
-rm -f po/Makefile.in.in po/*.gmo po/Makevars.template po/Rules-quot po/boldquot.sed po/en@boldquot.header po/en@quot.header po/insert-header.sin po/quot.sed po/remove-potcdate.sin config.log config.cache config.status config.h gftp.spec stamp-h stamp-h.in ABOUT-NLS INSTALL config.guess config.rpath config.status config.sub configure install-sh missing mkinstalldirs aclocal.m4 config.h.in .gdb_history TAGS depcomp po/stamp-po
-cd m4 && mv largefile.m4 largefile.4m && rm -f *.m4 && mv largefile.4m largefile.m4
+rm -rf $(cat .gitignore)

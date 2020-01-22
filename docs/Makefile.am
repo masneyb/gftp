@@ -11,18 +11,18 @@ Utilities_DATA = gftp.desktop
 Iconsdir = $(datadir)/pixmaps
 Icons_DATA = gftp.png
 
-html:
+html-local:
 	if test -w $(srcdir); then \
 		(cd $(srcdir); \
 		db2html -u gftp-faq.sgml); \
 	fi
 
-pdf:
+pdf-local:
 	if test -w $(srcdir); then \
 		(cd $(srcdir); db2pdf gftp-faq.sgml); \
 	fi
 
-clean:
+clean-local:
 	rm -rf gftp-faq gftp-faq.junk gftp-faq.pdf
 
 dist-hook: html
