@@ -9,7 +9,7 @@ AC_GNU_SOURCE
 AC_USE_SYSTEM_EXTENSIONS
 
 AC_ARG_ENABLE(gtk20, 
-              [  --disable-gtk20	  Don't look for GTK+ 2.0 libraries], 
+              [  --disable-gtk20	  Do not look for GTK+ 2.0 libraries], 
               enable_gtk20=$enableval, 
               enable_gtk20="yes")
 
@@ -205,8 +205,10 @@ if test "x$enable_gtkport" = "xyes" ; then
 
     if test "x$enable_gtk20" = "xyes" ; then
       if test "x$enable_gtk30" = "xyes" ; then
-        AC_MSG_ERROR(GTK 2.0 configuration cannot be built while experimental GTK 3.0 support is enabled)
-      fi 
+        enable_gtk20=no
+      fi
+    fi
+    if test "x$enable_gtk20" = "xyes" ; then
       dnl Test for gtk+-2.0
       PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk20 or install GTK+ 2.0))
 
@@ -218,9 +220,6 @@ if test "x$enable_gtkport" = "xyes" ; then
       fi
     fi
     if test "x$enable_gtk30" = "xyes" ; then
-      if test "x$enable_gtk20" = "xyes" ; then 
-        AC_MSG_ERROR(GTK 3.0 experimental configuration cannot be built while GTK 2.0 support is enabled)
-      fi
       dnl Test for gtk+-3.0
       PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 3.0. Run configure without --enable-gtk30 or install GTK+ 3.0))
     fi
