@@ -235,9 +235,9 @@ gftp_gtk_get_subdirs (gftp_transfer * transfer)
   cdata->dont_check_connection = 1;
   cdata->dont_refresh = 1;
 
-  timeout_num = gtk_timeout_add (100, progress_timeout, transfer);
+  timeout_num = g_timeout_add (100, progress_timeout, transfer);
   ret = gftpui_common_run_callback_function (cdata);
-  gtk_timeout_remove (timeout_num);
+  g_source_remove (timeout_num);
 
   numfiles = transfer->numfiles;
   numdirs = transfer->numdirs;
@@ -904,7 +904,7 @@ update_downloads (gpointer data)
       templist = templist->next;
     }
 
-  gtk_timeout_add (500, update_downloads, NULL);
+  g_timeout_add (1000, update_downloads, NULL);
   return (0);
 }
 
