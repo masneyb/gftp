@@ -487,12 +487,10 @@ struct gftp_request_tag
   int num_local_options_vars;
   GHashTable * local_options_hash;
 
-#if GLIB_MAJOR_VERSION > 1
   GIConv iconv_to, iconv_from; 
   unsigned int iconv_from_initialized : 1,
                iconv_to_initialized : 1;
   char *iconv_charset;
-#endif
 };
 
 

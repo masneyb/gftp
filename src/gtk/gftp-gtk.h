@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/*  gftp-gtk.h - include file for the gftp gtk+ 1.2 port                     */
+/*  gftp-gtk.h - include file for the gftp gtk+ port                         */
 /*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
@@ -50,25 +50,12 @@
   trequest->datafd > 0 && !trequest->always_connected && \
   compare_request (trequest, (wdata)->request, 0))
 
-#if GTK_MAJOR_VERSION == 1
-  #define gtk_widget_set_size_request(widget, width, height)	\
-				gtk_widget_set_usize (widget, width, height)
-#endif
-
-/* These 2 defines are for creating menu items with stock icons in GTK+ 2.0. 
-   If we are using version 1.2, it will disable the stock items since it's not
-   supported */
-
-#if GTK_MAJOR_VERSION < 2
-#define MS_(a) NULL
-#define MN_(a) a
-#else
+/* These 2 defines are for creating menu items with stock icons in GTK+ 2.0. */
 #define MS_(a) "<StockItem>",a
 #define MN_(a) a,NULL
-#endif
 
 /* These are used for the MakeEditDialog function. I have these types to make
-   it easier for creating dialogs with GTK+ 1.2 and GTK+ 2.0 */
+   it easier for creating dialogs with GTK+ 2.0 */
 
 typedef enum gftp_dialog_button_tag
 {
@@ -182,9 +169,7 @@ extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
                  * gftpui_command_widget, * download_left_arrow,
                  * upload_right_arrow, * openurl_btn;
 extern GtkAdjustment * logwdw_vadj;
-#if GTK_MAJOR_VERSION > 1
 extern GtkTextMark * logwdw_textmark;
-#endif
 extern int local_start, remote_start, trans_start;
 extern GHashTable * graphic_hash_table;
 extern GtkItemFactoryEntry * menus;

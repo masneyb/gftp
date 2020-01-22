@@ -247,12 +247,7 @@ _gftp_ssl_locking_function (int mode, int n, const char * file, int line)
 static unsigned long
 _gftp_ssl_id_function (void)
 { 
-#if GLIB_MAJOR_VERSION > 1
   return ((unsigned long) g_thread_self ());
-#else
-  /* FIXME - call pthread version. */
-  return (0);
-#endif
 } 
 
 
@@ -291,11 +286,6 @@ static void
 _gftp_ssl_thread_setup (void)
 {
   int i;
-
-#if G_MAJOR_VERSION == 1
-  /* Thread setup isn't supported in glib 1.2 yet */
-  return;
-#endif
 
   gftp_ssl_mutexes = g_malloc0 (CRYPTO_num_locks( ) * sizeof (*gftp_ssl_mutexes));
 
