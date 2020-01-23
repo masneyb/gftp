@@ -110,7 +110,7 @@ local_chdir (gftp_request * request, const char *directory)
       request->logging_function (gftp_logging_error, request,
                                  _("Could not change local directory to %s: %s\n"),
                                  directory, g_strerror (errno));
-      ret = GFTP_ERETRYABLE;
+      ret = GFTP_ECANIGNORE;
     }
 
   return (ret);
@@ -422,7 +422,7 @@ local_list_files (gftp_request * request)
       request->logging_function (gftp_logging_error, request,
                            _("Could not get local directory listing %s: %s\n"),
                            request->directory, g_strerror (errno));
-      return (GFTP_ERETRYABLE);
+      return (GFTP_ECANIGNORE);
     }
   else
     return (0);

@@ -92,6 +92,9 @@ gftpui_common_run_callback_function (gftpui_callback_data * cdata)
   if (ret == 0 && !cdata->dont_refresh)
     gftpui_refresh (cdata->uidata, !cdata->dont_clear_cache);
 
+  if(ret == GFTP_ECANIGNORE)
+    return GFTP_ECANIGNORE;
+
   return (ret == 0);
 }
 
@@ -1532,7 +1535,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
           if (gftp_abort_transfer (tdata->fromreq) != 0)
             gftp_disconnect (tdata->fromreq);
         }
-      else if (ret == GFTP_EFATAL)
+      else if (ret == GFTP_EFATAL || ret == GFTP_ECANIGNORE)
         skipped_files++;
       else if (ret < 0)
         {

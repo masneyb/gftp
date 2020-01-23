@@ -919,8 +919,10 @@ sshv2_read_status_response (gftp_request * request, sshv2_message * message,
 
       sshv2_message_free (message);
 
-      if (num == SSH_FX_PERMISSION_DENIED)
-        return (GFTP_EFATAL);
+      if ( num == SSH_FX_PERMISSION_DENIED 
+        || num == SSH_FX_NO_SUCH_FILE
+        || num == SSH_FX_FAILURE)
+        return (GFTP_ECANIGNORE);
       else
         return (GFTP_ERETRYABLE);
     }
@@ -939,12 +941,12 @@ sshv2_response_return_code (gftp_request * request, sshv2_message * message,
     {
       case SSH_FX_OK:
       case SSH_FX_EOF:
-      case SSH_FX_NO_SUCH_FILE:
-      case SSH_FX_FAILURE:
       case SSH_FX_OP_UNSUPPORTED:
         return (GFTP_ERETRYABLE);
+      case SSH_FX_FAILURE:
+      case SSH_FX_NO_SUCH_FILE:
       case SSH_FX_PERMISSION_DENIED:
-        return (GFTP_EFATAL);
+        return (GFTP_ECANIGNORE);
       default:
         return (sshv2_wrong_response (request, message));
     }

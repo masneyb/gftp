@@ -680,15 +680,21 @@ list_doaction (gftp_window_data * wdata)
   if (check_reconnect (wdata) < 0) 
     return;
 
+  success = 0;
   if (S_ISLNK (tempfle->st_mode) || S_ISDIR (tempfle->st_mode))
     {
-      directory = gftp_build_path (wdata->request, wdata->request->directory,
+      if(tempfle->st_mode & S_IXUSR)
+      {
+          directory = gftp_build_path (wdata->request, wdata->request->directory,
                                    tempfle->file, NULL);
-      success = gftpui_run_chdir (wdata, directory);
-      g_free (directory);
+          success = gftpui_run_chdir (wdata, directory);
+          g_free (directory);
+      }else{
+          ftp_log (gftp_logging_error, NULL,
+               _("Directory %s is not listable\n"),
+               tempfle->file);
+      }
     }
-  else
-    success = 0;
 
   if (!S_ISDIR (tempfle->st_mode) && !success)
     {
