@@ -1,8 +1,0 @@
-#!/bin/sh
-
-make distclean
-find . -name Makefile.in -exec rm -f {} \;
-find . -name Makefile -exec rm -f {} \;
-find . -name "*~" -exec rm -f {} \;
-find . -name ".#*" -exec rm -f {} \;
-rm -rf $(cat .gitignore)
