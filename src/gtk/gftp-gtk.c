@@ -1381,7 +1381,7 @@ main (int argc, char **argv)
 
   gftpui_common_about (ftp_log, NULL);
 
-  gtk_timeout_add (1000, update_downloads, NULL);
+  g_timeout_add (1000, update_downloads, NULL);
 
   _setup_window1 ();
   _setup_window2 (argc, argv);
