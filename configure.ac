@@ -14,15 +14,15 @@ LT_INIT
 # Init intltool
 IT_PROG_INTLTOOL
 
-AC_ARG_ENABLE(gtk20, 
-              [  --disable-gtk20	  Do not look for GTK+ 2.0 libraries], 
-              enable_gtk20=$enableval, 
-              enable_gtk20="yes")
+AC_ARG_ENABLE(gtk2, 
+              [  --disable-gtk2	  Do not look for GTK+ 2.0 libraries], 
+              enable_gtk2=$enableval, 
+              enable_gtk2="yes")
 
-AC_ARG_ENABLE(gtk30,
-              [  --enable-gtk30          Enable GTK+ 3.0 (Experimental)],
-              enable_gtk30=$enableval,
-              enable_gtk30="no")
+AC_ARG_ENABLE(gtk3,
+              [  --enable-gtk3          Enable GTK+ 3.0 (Experimental)],
+              enable_gtk3=$enableval,
+              enable_gtk3="no")
 
 AC_ARG_ENABLE(gtkport, 
               [  --disable-gtkport	  Disable compiling the GTK+ port], 
@@ -140,25 +140,25 @@ PKG_CHECK_MODULES(
 
 if test "x$enable_gtkport" = "xyes" ; then
 
-  if test "x$enable_gtk20" = "xno" ; then
-    if test "x$enable_gtk30" = "xno" ; then
+  if test "x$enable_gtk2" = "xno" ; then
+    if test "x$enable_gtk3" = "xno" ; then
       echo "Error: gtk2 and gtk3 are disabled. Not GTK port." ; 
       exit 1
     fi
   fi
-  if test "x$enable_gtk20" = "xyes" ; then
-    if test "x$enable_gtk30" = "xyes" ; then
-      enable_gtk20=no
+  if test "x$enable_gtk2" = "xyes" ; then
+    if test "x$enable_gtk3" = "xyes" ; then
+      enable_gtk2=no
     fi
   fi
-  if test "x$enable_gtk20" = "xyes" ; then
+  if test "x$enable_gtk2" = "xyes" ; then
     dnl Test for gtk+-2.0
-    PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.24.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk20 or install GTK+ 2.0))
+    PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.24.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk2 or install GTK+ 2.0))
     PKG_CHECK_MODULES([GTHREAD], gthread-2.0 >=  2.32.0, HAVE_GTHREADS="yes")
   fi
-  if test "x$enable_gtk30" = "xyes" ; then
+  if test "x$enable_gtk3" = "xyes" ; then
     dnl Test for gtk+-3.0
-    PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 3.0. Run configure without --enable-gtk30 or install GTK+ 3.0))
+    PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 3.0. Run configure without --enable-gtk3 or install GTK+ 3.0))
   fi
 
   if test "x$GFTP_GTK" = xgftp-gtk; then
