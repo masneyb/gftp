@@ -246,10 +246,64 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 }
 
 
+char *
+report_list_info(gftp_window_data * wdata)
+{
+  GList *templist;
+  int  filenum = 0, dirnum = 0, linknum = 0;
+  off_t filesize = 0;
+  gftp_file *fle;
+  char listreport[256] = "";
+  char files_str[50] = "";
+  char links_str[50] = "";
+  char dirs_str[50] = "";
+  char size_str[50] = "";
+
+  if(!wdata || !wdata->files)
+     return NULL;
+
+  templist=wdata->files;
+  while (templist != NULL)
+  {
+      fle=(gftp_file*)(templist->data);
+      if(fle->shown && strcmp(fle->file,".."))
+      {
+        if(S_ISLNK (fle->st_mode))      linknum++;
+        else if(S_ISDIR (fle->st_mode)) dirnum++;
+        else {
+           filenum++;
+           filesize += fle->size;
+        }
+      }
+      templist = templist->next;
+  }
+  if (!filenum && !dirnum && !linknum) {
+    return NULL;
+  }
+  if(filenum) {
+     snprintf(files_str, sizeof(files_str),  _(" Files: %d"), filenum);
+  }
+  if(dirnum) {
+     snprintf(dirs_str, sizeof(dirs_str), _(" Dirs: %d"), dirnum);
+  }
+  if(linknum) {
+     snprintf(links_str, sizeof(links_str), _(" Links: %d"), dirnum);
+  }
+  if(filesize) {
+     char fsize[40];
+     gftp_format_file_size(filesize, fsize, sizeof(fsize));
+     snprintf(size_str, sizeof(size_str), _(" Size: %s"), fsize);
+  }
+  snprintf(listreport, sizeof(listreport), " [%s%s%s%s ]",
+                             files_str, dirs_str, links_str, size_str);
+  return g_strdup(listreport);
+}
+
+
 void
 update_window (gftp_window_data * wdata)
 {
-  char *tempstr, *hostname, *fspec;
+  char *tempstr, *hostname, *fspec, *listinfo;
   int connected, start;
 
   connected = GFTP_IS_CONNECTED (wdata->request);
@@ -263,11 +317,16 @@ update_window (gftp_window_data * wdata)
       else
         hostname = wdata->request->hostname;
 
+      listinfo = report_list_info(wdata);
       tempstr = g_strconcat (hostname, *hostname == '\0' ? "[" : " [",
                              gftp_protocols[wdata->request->protonum].name,
                              wdata->request->cached ? _("] (Cached) [") : "] [",
-                             fspec, "]", current_wdata == wdata ? "*" : "", NULL);
+                             fspec, "]",
+                             listinfo == NULL ? "" : listinfo,
+                             current_wdata == wdata ? "*" : "",
+                             NULL);
       gtk_label_set (GTK_LABEL (wdata->hoststxt), tempstr);
+      g_free (listinfo);
       g_free (tempstr);
 
       if (wdata->request->directory != NULL)
