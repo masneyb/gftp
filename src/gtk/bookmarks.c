@@ -834,12 +834,7 @@ edit_entry (gpointer data)
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (bm_dialog)->vbox), 10);
   gtk_widget_realize (bm_dialog);
 
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (bm_dialog->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (bm_dialog->window, gftp_version);
-    }
+  set_window_icon(GTK_WINDOW(bm_dialog), NULL);
 
   notebook = gtk_notebook_new ();
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (bm_dialog)->vbox), notebook, TRUE,
@@ -1184,12 +1179,7 @@ edit_bookmarks (gpointer data)
                            GTK_WIN_POS_MOUSE);
   gtk_widget_realize (edit_bookmarks_dialog);
 
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (edit_bookmarks_dialog->window, NULL,
-                           gftp_icon->pixmap, gftp_icon->bitmap);
-      gdk_window_set_icon_name (edit_bookmarks_dialog->window, gftp_version);
-    }
+  set_window_icon(GTK_WINDOW(edit_bookmarks_dialog), NULL);
 
   accel_group = gtk_accel_group_new ();
   ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", accel_group,

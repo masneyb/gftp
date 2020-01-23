@@ -334,12 +334,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
   gtk_widget_realize (dialog);
 
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, gftp_version);
-    }
+  set_window_icon(GTK_WINDOW(dialog), NULL);
 
   table = gtk_table_new (1, 2, FALSE);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), table, TRUE, TRUE, 0);

@@ -907,15 +907,6 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "hostinfo", "Gftp");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
-  if (gftp_icon != NULL)
-    {
-      if ((tempstr = get_image_path (gftp_icon->filename, 0)) != NULL)
-        {
-         gtk_window_set_default_icon_from_file (tempstr, NULL);
-	 g_free (tempstr);
-        }
-    }
-
   vbox = gtk_vbox_new (FALSE, 6);
   gtk_container_border_width (GTK_CONTAINER (vbox), 5);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox, FALSE, FALSE, 0);
@@ -1255,12 +1246,7 @@ options_dialog (gpointer data)
   gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (gftp_option_data->dialog)->vbox), 2);
   gtk_widget_realize (gftp_option_data->dialog);
 
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (gftp_option_data->dialog->window, NULL,
-                           gftp_icon->pixmap, gftp_icon->bitmap);
-      gdk_window_set_icon_name (gftp_option_data->dialog->window, gftp_version);
-    }
+  set_window_icon(GTK_WINDOW(gftp_option_data->dialog), NULL);
 
   gftp_option_data->notebook = gtk_notebook_new ();
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (gftp_option_data->dialog)->vbox), 

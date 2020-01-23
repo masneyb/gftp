@@ -175,7 +175,6 @@ extern GHashTable * graphic_hash_table;
 extern GtkItemFactoryEntry * menus;
 extern GtkItemFactory * factory;
 extern pthread_mutex_t log_mutex;
-extern gftp_graphic * gftp_icon;
 extern pthread_t main_thread_id;
 extern GList * viewedit_processes;
 
@@ -369,6 +368,8 @@ void display_cached_logs			( void );
 
 char * get_image_path 				( char *filename, 
 						  int quit_on_err );
+
+void set_window_icon(GtkWindow *window, char *icon_name);
 
 /* options_dialog.c */
 void options_dialog 				( gpointer data );

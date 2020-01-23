@@ -440,6 +440,7 @@ about_dialog (gpointer data)
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about_dlg), "http://www.gftp.org");
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about_dlg), authors);
     gtk_about_dialog_set_translator_credits(GTK_ABOUT_DIALOG(about_dlg), translators);
+    set_window_icon(GTK_WINDOW(about_dlg), NULL);
 
     /* Display the dialog, wait for the user to click OK, and dismiss the dialog. */
     gtk_dialog_run(GTK_DIALOG(about_dlg));
