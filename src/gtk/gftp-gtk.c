@@ -34,7 +34,6 @@ GHashTable * graphic_hash_table = NULL;
 GtkItemFactoryEntry * menus = NULL;
 GtkItemFactory * factory = NULL;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
-gftp_graphic * gftp_icon;
 pthread_t main_thread_id;
 GList * viewedit_processes = NULL;
 
@@ -1365,13 +1364,7 @@ main (int argc, char **argv)
   gtk_window_set_policy (GTK_WINDOW (window), TRUE, TRUE, FALSE);
   gtk_widget_realize (window);
 
-  gftp_icon = open_xpm (window, "gftp.xpm");
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (window->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (window->window, gftp_version);
-    }
+  set_window_icon(GTK_WINDOW(window), NULL);
 
   other_wdata = &window1;
   current_wdata = &window2;

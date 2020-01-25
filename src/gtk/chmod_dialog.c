@@ -142,12 +142,7 @@ chmod_dialog (gpointer data)
   gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
   gtk_widget_realize (dialog);
 
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, gftp_version);
-    }
+  set_window_icon(GTK_WINDOW(dialog), NULL);
 
   tempwid = gtk_label_new (_("You can now adjust the attributes of your file(s)\nNote: Not all ftp servers support the chmod feature"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, FALSE,

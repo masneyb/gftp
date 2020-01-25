@@ -21,7 +21,6 @@
 
 static GtkWidget * statuswid;
 
-
 void
 remove_files_window (gftp_window_data * wdata)
 {
@@ -832,12 +831,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   gtk_grab_add (dialog);
   gtk_widget_realize (dialog);
 
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, gftp_version);
-    }
+  set_window_icon(GTK_WINDOW(dialog), NULL);
 
   ddata->dialog = dialog;
 
@@ -905,12 +899,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_grab_add (dialog);
   gtk_widget_realize (dialog);
 
-  if (gftp_icon != NULL)
-    {
-      gdk_window_set_icon (dialog->window, NULL, gftp_icon->pixmap,
-                           gftp_icon->bitmap);
-      gdk_window_set_icon_name (dialog->window, gftp_version);
-    }
+  set_window_icon(GTK_WINDOW(dialog), NULL);
 
   ddata->dialog = dialog;
 
@@ -1080,3 +1069,23 @@ get_image_path (char *filename, int quit_on_err)
   return (exfile);
 }
 
+
+void
+set_window_icon(GtkWindow *window, char *icon_name)
+{
+  GdkPixbuf *pixbuf;
+  char *img_path;
+  if (icon_name)
+    img_path = get_image_path (icon_name, 0);
+  else
+    img_path = get_image_path ("gftp.xpm", 0);
+  if (img_path) {
+    pixbuf = gdk_pixbuf_new_from_file(img_path, NULL);
+    g_free (img_path);
+    if (pixbuf) {
+      gtk_window_set_icon (window, pixbuf);
+      //gtk_window_set_icon_name (window, gftp_version);
+      g_object_unref(pixbuf);
+    }
+  }
+}
