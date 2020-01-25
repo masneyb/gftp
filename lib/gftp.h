@@ -191,6 +191,7 @@
 						   returned when a FXP transfer
 						   is requested */
 #define GFTP_ETIMEDOUT		-5		/* Connected timed out */
+#define GFTP_ECANIGNORE         -6              /* Error that can be ignored */
 
 /* Some general settings */
 #define BASE_CONF_DIR		"~/.gftp"
