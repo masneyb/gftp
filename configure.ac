@@ -74,11 +74,6 @@ AC_FUNC_STRFTIME
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(gai_strerror getaddrinfo getcwd gettimeofday getwd mkdir mktime putenv rmdir select socket strdup strstr strtod strtol uname grantpt openpty getdtablesize)
 
-# This is needed by fsplib. This check is from configure.ac in that distribution.
-AC_CHECK_TYPE(union semun, ,AC_DEFINE(_SEM_SEMUN_UNDEFINED,1,[Define if you do not have semun in sys/sem.h]),
-[#include <sys/types.h>
-])
-
 EXTRA_LIBS=""
 
 # FreeBSD needs this
@@ -216,7 +211,6 @@ AC_CONFIG_FILES(
 	docs/Makefile
 	docs/sample.gftp/Makefile
 	lib/Makefile
-	lib/fsplib/Makefile
 	src/gftp
 	src/Makefile
 	src/uicommon/Makefile

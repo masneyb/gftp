@@ -837,7 +837,6 @@ int gftp_parse_ls 			( gftp_request * request,
 #define GFTP_LOCAL_NUM				4
 #define GFTP_SSHV2_NUM				5
 #define GFTP_BOOKMARK_NUM			6
-#define GFTP_FSP_NUM				7
 
 #define GFTP_IS_CONNECTED(request)		((request) != NULL && \
                                                  ((request)->datafd > 0 || \
