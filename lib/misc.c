@@ -344,10 +344,6 @@ gftp_info (void)
   printf ("#define HAVE_GETDTABLESIZE\n");
 #endif
 
-#ifdef G_HAVE_GINT64
-  printf ("#define G_HAVE_GINT64\n");
-#endif
-
 #ifdef HAVE_LIBREADLINE
   printf ("#define HAVE_LIBREADLINE\n");
 #endif
