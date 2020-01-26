@@ -332,14 +332,6 @@ gftp_info (void)
   printf ("GFTP_OFF_T_PRINTF_MOD = %s\n", GFTP_OFF_T_PRINTF_MOD);
   printf ("GFTP_OFF_T_11PRINTF_MOD = %s\n", GFTP_OFF_T_11PRINTF_MOD);
 
-#ifdef HAVE_GETADDRINFO
-  printf ("#define HAVE_GETADDRINFO\n");
-#endif
-
-#ifdef HAVE_GAI_STRERROR
-  printf ("#define HAVE_GAI_STRERROR\n");
-#endif
-
 #ifdef HAVE_GETDTABLESIZE
   printf ("#define HAVE_GETDTABLESIZE\n");
 #endif
@@ -590,7 +582,6 @@ gftp_copy_request (gftp_request * req)
   newreq->logging_function = req->logging_function;
   newreq->ai_family = req->ai_family;
 
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   if (req->remote_addr == NULL)
     {
       newreq->remote_addr = NULL;
@@ -602,7 +593,6 @@ gftp_copy_request (gftp_request * req)
       memcpy (newreq->remote_addr, req->remote_addr, req->remote_addr_len);
       newreq->remote_addr_len = req->remote_addr_len;
     }
-#endif
 
   gftp_copy_local_options (&newreq->local_options_vars, 
                            &newreq->local_options_hash,

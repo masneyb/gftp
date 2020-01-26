@@ -155,10 +155,6 @@
 # define GFTP_LOG_FUNCTION_ATTRIBUTES
 #endif
 
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-# define HAVE_IPV6
-#endif
-
 #if defined (_LARGEFILE_SOURCE) && !defined (__hppa__) && !defined (__hppa)
 #define gftp_parse_file_size(str)	strtoll (str, NULL, 10)
 #else
@@ -1090,16 +1086,6 @@ struct addrinfo * lookup_host_with_getaddrinfo
 
 int gftp_connect_server_with_getaddrinfo
 					( gftp_request * request,
-					  char *service,
-					  char *proxy_hostname,
-					  unsigned int proxy_port );
-
-/* socket-connect-gethostbyname.c */
-int lookup_host_with_gethostbyname	( gftp_request *request,
-					  char *proxy_hostname,
-					  struct hostent *hostp );
-
-int gftp_connect_server_legacy		( gftp_request * request,
 					  char *service,
 					  char *proxy_hostname,
 					  unsigned int proxy_port );

@@ -868,8 +868,6 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 }
 
 
-#ifdef HAVE_IPV6
-
 static int
 rfc959_ipv6_data_connection_new (gftp_request * request)
 {
@@ -1021,8 +1019,6 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   return (0);
 }
 
-#endif /* HAVE_IPV6 */
-
 
 static int
 rfc959_data_connection_new (gftp_request * request, int dont_try_to_reconnect)
@@ -1032,14 +1028,10 @@ rfc959_data_connection_new (gftp_request * request, int dont_try_to_reconnect)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-#ifdef HAVE_IPV6
   if (request->ai_family == AF_INET6)
     ret = rfc959_ipv6_data_connection_new (request);
   else
     ret = rfc959_ipv4_data_connection_new (request);
-#else
-  ret = rfc959_ipv4_data_connection_new (request);
-#endif
 
   if (ret == GFTP_ETIMEDOUT && !dont_try_to_reconnect)
     {
@@ -1060,11 +1052,9 @@ rfc959_accept_active_connection (gftp_request * request)
   int infd, ret;
   intptr_t passive_transfer;
   rfc959_parms * parms;
-#ifdef HAVE_IPV6
   struct sockaddr_in6 cli_addr;
-#else
-  struct sockaddr_in cli_addr;
-#endif
+  //struct sockaddr_in cli_addr; //?
+
   socklen_t cli_addr_len;
 
   parms = request->protocol_data;
