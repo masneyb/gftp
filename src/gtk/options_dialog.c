@@ -149,7 +149,8 @@ _gen_combo_widget (gftp_options_dialog_data * option_data, char *label)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (tempwid);
 
-  combo = gtk_combo_new ();
+  //combo = gtk_combo_box_text_new_with_entry ();
+  combo = gtk_combo_box_text_new ();
   gtk_table_attach_defaults (GTK_TABLE (option_data->table), combo, 1, 2,
                              option_data->tbl_row_num - 1, 
                              option_data->tbl_row_num);
@@ -161,8 +162,7 @@ static void *
 _print_option_type_textcombo (gftp_config_vars * cv, void *user_data, void *value)
 {
   gftp_options_dialog_data * option_data;
-  GtkWidget * tempwid, * combo;
-  GList * widget_list;
+  GtkWidget * combo;
   int selitem, i;
   char **clist;
 
@@ -172,21 +172,15 @@ _print_option_type_textcombo (gftp_config_vars * cv, void *user_data, void *valu
   if (cv->listdata != NULL)
     {
       selitem = 0;
-      widget_list = NULL;
-
       clist = cv->listdata;
       for (i=0; clist[i] != NULL; i++)
         {
           if (value != NULL && strcasecmp ((char *) value, clist[i]) == 0)
             selitem = i;
 
-          tempwid = gtk_list_item_new_with_label (clist[i]);
-          gtk_widget_show (tempwid);
-          widget_list = g_list_append (widget_list, tempwid);
+          gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), clist[i]);
         }
-
-      gtk_list_prepend_items (GTK_LIST (GTK_COMBO (combo)->list), widget_list); 
-      gtk_list_select_item (GTK_LIST (GTK_COMBO (combo)->list), selitem);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(combo), selitem);
     }
 
   gtk_widget_show (combo);
@@ -208,7 +202,7 @@ _save_option_type_textcombo (gftp_config_vars * cv, void *user_data)
 
   option_data = user_data;
 
-  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cv->user_data)->entry));
+  tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cv->user_data));
 
   if (option_data->bm == NULL)
     gftp_set_global_option (cv->key, tempstr);
@@ -218,7 +212,7 @@ _save_option_type_textcombo (gftp_config_vars * cv, void *user_data)
 
 
 static void
-_textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
+on_textcomboedt_change (GtkComboBox* cb, gpointer data)
 {
   gftp_textcomboedt_widget_data * widdata;
   gftp_textcomboedt_data * tedata;
@@ -231,7 +225,7 @@ _textcomboedt_toggle (GtkList * list, GtkWidget * child, gpointer data)
   widdata = data;
   tedata = widdata->cv->listdata;
 
-  num = gtk_list_child_position (list, child);
+  num = gtk_combo_box_get_active( cb );
   isedit = tedata[num].flags & GFTP_TEXTCOMBOEDT_EDITABLE;
   gtk_text_view_set_editable (GTK_TEXT_VIEW (widdata->text), isedit);
 
@@ -330,7 +324,6 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
   gftp_options_dialog_data * option_data;
   gftp_textcomboedt_data * tedata;
   int i, selitem, edititem;
-  GList * widget_list;
   char *tempstr;
 
   option_data = user_data;
@@ -345,8 +338,6 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
   edititem = selitem = -1;
   if (cv->listdata != NULL)
     {
-      widget_list = NULL;
-
       tedata = cv->listdata;
       for (i=0; tedata[i].description != NULL; i++)
         {
@@ -357,12 +348,8 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
               strcasecmp (tempstr, tedata[i].text) == 0)
             selitem = i;
 
-          tempwid = gtk_list_item_new_with_label (tedata[i].description);
-          gtk_widget_show (tempwid);
-          widget_list = g_list_append (widget_list, tempwid);
+          gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), tedata[i].description);
         }
-
-      gtk_list_prepend_items (GTK_LIST (GTK_COMBO (combo)->list), widget_list); 
 
       if (selitem == -1 && edititem != -1)
         selitem = edititem;
@@ -406,10 +393,8 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
   widdata->cv = cv;
   widdata->custom_edit_value = tempstr;
 
-  gtk_signal_connect (GTK_OBJECT (GTK_COMBO (combo)->list),
-                      "select_child", 
-                      GTK_SIGNAL_FUNC (_textcomboedt_toggle), widdata);
-  gtk_list_select_item (GTK_LIST (GTK_COMBO (combo)->list), selitem);
+  g_signal_connect (combo, "changed", G_CALLBACK(on_textcomboedt_change), widdata);
+  gtk_combo_box_set_active (GTK_COMBO_BOX(combo), selitem);
   gtk_widget_show (combo);
 
   if (cv->comment != NULL)
