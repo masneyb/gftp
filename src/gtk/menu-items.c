@@ -19,6 +19,8 @@
 
 #include "gftp-gtk.h"
 
+static int combo_key2_pressed = 0;
+
 static void
 update_window_listbox (gftp_window_data * wdata)
 {
@@ -223,9 +225,26 @@ deselectall (gpointer data)
 }
 
 
-int
-chdir_edit (GtkWidget * widget, gpointer data)
+gboolean
+chdir_edit (GtkWidget * widget, GdkEventKey *event, gpointer data )
 {
+  if (event->type == GDK_KEY_PRESS) {
+    if (event->keyval == GDK_KEY_Return)
+       combo_key2_pressed = 1;
+    return FALSE;
+  }
+  else if (event->type == GDK_KEY_RELEASE) {
+    if (combo_key2_pressed == 0)
+      return FALSE;
+  }
+  else {
+    return FALSE;
+  }
+
+  if (event->keyval != GDK_KEY_Return) {
+    return FALSE;
+  }
+
   gftp_window_data * wdata;
   const char *edttxt; 
   char *tempstr;
@@ -238,11 +257,11 @@ chdir_edit (GtkWidget * widget, gpointer data)
   if (check_reconnect (wdata) < 0)
     return (0);
 
-  edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry));
+  edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(wdata->combo));
 
   if (!GFTP_IS_CONNECTED (wdata->request) && *edttxt != '\0')
     {
-      toolbar_hostedit (NULL, NULL);
+      toolbar_hostedit ();
       return (0);
     }
 

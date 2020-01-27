@@ -223,8 +223,7 @@ void listbox_get_drag_data 			( GtkWidget * widget,
 /* gftp-gtk.c */
 void gftp_gtk_init_request 			( gftp_window_data * wdata );
 
-void toolbar_hostedit 				( GtkWidget * widget, 
-						  gpointer data );
+void toolbar_hostedit (void);
 
 void sortrows 					( GtkCList * clist, 
 						  gint column, 
@@ -271,8 +270,9 @@ void selectallfiles 				( gpointer data );
 
 void deselectall 				( gpointer data );
 
-int chdir_edit					( GtkWidget * widget,
-						  gpointer data );
+gboolean chdir_edit					( GtkWidget * widget,
+						GdkEventKey *event,
+						gpointer data );
 
 void clearlog 					( gpointer data );
 

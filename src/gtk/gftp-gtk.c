@@ -37,6 +37,9 @@ pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_t main_thread_id;
 GList * viewedit_processes = NULL;
 
+gboolean on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data);
+static int combo_key_pressed = 0;
+
 static int
 get_column (GtkCListColumn * col)
 {
@@ -97,23 +100,23 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   ret = get_column (&GTK_CLIST (window2.listbox)->column[6]);
   gftp_set_global_option ("remote_attribs_width", GINT_TO_POINTER (ret));
 
-  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry));
+  tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(hostedit));
   gftp_set_global_option ("host_value", tempstr);
 
-  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (portedit)->entry));
+  tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(portedit));
   gftp_set_global_option ("port_value", tempstr);
 
-  tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry));
+  tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(useredit));
   gftp_set_global_option ("user_value", tempstr);
 
   gftp_lookup_global_option ("remember_last_directory",
                              &remember_last_directory);
   if (remember_last_directory)
     {
-      tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (window1.combo)->entry));
+      tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(window1.combo));
       gftp_set_global_option ("local_startup_directory", tempstr);
 
-      tempstr = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (window2.combo)->entry));
+      tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(window2.combo));
       gftp_set_global_option ("remote_startup_directory", tempstr);
     }
 
@@ -231,12 +234,12 @@ tb_openurl_dialog (gpointer data)
       return;
     }
 
-  edttxt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry));
+  edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(hostedit));
 
   if (GFTP_IS_CONNECTED (current_wdata->request))
     gftpui_disconnect (current_wdata);
   else if (edttxt != NULL && *edttxt != '\0')
-    toolbar_hostedit (NULL, NULL);
+    toolbar_hostedit ();
   else
     openurl_dialog (current_wdata);
 }
@@ -479,6 +482,8 @@ CreateConnectToolbar (GtkWidget * parent)
   };
   GtkWidget *toolbar, *box, *tempwid;
   gftp_config_list_vars * tmplistvar;
+  GList *glist;
+  GtkWidget *combo_entry;
   char *default_protocol, *tempstr;
   int i, j, num;
 
@@ -504,66 +509,81 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
-  hostedit = gtk_combo_new ();
-  gtk_combo_set_case_sensitive (GTK_COMBO (hostedit), 1);
-  gtk_widget_set_size_request (hostedit, 130, -1);
-
-  gtk_signal_connect (GTK_OBJECT (GTK_COMBO (hostedit)->entry), "activate",
-		      GTK_SIGNAL_FUNC (toolbar_hostedit), NULL);
+  hostedit = gtk_combo_box_text_new_with_entry ();
+  gtk_widget_set_size_request (hostedit, 120, -1);
 
   gftp_lookup_global_option ("hosthistory", &tmplistvar);
-  if (tmplistvar->list)
-    gtk_combo_set_popdown_strings (GTK_COMBO (hostedit), tmplistvar->list);
-
-  gtk_combo_disable_activate (GTK_COMBO (hostedit));
+  glist = tmplistvar->list;
+  gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(hostedit) )) );
+  while (glist) {
+    if (glist->data) {
+      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(hostedit), glist->data);
+    }
+    glist = glist->next;
+  }
 
   gftp_lookup_global_option ("host_value", &tempstr);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry), tempstr);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid),
-                                 GTK_COMBO (hostedit)->entry);
+  combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
+  g_signal_connect (GTK_WIDGET(combo_entry), "key_press_event",
+                   G_CALLBACK (on_key_press_combo_toolbar), NULL);
+  g_signal_connect (GTK_WIDGET(combo_entry), "key_release_event",
+                   G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
+  gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), hostedit, TRUE, TRUE, 0);
 
   tempwid = gtk_label_new (_("Port: "));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
-  portedit = gtk_combo_new ();
-  gtk_combo_set_case_sensitive (GTK_COMBO (portedit), 1);
+  portedit = gtk_combo_box_text_new_with_entry ();
   gtk_widget_set_size_request (portedit, 80, -1);
 
-  gtk_signal_connect (GTK_OBJECT (GTK_COMBO (portedit)->entry), "activate",
-		      GTK_SIGNAL_FUNC (toolbar_hostedit), NULL);
-
   gftp_lookup_global_option ("porthistory", &tmplistvar);
-  if (tmplistvar->list)
-    gtk_combo_set_popdown_strings (GTK_COMBO (portedit), tmplistvar->list);
-
-  gtk_combo_disable_activate (GTK_COMBO (portedit));
+  gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(portedit) )) );
+  glist = tmplistvar->list;
+  while (glist) {
+    if (glist->data) {
+      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(portedit), glist->data);
+    }
+    glist = glist->next;
+  }
 
   gftp_lookup_global_option ("port_value", &tempstr);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (portedit)->entry), tempstr);
+
+  combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(portedit)));
+  g_signal_connect (GTK_WIDGET(combo_entry), "key_press_event",
+                   G_CALLBACK (on_key_press_combo_toolbar), NULL);
+  g_signal_connect (GTK_WIDGET(combo_entry), "key_release_event",
+                   G_CALLBACK (on_key_press_combo_toolbar), NULL);
+
+  gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), portedit, FALSE, FALSE, 0);
 
   tempwid = gtk_label_new_with_mnemonic (_("_User: "));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
-  useredit = gtk_combo_new ();
-  gtk_combo_set_case_sensitive (GTK_COMBO (useredit), 1);
+  useredit = gtk_combo_box_text_new_with_entry ();
   gtk_widget_set_size_request (useredit, 75, -1);
 
-  gtk_signal_connect (GTK_OBJECT (GTK_COMBO (useredit)->entry), "activate",
-		      GTK_SIGNAL_FUNC (toolbar_hostedit), NULL);
-
   gftp_lookup_global_option ("userhistory", &tmplistvar);
-  if (tmplistvar->list)
-    gtk_combo_set_popdown_strings (GTK_COMBO (useredit), tmplistvar->list);
-
-  gtk_combo_disable_activate (GTK_COMBO (useredit));
+  gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(useredit) )) );
+  glist = tmplistvar->list;
+  while (glist) {
+    if (glist->data) {
+      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(useredit), glist->data);
+    }
+    glist = glist->next;
+  }
 
   gftp_lookup_global_option ("user_value", &tempstr);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (useredit)->entry), tempstr);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid),
-                                 GTK_COMBO (useredit)->entry);
+
+  combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(useredit)));
+  g_signal_connect (GTK_WIDGET(useredit), "key_press_event",
+                   G_CALLBACK (on_key_press_combo_toolbar), NULL);
+  g_signal_connect (GTK_WIDGET(useredit), "key_release_event",
+                   G_CALLBACK (on_key_press_combo_toolbar), NULL);
+
+  gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), useredit, TRUE, TRUE, 0);
 
   tempwid = gtk_label_new (_("Pass: "));
@@ -573,8 +593,10 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_widget_set_size_request (passedit, 55, -1);
 
   gtk_entry_set_visibility (GTK_ENTRY (passedit), FALSE);
-  gtk_signal_connect (GTK_OBJECT (passedit), "activate",
-		      GTK_SIGNAL_FUNC (toolbar_hostedit), NULL);
+  g_signal_connect (GTK_WIDGET (passedit), "key_press_event",
+                   G_CALLBACK (on_key_press_combo_toolbar), NULL);
+  g_signal_connect (GTK_WIDGET (passedit), "key_release_event",
+                   G_CALLBACK (on_key_press_combo_toolbar), NULL);
   gtk_box_pack_start (GTK_BOX (box), passedit, FALSE, FALSE, 0);
 
   tempwid = gtk_vbox_new (FALSE, 0);
@@ -617,7 +639,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_container_border_width (GTK_CONTAINER (stop_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), stop_btn, FALSE, FALSE, 0);
 
-  gtk_widget_grab_focus (GTK_COMBO (hostedit)->entry);
+  //gtk_widget_grab_focus (GTK_WIDGET (hostedit));
 
   return (toolbar);
 }
@@ -789,6 +811,8 @@ CreateFTPWindow (gftp_window_data * wdata)
   char *titles[7], tempstr[50], *startup_directory;
   GtkWidget *box, *scroll_list, *parent;
   intptr_t listbox_file_height, colwidth;
+  GtkWidget *combo_entry;
+  GList *glist;
 
   titles[0] = "";
   titles[1] = _("Filename");
@@ -814,21 +838,28 @@ CreateFTPWindow (gftp_window_data * wdata)
   gtk_container_border_width (GTK_CONTAINER (box), 5);
   gtk_container_add (GTK_CONTAINER (parent), box);
 
-  wdata->combo = gtk_combo_new ();
-  gtk_combo_set_case_sensitive (GTK_COMBO (wdata->combo), 1);
+  wdata->combo = gtk_combo_box_text_new_with_entry ();
   gtk_box_pack_start (GTK_BOX (box), wdata->combo, FALSE, FALSE, 0);
-  gtk_signal_connect (GTK_OBJECT (GTK_COMBO (wdata->combo)->entry),
-		      "activate", GTK_SIGNAL_FUNC (chdir_edit),
-		      (gpointer) wdata);
-  if (*wdata->history)
-    gtk_combo_set_popdown_strings (GTK_COMBO (wdata->combo), *wdata->history);
-  gtk_combo_disable_activate (GTK_COMBO (wdata->combo));
+
+  combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->combo)));
+  g_signal_connect (GTK_WIDGET(combo_entry), "key_press_event",
+                   G_CALLBACK (chdir_edit), NULL);
+  g_signal_connect (GTK_WIDGET(combo_entry), "key_release_event",
+                   G_CALLBACK (chdir_edit), wdata);
+
+  gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(wdata->combo) )) );
+  glist = *wdata->history;
+  while (glist) {
+    if (glist->data) {
+      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(wdata->combo), glist->data);
+    }
+    glist = glist->next;
+  }
 
   g_snprintf (tempstr, sizeof (tempstr), "%s_startup_directory",
               wdata->prefix_col_str);
   gftp_lookup_global_option (tempstr, &startup_directory);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (wdata->combo)->entry),
-                      startup_directory);
+  gtk_entry_set_text (GTK_ENTRY (combo_entry), startup_directory);
 
   wdata->hoststxt = gtk_label_new (NULL);
   gtk_misc_set_alignment (GTK_MISC (wdata->hoststxt), 0, 0);
@@ -1070,9 +1101,32 @@ _get_selected_protocol ()
   return (GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid))));
 }
 
+gboolean
+on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+  if (event->type == GDK_KEY_PRESS) {
+    if (event->keyval == GDK_KEY_Return)
+       combo_key_pressed = 1;
+    return FALSE;
+  }
+  else if (event->type == GDK_KEY_RELEASE) {
+    if (combo_key_pressed == 0)
+      return FALSE;
+  }
+  else {
+    return FALSE;
+  }
+
+  if (event->keyval != GDK_KEY_Return) {
+    return FALSE;
+  }
+  toolbar_hostedit();
+  combo_key_pressed = 0;
+  return TRUE;
+}
 
 void
-toolbar_hostedit (GtkWidget * widget, gpointer data)
+toolbar_hostedit(void)
 {
   int (*init) (gftp_request * request);
   gftp_config_list_vars * tmplistvar;
@@ -1095,7 +1149,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
   if (init (current_wdata->request) < 0)
     return;
  
-  txt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hostedit)->entry));
+  txt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(hostedit));
   if (strchr (txt, '/') != NULL) 
     {
       /* The user entered a URL in the host box... */
@@ -1128,13 +1182,13 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
       return;
     }
  
-  txt = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (portedit)->entry));
+  txt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(portedit));
   gftp_set_port (current_wdata->request, strtol (txt, NULL, 10));
 
   gftp_lookup_global_option ("porthistory", &tmplistvar);
   add_history (portedit, &tmplistvar->list, &tmplistvar->num_items, txt);
 
-  gftp_set_username (current_wdata->request, gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (useredit)->entry)));
+  gftp_set_username (current_wdata->request, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(useredit)));
   if (current_wdata->request->username != NULL)
     alltrim (current_wdata->request->username);
 
@@ -1146,7 +1200,7 @@ toolbar_hostedit (GtkWidget * widget, gpointer data)
   gftp_set_password (current_wdata->request,
 		     gtk_entry_get_text (GTK_ENTRY (passedit)));
 
-  gftp_set_directory (current_wdata->request, gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (current_wdata->combo)->entry)));
+  gftp_set_directory (current_wdata->request, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(current_wdata->combo)) );
   if (current_wdata->request->directory != NULL)
     alltrim (current_wdata->request->directory);
 
