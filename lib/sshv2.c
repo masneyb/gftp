@@ -65,11 +65,7 @@ typedef struct sshv2_params_tag
   unsigned int initialized : 1,
                dont_log_status : 1;              /* For uploading files */
 
-#ifdef G_HAVE_GINT64
   guint64 offset;
-#else
-  guint32 offset;
-#endif
 } sshv2_params;
 
 
@@ -980,15 +976,9 @@ sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
 static int
 sshv2_buffer_get_int64 (gftp_request * request, sshv2_message * message,
                         unsigned int expected_response, int check_response,
-#if G_HAVE_GINT64
                         guint64 * num)
 {
   guint64 snum;
-#else
-                        guint32 * num)
-{
-  guint32 snum;
-#endif
   guint32 hinum, lonum;
   int ret;
 
@@ -998,11 +988,7 @@ sshv2_buffer_get_int64 (gftp_request * request, sshv2_message * message,
   if ((ret = sshv2_buffer_get_int32 (request, message, 0, 0, &lonum)) < 0)
     return (ret);
 
-#if G_HAVE_GINT64
   snum = (gint64) lonum | ((gint64) hinum >> 32);
-#else
-  snum = lonum;
-#endif
 
   if (check_response && snum != expected_response)
     return (sshv2_response_return_code (request, message, snum));
@@ -1888,13 +1874,8 @@ static void
 sshv2_setup_file_offset (sshv2_params * params, char *buf)
 {
   guint32 hinum, lownum;
-#ifdef G_HAVE_GINT64
   hinum = htonl(params->offset >> 32);
   lownum = htonl((guint32) params->offset);
-#else
-  hinum = 0;
-  lownum = htonl (params->offset);
-#endif
 
   memcpy (buf + params->handle_len, &hinum, 4);
   memcpy (buf + params->handle_len + 4, &lownum, 4);
