@@ -825,6 +825,10 @@ int gftp_parse_ls 			( gftp_request * request,
 					  gftp_file *fle,
 					  int fd );
 
+void gftp_format_file_size(off_t bytes,
+                          char *out_buffer,
+                          size_t buffer_size);
+
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_FTPS_NUM				1

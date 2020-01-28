@@ -321,7 +321,7 @@ gftp_info (void)
   printf ("#define _FILE_OFFSET_BITS %d\n", _FILE_OFFSET_BITS);
 #endif
 
-  printf ("sizeof (off_t) = %lu\n", sizeof (off_t));
+  printf ("sizeof (off_t) = %i\n", sizeof (off_t));
 
 #ifdef HAVE_INTL_PRINTF
   printf ("#define HAVE_INTL_PRINTF\n");
@@ -1266,5 +1266,38 @@ gftp_get_share_dir (void)
     }
 
   return (gftp_share_dir);
+}
+
+void
+gftp_format_file_size(off_t bytes, char *out_buffer, size_t buffer_size) {
+  char tmp[20];
+  char *pointzero = 0;
+  off_t TB = 1024LL * 1024LL * 1024LL * 1024LL;
+  off_t GB = 1024LL * 1024LL * 1024LL;
+  off_t MB = 1024LL * 1024LL;
+  if (bytes >= TB) {
+    snprintf(tmp, sizeof(tmp), "%.1f", (double) bytes / TB);
+    pointzero = strstr(tmp, ".0");
+    if (pointzero) *pointzero = 0;
+    snprintf(out_buffer, buffer_size, "%s TiB", tmp);
+  }
+  else if (bytes >= GB) {
+    snprintf(tmp, sizeof(tmp), "%.1f", (double) bytes / GB);
+    pointzero = strstr(tmp, ".0");
+    if (pointzero) *pointzero = 0;
+    snprintf(out_buffer, buffer_size, "%s GiB", tmp);
+  }
+  else if (bytes >= MB) {
+    snprintf(tmp, sizeof(tmp), "%.1f", (double) bytes / MB);
+    pointzero = strstr(tmp, ".0");
+    if (pointzero) *pointzero = 0;
+    snprintf(out_buffer, buffer_size, "%s MiB", tmp);
+  }
+  else if (bytes >= 1024) {
+    snprintf(out_buffer, buffer_size, "%jd KiB", bytes / 1024);
+  }
+  else {
+    snprintf(out_buffer, buffer_size, "%jd B", bytes);
+  }
 }
 
