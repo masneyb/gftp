@@ -493,7 +493,9 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_container_add (GTK_CONTAINER (toolbar), box);
   gtk_container_border_width (GTK_CONTAINER (box), 5);
 
-  tempwid = toolbar_image (parent, "connect.xpm");
+  //tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  tempwid = gtk_image_new_from_stock (GTK_STOCK_NETWORK, GTK_ICON_SIZE_SMALL_TOOLBAR);
+
   openurl_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (openurl_btn), tempwid);
   gtk_signal_connect_object (GTK_OBJECT (openurl_btn), "clicked",
@@ -505,7 +507,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_container_border_width (GTK_CONTAINER (openurl_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), openurl_btn, FALSE, FALSE, 0);
 
-  tempwid = gtk_label_new_with_mnemonic (_("_Host: "));
+  tempwid = gtk_label_new_with_mnemonic (_("_Host:"));
 
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
@@ -532,7 +534,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), hostedit, TRUE, TRUE, 0);
 
-  tempwid = gtk_label_new (_("Port: "));
+  tempwid = gtk_label_new (_("Port:"));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
   portedit = gtk_combo_box_text_new_with_entry ();
@@ -559,7 +561,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), portedit, FALSE, FALSE, 0);
 
-  tempwid = gtk_label_new_with_mnemonic (_("_User: "));
+  tempwid = gtk_label_new_with_mnemonic (_("_User:"));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
   useredit = gtk_combo_box_text_new_with_entry ();
@@ -586,11 +588,11 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), useredit, TRUE, TRUE, 0);
 
-  tempwid = gtk_label_new (_("Pass: "));
+  tempwid = gtk_label_new (_("Pass:"));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
   passedit = gtk_entry_new ();
-  gtk_widget_set_size_request (passedit, 55, -1);
+  gtk_widget_set_size_request (passedit, 120, -1);
 
   gtk_entry_set_visibility (GTK_ENTRY (passedit), FALSE);
   g_signal_connect (GTK_WIDGET (passedit), "key_press_event",
@@ -627,11 +629,10 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_option_menu_set_menu (GTK_OPTION_MENU (optionmenu), protocol_menu);
   gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), num);
 
-  tempwid = gtk_image_new_from_stock (GTK_STOCK_STOP,
-                                      GTK_ICON_SIZE_LARGE_TOOLBAR);
+  //tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  tempwid = gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   stop_btn = gtk_button_new ();
-
   gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
   gtk_widget_set_sensitive (stop_btn, 0);
   gtk_signal_connect_object (GTK_OBJECT (stop_btn), "clicked",
