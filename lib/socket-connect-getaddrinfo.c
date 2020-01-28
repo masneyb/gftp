@@ -19,8 +19,6 @@
 
 #include "gftp.h"
 
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-
 static int
 get_port (struct addrinfo *addr)
 {
@@ -154,4 +152,3 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
   return (sock);
 }
 
-#endif

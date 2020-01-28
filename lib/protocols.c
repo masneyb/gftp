@@ -57,10 +57,8 @@ gftp_request_destroy (gftp_request * request, int free_request)
   if (request->protocol_data)
     g_free (request->protocol_data);
 
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   if (request->remote_addr != NULL)
     g_free (request->remote_addr);
-#endif
 
   if (request->local_options_vars != NULL)
     {

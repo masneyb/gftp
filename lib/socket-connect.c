@@ -31,11 +31,6 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
   gint32 netaddr;
   char *pos;
 
-#if !defined (HAVE_GETADDRINFO) || !defined (HAVE_GAI_STRERROR)
-  struct hostent host;
-  int ret;
-#endif
-
   gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
 
   if (proxy_hostname == NULL || *proxy_hostname == '\0')
@@ -44,22 +39,10 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
     return (proxy_hostname != NULL && 
             *proxy_hostname != '\0');
 
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
-
   *connect_data = lookup_host_with_getaddrinfo (request, service,
                                                 proxy_hostname, proxy_port);
   if (*connect_data == NULL)
     return (GFTP_ERETRYABLE);
-
-#else /* !HAVE_GETADDRINFO */
-
-  ret = lookup_host_with_gethostbyname (request, proxy_hostname, &host);
-  if (ret != 0)
-    return (ret);
-
-  connect_data = NULL; /* FIXME */
-
-#endif
 
   templist = proxy_hosts->list;
   while (templist != NULL)
@@ -108,14 +91,8 @@ gftp_connect_server (gftp_request * request, char *service,
 
   /* FIXME - pass connect_data to these functions. This is to bypass a
      second DNS lookup */
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GAI_STRERROR)
   sock = gftp_connect_server_with_getaddrinfo (request, service, proxy_hostname,
                                                proxy_port);
-#else
-  sock = gftp_connect_server_legacy (request, service, proxy_hostname,
-                                     proxy_port);
-#endif
-
   if (sock < 0)
     return (sock);
 
