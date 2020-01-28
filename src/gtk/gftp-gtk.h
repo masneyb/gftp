@@ -300,9 +300,6 @@ void update_window_info				( void );
 
 void update_window				( gftp_window_data * wdata );
 
-GtkWidget * toolbar_image			( GtkWidget * widget,
-						  char *filename );
-
 gftp_graphic * open_xpm				( GtkWidget * widget,
 						  char *filename );
 

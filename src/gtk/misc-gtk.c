@@ -398,25 +398,6 @@ update_window (gftp_window_data * wdata)
 }  
 
 
-GtkWidget *
-toolbar_image (GtkWidget * widget, char *filename)
-{
-  GtkWidget *pix;
-  char *exfile;
-
-  if (filename == NULL || *filename == '\0')
-    return (NULL);
-
-  if ((exfile = get_image_path (filename, 0)) == NULL)
-    return (NULL);
-
-  pix = gtk_image_new_from_file(exfile);
-
-  gtk_widget_show (pix);
-  return (pix);
-}
-
-
 gftp_graphic *
 open_xpm (GtkWidget * widget, char *filename)
 {
