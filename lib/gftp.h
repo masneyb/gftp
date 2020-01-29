@@ -1081,19 +1081,6 @@ int gftp_connect_server 		( gftp_request * request,
 					  char *proxy_hostname,
 					  unsigned int proxy_port );
 
-/* socket-connect-getaddrinfo.c */
-struct addrinfo * lookup_host_with_getaddrinfo
-					( gftp_request *request,
-					  char *service,
-					  char *proxy_hostname,
-					  int proxy_port );
-
-int gftp_connect_server_with_getaddrinfo
-					( gftp_request * request,
-					  char *service,
-					  char *proxy_hostname,
-					  unsigned int proxy_port );
-
 /* sockutils.c */
 ssize_t gftp_get_line 			( gftp_request * request, 
 					  /*@out@*/ gftp_getline_buffer ** rbuf,
