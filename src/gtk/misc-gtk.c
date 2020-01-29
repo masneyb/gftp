@@ -668,7 +668,9 @@ void
 add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
 {
   char *add_data[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-  char *tempstr, *str, *pos, *attribs;
+  char *tempstr, *attribs, *zeroseconds;
+  char time_str[60] = "";
+  struct tm timeinfo;
   gftp_config_list_vars * tmplistvar;
   gftp_file_extensions * tempext;
   GdkBitmap * bitmap;
@@ -750,12 +752,13 @@ add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
   gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 2, tempstr);
   g_free (tempstr);
 
-  if ((str = ctime (&fle->datetime)))
-    {
-      if ((pos = strchr (str, '\n')) != NULL)
-        *pos = '\0';
-      gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 3, str);
-    }
+  if (localtime_r( &fle->datetime, &timeinfo )) {
+    strftime(time_str, sizeof(time_str), "%Y/%m/%d %H:%M:%S ", &timeinfo);
+    zeroseconds = strstr(time_str, ":00 ");
+    if (zeroseconds) *zeroseconds = 0;
+    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 3, time_str);
+  }
+
   if (fle->user)
     gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 4, fle->user);
   if (fle->group)
