@@ -261,7 +261,6 @@ report_list_info(gftp_window_data * wdata)
   char files_str[50] = "";
   char links_str[50] = "";
   char dirs_str[50] = "";
-  char size_str[50] = "";
 
   if(!wdata || !wdata->files)
      return NULL;
@@ -285,21 +284,18 @@ report_list_info(gftp_window_data * wdata)
     return NULL;
   }
   if(filenum) {
-     snprintf(files_str, sizeof(files_str),  _(" Files: %d"), filenum);
-  }
-  if(dirnum) {
-     snprintf(dirs_str, sizeof(dirs_str), _(" Dirs: %d"), dirnum);
-  }
-  if(linknum) {
-     snprintf(links_str, sizeof(links_str), _(" Links: %d"), dirnum);
-  }
-  if(filesize) {
      char fsize[40];
      gftp_format_file_size(filesize, fsize, sizeof(fsize));
-     snprintf(size_str, sizeof(size_str), _(" Size: %s"), fsize);
+     snprintf(files_str, sizeof(files_str), _(" [ %d Files (%s) ] "), filenum, fsize);
   }
-  snprintf(listreport, sizeof(listreport), " [%s%s%s%s ]",
-                             files_str, dirs_str, links_str, size_str);
+  if(dirnum) {
+     snprintf(dirs_str, sizeof(dirs_str), _(" [ %d Dirs ] "), dirnum);
+  }
+  if(linknum) {
+     snprintf(links_str, sizeof(links_str), _(" [ %d Links ] "), linknum);
+  }
+  snprintf(listreport, sizeof(listreport), "%s%s%s",
+                             files_str, dirs_str, links_str);
   return g_strdup(listreport);
 }
 
