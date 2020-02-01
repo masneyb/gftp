@@ -596,6 +596,52 @@ CreateMenus (GtkWidget * parent)
         <menuitem action='/Help/About'/> \
       </menu> \
     </menubar> \
+    \
+    <popup action='L'> \
+        <menuitem action='/Local/OpenLocation'/> \
+        <menuitem action='/Local/Disconnect'/> \
+        <separator/> \
+        <menuitem action='/Local/ChangeFilespec'/> \
+        <menuitem action='/Local/ShowSelected'/> \
+        <menuitem action='/Local/NavigateUp'/> \
+        <menuitem action='/Local/SelectAll'/> \
+        <menuitem action='/Local/SelectAllFiles'/> \
+        <menuitem action='/Local/DeselectAll'/> \
+        <separator/> \
+        <menuitem action='/Local/SaveDirectoryListing'/> \
+        <menuitem action='/Local/SendSITECommand'/> \
+        <menuitem action='/Local/ChangeDirectory'/> \
+        <menuitem action='/Local/Permissions'/> \
+        <menuitem action='/Local/NewFolder'/> \
+        <menuitem action='/Local/Rename'/> \
+        <menuitem action='/Local/Delete'/> \
+        <menuitem action='/Local/Edit'/> \
+        <menuitem action='/Local/View'/> \
+        <menuitem action='/Local/Refresh'/> \
+    </popup> \
+      \
+    <popup action='R'> \
+        <menuitem action='/Remote/OpenLocation'/> \
+        <menuitem action='/Remote/Disconnect'/> \
+        <separator/> \
+        <menuitem action='/Remote/ChangeFilespec'/> \
+        <menuitem action='/Remote/ShowSelected'/> \
+        <menuitem action='/Remote/NavigateUp'/> \
+        <menuitem action='/Remote/SelectAll'/> \
+        <menuitem action='/Remote/SelectAllFiles'/> \
+        <menuitem action='/Remote/DeselectAll'/> \
+        <separator/> \
+        <menuitem action='/Remote/SaveDirectoryListing'/> \
+        <menuitem action='/Remote/SendSITECommand'/> \
+        <menuitem action='/Remote/ChangeDirectory'/> \
+        <menuitem action='/Remote/Permissions'/> \
+        <menuitem action='/Remote/NewFolder'/> \
+        <menuitem action='/Remote/Rename'/> \
+        <menuitem action='/Remote/Delete'/> \
+        <menuitem action='/Remote/Edit'/> \
+        <menuitem action='/Remote/View'/> \
+        <menuitem action='/Remote/Refresh'/> \
+    </popup> \
   </ui>";
 
   menus = menu_items;
@@ -610,6 +656,9 @@ CreateMenus (GtkWidget * parent)
      ftp_log (gftp_logging_error, NULL, "error");
   accel_group = gtk_ui_manager_get_accel_group(factory);
   GtkWidget* menu = gtk_ui_manager_get_widget(factory, "/M");
+
+  window1.ifactory = factory;
+  window2.ifactory = factory;
 
   //build_bookmarks_menu ();
 
@@ -630,11 +679,6 @@ CreateMenus (GtkWidget * parent)
   tempwid = gtk_item_factory_get_widget (factory, "/FTP/Window 2");
   gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
 
-  window1.ifactory = item_factory_new (GTK_TYPE_MENU, "<local>", NULL, "/Local");
-  create_item_factory (window1.ifactory, local_len - 2, menu_items + local_start + 2, &window1);
-
-  window2.ifactory = item_factory_new (GTK_TYPE_MENU, "<remote>", NULL, "/Remote");
-  create_item_factory (window2.ifactory, remote_len - 2, menu_items + remote_start + 2, &window2);
 #endif
 
   return (menu);
@@ -936,13 +980,18 @@ list_enter (GtkWidget * widget, GdkEventKey * event, gpointer data)
 static gint
 list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
 {
-  gftp_window_data * wdata;
+  gftp_window_data * wdata = data;
 
-  wdata = data;
-
-  if (event->button == 3)
-    gtk_item_factory_popup (wdata->ifactory, (guint) event->x_root,
-                            (guint) event->y_root, 3, event->time);
+  if (event->button == 3) {
+    if (strcmp (gftp_protocols[wdata->request->protonum].name, "Local") == 0) {
+      GtkWidget* menu = gtk_ui_manager_get_widget(factory, "/L");
+      gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
+    }
+    else {
+      GtkWidget* menu = gtk_ui_manager_get_widget(factory, "/R");
+      gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
+    }
+  }
   return (FALSE);
 }
 
