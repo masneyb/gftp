@@ -532,69 +532,6 @@ check_status (char *name, gftp_window_data *wdata,
 }
 
 
-static gchar *
-gftp_item_factory_translate (const char *path, gpointer func_data)
-{
-  const gchar *strip_prefix = func_data;
-  const char *result;
-  
-  if (strip_prefix)
-    {
-      char *tmp_path = g_strconcat (strip_prefix, path, NULL);
-      result = gettext (tmp_path);
-      if (result == tmp_path)
-        result = path;
-      g_free (tmp_path);
-    }
-  else
-    result = gettext (path);
-
-  return (char *)result;
-}
-
-
-GtkItemFactory *
-item_factory_new (GtkType container_type, const char *path,
-		  GtkAccelGroup *accel_group, const char *strip_prefix)
-{
-  GtkItemFactory *result = gtk_item_factory_new (container_type, path, accel_group);
-  gchar *strip_prefix_dup = g_strdup (strip_prefix);
-  
-  gtk_item_factory_set_translate_func (result, gftp_item_factory_translate,
-				       strip_prefix_dup, NULL);
-
-  if (strip_prefix_dup)
-    gtk_object_set_data_full (GTK_OBJECT (result), "gftp-strip-prefix",
-			      strip_prefix_dup, (GDestroyNotify)g_free);
-
-  return result;
-}
-
-
-void
-create_item_factory (GtkItemFactory * ifactory, gint n_entries,
-                     GtkItemFactoryEntry * entries, gpointer callback_data)
-{
-  const char *strip_prefix;
-  size_t strip_prefix_len;
-  int i;
-
-  strip_prefix = gtk_object_get_data (GTK_OBJECT (ifactory), "gftp-strip-prefix");
-  if (strip_prefix)
-    strip_prefix_len = strlen (strip_prefix);
-  else
-    strip_prefix_len = 0;
-
-  for (i = 0; i < n_entries; i++)
-    {
-      GtkItemFactoryEntry dummy_item = entries[i];
-      if (strip_prefix && strncmp (entries[i].path, strip_prefix, strip_prefix_len) == 0)
-	dummy_item.path += strip_prefix_len;
-      
-      gtk_item_factory_create_item (ifactory, &dummy_item, callback_data, 1);
-    }
-}
-
 void
 add_history (GtkWidget * widget, GList ** history, unsigned int *histlen, 
              const char *str)
