@@ -643,6 +643,19 @@ CreateMenus (GtkWidget * parent)
         <menuitem action='/Remote/View'/> \
         <menuitem action='/Remote/Refresh'/> \
     </popup> \
+    \
+    <popup action='T'> \
+        <menuitem action='/Transfer/Start'/> \
+        <menuitem action='/Transfer/Stop'/> \
+        <separator/> \
+        <menuitem action='/Transfer/SkipCurrentFile'/> \
+        <menuitem action='/Transfer/RemoveFile'/> \
+        <menuitem action='/Transfer/MoveFileUp'/> \
+        <menuitem action='/Transfer/MoveFileDown'/> \
+        <separator/> \
+        <menuitem action='/Transfer/RetrieveFiles'/> \
+        <menuitem action='/Transfer/PutFiles'/> \
+    </popup> \
   </ui>";
 
   menus = menu_items;
@@ -1149,14 +1162,12 @@ CreateFTPWindow (gftp_window_data * wdata)
 
 
 static gint
-menu_mouse_click (GtkWidget * widget, GdkEventButton * event, gpointer data)
+on_key_press_transfer (GtkWidget * widget, GdkEventButton * event, gpointer data)
 {
-  GtkItemFactory *mfactory;
-
-  mfactory = (GtkItemFactory *) data;
-  if (event->button == 3)
-    gtk_item_factory_popup (mfactory, (guint) event->x_root,
-			    (guint) event->y_root, 3, event->time);
+  if (event->button == 3) {
+    GtkWidget* menu = gtk_ui_manager_get_widget(factory, "/T");
+    gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
+  }
   return (FALSE);
 }
 
@@ -1254,11 +1265,8 @@ CreateFTPWindows (GtkWidget * ui)
     gtk_clist_set_column_width (GTK_CLIST (dlwdw), 0, tmplookup);
 
   gtk_container_add (GTK_CONTAINER (transfer_scroll), dlwdw);
-#if 0
-  // TODO - transfer popup menu
-  gtk_signal_connect (GTK_OBJECT (dlwdw), "button_press_event",
-        GTK_SIGNAL_FUNC (menu_mouse_click), (gpointer) dl_factory);
-#endif
+  g_signal_connect (GTK_WIDGET (dlwdw), "button_press_event",
+        G_CALLBACK (on_key_press_transfer), NULL);
   gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
 
   logpane = gtk_vpaned_new ();
