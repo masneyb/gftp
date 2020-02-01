@@ -25,7 +25,7 @@ static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
                  * bm_acctedit, * anon_chk, * bm_pathedit, * bm_protocol;
 static GHashTable * new_bookmarks_htable = NULL;
 static gftp_bookmarks_var * new_bookmarks = NULL;
-static GtkUIManager *ifactory;
+static GtkUIManager *b_uimanager;
 
 void
 run_bookmark (gpointer data)
@@ -1132,7 +1132,7 @@ bm_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
 {
   if (event->button == 3)
     {
-      GtkWidget* menu = gtk_ui_manager_get_widget(ifactory, "/popup");
+      GtkWidget* menu = gtk_ui_manager_get_widget(b_uimanager, "/popup");
       gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
     }
   else if (event->type == GDK_2BUTTON_PRESS)
@@ -1150,7 +1150,7 @@ edit_bookmarks (gpointer data)
   GtkWidget * scroll;
 
   // --delete
-  //GtkItemFactory * ifactory;
+  //GtkItemFactory * b_uimanager;
   //GtkItemFactoryEntry menu_items[] = {
   //*      path                    accel   callback       cb_action type         extra_data
   //  { N_("/_File"),               NULL, 0,                   0, "<Branch>",    NULL                 },
@@ -1221,24 +1221,24 @@ edit_bookmarks (gpointer data)
   set_window_icon(GTK_WINDOW(edit_bookmarks_dialog), NULL);
 
   // --delete
-  //ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", accel_group, NULL);
-  //create_item_factory (ifactory, 7, menu_items, NULL);
-  //create_item_factory (ifactory, 1, menu_items + 7, edit_bookmarks_dialog);
+  //b_uimanager = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", accel_group, NULL);
+  //create_item_factory (b_uimanager, 7, menu_items, NULL);
+  //create_item_factory (b_uimanager, 1, menu_items + 7, edit_bookmarks_dialog);
   //gtk_window_add_accel_group (GTK_WINDOW (edit_bookmarks_dialog), accel_group);
 
-  ifactory = gtk_ui_manager_new();
-  GtkActionGroup *actions = gtk_action_group_new("Actions");
-  //gtk_action_group_set_translate_func(actions, menu_translate, NULL, NULL);
-  gtk_action_group_add_actions(actions, menu_items, nmenu_items, NULL);
-  //gtk_action_group_add_toggle_actions (actions, toggle_entries, n_toggle_entries, NULL);
-  gtk_ui_manager_insert_action_group(ifactory, actions, 0);
-  g_object_unref(actions);
-  if (!gtk_ui_manager_add_ui_from_string(GTK_UI_MANAGER(ifactory), ui_info, -1, NULL))
+  b_uimanager = gtk_ui_manager_new();
+  GtkActionGroup *b_actions = gtk_action_group_new("BActions");
+  //gtk_action_group_set_translate_func(b_actions, menu_translate, NULL, NULL);
+  gtk_action_group_add_actions(b_actions, menu_items, nmenu_items, NULL);
+  //gtk_action_group_add_toggle_actions (b_actions, toggle_entries, n_toggle_entries, NULL);
+  gtk_ui_manager_insert_action_group(b_uimanager, b_actions, 0);
+  g_object_unref(b_actions);
+  if (!gtk_ui_manager_add_ui_from_string(GTK_UI_MANAGER(b_uimanager), ui_info, -1, NULL))
      ftp_log (gftp_logging_error, NULL, "error");
-  accel_group = gtk_ui_manager_get_accel_group(ifactory);
+  accel_group = gtk_ui_manager_get_accel_group(b_uimanager);
   gtk_window_add_accel_group(GTK_WINDOW(edit_bookmarks_dialog), accel_group);
 
-  GtkWidget* menu = gtk_ui_manager_get_widget(ifactory, "/M");
+  GtkWidget* menu = gtk_ui_manager_get_widget(b_uimanager, "/M");
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->vbox),
                       menu, FALSE, FALSE, 0);
   gtk_widget_show (menu);
