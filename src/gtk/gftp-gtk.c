@@ -19,7 +19,7 @@
 
 #include "gftp-gtk.h"
 
-static GtkItemFactory *log_factory, *dl_factory;
+
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
                  * gftpui_command_toolbar, * protocol_menu;
 
@@ -31,8 +31,10 @@ GtkAdjustment * logwdw_vadj;
 GtkTextMark * logwdw_textmark;
 int local_start, remote_start, trans_start;
 GHashTable * graphic_hash_table = NULL;
-GtkItemFactoryEntry * menus = NULL;
-GtkItemFactory * factory = NULL;
+
+GtkActionEntry * menus = NULL;
+GtkUIManager * factory = NULL;
+
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_t main_thread_id;
 GList * viewedit_processes = NULL;
@@ -272,175 +274,348 @@ navi_up_directory(gftp_window_data * wdata)
   g_free (directory);
 }
 
+// ===
+static void
+on_local_openurl_dialog(void) {
+  openurl_dialog(&window1);
+}
+static void
+on_remote_openurl_dialog(void) {
+  openurl_dialog(&window2);
+}
+
+static void
+on_local_gftpui_disconnect(void) {
+  gftpui_disconnect(&window1);
+}
+static void
+on_remote_gftpui_disconnect(void) {
+  gftpui_disconnect(&window2);
+}
+
+static void
+on_local_change_filespec(void) {
+  change_filespec(&window1);
+}
+static void
+on_remote_change_filespec(void) {
+  change_filespec(&window2);
+}
+
+static void
+on_local_show_selected(void) {
+  show_selected(&window1);
+}
+static void
+on_remote_show_selected(void) {
+  show_selected(&window2);
+}
+
+static void
+on_local_navi_up_directory(void) {
+  navi_up_directory(&window1);
+}
+static void
+on_remote_navi_up_directory(void) {
+  navi_up_directory(&window2);
+}
+
+static void
+on_local_selectall(void) {
+  selectall(&window1);
+}
+static void
+on_remote_selectall(void) {
+  selectall(&window2);
+}
+
+static void
+on_local_selectallfiles(void) {
+  selectallfiles(&window1);
+}
+static void
+on_remote_selectallfiles(void) {
+  selectallfiles(&window2);
+}
+
+static void
+on_local_deselectall(void) {
+  deselectall(&window1);
+}
+static void
+on_remote_deselectall(void) {
+  deselectall(&window2);
+}
+
+static void
+on_local_save_directory_listing(void) {
+  save_directory_listing(&window1);
+}
+static void
+on_remote_save_directory_listing(void) {
+  save_directory_listing(&window2);
+}
+
+static void
+on_local_gftpui_site_dialog(void) {
+  gftpui_site_dialog(&window1);
+}
+static void
+on_remote_gftpui_site_dialog(void) {
+  gftpui_site_dialog(&window2);
+}
+
+static void
+on_local_gftpui_chdir_dialog(void) {
+  gftpui_chdir_dialog(&window1);
+}
+static void
+on_remote_gftpui_chdir_dialog(void) {
+  gftpui_chdir_dialog(&window2);
+}
+
+static void
+on_local_chmod_dialog(void) {
+  chmod_dialog(&window1);
+}
+static void
+on_remote_chmod_dialog(void) {
+  chmod_dialog(&window2);
+}
+
+static void
+on_local_gftpui_mkdir_dialog(void) {
+  gftpui_mkdir_dialog(&window1);
+}
+static void
+on_remote_gftpui_mkdir_dialog(void) {
+  gftpui_mkdir_dialog(&window2);
+}
+
+static void
+on_local_gftpui_rename_dialog(void) {
+  gftpui_rename_dialog(&window1);
+}
+static void
+on_remote_gftpui_rename_dialog(void) {
+  gftpui_rename_dialog(&window2);
+}
+
+static void
+on_local_delete_dialog(void) {
+  delete_dialog(&window1);
+}
+static void
+on_remote_delete_dialog(void) {
+  delete_dialog(&window2);
+}
+
+static void
+on_local_edit_dialog(void) {
+  edit_dialog(&window1);
+}
+static void
+on_remote_edit_dialog(void) {
+  edit_dialog(&window2);
+}
+
+static void
+on_local_view_dialog(void) {
+  view_dialog(&window1);
+}
+static void
+on_remote_view_dialog(void) {
+  view_dialog(&window2);
+}
+
+static void
+on_local_gftp_gtk_refresh(void) {
+  gftp_gtk_refresh(&window1);
+}
+static void
+on_remote_gftp_gtk_refresh(void) {
+  gftp_gtk_refresh(&window2);
+}
+// ===
 
 static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
-  int local_len, remote_len, len, i, trans_len, log_len, tools_len, log_start;
   GtkAccelGroup * accel_group;
   intptr_t ascii_transfers;
   GtkWidget * tempwid;
-  static GtkItemFactoryEntry menu_items[] = {
-    {N_("/_FTP"), NULL, 0, 0, MN_("<Branch>")},
-    {N_("/FTP/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/FTP/Window _1"), "<control>1", change_setting, GFTP_MENU_ITEM_WIN1,
-     MN_("<RadioItem>")},
-    {N_("/FTP/Window _2"), "<control>2", change_setting, GFTP_MENU_ITEM_WIN2,
-     MN_("/FTP/Window 1")},
-    {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/FTP/_Ascii"), NULL, change_setting, GFTP_MENU_ITEM_ASCII,
-     MN_("<RadioItem>")},
-    {N_("/FTP/_Binary"), NULL, change_setting, GFTP_MENU_ITEM_BINARY,
-     MN_("/FTP/Ascii")},
-    {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/FTP/_Preferences..."), NULL, options_dialog, 0,
-	MS_(GTK_STOCK_PREFERENCES)},
-    {N_("/FTP/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/FTP/_Quit"), "<control>Q", _gftp_menu_exit, 0, MS_(GTK_STOCK_QUIT)},
-    {N_("/_Local"), NULL, 0, 0, MN_("<Branch>")},
-    {N_("/Local/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Local/_Open Location..."), "<control><shift>O", openurl_dialog, 0,
-        MS_(GTK_STOCK_OPEN)},
-    {N_("/Local/D_isconnect"), "<control><shift>I", gftpui_disconnect, 0, MS_(GTK_STOCK_CLOSE)},
-    {N_("/Local/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/Local/Change _Filespec..."), "<control><shift>F", change_filespec, 0,
-     MN_(NULL)},
-    {N_("/Local/_Show selected"), NULL, show_selected, 0, MN_(NULL)},
-    {N_("/Local/Navigate _up"), "<alt>Up", navi_up_directory, 0, MN_(NULL)},
-    {N_("/Local/Select _All"), "<control><shift>A", selectall, 0, MN_(NULL)},
-    {N_("/Local/Select All Files"), NULL, selectallfiles, 0, MN_(NULL)},
-    {N_("/Local/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
-    {N_("/Local/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/Local/Save Directory Listing..."), NULL, save_directory_listing, 0, MN_(NULL)},
-    {N_("/Local/Send SITE Command..."), NULL, gftpui_site_dialog, 0, MN_(NULL)},
-    {N_("/Local/_Change Directory"), NULL, gftpui_chdir_dialog, 0, MN_(NULL)},
-    {N_("/Local/_Permissions..."), "<control><shift>P", chmod_dialog, 0,
-        MN_(NULL)},
-    {N_("/Local/_New Folder..."), "<control><shift>N", gftpui_mkdir_dialog, 0, MN_(NULL)},
-    {N_("/Local/Rena_me..."), "<control><shift>M", gftpui_rename_dialog, 0,
-        MN_(NULL)},
-    {N_("/Local/_Delete..."), "<control><shift>D", delete_dialog, 0,
-        MN_(NULL)},
-    {N_("/Local/_Edit..."), "<control><shift>E", edit_dialog, 0, MN_(NULL)},
-    {N_("/Local/_View..."), "<control><shift>L", view_dialog, 0, MN_(NULL)},
-    {N_("/Local/_Refresh"), "<control><shift>R", gftp_gtk_refresh, 0,
-        MS_(GTK_STOCK_REFRESH)},
-    {N_("/_Remote"), NULL, 0, 0, MN_("<Branch>")},
-    {N_("/Remote/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Remote/_Open Location..."), "<control>O", openurl_dialog, 0,
-	MS_(GTK_STOCK_OPEN)},
-    {N_("/Remote/D_isconnect"), "<control>I", gftpui_disconnect, 0,
-	MS_(GTK_STOCK_CLOSE)},
-    {N_("/Remote/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/Remote/Change _Filespec..."), "<control>F", change_filespec, 0,
-        MN_(NULL)},
-    {N_("/Remote/_Show selected"), NULL, show_selected, 0, MN_(NULL)},
-    {N_("/Remote/Navigate _up"), "<alt>Up", navi_up_directory, 0, MN_(NULL)},
-    {N_("/Remote/Select _All"), "<control>A", selectall, 0, MN_(NULL)},
-    {N_("/Remote/Select All Files"), NULL, selectallfiles, 0, MN_(NULL)},
-    {N_("/Remote/Deselect All"), NULL, deselectall, 0, MN_(NULL)},
-    {N_("/Remote/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/Remote/Save Directory Listing..."), NULL, save_directory_listing, 0, MN_(NULL)},
-    {N_("/Remote/Send SITE Command..."), NULL, gftpui_site_dialog, 0, MN_(NULL)},
-    {N_("/Remote/_Change Directory"), NULL, gftpui_chdir_dialog, 0, MN_(NULL)},
-    {N_("/Remote/_Permissions..."), "<control>P", chmod_dialog, 0, MN_(NULL)},
-    {N_("/Remote/_New Folder..."), "<control>N", gftpui_mkdir_dialog, 0,
-        MN_(NULL)},
-    {N_("/Remote/Rena_me..."), "<control>M", gftpui_rename_dialog, 0,
-        MN_(NULL)},
-    {N_("/Remote/_Delete..."), "<control>D", delete_dialog, 0, MN_(NULL)},
-    {N_("/Remote/_Edit..."), "<control>E", edit_dialog, 0, MN_(NULL)},
-    {N_("/Remote/_View..."), "<control>L", view_dialog, 0, MN_(NULL)},
-    {N_("/Remote/_Refresh"), "<control>R", gftp_gtk_refresh, 0,
-        MS_(GTK_STOCK_REFRESH)},
-    {N_("/_Bookmarks"), NULL, 0, 0, MN_("<Branch>")},
-    {N_("/Bookmarks/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Bookmarks/Add _Bookmark"), "<control>B", add_bookmark, 0,
-	MS_(GTK_STOCK_ADD)},
-    {N_("/Bookmarks/Edit Bookmarks"), NULL, edit_bookmarks, 0, MN_(NULL)},
-    {N_("/Bookmarks/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/_Transfer"), NULL, 0, 0, MN_("<Branch>")},
-    {N_("/Transfer/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Transfer/_Start"), NULL, start_transfer, 0, MN_(NULL)},
-    {N_("/Transfer/St_op"), NULL, stop_transfer, 0,
-	MS_(GTK_STOCK_STOP)},
-    {N_("/Transfer/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/Transfer/Skip _Current File"), NULL, skip_transfer, 0, MN_(NULL)},
-    {N_("/Transfer/_Remove File"), NULL, remove_file_transfer, 0,
-	MS_(GTK_STOCK_DELETE)},
-    {N_("/Transfer/Move File _Up"), NULL, move_transfer_up, 0,
-	MS_(GTK_STOCK_GO_UP)},
-    {N_("/Transfer/Move File _Down"), NULL, move_transfer_down, 0,
-	MS_(GTK_STOCK_GO_DOWN)},
-    {N_("/Transfer/sep"), NULL, 0, 0, MN_("<Separator>")},
-    {N_("/Transfer/_Retrieve Files"), "<control>R", get_files, 0, MN_(NULL)},
-    {N_("/Transfer/_Put Files"), "<control>U", put_files, 0, MN_(NULL)},
-    {N_("/L_og"), NULL, 0, 0, MN_("<Branch>")},
-    {N_("/Log/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Log/_Clear"), NULL, clearlog, 0, MS_(GTK_STOCK_CLEAR)},
-    {N_("/Log/_View"), NULL, viewlog, 0, MN_(NULL)},
-    {N_("/Log/_Save..."), NULL, savelog, 0, MS_(GTK_STOCK_SAVE)},
-    {N_("/Tool_s"), NULL, 0, 0, MN_("<Branch>")},
-    {N_("/Tools/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Tools/C_ompare Windows"), NULL, compare_windows, 0, MN_(NULL)},
-    {N_("/Tools/_Clear Cache"), NULL, clear_cache, 0, MS_(GTK_STOCK_CLEAR)},
-    {N_("/Help"), NULL, 0, 0, MN_("<Branch>")},
-    {N_("/Help/tearoff"), NULL, 0, 0, MN_("<Tearoff>")},
-    {N_("/Help/_About"), NULL, about_dialog, 0, MS_(GTK_STOCK_ABOUT)}
+
+  GtkActionEntry menu_items[] =
+  {
+    //  name                    stock_id               "label"                  accel             tooltip  callback
+    { "/FTP",                   NULL,                  N_("_FTP"),              NULL,                NULL, NULL                   },
+    { "/FTP/Preferences",       GTK_STOCK_PREFERENCES, N_("_Preferences..."),   NULL,                NULL, G_CALLBACK(options_dialog) },
+    { "/FTP/Quit",              GTK_STOCK_QUIT,        N_("_Quit"),             "<control>Q",        NULL, G_CALLBACK(_gftp_menu_exit)  },
+    { "/Local",                 NULL,                  N_("_Local"),            NULL,                NULL, NULL },
+    { "/Local/OpenLocation",    GTK_STOCK_OPEN,        N_("_Open Location..."), "<control><shift>O", NULL, G_CALLBACK(on_local_openurl_dialog) },
+    { "/Local/Disconnect",      GTK_STOCK_CLOSE,       N_("D_isconnect"),       "<control><shift>I", NULL, G_CALLBACK(on_local_gftpui_disconnect) },
+    { "/Local/ChangeFilespec",  NULL,                  N_("Change _Filespec"),  "<control><shift>F", NULL, G_CALLBACK(on_local_change_filespec) },
+    { "/Local/ShowSelected",    NULL,                  N_("_Show selected"),    NULL,                NULL, G_CALLBACK(on_local_show_selected) },
+    { "/Local/NavigateUp",      NULL,                  N_("Navigate _Up"),      "<alt>Up",           NULL, G_CALLBACK(on_local_navi_up_directory) },
+    { "/Local/SelectAll",       NULL,                  N_("Select _All"),       "<control><shift>A", NULL, G_CALLBACK(on_local_selectall) },
+    { "/Local/SelectAllFiles",  NULL,                  N_("Select All Files"),  NULL,                NULL, G_CALLBACK(on_local_selectallfiles) },
+    { "/Local/DeselectAll",     NULL,                  N_("Deselect All"),      NULL,                NULL, G_CALLBACK(on_local_deselectall) },
+    { "/Local/SaveDirectoryListing", NULL,             N_("Save Directory Listing..."), NULL,        NULL, G_CALLBACK(on_local_save_directory_listing) },
+    { "/Local/SendSITECommand", NULL,                  N_("Send SITE Command.."),NULL,               NULL, G_CALLBACK(on_local_gftpui_site_dialog) },
+    { "/Local/ChangeDirectory", NULL,                  N_("_Change Directory"), NULL,                NULL, G_CALLBACK(on_local_gftpui_chdir_dialog) },
+    { "/Local/Permissions",     NULL,                  N_("_Permissions..."),   "<control><shift>P", NULL, G_CALLBACK(on_local_chmod_dialog) },
+    { "/Local/NewFolder",       NULL,                  N_("_New Folder..."),    "<control><shift>N", NULL, G_CALLBACK(on_local_gftpui_mkdir_dialog) },
+    { "/Local/Rename",          NULL,                  N_("Rena_me..."),        "<control><shift>M", NULL, G_CALLBACK(on_local_gftpui_rename_dialog) },
+    { "/Local/Delete",          NULL,                  N_("_Delete..."),        "<control><shift>D", NULL, G_CALLBACK(on_local_delete_dialog) },
+    { "/Local/Edit",            NULL,                  N_("_Edit..."),          "<control><shift>E", NULL, G_CALLBACK(on_local_edit_dialog) },
+    { "/Local/View",            NULL,                  N_("_View..."),          "<control><shift>L", NULL, G_CALLBACK(on_local_view_dialog) },
+    { "/Local/Refresh",         GTK_STOCK_REFRESH,     N_("_Refresh"),          "<control><shift>R", NULL, G_CALLBACK(on_local_gftp_gtk_refresh) },
+    { "/Remote",                NULL,                  N_("_Remote"),            NULL,               NULL, NULL },
+    { "/Remote/OpenLocation",   GTK_STOCK_OPEN,        N_("_Open Location..."), "<control>O",        NULL, G_CALLBACK(on_remote_openurl_dialog) },
+    { "/Remote/Disconnect",     GTK_STOCK_CLOSE,       N_("D_isconnect"),       "<control>I",        NULL, G_CALLBACK(on_remote_gftpui_disconnect) },
+    { "/Remote/ChangeFilespec", NULL,                  N_("Change _Filespec"),  "<control>F",        NULL, G_CALLBACK(on_remote_change_filespec) },
+    { "/Remote/ShowSelected",   NULL,                  N_("_Show selected"),    NULL,                NULL, G_CALLBACK(on_remote_show_selected) },
+    { "/Remote/NavigateUp",     NULL,                  N_("Navigate _Up"),      "<alt>Up",           NULL, G_CALLBACK(on_remote_navi_up_directory) },
+    { "/Remote/SelectAll",      NULL,                  N_("Select _All"),       "<control>A",        NULL, G_CALLBACK(on_remote_selectall) },
+    { "/Remote/SelectAllFiles", NULL,                  N_("Select All Files"),  NULL,                NULL, G_CALLBACK(on_remote_selectallfiles) },
+    { "/Remote/DeselectAll",    NULL,                  N_("Deselect All"),      NULL,                NULL, G_CALLBACK(on_remote_deselectall) },
+    { "/Remote/SaveDirectoryListing", NULL,            N_("Save Directory Listing..."), NULL,        NULL, G_CALLBACK(on_remote_save_directory_listing) },
+    { "/Remote/SendSITECommand",NULL,                  N_("Send SITE Command.."),NULL,               NULL, G_CALLBACK(on_remote_gftpui_site_dialog) },
+    { "/Remote/ChangeDirectory",NULL,                  N_("_Change Directory"), NULL,                NULL, G_CALLBACK(on_remote_gftpui_chdir_dialog) },
+    { "/Remote/Permissions",    NULL,                  N_("_Permissions..."),   "<control>P",        NULL, G_CALLBACK(on_remote_chmod_dialog) },
+    { "/Remote/NewFolder",      NULL,                  N_("_New Folder..."),    "<control>N",        NULL, G_CALLBACK(on_remote_gftpui_mkdir_dialog) },
+    { "/Remote/Rename",         NULL,                  N_("Rena_me..."),        "<control>M",        NULL, G_CALLBACK(on_remote_gftpui_rename_dialog) },
+    { "/Remote/Delete",         NULL,                  N_("_Delete..."),        "<control>D",        NULL, G_CALLBACK(on_remote_delete_dialog) },
+    { "/Remote/Edit",           NULL,                  N_("_Edit..."),          "<control>E",        NULL, G_CALLBACK(on_remote_edit_dialog) },
+    { "/Remote/View",           NULL,                  N_("_View..."),          "<control>L",        NULL, G_CALLBACK(on_remote_view_dialog) },
+    { "/Remote/Refresh",        GTK_STOCK_REFRESH,     N_("_Refresh"),          "<control>R",        NULL, G_CALLBACK(on_remote_gftp_gtk_refresh) },
+    { "/Bookmarks",             NULL,                  N_("_Bookmarks"),        NULL,                NULL, NULL },
+    { "/Bookmarks/AddBookmark", GTK_STOCK_ADD,         N_("Add _Bookmark"),     "<control>B",        NULL, G_CALLBACK(add_bookmark) },
+    { "/Bookmarks/EditBookmarks",NULL,                 N_("Edit Bookmarks"),    NULL,                NULL, G_CALLBACK(edit_bookmarks) },
+    { "/Transfer",              NULL,                  N_("_Transfer"),         NULL,                NULL, NULL },
+    { "/Transfer/Start",        NULL,                  N_("_Start"),            NULL,                NULL, G_CALLBACK(start_transfer) },
+    { "/Transfer/Stop",         GTK_STOCK_STOP,        N_("St_op"),             NULL,                NULL, G_CALLBACK(stop_transfer) },
+    { "/Transfer/SkipCurrentFile",NULL,                N_("Skip _Current File"),NULL,                NULL, G_CALLBACK(skip_transfer) },
+    { "/Transfer/RemoveFile",   GTK_STOCK_DELETE,      N_("_Remove File"),      NULL,                NULL, G_CALLBACK(remove_file_transfer) },
+    { "/Transfer/MoveFileUp",   GTK_STOCK_GO_UP,       N_("Move File _Up"),     NULL,                NULL, G_CALLBACK(move_transfer_up) },
+    { "/Transfer/MoveFileDown", GTK_STOCK_GO_DOWN,     N_("Move File _Down"),   NULL,                NULL, G_CALLBACK(move_transfer_down) },
+    { "/Transfer/RetrieveFiles",NULL,                  N_("_Retrieve Files"),   "<control>R",        NULL, G_CALLBACK(get_files) },
+    { "/Transfer/PutFiles",    NULL,                   N_("_Put Files"),        "<control>U",        NULL, G_CALLBACK(put_files) },
+    { "/Log",                  NULL,                   N_("L_og"),              NULL,                NULL, NULL },
+    { "/Log/Clear",            GTK_STOCK_CLEAR,        N_("_Clear"),            NULL,                NULL, G_CALLBACK(clearlog) },
+    { "/Log/View",             NULL,                   N_("_View"),             NULL,                NULL, G_CALLBACK(viewlog) },
+    { "/Log/Save",             GTK_STOCK_SAVE,         N_("_Save..."),          NULL,                NULL, G_CALLBACK(savelog) },
+    { "/Tools",                NULL,                   N_("Tool_s"),            NULL,                NULL, NULL },
+    { "/Tools/CompareWindows", NULL,                   N_("C_ompare Windows"),  NULL,                NULL, G_CALLBACK(compare_windows) },
+    { "/Tools/ClearCache",     GTK_STOCK_CLEAR,        N_("_Clear Cache"),      NULL,                NULL, G_CALLBACK(clear_cache) },
+    { "/Help",                 NULL,                   N_("_Help"),             NULL,                NULL, NULL },
+    { "/Help/About",           GTK_STOCK_ABOUT,        N_("_About"),            NULL,                NULL, G_CALLBACK(about_dialog) },
   };
+
+  guint nmenu_items = G_N_ELEMENTS (menu_items);
+
+  static const gchar *ui_info = " \
+  <ui> \
+    <menubar name='M'> \
+      <menu action='/FTP'> \
+        <separator/> \
+        <menuitem action='/FTP/Preferences'/> \
+        <separator/> \
+        <menuitem action='/FTP/Quit'/> \
+      </menu> \
+      <menu action='/Local'> \
+        <menuitem action='/Local/OpenLocation'/> \
+        <menuitem action='/Local/Disconnect'/> \
+        <separator/> \
+        <menuitem action='/Local/ChangeFilespec'/> \
+        <menuitem action='/Local/ShowSelected'/> \
+        <menuitem action='/Local/NavigateUp'/> \
+        <menuitem action='/Local/SelectAll'/> \
+        <menuitem action='/Local/SelectAllFiles'/> \
+        <menuitem action='/Local/DeselectAll'/> \
+        <separator/> \
+        <menuitem action='/Local/SaveDirectoryListing'/> \
+        <menuitem action='/Local/SendSITECommand'/> \
+        <menuitem action='/Local/ChangeDirectory'/> \
+        <menuitem action='/Local/Permissions'/> \
+        <menuitem action='/Local/NewFolder'/> \
+        <menuitem action='/Local/Rename'/> \
+        <menuitem action='/Local/Delete'/> \
+        <menuitem action='/Local/Edit'/> \
+        <menuitem action='/Local/View'/> \
+        <menuitem action='/Local/Refresh'/> \
+      </menu> \
+      <menu action='/Remote'> \
+        <menuitem action='/Remote/OpenLocation'/> \
+        <menuitem action='/Remote/Disconnect'/> \
+        <separator/> \
+        <menuitem action='/Remote/ChangeFilespec'/> \
+        <menuitem action='/Remote/ShowSelected'/> \
+        <menuitem action='/Remote/NavigateUp'/> \
+        <menuitem action='/Remote/SelectAll'/> \
+        <menuitem action='/Remote/SelectAllFiles'/> \
+        <menuitem action='/Remote/DeselectAll'/> \
+        <separator/> \
+        <menuitem action='/Remote/SaveDirectoryListing'/> \
+        <menuitem action='/Remote/SendSITECommand'/> \
+        <menuitem action='/Remote/ChangeDirectory'/> \
+        <menuitem action='/Remote/Permissions'/> \
+        <menuitem action='/Remote/NewFolder'/> \
+        <menuitem action='/Remote/Rename'/> \
+        <menuitem action='/Remote/Delete'/> \
+        <menuitem action='/Remote/Edit'/> \
+        <menuitem action='/Remote/View'/> \
+        <menuitem action='/Remote/Refresh'/> \
+      </menu> \
+      <menu action='/Bookmarks'> \
+        <menuitem action='/Bookmarks/AddBookmark'/> \
+        <menuitem action='/Bookmarks/EditBookmarks'/> \
+      </menu> \
+      <menu action='/Transfer'> \
+        <menuitem action='/Transfer/Start'/> \
+        <menuitem action='/Transfer/Stop'/> \
+        <separator/> \
+        <menuitem action='/Transfer/SkipCurrentFile'/> \
+        <menuitem action='/Transfer/RemoveFile'/> \
+        <menuitem action='/Transfer/MoveFileUp'/> \
+        <menuitem action='/Transfer/MoveFileDown'/> \
+        <separator/> \
+        <menuitem action='/Transfer/RetrieveFiles'/> \
+        <menuitem action='/Transfer/PutFiles'/> \
+      </menu> \
+      <menu action='/Log'> \
+        <menuitem action='/Log/Clear'/> \
+        <menuitem action='/Log/View'/> \
+        <menuitem action='/Log/Save'/> \
+      </menu> \
+      <menu action='/Tools'> \
+        <menuitem action='/Tools/CompareWindows'/> \
+        <menuitem action='/Tools/ClearCache'/> \
+      </menu> \
+      <menu action='/Help'> \
+        <menuitem action='/Help/About'/> \
+      </menu> \
+    </menubar> \
+  </ui>";
 
   menus = menu_items;
 
-  accel_group = gtk_accel_group_new ();
-  factory = item_factory_new (GTK_TYPE_MENU_BAR, "<main>", accel_group, NULL);
+  factory = gtk_ui_manager_new();
+  
+  GtkActionGroup *actions = gtk_action_group_new("Actions");
+  gtk_action_group_add_actions(actions, menu_items, nmenu_items, NULL);
+  gtk_ui_manager_insert_action_group(factory, actions, 0);
+  g_object_unref(actions);
+  if (!gtk_ui_manager_add_ui_from_string(GTK_UI_MANAGER(factory), ui_info, -1, NULL))
+     ftp_log (gftp_logging_error, NULL, "error");
+  accel_group = gtk_ui_manager_get_accel_group(factory);
+  GtkWidget* menu = gtk_ui_manager_get_widget(factory, "/M");
 
-  i = 0;
-  len = 11;
-  /* FTP Menu */
-  create_item_factory (factory, len, menu_items, &window2);
-
-  i += len;
-  /* Local Menu */
-  local_start = i;
-  local_len = 22;
-  create_item_factory (factory, local_len, menu_items + i, &window1);
-
-  i += local_len;
-  /* Remote Menu */
-  remote_start = i;
-  remote_len = 22;
-  create_item_factory (factory, remote_len, menu_items + i, &window2);
-
-  i += remote_len;
-  len = 5;
-  /* Bookmarks Menu */
-  create_item_factory (factory, len, menu_items + i, &window2);
-
-  i += len;
-  /* Transfer Menu */
-  trans_start = i;
-  trans_len = 12;
-  create_item_factory (factory, trans_len, menu_items + i, NULL);
-
-  i += trans_len;
-  /* Logging Menu */
-  log_start = i;
-  log_len = 5;
-  create_item_factory (factory, log_len, menu_items + i, NULL);
-
-  i += log_len;
-  /* Tools Menu */
-  tools_len = 4;
-  create_item_factory (factory, tools_len, menu_items + i, NULL);
-
-  i += tools_len;
-  /* Help Menu */
-  create_item_factory (factory, 3, menu_items + i, NULL);
-
-  build_bookmarks_menu ();
+  //build_bookmarks_menu ();
 
   gtk_window_add_accel_group (GTK_WINDOW (parent), accel_group);
 
+#if 0
   gftp_lookup_global_option ("ascii_transfers", &ascii_transfers);
   if (ascii_transfers)
     {
@@ -452,7 +627,6 @@ CreateMenus (GtkWidget * parent)
       tempwid = gtk_item_factory_get_widget (factory, "/FTP/Binary");
       gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
     }
-
   tempwid = gtk_item_factory_get_widget (factory, "/FTP/Window 2");
   gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
 
@@ -461,14 +635,9 @@ CreateMenus (GtkWidget * parent)
 
   window2.ifactory = item_factory_new (GTK_TYPE_MENU, "<remote>", NULL, "/Remote");
   create_item_factory (window2.ifactory, remote_len - 2, menu_items + remote_start + 2, &window2);
+#endif
 
-  log_factory = item_factory_new (GTK_TYPE_MENU, "<log>", NULL, "/Logging");
-  create_item_factory (log_factory, log_len - 2, menu_items + log_start + 2, NULL);
-
-  dl_factory = item_factory_new (GTK_TYPE_MENU, "<download>", NULL, "/Transfer");
-  create_item_factory (dl_factory, trans_len - 2, menu_items + trans_start + 2, NULL);
-
-  return (factory->widget);
+  return (menu);
 }
 
 
@@ -1035,8 +1204,11 @@ CreateFTPWindows (GtkWidget * ui)
     gtk_clist_set_column_width (GTK_CLIST (dlwdw), 0, tmplookup);
 
   gtk_container_add (GTK_CONTAINER (transfer_scroll), dlwdw);
+#if 0
+  // TODO - transfer popup menu
   gtk_signal_connect (GTK_OBJECT (dlwdw), "button_press_event",
-		      GTK_SIGNAL_FUNC (menu_mouse_click), (gpointer) dl_factory);
+        GTK_SIGNAL_FUNC (menu_mouse_click), (gpointer) dl_factory);
+#endif
   gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
 
   logpane = gtk_vpaned_new ();

@@ -79,7 +79,7 @@ typedef struct gftp_window_data_tag
   gftp_request * request;	/* The host that we are connected to */
   GList * files,		/* Files in the listbox */
         ** history;		/* History of the directories */
-  GtkItemFactory *ifactory; 	/* This is for the menus that will
+  GtkUIManager *ifactory; 	/* This is for the menus that will
                                    come up when you right click */
   pthread_t tid;		/* Thread for the stop button */
   char *prefix_col_str;
@@ -172,8 +172,10 @@ extern GtkAdjustment * logwdw_vadj;
 extern GtkTextMark * logwdw_textmark;
 extern int local_start, remote_start, trans_start;
 extern GHashTable * graphic_hash_table;
-extern GtkItemFactoryEntry * menus;
-extern GtkItemFactory * factory;
+
+extern GtkActionEntry * menus;
+extern GtkUIManager * factory;
+
 extern pthread_mutex_t log_mutex;
 extern pthread_t main_thread_id;
 extern GList * viewedit_processes;

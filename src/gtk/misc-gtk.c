@@ -218,7 +218,7 @@ update_window_info (void)
   update_window (&window1);
   update_window (&window2);
 
-  tempwid = gtk_item_factory_get_widget (factory, "/Tools/Compare Windows");
+  tempwid = gtk_ui_manager_get_widget (factory, "/M/Tools/CompareWindows");
   gtk_widget_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
 			    && GFTP_IS_CONNECTED (window2.request));
 }
@@ -233,7 +233,7 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
   tempwid = NULL;
 
   if (factory != NULL)
-    tempwid = gtk_item_factory_get_widget (factory, path);
+    tempwid = gtk_ui_manager_get_widget (factory, path);
   if (tempwid)
     gtk_widget_set_sensitive (tempwid, sensitive);
 
@@ -306,7 +306,7 @@ update_window (gftp_window_data * wdata)
   char *tempstr, *hostname, *fspec, *listinfo;
   int connected, start;
   GtkWidget *combo_entry;
-
+  
   connected = GFTP_IS_CONNECTED (wdata->request);
   if (connected)
     {
@@ -348,6 +348,7 @@ update_window (gftp_window_data * wdata)
   else
     start = remote_start;
 
+#if 0
   set_menu_sensitive (wdata, menus[start + 3].path, connected && 
                       strcmp (wdata->request->url_prefix, "file") != 0);
   set_menu_sensitive (wdata, menus[start + 5].path, connected);
@@ -388,6 +389,7 @@ update_window (gftp_window_data * wdata)
 
   set_menu_sensitive (NULL, menus[start + 10].path, connected);
   set_menu_sensitive (NULL, menus[start + 11].path, connected);
+#endif
 
   gtk_widget_set_sensitive (download_left_arrow, connected);
   gtk_widget_set_sensitive (upload_right_arrow, connected);
