@@ -162,7 +162,8 @@ _gftp_menu_exit (GtkWidget * widget, gpointer data)
     _gftp_exit (widget, data);
 }
 
-
+#if 0
+// unimplemented menu items in gtkUIManager...
 static void
 change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
 {
@@ -192,6 +193,7 @@ change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
       break;
     }
 }
+#endif
 
 
 static void
@@ -443,8 +445,10 @@ static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
   GtkAccelGroup * accel_group;
+#if 0
   intptr_t ascii_transfers;
   GtkWidget * tempwid;
+#endif
 
   GtkActionEntry menu_items[] =
   {
@@ -512,6 +516,11 @@ CreateMenus (GtkWidget * parent)
     { "/Help",                 NULL,                   N_("_Help"),             NULL,                NULL, NULL },
     { "/Help/About",           GTK_STOCK_ABOUT,        N_("_About"),            NULL,                NULL, G_CALLBACK(about_dialog) },
   };
+  
+  // {N_("/FTP/Window _1"), "<control>1", change_setting, GFTP_MENU_ITEM_WIN1,
+  // {N_("/FTP/Window _2"), "<control>2", change_setting, GFTP_MENU_ITEM_WIN2,
+  // {N_("/FTP/_Ascii"), NULL, change_setting, GFTP_MENU_ITEM_ASCII,
+  // {N_("/FTP/_Binary"), NULL, change_setting, GFTP_MENU_ITEM_BINARY,
 
   guint nmenu_items = G_N_ELEMENTS (menu_items);
 
@@ -692,7 +701,6 @@ CreateMenus (GtkWidget * parent)
     }
   tempwid = gtk_item_factory_get_widget (factory, "/FTP/Window 2");
   gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
-
 #endif
 
   return (menu);

@@ -57,7 +57,9 @@ run_bookmark (gpointer data)
 static void
 doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 {
-  GtkItemFactoryEntry test = { NULL, NULL, run_bookmark, 0, MN_(NULL) };
+#if 0
+  GtkItemFactoryEntry test = { NULL, NULL, run_bookmark, 0, NULL, NULL };
+#endif
   const char *edttxt, *spos;
   gftp_bookmarks_var * tempentry;
   char *dpos, *proto;
@@ -117,10 +119,12 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 
   gftp_add_bookmark (tempentry);
 
+#if 0
   test.path = g_strconcat ("/Bookmarks/", tempentry->path, NULL);
   gtk_item_factory_create_item (factory, &test, (gpointer) tempentry->path,
 				1);
   g_free (test.path);
+#endif
   gftp_write_bookmarks_file ();
 }
 
@@ -148,12 +152,15 @@ add_bookmark (gpointer data)
 void
 build_bookmarks_menu (void)
 {
-  GtkItemFactoryEntry test = { NULL, NULL, NULL, 0, MN_(NULL) };
+#if 0
+  GtkItemFactoryEntry test = { NULL, NULL, NULL, 0, NULL, NULL };
+#endif
   gftp_bookmarks_var * tempentry;
 
   tempentry = gftp_bookmarks->children;
   while (tempentry != NULL)
     {
+#if 0
       test.path = g_strconcat ("/Bookmarks/", tempentry->path, NULL);
       if (tempentry->isfolder)
         {
@@ -169,6 +176,7 @@ build_bookmarks_menu (void)
       gtk_item_factory_create_item (factory, &test,
                                     (gpointer) tempentry->path, 1);
       g_free (test.path);
+#endif
       if (tempentry->children != NULL)
         {
           tempentry = tempentry->children;
@@ -282,6 +290,7 @@ copy_bookmarks (gftp_bookmarks_var * bookmarks)
 static void
 _free_menu_entry (gftp_bookmarks_var * entry)
 {
+#if 0
   GtkWidget * tempwid;
   char *tempstr;
 
@@ -295,6 +304,7 @@ _free_menu_entry (gftp_bookmarks_var * entry)
     gtk_widget_destroy (tempwid);
 
   g_free (tempstr);
+#endif
 }
 
 
@@ -1148,21 +1158,6 @@ edit_bookmarks (gpointer data)
 {
   GtkAccelGroup * accel_group;
   GtkWidget * scroll;
-
-  // --delete
-  //GtkItemFactory * b_uimanager;
-  //GtkItemFactoryEntry menu_items[] = {
-  //*      path                    accel   callback       cb_action type         extra_data
-  //  { N_("/_File"),               NULL, 0,                   0, "<Branch>",    NULL                 },
-  //  { N_("/File/tearoff"),        NULL, 0,                   0, "<Tearoff>",   NULL                 },
-  //  { N_("/File/New _Folder..."), NULL, new_folder_entry,    0, NULL,          NULL                 },
-  //  { N_("/File/New _Item..."),   NULL, new_item_entry,      0, "<StockItem>", GTK_STOCK_NEW        },
-  //  { N_("/File/_Delete"),        NULL, delete_entry,        0, "<StockItem>", GTK_STOCK_DELETE     },
-  //  { N_("/File/_Properties..."), NULL, edit_entry,          0, "<StockItem>", GTK_STOCK_PROPERTIES },
-  //  { N_("/File/sep"),            NULL, 0,                   0, "<Separator>", NULL                 },
-  //  { N_("/File/_Close"),         NULL, close_bookmarks_dlg, 0, "<StockItem>", GTK_STOCK_CLOSE      }
-  //};
-
   GtkActionEntry menu_items[] =
   {
     //  name         stock_id               "label"           accel tooltip  callback
@@ -1219,12 +1214,6 @@ edit_bookmarks (gpointer data)
   gtk_widget_realize (edit_bookmarks_dialog);
 
   set_window_icon(GTK_WINDOW(edit_bookmarks_dialog), NULL);
-
-  // --delete
-  //b_uimanager = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", accel_group, NULL);
-  //create_item_factory (b_uimanager, 7, menu_items, NULL);
-  //create_item_factory (b_uimanager, 1, menu_items + 7, edit_bookmarks_dialog);
-  //gtk_window_add_accel_group (GTK_WINDOW (edit_bookmarks_dialog), accel_group);
 
   b_uimanager = gtk_ui_manager_new();
   GtkActionGroup *b_actions = gtk_action_group_new("BActions");

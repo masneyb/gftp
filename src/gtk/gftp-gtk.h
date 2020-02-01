@@ -50,10 +50,6 @@
   trequest->datafd > 0 && !trequest->always_connected && \
   compare_request (trequest, (wdata)->request, 0))
 
-/* These 2 defines are for creating menu items with stock icons in GTK+ 2.0. */
-#define MS_(a) "<StockItem>",a
-#define MN_(a) a,NULL
-
 /* These are used for the MakeEditDialog function. I have these types to make
    it easier for creating dialogs with GTK+ 2.0 */
 
@@ -311,16 +307,6 @@ int check_status				( char *name,
 						  unsigned int only_one,
 						  unsigned int at_least_one,
 						  unsigned int func );
-
-GtkItemFactory *item_factory_new                ( GtkType	       container_type,
-						  const char	      *path,
-						  GtkAccelGroup       *accel_group,
-						  const char          *strip_prefix );
-
-void create_item_factory 			( GtkItemFactory * ifactory, 
-						  gint n_entries, 
-						  GtkItemFactoryEntry * entries,
-						  gpointer callback_data );
 
 void add_history 				( GtkWidget * widget, 
 						  GList ** history, 
