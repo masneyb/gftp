@@ -162,7 +162,7 @@ extern GtkTextMark * logwdw_textmark;
 extern int local_start, remote_start, trans_start;
 extern GHashTable * graphic_hash_table;
 
-extern GtkActionEntry * menus;
+extern GtkActionGroup * menus;
 extern GtkUIManager * factory;
 
 extern pthread_mutex_t log_mutex;

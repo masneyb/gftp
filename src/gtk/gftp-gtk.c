@@ -33,7 +33,7 @@ GtkTextMark * logwdw_textmark;
 int local_start, remote_start, trans_start;
 GHashTable * graphic_hash_table = NULL;
 
-GtkActionEntry * menus = NULL;
+GtkActionGroup * menus = NULL;
 GtkUIManager * factory = NULL;
 
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -667,8 +667,6 @@ CreateMenus (GtkWidget * parent)
     </popup> \
   </ui>";
 
-  menus = menu_items;
-
   factory = gtk_ui_manager_new();
   
   GtkActionGroup *actions = gtk_action_group_new("Actions");
@@ -680,6 +678,8 @@ CreateMenus (GtkWidget * parent)
   accel_group = gtk_ui_manager_get_accel_group(factory);
   GtkWidget* menu = gtk_ui_manager_get_widget(factory, "/M");
 
+  menus = actions;
+  
   window1.ifactory = factory;
   window2.ifactory = factory;
 

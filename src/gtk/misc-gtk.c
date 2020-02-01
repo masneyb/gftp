@@ -161,7 +161,7 @@ update_window_info (void)
 {
   char *tempstr, empty[] = "";
   unsigned int port, i, j;
-  GtkWidget * tempwid, *combo_entry;
+  GtkWidget *combo_entry;
 
   if (current_wdata->request != NULL)
     {
@@ -218,37 +218,25 @@ update_window_info (void)
   update_window (&window1);
   update_window (&window2);
 
-  tempwid = gtk_ui_manager_get_widget (factory, "/M/Tools/CompareWindows");
-  gtk_widget_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
+  GtkAction *tempwid = gtk_action_group_get_action(menus, "/Tools/CompareWindows");
+  gtk_action_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
 			    && GFTP_IS_CONNECTED (window2.request));
 }
 
-
+#if 0
 static void
 set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 {
-  GtkWidget * tempwid;
-  char * pos;
+  GtkAction *tempwid = NULL;
 
-  tempwid = NULL;
-
-  if (factory != NULL)
-    tempwid = gtk_ui_manager_get_widget (factory, path);
-  if (tempwid)
-    gtk_widget_set_sensitive (tempwid, sensitive);
-
-  if (wdata != NULL)
-    {
-      if ((pos = strchr (path + 1, '/')) == NULL)
-        pos = path;
-    
-      if (wdata->ifactory)
-        tempwid = gtk_ui_manager_get_widget (wdata->ifactory, pos);
-      if (tempwid)
-        gtk_widget_set_sensitive (tempwid, sensitive);
-    }
+  if (menus) {
+    tempwid = gtk_action_group_get_action(menus, path);
+  }
+  if (tempwid) {
+    gtk_action_set_sensitive (tempwid, sensitive);
+  }
 }
-
+#endif
 
 char *
 report_list_info(gftp_window_data * wdata)
@@ -304,7 +292,7 @@ void
 update_window (gftp_window_data * wdata)
 {
   char *tempstr, *hostname, *fspec, *listinfo;
-  int connected, start;
+  int connected;
   GtkWidget *combo_entry;
   
   connected = GFTP_IS_CONNECTED (wdata->request);
@@ -343,54 +331,30 @@ update_window (gftp_window_data * wdata)
       g_free (tempstr);
     }
 
-  if (wdata == &window1)
-    start = local_start;
-  else
-    start = remote_start;
-
 #if 0
-  set_menu_sensitive (wdata, menus[start + 3].path, connected && 
-                      strcmp (wdata->request->url_prefix, "file") != 0);
-  set_menu_sensitive (wdata, menus[start + 5].path, connected);
-  set_menu_sensitive (wdata, menus[start + 6].path, connected);
-  set_menu_sensitive (wdata, menus[start + 7].path, connected);
-  set_menu_sensitive (wdata, menus[start + 8].path, connected);
-  set_menu_sensitive (wdata, menus[start + 9].path, connected);
-  set_menu_sensitive (wdata, menus[start + 11].path, connected);
-  set_menu_sensitive (wdata, menus[start + 12].path, connected &&
-                      wdata->request->site != NULL);
-  set_menu_sensitive (wdata, menus[start + 13].path, connected &&
-                      wdata->request->chdir!= NULL);
-  set_menu_sensitive (wdata, menus[start + 14].path, connected &&
-                      wdata->request->chmod != NULL);
-  set_menu_sensitive (wdata, menus[start + 15].path, connected &&
-                      wdata->request->mkdir != NULL);
-  set_menu_sensitive (wdata, menus[start + 16].path, connected &&
-                      wdata->request->rename != NULL);
-  set_menu_sensitive (wdata, menus[start + 17].path, connected &&
-                      wdata->request->rmdir != NULL &&
-                      wdata->request->rmfile != NULL);
-  set_menu_sensitive (wdata, menus[start + 18].path, connected &&
-                      wdata->request->get_file != NULL);
-  set_menu_sensitive (wdata, menus[start + 19].path, connected &&
-                      wdata->request->get_file != NULL);
-  set_menu_sensitive (wdata, menus[start + 20].path, connected);
+  if (wdata == &window1) {
+    connected = GFTP_IS_CONNECTED (window1.request)
+    set_menu_sensitive (NULL, "/Local/..,", connected);
+    // ...
+  }
+  else {
+    connected = GFTP_IS_CONNECTED (window2.request)
+    set_menu_sensitive (NULL, "/Remote/...", connected);
+    // ...
+  }
 
   connected = GFTP_IS_CONNECTED (window1.request) && GFTP_IS_CONNECTED (window2.request);
-
-  start = trans_start;
-  set_menu_sensitive (NULL, menus[start + 2].path, connected);
-  set_menu_sensitive (NULL, menus[start + 3].path, connected);
-  set_menu_sensitive (NULL, menus[start + 5].path, connected);
-  set_menu_sensitive (NULL, menus[start + 6].path, connected);
-
-  set_menu_sensitive (NULL, menus[start + 7].path, connected);
-  set_menu_sensitive (NULL, menus[start + 8].path, connected);
-
-  set_menu_sensitive (NULL, menus[start + 10].path, connected);
-  set_menu_sensitive (NULL, menus[start + 11].path, connected);
+  set_menu_sensitive (NULL, "/Transfer/Start", connected);
+  set_menu_sensitive (NULL, "/Transfer/Stop", connected);
+  set_menu_sensitive (NULL, "/Transfer/SkipCurrentFile", connected);
+  set_menu_sensitive (NULL, "/Transfer/RemoveFile", connected);
+  set_menu_sensitive (NULL, "/Transfer/MoveFileUp", connected);
+  set_menu_sensitive (NULL, "/Transfer/MoveFileDown", connected);
+  set_menu_sensitive (NULL, "/Transfer/RetrieveFiles", connected);
+  set_menu_sensitive (NULL, "/Transfer/PutFiles", connected);
 #endif
 
+  connected = GFTP_IS_CONNECTED (window1.request) && GFTP_IS_CONNECTED (window2.request);
   gtk_widget_set_sensitive (download_left_arrow, connected);
   gtk_widget_set_sensitive (upload_right_arrow, connected);
 }  
