@@ -25,7 +25,7 @@ static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
                  * bm_acctedit, * anon_chk, * bm_pathedit, * bm_protocol;
 static GHashTable * new_bookmarks_htable = NULL;
 static gftp_bookmarks_var * new_bookmarks = NULL;
-//static GtkItemFactory * edit_factory;
+static GtkUIManager *ifactory;
 
 void
 run_bookmark (gpointer data)
@@ -1131,9 +1131,10 @@ static gint
 bm_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
 {
   if (event->button == 3)
-    ;
-    //gtk_item_factory_popup (edit_factory, (guint) event->x_root,
-	//		    (guint) event->y_root, 1, 0);
+    {
+      GtkWidget* menu = gtk_ui_manager_get_widget(ifactory, "/popup");
+      gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
+    }
   else if (event->type == GDK_2BUTTON_PRESS)
     {
       edit_entry (NULL);
@@ -1146,7 +1147,6 @@ void
 edit_bookmarks (gpointer data)
 {
   GtkAccelGroup * accel_group;
-  GtkUIManager *ifactory;
   GtkWidget * scroll;
 
   // --delete
@@ -1188,6 +1188,14 @@ edit_bookmarks (gpointer data)
         <menuitem action='Close'/> \
       </menu> \
     </menubar> \
+    <popup action='popup'> \
+        <menuitem action='NewFolder'/> \
+        <menuitem action='NewItem'/> \
+        <menuitem action='Delete'/> \
+        <menuitem action='Properties'/> \
+        <separator/> \
+        <menuitem action='Close'/> \
+    </popup> \
   </ui>";
 
   if (edit_bookmarks_dialog != NULL)
@@ -1216,8 +1224,6 @@ edit_bookmarks (gpointer data)
   //ifactory = item_factory_new (GTK_TYPE_MENU_BAR, "<bookmarks>", accel_group, NULL);
   //create_item_factory (ifactory, 7, menu_items, NULL);
   //create_item_factory (ifactory, 1, menu_items + 7, edit_bookmarks_dialog);
-  //edit_factory = item_factory_new (GTK_TYPE_MENU, "<edit_bookmark>", NULL, "/File");
-  //create_item_factory (edit_factory, 6, menu_items + 2, edit_bookmarks_dialog);
   //gtk_window_add_accel_group (GTK_WINDOW (edit_bookmarks_dialog), accel_group);
 
   ifactory = gtk_ui_manager_new();
