@@ -243,7 +243,7 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
         pos = path;
     
       if (wdata->ifactory)
-        tempwid = gtk_item_factory_get_widget (wdata->ifactory, pos);
+        tempwid = gtk_ui_manager_get_widget (wdata->ifactory, pos);
       if (tempwid)
         gtk_widget_set_sensitive (tempwid, sensitive);
     }
