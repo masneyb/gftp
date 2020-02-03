@@ -27,6 +27,9 @@ static GHashTable * new_bookmarks_htable = NULL;
 static gftp_bookmarks_var * new_bookmarks = NULL;
 static GtkUIManager *b_uimanager;
 
+static guint bm_menu_merge_id = 0; // factory
+static GtkActionGroup *dynamic_bm_menu = NULL;
+
 void
 on_menu_run_bookmark (GtkAction *action, gpointer path_str)
 {
@@ -58,9 +61,6 @@ on_menu_run_bookmark (GtkAction *action, gpointer path_str)
 static void
 doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 {
-#if 0
-  GtkItemFactoryEntry test = { NULL, NULL, run_bookmark, 0, NULL, NULL };
-#endif
   const char *edttxt, *spos;
   gftp_bookmarks_var * tempentry;
   char *dpos, *proto;
@@ -120,13 +120,8 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 
   gftp_add_bookmark (tempentry);
 
-#if 0
-  test.path = g_strconcat ("Bookmarks", tempentry->path, NULL);
-  gtk_item_factory_create_item (factory, &test, (gpointer) tempentry->path,
-				1);
-  g_free (test.path);
-#endif
   gftp_write_bookmarks_file ();
+  build_bookmarks_menu();
 }
 
 
@@ -157,25 +152,41 @@ build_bookmarks_menu (void)
   gftp_bookmarks_var * tempentry;
   char *slash;
 
+  if (bm_menu_merge_id) {
+    gtk_ui_manager_remove_ui(factory, bm_menu_merge_id);
+  }
+  bm_menu_merge_id = gtk_ui_manager_new_merge_id(factory);
+
+  if (!dynamic_bm_menu) {
+     dynamic_bm_menu = gtk_action_group_new("bm_menu");
+     gtk_ui_manager_insert_action_group(factory, dynamic_bm_menu, 0);
+     g_object_unref(dynamic_bm_menu);
+  }
+
   tempentry = gftp_bookmarks->children;
   while (tempentry != NULL)
     {
-      guint merge_id = gtk_ui_manager_new_merge_id(factory);
+      action = gtk_action_group_get_action (dynamic_bm_menu, tempentry->path);
+      if (action) {
+        gtk_action_group_remove_action (dynamic_bm_menu, action);
+        action = NULL;
+      }
+
       slash = strchr(tempentry->path, '/');
       if (tempentry->isfolder) {
         // BSD Sites
         action = gtk_action_new(tempentry->path, tempentry->path, NULL, NULL);
-        gtk_action_group_add_action(menus, action);
-        gtk_ui_manager_add_ui (factory, merge_id,
+        gtk_action_group_add_action(dynamic_bm_menu, action);
+        gtk_ui_manager_add_ui (factory, bm_menu_merge_id,
                           "/M/BookmarksMenu", tempentry->path, tempentry->path,
                           GTK_UI_MANAGER_MENU, FALSE);
       }
       else if (!slash) {
         action = gtk_action_new(tempentry->path, tempentry->path, NULL, NULL);
-        gtk_action_group_add_action(menus, action);
+        gtk_action_group_add_action(dynamic_bm_menu, action);
         g_signal_connect(G_OBJECT(action), "activate", G_CALLBACK(on_menu_run_bookmark),
                         (gpointer) tempentry->path);
-        gtk_ui_manager_add_ui (factory, merge_id,
+        gtk_ui_manager_add_ui (factory, bm_menu_merge_id,
                             "/M/BookmarksMenu", tempentry->path, tempentry->path,
                             GTK_UI_MANAGER_MENUITEM, FALSE);
       }
@@ -188,10 +199,10 @@ build_bookmarks_menu (void)
         char *label = slash + 1;
         char *name = tempentry->path;
         action = gtk_action_new(name, label, NULL, NULL);
-        gtk_action_group_add_action(menus, action);
+        gtk_action_group_add_action(dynamic_bm_menu, action);
         g_signal_connect(G_OBJECT(action), "activate", G_CALLBACK(on_menu_run_bookmark),
                         (gpointer) tempentry->path);
-        gtk_ui_manager_add_ui (factory, merge_id,
+        gtk_ui_manager_add_ui (factory, bm_menu_merge_id,
                             path, name, name,
                             GTK_UI_MANAGER_MENUITEM, FALSE);
         g_free(tmp);
@@ -311,21 +322,17 @@ copy_bookmarks (gftp_bookmarks_var * bookmarks)
 static void
 _free_menu_entry (gftp_bookmarks_var * entry)
 {
-#if 0
-  GtkWidget * tempwid;
-  char *tempstr;
-
-  if (entry->oldpath != NULL)
-    tempstr = gftp_build_path (NULL, "BookmarksMenu", entry->oldpath, NULL);
-  else
-    tempstr = gftp_build_path (NULL, "BookmarksMenu", entry->path, NULL);
-
-  tempwid = gtk_item_factory_get_item (factory, tempstr);
-  if (GTK_IS_WIDGET (tempwid))
-    gtk_widget_destroy (tempwid);
-
-  g_free (tempstr);
-#endif
+  GtkAction *action;
+  if (dynamic_bm_menu) {
+    if (entry->oldpath != NULL) {
+        action = gtk_action_group_get_action (dynamic_bm_menu, entry->oldpath);
+    } else {
+        action = gtk_action_group_get_action (dynamic_bm_menu, entry->path);
+    }
+    if (action) {
+        gtk_action_group_remove_action (dynamic_bm_menu, action);
+    }
+  }
 }
 
 
