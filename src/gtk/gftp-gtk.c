@@ -21,11 +21,11 @@
 
 static GtkItemFactory *log_factory, *dl_factory;
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
-                 * gftpui_command_toolbar, * protocol_menu;
+                 * gftpui_command_toolbar;
 
 gftp_window_data window1, window2, *other_wdata, *current_wdata;
 GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
-          * dlwdw, * optionmenu, * gftpui_command_widget, * download_left_arrow,
+          * dlwdw, * toolbar_combo_protocol, * gftpui_command_widget, * download_left_arrow,
           * upload_right_arrow, * openurl_btn;
 GtkAdjustment * logwdw_vadj;
 GtkTextMark * logwdw_textmark;
@@ -57,7 +57,6 @@ _gftp_exit (GtkWidget * widget, gpointer data)
 {
   intptr_t remember_last_directory;
   const char *tempstr;
-  GtkWidget * tempwid;
   intptr_t ret;
 
   ret = GTK_WIDGET (local_frame)->allocation.width;
@@ -120,9 +119,8 @@ _gftp_exit (GtkWidget * widget, gpointer data)
       gftp_set_global_option ("remote_startup_directory", tempstr);
     }
 
-  tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
-  ret = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid)));
-  gftp_set_global_option ("default_protocol", gftp_protocols[ret].name);
+  tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(toolbar_combo_protocol));
+  gftp_set_global_option ("default_protocol", tempstr);
 
   gftp_shutdown ();
   exit (0);
@@ -604,30 +602,23 @@ CreateConnectToolbar (GtkWidget * parent)
   tempwid = gtk_vbox_new (FALSE, 0);
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
-  optionmenu = gtk_option_menu_new ();
-  gtk_box_pack_start (GTK_BOX (tempwid), optionmenu, TRUE, FALSE, 0);
+  toolbar_combo_protocol = gtk_combo_box_text_new ();
+  gtk_box_pack_start (GTK_BOX (tempwid), toolbar_combo_protocol, TRUE, FALSE, 0);
 
   num = 0;
+  j = 0;
   gftp_lookup_global_option ("default_protocol", &default_protocol);
-  protocol_menu = gtk_menu_new ();
-  for (i = 0, j = 0; gftp_protocols[i].name; i++)
+  for (i = 0; gftp_protocols[i].name; i++)
     {
       if (!gftp_protocols[i].shown)
         continue;
-
-      if (default_protocol != NULL &&
-          strcmp (gftp_protocols[i].name, default_protocol) == 0)
+      gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (toolbar_combo_protocol),
+                                 gftp_protocols[i].name);
+      if (default_protocol && strcmp (gftp_protocols[i].name, default_protocol) == 0)
         num = j;
- 
       j++;
-
-      tempwid = gtk_menu_item_new_with_label (gftp_protocols[i].name);
-      gtk_object_set_user_data (GTK_OBJECT (tempwid), GINT_TO_POINTER(i));
-      gtk_menu_append (GTK_MENU (protocol_menu), tempwid);
-      gtk_widget_show (tempwid);
     }
-  gtk_option_menu_set_menu (GTK_OPTION_MENU (optionmenu), protocol_menu);
-  gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), num);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(toolbar_combo_protocol), num);
 
   //tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
   tempwid = gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -1096,10 +1087,15 @@ CreateFTPWindows (GtkWidget * ui)
 static int
 _get_selected_protocol ()
 {
-  GtkWidget * tempwid;
-  
-  tempwid = gtk_menu_get_active (GTK_MENU (protocol_menu));
-  return (GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (tempwid))));
+  int i;
+  char *activetxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(toolbar_combo_protocol));
+  for (i = 0; gftp_protocols[i].name; i++) {
+    if (activetxt && strcmp (gftp_protocols[i].name, activetxt) == 0) {
+      break;
+    }
+  }
+  //fprintf(stderr,"combo: %s\nproto:%s %d\n", activetxt, gftp_protocols[i].name, i);
+  return i;
 }
 
 gboolean
