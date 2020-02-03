@@ -223,12 +223,10 @@ update_window_info (void)
 			    && GFTP_IS_CONNECTED (window2.request));
 }
 
-#if 0
 static void
 set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 {
   GtkAction *tempwid = NULL;
-
   if (menus) {
     tempwid = gtk_action_group_get_action(menus, path);
   }
@@ -236,7 +234,6 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
     gtk_action_set_sensitive (tempwid, sensitive);
   }
 }
-#endif
 
 char *
 report_list_info(gftp_window_data * wdata)
@@ -331,28 +328,24 @@ update_window (gftp_window_data * wdata)
       g_free (tempstr);
     }
 
-#if 0
-  if (wdata == &window1) {
-    connected = GFTP_IS_CONNECTED (window1.request)
-    set_menu_sensitive (NULL, "Local..,", connected);
-    // ...
-  }
-  else {
-    connected = GFTP_IS_CONNECTED (window2.request)
-    set_menu_sensitive (NULL, "Remote...", connected);
-    // ...
-  }
-
-  connected = GFTP_IS_CONNECTED (window1.request) && GFTP_IS_CONNECTED (window2.request);
-  set_menu_sensitive (NULL, "TransferStart", connected);
-  set_menu_sensitive (NULL, "TransferStop", connected);
-  set_menu_sensitive (NULL, "TransferSkipCurrentFile", connected);
-  set_menu_sensitive (NULL, "TransferRemoveFile", connected);
-  set_menu_sensitive (NULL, "TransferMoveFileUp", connected);
-  set_menu_sensitive (NULL, "TransferMoveFileDown", connected);
-  set_menu_sensitive (NULL, "TransferRetrieveFiles", connected);
-  set_menu_sensitive (NULL, "TransferPutFiles", connected);
-#endif
+  connected = GFTP_IS_CONNECTED (window2.request);
+  set_menu_sensitive (NULL, "RemoteDisconnect", connected);
+  set_menu_sensitive (NULL, "RemoteChangeFilespec", connected);
+  set_menu_sensitive (NULL, "RemoteShowSelected", connected);
+  set_menu_sensitive (NULL, "RemoteNavigateUp", connected);
+  set_menu_sensitive (NULL, "RemoteSelectAll", connected);
+  set_menu_sensitive (NULL, "RemoteSelectAllFiles", connected);
+  set_menu_sensitive (NULL, "RemoteDeselectAll", connected);
+  set_menu_sensitive (NULL, "RemoteSaveDirectoryListing", connected);
+  set_menu_sensitive (NULL, "RemoteSendSITECommand", connected);
+  set_menu_sensitive (NULL, "RemoteChangeDirectory", connected);
+  set_menu_sensitive (NULL, "RemotePermissions", connected);
+  set_menu_sensitive (NULL, "RemoteNewFolder", connected);
+  set_menu_sensitive (NULL, "RemoteRename", connected);
+  set_menu_sensitive (NULL, "RemoteDelete", connected);
+  set_menu_sensitive (NULL, "RemoteEdit", connected);
+  set_menu_sensitive (NULL, "RemoteView", connected);
+  set_menu_sensitive (NULL, "RemoteRefresh", connected);
 
   connected = GFTP_IS_CONNECTED (window1.request) && GFTP_IS_CONNECTED (window2.request);
   gtk_widget_set_sensitive (download_left_arrow, connected);
