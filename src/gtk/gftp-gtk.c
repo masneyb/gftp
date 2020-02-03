@@ -592,6 +592,7 @@ CreateMenus (GtkWidget * parent)
       <menu action='BookmarksMenu'> \
         <menuitem action='BookmarksAddBookmark'/> \
         <menuitem action='BookmarksEditBookmarks'/> \
+        <separator/> \
       </menu> \
       <menu action='TransferMenu'> \
         <menuitem action='TransferStart'/> \
@@ -713,7 +714,7 @@ CreateMenus (GtkWidget * parent)
   window1.ifactory = factory;
   window2.ifactory = factory;
 
-  //build_bookmarks_menu ();
+  build_bookmarks_menu ();
 
   gtk_window_add_accel_group (GTK_WINDOW (parent), accel_group);
 
