@@ -22,7 +22,7 @@
 static GtkWidget * bm_dialog = NULL, * edit_bookmarks_dialog = NULL;
 static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
                  * bm_remotediredit, * bm_useredit, * bm_passedit, * tree,
-                 * bm_acctedit, * anon_chk, * bm_pathedit, * bm_protocol;
+                 * bm_acctedit, * anon_chk, * bm_pathedit, * combo_protocol;
 static GHashTable * new_bookmarks_htable = NULL;
 static gftp_bookmarks_var * new_bookmarks = NULL;
 static GtkItemFactory * edit_factory;
@@ -661,7 +661,6 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
 {
   gftp_bookmarks_var * tempentry, * nextentry, * bmentry;
   char *pos, *newpath, tempchar, *tempstr;
-  GtkWidget * tempwid;
   size_t oldpathlen;
   const char *str;
 
@@ -689,8 +688,7 @@ entry_apply_changes (GtkWidget * widget, gftp_bookmarks_var * entry)
   str = gtk_entry_get_text (GTK_ENTRY (bm_portedit));
   entry->port = strtol (str, NULL, 10);
 
-  tempwid = gtk_menu_get_active (GTK_MENU (bm_protocol));
-  str = gtk_object_get_user_data (GTK_OBJECT (tempwid));
+  str = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo_protocol));
   if (entry->protocol != NULL)
     g_free (entry->protocol);
   entry->protocol = g_strdup (str);
@@ -801,7 +799,7 @@ bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
 static void
 edit_entry (gpointer data)
 {
-  GtkWidget * table, * tempwid, * menu, * notebook;
+  GtkWidget * table, * tempwid, * notebook;
   gftp_bookmarks_var * entry;
   unsigned int num, i;
   char *pos;
@@ -902,24 +900,19 @@ edit_entry (gpointer data)
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 3, 4);
   gtk_widget_show (tempwid);
 
-  menu = gtk_option_menu_new ();
-  gtk_table_attach_defaults (GTK_TABLE (table), menu, 1, 2, 3, 4);
-  gtk_widget_show (menu);
+  combo_protocol = gtk_combo_box_text_new ();
+  gtk_table_attach_defaults (GTK_TABLE (table), combo_protocol, 1, 2, 3, 4);
+  gtk_widget_show (combo_protocol);
 
   num = 0;
-  bm_protocol = gtk_menu_new ();
   for (i = 0; gftp_protocols[i].name; i++)
     {
-      tempwid = gtk_menu_item_new_with_label (gftp_protocols[i].name);
-      gtk_object_set_user_data (GTK_OBJECT (tempwid), gftp_protocols[i].name);
-      gtk_menu_append (GTK_MENU (bm_protocol), tempwid);
-      gtk_widget_show (tempwid);
-      if (entry->protocol &&
-          strcmp (gftp_protocols[i].name, entry->protocol) == 0)
-	num = i;
+      gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo_protocol),
+                                 gftp_protocols[i].name);
+      if (entry->protocol && strcmp (gftp_protocols[i].name, entry->protocol) == 0)
+        num = i;
     }
-  gtk_option_menu_set_menu (GTK_OPTION_MENU (menu), bm_protocol);
-  gtk_option_menu_set_history (GTK_OPTION_MENU (menu), num);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(combo_protocol), num);
 
   tempwid = gtk_label_new (_("Remote Directory:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
