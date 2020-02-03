@@ -161,11 +161,10 @@ _gftp_menu_exit (GtkWidget * widget, gpointer data)
     _gftp_exit (widget, data);
 }
 
-#if 0
-// unimplemented menu items in gtkUIManager...
 static void
-change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
+change_setting (GtkAction *action, GtkRadioAction *current)
 {
+  gint menuitem = gtk_radio_action_get_current_value(current);
   switch (menuitem)
     {
     case GFTP_MENU_ITEM_ASCII:
@@ -178,7 +177,7 @@ change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
       current_wdata = &window1;
       other_wdata = &window2;
 
-      if (wdata->request != NULL)
+      if (current_wdata->request != NULL)
         update_window_info ();
 
       break;
@@ -186,13 +185,12 @@ change_setting (gftp_window_data * wdata, int menuitem, GtkWidget * checkmenu)
       current_wdata = &window2;
       other_wdata = &window1;
 
-      if (wdata->request != NULL)
+      if (current_wdata->request != NULL)
         update_window_info ();
 
       break;
     }
 }
-#endif
 
 
 static void
@@ -444,12 +442,10 @@ static GtkWidget *
 CreateMenus (GtkWidget * parent)
 {
   GtkAccelGroup * accel_group;
-#if 0
   intptr_t ascii_transfers;
-  GtkWidget * tempwid;
-#endif
+  int default_ascii;
 
-  GtkActionEntry menu_items[] =
+  static const GtkActionEntry menu_items[] =
   {
     //  name                    stock_id               "label"                  accel             tooltip  callback
     { "FTPMenu",              NULL,                  N_("_FTP"),              NULL,                NULL, NULL                   },
@@ -522,11 +518,16 @@ CreateMenus (GtkWidget * parent)
     { "HelpMenu",            NULL,                   N_("_Help"),             NULL,                NULL, NULL },
     { "HelpAbout",           GTK_STOCK_ABOUT,        N_("_About"),            NULL,                NULL, G_CALLBACK(about_dialog) },
   };
-  
-  // {N_("FTPWindow _1"), "<control>1", change_setting, GFTP_MENU_ITEM_WIN1,
-  // {N_("FTPWindow _2"), "<control>2", change_setting, GFTP_MENU_ITEM_WIN2,
-  // {N_("FTP_Ascii"), NULL, change_setting, GFTP_MENU_ITEM_ASCII,
-  // {N_("FTP_Binary"), NULL, change_setting, GFTP_MENU_ITEM_BINARY,
+
+
+  static const GtkRadioActionEntry menu_radio_window[] = {
+    { "FTPWindow1", NULL, N_("Window _1"), "<control>1", NULL, GFTP_MENU_ITEM_WIN1 },
+    { "FTPWindow2", NULL, N_("Window _2"), "<control>2", NULL, GFTP_MENU_ITEM_WIN2 },
+  };
+  static const GtkRadioActionEntry menu_radio_mode[] = {
+    { "FTPAscii",  NULL, N_("_Ascii"),  NULL, NULL, GFTP_MENU_ITEM_ASCII },
+    { "FTPBinary", NULL, N_("_Binary"), NULL, NULL, GFTP_MENU_ITEM_BINARY },
+  };
 
   guint nmenu_items = G_N_ELEMENTS (menu_items);
 
@@ -534,6 +535,11 @@ CreateMenus (GtkWidget * parent)
   <ui> \
     <menubar name='M'> \
       <menu action='FTPMenu'> \
+        <menuitem action='FTPWindow1'/> \
+        <menuitem action='FTPWindow2'/> \
+        <separator/> \
+        <menuitem action='FTPAscii'/> \
+        <menuitem action='FTPBinary'/> \
         <separator/> \
         <menuitem action='FTPPreferences'/> \
         <separator/> \
@@ -676,7 +682,25 @@ CreateMenus (GtkWidget * parent)
   factory = gtk_ui_manager_new();
   
   GtkActionGroup *actions = gtk_action_group_new("Actions");
+  
   gtk_action_group_add_actions(actions, menu_items, nmenu_items, NULL);
+
+  current_wdata = &window2;
+  gtk_action_group_add_radio_actions(actions, menu_radio_window,
+                               G_N_ELEMENTS (menu_radio_window),
+                               GFTP_MENU_ITEM_WIN2,
+                               G_CALLBACK(change_setting),
+                               0);
+  gftp_lookup_global_option ("ascii_transfers", &ascii_transfers);
+  if (ascii_transfers)
+    default_ascii = GFTP_MENU_ITEM_ASCII;
+  else
+    default_ascii = GFTP_MENU_ITEM_BINARY;
+  gtk_action_group_add_radio_actions(actions, menu_radio_mode,
+                               G_N_ELEMENTS (menu_radio_mode),
+                               default_ascii,
+                               G_CALLBACK(change_setting),
+                               0);
   gtk_ui_manager_insert_action_group(factory, actions, 0);
   g_object_unref(actions);
   if (!gtk_ui_manager_add_ui_from_string(GTK_UI_MANAGER(factory), ui_info, -1, NULL))
@@ -692,22 +716,6 @@ CreateMenus (GtkWidget * parent)
   //build_bookmarks_menu ();
 
   gtk_window_add_accel_group (GTK_WINDOW (parent), accel_group);
-
-#if 0
-  gftp_lookup_global_option ("ascii_transfers", &ascii_transfers);
-  if (ascii_transfers)
-    {
-      tempwid = gtk_item_factory_get_widget (factory, "FTPAscii");
-      gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
-    }
-  else
-    {
-      tempwid = gtk_item_factory_get_widget (factory, "FTPBinary");
-      gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
-    }
-  tempwid = gtk_item_factory_get_widget (factory, "FTPWindow 2");
-  gtk_check_menu_item_set_state (GTK_CHECK_MENU_ITEM (tempwid), TRUE);
-#endif
 
   return (menu);
 }
