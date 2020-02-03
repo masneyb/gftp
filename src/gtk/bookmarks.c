@@ -120,7 +120,7 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
   gftp_add_bookmark (tempentry);
 
 #if 0
-  test.path = g_strconcat ("/Bookmarks/", tempentry->path, NULL);
+  test.path = g_strconcat ("Bookmarks", tempentry->path, NULL);
   gtk_item_factory_create_item (factory, &test, (gpointer) tempentry->path,
 				1);
   g_free (test.path);
@@ -161,7 +161,7 @@ build_bookmarks_menu (void)
   while (tempentry != NULL)
     {
 #if 0
-      test.path = g_strconcat ("/Bookmarks/", tempentry->path, NULL);
+      test.path = g_strconcat ("Bookmarks", tempentry->path, NULL);
       if (tempentry->isfolder)
         {
           test.item_type = "<Branch>";
@@ -295,9 +295,9 @@ _free_menu_entry (gftp_bookmarks_var * entry)
   char *tempstr;
 
   if (entry->oldpath != NULL)
-    tempstr = gftp_build_path (NULL, "/Bookmarks", entry->oldpath, NULL);
+    tempstr = gftp_build_path (NULL, "BookmarksMenu", entry->oldpath, NULL);
   else
-    tempstr = gftp_build_path (NULL, "/Bookmarks", entry->path, NULL);
+    tempstr = gftp_build_path (NULL, "BookmarksMenu", entry->path, NULL);
 
   tempwid = gtk_item_factory_get_item (factory, tempstr);
   if (GTK_IS_WIDGET (tempwid))
