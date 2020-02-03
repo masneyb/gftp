@@ -202,7 +202,7 @@ update_window_info (void)
 
               if (current_wdata->request->init == gftp_protocols[i].init)
                 {
-                  gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), i);
+                  gtk_combo_box_set_active(GTK_COMBO_BOX(toolbar_combo_protocol), j);
                   break;
                 }
               j++;
