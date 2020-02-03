@@ -218,7 +218,7 @@ update_window_info (void)
   update_window (&window1);
   update_window (&window2);
 
-  GtkAction *tempwid = gtk_action_group_get_action(menus, "/Tools/CompareWindows");
+  GtkAction *tempwid = gtk_action_group_get_action(menus, "ToolsCompareWindows");
   gtk_action_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
 			    && GFTP_IS_CONNECTED (window2.request));
 }
@@ -334,24 +334,24 @@ update_window (gftp_window_data * wdata)
 #if 0
   if (wdata == &window1) {
     connected = GFTP_IS_CONNECTED (window1.request)
-    set_menu_sensitive (NULL, "/Local/..,", connected);
+    set_menu_sensitive (NULL, "Local..,", connected);
     // ...
   }
   else {
     connected = GFTP_IS_CONNECTED (window2.request)
-    set_menu_sensitive (NULL, "/Remote/...", connected);
+    set_menu_sensitive (NULL, "Remote...", connected);
     // ...
   }
 
   connected = GFTP_IS_CONNECTED (window1.request) && GFTP_IS_CONNECTED (window2.request);
-  set_menu_sensitive (NULL, "/Transfer/Start", connected);
-  set_menu_sensitive (NULL, "/Transfer/Stop", connected);
-  set_menu_sensitive (NULL, "/Transfer/SkipCurrentFile", connected);
-  set_menu_sensitive (NULL, "/Transfer/RemoveFile", connected);
-  set_menu_sensitive (NULL, "/Transfer/MoveFileUp", connected);
-  set_menu_sensitive (NULL, "/Transfer/MoveFileDown", connected);
-  set_menu_sensitive (NULL, "/Transfer/RetrieveFiles", connected);
-  set_menu_sensitive (NULL, "/Transfer/PutFiles", connected);
+  set_menu_sensitive (NULL, "TransferStart", connected);
+  set_menu_sensitive (NULL, "TransferStop", connected);
+  set_menu_sensitive (NULL, "TransferSkipCurrentFile", connected);
+  set_menu_sensitive (NULL, "TransferRemoveFile", connected);
+  set_menu_sensitive (NULL, "TransferMoveFileUp", connected);
+  set_menu_sensitive (NULL, "TransferMoveFileDown", connected);
+  set_menu_sensitive (NULL, "TransferRetrieveFiles", connected);
+  set_menu_sensitive (NULL, "TransferPutFiles", connected);
 #endif
 
   connected = GFTP_IS_CONNECTED (window1.request) && GFTP_IS_CONNECTED (window2.request);
