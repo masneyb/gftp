@@ -162,7 +162,7 @@ typedef struct gftp_options_dialog_data_tag
   gftp_bookmarks_var * bm;
 } gftp_options_dialog_data;
 
-
+extern GtkWindow *main_window;
 extern gftp_window_data window1, window2, * other_wdata, * current_wdata;
 extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
                  * portedit, * logwdw, * dlwdw, * optionmenu,
