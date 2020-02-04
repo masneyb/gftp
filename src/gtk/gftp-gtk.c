@@ -23,6 +23,7 @@ static GtkItemFactory *log_factory, *dl_factory;
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
                  * gftpui_command_toolbar, * protocol_menu;
 
+GtkWindow *main_window;
 gftp_window_data window1, window2, *other_wdata, *current_wdata;
 GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
           * dlwdw, * optionmenu, * gftpui_command_widget, * download_left_arrow,
@@ -1390,7 +1391,7 @@ _setup_window2 (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
-  GtkWidget *window, *ui;
+  GtkWidget *ui;
 
   /* We override the read color functions because we are using a GdkColor 
      structures to store the color. If I put this in lib/config_file.c, then 
@@ -1414,24 +1415,24 @@ main (int argc, char **argv)
   graphic_hash_table = g_hash_table_new (string_hash_function,
                                          string_hash_compare);
 
-  window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_signal_connect (GTK_OBJECT (window), "delete_event",
+  main_window = GTK_WINDOW(gtk_window_new (GTK_WINDOW_TOPLEVEL));
+  gtk_signal_connect (GTK_OBJECT (main_window), "delete_event",
 		      GTK_SIGNAL_FUNC (_gftp_try_close), NULL);
-  gtk_signal_connect (GTK_OBJECT (window), "destroy",
+  gtk_signal_connect (GTK_OBJECT (main_window), "destroy",
 		      GTK_SIGNAL_FUNC (_gftp_force_close), NULL);
-  gtk_window_set_title (GTK_WINDOW (window), gftp_version);
-  gtk_window_set_wmclass (GTK_WINDOW(window), "main", "gFTP");
-  gtk_widget_set_name (window, gftp_version);
-  gtk_window_set_policy (GTK_WINDOW (window), TRUE, TRUE, FALSE);
-  gtk_widget_realize (window);
+  gtk_window_set_title (main_window, gftp_version);
+  gtk_window_set_wmclass (main_window, "main", "gFTP");
+  gtk_widget_set_name (GTK_WIDGET(main_window), gftp_version);
+  gtk_window_set_policy (main_window, TRUE, TRUE, FALSE);
+  gtk_widget_realize (GTK_WIDGET(main_window));
 
-  set_window_icon(GTK_WINDOW(window), NULL);
+  set_window_icon(main_window, NULL);
 
   other_wdata = &window1;
   current_wdata = &window2;
-  ui = CreateFTPWindows (window);
-  gtk_container_add (GTK_CONTAINER (window), ui);
-  gtk_widget_show (window);
+  ui = CreateFTPWindows (GTK_WIDGET(main_window));
+  gtk_container_add (GTK_CONTAINER (main_window), ui);
+  gtk_widget_show (GTK_WIDGET(main_window));
 
   gftpui_common_about (ftp_log, NULL);
 
