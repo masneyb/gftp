@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([gftp], [2.0.19], [https://www.gftp.org/])
+AC_INIT([gftp],[2.0.19],[https://www.gftp.org/])
 AM_INIT_AUTOMAKE([1.11 -Wall foreign no-dist-gzip dist-xz])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
@@ -8,7 +8,6 @@ AC_CONFIG_HEADER([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AM_GNU_GETTEXT([external])
 AM_PROG_AR
-AC_PROG_LIBTOOL
 LT_INIT
 
 # Init intltool
@@ -69,7 +68,6 @@ AC_CHECK_SIZEOF(off_t)
 
 AC_FUNC_ALLOCA
 AC_FUNC_MMAP
-AC_TYPE_SIGNAL
 AC_FUNC_STRFTIME
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(getcwd gettimeofday getwd mkdir mktime putenv rmdir select socket strdup strstr strtod strtol uname grantpt openpty getdtablesize)

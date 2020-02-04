@@ -99,7 +99,7 @@ gftpui_common_run_callback_function (gftpui_callback_data * cdata)
 }
 
 
-static RETSIGTYPE
+static void
 gftpui_common_signal_handler (int signo)
 {
   signal (signo, gftpui_common_signal_handler);
@@ -109,7 +109,7 @@ gftpui_common_signal_handler (int signo)
 }
 
 
-static RETSIGTYPE
+static void
 gftpui_common_sig_child (int signo)
 {
   int ret;
