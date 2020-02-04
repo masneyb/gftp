@@ -90,43 +90,10 @@ change_filespec (gpointer data)
 }
 
 
-static void
-dosave_directory_listing (const char *filename, gftp_save_dir_struct * str)
-{
-  gftp_file * tempfle;
-  GList * templist;
-  char *tempstr;
-  FILE * fd;
-
-  if ((fd = fopen (filename, "w")) == NULL)
-    {
-      ftp_log (gftp_logging_error, NULL, 
-               _("Error: Cannot open %s for writing: %s\n"), filename,  g_strerror (errno));
-      return;
-    }
-
-  for (templist = str->wdata->files; 
-       templist != NULL;
-       templist = templist->next)
-    {
-      tempfle = templist->data;
-
-      if (!tempfle->shown)
-        continue;
-
-      tempstr = gftp_gen_ls_string (NULL, tempfle, NULL, NULL);
-      fprintf (fd, "%s\n", tempstr);
-      g_free (tempstr);
-    }
-
-  fclose (fd);
-}
-
-
 void 
 save_directory_listing (gpointer data)
 {
-  gftp_save_dir_struct * str;
+  gftp_window_data * wdata = (gftp_window_data *)data;
   GtkWidget *filew;
   char current_dir[256];
   getcwd(current_dir, sizeof(current_dir));
@@ -139,20 +106,36 @@ save_directory_listing (gpointer data)
             GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
             NULL );
 
-  str = g_malloc0 (sizeof (*str));
-  str->filew = filew;
-  str->wdata = data;
-
   gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
   gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
   gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "Directory_Listing.txt");
+
   if (gtk_dialog_run (GTK_DIALOG(filew)) == GTK_RESPONSE_ACCEPT) {
     filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filew));
-    dosave_directory_listing(filename, str);
+    gftp_file * tempfle;
+    GList * templist = wdata->files;
+    char *tempstr;
+    FILE * fd = fopen (filename, "w");
+    if (fd)
+    {
+      for ( ;  templist; templist = templist->next)
+      {
+        tempfle = templist->data;
+        if (!tempfle->shown)
+          continue;
+        tempstr = gftp_gen_ls_string (NULL, tempfle, NULL, NULL);
+        fprintf (fd, "%s\n", tempstr);
+        g_free (tempstr);
+      }
+      fclose (fd);
+    }
+    else {
+      ftp_log (gftp_logging_error, NULL, 
+               _("Error: Cannot open %s for writing: %s\n"), filename,  g_strerror (errno));
+    }
   }
 
   gtk_widget_destroy (filew);
-  g_free (str);
 }
 
 
