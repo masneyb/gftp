@@ -134,13 +134,6 @@ typedef struct gftp_viewedit_data_tag
 } gftp_viewedit_data;
 
 
-typedef struct gftp_save_dir_struct_tag
-{
-  GtkWidget * filew;
-  gftp_window_data * wdata;
-} gftp_save_dir_struct;
-
-
 typedef struct gftp_textcomboedt_widget_data_tag
 {
   GtkWidget * combo,
