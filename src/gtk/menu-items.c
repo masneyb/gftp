@@ -326,9 +326,8 @@ viewlog (gpointer data)
 
 
 static void
-dosavelog (GtkWidget * widget, GtkFileSelection * fs)
+dosavelog (const char *filename)
 {
-  const char *filename;
   char *txt, *pos;
   gint textlen;
   ssize_t len;
@@ -337,7 +336,6 @@ dosavelog (GtkWidget * widget, GtkFileSelection * fs)
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
 
-  filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
   if ((fd = fopen (filename, "w")) == NULL)
     {
       ftp_log (gftp_logging_error, NULL, 
@@ -386,19 +384,27 @@ void
 savelog (gpointer data)
 {
   GtkWidget *filew;
+  const char *filename;
+  char current_dir[256];
+  getcwd(current_dir, sizeof(current_dir));
 
-  filew = gtk_file_selection_new (_("Save Log"));
+  filew = gtk_file_chooser_dialog_new (_("Save Log"),
+            main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
+            GTK_FILE_CHOOSER_ACTION_SAVE,
+            GTK_STOCK_SAVE,   GTK_RESPONSE_ACCEPT,
+            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+            NULL );
 
-  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
-                      "clicked", GTK_SIGNAL_FUNC (dosavelog), filew);
-  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
-                             "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
-                             GTK_OBJECT (filew));
-  gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button), "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy), GTK_OBJECT (filew));
+  gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
+  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
+  gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "gftp.log");
 
-  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filew), "gftp.log");
-  gtk_window_set_wmclass (GTK_WINDOW(filew), "Save Log", "gFTP");
-  gtk_widget_show (filew);
+  if (gtk_dialog_run (GTK_DIALOG(filew)) == GTK_RESPONSE_ACCEPT) {
+    filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filew));
+    dosavelog(filename);
+  }
+
+  gtk_widget_destroy (filew);
 }
 
 
