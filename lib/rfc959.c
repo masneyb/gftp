@@ -29,7 +29,6 @@ static gftp_textcomboedt_data gftp_proxy_type[] = {
   {N_("AUTHENTICATE"), "USER %hu@%hh\nPASS %hp\nSITE AUTHENTICATE %pu\nSITE RESPONSE %pp\n", 0},
   {N_("user@host port"), "USER %hu@%hh %ho\nPASS %hp\n", 0},
   {N_("user@host NOAUTH"), "USER %hu@%hh\nPASS %hp\n", 0},
-  {N_("HTTP Proxy"), "http", 0},
   {N_("Custom"), "", GFTP_TEXTCOMBOEDT_EDITABLE},
   {NULL, NULL, 0}
 };
@@ -1827,16 +1826,9 @@ static int
 rfc959_set_config_options (gftp_request * request)
 {
   char *proxy_config;
-  int ret;
-
   gftp_lookup_request_option (request, "proxy_config", &proxy_config);
   if (strcmp (proxy_config, "http") == 0)
-    {
-      if ((ret = gftp_protocols[GFTP_HTTP_NUM].init (request)) < 0)
-        return (ret);
-
-      gftp_set_request_option (request, "proxy_config", "ftp");
-    }
+     gftp_set_request_option (request, "proxy_config", "ftp");
 
   return (0);
 }
