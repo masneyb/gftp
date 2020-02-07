@@ -821,11 +821,9 @@ void gftp_format_file_size(off_t bytes,
 /* protocols.c */
 #define GFTP_FTP_NUM				0
 #define GFTP_FTPS_NUM				1
-#define GFTP_HTTP_NUM				2
-#define GFTP_HTTPS_NUM				3
-#define GFTP_LOCAL_NUM				4
-#define GFTP_SSHV2_NUM				5
-#define GFTP_BOOKMARK_NUM			6
+#define GFTP_LOCAL_NUM				2
+#define GFTP_SSHV2_NUM				3
+#define GFTP_BOOKMARK_NUM			4
 
 #define GFTP_IS_CONNECTED(request)		((request) != NULL && \
                                                  ((request)->datafd > 0 || \
@@ -846,14 +844,6 @@ int rfc959_connect 			( gftp_request * request );
 int ftps_init 				( gftp_request * request );
 
 void ftps_register_module		( void );
-
-int rfc2068_init 			( gftp_request * request );
-
-void rfc2068_register_module		( void );
-
-int https_init 				( gftp_request * request );
-
-void https_register_module		( void );
 
 int local_init 				( gftp_request * request );
 

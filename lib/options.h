@@ -257,14 +257,6 @@ supported_gftp_protocols gftp_protocols[] =
   {N_("FTPS"), ftps_init, ftps_register_module, "ftps", 21, 0, 1},
 #endif
 
-  {N_("HTTP"), rfc2068_init, rfc2068_register_module, "http", 80, 1, 1},
-
-#ifdef USE_SSL
-  {N_("HTTPS"), https_init, https_register_module, "https", 443, 1, 1},
-#else
-  {N_("HTTPS"), https_init, https_register_module, "https", 443, 0, 1},
-#endif
-
   {N_("Local"), local_init, local_register_module, "file", 0, 1, 0},
 
   {N_("SSH2"), sshv2_init, sshv2_register_module, "ssh2", 22, 1, 1},
