@@ -829,9 +829,9 @@ CreateConnectToolbar (GtkWidget * parent)
   gftp_lookup_global_option ("user_value", &tempstr);
 
   combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(useredit)));
-  g_signal_connect (GTK_WIDGET(useredit), "key_press_event",
+  g_signal_connect (G_OBJECT(combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
-  g_signal_connect (GTK_WIDGET(useredit), "key_release_event",
+  g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
   gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
