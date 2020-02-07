@@ -70,20 +70,9 @@
 #include <dirent.h>
 #include <grp.h>
 #include <math.h>
-
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-
-#ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
-#endif
-
-#ifdef HAVE_STRING_H
 #include <string.h>
-#else
 #include <strings.h>
-#endif
 
 #ifdef USE_SSL
 #include <openssl/bio.h>
