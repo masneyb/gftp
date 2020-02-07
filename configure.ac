@@ -44,42 +44,24 @@ AC_SUBST(PREFIX)
 AC_CANONICAL_HOST
 AC_PROG_CC
 AC_SYS_LARGEFILE
-AC_C_CONST
 AC_C_INLINE
 
 AM_MAINTAINER_MODE
 
-AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_PROG_MAKE_SET
-
-AC_HEADER_DIRENT
-AC_HEADER_STDC
-AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS(fcntl.h libutil.h limits.h malloc.h pty.h strings.h sys/ioctl.h sys/time.h unistd.h stdint.h sys/mkdev.h inttypes.h)
+AC_CHECK_HEADERS(libutil.h malloc.h pty.h sys/ioctl.h sys/mkdev.h)
 
 AC_TYPE_MODE_T
 AC_TYPE_INTPTR_T
 AC_TYPE_PID_T
-AC_TYPE_SIZE_T
-AC_HEADER_TIME
-AC_STRUCT_TM
 AC_CHECK_SIZEOF(off_t)
 
-AC_FUNC_ALLOCA
-AC_FUNC_MMAP
-AC_FUNC_STRFTIME
-AC_FUNC_UTIME_NULL
-AC_CHECK_FUNCS(getcwd gettimeofday getwd mkdir mktime putenv rmdir select socket strdup strstr strtod strtol uname grantpt openpty getdtablesize)
+AC_CHECK_FUNCS(gettimeofday select socket grantpt openpty getdtablesize)
 
-EXTRA_LIBS=""
+EXTRA_LIBS="-lm"
 
 # FreeBSD needs this
-AC_CHECK_LIB(util, openpty, [EXTRA_LIBS="-lutil"
-                             AC_DEFINE(HAVE_OPENPTY, [1], [Define if you have the openpty function.]) ])
-
-AC_CHECK_LIB(socket, socket, EXTRA_LIBS="-lsocket")
-  
+AC_CHECK_LIB(util, openpty, EXTRA_LIBS="$EXTRA_LIBS -lutil")
+AC_CHECK_LIB(socket, socket, EXTRA_LIBS="$EXTRA_LIBS -lsocket")
 AC_CHECK_LIB(nsl, gethostbyname, EXTRA_LIBS="$EXTRA_LIBS -lnsl")
 
 GFTP_TEXT=""
@@ -111,8 +93,6 @@ if test "x$enable_textport" = "xyes" ; then
     ])
   ])
 fi
-
-AC_CHECK_LIB(m, log10, EXTRA_LIBS="$EXTRA_LIBS -lm")
 
 AM_WITH_DMALLOC
 
