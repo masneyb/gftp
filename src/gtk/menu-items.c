@@ -425,7 +425,7 @@ about_dialog (gpointer data)
     };
     /* TRANSLATORS: Replace this string with your names, one name per line. */
     gchar * translators = _("Translated by");
-    char * logopath = get_image_path ("gftp-logo.xpm", 0); /* misc-gtk.c */
+    char * logopath = get_image_path ("gftp-logo.xpm"); /* misc-gtk.c */
 
     /* Create and initialize the dialog. */
     GtkWidget * about_dlg = gtk_about_dialog_new();

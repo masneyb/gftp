@@ -344,8 +344,7 @@ int progress_timeout 				( gpointer data );
 
 void display_cached_logs			( void );
 
-char * get_image_path 				( char *filename, 
-						  int quit_on_err );
+char * get_image_path 				( char *filename);
 
 void set_window_icon(GtkWindow *window, char *icon_name);
 
