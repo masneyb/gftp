@@ -791,8 +791,8 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   gtk_widget_show (tempwid);
 
   ddata->edit = gtk_entry_new ();
-  gtk_signal_connect (GTK_OBJECT (ddata->edit), "key_press_event",
-                      GTK_SIGNAL_FUNC (dialog_keypress), (gpointer) ddata);
+  g_signal_connect (G_OBJECT (ddata->edit), "key_press_event",
+                      G_CALLBACK (dialog_keypress), (gpointer) ddata);
 
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), ddata->edit, TRUE,
 		      TRUE, 0);
@@ -814,7 +814,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
       gtk_widget_show (ddata->checkbox);
     }
       
-  g_signal_connect (GTK_OBJECT (dialog), "response",
+  g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (dialog_response), ddata);
 
   gtk_widget_show (dialog);
@@ -857,7 +857,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), text, TRUE, TRUE, 0);
   gtk_widget_show (text);
 
-  g_signal_connect (GTK_OBJECT (dialog), "response",
+  g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (dialog_response), ddata);
 
   gtk_widget_show (dialog);
@@ -902,8 +902,8 @@ update_directory_download_progress (gftp_transfer * transfer)
       gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
       gtk_window_set_decorated (GTK_WINDOW (dialog), 0);
       gtk_grab_add (dialog);
-      gtk_signal_connect (GTK_OBJECT (dialog), "delete_event",
-                          GTK_SIGNAL_FUNC (delete_event), NULL);
+      g_signal_connect (G_OBJECT (dialog), "delete_event",
+                          G_CALLBACK (delete_event), NULL);
       gtk_window_set_title (GTK_WINDOW (dialog),
 			    _("Getting directory listings"));
       gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -926,8 +926,8 @@ update_directory_download_progress (gftp_transfer * transfer)
       gtk_widget_show (statuswid);
 
       stopwid = gtk_button_new_with_label (_("  Stop  "));
-      gtk_signal_connect (GTK_OBJECT (stopwid), "clicked",
-                          GTK_SIGNAL_FUNC (trans_stop_button), transfer);
+      g_signal_connect (G_OBJECT (stopwid), "clicked",
+                          G_CALLBACK (trans_stop_button), transfer);
       gtk_box_pack_start (GTK_BOX (vbox), stopwid, TRUE, TRUE, 0);
       gtk_widget_show (stopwid); 
 

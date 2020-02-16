@@ -234,7 +234,7 @@ chmod_dialog (gpointer data)
   gtk_box_pack_start (GTK_BOX (vbox), ox, FALSE, FALSE, 0);
   gtk_widget_show (ox);
 
-  g_signal_connect (GTK_OBJECT (dialog), "response",
+  g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (chmod_action), wdata);
 
   if (IS_ONE_SELECTED (wdata))

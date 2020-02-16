@@ -361,9 +361,9 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   gtk_widget_set_size_request (table, 500, 400);
   gtk_widget_show (table);
 
-  g_signal_connect_swapped (GTK_OBJECT (dialog), "response",
+  g_signal_connect_swapped (G_OBJECT (dialog), "response",
                             G_CALLBACK (gtk_widget_destroy),
-                            GTK_OBJECT (dialog));
+                            G_OBJECT (dialog));
 
   buf[sizeof (buf) - 1] = '\0';
   while ((n = read (fd, buf, sizeof (buf) - 1)) > 0)

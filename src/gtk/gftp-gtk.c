@@ -747,10 +747,10 @@ CreateConnectToolbar (GtkWidget * parent)
 
   openurl_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (openurl_btn), tempwid);
-  gtk_signal_connect_object (GTK_OBJECT (openurl_btn), "clicked",
-			     GTK_SIGNAL_FUNC (tb_openurl_dialog), NULL);
-  gtk_signal_connect (GTK_OBJECT (openurl_btn), "drag_data_received",
-		      GTK_SIGNAL_FUNC (openurl_get_drag_data), NULL);
+  g_signal_connect_swapped (G_OBJECT (openurl_btn), "clicked",
+			     G_CALLBACK (tb_openurl_dialog), NULL);
+  g_signal_connect (G_OBJECT (openurl_btn), "drag_data_received",
+		      G_CALLBACK (openurl_get_drag_data), NULL);
   gtk_drag_dest_set (openurl_btn, GTK_DEST_DEFAULT_ALL, possible_types, 2,
 		     GDK_ACTION_COPY | GDK_ACTION_MOVE);
   gtk_container_border_width (GTK_CONTAINER (openurl_btn), 1);
@@ -775,9 +775,9 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gftp_lookup_global_option ("host_value", &tempstr);
   combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
-  g_signal_connect (GTK_WIDGET(combo_entry), "key_press_event",
+  g_signal_connect (G_OBJECT(combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
-  g_signal_connect (GTK_WIDGET(combo_entry), "key_release_event",
+  g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
   gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
@@ -802,9 +802,9 @@ CreateConnectToolbar (GtkWidget * parent)
   gftp_lookup_global_option ("port_value", &tempstr);
 
   combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(portedit)));
-  g_signal_connect (GTK_WIDGET(combo_entry), "key_press_event",
+  g_signal_connect (G_OBJECT(combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
-  g_signal_connect (GTK_WIDGET(combo_entry), "key_release_event",
+  g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
   gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
@@ -844,9 +844,9 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_widget_set_size_request (passedit, 120, -1);
 
   gtk_entry_set_visibility (GTK_ENTRY (passedit), FALSE);
-  g_signal_connect (GTK_WIDGET (passedit), "key_press_event",
+  g_signal_connect (G_OBJECT (passedit), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
-  g_signal_connect (GTK_WIDGET (passedit), "key_release_event",
+  g_signal_connect (G_OBJECT (passedit), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
   gtk_box_pack_start (GTK_BOX (box), passedit, FALSE, FALSE, 0);
 
@@ -877,8 +877,8 @@ CreateConnectToolbar (GtkWidget * parent)
   stop_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
   gtk_widget_set_sensitive (stop_btn, 0);
-  gtk_signal_connect_object (GTK_OBJECT (stop_btn), "clicked",
-			     GTK_SIGNAL_FUNC (stop_button), NULL);
+  g_signal_connect_swapped (G_OBJECT (stop_btn), "clicked",
+			     G_CALLBACK (stop_button), NULL);
   gtk_container_border_width (GTK_CONTAINER (stop_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), stop_btn, FALSE, FALSE, 0);
 
@@ -904,8 +904,8 @@ CreateCommandToolbar (void)
 
   gftpui_command_widget = gtk_entry_new ();
   gtk_box_pack_start (GTK_BOX (box), gftpui_command_widget, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (gftpui_command_widget), "activate",
-		      GTK_SIGNAL_FUNC (gftpui_run_command), NULL);
+  g_signal_connect (G_OBJECT (gftpui_command_widget), "activate",
+		      G_CALLBACK (gftpui_run_command), NULL);
 
   return (gftpui_command_toolbar);
 }
@@ -1090,9 +1090,9 @@ CreateFTPWindow (gftp_window_data * wdata)
   gtk_box_pack_start (GTK_BOX (box), wdata->combo, FALSE, FALSE, 0);
 
   combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->combo)));
-  g_signal_connect (GTK_WIDGET(combo_entry), "key_press_event",
+  g_signal_connect (G_OBJECT(combo_entry), "key_press_event",
                    G_CALLBACK (chdir_edit), NULL);
-  g_signal_connect (GTK_WIDGET(combo_entry), "key_release_event",
+  g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
                    G_CALLBACK (chdir_edit), wdata);
 
   gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(wdata->combo) )) );
@@ -1158,20 +1158,20 @@ CreateFTPWindow (gftp_window_data * wdata)
   setup_column (wdata->listbox, 6, colwidth);
 
   gtk_box_pack_start (GTK_BOX (box), scroll_list, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (wdata->listbox), "click_column",
-	 	      GTK_SIGNAL_FUNC (sortrows), (gpointer) wdata);
-  gtk_signal_connect (GTK_OBJECT (wdata->listbox), "drag_data_get",
-		      GTK_SIGNAL_FUNC (listbox_drag), (gpointer) wdata);
-  gtk_signal_connect (GTK_OBJECT (wdata->listbox), "drag_data_received",
-		      GTK_SIGNAL_FUNC (listbox_get_drag_data),
+  g_signal_connect (G_OBJECT (wdata->listbox), "click_column",
+	 	      G_CALLBACK (sortrows), (gpointer) wdata);
+  g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_get",
+		      G_CALLBACK (listbox_drag), (gpointer) wdata);
+  g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_received",
+		      G_CALLBACK (listbox_get_drag_data),
 		      (gpointer) wdata);
-  gtk_signal_connect_after (GTK_OBJECT (wdata->listbox), "key_press_event",
-                            GTK_SIGNAL_FUNC (list_enter), (gpointer) wdata);
-  gtk_signal_connect (GTK_OBJECT (wdata->listbox), "select_row",
-                      GTK_SIGNAL_FUNC(select_row_callback),
+  g_signal_connect_after (G_OBJECT (wdata->listbox), "key_press_event",
+                            G_CALLBACK (list_enter), (gpointer) wdata);
+  g_signal_connect (G_OBJECT (wdata->listbox), "select_row",
+                      G_CALLBACK(select_row_callback),
                       (gpointer) wdata);
-  gtk_signal_connect_after (GTK_OBJECT (wdata->listbox), "button_press_event",
-                            GTK_SIGNAL_FUNC (list_dblclick), (gpointer) wdata);
+  g_signal_connect_after (G_OBJECT (wdata->listbox), "button_press_event",
+                            G_CALLBACK (list_dblclick), (gpointer) wdata);
   return (parent);
 }
 
@@ -1238,8 +1238,8 @@ CreateFTPWindows (GtkWidget * ui)
 
   upload_right_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), upload_right_arrow, TRUE, FALSE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (upload_right_arrow), "clicked",
-			     GTK_SIGNAL_FUNC (put_files), NULL);
+  g_signal_connect_swapped (G_OBJECT (upload_right_arrow), "clicked",
+			     G_CALLBACK (put_files), NULL);
   gtk_container_add (GTK_CONTAINER (upload_right_arrow), tempwid);
 
   tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_BACK,
@@ -1247,8 +1247,8 @@ CreateFTPWindows (GtkWidget * ui)
 
   download_left_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), download_left_arrow, TRUE, FALSE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (download_left_arrow), "clicked",
-			     GTK_SIGNAL_FUNC (get_files), NULL);
+  g_signal_connect_swapped (G_OBJECT (download_left_arrow), "clicked",
+			     G_CALLBACK (get_files), NULL);
   gtk_container_add (GTK_CONTAINER (download_left_arrow), tempwid);
 
   gtk_paned_pack1 (GTK_PANED (winpane), box, 1, 1);
@@ -1280,7 +1280,7 @@ CreateFTPWindows (GtkWidget * ui)
     gtk_clist_set_column_width (GTK_CLIST (dlwdw), 0, tmplookup);
 
   gtk_container_add (GTK_CONTAINER (transfer_scroll), dlwdw);
-  g_signal_connect (GTK_WIDGET (dlwdw), "button_press_event",
+  g_signal_connect (G_OBJECT (dlwdw), "button_press_event",
         G_CALLBACK (on_key_press_transfer), NULL);
   gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
 
@@ -1665,10 +1665,10 @@ main (int argc, char **argv)
                                          string_hash_compare);
 
   main_window = GTK_WINDOW(gtk_window_new (GTK_WINDOW_TOPLEVEL));
-  gtk_signal_connect (GTK_OBJECT (main_window), "delete_event",
-		      GTK_SIGNAL_FUNC (_gftp_try_close), NULL);
-  gtk_signal_connect (GTK_OBJECT (main_window), "destroy",
-		      GTK_SIGNAL_FUNC (_gftp_force_close), NULL);
+  g_signal_connect (G_OBJECT (main_window), "delete_event",
+		      G_CALLBACK (_gftp_try_close), NULL);
+  g_signal_connect (G_OBJECT (main_window), "destroy",
+		      G_CALLBACK (_gftp_force_close), NULL);
   gtk_window_set_title (main_window, gftp_version);
   gtk_window_set_wmclass (main_window, "main", "gFTP");
   gtk_widget_set_name (GTK_WIDGET(main_window), gftp_version);

@@ -912,14 +912,14 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_widget_show (rbox);
   
   domain_active = gtk_radio_button_new_with_label (NULL, _("Domain"));
-  gtk_signal_connect (GTK_OBJECT (domain_active), "toggled",
-		      GTK_SIGNAL_FUNC (add_toggle), (gpointer) 1);
+  g_signal_connect (G_OBJECT (domain_active), "toggled",
+		      G_CALLBACK (add_toggle), (gpointer) 1);
   
   nradio = gtk_radio_button_new_with_label (gtk_radio_button_group
                                             (GTK_RADIO_BUTTON (domain_active)),
                                            _("Network"));
-  gtk_signal_connect (GTK_OBJECT (nradio), "toggled",
-		      GTK_SIGNAL_FUNC (add_toggle), NULL);
+  g_signal_connect (G_OBJECT (nradio), "toggled",
+		      G_CALLBACK (add_toggle), NULL);
 
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid), nradio);
 
@@ -1085,7 +1085,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
 	}
     }
 
-  g_signal_connect (GTK_OBJECT (dialog), "response",
+  g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (proxyhosts_action), NULL);
 
   gtk_widget_show (dialog);
@@ -1139,8 +1139,8 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (add_proxy_host), NULL);
+  g_signal_connect (G_OBJECT (tempwid), "clicked",
+		      G_CALLBACK (add_proxy_host), NULL);
   gtk_widget_show (tempwid);
 
 #if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION < 5
@@ -1151,8 +1151,8 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   edit_button = tempwid;
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (add_proxy_host), (gpointer) 1);
+  g_signal_connect (G_OBJECT (tempwid), "clicked",
+		      G_CALLBACK (add_proxy_host), (gpointer) 1);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_from_stock (GTK_STOCK_DELETE);
@@ -1160,14 +1160,14 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   delete_button = tempwid;
   GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (delete_proxy_host), NULL);
+  g_signal_connect (G_OBJECT (tempwid), "clicked",
+		      G_CALLBACK (delete_proxy_host), NULL);
   gtk_widget_show (tempwid);
 
-  gtk_signal_connect (GTK_OBJECT (proxy_list), "select_row", 
-                      GTK_SIGNAL_FUNC (buttons_toggle), (gpointer) 1);
-  gtk_signal_connect (GTK_OBJECT (proxy_list), "unselect_row", 
-                      GTK_SIGNAL_FUNC (buttons_toggle), NULL);
+  g_signal_connect (G_OBJECT (proxy_list), "select_row", 
+                      G_CALLBACK (buttons_toggle), (gpointer) 1);
+  g_signal_connect (G_OBJECT (proxy_list), "unselect_row", 
+                      G_CALLBACK (buttons_toggle), NULL);
   buttons_toggle (NULL, 0, 0, 0, NULL);
 }
 
@@ -1268,7 +1268,7 @@ options_dialog (gpointer data)
 
   make_proxy_hosts_tab (gftp_option_data->notebook);
 
-  g_signal_connect (GTK_OBJECT (gftp_option_data->dialog), "response",
+  g_signal_connect (G_OBJECT (gftp_option_data->dialog), "response",
                     G_CALLBACK (options_action), NULL);
 
   gtk_widget_show (gftp_option_data->dialog);
