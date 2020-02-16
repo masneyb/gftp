@@ -443,8 +443,11 @@ about_dialog (gpointer data)
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about_dlg), authors);
     gtk_about_dialog_set_translator_credits(GTK_ABOUT_DIALOG(about_dlg), translators);
     set_window_icon(GTK_WINDOW(about_dlg), NULL);
+    gtk_window_set_transient_for( GTK_WINDOW (about_dlg), main_window );
+    gtk_window_set_modal ( GTK_WINDOW (about_dlg), TRUE);
+    gtk_window_set_position (GTK_WINDOW (about_dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 
-    /* Display the dialog, wait for the user to click OK, and dismiss the dialog. */
+    /* Display the dialog, wait for the user to close it, and destroy the dialog. */
     gtk_dialog_run(GTK_DIALOG(about_dlg));
     gtk_widget_destroy(about_dlg);
 }
