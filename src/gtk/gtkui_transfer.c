@@ -320,20 +320,20 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
   tempwid = gtk_button_new_with_label (_("Overwrite"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (gftpui_gtk_overwrite), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), "clicked",
+		      G_CALLBACK (gftpui_gtk_overwrite), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Resume"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (gftpui_gtk_resume), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), "clicked",
+		      G_CALLBACK (gftpui_gtk_resume), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Skip File"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-                      GTK_SIGNAL_FUNC (gftpui_gtk_skip), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), "clicked",
+                      G_CALLBACK (gftpui_gtk_skip), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
   hbox = gtk_hbox_new (TRUE, 20);
@@ -342,17 +342,17 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
   tempwid = gtk_button_new_with_label (_("Select All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (gftpui_gtk_trans_selectall), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), "clicked",
+		      G_CALLBACK (gftpui_gtk_trans_selectall), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Deselect All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (tempwid), "clicked",
-		      GTK_SIGNAL_FUNC (gftpui_gtk_trans_unselectall), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), "clicked",
+		      G_CALLBACK (gftpui_gtk_trans_unselectall), (gpointer) tdata);
   gtk_widget_show (tempwid);
 
-  g_signal_connect (GTK_OBJECT (dialog), "response",
+  g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (gftpui_gtk_transfer_action),(gpointer) tdata);
 
   gtk_widget_show (dialog);

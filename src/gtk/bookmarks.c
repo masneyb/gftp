@@ -1028,14 +1028,14 @@ edit_entry (gpointer data)
     gtk_widget_set_sensitive (anon_chk, 0);
   else
     {
-      gtk_signal_connect (GTK_OBJECT (anon_chk), "toggled",
-			  GTK_SIGNAL_FUNC (set_userpass_visible), NULL);
+      g_signal_connect (G_OBJECT (anon_chk), "toggled",
+			  G_CALLBACK (set_userpass_visible), NULL);
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (anon_chk), entry->user
 				    && strcmp (entry->user, "anonymous") == 0);
     }
   gtk_widget_show (anon_chk);
 
-  g_signal_connect (GTK_OBJECT (bm_dialog), "response",
+  g_signal_connect (G_OBJECT (bm_dialog), "response",
                     G_CALLBACK (bmedit_action), (gpointer) entry);
 
   gftp_gtk_setup_bookmark_options (notebook, entry);
@@ -1267,16 +1267,16 @@ edit_bookmarks (gpointer data)
   gtk_clist_set_selection_mode (GTK_CLIST (tree), GTK_SELECTION_BROWSE);
   gtk_clist_set_reorderable (GTK_CLIST (tree), 1);
   gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scroll), tree);
-  gtk_signal_connect_after (GTK_OBJECT (tree), "key_press_event",
-			    GTK_SIGNAL_FUNC (bm_enter), (gpointer) tree);
-  gtk_signal_connect_after (GTK_OBJECT (tree), "tree_move",
-			    GTK_SIGNAL_FUNC (after_move), NULL);
-  gtk_signal_connect_after (GTK_OBJECT (tree), "button_press_event",
-			    GTK_SIGNAL_FUNC (bm_dblclick), (gpointer) tree);
+  g_signal_connect_after (G_OBJECT (tree), "key_press_event",
+			    G_CALLBACK (bm_enter), (gpointer) tree);
+  g_signal_connect_after (G_OBJECT (tree), "tree_move",
+			    G_CALLBACK (after_move), NULL);
+  g_signal_connect_after (G_OBJECT (tree), "button_press_event",
+			    G_CALLBACK (bm_dblclick), (gpointer) tree);
   gtk_ctree_set_drag_compare_func (GTK_CTREE(tree), &move_possible);
   gtk_widget_show (tree);
 
-  g_signal_connect (GTK_OBJECT (edit_bookmarks_dialog), "response",
+  g_signal_connect (G_OBJECT (edit_bookmarks_dialog), "response",
                     G_CALLBACK (editbm_action), NULL);
 
   gtk_widget_show (edit_bookmarks_dialog);
