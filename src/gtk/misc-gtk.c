@@ -365,7 +365,7 @@ open_xpm (GtkWidget * widget, char *filename)
 
   style = gtk_widget_get_style (widget);
 
-  if ((exfile = get_image_path (filename, 0)) == NULL)
+  if ((exfile = get_image_path (filename)) == NULL)
     return (NULL);
 
   graphic = g_malloc0 (sizeof (*graphic));
@@ -985,40 +985,32 @@ display_cached_logs (void)
 }
 
 char *
-get_image_path (char *filename, int quit_on_err)
-{
-  char *tempstr, *exfile, *share_dir;
+get_image_path (char *filename) {
+	char *path1 = NULL, *path2 = NULL, *found = NULL;
 
-  tempstr = g_strconcat (BASE_CONF_DIR, "/", filename, NULL);
-  exfile = gftp_expand_path (NULL, tempstr);
-  g_free (tempstr);
-  if (access (exfile, F_OK) != 0)
-    {
-      g_free (exfile);
-      share_dir = gftp_get_share_dir ();
-
-      tempstr = g_strconcat (share_dir, "/", filename, NULL);
-      exfile = gftp_expand_path (NULL, tempstr);
-      g_free (tempstr);
-      if (access (exfile, F_OK) != 0)
-	{
-	  g_free (exfile);
-	  exfile = g_strconcat ("/usr/share/icons/", filename, NULL);
-	  if (access (exfile, F_OK) != 0)
-	    {
-	      g_free (exfile);
-	      if (!quit_on_err)
-		return (NULL);
-
-	      printf (_("gFTP Error: Cannot find file %s in %s or %s\n"),
-		      filename, share_dir, BASE_CONF_DIR);
-	      exit (EXIT_FAILURE);
-	    }
+	// see lib/misc.c -> gftp_get_share_dir ()
+	path1 = g_strconcat (gftp_get_share_dir (), filename, NULL);
+	if (access (path1, F_OK) == 0) {
+		found = path1;
 	}
-    }
-  return (exfile);
-}
 
+	if (!found) {
+		path2 = g_strconcat ("/usr/share/gftp/", filename, NULL);
+		if (access (path2, F_OK) == 0) {
+			found = path2;
+		}
+	}
+	if (!found) {
+		if (path1) fprintf(stderr, "* %s: %s not found\n", PACKAGE_NAME, path1);
+		if (path2 && strcmp(path1,path2) != 0)
+		           fprintf(stderr, "* %s: %s not found\n", PACKAGE_NAME, path2);
+	}
+
+	if (path1 && path1 != found) g_free (path1);
+	if (path2 && path2 != found) g_free (path2);
+
+	return (found);
+}
 
 void
 set_window_icon(GtkWindow *window, char *icon_name)
@@ -1026,9 +1018,9 @@ set_window_icon(GtkWindow *window, char *icon_name)
   GdkPixbuf *pixbuf;
   char *img_path;
   if (icon_name)
-    img_path = get_image_path (icon_name, 0);
+    img_path = get_image_path (icon_name);
   else
-    img_path = get_image_path ("gftp.xpm", 0);
+    img_path = get_image_path ("gftp.xpm");
   if (img_path) {
     pixbuf = gdk_pixbuf_new_from_file(img_path, NULL);
     g_free (img_path);
