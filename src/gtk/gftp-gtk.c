@@ -40,7 +40,8 @@ pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_t main_thread_id;
 GList * viewedit_processes = NULL;
 
-gboolean on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data);
+static gboolean on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data);
+static void on_combo_protocol_change_cb (GtkComboBox *cb, gpointer data);
 static int combo_key_pressed = 0;
 
 static int
@@ -855,7 +856,10 @@ CreateConnectToolbar (GtkWidget * parent)
 
   toolbar_combo_protocol = gtk_combo_box_text_new ();
   gtk_box_pack_start (GTK_BOX (tempwid), toolbar_combo_protocol, TRUE, FALSE, 0);
-
+  g_signal_connect (G_OBJECT (toolbar_combo_protocol),
+                    "changed",
+                    G_CALLBACK (on_combo_protocol_change_cb),
+                    NULL);
   num = 0;
   j = 0;
   gftp_lookup_global_option ("default_protocol", &default_protocol);
@@ -1352,7 +1356,15 @@ _get_selected_protocol ()
   return i;
 }
 
-gboolean
+static void
+on_combo_protocol_change_cb (GtkComboBox *cb, gpointer data)
+{
+  GtkComboBoxText *combo = GTK_COMBO_BOX_TEXT(cb);
+  char *txt = gtk_combo_box_text_get_active_text (combo);
+  gftp_set_global_option ("default_protocol", txt);
+}
+
+static gboolean
 on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
   if (event->type == GDK_KEY_PRESS) {
