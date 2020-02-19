@@ -989,7 +989,7 @@ get_image_path (char *filename) {
 	char *path1 = NULL, *path2 = NULL, *found = NULL;
 
 	// see lib/misc.c -> gftp_get_share_dir ()
-	path1 = g_strconcat (gftp_get_share_dir (), filename, NULL);
+	path1 = g_strconcat (gftp_get_share_dir (), "/", filename, NULL);
 	if (access (path1, F_OK) == 0) {
 		found = path1;
 	}
