@@ -14,24 +14,30 @@ LT_INIT
 IT_PROG_INTLTOOL
 
 AC_ARG_ENABLE(gtk2, 
-              [  --disable-gtk2	  Do not look for GTK+ 2.0 libraries], 
+              [  --disable-gtk2          Do not look for GTK+ 2.0 libraries], 
               enable_gtk2=$enableval, 
               enable_gtk2="yes")
 
 AC_ARG_ENABLE(gtk3,
-              [  --enable-gtk3          Enable GTK+ 3.0 (Experimental)],
+              [  --enable-gtk3           Enable GTK+ 3.0 (Experimental)],
               enable_gtk3=$enableval,
               enable_gtk3="no")
 
 AC_ARG_ENABLE(gtkport, 
-              [  --disable-gtkport	  Disable compiling the GTK+ port], 
+              [  --disable-gtkport       Disable compiling the GTK+ port], 
               enable_gtkport=$enableval, 
               enable_gtkport="yes")
+
+AC_ARG_ENABLE(gtk_warnings,
+              [  --enable-gtk-warnings   So you can see what is deprecated in GTK2...],
+              gtk_warnings=$enableval,
+              gtk_warnings='np')
 
 AC_ARG_ENABLE(textport, 
               [  --disable-textport	  Disable compiling the text port], 
               enable_textport=$enableval, 
               enable_textport="yes")
+
 AC_ARG_ENABLE(ssl, 
               [  --disable-ssl		  Disable SSL support], 
               enable_ssl=$enableval, 
@@ -175,6 +181,10 @@ case "$CC" in
   gcc*) CPPFLAGS="$CPPFLAGS -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers" ;;
   *) ;;
 esac
+
+if test x"$gtk_warnings" = x"yes"; then
+   CPPFLAGS="$CPPFLAGS -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES"
+fi
 
 AC_CHECK_PROG(DB2HTML, db2html, true, false)
 AM_CONDITIONAL(HAVE_DOCBOOK, $DB2HTML)
