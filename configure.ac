@@ -103,8 +103,6 @@ AC_SUBST(GFTP_TEXT)
 GFTP_GTK=""
 PTHREAD_CFLAGS=""
 PTHREAD_LIBS=""
-GTHREAD_CFLAGS=""
-GTHREAD_LIBS=""
 
 PKG_CHECK_MODULES(
   [GLIB], [glib-2.0 >= 2.32.0], found_glib=yes,
@@ -127,7 +125,6 @@ if test "x$enable_gtkport" = "xyes" ; then
   if test "x$enable_gtk2" = "xyes" ; then
     dnl Test for gtk+-2.0
     PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.24.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk2 or install GTK+ 2.0))
-    PKG_CHECK_MODULES([GTHREAD], gthread-2.0 >=  2.32.0, HAVE_GTHREADS="yes")
   fi
   if test "x$enable_gtk3" = "xyes" ; then
     dnl Test for gtk+-3.0
@@ -152,8 +149,6 @@ if test "x$enable_gtkport" = "xyes" ; then
 fi
 AC_SUBST(PTHREAD_CFLAGS)
 AC_SUBST(PTHREAD_LIBS)
-AC_SUBST(GTHREAD_LIBS)
-AC_SUBST(GTHREAD_CFLAGS)
 AC_SUBST(GFTP_GTK)
 
 SSL_LIBS=""
