@@ -735,7 +735,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
                 gftp_dialog_button okbutton, void (*okfunc) (), void *okptr,
 		void (*cancelfunc) (), void *cancelptr)
 {
-  GtkWidget * tempwid, * dialog;
+  GtkWidget * tempwid, * dialog, *vbox;
   gftp_dialog_data * ddata;
   const gchar * yes_text;
 
@@ -767,35 +767,34 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
         break;
     }
 
-  dialog = gtk_dialog_new_with_buttons (_(diagtxt), NULL, 0,
-                                        GTK_STOCK_CANCEL,
-                                        GTK_RESPONSE_NO,
-                                        yes_text,
-                                        GTK_RESPONSE_YES,
+  dialog = gtk_dialog_new_with_buttons (_(diagtxt),
+                                        NULL,
+                                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                        GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
+                                        yes_text,         GTK_RESPONSE_YES,
                                         NULL);
 
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
+  vbox = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+
+  gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+  gtk_box_set_spacing (GTK_BOX (vbox), 5);
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "edit", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_widget_set_size_request (dialog, 380, -1);
   gtk_grab_add (dialog);
-  gtk_widget_realize (dialog);
-
   set_window_icon(GTK_WINDOW(dialog), NULL);
 
   ddata->dialog = dialog;
 
   tempwid = gtk_label_new (infotxt);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, TRUE,
-		      TRUE, 0);
-  gtk_widget_show (tempwid);
+  gtk_box_pack_start (GTK_BOX (vbox), tempwid, TRUE, TRUE, 0);
+  gtk_misc_set_alignment( GTK_MISC(tempwid), 0.0, 0.5 );
 
   ddata->edit = gtk_entry_new ();
   g_signal_connect (G_OBJECT (ddata->edit), "key_press_event",
-                      G_CALLBACK (dialog_keypress), (gpointer) ddata);
+                    G_CALLBACK (dialog_keypress), (gpointer) ddata);
 
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), ddata->edit, TRUE,
-		      TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), ddata->edit, TRUE, TRUE, 0);
   gtk_widget_grab_focus (ddata->edit);
   gtk_entry_set_visibility (GTK_ENTRY (ddata->edit), passwd_item);
 
@@ -804,20 +803,17 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
       gtk_entry_set_text (GTK_ENTRY (ddata->edit), deftext);
       gtk_entry_select_region (GTK_ENTRY (ddata->edit), 0, strlen (deftext));
     }
-  gtk_widget_show (ddata->edit);
 
   if (checktext != NULL)
     {
       ddata->checkbox = gtk_check_button_new_with_label (checktext);
-      gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), 
-                          ddata->checkbox, TRUE, TRUE, 0);
-      gtk_widget_show (ddata->checkbox);
+      gtk_box_pack_start (GTK_BOX (vbox), ddata->checkbox, TRUE, TRUE, 0);
     }
-      
+
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (dialog_response), ddata);
 
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
 }
 
 
