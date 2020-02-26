@@ -826,7 +826,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
                  void (*yesfunc) (), gpointer yespointer, 
                  void (*nofunc) (), gpointer nopointer)
 {
-  GtkWidget * text, * dialog;
+  GtkWidget * dialog;
   gftp_dialog_data * ddata;
 
   ddata = g_malloc0 (sizeof (*ddata));
@@ -835,27 +835,19 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   ddata->nofunc = nofunc;
   ddata->nopointer = nopointer;
 
-  dialog = gtk_dialog_new_with_buttons (_(diagtxt), NULL, 0,
-                                        GTK_STOCK_NO,
-                                        GTK_RESPONSE_NO,
-                                        GTK_STOCK_YES,
-                                        GTK_RESPONSE_YES,
-                                        NULL);
+  dialog = gtk_message_dialog_new (NULL,
+                                   GTK_DIALOG_DESTROY_WITH_PARENT,
+                                   GTK_MESSAGE_QUESTION,
+                                   GTK_BUTTONS_YES_NO,
+                                   "%s", infotxt);
 
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
+  gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
+  set_window_icon(GTK_WINDOW(dialog), NULL);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "yndiag", "gFTP");
   gtk_grab_add (dialog);
-  gtk_widget_realize (dialog);
-
-  set_window_icon(GTK_WINDOW(dialog), NULL);
 
   ddata->dialog = dialog;
-
-  text = gtk_label_new (infotxt);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), text, TRUE, TRUE, 0);
-  gtk_widget_show (text);
 
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (dialog_response), ddata);
