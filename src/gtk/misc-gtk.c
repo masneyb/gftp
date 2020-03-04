@@ -432,6 +432,34 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
   *bitmap = graphic->bitmap;
 }
 
+GdkPixbuf *
+gftp_get_pixbuf (char *filename)
+{
+   GdkPixbuf *pixbuf;
+   char *img_path;
+
+   if (!filename || !*filename) {
+      return NULL;
+   }
+
+   pixbuf = g_hash_table_lookup (pixbuf_hash_table, filename);
+   if (!pixbuf) {
+
+      img_path = get_image_path (filename);
+      if (!img_path) {
+         return NULL;
+      }
+
+      pixbuf = gdk_pixbuf_new_from_file (img_path, NULL);
+      if (pixbuf) {
+         g_hash_table_insert (pixbuf_hash_table, filename, pixbuf);
+      }
+      g_free (img_path);
+   }
+
+   return (pixbuf);
+}
+
 int
 check_status (char *name, gftp_window_data *wdata,
               unsigned int check_other_stop, unsigned int only_one,

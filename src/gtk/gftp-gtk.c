@@ -32,6 +32,7 @@ GtkAdjustment * logwdw_vadj;
 GtkTextMark * logwdw_textmark;
 int local_start, remote_start, trans_start;
 GHashTable * graphic_hash_table = NULL;
+GHashTable * pixbuf_hash_table = NULL;
 
 GtkActionGroup * menus = NULL;
 GtkUIManager * factory = NULL;
@@ -126,7 +127,17 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(toolbar_combo_protocol));
   gftp_set_global_option ("default_protocol", tempstr);
 
+  if (pixbuf_hash_table) {
+     GList *i, *gl = g_hash_table_get_values (pixbuf_hash_table);
+     for ( i = gl; i != NULL; i = g_list_next(i) ) {
+        g_object_unref (G_OBJECT (i->data)); // (GdkPixbuf *)
+     }
+     g_list_free (gl);
+     g_hash_table_destroy (pixbuf_hash_table);
+  }
+
   gftp_shutdown ();
+
   exit (0);
 }
 
@@ -1670,6 +1681,9 @@ main (int argc, char **argv)
 
   graphic_hash_table = g_hash_table_new (string_hash_function,
                                          string_hash_compare);
+
+  pixbuf_hash_table = g_hash_table_new (string_hash_function,  /* lib/misc.c */
+                                         string_hash_compare); /* lib/misc.c */
 
   main_window = GTK_WINDOW(gtk_window_new (GTK_WINDOW_TOPLEVEL));
   g_signal_connect (G_OBJECT (main_window), "delete_event",
