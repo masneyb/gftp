@@ -18,7 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
-
+#include "listbox.c"
 
 static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
                  * gftpui_command_toolbar;
@@ -75,34 +75,10 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   ret = GTK_WIDGET (transfer_scroll)->allocation.height;
   gftp_set_global_option ("transfer_height", GINT_TO_POINTER (ret));
 
+  listbox_save_column_width (&window1, &window2);
+
   ret = get_column (&GTK_CLIST (dlwdw)->column[0]);
   gftp_set_global_option ("file_trans_column", GINT_TO_POINTER (ret));
-
-  ret = get_column (&GTK_CLIST (window1.listbox)->column[1]);
-  gftp_set_global_option ("local_file_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window1.listbox)->column[2]);
-  gftp_set_global_option ("local_size_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window1.listbox)->column[3]);
-  gftp_set_global_option ("local_date_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window1.listbox)->column[4]);
-  gftp_set_global_option ("local_user_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window1.listbox)->column[5]);
-  gftp_set_global_option ("local_group_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window1.listbox)->column[6]);
-  gftp_set_global_option ("local_attribs_width", GINT_TO_POINTER (ret));
-
-  ret = get_column (&GTK_CLIST (window2.listbox)->column[1]);
-  gftp_set_global_option ("remote_file_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window2.listbox)->column[2]);
-  gftp_set_global_option ("remote_size_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window2.listbox)->column[3]);
-  gftp_set_global_option ("remote_date_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window2.listbox)->column[4]);
-  gftp_set_global_option ("remote_user_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window2.listbox)->column[5]);
-  gftp_set_global_option ("remote_group_width", GINT_TO_POINTER (ret));
-  ret = get_column (&GTK_CLIST (window2.listbox)->column[6]);
-  gftp_set_global_option ("remote_attribs_width", GINT_TO_POINTER (ret));
 
   tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(hostedit));
   gftp_set_global_option ("host_value", tempstr);
@@ -269,16 +245,20 @@ static void
 navi_up_directory(gftp_window_data * wdata)
 {
   char *directory;
-  if(gtk_widget_is_focus(window1.listbox))
+  if(!gtk_widget_is_focus(window1.listbox) && !gtk_widget_is_focus(window2.listbox))
   {
-      wdata=&window1;
+     ftp_log (gftp_logging_error, NULL, _("Set the focus on a list window\n"));
+     return;
   }
-  else
-  {
-      if (!GFTP_IS_CONNECTED (window2.request))
-        return;
-      wdata=&window2;
+
+  if(gtk_widget_is_focus(window1.listbox)) {
+     wdata = &window1;
+  } else {
+     if (!GFTP_IS_CONNECTED (window2.request))
+         return;
+     wdata = &window2;
   }
+
   directory = gftp_build_path (wdata->request, wdata->request->directory,
                                "..", NULL);
   gftpui_run_chdir (wdata, directory);
@@ -333,29 +313,35 @@ on_remote_navi_up_directory(void) {
 
 static void
 on_local_selectall(void) {
-  selectall(&window1);
+  window1.show_selected = 0;
+  listbox_select_all(&window1);
 }
 static void
 on_remote_selectall(void) {
-  selectall(&window2);
+  window2.show_selected = 0;
+  listbox_select_all(&window2);
 }
 
 static void
 on_local_selectallfiles(void) {
-  selectallfiles(&window1);
+  window1.show_selected = 0;
+  listbox_select_all_files(&window1);
 }
 static void
 on_remote_selectallfiles(void) {
-  selectallfiles(&window2);
+  window2.show_selected = 0;
+  listbox_select_all_files(&window2);
 }
 
 static void
 on_local_deselectall(void) {
-  deselectall(&window1);
+  window1.show_selected = 0;
+  listbox_deselect_all(&window1);
 }
 static void
 on_remote_deselectall(void) {
-  deselectall(&window2);
+  window2.show_selected = 0;
+  listbox_deselect_all(&window2);
 }
 
 static void
@@ -926,104 +912,28 @@ CreateCommandToolbar (void)
 }
 
 
-static void
-setup_column (GtkWidget * listbox, int column, int width)
+static gboolean
+on_listbox_key_press_cb (GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
-  if (width == 0)
-    gtk_clist_set_column_auto_resize (GTK_CLIST (listbox), column, TRUE);
-  else if (width == -1)
-    gtk_clist_set_column_visibility (GTK_CLIST (listbox), column, FALSE);
-  else
-    gtk_clist_set_column_width (GTK_CLIST (listbox), column, width);
-}
-
-
-static void
-list_doaction (gftp_window_data * wdata)
-{
-  intptr_t list_dblclk_action;
-  GList *templist, *filelist;
-  gftp_file *tempfle;
-  int num, success;
-  char *directory;
-
-  gftp_lookup_request_option (wdata->request, "list_dblclk_action", 
-                              &list_dblclk_action);
-
-  filelist = wdata->files;
-  templist = gftp_gtk_get_list_selection (wdata);
-  num = 0;
-  templist = get_next_selection (templist, &filelist, &num);
-  tempfle = (gftp_file *) filelist->data;
-
-  if (check_reconnect (wdata) < 0) 
-    return;
-
-  success = 0;
-  if (S_ISLNK (tempfle->st_mode) || S_ISDIR (tempfle->st_mode))
-    {
-      if(tempfle->st_mode & S_IXUSR)
-      {
-          directory = gftp_build_path (wdata->request, wdata->request->directory,
-                                   tempfle->file, NULL);
-          success = gftpui_run_chdir (wdata, directory);
-          g_free (directory);
-      }else{
-          ftp_log (gftp_logging_error, NULL,
-               _("Directory %s is not listable\n"),
-               tempfle->file);
-      }
-    }
-
-  if (tempfle && !S_ISDIR (tempfle->st_mode) && !success)
-    {
-      switch (list_dblclk_action)
-        {
-          case 0:
-            view_dialog (wdata);
-            break;
-          case 1:
-            edit_dialog (wdata);
-            break;
-          case 2:
-            if (wdata == &window2)
-              get_files (wdata);
-            else
-              put_files (wdata);
-            break;
-        }
-    }
-}
-
-
-static gint
-list_enter (GtkWidget * widget, GdkEventKey * event, gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
+  gftp_window_data * wdata = data;
   if (!GFTP_IS_CONNECTED (wdata->request))
     return (TRUE);
 
-  if (event->type == GDK_KEY_PRESS && 
-           (event->keyval == GDK_KP_Delete || event->keyval == GDK_Delete))
-    {
-      delete_dialog (wdata);
-      return (FALSE);
-    }
-  else if (IS_ONE_SELECTED (wdata) && event->type == GDK_KEY_PRESS && 
-      event->keyval == GDK_Return)
-    {
-      list_doaction (wdata);
-      return (FALSE);
-    }
-  return (TRUE);
+  if (event->type == GDK_KEY_PRESS) {
+     if (event->keyval == GDK_KP_Delete || event->keyval == GDK_Delete) {
+        delete_dialog (wdata);
+        return TRUE;
+      //} else if (event->keyval == GDK_Return) { .. see on_listbox_row_activated_cb
+     }
+  }
+  return (FALSE);
 }
 
 
-static gint
-list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
+static gboolean
+on_listbox_right_click_cb (GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
+  // display popup menu for listbox
   gftp_window_data * wdata = data;
 
   if (event->button == 3) {
@@ -1041,16 +951,48 @@ list_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
 
 
 static void 
-select_row_callback (GtkWidget *widget, gint row, gint column,
-                     GdkEventButton *event, gpointer data)
+on_listbox_row_activated_cb (GtkTreeView *tree_view,    GtkTreePath *path,
+                             GtkTreeViewColumn *column, gpointer data)
 {
-  gftp_window_data * wdata;
+  // https://developer.gnome.org/gtk2/stable/GtkTreeView.html#GtkTreeView-row-activated
+  gftp_window_data * wdata = data;
+  if (listbox_num_selected(wdata) != 1) {
+     return;
+  }
 
-  wdata = data;
+  if (check_reconnect (wdata) < 0) 
+     return;
 
-  if (event != NULL && event->type == GDK_2BUTTON_PRESS && event->button == 1 &&
-      GFTP_IS_CONNECTED (wdata->request) && IS_ONE_SELECTED (wdata))
-    list_doaction (wdata);
+  // only 1 row selected - double click / enter
+  // list directory or download file
+
+  gftp_file *tempfle = listbox_get_selected_file1(wdata);
+
+  char      *directory;
+  int success = 0;
+
+  if (S_ISLNK (tempfle->st_mode) || S_ISDIR (tempfle->st_mode))
+  {
+      if(tempfle->st_mode & S_IXUSR)
+      {
+          directory = gftp_build_path (wdata->request, wdata->request->directory,
+                                   tempfle->file, NULL);
+          success = gftpui_run_chdir (wdata, directory);
+          g_free (directory);
+      }else{
+          ftp_log (gftp_logging_error, NULL,
+               _("Directory %s is not listable\n"),
+               tempfle->file);
+      }
+  }
+
+  if (tempfle && !S_ISDIR (tempfle->st_mode) && !success)
+  {
+     if (wdata == &window2)
+        get_files (wdata);
+     else
+        put_files (wdata);
+  }
 }
 
 
@@ -1071,19 +1013,11 @@ CreateFTPWindow (gftp_window_data * wdata)
     {"text/plain", 0, 0},
     {"application/x-rootwin-drop", 0, 1}
   };
-  char *titles[7], tempstr[50], *startup_directory;
+  char tempstr[50], *startup_directory;
   GtkWidget *box, *scroll_list, *parent;
   intptr_t listbox_file_height, colwidth;
   GtkWidget *combo_entry;
   GList *glist;
-
-  titles[0] = "";
-  titles[1] = _("Filename");
-  titles[2] = _("Size");
-  titles[3] = _("Date");
-  titles[4] = _("User");
-  titles[5] = _("Group");
-  titles[6] = _("Attribs");
 
   wdata->request = gftp_request_new ();
   gftp_gtk_init_request (wdata);
@@ -1131,62 +1065,34 @@ CreateFTPWindow (gftp_window_data * wdata)
   scroll_list = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_list),
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  wdata->listbox = gtk_clist_new_with_titles (7, titles);
+
+  /* create GtkTreeView */
+  wdata->listbox = create_listbox(wdata);
+  listbox_add_columns (wdata);             /* add columns to the tree view */
+  listbox_set_default_column_width (wdata);
+
   gtk_container_add (GTK_CONTAINER (scroll_list), wdata->listbox);
-  gtk_drag_source_set (wdata->listbox, GDK_BUTTON1_MASK, possible_types, 3,
-		       GDK_ACTION_COPY | GDK_ACTION_MOVE);
-  gtk_drag_dest_set (wdata->listbox, GTK_DEST_DEFAULT_ALL, possible_types, 2,
-		     GDK_ACTION_COPY | GDK_ACTION_MOVE);
-
-  gtk_clist_set_selection_mode (GTK_CLIST (wdata->listbox),
-				GTK_SELECTION_EXTENDED);
-
-  gtk_clist_set_column_width (GTK_CLIST (wdata->listbox), 0, 16);
-  gtk_clist_set_column_justification (GTK_CLIST (wdata->listbox), 0,
-				      GTK_JUSTIFY_CENTER);
-
-  g_snprintf (tempstr, sizeof (tempstr), "%s_file_width", wdata->prefix_col_str);
-  gftp_lookup_global_option (tempstr, &colwidth);
-  setup_column (wdata->listbox, 1, colwidth);
-
-  gtk_clist_set_column_justification (GTK_CLIST (wdata->listbox), 2,
-				      GTK_JUSTIFY_RIGHT);
-
-  g_snprintf (tempstr, sizeof (tempstr), "%s_size_width", wdata->prefix_col_str);
-  gftp_lookup_global_option (tempstr, &colwidth);
-  setup_column (wdata->listbox, 2, colwidth);
-
-  g_snprintf (tempstr, sizeof (tempstr), "%s_date_width", wdata->prefix_col_str);
-  gftp_lookup_global_option (tempstr, &colwidth);
-  setup_column (wdata->listbox, 3, colwidth);
-
-  g_snprintf (tempstr, sizeof (tempstr), "%s_user_width", wdata->prefix_col_str);
-  gftp_lookup_global_option (tempstr, &colwidth);
-  setup_column (wdata->listbox, 4, colwidth);
-
-  g_snprintf (tempstr, sizeof (tempstr), "%s_group_width", wdata->prefix_col_str);
-  gftp_lookup_global_option (tempstr, &colwidth);
-  setup_column (wdata->listbox, 5, colwidth);
-
-  g_snprintf (tempstr, sizeof (tempstr), "%s_attribs_width", wdata->prefix_col_str);
-  gftp_lookup_global_option (tempstr, &colwidth);
-  setup_column (wdata->listbox, 6, colwidth);
-
   gtk_box_pack_start (GTK_BOX (box), scroll_list, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (wdata->listbox), "click_column",
-	 	      G_CALLBACK (sortrows), (gpointer) wdata);
+
   g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_get",
-		      G_CALLBACK (listbox_drag), (gpointer) wdata);
+  /* dnd.c */       G_CALLBACK (listbox_drag), (gpointer) wdata);
   g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_received",
-		      G_CALLBACK (listbox_get_drag_data),
-		      (gpointer) wdata);
-  g_signal_connect_after (G_OBJECT (wdata->listbox), "key_press_event",
-                            G_CALLBACK (list_enter), (gpointer) wdata);
-  g_signal_connect (G_OBJECT (wdata->listbox), "select_row",
-                      G_CALLBACK(select_row_callback),
-                      (gpointer) wdata);
-  g_signal_connect_after (G_OBJECT (wdata->listbox), "button_press_event",
-                            G_CALLBACK (list_dblclick), (gpointer) wdata);
+  /* dnd.c */       G_CALLBACK (listbox_get_drag_data), (gpointer) wdata);
+  gtk_drag_source_set (wdata->listbox, GDK_BUTTON1_MASK,
+  /* dnd.c */          possible_types, 3,
+                       GDK_ACTION_COPY | GDK_ACTION_MOVE);
+  gtk_drag_dest_set (wdata->listbox, GTK_DEST_DEFAULT_ALL,
+  /* dnd.c */        possible_types, 2,
+                     GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+  g_signal_connect (G_OBJECT (wdata->listbox),  "row_activated",
+                    G_CALLBACK(on_listbox_row_activated_cb), (gpointer) wdata);
+  g_signal_connect (G_OBJECT (wdata->listbox),  "key_press_event",
+                    G_CALLBACK (on_listbox_key_press_cb), (gpointer) wdata);
+  g_signal_connect (G_OBJECT   (wdata->listbox), "button_press_event",
+                    G_CALLBACK (on_listbox_right_click_cb),
+                    (gpointer) wdata);
+
   return (parent);
 }
 
@@ -1484,77 +1390,6 @@ toolbar_hostedit(void)
   ftp_connect (current_wdata, current_wdata->request);
 }
 
-
-void
-sortrows (GtkCList * clist, gint column, gpointer data)
-{
-  char sortcol_name[25], sortasds_name[25];
-  intptr_t sortcol, sortasds;
-  gftp_window_data * wdata;
-  GtkWidget * sort_wid;
-  GList * templist;
-  int swap_col;
-
-  wdata = data;
-  g_snprintf (sortcol_name, sizeof (sortcol_name), "%s_sortcol",
-              wdata->prefix_col_str);
-  gftp_lookup_global_option (sortcol_name, &sortcol);
-  g_snprintf (sortasds_name, sizeof (sortasds_name), "%s_sortasds",
-              wdata->prefix_col_str);
-  gftp_lookup_global_option (sortasds_name, &sortasds);
-
-  if (column == -1)
-    column = sortcol;
-
-  if (column == 0 || (column == sortcol && wdata->sorted))
-    {
-      sortasds = !sortasds;
-      gftp_set_global_option (sortasds_name, GINT_TO_POINTER (sortasds));
-      swap_col = 1;
-    }
-  else
-    swap_col = 0;
-
-  if (swap_col || !wdata->sorted)
-    {
-      sort_wid = gtk_clist_get_column_widget (clist, 0);
-      gtk_widget_destroy (sort_wid);
-
-      if (sortasds)
-        sort_wid = gtk_image_new_from_icon_name ("view-sort-ascending",
-                                             GTK_ICON_SIZE_SMALL_TOOLBAR);
-      else
-        sort_wid = gtk_image_new_from_icon_name ("view-sort-descending",
-                                             GTK_ICON_SIZE_SMALL_TOOLBAR);
-
-      gtk_clist_set_column_widget (clist, 0, sort_wid);
-    }
-  else
-    {
-      sortcol = column;
-      gftp_set_global_option (sortcol_name, GINT_TO_POINTER (sortcol));
-    }
-
-  if (!GFTP_IS_CONNECTED (wdata->request))
-    return;
-
-  gtk_clist_freeze (clist);
-  gtk_clist_clear (clist);
-
-  wdata->files = gftp_sort_filelist (wdata->files, sortcol, sortasds);
-
-  templist = wdata->files; 
-  while (templist != NULL)
-    {
-      add_file_listbox (wdata, templist->data);
-      templist = templist->next;
-    }
-
-  wdata->sorted = 1;
-  gtk_clist_thaw (clist);
-}
-
-
 void
 stop_button (GtkWidget * widget, gpointer data)
 {
@@ -1655,7 +1490,7 @@ _setup_window2 (int argc, char **argv)
     {
       /* On the remote window, even though we aren't connected, draw the sort
          icon on that side */
-      sortrows (GTK_CLIST (window2.listbox), -1, &window2);
+      listbox_sort_rows ( (gpointer) &window2, -1);
     }
 }
 

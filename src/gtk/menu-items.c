@@ -21,33 +21,15 @@
 
 static int combo_key2_pressed = 0;
 
-static void
-update_window_listbox (gftp_window_data * wdata)
+void
+show_selected (gpointer data)
 {
-  GList * templist, * filelist;
-  gftp_file * tempfle;
-  int num;
+  gftp_window_data * wdata;
 
-  filelist = wdata->files;
-  templist = gftp_gtk_get_list_selection (wdata);
-  num = 0;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &num);
-      tempfle = filelist->data;
-      tempfle->was_sel = 1;
-    }
+  wdata = data;
+  wdata->show_selected = 1;
 
-  gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-  gtk_clist_clear (GTK_CLIST (wdata->listbox));
-  templist = wdata->files;
-  while (templist != NULL)
-    {
-      tempfle = templist->data;
-      add_file_listbox (wdata, tempfle);
-      templist = templist->next;
-    }
-  gtk_clist_thaw (GTK_CLIST (wdata->listbox));
+  listbox_update_filelist (wdata);
   update_window (wdata);
 }
 
@@ -71,7 +53,9 @@ dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
     g_free (wdata->filespec);
 
   wdata->filespec = g_strdup (edttext);
-  update_window_listbox (wdata);
+
+  listbox_update_filelist (wdata);
+  update_window (wdata);
 }
 
 
@@ -137,70 +121,6 @@ save_directory_listing (gpointer data)
 
   gtk_widget_destroy (filew);
 }
-
-
-void
-show_selected (gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
-  wdata->show_selected = 1;
-  update_window_listbox (wdata);
-}
-
-
-void 
-selectall (gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
-  wdata->show_selected = 0;
-  gtk_clist_select_all (GTK_CLIST (wdata->listbox));
-}
-
-
-void 
-selectallfiles (gpointer data)
-{
-  gftp_window_data * wdata;
-  gftp_file * tempfle;
-  GList *templist;
-  int i;
-
-  wdata = data;
-  wdata->show_selected = 0;
-  gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-  i = 0;
-  templist = wdata->files;
-  while (templist != NULL)
-    {
-      tempfle = (gftp_file *) templist->data;
-      if (tempfle->shown)
-	{
-	  if (S_ISDIR (tempfle->st_mode))
-	    gtk_clist_unselect_row (GTK_CLIST (wdata->listbox), i, 0);
-	  else
-	    gtk_clist_select_row (GTK_CLIST (wdata->listbox), i, 0);
-          i++;
-	}
-      templist = templist->next;
-    }
-  gtk_clist_thaw (GTK_CLIST (wdata->listbox));
-}
-
-
-void 
-deselectall (gpointer data)
-{
-  gftp_window_data * wdata;
-
-  wdata = data;
-  wdata->show_selected = 0;
-  gtk_clist_unselect_all (GTK_CLIST (wdata->listbox));
-}
-
 
 gboolean
 chdir_edit (GtkWidget * widget, GdkEventKey *event, gpointer data )
@@ -492,8 +412,10 @@ _do_compare_windows (gftp_window_data * win1, gftp_window_data * win2)
           otherlist = otherlist->next;
 	}
 
-      if (otherlist == NULL)
-	gtk_clist_select_row (GTK_CLIST (win1->listbox), row, 0);
+      if (!otherlist) {
+         listbox_select_row (win1, row);
+      }
+
       row++;
       curlist = curlist->next;
     }
@@ -506,8 +428,8 @@ compare_windows (gpointer data)
   if (!check_status (_("Compare Windows"), &window2, 1, 0, 0, 1))
     return;
 
-  deselectall (&window1);
-  deselectall (&window2);
+  listbox_deselect_all(&window1);
+  listbox_deselect_all(&window2);
 
   _do_compare_windows (&window1, &window2);
   _do_compare_windows (&window2, &window1);

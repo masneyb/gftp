@@ -27,28 +27,26 @@ static mode_t mode;
 static int
 do_chmod_thread (gftpui_callback_data * cdata)
 {
-  GList * filelist, * templist;
   gftp_window_data * wdata;
+  GList * templist, *igl;
   gftp_file * tempfle;
-  int error, num;
+  int error;
 
   wdata = cdata->uidata;
   error = 0;
 
-  filelist = wdata->files;
-  templist = gftp_gtk_get_list_selection (wdata);
-  num = 0;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &num);
-      tempfle = filelist->data;
-
-      if (gftp_chmod (wdata->request, tempfle->file, mode) != 0)
+  templist = listbox_get_selected_files(wdata);
+  for (igl = templist; igl != NULL; igl = igl->next)
+  {
+     tempfle = (gftp_file *) igl->data;
+     if (gftp_chmod (wdata->request, tempfle->file, mode) != 0) {
         error = 1;
-
-      if (!GFTP_IS_CONNECTED (wdata->request))
+     }
+     if (!GFTP_IS_CONNECTED (wdata->request)) {
         break;
-    }
+     }
+  }
+  g_list_free (templist);
 
   return (error);
 }
@@ -120,10 +118,8 @@ void
 chmod_dialog (gpointer data)
 {
   GtkWidget *tempwid, *dialog, *hbox, *vbox;
-  GList * templist, * filelist;
   gftp_window_data * wdata;
   gftp_file * tempfle;
-  int num;
 
   wdata = data;
   if (!check_status (_("Chmod"), wdata, gftpui_common_use_threads (wdata->request), 0, 1, wdata->request->chmod != NULL))
@@ -237,13 +233,9 @@ chmod_dialog (gpointer data)
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (chmod_action), wdata);
 
-  if (IS_ONE_SELECTED (wdata))
+  if (listbox_num_selected (wdata) == 1)
     {
-      filelist = wdata->files;
-      templist = gftp_gtk_get_list_selection (wdata);
-      num = 0;
-      templist = get_next_selection (templist, &filelist, &num);
-      tempfle = filelist->data;
+      tempfle = listbox_get_selected_file1 (wdata);
 
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (suid),
                                     tempfle->st_mode & S_ISUID);

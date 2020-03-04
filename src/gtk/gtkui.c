@@ -64,11 +64,9 @@ gftpui_refresh (void *uidata, int clear_cache_entry)
       return;
     }
 
-  gtk_clist_freeze (GTK_CLIST (wdata->listbox));
   remove_files_window (wdata);
 
   ftp_list_files (wdata);
-  gtk_clist_thaw (GTK_CLIST (wdata->listbox));
 
   wdata->request->refreshing = 0;
 }
@@ -355,11 +353,9 @@ void
 gftpui_rename_dialog (gpointer data)
 {
   gftpui_callback_data * cdata;
-  GList *templist, *filelist;
   gftp_window_data * wdata;
   gftp_file * curfle;
   char *tempstr;
-  int num;
 
   wdata = data;
   cdata = g_malloc0 (sizeof (*cdata));
@@ -368,13 +364,9 @@ gftpui_rename_dialog (gpointer data)
   cdata->run_function = gftpui_common_run_rename_check;
 
   if (!check_status (_("Rename"), wdata, gftpui_common_use_threads (wdata->request), 1, 1, wdata->request->rename != NULL))
-    return;
+    return; // only 1 item selected allowed
 
-  templist = gftp_gtk_get_list_selection (wdata);
-  num = 0;
-  filelist = wdata->files;
-  templist = get_next_selection (templist, &filelist, &num);
-  curfle = filelist->data;
+  curfle = listbox_get_selected_file1(data);
   cdata->source_string = g_strdup (curfle->file);
 
   tempstr = g_strdup_printf (_("What would you like to rename %s to?"),
@@ -439,22 +431,16 @@ gftpui_run_chdir (gpointer uidata, char *directory)
 void
 gftpui_chdir_dialog (gpointer data)
 {
-  GList *templist, *filelist;
   gftp_window_data * wdata;
   gftp_file * curfle;
   char *tempstr;
-  int num;
 
   wdata = data;
   if (!check_status (_("Chdir"), wdata, gftpui_common_use_threads (wdata->request), 1, 0,
                      wdata->request->chdir != NULL))
     return;
 
-  templist = gftp_gtk_get_list_selection (wdata);
-  num = 0;
-  filelist = wdata->files;
-  templist = get_next_selection (templist, &filelist, &num);
-  curfle = filelist->data;
+  curfle = listbox_get_selected_file1 (wdata);
 
   tempstr = gftp_build_path (wdata->request, wdata->request->directory,
                              curfle->file, NULL);

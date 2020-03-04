@@ -80,12 +80,13 @@ void
 delete_dialog (gpointer data)
 {
   gftp_file * tempfle, * newfle;
-  GList * templist, * filelist;
+  GList * templist, *igl;
   gftp_transfer * transfer;
   gftp_window_data * wdata;
-  int num, ret;
+  int ret;
 
   wdata = data;
+
   if (!check_status (_("Delete"), wdata,
       gftpui_common_use_threads (wdata->request), 0, 1, 1))
     return;
@@ -94,19 +95,17 @@ delete_dialog (gpointer data)
   transfer->fromreq = gftp_copy_request (wdata->request);
   transfer->fromwdata = wdata;
 
-  num = 0;
-  templist = gftp_gtk_get_list_selection (wdata);
-  filelist = wdata->files;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &num);
-      tempfle = filelist->data;
-      if (strcmp (tempfle->file, "..") == 0 ||
-          strcmp (tempfle->file, ".") == 0)
-        continue;
-      newfle = copy_fdata (tempfle);
-      transfer->files = g_list_append (transfer->files, newfle);
-    }
+  templist = listbox_get_selected_files(wdata);
+  for (igl = templist; igl != NULL; igl = igl->next)
+  {
+     tempfle = (gftp_file *) igl->data;
+     if (strcmp (tempfle->file, "..") == 0 ||
+         strcmp (tempfle->file, ".") == 0)
+            continue;
+     newfle = copy_fdata (tempfle);
+     transfer->files = g_list_append (transfer->files, newfle);
+  }
+  g_list_free (templist);
 
   if (transfer->files == NULL)
     {
