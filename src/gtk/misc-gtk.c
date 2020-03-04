@@ -19,7 +19,7 @@
 
 #include "gftp-gtk.h"
 
-static GtkWidget * statuswid;
+static GtkWidget * progresswid;
 
 void
 remove_files_window (gftp_window_data * wdata)
@@ -906,12 +906,9 @@ update_directory_download_progress (gftp_transfer * transfer)
       gtk_box_pack_start (GTK_BOX (vbox), textwid, TRUE, TRUE, 0);
       gtk_widget_show (textwid);
 
-      statuswid = gtk_progress_bar_new ();
-      gtk_progress_set_activity_mode (GTK_PROGRESS (statuswid), 1);
-      gtk_progress_bar_set_activity_step (GTK_PROGRESS_BAR (statuswid), 3);
-      gtk_progress_bar_set_activity_blocks (GTK_PROGRESS_BAR (statuswid), 5);
-      gtk_box_pack_start (GTK_BOX (vbox), statuswid, TRUE, TRUE, 0);
-      gtk_widget_show (statuswid);
+      progresswid = gtk_progress_bar_new ();
+      gtk_box_pack_start (GTK_BOX (vbox), progresswid, TRUE, TRUE, 0);
+      gtk_widget_show (progresswid);
 
       stopwid = gtk_button_new_with_label (_("  Stop  "));
       g_signal_connect (G_OBJECT (stopwid), "clicked",
@@ -933,18 +930,18 @@ int
 progress_timeout (gpointer data)
 {
   gftp_transfer * tdata;
-  double val;
+  gdouble val;
 
   tdata = data;
 
   update_directory_download_progress (tdata);
 
-  val = gtk_progress_get_value (GTK_PROGRESS (statuswid));
+  val = gtk_progress_bar_get_fraction (GTK_PROGRESS_BAR (progresswid));
   if (val >= 1.0)
     val = 0.0;
   else
     val += 0.10;
-  gtk_progress_bar_update (GTK_PROGRESS_BAR (statuswid), val);
+  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progresswid), val);
 
   return (1);
 }
