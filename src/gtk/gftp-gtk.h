@@ -96,7 +96,6 @@ typedef struct gftp_graphic_tag
   GdkBitmap * bitmap;
 } gftp_graphic;
 
-
 typedef struct gftp_dialog_data_tag
 {
   GtkWidget * dialog,
@@ -161,6 +160,7 @@ extern GtkAdjustment * logwdw_vadj;
 extern GtkTextMark * logwdw_textmark;
 extern int local_start, remote_start, trans_start;
 extern GHashTable * graphic_hash_table;
+extern GHashTable * pixbuf_hash_table;
 
 extern GtkActionGroup * menus;
 extern GtkUIManager * factory;
@@ -300,6 +300,8 @@ void gftp_get_pixmap 				( GtkWidget * widget,
 						  char *filename, 
 						  GdkPixmap ** pix,
 						  GdkBitmap ** bitmap );
+
+GdkPixbuf *       gftp_get_pixbuf (char *filename);
 
 int check_status				( char *name,
 						  gftp_window_data * wdata,
