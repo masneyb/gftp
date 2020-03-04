@@ -593,7 +593,7 @@ _print_option_type_notebook (gftp_config_vars * cv, void *user_data, void *value
   option_data = user_data;
 
   option_data->box = gtk_vbox_new (FALSE, 6);
-  gtk_container_border_width (GTK_CONTAINER (option_data->box), 12);
+  gtk_container_set_border_width (GTK_CONTAINER (option_data->box), 12);
   gtk_widget_show (option_data->box);
 
   tempwid = gtk_label_new (_(cv->description));
@@ -893,7 +893,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   vbox = gtk_vbox_new (FALSE, 6);
-  gtk_container_border_width (GTK_CONTAINER (vbox), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 5);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox, FALSE, FALSE, 0);
   gtk_widget_show (vbox);
     
@@ -915,7 +915,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   g_signal_connect (G_OBJECT (domain_active), "toggled",
 		      G_CALLBACK (add_toggle), (gpointer) 1);
   
-  nradio = gtk_radio_button_new_with_label (gtk_radio_button_group
+  nradio = gtk_radio_button_new_with_label (gtk_radio_button_get_group
                                             (GTK_RADIO_BUTTON (domain_active)),
                                            _("Network"));
   g_signal_connect (G_OBJECT (nradio), "toggled",
@@ -1103,7 +1103,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   add_data[1] = _("Netmask");
 
   box = gtk_vbox_new (FALSE, 6);
-  gtk_container_border_width (GTK_CONTAINER (box), 12);
+  gtk_container_set_border_width (GTK_CONTAINER (box), 12);
   gtk_widget_show (box);
 
   tempwid = gtk_label_new (_("Local Hosts"));
@@ -1237,7 +1237,7 @@ options_dialog (gpointer data)
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (gftp_option_data->dialog)->vbox), 
                       gftp_option_data->notebook, TRUE, TRUE, 0);
   gtk_widget_show (gftp_option_data->notebook);
-  gtk_container_border_width (GTK_CONTAINER (gftp_option_data->notebook), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (gftp_option_data->notebook), 5);
 
   cv = gftp_options_list->data;
   gftp_option_data->last_option = cv[0].otype;

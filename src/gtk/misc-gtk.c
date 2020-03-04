@@ -311,7 +311,7 @@ update_window (gftp_window_data * wdata)
                              listinfo == NULL ? "" : listinfo,
                              current_wdata == wdata ? "*" : "",
                              NULL);
-      gtk_label_set (GTK_LABEL (wdata->hoststxt), tempstr);
+      gtk_label_set_text (GTK_LABEL (wdata->hoststxt), tempstr);
       g_free (listinfo);
       g_free (tempstr);
 
@@ -324,7 +324,7 @@ update_window (gftp_window_data * wdata)
     {
       tempstr = g_strconcat (_("Not connected"), 
                              current_wdata == wdata ? "*" : "", NULL);
-      gtk_label_set (GTK_LABEL (wdata->hoststxt), tempstr);
+      gtk_label_set_text (GTK_LABEL (wdata->hoststxt), tempstr);
       g_free (tempstr);
     }
 
@@ -801,7 +801,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   if (deftext != NULL)
     {
       gtk_entry_set_text (GTK_ENTRY (ddata->edit), deftext);
-      gtk_entry_select_region (GTK_ENTRY (ddata->edit), 0, strlen (deftext));
+      gtk_editable_select_region (GTK_EDITABLE (ddata->edit), 0, strlen (deftext));
     }
 
   if (checktext != NULL)
@@ -898,7 +898,7 @@ update_directory_download_progress (gftp_transfer * transfer)
       gtk_window_set_wmclass (GTK_WINDOW(dialog), "dirlist", "gFTP");
 
       vbox = gtk_vbox_new (FALSE, 5);
-      gtk_container_border_width (GTK_CONTAINER (vbox), 10);
+      gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
       gtk_container_add (GTK_CONTAINER (dialog), vbox);
       gtk_widget_show (vbox);
 
