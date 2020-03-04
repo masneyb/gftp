@@ -741,7 +741,7 @@ CreateConnectToolbar (GtkWidget * parent)
 
   box = gtk_hbox_new (FALSE, 4);
   gtk_container_add (GTK_CONTAINER (toolbar), box);
-  gtk_container_border_width (GTK_CONTAINER (box), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (box), 5);
 
   //tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
   tempwid = gtk_image_new_from_stock (GTK_STOCK_NETWORK, GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -754,7 +754,7 @@ CreateConnectToolbar (GtkWidget * parent)
 		      G_CALLBACK (openurl_get_drag_data), NULL);
   gtk_drag_dest_set (openurl_btn, GTK_DEST_DEFAULT_ALL, possible_types, 2,
 		     GDK_ACTION_COPY | GDK_ACTION_MOVE);
-  gtk_container_border_width (GTK_CONTAINER (openurl_btn), 1);
+  gtk_container_set_border_width (GTK_CONTAINER (openurl_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), openurl_btn, FALSE, FALSE, 0);
 
   tempwid = gtk_label_new_with_mnemonic (_("_Host:"));
@@ -883,7 +883,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_widget_set_sensitive (stop_btn, 0);
   g_signal_connect_swapped (G_OBJECT (stop_btn), "clicked",
 			     G_CALLBACK (stop_button), NULL);
-  gtk_container_border_width (GTK_CONTAINER (stop_btn), 1);
+  gtk_container_set_border_width (GTK_CONTAINER (stop_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), stop_btn, FALSE, FALSE, 0);
 
   //gtk_widget_grab_focus (GTK_WIDGET (hostedit));
@@ -901,7 +901,7 @@ CreateCommandToolbar (void)
 
   box = gtk_hbox_new (FALSE, 4);
   gtk_container_add (GTK_CONTAINER (gftpui_command_toolbar), box);
-  gtk_container_border_width (GTK_CONTAINER (box), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (box), 5);
 
   tempwid = gtk_label_new (_("Command: "));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
@@ -1084,10 +1084,10 @@ CreateFTPWindow (gftp_window_data * wdata)
   gftp_lookup_global_option (tempstr, &colwidth);
   gtk_widget_set_size_request (parent, colwidth, listbox_file_height);
 
-  gtk_container_border_width (GTK_CONTAINER (parent), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (parent), 5);
 
   box = gtk_vbox_new (FALSE, 0);
-  gtk_container_border_width (GTK_CONTAINER (box), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (box), 5);
   gtk_container_add (GTK_CONTAINER (parent), box);
 
   wdata->combo = gtk_combo_box_text_new_with_entry ();
@@ -1234,7 +1234,7 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_box_pack_start (GTK_BOX (box), local_frame, TRUE, TRUE, 0);
 
   dlbox = gtk_vbox_new (FALSE, 0);
-  gtk_container_border_width (GTK_CONTAINER (dlbox), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
   tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD,
@@ -1666,7 +1666,6 @@ main (int argc, char **argv)
   gdk_threads_init();
   GDK_THREADS_ENTER ();
   main_thread_id = pthread_self ();
-  gtk_set_locale ();
   gtk_init (&argc, &argv);
 
   graphic_hash_table = g_hash_table_new (string_hash_function,

@@ -866,7 +866,7 @@ edit_entry (gpointer data)
   gtk_window_set_wmclass (GTK_WINDOW (bm_dialog), "Edit Bookmark Entry",
                           "gFTP");
   gtk_window_set_position (GTK_WINDOW (bm_dialog), GTK_WIN_POS_MOUSE);
-  gtk_container_border_width (GTK_CONTAINER (GTK_DIALOG (bm_dialog)->vbox), 10);
+  gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (bm_dialog)->vbox), 10);
   gtk_widget_realize (bm_dialog);
 
   set_window_icon(GTK_WINDOW(bm_dialog), NULL);
@@ -877,7 +877,7 @@ edit_entry (gpointer data)
   gtk_widget_show (notebook);
 
   table = gtk_table_new (11, 2, FALSE);
-  gtk_container_border_width (GTK_CONTAINER (table), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (table), 5);
   gtk_table_set_row_spacings (GTK_TABLE (table), 5);
   gtk_table_set_col_spacings (GTK_TABLE (table), 5);
   gtk_widget_show (table);
@@ -1260,7 +1260,7 @@ edit_bookmarks (gpointer data)
 
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->vbox),
                       scroll, TRUE, TRUE, 0);
-  gtk_container_border_width (GTK_CONTAINER (scroll), 3);
+  gtk_container_set_border_width (GTK_CONTAINER (scroll), 3);
   gtk_widget_show (scroll);
 
   tree = gtk_ctree_new (1, 0);
