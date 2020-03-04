@@ -24,22 +24,20 @@ static gftp_file * curfle;
 static void
 do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
 {
-  GList * templist, * filelist, * newfile;
+  GList * newfile;
   gftp_window_data * towdata;
   gftp_file * new_fle;
   char *suffix;
-  int num;
 
   if (!check_status (is_view ? _("View") : _("Edit"), fromwdata, 0, 1, 1, 1))
     return;
 
   towdata = fromwdata == &window1 ? &window2 : &window1;
 
-  templist = GTK_CLIST (fromwdata->listbox)->selection;
-  num = 0;
-  filelist = fromwdata->files;
-  templist = get_next_selection (templist, &filelist, &num);
-  curfle = filelist->data;
+  // retrieve selected file
+  gftp_file *tempfle = listbox_get_selected_file1 (fromwdata);
+
+  curfle = tempfle;
 
   if (S_ISDIR (curfle->st_mode))
     {

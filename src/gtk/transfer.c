@@ -51,10 +51,7 @@ ftp_list_files (gftp_window_data * wdata)
     }
 
   wdata->sorted = 0;
-  sortrows (GTK_CLIST (wdata->listbox), -1, (gpointer) wdata);
-
-  if (IS_NONE_SELECTED (wdata))
-    gtk_clist_select_row (GTK_CLIST (wdata->listbox), 0, 0);
+  listbox_sort_rows ((gpointer) wdata, -1);
 
   return (1);
 }
@@ -88,9 +85,9 @@ void
 transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
 {
   gftp_file * tempfle, * newfle;
-  GList * templist, * filelist;
+  GList * templist, * igl;
   gftp_transfer * transfer;
-  int num, ret, disconnect;
+  int ret, disconnect;
 
   if (!check_status (_("Transfer Files"), fromwdata, 1, 0, 1,
        towdata->request->put_file != NULL && fromwdata->request->get_file != NULL))
@@ -113,19 +110,17 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
   transfer->fromwdata = fromwdata;
   transfer->towdata = towdata;
 
-  num = 0;
-  templist = gftp_gtk_get_list_selection (fromwdata);
-  filelist = fromwdata->files;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &num);
-      tempfle = filelist->data;
-      if (strcmp (tempfle->file, "..") != 0)
-        {
-          newfle = copy_fdata (tempfle);
-          transfer->files = g_list_append (transfer->files, newfle);
-        }
-    }
+  templist = listbox_get_selected_files (fromwdata);
+  for (igl = templist; igl != NULL; igl = igl->next)
+  {
+     tempfle = (gftp_file *) igl->data;
+     if (strcmp (tempfle->file, "..") == 0) //||
+         //strcmp (tempfle->file, ".") == 0)
+            continue;
+     newfle = copy_fdata (tempfle);
+     transfer->files = g_list_append (transfer->files, newfle);
+  }
+  g_list_free (templist);
 
   if (transfer->files != NULL)
     {

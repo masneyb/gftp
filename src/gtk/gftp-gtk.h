@@ -33,10 +33,6 @@
 #define GFTP_MENU_ITEM_WIN1	3
 #define GFTP_MENU_ITEM_WIN2	4
 
-#define IS_ONE_SELECTED(wdata)		(GTK_CLIST ((wdata)->listbox)->selection && GTK_CLIST ((wdata)->listbox)->selection->next == NULL)
-#define IS_NONE_SELECTED(wdata)		(GTK_CLIST ((wdata)->listbox)->selection == NULL)
-#define gftp_gtk_get_list_selection(wdata)  (GTK_CLIST ((wdata)->listbox)->selection)
-
 #define GFTP_IS_SAME_HOST_START_TRANS(wdata,trequest) \
   ((wdata) != NULL && (wdata)->request != NULL && \
   (wdata)->request->datafd > 0 && !(wdata)->request->always_connected && \
@@ -216,14 +212,23 @@ void gftp_gtk_init_request 			( gftp_window_data * wdata );
 
 void toolbar_hostedit (void);
 
-void sortrows 					( GtkCList * clist, 
-						  gint column, 
-						  gpointer data );
-
 void stop_button				( GtkWidget * widget,
 						  gpointer data );
 
 void gftpui_show_or_hide_command 		( void );
+
+/* listbox.c */
+void listbox_sort_rows (gpointer data, gint column);
+
+void listbox_select_row      (gftp_window_data *wdata, int n);
+void listbox_update_filelist (gftp_window_data *wdata);
+int  listbox_num_selected    (gftp_window_data *wdata);
+void listbox_clear           (gftp_window_data *wdata);
+void listbox_select_all      (gftp_window_data *wdata);
+void listbox_deselect_all    (gftp_window_data *wdata);
+
+gftp_file *listbox_get_selected_file1 (gftp_window_data *wdata);
+GList     *listbox_get_selected_files (gftp_window_data *wdata);
 
 /* gtkui.c */
 void gftpui_run_command 			( GtkWidget * widget,
@@ -254,12 +259,6 @@ void change_filespec 				( gpointer data );
 void save_directory_listing 			( gpointer data );
 
 void show_selected				( gpointer data );
-
-void selectall 					( gpointer data );
-
-void selectallfiles 				( gpointer data );
-
-void deselectall 				( gpointer data );
 
 gboolean chdir_edit					( GtkWidget * widget,
 						GdkEventKey *event,
@@ -316,9 +315,6 @@ void add_history 				( GtkWidget * widget,
 						  const char *str );
 
 int check_reconnect 				( gftp_window_data * wdata );
-
-void add_file_listbox 				( gftp_window_data * wdata, 
-						  gftp_file * fle );
 
 void destroy_dialog 				( gftp_dialog_data * ddata );
 

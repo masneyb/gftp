@@ -25,11 +25,9 @@ void
 remove_files_window (gftp_window_data * wdata)
 {
   wdata->show_selected = 0;
-  gtk_clist_freeze (GTK_CLIST (wdata->listbox));
-  gtk_clist_clear (GTK_CLIST (wdata->listbox));
+  listbox_clear(wdata);
   free_file_list (wdata->files);
   wdata->files = NULL;
-  gtk_clist_thaw (GTK_CLIST (wdata->listbox));
 }
 
 
@@ -500,14 +498,14 @@ check_status (char *name, gftp_window_data *wdata,
       return (0);
     }
 
-  if (only_one && !IS_ONE_SELECTED (wdata))
+  if (only_one && listbox_num_selected(wdata) != 1)
     {
       ftp_log (gftp_logging_error, NULL,
 	       _("%s: You must only have one item selected\n"), name);
       return (0);
     }
 
-  if (at_least_one && !only_one && IS_NONE_SELECTED (wdata))
+  if (at_least_one && !only_one && listbox_num_selected(wdata) == 0)
     {
       ftp_log (gftp_logging_error, NULL,
 	       _("%s: You must have at least one item selected\n"), name);
@@ -586,114 +584,6 @@ check_reconnect (gftp_window_data *wdata)
           !wdata->request->always_connected &&
 	  !ftp_connect (wdata, wdata->request) ? -1 : 0);
 }
-
-
-void
-add_file_listbox (gftp_window_data * wdata, gftp_file * fle)
-{
-  char *add_data[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-  char *tempstr, *attribs, *zeroseconds;
-  char time_str[60] = "";
-  struct tm timeinfo;
-  gftp_config_list_vars * tmplistvar;
-  gftp_file_extensions * tempext;
-  GdkBitmap * bitmap;
-  GList * templist;
-  GdkPixmap * pix;
-  int clist_num;
-  size_t stlen;
-
-  if (wdata->show_selected)
-    {
-      fle->shown = fle->was_sel;
-      if (!fle->shown)
-        return;
-    }
-  else if (!gftp_match_filespec (wdata->request, fle->file, wdata->filespec))
-    {
-      fle->shown = 0;
-      fle->was_sel = 0;
-      return;
-    }
-  else
-    fle->shown = 1;
-
-  clist_num = gtk_clist_append (GTK_CLIST (wdata->listbox), add_data);
-
-  if (fle->was_sel)
-    {
-      fle->was_sel = 0;
-      gtk_clist_select_row (GTK_CLIST (wdata->listbox), clist_num, 0);
-    }
-
-  pix = NULL;
-  bitmap = NULL;
-  if (strcmp (fle->file, "..") == 0)
-    gftp_get_pixmap (wdata->listbox, "dotdot.xpm", &pix, &bitmap);
-  else if (S_ISLNK (fle->st_mode) && S_ISDIR (fle->st_mode))
-    gftp_get_pixmap (wdata->listbox, "linkdir.xpm", &pix, &bitmap);
-  else if (S_ISLNK (fle->st_mode))
-    gftp_get_pixmap (wdata->listbox, "linkfile.xpm", &pix, &bitmap);
-  else if (S_ISDIR (fle->st_mode))
-    gftp_get_pixmap (wdata->listbox, "dir.xpm", &pix, &bitmap);
-  else if ((fle->st_mode & S_IXUSR) ||
-           (fle->st_mode & S_IXGRP) ||
-           (fle->st_mode & S_IXOTH))
-    gftp_get_pixmap (wdata->listbox, "exe.xpm", &pix, &bitmap); 
-  else
-    {
-      stlen = strlen (fle->file);
-      gftp_lookup_global_option ("ext", &tmplistvar);
-      templist = tmplistvar->list;
-      while (templist != NULL)
-        {
-          tempext = templist->data;
-          if (stlen >= tempext->stlen &&
-              strcmp (&fle->file[stlen - tempext->stlen], tempext->ext) == 0)
-            {
-              gftp_get_pixmap (wdata->listbox, tempext->filename, &pix, 
-                               &bitmap);
-              break;
-            }
-          templist = templist->next;
-        }
-    }
-
-  if (pix == NULL && bitmap == NULL)
-    gftp_get_pixmap (wdata->listbox, "doc.xpm", &pix, &bitmap);
-   
-  gtk_clist_set_pixmap (GTK_CLIST (wdata->listbox), clist_num, 0, pix, bitmap);
-
-  if (fle->file != NULL && fle->filename_utf8_encoded)
-    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 1, fle->file);
-
-  if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))
-    tempstr = g_strdup_printf ("%d, %d", major (fle->size),
-                               minor (fle->size));
-  else
-    tempstr = insert_commas (fle->size, NULL, 0);
-
-  gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 2, tempstr);
-  g_free (tempstr);
-
-  if (localtime_r( &fle->datetime, &timeinfo )) {
-    strftime(time_str, sizeof(time_str), "%Y/%m/%d %H:%M:%S ", &timeinfo);
-    zeroseconds = strstr(time_str, ":00 ");
-    if (zeroseconds) *zeroseconds = 0;
-    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 3, time_str);
-  }
-
-  if (fle->user)
-    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 4, fle->user);
-  if (fle->group)
-    gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 5, fle->group);
-
-  attribs = gftp_convert_attributes_from_mode_t (fle->st_mode);
-  gtk_clist_set_text (GTK_CLIST (wdata->listbox), clist_num, 6, attribs);
-  g_free (attribs);
-
-}
-
 
 void
 destroy_dialog (gftp_dialog_data * ddata)
