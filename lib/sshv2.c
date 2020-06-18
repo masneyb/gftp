@@ -976,7 +976,7 @@ sshv2_buffer_get_int32 (gftp_request * request, sshv2_message * message,
 static int
 sshv2_buffer_get_int64 (gftp_request * request, sshv2_message * message,
                         unsigned int expected_response, int check_response,
-                        guint64 * num)
+                        gint64 * num)
 {
   guint64 snum;
   guint32 hinum, lonum;
@@ -988,7 +988,7 @@ sshv2_buffer_get_int64 (gftp_request * request, sshv2_message * message,
   if ((ret = sshv2_buffer_get_int32 (request, message, 0, 0, &lonum)) < 0)
     return (ret);
 
-  snum = (gint64) lonum | ((gint64) hinum >> 32);
+  snum = (gint64) lonum | ((gint64) hinum << 32);
 
   if (check_response && snum != expected_response)
     return (sshv2_response_return_code (request, message, snum));
