@@ -556,12 +556,13 @@ listbox_select_all_files (gftp_window_data *wdata) {
      https://developer.gnome.org/gtk2/stable/GtkTreeSelection.html#gtk-tree-selection-get-selected-rows
 */
 
-static gftp_file *
-find_gftp_file_by_name(gftp_window_data *wdata, char *filename)
+gftp_file *
+find_gftp_file_by_name (GList *filelist, char *filename, gboolean filelist_ignore_directory)
 {
-   GList     *filelist = wdata->files;
+   //GList   *filelist = wdata->files;
    gftp_file *gftpFile = NULL;
    gftp_file *found    = NULL;
+   char *p = NULL;
    while (filelist)
    {
       gftpFile = (gftp_file *) filelist->data;
@@ -569,6 +570,16 @@ find_gftp_file_by_name(gftp_window_data *wdata, char *filename)
          //fprintf(stderr, "gftp: %s\n", gftpFile->file);
          found = gftpFile;
          break;
+      } else {
+         p = strrchr(gftpFile->file, '/');
+         // file transfers
+         if (p && filelist_ignore_directory == TRUE) {
+            p++;
+            if (strcmp (p, filename) == 0) {
+               found = gftpFile;
+               break;
+            }
+         }
       }
       filelist = filelist->next;
    }
@@ -599,7 +610,7 @@ listbox_get_selected_file1 (gftp_window_data *wdata)
    }
 
    // find the corresponding gftp_file
-   return (find_gftp_file_by_name (wdata, filename));
+   return (find_gftp_file_by_name (wdata->files, filename, FALSE));
 }
 
 /* listbox_get_selected_files() */
@@ -632,7 +643,7 @@ listbox_get_selected_files (gftp_window_data *wdata)
       //fprintf(stderr, "list: %s\n", filename);
 
       // find the corresponding gftp_file
-      gftpFile = find_gftp_file_by_name (wdata, filename);
+      gftpFile = find_gftp_file_by_name (wdata->files, filename, FALSE);
       if (gftpFile) {
          out_filelist = g_list_append(out_filelist, gftpFile);
       }

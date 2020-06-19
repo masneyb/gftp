@@ -19,6 +19,14 @@
 
 #include "gftp-gtk.h"
 
+enum
+{
+   TRANSFER_DLG_COL_FILENAME,
+   TRANSFER_DLG_COL_FROM,
+   TRANSFER_DLG_COL_TO,
+   TRANSFER_DLG_COL_ACTION,
+   TRANSFER_DLG_NUM_COLUMNS
+};
 
 void
 gftpui_start_current_file_in_transfer (gftp_transfer * tdata)
@@ -89,8 +97,8 @@ gftpui_gtk_trans_selectall (GtkWidget * widget, gpointer data)
 {
   gftp_transfer * tdata;
   tdata = data;
-
-  gtk_clist_select_all (GTK_CLIST (tdata->clist));
+  GtkTreeSelection *tsel = gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->clist));
+  gtk_tree_selection_select_all (tsel);
 }
 
 
@@ -99,8 +107,8 @@ gftpui_gtk_trans_unselectall (GtkWidget * widget, gpointer data)
 {
   gftp_transfer * tdata;
   tdata = data;
-
-  gtk_clist_unselect_all (GTK_CLIST (tdata->clist));
+  GtkTreeSelection *tsel = gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->clist));
+  gtk_tree_selection_unselect_all (tsel);
 }
 
 
@@ -108,24 +116,45 @@ static void
 gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
                        int transfer_action)
 {
-  GList * templist, * filelist;
-  gftp_file * tempfle;
-  int curpos;
+   GList *filelist = tdata->files;
 
-  g_mutex_lock (&tdata->structmutex);
+   g_mutex_lock (&tdata->structmutex);
 
-  curpos = 0;
-  filelist = tdata->files;
-  templist = GTK_CLIST (tdata->clist)->selection;
-  while (templist != NULL)
-    {
-      templist = get_next_selection (templist, &filelist, &curpos);
-      tempfle = filelist->data;
-      tempfle->transfer_action = transfer_action;
-      gtk_clist_set_text (GTK_CLIST (tdata->clist), curpos, 3, transfer_str);
-    }
+   GtkTreeView      *tree = GTK_TREE_VIEW  (tdata->clist);
 
-  g_mutex_unlock (&tdata->structmutex);
+   GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
+   GList         *selrows = gtk_tree_selection_get_selected_rows (tsel, NULL);
+   GList               *i = selrows;
+
+   GtkTreeModel    *model = GTK_TREE_MODEL (gtk_tree_view_get_model (tree));
+   GtkListStore    *store = GTK_LIST_STORE (model);
+   GtkTreeIter       iter;
+   GtkTreePath     *tpath = NULL;
+   char         *filename = NULL;
+   gftp_file    *gftpFile = NULL;
+
+   while (i)
+   {
+      tpath = (GtkTreePath *) i->data;
+
+      gtk_tree_model_get_iter (model, &iter, tpath);
+      gtk_tree_model_get      (model, &iter,
+                               TRANSFER_DLG_COL_FILENAME, &filename, -1);
+
+      // find the corresponding gftp_file
+      gftpFile = find_gftp_file_by_name (filelist, filename, TRUE); // listbox.c
+      if (gftpFile) {
+         gftpFile->transfer_action = transfer_action;
+         gtk_list_store_set (store, &iter, TRANSFER_DLG_COL_ACTION, transfer_str, -1);
+      }
+
+      g_free(filename);
+      i = i->next;
+   }
+
+   g_list_free_full (selrows, (GDestroyNotify) gtk_tree_path_free);
+
+   g_mutex_unlock (&tdata->structmutex);
 }
 
 
@@ -214,18 +243,12 @@ gftpui_gtk_transfer_action (GtkWidget * widget, gint response,
 void
 gftpui_ask_transfer (gftp_transfer * tdata)
 {
-  char *dltitles[4], *add_data[4] = { NULL, NULL, NULL, NULL },
-       tempstr[50], temp1str[50], *pos;
+  char *add_data[4] = { NULL, NULL, NULL, NULL };
+  char tempstr[50], temp1str[50], *pos;
   GtkWidget * dialog, * tempwid, * scroll, * hbox;
   gftp_file * tempfle;
   GList * templist;
   size_t len;
-  int i;
-
-  dltitles[0] = _("Filename");
-  dltitles[1] = tdata->fromreq->hostname;
-  dltitles[2] = tdata->toreq->hostname;
-  dltitles[3] = _("Action");
 
   dialog = gtk_dialog_new_with_buttons (_("Transfer Files"), NULL, 0, 
                                         GTK_STOCK_CANCEL,
@@ -245,26 +268,104 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   gtk_widget_show (tempwid);
 
   scroll = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_size_request (scroll, 450, 200);
+  gtk_widget_set_size_request (scroll, 550, 200);
 
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  tdata->clist = gtk_clist_new_with_titles (4, dltitles);
-  gtk_container_add (GTK_CONTAINER (scroll), tdata->clist);
 
-  gtk_clist_set_selection_mode (GTK_CLIST (tdata->clist),
-				GTK_SELECTION_MULTIPLE);
-  gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 0, 100);
-  gtk_clist_set_column_justification (GTK_CLIST (tdata->clist), 1,
-				      GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 1, 85);
-  gtk_clist_set_column_justification (GTK_CLIST (tdata->clist), 2,
-				      GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 2, 85);
-  gtk_clist_set_column_width (GTK_CLIST (tdata->clist), 3, 85);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scroll, TRUE, TRUE,
-		      0);
-  gtk_widget_show (tdata->clist);
+  // ===============================================================
+
+  GtkTreeModel     *tree_model;
+  GtkTreeView      *treeview;
+  GtkTreeSelection *tree_sel;
+
+  GtkListStore *store;
+  store = gtk_list_store_new (TRANSFER_DLG_NUM_COLUMNS,
+                              G_TYPE_STRING,
+                              G_TYPE_STRING,
+                              G_TYPE_STRING,
+                              G_TYPE_STRING);
+  tree_model = GTK_TREE_MODEL (store);
+
+  treeview = GTK_TREE_VIEW (gtk_tree_view_new_with_model (tree_model));
+
+  /* multiple selection */
+  tree_sel = gtk_tree_view_get_selection (treeview);
+  gtk_tree_selection_set_mode (tree_sel, GTK_SELECTION_MULTIPLE); //GTK_SELECTION_EXTENDED
+
+  gtk_tree_view_set_search_column (GTK_TREE_VIEW (treeview), TRANSFER_DLG_COL_FILENAME);
+  g_object_unref (tree_model);
+
+  /* COLUMNS */
+  GtkCellRenderer *renderer;
+  GtkTreeViewColumn *column;
+
+  // filename
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                         "title",          _("Filename"),
+                         "resizable",      TRUE,
+                         "clickable",      TRUE,
+                         "sort-column-id", TRANSFER_DLG_COL_FILENAME,
+                         NULL);
+  gtk_tree_view_column_pack_start (column, renderer, FALSE);
+  gtk_tree_view_column_add_attribute (column, renderer,
+                                      "text", TRANSFER_DLG_COL_FILENAME);
+  gtk_tree_view_append_column (treeview, column);
+  gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+  gtk_tree_view_column_set_fixed_width (column, 140);
+
+  // from
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                         "title",          tdata->fromreq->hostname,
+                         "resizable",      TRUE,
+                         "clickable",      TRUE,
+                         "sort-column-id", TRANSFER_DLG_COL_FROM,
+                         NULL);
+  gtk_tree_view_column_pack_start (column, renderer, FALSE);
+  gtk_tree_view_column_add_attribute (column, renderer,
+                                      "text", TRANSFER_DLG_COL_FROM);
+  gtk_tree_view_append_column (treeview, column);
+  gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+  gtk_tree_view_column_set_fixed_width (column, 140);
+
+  // to
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                         "title",          tdata->toreq->hostname,
+                         "resizable",      TRUE,
+                         "clickable",      TRUE,
+                         "sort-column-id", TRANSFER_DLG_COL_TO,
+                         NULL);
+  gtk_tree_view_column_pack_start (column, renderer, FALSE);
+  gtk_tree_view_column_add_attribute (column, renderer,
+                                      "text", TRANSFER_DLG_COL_TO);
+  gtk_tree_view_append_column (treeview, column);
+  gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+  gtk_tree_view_column_set_fixed_width (column, 140);
+
+  // action
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                         "title",          _("Action"),
+                         "resizable",      TRUE,
+                         "clickable",      TRUE,
+                         "sort-column-id", TRANSFER_DLG_COL_ACTION,
+                         NULL);
+  gtk_tree_view_column_pack_start (column, renderer, FALSE);
+  gtk_tree_view_column_add_attribute (column, renderer,
+                                      "text", TRANSFER_DLG_COL_ACTION);
+  gtk_tree_view_append_column (treeview, column);
+  gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+
+  // ===============================================================
+
+  tdata->clist = treeview;
+  gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET(tdata->clist));
+
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scroll, TRUE, TRUE, 0);
+  gtk_widget_show (GTK_WIDGET (tdata->clist));
   gtk_widget_show (scroll);
 
   for (templist = tdata->files; templist != NULL; 
@@ -307,12 +408,17 @@ gftpui_ask_transfer (gftp_transfer * tdata)
       add_data[1] = insert_commas (tempfle->size, tempstr, sizeof (tempstr));
       add_data[2] = insert_commas (tempfle->startsize, temp1str,
                                    sizeof (temp1str));
-
-      i = gtk_clist_append (GTK_CLIST (tdata->clist), add_data);
-      gtk_clist_set_row_data (GTK_CLIST (tdata->clist), i, tempfle);
+      GtkTreeIter iter;
+      gtk_list_store_append (store, &iter);
+      gtk_list_store_set (store, &iter,
+                          TRANSFER_DLG_COL_FILENAME, add_data[0],
+                          TRANSFER_DLG_COL_FROM,     add_data[1],
+                          TRANSFER_DLG_COL_TO,       add_data[2],
+                          TRANSFER_DLG_COL_ACTION,   add_data[3],
+                          -1);
     }
 
-  gtk_clist_select_all (GTK_CLIST (tdata->clist));
+  gtk_tree_selection_select_all (tree_sel);
 
   hbox = gtk_hbox_new (TRUE, 20);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
