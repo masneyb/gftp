@@ -6,7 +6,7 @@ SUBDIRS=sample.gftp
 EXTRA_DIST=USERS-GUIDE gftp.1 gftp.desktop gftp.png parse-netrc.pl
 
 gftpdocdir = ${docdir}
-gftpdoc_DATA = ../README
+gftpdoc_DATA = ../README ../COPYING ../THANKS USERS-GUIDE
 
 Utilitiesdir = $(datadir)/applications
 Utilities_DATA = gftp.desktop
