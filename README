@@ -1,14 +1,12 @@
 
-
 gFTP FAQ
-
 
 Brian Masney
 
 This document is intended to answer questions that are likely to be frequently
 asked by users of gFTP.
--------------------------------------------------------------------------------
 
+-------------------------------------------------------------------------------
 
   Table of Contents
 
@@ -56,22 +54,13 @@ asked by users of gFTP.
         error:_Cannot_create_a_data_connection:_Connection_refused
 
 
-  3. HTTP_Protocol
-
-
-        3.1. How_do_I_set_up_my_HTTP_Proxy_server?
-
-
   4. SSH_Protocol
 
 
-        4.1. gFTP_will_not_log_into_the_remote_SSH_server_when_using_a_non-
-        English_locale.
-
-        4.2. I'm_having_problems_getting_SSH2_transfers_to_work._I_keep_getting
+        4.1. I'm_having_problems_getting_SSH2_transfers_to_work._I_keep_getting
         the_error:_Error:_Message_size_XXXXXXXX_too_big_from_server
 
-        4.3. What_is_the_difference_between_the_SSH_and_SSH2_protocols?
+        4.2. What_is_the_difference_between_the_SSH_and_SSH2_protocols?
 
 
   5. SSL_Issues
@@ -81,113 +70,60 @@ asked by users of gFTP.
         remote_server_uses_a_self_signed_certificate.
 
 
-  6. Compiling_Problems
-
-
-        6.1. When_I_try_to_compile_gFTP,_I_see_undefined_symbol
-        libintl_gettext._Or,_another_error_is_undefined_symbol_LC_ALL.
-
 
 -------------------------------------------------------------------------------
-
 
 Chapter 1. General Information
 
 
 1.1. What are the requirements to run gFTP?
 
-
-* GTK+ 1.2.3 or higher. GTK+/Glib is included with most systems now. If you
-  don't have it installed, you may want to check to see if your vendor has a
-  package available. If not, you can download the latest version of GTK+ and
-  Glib from ftp://ftp.gtk.org/pub/gtk. gFTP will work with either version 1.2
-  or 2.x of GTK+, but I would recommend using GTK+ 2.x.
-* pthread libraries. Most systems already satisfy this requirement. If you are
-  on a platform other than Linux, you may want to take a look at the FSU
-  Pthreads library at http://www.informatik.hu-berlin.de/~mueller/pthreads.
+* GTK 2.24 or higher / Glib 2.32 or higher. 
 
 -------------------------------------------------------------------------------
 
 1.2. How do I install gFTP?
 
-
-* If you do not want to compile gFTP yourself, you can check my webpage. I have
-  DEBs for Debian and RPMs for RedHat available. If you're looking for Solaris
-  binaries, check out http://www.sunfreeware.com.
-* If you are compiling gFTP yourself, extract the files from the distribution
-  with tar -zxvf gftp-<version>.tar.gz
 * Go to the gftp-<version> directory and type
   ./configure
-  make
+  make install
   The configure script will generate a Makefile for your machine, and make will
   compile a binary for your machine. By default, when you run configure, it
   will install gFTP with the prefix /usr/local, so the gFTP binary will be /
   usr/local/bin/gftp. You can change this by typing configure --prefix=/usr,
   and it will then install the gFTP binary to /usr/bin/gftp.
-* If the compile suceeds without any errors, you can type make install to
-  install the binary. This will also copy some necessary files to <install
-  prefix>/share/gftp. If you do not have root on your machine to install these
-  files, copy the contents of the docs/sample.gftp/ directory to ~/.gftp.
-* You may want to glance at the USERS-GUIDE file that comes with this
-  distribution. It contains a little bit of information about how to use it.
 
 -------------------------------------------------------------------------------
 
 1.3. What systems is gFTP known to run on?
 
-I develop gFTP on a Debian GNU/Linux machine. It should run under any other
-Linux distributions. Here is a list of other platforms I have received
-successful compile reports:
+It should run under any Linux distribution. 
 
-* FreeBSD/NetBSD/OpenBSD/BSDI
-* Solaris
-* IRIX
-* Digital UNIX
-* HP/UX 11
+If gFTP compiles and runs on a platform not listed here, please go to
+https://github.com/masneyb/gftp/ and notify us.
+If you are having problems compiling GTK+ or gFTP on another platform,
+try using GNU make instead of your vendor supplied make.
 
-If gFTP compiles and runs on a platform not listed here, please email me about
-it and I'll add it to this list. If you are having problems compiling GTK+ or
-gFTP on another platform, try using GNU make instead of your vendor supplied
-make.
 -------------------------------------------------------------------------------
 
 1.4. Does gFTP have a CVS repository?
 
-gFTP is stored in GNOME's CVS repository. For instructions on how to setup your
-CVS client, you can visit the webpage http://developer.gnome.org/tools/cvs.html
-for instructions. In a nutshell, you will need to run the following commands
-(this assumes you are using the bash shell):
-export CVSROOT=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
-cvs login
-Just hit enter at the password prompt since there is no password.
-cvs co gftp
-To compile the CVS code, you will need autoconf, automake 1.4 and gettext
-installed on your system. To generate a configure script, you will need to run
-autogen.sh. Once this script is generated, you can follow the normal
-installation instructions.
+https://github.com/masneyb/gftp/
+
 -------------------------------------------------------------------------------
 
 1.5. How do I report bugs in gFTP?
 
+https://github.com/masneyb/gftp/issues
+
 If you find ANY bugs in gFTP, please check to make sure that you are using the
-latest version of gFTP. If you are, please submit all bug reports to GNOME's
-Bugzilla. When sending in bug reports, please try to be as descriptive as
-possible. Send me what OS/version you are running, what compiler you are
+latest version of gFTP. 
+When sending in bug reports, please try to be as descriptive as
+possible: what OS/version you are running, what compiler you are
 compiling with, the output of gftp --info and any other important information.
 If you get gFTP to crash, it would be very helpful if you could send me a
-backtrace. If you do not know how to do a backtrace, download the source code
-from my website. Edit the Makefile, and make sure that -g appears in the CFLAGS
-variable. Then recompile gFTP, but do NOT run make install because it will
-install a stripped binary in $PREFIX/bin. Then type gdb ./gftp. Once you have a
-(gdb) prompt, type r. When gFTP crashes, go back to that terminal window, and
-type bt, and put that output in the bug that you file with bugzilla.
-I also have a gftp-users mailinglist setup. I have a link to the archives on my
-main webpage. If it is strictly a bug report, please submit it to Bugzilla
-instead of the mailinglist. Bugs that are submitted to bugzilla are much easier
-for me to track.
-Also, if you do not get a response back from me immediately, that is not
-uncommon. I usually stay very busy and I don't get to work on gFTP all of the
-time.
+backtrace.
+
 -------------------------------------------------------------------------------
 
 1.6. How do I force running the text or gtk+ version of gFTP?
@@ -274,6 +210,7 @@ complains about either the -a or -L argument to LIST.
 If the server is complaining about the -L option, go under FTP->Options->FTP
 and disable resolve remote symlinks. If it is complaining about the -a option,
 go to FTP->Options->General and disable show hidden files.
+
 -------------------------------------------------------------------------------
 
 2.2. When gFTP tries to get the remote directory listing, I receive the error:
@@ -283,42 +220,14 @@ Go under FTP->Options->FTP and turn off passive file transfers. Instead of
 sending the PASV command to open up the data connection on the server side, the
 data connection will be opened up on the client side, and the PORT command will
 be sent to the server instead.
--------------------------------------------------------------------------------
 
-
-Chapter 3. HTTP Protocol
-
-
-3.1. How do I set up my HTTP Proxy server?
-
-Go under FTP->Options and hit the FTP tab. Enter HTTP as the proxy type and
-fill in your proxy server info on that screen. Then hit the HTTP tab and enter
-your same proxy server info there.
 -------------------------------------------------------------------------------
 
 
 Chapter 4. SSH Protocol
 
 
-4.1. gFTP will not log into the remote SSH server when using a non-English
-locale.
-
-Note: This answer only applies to versions of gFTP >= 2.0.18
-You will need to download the source code to gFTP and edit the appropriate po/
-<lang>.po file. You will need to make sure the following strings are translated
-exactly as they appear in the SSH client.
-
-* Enter passphrase for RSA key
-* Enter passphrase for key
-* Password
-* password
-
-Please upload the changes to the PO file to GNOME's CVS or email me the updated
-PO file. If you email me the updates, please make sure that you grab the latest
-PO file from CVS.
--------------------------------------------------------------------------------
-
-4.2. I'm having problems getting SSH2 transfers to work. I keep getting the
+4.1. I'm having problems getting SSH2 transfers to work. I keep getting the
 error: Error: Message size XXXXXXXX too big from server
 
 Note: This answer only applies to versions of gFTP <= 2.0.17
@@ -341,9 +250,10 @@ you don't have to know the remote path to your sftp executable. But if you
 enable this, gFTP won't be able to send your password over to the ssh client.
 So if you're not using ssh-agent, then ssh will spawn the ssh-askpass program
 to grab your password.
+
 -------------------------------------------------------------------------------
 
-4.3. What is the difference between the SSH and SSH2 protocols?
+4.2. What is the difference between the SSH and SSH2 protocols?
 
 Note: This answer only applies to versions of gFTP <= 2.0.15
 The SSH protocol uses sftp >= 0.7 from http://www.xbill.org/sftp. SSH2 uses the
@@ -353,6 +263,7 @@ and the SSH protocol uses the sftpserv executable.
 Note: Due to confusion, the origional SSH protocol was removed in gFTP 2.0.15.
 It is not shown in gFTP 2.0.14, but there is a config option called
 enable_old_ssh to enable this protocol.
+
 -------------------------------------------------------------------------------
 
 
@@ -365,17 +276,4 @@ server uses a self signed certificate.
 You must add the public key of your self signed CA to your OpenSSL certs
 directory. On my Debian box, the OpenSSL certs are installed in /usr/lib/ssl/
 certs.
--------------------------------------------------------------------------------
 
-
-Chapter 6. Compiling Problems
-
-
-6.1. When I try to compile gFTP, I see undefined symbol libintl_gettext. Or,
-another error is undefined symbol LC_ALL.
-
-Try running
-make distclean ; configure --with-included-gettext.
-You could alternatively pass
---disable-nls
-to configure, and internationalization support will not be compiled in.
