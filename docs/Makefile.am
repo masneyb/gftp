@@ -2,29 +2,14 @@
 
 man_MANS=gftp.1
 SUBDIRS=sample.gftp
-EXTRA_DIST=USERS-GUIDE gftp.1 gftp.desktop gftp.png parse-netrc.pl \
-           gftp-faq.sgml
+
+EXTRA_DIST=USERS-GUIDE gftp.1 gftp.desktop gftp.png parse-netrc.pl
+
+gftpdocdir = ${docdir}
+gftpdoc_DATA = ../README
 
 Utilitiesdir = $(datadir)/applications
 Utilities_DATA = gftp.desktop
 
 Iconsdir = $(datadir)/pixmaps
 Icons_DATA = gftp.png
-
-html-local:
-	if test -w $(srcdir); then \
-		(cd $(srcdir); \
-		db2html -u gftp-faq.sgml); \
-	fi
-
-pdf-local:
-	if test -w $(srcdir); then \
-		(cd $(srcdir); db2pdf gftp-faq.sgml); \
-	fi
-
-clean-local:
-	rm -rf gftp-faq gftp-faq.junk gftp-faq.pdf
-
-dist-hook: html
-	cp $(srcdir)/gftp-faq/gftp-faq.html $(distdir)/../README.html
-	html2text -nobs -o $(distdir)/../README -style pretty $(srcdir)/gftp-faq/gftp-faq.html 
