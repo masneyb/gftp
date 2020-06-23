@@ -3,7 +3,7 @@
 man_MANS=gftp.1
 SUBDIRS=sample.gftp
 
-EXTRA_DIST=USERS-GUIDE gftp.1 gftp.desktop gftp.png parse-netrc.pl
+EXTRA_DIST=USERS-GUIDE gftp.1 gftp.desktop gftp.png
 
 gftpdocdir = ${docdir}
 gftpdoc_DATA = ../README ../COPYING ../AUTHORS USERS-GUIDE
