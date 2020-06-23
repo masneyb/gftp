@@ -370,11 +370,11 @@ sshv2_gen_exec_args (gftp_request * request)
 static int
 sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
 {
-  static char *pwstrs[] = {N_("Enter passphrase for RSA key"),
-                           N_("Enter passphrase for key '"),
-                           N_("Password"),
-                           N_("password"),
-                           NULL};
+  static char *pwstrs[] = { "Enter passphrase for RSA key",
+                            "Enter passphrase for key '",
+                            "Password",
+                            "password",
+                            NULL };
   char *tempstr, *temp1str, *pwstr, *yesstr = "yes\n", *securid_pass;
   int wrotepw, ok, maxfd, ret, clear_tempstr, pwidx;
   size_t rem, len, diff;
@@ -487,8 +487,7 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
               break;
             }
         }
-      else if (strstr (tempstr, "(yes/no)?") != NULL ||
-               strstr (tempstr, _("(yes/no)?")) != NULL)
+      else if (strstr (tempstr, "(yes/no)?") != NULL)
         {
           clear_tempstr = 1;
           if (!gftpui_protocol_ask_yes_no (request, request->hostname, tempstr))
@@ -505,8 +504,7 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
                 }
             }
         }
-      else if (strstr (tempstr, "Enter PASSCODE:") != NULL ||
-               strstr (tempstr, _("Enter PASSCODE:")) != NULL)
+      else if (strstr (tempstr, "Enter PASSCODE:") != NULL)
         {
           clear_tempstr = 1;
           securid_pass = gftpui_protocol_ask_user_input (request,
