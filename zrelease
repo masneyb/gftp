@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# Before creating a release you might want to
+# update the po files
+
+if test "$1" =  "po" ; then
+	if ! test -f ./autogen.sh ; then
+		./autogen.sh
+	fi
+	if ! test -f ./configure ; then
+		./configure
+	fi
+	make -C po update-po
+	# cleanup
+	rm -f po/*.po~
+	sed -i '/#~ /d' po/*.po
+	#git clean -dfx
+	exit
+fi
+
+#====================================================================
+
+pkg=gftp
+ver=$(grep AC_INIT configure.ac  | cut -f 3 -d '[' | cut -f 1 -d ']')
+
+dir=${pkg}-${ver}
+
+set -x
+
+mkdir -p ../$dir
+
+cp -rf $PWD/* ../$dir
+
+(
+	cd ../$dir
+	./autogen.sh
+	#rm -rf m4
+	rm -rf .gitignore autom4te.cache zrelease
+)
+
+cd ..
+
+tar -Jcf ${dir}.tar.xz $dir
+
+### END ###
