@@ -6,7 +6,7 @@ SUBDIRS=sample.gftp
 EXTRA_DIST=USERS-GUIDE gftp.1 gftp.desktop gftp.png
 
 gftpdocdir = ${docdir}
-gftpdoc_DATA = ../README ../COPYING ../AUTHORS USERS-GUIDE
+gftpdoc_DATA = ../README.md ../COPYING ../AUTHORS USERS-GUIDE
 
 Utilitiesdir = $(datadir)/applications
 Utilities_DATA = gftp.desktop
