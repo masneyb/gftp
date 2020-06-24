@@ -249,17 +249,17 @@ gftp_config_vars gftp_global_config_vars[] =
 
 supported_gftp_protocols gftp_protocols[] =
 {
-  {N_("FTP"), rfc959_init, rfc959_register_module, "ftp", 21, 1, 1},
+  { "FTP", rfc959_init, rfc959_register_module, "ftp", 21, 1, 1},
 
 #ifdef USE_SSL
-  {N_("FTPS"), ftps_init, ftps_register_module, "ftps", 21, 1, 1},
+  { "FTPS", ftps_init, ftps_register_module, "ftps", 21, 1, 1},
 #else
-  {N_("FTPS"), ftps_init, ftps_register_module, "ftps", 21, 0, 1},
+  { "FTPS", ftps_init, ftps_register_module, "ftps", 21, 0, 1},
 #endif
 
   {N_("Local"), local_init, local_register_module, "file", 0, 1, 0},
 
-  {N_("SSH2"), sshv2_init, sshv2_register_module, "ssh2", 22, 1, 1},
+  { "SSH2", sshv2_init, sshv2_register_module, "ssh2", 22, 1, 1},
 
   {N_("Bookmark"), bookmark_init, bookmark_register_module, "bookmark", 0, 0, 0},
   {NULL, NULL, NULL, NULL, 0, 0, 0}
