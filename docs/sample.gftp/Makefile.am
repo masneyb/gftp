@@ -9,7 +9,6 @@ pkgdata_DATA=bookmarks \
 	down.xpm \
 	exe.xpm \
 	gftp-logo.xpm \
-	gftp.xpm \
 	gftprc \
 	img.xpm \
 	left.xpm \
@@ -35,7 +34,6 @@ EXTRA_DIST=bookmarks \
 	down.xpm \
 	exe.xpm \
 	gftp-logo.xpm \
-	gftp.xpm \
 	gftprc \
 	img.xpm \
 	left.xpm \
