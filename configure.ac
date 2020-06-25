@@ -190,6 +190,7 @@ AC_CONFIG_FILES(
 	Makefile
 	docs/Makefile
 	docs/sample.gftp/Makefile
+	icons/Makefile
 	lib/Makefile
 	src/gftp
 	src/Makefile

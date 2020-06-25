@@ -24,13 +24,7 @@ pkgdata_DATA=bookmarks \
 	txt.xpm \
 	sound.xpm \
 	up.xpm \
-	world.xpm \
-	gftp-16x16.png \
-	gftp-22x22.png \
-	gftp-24x24.png \
-	gftp-32x32.png \
-	gftp-48x48.png \
-	gftp-scalable.svg
+	world.xpm
 
 EXTRA_DIST=bookmarks \
 	deb.xpm \
@@ -56,10 +50,4 @@ EXTRA_DIST=bookmarks \
 	txt.xpm \
 	sound.xpm \
 	up.xpm \
-	world.xpm \
-	gftp-16x16.png \
-	gftp-22x22.png \
-	gftp-24x24.png \
-	gftp-32x32.png \
-	gftp-48x48.png \
-	gftp-scalable.svg
+	world.xpm
