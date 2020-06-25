@@ -923,7 +923,7 @@ set_window_icon(GtkWindow *window, char *icon_name)
   if (icon_name)
     img_path = get_image_path (icon_name);
   else
-    img_path = get_image_path ("gftp.xpm");
+    img_path = get_image_path ("gftp.png");
   if (img_path) {
     pixbuf = gdk_pixbuf_new_from_file(img_path, NULL);
     g_free (img_path);
