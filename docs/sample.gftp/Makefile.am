@@ -6,23 +6,18 @@ pkgdata_DATA=bookmarks \
 	dir.xpm \
 	doc.xpm \
 	dotdot.xpm \
-	down.xpm \
 	exe.xpm \
 	gftp-logo.xpm \
 	gftprc \
 	img.xpm \
-	left.xpm \
 	linkdir.xpm \
 	linkfile.xpm \
 	man.xpm \
 	open_dir.xpm \
-	right.xpm \
 	rpm.xpm \
-	stop.xpm \
 	tar.xpm \
 	txt.xpm \
 	sound.xpm \
-	up.xpm \
 	world.xpm
 
 EXTRA_DIST=bookmarks \
@@ -31,21 +26,16 @@ EXTRA_DIST=bookmarks \
 	dir.xpm \
 	doc.xpm \
 	dotdot.xpm \
-	down.xpm \
 	exe.xpm \
 	gftp-logo.xpm \
 	gftprc \
 	img.xpm \
-	left.xpm \
 	linkdir.xpm \
 	linkfile.xpm \
 	man.xpm \
 	open_dir.xpm \
-	right.xpm \
 	rpm.xpm \
-	stop.xpm \
 	tar.xpm \
 	txt.xpm \
 	sound.xpm \
-	up.xpm \
 	world.xpm
