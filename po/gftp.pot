@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-23 19:38+0800\n"
+"POT-Creation-Date: 2020-06-29 00:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 
 #: ../lib/cache.c:185 ../lib/cache.c:235 ../lib/config_file.c:156
 #: ../lib/config_file.c:162 ../lib/local.c:143 ../lib/local.c:271
-#: ../lib/sshv2.c:1235
+#: ../lib/sshv2.c:1240
 #, c-format
 msgid "Error closing file descriptor: %s\n"
 msgstr ""
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Error: Could not write to socket: %s\n"
 msgstr ""
 
-#: ../lib/config_file.c:150 ../lib/sockutils.c:213 ../lib/sshv2.c:440
+#: ../lib/config_file.c:150 ../lib/sockutils.c:213 ../lib/sshv2.c:445
 #: ../lib/sslcommon.c:533
 #, c-format
 msgid "Error: Could not read from socket: %s\n"
@@ -631,20 +631,8 @@ msgstr ""
 msgid "The color of the rest of the log messages"
 msgstr ""
 
-#: ../lib/options.h:252 ../lib/rfc959.c:38
-msgid "FTP"
-msgstr ""
-
-#: ../lib/options.h:255 ../lib/options.h:257
-msgid "FTPS"
-msgstr ""
-
 #: ../lib/options.h:260
 msgid "Local"
-msgstr ""
-
-#: ../lib/options.h:262
-msgid "SSH2"
 msgstr ""
 
 #: ../lib/options.h:264 ../src/gtk/bookmarks.c:885
@@ -773,6 +761,10 @@ msgstr ""
 
 #: ../lib/rfc959.c:32
 msgid "Custom"
+msgstr ""
+
+#: ../lib/rfc959.c:38
+msgid "FTP"
 msgstr ""
 
 #: ../lib/rfc959.c:41
@@ -910,7 +902,7 @@ msgstr ""
 msgid "Invalid response '%c' received from server.\n"
 msgstr ""
 
-#: ../lib/rfc959.c:686 ../lib/sshv2.c:1230
+#: ../lib/rfc959.c:686 ../lib/sshv2.c:1235
 #, c-format
 msgid "Disconnecting from site %s\n"
 msgstr ""
@@ -1014,7 +1006,7 @@ msgstr ""
 msgid "Connected to %s:%d\n"
 msgstr ""
 
-#: ../lib/sockutils.c:189 ../lib/sockutils.c:267 ../lib/sshv2.c:430
+#: ../lib/sockutils.c:189 ../lib/sockutils.c:267 ../lib/sshv2.c:435
 #, c-format
 msgid "Connection to %s timed out\n"
 msgstr ""
@@ -1057,171 +1049,171 @@ msgstr ""
 msgid "Require a username/password for SSH connections"
 msgstr ""
 
-#: ../lib/sshv2.c:364
+#: ../lib/sshv2.c:369
 #, c-format
 msgid "Running program %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:511 ../src/gtk/gtkui.c:135 ../src/gtk/transfer.c:561
+#: ../lib/sshv2.c:516 ../src/gtk/gtkui.c:135 ../src/gtk/transfer.c:561
 #: ../src/gtk/transfer.c:571
 msgid "Enter Password"
 msgstr ""
 
-#: ../lib/sshv2.c:512
+#: ../lib/sshv2.c:517
 msgid "Enter SecurID Password:"
 msgstr ""
 
-#: ../lib/sshv2.c:560
+#: ../lib/sshv2.c:565
 msgid "Error: An incorrect password was entered\n"
 msgstr ""
 
-#: ../lib/sshv2.c:589
+#: ../lib/sshv2.c:594
 #, c-format
 msgid "%d: Protocol Initialization\n"
 msgstr ""
 
-#: ../lib/sshv2.c:593
+#: ../lib/sshv2.c:598
 #, c-format
 msgid "%d: Protocol version %d\n"
 msgstr ""
 
-#: ../lib/sshv2.c:602
+#: ../lib/sshv2.c:607
 #, c-format
 msgid "%d: Open %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:607
+#: ../lib/sshv2.c:612
 #, c-format
 msgid "%d: Close\n"
 msgstr ""
 
-#: ../lib/sshv2.c:611
+#: ../lib/sshv2.c:616
 #, c-format
 msgid "%d: Open Directory %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:616
+#: ../lib/sshv2.c:621
 #, c-format
 msgid "%d: Read Directory\n"
 msgstr ""
 
-#: ../lib/sshv2.c:620
+#: ../lib/sshv2.c:625
 #, c-format
 msgid "%d: Remove file %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:625
+#: ../lib/sshv2.c:630
 #, c-format
 msgid "%d: Make directory %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:630
+#: ../lib/sshv2.c:635
 #, c-format
 msgid "%d: Remove directory %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:635
+#: ../lib/sshv2.c:640
 #, c-format
 msgid "%d: Realpath %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:640
+#: ../lib/sshv2.c:645
 #, c-format
 msgid "%d: File attributes\n"
 msgstr ""
 
-#: ../lib/sshv2.c:644
+#: ../lib/sshv2.c:649
 #, c-format
 msgid "%d: Stat %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:664
+#: ../lib/sshv2.c:669
 #, c-format
 msgid "%d: Chmod %s %o\n"
 msgstr ""
 
-#: ../lib/sshv2.c:669
+#: ../lib/sshv2.c:674
 #, c-format
 msgid "%d: Utime %s %d\n"
 msgstr ""
 
-#: ../lib/sshv2.c:683
+#: ../lib/sshv2.c:688
 msgid "OK"
 msgstr ""
 
-#: ../lib/sshv2.c:686
+#: ../lib/sshv2.c:691
 msgid "EOF"
 msgstr ""
 
-#: ../lib/sshv2.c:689
+#: ../lib/sshv2.c:694
 msgid "No such file or directory"
 msgstr ""
 
-#: ../lib/sshv2.c:692
+#: ../lib/sshv2.c:697
 msgid "Permission denied"
 msgstr ""
 
-#: ../lib/sshv2.c:695
+#: ../lib/sshv2.c:700
 msgid "Failure"
 msgstr ""
 
-#: ../lib/sshv2.c:698
+#: ../lib/sshv2.c:703
 msgid "Bad message"
 msgstr ""
 
-#: ../lib/sshv2.c:701
+#: ../lib/sshv2.c:706
 msgid "No connection"
 msgstr ""
 
-#: ../lib/sshv2.c:704
+#: ../lib/sshv2.c:709
 msgid "Connection lost"
 msgstr ""
 
-#: ../lib/sshv2.c:707
+#: ../lib/sshv2.c:712
 msgid "Operation unsupported"
 msgstr ""
 
-#: ../lib/sshv2.c:710
+#: ../lib/sshv2.c:715
 msgid "Unknown message returned from server"
 msgstr ""
 
-#: ../lib/sshv2.c:745
+#: ../lib/sshv2.c:750
 #, c-format
 msgid "Error: Message size %d too big\n"
 msgstr ""
 
-#: ../lib/sshv2.c:804 ../lib/sshv2.c:1331 ../lib/sshv2.c:1823
-#: ../lib/sshv2.c:1937
+#: ../lib/sshv2.c:809 ../lib/sshv2.c:1336 ../lib/sshv2.c:1828
+#: ../lib/sshv2.c:1942
 #, c-format
 msgid "Error: Message size %d too big from server\n"
 msgstr ""
 
-#: ../lib/sshv2.c:810
+#: ../lib/sshv2.c:815
 msgid ""
 "There was an error initializing a SSH connection with the remote server. The "
 "error message from the remote server follows:\n"
 msgstr ""
 
-#: ../lib/sshv2.c:888
+#: ../lib/sshv2.c:893
 msgid "Received wrong response from server, disconnecting\n"
 msgstr ""
 
-#: ../lib/sshv2.c:1145
+#: ../lib/sshv2.c:1150
 #, c-format
 msgid "Opening SSH connection to %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:1153
+#: ../lib/sshv2.c:1158
 #, c-format
 msgid "Cannot look up service name %s/tcp. Please check your services file\n"
 msgstr ""
 
-#: ../lib/sshv2.c:1197
+#: ../lib/sshv2.c:1202
 #, c-format
 msgid "Successfully logged into SSH server %s\n"
 msgstr ""
 
-#: ../lib/sshv2.c:1312
+#: ../lib/sshv2.c:1317
 msgid "Retrieving directory listing...\n"
 msgstr ""
 
