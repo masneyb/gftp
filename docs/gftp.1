@@ -1,4 +1,4 @@
-.TH GFTP 1 "MARCH 2007"
+.TH GFTP 1 "JUNE 2020"
 .SH NAME
 gftp - file transfer client for *NIX based machines.
 .SH SYNOPSIS
@@ -14,7 +14,7 @@ gftp - file transfer client for *NIX based machines.
 .I directory
 .B ]]
 .SH DESCRIPTION
-gFTP is a file transfer client for *NIX based machines. It currently has a text interface and a GTK+ 1.2/2.x graphical interface. It currently supports the FTP, FTPS (control connection only), HTTP, HTTPS, SSH and FSP protocols.
+gFTP is a file transfer client for *NIX based machines. It currently has a text interface and a GTK graphical interface. It currently supports the FTP, FTPS (control connection only), and SSH protocols.
 .SH OPTIONS
 You may enter a url on the command line that gFTP will automatically connect to when it starts up.
 .IP "\-\-help, \-h"
@@ -24,7 +24,7 @@ Display some information about how gFTP was built. Please send the output of thi
 .IP "\-\-version, \-v"
 Display the current version of gFTP.
 .IP proto
-This specifies the protocol that should be used. It can currently be one of the following options: ftp, ftps, http, https, ssh, fsp, local and bookmark. If omitted, the protocol specified by the default_protocol option will be used.
+This specifies the protocol that should be used. It can currently be one of the following options: ftp, ftps, ssh, local and bookmark. If omitted, the protocol specified by the default_protocol option will be used.
 .IP user
 The username that will be used to log into the remote server. If omitted, your current username will be used for most protocols. For the FTP protocol, the anonymous username will be used.
 .IP pass
@@ -45,6 +45,6 @@ Per user configuration file. Most of these options can be edited inside gFTP. Th
 .RS
 Per user bookmarks file.
 .SH BUGS
-If you find any bugs in gFTP, please report them to GNOME's Bugzilla at http://bugzilla.gnome.org/
+Report bugs at https://github.com/masneyb/gftp/issues
 .SH AUTHOR
 Brian Masney <masneyb@gftp.org> - http://www.gftp.org/
