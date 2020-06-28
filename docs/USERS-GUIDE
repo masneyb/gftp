@@ -7,7 +7,7 @@ version 2.0.13 (06/10/2002)
 Copyright (C) 1998-2002 Brian Masney <masneyb@gftp.org>
 
 
-   gFTP is a multiprotocol file transfer program for both X Window and the
+   gFTP is a file transfer program for both X Window and the
 console.  Some of the gFTP features are:
 
     * Downloading files
@@ -18,19 +18,14 @@ console.  Some of the gFTP features are:
     * Simultaneous downloads using multithreading
     * Supports resuming interrupted file transfers
     * Bookmarks menu to allow you to quickly connect to remote sites
-    * FTP and HTTP proxy host support
-    * Supports the FTP, FXP, HTTP and SSH protocols
+    * FTP proxy host support
+    * Supports the FTP and SSH protocols
     * Supports both passive and non-passive file transfers
     * Supports UNIX, EPLF, Novell, MacOS, and NT (DOS) style directory listings
-    * Fully Internationalized. gFTP is currently available in Bulgarian (bg),
-      Chinese (zh_TW.Big5, zh_CN.GB2312), Czech (cs), Danish (da), Dutch (nl),
-      Finnish (fi), French (fr), German (de), Italian (it), Korean (ko),
-      Japanese (ja), Norwegian (no), Polish (pl), Portuguese (pt_BR, br),
-      Russian (ru), Spanish (es), Swedish (sv) and Turkish (tr)
+    * Fully Internationalized.
 
-
-   gFTP is distributed under the terms of the GNU General Public License.  You
-can read the GPL by clicking on Help->About->License Agreement.
+   gFTP is distributed under the terms of the GNU General Public License.
+   See COPYING file.
 
    This document is a tutorial on how to use gFTP and describes some of its
 functionality.  I welcome any changes or additions to this document to make it
@@ -92,13 +87,9 @@ better, and easier to read.
    11.5. Bookmark security concerns
 12. FTP protocol
    12.1 Invoking FTP
-13. HTTP protocol
-   13.1. Invoking HTTP
 14. SSH protocol
    14.1. Configuring SSH
    14.2. Invoking SSH
-   14.3. SSH and SSH2
-   14.4 Invoking SSH
 15. Miscellaneous commands
    15.1. Window
    15.2. SITE commands
@@ -548,8 +539,7 @@ and gFTP will start transferring the files in the queue.
 
    The File Transfer Protocol has the ability to restart an interrupted transfer
 at the point where it left off.  gFTP supports the resume function.  If the
-remote site you are dealing with also supports resume (most FTP sites do, HTTP
-sites do not) then you can resume an interrupted transfer.
+remote site you are dealing with also supports resume (most FTP sites do) then you can resume an interrupted transfer.
 
 5.1. Manual resumes
 
@@ -987,27 +977,6 @@ transfer gFTP can drop the control connection without interrupting the transfer.
 Or
    Click on the button immediately to the left of the red light and click on FTP
 
-
-13. HTTP protocol
-
-   HyperText Transfer Protocol is a hardware and software independent Internet
-protocol which is used to transfer information between servers and clients.  It
-is probably the most used protocol on the Internet.  gFTP can act as a HTTP
-client.
-
-   From the client standpoint the HTTP protocol is far simpler than the FTP
-protocol.  Among other things, HTTP has no user ids and passwords.  This
-simplicity makes file transfers using HTTP somewhat more simple minded.
-
-13.1. Invoking HTTP
-
-   gFTP knows to use HTTP by the first four letters of the URL.  An URL for a
-   HTTP transfer begins with HTTP://.
-Or
-   Click on the button immediately to the left of the red light and click on
-   HTTP.
-
-
 14. SSH protocol
 
    SSH (Secure SHell) is a protocol which provides a high level of security
@@ -1023,7 +992,6 @@ out the form.  The required entries are:
 
     SSH Prog Name - This is the name of the program which provides the SSH
                       wrapper.
-
     SSH Extra Params - These are the parameters that the SSH wrapper program
                          needs to build an encryption key.
 
@@ -1031,16 +999,6 @@ out the form.  The required entries are:
 
    gFTP knows to use SSH by the first three or four letters of the URL.  An URL
    for a SSH transfer begins with ssh:// or ssh2://.
-Or
-   Click on the button immediately to the left of the red light and click on
-   either SSH or SSH2
-
-14.3. SSH and SSH2
-
-   SSH recently went through a major revision to plug known security holes.  The
-latest version of SSH is called SSH2.  SSH and SSH2 are not compatible with each
-other.  gFTP supports both SSH and SSH2.
-
 
 15. Miscellaneous commands
 
@@ -1153,7 +1111,7 @@ proxy host then gFTP needs passwords and other configuration information to
 make a connection through the proxy host to the internet.
 
    To set up your proxy host and/or firewall configuration, click on
-FTP->Options.  You can click on HTTP Proxy and FTP Proxy to set up your
+FTP->Options.  You can click on FTP Proxy to set up your
 proxy hosts, user names, and passwords.  In the FTP Proxy form, you can set up
 how you want gFTP to log into the proxy host.  I have many of the common types
 of proxy hosts that you will encounter already descried in gFTP.  If you are
@@ -1178,18 +1136,6 @@ config file that pertain to proxy host and/or firewall configuration are:
 
     # This specifies how your proxy server expects us to log in
     proxy_config=
-
-    # Firewall hostname
-    http_proxy_host=
-
-    # Port to connect to on the firewall
-    http_proxy_port=80
-
-    # Your firewall username
-    http_proxy_username=
-
-    # Your firewall password
-    http_proxy_password=
 
 18.2. Proxy security concerns
 
@@ -1239,62 +1185,8 @@ available in /usr/share/gftp: world.xpm
 
 19.1. gFTP bugs
 
-   gFTP is released under the GNU General Public License.  As such there is
-ABSOLUTELY NO WARRENTY with gFTP.  That said, if you run into ANY bugs in gFTP
-please let me know.  I take pride in making gFTP as bug free as possible.  Since
-gFTP is used on a wide variety of hardware and software configurations bugs will
-sometimes crop up that I never could have anticipated on the configuration I use
-to develop gFTP.  Please include as much information as possible in your bug
-description.  It is better to report too much detail than to report too little
-detail in your bug report.  Basically, I need enough information to be able to
-recreate the bug on my machine.  The information that might be useful to me
-could include:
-
-The  gFTP version number you are using and what installation method (tarball
-or rpm).  For example:
-
-   I am using gFTP-2.0.13.tar.gz.
-
-Please tell me your hardware and software configuration.  For example:
-
-Configuration:
-   AMD 1.2G CPU with 256M ram
-   Mandrake 8.1 distribution
-   KDE 2.2 desktop
-   KWvDial 0.10 -> dial up modem
-   kernel 2.2.10
-
-   Please tell me enough about the problem so that I can try to recreate it.
-For example:
-
-  I was connected to jungle.metalab.unc.edu, which is a Mandrake mirror, to do
-some downloads.  I connected OK using the Remote->Open URL window.  I went to
-a directory called /pub/Linux/distributions/mandrake/Mandrake/8.1/SRPMS/ and
-double clicked on the file alien-7.27-1mdk.src.rpm.  gFTP entered this file
-name in the queue twice and downloaded it twice.  I think gFTP should have
-only downloaded it once.  This happens intermittently.  Sometimes gFTP downloads
-files once and sometimes it downloads files twice.  gFTP always downloads
-alien-7.27-1mdk.src.rpm twice.
-
-Please attach the gFTP log file (/home/user/.gftp/gftp.log) to your report.
-
-If you are having trouble with gFTP bookmarks please attach the gFTP bookmark
-file (/home/user/.gftp/bookmarks) to your report.
-
-If you are having trouble with the gFTP configuration please attach the gFTP
-configuration file (/home/user/.gftp/gftprc) to your report.
-
-If you keep passwords in your bookmark file or your configuration file you might
-want to x out the passwords before you send the file to me.
-
-Please send your bug report to:
-
-Brian Masney   masneyb@gftp.org
-Elkview, WV USA
-
-If you find a bug in an older version of gFTP, that bug might already be fixed
-in the latest version of gFTP.  You can find the latest version at the gFTP
-download site by clicking on Bookmarks->General Sites->gFTP.
+   Please make sure you're using the latest release.
+   Report bugs at https://github.com/masneyb/gftp/issues
 
 19.2. gFTP mailing list
 
@@ -1303,37 +1195,24 @@ new versions of gFTP.  It is an extremely quiet mailing list and I promise not
 to spam you.  To subscribe to the gFTP mailing list, send a message to
 majordomo@seul.org with the words subscribe gftp-announce in the body.
 
-19.3. gFTP home page and FAQ
+19.3. gFTP home
 
    You can find the latest information about gFTP at the gFTP home page or on
 the gFTP Frequently Asked Questions.
 
 gFTP home page:  http://www.gftp.org/
 
-gFTP FAQ:  http://www.gftp.org/faq.html
-
 
 20. Legal section
 
-   Click on Help->About->License Agreement to find a copy of the GNU General
-   Public License
-
 20.1. Copying gFTP
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+   Click on Help->About->License to find a copy of the GNU General
+   Public License
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to:
+   See COPYING file.
 
-      Free Software Foundation, Inc.
-      59 Temple Place - Suite 330
-      Boston, MA 02111
-      USA
-
-20.2. Warrenty
+20.2. Warranty
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -1342,13 +1221,4 @@ gFTP FAQ:  http://www.gftp.org/faq.html
 
 20.3. Source code
 
-   gFTP is open source software under the terms of the GNU General Public
-License.  You can find the gFTP source code by clicking on
-Bookmarks->General Sites->gFTP.  The tarballs on the gFTP web site contain both
-source and binary.  The rpm packages are split into binary rpms and source
-rpms.  The Debian packages contain both binary and source.  You may use the
-gFTP source code in any way that you wish as long as you conform to the terms
-of the GNU General Public License.  If you fix any bugs or add any useful
-features to gFTP you might consider sending your changes to me to be
-incorporated into a future release of gFTP.  I welcome any help you might give
-me in improving gFTP.
+   https://github.com/masneyb/gftp/releases
