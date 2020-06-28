@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([gftp],[2.0.19],[https://www.gftp.org/])
+AC_INIT([gftp],[2.6.0b],[https://www.gftp.org/])
 AM_INIT_AUTOMAKE([1.11 -Wall foreign no-dist-gzip dist-xz])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 

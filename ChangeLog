@@ -1,0 +1,308 @@
+gFTP version 2.6.0b
+===================
+
+Highlights:
+- removed GTK1 support
+- removed HTTP support (broken)
+- removed FSP support
+- various bug fixes, cleanups and improvements
+- requires gtk 2.24 / glib 2.32+
+- ongoing effort to add GTK3 support
+- about a dozen language translations were updated
+
+Changes since version 2.0.19 (git shortlog --no-merges 2.0.19..HEAD)
+--------------------------------------------------------------------
+
+A S Alam (1):
+      Updating Punjabi Translaiton for Punjabi (Gurmukhi)
+
+Adi Roiban (1):
+      Update Romanian translation
+
+Amitakhya Phukan (2):
+      Corrected errors in as.po Added as to LINGUAS and adding Assamese translations.
+      Updating Assamese translations.
+
+Andrej Žnidaršič (2):
+      Updated Slovenian translation
+      Updated Slovenian translation
+
+Antón Méixome (1):
+      Updated Galician Translation
+
+Aron Xu (2):
+      Upated Simplified Chinese translation.
+      Update Simplified Chinese translation.
+
+Balázs Úr (1):
+      Updated Hungarian translation
+
+Baris Cicek (1):
+      Updated Turkish translation
+
+Brian Masney (13):
+      docs/website/index.html.in docs/website/generate-gftp-website.pl
+      Updated Polish translation from Robert <robwoj44@poczta.onet.pl>
+      Revert "Updated Polish translation from Robert <robwoj44@poczta.onet.pl>"
+      added .gitignore
+      added README.md for github
+      Allow using more recent versions of automake to generate the configure script. Also adds experimental support for building against GTK+ 3.0. Patch from Steven Edwards <winehacker@gmail.com>.
+      fixed compiling on some versions of Linux. Patch picked up from the Fedora Project at https://github.com/repoforge/rpms/blob/master/specs/gftp/gftp-stropts.patch
+      fixed broken bookmarks. Patch picked up from the Fedora Project at https://raw.githubusercontent.com/repoforge/rpms/master/specs/gftp/gftp-2.0.19-fix-broken-bookmarks.patch
+      removed unused variable
+      use %j printf formatter to fix compiler warnings related to off_t types
+      add error handling from Zhouyang. Closes https://bugzilla.gnome.org/show_bug.cgi?id=793950
+      include sys/sysmacros.h to silence the warning
+      remove cvsclean script
+
+Carles Ferrando (1):
+      Updated Catalan (Valencian) translation
+
+Claudio Arseni (2):
+      [l10n] Updated Italian translation
+      [l10n] Updated Italian translation.
+
+Cédric Valmary (1):
+      Updated Occitan translation
+
+Daniel Mustieles (4):
+      Updated Spanish translation
+      Fixed bug #509934
+      Updated Spanish translation
+      Updated FSF's address
+
+Gabor Kelemen (1):
+      Updated Hungarian translation
+
+Inaki Larranaga Murgoitio (2):
+      Added Basque language
+      Added Basque language
+
+Jim Mason (1):
+      Tls data channel patch (#13)
+
+Krishnababu Krothapalli (3):
+      added telugu [te] entry
+      Updated Changelog entry
+      Updated Telugu Translation
+
+Kristjan SCHMIDT (1):
+      Add Esperanto translation
+
+Luca Ferretti (1):
+      Updated by Ubuntu Italian translation team.
+
+Manoj Kumar Giri (5):
+      Added or into the List
+      Updated Oriya Translation
+      Updated Oriya Translation
+      Updated Oriya Translation
+      Updated Oriya Translation
+
+Marek Černocký (1):
+      Updated Czech translation
+
+Mario Blättermann (2):
+      Updated German translation
+      Updated German translation
+
+Matej Urbančič (2):
+      Added sl for Slovenian language
+      Added Slovenian translation
+
+Muhammet Kara (1):
+      Updated Turkish translation
+
+OKANO Takayoshi (1):
+      Updated Japanese translation
+
+Olav Vitters (1):
+      Add DOAP file
+
+Piotr Drąg (2):
+      Updated Polish translation
+      doap: update URLs
+
+Rajesh Ranjan (4):
+      Updated Hindi Translations
+      hindi update
+      hindi update
+      hindi update
+
+Rudolfs Mazurs (1):
+      Updated Latvian translation.
+
+Runa Bhattacharjee (6):
+      Added Bengali India Translations
+      Added Bengali India (bn_IN) to the list of languages
+      Updated Bengali India Translations
+      Updated Bengali India Translations
+      Updated Bengali India Translations
+      Updated Bengali India Translations
+
+Samir Ribic (1):
+      Added Bosnian translation
+
+Sandeep Shedmake (3):
+      Added 'mr' locale
+      Added Marathi Translations and appended 'mr' locale to LINGUAS
+      Added Marathi Translations
+
+Shankar Prasad (7):
+      Added kn to LINGUAS and kn.po
+      Updated Kannada translations
+      Updated Kannada translations
+      Updated Kannada translations
+      Updated Kannada translation
+      Updated Kannada translation
+      Updated Kannada translation
+
+Simos Xenitellis (3):
+      Updated Greek translation by Marios Zintilis
+      Updated Greek translation (filespec)
+      Updated Greek translation (filespec, rest of instances)
+
+Steven Edwards (19):
+      Removed the old cvsid tags since they are not used anymore.
+      Cleaned up three more warnings.
+      Add support for isolated platform specific cases and add a macOS foregrounding hack to aid in debugging
+      Remove usage of all deprecated glib thread functions. With this change gftp will now offically require at least GLib 2.32
+      Removal gtk1 support
+      Remove gtk1x support
+      Remove gtk1x support
+      Remove gtk1x support
+      Remove gtk1x support
+      Remove gtk1x support
+      Remove gtk1x support
+      Remove gtk1x support
+      Remove legacy gtk1x support
+      Explicity require glib 2.32 or higher from now on
+      Rename some of the icon graphics functions to be a little more generic Modify the toolbar image loading functions to use the gtk_image api   (This has the benefit of allowing us to load either a *.xpm or *.png)
+      Add small padding to transfer and message windows to enhance the UI a bit.
+      gtk_image_new_from_stock and GTK_STOCK_SORT_* are deprecated in newer versions of GTK. replace with gtk_image_new_from_icon_name() and new icon names to remain forward compatible with gtk 3.10+
+      gtk_image_new_from_stock and GTK_STOCK_SORT_* are deprecated in newer versions of GTK. replace with gtk_image_new_from_icon_name() and new icon names to remain forward compatible with gtk 3.10+
+      - Move the gthreads (there is no need to check for it on gtk3 systems)  - Replace the Tooltips API calls wth the Tooltip API introduced in gtk 2.12    (This is forward compatible with gtk3)
+
+Sweta Kothari (2):
+      Committed Translation by Sweta Kothari
+      Updated Gujarati Translations
+
+Takayuki KUSANO (1):
+      Updated Japanese translation
+
+Wadim Dziedzic (1):
+      Updated Polish translation by Piotr Drąg
+
+bluebat (1):
+      Updated Traditional Chinese translation(Hong Kong and Taiwan)
+
+fangq (2):
+      allow Ctrl+V for paste, fix duplicated Ctrl+P shortcuts
+      put Date before User and Group is more intuitive
+
+ifelix (1):
+      Updated Tamil Translations
+
+wdlkmpx (101):
+      gtkui: don't rename file if target file already exists (#16)
+      fix duplicated Ctrl+D shortcut (Bug#577505) (#17)
+      Alt+Up short cut for moving to the parent dir (#19)
+      fix spelling error for Permissions (#20)
+      port number field can only fit two digits, need more, Bug#570149 (#21)
+      fsplib: update to v14.0 [2019-08-16] (#24)
+      remove glib1/gtk1 stuff (#26)
+      configure.ac: enabling gtk3 automatically disables gtk2 (#23)
+      use standard gtk 'about' dialog (#27)
+      local folder: open default filemanager when clicking on View... (#18)
+      replace gtk_timeout with g_timeout (#29)
+      update build system (#28)
+      configure.ac: -gtk30 = -gtk3 (--enable-gtk3) etc (#30)
+      apply PRET patch submitted by Chris Droshalla for better handling of distributed sites (#31)
+      gtkui: (window icon: use GdkPixbuf instead of GdkPixmap) (#32)
+      ssh2 [sftp]: do not disconnect on trivial errors (#33)
+      remove FSP support (#35)
+      G_HAVE_GINT64 is always defined (and deprecated) (#37)
+      enforce getaddrinfo() [and remove gethostbyname() stuff] (#38)
+      gtkui: show file count and total size [local & remote] (#34)
+      remove mkstemps.c (#39)
+      GtkComboBox Part 1: options_dialog.c (replace GtkCombo)
+      GtkComboBox Part 2: main window (replace GtkCombo)
+      GtkComboBox Part 3: fix toolbar [ remove toolbar_image() ]
+      delete connect.xpm & disconnect.xpm (no longer used)..
+      merge socket-connect-getaddrinfo.c into socket-connect.c
+      gtkui: make list info more readable..
+      gtkui filelist: format date (YYYY/MM/DD hh:mm:ss)
+      configure.ac: remove AC_TYPE_SIGNAL
+      gtkui: 'main_window' variable
+      GtkFileChooser 1: replace GtkFileSelection (save dir listing)
+      menu-items.c: merge dosave_directory_listing() into save_directory_listing()
+      GtkFileChooser 2: replace GtkFileSelection (save log)
+      GtkUIManager Part 1: "Edit Bookmarks" menubar
+      GtkUIManager Part 2: "Edit Bookmarks" popup menu
+      GtkUIManager Part 3: main window menubar
+      GtkUIManager Part 4: Local & Remote popup menus
+      GtkUIManager Part 5: Transfer popup menu
+      GtkUIManager Part 6: bookmarks.c: rename *ifactory -> *b_uimanager
+      GtkUIManager Part 7: clean up / remove unneeded functions
+      GtkUIManager Part 8: make set_menu_sensitive() work with gtkUIManager
+      GtkUIManager Part 9: action names must not contain "/"
+      GtkUIManager Part 10: disable "remote" actions if not connected to "remote" host
+      GtkUIManager Part 11: (GtkRadioActionEntry) Window1/Window2 Ascii/Binary
+      GtkUIManager Part 12: build_bookmarks_menu()
+      GtkUIManager Part 13: add_bookmark() bm_apply_changes()
+      GtkComboBox Part 4: replace GtkOptionMenu (bookmark properties)
+      GtkComboBox Part 5: replace GtkOptionMenu (toolbar protocol)
+      configure.ac: remove some obsolete or unneded checks
+      update bookmarks
+      remove HTTP support (closes #36)
+      gtkui: ('user' combo: handle key press events from text entry)
+      gtkui protocol combo (change): set default_protocol
+      replace gtk_signal by g_signal
+      gtkui: center about_dlg
+      gtkui: get_image_path(): simplify / print missing icon to stderr..
+      get_image_path(): fix typo in path1..
+      [glib 2.32] don't check for gthread / don't call g_thread_init()
+      configure.ac: add --enable-gtk-warnings
+      misc-gtk.c: improve MakeYesNoDialog()
+      misc-gtk.c: improve MakeEditDialog()
+      GtkProgressBar: replace/remove deprecated functions
+      gtk: replace some deprecated functions
+      add gftp_get_pixbuf() and pixbuf_hash_table
+      GtkTreeView Part1: replace GtkCList ["listbox"]
+      GtkTreeView part2: replace GtkCList in "Transfer Files" dialog
+      lib/sshv2.c: fix for large file sizes
+      remove docs/figures/
+      remove docs/gftp.lsm
+      remove docs/gftp-faq.sgml (install ../README instead)
+      install COPYING THANKS USERS-GUIDE to ${docdir}
+      remove docs/sample.gftp/COPYING
+      update README a bit
+      delete /docs/website
+      gftpui.c: show only gftp version & url in log window
+      sshv2.c: *don't translate required english strings to start login sequence
+      update AUTHORS (delete THANKS)
+      remove MAINTAINERS file
+      remove docs/parse-netrc.pl
+      update po/POTFILES.in
+      add po/gftp.pot
+      add 'zrelease' script
+      merge README into README.md
+      options.h: don't translate "FTP", "FTPS" & "SSH2"
+      remove docs/rfcs/rfc2068.txt (html rfc) 1997
+      docs/sample.gftp/Makefile.am: one line per file
+      create icons/ dir (and install .png/.svg icons to icon theme)
+      GTK UI: use gftp.png from icon theme..
+      remove docs/sample.gftp/gftp.xpm
+      remove unused pixmaps
+      docs/sample.gftp/Makefile.am: $(files)
+      remove debian/ dir
+      update docs/gftp.1
+      remove docs/legal.xml
+      update TODO
+      update docs/USERS-GUIDE a bit
+      autogen.sh: fix po/Makefile.in.in
+      sshv2.c: use `-o StrictHostKeyChecking=ask` if `ssh_extra_params` is empty
+      update po/gftp.pot
+      docs/Makefile.am: install ChangeLog to ${docdir}
+      clear ChangeLog
+
