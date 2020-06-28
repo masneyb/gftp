@@ -28,7 +28,16 @@ $AUTOHEADER --force || exit 1
 #Generate Makefile.in's
 touch config.rpath
 $AUTOMAKE --add-missing --copy --force || exit 1
-AUTOMAKE=$AUTOMAKE intltoolize -c --automake --force || exit 1
+
+if grep "IT_PROG_INTLTOOL" configure.ac ; then
+	intltoolize -c --automake --force || exit 1
+	# po/Makefile.in.in has these lines:
+	#    mostlyclean:
+	#       rm -f *.pox $(GETTEXT_PACKAGE).pot *.old.po cat-id-tbl.tmp
+	# prevent $(GETTEXT_PACKAGE).pot from being deleted by `make clean`
+	sed 's/pox \$(GETTEXT_PACKAGE).pot/pox/' po/Makefile.in.in > po/Makefile.in.inx
+	mv -f po/Makefile.in.inx po/Makefile.in.in
+fi
 
 #generate configure
 $AUTOCONF --force || exit 1
