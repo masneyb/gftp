@@ -124,11 +124,3 @@ server uses a self signed certificate.
   directory. On my Debian box, the OpenSSL certs are installed in /usr/lib/ssl/
   certs.
 
-
-## When trying to log into SSH2 server, there's no confirmation dialog
-to accept the server's key fingerprint.
-
-  Try adding this line to `~/.ssh/ssh_config` or `/etc/ssh/ssh_config` :
-
-  - StrictHostKeyChecking no
-

@@ -343,9 +343,14 @@ sshv2_gen_exec_args (gftp_request * request)
   logstr_len = strlen (logstr);
 
   gftp_lookup_request_option (request, "ssh_extra_params", &tempstr);
-  if (tempstr != NULL && *tempstr != '\0')
+  if (tempstr != NULL && *tempstr != '\0') {
     sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
                          "%s", tempstr);
+  } else {
+    // `ssh_extra_params` is empty and we need to add `-o StrictHostKeyChecking=ask`
+    sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
+                       " -o StrictHostKeyChecking=ask");
+  }
 
   sshv2_add_exec_args (&logstr, &logstr_len, &args, &args_len, &args_cur,
                        " -e none");
