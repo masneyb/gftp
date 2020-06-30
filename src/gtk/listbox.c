@@ -151,7 +151,7 @@ listbox_add_columns (gftp_window_data *wdata)
    /* filename */
    //renderer = gtk_cell_renderer_text_new ();
    renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT,
-                           "xalign", 0.0,     /* justify left */
+                           "xalign", 0.0,     /* justify center */
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
                           "title",          "Filename",
@@ -171,12 +171,13 @@ listbox_add_columns (gftp_window_data *wdata)
                            "xalign", 1.0,     /* justify right */
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                          "alignment",      1.0,    /* header: right alignment */
                           "title",          "Size",
                           "resizable",      TRUE,
                           "clickable",      TRUE,
                           //"sort-column-id", LISTBOX_COL_SIZE,
                           NULL);
-   gtk_tree_view_column_pack_start (column, renderer, FALSE);
+   gtk_tree_view_column_pack_start (column, renderer, TRUE); // TRUE: required for `xalign=1.0`
    gtk_tree_view_column_add_attribute (column, renderer,
                                        "text", LISTBOX_COL_SIZE);
    gtk_tree_view_append_column (treeview, column);
