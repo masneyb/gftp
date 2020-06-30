@@ -180,6 +180,7 @@ void chmod_dialog 				( gpointer data );
 
 /* delete_dialog.c */ 
 void delete_dialog 				( gpointer data );
+void do_delete_dialog                           ( gpointer data );
 
 /* dnd.c */
 void openurl_get_drag_data 			( GtkWidget * widget, 
