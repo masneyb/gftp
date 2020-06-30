@@ -837,7 +837,7 @@ bmedit_action (GtkWidget * widget, gint response, gpointer user_data)
 static void
 edit_entry (gpointer data)
 {
-  GtkWidget * table, * tempwid, * notebook;
+  GtkWidget * table, * tempwid, * notebook, *main_vbox;
   gftp_bookmarks_var * entry;
   unsigned int num, i;
   char *pos;
@@ -867,14 +867,15 @@ edit_entry (gpointer data)
   gtk_window_set_wmclass (GTK_WINDOW (bm_dialog), "Edit Bookmark Entry",
                           "gFTP");
   gtk_window_set_position (GTK_WINDOW (bm_dialog), GTK_WIN_POS_MOUSE);
-  gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (bm_dialog)->vbox), 10);
   gtk_widget_realize (bm_dialog);
 
   set_window_icon(GTK_WINDOW(bm_dialog), NULL);
 
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (bm_dialog));
+  gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 10);
+
   notebook = gtk_notebook_new ();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (bm_dialog)->vbox), notebook, TRUE,
-		      TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), notebook, TRUE, TRUE, 0);
   gtk_widget_show (notebook);
 
   table = gtk_table_new (11, 2, FALSE);
@@ -1178,6 +1179,7 @@ bm_dblclick (GtkWidget * widget, GdkEventButton * event, gpointer data)
 void
 edit_bookmarks (gpointer data)
 {
+  GtkWidget *main_vbox;
   GtkAccelGroup * accel_group;
   GtkWidget * scroll;
   GtkActionEntry menu_items[] =
@@ -1236,6 +1238,8 @@ edit_bookmarks (gpointer data)
   gtk_widget_realize (edit_bookmarks_dialog);
 
   set_window_icon(GTK_WINDOW(edit_bookmarks_dialog), NULL);
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (edit_bookmarks_dialog));
+  gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 3);
 
   b_uimanager = gtk_ui_manager_new();
   GtkActionGroup *b_actions = gtk_action_group_new("BActions");
@@ -1250,8 +1254,7 @@ edit_bookmarks (gpointer data)
   gtk_window_add_accel_group(GTK_WINDOW(edit_bookmarks_dialog), accel_group);
 
   GtkWidget* menu = gtk_ui_manager_get_widget(b_uimanager, "/M");
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->vbox),
-                      menu, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), menu, FALSE, FALSE, 0);
   gtk_widget_show (menu);
 
   scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -1259,8 +1262,7 @@ edit_bookmarks (gpointer data)
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_size_request (scroll, 150, 200);
 
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (edit_bookmarks_dialog)->vbox),
-                      scroll, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), scroll, TRUE, TRUE, 0);
   gtk_container_set_border_width (GTK_CONTAINER (scroll), 3);
   gtk_widget_show (scroll);
 

@@ -118,7 +118,7 @@ chmod_action (GtkWidget * widget, gint response, gpointer wdata)
 void
 chmod_dialog (gpointer data)
 {
-  GtkWidget *tempwid, *dialog, *hbox, *vbox;
+  GtkWidget *tempwid, *dialog, *hbox, *vbox, *main_vbox;
   gftp_window_data * wdata;
   gftp_file * tempfle;
 
@@ -135,18 +135,20 @@ chmod_dialog (gpointer data)
 
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "Chmod", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
-  gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
+
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
+  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
   gtk_widget_realize (dialog);
 
   set_window_icon(GTK_WINDOW(dialog), NULL);
 
   tempwid = gtk_label_new (_("You can now adjust the attributes of your file(s)\nNote: Not all ftp servers support the chmod feature"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, FALSE,
-		      FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), tempwid, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new (TRUE, 5);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
 
   tempwid = gtk_frame_new (_("Special"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);

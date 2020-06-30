@@ -220,7 +220,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
            unsigned int start_pos, unsigned int dontupload,
            char *remote_filename, gftp_window_data * wdata)
 {
-  GtkWidget * dialog, * view, * table, * tempwid;
+  GtkWidget * dialog, * view, * table, * tempwid, *main_vbox;
   char buf[8192], *view_program, *edit_program;
   gftp_config_list_vars * tmplistvar;
   gftp_file_extensions * tempext;
@@ -328,14 +328,16 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
                                         NULL);
 
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "fileview", "gFTP");
-  gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 5);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
+
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 10);
+  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
   gtk_widget_realize (dialog);
 
   set_window_icon(GTK_WINDOW(dialog), NULL);
 
   table = gtk_table_new (1, 2, FALSE);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), table, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), table, TRUE, TRUE, 0);
 
   view = gtk_text_view_new ();
   gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);

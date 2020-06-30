@@ -593,7 +593,7 @@ _print_option_type_notebook (gftp_config_vars * cv, void *user_data, void *value
   option_data = user_data;
 
   option_data->box = gtk_vbox_new (FALSE, 6);
-  gtk_container_set_border_width (GTK_CONTAINER (option_data->box), 12);
+  gtk_container_set_border_width (GTK_CONTAINER (option_data->box), 10);
   gtk_widget_show (option_data->box);
 
   tempwid = gtk_label_new (_(cv->description));
@@ -855,7 +855,7 @@ delete_proxy_host (GtkWidget * widget, gpointer data)
 static void
 add_proxy_host (GtkWidget * widget, gpointer data)
 {
-  GtkWidget *tempwid, *dialog, *box, *rbox, *vbox, *nradio, *table;
+  GtkWidget *tempwid, *dialog, *box, *rbox, *vbox, *nradio, *table, *main_vbox;
   gftp_proxy_hosts *hosts;
   char *tempstr, *title;
   GList *templist;
@@ -884,17 +884,18 @@ add_proxy_host (GtkWidget * widget, gpointer data)
                                         GTK_STOCK_SAVE,
                                         GTK_RESPONSE_OK,
                                         NULL);
-  gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (dialog), 2);
   gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 2);
+  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "hostinfo", "Gftp");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   vbox = gtk_vbox_new (FALSE, 6);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 5);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox, FALSE, FALSE, 0);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
+  gtk_box_pack_start (GTK_BOX (main_vbox), vbox, FALSE, FALSE, 0);
   gtk_widget_show (vbox);
     
   box = gtk_hbox_new (FALSE, 12);
@@ -1103,7 +1104,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   add_data[1] = _("Netmask");
 
   box = gtk_vbox_new (FALSE, 6);
-  gtk_container_set_border_width (GTK_CONTAINER (box), 12);
+  gtk_container_set_border_width (GTK_CONTAINER (box), 10);
   gtk_widget_show (box);
 
   tempwid = gtk_label_new (_("Local Hosts"));
@@ -1206,6 +1207,7 @@ _init_option_data (void)
 void
 options_dialog (gpointer data)
 {
+  GtkWidget *main_vbox;
   gftp_config_vars * cv;
   GList * templist;
   void *value;
@@ -1219,25 +1221,25 @@ options_dialog (gpointer data)
                                         GTK_STOCK_OK,
                                         GTK_RESPONSE_OK,
                                         NULL);
-  gtk_container_set_border_width (GTK_CONTAINER (gftp_option_data->dialog), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (gftp_option_data->dialog), 2);
   gtk_dialog_set_has_separator (GTK_DIALOG (gftp_option_data->dialog), FALSE);
   gtk_window_set_resizable (GTK_WINDOW (gftp_option_data->dialog), FALSE);
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (gftp_option_data->dialog));
 
   gtk_window_set_wmclass (GTK_WINDOW(gftp_option_data->dialog),
                           "options", "gFTP");
   gtk_window_set_position (GTK_WINDOW (gftp_option_data->dialog),
                            GTK_WIN_POS_MOUSE);
 
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (gftp_option_data->dialog)->vbox), 2);
+  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
   gtk_widget_realize (gftp_option_data->dialog);
 
   set_window_icon(GTK_WINDOW(gftp_option_data->dialog), NULL);
 
   gftp_option_data->notebook = gtk_notebook_new ();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (gftp_option_data->dialog)->vbox), 
-                      gftp_option_data->notebook, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), gftp_option_data->notebook, TRUE, TRUE, 0);
   gtk_widget_show (gftp_option_data->notebook);
-  gtk_container_set_border_width (GTK_CONTAINER (gftp_option_data->notebook), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (gftp_option_data->notebook), 2);
 
   cv = gftp_options_list->data;
   gftp_option_data->last_option = cv[0].otype;

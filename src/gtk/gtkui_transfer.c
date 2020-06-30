@@ -245,7 +245,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 {
   char *add_data[4] = { NULL, NULL, NULL, NULL };
   char tempstr[50], temp1str[50], *pos;
-  GtkWidget * dialog, * tempwid, * scroll, * hbox;
+  GtkWidget * dialog, * tempwid, * scroll, * hbox, *main_vbox;
   gftp_file * tempfle;
   GList * templist;
   size_t len;
@@ -259,12 +259,13 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
   gtk_window_set_wmclass (GTK_WINDOW(dialog), "transfer", "gFTP");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 10);
-  gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 5);
+
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
 
   tempwid = gtk_label_new (_("The following file(s) exist on both the local and remote computer\nPlease select what you would like to do"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), tempwid, FALSE,
-		      FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
 
   scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -364,7 +365,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   tdata->clist = treeview;
   gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET(tdata->clist));
 
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scroll, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), scroll, TRUE, TRUE, 0);
   gtk_widget_show (GTK_WIDGET (tdata->clist));
   gtk_widget_show (scroll);
 
@@ -421,7 +422,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   gtk_tree_selection_select_all (tree_sel);
 
   hbox = gtk_hbox_new (TRUE, 20);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
   gtk_widget_show (hbox);
 
   tempwid = gtk_button_new_with_label (_("Overwrite"));
@@ -443,7 +444,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   gtk_widget_show (tempwid);
 
   hbox = gtk_hbox_new (TRUE, 20);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
   gtk_widget_show (hbox);
 
   tempwid = gtk_button_new_with_label (_("Select All"));
