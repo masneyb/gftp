@@ -317,7 +317,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   gtk_tree_view_append_column (treeview, column);
 
   // from
-  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 1.0, NULL);
   column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
                          "title",          tdata->fromreq->hostname,
                          "resizable",      TRUE,
@@ -325,14 +325,15 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                          "sort-column-id", TRANSFER_DLG_COL_FROM,
                          "sizing",         GTK_TREE_VIEW_COLUMN_FIXED,
                          "fixed-width",    140,
+                         "alignment",      1.0, /* header: right alignment */
                          NULL);
-  gtk_tree_view_column_pack_start (column, renderer, FALSE);
+  gtk_tree_view_column_pack_start (column, renderer, TRUE);
   gtk_tree_view_column_add_attribute (column, renderer,
                                       "text", TRANSFER_DLG_COL_FROM);
   gtk_tree_view_append_column (treeview, column);
 
   // to
-  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 1.0, NULL);
   column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
                          "title",          tdata->toreq->hostname,
                          "resizable",      TRUE,
@@ -340,8 +341,9 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                          "sort-column-id", TRANSFER_DLG_COL_TO,
                          "sizing",         GTK_TREE_VIEW_COLUMN_FIXED,
                          "fixed-width",    140,
+                         "alignment",      1.0, /* header: right alignment */
                          NULL);
-  gtk_tree_view_column_pack_start (column, renderer, FALSE);
+  gtk_tree_view_column_pack_start (column, renderer, TRUE);
   gtk_tree_view_column_add_attribute (column, renderer,
                                       "text", TRANSFER_DLG_COL_TO);
   gtk_tree_view_append_column (treeview, column);
