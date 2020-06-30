@@ -289,7 +289,7 @@ gftpui_run_function_callback (gftp_window_data * wdata,
     }
 
   if (ddata->checkbox != NULL)
-    cdata->toggled = GTK_TOGGLE_BUTTON (ddata->checkbox)->active;
+    cdata->toggled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ddata->checkbox));
   else
     cdata->toggled = 0;
 

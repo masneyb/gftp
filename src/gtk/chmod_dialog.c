@@ -51,6 +51,19 @@ do_chmod_thread (gftpui_callback_data * cdata)
   return (error);
 }
 
+static gboolean
+tb_get_active(GtkWidget *w)
+{
+  GtkToggleButton *tb = GTK_TOGGLE_BUTTON (w);
+  return (gtk_toggle_button_get_active (tb));
+}
+
+static void
+tb_set_active(GtkWidget *w, gboolean is_active)
+{
+  GtkToggleButton *tb = GTK_TOGGLE_BUTTON (w);
+  gtk_toggle_button_set_active (tb, is_active);
+}
 
 static void
 dochmod (GtkWidget * widget, gftp_window_data * wdata)
@@ -58,33 +71,21 @@ dochmod (GtkWidget * widget, gftp_window_data * wdata)
   gftpui_callback_data * cdata;
 
   mode = 0;
-  if (GTK_TOGGLE_BUTTON (suid)->active)
-    mode |= S_ISUID;
-  if (GTK_TOGGLE_BUTTON (sgid)->active)
-    mode |= S_ISGID;
-  if (GTK_TOGGLE_BUTTON (sticky)->active)
-    mode |= S_ISVTX;
+  if (tb_get_active (suid))   mode |= S_ISUID;
+  if (tb_get_active (sgid))   mode |= S_ISGID;
+  if (tb_get_active (sticky)) mode |= S_ISVTX;
 
-  if (GTK_TOGGLE_BUTTON (ur)->active)
-    mode |= S_IRUSR;
-  if (GTK_TOGGLE_BUTTON (uw)->active)
-    mode |= S_IWUSR;
-  if (GTK_TOGGLE_BUTTON (ux)->active)
-    mode |= S_IXUSR;
+  if (tb_get_active (ur))  mode |= S_IRUSR;
+  if (tb_get_active (uw))  mode |= S_IWUSR;
+  if (tb_get_active (ux))  mode |= S_IXUSR;
 
-  if (GTK_TOGGLE_BUTTON (gr)->active)
-    mode |= S_IRGRP;
-  if (GTK_TOGGLE_BUTTON (gw)->active)
-    mode |= S_IWGRP;
-  if (GTK_TOGGLE_BUTTON (gx)->active)
-    mode |= S_IXGRP;
+  if (tb_get_active (gr))  mode |= S_IRGRP;
+  if (tb_get_active (gw))  mode |= S_IWGRP;
+  if (tb_get_active (gx))  mode |= S_IXGRP;
 
-  if (GTK_TOGGLE_BUTTON (or)->active)
-    mode |= S_IROTH;
-  if (GTK_TOGGLE_BUTTON (ow)->active)
-    mode |= S_IWOTH;
-  if (GTK_TOGGLE_BUTTON (ox)->active)
-    mode |= S_IXOTH;
+  if (tb_get_active (or))  mode |= S_IROTH;
+  if (tb_get_active (ow))  mode |= S_IWOTH;
+  if (tb_get_active (ox))  mode |= S_IXOTH;
 
   if (check_reconnect (wdata) < 0)
     return;
@@ -237,32 +238,20 @@ chmod_dialog (gpointer data)
     {
       tempfle = listbox_get_selected_file1 (wdata);
 
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (suid),
-                                    tempfle->st_mode & S_ISUID);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ur),
-                                    tempfle->st_mode & S_IRUSR);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (uw),
-                                    tempfle->st_mode & S_IWUSR);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ux),
-                                    tempfle->st_mode & S_IXUSR);
+      tb_set_active (suid, tempfle->st_mode & S_ISUID);
+      tb_set_active (ur,   tempfle->st_mode & S_IRUSR);
+      tb_set_active (uw,   tempfle->st_mode & S_IWUSR);
+      tb_set_active (ux,   tempfle->st_mode & S_IXUSR);
 
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sgid),
-                                    tempfle->st_mode & S_ISGID);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gr),
-                                    tempfle->st_mode & S_IRGRP);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gw),
-                                    tempfle->st_mode & S_IWGRP);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gx),
-                                    tempfle->st_mode & S_IXGRP);
+      tb_set_active (sgid, tempfle->st_mode & S_ISGID);
+      tb_set_active (gr,   tempfle->st_mode & S_IRGRP);
+      tb_set_active (gw,   tempfle->st_mode & S_IWGRP);
+      tb_set_active (gx,   tempfle->st_mode & S_IXGRP);
 
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sticky),
-                                    tempfle->st_mode & S_ISVTX);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (or),
-                                    tempfle->st_mode & S_IROTH);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ow),
-                                    tempfle->st_mode & S_IWOTH);
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ox),
-                                    tempfle->st_mode & S_IXOTH);
+      tb_set_active (sticky, tempfle->st_mode & S_ISVTX);
+      tb_set_active (or,     tempfle->st_mode & S_IROTH);
+      tb_set_active (ow,     tempfle->st_mode & S_IWOTH);
+      tb_set_active (ox,     tempfle->st_mode & S_IXOTH);
     }
   gtk_widget_show (dialog);
 }

@@ -539,7 +539,7 @@ _save_option_type_checkbox (gftp_config_vars * cv, void *user_data)
 
   option_data = user_data;
 
-  val = GTK_TOGGLE_BUTTON (cv->user_data)->active;
+  val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cv->user_data));
 
   if (option_data->bm == NULL)
     gftp_set_global_option (cv->key, GINT_TO_POINTER (val));
@@ -759,7 +759,7 @@ add_ok (GtkWidget * widget, gpointer data)
       hosts->domain = NULL;
     }
 
-  if (GTK_TOGGLE_BUTTON (domain_active)->active)
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (domain_active)))
     {
       edttxt = gtk_entry_get_text (GTK_ENTRY (new_proxy_domain));
       hosts->domain = g_strdup (edttxt);
