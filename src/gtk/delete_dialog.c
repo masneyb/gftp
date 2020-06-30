@@ -20,14 +20,7 @@
 #include "gftp-gtk.h"
 
 static void
-_gftp_gtk_free_del_data (gftp_transfer * transfer, gftp_dialog_data * ddata)
-{
-  free_tdata (transfer);
-}
-
-
-static void
-yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
+yesCB (gftp_transfer * transfer)
 {
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
@@ -46,7 +39,7 @@ yesCB (gftp_transfer * transfer, gftp_dialog_data * ddata)
   gftpui_common_run_callback_function (cdata);
 
   g_free (cdata);
-  _gftp_gtk_free_del_data (transfer, ddata);
+  free_tdata (transfer); //_gftp_gtk_free_del_data (transfer);
 }
 
 
@@ -120,7 +113,5 @@ do_delete_dialog (gpointer data)
   if (!ret)
     return;
 
-  yesCB (transfer, NULL);
+  yesCB (transfer);
 }
-
-
