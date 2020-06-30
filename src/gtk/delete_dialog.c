@@ -19,30 +19,6 @@
 
 #include "gftp-gtk.h"
 
-static void
-yesCB (gftp_transfer * transfer)
-{
-  gftpui_callback_data * cdata;
-  gftp_window_data * wdata;
-
-  g_return_if_fail (transfer != NULL);
-  g_return_if_fail (transfer->files != NULL);
-
-  wdata = transfer->fromwdata;
-
-  cdata = g_malloc0 (sizeof (*cdata));
-  cdata->request = wdata->request;
-  cdata->files = transfer->files;
-  cdata->uidata = wdata;
-  cdata->run_function = gftpui_common_run_delete;
-
-  gftpui_common_run_callback_function (cdata);
-
-  g_free (cdata);
-  free_tdata (transfer); //_gftp_gtk_free_del_data (transfer);
-}
-
-
 void
 delete_dialog (gpointer data)
 {
@@ -60,17 +36,14 @@ delete_dialog (gpointer data)
   }
 }
 
-
 void
 do_delete_dialog (gpointer data)
 {
   gftp_file * tempfle, * newfle;
   GList * templist, *igl;
   gftp_transfer * transfer;
-  gftp_window_data * wdata;
+  gftp_window_data * wdata = (gftp_window_data *) data;
   int ret;
-
-  wdata = data;
 
   if (!check_status (_("Delete"), wdata,
       gftpui_common_use_threads (wdata->request), 0, 1, 1))
@@ -99,9 +72,7 @@ do_delete_dialog (gpointer data)
     }
 
   gftp_swap_socks (transfer->fromreq, wdata->request);
-
   ret = gftp_gtk_get_subdirs (transfer);
-
   gftp_swap_socks (wdata->request, transfer->fromreq);
 
   if (!GFTP_IS_CONNECTED (wdata->request))
@@ -113,5 +84,20 @@ do_delete_dialog (gpointer data)
   if (!ret)
     return;
 
-  yesCB (transfer);
+  // yesCB
+  gftpui_callback_data * cdata;
+
+  g_return_if_fail (transfer != NULL);
+  g_return_if_fail (transfer->files != NULL);
+
+  cdata = g_malloc0 (sizeof (*cdata));
+  cdata->request = wdata->request;
+  cdata->files = transfer->files;
+  cdata->uidata = wdata;
+  cdata->run_function = gftpui_common_run_delete;
+
+  gftpui_common_run_callback_function (cdata);
+
+  g_free (cdata);
+  free_tdata (transfer); //_gftp_gtk_free_del_data (transfer);
 }
