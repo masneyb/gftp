@@ -2,7 +2,7 @@
 
 bin_PROGRAMS = @GFTP_GTK@
 EXTRA_PROGRAMS = gftp-gtk
-gftp_gtk_SOURCES = bookmarks.c chmod_dialog.c delete_dialog.c dnd.c \
+gftp_gtk_SOURCES = bookmarks.c chmod_dialog.c dnd.c \
                      gftp-gtk.c gtkui.c gtkui_transfer.c menu-items.c \
                      misc-gtk.c options_dialog.c platform_specific.c \
                      transfer.c view_dialog.c

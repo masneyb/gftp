@@ -178,10 +178,6 @@ void build_bookmarks_menu			( void );
 /* chmod_dialog.c */ 
 void chmod_dialog 				( gpointer data );
 
-/* delete_dialog.c */ 
-void delete_dialog 				( gpointer data );
-void do_delete_dialog                           ( gpointer data );
-
 /* dnd.c */
 void openurl_get_drag_data 			( GtkWidget * widget, 
 						  GdkDragContext * context, 
@@ -277,6 +273,7 @@ void clear_cache				( gpointer data );
 void compare_windows 				( gpointer data );
 
 void about_dialog 				( gpointer data );
+void delete_dialog 				( gpointer data );
 
 /* misc-gtk.c */
 void fix_display				( void );
