@@ -245,66 +245,11 @@ viewlog (gpointer data)
 }
 
 
-static void
-dosavelog (const char *filename)
-{
-  char *txt, *pos;
-  gint textlen;
-  ssize_t len;
-  FILE *fd;
-  int ok;
-  GtkTextBuffer * textbuf;
-  GtkTextIter iter, iter2;
-
-  if ((fd = fopen (filename, "w")) == NULL)
-    {
-      ftp_log (gftp_logging_error, NULL, 
-               _("Error: Cannot open %s for writing: %s\n"), filename, 
-               g_strerror (errno));
-      return;
-    }
-
-  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
-  textlen = gtk_text_buffer_get_char_count (textbuf);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
-  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, textlen);
-  txt = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
-
-  /* gtk_text_buffer_get_char_count() returns the number of characters,
-     not bytes. So get the number of bytes that need to be written out */
-  textlen = strlen (txt);
-
-  ok = 1;
-  pos = txt;
-  do
-    {
-      if ((len = write (fileno (fd), pos, textlen)) == -1)
-        {
-          ok = 0;
-          ftp_log (gftp_logging_error, NULL, 
-                   _("Error: Error writing to %s: %s\n"), 
-                   filename, g_strerror (errno));
-          break;
-        }
-
-      textlen -= len;
-      pos += len;
-    } while (textlen > 0);
-
-  if (ok)
-    ftp_log (gftp_logging_misc, NULL,
-             _("Successfully wrote the log file to %s\n"), filename);
-
-  fclose (fd);
-  g_free (txt);
-}
-
-
 void 
 savelog (gpointer data)
 {
   GtkWidget *filew;
-  const char *filename;
+  const char *filename = NULL;
   char current_dir[256];
   getcwd(current_dir, sizeof(current_dir));
 
@@ -319,10 +264,59 @@ savelog (gpointer data)
   gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
   gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "gftp.log");
 
-  if (gtk_dialog_run (GTK_DIALOG(filew)) == GTK_RESPONSE_ACCEPT) {
-    filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filew));
-    dosavelog(filename);
+  if (gtk_dialog_run (GTK_DIALOG(filew)) != GTK_RESPONSE_ACCEPT) {
+     gtk_widget_destroy (filew);
+     return;
   }
+
+  filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filew));
+
+  // do save log
+  char *txt, *pos;
+  gint textlen;
+  ssize_t len;
+  FILE *fd;
+  int ok;
+  GtkTextBuffer * textbuf;
+  GtkTextIter iter, iter2;
+
+  if ((fd = fopen (filename, "w")) == NULL) {
+      ftp_log (gftp_logging_error, NULL, 
+               _("Error: Cannot open %s for writing: %s\n"), filename, 
+               g_strerror (errno));
+      return;
+  }
+  textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
+  textlen = gtk_text_buffer_get_char_count (textbuf);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
+  gtk_text_buffer_get_iter_at_offset (textbuf, &iter2, textlen);
+  txt = gtk_text_buffer_get_text (textbuf, &iter, &iter2, 0);
+
+  /* gtk_text_buffer_get_char_count() returns the number of characters,
+     not bytes. So get the number of bytes that need to be written out */
+  textlen = strlen (txt);
+
+  ok = 1;
+  pos = txt;
+  do
+  {
+      if ((len = write (fileno (fd), pos, textlen)) == -1) {
+          ok = 0;
+          ftp_log (gftp_logging_error, NULL, 
+                   _("Error: Error writing to %s: %s\n"), 
+                   filename, g_strerror (errno));
+          break;
+      }
+      textlen -= len;
+      pos += len;
+  } while (textlen > 0);
+
+  if (ok)
+    ftp_log (gftp_logging_misc, NULL,
+             _("Successfully wrote the log file to %s\n"), filename);
+
+  fclose (fd);
+  g_free (txt);
 
   gtk_widget_destroy (filew);
 }
