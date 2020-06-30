@@ -68,32 +68,6 @@ delete_dialog (gpointer data)
 }
 
 
-static void
-askdel (gftp_transfer * transfer)
-{
-  char *tempstr;
-
-  if (transfer->numfiles > 0 && transfer->numdirs > 0)
-    {
-      tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld files and %ld directories"), transfer->numfiles, transfer->numdirs);
-    }
-  else if (transfer->numfiles > 0)
-    {
-      tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld files"), transfer->numfiles);
-    }
-  else if (transfer->numdirs > 0)
-    {
-      tempstr = g_strdup_printf (_("Are you sure you want to delete these %ld directories"), transfer->numdirs);
-    }
-  else
-    return;
-
-  MakeYesNoDialog (_("Delete Files/Directories"), tempstr, 
-                   yesCB, transfer, _gftp_gtk_free_del_data, transfer);
-  g_free (tempstr);
-}
-
-
 void
 do_delete_dialog (gpointer data)
 {
@@ -109,10 +83,6 @@ do_delete_dialog (gpointer data)
       gftpui_common_use_threads (wdata->request), 0, 1, 1))
     return;
 
-/*
-  if(askdel(wdata)!=1)
-    return;
-*/
   transfer = g_malloc0 (sizeof (*transfer));
   transfer->fromreq = gftp_copy_request (wdata->request);
   transfer->fromwdata = wdata;
