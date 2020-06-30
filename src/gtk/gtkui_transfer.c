@@ -269,7 +269,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   gtk_widget_show (tempwid);
 
   scroll = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_size_request (scroll, 550, 200);
+  gtk_widget_set_size_request (scroll, 600, 200);
 
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -308,13 +308,13 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                          "resizable",      TRUE,
                          "clickable",      TRUE,
                          "sort-column-id", TRANSFER_DLG_COL_FILENAME,
+                         "sizing",         GTK_TREE_VIEW_COLUMN_FIXED,
+                         "fixed-width",    190,
                          NULL);
   gtk_tree_view_column_pack_start (column, renderer, FALSE);
   gtk_tree_view_column_add_attribute (column, renderer,
                                       "text", TRANSFER_DLG_COL_FILENAME);
   gtk_tree_view_append_column (treeview, column);
-  gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
-  gtk_tree_view_column_set_fixed_width (column, 140);
 
   // from
   renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
@@ -323,13 +323,13 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                          "resizable",      TRUE,
                          "clickable",      TRUE,
                          "sort-column-id", TRANSFER_DLG_COL_FROM,
+                         "sizing",         GTK_TREE_VIEW_COLUMN_FIXED,
+                         "fixed-width",    140,
                          NULL);
   gtk_tree_view_column_pack_start (column, renderer, FALSE);
   gtk_tree_view_column_add_attribute (column, renderer,
                                       "text", TRANSFER_DLG_COL_FROM);
   gtk_tree_view_append_column (treeview, column);
-  gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
-  gtk_tree_view_column_set_fixed_width (column, 140);
 
   // to
   renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
@@ -338,13 +338,13 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                          "resizable",      TRUE,
                          "clickable",      TRUE,
                          "sort-column-id", TRANSFER_DLG_COL_TO,
+                         "sizing",         GTK_TREE_VIEW_COLUMN_FIXED,
+                         "fixed-width",    140,
                          NULL);
   gtk_tree_view_column_pack_start (column, renderer, FALSE);
   gtk_tree_view_column_add_attribute (column, renderer,
                                       "text", TRANSFER_DLG_COL_TO);
   gtk_tree_view_append_column (treeview, column);
-  gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
-  gtk_tree_view_column_set_fixed_width (column, 140);
 
   // action
   renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
@@ -353,12 +353,12 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                          "resizable",      TRUE,
                          "clickable",      TRUE,
                          "sort-column-id", TRANSFER_DLG_COL_ACTION,
+                         "sizing",         GTK_TREE_VIEW_COLUMN_AUTOSIZE,
                          NULL);
   gtk_tree_view_column_pack_start (column, renderer, FALSE);
   gtk_tree_view_column_add_attribute (column, renderer,
                                       "text", TRANSFER_DLG_COL_ACTION);
   gtk_tree_view_append_column (treeview, column);
-  gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 
   // ===============================================================
 
