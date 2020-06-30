@@ -306,3 +306,735 @@ wdlkmpx (101):
       docs/Makefile.am: install ChangeLog to ${docdir}
       clear ChangeLog
 
+
+
+
+==========================================================
+                    OLD CHANGELOG
+==========================================================
+
+Changes from 2.0.18 to 2.0.19
+
+* Cleanups to the networking code
+* Fixed several segfaults.
+* Several i18n fixes
+* Added support for wildcard SSL certificates
+* Fixes for downloading files using SFTP where the user doesn't have write
+  access to the file.
+* Disable some features of the remote FTP server is a VMS server or OS/400
+* Fixed Solaris compile problem and pty issue under HPUX
+* Updated to use FSPLIB 0.9
+* Added Tango styled icon theme
+* The menus are now a little closer to other GNOME applications
+* New/updated language translations: ar bg ca cs da de dz el en_CA en_GB el es
+  fi fr gl gu he hu it ja ko lt lv mk nb ne nl no oc pt_BR pt_po ro ru rw sv
+  uk zh_HK zh_TW 
+
+Changes from 2.0.18rc1 to 2.0.18
+
+* Added support for the FSP protocol (http://fsp.sourceforge.net/)
+* SSH2: Fixed segfault that could occur when renaming a file (bug introduced
+  in 2.0.18rc1)
+* SSH2: Fixes for parsing the directory listing from the commercial SSH server
+* FTP: added pasv_behind_router option. If this is enabled, then the IP
+  address that is in the PASV response will be ignored. Instead the IP
+  address of the remote host will be used
+* FTP: removed the quote filename functionality in the SITE CHMOD and
+  SITE UTIME commands
+* Chmod: Fixes for setting the group execute bit (bug introduced in 2.0.18rc1)
+* Fixes so that the text port will prompt you for your password when a URL is
+  entered on the command line
+* In the text port, convert the string from UTF8 to the users' current locale
+  before it is displayed
+* Fixes for when the host system does not have getaddrinfo() (bug introduced in
+  2.0.18rc1)
+* Rewrote and improved the URL parser so that the :, @ characters are allowed
+  in directories and passwords
+* Security Fix: Ignore the file paths that are returned by the remote server
+  (fixes CAN-2005-0372)
+* FreeBSD and HP/UX fixes 
+* GNOME HIG fixes
+* Many other small changes and improvements. See the ChangeLog file in the
+  distribution for a detailed list of changes.
+* Updated language translations (cs de en_CA en_GB es hu nl zh_CN)
+
+Changes from 2.0.17 to 2.0.18rc1
+
+* SSH2: Improved the login code. You no longer need to specify in gFTP the
+  path to the sftp-server binary on the remote server. It will now just work
+  out of the box for most sites. Also, if the SSH binary is asking a
+  question, this question will be relayed back through the gFTP user interface
+  so the user can answer it appropriately.
+* SSH2: Added support for RSA SecurID passwords
+* FTP, SSH2: Added support for preserving the file date/time
+* FTP: Fixed IPv6 connection problem
+* More 64 bit cleanups
+* More largefile fixes
+* Fixed detection of SIGCHLD signal when viewing/editing files
+* Added remote_lc_time option. The value of LC_TIME can now be overridden on
+  a per site basis. This will fix problems parsing the dates in the remote
+  directory listings
+* Some more GNOME HIG fixes
+* Fixed several segfaults in the bookmarks editor
+* Save the state of the host, user and port fields in the toolbar
+* Fixed compiler errors on OpenBSD and HPUX
+* Many other small changes and improvements. See the ChangeLog file in the
+  distribution for a detailed list of changes.
+* New language translations and updates (bg cs en_CA en_GB es fi he hu ja nl pa
+                                         pt_BR ru sq)
+
+Changes from 2.0.16 to 2.0.17
+
+* Separated out more of the UI independent code in the GTK+ and Text ports and
+  created a user interface common repository. Cleaned up some of the existing
+  GTK+ code. The GTK+ port can now be controlled from a command line interface
+  in the GUI. There is an option you have to enable in the options dialog for
+  this. (enable manual commands in GUI)
+* Added support for the FTPS protocol. The control connection is the only
+  one encrypted at the moment.
+* When viewing/editing a file, the temporary file that is created is created
+  with the same extension as the remote file so that syntax highlighting works
+* File transfers can be resumed/skipped/overwritten in the text port and
+  whenever files are dropped on gftp in the GTK+ port.
+* FTP: Added support for MVS directory listings
+* FTP: Fix for FXP transfers
+* SSH2: fix for resuming uploads
+* Added option to show the transfer status in the title bar.
+* Added option to disable IPV6 support.
+* Fixed the wrong date being displayed when a file was modified last year
+* 64 bit cleanups. This also fixed a SSH segfault that was happening on
+  FreeBSD
+* Look for the .gmo translation files in the proper directory
+* If a bookmarked site has it's password saved in the config file, then the
+  passwords are written out in a scrambled format. This isn't secure, but it'll
+  prevent someone from casually looking over your shoulder and seeing your
+  password. I still do not recommend saving your passwords to disk.
+* Fix for systems that do not support the %'ld format argument
+* The startup directory option is now expanded so that an option like
+  ~/src can be specified
+* New language translations and updates (ca cs de ga hr hu nl pt_BR sr sr@Latn
+  ta th)
+* Many other small changes and improvements. See the ChangeLog file in the
+  distribution for a detailed list of changes.
+
+Changes from 2.0.15 to 2.0.16
+
+* Fixed bug where the local directory listing was not updated when
+  connecting to a bookmarked site.
+* Fix for Novell directory paths (//share/directory)
+* Local: If there is a dangling symlink in the local directory, not all of
+  the files were being shown.
+* FTP: Fixed rename bug
+* FTP: Fixed editing the FTP proxy config in the FTP port.
+* FTP: Better error checking when establishing the data connection.
+* FTP: File transfers are aborted correctly. You will not lose your connection
+  to the remote server.
+* FTP: Ascii file transfers fix.
+* HTTP: Fixed parsing some chunked file transfers.
+* SSH: Fixed crash when deleting subdirectories.
+* When editing remote files, and if the current directory is changed on the
+  remote server, make sure the file is still uploaded to the proper location.
+* When editing a remote file, if the connection to the remote server times out,
+  immediately reconnect when the file is uploaded.
+* DND cleanups
+* If the source is compiled with -D_GNU_SOURCE, then use the current style
+  for the current locale to separate numbers.
+* In some cases, if the remote_charset is defined for the remote host, convert
+  the current string from UTF8 to the users remote character set.
+* Fixed Cray directory directory listings. Also, some UNIX directory listings
+  that had files with multiple spaces were being mistaken for Cray directory
+  listings.
+* The README/FAQ is now stored in Docbook format.
+* New language translations and updates (az bn el es hr it ja nl no pt ro sk sr)
+* Many other small changes and improvements. See the ChangeLog file in the
+  distribution for a detailed list of changes.
+
+Changes from 2.0.15rc2 to 2.0.15
+
+* FTP: Fixes for selecting ASCII/Binary transfers
+* Fixed crash when deleting files in the GTK+ port
+* Fixed parsing directory listings that have timestamps that are not in the 
+  current locale.
+* More largefile support fixes.
+* Updated translations (cs, pl, sr, sr@Latn, sv)
+
+Changes from 2.0.15rc1 to 2.0.15rc2
+
+* Largefile (>2.1GB) fixes. 
+* When resuming files, look up the right option name. gFTP would bail out
+  whenever it couldn't look up the right option.
+* Fixes to the permissions of files when they are first transfered. New files 
+  are created with the mode 0644 & ~umask.
+* Change to the proper local directory when one was enabled with a bookmark.
+* Fixed crash that would occur in the options dialog when you hit Apply, then 
+  OK.
+* Fixed possible division by 0 when transfering a file.
+* Fixed double free of a gftp_file structure member (utf8_file). This was not
+  present in 2.0.14.
+* FreeBSD PTY and password prompt fixes.
+* Detect write errors properly.
+* Added --info argument to the command line. This will give some information
+  about how gFTP was compiled.
+
+Changes from 2.0.14 to 2.0.15rc1
+
+* I18N improvements in GTK+ 2.0 port. If the remote server is not returning 
+  output in UTF8, it will first attempt to convert it from the local character
+  set and if that fails it will try the character sets listed in the 
+  remote_charsets option.
+* Added an improved internal configuration interface. You can now override just
+  about any option in the bookmarks dialog for a particular site. 
+* Each protocol that gFTP supports is now completely self contained in it's own
+  file. So, if gFTP doesn't support your favorite protocol, it should be pretty
+  easy to add support
+* When you attempt to connect to a site and there is a fatal error, gFTP will 
+  abort properly and no longer keep trying to log back into the server.
+* Fixes for transferring files greater than 2.1GB.
+* Improved throttling of file transfers.
+* Added support to expire cache entries after a particular period of time.
+* FTP: Added IPV6 support. gFTP is almost 100% IPV6 compatible. If you are not 
+  using a proxy server, you will not run into any issues. The list of local 
+  networks to not use the proxy server is still currently IPV4 only.
+* FTP: Added ability to parse VMS directory listings.
+* FTP: The firewall_* options were renamed to ftp_proxy_* for better 
+  consistency with the other protocols.
+* SSH2: More informative error messages when the initial connection to the 
+  remote server fails. You should hopefully not see those "Messages size too 
+  big" error messages anymore.
+* SSH2: Improved the PTY interface.
+* Removed legacy SSH protocol. THe SSH2 protocol is now the only SSH protocol
+  supported. You had to enable an option in 2.0.14 to be able to use this 
+  protocol.
+* HTTP: Lots of improvements to this protocol. 
+* Added support for the HTTPS protocol. I added a generic SSL layer to the code
+  so that other SSL protocols can be easily added.
+* The bookmarks and configuration file is now only written if something changed
+  during this session.
+* Build fixes for various platforms
+* Lots of cleanups and improvements to the core library. Also lots of bug fixes
+  throughout the code.
+* New language translations and updates (am ar ca cs es fr hu ja mk ms nl pl 
+  pt pt_BR ru sr sr@Latn sv tr uk zh_TW). Thanks to everybody that has 
+  contributed language updates!
+
+Changes from 2.0.14rc1 to 2.0.14
+
+* Added key bindings to edit dialogs
+* Don't ask for SSH password in bookmarks if it's disabled in the config file
+* Binary/Ascii fixes for ext= lines in the config file
+* SSH - if the word WARNING appears in the banner, don't log into the server
+* Updated translations: French, German, Polish and Simplified Chinese
+
+Changes from 2.0.13 to 2.0.14rc1
+
+* GTK+ 2.0 improvements - i18n fixes, uses more stock icons
+* SSHV2 fixes (timeout fixes, improved login)
+* Small cleanups to the rest of the supported protocols
+* Improved directory sorting performance
+* Added save directory listing
+* Large file support
+* When canceling transfers, you most likely won't be disconnected from the
+  remote site
+* DND improvements
+* Fixed several small bugs
+* Added/updated translations: Bulgarian, Danish, Dutch, French, German,
+  Hungarian, Japanese, Korean, Polish, Romanian, Russian, Spanish,
+  Traditional Chinese
+
+Changes from 2.0.12 to 2.0.13
+
+* Added bookmark protocol. You can now connect to a bookmarked site via the 
+  command line by running: gftp "bookmark://Debian Sites/Debian"
+* Several improvements to the text port
+* GTK+ 2.0 fixes
+* Added ability to parse Cray FTP directory listings
+* Fixed crash that would occur if you tried to download a file you didn't have
+  permission to
+* Fixed crash in view/edit file if the transfer was appended onto an existing 
+  transfer
+* Fixed bug with current KB/s being wrong if the transfer was interrupted
+* Fixed bug when a file was dropped to gftp, the file size wasn't shown
+* Fixed crash in bookmarks editor if you tried to save a folder entry
+* Disabled older SSH protocol, now only the SSH2 protocol is shown. If you 
+  require the older protocol, edit your ~/.gftp/gftprc file and set 
+  enable_old_ssh to 1
+* Removed confirm delete, preserve permissions, save geometry and use cache 
+  options. These are always enabled now
+* Removed logfile option. This always defaults to ~/.gftp/gftp.log now
+* Removed bring up reconnect dialog option. This wasn't even used anywhere
+* Removed read_timeout and connect_timeout. Made a new option network timeout
+* Allow a URL to be pasted in the host box on the toolbar
+* Don't preserve the setuid or setgid attributes for a transfered file (if set)
+* HTTP updates (from John Franks <john@math.northwestern.edu>)
+* Updates to USERS-GUIDE (from Steve Stites <stites@fastmail.ca>)
+* Fixed encodings for several po files (from Owen Taylor <otaylor@redhat.com>)
+* Polish updates (from pbs <pbs@linux.net.pl>)
+* Russian updates (from Valek Filippov <frob@df.ru>)
+* Bulgarian updates (from Borislav Aleksandrov <B.Aleksandrov@cnsys.bg> and 
+  Yanko Kaneti <yaneti@declera.com>)
+* Dutch updates (from Myckel Habets <myckelhabets@netscape.net>) *CORRECTED*
+* French updates (from Jerome COUDERC <j.couderc@ifrance.com>)
+* Polish updates (from Arkadiusz Lipiec <alipiec@adrenalina.pl>)
+* German updates (from Bernd Leibing <Bernd.Leibing@rz.uni-ulm.de>)
+
+Changes from 2.0.11 to 2.0.12
+
+* Fixed several memory leaks
+* HTTP proxy fixups
+* Fixed bug with throttling of connections not working in some cases
+* Fixed wrong time remaining for interrupted transfers
+* Added option to only show selected files
+* Cleanups to cache
+* Fixed crash in view file
+* Fixed crash in toolbar
+* Updates to Compare Windows feature
+* Fixed SSH/SSH2 connection problem on IRIX
+* Password is no longer shown in the log window for HTTP protocol
+* Added Bulgarian translation (from Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>)
+* Norwegian updates (from Anders Henriksen <andersh@cc.uit.no>)
+
+Changes from 2.0.10 to 2.0.11
+
+* Fixed delete crash
+* Fixed problem with SSHV2 not showing directories with more than 100 files
+* Fixed several memory leaks
+* Enabled cache for SSH/SSH2
+* Fixed stalled SSH transfers (~ escape sequences)
+* Spanish updates (from Gustavo D. Vranjes <gvranjes@abaconet.com.ar>)
+* Small German translation fixes (from Bernd Leibing <Bernd.Leibing@rz.uni-ulm.de> and Reinhold Trocker <reinhold.trocker@dnet.it>)
+* Updated deb.xpm (from Robert Millan <zeratul2@wanadoo.es>)
+
+Changes from 2.0.9 to 2.0.10
+
+* Added option to SSH/SSH2 to not require a username/password
+* Added option to SSH2 to where it can log in using the SFTP subsys
+* Added option to SSH/SSH2 to use the ssh-askpass utility to grab the users
+  password
+* Fixed bug in SSH2 login failure if the user specified a port
+* Fixed bug in SSH2 connections that wouldn't set default remote directory
+* Fixed crash in SSH2 transfers after some file transfers
+* Fixed bug in options dialog with FTP proxy config not saving properly
+* Fixed bug where you could add a bookmark with two or more /'s in a row
+* Fixed problem with est. time remaining and KB/s being wrong if you resumed
+  a file transfer
+* Added icon to gftp window (can be seen in gnome task panel applet or when
+  cycling through windows)
+* Various fixes to stop button
+* Upgraded included gettext to 0.10.40
+* Chinese zh_CN.GB2312 updates (from homebody@263.net)
+* French updates (from Jerome COUDERC <j.couderc@ifrance.com>)
+* Spanish updates (from Gustavo D. Vranjes <gvranjes@abaconet.com.ar>)
+* Norwegian updates (from Anders Henriksen <andersh@cc.uit.no>)
+
+Changes from 2.0.9pre3 to 2.0.9
+
+* Improved login sequence for both SSH implementations
+* Remove *'s and /'s after some files when connecting to a remote server
+  running the commercial SSH2 server
+* Fixed delete bug I introduced in 2.0.9pre3
+* Added Perl script to copy your ~/.netrc file into gftp's bookmark file
+* Made text port so that it'll always resume the file transfer 
+* Japanese updates (from Yasuyuki Furukawa <yasu@on.cs.keio.ac.jp>)
+* Danish updates (from Birger Langkjer <birger.langkjer@image.dk>)
+* Korean updates (from Nam SungHyun <namsh@lge.com>)
+* Turkish updates (from Gorkem Cetin <gorkem@gelecek.com.tr>)
+* Spanish updates (from Gustavo D. Vranjes <gvranjes@abaconet.com.ar>)
+* Added Norwegian translation (from Anders Henriksen <andersh@cc.uit.no>)
+
+Changes from 2.0.9pre2 to 2.0.9pre3
+
+* Added option to specify default protocol
+* Fixed bug in stopping of file transfers
+* Fixed bug in text port KB/s being wrong
+* Fixed bug with time being wrong for daylight savings time
+* Made it so you couldn't delete . or ..
+* Fixed crash in SSHV2 transfers
+* Trim whitespace when parsing URLs
+* Fixed estimated time left being wrong when transferring lots of small
+  files
+* Set window class for all dialogs (from Andy Piper <andy.piper@freeuk.com>)
+* Spanish updates (from Gustavo D. Vranjes <gvranjes@abaconet.com.ar>)
+
+Changes from 2.0.9pre1 to 2.0.9pre2
+
+* Fixed bug in double clicking not working in file listbox in gtk+ 1.2 port
+
+Changes from 2.0.8 to 2.0.9pre1
+
+* Added support for sshv2 file transfers
+* Added support for gtk+ >= 1.3.8 (add --enable-gtk20 to configure)
+* Added option whether to add new file transfers onto existing ones or new ones
+* Added option to limit the size of the log window for better performance 
+* Added option to be able to specify additional arguments to ssh
+* Added options to change color of log messages in gtk+ port (not 
+  changeable in GUI yet)
+* Cleaned up options dialog
+* Fixed preserving file permissions on transfered files
+* Fixed crash on Solaris (probably on others as well) that would occur after a 
+  finished file transfer
+* Added readline support to text port
+* Fixed build problems on FreeBSD
+* Updated Spanish translation
+* Other small bug fixes
+
+Changes from 2.0.8pre4 to 2.0.8
+
+* Fixed progress update bug when downloading files
+* Other small bug fixes
+* Updated French and Czech translation
+
+Changes from 2.0.8pre3 to 2.0.8pre4
+
+* Fixed bug with gftp sometimes "freezing" up when you would have it do
+  several things at once
+* Moved the displaying of the KB/s from the current KB/s back to the average 
+  KB/s for the file transfer
+* Fixed bug with current file numbers not being updated
+* Fixed bug where gftp would reconnect to a site after a file upload
+* Fixed bug where the cache wasn't being updated when you refreshed a 
+  directory listing
+* Fixed bug where you couldn't select overwrite, resume or skip when transfering
+  files that already existed
+* Made it so that the text port doesn't require the XPM files to be present 
+  when the config file is read
+* Renamed gtk12 port from gftp-gtk12 to gftp-gtk. I'll work gtk+ 2.0 port in
+  the same source with #ifdefs
+* Other small bug fixes
+* Added Turkish translation
+
+Changes from 2.0.8pre2 to 2.0.8pre3
+
+* Fixed some downloading/uploading problems and also fixed some reconnecting
+  problems
+* Fixed bug so that you can do other stuff while a file transfer is in progress
+* Fixed crash that would occur if you would enter a blank host in the toolbar
+* Fixed compile problem on Solaris 7 
+* Drag and Drop fixups
+* Quite a few other small bug fixes
+* Updated French and Russian translation
+
+Changes from 2.0.8pre1 to 2.0.8pre2
+
+* Fixed crash in bookmarks
+* Added some more bookmarks
+* Fixed crash with viewing files
+* Fixed compile problem with operating systems that don't have getaddrinfo(3)
+* Fixed bug with dragging a local file
+* Fixed bug with file transfer timeout
+* Removed unused variables from some structures
+* Added overwrite by default option
+* Fixed bug with keypad delete only letting you deleting one file
+* Fixed bug with command line params not being passed from the gftp shell
+  script to gftp-gtk12 and gftp-text
+* Updated Korean translation
+
+Changes from 2.0.7b to 2.0.8pre1
+
+* Separated all UI related functions from the non-UI related functions. Now have
+  text port along with gtk+ 1.2 port
+* Fixed format string security problem in logging of ftp and http responses
+* Made chdir, rm, chmod, rename, etc all threaded operations. Now all network 
+  operations done in gftp should be stopable from the gui interface
+* Improved net core so it should detect better if the remote connection closed
+* When you go to upload a file now via ftp, it'll no longer send a SIZE command
+  for each file. It can also now detect files that exist in subdirs and prompt
+  you about those as well
+* Fixed file corruption when files were transfered via ascii mode
+* Added recursive directory deletes
+* Can now reorder files that are being transfered
+* If a file transfer is already going to one host, when you select more files
+  to transfer they will automatically be appended to the current transfer in
+  progress instead of another transfer being made
+* Added simplified Chinese and Italian translation
+* Various other small bug fixes
+
+Changes from 2.0.7a to 2.0.7b
+
+* Fixed crash that would occur in the toolbar
+* Fixed problem with display becoming frozen after file transfer is done until 
+  an X event occured
+* Fixed problem with bandwidth throttling not working
+* Fixed problem with file transfers not timing out properly
+
+Changes from 2.0.7 to 2.0.7a
+
+* Fixed problem with resume/skip/overwrite no working
+* Fixed crash that would occur when you would stop a transfer
+* Fixed problem with wrong selection being returned when filespec was anything
+  other than *
+* Updated Portuguese (pt_BR) and Russian (ru) translation
+
+Changes from 2.0.6a to 2.0.7
+
+* HTTP Protocol fixups. It now supports resuming file transfers, and has an 
+  improved HTTP parsing engine
+* Added support for transfering files via the SSH protocol. See the FAQ for 
+  details about how to do this
+* Added FXP support
+* Added read and write timeouts on the file transfers. This will make gftp be
+  able to start file transfers again if you have an unstable internet
+  connection
+* Doesn't peg the CPU load when connecting or getting directory listings
+* Fixed problem with reading from control connection on SunOS and Digital UNIX
+* Configure script will now detect pthreads library properly on Digital UNIX 
+  and FreeBSD
+* Added Czech, Portuguese, and Russian translation
+* Menu items now grey out on the local, remote and tools menus for the items 
+  that are not valid
+* Lots of new icons
+* Finished internal code cleanup I started back in version 2.0.6
+* Other small bug fixes and enhancements
+
+Changes from 2.0.6 to 2.0.6a
+
+* Fixed crash that would occur in the history of the hostname
+* Fixed problem with if you would hit the stop button, it would keep trying
+  to connect to that old host even if you entered a new hostname
+* Updated Polish and Danish translation
+
+Changes from 2.0.5a to 2.0.6
+
+* Redesigned the transfer window. Now, it is tree based, and you can see all
+  the individual files that are to be transfered. Displays more informative
+  information like estimated time remaining for the individual file, and
+  estimated time remaining for all the files in that group.
+* Added Chinese, Danish, Dutch, Finnish, Polish, Portuguese, Spanish, and 
+  Swedish translation
+* Updated all translation files
+* You can now log into a http proxy with a username and password.
+* When resizing gFTP to much larger sizes, the toolbar resizes better
+* If you have save geometry set, gFTP will remember the column widths of the
+  local and remote listboxes
+* Added history to the hostname, port and username fields of the toolbar
+* If you have preserve permissions set, then gFTP will save the date of the
+  downloaded files (it will also still save the file permissions as well too
+  like it used to)
+* Now transfers the lists of subdirectories more efficiently
+* Fixed crash that would occur when you would connect or delete files (only 
+  reported on Sparc)
+* Bookmarks are now stored in ~/.gftp/bookmarks. You can now associate a
+  local directory with a bookmark. (Note: gFTP will automagically convert
+  your bookmarks to the new format for you).
+* Made protocols more modular. Added full support for http protocol. This
+  will now make it much easier to add support for more protocols in the near
+  future (like DAV support)
+* Removed the Use proxy option under the FTP menu and in the bookmarks. You
+  can now set up what hosts are on your local network subnet
+* Improved USERS-GUIDE
+* Many other small enhancements and lots of code cleanup
+
+Changes from 2.0.5 to 2.0.5a
+
+* Fixed problem with gFTP forgetting your passwords
+* When you drag a file from gFTP, it will not send the password over
+* When you drop a file to gFTP, if there is no password, it will prompt you
+  for one
+* Added Japanese and partian Korean translation and Unicode fixes
+* Fixed French and German translations. I didn't mark some strings with N_(
+  and some strings got commented out
+* Fixed file handle leak in transfer of files (yikes!)
+
+Changes from 2.0.4 to 2.0.5
+
+* Added gettext support. A French and German tranlsation is included with this 
+  version. If you would like to do a translation of gFTP, please email me first 
+  just to make sure someone else isn't already doing one.
+* If you right click on the log window, or in the edit bookmarks dialog, it
+  will bring up a menu.
+* Added bandwidth throttling
+* Fixed problem with stopping file transfers
+* Fixed problem with Use Proxy under the FTP menu not working properly with
+  a http proxy
+* Fixed problem with some file transfers not completing properly
+* Fixed problem with remote editing of files sometimes not working
+* Added manpage, gftp(1)
+* Makefiles are now generated by automake
+* Other small bug fixes and enhancements
+
+Changes from 2.0.3 to 2.0.4
+
+* Removed all of the old ftp proxy code and added scripting to log into your
+  firewall. This makes it possible to log into ftp proxies not previously
+  supported
+* When transfering a file, if the remote site disconnects, gFTP can
+  automatically resume the transfer of the file where it last left off. The
+  maximum times that it will do this is the number you have your connect
+  retries set to.
+* Fixed problem with auto-retry on connect.
+* When downloading files, fixed problem with sometimes interpreting file 
+  size wrong from ftp server.
+* The return and delete keys now work again in the listboxes.
+* Added option to send SITE command.
+* Passwords can now not be saved in the config file. When you try to connect
+  to a bookmark that doesn't have a password set, it will prompt you to
+  enter a password
+* When you add a new Bookmark, it will not save your password. If you want
+  your password to be stored in the config file automatically, you must go
+  to edit bookmarks, and edit that bookmark entry and add it there
+* When you edit a remote file, it will now ask if you want to upload the new
+  file to the remote server
+* If you right click on the local or remote listboxes, it will bring up a
+  menu with the items in the Local and Remote menu.
+* Will now interpret UNIX and Mac style filenames that have spaces in them
+  correctly
+* Fixed problem that if your view/edit program had arguments with it, the 
+  program would not execute (ex: xterm -e vi)
+* Changed behavior of the OpenURL button. Here is what will happen when you
+  click on the OpenURL button. If you are connected to a site, it will
+  disconnect from the site. If you aren't connected to a site, and you have
+  a hostname entered on the toolbar, it will connect to that host. Otherwise
+  it will bring up the OpenURL dialog
+* Various other small bug fixes
+
+Changes from 2.0.2 to 2.0.3
+
+* Many bug fixes. I should have all known bugs fixed
+* Now parses some NT, MacOS, and Novell ftp servers output
+* Added support for logging in with the ACCOUNT command
+* Added a users guide for newbies. See USERS-GUIDE
+* You can now disable some columns in the local and remote listboxes in the
+  config file. You can also set the columns to auto-resizing
+* Added debian/ directory to main distribution
+
+Changes from 2.0.1 to 2.0.2
+
+* Removed Use same connection option. Now when you download a file, the
+  remote window automagically becomes cached, and the file transfer will use
+  the same connection. It will only open a second connection when it has to.
+* Added support to be able to drag urls from Netscape to the Open URL button
+  on the toolbar. Also cleaned up the drag and drop code.
+* Added drop down history box on the local and remote directory entry widget
+* HTTP Proxy fixups to make it work with squid-2.2.STABLE3. Please email me
+  about how this works/doesn't work with other http proxies.
+* Added option to show hidden files
+* Several bookmarks bug fixes
+* Various other small bug fixes
+* Added .spec file to main distribution
+
+Changes from 2.0.0 to 2.0.1
+
+* Main screen is now more responsive during downloads
+* Various small bug fixes
+
+Changes from 1.13 to 2.0.0
+
+* Added toolbar with stop button
+* Removed connection manager and added Bookmarks menu
+* Added tree based bookmark editor
+* Added option to preserve file permissions of transfered files
+* Added option to use the same connection for downloads
+* Added auto-retry option. If you set the number of retries to 0, it will
+  keep trying until you either stop it or it logs in
+* Removed read() and write() timeouts
+* Fixed problem only allowing you to log in on port 21
+* Fixed problem with recursively getting remote directories and files
+* HTTP proxy fixups
+* Many other small bug fixes and enhancements
+* Note to users upgrading from a previous version: there are a few config file
+  changes:
+  * If you are using a http proxy, set your use_proxy type in the config
+    file to type 100.
+  * Since gFTP uses a bookmarks menu now, you will have to change your 
+    host= lines. A line in the old config file will have:
+    host=Debian Sites:Debian:ftp.debian.org:21:/debian:anonymous:@EMAIL@:1
+    You will have to change it to something like:
+    host=Debian Sites/Debian:ftp.debian.org:21:/debian:anonymous:@EMAIL@:1
+    The first column is the menu path. You can have
+    Menu/Submenu/Submenu/Debian in order to nest items into submenus.
+  
+Changes from 1.12 to 1.13
+
+* Added graphical configuration
+* Uses a lot less memory
+* Separated all ftp code into gnome-ftp library
+* Now prompts the user to reconnect on connect error
+* Added much more efficient transfer dialog for when the files exist
+* Added local and remote chmod support
+* Added support for HTTP proxies
+* Added another FTP proxy type
+* Added support for EPLF directory listings
+* Now uses a configure script to generate the makefile
+* Added Save Password feature in the connection manager
+* Added more keyboard shortcuts
+* Various bug fixes
+* Improved internal design
+
+Changes from 1.11 to 1.12
+
+* Added the ability to edit local and remote files
+* Added the ability to associate with a file extension a file viewer and the
+  default download type (ASCII or BINARY).
+* Added anti-idle tool. Please do not abuse this feature
+* Better remote symlink handling
+* Removed some icons from the distribution
+* Added another FTP proxy type
+* Several small enhancements
+
+Changes from 1.1 to 1.11
+
+* Fixed some problems connecting to some ftp servers
+* Fixed resume transfer problems
+* Fixed some ftp proxy login problems
+* Fixed problems with gFTP sometimes crashing
+
+Changes from 1.0 to 1.1
+
+* Added FTP proxy server support
+* Added ability to download entire directories and their subdirectories
+* Added non-passive file transfers (using PORT command)
+* Added ability to restrict files in the listboxes to a particular filemask
+* Added geometry management. gFTP can automatically save the geometry of it's 
+  widgets for next time you start it back up.
+* Added more config file options. Most can be set within gFTP itself
+* Several small dialog enhancements
+* Fixed problems with connecting to Serv-U FTP Servers
+* Fixed date sorting problem
+* Fixed problem with gFTP trying to view some remote dirs when they were
+  double clicked
+* Fixed problem with gFTP sometimes crashing after some file transfers
+
+Changes from 0.21 to 1.0
+
+* Drag-N-Drop support added
+* Added caching of remote directory listings. The cache will automatically
+  be cleared when gFTP exits.
+* You can now tell gFTP to only transfer one file at a time. When one
+  transfer finishes the next one starts. You can still have multiple
+  transfers going at the same time
+* Added ability to view files. Also, when you double click on a file in the
+  listboxes it will view that file. If you double click a directory, it will
+  still change to it.
+* Added Open URL menu item under the Remote menu
+* Several connection manager enhancements
+* Several bug fixes and code improvements
+* Added a few more default sites to the config file
+
+Changes from 0.2 to 0.21
+
+* Added Compare Windows feature. It will select the files in both windows
+* make install will now copy some necessary XPM and config files to
+  /usr/local/share/gftp. When a new user first runs gftp, it will copy the
+  config file from there to their home directory and add their email address
+  to the config file.
+* Fixed some disconnect problems when the socket would close prematuraly
+* Changed all occurances of snprintf, vsnprintf, and sys_errlist to
+  g_snprintf, g_vsnprintf, and g_strerror respectively. Should now compile
+  cleanly on most platforms.
+* Fixed ItemFactory callbacks. Should now work fine on 64bit machines.
+* Added a few more icons to the distribution for the file listboxes.
+
+Changes from 0.1 to 0.2
+
+* Completely rewritten in gtk instead of Motif
+* Fixed problems with parsing of some directory listings
+* Fixed problems with reading responses from certain FTP servers
+* Supports connecting to a FTP server via command line parameters
+  You can now type: gftp user:pass@ftp-site:port/directory. You don't have
+  to specify all of the options, like user:pass, port and directory.
+* More informative error messages
+* Sorting capabilites in the listboxes
+* Colorized text in the log window
+* Allows saving the text in the log window to a file
+* Added disconnect from ftp server
+* Various code cleanups
+* Removed about dialog box
