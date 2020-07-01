@@ -343,7 +343,8 @@ void display_cached_logs			( void );
 
 char * get_image_path 				( char *filename);
 
-void set_window_icon(GtkWindow *window, char *icon_name);
+void set_window_icon (GtkWindow *window, char *icon_name);
+void glist_to_combobox (GList *list, GtkWidget *combo);
 
 /* options_dialog.c */
 void options_dialog 				( gpointer data );

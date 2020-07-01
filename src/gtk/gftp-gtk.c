@@ -729,7 +729,6 @@ CreateConnectToolbar (GtkWidget * parent)
   };
   GtkWidget *toolbar, *box, *tempwid;
   gftp_config_list_vars * tmplistvar;
-  GList *glist;
   GtkWidget *combo_entry;
   char *default_protocol, *tempstr;
   int i, j, num;
@@ -762,14 +761,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_widget_set_size_request (hostedit, 120, -1);
 
   gftp_lookup_global_option ("hosthistory", &tmplistvar);
-  glist = tmplistvar->list;
-  gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(hostedit) )) );
-  while (glist) {
-    if (glist->data) {
-      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(hostedit), glist->data);
-    }
-    glist = glist->next;
-  }
+  glist_to_combobox (tmplistvar->list, hostedit);
 
   gftp_lookup_global_option ("host_value", &tempstr);
   combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
@@ -788,14 +780,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_widget_set_size_request (portedit, 80, -1);
 
   gftp_lookup_global_option ("porthistory", &tmplistvar);
-  gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(portedit) )) );
-  glist = tmplistvar->list;
-  while (glist) {
-    if (glist->data) {
-      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(portedit), glist->data);
-    }
-    glist = glist->next;
-  }
+  glist_to_combobox (tmplistvar->list, portedit);
 
   gftp_lookup_global_option ("port_value", &tempstr);
 
@@ -815,14 +800,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_widget_set_size_request (useredit, 75, -1);
 
   gftp_lookup_global_option ("userhistory", &tmplistvar);
-  gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(useredit) )) );
-  glist = tmplistvar->list;
-  while (glist) {
-    if (glist->data) {
-      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(useredit), glist->data);
-    }
-    glist = glist->next;
-  }
+  glist_to_combobox (tmplistvar->list, useredit);
 
   gftp_lookup_global_option ("user_value", &tempstr);
 
@@ -1017,7 +995,6 @@ CreateFTPWindow (gftp_window_data * wdata)
   GtkWidget *box, *scroll_list, *parent;
   intptr_t listbox_file_height, colwidth;
   GtkWidget *combo_entry;
-  GList *glist;
 
   wdata->request = gftp_request_new ();
   gftp_gtk_init_request (wdata);
@@ -1044,14 +1021,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
                    G_CALLBACK (chdir_edit), wdata);
 
-  gtk_list_store_clear( GTK_LIST_STORE(gtk_combo_box_get_model( GTK_COMBO_BOX(wdata->combo) )) );
-  glist = *wdata->history;
-  while (glist) {
-    if (glist->data) {
-      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(wdata->combo), glist->data);
-    }
-    glist = glist->next;
-  }
+  glist_to_combobox (*wdata->history, wdata->combo);
 
   g_snprintf (tempstr, sizeof (tempstr), "%s_startup_directory",
               wdata->prefix_col_str);
