@@ -266,7 +266,6 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
   tempwid = gtk_label_new (_("The following file(s) exist on both the local and remote computer\nPlease select what you would like to do"));
   gtk_box_pack_start (GTK_BOX (main_vbox), tempwid, FALSE, FALSE, 0);
-  gtk_widget_show (tempwid);
 
   scroll = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_set_size_request (scroll, 600, 200);
@@ -368,8 +367,6 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET(tdata->clist));
 
   gtk_box_pack_start (GTK_BOX (main_vbox), scroll, TRUE, TRUE, 0);
-  gtk_widget_show (GTK_WIDGET (tdata->clist));
-  gtk_widget_show (scroll);
 
   for (templist = tdata->files; templist != NULL; 
        templist = templist->next)
@@ -425,46 +422,39 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
   hbox = gtk_hbox_new (TRUE, 20);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
-  gtk_widget_show (hbox);
 
   tempwid = gtk_button_new_with_label (_("Overwrite"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
 		      G_CALLBACK (gftpui_gtk_overwrite), (gpointer) tdata);
-  gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Resume"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
 		      G_CALLBACK (gftpui_gtk_resume), (gpointer) tdata);
-  gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Skip File"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
                       G_CALLBACK (gftpui_gtk_skip), (gpointer) tdata);
-  gtk_widget_show (tempwid);
 
   hbox = gtk_hbox_new (TRUE, 20);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
-  gtk_widget_show (hbox);
 
   tempwid = gtk_button_new_with_label (_("Select All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
 		      G_CALLBACK (gftpui_gtk_trans_selectall), (gpointer) tdata);
-  gtk_widget_show (tempwid);
 
   tempwid = gtk_button_new_with_label (_("Deselect All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
 		      G_CALLBACK (gftpui_gtk_trans_unselectall), (gpointer) tdata);
-  gtk_widget_show (tempwid);
 
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (gftpui_gtk_transfer_action),(gpointer) tdata);
 
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
   dialog = NULL;
 }
 
