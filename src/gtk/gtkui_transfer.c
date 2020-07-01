@@ -93,21 +93,19 @@ gftpui_cancel_file_transfer (gftp_transfer * tdata)
 
 
 static void
-gftpui_gtk_trans_selectall (GtkWidget * widget, gpointer data)
+gftp_gtk_transfer_selectall (GtkButton *button, gpointer data)
 {
-  gftp_transfer * tdata;
-  tdata = data;
-  GtkTreeSelection *tsel = gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->clist));
+  GtkTreeView *treeview  = GTK_TREE_VIEW (data);
+  GtkTreeSelection *tsel = gtk_tree_view_get_selection (treeview);
   gtk_tree_selection_select_all (tsel);
 }
 
 
 static void
-gftpui_gtk_trans_unselectall (GtkWidget * widget, gpointer data)
+gftp_gtk_transfer_unselectall (GtkButton *button, gpointer data)
 {
-  gftp_transfer * tdata;
-  tdata = data;
-  GtkTreeSelection *tsel = gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->clist));
+  GtkTreeView *treeview  = GTK_TREE_VIEW (data);
+  GtkTreeSelection *tsel = gtk_tree_view_get_selection (treeview);
   gtk_tree_selection_unselect_all (tsel);
 }
 
@@ -443,13 +441,17 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
   tempwid = gtk_button_new_with_label (_("Select All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (tempwid), "clicked",
-		      G_CALLBACK (gftpui_gtk_trans_selectall), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), /* GtkButton */
+                    "clicked",          /* signal    */
+                    G_CALLBACK (gftp_gtk_transfer_selectall),
+                    (gpointer) treeview);
 
   tempwid = gtk_button_new_with_label (_("Deselect All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (tempwid), "clicked",
-		      G_CALLBACK (gftpui_gtk_trans_unselectall), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), /* GtkButton */
+                    "clicked",          /* signal    */
+                    G_CALLBACK (gftp_gtk_transfer_unselectall),
+                    (gpointer) treeview);
 
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (gftpui_gtk_transfer_action),(gpointer) tdata);
