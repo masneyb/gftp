@@ -122,8 +122,10 @@ static void
 listbox_add_columns (gftp_window_data *wdata)
 {
    /*
-    *  gftp implements its own logic to sort rows
+    *  gftp implements its own logic to sort rows (lib/misc.c)
+    *      that is called by listbox_sort_rows()
     *  set the "clickable" property to true and call listbox_sort_rows()
+    *  and don't set the "sort-column-id" property
     */
 
    GtkTreeView     *treeview = GTK_TREE_VIEW (wdata->listbox);
@@ -133,7 +135,7 @@ listbox_add_columns (gftp_window_data *wdata)
    /* icon */
    //renderer = gtk_cell_renderer_pixbuf_new ();
    renderer = g_object_new (GTK_TYPE_CELL_RENDERER_PIXBUF,
-                           "xalign", 0.5,     /* justify left */
+                           "xalign", 0.5,     /* justify center */
                            NULL);
    column = gtk_tree_view_column_new_with_attributes ("",
                                                       renderer,
@@ -151,7 +153,7 @@ listbox_add_columns (gftp_window_data *wdata)
    /* filename */
    //renderer = gtk_cell_renderer_text_new ();
    renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT,
-                           "xalign", 0.0,     /* justify center */
+                           "xalign", 0.0,     /* justify left */
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
                           "title",          "Filename",
