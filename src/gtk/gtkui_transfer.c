@@ -91,18 +91,20 @@ gftpui_cancel_file_transfer (gftp_transfer * tdata)
   tdata->toreq->cancel = 1;
 }
 
+/* ==================================================================== */
+/*                           GTK callbacks                              */
+/* ==================================================================== */
 
 static void
-gftp_gtk_transfer_selectall (GtkButton *button, gpointer data)
+on_gtk_button_clicked_selectall (GtkButton *button, gpointer data)
 {
   GtkTreeView *treeview  = GTK_TREE_VIEW (data);
   GtkTreeSelection *tsel = gtk_tree_view_get_selection (treeview);
   gtk_tree_selection_select_all (tsel);
 }
 
-
 static void
-gftp_gtk_transfer_unselectall (GtkButton *button, gpointer data)
+on_gtk_button_clicked_unselectall (GtkButton *button, gpointer data)
 {
   GtkTreeView *treeview  = GTK_TREE_VIEW (data);
   GtkTreeSelection *tsel = gtk_tree_view_get_selection (treeview);
@@ -155,30 +157,27 @@ gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
    g_mutex_unlock (&tdata->structmutex);
 }
 
-
 static void
-gftpui_gtk_overwrite (GtkWidget * widget, gpointer data)
+on_gtk_button_clicked_overwrite (GtkButton *button, gpointer data)
 {
   gftpui_gtk_set_action (data, _("Overwrite"), GFTP_TRANS_ACTION_OVERWRITE);
 }
 
-
 static void
-gftpui_gtk_resume (GtkWidget * widget, gpointer data)
+on_gtk_button_clicked_resume (GtkButton *button, gpointer data)
 {
   gftpui_gtk_set_action (data, _("Resume"), GFTP_TRANS_ACTION_RESUME);
 }
 
-
 static void
-gftpui_gtk_skip (GtkWidget * widget, gpointer data)
+on_gtk_button_clicked_skip (GtkButton *button, gpointer data)
 {
   gftpui_gtk_set_action (data, _("Skip"), GFTP_TRANS_ACTION_SKIP);
 }
 
 
 static void
-gftpui_gtk_ok (GtkWidget * widget, gpointer data)
+gftpui_gtk_ok (gpointer data)
 {
   gftp_transfer * tdata;
   gftp_file * tempfle;
@@ -207,7 +206,7 @@ gftpui_gtk_ok (GtkWidget * widget, gpointer data)
 
 
 static void
-gftpui_gtk_cancel (GtkWidget * widget, gpointer data)
+gftpui_gtk_cancel (gpointer data)
 {
   gftp_transfer * tdata;
 
@@ -218,25 +217,28 @@ gftpui_gtk_cancel (GtkWidget * widget, gpointer data)
   g_mutex_unlock (&tdata->structmutex);
 }
 
-
 static void
-gftpui_gtk_transfer_action (GtkWidget * widget, gint response,
-                            gpointer user_data)
+on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
+                                    gint response,
+                                    gpointer user_data)
 {
   switch (response)
     {
       case GTK_RESPONSE_OK:
-        gftpui_gtk_ok (widget, user_data);
-        gtk_widget_destroy (widget);
+        gftpui_gtk_ok (user_data);
+        gtk_widget_destroy (GTK_WIDGET (dialog));
         break;
       case GTK_RESPONSE_CANCEL:
-        gftpui_gtk_cancel (widget, user_data);
+        gftpui_gtk_cancel (user_data);
         /* no break */
       default:
-        gtk_widget_destroy (widget);
+        gtk_widget_destroy (GTK_WIDGET (dialog));
     }
 }   
 
+/* ==================================================================== */
+/*                      'ASK TRANSFER' DIALOG                           */
+/* ==================================================================== */
 
 void
 gftpui_ask_transfer (gftp_transfer * tdata)
@@ -423,38 +425,46 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
   tempwid = gtk_button_new_with_label (_("Overwrite"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (tempwid), "clicked",
-		      G_CALLBACK (gftpui_gtk_overwrite), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), // GtkButton
+                    "clicked",          // signal
+                    G_CALLBACK (on_gtk_button_clicked_overwrite),
+                    (gpointer) tdata);
 
   tempwid = gtk_button_new_with_label (_("Resume"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (tempwid), "clicked",
-		      G_CALLBACK (gftpui_gtk_resume), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), // GtkButton
+                    "clicked",          // signal
+                    G_CALLBACK (on_gtk_button_clicked_resume),
+                    (gpointer) tdata);
 
   tempwid = gtk_button_new_with_label (_("Skip File"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (tempwid), "clicked",
-                      G_CALLBACK (gftpui_gtk_skip), (gpointer) tdata);
+  g_signal_connect (G_OBJECT (tempwid), // GtkButton
+                    "clicked",          // signal
+                    G_CALLBACK (on_gtk_button_clicked_skip),
+                    (gpointer) tdata);
 
   hbox = gtk_hbox_new (TRUE, 20);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
 
   tempwid = gtk_button_new_with_label (_("Select All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (tempwid), /* GtkButton */
-                    "clicked",          /* signal    */
-                    G_CALLBACK (gftp_gtk_transfer_selectall),
+  g_signal_connect (G_OBJECT (tempwid), // GtkButton
+                    "clicked",          // signal
+                    G_CALLBACK (on_gtk_button_clicked_selectall),
                     (gpointer) treeview);
 
   tempwid = gtk_button_new_with_label (_("Deselect All"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (tempwid), /* GtkButton */
-                    "clicked",          /* signal    */
-                    G_CALLBACK (gftp_gtk_transfer_unselectall),
+  g_signal_connect (G_OBJECT (tempwid), // GtkButton
+                    "clicked",          // signal
+                    G_CALLBACK (on_gtk_button_clicked_unselectall),
                     (gpointer) treeview);
 
-  g_signal_connect (G_OBJECT (dialog), "response",
-                    G_CALLBACK (gftpui_gtk_transfer_action),(gpointer) tdata);
+  g_signal_connect (G_OBJECT (dialog), // GtkDialog
+                    "response",        // signal
+                    G_CALLBACK (on_gtk_dialog_response_transferdlg),
+                    (gpointer) tdata);
 
   gtk_widget_show_all (dialog);
   dialog = NULL;
