@@ -138,7 +138,7 @@ chmod_dialog (gpointer data)
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
   gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
-  gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+  gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
   gtk_widget_realize (dialog);
 
   set_window_icon(GTK_WINDOW(dialog), NULL);
@@ -154,6 +154,7 @@ chmod_dialog (gpointer data)
 
   vbox = gtk_vbox_new (TRUE, 5);
   gtk_container_add (GTK_CONTAINER (tempwid), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
 
   suid = gtk_check_button_new_with_label (_("SUID"));
   gtk_box_pack_start (GTK_BOX (vbox), suid, FALSE, FALSE, 0);
@@ -169,6 +170,7 @@ chmod_dialog (gpointer data)
 
   vbox = gtk_vbox_new (TRUE, 5);
   gtk_container_add (GTK_CONTAINER (tempwid), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
 
   ur = gtk_check_button_new_with_label (_("Read"));
   gtk_box_pack_start (GTK_BOX (vbox), ur, FALSE, FALSE, 0);
@@ -184,6 +186,7 @@ chmod_dialog (gpointer data)
 
   vbox = gtk_vbox_new (TRUE, 5);
   gtk_container_add (GTK_CONTAINER (tempwid), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
 
   gr = gtk_check_button_new_with_label (_("Read"));
   gtk_box_pack_start (GTK_BOX (vbox), gr, FALSE, FALSE, 0);
@@ -199,6 +202,7 @@ chmod_dialog (gpointer data)
 
   vbox = gtk_vbox_new (TRUE, 5);
   gtk_container_add (GTK_CONTAINER (tempwid), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
 
   or = gtk_check_button_new_with_label (_("Read"));
   gtk_box_pack_start (GTK_BOX (vbox), or, FALSE, FALSE, 0);
