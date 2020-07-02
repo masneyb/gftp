@@ -66,7 +66,7 @@ tb_set_active(GtkWidget *w, gboolean is_active)
 }
 
 static void
-dochmod (GtkWidget * widget, gftp_window_data * wdata)
+dochmod (gftp_window_data * wdata)
 {
   gftpui_callback_data * cdata;
 
@@ -100,17 +100,16 @@ dochmod (GtkWidget * widget, gftp_window_data * wdata)
   g_free (cdata);
 }
 
-
 static void
-chmod_action (GtkWidget * widget, gint response, gpointer wdata)
-{
+on_gtk_dialog_response_chmod (GtkDialog *dialog, gint response, gpointer wdata)
+{ /* chmod action */
   switch (response)
     {
       case GTK_RESPONSE_OK:
-        dochmod (widget, wdata);
+        dochmod (wdata);
         /* no break */
       default:
-        gtk_widget_destroy (widget);
+        gtk_widget_destroy (GTK_WIDGET (dialog));
     }
 }
 
@@ -210,8 +209,10 @@ chmod_dialog (gpointer data)
   ox = gtk_check_button_new_with_label (_("Execute"));
   gtk_box_pack_start (GTK_BOX (vbox), ox, FALSE, FALSE, 0);
 
-  g_signal_connect (G_OBJECT (dialog), "response",
-                    G_CALLBACK (chmod_action), wdata);
+  g_signal_connect (G_OBJECT (dialog), // GtkDialog
+                    "response",        // signal
+                    G_CALLBACK (on_gtk_dialog_response_chmod),
+                    wdata);
 
   if (listbox_num_selected (wdata) == 1)
     {
