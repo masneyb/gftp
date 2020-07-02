@@ -204,37 +204,26 @@ gftpui_gtk_ok (gpointer data)
   g_mutex_unlock (&tdata->structmutex);
 }
 
-
-static void
-gftpui_gtk_cancel (gpointer data)
-{
-  gftp_transfer * tdata;
-
-  tdata = data;
-  g_mutex_lock (&tdata->structmutex);
-  tdata->show = 0;
-  tdata->done = tdata->ready = 1;
-  g_mutex_unlock (&tdata->structmutex);
-}
-
 static void
 on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
                                     gint response,
                                     gpointer user_data)
 {
-  switch (response)
-    {
-      case GTK_RESPONSE_OK:
-        gftpui_gtk_ok (user_data);
-        gtk_widget_destroy (GTK_WIDGET (dialog));
-        break;
-      case GTK_RESPONSE_CANCEL:
-        gftpui_gtk_cancel (user_data);
-        /* no break */
-      default:
-        gtk_widget_destroy (GTK_WIDGET (dialog));
-    }
-}   
+  if (response == GTK_RESPONSE_OK)
+  {
+     gftpui_gtk_ok (user_data);
+     gtk_widget_destroy (GTK_WIDGET (dialog));
+     return;
+  }
+
+  gftp_transfer * tdata = (gftp_transfer *) user_data;
+
+  /* cancel transfers */
+  g_mutex_lock (&tdata->structmutex);
+  tdata->show = 0;
+  tdata->done = tdata->ready = 1;
+  g_mutex_unlock (&tdata->structmutex);
+}
 
 /* ==================================================================== */
 /*                      'ASK TRANSFER' DIALOG                           */
