@@ -177,46 +177,38 @@ on_gtk_button_clicked_skip (GtkButton *button, gpointer data)
 
 
 static void
-gftpui_gtk_ok (gpointer data)
-{
-  gftp_transfer * tdata;
-  gftp_file * tempfle;
-  GList * templist;
-
-  tdata = data;
-  g_mutex_lock (&tdata->structmutex);
-  for (templist = tdata->files; templist != NULL; templist = templist->next)
-    {
-      tempfle = templist->data;
-      if (tempfle->transfer_action != GFTP_TRANS_ACTION_SKIP)
-        break;
-    }
-
-  tdata->ready = 1;
-  if (templist == NULL)
-    {
-      tdata->show = 0; 
-      tdata->done = 1;
-    }
-  else
-    tdata->show = 1;
-
-  g_mutex_unlock (&tdata->structmutex);
-}
-
-static void
 on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
                                     gint response,
                                     gpointer user_data)
 {
+  gftp_transfer * tdata = (gftp_transfer *) user_data;
+
+  /* click on OK */
   if (response == GTK_RESPONSE_OK)
   {
-     gftpui_gtk_ok (user_data);
+     gftp_file * tempfle;
+     GList * templist;
+
+     g_mutex_lock (&tdata->structmutex);
+     for (templist = tdata->files; templist != NULL; templist = templist->next)
+     {
+        tempfle = templist->data;
+        if (tempfle->transfer_action != GFTP_TRANS_ACTION_SKIP)
+           break;
+     }
+
+     tdata->ready = 1;
+     if (templist == NULL) {
+        tdata->show = 0; 
+        tdata->done = 1;
+     } else {
+        tdata->show = 1;
+     }
+     g_mutex_unlock (&tdata->structmutex);
+
      gtk_widget_destroy (GTK_WIDGET (dialog));
      return;
   }
-
-  gftp_transfer * tdata = (gftp_transfer *) user_data;
 
   /* cancel transfers */
   g_mutex_lock (&tdata->structmutex);
