@@ -1498,7 +1498,9 @@ main (int argc, char **argv)
   gtk_window_set_title (main_window, gftp_version);
   gtk_window_set_wmclass (main_window, "main", "gFTP");
   gtk_widget_set_name (GTK_WIDGET(main_window), gftp_version);
+#if GTK_MAJOR_VERSION==2
   gtk_window_set_policy (main_window, TRUE, TRUE, FALSE);
+#endif
   gtk_widget_realize (GTK_WIDGET(main_window));
 
   set_window_icon(main_window, NULL);
