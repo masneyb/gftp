@@ -39,7 +39,9 @@
 #define _LARGEFILE64_SOURCE 1
 #endif
 
+#ifdef HAVE_SYS_SYSMACROS_H
 #include <sys/sysmacros.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>

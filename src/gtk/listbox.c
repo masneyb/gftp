@@ -676,6 +676,7 @@ listbox_set_default_column_width (gftp_window_data *wdata)
       "icon", "file", "size", "date", "user", "group", "attribs"
    };
 
+#ifndef __APPLE__
    for (int ncol = 1; ncol < LISTBOX_NUM_COLUMNS; ncol++)
    {
       // e.g: local_file_width / remote_file_width
@@ -702,6 +703,7 @@ listbox_set_default_column_width (gftp_window_data *wdata)
          gtk_tree_view_column_set_visible (tcol, FALSE);
       }
    }
+#endif
 }
 
 // ==============================================================
