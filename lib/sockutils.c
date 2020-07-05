@@ -345,6 +345,7 @@ gftp_fd_get_sockblocking (gftp_request * request, int fd)
 int
 gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
 {
+#ifndef __APPLE__
   int flags;
 
   g_return_val_if_fail (fd >= 0, GFTP_EFATAL);
@@ -371,7 +372,7 @@ gftp_fd_set_sockblocking (gftp_request * request, int fd, int non_blocking)
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
     }
-
+#endif
   return (0);
 }
 
