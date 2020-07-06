@@ -225,7 +225,6 @@ void listbox_clear           (gftp_window_data *wdata);
 void listbox_select_all      (gftp_window_data *wdata);
 void listbox_deselect_all    (gftp_window_data *wdata);
 
-gftp_file *find_gftp_file_by_name(GList *filelist, char *filename, gboolean filelist_ignore_directory);
 gftp_file *listbox_get_selected_file1 (gftp_window_data *wdata);
 GList     *listbox_get_selected_files (gftp_window_data *wdata);
 

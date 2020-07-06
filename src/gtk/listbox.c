@@ -565,36 +565,6 @@ listbox_select_all_files (gftp_window_data *wdata) {
      https://developer.gnome.org/gtk2/stable/GtkTreeSelection.html#gtk-tree-selection-get-selected-rows
 */
 
-gftp_file *
-find_gftp_file_by_name (GList *filelist, char *filename, gboolean filelist_ignore_directory)
-{
-   //GList   *filelist = wdata->files;
-   gftp_file *gftpFile = NULL;
-   gftp_file *found    = NULL;
-   char *p = NULL;
-   while (filelist)
-   {
-      gftpFile = (gftp_file *) filelist->data;
-      if (strcmp (gftpFile->file, filename) == 0) {
-         //fprintf(stderr, "gftp: %s\n", gftpFile->file);
-         found = gftpFile;
-         break;
-      } else {
-         p = strrchr(gftpFile->file, '/');
-         // file transfers
-         if (p && filelist_ignore_directory == TRUE) {
-            p++;
-            if (strcmp (p, filename) == 0) {
-               found = gftpFile;
-               break;
-            }
-         }
-      }
-      filelist = filelist->next;
-   }
-   return found;
-}
-
 static void
 selected_1_foreach_func (GtkTreeModel *model,
                             GtkTreePath  *path,
