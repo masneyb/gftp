@@ -105,7 +105,7 @@ gftpui_show_busy (gboolean busy)
   GdkCursor * busyCursor = 
     (busy) ? (gdk_cursor_new_for_display (display, GDK_WATCH)) : NULL;
 
-  gdk_window_set_cursor (toplevel->window, busyCursor);
+  gdk_window_set_cursor (toplevel, busyCursor);
 
   if (busy)
     gdk_cursor_unref (busyCursor);
@@ -151,7 +151,7 @@ gftpui_prompt_password (void *uidata, gftp_request * request)
    there won't be a delay in updating the GUI */
 static void
 _gftpui_wakeup_main_thread (gpointer data, gint source,
-                            GdkInputCondition condition)
+                            GIOCondition condition)
 {
   gftp_request * request;
   char c;
@@ -161,7 +161,6 @@ _gftpui_wakeup_main_thread (gpointer data, gint source,
     read (request->wakeup_main_thread[0], &c, 1);
 }
 
-
 static gint
 _gftpui_setup_wakeup_main_thread (gftp_request * request)
 {
@@ -169,8 +168,8 @@ _gftpui_setup_wakeup_main_thread (gftp_request * request)
 
   if (socketpair (AF_UNIX, SOCK_STREAM, 0, request->wakeup_main_thread) == 0)
     {
-      handler = gdk_input_add (request->wakeup_main_thread[0],
-                               GDK_INPUT_READ, _gftpui_wakeup_main_thread,
+      handler = g_io_add_watch (request->wakeup_main_thread[0],
+                               G_IO_IN , _gftpui_wakeup_main_thread,
                                request);
     }
   else
