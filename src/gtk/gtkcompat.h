@@ -16,6 +16,8 @@ GtkWidget *gtk_scale_new_with_range (GtkOrientation orientation, gdouble min, gd
 GtkWidget *gtk_separator_new (GtkOrientation orientation);
 GtkWidget *gtk_scrollbar_new (GtkOrientation orientation, GtkAdjustment *adjustment);
 GtkWidget *gtk_paned_new (GtkOrientation orientation);
+
+#define GTK_CAN_DEFAULT TRUE
 #endif
 
 #endif
