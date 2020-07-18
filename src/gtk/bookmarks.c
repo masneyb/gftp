@@ -1267,13 +1267,13 @@ btree_create()
    gtk_tree_selection_set_mode (sel, GTK_SELECTION_SINGLE);
 
    /* COLUMNS */
-   col = gtk_tree_view_column_new();
-   gtk_tree_view_column_set_title(col, "Title");
-
+   col = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                       "title", "Bookmarks",
+                       NULL);
    // icon
-   renderer = gtk_cell_renderer_pixbuf_new();
-   gtk_tree_view_column_pack_start(col, renderer, FALSE);
-   gtk_tree_view_column_set_attributes(col, renderer,
+   renderer = g_object_new (GTK_TYPE_CELL_RENDERER_PIXBUF, NULL);
+   gtk_tree_view_column_pack_start (col, renderer, FALSE);
+   gtk_tree_view_column_set_attributes (col, renderer,
                                        "pixbuf", BTREEVIEW_COL_ICON,
                                        NULL);
    g_object_set (G_OBJECT (renderer),
@@ -1281,16 +1281,14 @@ btree_create()
                  "pixbuf-expander-open",   opendir_pixbuf,
                  "is-expanded",            TRUE,
                  "is-expander",            TRUE,
-                 "xalign",                 0.5,
+                 "xalign",                 0.0,
                  NULL, NULL);
 
    // text
-   renderer = gtk_cell_renderer_text_new();
-   gtk_tree_view_column_pack_start(col, renderer, TRUE);
-   gtk_tree_view_column_set_attributes(col,
-                                       renderer,
-                                       "text",
-                                       BTREEVIEW_COL_TEXT,
+   renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, NULL);
+   gtk_tree_view_column_pack_start (col, renderer, TRUE);
+   gtk_tree_view_column_set_attributes (col, renderer,
+                                       "text", BTREEVIEW_COL_TEXT,
                                        NULL);
 
    gtk_tree_view_append_column(tree, col);
