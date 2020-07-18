@@ -89,14 +89,14 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
   if (*edttxt == '\0')
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("Add Bookmark: You must enter a name for the bookmark\n"));
+               _("Add Bookmark: You must enter a name for the bookmark\n"));
       return;
     }
 
   if (g_hash_table_lookup (gftp_bookmarks_htable, edttxt) != NULL)
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("Add Bookmark: Cannot add bookmark %s because that name already exists\n"), edttxt);
+               _("Add Bookmark: Cannot add bookmark %s because that name already exists\n"), edttxt);
       return;
     }
 
@@ -260,30 +260,30 @@ copy_bookmarks (gftp_bookmarks_var * bookmarks)
       newentry->isfolder = tempentry->isfolder;
       newentry->save_password = tempentry->save_password;
       newentry->cnode = tempentry->cnode;
-      if (tempentry->path)
-	newentry->path = g_strdup (tempentry->path);
-
-      if (tempentry->hostname)
-	newentry->hostname = g_strdup (tempentry->hostname);
-
-      if (tempentry->protocol)
-	newentry->protocol = g_strdup (tempentry->protocol);
-
-      if (tempentry->local_dir)
-	newentry->local_dir = g_strdup (tempentry->local_dir);
-
-      if (tempentry->remote_dir)
-	newentry->remote_dir = g_strdup (tempentry->remote_dir);
-
-      if (tempentry->user)
-	newentry->user = g_strdup (tempentry->user);
-
-      if (tempentry->pass)
-	newentry->pass = g_strdup (tempentry->pass);
-
-      if (tempentry->acct)
-	newentry->acct = g_strdup (tempentry->acct);
-
+      if (tempentry->path) {
+        newentry->path = g_strdup (tempentry->path);
+      }
+      if (tempentry->hostname) {
+        newentry->hostname = g_strdup (tempentry->hostname);
+      }
+      if (tempentry->protocol) {
+        newentry->protocol = g_strdup (tempentry->protocol);
+      }
+      if (tempentry->local_dir) {
+        newentry->local_dir = g_strdup (tempentry->local_dir);
+      }
+      if (tempentry->remote_dir) {
+        newentry->remote_dir = g_strdup (tempentry->remote_dir);
+      }
+      if (tempentry->user) {
+        newentry->user = g_strdup (tempentry->user);
+      }
+      if (tempentry->pass) {
+        newentry->pass = g_strdup (tempentry->pass);
+      }
+      if (tempentry->acct) {
+        newentry->acct = g_strdup (tempentry->acct);
+      }
       newentry->port = tempentry->port;
 
       gftp_copy_local_options (&newentry->local_options_vars,
@@ -294,45 +294,47 @@ copy_bookmarks (gftp_bookmarks_var * bookmarks)
       newentry->num_local_options_vars = tempentry->num_local_options_vars;
 
       if (sibling == NULL)
-	{
-	  if (preventry->children == NULL)
-	    preventry->children = newentry;
-	  else
-	    {
-	      tentry = preventry->children;
-	      while (tentry->next != NULL)
-		tentry = tentry->next;
-	      tentry->next = newentry;
-	    }
-	}
+        {
+          if (preventry->children == NULL)
+            preventry->children = newentry;
+          else
+            {
+              tentry = preventry->children;
+              while (tentry->next != NULL) {
+                tentry = tentry->next;
+              }
+              tentry->next = newentry;
+            }
+        }
       else
-	sibling->next = newentry;
+        sibling->next = newentry;
+
       newentry->prev = preventry;
 
       if (tempentry->children != NULL)
-	{
-	  preventry = newentry;
-	  sibling = NULL;
-	  tempentry = tempentry->children;
-	}
+        {
+          preventry = newentry;
+          sibling = NULL;
+          tempentry = tempentry->children;
+        }
       else
-	{
-	  if (tempentry->next == NULL)
-	    {
-	      sibling = NULL;
-	      while (tempentry->next == NULL && tempentry->prev != NULL)
-		{
-		  tempentry = tempentry->prev;
-		  preventry = preventry->prev;
-		}
-	      tempentry = tempentry->next;
-	    }
-	  else
-	    {
-	      sibling = newentry;
-	      tempentry = tempentry->next;
-	    }
-	}
+        {
+          if (tempentry->next == NULL)
+            {
+              sibling = NULL;
+              while (tempentry->next == NULL && tempentry->prev != NULL)
+                {
+                  tempentry = tempentry->prev;
+                  preventry = preventry->prev;
+                }
+              tempentry = tempentry->next;
+            }
+          else
+            {
+              sibling = newentry;
+              tempentry = tempentry->next;
+            }
+        }
     }
 
   return (new_bm);
@@ -515,8 +517,8 @@ static void
 new_folder_entry (gpointer data)
 {
   MakeEditDialog (_("New Folder"),
-		  _("Enter the name of the new folder to create"), NULL, 1,
-		  NULL, gftp_dialog_button_create, 
+                  _("Enter the name of the new folder to create"), NULL, 1,
+                  NULL, gftp_dialog_button_create, 
                   do_make_new, (gpointer) 0x1, NULL, NULL);
 }
 
@@ -525,8 +527,8 @@ static void
 new_item_entry (gpointer data)
 {
   MakeEditDialog (_("New Item"),
-		  _("Enter the name of the new item to create"), NULL, 1,
-		  NULL, gftp_dialog_button_create,
+                  _("Enter the name of the new item to create"), NULL, 1,
+                  NULL, gftp_dialog_button_create,
                   do_make_new, NULL, NULL, NULL);
 }
 
@@ -558,20 +560,20 @@ do_delete_entry (gftp_bookmarks_var * entry, gftp_dialog_data * ddata)
       gftp_free_bookmark (tempentry, 0);
 
       if (tempentry->children != NULL)
-	{
-	  tempentry = tempentry->children;
-	  continue;
-	}
+        {
+          tempentry = tempentry->children;
+          continue;
+        }
       else if (tempentry->next == NULL && tempentry->prev != NULL)
-	{
-	  delentry = tempentry->prev;
-	  g_free (tempentry);
-	  tempentry = delentry->next;
-	  if (delentry != entry)
-	    g_free (delentry);
-	}
+        {
+          delentry = tempentry->prev;
+          g_free (tempentry);
+          tempentry = delentry->next;
+          if (delentry != entry)
+            g_free (delentry);
+        }
       else
-	tempentry = tempentry->next;
+        tempentry = tempentry->next;
     }
   g_free (entry);
 }
@@ -593,9 +595,9 @@ delete_entry (gpointer data)
   else
     {
       if ((pos = strrchr (entry->path, '/')) == NULL)
-	pos = entry->path;
+        pos = entry->path;
       else
-	pos++;
+        pos++;
 
       tempstr = g_strdup_printf (_("Are you sure you want to erase the bookmark\n%s and all its children?"), pos);
       MakeYesNoDialog (_("Delete Bookmark"), tempstr, do_delete_entry, entry, 
