@@ -311,8 +311,7 @@ gftp_ssl_startup (gftp_request * request)
 
   gftp_ssl_initialized = 1;
 
-  if (g_thread_supported ())
-    _gftp_ssl_thread_setup ();
+  _gftp_ssl_thread_setup ();
 
   if (!SSL_library_init ())
     {
