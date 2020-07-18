@@ -1138,7 +1138,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 
   tempwid = gtk_button_new_from_stock (GTK_STOCK_ADD);
 
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (tempwid, TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
 		      G_CALLBACK (add_proxy_host), NULL);
@@ -1150,7 +1150,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   tempwid = gtk_button_new_from_stock (GTK_STOCK_EDIT);
 #endif
   edit_button = tempwid;
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (tempwid, TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
 		      G_CALLBACK (add_proxy_host), (gpointer) 1);
@@ -1159,7 +1159,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   tempwid = gtk_button_new_from_stock (GTK_STOCK_DELETE);
 
   delete_button = tempwid;
-  GTK_WIDGET_SET_FLAGS (tempwid, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (tempwid, TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
 		      G_CALLBACK (delete_proxy_host), NULL);
