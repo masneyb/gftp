@@ -25,8 +25,6 @@
 #include "../../lib/gftp.h"
 #include "../uicommon/gftpui.h"
 #include "gtkcompat.h"
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
 #include <pthread.h>
 
 #define GFTP_MENU_ITEM_ASCII	1
