@@ -369,13 +369,13 @@ _prompt_to_upload_edited_file (gftp_viewedit_data * ve_proc)
     {
       ftp_log (gftp_logging_error, NULL,
                _("Error: Cannot get information about file %s: %s\n"),
-	       ve_proc->filename, g_strerror (errno));
+               ve_proc->filename, g_strerror (errno));
       return (0);
     }
   else if (st.st_mtime == ve_proc->st.st_mtime)
     {
       ftp_log (gftp_logging_misc, NULL, _("File %s was not changed\n"),
-	       ve_proc->filename);
+               ve_proc->filename);
       remove_file (ve_proc);
       return (0);
     }
@@ -418,16 +418,16 @@ do_check_done_process (pid_t pid, int ret)
         gftpui_refresh (ve_proc->fromwdata, 1);
 
       if (ok && !ve_proc->view && !ve_proc->dontupload)
-	{
-	  /* We were editing the file. Upload it */
+        {
+          /* We were editing the file. Upload it */
           if (_prompt_to_upload_edited_file (ve_proc))
             break; /* Don't free the ve_proc structure */
         }
       else if (ve_proc->view && ve_proc->rm)
         {
-	  /* After viewing the file delete the tmp file */
-	  remove_file (ve_proc);
-	}
+          /* After viewing the file delete the tmp file */
+          remove_file (ve_proc);
+        }
 
       free_edit_data (ve_proc);
       break;
@@ -469,14 +469,14 @@ on_next_transfer (gftp_transfer * tdata)
             }
         }
       else if (tempfle->done_rm)
-	tdata->fromreq->rmfile (tdata->fromreq, tempfle->file);
+        tdata->fromreq->rmfile (tdata->fromreq, tempfle->file);
       
       if (tempfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
         gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1,
-  			         _("Skipped"));
+                                 _("Skipped"));
       else
         gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1,
-  			         _("Finished"));
+                                 _("Finished"));
     }
 
   gftp_lookup_request_option (tdata->fromreq, "refresh_files", &refresh_files);
@@ -563,20 +563,20 @@ show_transfer (gftp_transfer * tdata)
     {
       tdata->toreq->stopable = 1;
       MakeEditDialog (_("Enter Password"),
-		      _("Please enter your password for this site"), NULL, 0,
-		      NULL, gftp_dialog_button_connect, 
+                      _("Please enter your password for this site"), NULL, 0,
+                      NULL, gftp_dialog_button_connect, 
                       get_trans_password, tdata->toreq,
-		      cancel_get_trans_password, tdata);
+                      cancel_get_trans_password, tdata);
     }
 
   if (!tdata->fromreq->stopable && gftp_need_password (tdata->fromreq))
     {
       tdata->fromreq->stopable = 1;
       MakeEditDialog (_("Enter Password"),
-		      _("Please enter your password for this site"), NULL, 0,
-		      NULL, gftp_dialog_button_connect, 
+                      _("Please enter your password for this site"), NULL, 0,
+                      NULL, gftp_dialog_button_connect, 
                       get_trans_password, tdata->fromreq,
-		      cancel_get_trans_password, tdata);
+                      cancel_get_trans_password, tdata);
     }
 }
 
@@ -601,7 +601,7 @@ transfer_done (GList * node)
                            tdata->fromreq);
         }
       else
-	gftp_disconnect (tdata->fromreq);
+        gftp_disconnect (tdata->fromreq);
 
       if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->towdata,
                                          tdata->toreq))
@@ -612,7 +612,7 @@ transfer_done (GList * node)
                            tdata->toreq);
         }
       else
-	gftp_disconnect (tdata->toreq);
+        gftp_disconnect (tdata->toreq);
 
       if (tdata->towdata != NULL && compare_request (tdata->toreq,
                            ((gftp_window_data *) tdata->towdata)->request, 1))
@@ -801,13 +801,13 @@ update_file_status (gftp_transfer * tdata)
 
   if (pcent > 100)
     g_snprintf (totstr, sizeof (totstr),
-	_("Unknown percentage complete. (File %ld of %ld)"),
-	tdata->current_file_number, tdata->numdirs + tdata->numfiles);
+        _("Unknown percentage complete. (File %ld of %ld)"),
+        tdata->current_file_number, tdata->numdirs + tdata->numfiles);
   else
     g_snprintf (totstr, sizeof (totstr),
-	_("%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"),
-	pcent, hours, mins, secs, tdata->current_file_number,
-	tdata->numdirs + tdata->numfiles);
+        _("%d%% complete, %02d:%02d:%02d est. time remaining. (File %ld of %ld)"),
+        pcent, hours, mins, secs, tdata->current_file_number,
+        tdata->numdirs + tdata->numfiles);
 
   *dlstr = '\0';
   if (!tdata->stalled)
@@ -877,32 +877,32 @@ update_downloads (gpointer data)
         {
           g_mutex_lock (&tdata->structmutex);
 
-	  if (tdata->next_file)
-	    on_next_transfer (tdata);
-     	  else if (tdata->show) 
-	    show_transfer (tdata);
-	  else if (tdata->done)
-	    {
-	      next = templist->next;
+          if (tdata->next_file)
+            on_next_transfer (tdata);
+          else if (tdata->show) 
+            show_transfer (tdata);
+          else if (tdata->done)
+            {
+              next = templist->next;
               g_mutex_unlock (&tdata->structmutex);
-	      transfer_done (templist);
-	      templist = next;
-	      continue;
-	    }
+              transfer_done (templist);
+              templist = next;
+              continue;
+            }
 
-	  if (tdata->curfle != NULL)
-	    {
+          if (tdata->curfle != NULL)
+            {
               gftp_lookup_global_option ("one_transfer", 
                                          &do_one_transfer_at_a_time);
               gftp_lookup_global_option ("start_transfers", &start_transfers);
 
-	      if (!tdata->started && start_transfers &&
+              if (!tdata->started && start_transfers &&
                  (num_transfers_in_progress == 0 || !do_one_transfer_at_a_time))
                 create_transfer (tdata);
 
-	      if (tdata->started)
+              if (tdata->started)
                 update_file_status (tdata);
-	    }
+            }
           g_mutex_unlock (&tdata->structmutex);
         }
       templist = templist->next;
@@ -922,7 +922,7 @@ start_transfer (gpointer data)
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("There are no file transfers selected\n"));
+               _("There are no file transfers selected\n"));
       return;
     }
   node = GTK_CLIST (dlwdw)->selection->data;
@@ -944,7 +944,7 @@ stop_transfer (gpointer data)
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
       ftp_log (gftp_logging_error, NULL,
-	      _("There are no file transfers selected\n"));
+               _("There are no file transfers selected\n"));
       return;
     }
 
@@ -963,7 +963,7 @@ skip_transfer (gpointer data)
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
       ftp_log (gftp_logging_error, NULL,
-	      _("There are no file transfers selected\n"));
+               _("There are no file transfers selected\n"));
       return;
     }
 
@@ -1013,7 +1013,7 @@ move_transfer_up (gpointer data)
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
       ftp_log (gftp_logging_error, NULL,
-	      _("There are no file transfers selected\n"));
+               _("There are no file transfers selected\n"));
       return;
     }
   node = GTK_CLIST (dlwdw)->selection->data;
@@ -1073,7 +1073,7 @@ move_transfer_down (gpointer data)
   if (GTK_CLIST (dlwdw)->selection == NULL)
     {
       ftp_log (gftp_logging_error, NULL,
-	      _("There are no file transfers selected\n"));
+               _("There are no file transfers selected\n"));
       return;
     }
   node = GTK_CLIST (dlwdw)->selection->data;
