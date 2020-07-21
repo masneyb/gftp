@@ -100,16 +100,14 @@ The gFTP file transfer client. http://www.gftp.org
   - ext=.html:world.xpm:B:
 
 
-## When gFTP tries to get the remote directory listing, the remote server 
-complains about either the -a or -L argument to LIST.
+## When gFTP tries to get the remote directory listing, the remote server complains about either the -a or -L argument to LIST.
 
   If the server is complaining about the -L option, go under FTP->Options->FTP
   and disable resolve remote symlinks. If it is complaining about the -a option,
   go to FTP->Options->General and disable show hidden files.
 
 
-## When gFTP tries to get the remote directory listing, I receive the error:
-Cannot create a data connection: Connection refused
+## When gFTP tries to get the remote directory listing, I receive the error: Cannot create a data connection: Connection refused
 
   Go under FTP->Options->FTP and turn off passive file transfers. Instead of
   sending the PASV command to open up the data connection on the server side, the
@@ -117,8 +115,7 @@ Cannot create a data connection: Connection refused
   be sent to the server instead.
 
 
-## When using the FTPS protocol, gFTP cannot connect if the remote
-server uses a self signed certificate.
+## When using the FTPS protocol, gFTP cannot connect if the remote server uses a self signed certificate.
 
   You must add the public key of your self signed CA to your OpenSSL certs
   directory. On my Debian box, the OpenSSL certs are installed in /usr/lib/ssl/
