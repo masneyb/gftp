@@ -404,8 +404,8 @@ gftp_free_pixmap (char *filename)
 
 
 void
-gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
-                 GdkBitmap ** bitmap)
+gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixbuf ** pix,
+                 GdkPixbuf ** bitmap)
 {
   gftp_graphic * graphic;
 

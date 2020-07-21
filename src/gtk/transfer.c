@@ -505,8 +505,8 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
 static void
 show_transfer (gftp_transfer * tdata)
 {
-  GdkPixmap * closedir_pixmap, * opendir_pixmap;
-  GdkBitmap * closedir_bitmap, * opendir_bitmap;
+  GdkPixbuf * closedir_pixmap, * opendir_pixmap;
+  GdkPixbuf * closedir_bitmap, * opendir_bitmap;
   gftpui_common_curtrans_data * transdata;
   gftp_file * tempfle;
   GList * templist;

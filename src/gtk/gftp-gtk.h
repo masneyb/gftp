@@ -87,8 +87,8 @@ typedef struct _gftpui_gtk_thread_data
 typedef struct gftp_graphic_tag
 {
   char * filename;
-  GdkPixmap * pixmap;
-  GdkBitmap * bitmap;
+  GdkPixbuf * pixmap;
+  GdkPixbuf * bitmap;
 } gftp_graphic;
 
 typedef struct gftp_dialog_data_tag
@@ -294,8 +294,8 @@ void gftp_free_pixmap 				( char *filename );
 
 void gftp_get_pixmap 				( GtkWidget * widget, 
 						  char *filename, 
-						  GdkPixmap ** pix,
-						  GdkBitmap ** bitmap );
+						  GdkPixbuf ** pix,
+						  GdkPixbuf ** bitmap );
 
 GdkPixbuf *       gftp_get_pixbuf (char *filename);
 
