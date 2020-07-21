@@ -418,8 +418,16 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 
 
 static void
-bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
-{
+on_gtk_dialog_response_BookmarkDlg (GtkDialog * dialog,
+                                    gint response,
+                                    gpointer user_data)
+{ /* ok | cancel | close dialog */
+  if (response == GTK_RESPONSE_OK)
+    {
+        bm_apply_changes (GTK_WIDGET(dialog), NULL);
+    }
+
+  /* free allocated memory */
   if (bm_dialog != NULL)
     return;
 
@@ -439,20 +447,6 @@ bm_close_dialog (GtkWidget * widget, GtkWidget * dialog)
     {
       gtk_widget_destroy (edit_bookmarks_dialog);
       edit_bookmarks_dialog = NULL;
-    }
-}
-
-
-static void
-editbm_action (GtkWidget * widget, gint response, gpointer user_data)
-{
-  switch (response)
-    {
-      case GTK_RESPONSE_OK:
-        bm_apply_changes (widget, NULL);
-        /* no break */
-      default:
-        bm_close_dialog (NULL, widget);
     }
 }
 
@@ -1200,7 +1194,7 @@ edit_bookmarks (gpointer data)
 
   g_signal_connect (G_OBJECT (edit_bookmarks_dialog), // GtkDialog
                     "response",
-                    G_CALLBACK (editbm_action),
+                    G_CALLBACK (on_gtk_dialog_response_BookmarkDlg),
                     NULL);
 
   gtk_widget_show (edit_bookmarks_dialog);
