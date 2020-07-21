@@ -19,7 +19,7 @@
 
 #include "gftp-gtk.h"
 
-static GtkWidget * bm_dialog = NULL, * edit_bookmarks_dialog = NULL;
+static GtkWidget * edit_bm_entry_dlg = NULL, * edit_bookmarks_dialog = NULL;
 static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
                  * bm_remotediredit, * bm_useredit, * bm_passedit,
                  * bm_acctedit, * anon_chk, * bm_pathedit, * combo_protocol;
@@ -363,9 +363,9 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
 {
   gftp_bookmarks_var * tempentry, * delentry;
 
-  if (bm_dialog != NULL)
+  if (edit_bm_entry_dlg != NULL)
     {
-      gtk_widget_grab_focus (bm_dialog);
+      gtk_widget_grab_focus (edit_bm_entry_dlg);
       return;
     }
 
@@ -428,7 +428,7 @@ on_gtk_dialog_response_BookmarkDlg (GtkDialog * dialog,
     }
 
   /* free allocated memory */
-  if (bm_dialog != NULL)
+  if (edit_bm_entry_dlg != NULL)
     return;
 
   if (new_bookmarks_htable != NULL)
@@ -829,7 +829,7 @@ on_gtk_dialog_response_EditEntryDlg (GtkDialog *dialog,
     if (found_entry && found_entry != entry)
     {
        g_signal_stop_emission_by_name (dialog, "response");
-       m = gtk_message_dialog_new (GTK_WINDOW (bm_dialog),
+       m = gtk_message_dialog_new (GTK_WINDOW (edit_bm_entry_dlg),
                                    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                    GTK_MESSAGE_ERROR,
                                    GTK_BUTTONS_OK,
@@ -843,7 +843,7 @@ on_gtk_dialog_response_EditEntryDlg (GtkDialog *dialog,
   }
 
   gtk_widget_destroy (GTK_WIDGET(dialog));
-  bm_dialog = NULL;
+  edit_bm_entry_dlg = NULL;
 }   
 
 
@@ -855,9 +855,9 @@ edit_entry_dlg (gpointer data)
   unsigned int num, i;
   char *pos;
 
-  if (bm_dialog != NULL)
+  if (edit_bm_entry_dlg != NULL)
     {
-      gtk_widget_grab_focus (bm_dialog);
+      gtk_widget_grab_focus (edit_bm_entry_dlg);
       return;
     }
 
@@ -866,7 +866,7 @@ edit_entry_dlg (gpointer data)
   if (entry == NULL || entry == new_bookmarks)
     return;
 
-  bm_dialog = gtk_dialog_new_with_buttons (
+  edit_bm_entry_dlg = gtk_dialog_new_with_buttons (
               _("Edit Entry"),
               GTK_WINDOW (edit_bookmarks_dialog),
               GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -874,14 +874,14 @@ edit_entry_dlg (gpointer data)
               GTK_STOCK_SAVE,   GTK_RESPONSE_OK,
               NULL);
 
-  gtk_window_set_wmclass (GTK_WINDOW (bm_dialog), "Edit Bookmark Entry",
+  gtk_window_set_wmclass (GTK_WINDOW (edit_bm_entry_dlg), "Edit Bookmark Entry",
                           "gFTP");
-  gtk_window_set_position (GTK_WINDOW (bm_dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_realize (bm_dialog);
+  gtk_window_set_position (GTK_WINDOW (edit_bm_entry_dlg), GTK_WIN_POS_MOUSE);
+  gtk_widget_realize (edit_bm_entry_dlg);
 
-  set_window_icon(GTK_WINDOW(bm_dialog), NULL);
+  set_window_icon(GTK_WINDOW(edit_bm_entry_dlg), NULL);
 
-  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (bm_dialog));
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (edit_bm_entry_dlg));
   gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 10);
 
   notebook = gtk_notebook_new ();
@@ -1047,14 +1047,14 @@ edit_entry_dlg (gpointer data)
     }
   gtk_widget_show (anon_chk);
 
-  g_signal_connect (G_OBJECT (bm_dialog),
+  g_signal_connect (G_OBJECT (edit_bm_entry_dlg),
                     "response",
                     G_CALLBACK (on_gtk_dialog_response_EditEntryDlg),
                     (gpointer) entry);
 
   gftp_gtk_setup_bookmark_options (notebook, entry);
 
-  gtk_widget_show (bm_dialog);
+  gtk_widget_show (edit_bm_entry_dlg);
 }
 
 
