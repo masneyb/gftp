@@ -216,6 +216,11 @@ _gftp_getdir_thread (gftpui_callback_data * cdata)
   return (gftp_get_all_subdirs (cdata->user_data, NULL));
 }
 
+static int
+progress_timeout(gpointer data)
+{ // required by gftp_gtk_get_subdirs()...
+  return (1);
+}
 
 int
 gftp_gtk_get_subdirs (gftp_transfer * transfer)
@@ -242,7 +247,6 @@ gftp_gtk_get_subdirs (gftp_transfer * transfer)
   numfiles = transfer->numfiles;
   numdirs = transfer->numdirs;
   transfer->numfiles = transfer->numdirs = -1; 
-  update_directory_download_progress (transfer);
   transfer->numfiles = numfiles;
   transfer->numdirs = numdirs;
 

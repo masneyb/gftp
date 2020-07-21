@@ -333,10 +333,6 @@ void MakeYesNoDialog 				( char *diagtxt,
 						  void (*nofunc) (), 
 						  gpointer nopointer );
 
-void update_directory_download_progress 	( gftp_transfer * transfer );
-
-int progress_timeout 				( gpointer data );
-
 void display_cached_logs			( void );
 
 char * get_image_path 				( char *filename);

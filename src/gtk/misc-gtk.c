@@ -19,8 +19,6 @@
 
 #include "gftp-gtk.h"
 
-static GtkWidget * progresswid;
-
 void
 remove_files_window (gftp_window_data * wdata)
 {
@@ -760,101 +758,6 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
                     G_CALLBACK (dialog_response), ddata);
 
   gtk_widget_show (dialog);
-}
-
-
-static gint
-delete_event (GtkWidget * widget, GdkEvent * event, gpointer data)
-{
-  return (TRUE);
-}
-
-
-static void
-trans_stop_button (GtkWidget * widget, gpointer data)
-{
-  gftp_transfer * transfer;
-
-  transfer = data;
-  pthread_kill (((gftp_window_data *) transfer->fromwdata)->tid, SIGINT);
-}
-
-
-void
-update_directory_download_progress (gftp_transfer * transfer)
-{
-  static GtkWidget * dialog = NULL, * textwid, * stopwid;
-  char tempstr[255];
-  GtkWidget * vbox;
-
-  if (transfer->numfiles < 0 || transfer->numdirs < 0)
-    {
-      if (dialog != NULL)
-        gtk_widget_destroy (dialog);
-      dialog = NULL;
-      return;
-    }
-
-  if (dialog == NULL)
-    {
-      dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-      gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
-      gtk_window_set_decorated (GTK_WINDOW (dialog), 0);
-      gtk_grab_add (dialog);
-      g_signal_connect (G_OBJECT (dialog), "delete_event",
-                          G_CALLBACK (delete_event), NULL);
-      gtk_window_set_title (GTK_WINDOW (dialog),
-			    _("Getting directory listings"));
-      gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-      gtk_window_set_wmclass (GTK_WINDOW(dialog), "dirlist", "gFTP");
-
-      vbox = gtk_vbox_new (FALSE, 5);
-      gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
-      gtk_container_add (GTK_CONTAINER (dialog), vbox);
-      gtk_widget_show (vbox);
-
-      textwid = gtk_label_new (NULL);
-      gtk_box_pack_start (GTK_BOX (vbox), textwid, TRUE, TRUE, 0);
-      gtk_widget_show (textwid);
-
-      progresswid = gtk_progress_bar_new ();
-      gtk_box_pack_start (GTK_BOX (vbox), progresswid, TRUE, TRUE, 0);
-      gtk_widget_show (progresswid);
-
-      stopwid = gtk_button_new_with_label (_("  Stop  "));
-      g_signal_connect (G_OBJECT (stopwid), "clicked",
-                          G_CALLBACK (trans_stop_button), transfer);
-      gtk_box_pack_start (GTK_BOX (vbox), stopwid, TRUE, TRUE, 0);
-      gtk_widget_show (stopwid); 
-
-      gtk_widget_show (dialog);
-    }
-
-  g_snprintf (tempstr, sizeof (tempstr),
-              _("Received %ld directories\nand %ld files"), 
-              transfer->numdirs, transfer->numfiles);
-  gtk_label_set_text (GTK_LABEL (textwid), tempstr);
-}
-
-
-int
-progress_timeout (gpointer data)
-{
-  gftp_transfer * tdata;
-  gdouble val;
-
-  tdata = data;
-
-  update_directory_download_progress (tdata);
-
-  val = gtk_progress_bar_get_fraction (GTK_PROGRESS_BAR (progresswid));
-  if (val >= 1.0)
-    val = 0.0;
-  else
-    val += 0.10;
-  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progresswid), val);
-
-  return (1);
 }
 
 
