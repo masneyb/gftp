@@ -733,7 +733,7 @@ CreateConnectToolbar (GtkWidget * parent)
   char *default_protocol, *tempstr;
   int i, j, num;
 
-  toolbar = gtk_handle_box_new ();
+  //toolbar = gtk_handle_box_new ();
 
   box = gtk_hbox_new (FALSE, 4);
   gtk_container_add (GTK_CONTAINER (toolbar), box);
@@ -863,7 +863,8 @@ CreateConnectToolbar (GtkWidget * parent)
 
   //gtk_widget_grab_focus (GTK_WIDGET (hostedit));
 
-  return (toolbar);
+  //return (toolbar);
+  return (box);
 }
 
 
