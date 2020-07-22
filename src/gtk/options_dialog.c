@@ -889,7 +889,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
   gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "hostinfo", "Gftp");
+  gtk_window_set_role (GTK_WINDOW(dialog), "hostinfo");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   vbox = gtk_vbox_new (FALSE, 6);
@@ -1224,8 +1224,7 @@ options_dialog (gpointer data)
   gtk_window_set_resizable (GTK_WINDOW (gftp_option_data->dialog), FALSE);
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (gftp_option_data->dialog));
 
-  gtk_window_set_wmclass (GTK_WINDOW(gftp_option_data->dialog),
-                          "options", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(gftp_option_data->dialog), "options");
   gtk_window_set_position (GTK_WINDOW (gftp_option_data->dialog),
                            GTK_WIN_POS_MOUSE);
 

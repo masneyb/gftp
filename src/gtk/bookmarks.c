@@ -880,8 +880,7 @@ edit_entry_dlg (gpointer data)
               GTK_STOCK_SAVE,   GTK_RESPONSE_OK,
               NULL);
 
-  gtk_window_set_wmclass (GTK_WINDOW (bm_dialog), "Edit Bookmark Entry",
-                          "gFTP");
+  gtk_window_set_role (GTK_WINDOW (bm_dialog), "Edit Bookmark Entry");
   gtk_window_set_position (GTK_WINDOW (bm_dialog), GTK_WIN_POS_MOUSE);
   gtk_widget_realize (bm_dialog);
 

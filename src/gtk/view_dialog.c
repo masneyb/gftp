@@ -327,7 +327,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
 
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "fileview", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(dialog), "fileview");
 
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 10);

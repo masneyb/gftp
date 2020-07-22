@@ -234,7 +234,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                                         GTK_RESPONSE_OK,
                                         NULL);
 
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "transfer", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(dialog), "transfer");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

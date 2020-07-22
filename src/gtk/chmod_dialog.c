@@ -132,7 +132,7 @@ chmod_dialog (gpointer data)
                                         GTK_RESPONSE_OK,
                                         NULL);
 
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "Chmod", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(dialog), "Chmod");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
