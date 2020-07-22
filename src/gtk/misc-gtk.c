@@ -687,7 +687,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
 
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
   gtk_box_set_spacing (GTK_BOX (vbox), 5);
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "edit", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(dialog), "edit");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_widget_set_size_request (dialog, 380, -1);
   gtk_grab_add (dialog);
@@ -749,7 +749,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
   set_window_icon(GTK_WINDOW(dialog), NULL);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "yndiag", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(dialog), "yndiag");
   gtk_grab_add (dialog);
 
   ddata->dialog = dialog;
