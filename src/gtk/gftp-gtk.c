@@ -733,11 +733,15 @@ CreateConnectToolbar (GtkWidget * parent)
   char *default_protocol, *tempstr;
   int i, j, num;
 
-  toolbar = gtk_handle_box_new ();
-
   box = gtk_hbox_new (FALSE, 4);
-  gtk_container_add (GTK_CONTAINER (toolbar), box);
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
+
+#if GTK_MAJOR_VERSION == 2
+  toolbar = gtk_handle_box_new ();
+  gtk_container_add (GTK_CONTAINER (toolbar), box);
+#else
+  toolbar = box;
+#endif
 
   //tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
   tempwid = gtk_image_new_from_stock (GTK_STOCK_NETWORK, GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -860,8 +864,6 @@ CreateConnectToolbar (GtkWidget * parent)
 			     G_CALLBACK (stop_button), NULL);
   gtk_container_set_border_width (GTK_CONTAINER (stop_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), stop_btn, FALSE, FALSE, 0);
-
-  //gtk_widget_grab_focus (GTK_WIDGET (hostedit));
 
   return (toolbar);
 }
