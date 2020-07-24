@@ -846,3 +846,69 @@ void glist_to_combobox (GList *list, GtkWidget *combo) {
       list = list->next;
    }
 }
+
+
+GtkMenuItem *
+new_menu_item (GtkMenu * menu, char * label, char * icon_name,
+               gpointer activate_callback, gpointer callback_data)
+{
+   GtkMenuItem *item = NULL;
+
+   /* 0=normal 1=image 2=stock 3=check 4=separator */
+   int type = 0;
+
+   if (icon_name) {
+      type = 1;
+      if (strncmp (icon_name, "gtk-", 4) == 0)
+      {
+         type = 2; /*  GTK_STOCK_*   */
+         GtkIconTheme *icon_theme = gtk_icon_theme_get_default();
+         icon_theme = gtk_icon_theme_get_default();
+         if (gtk_icon_theme_has_icon(icon_theme, icon_name)) {
+            /* icon name is in icon theme.. don't use GTK_STOCK.. */
+            type = 1;
+         }
+      } else if (strcmp (icon_name, "-check-") == 0) {
+         type = 3;
+      }
+   }
+   if (!label && !icon_name) {
+      type = 4;
+   }
+
+   switch (type)
+   {
+     case 0: /* normal */
+        item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (label));
+        break;
+     case 1: /* image */
+        item = GTK_MENU_ITEM (gtk_image_menu_item_new_with_mnemonic (label));
+        gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+               gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
+        break;
+     case 2: /* stock */
+        item = GTK_MENU_ITEM (gtk_image_menu_item_new_from_stock (label, NULL));
+        break;
+     case 3: /* check */
+        item = GTK_MENU_ITEM(gtk_check_menu_item_new_with_mnemonic (label));
+        break;
+     case 4: /* separator */
+        item = GTK_MENU_ITEM (gtk_separator_menu_item_new ());
+        break;
+   }
+
+   if (menu) {
+      gtk_container_add (GTK_CONTAINER (menu), GTK_WIDGET (item));
+   }
+
+   if (activate_callback) {
+      g_signal_connect (item,
+                        "activate",
+                        G_CALLBACK (activate_callback),
+                        callback_data);
+   }
+
+   if (item)  gtk_widget_show (GTK_WIDGET (item));
+
+   return (item);
+}

@@ -45,10 +45,12 @@ enum {
 
 static GHashTable * new_bookmarks_htable = NULL;
 static gftp_bookmarks_var * new_bookmarks = NULL;
-static GtkUIManager *b_uimanager;
 
 static guint bm_menu_merge_id = 0; // factory
 static GtkActionGroup *dynamic_bm_menu = NULL;
+
+static GtkMenu * bmenu_file;
+static GtkWidget * create_bm_dlg_menubar (GtkWindow *window);
 
 void
 on_menu_run_bookmark (GtkAction *action, gpointer path_str)
@@ -508,24 +510,20 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
 
 
 static void
-new_folder_entry (gpointer data)
+new_bookmark_entry (int folder)
 {
-  MakeEditDialog (_("New Folder"),
-                  _("Enter the name of the new folder to create"), NULL, 1,
-                  NULL, gftp_dialog_button_create, 
-                  do_make_new, (gpointer) 0x1, NULL, NULL);
+  if (folder) {
+    MakeEditDialog (_("New Folder"),
+                    _("Enter the name of the new folder to create"), NULL, 1,
+                    NULL, gftp_dialog_button_create, 
+                    do_make_new, (gpointer) 0x1, NULL, NULL);
+  } else {
+    MakeEditDialog (_("New Item"),
+                    _("Enter the name of the new item to create"), NULL, 1,
+                    NULL, gftp_dialog_button_create,
+                    do_make_new, NULL, NULL, NULL);
+  }
 }
-
-
-static void
-new_item_entry (gpointer data)
-{
-  MakeEditDialog (_("New Item"),
-                  _("Enter the name of the new item to create"), NULL, 1,
-                  NULL, gftp_dialog_button_create,
-                  do_make_new, NULL, NULL, NULL);
-}
-
 
 static void
 do_delete_entry (gftp_bookmarks_var * entry, gftp_dialog_data * ddata)
@@ -1070,11 +1068,6 @@ on_gtk_treeview_KeyPressEvent_btree (GtkWidget * widget,
   return (FALSE);
 }
 
-static void
-close_bookmarks_dlg(GtkWidget *w, gpointer data) {
-  gtk_widget_destroy(edit_bookmarks_dialog);
-}
-
 static void 
 on_gtk_treeview_RowActivated_btree (GtkTreeView *tree,      GtkTreePath *path,
                                     GtkTreeViewColumn *col, gpointer data)
@@ -1088,8 +1081,7 @@ on_gtk_treeview_ButtonReleaseEvent_btree (GtkWidget * widget,
 {
   if (event->button == 3)
     { // right click
-      GtkWidget* menu = gtk_ui_manager_get_widget(b_uimanager, "/popup");
-      gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
+      gtk_menu_popup (bmenu_file, NULL, NULL, NULL, NULL, event->button, event->time);
     }
   // double click: see on_gtk_treeview_RowActivated_btree
   return (FALSE);
@@ -1098,43 +1090,7 @@ on_gtk_treeview_ButtonReleaseEvent_btree (GtkWidget * widget,
 void
 edit_bookmarks (gpointer data)
 {
-  GtkWidget *main_vbox;
-  GtkAccelGroup * accel_group;
-  GtkWidget * scroll;
-  GtkActionEntry menu_items[] =
-  {
-    //  name         stock_id               "label"           accel tooltip  callback
-    { "File",       NULL,                 N_("_File"),          NULL, NULL, NULL                            },
-    { "NewFolder",  NULL,                 N_("New _Folder..."), NULL, NULL, G_CALLBACK(new_folder_entry)    },
-    { "NewItem",    GTK_STOCK_NEW,        N_("New _Item..."),   NULL, NULL, G_CALLBACK(new_item_entry)      },
-    { "Delete",     GTK_STOCK_DELETE,     N_("_Delete"),        NULL, NULL, G_CALLBACK(delete_entry)        },
-    { "Properties", GTK_STOCK_PROPERTIES, N_("_Properties..."), NULL, NULL, G_CALLBACK(edit_entry_dlg)      },
-    { "Close",      GTK_STOCK_CLOSE,      N_("_Close"),         NULL, NULL, G_CALLBACK(close_bookmarks_dlg) }
-  };
-
-  guint nmenu_items = G_N_ELEMENTS (menu_items);
-
-  static const gchar *ui_info = " \
-  <ui> \
-    <menubar name='M'> \
-      <menu action='File'> \
-        <menuitem action='NewFolder'/> \
-        <menuitem action='NewItem'/> \
-        <menuitem action='Delete'/> \
-        <menuitem action='Properties'/> \
-        <separator/> \
-        <menuitem action='Close'/> \
-      </menu> \
-    </menubar> \
-    <popup action='popup'> \
-        <menuitem action='NewFolder'/> \
-        <menuitem action='NewItem'/> \
-        <menuitem action='Delete'/> \
-        <menuitem action='Properties'/> \
-        <separator/> \
-        <menuitem action='Close'/> \
-    </popup> \
-  </ui>";
+  GtkWidget * main_vbox, * scroll, * menubar;
 
   if (edit_bookmarks_dialog != NULL)
     {
@@ -1160,21 +1116,8 @@ edit_bookmarks (gpointer data)
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (edit_bookmarks_dialog));
   gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 3);
 
-  b_uimanager = gtk_ui_manager_new();
-  GtkActionGroup *b_actions = gtk_action_group_new("BActions");
-  //gtk_action_group_set_translate_func(b_actions, menu_translate, NULL, NULL);
-  gtk_action_group_add_actions(b_actions, menu_items, nmenu_items, NULL);
-  //gtk_action_group_add_toggle_actions (b_actions, toggle_entries, n_toggle_entries, NULL);
-  gtk_ui_manager_insert_action_group(b_uimanager, b_actions, 0);
-  g_object_unref(b_actions);
-  if (!gtk_ui_manager_add_ui_from_string(GTK_UI_MANAGER(b_uimanager), ui_info, -1, NULL))
-     ftp_log (gftp_logging_error, NULL, "error");
-  accel_group = gtk_ui_manager_get_accel_group(b_uimanager);
-  gtk_window_add_accel_group(GTK_WINDOW(edit_bookmarks_dialog), accel_group);
-
-  GtkWidget* menu = gtk_ui_manager_get_widget(b_uimanager, "/M");
-  gtk_box_pack_start (GTK_BOX (main_vbox), menu, FALSE, FALSE, 0);
-  gtk_widget_show (menu);
+  menubar = create_bm_dlg_menubar (GTK_WINDOW (edit_bookmarks_dialog));
+  gtk_box_pack_start (GTK_BOX (main_vbox), menubar, FALSE, FALSE, 0);
 
   scroll = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
@@ -1209,6 +1152,72 @@ edit_bookmarks (gpointer data)
   } else {
     fprintf (stderr, "gftp bookmarks: failed to expand main node...\n");
   }
+}
+
+// ===============================================================================
+// Menubar
+
+static void on_gtk_MenuItem_activate_newfolder (GtkMenuItem *menuitem, gpointer data) {
+	new_bookmark_entry (1);
+}
+static void on_gtk_MenuItem_activate_newitem (GtkMenuItem *menuitem, gpointer data) {
+	new_bookmark_entry (0);
+}
+static void on_gtk_MenuItem_activate_delete (GtkMenuItem *menuitem, gpointer data) {
+	delete_entry (data);
+}
+static void on_gtk_MenuItem_activate_properties (GtkMenuItem *menuitem, gpointer data) {
+	edit_entry_dlg (data);
+}
+static void on_gtk_MenuItem_activate_close (GtkMenuItem *menuitem, gpointer data) {
+	gtk_widget_destroy (edit_bookmarks_dialog);
+}
+
+static GtkWidget *
+create_bm_dlg_menubar (GtkWindow *window)
+{
+   GtkMenuBar *menu_bar = GTK_MENU_BAR (gtk_menu_bar_new ());
+   GtkMenu * menu_file  = GTK_MENU (gtk_menu_new ());
+   bmenu_file = menu_file;
+   GtkMenuItem *item;
+
+   GtkAccelGroup *accel_group = gtk_accel_group_new ();
+   gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
+
+   item = new_menu_item (menu_file, _("New _Folder..."), NULL,
+                         on_gtk_MenuItem_activate_newfolder, NULL);
+
+   item = new_menu_item (menu_file, _("New _Item..."), "gtk-new",
+                         on_gtk_MenuItem_activate_newitem, NULL);
+   gtk_widget_add_accelerator (GTK_WIDGET (item), "activate",
+                               accel_group,
+                               GDK_KEY_n, GDK_CONTROL_MASK,
+                               GTK_ACCEL_VISIBLE);
+
+   item = new_menu_item (menu_file, _("_Delete"), "gtk-delete",
+                         on_gtk_MenuItem_activate_delete, NULL);
+
+   item = new_menu_item (menu_file, _("_Properties"), "gtk-properties",
+                         on_gtk_MenuItem_activate_properties, NULL);
+
+   item = new_menu_item (menu_file, _("_Close"), "gtk-close",
+                         on_gtk_MenuItem_activate_close, NULL);
+   gtk_widget_add_accelerator (GTK_WIDGET (item), "activate",
+                               accel_group,
+                               GDK_KEY_w, GDK_CONTROL_MASK,
+                               GTK_ACCEL_VISIBLE);
+
+   /* special menuitem that becomes the parent of menu_file, displays "_File" */
+   item = new_menu_item (NULL, _("_File"), NULL, NULL, NULL);
+   gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (menu_file));
+
+   /* append to menubar */
+   gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar),
+                          GTK_WIDGET     (item));
+
+   gtk_widget_show_all (GTK_WIDGET (menu_bar));
+
+   return (GTK_WIDGET (menu_bar));
 }
 
 
