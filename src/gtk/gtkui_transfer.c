@@ -399,7 +399,8 @@ gftpui_ask_transfer (gftp_transfer * tdata)
 
   gtk_tree_selection_select_all (tree_sel);
 
-  hbox = gtk_hbox_new (TRUE, 20);
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 20);
+  gtk_box_set_homogeneous (GTK_BOX(hbox), TRUE);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
 
   tempwid = gtk_button_new_with_label (_("Overwrite"));
@@ -423,7 +424,8 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                     G_CALLBACK (on_gtk_button_clicked_skip),
                     (gpointer) tdata);
 
-  hbox = gtk_hbox_new (TRUE, 20);
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 20);
+  gtk_box_set_homogeneous (GTK_BOX(hbox), TRUE);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
 
   tempwid = gtk_button_new_with_label (_("Select All"));

@@ -362,7 +362,7 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
   gtk_table_resize (GTK_TABLE (option_data->table), 
                                option_data->tbl_row_num, 2);
 
-  box = gtk_hbox_new (FALSE, 0);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_table_attach_defaults (GTK_TABLE (option_data->table), box, 0, 2,
                     	     option_data->tbl_row_num - 1, 
                     	     option_data->tbl_row_num);
@@ -592,7 +592,7 @@ _print_option_type_notebook (gftp_config_vars * cv, void *user_data, void *value
 
   option_data = user_data;
 
-  option_data->box = gtk_vbox_new (FALSE, 6);
+  option_data->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_container_set_border_width (GTK_CONTAINER (option_data->box), 10);
   gtk_widget_show (option_data->box);
 
@@ -892,12 +892,12 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_window_set_role (GTK_WINDOW(dialog), "hostinfo");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
-  vbox = gtk_vbox_new (FALSE, 6);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
   gtk_box_pack_start (GTK_BOX (main_vbox), vbox, FALSE, FALSE, 0);
   gtk_widget_show (vbox);
     
-  box = gtk_hbox_new (FALSE, 12);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
   gtk_box_pack_start (GTK_BOX (vbox), box, FALSE, FALSE, 0);
   gtk_widget_show (box);
   
@@ -907,7 +907,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
   
-  rbox = gtk_vbox_new (FALSE, 6);
+  rbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_box_pack_start (GTK_BOX (box), rbox, TRUE, TRUE, 0);
   gtk_widget_show (rbox);
   
@@ -928,7 +928,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_box_pack_start (GTK_BOX (rbox), domain_active, TRUE, TRUE, 0);
   gtk_widget_show (domain_active);
 
-  box = gtk_hbox_new (FALSE, 12);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
   gtk_box_pack_start (GTK_BOX (vbox), box, FALSE, FALSE, 0);
   gtk_widget_show (box);
 
@@ -949,7 +949,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 0, 1);
   gtk_widget_show (tempwid);
 
-  box = gtk_hbox_new (FALSE, 6);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_table_attach_defaults (GTK_TABLE (table), box, 1, 2, 0, 1);
   gtk_widget_show (box);
 
@@ -985,7 +985,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 1, 2);
   gtk_widget_show (tempwid);
 
-  box = gtk_hbox_new (FALSE, 6);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_table_attach_defaults (GTK_TABLE (table), box, 1, 2, 1, 2);
   gtk_widget_show (box);
 
@@ -1014,7 +1014,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_box_pack_start (GTK_BOX (box), netmask4, TRUE, TRUE, 0);
   gtk_widget_show (netmask4);
 
-  box = gtk_hbox_new (FALSE, 12);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
   gtk_box_pack_start (GTK_BOX (vbox), box, TRUE, TRUE, 0);
   gtk_widget_show (box);
 
@@ -1102,7 +1102,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   add_data[0] = _("Network");
   add_data[1] = _("Netmask");
 
-  box = gtk_vbox_new (FALSE, 6);
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_container_set_border_width (GTK_CONTAINER (box), 10);
   gtk_widget_show (box);
 
@@ -1130,7 +1130,8 @@ make_proxy_hosts_tab (GtkWidget * notebook)
        templist = templist->next)
     add_host_to_listbox (templist);
 
-  hbox = gtk_hbox_new (TRUE, 12);
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+  gtk_box_set_homogeneous (GTK_BOX(hbox), TRUE);
 
   gtk_box_pack_start (GTK_BOX (box), hbox, FALSE, FALSE, 0);
   gtk_widget_show (hbox);

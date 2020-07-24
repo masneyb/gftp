@@ -986,7 +986,7 @@ edit_entry_dlg (gpointer data)
     gtk_entry_set_text (GTK_ENTRY (bm_localdiredit), entry->local_dir);
   gtk_widget_show (bm_localdiredit);
 
-  tempwid = gtk_hseparator_new ();
+  tempwid = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 2, 7, 8);
   gtk_widget_show (tempwid);
 

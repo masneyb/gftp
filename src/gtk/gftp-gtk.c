@@ -733,7 +733,7 @@ CreateConnectToolbar (GtkWidget * parent)
   char *default_protocol, *tempstr;
   int i, j, num;
 
-  box = gtk_hbox_new (FALSE, 4);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
 
 #if GTK_MAJOR_VERSION == 2
@@ -830,7 +830,7 @@ CreateConnectToolbar (GtkWidget * parent)
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
   gtk_box_pack_start (GTK_BOX (box), passedit, FALSE, FALSE, 0);
 
-  tempwid = gtk_vbox_new (FALSE, 0);
+  tempwid = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
   toolbar_combo_protocol = gtk_combo_box_text_new ();
@@ -876,7 +876,7 @@ CreateCommandToolbar (void)
 
   gftpui_command_toolbar = gtk_handle_box_new ();
 
-  box = gtk_hbox_new (FALSE, 4);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
   gtk_container_add (GTK_CONTAINER (gftpui_command_toolbar), box);
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
 
@@ -1010,7 +1010,7 @@ CreateFTPWindow (gftp_window_data * wdata)
 
   gtk_container_set_border_width (GTK_CONTAINER (parent), 5);
 
-  box = gtk_vbox_new (FALSE, 0);
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
   gtk_container_add (GTK_CONTAINER (parent), box);
 
@@ -1103,7 +1103,7 @@ CreateFTPWindows (GtkWidget * ui)
   window2.history = &tmplistvar->list;
   window2.histlen = &tmplistvar->num_items;
  
-  mainvbox = gtk_vbox_new (FALSE, 0);
+  mainvbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
   tempwid = CreateMenus (ui);
   gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
@@ -1114,15 +1114,15 @@ CreateFTPWindows (GtkWidget * ui)
   tempwid = CreateCommandToolbar ();
   gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
 
-  winpane = gtk_hpaned_new ();
+  winpane = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 
-  box = gtk_hbox_new (FALSE, 0);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
   window1.prefix_col_str = "local";
   local_frame = CreateFTPWindow (&window1);
   gtk_box_pack_start (GTK_BOX (box), local_frame, TRUE, TRUE, 0);
 
-  dlbox = gtk_vbox_new (FALSE, 0);
+  dlbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_set_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
@@ -1151,7 +1151,7 @@ CreateFTPWindows (GtkWidget * ui)
 
   gtk_paned_pack2 (GTK_PANED (winpane), remote_frame, 1, 1);
 
-  dlpane = gtk_vpaned_new ();
+  dlpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
   gtk_paned_pack1 (GTK_PANED (dlpane), winpane, 1, 1);
 
   transfer_scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -1177,7 +1177,7 @@ CreateFTPWindows (GtkWidget * ui)
         G_CALLBACK (on_key_press_transfer), NULL);
   gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
 
-  logpane = gtk_vpaned_new ();
+  logpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
   gtk_paned_pack1 (GTK_PANED (logpane), dlpane, 1, 1);
 
   log_table = gtk_table_new (1, 2, FALSE);

@@ -146,13 +146,15 @@ chmod_dialog (gpointer data)
   tempwid = gtk_label_new (_("You can now adjust the attributes of your file(s)\nNote: Not all ftp servers support the chmod feature"));
   gtk_box_pack_start (GTK_BOX (main_vbox), tempwid, FALSE, FALSE, 0);
 
-  hbox = gtk_hbox_new (TRUE, 5);
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
+  gtk_box_set_homogeneous (GTK_BOX(hbox), TRUE);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
 
   tempwid = gtk_frame_new (_("Special"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);
 
-  vbox = gtk_vbox_new (TRUE, 5);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+  gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
   gtk_container_add (GTK_CONTAINER (tempwid), vbox);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
 
@@ -168,7 +170,8 @@ chmod_dialog (gpointer data)
   tempwid = gtk_frame_new (_("User"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);
 
-  vbox = gtk_vbox_new (TRUE, 5);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+  gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
   gtk_container_add (GTK_CONTAINER (tempwid), vbox);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
 
@@ -184,7 +187,8 @@ chmod_dialog (gpointer data)
   tempwid = gtk_frame_new (_("Group"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);
 
-  vbox = gtk_vbox_new (TRUE, 5);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+  gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
   gtk_container_add (GTK_CONTAINER (tempwid), vbox);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
 
@@ -200,7 +204,8 @@ chmod_dialog (gpointer data)
   tempwid = gtk_frame_new (_("Other"));
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);
 
-  vbox = gtk_vbox_new (TRUE, 5);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+  gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
   gtk_container_add (GTK_CONTAINER (tempwid), vbox);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
 
