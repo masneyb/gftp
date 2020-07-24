@@ -86,8 +86,8 @@ save_directory_listing (gpointer data)
   filew = gtk_file_chooser_dialog_new (_("Save Directory Listing"),
             main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
             GTK_FILE_CHOOSER_ACTION_SAVE,
-            GTK_STOCK_SAVE,   GTK_RESPONSE_ACCEPT,
-            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+            "gtk-save",   GTK_RESPONSE_ACCEPT,
+            "gtk-cancel", GTK_RESPONSE_CANCEL,
             NULL );
 
   gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
@@ -256,8 +256,8 @@ savelog (gpointer data)
   filew = gtk_file_chooser_dialog_new (_("Save Log"),
             main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
             GTK_FILE_CHOOSER_ACTION_SAVE,
-            GTK_STOCK_SAVE,   GTK_RESPONSE_ACCEPT,
-            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+            "gtk-save",   GTK_RESPONSE_ACCEPT,
+            "gtk-cancel", GTK_RESPONSE_CANCEL,
             NULL );
 
   gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);

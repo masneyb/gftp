@@ -126,9 +126,9 @@ chmod_dialog (gpointer data)
     return;
 
   dialog = gtk_dialog_new_with_buttons (_("Chmod"), NULL, 0,
-                                        GTK_STOCK_CANCEL,
+                                        "gtk-cancel",
                                         GTK_RESPONSE_CANCEL,
-                                        GTK_STOCK_OK,
+                                        "gtk-ok",
                                         GTK_RESPONSE_OK,
                                         NULL);
 

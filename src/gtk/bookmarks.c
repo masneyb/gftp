@@ -868,8 +868,8 @@ edit_entry_dlg (gpointer data)
               _("Edit Entry"),
               GTK_WINDOW (edit_bookmarks_dialog),
               GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-              GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-              GTK_STOCK_SAVE,   GTK_RESPONSE_OK,
+              "gtk-cancel", GTK_RESPONSE_CANCEL,
+              "gtk-save",   GTK_RESPONSE_OK,
               NULL);
 
   gtk_window_set_role (GTK_WINDOW (edit_bm_entry_dlg), "Edit Bookmark Entry");
@@ -1103,9 +1103,9 @@ edit_bookmarks (gpointer data)
 
   edit_bookmarks_dialog = gtk_dialog_new_with_buttons (_("Edit Bookmarks"),
                                                        NULL, 0, 
-                                                       GTK_STOCK_CANCEL,
+                                                       "gtk-cancel",
                                                        GTK_RESPONSE_CANCEL,
-						       GTK_STOCK_SAVE,
+						       "gtk-save",
                                                        GTK_RESPONSE_OK,
                                                        NULL);
   gtk_window_set_position (GTK_WINDOW (edit_bookmarks_dialog),

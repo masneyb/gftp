@@ -657,10 +657,10 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   switch (okbutton)
     {
       case gftp_dialog_button_ok:
-        yes_text = GTK_STOCK_OK;
+        yes_text = "gtk-ok";
         break;
       case gftp_dialog_button_create:
-        yes_text = GTK_STOCK_ADD;
+        yes_text = "gtk-add";
         break;
       case gftp_dialog_button_change:
         yes_text = _("Change");
@@ -672,14 +672,14 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
         yes_text = _("Rename");
         break;
       default:
-        yes_text = GTK_STOCK_MISSING_IMAGE;
+        yes_text = "gtk-missing-image";
         break;
     }
 
   dialog = gtk_dialog_new_with_buttons (_(diagtxt),
                                         NULL,
                                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                        GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
+                                        "gtk-cancel", GTK_RESPONSE_NO,
                                         yes_text,         GTK_RESPONSE_YES,
                                         NULL);
 

@@ -879,9 +879,9 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   title = hosts ? _("Edit Host") : _("Add Host");
 
   dialog = gtk_dialog_new_with_buttons (title, NULL, 0,
-                                        GTK_STOCK_CANCEL,
+                                        "gtk-cancel",
                                         GTK_RESPONSE_CANCEL,
-                                        GTK_STOCK_SAVE,
+                                        "gtk-save",
                                         GTK_RESPONSE_OK,
                                         NULL);
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 2);
@@ -1135,7 +1135,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   gtk_box_pack_start (GTK_BOX (box), hbox, FALSE, FALSE, 0);
   gtk_widget_show (hbox);
 
-  tempwid = gtk_button_new_from_stock (GTK_STOCK_ADD);
+  tempwid = gtk_button_new_from_stock ("gtk-add");
 
   gtk_widget_set_can_default (tempwid, TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
@@ -1146,7 +1146,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 #if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION < 5
   tempwid = gtk_button_new_with_mnemonic (_("_Edit"));
 #else
-  tempwid = gtk_button_new_from_stock (GTK_STOCK_EDIT);
+  tempwid = gtk_button_new_from_stock ("gtk-edit");
 #endif
   edit_button = tempwid;
   gtk_widget_set_can_default (tempwid, TRUE);
@@ -1155,7 +1155,7 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 		      G_CALLBACK (add_proxy_host), (gpointer) 1);
   gtk_widget_show (tempwid);
 
-  tempwid = gtk_button_new_from_stock (GTK_STOCK_DELETE);
+  tempwid = gtk_button_new_from_stock ("gtk-delete");
 
   delete_button = tempwid;
   gtk_widget_set_can_default (tempwid, TRUE);
@@ -1215,9 +1215,9 @@ options_dialog (gpointer data)
   gftp_option_data = _init_option_data ();
 
   gftp_option_data->dialog = gtk_dialog_new_with_buttons (_("Options"), NULL, 0,
-                                        GTK_STOCK_CANCEL,
+                                        "gtk-cancel",
                                         GTK_RESPONSE_CANCEL,
-                                        GTK_STOCK_OK,
+                                        "gtk-ok",
                                         GTK_RESPONSE_OK,
                                         NULL);
   gtk_container_set_border_width (GTK_CONTAINER (gftp_option_data->dialog), 2);

@@ -446,12 +446,12 @@ CreateMenus (GtkWidget * parent)
   {
     //  name                    stock_id               "label"                  accel             tooltip  callback
     { "FTPMenu",              NULL,                  N_("_FTP"),              NULL,                NULL, NULL                   },
-    { "FTPPreferences",       GTK_STOCK_PREFERENCES, N_("_Preferences..."),   NULL,                NULL, G_CALLBACK(options_dialog) },
-    { "FTPQuit",              GTK_STOCK_QUIT,        N_("_Quit"),             "<control>Q",        NULL, G_CALLBACK(_gftp_menu_exit)  },
+    { "FTPPreferences",       "gtk-preferences",     N_("_Preferences..."),   NULL,                NULL, G_CALLBACK(options_dialog) },
+    { "FTPQuit",              "gtk-quit",            N_("_Quit"),             "<control>Q",        NULL, G_CALLBACK(_gftp_menu_exit)  },
 
     { "LocalMenu",            NULL,                  N_("_Local"),            NULL,                NULL, NULL },
-    { "LocalOpenLocation",    GTK_STOCK_OPEN,        N_("_Open Location..."), "<control><shift>O", NULL, G_CALLBACK(on_local_openurl_dialog) },
-    { "LocalDisconnect",      GTK_STOCK_CLOSE,       N_("D_isconnect"),       "<control><shift>I", NULL, G_CALLBACK(on_local_gftpui_disconnect) },
+    { "LocalOpenLocation",    "gtk-open",            N_("_Open Location..."), "<control><shift>O", NULL, G_CALLBACK(on_local_openurl_dialog) },
+    { "LocalDisconnect",      "gtk-close",           N_("D_isconnect"),       "<control><shift>I", NULL, G_CALLBACK(on_local_gftpui_disconnect) },
     { "LocalChangeFilespec",  NULL,                  N_("Change _Filespec"),  "<control><shift>F", NULL, G_CALLBACK(on_local_change_filespec) },
     { "LocalShowSelected",    NULL,                  N_("_Show selected"),    NULL,                NULL, G_CALLBACK(on_local_show_selected) },
     { "LocalNavigateUp",      NULL,                  N_("Navigate _Up"),      "<alt>Up",           NULL, G_CALLBACK(on_local_navi_up_directory) },
@@ -467,11 +467,11 @@ CreateMenus (GtkWidget * parent)
     { "LocalDelete",          NULL,                  N_("_Delete..."),        "<control><shift>D", NULL, G_CALLBACK(on_local_delete_dialog) },
     { "LocalEdit",            NULL,                  N_("_Edit..."),          "<control><shift>E", NULL, G_CALLBACK(on_local_edit_dialog) },
     { "LocalView",            NULL,                  N_("_View..."),          "<control><shift>L", NULL, G_CALLBACK(on_local_view_dialog) },
-    { "LocalRefresh",         GTK_STOCK_REFRESH,     N_("_Refresh"),          "<control><shift>R", NULL, G_CALLBACK(on_local_gftp_gtk_refresh) },
+    { "LocalRefresh",         "gtk-refresh",         N_("_Refresh"),          "<control><shift>R", NULL, G_CALLBACK(on_local_gftp_gtk_refresh) },
 
     { "RemoteMenu",           NULL,                  N_("_Remote"),            NULL,               NULL, NULL },
-    { "RemoteOpenLocation",   GTK_STOCK_OPEN,        N_("_Open Location..."), "<control>O",        NULL, G_CALLBACK(on_remote_openurl_dialog) },
-    { "RemoteDisconnect",     GTK_STOCK_CLOSE,       N_("D_isconnect"),       "<control>I",        NULL, G_CALLBACK(on_remote_gftpui_disconnect) },
+    { "RemoteOpenLocation",   "gtk-open",            N_("_Open Location..."), "<control>O",        NULL, G_CALLBACK(on_remote_openurl_dialog) },
+    { "RemoteDisconnect",     "gtk-close",           N_("D_isconnect"),       "<control>I",        NULL, G_CALLBACK(on_remote_gftpui_disconnect) },
     { "RemoteChangeFilespec", NULL,                  N_("Change _Filespec"),  "<control>F",        NULL, G_CALLBACK(on_remote_change_filespec) },
     { "RemoteShowSelected",   NULL,                  N_("_Show selected"),    NULL,                NULL, G_CALLBACK(on_remote_show_selected) },
     { "RemoteNavigateUp",     NULL,                  N_("Navigate _Up"),      "<alt>Up",           NULL, G_CALLBACK(on_remote_navi_up_directory) },
@@ -487,33 +487,33 @@ CreateMenus (GtkWidget * parent)
     { "RemoteDelete",         NULL,                  N_("_Delete..."),        "<control>D",        NULL, G_CALLBACK(on_remote_delete_dialog) },
     { "RemoteEdit",           NULL,                  N_("_Edit..."),          "<control>E",        NULL, G_CALLBACK(on_remote_edit_dialog) },
     { "RemoteView",           NULL,                  N_("_View..."),          "<control>L",        NULL, G_CALLBACK(on_remote_view_dialog) },
-    { "RemoteRefresh",        GTK_STOCK_REFRESH,     N_("_Refresh"),          "<control>R",        NULL, G_CALLBACK(on_remote_gftp_gtk_refresh) },
+    { "RemoteRefresh",        "gtk-refresh",         N_("_Refresh"),          "<control>R",        NULL, G_CALLBACK(on_remote_gftp_gtk_refresh) },
 
     { "BookmarksMenu",        NULL,                  N_("_Bookmarks"),        NULL,                NULL, NULL },
-    { "BookmarksAddBookmark", GTK_STOCK_ADD,         N_("Add _Bookmark"),     "<control>B",        NULL, G_CALLBACK(add_bookmark) },
+    { "BookmarksAddBookmark", "gtk-add",             N_("Add _Bookmark"),     "<control>B",        NULL, G_CALLBACK(add_bookmark) },
     { "BookmarksEditBookmarks",NULL,                 N_("Edit Bookmarks"),    NULL,                NULL, G_CALLBACK(edit_bookmarks) },
 
     { "TransferMenu",         NULL,                  N_("_Transfer"),         NULL,                NULL, NULL },
     { "TransferStart",        NULL,                  N_("_Start"),            NULL,                NULL, G_CALLBACK(start_transfer) },
-    { "TransferStop",         GTK_STOCK_STOP,        N_("St_op"),             NULL,                NULL, G_CALLBACK(stop_transfer) },
+    { "TransferStop",         "gtk-stop",            N_("St_op"),             NULL,                NULL, G_CALLBACK(stop_transfer) },
     { "TransferSkipCurrentFile",NULL,                N_("Skip _Current File"),NULL,                NULL, G_CALLBACK(skip_transfer) },
-    { "TransferRemoveFile",   GTK_STOCK_DELETE,      N_("_Remove File"),      NULL,                NULL, G_CALLBACK(remove_file_transfer) },
-    { "TransferMoveFileUp",   GTK_STOCK_GO_UP,       N_("Move File _Up"),     NULL,                NULL, G_CALLBACK(move_transfer_up) },
-    { "TransferMoveFileDown", GTK_STOCK_GO_DOWN,     N_("Move File _Down"),   NULL,                NULL, G_CALLBACK(move_transfer_down) },
+    { "TransferRemoveFile",   "gtk-delete",          N_("_Remove File"),      NULL,                NULL, G_CALLBACK(remove_file_transfer) },
+    { "TransferMoveFileUp",   "gtk-go-up",           N_("Move File _Up"),     NULL,                NULL, G_CALLBACK(move_transfer_up) },
+    { "TransferMoveFileDown", "gtk-go-down",         N_("Move File _Down"),   NULL,                NULL, G_CALLBACK(move_transfer_down) },
     { "TransferRetrieveFiles",NULL,                  N_("_Retrieve Files"),   "<control>R",        NULL, G_CALLBACK(get_files) },
     { "TransferPutFiles",    NULL,                   N_("_Put Files"),        "<control>U",        NULL, G_CALLBACK(put_files) },
 
     { "LogMenu",             NULL,                   N_("L_og"),              NULL,                NULL, NULL },
-    { "LogClear",            GTK_STOCK_CLEAR,        N_("_Clear"),            NULL,                NULL, G_CALLBACK(clearlog) },
+    { "LogClear",            "gtk-clear",            N_("_Clear"),            NULL,                NULL, G_CALLBACK(clearlog) },
     { "LogView",             NULL,                   N_("_View"),             NULL,                NULL, G_CALLBACK(viewlog) },
-    { "LogSave",             GTK_STOCK_SAVE,         N_("_Save..."),          NULL,                NULL, G_CALLBACK(savelog) },
+    { "LogSave",             "gtk-save",             N_("_Save..."),          NULL,                NULL, G_CALLBACK(savelog) },
 
     { "ToolsMenu",           NULL,                   N_("Tool_s"),            NULL,                NULL, NULL },
     { "ToolsCompareWindows", NULL,                   N_("C_ompare Windows"),  NULL,                NULL, G_CALLBACK(compare_windows) },
-    { "ToolsClearCache",     GTK_STOCK_CLEAR,        N_("_Clear Cache"),      NULL,                NULL, G_CALLBACK(clear_cache) },
+    { "ToolsClearCache",     "gtk-clear",            N_("_Clear Cache"),      NULL,                NULL, G_CALLBACK(clear_cache) },
 
     { "HelpMenu",            NULL,                   N_("_Help"),             NULL,                NULL, NULL },
-    { "HelpAbout",           GTK_STOCK_ABOUT,        N_("_About"),            NULL,                NULL, G_CALLBACK(about_dialog) },
+    { "HelpAbout",           "gtk-about",            N_("_About"),            NULL,                NULL, G_CALLBACK(about_dialog) },
   };
 
 
@@ -744,7 +744,7 @@ CreateConnectToolbar (GtkWidget * parent)
 #endif
 
   //tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  tempwid = gtk_image_new_from_stock (GTK_STOCK_NETWORK, GTK_ICON_SIZE_SMALL_TOOLBAR);
+  tempwid = gtk_image_new_from_stock ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   openurl_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (openurl_btn), tempwid);
@@ -855,7 +855,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_combo_box_set_active(GTK_COMBO_BOX(toolbar_combo_protocol), num);
 
   //tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  tempwid = gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_SMALL_TOOLBAR);
+  tempwid = gtk_image_new_from_stock ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   stop_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
@@ -1126,7 +1126,7 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_container_set_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
-  tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD,
+  tempwid = gtk_image_new_from_stock ("gtk-go-forward",
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   upload_right_arrow = gtk_button_new ();
@@ -1135,7 +1135,7 @@ CreateFTPWindows (GtkWidget * ui)
 			     G_CALLBACK (put_files), NULL);
   gtk_container_add (GTK_CONTAINER (upload_right_arrow), tempwid);
 
-  tempwid = gtk_image_new_from_stock (GTK_STOCK_GO_BACK,
+  tempwid = gtk_image_new_from_stock ("gtk-go-back",
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   download_left_arrow = gtk_button_new ();
