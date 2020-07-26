@@ -56,7 +56,6 @@ _gen_input_widget (gftp_options_dialog_data * option_data, char *label, char *ti
                     option_data->tbl_row_num, 2);
 
   tempwid = gtk_label_new (_(label));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 0, 0.5);
   gtk_table_attach (GTK_TABLE (option_data->table), tempwid, 0, 1,
                     option_data->tbl_row_num - 1, 
                     option_data->tbl_row_num,
@@ -141,7 +140,6 @@ _gen_combo_widget (gftp_options_dialog_data * option_data, char *label)
                                option_data->tbl_row_num, 2);
 
   tempwid = gtk_label_new (_(label));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 0, 0.5);
   gtk_table_attach (GTK_TABLE (option_data->table), tempwid, 0, 1,
                     option_data->tbl_row_num - 1, 
                     option_data->tbl_row_num,
@@ -903,7 +901,6 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   
   tempwid = gtk_label_new_with_mnemonic (_("_Type:"));
 
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 0, 0);
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
   
@@ -945,7 +942,6 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   tempwid = gtk_label_new_with_mnemonic (_("_Network address:"));
 
   network_label = tempwid;
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 0, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 0, 1);
   gtk_widget_show (tempwid);
 
@@ -981,7 +977,6 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   tempwid = gtk_label_new_with_mnemonic (_("N_etmask:"));
   netmask_label = tempwid;
 
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 0, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 1, 2);
   gtk_widget_show (tempwid);
 
@@ -1025,7 +1020,6 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   tempwid = gtk_label_new_with_mnemonic (_("_Domain:"));
 
   domain_label = tempwid;
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 0, 0.5);
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
 
@@ -1144,11 +1138,8 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 		      G_CALLBACK (add_proxy_host), NULL);
   gtk_widget_show (tempwid);
 
-#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION < 5
-  tempwid = gtk_button_new_with_mnemonic (_("_Edit"));
-#else
   tempwid = gtk_button_new_from_stock ("gtk-edit");
-#endif
+
   edit_button = tempwid;
   gtk_widget_set_can_default (tempwid, TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
