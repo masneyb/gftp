@@ -1133,8 +1133,7 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
   tdata = NULL;
   if (append_transfers && one_transfer && !show_dialog)
     {
-      if (g_thread_supported ())
-        g_mutex_lock (&gftpui_common_transfer_mutex);
+      g_mutex_lock (&gftpui_common_transfer_mutex);
 
       for (templist = gftp_file_transfers;
            templist != NULL;
@@ -1142,15 +1141,13 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
         {
           tdata = templist->data;
 
-          if (g_thread_supported ())
-            g_mutex_lock (&tdata->structmutex);
+          g_mutex_lock (&tdata->structmutex);
 
           if (!compare_request (tdata->fromreq, fromreq, 0) ||
               !compare_request (tdata->toreq, toreq, 0) ||
               tdata->curfle == NULL)
             {
-              if (g_thread_supported ())
-                g_mutex_unlock (&tdata->structmutex);
+              g_mutex_unlock (&tdata->structmutex);
 
               continue;
             }
@@ -1172,14 +1169,12 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
               gftpui_add_file_to_transfer (tdata, curfle);
             }
 
-          if (g_thread_supported ())
-            g_mutex_unlock (&tdata->structmutex);
+          g_mutex_unlock (&tdata->structmutex);
 
           break;
         }
 
-      if (g_thread_supported ())
-        g_mutex_unlock (&gftpui_common_transfer_mutex);
+      g_mutex_unlock (&gftpui_common_transfer_mutex);
     }
   else
     templist = NULL;
@@ -1209,13 +1204,11 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
             tdata->total_bytes += tempfle->size;
         }
 
-      if (g_thread_supported ())
-        g_mutex_lock (&gftpui_common_transfer_mutex);
+      g_mutex_lock (&gftpui_common_transfer_mutex);
 
       gftp_file_transfers = g_list_append (gftp_file_transfers, tdata);
 
-      if (g_thread_supported ())
-        g_mutex_unlock (&gftpui_common_transfer_mutex);
+      g_mutex_unlock (&gftpui_common_transfer_mutex);
 
       if (show_dialog)
         gftpui_ask_transfer (tdata);
@@ -1367,8 +1360,7 @@ _gftpui_common_next_file_in_trans (gftp_transfer * tdata)
 {
   gftp_file * curfle;
 
-  if (g_thread_supported ())
-    g_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
 
   tdata->curtrans = 0;
   tdata->next_file = 1;
@@ -1377,8 +1369,7 @@ _gftpui_common_next_file_in_trans (gftp_transfer * tdata)
   curfle->transfer_done = 1;
   tdata->curfle = tdata->curfle->next;
 
-  if (g_thread_supported ())
-    g_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 }
 
 
@@ -1425,14 +1416,12 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
   gftp_file * curfle;
   int ret;
 
-  if (g_thread_supported ())
-    g_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
 
   curfle = tdata->curfle->data;
   tdata->current_file_number++;
 
-  if (g_thread_supported ())
-    g_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 
   if (curfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
     {
@@ -1483,15 +1472,13 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
         ret = tdata->tot_file_trans;
       else
         {
-          if (g_thread_supported ())
-            g_mutex_lock (&tdata->structmutex);
+          g_mutex_lock (&tdata->structmutex);
 
           tdata->curtrans = 0;
           tdata->curresumed = curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ? curfle->startsize : 0;
           tdata->resumed_bytes += tdata->curresumed;
 
-          if (g_thread_supported ())
-            g_mutex_unlock (&tdata->structmutex);
+          g_mutex_unlock (&tdata->structmutex);
 
           ret = _gftpui_common_do_transfer_file (tdata, curfle);
         }

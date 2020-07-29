@@ -19,8 +19,6 @@
 
 #include "gftp-gtk.h"
 
-static GtkWidget * progresswid;
-
 void
 remove_files_window (gftp_window_data * wdata)
 {
@@ -659,10 +657,10 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   switch (okbutton)
     {
       case gftp_dialog_button_ok:
-        yes_text = GTK_STOCK_OK;
+        yes_text = "gtk-ok";
         break;
       case gftp_dialog_button_create:
-        yes_text = GTK_STOCK_ADD;
+        yes_text = "gtk-add";
         break;
       case gftp_dialog_button_change:
         yes_text = _("Change");
@@ -674,14 +672,14 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
         yes_text = _("Rename");
         break;
       default:
-        yes_text = GTK_STOCK_MISSING_IMAGE;
+        yes_text = "gtk-missing-image";
         break;
     }
 
   dialog = gtk_dialog_new_with_buttons (_(diagtxt),
                                         NULL,
                                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                        GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
+                                        "gtk-cancel", GTK_RESPONSE_NO,
                                         yes_text,         GTK_RESPONSE_YES,
                                         NULL);
 
@@ -689,7 +687,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
 
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
   gtk_box_set_spacing (GTK_BOX (vbox), 5);
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "edit", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(dialog), "edit");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_widget_set_size_request (dialog, 380, -1);
   gtk_grab_add (dialog);
@@ -751,7 +749,7 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
   set_window_icon(GTK_WINDOW(dialog), NULL);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "yndiag", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(dialog), "yndiag");
   gtk_grab_add (dialog);
 
   ddata->dialog = dialog;
@@ -760,101 +758,6 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
                     G_CALLBACK (dialog_response), ddata);
 
   gtk_widget_show (dialog);
-}
-
-
-static gint
-delete_event (GtkWidget * widget, GdkEvent * event, gpointer data)
-{
-  return (TRUE);
-}
-
-
-static void
-trans_stop_button (GtkWidget * widget, gpointer data)
-{
-  gftp_transfer * transfer;
-
-  transfer = data;
-  pthread_kill (((gftp_window_data *) transfer->fromwdata)->tid, SIGINT);
-}
-
-
-void
-update_directory_download_progress (gftp_transfer * transfer)
-{
-  static GtkWidget * dialog = NULL, * textwid, * stopwid;
-  char tempstr[255];
-  GtkWidget * vbox;
-
-  if (transfer->numfiles < 0 || transfer->numdirs < 0)
-    {
-      if (dialog != NULL)
-        gtk_widget_destroy (dialog);
-      dialog = NULL;
-      return;
-    }
-
-  if (dialog == NULL)
-    {
-      dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-      gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
-      gtk_window_set_decorated (GTK_WINDOW (dialog), 0);
-      gtk_grab_add (dialog);
-      g_signal_connect (G_OBJECT (dialog), "delete_event",
-                          G_CALLBACK (delete_event), NULL);
-      gtk_window_set_title (GTK_WINDOW (dialog),
-			    _("Getting directory listings"));
-      gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-      gtk_window_set_wmclass (GTK_WINDOW(dialog), "dirlist", "gFTP");
-
-      vbox = gtk_vbox_new (FALSE, 5);
-      gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
-      gtk_container_add (GTK_CONTAINER (dialog), vbox);
-      gtk_widget_show (vbox);
-
-      textwid = gtk_label_new (NULL);
-      gtk_box_pack_start (GTK_BOX (vbox), textwid, TRUE, TRUE, 0);
-      gtk_widget_show (textwid);
-
-      progresswid = gtk_progress_bar_new ();
-      gtk_box_pack_start (GTK_BOX (vbox), progresswid, TRUE, TRUE, 0);
-      gtk_widget_show (progresswid);
-
-      stopwid = gtk_button_new_with_label (_("  Stop  "));
-      g_signal_connect (G_OBJECT (stopwid), "clicked",
-                          G_CALLBACK (trans_stop_button), transfer);
-      gtk_box_pack_start (GTK_BOX (vbox), stopwid, TRUE, TRUE, 0);
-      gtk_widget_show (stopwid); 
-
-      gtk_widget_show (dialog);
-    }
-
-  g_snprintf (tempstr, sizeof (tempstr),
-              _("Received %ld directories\nand %ld files"), 
-              transfer->numdirs, transfer->numfiles);
-  gtk_label_set_text (GTK_LABEL (textwid), tempstr);
-}
-
-
-int
-progress_timeout (gpointer data)
-{
-  gftp_transfer * tdata;
-  gdouble val;
-
-  tdata = data;
-
-  update_directory_download_progress (tdata);
-
-  val = gtk_progress_bar_get_fraction (GTK_PROGRESS_BAR (progresswid));
-  if (val >= 1.0)
-    val = 0.0;
-  else
-    val += 0.10;
-  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progresswid), val);
-
-  return (1);
 }
 
 
@@ -942,4 +845,70 @@ void glist_to_combobox (GList *list, GtkWidget *combo) {
       }
       list = list->next;
    }
+}
+
+
+GtkMenuItem *
+new_menu_item (GtkMenu * menu, char * label, char * icon_name,
+               gpointer activate_callback, gpointer callback_data)
+{
+   GtkMenuItem *item = NULL;
+
+   /* 0=normal 1=image 2=stock 3=check 4=separator */
+   int type = 0;
+
+   if (icon_name) {
+      type = 1;
+      if (strncmp (icon_name, "gtk-", 4) == 0)
+      {
+         type = 2; /*  GTK_STOCK_*   */
+         GtkIconTheme *icon_theme = gtk_icon_theme_get_default();
+         icon_theme = gtk_icon_theme_get_default();
+         if (gtk_icon_theme_has_icon(icon_theme, icon_name)) {
+            /* icon name is in icon theme.. don't use GTK_STOCK.. */
+            type = 1;
+         }
+      } else if (strcmp (icon_name, "-check-") == 0) {
+         type = 3;
+      }
+   }
+   if (!label && !icon_name) {
+      type = 4;
+   }
+
+   switch (type)
+   {
+     case 0: /* normal */
+        item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (label));
+        break;
+     case 1: /* image */
+        item = GTK_MENU_ITEM (gtk_image_menu_item_new_with_mnemonic (label));
+        gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+               gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
+        break;
+     case 2: /* stock */
+        item = GTK_MENU_ITEM (gtk_image_menu_item_new_from_stock (label, NULL));
+        break;
+     case 3: /* check */
+        item = GTK_MENU_ITEM(gtk_check_menu_item_new_with_mnemonic (label));
+        break;
+     case 4: /* separator */
+        item = GTK_MENU_ITEM (gtk_separator_menu_item_new ());
+        break;
+   }
+
+   if (menu) {
+      gtk_container_add (GTK_CONTAINER (menu), GTK_WIDGET (item));
+   }
+
+   if (activate_callback) {
+      g_signal_connect (item,
+                        "activate",
+                        G_CALLBACK (activate_callback),
+                        callback_data);
+   }
+
+   if (item)  gtk_widget_show (GTK_WIDGET (item));
+
+   return (item);
 }

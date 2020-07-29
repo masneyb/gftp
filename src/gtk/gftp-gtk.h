@@ -24,8 +24,7 @@
 
 #include "../../lib/gftp.h"
 #include "../uicommon/gftpui.h"
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
+#include "gtkcompat.h"
 #include <pthread.h>
 
 #define GFTP_MENU_ITEM_ASCII	1
@@ -224,7 +223,6 @@ void listbox_clear           (gftp_window_data *wdata);
 void listbox_select_all      (gftp_window_data *wdata);
 void listbox_deselect_all    (gftp_window_data *wdata);
 
-gftp_file *find_gftp_file_by_name(GList *filelist, char *filename, gboolean filelist_ignore_directory);
 gftp_file *listbox_get_selected_file1 (gftp_window_data *wdata);
 GList     *listbox_get_selected_files (gftp_window_data *wdata);
 
@@ -335,16 +333,14 @@ void MakeYesNoDialog 				( char *diagtxt,
 						  void (*nofunc) (), 
 						  gpointer nopointer );
 
-void update_directory_download_progress 	( gftp_transfer * transfer );
-
-int progress_timeout 				( gpointer data );
-
 void display_cached_logs			( void );
 
 char * get_image_path 				( char *filename);
 
 void set_window_icon (GtkWindow *window, char *icon_name);
 void glist_to_combobox (GList *list, GtkWidget *combo);
+GtkMenuItem * new_menu_item (GtkMenu * menu, char * label, char * icon_name,
+                             gpointer activate_callback, gpointer callback_data);
 
 /* options_dialog.c */
 void options_dialog 				( gpointer data );

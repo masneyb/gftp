@@ -25,6 +25,7 @@ enum
    TRANSFER_DLG_COL_FROM,
    TRANSFER_DLG_COL_TO,
    TRANSFER_DLG_COL_ACTION,
+   TRANSFER_DLG_COL_GFTPFILE, // hidden
    TRANSFER_DLG_NUM_COLUMNS
 };
 
@@ -116,8 +117,7 @@ static void
 gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
                        int transfer_action)
 {
-   GList *filelist = tdata->files;
-
+   //GList *filelist = tdata->files;
    g_mutex_lock (&tdata->structmutex);
 
    GtkTreeView      *tree = GTK_TREE_VIEW  (tdata->clist);
@@ -130,7 +130,6 @@ gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
    GtkListStore    *store = GTK_LIST_STORE (model);
    GtkTreeIter       iter;
    GtkTreePath     *tpath = NULL;
-   char         *filename = NULL;
    gftp_file    *gftpFile = NULL;
 
    while (i)
@@ -139,16 +138,13 @@ gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
 
       gtk_tree_model_get_iter (model, &iter, tpath);
       gtk_tree_model_get      (model, &iter,
-                               TRANSFER_DLG_COL_FILENAME, &filename, -1);
-
-      // find the corresponding gftp_file
-      gftpFile = find_gftp_file_by_name (filelist, filename, TRUE); // listbox.c
+                               TRANSFER_DLG_COL_GFTPFILE, &gftpFile, -1);
       if (gftpFile) {
+         // fprintf (stderr, "- %s: %s\n", gftpFile->file, transfer_str);
          gftpFile->transfer_action = transfer_action;
          gtk_list_store_set (store, &iter, TRANSFER_DLG_COL_ACTION, transfer_str, -1);
       }
 
-      g_free(filename);
       i = i->next;
    }
 
@@ -232,13 +228,13 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   size_t len;
 
   dialog = gtk_dialog_new_with_buttons (_("Transfer Files"), NULL, 0, 
-                                        GTK_STOCK_CANCEL,
+                                        "gtk-cancel",
                                         GTK_RESPONSE_CANCEL,
-                                        GTK_STOCK_OK,
+                                        "gtk-ok",
                                         GTK_RESPONSE_OK,
                                         NULL);
 
-  gtk_window_set_wmclass (GTK_WINDOW(dialog), "transfer", "gFTP");
+  gtk_window_set_role (GTK_WINDOW(dialog), "transfer");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -265,7 +261,8 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                               G_TYPE_STRING,
                               G_TYPE_STRING,
                               G_TYPE_STRING,
-                              G_TYPE_STRING);
+                              G_TYPE_STRING,
+                              G_TYPE_POINTER);
   tree_model = GTK_TREE_MODEL (store);
 
   treeview = GTK_TREE_VIEW (gtk_tree_view_new_with_model (tree_model));
@@ -396,12 +393,14 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                           TRANSFER_DLG_COL_FROM,     add_data[1],
                           TRANSFER_DLG_COL_TO,       add_data[2],
                           TRANSFER_DLG_COL_ACTION,   add_data[3],
+                          TRANSFER_DLG_COL_GFTPFILE, tempfle,
                           -1);
     }
 
   gtk_tree_selection_select_all (tree_sel);
 
-  hbox = gtk_hbox_new (TRUE, 20);
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 20);
+  gtk_box_set_homogeneous (GTK_BOX(hbox), TRUE);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
 
   tempwid = gtk_button_new_with_label (_("Overwrite"));
@@ -425,7 +424,8 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                     G_CALLBACK (on_gtk_button_clicked_skip),
                     (gpointer) tdata);
 
-  hbox = gtk_hbox_new (TRUE, 20);
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 20);
+  gtk_box_set_homogeneous (GTK_BOX(hbox), TRUE);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
 
   tempwid = gtk_button_new_with_label (_("Select All"));

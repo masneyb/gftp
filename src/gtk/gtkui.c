@@ -100,12 +100,13 @@ void
 gftpui_show_busy (gboolean busy)
 {
   GtkWidget * toplevel = gtk_widget_get_toplevel (openurl_btn);
+  GdkWindow * gwin     = gtk_widget_get_window (toplevel);
   GdkDisplay * display = gtk_widget_get_display (toplevel);
 
   GdkCursor * busyCursor = 
     (busy) ? (gdk_cursor_new_for_display (display, GDK_WATCH)) : NULL;
 
-  gdk_window_set_cursor (toplevel->window, busyCursor);
+  gdk_window_set_cursor (gwin, busyCursor);
 
   if (busy)
     gdk_cursor_unref (busyCursor);

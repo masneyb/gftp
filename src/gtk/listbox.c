@@ -36,6 +36,7 @@ typedef struct
    gchar *user;
    gchar *group;
    gchar *attribs;
+   gpointer gftp_file;
 } listbox_columns;
 
 enum
@@ -47,8 +48,11 @@ enum
    LISTBOX_COL_USER,
    LISTBOX_COL_GROUP,
    LISTBOX_COL_ATTRIBS,
+   LISTBOX_COL_GFTPFILE, // hidden
    LISTBOX_NUM_COLUMNS
 };
+
+#define LB_NUM_VISIBLE_COLUMNS (LISTBOX_NUM_COLUMNS - 1)
 
 /* ============================================================== *
  * create_listbox()
@@ -72,7 +76,7 @@ create_listbox(gftp_window_data *wdata) {
                                G_TYPE_STRING,
                                G_TYPE_STRING,
                                G_TYPE_STRING,
-                               G_TYPE_UINT);
+                               G_TYPE_POINTER);
 
    tree_model = GTK_TREE_MODEL (store);
 
@@ -341,6 +345,7 @@ listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
 
    listbox_columns col_data;
    memset(&col_data, 0, sizeof(col_data));
+   col_data.gftp_file = (gpointer) fle;
 
    if (wdata->show_selected) {
       fle->shown = fle->was_sel;
@@ -433,6 +438,7 @@ listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
                        LISTBOX_COL_USER,     col_data.user,
                        LISTBOX_COL_GROUP,    col_data.group,
                        LISTBOX_COL_ATTRIBS,  col_data.attribs,
+                       LISTBOX_COL_GFTPFILE, col_data.gftp_file,
                       -1);
 
    if (col_data.size)    g_free (col_data.size);
@@ -559,61 +565,30 @@ listbox_select_all_files (gftp_window_data *wdata) {
      https://developer.gnome.org/gtk2/stable/GtkTreeSelection.html#gtk-tree-selection-get-selected-rows
 */
 
-gftp_file *
-find_gftp_file_by_name (GList *filelist, char *filename, gboolean filelist_ignore_directory)
-{
-   //GList   *filelist = wdata->files;
-   gftp_file *gftpFile = NULL;
-   gftp_file *found    = NULL;
-   char *p = NULL;
-   while (filelist)
-   {
-      gftpFile = (gftp_file *) filelist->data;
-      if (strcmp (gftpFile->file, filename) == 0) {
-         //fprintf(stderr, "gftp: %s\n", gftpFile->file);
-         found = gftpFile;
-         break;
-      } else {
-         p = strrchr(gftpFile->file, '/');
-         // file transfers
-         if (p && filelist_ignore_directory == TRUE) {
-            p++;
-            if (strcmp (p, filename) == 0) {
-               found = gftpFile;
-               break;
-            }
-         }
-      }
-      filelist = filelist->next;
-   }
-   return found;
-}
-
 static void
 selected_1_foreach_func (GtkTreeModel *model,
                             GtkTreePath  *path,
                             GtkTreeIter  *iter,
                             gpointer      userdata)
 {
-   char **filename = (char **) userdata;
-   gtk_tree_model_get (model, iter, LISTBOX_COL_FILENAME, filename, -1);
+   gpointer *gftp_file = (gpointer *) userdata;
+   gtk_tree_model_get (model, iter, LISTBOX_COL_GFTPFILE, gftp_file, -1);
 }
 
 gftp_file *
 listbox_get_selected_file1 (gftp_window_data *wdata)
 {
    // retrieve selected file name from listbox
-   char *filename = NULL;
+   gpointer file = NULL;
    GtkTreeView      *tree = GTK_TREE_VIEW (wdata->listbox);
    GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
 
-   gtk_tree_selection_selected_foreach(tsel, selected_1_foreach_func, &filename);
-   if (!filename) {
+   gtk_tree_selection_selected_foreach(tsel, selected_1_foreach_func, &file);
+   if (!file) {
       fprintf(stderr, "listbox.c: ERROR, could not retrieve filename...\n");
    }
 
-   // find the corresponding gftp_file
-   return (find_gftp_file_by_name (wdata->files, filename, FALSE));
+   return ((gftp_file *) file);
 }
 
 /* listbox_get_selected_files() */
@@ -631,9 +606,8 @@ listbox_get_selected_files (gftp_window_data *wdata)
    GtkTreeModel    *model = GTK_TREE_MODEL (gtk_tree_view_get_model (tree));
    GtkTreeIter       iter;
    GtkTreePath     *tpath = NULL;
-   char         *filename = NULL;
 
-   gftp_file    *gftpFile = NULL;
+   gpointer      gftpFile = NULL;
    GList    *out_filelist = NULL;
 
    while (i)
@@ -642,16 +616,13 @@ listbox_get_selected_files (gftp_window_data *wdata)
 
       gtk_tree_model_get_iter (model, &iter, tpath);
       gtk_tree_model_get      (model, &iter,
-                               LISTBOX_COL_FILENAME, &filename, -1);
+                               LISTBOX_COL_GFTPFILE, &gftpFile, -1);
       //fprintf(stderr, "list: %s\n", filename);
 
-      // find the corresponding gftp_file
-      gftpFile = find_gftp_file_by_name (wdata->files, filename, FALSE);
       if (gftpFile) {
          out_filelist = g_list_append(out_filelist, gftpFile);
       }
 
-      g_free(filename);
       i = i->next;
    }
 
@@ -672,12 +643,12 @@ listbox_set_default_column_width (gftp_window_data *wdata)
    int colwidth;
    GtkTreeViewColumn *tcol;
 
-   static char *column_str[LISTBOX_NUM_COLUMNS] = {
+   static char *column_str[LB_NUM_VISIBLE_COLUMNS] = {
       "icon", "file", "size", "date", "user", "group", "attribs"
    };
 
 #ifndef __APPLE__
-   for (int ncol = 1; ncol < LISTBOX_NUM_COLUMNS; ncol++)
+   for (int ncol = 1; ncol < LB_NUM_VISIBLE_COLUMNS; ncol++)
    {
       // e.g: local_file_width / remote_file_width
       g_snprintf (tempstr, sizeof (tempstr),
