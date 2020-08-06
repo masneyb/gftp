@@ -31,6 +31,8 @@ static void btree_add_node(gftp_bookmarks_var * entry, char *path);
 static gftp_bookmarks_var * btree_get_selected_bookmark (void);
 static void btree_remove_selected_node (void);
 static void gtktreemodel_to_gftp (void);
+static gftp_bookmarks_var * gtktreemodel_find_bookmark (char *path);
+static char * btree_path_to_find;
 
 GdkPixbuf *opendir_pixbuf = NULL;
 GdkPixbuf *closedir_pixbuf = NULL;
@@ -373,13 +375,29 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   GtkTreeStore *store = GTK_TREE_STORE (gtk_tree_view_get_model (btree));
   GtkTreeIter  iter;
 
+  const char *error = NULL;
+  const char *error1 = _("You must specify a name for the bookmark.");
+  const char *error2 = _("Cannot add bookmark because that name already exists\n");
+
   str = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
-  if (*str == '\0')
-    {
-      ftp_log (gftp_logging_misc, NULL,
-               _("You must specify a name for the bookmark."));
-      return;
-    }
+  if (!error && *str == '\0') {
+     error = error1;
+  }
+  if (!error && gtktreemodel_find_bookmark ((char *) str)) {
+     error = error2;
+  }
+  if (error)
+  {
+     GtkWidget *m;
+     m = gtk_message_dialog_new (GTK_WINDOW (edit_bm_entry_dlg),
+                                 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_OK,
+                                 error);
+     gtk_dialog_run (GTK_DIALOG (m));
+     gtk_widget_destroy (m);
+     return;
+  }
 
   newentry = g_malloc0 (sizeof (*newentry));
   newentry->path = g_strdup (str);
@@ -635,7 +653,7 @@ on_gtk_dialog_response_EditEntryDlg (GtkDialog *dialog,
        new_path = g_strdup (gtkentry_text);
     }
 
-    found_entry = g_hash_table_lookup (gftp_bookmarks_htable, new_path);
+    found_entry = gtktreemodel_find_bookmark (new_path);
     if (new_path) g_free (new_path);
 
     /* don't allow bookmark path collision */
@@ -1365,3 +1383,44 @@ gtktreemodel_to_gftp (void)
                            gtktreemodel_to_gftp_foreach,
                            NULL);
 }
+
+
+// ---
+
+static gboolean /* GtkTreeModelForeachFunc */
+gtktreemodel_find_bookmark_foreach (GtkTreeModel *model,
+                                    GtkTreePath *path,
+                                    GtkTreeIter *iter,
+                                    gpointer data)
+{
+   gftp_bookmarks_var * entry;
+   gftp_bookmarks_var ** found_entry = (gftp_bookmarks_var **) data;
+   gtk_tree_model_get (model, iter, BTREEVIEW_COL_BOOKMARK, &entry, -1);
+   if (!entry || !entry->path || !*entry->path) {
+      return FALSE;
+   }
+   ///fprintf (stderr, "%s - %s\n", entry->path, btree_path_to_find);
+   if (strcmp (entry->path, btree_path_to_find) == 0)
+   {
+      *found_entry = entry;
+      return TRUE;
+   }
+   return FALSE; // next
+}
+
+static gftp_bookmarks_var *
+gtktreemodel_find_bookmark (char *path)
+{
+   gftp_bookmarks_var * found_entry = NULL;
+   GtkTreeModel * model = gtk_tree_view_get_model (btree);
+
+   if (!path || !*path)
+      return (NULL);
+
+   btree_path_to_find = path;
+   gtk_tree_model_foreach (model,
+                           gtktreemodel_find_bookmark_foreach,
+                           &found_entry);
+   return (found_entry);
+}
+
