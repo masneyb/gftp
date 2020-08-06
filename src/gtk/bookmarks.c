@@ -26,19 +26,18 @@ static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
 
 // -- TreeView
 static GtkTreeView *btree;
-static GtkTreeView *btree_create();
-static void btree_add_node(gftp_bookmarks_var * entry, char *path);
+static GtkTreeView *btree_create (void);
+static void btree_add_node (gftp_bookmarks_var * entry, int copy);
 static gftp_bookmarks_var * btree_get_selected_bookmark (void);
 static void btree_remove_selected_node (void);
 static void gtktreemodel_to_gftp (void);
+static gboolean gtktreemodel_free_cnode_foreach (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static gftp_bookmarks_var * gtktreemodel_find_bookmark (char *path);
 static char * btree_path_to_find;
 
-GdkPixbuf *opendir_pixbuf = NULL;
-GdkPixbuf *closedir_pixbuf = NULL;
-GdkPixbuf *bookmark_pixbuf = NULL;
-GtkTreeIter main_btree_node;
-char *btree_current_path = NULL;
+static GdkPixbuf *opendir_pixbuf = NULL;
+static GdkPixbuf *closedir_pixbuf = NULL;
+static GdkPixbuf *bookmark_pixbuf = NULL;
 enum {
    BTREEVIEW_COL_ICON,
    BTREEVIEW_COL_TEXT,
@@ -349,10 +348,14 @@ on_gtk_dialog_response_BookmarkDlg (GtkDialog * dialog,
                                     gint response,
                                     gpointer user_data)
 { /* ok | cancel | close dialog */
-  if (response == GTK_RESPONSE_OK)
-    {
-        bm_apply_changes ();
-    }
+  if (response == GTK_RESPONSE_OK) {
+     bm_apply_changes ();
+  } else {
+     GtkTreeModel * model = gtk_tree_view_get_model (btree);
+     gtk_tree_model_foreach (model,
+                             gtktreemodel_free_cnode_foreach,
+                             NULL);
+  }
 
   if (edit_bm_entry_dlg != NULL)
     return;
@@ -369,11 +372,7 @@ static void
 do_make_new (gpointer data, gftp_dialog_data * ddata)
 {
   gftp_bookmarks_var * newentry;
-  char *text;
-  GdkPixbuf *pixbuf;
   const char *str;
-  GtkTreeStore *store = GTK_TREE_STORE (gtk_tree_view_get_model (btree));
-  GtkTreeIter  iter;
 
   const char *error = NULL;
   const char *error1 = _("You must specify a name for the bookmark.");
@@ -402,24 +401,12 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   newentry = g_malloc0 (sizeof (*newentry));
   newentry->path = g_strdup (str);
 
-  text = newentry->path;
-
   if (data)
     newentry->isfolder = 1;
 
-  if (newentry->isfolder) {
-    pixbuf = closedir_pixbuf;
-  } else {
-    pixbuf = bookmark_pixbuf;
-  }
-
-  gtk_tree_store_insert (store, &iter, &main_btree_node, -1);
-  gtk_tree_store_set (store,
-                      &iter,
-                      BTREEVIEW_COL_ICON,     pixbuf,
-                      BTREEVIEW_COL_TEXT,     text,
-                      BTREEVIEW_COL_BOOKMARK, newentry,
-                      -1);
+  newentry->prev = gftp_bookmarks; /* hack      */
+  btree_add_node (newentry, 0);    /* 0 = don't copy bookmark */
+  newentry->prev = NULL;           /* undo hack */
 }
 
 
@@ -488,46 +475,48 @@ set_userpass_visible (GtkWidget * checkbutton, GtkWidget * entry)
 static void
 build_bookmarks_tree (void)
 {
-  gftp_bookmarks_var * tempentry, * preventry;
+  // convert a singly linked list to GtkTreeModel (pointer in a 'column')
+  // where ->prev is the parent node
+  gftp_bookmarks_var * entry, * preventry;
   char *pos, *tempstr;
 
-  btree_add_node (gftp_bookmarks, _("Bookmarks"));
+  btree_add_node (gftp_bookmarks, 1);
 
-  tempentry = gftp_bookmarks->children;
+  entry = gftp_bookmarks->children;
 
-  while (tempentry != NULL)
+  while (entry != NULL)
     {
-      tempentry->cnode = NULL;
+      entry->cnode = NULL;
 
-      if (tempentry->children != NULL)
+      if (entry->children != NULL)
         {
-          tempentry = tempentry->children;
+          entry = entry->children;
           continue;
         }
-      else if (strchr (tempentry->path, '/') == NULL && tempentry->isfolder)
-        btree_add_node (tempentry, NULL);
+      else if (strchr (entry->path, '/') == NULL && entry->isfolder)
+        btree_add_node (entry, 1);
       else
         {
-          pos = tempentry->path;
+          pos = entry->path;
           while ((pos = strchr (pos, '/')) != NULL)
             {
               *pos = '\0';
-              tempstr = g_strdup (tempentry->path);
+              tempstr = g_strdup (entry->path);
               *pos++ = '/';
               preventry = g_hash_table_lookup (gftp_bookmarks_htable, tempstr);
               g_free (tempstr);
 
               if (preventry->cnode == NULL)
-                btree_add_node (preventry, NULL);
+                btree_add_node (preventry, 1);
             }
 
-          btree_add_node (tempentry, NULL);
+          btree_add_node (entry, 1);
         }
 
-      while (tempentry->next == NULL && tempentry->prev != NULL) {
-        tempentry = tempentry->prev;
+      while (entry->next == NULL && entry->prev != NULL) {
+        entry = entry->prev;
       }
-      tempentry = tempentry->next;
+      entry = entry->next;
     }
 }
 
@@ -1167,108 +1156,40 @@ btree_create()
 }
 
 
-static gboolean
-btree_find_iter_by_str_bpath (GtkTreeModel *model,
-                              GtkTreePath *path,
-                              GtkTreeIter *iter,
-                              gpointer data)
-{
-  // Search GtkTreeView for duplicate or parent nodes.
-  //
-  // btree_current_path can be:
-  // - BSD Sites
-  // - BSD Sites/FreeBSD
-  //      dir     child
-  //
-  // Need to find duplicate entries and ignore them.
-  // If there's a 'dir', there certainly is a parent node
-
-  char *dir, *p, tempchar;
-  dir = strrchr (btree_current_path, '/');
-
-  gftp_bookmarks_var *entry;
-  GtkTreeIter *found_parent = (GtkTreeIter *) data;
-
-  gtk_tree_model_get (model, iter, BTREEVIEW_COL_BOOKMARK, &entry, -1);
-  if (entry && entry->path) {
-    if (strcmp(entry->path, btree_current_path) == 0)
-    {
-      // duplicate, ignore
-      btree_current_path = NULL;
-      return TRUE;
-    }
-    if (dir) /* determine parent node */
-    {
-      // remove and restore 'child' path
-      // BSD Sites/FreeBSD -> BSD Sites (strcmp) -> BSD Sites/FreeBSD
-      p = dir;
-      tempchar = *p;
-      *p = 0;
-      if (strcmp(entry->path, btree_current_path) == 0)
-      {
-        *p = tempchar;
-        memcpy (found_parent, iter, sizeof (*iter));
-        return TRUE;
-      }
-      *p = tempchar;
-    }
-  }
-  return FALSE;
-}
-
-
 void
-btree_add_node (gftp_bookmarks_var * entry, char *path)
+btree_add_node (gftp_bookmarks_var * entry, int copy)
 {
   GtkTreeStore *store = GTK_TREE_STORE (gtk_tree_view_get_model (btree));
-  GtkTreeModel *model = GTK_TREE_MODEL (store);
   GtkTreeIter  iter;
   GtkTreeIter  *parent;
   GdkPixbuf *pixbuf;
   char *text, *pos;
-  gftp_bookmarks_var * newentry = copy_bm_entry (entry);
 
-  if (path == NULL)
-    {
-      if ((pos = strrchr (entry->path, '/')) == NULL)
+  gftp_bookmarks_var * newentry;;
+  if (copy) {
+      newentry = copy_bm_entry (entry);
+  } else {
+      newentry = entry;
+  }
+
+  if (!entry->path || !*entry->path) {
+    /* empty path - it can only be the root node */
+    pos = _("Bookmarks");
+  } else {
+     if ((pos = strrchr (entry->path, '/')) == NULL)
         pos = entry->path;
-      else
+     else
         pos++;
-    }
-  else
-    pos = path;
+  }
 
   text = pos;
 
-  if (entry->prev == NULL)
-    {
-      // main node - empty entry->path
-      gtk_tree_store_insert (store, &iter, NULL, -1);
-      memcpy (&main_btree_node, &iter, sizeof (iter));
-    }
-  else
-    {
-      // (no parent)      parent   text
-      // BSD Sites      BSD Sites/FreeBSD
-      GtkTreeIter found_parent;
-      memset (&found_parent, 0, sizeof(GtkTreeIter));
-      btree_current_path = entry->path;
-      gtk_tree_model_foreach (model, btree_find_iter_by_str_bpath, &found_parent);
-      if (btree_current_path == NULL) {
-         // duplicate entry, ignore
-         return;
-      }
-      if (found_parent.stamp == 0) {
-        parent = &main_btree_node;
-      } else {
-        parent = &found_parent;
-      }
-      gtk_tree_store_insert (store, &iter, parent, -1);
-    }
+  if (entry->prev) {
+     parent = entry->prev->cnode;
+  } else {
+     parent = NULL;
+  }
   ///fprintf(stderr, "%s\n-- %s\n\n", text, entry->path);
-
-  // hack, cnode must not be NULL, see build_bookmarks_tree()
-  entry->cnode = GINT_TO_POINTER (1);
 
   if (entry->isfolder) {
     pixbuf = closedir_pixbuf;
@@ -1276,12 +1197,21 @@ btree_add_node (gftp_bookmarks_var * entry, char *path)
     pixbuf = bookmark_pixbuf;
   }
 
+  gtk_tree_store_insert (store, &iter, parent, -1);
   gtk_tree_store_set (store,
                       &iter,
                       BTREEVIEW_COL_ICON,     pixbuf,
                       BTREEVIEW_COL_TEXT,     text,
                       BTREEVIEW_COL_BOOKMARK, newentry,
                       -1);
+
+  if (copy)
+  {
+     // hack - only for build_bookmarks_tree(). freed in gtktreemodel_to_gftp()
+     entry->cnode = g_malloc0 (sizeof (iter));
+     memcpy (entry->cnode, &iter, sizeof (iter));
+     newentry->cnode = entry->cnode;
+  }
 }
 
 
@@ -1331,7 +1261,14 @@ gtktreemodel_to_gftp_foreach (GtkTreeModel *model,
    GtkTreePath * treepath2;
 
    gtk_tree_model_get (model, iter, BTREEVIEW_COL_BOOKMARK, &entry, -1);
-   if (!entry || !entry->path) {
+   if (!entry) {
+      return FALSE;
+   }
+   if (entry->cnode) {
+      g_free (entry->cnode);
+      entry->cnode = NULL;
+   }
+   if (!entry->path) {
       return FALSE;
    }
 
@@ -1384,6 +1321,18 @@ gtktreemodel_to_gftp (void)
                            NULL);
 }
 
+static gboolean /* GtkTreeModelForeachFunc */
+gtktreemodel_free_cnode_foreach (GtkTreeModel *model, GtkTreePath *path,
+                                 GtkTreeIter  *iter,  gpointer    data)
+{
+   gftp_bookmarks_var * entry;
+   gtk_tree_model_get (model, iter, BTREEVIEW_COL_BOOKMARK, &entry, -1);
+   if (entry && entry->cnode) {
+      g_free (entry->cnode);
+      entry->cnode = NULL;
+   }
+   return FALSE;
+}
 
 // ---
 
