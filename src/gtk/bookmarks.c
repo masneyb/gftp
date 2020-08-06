@@ -27,7 +27,7 @@ static GtkWidget * bm_hostedit, * bm_portedit, * bm_localdiredit,
 // -- TreeView
 static GtkTreeView *btree;
 static GtkTreeView *btree_create();
-static void btree_add_node(gftp_bookmarks_var * entry, char *path, int isleaf);
+static void btree_add_node(gftp_bookmarks_var * entry, char *path);
 static gftp_bookmarks_var *btree_get_selected_bookmark (void);
 static void btree_remove_selected_node (void);
 GdkPixbuf *opendir_pixbuf = NULL;
@@ -362,7 +362,7 @@ _free_menu_entry (gftp_bookmarks_var * entry)
 
 
 static void
-bm_apply_changes (GtkWidget * widget, gpointer backup_data)
+bm_apply_changes ()
 {
   gftp_bookmarks_var * tempentry, * delentry;
 
@@ -401,19 +401,11 @@ bm_apply_changes (GtkWidget * widget, gpointer backup_data)
       g_hash_table_destroy (gftp_bookmarks_htable);
     }
 
-  if (backup_data)
-    {
-      gftp_bookmarks = copy_bookmarks (new_bookmarks);
-      gftp_bookmarks_htable = build_bookmarks_hash_table (gftp_bookmarks);
-    }
-  else
-    {
-      gftp_bookmarks = new_bookmarks;
-      gftp_bookmarks_htable = new_bookmarks_htable;
+  gftp_bookmarks = new_bookmarks;
+  gftp_bookmarks_htable = new_bookmarks_htable;
 
-      new_bookmarks = NULL;
-      new_bookmarks_htable = NULL;
-    }
+  new_bookmarks = NULL;
+  new_bookmarks_htable = NULL;
 
   build_bookmarks_menu ();
   gftp_write_bookmarks_file ();
@@ -427,13 +419,13 @@ on_gtk_dialog_response_BookmarkDlg (GtkDialog * dialog,
 { /* ok | cancel | close dialog */
   if (response == GTK_RESPONSE_OK)
     {
-        bm_apply_changes (GTK_WIDGET(dialog), NULL);
+        bm_apply_changes ();
     }
 
-  /* free allocated memory */
   if (edit_bm_entry_dlg != NULL)
     return;
 
+  /* free allocated memory */
   if (new_bookmarks_htable != NULL)
     {
       g_hash_table_destroy (new_bookmarks_htable);
@@ -615,7 +607,7 @@ build_bookmarks_tree (void)
   gftp_bookmarks_var * tempentry, * preventry;
   char *pos, *tempstr;
 
-  btree_add_node (new_bookmarks, _("Bookmarks"), 0);
+  btree_add_node (new_bookmarks, _("Bookmarks"));
 
   tempentry = new_bookmarks->children;
 
@@ -629,7 +621,7 @@ build_bookmarks_tree (void)
           continue;
         }
       else if (strchr (tempentry->path, '/') == NULL && tempentry->isfolder)
-        btree_add_node (tempentry, NULL, 0);
+        btree_add_node (tempentry, NULL);
       else
         {
           pos = tempentry->path;
@@ -642,10 +634,10 @@ build_bookmarks_tree (void)
               g_free (tempstr);
 
               if (preventry->cnode == NULL)
-                btree_add_node (preventry, NULL, 0);
+                btree_add_node (preventry, NULL);
             }
 
-          btree_add_node (tempentry, NULL, TRUE);
+          btree_add_node (tempentry, NULL);
         }
 
       while (tempentry->next == NULL && tempentry->prev != NULL) {
@@ -1145,15 +1137,9 @@ edit_bookmarks (gpointer data)
 
   build_bookmarks_tree ();
   // expand root node
-  //GtkTreeModel *model = gtk_tree_view_get_model (btree);
-  //GtkTreePath  *rpath = gtk_tree_model_get_path (model, &main_btree_node);
   GtkTreePath  *rpath = gtk_tree_path_new_from_string ("0");
-  if (rpath) {
-    gtk_tree_view_expand_row (btree, rpath, FALSE);
-    gtk_tree_path_free (rpath);
-  } else {
-    fprintf (stderr, "gftp bookmarks: failed to expand main node...\n");
-  }
+  gtk_tree_view_expand_row (btree, rpath, FALSE);
+  gtk_tree_path_free (rpath);
 }
 
 
@@ -1384,10 +1370,7 @@ btree_find_iter_by_str_bpath (GtkTreeModel *model,
       if (strcmp(entry->path, btree_current_path) == 0)
       {
         *p = tempchar;
-        found_parent->stamp = iter->stamp;
-        found_parent->user_data = iter->user_data;
-        found_parent->user_data2 = iter->user_data2;
-        found_parent->user_data3 = iter->user_data3;
+        memcpy (found_parent, iter, sizeof (*iter));
         return TRUE;
       }
       *p = tempchar;
@@ -1398,7 +1381,7 @@ btree_find_iter_by_str_bpath (GtkTreeModel *model,
 
 
 void
-btree_add_node (gftp_bookmarks_var * entry, char *path, int isleaf)
+btree_add_node (gftp_bookmarks_var * entry, char *path)
 {
   GtkTreeStore *store = GTK_TREE_STORE (gtk_tree_view_get_model (btree));
   GtkTreeModel *model = GTK_TREE_MODEL (store);
@@ -1423,10 +1406,7 @@ btree_add_node (gftp_bookmarks_var * entry, char *path, int isleaf)
     {
       // main node - empty entry->path
       gtk_tree_store_insert (store, &iter, NULL, -1);
-      main_btree_node.stamp = iter.stamp;
-      main_btree_node.user_data = iter.user_data;
-      main_btree_node.user_data2 = iter.user_data2;
-      main_btree_node.user_data3 = iter.user_data3;
+      memcpy (&main_btree_node, &iter, sizeof (iter));
     }
   else
     {
@@ -1452,10 +1432,10 @@ btree_add_node (gftp_bookmarks_var * entry, char *path, int isleaf)
   // hack, cnode must not be NULL, see build_bookmarks_tree()
   entry->cnode = GINT_TO_POINTER (1);
 
-  if (isleaf) {
-    pixbuf = bookmark_pixbuf;
-  } else {
+  if (entry->isfolder) {
     pixbuf = closedir_pixbuf;
+  } else {
+    pixbuf = bookmark_pixbuf;
   }
 
   gtk_tree_store_set (store,
