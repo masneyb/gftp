@@ -51,6 +51,7 @@ static GtkActionGroup *dynamic_bm_menu = NULL;
 
 static GtkMenu * bmenu_file;
 static GtkWidget * create_bm_dlg_menubar (GtkWindow *window);
+static void bmenu_setup (void);
 
 void
 on_menu_run_bookmark (GtkAction *action, gpointer path_str)
@@ -1081,6 +1082,7 @@ on_gtk_treeview_ButtonReleaseEvent_btree (GtkWidget * widget,
 {
   if (event->button == 3)
     { // right click
+      bmenu_setup ();
       gtk_menu_popup (bmenu_file, NULL, NULL, NULL, NULL, event->button, event->time);
     }
   // double click: see on_gtk_treeview_RowActivated_btree
@@ -1154,8 +1156,11 @@ edit_bookmarks (gpointer data)
   }
 }
 
-// ===============================================================================
-// Menubar
+
+/* ===================================================================
+ * Menubar
+ * ===================================================================
+ */
 
 static void on_gtk_MenuItem_activate_newfolder (GtkMenuItem *menuitem, gpointer data) {
 	new_bookmark_entry (1);
@@ -1172,6 +1177,28 @@ static void on_gtk_MenuItem_activate_properties (GtkMenuItem *menuitem, gpointer
 static void on_gtk_MenuItem_activate_close (GtkMenuItem *menuitem, gpointer data) {
 	gtk_widget_destroy (edit_bookmarks_dialog);
 }
+
+// ----
+
+static GtkMenuItem *bmenu_file_delete;
+static GtkMenuItem *bmenu_file_edit;
+
+static void bmenu_setup (void)
+{
+   gboolean state = FALSE;
+   if (btree_get_selected_bookmark ()) {
+      state = TRUE;
+   }
+   gtk_widget_set_sensitive (GTK_WIDGET (bmenu_file_edit), state);
+   gtk_widget_set_sensitive (GTK_WIDGET (bmenu_file_delete), state);
+}
+
+static void on_gtk_MenuItem_activate_fileMenu (GtkMenuItem *menuitem, gpointer data)
+{
+   bmenu_setup ();
+}
+
+// ----
 
 static GtkWidget *
 create_bm_dlg_menubar (GtkWindow *window)
@@ -1193,12 +1220,13 @@ create_bm_dlg_menubar (GtkWindow *window)
                                accel_group,
                                GDK_KEY_n, GDK_CONTROL_MASK,
                                GTK_ACCEL_VISIBLE);
-
    item = new_menu_item (menu_file, _("_Delete"), "gtk-delete",
                          on_gtk_MenuItem_activate_delete, NULL);
+   bmenu_file_delete = item;
 
    item = new_menu_item (menu_file, _("_Properties"), "gtk-properties",
                          on_gtk_MenuItem_activate_properties, NULL);
+   bmenu_file_edit = item;
 
    item = new_menu_item (menu_file, _("_Close"), "gtk-close",
                          on_gtk_MenuItem_activate_close, NULL);
@@ -1208,7 +1236,8 @@ create_bm_dlg_menubar (GtkWindow *window)
                                GTK_ACCEL_VISIBLE);
 
    /* special menuitem that becomes the parent of menu_file, displays "_File" */
-   item = new_menu_item (NULL, _("_File"), NULL, NULL, NULL);
+   item = new_menu_item (NULL, _("_File"), NULL,
+                         on_gtk_MenuItem_activate_fileMenu, NULL);
    gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (menu_file));
 
    /* append to menubar */
