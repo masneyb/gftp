@@ -117,7 +117,8 @@ on_gtk_dialog_response_chmod (GtkDialog *dialog, gint response, gpointer wdata)
 void
 chmod_dialog (gpointer data)
 {
-  GtkWidget *tempwid, *dialog, *hbox, *vbox, *main_vbox;
+  GtkWidget *label, *dialog, *hbox, *vbox, *main_vbox;
+  GtkWidget * frame1, * frame2, * frame3, * frame4;
   gftp_window_data * wdata;
   gftp_file * tempfle;
 
@@ -126,15 +127,14 @@ chmod_dialog (gpointer data)
     return;
 
   dialog = gtk_dialog_new_with_buttons (_("Chmod"), NULL, 0,
-                                        "gtk-cancel",
-                                        GTK_RESPONSE_CANCEL,
-                                        "gtk-ok",
-                                        GTK_RESPONSE_OK,
-                                        NULL);
+                               "gtk-cancel", GTK_RESPONSE_CANCEL,
+                               "gtk-ok",     GTK_RESPONSE_OK,
+                               NULL);
 
   gtk_window_set_role (GTK_WINDOW(dialog), "Chmod");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
+  // vbox
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
   gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
@@ -143,20 +143,21 @@ chmod_dialog (gpointer data)
 
   set_window_icon(GTK_WINDOW(dialog), NULL);
 
-  tempwid = gtk_label_new (_("You can now adjust the attributes of your file(s)\nNote: Not all ftp servers support the chmod feature"));
-  gtk_box_pack_start (GTK_BOX (main_vbox), tempwid, FALSE, FALSE, 0);
+  label = gtk_label_new (_("You can now adjust the attributes of your file(s)\nNote: Not all ftp servers support the chmod feature"));
+  gtk_box_pack_start (GTK_BOX (main_vbox), label, TRUE, FALSE, 0);
 
-  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-  gtk_box_set_homogeneous (GTK_BOX(hbox), TRUE);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
+  // vbox -> hbox
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 10);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
 
-  tempwid = gtk_frame_new (_("Special"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);
+  // vbox -> hbox -> frame1
+  frame1 = gtk_frame_new (_("Special"));
+  gtk_box_pack_start (GTK_BOX (hbox), frame1, FALSE, FALSE, 0);
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
   gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
-  gtk_container_add (GTK_CONTAINER (tempwid), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
+  gtk_container_add (GTK_CONTAINER (frame1), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 7); /* padding */
 
   suid = gtk_check_button_new_with_label (_("SUID"));
   gtk_box_pack_start (GTK_BOX (vbox), suid, FALSE, FALSE, 0);
@@ -167,13 +168,14 @@ chmod_dialog (gpointer data)
   sticky = gtk_check_button_new_with_label (_("Sticky"));
   gtk_box_pack_start (GTK_BOX (vbox), sticky, FALSE, FALSE, 0);
 
-  tempwid = gtk_frame_new (_("User"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);
+  // vbox -> hbox -> frame2
+  frame2 = gtk_frame_new (_("User"));
+  gtk_box_pack_start (GTK_BOX (hbox), frame2, FALSE, FALSE, 0);
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
   gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
-  gtk_container_add (GTK_CONTAINER (tempwid), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
+  gtk_container_add (GTK_CONTAINER (frame2), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 7); /* padding */
 
   ur = gtk_check_button_new_with_label (_("Read"));
   gtk_box_pack_start (GTK_BOX (vbox), ur, FALSE, FALSE, 0);
@@ -184,13 +186,14 @@ chmod_dialog (gpointer data)
   ux = gtk_check_button_new_with_label (_("Execute"));
   gtk_box_pack_start (GTK_BOX (vbox), ux, FALSE, FALSE, 0);
 
-  tempwid = gtk_frame_new (_("Group"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);
+  // vbox -> hbox -> frame3
+  frame3 = gtk_frame_new (_("Group"));
+  gtk_box_pack_start (GTK_BOX (hbox), frame3, FALSE, FALSE, 0);
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
   gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
-  gtk_container_add (GTK_CONTAINER (tempwid), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
+  gtk_container_add (GTK_CONTAINER (frame3), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 7); /* padding */
 
   gr = gtk_check_button_new_with_label (_("Read"));
   gtk_box_pack_start (GTK_BOX (vbox), gr, FALSE, FALSE, 0);
@@ -201,13 +204,14 @@ chmod_dialog (gpointer data)
   gx = gtk_check_button_new_with_label (_("Execute"));
   gtk_box_pack_start (GTK_BOX (vbox), gx, FALSE, FALSE, 0);
 
-  tempwid = gtk_frame_new (_("Other"));
-  gtk_box_pack_start (GTK_BOX (hbox), tempwid, FALSE, FALSE, 0);
+  // vbox -> hbox -> frame4
+  frame4 = gtk_frame_new (_("Other"));
+  gtk_box_pack_start (GTK_BOX (hbox), frame4, FALSE, FALSE, 0);
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
   gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
-  gtk_container_add (GTK_CONTAINER (tempwid), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
+  gtk_container_add (GTK_CONTAINER (frame4), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 7); /* padding */
 
   or = gtk_check_button_new_with_label (_("Read"));
   gtk_box_pack_start (GTK_BOX (vbox), or, FALSE, FALSE, 0);
@@ -218,6 +222,7 @@ chmod_dialog (gpointer data)
   ox = gtk_check_button_new_with_label (_("Execute"));
   gtk_box_pack_start (GTK_BOX (vbox), ox, FALSE, FALSE, 0);
 
+  // --
   g_signal_connect (G_OBJECT (dialog), // GtkDialog
                     "response",        // signal
                     G_CALLBACK (on_gtk_dialog_response_chmod),
