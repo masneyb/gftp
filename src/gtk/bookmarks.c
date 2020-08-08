@@ -672,23 +672,19 @@ edit_entry_dlg (gpointer data)
 
   notebook = gtk_notebook_new ();
   gtk_box_pack_start (GTK_BOX (main_vbox), notebook, TRUE, TRUE, 0);
-  gtk_widget_show (notebook);
 
   table = gtk_table_new (11, 2, FALSE);
   gtk_container_set_border_width (GTK_CONTAINER (table), 5);
   gtk_table_set_row_spacings (GTK_TABLE (table), 5);
   gtk_table_set_col_spacings (GTK_TABLE (table), 5);
-  gtk_widget_show (table);
 
   tempwid = gtk_label_new (_("Bookmark"));
-  gtk_widget_show (tempwid);
 
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, tempwid);
 
   tempwid = gtk_label_new (_("Description:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 0, 1);
-  gtk_widget_show (tempwid);
 
   bm_pathedit = gtk_entry_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), bm_pathedit, 1, 2, 0, 1);
@@ -698,12 +694,10 @@ edit_entry_dlg (gpointer data)
     pos++;
   if (pos)
     gtk_entry_set_text (GTK_ENTRY (bm_pathedit), pos);
-  gtk_widget_show (bm_pathedit);
 
   tempwid = gtk_label_new (_("Hostname:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 1, 2);
-  gtk_widget_show (tempwid);
 
   bm_hostedit = gtk_entry_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), bm_hostedit, 1, 2, 1, 2);
@@ -711,12 +705,10 @@ edit_entry_dlg (gpointer data)
     gtk_widget_set_sensitive (bm_hostedit, 0);
   else if (entry->hostname)
     gtk_entry_set_text (GTK_ENTRY (bm_hostedit), entry->hostname);
-  gtk_widget_show (bm_hostedit);
 
   tempwid = gtk_label_new (_("Port:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 2, 3);
-  gtk_widget_show (tempwid);
 
   bm_portedit = gtk_entry_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), bm_portedit, 1, 2, 2, 3);
@@ -728,16 +720,13 @@ edit_entry_dlg (gpointer data)
       gtk_entry_set_text (GTK_ENTRY (bm_portedit), pos);
       g_free (pos);
     }
-  gtk_widget_show (bm_portedit);
 
   tempwid = gtk_label_new (_("Protocol:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 3, 4);
-  gtk_widget_show (tempwid);
 
   combo_protocol = gtk_combo_box_text_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), combo_protocol, 1, 2, 3, 4);
-  gtk_widget_show (combo_protocol);
 
   num = 0;
   for (i = 0; gftp_protocols[i].name; i++)
@@ -752,7 +741,6 @@ edit_entry_dlg (gpointer data)
   tempwid = gtk_label_new (_("Remote Directory:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 4, 5);
-  gtk_widget_show (tempwid);
 
   bm_remotediredit = gtk_entry_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), bm_remotediredit, 1, 2, 4, 5);
@@ -760,12 +748,10 @@ edit_entry_dlg (gpointer data)
     gtk_widget_set_sensitive (bm_remotediredit, 0);
   else if (entry->remote_dir)
     gtk_entry_set_text (GTK_ENTRY (bm_remotediredit), entry->remote_dir);
-  gtk_widget_show (bm_remotediredit);
 
   tempwid = gtk_label_new (_("Local Directory:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 5, 6);
-  gtk_widget_show (tempwid);
 
   bm_localdiredit = gtk_entry_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), bm_localdiredit, 1, 2, 5, 6);
@@ -773,16 +759,13 @@ edit_entry_dlg (gpointer data)
     gtk_widget_set_sensitive (bm_localdiredit, 0);
   else if (entry->local_dir)
     gtk_entry_set_text (GTK_ENTRY (bm_localdiredit), entry->local_dir);
-  gtk_widget_show (bm_localdiredit);
 
   tempwid = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 2, 7, 8);
-  gtk_widget_show (tempwid);
 
   tempwid = gtk_label_new (_("Username:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 8, 9);
-  gtk_widget_show (tempwid);
 
   bm_useredit = gtk_entry_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), bm_useredit, 1, 2, 8, 9);
@@ -790,12 +773,10 @@ edit_entry_dlg (gpointer data)
     gtk_widget_set_sensitive (bm_useredit, 0);
   else if (entry->user)
     gtk_entry_set_text (GTK_ENTRY (bm_useredit), entry->user);
-  gtk_widget_show (bm_useredit);
 
   tempwid = gtk_label_new (_("Password:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 9, 10);
-  gtk_widget_show (tempwid);
 
   bm_passedit = gtk_entry_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), bm_passedit, 1, 2, 9, 10);
@@ -804,12 +785,10 @@ edit_entry_dlg (gpointer data)
     gtk_widget_set_sensitive (bm_passedit, 0);
   else if (entry->pass)
     gtk_entry_set_text (GTK_ENTRY (bm_passedit), entry->pass);
-  gtk_widget_show (bm_passedit);
 
   tempwid = gtk_label_new (_("Account:"));
   gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 10, 11);
-  gtk_widget_show (tempwid);
 
   bm_acctedit = gtk_entry_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), bm_acctedit, 1, 2, 10, 11);
@@ -818,7 +797,6 @@ edit_entry_dlg (gpointer data)
     gtk_widget_set_sensitive (bm_acctedit, 0);
   else if (entry->acct)
     gtk_entry_set_text (GTK_ENTRY (bm_acctedit), entry->acct);
-  gtk_widget_show (bm_acctedit);
 
   anon_chk = gtk_check_button_new_with_label (_("Log in as ANONYMOUS"));
   gtk_table_attach_defaults (GTK_TABLE (table), anon_chk, 0, 2, 11, 12);
@@ -831,7 +809,6 @@ edit_entry_dlg (gpointer data)
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (anon_chk), entry->user
 				    && strcmp (entry->user, "anonymous") == 0);
     }
-  gtk_widget_show (anon_chk);
 
   g_signal_connect (G_OBJECT (edit_bm_entry_dlg),
                     "response",
@@ -840,7 +817,10 @@ edit_entry_dlg (gpointer data)
 
   gftp_gtk_setup_bookmark_options (notebook, entry);
 
-  gtk_widget_show (edit_bm_entry_dlg);
+  gtk_widget_show_all (edit_bm_entry_dlg);
+
+  // switch to page 0 (widget must be visible)
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
 }
 
 
