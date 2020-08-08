@@ -220,7 +220,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
            unsigned int start_pos, unsigned int dontupload,
            char *remote_filename, gftp_window_data * wdata)
 {
-  GtkWidget * dialog, * view, * table, * tempwid, *main_vbox;
+  GtkWidget * dialog, * view, * scrolledw, *main_vbox;
   char buf[8192], *view_program, *edit_program;
   gftp_config_list_vars * tmplistvar;
   gftp_file_extensions * tempext;
@@ -336,30 +336,22 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
 
   set_window_icon(GTK_WINDOW(dialog), NULL);
 
-  table = gtk_table_new (1, 2, FALSE);
-  gtk_box_pack_start (GTK_BOX (main_vbox), table, TRUE, TRUE, 0);
-
   view = gtk_text_view_new ();
   gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
 
-  tempwid = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (tempwid),
-                                 GTK_POLICY_AUTOMATIC,
-                                 GTK_POLICY_AUTOMATIC);
+  scrolledw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledw),
+                                  GTK_POLICY_AUTOMATIC,
+                                  GTK_POLICY_AUTOMATIC);
 
-  gtk_container_add (GTK_CONTAINER (tempwid), view);
-  gtk_widget_show (view);
+  gtk_container_add (GTK_CONTAINER (scrolledw), view);
 
-  gtk_table_attach (GTK_TABLE (table), tempwid, 0, 1, 0, 1,
-		    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-		    0, 0);
-  gtk_widget_show (tempwid);
+  gtk_box_pack_start (GTK_BOX (main_vbox), scrolledw, TRUE, TRUE, 0);
 
-  vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (tempwid));
-  gtk_widget_set_size_request (table, 500, 400);
-  gtk_widget_show (table);
+  vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledw));
+  gtk_widget_set_size_request (scrolledw, 500, 400);
 
   g_signal_connect_swapped (G_OBJECT (dialog), "response",
                             G_CALLBACK (gtk_widget_destroy),
@@ -377,7 +369,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   if (doclose)
     close (fd);
 
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
 
   if (!start_pos)
     gtk_adjustment_set_value (vadj, vadj->upper);
