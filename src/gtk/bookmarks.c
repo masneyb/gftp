@@ -245,39 +245,6 @@ build_bookmarks_menu (void)
     }
 }
 
-static gftp_bookmarks_var *
-copy_bm_entry (gftp_bookmarks_var * entry)
-{
-  // ->children = ->prev = ->next = NULL
-
-   gftp_bookmarks_var * newentry;
-   newentry = g_malloc0 (sizeof (gftp_bookmarks_var));
-
-   newentry->port          = entry->port;
-   newentry->isfolder      = entry->isfolder;
-   newentry->save_password = entry->save_password;
-   newentry->cnode         = entry->cnode;
-
-   if (entry->path)       newentry->path       = g_strdup (entry->path);
-   if (entry->hostname)   newentry->hostname   = g_strdup (entry->hostname);
-   if (entry->protocol)   newentry->protocol   = g_strdup (entry->protocol);
-   if (entry->remote_dir) newentry->remote_dir = g_strdup (entry->remote_dir);
-   if (entry->local_dir)  newentry->local_dir  = g_strdup (entry->local_dir);
-   if (entry->user)       newentry->user       = g_strdup (entry->user);
-   if (entry->pass)       newentry->pass       = g_strdup (entry->pass);
-   if (entry->acct)       newentry->acct       = g_strdup (entry->acct);
-
-   gftp_copy_local_options (&newentry->local_options_vars,
-                            &newentry->local_options_hash,
-                            &newentry->num_local_options_vars,
-                            entry->local_options_vars,
-                            entry->num_local_options_vars);
-   newentry->num_local_options_vars = entry->num_local_options_vars;
-
-   return (newentry);
-}
-
-
 static void
 _free_menu_entry (gftp_bookmarks_var * entry)
 {
@@ -1164,12 +1131,32 @@ btree_add_node (gftp_bookmarks_var * entry, int copy)
   GtkTreeIter  *parent;
   GdkPixbuf *pixbuf;
   char *text, *pos;
+  gftp_bookmarks_var * newentry;
 
-  gftp_bookmarks_var * newentry;;
   if (copy) {
-      newentry = copy_bm_entry (entry);
+     // ->children = ->prev = ->next = NULL
+     newentry = g_malloc0 (sizeof (gftp_bookmarks_var));
+     newentry->port          = entry->port;
+     newentry->isfolder      = entry->isfolder;
+     newentry->save_password = entry->save_password;
+     newentry->cnode         = entry->cnode;
+     if (entry->path)       newentry->path       = g_strdup (entry->path);
+     if (entry->hostname)   newentry->hostname   = g_strdup (entry->hostname);
+     if (entry->protocol)   newentry->protocol   = g_strdup (entry->protocol);
+     if (entry->remote_dir) newentry->remote_dir = g_strdup (entry->remote_dir);
+     if (entry->local_dir)  newentry->local_dir  = g_strdup (entry->local_dir);
+     if (entry->user)       newentry->user       = g_strdup (entry->user);
+     if (entry->pass)       newentry->pass       = g_strdup (entry->pass);
+     if (entry->acct)       newentry->acct       = g_strdup (entry->acct);
+     gftp_copy_local_options (&newentry->local_options_vars,
+                            &newentry->local_options_hash,
+                            &newentry->num_local_options_vars,
+                            entry->local_options_vars,
+                            entry->num_local_options_vars);
+     newentry->num_local_options_vars = entry->num_local_options_vars;
+
   } else {
-      newentry = entry;
+     newentry = entry;
   }
 
   if (!entry->path || !*entry->path) {
