@@ -20,7 +20,7 @@
 #include "gftp-gtk.h"
 #include "listbox.c"
 
-static GtkWidget * local_frame, * remote_frame, * log_table, * transfer_scroll,
+static GtkWidget * local_frame, * remote_frame, * log_scroll, * transfer_scroll,
                  * gftpui_command_toolbar;
 
 GtkWindow *main_window;
@@ -70,7 +70,7 @@ _gftp_exit (GtkWidget * widget, gpointer data)
   gftp_set_global_option ("listbox_remote_width", GINT_TO_POINTER (ret));
   ret = GTK_WIDGET (remote_frame)->allocation.height;
   gftp_set_global_option ("listbox_file_height", GINT_TO_POINTER (ret));
-  ret = GTK_WIDGET (log_table)->allocation.height;
+  ret = GTK_WIDGET (log_scroll)->allocation.height;
   gftp_set_global_option ("log_height", GINT_TO_POINTER (ret));
   ret = GTK_WIDGET (transfer_scroll)->allocation.height;
   gftp_set_global_option ("transfer_height", GINT_TO_POINTER (ret));
@@ -1177,14 +1177,26 @@ CreateFTPWindows (GtkWidget * ui)
         G_CALLBACK (on_key_press_transfer), NULL);
   gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
 
+  // log_scroll ("log window")
   logpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
-  gtk_paned_pack1 (GTK_PANED (logpane), dlpane, 1, 1);
+  gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
 
-  log_table = gtk_table_new (1, 2, FALSE);
+  log_scroll = gtk_scrolled_window_new (NULL, NULL);
+
+  gtk_paned_pack1 (GTK_PANED (logpane), dlpane,     1, 1);
+  gtk_paned_pack2 (GTK_PANED (logpane), log_scroll, 1, 1);
+
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (log_scroll),
+                                  GTK_POLICY_AUTOMATIC,
+                                  GTK_POLICY_AUTOMATIC);
+  logwdw_vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (log_scroll));
+
   gftp_lookup_global_option ("log_height", &tmplookup);
-  gtk_widget_set_size_request (log_table, -1, tmplookup);
+  gtk_widget_set_size_request (log_scroll, -1, tmplookup);
 
   logwdw = gtk_text_view_new ();
+  gtk_container_add (GTK_CONTAINER (log_scroll), logwdw);
+
   gtk_text_view_set_editable (GTK_TEXT_VIEW (logwdw), FALSE);
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (logwdw), FALSE);
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (logwdw), GTK_WRAP_WORD);
@@ -1207,24 +1219,13 @@ CreateFTPWindows (GtkWidget * ui)
   gftp_lookup_global_option ("misc_color", &fore);
   g_object_set (G_OBJECT (tag), "foreground_gdk", &fore, NULL);
 
-  tempwid = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (tempwid),
-                                 GTK_POLICY_AUTOMATIC,
-                                 GTK_POLICY_AUTOMATIC);
-  gtk_container_add (GTK_CONTAINER (tempwid), logwdw);
-  gtk_table_attach (GTK_TABLE (log_table), tempwid, 0, 1, 0, 1,
-		    GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-		    0, 0);
-  logwdw_vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (tempwid));
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, 0);
   logwdw_textmark = gtk_text_buffer_create_mark (textbuf, "end", &iter, 1);
 
-  gtk_paned_pack2 (GTK_PANED (logpane), log_table, 1, 1);
-  gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
-
   gtk_container_set_border_width (GTK_CONTAINER (transfer_scroll), 5);
-  gtk_container_set_border_width (GTK_CONTAINER (tempwid), 5);
+  gtk_container_set_border_width (GTK_CONTAINER (log_scroll), 5);
 
+  // show
   gtk_widget_show_all (mainvbox);
   gftpui_show_or_hide_command ();
   return (mainvbox);
