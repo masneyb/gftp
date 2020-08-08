@@ -60,20 +60,25 @@ get_column (GtkCListColumn * col)
 static void
 _gftp_exit (GtkWidget * widget, gpointer data)
 {
-  intptr_t remember_last_directory;
+  intptr_t remember_last_directory, ret;
   const char *tempstr;
-  intptr_t ret;
+  GtkAllocation allocation;
 
-  ret = GTK_WIDGET (local_frame)->allocation.width;
-  gftp_set_global_option ("listbox_local_width", GINT_TO_POINTER (ret));
-  ret = GTK_WIDGET (remote_frame)->allocation.width;
-  gftp_set_global_option ("listbox_remote_width", GINT_TO_POINTER (ret));
-  ret = GTK_WIDGET (remote_frame)->allocation.height;
-  gftp_set_global_option ("listbox_file_height", GINT_TO_POINTER (ret));
-  ret = GTK_WIDGET (log_scroll)->allocation.height;
-  gftp_set_global_option ("log_height", GINT_TO_POINTER (ret));
-  ret = GTK_WIDGET (transfer_scroll)->allocation.height;
-  gftp_set_global_option ("transfer_height", GINT_TO_POINTER (ret));
+  gtk_widget_get_allocation (GTK_WIDGET (local_frame), &allocation);
+  gftp_set_global_option ("listbox_local_width",
+                          GINT_TO_POINTER ((intptr_t) allocation.width));
+  gtk_widget_get_allocation (GTK_WIDGET (remote_frame), &allocation);
+  gftp_set_global_option ("listbox_remote_width",
+                          GINT_TO_POINTER ((intptr_t) allocation.width));
+  gtk_widget_get_allocation (GTK_WIDGET (remote_frame), &allocation);
+  gftp_set_global_option ("listbox_file_height",
+                          GINT_TO_POINTER ((intptr_t) allocation.height));
+  gtk_widget_get_allocation (GTK_WIDGET (log_scroll), &allocation);
+  gftp_set_global_option ("log_height",
+                          GINT_TO_POINTER ((intptr_t) allocation.height));
+  gtk_widget_get_allocation (GTK_WIDGET (transfer_scroll), &allocation);
+  gftp_set_global_option ("transfer_height",
+                          GINT_TO_POINTER ((intptr_t) allocation.height));
 
   listbox_save_column_width (&window1, &window2);
 
