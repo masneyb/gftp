@@ -195,43 +195,49 @@ build_bookmarks_menu (void)
         action = NULL;
       }
 
-      slash = strchr(tempentry->path, '/');
+      // ---------------------------
+      GtkUIManagerItemType itemType;
+      gchar * action_name, * action_label, * ui_manager_path;
+      gchar * tmp = NULL;
+
       if (tempentry->isfolder) {
+         itemType = GTK_UI_MANAGER_MENU;
+      } else {
+         itemType = GTK_UI_MANAGER_MENUITEM;
+      }
+
+      slash = strrchr(tempentry->path, '/');
+
+      if (!slash) {
         // BSD Sites
-        action = gtk_action_new(tempentry->path, tempentry->path, NULL, NULL);
-        gtk_action_group_add_action(dynamic_bm_menu, action);
-        gtk_ui_manager_add_ui (factory, bm_menu_merge_id,
-                          "/M/BookmarksMenu", tempentry->path, tempentry->path,
-                          GTK_UI_MANAGER_MENU, FALSE);
-      }
-      else if (!slash) {
-        action = gtk_action_new(tempentry->path, tempentry->path, NULL, NULL);
-        gtk_action_group_add_action(dynamic_bm_menu, action);
-        g_signal_connect(G_OBJECT(action), "activate", G_CALLBACK(on_menu_run_bookmark),
-                        (gpointer) tempentry->path);
-        gtk_ui_manager_add_ui (factory, bm_menu_merge_id,
-                            "/M/BookmarksMenu", tempentry->path, tempentry->path,
-                            GTK_UI_MANAGER_MENUITEM, FALSE);
-      }
-      else {
+        action_name  = tempentry->path;
+        action_label = tempentry->path;
+        ui_manager_path = "/M/BookmarksMenu";
+      } else {
         // BSD Sites/FreeBSD
-        char *tmp = g_strdup(tempentry->path);
-        slash = strchr(tmp, '/');
+        char oldchar = *slash;
         *slash = 0;
-        char *path = g_strconcat("/M/BookmarksMenu/", tmp, NULL); /* /M/BookmarksMenu/BSD Sites */
-        char *label = slash + 1;
-        char *name = tempentry->path;
-        action = gtk_action_new(name, label, NULL, NULL);
-        gtk_action_group_add_action(dynamic_bm_menu, action);
-        g_signal_connect(G_OBJECT(action), "activate", G_CALLBACK(on_menu_run_bookmark),
-                        (gpointer) tempentry->path);
-        gtk_ui_manager_add_ui (factory, bm_menu_merge_id,
-                            path, name, name,
-                            GTK_UI_MANAGER_MENUITEM, FALSE);
-        g_free(tmp);
-        g_free(path);
+        tmp = g_strconcat("/M/BookmarksMenu/", tempentry->path, NULL);
+        *slash = oldchar;
+        action_name  = tempentry->path; // BSD Sites/FreeBSD
+        action_label = slash + 1;       // FreeBSD
+        ui_manager_path = tmp;          // /M/BookmarksMenu/BSD Sites
       }
+
+      action = gtk_action_new (action_name, action_label, NULL, NULL);
+      gtk_action_group_add_action (dynamic_bm_menu, action);
+      gtk_ui_manager_add_ui (factory, bm_menu_merge_id,
+                             ui_manager_path, action_name, action_name,
+                             itemType, FALSE);
+
+      if (!tempentry->isfolder) {
+         g_signal_connect (G_OBJECT(action), "activate",
+                           G_CALLBACK (on_menu_run_bookmark),
+                           (gpointer) tempentry->path);
+      }
+      if (tmp) g_free (tmp);
       g_object_unref(action);
+      // ---------------------------
 
       if (tempentry->children != NULL)
         {
@@ -250,11 +256,7 @@ _free_menu_entry (gftp_bookmarks_var * entry)
 {
   GtkAction *action;
   if (dynamic_bm_menu) {
-    if (entry->oldpath != NULL) {
-        action = gtk_action_group_get_action (dynamic_bm_menu, entry->oldpath);
-    } else {
-        action = gtk_action_group_get_action (dynamic_bm_menu, entry->path);
-    }
+    action = gtk_action_group_get_action (dynamic_bm_menu, entry->path);
     if (action) {
         gtk_action_group_remove_action (dynamic_bm_menu, action);
     }
