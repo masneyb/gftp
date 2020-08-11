@@ -332,6 +332,7 @@ clear_cache (gpointer data)
 void 
 about_dialog (gpointer data)
 {
+    GtkWidget *w;
     const gchar * authors[] =
     {
         "Brian Masney <masneyb@gftp.org>",
@@ -339,31 +340,35 @@ about_dialog (gpointer data)
     };
     /* TRANSLATORS: Replace this string with your names, one name per line. */
     gchar * translators = _("Translated by");
-    char * logopath = get_image_path ("gftp-logo.xpm"); /* misc-gtk.c */
 
-    /* Create and initialize the dialog. */
-    GtkWidget * about_dlg = gtk_about_dialog_new();
-    gtk_container_set_border_width(GTK_CONTAINER(about_dlg), 2);
-    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dlg), VERSION);
-    gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG(about_dlg), "gFTP");
+    GdkPixbuf * logo = NULL;
+    char * logopath = get_image_path ("gftp-logo.xpm"); /* misc-gtk.c */
     if (logopath) {
-       gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about_dlg), gdk_pixbuf_new_from_file(logopath, NULL));
+       logo = gdk_pixbuf_new_from_file (logopath, NULL);
        g_free (logopath);
     }
-    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about_dlg), "Copyright (C) 1998-2020");
-    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dlg), _("A multithreaded ftp client"));
-    gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(about_dlg), "This program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.");
-    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about_dlg), "http://www.gftp.org");
-    gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about_dlg), authors);
-    gtk_about_dialog_set_translator_credits(GTK_ABOUT_DIALOG(about_dlg), translators);
-    set_window_icon(GTK_WINDOW(about_dlg), NULL);
-    gtk_window_set_transient_for( GTK_WINDOW (about_dlg), main_window );
-    gtk_window_set_modal ( GTK_WINDOW (about_dlg), TRUE);
-    gtk_window_set_position (GTK_WINDOW (about_dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 
-    /* Display the dialog, wait for the user to close it, and destroy the dialog. */
-    gtk_dialog_run(GTK_DIALOG(about_dlg));
-    gtk_widget_destroy(about_dlg);
+    /* Create and initialize the dialog. */
+    w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
+                      "version",      VERSION,
+                      "program-name", "gFTP",
+                      "copyright",    "Copyright (C) 1998-2020",
+                      "comments",     _("A multithreaded ftp client"),
+                      "license",      "This program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.",
+                      "website",      "http://www.gftp.org",
+                      "authors",      authors,
+                      "translator-credits", translators,
+                      "logo",         logo,
+                      NULL);
+    gtk_container_set_border_width (GTK_CONTAINER (w), 2);
+    set_window_icon (GTK_WINDOW (w), NULL);
+    gtk_window_set_transient_for (GTK_WINDOW (w), main_window);
+    gtk_window_set_modal (GTK_WINDOW (w), TRUE);
+    gtk_window_set_position (GTK_WINDOW (w), GTK_WIN_POS_CENTER_ON_PARENT);
+
+    /* Display the dialog, wait for the user to close it, then destroy it. */
+    gtk_dialog_run (GTK_DIALOG (w));
+    gtk_widget_destroy (w);
 }
 
 
