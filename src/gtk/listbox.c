@@ -648,7 +648,8 @@ listbox_set_default_column_width (gftp_window_data *wdata)
    };
 
 #ifndef __APPLE__
-   for (int ncol = 1; ncol < LB_NUM_VISIBLE_COLUMNS; ncol++)
+   int ncol;
+   for (ncol = 1; ncol < LB_NUM_VISIBLE_COLUMNS; ncol++)
    {
       // e.g: local_file_width / remote_file_width
       g_snprintf (tempstr, sizeof (tempstr),

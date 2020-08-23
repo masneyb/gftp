@@ -533,8 +533,8 @@ gftp_tdata_new (void)
 
   tdata = g_malloc0 (sizeof (*tdata));
 
-  g_mutex_init (&tdata->statmutex);
-  g_mutex_init (&tdata->structmutex);
+  Wg_mutex_init (&tdata->statmutex);
+  Wg_mutex_init (&tdata->structmutex);
 
   return (tdata);
 }

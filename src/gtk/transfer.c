@@ -641,9 +641,9 @@ transfer_done (GList * node)
       gtk_ctree_remove_node (GTK_CTREE (dlwdw), tdata->user_data);
     }
 
-  g_mutex_lock (&gftpui_common_transfer_mutex);
+  Wg_mutex_lock (&gftpui_common_transfer_mutex);
   gftp_file_transfers = g_list_remove_link (gftp_file_transfers, node);
-  g_mutex_unlock (&gftpui_common_transfer_mutex);
+  Wg_mutex_unlock (&gftpui_common_transfer_mutex);
 
   gdk_window_set_title (gtk_widget_get_parent_window (GTK_WIDGET(dlwdw)),
                         gftp_version);
@@ -773,7 +773,7 @@ update_file_status (gftp_transfer * tdata)
   intptr_t show_trans_in_title;
   gftp_file * tempfle;
   
-  g_mutex_lock (&tdata->statmutex);
+  Wg_mutex_lock (&tdata->statmutex);
   tempfle = tdata->curfle->data;
 
   remaining_secs = (tdata->total_bytes - tdata->trans_bytes - tdata->resumed_bytes) / 1024;
@@ -790,7 +790,7 @@ update_file_status (gftp_transfer * tdata)
 
   if (hours < 0 || mins < 0 || secs < 0)
     {
-      g_mutex_unlock (&tdata->statmutex);
+      Wg_mutex_unlock (&tdata->statmutex);
       return;
     }
 
@@ -813,7 +813,7 @@ update_file_status (gftp_transfer * tdata)
   if (!tdata->stalled)
     _setup_dlstr (tdata, tempfle, dlstr, sizeof (dlstr));
 
-  g_mutex_unlock (&tdata->statmutex);
+  Wg_mutex_unlock (&tdata->statmutex);
 
   gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1, totstr);
   
@@ -875,7 +875,7 @@ update_downloads (gpointer data)
       tdata = templist->data;
       if (tdata->ready)
         {
-          g_mutex_lock (&tdata->structmutex);
+          Wg_mutex_lock (&tdata->structmutex);
 
           if (tdata->next_file)
             on_next_transfer (tdata);
@@ -884,7 +884,7 @@ update_downloads (gpointer data)
           else if (tdata->done)
             {
               next = templist->next;
-              g_mutex_unlock (&tdata->structmutex);
+              Wg_mutex_unlock (&tdata->structmutex);
               transfer_done (templist);
               templist = next;
               continue;
@@ -903,7 +903,7 @@ update_downloads (gpointer data)
               if (tdata->started)
                 update_file_status (tdata);
             }
-          g_mutex_unlock (&tdata->structmutex);
+          Wg_mutex_unlock (&tdata->structmutex);
         }
       templist = templist->next;
     }
@@ -928,10 +928,10 @@ start_transfer (gpointer data)
   node = GTK_CLIST (dlwdw)->selection->data;
   transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
 
-  g_mutex_lock (&transdata->transfer->structmutex);
+  Wg_mutex_lock (&transdata->transfer->structmutex);
   if (!transdata->transfer->started)
     create_transfer (transdata->transfer);
-  g_mutex_unlock (&transdata->transfer->structmutex);
+  Wg_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 
@@ -1022,7 +1022,7 @@ move_transfer_up (gpointer data)
   if (transdata->curfle == NULL)
     return;
 
-  g_mutex_lock (&transdata->transfer->structmutex);
+  Wg_mutex_lock (&transdata->transfer->structmutex);
   if (transdata->curfle->prev != NULL && (!transdata->transfer->started ||
       (transdata->transfer->curfle != transdata->curfle && 
        transdata->transfer->curfle != transdata->curfle->prev)))
@@ -1059,7 +1059,7 @@ move_transfer_up (gpointer data)
                       transdata->curfle->next != NULL ?
                           ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
     }
-  g_mutex_unlock (&transdata->transfer->structmutex);
+  Wg_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 
@@ -1082,7 +1082,7 @@ move_transfer_down (gpointer data)
   if (transdata->curfle == NULL)
     return;
 
-  g_mutex_lock (&transdata->transfer->structmutex);
+  Wg_mutex_lock (&transdata->transfer->structmutex);
   if (transdata->curfle->next != NULL && (!transdata->transfer->started ||
       (transdata->transfer->curfle != transdata->curfle && 
        transdata->transfer->curfle != transdata->curfle->next)))
@@ -1119,6 +1119,6 @@ move_transfer_down (gpointer data)
                       transdata->curfle->next != NULL ?
                           ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
     }
-  g_mutex_unlock (&transdata->transfer->structmutex);
+  Wg_mutex_unlock (&transdata->transfer->structmutex);
 }
 

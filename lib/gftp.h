@@ -53,7 +53,14 @@
 #include <sys/utsname.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <glib.h>
+
+#include "glib-compat.h"
+
+#if ! GLIB_CHECK_VERSION (2, 32, 0)
+// disable SSL if GLIB < 2.32 (problems with GMutex *)
+#undef USE_SSL
+#endif
+
 #include <limits.h>
 #include <netdb.h>
 #include <stdio.h>
@@ -524,7 +531,7 @@ typedef struct gftp_transfer_tag
   void * fromwdata,
        * towdata;
 
-  GMutex statmutex,
+  WGMutex statmutex,
          structmutex;
 
   void *user_data;

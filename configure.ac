@@ -7,7 +7,9 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AM_GNU_GETTEXT([external])
-AM_PROG_AR
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+m4_ifdef([AM_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
+
 LT_INIT
 
 # Init intltool
@@ -51,8 +53,6 @@ AC_CANONICAL_HOST
 AC_PROG_CC
 AC_SYS_LARGEFILE
 AC_C_INLINE
-
-AM_MAINTAINER_MODE
 
 AC_CHECK_HEADERS(libutil.h malloc.h pty.h sys/ioctl.h sys/mkdev.h)
 
@@ -109,10 +109,12 @@ AC_SUBST(GFTP_TEXT)
 GFTP_GTK=""
 PTHREAD_CFLAGS=""
 PTHREAD_LIBS=""
+GTHREAD_CFLAGS=""
+GTHREAD_LIBS=""
 
 PKG_CHECK_MODULES(
-  [GLIB], [glib-2.0 >= 2.32.0], found_glib=yes,
-  AC_MSG_ERROR(Glib >= 2.32.0+ is required)
+  [GLIB], [glib-2.0 >= 2.18.0], found_glib=yes,
+  AC_MSG_ERROR(Glib >= 2.18.0+ is required)
   )
 
 if test "x$enable_gtkport" = "xyes" ; then
@@ -130,7 +132,8 @@ if test "x$enable_gtkport" = "xyes" ; then
   fi
   if test "x$enable_gtk2" = "xyes" ; then
     dnl Test for gtk+-2.0
-    PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.24.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk2 or install GTK+ 2.0))
+    PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.14.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk2 or install GTK+ 2.0))
+    PKG_CHECK_MODULES([GTHREAD], gthread-2.0 >=  2.18.0, HAVE_GTHREADS="yes")
   fi
   if test "x$enable_gtk3" = "xyes" ; then
     dnl Test for gtk+-3.0
@@ -155,6 +158,8 @@ if test "x$enable_gtkport" = "xyes" ; then
 fi
 AC_SUBST(PTHREAD_CFLAGS)
 AC_SUBST(PTHREAD_LIBS)
+AC_SUBST(GTHREAD_LIBS)
+AC_SUBST(GTHREAD_CFLAGS)
 AC_SUBST(GFTP_GTK)
 
 SSL_LIBS=""
