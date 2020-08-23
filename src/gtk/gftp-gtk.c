@@ -1036,7 +1036,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   gtk_entry_set_text (GTK_ENTRY (combo_entry), startup_directory);
 
   wdata->hoststxt = gtk_label_new (NULL);
-  gtk_misc_set_alignment (GTK_MISC (wdata->hoststxt), 0, 0);
+  gtk_widget_set_halign (wdata->hoststxt, GTK_ALIGN_START);
   gtk_box_pack_start (GTK_BOX (box), wdata->hoststxt, FALSE, FALSE, 0);
 
   scroll_list = gtk_scrolled_window_new (NULL, NULL);

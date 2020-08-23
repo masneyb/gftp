@@ -3,7 +3,7 @@
  * 
  * gtkcompat, GTK2+ compatibility layer
  * 
- * 2020-08-22
+ * 2020-08-23
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -105,6 +105,15 @@ GtkWidget *gtk_scrollbar_new (GtkOrientation orientation, GtkAdjustment *adjustm
 GtkWidget *gtk_paned_new (GtkOrientation orientation);
 #define gtk_widget_get_allocated_height(widget) (GTK_WIDGET(widget)->allocation.height )
 #define gtk_widget_get_allocated_width(widget)  (GTK_WIDGET(widget)->allocation.width  )
+typedef enum /* GtkAlign */
+{
+  GTK_ALIGN_FILL,
+  GTK_ALIGN_START,
+  GTK_ALIGN_END,
+  GTK_ALIGN_CENTER
+} GtkAlign;
+void gtk_widget_set_halign (GtkWidget *widget, GtkAlign align);
+void gtk_widget_set_valign (GtkWidget *widget, GtkAlign align);
 #endif
 
 

@@ -3,7 +3,7 @@
  *
  * gtkcompat, GTK2+ compatibility layer
  * 
- * 2020-08-22
+ * 2020-08-23
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -108,6 +108,52 @@ gtk_paned_new (GtkOrientation orientation)
 		return gtk_vpaned_new ();
 	}
 	return NULL;
+}
+
+void
+gtk_widget_set_halign (GtkWidget *widget, GtkAlign align)
+{
+	GtkMisc * misc = GTK_MISC (widget);
+	gfloat xalign = 0.0;
+	switch (align)
+	{
+		case GTK_ALIGN_FILL:
+		case GTK_ALIGN_START:  xalign = 0.0; break;
+		case GTK_ALIGN_CENTER: xalign = 0.5; break;
+		case GTK_ALIGN_END:    xalign = 1.0; break;
+	}
+	if (xalign != misc->xalign)
+	{
+		g_object_freeze_notify (G_OBJECT (misc));
+		g_object_notify (G_OBJECT (misc), "xalign");
+		misc->xalign = xalign;
+		if (gtk_widget_is_drawable (widget))
+			gtk_widget_queue_draw (widget);
+		g_object_thaw_notify (G_OBJECT (misc));
+	}
+}
+
+void
+gtk_widget_set_valign (GtkWidget *widget, GtkAlign align)
+{
+	GtkMisc * misc = GTK_MISC (widget);
+	gfloat yalign = 0.0;
+	switch (align)
+	{
+		case GTK_ALIGN_FILL:
+		case GTK_ALIGN_START:  yalign = 0.0; break;
+		case GTK_ALIGN_CENTER: yalign = 0.5; break;
+		case GTK_ALIGN_END:    yalign = 1.0; break;
+	}
+	if (yalign != misc->yalign)
+	{
+		g_object_freeze_notify (G_OBJECT (misc));
+		g_object_notify (G_OBJECT (misc), "yalign");
+		misc->yalign = yalign;
+		if (gtk_widget_is_drawable (widget))
+			gtk_widget_queue_draw (widget);
+		g_object_thaw_notify (G_OBJECT (misc));
+	}
 }
 
 #endif

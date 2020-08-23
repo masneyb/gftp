@@ -697,7 +697,7 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
 
   tempwid = gtk_label_new (infotxt);
   gtk_box_pack_start (GTK_BOX (vbox), tempwid, TRUE, TRUE, 0);
-  gtk_misc_set_alignment( GTK_MISC(tempwid), 0.0, 0.5 );
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_START);
 
   ddata->edit = gtk_entry_new ();
   g_signal_connect (G_OBJECT (ddata->edit), "key_press_event",

@@ -685,7 +685,7 @@ edit_entry_dlg (gpointer data)
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, tempwid);
 
   tempwid = gtk_label_new (_("Description:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 0, 1);
 
   bm_pathedit = gtk_entry_new ();
@@ -698,7 +698,7 @@ edit_entry_dlg (gpointer data)
     gtk_entry_set_text (GTK_ENTRY (bm_pathedit), pos);
 
   tempwid = gtk_label_new (_("Hostname:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 1, 2);
 
   bm_hostedit = gtk_entry_new ();
@@ -709,7 +709,7 @@ edit_entry_dlg (gpointer data)
     gtk_entry_set_text (GTK_ENTRY (bm_hostedit), entry->hostname);
 
   tempwid = gtk_label_new (_("Port:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 2, 3);
 
   bm_portedit = gtk_entry_new ();
@@ -724,7 +724,7 @@ edit_entry_dlg (gpointer data)
     }
 
   tempwid = gtk_label_new (_("Protocol:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 3, 4);
 
   combo_protocol = gtk_combo_box_text_new ();
@@ -741,7 +741,7 @@ edit_entry_dlg (gpointer data)
   gtk_combo_box_set_active(GTK_COMBO_BOX(combo_protocol), num);
 
   tempwid = gtk_label_new (_("Remote Directory:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 4, 5);
 
   bm_remotediredit = gtk_entry_new ();
@@ -752,7 +752,7 @@ edit_entry_dlg (gpointer data)
     gtk_entry_set_text (GTK_ENTRY (bm_remotediredit), entry->remote_dir);
 
   tempwid = gtk_label_new (_("Local Directory:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 5, 6);
 
   bm_localdiredit = gtk_entry_new ();
@@ -766,7 +766,7 @@ edit_entry_dlg (gpointer data)
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 2, 7, 8);
 
   tempwid = gtk_label_new (_("Username:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 8, 9);
 
   bm_useredit = gtk_entry_new ();
@@ -777,7 +777,7 @@ edit_entry_dlg (gpointer data)
     gtk_entry_set_text (GTK_ENTRY (bm_useredit), entry->user);
 
   tempwid = gtk_label_new (_("Password:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 9, 10);
 
   bm_passedit = gtk_entry_new ();
@@ -789,7 +789,7 @@ edit_entry_dlg (gpointer data)
     gtk_entry_set_text (GTK_ENTRY (bm_passedit), entry->pass);
 
   tempwid = gtk_label_new (_("Account:"));
-  gtk_misc_set_alignment (GTK_MISC (tempwid), 1, 0.5);
+  gtk_widget_set_halign (tempwid, GTK_ALIGN_END);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 10, 11);
 
   bm_acctedit = gtk_entry_new ();
