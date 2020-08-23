@@ -72,7 +72,12 @@ do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
       if (new_fle->destfile)
         g_free (new_fle->destfile);
 
-      if ((suffix = strrchr (curfle->file, '.')) != NULL)
+#if defined(__GLIBC__) && __GLIBC__ == 2 && __GLIBC_MINOR__ < 7
+      suffix = NULL; // glibc < 2.7: use mkstemp
+#else
+      suffix = strrchr (curfle->file, '.');
+#endif
+      if (suffix)
         {
           new_fle->destfile = g_strconcat (g_get_tmp_dir (),
                                            "/gftp-view.XXXXXX", suffix, NULL);
@@ -82,7 +87,7 @@ do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
         {
 	  new_fle->destfile = g_strconcat (g_get_tmp_dir (),
                                            "/gftp-view.XXXXXX", NULL);		
-          new_fle->fd = mkstemps (new_fle->destfile, 0);
+          new_fle->fd = mkstemp (new_fle->destfile);
 	}
 		
       if (new_fle->fd < 0)
