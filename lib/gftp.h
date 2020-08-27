@@ -61,7 +61,9 @@
 #undef USE_SSL
 #endif
 
+#ifndef __GNU__
 #include <limits.h>
+#endif
 #include <netdb.h>
 #include <stdio.h>
 #include <stdarg.h>

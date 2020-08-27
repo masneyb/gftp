@@ -53,13 +53,23 @@ local_destroy (gftp_request * request)
 static int
 local_getcwd (gftp_request * request)
 {
-  char tempstr[PATH_MAX], *utf8;
+#ifdef __GNU__
+  char *tempstr;
+#else
+  char tempstr[PATH_MAX];
+#endif
+  char *utf8;
   size_t destlen;
   
   if (request->directory != NULL)
     g_free (request->directory);
 
+#ifdef __GNU__
+  tempstr = get_current_dir_name();
+  if (tempstr == NULL)
+#else
   if (getcwd (tempstr, sizeof (tempstr)) == NULL)
+#endif
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Could not get current working directory: %s\n"),
@@ -74,6 +84,9 @@ local_getcwd (gftp_request * request)
   else
     request->directory = g_strdup (tempstr);
 
+#ifdef __GNU__
+  free(tempstr);
+#endif
   return (0);
 }
 
