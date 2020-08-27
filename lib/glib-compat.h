@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2020
+ * glib-compat
  * 
- * 2020-08-20
+ * 2020-08-27
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

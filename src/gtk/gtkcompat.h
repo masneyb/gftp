@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2020
- * 
  * gtkcompat, GTK2+ compatibility layer
  * 
- * 2020-08-23
+ * 2020-08-27
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,6 +12,12 @@
 
 #ifndef __GTKCOMPAT_H
 #define __GTKCOMPAT_H
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -94,6 +98,13 @@
 /*                       GTK                          */
 /* ================================================== */
 
+// GTK < 3.12
+#if ! GTK_CHECK_VERSION (3, 12, 0)
+#define gtk_widget_set_margin_start(widget,margin) gtk_widget_set_margin_left(widget,margin)
+#define gtk_widget_set_margin_end(widget,margin)   gtk_widget_set_margin_right(widget,margin)
+#endif
+
+
 // GTK < 3.0
 #if ! GTK_CHECK_VERSION (3, 0, 0)
 GtkWidget *gtk_box_new (GtkOrientation orientation, gint spacing) ;
@@ -114,6 +125,10 @@ typedef enum /* GtkAlign */
 } GtkAlign;
 void gtk_widget_set_halign (GtkWidget *widget, GtkAlign align);
 void gtk_widget_set_valign (GtkWidget *widget, GtkAlign align);
+void gtk_widget_set_margin_left  (GtkWidget *widget, gint margin);
+void gtk_widget_set_margin_right (GtkWidget *widget, gint margin);
+void gtk_widget_set_margin_top (GtkWidget *widget, gint margin);
+void gtk_widget_set_margin_bottom (GtkWidget *widget, gint margin);
 #endif
 
 
@@ -234,6 +249,11 @@ void gtk_widget_set_visible (GtkWidget *widget, gboolean visible);
 // PANGO
 #ifndef PANGO_WEIGHT_MEDIUM
 #define PANGO_WEIGHT_MEDIUM 500
+#endif
+
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif /* __GTKCOMPAT_H */
