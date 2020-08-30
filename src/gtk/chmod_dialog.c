@@ -106,6 +106,7 @@ void
 chmod_dialog (gpointer data)
 {
   GtkWidget *label, *dialog, *hbox, *main_vbox;
+  GtkWidget * ButtonOK, * ButtonCancel, * IconOK, * IconCancel;
   GtkWidget * FrameItem[4][3]; // 4 frames with 3 items (CheckBoxes) each
   GtkWidget * frameX, * FrameVbox;
   int i, j;
@@ -116,16 +117,22 @@ chmod_dialog (gpointer data)
   if (!check_status (_("Chmod"), wdata, gftpui_common_use_threads (wdata->request), 0, 1, wdata->request->chmod != NULL))
     return;
 
-  dialog = gtk_dialog_new_with_buttons (_("Chmod"), NULL, 0,
-                               "gtk-cancel", GTK_RESPONSE_CANCEL,
-                               "gtk-ok",     GTK_RESPONSE_OK,
-                               NULL);
-
-  gtk_window_set_role (GTK_WINDOW(dialog), "Chmod");
+  dialog = gtk_dialog_new ();
+  gtk_window_set_title (GTK_WINDOW (dialog), _("Chmod"));
+  gtk_window_set_role (GTK_WINDOW (dialog), "Chmod");
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (main_window));
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   set_window_icon (GTK_WINDOW (dialog), NULL);
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
   gtk_widget_realize (dialog);
+
+  // buttons
+  ButtonCancel = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
+  IconCancel   = gtk_image_new_from_icon_name ("gtk-cancel", GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image (GTK_BUTTON (ButtonCancel), IconCancel);
+  ButtonOK     = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_OK"),     GTK_RESPONSE_OK);
+  IconOK       = gtk_image_new_from_icon_name ("gtk-ok", GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image (GTK_BUTTON (ButtonOK), IconOK);
 
   // vbox
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
