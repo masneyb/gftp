@@ -19,8 +19,7 @@
 
 #include "gftp-gtk.h"
 
-static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow,
-                 *ox;
+static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow, *ox;
 static mode_t mode; 
 
 
@@ -51,19 +50,8 @@ do_chmod_thread (gftpui_callback_data * cdata)
   return (error);
 }
 
-static gboolean
-tb_get_active(GtkWidget *w)
-{
-  GtkToggleButton *tb = GTK_TOGGLE_BUTTON (w);
-  return (gtk_toggle_button_get_active (tb));
-}
-
-static void
-tb_set_active(GtkWidget *w, gboolean is_active)
-{
-  GtkToggleButton *tb = GTK_TOGGLE_BUTTON (w);
-  gtk_toggle_button_set_active (tb, is_active);
-}
+#define tb_get_active(w) (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
+#define tb_set_active(w,active) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), active)
 
 static void
 dochmod (gftp_window_data * wdata)
@@ -117,8 +105,10 @@ on_gtk_dialog_response_chmod (GtkDialog *dialog, gint response, gpointer wdata)
 void
 chmod_dialog (gpointer data)
 {
-  GtkWidget *label, *dialog, *hbox, *vbox, *main_vbox;
-  GtkWidget * frame1, * frame2, * frame3, * frame4;
+  GtkWidget *label, *dialog, *hbox, *main_vbox;
+  GtkWidget * FrameItem[4][3]; // 4 frames with 3 items (CheckBoxes) each
+  GtkWidget * frameX, * FrameVbox;
+  int i, j;
   gftp_window_data * wdata;
   gftp_file * tempfle;
 
@@ -133,15 +123,13 @@ chmod_dialog (gpointer data)
 
   gtk_window_set_role (GTK_WINDOW(dialog), "Chmod");
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-
-  // vbox
-  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-
-  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
+  set_window_icon (GTK_WINDOW (dialog), NULL);
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
   gtk_widget_realize (dialog);
 
-  set_window_icon(GTK_WINDOW(dialog), NULL);
+  // vbox
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
 
   label = gtk_label_new (_("You can now adjust the attributes of your file(s)\nNote: Not all ftp servers support the chmod feature"));
   gtk_box_pack_start (GTK_BOX (main_vbox), label, TRUE, FALSE, 0);
@@ -150,77 +138,48 @@ chmod_dialog (gpointer data)
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 10);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
 
-  // vbox -> hbox -> frame1
-  frame1 = gtk_frame_new (_("Special"));
-  gtk_box_pack_start (GTK_BOX (hbox), frame1, FALSE, FALSE, 0);
+  // vbox -> hbox -> frames
+  const char * FrameLabel[4] = { _("Special"), _("User"), _("Group"), _("Other"), };
+  const char *  ItemLabel[4][3] = {
+     { _("SUID"), _("SGID"),  _("Sticky"),  }, /* frame 0: special */
+     { _("Read"), _("Write"), _("Execute"), }, /* frame 1: user    */
+     { _("Read"), _("Write"), _("Execute"), }, /* frame 2: group   */
+     { _("Read"), _("Write"), _("Execute"), }, /* frame 3: other   */
+  };
 
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
-  gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
-  gtk_container_add (GTK_CONTAINER (frame1), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 7); /* padding */
+  for (i = 0; i < 4; i++)
+  {
+     frameX = gtk_frame_new (FrameLabel[i]);
+     gtk_box_pack_start (GTK_BOX (hbox), frameX, FALSE, FALSE, 0);
 
-  suid = gtk_check_button_new_with_label (_("SUID"));
-  gtk_box_pack_start (GTK_BOX (vbox), suid, FALSE, FALSE, 0);
+     FrameVbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+     gtk_box_set_homogeneous (GTK_BOX (FrameVbox), TRUE);
+     gtk_container_add (GTK_CONTAINER (frameX), FrameVbox);
+     gtk_container_set_border_width (GTK_CONTAINER (FrameVbox), 7); /* padding */
 
-  sgid = gtk_check_button_new_with_label (_("SGID"));
-  gtk_box_pack_start (GTK_BOX (vbox), sgid, FALSE, FALSE, 0);
+     for (j = 0; j < 3; j++)
+     {
+        FrameItem[i][j] = gtk_check_button_new_with_label (ItemLabel[i][j]);
+        gtk_box_pack_start (GTK_BOX (FrameVbox), FrameItem[i][j], FALSE, FALSE, 0);
+     }
+  }
 
-  sticky = gtk_check_button_new_with_label (_("Sticky"));
-  gtk_box_pack_start (GTK_BOX (vbox), sticky, FALSE, FALSE, 0);
-
-  // vbox -> hbox -> frame2
-  frame2 = gtk_frame_new (_("User"));
-  gtk_box_pack_start (GTK_BOX (hbox), frame2, FALSE, FALSE, 0);
-
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
-  gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
-  gtk_container_add (GTK_CONTAINER (frame2), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 7); /* padding */
-
-  ur = gtk_check_button_new_with_label (_("Read"));
-  gtk_box_pack_start (GTK_BOX (vbox), ur, FALSE, FALSE, 0);
-
-  uw = gtk_check_button_new_with_label (_("Write"));
-  gtk_box_pack_start (GTK_BOX (vbox), uw, FALSE, FALSE, 0);
-
-  ux = gtk_check_button_new_with_label (_("Execute"));
-  gtk_box_pack_start (GTK_BOX (vbox), ux, FALSE, FALSE, 0);
-
-  // vbox -> hbox -> frame3
-  frame3 = gtk_frame_new (_("Group"));
-  gtk_box_pack_start (GTK_BOX (hbox), frame3, FALSE, FALSE, 0);
-
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
-  gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
-  gtk_container_add (GTK_CONTAINER (frame3), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 7); /* padding */
-
-  gr = gtk_check_button_new_with_label (_("Read"));
-  gtk_box_pack_start (GTK_BOX (vbox), gr, FALSE, FALSE, 0);
-
-  gw = gtk_check_button_new_with_label (_("Write"));
-  gtk_box_pack_start (GTK_BOX (vbox), gw, FALSE, FALSE, 0);
-
-  gx = gtk_check_button_new_with_label (_("Execute"));
-  gtk_box_pack_start (GTK_BOX (vbox), gx, FALSE, FALSE, 0);
-
-  // vbox -> hbox -> frame4
-  frame4 = gtk_frame_new (_("Other"));
-  gtk_box_pack_start (GTK_BOX (hbox), frame4, FALSE, FALSE, 0);
-
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
-  gtk_box_set_homogeneous (GTK_BOX(vbox), TRUE);
-  gtk_container_add (GTK_CONTAINER (frame4), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 7); /* padding */
-
-  or = gtk_check_button_new_with_label (_("Read"));
-  gtk_box_pack_start (GTK_BOX (vbox), or, FALSE, FALSE, 0);
-
-  ow = gtk_check_button_new_with_label (_("Write"));
-  gtk_box_pack_start (GTK_BOX (vbox), ow, FALSE, FALSE, 0);
-
-  ox = gtk_check_button_new_with_label (_("Execute"));
-  gtk_box_pack_start (GTK_BOX (vbox), ox, FALSE, FALSE, 0);
+  /* frame 0: special */
+  suid   = FrameItem[0][0];
+  sgid   = FrameItem[0][1];
+  sticky = FrameItem[0][2];
+  /* frame 1: user    */
+  ur     = FrameItem[1][0];
+  uw     = FrameItem[1][1];
+  ux     = FrameItem[1][2];
+  /* frame 2: group   */
+  gr     = FrameItem[2][0];
+  gw     = FrameItem[2][1];
+  gx     = FrameItem[2][2];
+  /* frame 3: other   */
+  or     = FrameItem[3][0];
+  ow     = FrameItem[3][1];
+  ox     = FrameItem[3][2];
 
   // --
   g_signal_connect (G_OBJECT (dialog), // GtkDialog
@@ -232,17 +191,18 @@ chmod_dialog (gpointer data)
     {
       tempfle = listbox_get_selected_file1 (wdata);
 
-      tb_set_active (suid, tempfle->st_mode & S_ISUID);
-      tb_set_active (ur,   tempfle->st_mode & S_IRUSR);
-      tb_set_active (uw,   tempfle->st_mode & S_IWUSR);
-      tb_set_active (ux,   tempfle->st_mode & S_IXUSR);
-
-      tb_set_active (sgid, tempfle->st_mode & S_ISGID);
-      tb_set_active (gr,   tempfle->st_mode & S_IRGRP);
-      tb_set_active (gw,   tempfle->st_mode & S_IWGRP);
-      tb_set_active (gx,   tempfle->st_mode & S_IXGRP);
-
+      tb_set_active (suid,   tempfle->st_mode & S_ISUID);
+      tb_set_active (sgid,   tempfle->st_mode & S_ISGID);
       tb_set_active (sticky, tempfle->st_mode & S_ISVTX);
+
+      tb_set_active (ur,     tempfle->st_mode & S_IRUSR);
+      tb_set_active (uw,     tempfle->st_mode & S_IWUSR);
+      tb_set_active (ux,     tempfle->st_mode & S_IXUSR);
+
+      tb_set_active (gr,     tempfle->st_mode & S_IRGRP);
+      tb_set_active (gw,     tempfle->st_mode & S_IWGRP);
+      tb_set_active (gx,     tempfle->st_mode & S_IXGRP);
+
       tb_set_active (or,     tempfle->st_mode & S_IROTH);
       tb_set_active (ow,     tempfle->st_mode & S_IWOTH);
       tb_set_active (ox,     tempfle->st_mode & S_IXOTH);
