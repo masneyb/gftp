@@ -530,30 +530,26 @@ listbox_select_row (gftp_window_data * wdata, int n) {
 
 static void
 listbox_select_all_files (gftp_window_data *wdata) {
-   gftp_file        *gftpFile;
-   GList            *templist;
-   int i;
-   GtkTreeView      *tree  = GTK_TREE_VIEW (wdata->listbox);
-   GtkTreeSelection *tsel  = gtk_tree_view_get_selection (tree);
-   GtkTreePath      *tpath;
+   gftp_file       * gftpFile;
+   GtkTreeView     * tree  = GTK_TREE_VIEW (wdata->listbox);
+   GtkTreeModel    * model = gtk_tree_view_get_model (tree);
+   GtkTreeSelection * tsel = gtk_tree_view_get_selection (tree);
+   GtkTreeIter iter;
+   gboolean    valid;
 
-   i = 0;
-   templist = wdata->files;
-   while (templist != NULL)
+   valid = gtk_tree_model_get_iter_first (model, &iter);
+   while (valid)
    {
-      gftpFile = (gftp_file *) templist->data;
-      if (gftpFile->shown)
+      gtk_tree_model_get (model, &iter, LISTBOX_COL_GFTPFILE, &gftpFile, -1);
+      if (gftpFile && gftpFile->shown)
       {
-         tpath = gtk_tree_path_new_from_indices (i, -1);
          if (S_ISDIR (gftpFile->st_mode)) {
-            gtk_tree_selection_unselect_path (tsel, tpath);
+            gtk_tree_selection_unselect_iter (tsel, &iter);
          } else {
-            gtk_tree_selection_select_path (tsel, tpath);
+            gtk_tree_selection_select_iter (tsel, &iter);
          }
-         gtk_tree_path_free (tpath);
-         i++;
       }
-      templist = templist->next;
+      valid = gtk_tree_model_iter_next (model, &iter);
    }
 }
 
