@@ -793,10 +793,6 @@ void gftp_free_bookmark 		( gftp_bookmarks_var * entry,
 
 void gftp_shutdown			( void );
 
-GList * get_next_selection 		( GList * selection, 
-					  GList ** list, 
-					  int *curnum );
-
 char * gftp_build_path 			( gftp_request * request,
 					  const char *first_element,
 					  ... );
