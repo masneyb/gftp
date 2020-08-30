@@ -555,36 +555,30 @@ listbox_select_all_files (gftp_window_data *wdata) {
 
 // ==============================================================
 
-/*
- listbox_get_selected_file1()
-    retrieve existing gftp fileinfo / does not create a glist..
-     https://developer.gnome.org/gtk2/stable/GtkTreeSelection.html#gtk-tree-selection-get-selected-rows
-*/
-
-static void
-selected_1_foreach_func (GtkTreeModel *model,
-                            GtkTreePath  *path,
-                            GtkTreeIter  *iter,
-                            gpointer      userdata)
-{
-   gpointer *gftp_file = (gpointer *) userdata;
-   gtk_tree_model_get (model, iter, LISTBOX_COL_GFTPFILE, gftp_file, -1);
-}
-
 gftp_file *
 listbox_get_selected_file1 (gftp_window_data *wdata)
 {
    // retrieve selected file name from listbox
-   gpointer file = NULL;
-   GtkTreeView      *tree = GTK_TREE_VIEW (wdata->listbox);
-   GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
+   GtkTreeView      * tree = GTK_TREE_VIEW (wdata->listbox);
+   GtkTreeSelection * tsel = gtk_tree_view_get_selection (tree);
+   GtkTreeModel    * model = gtk_tree_view_get_model (tree);
+   GtkTreeIter iter;
+   gboolean   valid;
+   gftp_file * gftpFile = NULL;
 
-   gtk_tree_selection_selected_foreach(tsel, selected_1_foreach_func, &file);
-   if (!file) {
-      fprintf(stderr, "listbox.c: ERROR, could not retrieve filename...\n");
+   valid = gtk_tree_model_get_iter_first (model, &iter);
+   while (valid)
+   {
+      if (gtk_tree_selection_iter_is_selected (tsel, &iter)) {
+         gtk_tree_model_get (model, &iter,  LISTBOX_COL_GFTPFILE, &gftpFile,  -1);
+         break; /* only 1 */
+      }
+      valid = gtk_tree_model_iter_next (model, &iter);
    }
 
-   return ((gftp_file *) file);
+   if (!gftpFile) fprintf(stderr, "listbox.c: ERROR, could not retrieve filename...\n"); //debug
+
+   return (gftpFile);
 }
 
 /* listbox_get_selected_files() */
