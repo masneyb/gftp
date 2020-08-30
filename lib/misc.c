@@ -88,16 +88,16 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
   if (*frompos != '\0')
     {
       if (rem != 0)
-	*topos++ = ',';
+         *topos++ = ',';
       while (num > 0)
-	{
-	  for (i = 0; i < 3; i++)
-	    *topos++ = *frompos++;
-	  *topos++ = ',';
-	  num--;
-	}
+      {
+         for (i = 0; i < 3; i++)
+            *topos++ = *frompos++;
+         *topos++ = ',';
+         num--;
+      }
       for (i = 0; i < 3; i++)
-	*topos++ = *frompos++;
+         *topos++ = *frompos++;
     }
   *topos = '\0';
   return (dest);
@@ -146,17 +146,17 @@ gftp_expand_path (gftp_request * request, const char *src)
   if (*str == '~')
     {
       if (*(str + 1) == '/' || *(str + 1) == '\0')
-	pw = getpwuid (geteuid ());
+        pw = getpwuid (geteuid ());
       else
-	{
+        {
           if ((pos = strchr (str, '/')) != NULL)
-	    *pos = '\0';
+            *pos = '\0';
 
-	  pw = getpwnam (str + 1);
+          pw = getpwnam (str + 1);
 
           if (pos != NULL)
             *pos = '/';
-	}
+        }
     }
 
   endpos = str;
@@ -168,38 +168,38 @@ gftp_expand_path (gftp_request * request, const char *src)
       for (ntoken = pos; *ntoken == '/'; ntoken++);
 
       if ((endpos = strchr (ntoken, '/')) == NULL)
-	endpos = pos + strlen (pos);
+         endpos = pos + strlen (pos);
 
       tempchar = *endpos;
       *endpos = '\0';
 
       if (strcmp (ntoken, "..") == 0)
-	{
-	  if (newstr != NULL && (prevpos = strrchr (newstr, '/')) != NULL)
+        {
+          if (newstr != NULL && (prevpos = strrchr (newstr, '/')) != NULL)
             {
-	      *prevpos = '\0';
+              *prevpos = '\0';
               if (*newstr == '\0')
                 {
                   g_free (newstr);
                   newstr = NULL;
                 }
             }
-	}
+        }
       else if (strcmp (ntoken, ".") != 0)
-	{
-	  if (newstr == NULL)
-	    newstr = g_strdup (pos - 1);
-	  else
-	    {
-	      tempstr = g_strconcat (newstr, pos - 1, NULL);
-	      g_free (newstr);
-	      newstr = tempstr;
-	    }
-	}
+        {
+          if (newstr == NULL)
+            newstr = g_strdup (pos - 1);
+          else
+            {
+              tempstr = g_strconcat (newstr, pos - 1, NULL);
+              g_free (newstr);
+              newstr = tempstr;
+            }
+        }
 
       *endpos = tempchar;
       if (*endpos == '\0')
-	break;
+         break;
 
       endpos = pos + 1;
     }
@@ -215,7 +215,7 @@ gftp_expand_path (gftp_request * request, const char *src)
   if (newstr == NULL || *newstr == '\0')
     {
       if (newstr != NULL)
-	g_free (newstr);
+         g_free (newstr);
 
       newstr = g_strdup ("/");
     }
@@ -225,9 +225,9 @@ gftp_expand_path (gftp_request * request, const char *src)
   if (pw != NULL)
     {
       if ((pos = strchr (newstr, '/')) == NULL)
-	str = g_strdup (pw->pw_dir);
+         str = g_strdup (pw->pw_dir);
       else
-	str = gftp_build_path (request, pw->pw_dir, pos, NULL);
+         str = gftp_build_path (request, pw->pw_dir, pos, NULL);
 
       g_free (newstr);
       newstr = str;
@@ -379,15 +379,15 @@ gftp_parse_command_line (int *argc, char ***argv)
         }
       else if (strcmp (argv[0][1], "--version") == 0 || 
                strcmp (argv[0][1], "-v") == 0)
-	{
+        {
           printf ("%s\n", gftp_version);
           exit (0);
-	}
+        }
       else if (strcmp (argv[0][1], "--info") == 0)
-	{
+        {
           gftp_info ();
           exit (0);
-	}
+        }
     }
   return (0);
 }
@@ -942,7 +942,7 @@ base64_encode (char *str)
     {
       memset (encode, 0, sizeof (encode));
       for (i = 0; i < 3 && *pos != '\0'; i++)
-	encode[i] = *pos++;
+          encode[i] = *pos++;
 
       fillpos = newpos;
       *newpos++ = table[encode[0] >> 2];
@@ -950,7 +950,7 @@ base64_encode (char *str)
       *newpos++ = table[(encode[1] & 0xF) << 2 | encode[2] >> 6];
       *newpos++ = table[encode[2] & 0x3F];
       while (i < 3)
-	fillpos[++i] = '=';
+          fillpos[++i] = '=';
     }
   return (newstr);
 }
@@ -1061,10 +1061,10 @@ get_next_selection (GList * selection, GList ** list, int *curnum)
           tempfle = (*list)->data;
           if (tempfle->shown)
             {
-	      ++*curnum;
-	      i++;
+              ++*curnum;
+              i++;
             }
-	  *list = (*list)->next;
+          *list = (*list)->next;
         }     
     }
   else if (i > 0)
@@ -1074,10 +1074,10 @@ get_next_selection (GList * selection, GList ** list, int *curnum)
           tempfle = (*list)->data;
           if (tempfle->shown)
             {
-	      --*curnum;
-	      i--;
+              --*curnum;
+              i--;
             }
-	  *list = (*list)->prev;
+          *list = (*list)->prev;
         }
     }
 
