@@ -114,41 +114,33 @@ on_gtk_button_clicked_unselectall (GtkButton *button, gpointer data)
 
 
 static void
-gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
-                       int transfer_action)
+gftp_gtk_set_transfer_action (gftp_transfer * tdata, char * transfer_str,
+                              int transfer_action)
 {
-   //GList *filelist = tdata->files;
    Wg_mutex_lock (&tdata->structmutex);
 
-   GtkTreeView      *tree = GTK_TREE_VIEW  (tdata->clist);
-
+   GtkTreeView      *tree = GTK_TREE_VIEW (tdata->clist);
    GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
-   GList         *selrows = gtk_tree_selection_get_selected_rows (tsel, NULL);
-   GList               *i = selrows;
-
-   GtkTreeModel    *model = GTK_TREE_MODEL (gtk_tree_view_get_model (tree));
+   GtkTreeModel    *model = gtk_tree_view_get_model (tree);
    GtkListStore    *store = GTK_LIST_STORE (model);
-   GtkTreeIter       iter;
-   GtkTreePath     *tpath = NULL;
-   gftp_file    *gftpFile = NULL;
+   GtkTreeIter iter;
+   gboolean   valid;
+   gftp_file * gftpFile = NULL;
 
-   while (i)
+   valid = gtk_tree_model_get_iter_first (model, &iter);
+
+   while (valid)
    {
-      tpath = (GtkTreePath *) i->data;
-
-      gtk_tree_model_get_iter (model, &iter, tpath);
-      gtk_tree_model_get      (model, &iter,
-                               TRANSFER_DLG_COL_GFTPFILE, &gftpFile, -1);
-      if (gftpFile) {
-         // fprintf (stderr, "- %s: %s\n", gftpFile->file, transfer_str);
-         gftpFile->transfer_action = transfer_action;
-         gtk_list_store_set (store, &iter, TRANSFER_DLG_COL_ACTION, transfer_str, -1);
+      if (gtk_tree_selection_iter_is_selected (tsel, &iter)) {
+         gtk_tree_model_get (model, &iter,  TRANSFER_DLG_COL_GFTPFILE, &gftpFile,  -1);
+         if (gftpFile) {
+            gftpFile->transfer_action = transfer_action;
+            // change transfer action text in TreeView
+            gtk_list_store_set (store, &iter,  TRANSFER_DLG_COL_ACTION, transfer_str,  -1);
+         }
       }
-
-      i = i->next;
+      valid = gtk_tree_model_iter_next (model, &iter);
    }
-
-   g_list_free_full (selrows, (GDestroyNotify) gtk_tree_path_free);
 
    Wg_mutex_unlock (&tdata->structmutex);
 }
@@ -156,19 +148,19 @@ gftpui_gtk_set_action (gftp_transfer * tdata, char * transfer_str,
 static void
 on_gtk_button_clicked_overwrite (GtkButton *button, gpointer data)
 {
-  gftpui_gtk_set_action (data, _("Overwrite"), GFTP_TRANS_ACTION_OVERWRITE);
+  gftp_gtk_set_transfer_action (data, _("Overwrite"), GFTP_TRANS_ACTION_OVERWRITE);
 }
 
 static void
 on_gtk_button_clicked_resume (GtkButton *button, gpointer data)
 {
-  gftpui_gtk_set_action (data, _("Resume"), GFTP_TRANS_ACTION_RESUME);
+  gftp_gtk_set_transfer_action (data, _("Resume"), GFTP_TRANS_ACTION_RESUME);
 }
 
 static void
 on_gtk_button_clicked_skip (GtkButton *button, gpointer data)
 {
-  gftpui_gtk_set_action (data, _("Skip"), GFTP_TRANS_ACTION_SKIP);
+  gftp_gtk_set_transfer_action (data, _("Skip"), GFTP_TRANS_ACTION_SKIP);
 }
 
 
