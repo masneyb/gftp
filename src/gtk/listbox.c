@@ -593,36 +593,28 @@ listbox_get_selected_file1 (gftp_window_data *wdata)
 GList *
 listbox_get_selected_files (gftp_window_data *wdata)
 {
-   GtkTreeView      *tree = GTK_TREE_VIEW  (wdata->listbox);
+   GtkTreeView      * tree = GTK_TREE_VIEW (wdata->listbox);
+   GtkTreeSelection * tsel = gtk_tree_view_get_selection (tree);
+   GtkTreeModel    * model = gtk_tree_view_get_model (tree);
+   GtkTreeIter iter;
+   gboolean   valid;
+   gftp_file * gftpFile = NULL;
+   GList * out_filelist = NULL;
 
-   GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
-   GList         *selrows = gtk_tree_selection_get_selected_rows (tsel, NULL);
-   GList               *i = selrows;
+   valid = gtk_tree_model_get_iter_first (model, &iter);
 
-   GtkTreeModel    *model = GTK_TREE_MODEL (gtk_tree_view_get_model (tree));
-   GtkTreeIter       iter;
-   GtkTreePath     *tpath = NULL;
-
-   gpointer      gftpFile = NULL;
-   GList    *out_filelist = NULL;
-
-   while (i)
+   while (valid)
    {
-      tpath = (GtkTreePath *) i->data;
-
-      gtk_tree_model_get_iter (model, &iter, tpath);
-      gtk_tree_model_get      (model, &iter,
-                               LISTBOX_COL_GFTPFILE, &gftpFile, -1);
-      //fprintf(stderr, "list: %s\n", filename);
-
-      if (gftpFile) {
-         out_filelist = g_list_append(out_filelist, gftpFile);
+      if (gtk_tree_selection_iter_is_selected (tsel, &iter))
+      {
+         gtk_tree_model_get (model, &iter,  LISTBOX_COL_GFTPFILE, &gftpFile,  -1);
+         ///fprintf(stderr, "list: %s\n", gftpFile->file);
+         if (gftpFile) {
+            out_filelist = g_list_append (out_filelist, gftpFile);
+         }
       }
-
-      i = i->next;
+      valid = gtk_tree_model_iter_next (model, &iter);
    }
-
-   g_list_free_full (selrows, (GDestroyNotify) gtk_tree_path_free);
 
    return (out_filelist);
 }
