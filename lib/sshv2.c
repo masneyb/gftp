@@ -133,6 +133,7 @@ typedef struct sshv2_params_tag
 #define SSH_FX_INVALID_HANDLE                9
 #define SSH_FX_NO_SUCH_PATH                  10
 #define SSH_FX_FILE_ALREADY_EXISTS           11
+#define SSH_FX_WRITE_PROTECT                 12
 
 #define SSH_LOGIN_BUFSIZE	200
 #define SSH_ERROR_BADPASS	-1
@@ -725,6 +726,9 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
             case SSH_FX_FILE_ALREADY_EXISTS:
               descr = _("The file already exists");
               break;
+            case SSH_FX_WRITE_PROTECT:
+              descr = _("The filesystem is write-protected");
+              break;
             default:
               descr = _("Unknown message returned from server");
               break;
@@ -962,6 +966,7 @@ sshv2_response_return_code (gftp_request * request, sshv2_message * message,
       case SSH_FX_NO_SUCH_PATH:
       case SSH_FX_PERMISSION_DENIED:
       case SSH_FX_FILE_ALREADY_EXISTS:
+      case SSH_FX_WRITE_PROTECT:
         return (GFTP_ECANIGNORE);
       default:
         return (sshv2_wrong_response (request, message));
