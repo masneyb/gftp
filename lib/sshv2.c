@@ -134,6 +134,8 @@ typedef struct sshv2_params_tag
 #define SSH_FX_NO_SUCH_PATH                  10
 #define SSH_FX_FILE_ALREADY_EXISTS           11
 #define SSH_FX_WRITE_PROTECT                 12
+#define SSH_FX_COUNT                         13 //
+static char * ssh_response_str[SSH_FX_COUNT] = { NULL };
 
 #define SSH_LOGIN_BUFSIZE	200
 #define SSH_ERROR_BADPASS	-1
@@ -586,6 +588,23 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
   char *descr, *pos, oldchar;
   sshv2_params * params;
 
+  if (!ssh_response_str[0])
+  {
+    ssh_response_str[0]  = _("OK");                         /* SSH_FX_OK  */
+    ssh_response_str[1]  = _("EOF");                        /* SSH_FX_EOF */
+    ssh_response_str[2]  = _("No such file or directory");  /* SSH_FX_NO_SUCH_FILE */
+    ssh_response_str[3]  = _("Permission denied");          /* SSH_FX_PERMISSION_DENIED */
+    ssh_response_str[4]  = _("Failure");                    /* SSH_FX_FAILURE */
+    ssh_response_str[5]  = _("Bad message");                /* SSH_FX_BAD_MESSAGE */
+    ssh_response_str[6]  = _("No connection");              /* SSH_FX_NO_CONNECTION */
+    ssh_response_str[7]  = _("Connection lost");            /* SSH_FX_CONNECTION_LOST */
+    ssh_response_str[8]  = _("Operation unsupported");      /* SSH_FX_OP_UNSUPPORTED */
+    ssh_response_str[9]  = _("Invalid file handle");        /* SSH_FX_INVALID_HANDLE */
+    ssh_response_str[10] = _("Invalid file path");          /* SSH_FX_NO_SUCH_PATH */
+    ssh_response_str[11] = _("File already exists");        /* SSH_FX_FILE_ALREADY_EXISTS */
+    ssh_response_str[12] = _("Write-protected filesystem"); /* SSH_FX_WRITE_PROTECT */
+  };
+
   params = request->protocol_data;
   memcpy (&id, message, 4);
   id = ntohl (id);
@@ -692,51 +711,11 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
           break;
         memcpy (&num, message + 4, 4);
         num = ntohl (num);
-        switch (num)
-          {
-            case SSH_FX_OK:
-              descr = _("OK");
-              break;
-            case SSH_FX_EOF:
-              descr = _("EOF");
-              break;
-            case SSH_FX_NO_SUCH_FILE:
-              descr = _("No such file or directory");
-              break;
-            case SSH_FX_PERMISSION_DENIED:
-              descr = _("Permission denied");
-              break;
-            case SSH_FX_FAILURE:
-              descr = _("Failure");
-              break;
-            case SSH_FX_BAD_MESSAGE:
-              descr = _("Bad message");
-              break;
-            case SSH_FX_NO_CONNECTION:
-              descr = _("No connection");
-              break;
-            case SSH_FX_CONNECTION_LOST:
-              descr = _("Connection lost");
-              break;
-            case SSH_FX_OP_UNSUPPORTED:
-              descr = _("Operation unsupported");
-              break;
-            case SSH_FX_INVALID_HANDLE:
-              descr = _("Invalid file handle");
-              break;
-            case SSH_FX_NO_SUCH_PATH:
-              descr = _("The file path does not exist or is invalid");
-              break;
-            case SSH_FX_FILE_ALREADY_EXISTS:
-              descr = _("The file already exists");
-              break;
-            case SSH_FX_WRITE_PROTECT:
-              descr = _("The filesystem is write-protected");
-              break;
-            default:
-              descr = _("Unknown message returned from server");
-              break;
-          }
+        if (num < SSH_FX_COUNT) {
+           descr = ssh_response_str[num];
+        } else {
+           descr = _("Unknown message returned from server");
+        }
         request->logging_function (level, request,
                                    "%d: %s\n", id, descr);
         break;
