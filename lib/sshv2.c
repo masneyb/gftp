@@ -716,6 +716,9 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
         } else {
            descr = _("Unknown message returned from server");
         }
+        if (num > 1) {
+           level = gftp_logging_error;
+        }
         request->logging_function (level, request,
                                    "%d: %s\n", id, descr);
         break;
