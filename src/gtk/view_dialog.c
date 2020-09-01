@@ -35,7 +35,7 @@ do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
   towdata = fromwdata == &window1 ? &window2 : &window1;
 
   // retrieve selected file
-  gftp_file *tempfle = listbox_get_selected_file1 (fromwdata);
+  gftp_file * tempfle = (gftp_file *) listbox_get_selected_files (fromwdata, 1);
 
   curfle = tempfle;
 

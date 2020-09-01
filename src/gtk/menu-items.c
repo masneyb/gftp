@@ -453,7 +453,7 @@ do_delete_dialog (gpointer data)
   transfer->fromreq = gftp_copy_request (wdata->request);
   transfer->fromwdata = wdata;
 
-  templist = listbox_get_selected_files(wdata);
+  templist = (GList *) listbox_get_selected_files (wdata, 0);
   for (igl = templist; igl != NULL; igl = igl->next)
   {
      tempfle = (gftp_file *) igl->data;

@@ -367,7 +367,8 @@ gftpui_rename_dialog (gpointer data)
   if (!check_status (_("Rename"), wdata, gftpui_common_use_threads (wdata->request), 1, 1, wdata->request->rename != NULL))
     return; // only 1 item selected allowed
 
-  curfle = listbox_get_selected_file1(data);
+  curfle = (gftp_file *) listbox_get_selected_files (wdata, 1);
+
   cdata->source_string = g_strdup (curfle->file);
 
   tempstr = g_strdup_printf (_("What would you like to rename %s to?"),
@@ -441,7 +442,7 @@ gftpui_chdir_dialog (gpointer data)
                      wdata->request->chdir != NULL))
     return;
 
-  curfle = listbox_get_selected_file1 (wdata);
+  curfle = (gftp_file *) listbox_get_selected_files (wdata, 1);
 
   tempstr = gftp_build_path (wdata->request, wdata->request->directory,
                              curfle->file, NULL);

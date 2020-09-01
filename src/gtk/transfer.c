@@ -110,7 +110,7 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
   transfer->fromwdata = fromwdata;
   transfer->towdata = towdata;
 
-  templist = listbox_get_selected_files (fromwdata);
+  templist = (GList *) listbox_get_selected_files (fromwdata, 0);
   for (igl = templist; igl != NULL; igl = igl->next)
   {
      tempfle = (gftp_file *) igl->data;

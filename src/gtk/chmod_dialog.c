@@ -34,7 +34,7 @@ do_chmod_thread (gftpui_callback_data * cdata)
   wdata = cdata->uidata;
   error = 0;
 
-  templist = listbox_get_selected_files(wdata);
+  templist = (GList *) listbox_get_selected_files (wdata, 0);
   for (igl = templist; igl != NULL; igl = igl->next)
   {
      tempfle = (gftp_file *) igl->data;
@@ -196,7 +196,7 @@ chmod_dialog (gpointer data)
 
   if (listbox_num_selected (wdata) == 1)
     {
-      tempfle = listbox_get_selected_file1 (wdata);
+      tempfle = (gftp_file *) listbox_get_selected_files (wdata, 1);
 
       tb_set_active (suid,   tempfle->st_mode & S_ISUID);
       tb_set_active (sgid,   tempfle->st_mode & S_ISGID);

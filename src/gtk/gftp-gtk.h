@@ -222,9 +222,7 @@ int  listbox_num_selected    (gftp_window_data *wdata);
 void listbox_clear           (gftp_window_data *wdata);
 void listbox_select_all      (gftp_window_data *wdata);
 void listbox_deselect_all    (gftp_window_data *wdata);
-
-gftp_file *listbox_get_selected_file1 (gftp_window_data *wdata);
-GList     *listbox_get_selected_files (gftp_window_data *wdata);
+void * listbox_get_selected_files (gftp_window_data *wdata, int only_one);
 
 /* gtkui.c */
 void gftpui_run_command 			( GtkWidget * widget,

@@ -157,7 +157,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
   if (!check_status (_("Drag-N-Drop"), wdata, 1, 0, 1, 1)) 
     return;
 
-  templist = listbox_get_selected_files (wdata);
+  templist = (GList *) listbox_get_selected_files (wdata, 0);
   for (igl = templist; igl != NULL; igl = igl->next)
   {
       tempfle = (gftp_file *) igl->data;

@@ -951,7 +951,7 @@ on_listbox_row_activated_cb (GtkTreeView *tree_view,    GtkTreePath *path,
   // only 1 row selected - double click / enter
   // list directory or download file
 
-  gftp_file *tempfle = listbox_get_selected_file1(wdata);
+  gftp_file * tempfle = (gftp_file *) listbox_get_selected_files (wdata, 1);
 
   char      *directory;
   int success = 0;

@@ -460,7 +460,7 @@ listbox_update_filelist(gftp_window_data * wdata)
    if (only_selected) {
       // mark files that were selected - required by "Show selected"
       //fprintf(stderr, "show_selected\n");
-      templist = listbox_get_selected_files (wdata);
+      templist = (GList *) listbox_get_selected_files (wdata, 0);
       for (igl = templist; igl != NULL; igl = igl->next)
       {
          gftpFile = (gftp_file *) igl->data;
@@ -555,37 +555,13 @@ listbox_select_all_files (gftp_window_data *wdata) {
 
 // ==============================================================
 
-gftp_file *
-listbox_get_selected_file1 (gftp_window_data *wdata)
-{
-   // retrieve selected file name from listbox
-   GtkTreeView      * tree = GTK_TREE_VIEW (wdata->listbox);
-   GtkTreeSelection * tsel = gtk_tree_view_get_selection (tree);
-   GtkTreeModel    * model = gtk_tree_view_get_model (tree);
-   GtkTreeIter iter;
-   gboolean   valid;
-   gftp_file * gftpFile = NULL;
-
-   valid = gtk_tree_model_get_iter_first (model, &iter);
-   while (valid)
-   {
-      if (gtk_tree_selection_iter_is_selected (tsel, &iter)) {
-         gtk_tree_model_get (model, &iter,  LISTBOX_COL_GFTPFILE, &gftpFile,  -1);
-         break; /* only 1 */
-      }
-      valid = gtk_tree_model_iter_next (model, &iter);
-   }
-
-   if (!gftpFile) fprintf(stderr, "listbox.c: ERROR, could not retrieve filename...\n"); //debug
-
-   return (gftpFile);
-}
-
 /* listbox_get_selected_files() */
-// returns a GList that must be freed
+// - only_one = 0: returns a (GList *) where item->data = (gftp_file *) [must be freed]
+// - only_one = 1: returns a (gftp_file *)
+// it may return NULL if no row is selected
 
-GList *
-listbox_get_selected_files (gftp_window_data *wdata)
+void *
+listbox_get_selected_files (gftp_window_data *wdata, int only_one)
 {
    GtkTreeView      * tree = GTK_TREE_VIEW (wdata->listbox);
    GtkTreeSelection * tsel = gtk_tree_view_get_selection (tree);
@@ -603,6 +579,9 @@ listbox_get_selected_files (gftp_window_data *wdata)
       {
          gtk_tree_model_get (model, &iter,  LISTBOX_COL_GFTPFILE, &gftpFile,  -1);
          ///fprintf(stderr, "list: %s\n", gftpFile->file);
+         if (only_one) {
+            return ((void *) gftpFile); /* only one */
+         }
          if (gftpFile) {
             out_filelist = g_list_append (out_filelist, gftpFile);
          }
@@ -610,7 +589,9 @@ listbox_get_selected_files (gftp_window_data *wdata)
       valid = gtk_tree_model_iter_next (model, &iter);
    }
 
-   return (out_filelist);
+   if (!out_filelist) fprintf(stderr, "listbox.c: ERROR, could not retrieve filename(s)...\n"); //debug
+
+   return ((void *) out_filelist);
 }
 
 // ==============================================================
