@@ -655,6 +655,10 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
                                    _("%d: Stat %s\n"), id,
                                    message + 8);
         break;
+      case SSH_FXP_RENAME:
+        request->logging_function (level, request, 
+                                   _("%d: Rename %s\n"), id, message + 8);
+        break;
       case SSH_FXP_SETSTAT:
         memcpy (&num, message + 4, 4);
         num = ntohl (num);
