@@ -119,6 +119,7 @@ typedef struct sshv2_params_tag
 #define SSH_FXF_TRUNC           0x00000010
 #define SSH_FXF_EXCL            0x00000020
 
+/* responses from the server to the client */
 #define SSH_FX_OK                            0
 #define SSH_FX_EOF                           1
 #define SSH_FX_NO_SUCH_FILE                  2
@@ -128,6 +129,7 @@ typedef struct sshv2_params_tag
 #define SSH_FX_NO_CONNECTION                 6
 #define SSH_FX_CONNECTION_LOST               7
 #define SSH_FX_OP_UNSUPPORTED                8
+#define SSH_FX_INVALID_HANDLE                9
 
 #define SSH_LOGIN_BUFSIZE	200
 #define SSH_ERROR_BADPASS	-1
@@ -711,6 +713,9 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
             case SSH_FX_OP_UNSUPPORTED:
               descr = _("Operation unsupported");
               break;
+            case SSH_FX_INVALID_HANDLE:
+              descr = _("Invalid file handle");
+              break;
             default:
               descr = _("Unknown message returned from server");
               break;
@@ -944,6 +949,7 @@ sshv2_response_return_code (gftp_request * request, sshv2_message * message,
         return (GFTP_ERETRYABLE);
       case SSH_FX_FAILURE:
       case SSH_FX_NO_SUCH_FILE:
+      case SSH_FX_INVALID_HANDLE:
       case SSH_FX_PERMISSION_DENIED:
         return (GFTP_ECANIGNORE);
       default:
