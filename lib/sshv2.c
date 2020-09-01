@@ -132,6 +132,7 @@ typedef struct sshv2_params_tag
 #define SSH_FX_OP_UNSUPPORTED                8
 #define SSH_FX_INVALID_HANDLE                9
 #define SSH_FX_NO_SUCH_PATH                  10
+#define SSH_FX_FILE_ALREADY_EXISTS           11
 
 #define SSH_LOGIN_BUFSIZE	200
 #define SSH_ERROR_BADPASS	-1
@@ -719,7 +720,10 @@ sshv2_log_command (gftp_request * request, gftp_logging_level level,
               descr = _("Invalid file handle");
               break;
             case SSH_FX_NO_SUCH_PATH:
-              descr = _("The file path does not exist or is invalid.");
+              descr = _("The file path does not exist or is invalid");
+              break;
+            case SSH_FX_FILE_ALREADY_EXISTS:
+              descr = _("The file already exists");
               break;
             default:
               descr = _("Unknown message returned from server");
@@ -957,6 +961,7 @@ sshv2_response_return_code (gftp_request * request, sshv2_message * message,
       case SSH_FX_INVALID_HANDLE:
       case SSH_FX_NO_SUCH_PATH:
       case SSH_FX_PERMISSION_DENIED:
+      case SSH_FX_FILE_ALREADY_EXISTS:
         return (GFTP_ECANIGNORE);
       default:
         return (sshv2_wrong_response (request, message));
