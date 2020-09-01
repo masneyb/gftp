@@ -468,45 +468,45 @@ check_status (char *name, gftp_window_data *wdata,
   if (wdata->request->stopable)
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("%s: Please hit the stop button first to do anything else\n"),
-	       name);
+               _("%s: Please hit the stop button first to do anything else\n"),
+               name);
       return (0);
     }
 
   if (check_other_stop && owdata->request->stopable)
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("%s: Please hit the stop button first to do anything else\n"),
-	       name);
+               _("%s: Please hit the stop button first to do anything else\n"),
+               name);
       return (0);
     }
 
   if (!GFTP_IS_CONNECTED (wdata->request))
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("%s: Not connected to a remote site\n"), name);
+               _("%s: Not connected to a remote site\n"), name);
       return (0);
     }
 
   if (!func)
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("%s: This feature is not available using this protocol\n"),
-	       name);
+               _("%s: This feature is not available using this protocol\n"),
+               name);
       return (0);
     }
 
   if (only_one && listbox_num_selected(wdata) != 1)
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("%s: You must only have one item selected\n"), name);
+               _("%s: You must only have one item selected\n"), name);
       return (0);
     }
 
   if (at_least_one && !only_one && listbox_num_selected(wdata) == 0)
     {
       ftp_log (gftp_logging_error, NULL,
-	       _("%s: You must have at least one item selected\n"), name);
+               _("%s: You must have at least one item selected\n"), name);
       return (0);
     }
   return (1);
@@ -527,27 +527,27 @@ add_history (GtkWidget * widget, GList ** history, unsigned int *histlen,
   for (node = *history; node != NULL; node = node->next)
     {
       if (strcmp ((char *) node->data, str) == 0)
-	break;
+        break;
     }
 
   if (node == NULL)
     {
       if (*histlen >= MAX_HIST_LEN)
-	{
-	  node = *history;
-	  for (i = 1; i < MAX_HIST_LEN; i++)
-	    node = node->next;
-	  node->prev->next = NULL;
-	  node->prev = NULL;
-	  delnode = node;
-	  while (delnode != NULL)
-	    {
-	      if (delnode->data)
-		g_free (delnode->data);
-	      delnode = delnode->next;
-	    }
-	  g_list_free (node);
-	}
+        {
+          node = *history;
+          for (i = 1; i < MAX_HIST_LEN; i++)
+            node = node->next;
+          node->prev->next = NULL;
+          node->prev = NULL;
+          delnode = node;
+          while (delnode != NULL)
+            {
+              if (delnode->data)
+                g_free (delnode->data);
+              delnode = delnode->next;
+            }
+          g_list_free (node);
+        }
       tempstr = g_strdup (str);
       *history = g_list_prepend (*history, tempstr);
       ++*histlen;
@@ -556,11 +556,11 @@ add_history (GtkWidget * widget, GList ** history, unsigned int *histlen,
     {
       node->prev->next = node->next;
       if (node->next != NULL)
-	node->next->prev = node->prev;
+        node->next->prev = node->prev;
       node->prev = NULL;
       node->next = *history;
       if (node->next != NULL)
-	node->next->prev = node;
+        node->next->prev = node;
       *history = node;
     }
 
@@ -573,7 +573,7 @@ check_reconnect (gftp_window_data *wdata)
 {
   return (wdata->request->cached && wdata->request->datafd < 0 && 
           !wdata->request->always_connected &&
-	  !ftp_connect (wdata, wdata->request) ? -1 : 0);
+          !ftp_connect (wdata, wdata->request) ? -1 : 0);
 }
 
 void
@@ -640,9 +640,9 @@ dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 
 void
 MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
-		char *checktext, 
+                char *checktext, 
                 gftp_dialog_button okbutton, void (*okfunc) (), void *okptr,
-		void (*cancelfunc) (), void *cancelptr)
+                void (*cancelfunc) (), void *cancelptr)
 {
   GtkWidget * tempwid, * dialog, *vbox;
   gftp_dialog_data * ddata;
@@ -784,31 +784,32 @@ display_cached_logs (void)
 }
 
 char *
-get_image_path (char *filename) {
-	char *path1 = NULL, *path2 = NULL, *found = NULL;
+get_image_path (char *filename)
+{
+   char *path1 = NULL, *path2 = NULL, *found = NULL;
 
-	// see lib/misc.c -> gftp_get_share_dir ()
-	path1 = g_strconcat (gftp_get_share_dir (), "/", filename, NULL);
-	if (access (path1, F_OK) == 0) {
-		found = path1;
-	}
+   // see lib/misc.c -> gftp_get_share_dir ()
+   path1 = g_strconcat (gftp_get_share_dir (), "/", filename, NULL);
+   if (access (path1, F_OK) == 0) {
+      found = path1;
+   }
 
-	if (!found) {
-		path2 = g_strconcat ("/usr/share/gftp/", filename, NULL);
-		if (access (path2, F_OK) == 0) {
-			found = path2;
-		}
-	}
-	if (!found) {
-		if (path1) fprintf(stderr, "* %s: %s not found\n", PACKAGE_NAME, path1);
-		if (path2 && strcmp(path1,path2) != 0)
-		           fprintf(stderr, "* %s: %s not found\n", PACKAGE_NAME, path2);
-	}
+   if (!found) {
+      path2 = g_strconcat ("/usr/share/gftp/", filename, NULL);
+      if (access (path2, F_OK) == 0) {
+         found = path2;
+      }
+   }
+   if (!found) {
+      if (path1) fprintf(stderr, "* %s: %s not found\n", PACKAGE_NAME, path1);
+      if (path2 && strcmp(path1,path2) != 0)
+                 fprintf(stderr, "* %s: %s not found\n", PACKAGE_NAME, path2);
+   }
 
-	if (path1 && path1 != found) g_free (path1);
-	if (path2 && path2 != found) g_free (path2);
+   if (path1 && path1 != found) g_free (path1);
+   if (path2 && path2 != found) g_free (path2);
 
-	return (found);
+   return (found);
 }
 
 void
