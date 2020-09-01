@@ -603,7 +603,7 @@ listbox_set_default_column_width (gftp_window_data *wdata)
    GtkTreeView *tree = GTK_TREE_VIEW  (wdata->listbox);
 
    char tempstr[50];
-   int colwidth;
+   intptr_t colwidth;
    GtkTreeViewColumn *tcol;
 
    static char *column_str[LB_NUM_VISIBLE_COLUMNS] = {
