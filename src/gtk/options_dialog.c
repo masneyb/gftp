@@ -878,38 +878,39 @@ add_proxy_host (GtkWidget * widget, gpointer data)
 
   title = hosts ? _("Edit Host") : _("Add Host");
 
-  dialog = gtk_dialog_new_with_buttons (title, NULL, 0,
-                                        "gtk-cancel",
-                                        GTK_RESPONSE_CANCEL,
-                                        "gtk-save",
-                                        GTK_RESPONSE_OK,
-                                        NULL);
+  dialog = gtk_dialog_new ();
+
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 2);
   gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-
-  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
+  gtk_window_set_title (GTK_WINDOW (dialog), title);
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (gftp_option_data->dialog));
+  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_role (GTK_WINDOW(dialog), "hostinfo");
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+
+  gtk_dialog_add_button (GTK_DIALOG (dialog), "gtk-cancel", GTK_RESPONSE_CANCEL);
+  gtk_dialog_add_button (GTK_DIALOG (dialog), "gtk-save",   GTK_RESPONSE_OK);
+
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 5);
+  gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
+
+  GtkWidget * frame = gtk_frame_new ("");
+  gtk_box_pack_start (GTK_BOX (main_vbox), frame, TRUE, TRUE, 0);
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
-  gtk_box_pack_start (GTK_BOX (main_vbox), vbox, FALSE, FALSE, 0);
-  gtk_widget_show (vbox);
-    
-  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
+  gtk_container_add (GTK_CONTAINER (frame), vbox);
+
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_box_pack_start (GTK_BOX (vbox), box, FALSE, FALSE, 0);
-  gtk_widget_show (box);
   
   tempwid = gtk_label_new_with_mnemonic (_("_Type:"));
-
   gtkcompat_widget_set_halign_left (tempwid);
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
-  gtk_widget_show (tempwid);
   
-  rbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+  rbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_box_pack_start (GTK_BOX (box), rbox, TRUE, TRUE, 0);
-  gtk_widget_show (rbox);
   
   domain_active = gtk_radio_button_new_with_label (NULL, _("Domain"));
   g_signal_connect (G_OBJECT (domain_active), "toggled",
@@ -923,115 +924,77 @@ add_proxy_host (GtkWidget * widget, gpointer data)
 
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid), nradio);
 
-  gtk_box_pack_start (GTK_BOX (rbox), nradio, TRUE, TRUE, 0);
-  gtk_widget_show (nradio);
-  gtk_box_pack_start (GTK_BOX (rbox), domain_active, TRUE, TRUE, 0);
-  gtk_widget_show (domain_active);
+  gtk_box_pack_start (GTK_BOX (rbox), nradio, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (rbox), domain_active, FALSE, FALSE, 0);
 
-  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_box_pack_start (GTK_BOX (vbox), box, FALSE, FALSE, 0);
-  gtk_widget_show (box);
-
-  tempwid = gtk_label_new ("    ");
-  gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
-  gtk_widget_show (tempwid);
 
   table = gtk_table_new (2, 2, FALSE);
   gtk_table_set_row_spacings (GTK_TABLE (table), 6);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 12);
+  gtk_table_set_col_spacings (GTK_TABLE (table), 6);
   gtk_box_pack_start (GTK_BOX (box), table, FALSE, FALSE, 0);
-  gtk_widget_show (table);
 
   tempwid = gtk_label_new_with_mnemonic (_("_Network address:"));
-
   network_label = tempwid;
   gtkcompat_widget_set_halign_left (tempwid);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 0, 1);
-  gtk_widget_show (tempwid);
 
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_table_attach_defaults (GTK_TABLE (table), box, 1, 2, 0, 1);
-  gtk_widget_show (box);
 
   network1 = gtk_entry_new ();
   gtk_widget_set_size_request (network1, 36, -1);
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid), network1);
-
   gtk_box_pack_start (GTK_BOX (box), network1, TRUE, TRUE, 0);
-  gtk_widget_show (network1);
 
   network2 = gtk_entry_new ();
   gtk_widget_set_size_request (network2, 36, -1);
-
   gtk_box_pack_start (GTK_BOX (box), network2, TRUE, TRUE, 0);
-  gtk_widget_show (network2);
 
   network3 = gtk_entry_new ();
   gtk_widget_set_size_request (network3, 36, -1);
-
   gtk_box_pack_start (GTK_BOX (box), network3, TRUE, TRUE, 0);
-  gtk_widget_show (network3);
 
   network4 = gtk_entry_new ();
   gtk_widget_set_size_request (network4, 36, -1);
-
   gtk_box_pack_start (GTK_BOX (box), network4, TRUE, TRUE, 0);
-  gtk_widget_show (network4);
 
   tempwid = gtk_label_new_with_mnemonic (_("N_etmask:"));
   netmask_label = tempwid;
-
   gtkcompat_widget_set_halign_left (tempwid);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 1, 2);
-  gtk_widget_show (tempwid);
 
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_table_attach_defaults (GTK_TABLE (table), box, 1, 2, 1, 2);
-  gtk_widget_show (box);
 
   netmask1 = gtk_entry_new ();
   gtk_widget_set_size_request (netmask1, 36, -1);
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid), netmask1);
-
   gtk_box_pack_start (GTK_BOX (box), netmask1, TRUE, TRUE, 0);
-  gtk_widget_show (netmask1);
 
   netmask2 = gtk_entry_new ();
   gtk_widget_set_size_request (netmask2, 36, -1);
-
   gtk_box_pack_start (GTK_BOX (box), netmask2, TRUE, TRUE, 0);
-  gtk_widget_show (netmask2);
 
   netmask3 = gtk_entry_new ();
   gtk_widget_set_size_request (netmask3, 36, -1);
-
   gtk_box_pack_start (GTK_BOX (box), netmask3, TRUE, TRUE, 0);
-  gtk_widget_show (netmask3);
 
   netmask4 = gtk_entry_new ();
   gtk_widget_set_size_request (netmask4, 36, -1);
-
   gtk_box_pack_start (GTK_BOX (box), netmask4, TRUE, TRUE, 0);
-  gtk_widget_show (netmask4);
 
-  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_box_pack_start (GTK_BOX (vbox), box, TRUE, TRUE, 0);
-  gtk_widget_show (box);
-
-  tempwid = gtk_label_new ("    ");
-  gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
-  gtk_widget_show (tempwid);
 
   tempwid = gtk_label_new_with_mnemonic (_("_Domain:"));
-
   domain_label = tempwid;
   gtkcompat_widget_set_halign_left (tempwid);
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
-  gtk_widget_show (tempwid);
 
   new_proxy_domain = gtk_entry_new ();
   gtk_box_pack_start (GTK_BOX (box), new_proxy_domain, TRUE, TRUE, 0);
-  gtk_widget_show (new_proxy_domain);
   gtk_label_set_mnemonic_widget (GTK_LABEL (tempwid), new_proxy_domain);
 
   if (!hosts || !hosts->domain)
@@ -1088,7 +1051,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (proxyhosts_action), NULL);
 
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
 }
 
 static void
@@ -1104,7 +1067,6 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_container_set_border_width (GTK_CONTAINER (box), 10);
-  gtk_widget_show (box);
 
   tempwid = gtk_label_new (_("Local Hosts"));
   gtk_widget_show (tempwid);
@@ -1119,8 +1081,6 @@ make_proxy_hosts_tab (GtkWidget * notebook)
   gtk_container_add (GTK_CONTAINER (scroll), proxy_list);
   gtk_clist_set_column_auto_resize (GTK_CLIST (proxy_list), 0, TRUE);
   gtk_clist_set_column_auto_resize (GTK_CLIST (proxy_list), 1, TRUE);
-  gtk_widget_show (proxy_list);
-  gtk_widget_show (scroll);
 
   gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
   new_proxy_hosts = gftp_copy_proxy_hosts (proxy_hosts->list);
@@ -1132,43 +1092,29 @@ make_proxy_hosts_tab (GtkWidget * notebook)
 
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
   gtk_box_set_homogeneous (GTK_BOX(hbox), TRUE);
-
   gtk_box_pack_start (GTK_BOX (box), hbox, FALSE, FALSE, 0);
-  gtk_widget_show (hbox);
 
   tempwid = gtk_button_new_from_stock ("gtk-add");
-
-  gtk_widget_set_can_default (tempwid, TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
-		      G_CALLBACK (add_proxy_host), NULL);
-  gtk_widget_show (tempwid);
+                    G_CALLBACK (add_proxy_host), NULL);
 
-#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION < 5
-  tempwid = gtk_button_new_with_mnemonic (_("_Edit"));
-#else
   tempwid = gtk_button_new_from_stock ("gtk-edit");
-#endif
   edit_button = tempwid;
-  gtk_widget_set_can_default (tempwid, TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
-		      G_CALLBACK (add_proxy_host), (gpointer) 1);
-  gtk_widget_show (tempwid);
+                    G_CALLBACK (add_proxy_host), (gpointer) 1);
 
   tempwid = gtk_button_new_from_stock ("gtk-delete");
-
   delete_button = tempwid;
-  gtk_widget_set_can_default (tempwid, TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), tempwid, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (tempwid), "clicked",
-		      G_CALLBACK (delete_proxy_host), NULL);
-  gtk_widget_show (tempwid);
+                    G_CALLBACK (delete_proxy_host), NULL);
 
   g_signal_connect (G_OBJECT (proxy_list), "select_row", 
-                      G_CALLBACK (buttons_toggle), (gpointer) 1);
+                    G_CALLBACK (buttons_toggle), (gpointer) 1);
   g_signal_connect (G_OBJECT (proxy_list), "unselect_row", 
-                      G_CALLBACK (buttons_toggle), NULL);
+                    G_CALLBACK (buttons_toggle), NULL);
   buttons_toggle (NULL, 0, 0, 0, NULL);
 }
 
@@ -1271,7 +1217,7 @@ options_dialog (gpointer data)
   g_signal_connect (G_OBJECT (gftp_option_data->dialog), "response",
                     G_CALLBACK (options_action), NULL);
 
-  gtk_widget_show (gftp_option_data->dialog);
+  gtk_widget_show_all (gftp_option_data->dialog);
 }
 
 
