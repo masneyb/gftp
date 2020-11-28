@@ -56,7 +56,7 @@ _gen_input_widget (gftp_options_dialog_data * option_data, char *label, char *ti
                     option_data->tbl_row_num, 2);
 
   tempwid = gtk_label_new (_(label));
-  gtk_widget_set_halign (tempwid, GTK_ALIGN_START);
+  gtkcompat_widget_set_halign_left (tempwid);
   gtk_table_attach (GTK_TABLE (option_data->table), tempwid, 0, 1,
                     option_data->tbl_row_num - 1, 
                     option_data->tbl_row_num,
@@ -141,7 +141,7 @@ _gen_combo_widget (gftp_options_dialog_data * option_data, char *label)
                                option_data->tbl_row_num, 2);
 
   tempwid = gtk_label_new (_(label));
-  gtk_widget_set_halign (tempwid, GTK_ALIGN_START);
+  gtkcompat_widget_set_halign_left (tempwid);
   gtk_table_attach (GTK_TABLE (option_data->table), tempwid, 0, 1,
                     option_data->tbl_row_num - 1, 
                     option_data->tbl_row_num,
@@ -903,7 +903,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   
   tempwid = gtk_label_new_with_mnemonic (_("_Type:"));
 
-  gtk_widget_set_halign (tempwid, GTK_ALIGN_START);
+  gtkcompat_widget_set_halign_left (tempwid);
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
   
@@ -945,7 +945,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   tempwid = gtk_label_new_with_mnemonic (_("_Network address:"));
 
   network_label = tempwid;
-  gtk_widget_set_halign (tempwid, GTK_ALIGN_START);
+  gtkcompat_widget_set_halign_left (tempwid);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 0, 1);
   gtk_widget_show (tempwid);
 
@@ -981,7 +981,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   tempwid = gtk_label_new_with_mnemonic (_("N_etmask:"));
   netmask_label = tempwid;
 
-  gtk_widget_set_halign (tempwid, GTK_ALIGN_START);
+  gtkcompat_widget_set_halign_left (tempwid);
   gtk_table_attach_defaults (GTK_TABLE (table), tempwid, 0, 1, 1, 2);
   gtk_widget_show (tempwid);
 
@@ -1025,7 +1025,7 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   tempwid = gtk_label_new_with_mnemonic (_("_Domain:"));
 
   domain_label = tempwid;
-  gtk_widget_set_halign (tempwid, GTK_ALIGN_START);
+  gtkcompat_widget_set_halign_left (tempwid);
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
 

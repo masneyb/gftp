@@ -62,23 +62,17 @@ _gftp_exit (GtkWidget * widget, gpointer data)
 {
   intptr_t remember_last_directory, ret;
   const char *tempstr;
-  GtkAllocation allocation;
 
-  gtk_widget_get_allocation (GTK_WIDGET (local_frame), &allocation);
-  gftp_set_global_option ("listbox_local_width",
-                          GINT_TO_POINTER ((intptr_t) allocation.width));
-  gtk_widget_get_allocation (GTK_WIDGET (remote_frame), &allocation);
-  gftp_set_global_option ("listbox_remote_width",
-                          GINT_TO_POINTER ((intptr_t) allocation.width));
-  gtk_widget_get_allocation (GTK_WIDGET (remote_frame), &allocation);
-  gftp_set_global_option ("listbox_file_height",
-                          GINT_TO_POINTER ((intptr_t) allocation.height));
-  gtk_widget_get_allocation (GTK_WIDGET (log_scroll), &allocation);
-  gftp_set_global_option ("log_height",
-                          GINT_TO_POINTER ((intptr_t) allocation.height));
-  gtk_widget_get_allocation (GTK_WIDGET (transfer_scroll), &allocation);
-  gftp_set_global_option ("transfer_height",
-                          GINT_TO_POINTER ((intptr_t) allocation.height));
+  ret = gtk_widget_get_allocated_width (GTK_WIDGET (local_frame));
+  gftp_set_global_option ("listbox_local_width", GINT_TO_POINTER (ret));
+  ret = gtk_widget_get_allocated_width (GTK_WIDGET (remote_frame));
+  gftp_set_global_option ("listbox_remote_width", GINT_TO_POINTER (ret));
+  ret = gtk_widget_get_allocated_height (GTK_WIDGET (remote_frame));
+  gftp_set_global_option ("listbox_file_height", GINT_TO_POINTER (ret));
+  ret = gtk_widget_get_allocated_height (GTK_WIDGET (log_scroll));
+  gftp_set_global_option ("log_height", GINT_TO_POINTER (ret));
+  ret = gtk_widget_get_allocated_height (GTK_WIDGET (transfer_scroll));
+  gftp_set_global_option ("transfer_height", GINT_TO_POINTER (ret));
 
   listbox_save_column_width (&window1, &window2);
 
@@ -1036,7 +1030,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   gtk_entry_set_text (GTK_ENTRY (combo_entry), startup_directory);
 
   wdata->hoststxt = gtk_label_new (NULL);
-  gtk_widget_set_halign (wdata->hoststxt, GTK_ALIGN_START);
+  gtkcompat_widget_set_halign_left (wdata->hoststxt);
   gtk_box_pack_start (GTK_BOX (box), wdata->hoststxt, FALSE, FALSE, 0);
 
   scroll_list = gtk_scrolled_window_new (NULL, NULL);

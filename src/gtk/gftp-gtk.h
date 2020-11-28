@@ -272,8 +272,6 @@ void about_dialog 				( gpointer data );
 void delete_dialog 				( gpointer data );
 
 /* misc-gtk.c */
-void fix_display				( void );
-
 void remove_files_window			( gftp_window_data * wdata );
 
 void ftp_log					( gftp_logging_level level,
