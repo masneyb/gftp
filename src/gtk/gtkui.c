@@ -150,16 +150,16 @@ gftpui_prompt_password (void *uidata, gftp_request * request)
 
 /* The wakeup main thread functions are so that after the thread terminates
    there won't be a delay in updating the GUI */
-static void
-_gftpui_wakeup_main_thread (gpointer data, gint source,
-                            GdkInputCondition condition)
+static gboolean
+_gftpui_wakeup_main_thread (GIOChannel *source, GIOCondition condition,
+                            gpointer data)
 {
-  gftp_request * request;
+  gftp_request * request = (gftp_request *) data;
   char c;
-
-  request = data;
-  if (request->wakeup_main_thread[0] > 0)
+  if (request->wakeup_main_thread[0] > 0) {
     read (request->wakeup_main_thread[0], &c, 1);
+  }
+  return TRUE;
 }
 
 
@@ -170,14 +170,17 @@ _gftpui_setup_wakeup_main_thread (gftp_request * request)
 
   if (socketpair (AF_UNIX, SOCK_STREAM, 0, request->wakeup_main_thread) == 0)
     {
-      handler = gdk_input_add (request->wakeup_main_thread[0],
-                               GDK_INPUT_READ, _gftpui_wakeup_main_thread,
-                               request);
+      request->chan = g_io_channel_unix_new (request->wakeup_main_thread[0]);
+      handler = g_io_add_watch (request->chan,
+                                G_IO_IN,
+                                _gftpui_wakeup_main_thread,
+                                request); /* user data */
     }
   else
     {
       request->wakeup_main_thread[0] = 0;
       request->wakeup_main_thread[1] = 0;
+      request->chan = NULL;
       handler = 0;
     }
 
@@ -190,11 +193,13 @@ _gftpui_teardown_wakeup_main_thread (gftp_request * request, gint handler)
 {
   if (request->wakeup_main_thread[0] > 0 && request->wakeup_main_thread[1] > 0)
     {
-      gdk_input_remove (handler);
+      g_source_remove (handler);
+      g_io_channel_unref (request->chan);
       close (request->wakeup_main_thread[0]);
       close (request->wakeup_main_thread[1]);
       request->wakeup_main_thread[0] = 0;
       request->wakeup_main_thread[1] = 0;
+      request->chan = NULL;
     }
 }
 

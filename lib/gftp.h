@@ -375,6 +375,7 @@ struct gftp_request_tag
 
   int datafd,			/* Data connection */
       cachefd;			/* For the directory cache */
+  GIOChannel * chan;
   int wakeup_main_thread[2];	/* FD that gets written to by the threads
                                    to wakeup the parent */
 
