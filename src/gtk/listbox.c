@@ -160,7 +160,7 @@ listbox_add_columns (gftp_window_data *wdata)
                            "xalign", 0.0,     /* justify left */
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
-                          "title",          "Filename",
+                          "title",          _("Filename"),
                           "resizable",      TRUE,
                           "clickable",      TRUE,
                           //"sort-column-id", LISTBOX_COL_FILENAME,
@@ -178,7 +178,7 @@ listbox_add_columns (gftp_window_data *wdata)
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
                           "alignment",      1.0,    /* header: right alignment */
-                          "title",          "Size",
+                          "title",          _("Size"),
                           "resizable",      TRUE,
                           "clickable",      TRUE,
                           //"sort-column-id", LISTBOX_COL_SIZE,
@@ -195,7 +195,7 @@ listbox_add_columns (gftp_window_data *wdata)
                            "xalign", 0.0,
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
-                          "title",          "Date",
+                          "title",          _("Date"),
                           "resizable",      TRUE,
                           "clickable",      TRUE,
                           //"sort-column-id", LISTBOX_COL_DATE,
@@ -212,7 +212,7 @@ listbox_add_columns (gftp_window_data *wdata)
                            "xalign", 0.0,
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
-                          "title",          "User",
+                          "title",          _("User"),
                           "resizable",      TRUE,
                           "clickable",      TRUE,
                           //"sort-column-id", LISTBOX_COL_USER,
@@ -229,7 +229,7 @@ listbox_add_columns (gftp_window_data *wdata)
                            "xalign", 0.0,
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
-                          "title",          "Group",
+                          "title",          _("Group"),
                           "resizable",      TRUE,
                           "clickable",      TRUE,
                           //"sort-column-id", LISTBOX_COL_GROUP,
@@ -246,7 +246,7 @@ listbox_add_columns (gftp_window_data *wdata)
                            "xalign", 0.0,
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
-                          "title",          "Atribs",
+                          "title",          _("Atribs"),
                           "resizable",      TRUE,
                           "clickable",      TRUE,
                           //"sort-column-id", LISTBOX_COL_ATTRIBS,
