@@ -1,5 +1,126 @@
-gFTP version 2.6.0b
-===================
+===========
+gFTP 2.7.0b
+===========
+
+Highlights:
+- SSH2: recognize more ssh server responses
+- GTK UI: fixes / tweaks
+- Some minor cleanups
+- Ongoing effort to add GTK3 support
+- Support GTK 2.14+
+- Translations desperately getting out of date 
+
+Changes since 2.6.0b
+--------------------
+5472qaywsx (1):
+      Line breaks broke some titles -> put title on the same line
+
+Andreas Rönnquist (3):
+      Remove encoding key, not needed any longer
+      Add Keywords entry to desktop file
+      Fix building on Hurd
+
+Steven Edwards (11):
+      fixes / hacks for macOS (tested on 10.15.5 (19F101))
+      lib: Remove superfluous (since glib 2.32) calls to g_thread_supported
+      gftp-gtk.c: Only call gtk_window_set_policy on gtk2 builds
+      src: Remove remaining superfluous (since glib 2.32) calls to g_thread_supported for the text only client
+      options_dialog.c: replace GTK_CAN_DEFAULT with gtk_widget_set_can_default (w, TRUE)
+      gtkui.c: replace `w->window` with `gtk_widget_get_window(w)`
+      src/gtk: gftp-gtk.h/gtkcompat.h remove redundant inclusion of <gtk/gtk.> Add gdkkeysysms-compat.h fix suggested by wdlkmpx
+      options_dialog.c gtk_dialog_set_has_separator was disabled by default in gtk2.22 and removed in gtk3
+      gftp-gtk.c: CreateConnectToolbar: avoid GtkHandleBox in GKT3 (#88)
+      src/gtk: Replace calls of gtk_window_set_wmclass to gtk_window_set_role (#89)
+      .gitignore - Ignore the DS_Store files the macOS likes to leave around
+
+wdlkmpx (82):
+      src/gtk: Avoid GtkToggleButton->active
+      Makefile.am: cleanup
+      docs/gftp.desktop: update
+      merge ChangeLog-old into ChangeLog
+      delete_dialog.c: use listbox_num_selected() and avoid `askdel()`
+      delete_dialog.c: remove unused askdel()
+      delete_dialog.c: merge `_gftp_gtk_free_del_data()` into `yesCB()`
+      delete_dialog.c: merge `yesCB` into `do_delete_dialog()`
+      remove delete_dialog.c (move code to menu-items.c)
+      chmod_dialog.c: gtk_widget_show_all (dialog);
+      menu-items.c: merge `dosavelog()` into `savelog()`
+      src/gtk: replace `dialog->vbox` with `gtk_dialog_get_content_area(dialog)`
+      gtkui_transfer.c: increase width / more GtkTreeViewColumn properties
+      listbox.c: "size" column: fix right alignment
+      gtkui_transfer.c: `from` / `to` columns: right alignment (size)
+      listbox.c: fix some comments..
+      src/gtk: glist_to_combobox()
+      gtkui_transfer.c:  gtk_widget_show_all (dialog)
+      gtkui_transfer.c: pass gtkTreeView to un/select_all() callbacks
+      gtkui_transfer.c: properly name/define/identify gtk callback functions
+      gtkui_transfer.c: *cancel transfers if response != GTK_RESPONSE_OK
+      gtkui_transfer.c: merge `gftpui_gtk_ok()` into `on_gtk_dialog_response_transferdlg()`
+      chmod_dialog.c: properly name/define/identify gtk callback functions
+      chmod_dialog.c: add padding to frames
+      src/gtk: add gtkcompat.c / gtkcompat.h
+      listbox.c: store pointer to gftp_file in a "hidden" column
+      gtkui_transfer.c: store pointer to gftp_file in a "hidden" column
+      listbox.c: remove unused `find_gftp_file_by_name()`
+      GtkTreeView Part3: replace GtkCTree in Bookmarks dialog (bookmarks.c)
+      src/gtk/bookmarks.c: fix mixed indentation (tabs + spaces)
+      src/gtk/bookmarks.c: use g_object_new() to create treeview columns..
+      src/gtk/bookmarks.c: on_gtk_dialog_response_BookmarkDlg callback
+      src/gtk/bookmarks.c: rename "bm_dialog" to "edit_bm_entry_dlg"
+      src/gtk: remove unused code
+      src/gtk/transfer.c: fix mixed space/tab indentation
+      src/gtk: Bookmarks Dlg: improve dlg menu, avoid GtkUIManager
+      src/gtk: use "gtk-xx" instead of GTK_STOCK_*
+      src/gtk: gtkcompat: updates / reduce gtk3 warnings
+      src/gtk/bookmarks.c: logic to enable/disable "edit","delete" menu items
+      src/gtk/bookmarks.c: shrink code a bit
+      src/gtk/bookmarks.c: bookmark to GtkTreeModel (and vice versa)
+      src/gtk/bookmarks.c: (dlg) look for bookmark entry in GtkTreeModel
+      src/gtk/bookmarks.c: simplify btree_add_node()
+      src/gtk/bookmarks.c: merge copy_bm_entry() into btree_add_node()
+      gftp-gtk.c: don't use GtkTable in main window
+      gftp-gtk.c: avoid widget->allocation.*
+      src/gtk/bookmarks.c: gtk_widget_show_all (edit_bm_entry_dlg);
+      view_dialog.c: don't use GtkTable
+      chmod_dialog.c: tweaks / add comments
+      menu-items.c: create GtkAboutDialog with g_object_new()
+      src/gtk/bookmarks.c: improve build_bookmarks_menu()
+      src/gtk/transfer.c: hack for glibc < 2.7
+      support gtk >= 2.14 / glib >= 2.18
+      src/gtk: (gtkcompat) use gtk_widget_set_halign/valign
+      src/gtk: gtkcompat: gtk_widget_set_margin_*
+      remove docs/rfcs
+      autogen.sh: `verbose` param
+      chmod_dialog.c: tweaks / use arrays
+      chmod_dialog.c: use gtk_dialog_new() and gtk_dialog_add_button()
+      listbox_select_all_files(): iterate through treeview items
+      gtkui_transfer.c: simplify logic to get selected transfers
+      listbox.c: simplify logic to get selected files
+      listbox_get_selected_file1: iterate / don't use a callback function..
+      lib/misc.c: consistent indentation
+      lib/misc.c: remove unused function get_next_selection()
+      misc-gtk.c: consistent indentation
+      src/gtk: remove listbox_get_selected_file1()
+      listbox.c: intptr_t colwidth;
+      lib/sshv2.c: SSH_FX_INVALID_HANDLE
+      lib/sshv2.c: SSH_FX_NO_SUCH_PATH:
+      lib/sshv2.c: SSH_FX_FILE_ALREADY_EXISTS
+      lib/sshv2.c: SSH_FX_WRITE_PROTECT
+      lib/sshv2.c: show description for SSH_FXP_RENAME
+      lib/sshv2.c: ssh_response_str[]
+      lib/sshv2.c: log server response > 1 as errors
+      update gtkcompat (2020-10-11)
+      src/gtk: use GIOChannel instead of GdkInput
+      options_dialog.c: "Local hosts": tweaks
+      src/gtk: options_dialog_localhosts.c
+      translate src/gtk/listbox.c
+      GtkTreeView Part4: replace GtkCList in "Local Hosts" tab
+      update po/gftp.pot
+
+
+===========
+gFTP 2.6.0b
+===========
 
 Highlights:
 - removed GTK1 support

@@ -4,8 +4,8 @@ The gFTP file transfer client. http://www.gftp.org
 
 ## What are the requirements to run gFTP?
 
-  - GTK 2.24
-  - Glib 2.32+
+  - GTK 2.14+
+  - Glib 2.18+
 
 
 ## Supported protocols?
