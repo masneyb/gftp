@@ -4,10 +4,10 @@
 # update the po files
 
 if test "$1" =  "po" ; then
-	if ! test -f ./autogen.sh ; then
+	if ! test -f ./configure ; then
 		./autogen.sh
 	fi
-	if ! test -f ./configure ; then
+	if ! test -f ./po/Makefile ; then
 		./configure
 	fi
 	make -C po update-po
