@@ -19,6 +19,10 @@
 /* included by options_dialog.c
  * - make_proxy_hosts_tab()
  * - new_proxy_hosts
+ * 
+ * The logic to add/edit localhosts needs fixing
+ * - add : should not allow duplicate entries
+ * - edit: should not add a new entry
  */
 
 static GtkWidget * proxy_list, * new_proxy_domain,
@@ -30,13 +34,21 @@ static GtkWidget * proxy_list, * new_proxy_domain,
 
 static GList * new_proxy_hosts = NULL;
 
+enum
+{
+	LOCALHTV_COL_NETWORK,
+	LOCALHTV_COL_NETMASK,
+	LOCALHTV_COL_HOST, /* hidden */
+	LOCALHTV_NUM_COLS
+};
+
 static void make_proxy_hosts_tab (GtkWidget * notebook, GtkWidget * dialog);
 static void add_proxy_host (GtkWidget * widget, gpointer data);
 static void add_host_dlg_toggled_cb (GtkToggleButton *togglebutton, gpointer data);
 static void delete_proxy_host (GtkWidget * widget, gpointer data);
-static void buttons_toggle (GtkWidget * widget, gint row, gint col, GdkEventButton * event, gpointer data);
-static void add_host_dlg_response_cb (GtkWidget * widget, gint response, gpointer user_data);
-static void add_host_dlg_ok (GtkWidget * widget, gpointer data);
+static void ph_list_selection_cb (GtkTreeSelection * tree_sel, gpointer data);
+static void add_host_dlg_response_cb (GtkDialog * dialog, gint response, gpointer user_data);
+static void add_host_dlg_ok (void);
 static void add_host_to_listbox (GList * templist);
 
 // =====================================================================
@@ -45,58 +57,56 @@ static void
 add_host_to_listbox (GList * templist)
 {
   gftp_proxy_hosts * hosts = (gftp_proxy_hosts *) templist->data;
-  char *add_data[2];
-  int num;
+  char * network, * netmask;
+  int free_chars = 0;
+  GtkTreeIter iter;
+  GtkTreeModel * model = gtk_tree_view_get_model (GTK_TREE_VIEW (proxy_list));
+  GtkListStore * store = GTK_LIST_STORE (model);
 
   if (hosts->domain)
     {
-      add_data[0] = hosts->domain;
-      add_data[1] = NULL;
-      num = gtk_clist_append (GTK_CLIST (proxy_list), add_data);
+      network = hosts->domain;
+      netmask = NULL;
     }
   else
     {
-      add_data[0] = g_strdup_printf ("%d.%d.%d.%d",
-                                     hosts->ipv4_network_address >> 24 & 0xff,
-                                     hosts->ipv4_network_address >> 16 & 0xff,
-                                     hosts->ipv4_network_address >> 8 & 0xff,
-                                     hosts->ipv4_network_address & 0xff);
-      add_data[1] = g_strdup_printf ("%d.%d.%d.%d",
-                                     hosts->ipv4_netmask >> 24 & 0xff,
-                                     hosts->ipv4_netmask >> 16 & 0xff,
-                                     hosts->ipv4_netmask >> 8 & 0xff,
-                                     hosts->ipv4_netmask & 0xff);
-      num = gtk_clist_append (GTK_CLIST (proxy_list), add_data);
-      g_free (add_data[0]);
-      g_free (add_data[1]);
+      network = g_strdup_printf ("%d.%d.%d.%d",
+                                 hosts->ipv4_network_address >> 24 & 0xff,
+                                 hosts->ipv4_network_address >> 16 & 0xff,
+                                 hosts->ipv4_network_address >> 8 & 0xff,
+                                 hosts->ipv4_network_address & 0xff);
+      netmask = g_strdup_printf ("%d.%d.%d.%d",
+                                 hosts->ipv4_netmask >> 24 & 0xff,
+                                 hosts->ipv4_netmask >> 16 & 0xff,
+                                 hosts->ipv4_netmask >> 8 & 0xff,
+                                 hosts->ipv4_netmask & 0xff);
+      free_chars = 1;
     }
 
-  gtk_clist_set_row_data (GTK_CLIST (proxy_list), num, (gpointer) templist);
+  gtk_list_store_append (store, &iter);
+  gtk_list_store_set (store, &iter,
+                      LOCALHTV_COL_NETWORK, network,
+                      LOCALHTV_COL_NETMASK, netmask,
+                      LOCALHTV_COL_HOST, templist,
+                      -1);
+  if (free_chars) {
+    g_free (network);
+    g_free (netmask);
+  }
 }
 
 
 static void
-add_host_dlg_ok (GtkWidget * widget, gpointer data)
+add_host_dlg_ok (void)
 {
   gftp_proxy_hosts * hosts;
   const char * edttxt;
-  GList * templist = (GList *) data;
-  int num;
+  GList * templist = NULL;
 
-  if (templist == NULL)
-    {
-      hosts = g_malloc0 (sizeof (*hosts));
-      new_proxy_hosts = g_list_append (new_proxy_hosts, hosts);
-      for (templist = new_proxy_hosts; templist->next != NULL;
-           templist = templist->next);
-    }
-  else
-    {
-      num = gtk_clist_find_row_from_data (GTK_CLIST (proxy_list), templist);
-      if (num != -1)
-        gtk_clist_remove (GTK_CLIST (proxy_list), num);
-      hosts = templist->data;
-    }
+  hosts = g_malloc0 (sizeof (*hosts));
+  new_proxy_hosts = g_list_append (new_proxy_hosts, hosts);
+  for (templist = new_proxy_hosts; templist->next != NULL;
+       templist = templist->next);
 
   if (hosts->domain)
     {
@@ -142,36 +152,47 @@ add_host_dlg_ok (GtkWidget * widget, gpointer data)
 
 
 static void
-add_host_dlg_response_cb (GtkWidget * widget, gint response, gpointer user_data)
+add_host_dlg_response_cb (GtkDialog * dialog, gint response, gpointer user_data)
 {
   if (response == GTK_RESPONSE_OK) {
-     add_host_dlg_ok (widget, user_data);
+     add_host_dlg_ok ();
   }
-  gtk_widget_destroy (widget);
+  gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
+
 static void
-buttons_toggle (GtkWidget * widget, gint row, gint col, GdkEventButton * event, gpointer data)
-{
-  gtk_widget_set_sensitive (edit_button, data != NULL);
-  gtk_widget_set_sensitive (delete_button, data != NULL);
+ph_list_selection_cb (GtkTreeSelection * tree_sel, gpointer data)
+{ // enable or disable Edit/Delete buttons
+  gboolean sel = FALSE;
+  if (tree_sel) {
+     sel = gtk_tree_selection_get_selected (tree_sel, NULL, NULL);
+  }
+  gtk_widget_set_sensitive (edit_button, sel);
+  gtk_widget_set_sensitive (delete_button, sel);
 }
 
 static void
 delete_proxy_host (GtkWidget * widget, gpointer data)
 {
   GList *templist;
-  int num;
-
+  GtkTreeIter iter;
+  GtkTreeModel * model = gtk_tree_view_get_model (GTK_TREE_VIEW (proxy_list));
+  GtkTreeSelection * sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (proxy_list));
   gftp_configuration_changed = 1; /* FIXME */
 
-  if ((templist = GTK_CLIST (proxy_list)->selection) == NULL)
-    return;
-  num = GPOINTER_TO_INT (templist->data);
-  templist = gtk_clist_get_row_data (GTK_CLIST (proxy_list), num);
+  if (!gtk_tree_selection_get_selected (sel, NULL, &iter)) {
+     return;
+  }
+  gtk_tree_model_get (model, &iter, LOCALHTV_COL_HOST, &templist, -1);
+  gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
   new_proxy_hosts = g_list_remove_link (new_proxy_hosts, templist);
-  gtk_clist_remove (GTK_CLIST (proxy_list), num);
-  buttons_toggle (NULL, 0, 0, 0, NULL);
+  /* free templist->data (see gftp_proxy_hosts in gftp.h */
+  gftp_proxy_hosts * hosts = (gftp_proxy_hosts *) templist->data;
+  if (hosts->domain) g_free (hosts->domain);
+  g_list_free (templist);
+  /* disable edit/delete buttons */
+  ph_list_selection_cb (NULL, NULL);
 }
 
 static void
@@ -188,6 +209,7 @@ add_host_dlg_toggled_cb (GtkToggleButton *togglebutton, gpointer data)
   }
 }
 
+
 static void
 add_proxy_host (GtkWidget * widget, gpointer data)
 {
@@ -200,12 +222,17 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gftp_configuration_changed = 1; /* FIXME */
 
   if (data)
-    {
-      if ((templist = GTK_CLIST (proxy_list)->selection) == NULL) {
+    { /* Edit */
+      GtkTreeModel * model = gtk_tree_view_get_model (GTK_TREE_VIEW (proxy_list));
+      GtkTreeSelection * sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (proxy_list));
+      GtkTreeIter iter;
+      if (!gtk_tree_selection_get_selected (sel, NULL, &iter)) {
+         return;
+      }
+      gtk_tree_model_get (model, &iter, LOCALHTV_COL_HOST, &templist, -1);
+      if (!templist) {
         return;
       }
-      templist = gtk_clist_get_row_data (GTK_CLIST (proxy_list), 
-                                         GPOINTER_TO_INT (templist->data));
       hosts = templist->data;
     }
   else
@@ -366,17 +393,15 @@ add_proxy_host (GtkWidget * widget, gpointer data)
   gtk_widget_show_all (dialog);
 }
 
+
 static void
 make_proxy_hosts_tab (GtkWidget * notebook, GtkWidget * dialog)
 {
   GtkWidget *tempwid, *box, *hbox, *scroll;
   gftp_config_list_vars * proxy_hosts;
-  char *add_data[2];
   GList * templist;
 
   _opt_dlg = dialog;
-  add_data[0] = _("Network");
-  add_data[1] = _("Netmask");
 
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_container_set_border_width (GTK_CONTAINER (box), 10);
@@ -390,10 +415,61 @@ make_proxy_hosts_tab (GtkWidget * notebook, GtkWidget * dialog)
                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start (GTK_BOX (box), scroll, TRUE, TRUE, 0);
 
-  proxy_list = gtk_clist_new_with_titles (2, add_data);
+  //-----------
+  //GtkTreeView
+
+  GtkTreeModel     *tree_model;
+  GtkTreeView      *treeview;
+  GtkTreeSelection *tree_sel;
+
+  GtkListStore *store;
+  store = gtk_list_store_new (LOCALHTV_NUM_COLS,
+                              G_TYPE_STRING,
+                              G_TYPE_STRING,
+                              G_TYPE_POINTER);
+  tree_model = GTK_TREE_MODEL (store);
+
+  treeview = GTK_TREE_VIEW (gtk_tree_view_new_with_model (tree_model));
+
+  tree_sel = gtk_tree_view_get_selection (treeview);
+  gtk_tree_selection_set_mode (tree_sel, GTK_SELECTION_SINGLE); //GTK_SELECTION_MULTIPLE
+
+  gtk_tree_view_set_search_column (GTK_TREE_VIEW (treeview), LOCALHTV_COL_NETWORK);
+  g_object_unref (tree_model);
+
+  /* COLUMNS */
+  GtkCellRenderer * renderer;
+  GtkTreeViewColumn * col;
+
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  col = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                      "title",          _("Network"),
+                      "resizable",      TRUE,
+                      "clickable",      TRUE,
+                      "sort-column-id", LOCALHTV_COL_NETWORK,
+                      "sizing",         GTK_TREE_VIEW_COLUMN_AUTOSIZE,
+                      NULL);
+  gtk_tree_view_column_pack_start (col, renderer, FALSE);
+  gtk_tree_view_column_add_attribute (col, renderer, "text", LOCALHTV_COL_NETWORK);
+  gtk_tree_view_append_column (treeview, col);
+
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  col = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                      "title",          _("Netmask"),
+                      "resizable",      TRUE,
+                      "clickable",      TRUE,
+                      "sort-column-id", LOCALHTV_COL_NETMASK,
+                      "sizing",         GTK_TREE_VIEW_COLUMN_AUTOSIZE,
+                      NULL);
+  gtk_tree_view_column_pack_start (col, renderer, TRUE);
+  gtk_tree_view_column_add_attribute (col, renderer, "text", LOCALHTV_COL_NETMASK);
+  gtk_tree_view_append_column (treeview, col);
+
+  //end of GtkTreView
+  //-----------------
+
+  proxy_list = GTK_WIDGET (treeview);
   gtk_container_add (GTK_CONTAINER (scroll), proxy_list);
-  gtk_clist_set_column_auto_resize (GTK_CLIST (proxy_list), 0, TRUE);
-  gtk_clist_set_column_auto_resize (GTK_CLIST (proxy_list), 1, TRUE);
 
   gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
   new_proxy_hosts = gftp_copy_proxy_hosts (proxy_hosts->list);
@@ -424,10 +500,9 @@ make_proxy_hosts_tab (GtkWidget * notebook, GtkWidget * dialog)
   g_signal_connect (G_OBJECT (tempwid), "clicked",
                     G_CALLBACK (delete_proxy_host), NULL);
 
-  g_signal_connect (G_OBJECT (proxy_list), "select_row", 
-                    G_CALLBACK (buttons_toggle), (gpointer) 1);
-  g_signal_connect (G_OBJECT (proxy_list), "unselect_row", 
-                    G_CALLBACK (buttons_toggle), NULL);
-  buttons_toggle (NULL, 0, 0, 0, NULL);
+  g_signal_connect (G_OBJECT (tree_sel), "changed",
+                    G_CALLBACK (ph_list_selection_cb), NULL);
+
+  ph_list_selection_cb (NULL, NULL);
 }
 
