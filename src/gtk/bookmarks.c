@@ -361,7 +361,7 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
                                  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                  GTK_MESSAGE_ERROR,
                                  GTK_BUTTONS_OK,
-                                 error);
+                                 "%s", error);
      gtk_dialog_run (GTK_DIALOG (m));
      gtk_widget_destroy (m);
      return;
