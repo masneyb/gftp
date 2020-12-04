@@ -21,7 +21,6 @@
  * - new_proxy_hosts
  * 
  * The logic to add/edit localhosts needs fixing
- * - add : should not allow duplicate entries
  * - edit: should not add a new entry
  */
 
@@ -56,7 +55,6 @@ static void add_edit_host_dialog (GtkButton * button, gpointer data);
 static void add_host_dlg_response_cb (GtkDialog * dialog, gint response, gpointer user_data);
 static void add_host_dlg_ok (void);
 static void add_host_dlg_toggled_cb (GtkToggleButton * togglebutton, gpointer data);
-
 
 //=============================================================
 //               Local Hosts Tab
@@ -434,7 +432,7 @@ add_edit_host_dialog (GtkButton * button, gpointer data)
   }
 
   g_signal_connect (G_OBJECT (dialog), "response",
-                    G_CALLBACK (add_host_dlg_response_cb), NULL);
+                    G_CALLBACK (add_host_dlg_response_cb), data);
 
   gtk_widget_show_all (dialog);
 }
@@ -443,10 +441,103 @@ add_edit_host_dialog (GtkButton * button, gpointer data)
 static void
 add_host_dlg_response_cb (GtkDialog * dialog, gint response, gpointer user_data)
 {
-  if (response == GTK_RESPONSE_OK)
-  {
-     add_host_dlg_ok ();
+  if (response != GTK_RESPONSE_OK) {
+     gtk_widget_destroy (GTK_WIDGET (dialog));
+     return;
   }
+
+  /* * OK * */
+  char * new_netw = NULL;    /* must be freed */
+  char * search_netw = NULL;
+  GtkWidget * m = NULL;
+  const char * error = NULL;
+
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio_domain))) {
+     /* domain */
+     new_netw = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry_domain)));
+     if (!*new_netw) {
+        error = _("Enter domain");
+     }
+  } else {
+     /* network ip */
+     const char * netip[4] = { NULL, NULL, NULL, NULL };
+     const char * netmk[4] = { NULL, NULL, NULL, NULL };
+     int i;
+     for (i = 0; i < 4; i++) {
+        netip[i] = gtk_entry_get_text (GTK_ENTRY (entry_netipv4[i]));
+        netmk[i] = gtk_entry_get_text (GTK_ENTRY (entry_netmask[i]));
+     }
+     if (!netip[0][0] || !netip[1][0] || !netip[2][0] || !netip[3][0]) {
+        error = _("Enter IP address");
+     } else if (!netmk[0][0] || !netmk[1][0] || !netmk[2][0] || !netmk[3][0]) {
+        error = _("Enter netmask");
+     } else {
+        new_netw = g_strdup_printf ("%s.%s.%s.%s", netip[0], netip[1], netip[2], netip[3]);
+     }
+  }
+
+  if (error) {
+     g_signal_stop_emission_by_name (dialog, "response");
+     m = gtk_message_dialog_new (GTK_WINDOW (dialog),
+                                 GTK_DIALOG_MODAL,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_OK,
+                                 "%s", error);
+     g_signal_connect_swapped (m, "response", G_CALLBACK (gtk_widget_destroy), m);
+     gtk_widget_show (m);
+     if (new_netw) g_free (new_netw);
+     return;
+  }
+
+  GtkTreeIter iter;
+  GtkTreeModel * model = gtk_tree_view_get_model (GTK_TREE_VIEW (proxy_listbox));
+
+  if (user_data)
+  {  /* edit */
+     char * current_netw = NULL;
+     GtkTreeSelection * sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (proxy_listbox));
+     gtk_tree_selection_get_selected (sel, NULL, &iter);
+     gtk_tree_model_get (model, &iter, LOCALHTV_COL_NETWORK, &current_netw, -1);
+     if (strcmp (new_netw, current_netw) != 0) {
+        /* network name/IP has changed */
+        search_netw = new_netw;
+     }
+  } else {
+     /* add */
+     search_netw = new_netw;
+  }
+
+  /* do not allow duplicate entries */
+  if (search_netw) {
+     gboolean valid;
+     char * list_network = NULL;
+     valid = gtk_tree_model_get_iter_first (model, &iter);
+     while (valid) {
+        gtk_tree_model_get (model, &iter, LOCALHTV_COL_NETWORK, &list_network, -1);
+        if (list_network && strcmp (search_netw, list_network) == 0) {
+           error = _("Entry already exists");
+           break;
+        }
+        valid = gtk_tree_model_iter_next (model, &iter);
+     }
+  }
+
+  if (new_netw) g_free (new_netw);
+  if (error) {
+     g_signal_stop_emission_by_name (dialog, "response");
+     m = gtk_message_dialog_new (GTK_WINDOW (dialog),
+                                 GTK_DIALOG_MODAL,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_OK,
+                                 "%s", error);
+     g_signal_connect_swapped (m, "response", G_CALLBACK (gtk_widget_destroy), m);
+     gtk_widget_show (m);
+     return;
+  }
+
+  /* proceed */
+  add_host_dlg_ok ();
+
   gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
