@@ -70,29 +70,15 @@ change_filespec (gpointer data)
                    dochange_filespec, wdata, NULL, NULL);
 }
 
+//---------------------------------------------------------------
 
-void 
-save_directory_listing (gpointer data)
+static void save_dirlist_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data)
 {
-  gftp_window_data * wdata = (gftp_window_data *)data;
-  GtkWidget *filew;
-  char current_dir[256];
-  getcwd(current_dir, sizeof(current_dir));
   const char *filename;
+  gftp_window_data * wdata = (gftp_window_data *) data;
 
-  filew = gtk_file_chooser_dialog_new (_("Save Directory Listing"),
-            main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
-            GTK_FILE_CHOOSER_ACTION_SAVE,
-            "gtk-save",   GTK_RESPONSE_ACCEPT,
-            "gtk-cancel", GTK_RESPONSE_CANCEL,
-            NULL );
-
-  gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
-  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
-  gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "Directory_Listing.txt");
-
-  if (gtk_dialog_run (GTK_DIALOG(filew)) == GTK_RESPONSE_ACCEPT) {
-    filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filew));
+  if (responseID == GTK_RESPONSE_ACCEPT) {
+    filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
     gftp_file * tempfle;
     GList * templist = wdata->files;
     char *tempstr;
@@ -115,9 +101,32 @@ save_directory_listing (gpointer data)
                _("Error: Cannot open %s for writing: %s\n"), filename,  g_strerror (errno));
     }
   }
-
-  gtk_widget_destroy (filew);
+  gtk_widget_destroy (GTK_WIDGET (dlg));
 }
+
+void save_directory_listing (gpointer data) /* data = window1/2 */
+{
+  GtkWidget *filew;
+  char current_dir[256];
+  getcwd(current_dir, sizeof(current_dir));
+
+  filew = gtk_file_chooser_dialog_new (_("Save Directory Listing"),
+            main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
+            GTK_FILE_CHOOSER_ACTION_SAVE,
+            "gtk-save",   GTK_RESPONSE_ACCEPT,
+            "gtk-cancel", GTK_RESPONSE_CANCEL,
+            NULL );
+
+  gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
+  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
+  gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "Directory_Listing.txt");
+
+  g_signal_connect (filew, "response",
+                    G_CALLBACK (save_dirlist_dlg_cb), data);
+  gtk_widget_show (filew);
+}
+
+//---------------------------------------------------------------
 
 gboolean
 chdir_edit (GtkWidget * widget, GdkEventKey *event, gpointer data )
@@ -241,34 +250,16 @@ viewlog (gpointer data)
   g_free (txt);
 }
 
+//---------------------------------------------------------------
 
-void 
-savelog (gpointer data)
+static void savelog_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data)
 {
-  GtkWidget *filew;
-  const char *filename = NULL;
-  char current_dir[256];
-  getcwd(current_dir, sizeof(current_dir));
-
-  filew = gtk_file_chooser_dialog_new (_("Save Log"),
-            main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
-            GTK_FILE_CHOOSER_ACTION_SAVE,
-            "gtk-save",   GTK_RESPONSE_ACCEPT,
-            "gtk-cancel", GTK_RESPONSE_CANCEL,
-            NULL );
-
-  gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
-  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
-  gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "gftp.log");
-
-  if (gtk_dialog_run (GTK_DIALOG(filew)) != GTK_RESPONSE_ACCEPT) {
-     gtk_widget_destroy (filew);
+  if (responseID != GTK_RESPONSE_ACCEPT) {
+     gtk_widget_destroy (GTK_WIDGET (dlg));
      return;
   }
 
-  filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filew));
-
-  // do save log
+  char * filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
   char *txt, *pos;
   gint textlen;
   ssize_t len;
@@ -315,9 +306,31 @@ savelog (gpointer data)
   fclose (fd);
   g_free (txt);
 
-  gtk_widget_destroy (filew);
+  gtk_widget_destroy (GTK_WIDGET (dlg));
 }
 
+void savelog (gpointer data)
+{
+  GtkWidget *filew;
+  char current_dir[256];
+  getcwd(current_dir, sizeof(current_dir));
+
+  filew = gtk_file_chooser_dialog_new (_("Save Log"),
+            main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
+            GTK_FILE_CHOOSER_ACTION_SAVE,
+            "gtk-save",   GTK_RESPONSE_ACCEPT,
+            "gtk-cancel", GTK_RESPONSE_CANCEL,
+            NULL );
+
+  gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
+  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
+  gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "gftp.log");
+
+  g_signal_connect (filew, "response", G_CALLBACK (savelog_dlg_cb), data);
+  gtk_widget_show (filew);
+}
+
+//---------------------------------------------------------------
 
 void 
 clear_cache (gpointer data)
@@ -363,9 +376,9 @@ about_dialog (gpointer data)
     gtk_window_set_modal (GTK_WINDOW (w), TRUE);
     gtk_window_set_position (GTK_WINDOW (w), GTK_WIN_POS_CENTER_ON_PARENT);
 
-    /* Display the dialog, wait for the user to close it, then destroy it. */
-    gtk_dialog_run (GTK_DIALOG (w));
-    gtk_widget_destroy (w);
+    g_signal_connect_swapped (w, "response",
+                              G_CALLBACK (gtk_widget_destroy), w);
+    gtk_widget_show_all (GTK_WIDGET (w));
 }
 
 
@@ -431,7 +444,7 @@ compare_windows (gpointer data)
   _do_compare_windows (&window2, &window1);
 }
 
-// ---------------------------------------------------------------
+//---------------------------------------------------------------
 
 static void
 do_delete_dialog (gpointer data)

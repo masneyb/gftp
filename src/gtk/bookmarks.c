@@ -360,13 +360,13 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   if (error)
   {
      GtkWidget *m;
-     m = gtk_message_dialog_new (GTK_WINDOW (edit_bm_entry_dlg),
+     m = gtk_message_dialog_new (GTK_WINDOW (edit_bookmarks_dialog),
                                  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                  GTK_MESSAGE_ERROR,
                                  GTK_BUTTONS_OK,
                                  "%s", error);
-     gtk_dialog_run (GTK_DIALOG (m));
-     gtk_widget_destroy (m);
+     g_signal_connect_swapped (m, "response", G_CALLBACK (gtk_widget_destroy), m);
+     gtk_widget_show (m);
      return;
   }
 
@@ -629,8 +629,8 @@ on_gtk_dialog_response_EditEntryDlg (GtkDialog *dialog,
                                    GTK_MESSAGE_ERROR,
                                    GTK_BUTTONS_OK,
                                    _("A bookmark with that description already exists."));
-       gtk_dialog_run (GTK_DIALOG (m));
-       gtk_widget_destroy (m);
+       g_signal_connect_swapped (m, "response", G_CALLBACK (gtk_widget_destroy), m);
+       gtk_widget_show (m);
        return;
     }
 
