@@ -563,21 +563,21 @@ show_transfer (gftp_transfer * tdata)
   if (!tdata->toreq->stopable && gftp_need_password (tdata->toreq))
     {
       tdata->toreq->stopable = 1;
-      MakeEditDialog (_("Enter Password"),
-                      _("Please enter your password for this site"), NULL, 0,
-                      NULL, gftp_dialog_button_connect, 
-                      get_trans_password, tdata->toreq,
-                      cancel_get_trans_password, tdata);
+      TextEntryDialog (NULL, _("Enter Password"),
+                       _("Please enter your password for this site"), NULL, 0,
+                       NULL, gftp_dialog_button_connect, 
+                       get_trans_password, tdata->toreq,
+                       cancel_get_trans_password, tdata);
     }
 
   if (!tdata->fromreq->stopable && gftp_need_password (tdata->fromreq))
     {
       tdata->fromreq->stopable = 1;
-      MakeEditDialog (_("Enter Password"),
-                      _("Please enter your password for this site"), NULL, 0,
-                      NULL, gftp_dialog_button_connect, 
-                      get_trans_password, tdata->fromreq,
-                      cancel_get_trans_password, tdata);
+      TextEntryDialog (NULL, _("Enter Password"),
+                       _("Please enter your password for this site"), NULL, 0,
+                       NULL, gftp_dialog_button_connect, 
+                       get_trans_password, tdata->fromreq,
+                       cancel_get_trans_password, tdata);
     }
 }
 

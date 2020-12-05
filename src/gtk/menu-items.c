@@ -65,9 +65,9 @@ change_filespec (gpointer data)
   if (!check_status (_("Change Filespec"), wdata, 0, 0, 0, 1))
     return;
 
-  MakeEditDialog (_("Change Filespec"), _("Enter the new file specification"),
-                  wdata->filespec, 1, NULL, gftp_dialog_button_change, 
-                  dochange_filespec, wdata, NULL, NULL);
+  TextEntryDialog (NULL, _("Change Filespec"), _("Enter the new file specification"),
+                   wdata->filespec, 1, NULL, gftp_dialog_button_change, 
+                   dochange_filespec, wdata, NULL, NULL);
 }
 
 

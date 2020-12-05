@@ -115,11 +115,11 @@ gftpui_show_busy (gboolean busy)
 void
 gftpui_prompt_username (void *uidata, gftp_request * request)
 {
-  MakeEditDialog (_("Enter Username"),
-                  _("Please enter your username for this site"), NULL,
-                  1, NULL, gftp_dialog_button_connect,
-                  _gftpui_gtk_set_username, request,
-                  _gftpui_gtk_abort, request);
+  TextEntryDialog (NULL, _("Enter Username"),
+                   _("Please enter your username for this site"), NULL,
+                   1, NULL, gftp_dialog_button_connect,
+                   _gftpui_gtk_set_username, request,
+                   _gftpui_gtk_abort, request);
 
   request->stopable = 1;
   while (request->stopable)
@@ -133,11 +133,11 @@ gftpui_prompt_username (void *uidata, gftp_request * request)
 void
 gftpui_prompt_password (void *uidata, gftp_request * request)
 {
-  MakeEditDialog (_("Enter Password"),
-                  _("Please enter your password for this site"), NULL,
-                  0, NULL, gftp_dialog_button_connect,
-                  _gftpui_gtk_set_password, request,
-                  _gftpui_gtk_abort, request);
+  TextEntryDialog (NULL, _("Enter Password"),
+                   _("Please enter your password for this site"), NULL,
+                   0, NULL, gftp_dialog_button_connect,
+                   _gftpui_gtk_set_password, request,
+                   _gftpui_gtk_abort, request);
 
   request->stopable = 1;
   while (request->stopable)
@@ -323,10 +323,10 @@ gftpui_mkdir_dialog (gpointer data)
   if (!check_status (_("Mkdir"), wdata, gftpui_common_use_threads (wdata->request), 0, 0, wdata->request->mkdir != NULL))
     return;
 
-  MakeEditDialog (_("Make Directory"), _("Enter name of directory to create"),
-                  NULL, 1, NULL, gftp_dialog_button_create,
-                  gftpui_run_function_callback, cdata,
-                  gftpui_run_function_cancel_callback, cdata);
+  TextEntryDialog (NULL, _("Make Directory"), _("Enter name of directory to create"),
+                   NULL, 1, NULL, gftp_dialog_button_create,
+                   gftpui_run_function_callback, cdata,
+                   gftpui_run_function_cancel_callback, cdata);
 }
 
 
@@ -365,10 +365,10 @@ gftpui_rename_dialog (gpointer data)
 
   tempstr = g_strdup_printf (_("What would you like to rename %s to?"),
                              cdata->source_string);
-  MakeEditDialog (_("Rename"), tempstr, cdata->source_string, 1, NULL,
-                  gftp_dialog_button_rename,
-                  gftpui_run_function_callback, cdata,
-                  gftpui_run_function_cancel_callback, cdata);
+  TextEntryDialog (NULL, _("Rename"), tempstr, cdata->source_string, 1, NULL,
+                   gftp_dialog_button_rename,
+                   gftpui_run_function_callback, cdata,
+                   gftpui_run_function_cancel_callback, cdata);
   g_free (tempstr);
 }
 
@@ -388,10 +388,10 @@ gftpui_site_dialog (gpointer data)
   if (!check_status (_("Site"), wdata, 0, 0, 0, wdata->request->site != NULL))
     return;
 
-  MakeEditDialog (_("Site"), _("Enter site-specific command"), NULL, 1,
-                  _("Prepend with SITE"), gftp_dialog_button_ok,
-                  gftpui_run_function_callback, cdata,
-                  gftpui_run_function_cancel_callback, cdata);
+  TextEntryDialog (NULL, _("Site"), _("Enter site-specific command"), NULL, 1,
+                   _("Prepend with SITE"), gftp_dialog_button_ok,
+                   gftpui_run_function_callback, cdata,
+                   gftpui_run_function_cancel_callback, cdata);
 }
 
 
@@ -550,8 +550,8 @@ gftpui_protocol_ask_user_input (gftp_request * request, char *title,
 
   *buf = '\0';
   *(buf + 1) = ' ';
-  MakeEditDialog (title, question, NULL, shown, NULL, gftp_dialog_button_ok,
-                  _protocol_ok_answer, &buf, _protocol_cancel_answer, &buf);
+  TextEntryDialog (NULL, title, question, NULL, shown, NULL, gftp_dialog_button_ok,
+                   _protocol_ok_answer, &buf, _protocol_cancel_answer, &buf);
 
   if (gftp_protocols[request->protonum].use_threads)
     {

@@ -45,7 +45,7 @@
   trequest->datafd > 0 && !trequest->always_connected && \
   compare_request (trequest, (wdata)->request, 0))
 
-/* These are used for the MakeEditDialog function. I have these types to make
+/* These are used for the TextEntryDialog function. I have these types to make
    it easier for creating dialogs with GTK+ 2.0 */
 
 typedef enum gftp_dialog_button_tag

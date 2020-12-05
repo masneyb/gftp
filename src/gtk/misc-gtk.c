@@ -623,10 +623,12 @@ dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 
 
 void
-MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
-                char *checktext, 
-                gftp_dialog_button okbutton, void (*okfunc) (), void *okptr,
-                void (*cancelfunc) (), void *cancelptr)
+TextEntryDialog (GtkWindow * parent_window,       /* nullable */
+                 char * title,   char * infotxt,
+                 char * deftext, int passwd_item,
+                 char * checktext, 
+                 gftp_dialog_button okbutton, void (*okfunc) (), void *okptr,
+                 void (*cancelfunc) (), void *cancelptr)
 {
   GtkWidget * tempwid, * dialog, *vbox;
   gftp_dialog_data * ddata;
@@ -637,6 +639,9 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
   ddata->yespointer = okptr;
   ddata->nofunc = cancelfunc;
   ddata->nopointer = cancelptr;
+
+  dialog = gtk_dialog_new();
+  ddata->dialog = dialog;
 
   switch (okbutton)
     {
@@ -660,24 +665,30 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
         break;
     }
 
-  dialog = gtk_dialog_new_with_buttons (_(diagtxt),
-                                        NULL,
-                                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                        "gtk-cancel", GTK_RESPONSE_NO,
-                                        yes_text,         GTK_RESPONSE_YES,
-                                        NULL);
+  if (!parent_window) {
+     // must create a parent window
+     parent_window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
+     gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
+     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+     gtk_grab_add (dialog);
+  } else {
+     gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
+     gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+     gtk_window_set_skip_taskbar_hint (GTK_WINDOW (dialog), TRUE);
+     gtk_window_set_skip_pager_hint (GTK_WINDOW (dialog), TRUE);
+  }
 
-  vbox = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-
-  gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
-  gtk_box_set_spacing (GTK_BOX (vbox), 5);
-  gtk_window_set_role (GTK_WINDOW(dialog), "edit");
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_window_set_title (GTK_WINDOW (dialog), title);
   gtk_widget_set_size_request (dialog, 380, -1);
-  gtk_grab_add (dialog);
-  set_window_icon(GTK_WINDOW(dialog), NULL);
+  set_window_icon (GTK_WINDOW(dialog), NULL);
 
-  ddata->dialog = dialog;
+  gtk_dialog_add_button (GTK_DIALOG (dialog), "gtk-cancel", GTK_RESPONSE_NO);
+  gtk_dialog_add_button (GTK_DIALOG (dialog), yes_text,     GTK_RESPONSE_YES);
+
+  gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+  vbox = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+  gtk_box_set_spacing (GTK_BOX (vbox), 5);
 
   tempwid = gtk_label_new (infotxt);
   gtk_box_pack_start (GTK_BOX (vbox), tempwid, TRUE, TRUE, 0);
