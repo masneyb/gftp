@@ -492,7 +492,7 @@ on_next_transfer (gftp_transfer * tdata)
 static void
 get_trans_password (gftp_request * request, gftp_dialog_data * ddata)
 {
-  gftp_set_password (request, gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
+  gftp_set_password (request, ddata->entry_text);
   request->stopable = 0;
 }
 

@@ -37,12 +37,9 @@ show_selected (gpointer data)
 static void
 dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
-  const char *edttext;
-
   wdata->show_selected = 0;
 
-  edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
-  if (*edttext == '\0')
+  if (ddata->entry_text[0] == '\0')
     {
       ftp_log (gftp_logging_error, NULL,
                _("Change Filespec: Operation canceled...you must enter a string\n"));
@@ -52,7 +49,7 @@ dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
   if (wdata->filespec)
     g_free (wdata->filespec);
 
-  wdata->filespec = g_strdup (edttext);
+  wdata->filespec = g_strdup (ddata->entry_text);
 
   listbox_update_filelist (wdata);
   update_window (wdata);

@@ -77,7 +77,7 @@ gftpui_refresh (void *uidata, int clear_cache_entry)
 static void 
 _gftpui_gtk_set_username (gftp_request * request, gftp_dialog_data * ddata)
 {
-  gftp_set_username (request, gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
+  gftp_set_username (request, ddata->entry_text);
   request->stopable = 0;
 }
 
@@ -85,7 +85,7 @@ _gftpui_gtk_set_username (gftp_request * request, gftp_dialog_data * ddata)
 static void 
 _gftpui_gtk_set_password (gftp_request * request, gftp_dialog_data * ddata)
 {
-  gftp_set_password (request, gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
+  gftp_set_password (request, ddata->entry_text);
   request->stopable = 0;
 }
 
@@ -277,32 +277,20 @@ void
 gftpui_run_function_callback (gftp_window_data * wdata,
                               gftp_dialog_data * ddata)
 {
-  gftpui_callback_data * cdata;
-  const char *edttext;
+  gftpui_callback_data * cdata = (gftpui_callback_data *) ddata->yespointer;
 
-  cdata = ddata->yespointer;
-  if (ddata->edit != NULL)
-    {
-      edttext = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
-      if (*edttext == '\0')
-        {
-          ftp_log (gftp_logging_error, NULL,
-                   _("Operation canceled...you must enter a string\n"));
-          return;
-        }
+  if (ddata->entry_text[0] == '\0') {
+     ftp_log (gftp_logging_error, NULL,
+              _("Operation canceled...you must enter a string\n"));
+     return;
+  }
 
-      cdata->input_string = g_strdup (edttext);
-    }
-
-  if (ddata->checkbox != NULL)
-    cdata->toggled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ddata->checkbox));
-  else
-    cdata->toggled = 0;
-
-  gtk_widget_destroy (ddata->dialog);
-  ddata->dialog = NULL;
+  cdata->input_string = g_strdup (ddata->entry_text);
+  cdata->toggled = ddata->checkbox_is_ticked;
 
   gftpui_common_run_callback_function (cdata);
+  /* free cdata */
+  gftpui_run_function_cancel_callback (wdata, ddata);
 }
 
 
@@ -310,9 +298,8 @@ void
 gftpui_run_function_cancel_callback (gftp_window_data * wdata,
                                      gftp_dialog_data * ddata)
 {
-  gftpui_callback_data * cdata;
+  gftpui_callback_data * cdata = (gftpui_callback_data *) ddata->yespointer;
 
-  cdata = ddata->yespointer;
   if (cdata->input_string != NULL)
     g_free (cdata->input_string);
   if (cdata->source_string != NULL)
@@ -541,7 +528,7 @@ static void
 _protocol_ok_answer (char *buf, gftp_dialog_data * ddata)
 {
   buf[1] = ' '; /* In case this is an empty string entered */
-  strncpy (buf, gtk_entry_get_text (GTK_ENTRY (ddata->edit)), BUFSIZ);
+  strncpy (buf, ddata->entry_text, BUFSIZ);
 }
 
 

@@ -88,7 +88,7 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
   gftp_bookmarks_var * tempentry;
   char *dpos, *proto;
 
-  edttxt = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
+  edttxt = ddata->entry_text;
   if (*edttxt == '\0')
     {
       ftp_log (gftp_logging_error, NULL,
@@ -138,7 +138,7 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
 
       edttxt = gtk_entry_get_text (GTK_ENTRY (passedit));
       tempentry->pass = g_strdup (edttxt);
-      tempentry->save_password = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ddata->checkbox));
+      tempentry->save_password = ddata->checkbox_is_ticked;
     }
 
   gftp_add_bookmark (tempentry);
@@ -347,7 +347,7 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   const char *error1 = _("You must specify a name for the bookmark.");
   const char *error2 = _("Cannot add bookmark because that name already exists\n");
 
-  str = gtk_entry_get_text (GTK_ENTRY (ddata->edit));
+  str = ddata->entry_text;
   if (!error && *str == '\0') {
      error = error1;
   }

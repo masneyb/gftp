@@ -576,43 +576,30 @@ check_reconnect (gftp_window_data *wdata)
           !ftp_connect (wdata, wdata->request) ? -1 : 0);
 }
 
-void
-destroy_dialog (gftp_dialog_data * ddata)
-{
-  if (ddata->dialog != NULL)
-    {
-      gtk_widget_destroy (ddata->dialog);
-      ddata->dialog = NULL;
-    }
-}
-
 
 static void
-dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
+dialog_response (GtkDialog * dlg, gint responseID, gpointer data)
 {
-  if (ddata->edit == NULL)
-    {
-      gtk_widget_destroy (ddata->dialog);
-      ddata->dialog = NULL;
-      ddata->checkbox = NULL;
-    }
-
-  switch (response)
-    {
-      case GTK_RESPONSE_YES:
-        if (ddata->yesfunc != NULL)
-          ddata->yesfunc (ddata->yespointer, ddata);
-        break;
-      default:
-        if (ddata->nofunc != NULL)
-          ddata->nofunc (ddata->nopointer, ddata);
-        break;
-    }
-
-  if (ddata->edit != NULL &&
-      ddata->dialog != NULL)
-    gtk_widget_destroy (ddata->dialog);
-
+  gftp_dialog_data * ddata = (gftp_dialog_data *) data;
+  /* destroy dialog */
+  if (ddata && ddata->dialog) {
+     if (ddata->edit) {
+        ddata->entry_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (ddata->edit)));
+     }
+     if (ddata->checkbox) {
+        ddata->checkbox_is_ticked = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ddata->checkbox));
+     }
+     gtk_widget_destroy (ddata->dialog);
+     ddata->dialog = NULL;
+  }
+  /* run yesfunc or nofunc */
+  if (responseID == GTK_RESPONSE_YES && ddata->yesfunc) {
+     ddata->yesfunc (ddata->yespointer, ddata);
+  } else if (ddata->nofunc) {
+     ddata->nofunc (ddata->nopointer, ddata);
+  }
+  /* free ddata */
+  if (ddata->entry_text) g_free (ddata->entry_text);
   g_free (ddata);
 }
 
@@ -620,17 +607,14 @@ dialog_response (GtkWidget * widget, gint response, gftp_dialog_data * ddata)
 static gint
 dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
-  if (event->type != GDK_KEY_PRESS)
-    return (FALSE);
-
   if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return)
     {
-      dialog_response (widget, GTK_RESPONSE_YES, data);
+      dialog_response (NULL, GTK_RESPONSE_YES, data);
       return (TRUE);
     }
   else if (event->keyval == GDK_Escape)
     {
-      dialog_response (widget, GTK_RESPONSE_NO, data);
+      dialog_response (NULL, GTK_RESPONSE_NO, data);
       return (TRUE);
     }
 

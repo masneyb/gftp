@@ -96,6 +96,10 @@ typedef struct gftp_dialog_data_tag
   GtkWidget * dialog,
             * checkbox,
             * edit;
+  /* the dialog is destroyed but these vars
+   * are available to yesfunc() and nofunc() */
+  char * entry_text;
+  int checkbox_is_ticked;
 
   void (*yesfunc) ();
   gpointer yespointer;
@@ -309,18 +313,12 @@ void add_history 				( GtkWidget * widget,
 
 int check_reconnect 				( gftp_window_data * wdata );
 
-void destroy_dialog 				( gftp_dialog_data * ddata );
-
-void MakeEditDialog 				( char *diagtxt, 
-						  char *infotxt, 
-						  char *deftext, 
-						  int passwd_item,
-						  char *checktext, 
-						  gftp_dialog_button okbutton, 
-						  void (*okfunc) (), 
-						  void *okptr, 
-						  void (*cancelfunc) (), 
-						  void *cancelptr );
+void TextEntryDialog (GtkWindow * parent_window,       /* nullable */
+                      char * title,   char * infotxt,
+                      char * deftext, int passwd_item,
+                      char * checktext, 
+                      gftp_dialog_button okbutton, void (*okfunc) (), void *okptr,
+                      void (*cancelfunc) (), void *cancelptr);
 
 void YesNoDialog (GtkWindow * parent_window,              /* nullable */
                   char * title,       char * infotxt, 
