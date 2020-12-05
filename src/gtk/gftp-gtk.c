@@ -127,7 +127,8 @@ _gftp_try_close (GtkWidget * widget, GdkEvent * event, gpointer data)
     }
   else
     {
-      MakeYesNoDialog (_("Exit"), _("There are file transfers in progress.\nAre you sure you want to exit?"), _gftp_exit, NULL, NULL, NULL);
+      YesNoDialog (main_window, _("Exit"), _("There are file transfers in progress.\nAre you sure you want to exit?"),
+                   _gftp_exit, NULL, NULL, NULL);
       return (1);
     }
 }

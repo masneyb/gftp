@@ -727,9 +727,10 @@ MakeEditDialog (char *diagtxt, char *infotxt, char *deftext, int passwd_item,
 
 
 void
-MakeYesNoDialog (char *diagtxt, char *infotxt, 
-                 void (*yesfunc) (), gpointer yespointer, 
-                 void (*nofunc) (), gpointer nopointer)
+YesNoDialog (GtkWindow * parent_window,              /* nullable */
+             char * title,       char * infotxt, 
+             void (*yesfunc) (), gpointer yespointer, 
+             void (*nofunc) (),  gpointer nopointer)
 {
   GtkWidget * dialog;
   gftp_dialog_data * ddata;
@@ -740,23 +741,21 @@ MakeYesNoDialog (char *diagtxt, char *infotxt,
   ddata->nofunc = nofunc;
   ddata->nopointer = nopointer;
 
-  dialog = gtk_message_dialog_new (NULL,
-                                   GTK_DIALOG_DESTROY_WITH_PARENT,
+  dialog = gtk_message_dialog_new (parent_window,
+                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                    GTK_MESSAGE_QUESTION,
                                    GTK_BUTTONS_YES_NO,
                                    "%s", infotxt);
-
-  gtk_window_set_title (GTK_WINDOW (dialog), diagtxt);
-  set_window_icon(GTK_WINDOW(dialog), NULL);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_window_set_role (GTK_WINDOW(dialog), "yndiag");
-  gtk_grab_add (dialog);
-
   ddata->dialog = dialog;
 
+  gtk_window_set_title (GTK_WINDOW (dialog), title);
+  set_window_icon (GTK_WINDOW(dialog), NULL);
+  if (!parent_window) {
+     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+     gtk_grab_add (dialog);
+  }
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (dialog_response), ddata);
-
   gtk_widget_show (dialog);
 }
 

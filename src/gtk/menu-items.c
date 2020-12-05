@@ -510,7 +510,8 @@ delete_dialog (gpointer data)
   long int num = listbox_num_selected (wdata);
   if (num > 0) {
       char * tempstr = g_strdup_printf (_("Are you sure you want to delete the %ld selected item(s)"), num);
-      MakeYesNoDialog (_("Delete Files/Directories"), tempstr,
+      YesNoDialog (main_window,
+                   _("Delete Files/Directories"), tempstr,
                    do_delete_dialog, data, NULL, NULL);
       g_free (tempstr);  
   }

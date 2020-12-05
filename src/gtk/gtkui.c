@@ -510,8 +510,9 @@ gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
 
   GDK_THREADS_ENTER ();
 
-  MakeYesNoDialog (title, question, _protocol_yes_answer, &answer,
-                   _protocol_no_answer, &answer);
+  YesNoDialog (main_window, title, question,
+               _protocol_yes_answer, &answer,
+               _protocol_no_answer, &answer);
 
   if (gftp_protocols[request->protonum].use_threads)
     {

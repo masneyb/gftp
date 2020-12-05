@@ -322,12 +322,10 @@ void MakeEditDialog 				( char *diagtxt,
 						  void (*cancelfunc) (), 
 						  void *cancelptr );
 
-void MakeYesNoDialog 				( char *diagtxt, 
-						  char *infotxt, 
-						  void (*yesfunc) (), 
-						  gpointer yespointer,
-						  void (*nofunc) (), 
-						  gpointer nopointer );
+void YesNoDialog (GtkWindow * parent_window,              /* nullable */
+                  char * title,       char * infotxt, 
+                  void (*yesfunc) (), gpointer yespointer, 
+                  void (*nofunc) (),  gpointer nopointer);
 
 void display_cached_logs			( void );
 

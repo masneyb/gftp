@@ -425,8 +425,9 @@ delete_entry (gpointer data)
         pos++;
 
       tempstr = g_strdup_printf (_("Are you sure you want to erase the bookmark\n%s and all its children?"), pos);
-      MakeYesNoDialog (_("Delete Bookmark"), tempstr, do_delete_entry, entry, 
-                       NULL, NULL);
+      YesNoDialog (GTK_WINDOW (edit_bookmarks_dialog),
+                   _("Delete Bookmark"), tempstr,
+                   do_delete_entry, entry, NULL, NULL);
       g_free (tempstr);
     }
 }

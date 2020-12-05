@@ -385,8 +385,9 @@ _prompt_to_upload_edited_file (gftp_viewedit_data * ve_proc)
       str = g_strdup_printf (_("File %s has changed.\nWould you like to upload it?"),
                              ve_proc->remote_filename);
 
-      MakeYesNoDialog (_("Edit File"), str, do_upload, ve_proc, dont_upload,
-                       ve_proc);
+      YesNoDialog (NULL, _("Edit File"), str,
+                   do_upload,   ve_proc,
+                   dont_upload, ve_proc);
       g_free (str);
       return (1);
     }
