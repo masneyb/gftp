@@ -100,6 +100,7 @@ static void save_dirlist_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data
       ftp_log (gftp_logging_error, NULL, 
                _("Error: Cannot open %s for writing: %s\n"), filename,  g_strerror (errno));
     }
+    g_free (filename);
   }
   gtk_widget_destroy (GTK_WIDGET (dlg));
 }
@@ -272,6 +273,7 @@ static void savelog_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data)
       ftp_log (gftp_logging_error, NULL, 
                _("Error: Cannot open %s for writing: %s\n"), filename, 
                g_strerror (errno));
+      g_free (filename);
       return;
   }
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
@@ -307,6 +309,7 @@ static void savelog_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data)
   g_free (txt);
 
   gtk_widget_destroy (GTK_WIDGET (dlg));
+  g_free (filename);
 }
 
 void savelog (gpointer data)
