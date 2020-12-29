@@ -4,7 +4,7 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-/** 2020-10-11 **/
+/** 2020-12-29 **/
 
 /*
  * gtkcompat.h, GTK2+ compatibility layer
@@ -24,6 +24,24 @@ special defines:
 	gtkcompat_widget_set_halign_left   (w)
 	gtkcompat_widget_set_halign_center (w)
 	gtkcompat_widget_set_halign_right  (w)
+*/
+
+/*
+GTKCOMPAT_DRAW_SIGNAL (gtk3="draw", gtk2="expose_event")
+---------------------
+ g_signal_connect (w, GTKCOMPAT_DRAW_SIGNAL, G_CALLBACK (w_draw_cb), NULL);
+ gboolean w_draw_cb (GtkWidget *w, gpointer compat, gpointer user_data)
+ {
+ #if GTK_CHECK_VERSION (3, 0, 0)
+    cairo_t * cr = (cairo_t *) compat;
+ #else // gtk2
+    //GdkEventExpose * event = (GdkEventExpose *) compat;
+    cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (w));
+ #endif
+ #if GTK_MAJOR_VERSION == 2
+    cairo_destroy (cr);
+ #endif
+ }
 */
 
 #ifndef __GTKCOMPAT_H
@@ -104,7 +122,7 @@ extern "C"
 
 // GLIB < 2.28
 #if ! GLIB_CHECK_VERSION (2, 28, 0)
-#define g_list_free_full(list, free_func) {\
+#define g_list_free_full(list,free_func) {\
      g_list_foreach (list, (GFunc) free_func, NULL);\
      g_list_free (list);\
 }
@@ -135,6 +153,7 @@ extern "C"
 
 // GTK >= 3.0 -- applies to GTK3, GTK4...
 #if GTK_CHECK_VERSION (3, 0, 0)
+#define GTKCOMPAT_DRAW_SIGNAL "draw"
 #define gtkcompat_widget_set_halign_left(w)   gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_START)
 #define gtkcompat_widget_set_halign_center(w) gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_CENTER)
 #define gtkcompat_widget_set_halign_right(w)  gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_END)
@@ -167,13 +186,14 @@ extern "C"
 #endif
 
 
+
 /* ================================================== */
 /*                       GTK 2                        */
 /* ================================================== */
 
-
-// GTK < 3.0
-#if ! GTK_CHECK_VERSION (3, 0, 0)
+// define some GTK3+ functions
+#if GTK_MAJOR_VERSION <= 2
+#define GTKCOMPAT_DRAW_SIGNAL "expose_event"
 #define gtk_box_new(ori,spacing) \
   ((ori == GTK_ORIENTATION_HORIZONTAL) ? gtk_hbox_new(FALSE,spacing) \
                                        : gtk_vbox_new(FALSE,spacing))
@@ -197,6 +217,10 @@ extern "C"
                                        : gtk_vpaned_new())
 #define gtk_widget_get_allocated_height(widget) (GTK_WIDGET(widget)->allocation.height )
 #define gtk_widget_get_allocated_width(widget)  (GTK_WIDGET(widget)->allocation.width  )
+#define gtk_combo_box_text_remove_all(cmb) { \
+   GtkTreeModel * model = gtk_combo_box_get_model (GTK_COMBO_BOX (cmb)); \
+   gtk_list_store_clear (GTK_LIST_STORE (model)); \
+}
 #define gtk_tree_model_iter_previous(model,iter) ({ \
    GtkTreePath * path = gtk_tree_model_get_path (model, iter); \
    gboolean valid = gtk_tree_path_prev (path); \
@@ -204,6 +228,7 @@ extern "C"
    gtk_tree_path_free (path); \
    valid; \
 })
+#define gtk_widget_override_font(w,f) gtk_widget_modify_font(w,f)
 #define gtkcompat_widget_set_halign_left(w)   gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.5)
 #define gtkcompat_widget_set_halign_center(w) gtk_misc_set_alignment(GTK_MISC(w), 0.5, 0.5)
 #define gtkcompat_widget_set_halign_right(w)  gtk_misc_set_alignment(GTK_MISC(w), 1.0, 0.5)
@@ -229,10 +254,13 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 #define gtk_combo_box_text_new() gtk_combo_box_new_text()
 #define gtk_combo_box_text_new_with_entry()	gtk_combo_box_entry_new_text()
 #define gtk_combo_box_text_append_text(combo,text) gtk_combo_box_append_text(combo,text)
-#define gtk_combo_box_text_insert_text(combox,pos,text) gtk_combo_box_insert_text(combox,pos,text)
+#define gtk_combo_box_text_insert_text(combo,pos,text) gtk_combo_box_insert_text(combo,pos,text)
 #define gtk_combo_box_text_prepend_text(combo,text) gtk_combo_box_prepend_text(combo,text)
 #define gtk_combo_box_text_remove(combo,pos) gtk_combo_box_remove_text(combo,pos)
-#define gtk_combo_box_text_get_active_text(combo) gtk_combo_box_get_active_text(combo)
+#define gtk_combo_box_text_get_active_text(combo) (gtk_combo_box_get_active_text(combo))
+#define gtk_combo_box_get_has_entry(combo) (0)
+#define gtk_combo_box_set_entry_text_column(combo,cl)
+#define gtk_combo_box_get_entry_text_column(combo) (0)
 #define gtk_range_get_round_digits(range) (GTK_RANGE(range)->round_digits)
 //#define gdk_window_get_visual(w)  (gdk_drawable_get_visual(GDK_DRAWABLE(w)))
 #define gdk_window_get_screen(w)  (gdk_drawable_get_screen(GDK_DRAWABLE(w)))
@@ -262,11 +290,15 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 #define gtk_widget_get_mapped(wid) ((GTK_WIDGET_FLAGS (wid) & GTK_MAPPED) != 0)
 #define gtk_widget_get_realized(wid) ((GTK_WIDGET_FLAGS (wid) & GTK_REALIZED) != 0)
 #define gtk_window_get_window_type(window) (GTK_WINDOW(window)->type)
-#define gtk_widget_get_requisition(w, r) (*(r) = GTK_WIDGET(w)->requisition)
-#define gtk_widget_set_mapped(w, yes) \
-  ((yes) ? GTK_WIDGET_SET_FLAGS(w,GTK_MAPPED) : GTK_WIDGET_UNSET_FLAGS(w,GTK_MAPPED))
-#define gtk_widget_set_realized(w,yes) \
-  ((yes) ? GTK_WIDGET_SET_FLAGS(w,GTK_REALIZED) : GTK_WIDGET_UNSET_FLAGS(w,GTK_REALIZED))
+#define gtk_widget_get_requisition(w,r) (*(r) = GTK_WIDGET(w)->requisition)
+#define gtk_widget_set_mapped(w,yes) { \
+   if (yes) GTK_WIDGET_SET_FLAGS(w,GTK_MAPPED); \
+   else GTK_WIDGET_UNSET_FLAGS(w,GTK_MAPPED); \
+}
+#define gtk_widget_set_realized(w,yes) { \
+   if (yes) GTK_WIDGET_SET_FLAGS(w,GTK_REALIZED); \
+   else GTK_WIDGET_UNSET_FLAGS(w,GTK_REALIZED); \
+}
 #define gtk_range_get_slider_size_fixed(range) (GTK_RANGE(range)->slider_size_fixed)
 #define gtk_range_get_min_slider_size(range) (GTK_RANGE(range)->min_slider_size)
 #define gtk_entry_get_text_window(entry) (GTK_ENTRY(entry)->text_area)
@@ -289,16 +321,24 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 #define gtk_widget_has_grab(wid) ((GTK_WIDGET_FLAGS (wid) & GTK_HAS_GRAB) != 0)
 #define gtk_widget_get_app_paintable(wid) ((GTK_WIDGET_FLAGS (wid) & GTK_APP_PAINTABLE) != 0)
 #define gtk_widget_get_double_buffered(wid) ((GTK_WIDGET_FLAGS (wid) & GTK_DOUBLE_BUFFERED) != 0)
-#define gtk_widget_set_allocation(w, alloc) (GTK_WIDGET(w)->allocation = *(alloc))
-#define gtk_widget_get_allocation(w, alloc) (*(alloc) = GTK_WIDGET(w)->allocation)
-#define gtk_widget_set_can_default(w, yes) \
-  ((yes) ? GTK_WIDGET_SET_FLAGS(w,GTK_CAN_DEFAULT) : GTK_WIDGET_UNSET_FLAGS(w,GTK_CAN_DEFAULT))
-#define gtk_widget_set_can_focus(w, yes) \
-  ((yes) ? GTK_WIDGET_SET_FLAGS(w,GTK_CAN_FOCUS) : GTK_WIDGET_UNSET_FLAGS(w,GTK_CAN_FOCUS))
-#define gtk_widget_set_has_window(w, yes) \
-  ((yes) ? GTK_WIDGET_UNSET_FLAGS(w,GTK_NO_WINDOW) : GTK_WIDGET_SET_FLAGS(w,GTK_NO_WINDOW))
-#define gtk_widget_set_visible(w,yes) \
-  ((yes) ? gtk_widget_show (w) : gtk_widget_hide (w))
+#define gtk_widget_set_allocation(w,alloc) (GTK_WIDGET(w)->allocation = *(alloc))
+#define gtk_widget_get_allocation(w,alloc) (*(alloc) = GTK_WIDGET(w)->allocation)
+#define gtk_widget_set_can_default(w,yes) { \
+   if (yes) GTK_WIDGET_SET_FLAGS(w,GTK_CAN_DEFAULT); \
+   else GTK_WIDGET_UNSET_FLAGS(w,GTK_CAN_DEFAULT); \
+}
+#define gtk_widget_set_can_focus(w,yes) { \
+   if (yes) GTK_WIDGET_SET_FLAGS(w,GTK_CAN_FOCUS); \
+   else GTK_WIDGET_UNSET_FLAGS(w,GTK_CAN_FOCUS); \
+}
+#define gtk_widget_set_has_window(w,yes) { \
+   if (yes) GTK_WIDGET_UNSET_FLAGS(w,GTK_NO_WINDOW); \
+   else GTK_WIDGET_SET_FLAGS(w,GTK_NO_WINDOW); \
+}
+#define gtk_widget_set_visible(w,yes) { \
+   if (yes) gtk_widget_show(w); \
+   else gtk_widget_hide(w); \
+}
 #define gtk_range_get_flippable(range) (GTK_RANGE(range)->flippable)
 #define gdk_window_is_destroyed(w) (GDK_WINDOW_DESTROYED (GDK_WINDOW(w)))
 #endif
@@ -399,6 +439,18 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 #	define GDK_KEY_z GDK_z
 #	define GDK_KEY_Z GDK_Z
 #	define GDK_KEY_exclam GDK_exclam
+#	define GDK_KEY_F1 GDK_F1
+#	define GDK_KEY_F2 GDK_F2
+#	define GDK_KEY_F3 GDK_F3
+#	define GDK_KEY_F4 GDK_F4
+#	define GDK_KEY_F5 GDK_F5
+#	define GDK_KEY_F6 GDK_F6
+#	define GDK_KEY_F7 GDK_F7
+#	define GDK_KEY_F8 GDK_F8
+#	define GDK_KEY_F9 GDK_F9
+#	define GDK_KEY_F10 GDK_F10
+#	define GDK_KEY_F11 GDK_F11
+#	define GDK_KEY_F12 GDK_F12
 #endif
 
 
