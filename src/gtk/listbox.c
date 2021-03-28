@@ -246,7 +246,7 @@ listbox_add_columns (gftp_window_data *wdata)
                            "xalign", 0.0,
                            NULL);
    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
-                          "title",          _("Atribs"),
+                          "title",          _("Attribs"),
                           "resizable",      TRUE,
                           "clickable",      TRUE,
                           //"sort-column-id", LISTBOX_COL_ATTRIBS,
