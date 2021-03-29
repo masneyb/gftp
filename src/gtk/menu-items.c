@@ -74,7 +74,7 @@ change_filespec (gpointer data)
 
 static void save_dirlist_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data)
 {
-  const char *filename;
+  char *filename;
   gftp_window_data * wdata = (gftp_window_data *) data;
 
   if (responseID == GTK_RESPONSE_ACCEPT) {
