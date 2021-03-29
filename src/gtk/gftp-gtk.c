@@ -672,7 +672,10 @@ CreateMenus (GtkWidget * parent)
   factory = gtk_ui_manager_new();
   
   GtkActionGroup *actions = gtk_action_group_new("Actions");
-  
+
+  // must set translate_func or domain before adding actions
+  gtk_action_group_set_translation_domain (actions, "gftp");
+
   gtk_action_group_add_actions(actions, menu_items, nmenu_items, NULL);
 
   current_wdata = &window2;
