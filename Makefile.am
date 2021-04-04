@@ -4,5 +4,5 @@ SUBDIRS = docs icons lib po src
 
 EXTRA_DIST= gftp.spec.in
 
-ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = -I autoconf-m4
 
