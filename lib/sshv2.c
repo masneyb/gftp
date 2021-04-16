@@ -500,7 +500,8 @@ sshv2_start_login_sequence (gftp_request * request, int fdm, int ptymfd)
               break;
             }
         }
-      else if (strstr (tempstr, "(yes/no)?") != NULL)
+      else if (strstr (tempstr, "(yes/no)?") != NULL ||
+               strstr (tempstr, "(yes/no/[") != NULL)
         {
           clear_tempstr = 1;
           if (!gftpui_protocol_ask_yes_no (request, request->hostname, tempstr))
