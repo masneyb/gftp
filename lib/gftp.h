@@ -584,9 +584,10 @@ struct gftp_bookmarks_tag
                isfolder : 1,   /* If this is set, then the children field can
                                   be non-NULL */
                save_password : 1; /* Save this password */
-  gftp_bookmarks_var *children, /* The children of this node. */
-                     *prev, 	/* The parent of this node */
-                     *next; 	/* The next sibling of this node */
+  gftp_bookmarks_var * children; /* The children of this node. */
+  gftp_bookmarks_var * parent;   /* The parent of this node */
+  gftp_bookmarks_var * next;     /* The next sibling of this node */
+
   gpointer cnode; 
 
   gftp_config_vars * local_options_vars;

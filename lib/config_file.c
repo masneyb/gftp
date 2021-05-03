@@ -22,7 +22,7 @@
 void
 gftp_add_bookmark (gftp_bookmarks_var * newentry)
 {
-  gftp_bookmarks_var * preventry, * folderentry, * endentry;
+  gftp_bookmarks_var * parententry, * folderentry, * endentry;
   char *curpos;
 
   if (!newentry->protocol)
@@ -30,10 +30,10 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
 
   /* We have to create the folders. For example, if we have 
      Debian Sites/Debian, we have to create a Debian Sites entry */
-  preventry = gftp_bookmarks;
-  if (preventry->children != NULL)
+  parententry = gftp_bookmarks;
+  if (parententry->children != NULL)
     {
-      endentry = preventry->children;
+      endentry = parententry->children;
       while (endentry->next != NULL)
 	endentry = endentry->next;
     }
@@ -51,23 +51,23 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
 	     bookmarks feature */
 	  folderentry = g_malloc0 (sizeof (*folderentry));
 	  folderentry->path = g_strdup (newentry->path);
-	  folderentry->prev = preventry;
+	  folderentry->parent = parententry;
 	  folderentry->isfolder = 1;
 	  g_hash_table_insert (gftp_bookmarks_htable, folderentry->path,
 			       folderentry);
-	  if (preventry->children == NULL)
-	    preventry->children = folderentry;
+	  if (parententry->children == NULL)
+	    parententry->children = folderentry;
 	  else
 	    endentry->next = folderentry;
-	  preventry = folderentry;
+	  parententry = folderentry;
 	  endentry = NULL;
 	}
       else
 	{
-	  preventry = folderentry;
-	  if (preventry->children != NULL)
+	  parententry = folderentry;
+	  if (parententry->children != NULL)
 	    {
-	      endentry = preventry->children;
+	      endentry = parententry->children;
 	      while (endentry->next != NULL)
 		endentry = endentry->next;
 	    }
@@ -87,26 +87,26 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
     {
       /* Get the parent node */
       if ((curpos = strrchr (newentry->path, '/')) == NULL)
-        preventry = gftp_bookmarks;
+        parententry = gftp_bookmarks;
       else
         {
           *curpos = '\0';
-          preventry = (gftp_bookmarks_var *)
+          parententry = (gftp_bookmarks_var *)
     	g_hash_table_lookup (gftp_bookmarks_htable, newentry->path);
           *curpos = '/';
         }
     
-      if (preventry->children != NULL)
+      if (parententry->children != NULL)
         {
-          endentry = preventry->children;
+          endentry = parententry->children;
           while (endentry->next != NULL)
     	endentry = endentry->next;
           endentry->next = newentry;
         }
       else
-        preventry->children = newentry;
+        parententry->children = newentry;
 
-      newentry->prev = preventry;
+      newentry->parent = parententry;
       newentry->next = NULL;
       g_hash_table_insert (gftp_bookmarks_htable, newentry->path, newentry);
     }
@@ -804,9 +804,9 @@ gftp_write_bookmarks_file (void)
  
       if (tempentry->next == NULL)
 	{
-	  tempentry = tempentry->prev;
-	  while (tempentry->next == NULL && tempentry->prev != NULL)
-	    tempentry = tempentry->prev;
+	  tempentry = tempentry->parent;
+	  while (tempentry->next == NULL && tempentry->parent != NULL)
+	    tempentry = tempentry->parent;
 	  tempentry = tempentry->next;
 	}
       else
@@ -905,8 +905,8 @@ build_bookmarks_hash_table (gftp_bookmarks_var * entry)
 	  tempentry = tempentry->children;
 	  continue;
 	}
-      while (tempentry->next == NULL && tempentry->prev != NULL)
-	tempentry = tempentry->prev;
+      while (tempentry->next == NULL && tempentry->parent != NULL)
+	tempentry = tempentry->parent;
       tempentry = tempentry->next;
     }
   return (htable);
@@ -930,8 +930,8 @@ print_bookmarks (gftp_bookmarks_var * bookmarks)
 
       if (tempentry->next == NULL)
         {
-	  while (tempentry->next == NULL && tempentry->prev != NULL)
-            tempentry = tempentry->prev;
+	  while (tempentry->next == NULL && tempentry->parent != NULL)
+            tempentry = tempentry->parent;
           tempentry = tempentry->next;
         }
       else
@@ -1557,10 +1557,10 @@ gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks)
         tempentry = tempentry->children;
       else
         {
-          while (tempentry->next == NULL && tempentry->prev != NULL)
+          while (tempentry->next == NULL && tempentry->parent != NULL)
             {
               delentry = tempentry;
-              tempentry = tempentry->prev;
+              tempentry = tempentry->parent;
               gftp_free_bookmark (delentry, 1);
             }
     
