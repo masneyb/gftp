@@ -35,7 +35,7 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
     {
       endentry = parententry->children;
       while (endentry->next != NULL)
-	endentry = endentry->next;
+        endentry = endentry->next;
     }
   else
     endentry = NULL;
@@ -45,35 +45,35 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
       *curpos = '\0';
       /* See if we already made this folder */
       if ((folderentry = (gftp_bookmarks_var *)
-	   g_hash_table_lookup (gftp_bookmarks_htable, newentry->path)) == NULL)
-	{
-	  /* Allocate the individual folder. We have to do this for the edit 
-	     bookmarks feature */
-	  folderentry = g_malloc0 (sizeof (*folderentry));
-	  folderentry->path = g_strdup (newentry->path);
-	  folderentry->parent = parententry;
-	  folderentry->isfolder = 1;
-	  g_hash_table_insert (gftp_bookmarks_htable, folderentry->path,
-			       folderentry);
-	  if (parententry->children == NULL)
-	    parententry->children = folderentry;
-	  else
-	    endentry->next = folderentry;
-	  parententry = folderentry;
-	  endentry = NULL;
-	}
+           g_hash_table_lookup (gftp_bookmarks_htable, newentry->path)) == NULL)
+        {
+          /* Allocate the individual folder. We have to do this for the edit 
+             bookmarks feature */
+          folderentry = g_malloc0 (sizeof (*folderentry));
+          folderentry->path = g_strdup (newentry->path);
+          folderentry->parent = parententry;
+          folderentry->isfolder = 1;
+          g_hash_table_insert (gftp_bookmarks_htable, folderentry->path,
+                               folderentry);
+          if (parententry->children == NULL)
+            parententry->children = folderentry;
+          else
+            endentry->next = folderentry;
+          parententry = folderentry;
+          endentry = NULL;
+        }
       else
-	{
-	  parententry = folderentry;
-	  if (parententry->children != NULL)
-	    {
-	      endentry = parententry->children;
-	      while (endentry->next != NULL)
-		endentry = endentry->next;
-	    }
-	  else
-	    endentry = NULL;
-	}
+        {
+          parententry = folderentry;
+          if (parententry->children != NULL)
+            {
+              endentry = parententry->children;
+              while (endentry->next != NULL)
+                endentry = endentry->next;
+            }
+          else
+            endentry = NULL;
+        }
       *curpos = '/';
       curpos++;
     }
@@ -92,7 +92,7 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
         {
           *curpos = '\0';
           parententry = (gftp_bookmarks_var *)
-    	g_hash_table_lookup (gftp_bookmarks_htable, newentry->path);
+                         g_hash_table_lookup (gftp_bookmarks_htable, newentry->path);
           *curpos = '/';
         }
     
@@ -100,7 +100,7 @@ gftp_add_bookmark (gftp_bookmarks_var * newentry)
         {
           endentry = parententry->children;
           while (endentry->next != NULL)
-    	endentry = endentry->next;
+              endentry = endentry->next;
           endentry->next = newentry;
         }
       else
@@ -187,12 +187,12 @@ gftp_read_bookmarks (char *global_data_path)
     {
       temp1str = g_strdup_printf ("%s/bookmarks", global_data_path);
       if (access (temp1str, F_OK) == -1)
-	{
-	  printf (_("Warning: Cannot find master bookmark file %s\n"),
-		  temp1str);
-	  g_free (temp1str);
-	  return;
-	}
+        {
+          printf (_("Warning: Cannot find master bookmark file %s\n"),
+                  temp1str);
+          g_free (temp1str);
+          return;
+        }
       copyfile (temp1str, tempstr);
       g_free (temp1str);
     }
@@ -200,7 +200,7 @@ gftp_read_bookmarks (char *global_data_path)
   if ((bmfile = fopen (tempstr, "r")) == NULL)
     {
       printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"), tempstr,
-	      g_strerror (errno));
+              g_strerror (errno));
       exit (EXIT_FAILURE);
     }
   g_free (tempstr);
@@ -217,68 +217,68 @@ gftp_read_bookmarks (char *global_data_path)
       line++;
 
       if (*buf == '[')
-	{
-	  newentry = g_malloc0 (sizeof (*newentry));
+        {
+          newentry = g_malloc0 (sizeof (*newentry));
           for (; buf[len - 1] == ' ' || buf[len - 1] == ']'; buf[--len] = '\0');
-	  newentry->path = g_strdup (buf + 1);
-	  newentry->isfolder = 0;
-	  gftp_add_bookmark (newentry);
-	}
+          newentry->path = g_strdup (buf + 1);
+          newentry->isfolder = 0;
+          gftp_add_bookmark (newentry);
+        }
       else if (strncmp (buf, "hostname", 8) == 0 && newentry)
-	{
-	  curpos = buf + 9;
-	  if (newentry->hostname)
-	    g_free (newentry->hostname);
-	  newentry->hostname = g_strdup (curpos);
-	}
+        {
+          curpos = buf + 9;
+          if (newentry->hostname)
+            g_free (newentry->hostname);
+          newentry->hostname = g_strdup (curpos);
+        }
       else if (strncmp (buf, "port", 4) == 0 && newentry)
-	newentry->port = strtol (buf + 5, NULL, 10);
+        newentry->port = strtol (buf + 5, NULL, 10);
       else if (strncmp (buf, "protocol", 8) == 0 && newentry)
-	{
-	  curpos = buf + 9;
-	  if (newentry->protocol)
-	    g_free (newentry->protocol);
-	  newentry->protocol = g_strdup (curpos);
-	}
+        {
+          curpos = buf + 9;
+          if (newentry->protocol)
+            g_free (newentry->protocol);
+          newentry->protocol = g_strdup (curpos);
+        }
       else if (strncmp (buf, "remote directory", 16) == 0 && newentry)
-	{
-	  curpos = buf + 17;
-	  if (newentry->remote_dir)
-	    g_free (newentry->remote_dir);
-	  newentry->remote_dir = g_strdup (curpos);
-	}
+        {
+          curpos = buf + 17;
+          if (newentry->remote_dir)
+            g_free (newentry->remote_dir);
+          newentry->remote_dir = g_strdup (curpos);
+        }
       else if (strncmp (buf, "local directory", 15) == 0 && newentry)
-	{
-	  curpos = buf + 16;
-	  if (newentry->local_dir)
-	    g_free (newentry->local_dir);
-	  newentry->local_dir = g_strdup (curpos);
-	}
+        {
+          curpos = buf + 16;
+          if (newentry->local_dir)
+            g_free (newentry->local_dir);
+          newentry->local_dir = g_strdup (curpos);
+        }
       else if (strncmp (buf, "username", 8) == 0 && newentry)
-	{
-	  curpos = buf + 9;
-	  if (newentry->user)
-	    g_free (newentry->user);
-	  newentry->user = g_strdup (curpos);
-	}
+        {
+          curpos = buf + 9;
+          if (newentry->user)
+            g_free (newentry->user);
+          newentry->user = g_strdup (curpos);
+        }
       else if (strncmp (buf, "password", 8) == 0 && newentry)
-	{
-	  curpos = buf + 9;
-	  if (newentry->pass)
-	    g_free (newentry->pass);
+        {
+          curpos = buf + 9;
+          if (newentry->pass)
+            g_free (newentry->pass);
 
-	  /* Always try to descramble passords. If the password is not
+          /* Always try to descramble passords. If the password is not
              scrambled, descramble_password returns the string unchanged */
-	  newentry->pass = gftp_descramble_password (curpos);
-	  newentry->save_password = *newentry->pass != '\0';
-	}
+          newentry->pass = gftp_descramble_password (curpos);
+          newentry->save_password = *newentry->pass != '\0';
+        }
       else if (strncmp (buf, "account", 7) == 0 && newentry)
-	{
-	  curpos = buf + 8;
-	  if (newentry->acct)
-	    g_free (newentry->acct);
-	  newentry->acct = g_strdup (curpos);
-	}
+        {
+          curpos = buf + 8;
+          if (newentry->acct)
+            g_free (newentry->acct);
+          newentry->acct = g_strdup (curpos);
+        }
       else if (*buf == '#' || *buf == '\0')
         continue;
       else
@@ -291,7 +291,7 @@ gftp_read_bookmarks (char *global_data_path)
                                                    buf)) == NULL ||
                gftp_option_types[global_entry->otype].read_function == NULL)
             {
-	      printf (_("gFTP Warning: Skipping line %d in bookmarks file: %s\n"),
+              printf (_("gFTP Warning: Skipping line %d in bookmarks file: %s\n"),
                       line, buf);
               continue;
             }
@@ -313,7 +313,7 @@ gftp_read_bookmarks (char *global_data_path)
           if (gftp_option_types[global_entry->otype].read_function (curpos + 1,
                                 &newentry->local_options_vars[newentry->num_local_options_vars - 1], line) != 0)
             {
-	      printf (_("gFTP Warning: Skipping line %d in bookmarks file: %s\n"),
+              printf (_("gFTP Warning: Skipping line %d in bookmarks file: %s\n"),
                       line, buf);
               continue;
             }
@@ -340,27 +340,27 @@ gftp_config_parse_args (char *str, int numargs, int lineno, char **first, ...)
     {
       has_colon = 0;
       if (numargs > 1)
-	{
-	  if ((endpos = strchr (curpos, ':')) == NULL)
-	    {
-	      printf (_("gFTP Warning: Line %d doesn't have enough arguments\n"), 
+        {
+          if ((endpos = strchr (curpos, ':')) == NULL)
+            {
+              printf (_("gFTP Warning: Line %d doesn't have enough arguments\n"), 
                       lineno);
-	      ret = 0;
-	      endpos = curpos + strlen (curpos);
-	    }
-	  else
-	    {
-	      /* Allow colons inside the fields. If you want a colon inside a 
+              ret = 0;
+              endpos = curpos + strlen (curpos);
+            }
+          else
+            {
+              /* Allow colons inside the fields. If you want a colon inside a 
                  field, just put 2 colons in there */
-	      while (endpos != NULL && *(endpos - 1) == '\\')
-		{
-		  endpos = strchr (endpos + 1, ':');
-		  has_colon = 1;
-		}
-	    }
-	}
+              while (endpos != NULL && *(endpos - 1) == '\\')
+                {
+                  endpos = strchr (endpos + 1, ':');
+                  has_colon = 1;
+                }
+            }
+        }
       else
-	endpos = curpos + strlen (curpos);
+        endpos = curpos + strlen (curpos);
 
       *dest = g_malloc0 ((gulong) (endpos - curpos + 1));
       tempchar = *endpos;
@@ -368,26 +368,26 @@ gftp_config_parse_args (char *str, int numargs, int lineno, char **first, ...)
       strcpy (*dest, curpos);
       *endpos = tempchar;
       if (has_colon)
-	{
-	  pos = *dest;
-	  curpos = *dest;
-	  while (*pos != '\0')
-	    {
-	      if (*pos != '\\' && *(pos + 1) != ':')
-		*curpos++ = *pos++;
-	      else
-		pos++;
-	    }
-	  *curpos = '\0';
-	}
+        {
+          pos = *dest;
+          curpos = *dest;
+          while (*pos != '\0')
+            {
+              if (*pos != '\\' && *(pos + 1) != ':')
+                *curpos++ = *pos++;
+              else
+                pos++;
+            }
+          *curpos = '\0';
+        }
       if (*endpos == '\0')
-	break;
+        break;
       curpos = endpos + 1;
       if (numargs > 1)
-	{
-	  dest = va_arg (argp, char **);
-	  *dest = NULL;
-	}
+        {
+          dest = va_arg (argp, char **);
+          *dest = NULL;
+        }
       numargs--;
     }
 
@@ -440,7 +440,7 @@ gftp_config_read_proxy (char *buf, int line)
           sscanf (pos + 1, "%u.%u.%u.%u", &nums[0], &nums[1], &nums[2], 
                   &nums[3]);
           host->ipv4_netmask =
-		    nums[0] << 24 | nums[1] << 16 | nums[2] << 8 | nums[3];
+                    nums[0] << 24 | nums[1] << 16 | nums[2] << 8 | nums[3];
         }
     }
 
@@ -591,24 +591,24 @@ gftp_read_config_file (char *global_data_path)
     {
       temp1str = gftp_expand_path (NULL, BASE_CONF_DIR);
       if (access (temp1str, F_OK) == -1)
-	{
-	  if (mkdir (temp1str, S_IRUSR | S_IWUSR | S_IXUSR) != 0)
-	    {
-	      printf (_("gFTP Error: Could not make directory %s: %s\n"),
-		      temp1str, g_strerror (errno));
-	      exit (EXIT_FAILURE);
-	    }
-	}
+        {
+          if (mkdir (temp1str, S_IRUSR | S_IWUSR | S_IXUSR) != 0)
+            {
+              printf (_("gFTP Error: Could not make directory %s: %s\n"),
+                      temp1str, g_strerror (errno));
+              exit (EXIT_FAILURE);
+            }
+        }
       g_free (temp1str);
 
       temp1str = g_strdup_printf ("%s/gftprc", global_data_path);
       if (access (temp1str, F_OK) == -1)
-	{
-	  printf (_("gFTP Error: Cannot find master config file %s\n"),
-		  temp1str);
-	  printf (_("Did you do a make install?\n"));
-	  exit (EXIT_FAILURE);
-	}
+        {
+          printf (_("gFTP Error: Cannot find master config file %s\n"),
+                  temp1str);
+          printf (_("Did you do a make install?\n"));
+          exit (EXIT_FAILURE);
+        }
       copyfile (temp1str, tempstr);
       g_free (temp1str);
     }
@@ -616,7 +616,7 @@ gftp_read_config_file (char *global_data_path)
   if ((conffile = fopen (tempstr, "r")) == NULL)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
-	      g_strerror (errno));
+              g_strerror (errno));
       exit (EXIT_FAILURE);
     }
   g_free (tempstr);
@@ -626,9 +626,9 @@ gftp_read_config_file (char *global_data_path)
     {
       len = strlen (buf);
       if (len > 0 && buf[len - 1] == '\n')
-	buf[--len] = '\0';
+        buf[--len] = '\0';
       if (len > 0 && buf[len - 1] == '\r')
-	buf[--len] = '\0';
+        buf[--len] = '\0';
       line++;
 
       if (*buf == '#' || *buf == '\0')
@@ -659,10 +659,10 @@ gftp_read_config_file (char *global_data_path)
             }
         }
       else
-	{
-	  printf (_("gFTP Warning: Skipping line %d in config file: %s\n"),
+        {
+          printf (_("gFTP Warning: Skipping line %d in config file: %s\n"),
                   line, buf);
-	}
+        }
     }
 
   if ((tempstr = gftp_expand_path (NULL, LOG_FILE)) == NULL)
@@ -698,17 +698,17 @@ write_comment (FILE * fd, const char *comment)
     {
       for (endpos = pos + 76; *endpos != ' ' && endpos > pos; endpos--);
       if (endpos == pos)
-	{
-	  for (endpos = pos + 76; *endpos != ' ' && *endpos != '\0';
-	       endpos++);
-	}
+        {
+          for (endpos = pos + 76; *endpos != ' ' && *endpos != '\0';
+               endpos++);
+        }
       fwrite (pos, 1, endpos - pos, fd);
       fwrite ("\n", 1, 1, fd);
       if (*endpos == '\0')
-	{
-	  pos = endpos;
-	  break;
-	}
+        {
+          pos = endpos;
+          break;
+        }
       pos = endpos + 1;
       fwrite ("# ", 1, 2, fd);
     }
@@ -740,7 +740,7 @@ gftp_write_bookmarks_file (void)
   if ((bmfile = fopen (tempstr, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"),
-	      CONFIG_FILE, g_strerror (errno));
+              CONFIG_FILE, g_strerror (errno));
       exit (EXIT_FAILURE);
     }
 
@@ -754,14 +754,14 @@ gftp_write_bookmarks_file (void)
   while (tempentry != NULL)
     {
       if (tempentry->children != NULL)
-	{
-	  tempentry = tempentry->children;
-	  continue;
-	}
+        {
+          tempentry = tempentry->children;
+          continue;
+        }
 
       tempstr = tempentry->path;
       while (*tempstr == '/')
-	tempstr++;
+        tempstr++;
 
       if (tempentry->isfolder)
         {
@@ -775,16 +775,16 @@ gftp_write_bookmarks_file (void)
             password = NULL;
 
           fprintf (bmfile,
-    	       "[%s]\nhostname=%s\nport=%u\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
-    	       tempstr, tempentry->hostname == NULL ? "" : tempentry->hostname,
-    	       tempentry->port, tempentry->protocol == NULL
-    	       || *tempentry->protocol ==
-    	       '\0' ? gftp_protocols[0].name : tempentry->protocol,
-    	       tempentry->remote_dir == NULL ? "" : tempentry->remote_dir,
-    	       tempentry->local_dir == NULL ? "" : tempentry->local_dir,
-    	       tempentry->user == NULL ? "" : tempentry->user,
-    	       password == NULL ? "" : password,
-    	       tempentry->acct == NULL ? "" : tempentry->acct);
+                   "[%s]\nhostname=%s\nport=%u\nprotocol=%s\nremote directory=%s\nlocal directory=%s\nusername=%s\npassword=%s\naccount=%s\n",
+                   tempstr, tempentry->hostname == NULL ? "" : tempentry->hostname,
+                   tempentry->port, tempentry->protocol == NULL
+                   || *tempentry->protocol ==
+                   '\0' ? gftp_protocols[0].name : tempentry->protocol,
+                   tempentry->remote_dir == NULL ? "" : tempentry->remote_dir,
+                   tempentry->local_dir == NULL ? "" : tempentry->local_dir,
+                   tempentry->user == NULL ? "" : tempentry->user,
+                   password == NULL ? "" : password,
+                   tempentry->acct == NULL ? "" : tempentry->acct);
           if (password != NULL)
             g_free(password);
 
@@ -803,14 +803,14 @@ gftp_write_bookmarks_file (void)
       fprintf (bmfile, "\n");
  
       if (tempentry->next == NULL)
-	{
-	  tempentry = tempentry->parent;
-	  while (tempentry->next == NULL && tempentry->parent != NULL)
-	    tempentry = tempentry->parent;
-	  tempentry = tempentry->next;
-	}
+        {
+          tempentry = tempentry->parent;
+          while (tempentry->next == NULL && tempentry->parent != NULL)
+            tempentry = tempentry->parent;
+          tempentry = tempentry->next;
+        }
       else
-	tempentry = tempentry->next;
+        tempentry = tempentry->next;
     }
 
   fclose (bmfile);
@@ -835,7 +835,7 @@ gftp_write_config_file (void)
   if ((conffile = fopen (tempstr, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
-	      g_strerror (errno));
+              g_strerror (errno));
       exit (EXIT_FAILURE);
     }
 
@@ -901,12 +901,12 @@ build_bookmarks_hash_table (gftp_bookmarks_var * entry)
     {
       g_hash_table_insert (htable, tempentry->path, tempentry);
       if (tempentry->children != NULL)
-	{
-	  tempentry = tempentry->children;
-	  continue;
-	}
+        {
+          tempentry = tempentry->children;
+          continue;
+        }
       while (tempentry->next == NULL && tempentry->parent != NULL)
-	tempentry = tempentry->parent;
+        tempentry = tempentry->parent;
       tempentry = tempentry->next;
     }
   return (htable);
@@ -930,12 +930,12 @@ print_bookmarks (gftp_bookmarks_var * bookmarks)
 
       if (tempentry->next == NULL)
         {
-	  while (tempentry->next == NULL && tempentry->parent != NULL)
+          while (tempentry->next == NULL && tempentry->parent != NULL)
             tempentry = tempentry->parent;
           tempentry = tempentry->next;
         }
       else
-	tempentry = tempentry->next;
+        tempentry = tempentry->next;
     }
 }
 
