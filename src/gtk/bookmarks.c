@@ -810,40 +810,47 @@ edit_entry_dlg (gpointer data)
 
 
 static gboolean
-on_gtk_treeview_KeyPressEvent_btree (GtkWidget * widget,
+on_gtk_treeview_KeyReleaseEvent_btree (GtkWidget * widget,
                        GdkEventKey * event, gpointer data)
 {
-  if (event->keyval == GDK_KP_Delete || event->keyval == GDK_Delete)
+  switch (event->keyval)
   {
-      delete_entry (NULL);
-      return (TRUE);
+    case GDK_KP_Delete:
+    case GDK_Delete:
+       delete_entry (NULL);
+       break;
+    case GDK_Return:
+    case GDK_KP_Enter:
+       edit_entry_dlg (NULL);
+       break;
   }
-  // GDK_Return / GDK_KP_Enter: see on_gtk_treeview_RowActivated_btree
   return (FALSE);
-}
-
-static void 
-on_gtk_treeview_RowActivated_btree (GtkTreeView *tree,      GtkTreePath *path,
-                                    GtkTreeViewColumn *col, gpointer data)
-{ // enter, double click
-  edit_entry_dlg (NULL);
 }
 
 static gboolean
 on_gtk_treeview_ButtonReleaseEvent_btree (GtkWidget * widget,
-                       GdkEventButton * event, gpointer data)
+                                          GdkEventButton * event, gpointer data)
 {
   if (event->button == 3)
     { // right click
       bmenu_setup ();
       gtk_menu_popup (bmenu_file, NULL, NULL, NULL, NULL, event->button, event->time);
     }
-  // double click: see on_gtk_treeview_RowActivated_btree
   return (FALSE);
 }
 
-void
-edit_bookmarks (gpointer data)
+static gboolean
+on_gtk_treeview_ButtonPressEvent_btree (GtkWidget * widget,
+                                        GdkEventButton * event, gpointer data)
+{
+  if (event->type == GDK_2BUTTON_PRESS && event->button == 1) {
+     edit_entry_dlg (NULL); // double left click
+  }
+  return FALSE;
+}
+
+
+void edit_bookmarks (gpointer data)
 {
   GtkWidget * main_vbox, * scroll, * menubar;
 
@@ -1069,19 +1076,19 @@ btree_create()
    gtk_tree_view_append_column(tree, col);
 
    /* -GtkTreeView signals- */
+   gtk_widget_add_events (GTK_WIDGET (tree), GDK_BUTTON_PRESS_MASK
+                                             & GDK_BUTTON_RELEASE_MASK
+                                             & GDK_KEY_RELEASE_MASK);
    g_signal_connect_after (G_OBJECT (tree),
-                           "key_press_event",
-                           G_CALLBACK (on_gtk_treeview_KeyPressEvent_btree),
-                           NULL);
-
-   g_signal_connect (G_OBJECT (tree),
-                     "row_activated",
-                     G_CALLBACK (on_gtk_treeview_RowActivated_btree),
-                     NULL);
-
-   g_signal_connect (G_OBJECT (tree),
+                           "key_release_event",
+                           G_CALLBACK (on_gtk_treeview_KeyReleaseEvent_btree), NULL);
+   g_signal_connect_after (G_OBJECT (tree),
                      "button_release_event",
                      G_CALLBACK (on_gtk_treeview_ButtonReleaseEvent_btree),
+                     NULL);
+   g_signal_connect (G_OBJECT (tree), /* double clicks are detected in button_press_event */
+                     "button_press_event",
+                     G_CALLBACK (on_gtk_treeview_ButtonPressEvent_btree),
                      NULL);
 
    return (tree);
