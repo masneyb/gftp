@@ -36,6 +36,7 @@ struct btree_bookmark
 static void btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter);
 static gftp_bookmarks_var * btree_get_selected_bookmark (void);
 static void btree_remove_selected_node (void);
+static void btree_expand_collapse_selected_row (int key);
 static void gtktreemodel_to_gftp (void);
 static void gtktreemodel_find_bookmark (const char *path, struct btree_bookmark * out_bookmark);
 
@@ -815,13 +816,19 @@ on_gtk_treeview_KeyReleaseEvent_btree (GtkWidget * widget,
 {
   switch (event->keyval)
   {
-    case GDK_KP_Delete:
-    case GDK_Delete:
+    case GDK_KEY_KP_Delete:
+    case GDK_KEY_Delete:
        delete_entry (NULL);
        break;
-    case GDK_Return:
-    case GDK_KP_Enter:
+    case GDK_KEY_Return:
+    case GDK_KEY_KP_Enter:
        edit_entry_dlg (NULL);
+       break;
+    case GDK_KEY_Left:
+       btree_expand_collapse_selected_row (GDK_KEY_Left);
+       break;
+    case GDK_KEY_Right:
+       btree_expand_collapse_selected_row (GDK_KEY_Right);
        break;
   }
   return (FALSE);
@@ -1197,8 +1204,7 @@ btree_get_selected_bookmark ()
 }
 
 
-static void 
-btree_remove_selected_node ()
+static void btree_remove_selected_node ()
 {
   GtkTreeModel *model;
   GtkTreeStore *store;
@@ -1211,6 +1217,28 @@ btree_remove_selected_node ()
   }
 }
 
+static void btree_expand_collapse_selected_row (int key)
+{
+   GtkTreeModel *model;
+   GtkTreeSelection *select = gtk_tree_view_get_selection (btree);
+   GtkTreeIter iter;
+   GtkTreePath * path;
+   if (!gtk_tree_selection_get_selected (select, &model, &iter))
+   {
+      return;
+   }
+   path = gtk_tree_model_get_path (model, &iter);
+   if (key == GDK_KEY_Left) {
+      if (gtk_tree_view_row_expanded (btree, path)) {
+         gtk_tree_view_collapse_row (btree, path);
+      }
+   } else if (key == GDK_KEY_Right) {
+      if (!gtk_tree_view_row_expanded (btree, path)) {
+         gtk_tree_view_expand_row (btree, path, FALSE);
+      }
+   }
+   gtk_tree_path_free (path);
+}
 
 // ---
 
