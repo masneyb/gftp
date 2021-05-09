@@ -867,18 +867,18 @@ void edit_bookmarks (gpointer data)
       return;
     }
 
-  edit_bookmarks_dialog = gtk_dialog_new_with_buttons (_("Edit Bookmarks"),
-                                                       NULL, 0, 
-                                                       "gtk-cancel",
-                                                       GTK_RESPONSE_CANCEL,
-						       "gtk-save",
-                                                       GTK_RESPONSE_OK,
-                                                       NULL);
-  gtk_window_set_position (GTK_WINDOW (edit_bookmarks_dialog),
-                           GTK_WIN_POS_MOUSE);
+
+  edit_bookmarks_dialog = gtk_dialog_new ();
+  //gtk_window_set_transient_for (GTK_WINDOW (edit_bookmarks_dialog), GTK_WINDOW (main_window));
+  gtk_window_set_position (GTK_WINDOW (edit_bookmarks_dialog), GTK_WIN_POS_MOUSE);
+  gtk_window_set_title (GTK_WINDOW (edit_bookmarks_dialog), _("Edit Bookmarks"));
+  set_window_icon (GTK_WINDOW(edit_bookmarks_dialog), NULL);
+
+  gtk_dialog_add_button (GTK_DIALOG (edit_bookmarks_dialog), "gtk-cancel", GTK_RESPONSE_CANCEL);
+  gtk_dialog_add_button (GTK_DIALOG (edit_bookmarks_dialog), "gtk-save",   GTK_RESPONSE_OK);
+
   gtk_widget_realize (edit_bookmarks_dialog);
 
-  set_window_icon(GTK_WINDOW(edit_bookmarks_dialog), NULL);
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (edit_bookmarks_dialog));
   gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 3);
 
@@ -888,7 +888,7 @@ void edit_bookmarks (gpointer data)
   scroll = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_size_request (scroll, 300, 300);
+  gtk_widget_set_size_request (scroll, 350, 380);
 
   gtk_box_pack_start (GTK_BOX (main_vbox), scroll, TRUE, TRUE, 0);
   gtk_container_set_border_width (GTK_CONTAINER (scroll), 3);
