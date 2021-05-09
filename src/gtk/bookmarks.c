@@ -867,7 +867,6 @@ void edit_bookmarks (gpointer data)
       return;
     }
 
-
   edit_bookmarks_dialog = gtk_dialog_new ();
   //gtk_window_set_transient_for (GTK_WINDOW (edit_bookmarks_dialog), GTK_WINDOW (main_window));
   gtk_window_set_position (GTK_WINDOW (edit_bookmarks_dialog), GTK_WIN_POS_MOUSE);
@@ -892,20 +891,16 @@ void edit_bookmarks (gpointer data)
 
   gtk_box_pack_start (GTK_BOX (main_vbox), scroll, TRUE, TRUE, 0);
   gtk_container_set_border_width (GTK_CONTAINER (scroll), 3);
-  gtk_widget_show (scroll);
 
   btree = btree_create();
-
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scroll),
-                                         GTK_WIDGET(btree) );
-  gtk_widget_show_all(GTK_WIDGET(btree));
+  gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (btree));
 
   g_signal_connect (G_OBJECT (edit_bookmarks_dialog), // GtkDialog
                     "response",
                     G_CALLBACK (on_gtk_dialog_response_BookmarkDlg),
                     NULL);
 
-  gtk_widget_show (edit_bookmarks_dialog);
+  gtk_widget_show_all (edit_bookmarks_dialog);
 
   build_bookmarks_tree ();
   // expand root node
