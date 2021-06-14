@@ -13,9 +13,6 @@ m4_ifdef([AM_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
 
 LT_INIT
 
-# Init intltool
-IT_PROG_INTLTOOL
-
 AC_ARG_ENABLE(gtk2, 
               [  --disable-gtk2          Do not look for GTK+ 2.0 libraries], 
               enable_gtk2=$enableval, 
@@ -180,8 +177,6 @@ AC_SUBST(SSL_LIBS)
 GETTEXT_PACKAGE=gftp
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
-
-AM_GLIB_GNU_GETTEXT
 
 case "$CC" in
   gcc*) CPPFLAGS="$CPPFLAGS -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers" ;;
