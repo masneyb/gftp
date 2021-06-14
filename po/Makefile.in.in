@@ -27,9 +27,7 @@ prefix = @prefix@
 exec_prefix = @exec_prefix@
 datarootdir = @datarootdir@
 datadir = @datadir@
-libdir = @libdir@
-localedir = $(libdir)/locale
-gnulocaledir = $(datadir)/locale
+localedir = @localedir@
 subdir = po
 
 INSTALL = @INSTALL@
@@ -43,31 +41,16 @@ MSGFMT_OPTS = -c
 XGETTEXT = @XGETTEXT@
 MSGMERGE = msgmerge
 
-DEFS = @DEFS@
-CFLAGS = @CFLAGS@
-CPPFLAGS = @CPPFLAGS@
-
-INCLUDES = -I.. -I$(top_srcdir)/intl
-
-COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
-
-SOURCES = 
 POFILES = @POFILES@
 GMOFILES = @GMOFILES@
-DISTFILES = LINGUAS ChangeLog Makefile.in.in POTFILES.in $(GETTEXT_PACKAGE).pot \
-$(POFILES) $(GMOFILES) $(SOURCES)
+DISTFILES = LINGUAS Makefile.in.in POTFILES.in $(GETTEXT_PACKAGE).pot $(POFILES) $(GMOFILES)
 
 POTFILES = \
 
 CATALOGS = @CATALOGS@
-CATOBJEXT = .gmo
-INSTOBJEXT = .mo
 
 .SUFFIXES:
-.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat
-
-.c.o:
-	$(COMPILE) $<
+.SUFFIXES: .po .pox .gmo .mo .msg .cat
 
 .po.pox:
 	$(MAKE) $(GETTEXT_PACKAGE).pot
@@ -127,79 +110,56 @@ install-exec:
 install-data: install-data-@USE_NLS@
 install-data-no: all
 install-data-yes: all
-	mkdir -p $(DESTDIR)$(datadir); \
 	catalogs='$(CATALOGS)'; \
 	for cat in $$catalogs; do \
 	  cat=`basename $$cat`; \
-	  case "$$cat" in \
-	    *.gmo) destdir=$(gnulocaledir);; \
-	    *)     destdir=$(localedir);; \
-	  esac; \
-	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+	  destdir=$(localedir); \
+	  lang=`echo $$cat | sed 's/\.gmo$$//'`; \
 	  dir=$(DESTDIR)$$destdir/$$lang/LC_MESSAGES; \
 	  mkdir -p $$dir; \
 	  if test -r $$cat; then \
-	    $(INSTALL_DATA) $$cat $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT); \
-	    echo "installing $$cat as $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT)"; \
+	    $(INSTALL_DATA) $$cat $$dir/$(GETTEXT_PACKAGE).mo; \
+	    echo "installing $$cat as $$dir/$(GETTEXT_PACKAGE).mo"; \
 	  else \
-	    $(INSTALL_DATA) $(srcdir)/$$cat $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT); \
+	    $(INSTALL_DATA) $(srcdir)/$$cat $$dir/$(GETTEXT_PACKAGE).mo; \
 	    echo "installing $(srcdir)/$$cat as" \
-		 "$$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT)"; \
+		 "$$dir/$(GETTEXT_PACKAGE).mo"; \
 	  fi; \
 	  if test -r $$cat.m; then \
-	    $(INSTALL_DATA) $$cat.m $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m; \
-	    echo "installing $$cat.m as $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m"; \
+	    $(INSTALL_DATA) $$cat.m $$dir/$(GETTEXT_PACKAGE).mo.m; \
+	    echo "installing $$cat.m as $$dir/$(GETTEXT_PACKAGE).mo.m"; \
 	  else \
 	    if test -r $(srcdir)/$$cat.m ; then \
 	      $(INSTALL_DATA) $(srcdir)/$$cat.m \
-		$$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m; \
+		$$dir/$(GETTEXT_PACKAGE).mo.m; \
 	      echo "installing $(srcdir)/$$cat as" \
-		   "$$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m"; \
+		   "$$dir/$(GETTEXT_PACKAGE).mo.m"; \
 	    else \
 	      true; \
 	    fi; \
 	  fi; \
 	done
 
-# Define this as empty until I found a useful application.
-installcheck:
-
 uninstall:
 	catalogs='$(CATALOGS)'; \
 	for cat in $$catalogs; do \
 	  cat=`basename $$cat`; \
-	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
-	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE)$(INSTOBJEXT); \
-	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m; \
-	  rm -f $(DESTDIR)$(gnulocaledir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE)$(INSTOBJEXT); \
-	  rm -f $(DESTDIR)$(gnulocaledir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m; \
+	  lang=`echo $$cat | sed 's/\.gmo$$//'`; \
+	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE).mo; \
+	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE).mo.m; \
 	done
 
 check: all
 
-dvi info tags TAGS ID:
+dvi info ctags tags CTAGS TAGS ID:
 
 mostlyclean:
 	rm -f core core.* *.pox *.old.po cat-id-tbl.tmp
-	rm -fr *.o
 
 clean: mostlyclean
 
 distclean: clean
-	rm -f Makefile Makefile.in POTFILES *.mo *.msg *.cat *.cat.m
-
-maintainer-clean: distclean
-	@echo "This command is intended for maintainers to use;"
-	@echo "it deletes files that may require special tools to rebuild."
-	rm -f $(GMOFILES)
-
-distdir = ../$(GETTEXT_PACKAGE)-$(VERSION)/$(subdir)
-dist distdir: $(DISTFILES)
-	dists="$(DISTFILES)"; \
-	for file in $$dists; do \
-	  ln $(srcdir)/$$file $(distdir) 2> /dev/null \
-	    || cp -p $(srcdir)/$$file $(distdir); \
-	done
+	rm -f Makefile Makefile.in POTFILES *.mo *.msg *.cat *.cat.m $(GMOFILES)
 
 update-po: Makefile
 	rm -f $(GETTEXT_PACKAGE).pot
@@ -209,8 +169,8 @@ update-po: Makefile
 	catalogs='$(CATALOGS)'; \
 	for cat in $$catalogs; do \
 	  cat=`basename $$cat`; \
-	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
-	  echo "$$lang:"; \
+	  lang=`echo $$cat | sed 's/\.gmo$$//'`; \
+	  printf " %s " "$$lang"; \
 	  if $(MSGMERGE) $$lang.po $(GETTEXT_PACKAGE).pot -o $$tmpdir/$$lang.new.po; then \
 	    if cmp $$lang.po $$tmpdir/$$lang.new.po >/dev/null 2>&1; then \
 	      rm -f $$tmpdir/$$lang.new.po; \
@@ -229,28 +189,10 @@ update-po: Makefile
 	  fi; \
 	done
 
-# POTFILES is created from POTFILES.in by stripping comments, empty lines
-# and Intltool tags (enclosed in square brackets), and appending a full
-# relative path to them
-POTFILES: POTFILES.in
-	( if test 'x$(srcdir)' != 'x.'; then \
-	    posrcprefix='$(top_srcdir)/'; \
-	  else \
-	    posrcprefix="../"; \
-	  fi; \
-	  rm -f $@-t $@ \
-	    && (sed -e '/^#/d' 						\
-		    -e "s/^\[.*\] +//" 					\
-		    -e '/^[ 	]*$$/d' 				\
-		    -e "s@.*@	$$posrcprefix& \\\\@" < $(srcdir)/$@.in	\
-		| sed -e '$$s/\\$$//') > $@-t \
-	    && chmod a-w $@-t \
-	    && mv $@-t $@ )
+# POTFILES.in: ./autogen.sh linguas
+POTFILES:
+	cp POTFILES.in POTFILES
 
 Makefile: Makefile.in.in ../config.status POTFILES
 	cd .. \
 	  && $(SHELL) ./config.status $(subdir)/$@.in
-
-# Tell versions [3.59,3.63) of GNU make not to export all variables.
-# Otherwise a system limit (for SysV at least) may be exceeded.
-.NOEXPORT:
