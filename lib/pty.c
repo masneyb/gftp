@@ -60,10 +60,6 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
 
 #elif HAVE_GRANTPT
 
-#if !(defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__) || defined(__linux__) || defined(__GNU__))
-#include <stropts.h>
-#endif
-
 char *
 gftp_get_pty_impl (void)
 {
