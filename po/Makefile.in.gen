@@ -1,0 +1,97 @@
+#!/bin/sh
+# https://unlicense.org
+
+cd $(dirname "$0")
+
+POFILES="$(ls *.po)"
+MOFILES="$(echo "$POFILES" | sed 's/\.po$/.mo/')"
+LINGUAS="$(echo "$POFILES" | sed 's/\.po$//')"
+filez=$(find .. -type f -name '*.h' -or -name '*.c' -or -name '*.cc' -or -name '*.cpp' -or -name '*.hh')
+POTFILES="$(grep '_(' $filez | sed -e 's%^\./%%' -e 's%:.*%%' | sort -u)"
+
+echo '
+GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+@SET_MAKE@
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+datarootdir = @datarootdir@
+datadir = @datadir@
+localedir = @localedir@
+
+INSTALL = @INSTALL@
+INSTALL_DATA = @INSTALL_DATA@
+
+GMSGFMT = @GMSGFMT@
+MSGFMT = @MSGFMT@
+#MSGFMT_OPTS = -c
+XGETTEXT = @XGETTEXT@
+MSGMERGE = msgmerge
+
+MOFILES = '${MOFILES}'
+LINGUAS = '${LINGUAS}'
+POTFILES = '${POTFILES}'
+
+#.SUFFIXES: .po .gmo .mo
+#.po.mo:
+#	$(GMSGFMT) $(MSGFMT_OPTS) -o `echo $* | sed "s,.*/,,"`.mo $<
+
+all: all-@USE_NLS@
+all-yes: $(MOFILES)
+all-no:
+
+$(GETTEXT_PACKAGE).pot: $(POTFILES)
+	$(XGETTEXT) --default-domain=$(GETTEXT_PACKAGE) \
+	--add-comments --keyword=_ --keyword=N_ --from-code=UTF-8 \
+	-o $(GETTEXT_PACKAGE).pot $(POTFILES)
+
+install: install-data-@USE_NLS@
+install-data-no: all
+install-data-yes: all
+	catalogs="$(LINGUAS)"; \
+	for cat in $$catalogs; do \
+	  dir=$(DESTDIR)$(localedir)/$$cat/LC_MESSAGES; \
+	  mkdir -p $$dir; \
+	  $(INSTALL_DATA) $$cat.mo $$dir/$(GETTEXT_PACKAGE).mo; \
+	  echo "installing $$cat.mo as $$dir/$(GETTEXT_PACKAGE).mo"; \
+	done
+
+uninstall:
+	catalogs="$(LINGUAS)"; \
+	for cat in $$catalogs; do \
+	  echo "rm -f $(DESTDIR)$(localedir)/$$cat/LC_MESSAGES/$(GETTEXT_PACKAGE).mo"; \
+	  rm -f $(DESTDIR)$(localedir)/$$cat/LC_MESSAGES/$(GETTEXT_PACKAGE).mo; \
+	done
+
+mostlyclean:
+	rm -f *.pox *.old.po *.new.po *.mo *.gmo *.msg *.cat *.cat.m
+
+clean: mostlyclean
+
+distclean: clean
+	rm -f Makefile POTFILES
+
+update-po: Makefile
+	rm -f $(GETTEXT_PACKAGE).pot
+	$(MAKE) $(GETTEXT_PACKAGE).pot
+	catalogs="$(LINGUAS)"; \
+	for lang in $$catalogs; do \
+	  printf " %s " "$$lang"; \
+	  if $(MSGMERGE) $$lang.po $(GETTEXT_PACKAGE).pot -o $$lang.new.po; then \
+	    mv -f $$lang.new.po $$lang.po || exit 1; \
+	  else \
+	    echo "msgmerge for $$lang failed!"; \
+	    rm -f $$lang.new.po; \
+	  fi; \
+	done
+' > Makefile.in
+
+(
+for i in ${LINGUAS}
+do
+	echo "${i}.mo:"
+	echo "	\$(GMSGFMT) \$(MSGFMT_OPTS) -o ${i}.mo ${i}.po"
+done
+) >> Makefile.in

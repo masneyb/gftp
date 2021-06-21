@@ -11,7 +11,8 @@ AM_GNU_GETTEXT([external])
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 m4_ifdef([AM_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
 
-LT_INIT
+AC_PROG_RANLIB
+#L#T_INIT
 
 AC_ARG_ENABLE(gtk2, 
               [  --disable-gtk2          Do not look for GTK+ 2.0 libraries], 
@@ -202,7 +203,7 @@ AC_CONFIG_FILES(
 	src/uicommon/Makefile
 	src/gtk/Makefile
 	src/text/Makefile
-	po/Makefile.in
+	po/Makefile
 	gftp.spec
 )
 AC_OUTPUT
