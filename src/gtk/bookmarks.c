@@ -34,7 +34,7 @@ struct btree_bookmark
    gpointer data;
 };
 static void btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter);
-static gftp_bookmarks_var * btree_get_selected_bookmark (void);
+static gftp_bookmarks_var * btree_get_selected_bookmark (GtkTreeIter * out_iter);
 static void btree_remove_selected_node (void);
 static void btree_expand_collapse_selected_row (int key);
 static void gtktreemodel_to_gftp (void);
@@ -57,6 +57,7 @@ static GtkActionGroup *dynamic_bm_menu = NULL;
 static GtkMenu * bmenu_file;
 static GtkWidget * create_bm_dlg_menubar (GtkWindow *window);
 static void bmenu_setup (void);
+static int from_popup = 0;
 
 void
 on_menu_run_bookmark (GtkAction *action, gpointer path_str)
@@ -343,8 +344,12 @@ on_gtk_dialog_response_BookmarkDlg (GtkDialog * dialog,
 static void
 do_make_new (gpointer data, gftp_dialog_data * ddata)
 {
+  gboolean isfolder = data ? TRUE : FALSE;
   gftp_bookmarks_var * newentry;
-  const char *str;
+  GtkTreeIter parent_iter;
+  gftp_bookmarks_var * parent_entry = btree_get_selected_bookmark (&parent_iter);
+  const char * str;
+  char * str2 = NULL;
   struct btree_bookmark bm;
 
   const char *error = NULL;
@@ -355,10 +360,17 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   if (!error && *str == '\0') {
      error = error1;
   }
-  if (!error) {
+  if (!error)
+  {
+     if (!isfolder && parent_entry && *parent_entry->path) {
+        // build path including folder path
+        str2 = g_strconcat (parent_entry->path, "/", str, NULL);
+        str = str2;
+     }
      gtktreemodel_find_bookmark (str, &bm);
-     if (bm.entry)
+     if (bm.entry) {
          error = error2;
+     }
   }
   if (error)
   {
@@ -370,17 +382,32 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
                                  "%s", error);
      g_signal_connect_swapped (m, "response", G_CALLBACK (gtk_widget_destroy), m);
      gtk_widget_show (m);
+     if (str2) g_free (str2);
      return;
   }
 
   newentry = g_malloc0 (sizeof (*newentry));
   newentry->path = g_strdup (str);
 
-  if (data)
+  if (isfolder) {
     newentry->isfolder = 1;
+  }
 
-  newentry->parent = gftp_bookmarks;
-  btree_add_node (newentry, 0, NULL); /* 0 = don't copy bookmark */
+  if (!from_popup && isfolder) {
+     // calling from menubar
+     // a folder can only be a child of the root node (gftp_bookmarks)
+     parent_entry = NULL;
+  }
+
+  if (parent_entry) {
+     newentry->parent = parent_entry;
+     btree_add_node (newentry, 0, &parent_iter);
+     btree_expand_collapse_selected_row (GDK_KEY_Right); /* expand row */
+  } else {
+     newentry->parent = gftp_bookmarks;
+     btree_add_node (newentry, 0, NULL); /* 0 = don't copy bookmark */
+  }
+  if (str2) g_free (str2);
 }
 
 
@@ -417,7 +444,7 @@ delete_entry (gpointer data)
   gftp_bookmarks_var * entry = NULL;
   char *tempstr, *pos;
 
-  entry = btree_get_selected_bookmark ();
+  entry = btree_get_selected_bookmark (NULL);
 
   if (entry == NULL)
     return;
@@ -634,7 +661,7 @@ edit_entry_dlg (gpointer data)
       return;
     }
 
-  entry = btree_get_selected_bookmark ();
+  entry = btree_get_selected_bookmark (NULL);
 
   if (!entry || !entry->path || !*entry->path)
     return;
@@ -840,6 +867,13 @@ on_gtk_treeview_ButtonReleaseEvent_btree (GtkWidget * widget,
 {
   if (event->button == 3)
     { // right click
+      if (!gtk_tree_view_get_path_at_pos (btree, event->x, event->y, NULL, NULL, NULL, NULL)) {
+         // a row doesn't exist at event->x / event->y
+         // must clear the current selection
+         GtkTreeSelection * sel = gtk_tree_view_get_selection (btree);
+         gtk_tree_selection_unselect_all (sel);
+      }
+      from_popup = 1;
       bmenu_setup ();
       gtk_menu_popup (bmenu_file, NULL, NULL, NULL, NULL, event->button, event->time);
     }
@@ -933,21 +967,45 @@ static void on_gtk_MenuItem_activate_close (GtkMenuItem *menuitem, gpointer data
 
 // ----
 
+static GtkMenuItem *bmenu_file_newfolder;
+static GtkMenuItem *bmenu_file_newitem;
 static GtkMenuItem *bmenu_file_delete;
 static GtkMenuItem *bmenu_file_edit;
 
 static void bmenu_setup (void)
 {
-   gboolean state = FALSE;
-   if (btree_get_selected_bookmark ()) {
-      state = TRUE;
+   gboolean newfolder_state = FALSE;
+   gboolean newitem_state   = FALSE;
+   gboolean edit_state      = FALSE;
+   gboolean delete_state    = FALSE;
+   gftp_bookmarks_var * entry = btree_get_selected_bookmark (NULL);
+   if (entry)
+   {
+      edit_state   = TRUE;
+      delete_state = TRUE;
+      if (!entry->path || !*entry->path) {
+         newfolder_state = TRUE; /* root node */
+      }
+      if (entry->isfolder) {
+         newitem_state = TRUE;
+      }
    }
-   gtk_widget_set_sensitive (GTK_WIDGET (bmenu_file_edit), state);
-   gtk_widget_set_sensitive (GTK_WIDGET (bmenu_file_delete), state);
+   if (!from_popup) {
+      // menubar, these 2 should always be enabled
+      // calling from menubar: create an entry in root or folder
+      //     but subfolders are not allowed (see do_make_new)
+      newfolder_state = TRUE;
+      newitem_state   = TRUE;
+   }
+   gtk_widget_set_sensitive (GTK_WIDGET (bmenu_file_newfolder), newfolder_state);
+   gtk_widget_set_sensitive (GTK_WIDGET (bmenu_file_newitem),   newitem_state);
+   gtk_widget_set_sensitive (GTK_WIDGET (bmenu_file_edit),      edit_state);
+   gtk_widget_set_sensitive (GTK_WIDGET (bmenu_file_delete),    delete_state);
 }
 
 static void on_gtk_MenuItem_activate_fileMenu (GtkMenuItem *menuitem, gpointer data)
 {
+   from_popup = 0;
    bmenu_setup ();
 }
 
@@ -966,9 +1024,11 @@ create_bm_dlg_menubar (GtkWindow *window)
 
    item = new_menu_item (menu_file, _("New _Folder..."), NULL,
                          on_gtk_MenuItem_activate_newfolder, NULL);
+   bmenu_file_newfolder = item;
 
    item = new_menu_item (menu_file, _("New _Item..."), "gtk-new",
                          on_gtk_MenuItem_activate_newitem, NULL);
+   bmenu_file_newitem = item;
    gtk_widget_add_accelerator (GTK_WIDGET (item), "activate",
                                accel_group,
                                GDK_KEY_n, GDK_CONTROL_MASK,
@@ -1182,8 +1242,7 @@ btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter)
 }
 
 
-static gftp_bookmarks_var *
-btree_get_selected_bookmark ()
+static gftp_bookmarks_var * btree_get_selected_bookmark (GtkTreeIter * out_iter)
 {
   gftp_bookmarks_var *bmentry = NULL;
   GtkTreeModel *model;
@@ -1194,6 +1253,9 @@ btree_get_selected_bookmark ()
     gtk_tree_model_get (model, &iter,
                         BTREEVIEW_COL_BOOKMARK, &bmentry,
                         -1);
+    if (out_iter) {
+        *out_iter = iter;
+    }
   }
   return (bmentry);
 }
