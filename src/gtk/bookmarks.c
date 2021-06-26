@@ -33,7 +33,7 @@ struct btree_bookmark
    GtkTreeIter iter;
    gpointer data;
 };
-static void btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter);
+static void btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter, gboolean edit);
 static gftp_bookmarks_var * btree_get_selected_bookmark (GtkTreeIter * out_iter);
 static void btree_remove_selected_node (void);
 static void btree_expand_collapse_selected_row (int key);
@@ -56,8 +56,7 @@ static GtkActionGroup *dynamic_bm_menu = NULL;
 
 static GtkMenu * bmenu_file;
 static GtkWidget * create_bm_dlg_menubar (GtkWindow *window);
-static void bmenu_setup (void);
-static int from_popup = 0;
+static void bmenu_setup (int from_popup);
 
 void
 on_menu_run_bookmark (GtkAction *action, gpointer path_str)
@@ -390,22 +389,18 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
   newentry->path = g_strdup (str);
 
   if (isfolder) {
-    newentry->isfolder = 1;
-  }
-
-  if (!from_popup && isfolder) {
-     // calling from menubar
+     newentry->isfolder = 1;
      // a folder can only be a child of the root node (gftp_bookmarks)
      parent_entry = NULL;
   }
 
   if (parent_entry) {
      newentry->parent = parent_entry;
-     btree_add_node (newentry, 0, &parent_iter);
      btree_expand_collapse_selected_row (GDK_KEY_Right); /* expand row */
+     btree_add_node (newentry, 0, &parent_iter, TRUE);
   } else {
      newentry->parent = gftp_bookmarks;
-     btree_add_node (newentry, 0, NULL); /* 0 = don't copy bookmark */
+     btree_add_node (newentry, 0, NULL, TRUE); /* 0 = don't copy bookmark */
   }
   if (str2) g_free (str2);
 }
@@ -482,12 +477,12 @@ static void build_bookmarks_tree (void)
   // convert a singly linked list to GtkTreeModel (pointer in a 'column')
   gftp_bookmarks_var * entry;
 
-  btree_add_node (gftp_bookmarks, 1, NULL);
+  btree_add_node (gftp_bookmarks, 1, NULL, FALSE);
 
   entry = gftp_bookmarks->children;
   while (entry != NULL)
   {
-     btree_add_node (entry, 1, NULL);
+     btree_add_node (entry, 1, NULL, FALSE);
      if (entry->children != NULL)
      {
         entry = entry->children;
@@ -647,8 +642,7 @@ on_gtk_dialog_response_EditEntryDlg (GtkDialog *dialog,
 }   
 
 
-static void
-edit_entry_dlg (gpointer data)
+static void edit_entry_dlg (gpointer data)
 {
   GtkWidget * table, * tempwid, * notebook, *main_vbox;
   gftp_bookmarks_var * entry;
@@ -873,8 +867,7 @@ on_gtk_treeview_ButtonReleaseEvent_btree (GtkWidget * widget,
          GtkTreeSelection * sel = gtk_tree_view_get_selection (btree);
          gtk_tree_selection_unselect_all (sel);
       }
-      from_popup = 1;
-      bmenu_setup ();
+      bmenu_setup (1);
       gtk_menu_popup (bmenu_file, NULL, NULL, NULL, NULL, event->button, event->time);
     }
   return (FALSE);
@@ -959,7 +952,7 @@ static void on_gtk_MenuItem_activate_delete (GtkMenuItem *menuitem, gpointer dat
 	delete_entry (data);
 }
 static void on_gtk_MenuItem_activate_properties (GtkMenuItem *menuitem, gpointer data) {
-	edit_entry_dlg (data);
+	edit_entry_dlg (NULL);
 }
 static void on_gtk_MenuItem_activate_close (GtkMenuItem *menuitem, gpointer data) {
 	gtk_widget_destroy (edit_bookmarks_dialog);
@@ -972,7 +965,7 @@ static GtkMenuItem *bmenu_file_newitem;
 static GtkMenuItem *bmenu_file_delete;
 static GtkMenuItem *bmenu_file_edit;
 
-static void bmenu_setup (void)
+static void bmenu_setup (int from_popup)
 {
    gboolean newfolder_state = FALSE;
    gboolean newitem_state   = FALSE;
@@ -990,7 +983,7 @@ static void bmenu_setup (void)
          newitem_state = TRUE;
       }
    }
-   if (!from_popup) {
+   if (!from_popup || !entry) {
       // menubar, these 2 should always be enabled
       // calling from menubar: create an entry in root or folder
       //     but subfolders are not allowed (see do_make_new)
@@ -1005,8 +998,7 @@ static void bmenu_setup (void)
 
 static void on_gtk_MenuItem_activate_fileMenu (GtkMenuItem *menuitem, gpointer data)
 {
-   from_popup = 0;
-   bmenu_setup ();
+   bmenu_setup (0);
 }
 
 // ----
@@ -1158,7 +1150,7 @@ btree_create()
 
 
 static void
-btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter)
+btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter, gboolean edit)
 {
   // the calling function must provide parent nodes first, otherwise this will not work
   // this does not check for duplicates, everything must be already sorted out
@@ -1239,6 +1231,11 @@ btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter)
                       BTREEVIEW_COL_TEXT,     text,
                       BTREEVIEW_COL_BOOKMARK, newentry,
                       -1);
+  if (edit) {
+     GtkTreeSelection * sel = gtk_tree_view_get_selection (btree);
+     gtk_tree_selection_select_iter (sel, &iter);
+     edit_entry_dlg (NULL);
+  }
 }
 
 
