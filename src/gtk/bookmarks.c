@@ -955,7 +955,7 @@ static void on_gtk_MenuItem_activate_properties (GtkMenuItem *menuitem, gpointer
 	edit_entry_dlg (NULL);
 }
 static void on_gtk_MenuItem_activate_close (GtkMenuItem *menuitem, gpointer data) {
-	gtk_widget_destroy (edit_bookmarks_dialog);
+	gtk_dialog_response (GTK_DIALOG (edit_bookmarks_dialog), GTK_RESPONSE_CLOSE);
 }
 
 // ----
