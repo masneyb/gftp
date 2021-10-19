@@ -589,7 +589,9 @@ listbox_get_selected_files (gftp_window_data *wdata, int only_one)
       valid = gtk_tree_model_iter_next (model, &iter);
    }
 
-   if (!out_filelist) fprintf(stderr, "listbox.c: ERROR, could not retrieve filename(s)...\n"); //debug
+   if (!out_filelist) {
+      fprintf(stderr, "listbox.c: ERROR, could not retrieve filename(s)...\n"); //debug
+   }
 
    return ((void *) out_filelist);
 }

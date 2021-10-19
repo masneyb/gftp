@@ -942,6 +942,10 @@ on_listbox_row_activated_cb (GtkTreeView *tree_view,    GtkTreePath *path,
   // list directory or download file
 
   gftp_file * tempfle = (gftp_file *) listbox_get_selected_files (wdata, 1);
+  if (!tempfle) {
+     fprintf (stderr, "* on_listbox_row_activated_cb(): ERROR\n"); // debug
+     return;
+  }
 
   char      *directory;
   int success = 0;
