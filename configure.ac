@@ -1,9 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([gftp],[2.7.0b],[https://www.gftp.org/])
+AC_INIT([gftp],[2.7.1b],[https://www.gftp.org/])
 AC_CONFIG_AUX_DIR([autoconf])
 AC_CONFIG_MACRO_DIR([autoconf-m4])
-AM_INIT_AUTOMAKE([1.11 -Wall foreign])
+AM_INIT_AUTOMAKE([-Wall foreign])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_HEADER([config.h])
