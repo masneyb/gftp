@@ -127,6 +127,13 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
                                      _("Cannot connect to %s: %s\n"),
                                      res[0].ai_canonname, g_strerror (errno));
           close (sock);
+          switch (errno)
+          {
+             case EHOSTUNREACH: /* No route to host */
+                freeaddrinfo (hostp);
+                return GFTP_EFATAL;
+                ;;
+          }
           continue;
         }
 
