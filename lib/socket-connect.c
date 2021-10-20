@@ -92,6 +92,9 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
   struct addrinfo *res, *hostp, *current_hostp;
   unsigned int port;
   int sock = -1;
+  struct timeval timeout;
+  timeout.tv_sec = 30; /* connection timeout in seconds */
+  timeout.tv_usec = 0;
 
   hostp = lookup_host (request, service, proxy_hostname,
                                         proxy_port);
@@ -117,6 +120,7 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
                                  _("Trying %s:%d\n"), res[0].ai_canonname,
                                  port);
 
+      setsockopt (sock, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
       if (connect (sock, res->ai_addr, res->ai_addrlen) == -1)
         {
           request->logging_function (gftp_logging_error, request,
