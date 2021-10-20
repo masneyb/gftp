@@ -76,8 +76,7 @@ lookup_host (gftp_request *request, char *service,
                              &hostp)) != 0)
     {
       request->logging_function (gftp_logging_error, request,
-                                 _("Cannot look up hostname %s: %s\n"),
-                                 connect_host, gai_strerror (ret));
+                                 _("Unknown host. Maybe you misspelled it?\n"));
       return (NULL);
     }
 
@@ -97,7 +96,7 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
   hostp = lookup_host (request, service, proxy_hostname,
                                         proxy_port);
   if (hostp == NULL)
-    return (GFTP_ERETRYABLE);
+    return (GFTP_EFATAL);
 
   for (res = hostp; res != NULL; res = res->ai_next)
     {
@@ -177,7 +176,7 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
   *connect_data = lookup_host (request, service,
                                                 proxy_hostname, proxy_port);
   if (*connect_data == NULL)
-    return (GFTP_ERETRYABLE);
+    return (GFTP_EFATAL);
 
   templist = proxy_hosts->list;
   while (templist != NULL)
