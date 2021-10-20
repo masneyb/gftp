@@ -92,6 +92,7 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
   struct addrinfo *res, *hostp, *current_hostp;
   struct sockaddr_in * addrin;
   char ipstr[128], * hostname;
+  int last_errno = 0;
   unsigned int port;
   int sock = -1;
   struct timeval timeout;
@@ -144,14 +145,7 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
                                      _("Cannot connect to %s: %s\n"),
                                      hostname, g_strerror (errno));
           close (sock);
-          switch (errno)
-          {
-             case EINVAL:       /* Invalid argument */
-             case EHOSTUNREACH: /* No route to host */
-                freeaddrinfo (hostp);
-                return GFTP_EFATAL;
-                ;;
-          }
+          last_errno = errno;
           continue;
         }
 
@@ -164,8 +158,16 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
     {
       if (hostp != NULL)
         freeaddrinfo (hostp);
-      
-      return (GFTP_ERETRYABLE);
+
+      switch (last_errno)
+      {
+         case EINVAL:       /* Invalid argument */
+         case EHOSTUNREACH: /* No route to host */
+            return GFTP_EFATAL;
+            break;
+         default:
+            return (GFTP_ERETRYABLE);
+      }
     }
 
   request->remote_addr_len = current_hostp->ai_addrlen;
