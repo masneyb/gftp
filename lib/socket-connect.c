@@ -90,6 +90,8 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
                                       unsigned int proxy_port)
 {
   struct addrinfo *res, *hostp, *current_hostp;
+  struct sockaddr_in * addrin;
+  char ipstr[128], * hostname;
   unsigned int port;
   int sock = -1;
   struct timeval timeout;
@@ -116,16 +118,31 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
           continue; 
         } 
 
-      request->logging_function (gftp_logging_misc, request,
-                                 _("Trying %s:%d\n"), res[0].ai_canonname,
-                                 port);
+      *ipstr = 0;
+      hostname = res[0].ai_canonname;
+
+      if (res->ai_addr->sa_family == AF_INET) {
+         addrin = (struct sockaddr_in *) res->ai_addr;
+         snprintf (ipstr, sizeof(ipstr)-1, "%s", inet_ntoa(addrin->sin_addr));
+         if (hostname && (strcmp(hostname, ipstr) == 0)) {
+            hostname = ipstr;
+         }
+      }
+      if (!hostname || (hostname == ipstr)) {
+         hostname = hostname ? hostname : ipstr;
+         request->logging_function (gftp_logging_misc, request,
+                                    _("Trying %s:%d\n"), hostname, port);
+      } else {
+         request->logging_function (gftp_logging_misc, request,
+                                    _("Trying %s:%d (%s)\n"), hostname, port, ipstr);
+      }
 
       setsockopt (sock, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
       if (connect (sock, res->ai_addr, res->ai_addrlen) == -1)
         {
           request->logging_function (gftp_logging_error, request,
                                      _("Cannot connect to %s: %s\n"),
-                                     res[0].ai_canonname, g_strerror (errno));
+                                     hostname, g_strerror (errno));
           close (sock);
           switch (errno)
           {
