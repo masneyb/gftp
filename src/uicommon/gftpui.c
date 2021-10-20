@@ -152,13 +152,7 @@ gftpui_common_init (int *argc, char ***argv, gftp_logging_func logfunc)
 void
 gftpui_common_about (gftp_logging_func logging_function, gpointer logdata)
 {
-  char *str;
-
   logging_function (gftp_logging_misc, logdata, "%s - http://www.gftp.org/\n", gftp_version);
-
-  str = _("Translated by");
-  if (strcmp (str, "Translated by") != 0)
-    logging_function (gftp_logging_misc, logdata, "%s\n", str);
 }
 
 
