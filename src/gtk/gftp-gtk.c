@@ -869,11 +869,16 @@ CreateCommandToolbar (void)
 {
   GtkWidget * box, * tempwid;
 
-  gftpui_command_toolbar = gtk_handle_box_new ();
-
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
-  gtk_container_add (GTK_CONTAINER (gftpui_command_toolbar), box);
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
+
+#if GTK_MAJOR_VERSION == 2
+  // GtkHandleBox is broken in GTK3 - macOS
+  gftpui_command_toolbar = gtk_handle_box_new ();
+  gtk_container_add (GTK_CONTAINER (gftpui_command_toolbar), box);
+#else
+  gftpui_command_toolbar = box;
+#endif
 
   tempwid = gtk_label_new (_("Command: "));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
