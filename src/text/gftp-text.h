@@ -30,6 +30,19 @@
 #include <readline/history.h>
 #endif
 
+#define GFTPUI_COMMON_COLOR_BLACK     "\033[30m"
+#define GFTPUI_COMMON_COLOR_RED       "\033[31m"
+#define GFTPUI_COMMON_COLOR_GREEN     "\033[32m"
+#define GFTPUI_COMMON_COLOR_YELLOW    "\033[33m"
+#define GFTPUI_COMMON_COLOR_BLUE      "\033[34m"
+#define GFTPUI_COMMON_COLOR_MAGENTA   "\033[35m"
+#define GFTPUI_COMMON_COLOR_CYAN      "\033[36m"
+#define GFTPUI_COMMON_COLOR_WHITE     "\033[37m"
+#define GFTPUI_COMMON_COLOR_GREY      "\033[38m"
+#define GFTPUI_COMMON_COLOR_DEFAULT   "\033[39m"
+#define GFTPUI_COMMON_COLOR_NONE	""
+
+
 unsigned int gftp_text_get_win_size 		( void );
 
 char * gftp_text_ask_question 			( gftp_request * request,

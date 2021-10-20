@@ -75,25 +75,11 @@ typedef struct _gftpui_common_curtrans_data
 
 #define gftpui_common_use_threads(request)	(gftp_protocols[(request)->protonum].use_threads)
 
-
-#define GFTPUI_COMMON_COLOR_BLACK     "\033[30m"
-#define GFTPUI_COMMON_COLOR_RED       "\033[31m"
-#define GFTPUI_COMMON_COLOR_GREEN     "\033[32m"
-#define GFTPUI_COMMON_COLOR_YELLOW    "\033[33m"
-#define GFTPUI_COMMON_COLOR_BLUE      "\033[34m"
-#define GFTPUI_COMMON_COLOR_MAGENTA   "\033[35m"
-#define GFTPUI_COMMON_COLOR_CYAN      "\033[36m"
-#define GFTPUI_COMMON_COLOR_WHITE     "\033[37m"
-#define GFTPUI_COMMON_COLOR_GREY      "\033[38m"
-#define GFTPUI_COMMON_COLOR_DEFAULT   "\033[39m"
-#define GFTPUI_COMMON_COLOR_NONE	""
-
 extern sigjmp_buf gftpui_common_jmp_environment;
 extern volatile int gftpui_common_use_jmp_environment;
 extern gftpui_common_methods gftpui_common_commands[];
 extern WGMutex gftpui_common_transfer_mutex;
 extern volatile sig_atomic_t gftpui_common_child_process_done;
-
 
 /* -------- */
 /* gftpui.c */

@@ -24,8 +24,9 @@ void
 gftpui_lookup_file_colors (gftp_file * fle, char **start_color,
                            char ** end_color)
 {
-  *start_color = GFTPUI_COMMON_COLOR_NONE;
-  *end_color = GFTPUI_COMMON_COLOR_NONE;
+  /* not used in the gtk ui */
+  *start_color = NULL;
+  *end_color = NULL;
 }
 
 
