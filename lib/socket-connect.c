@@ -129,6 +129,7 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
           close (sock);
           switch (errno)
           {
+             case EINVAL:       /* Invalid argument */
              case EHOSTUNREACH: /* No route to host */
                 freeaddrinfo (hostp);
                 return GFTP_EFATAL;
