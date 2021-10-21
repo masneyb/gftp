@@ -19,21 +19,28 @@
 
 #include "gftp.h"
 
-static int
-get_port (struct addrinfo *addr)
+static int get_port (struct addrinfo *addrinf)
 {
-  struct sockaddr_in * saddr;
-  int port;
+  unsigned short sin_port;
+  struct sockaddr * saddr = (struct sockaddr *) addrinf->ai_addr;
+  if (saddr->sa_family == AF_INET) {
+     sin_port = (((struct sockaddr_in*)saddr)->sin_port);
+  } else { /* ipv6 */
+     sin_port = (((struct sockaddr_in6*)saddr)->sin6_port);
+  }
+  return (ntohs (sin_port));
+}
 
-  if (addr->ai_family == AF_INET)
-    {
-      saddr = (struct sockaddr_in *) addr->ai_addr;
-      port = ntohs (saddr->sin_port);
-    }
-  else
-    port = 0;
-
-  return (port);
+static void get_ip_str (struct addrinfo *addrinf, char * outbuf, int size)
+{
+  void * sin_addr;
+  struct sockaddr * saddr = (struct sockaddr *) addrinf->ai_addr;
+  if (saddr->sa_family == AF_INET) {
+     sin_addr = &(((struct sockaddr_in*)saddr)->sin_addr);
+  } else { /* ipv6 */
+     sin_addr = &(((struct sockaddr_in6*)saddr)->sin6_addr);
+  }
+  inet_ntop (addrinf->ai_family, sin_addr, outbuf, size);
 }
 
 
@@ -90,7 +97,6 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
                                       unsigned int proxy_port)
 {
   struct addrinfo *res, *hostp, *current_hostp;
-  struct sockaddr_in * addrin;
   char ipstr[128], * hostname;
   int last_errno = 0;
   unsigned int port;
@@ -110,24 +116,11 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
       if (!request->use_proxy)
         request->port = port;
 
-      if ((sock = socket (res->ai_family, res->ai_socktype, 
-                          res->ai_protocol)) < 0)
-        {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Failed to create a socket: %s\n"),
-                                     g_strerror (errno));
-          continue; 
-        } 
-
       *ipstr = 0;
       hostname = res[0].ai_canonname;
-
-      if (res->ai_addr->sa_family == AF_INET) {
-         addrin = (struct sockaddr_in *) res->ai_addr;
-         snprintf (ipstr, sizeof(ipstr)-1, "%s", inet_ntoa(addrin->sin_addr));
-         if (hostname && (strcmp(hostname, ipstr) == 0)) {
-            hostname = ipstr;
-         }
+      get_ip_str (res, ipstr, sizeof(ipstr));
+      if (hostname && (strcmp(hostname, ipstr) == 0)) {
+         hostname = ipstr;
       }
       if (!hostname || (hostname == ipstr)) {
          hostname = hostname ? hostname : ipstr;
@@ -137,6 +130,15 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
          request->logging_function (gftp_logging_misc, request,
                                     _("Trying %s:%d (%s)\n"), hostname, port, ipstr);
       }
+
+      sock = socket (res->ai_family, res->ai_socktype, res->ai_protocol);
+      if (sock < 0)
+        {
+          request->logging_function (gftp_logging_error, request,
+                                     _("Failed to create a socket: %s\n"),
+                                     g_strerror (errno));
+          continue;
+        }
 
       setsockopt (sock, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
       if (connect (sock, res->ai_addr, res->ai_addrlen) == -1)
