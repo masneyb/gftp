@@ -19,8 +19,8 @@ MSGFMT = @MSGFMT@
 XGETTEXT = @XGETTEXT@
 MSGMERGE = msgmerge
 
-MOFILES = am.mo ar.mo as.mo az.mo be.mo bg.mo bn_IN.mo bn.mo bs.mo ca.mo ca@valencia.mo cs.mo da.mo de.mo dz.mo el.mo en_CA.mo en_GB.mo eo.mo es.mo eu.mo fi.mo fr.mo ga.mo gl.mo gu.mo he.mo hi.mo hr.mo hu.mo it.mo ja.mo kn.mo ko.mo lt.mo lv.mo mk.mo ml.mo mr.mo ms.mo nb.mo ne.mo nl.mo oc.mo or.mo pa.mo pl.mo pt_BR.mo pt.mo ro.mo ru.mo rw.mo sk.mo sl.mo sq.mo sr@Latn.mo sr.mo sv.mo ta.mo te.mo th.mo tr.mo uk.mo zh_CN.mo zh_HK.mo zh_TW.mo
-LINGUAS = am ar as az be bg bn_IN bn bs ca ca@valencia cs da de dz el en_CA en_GB eo es eu fi fr ga gl gu he hi hr hu it ja kn ko lt lv mk ml mr ms nb ne nl oc or pa pl pt_BR pt ro ru rw sk sl sq sr@Latn sr sv ta te th tr uk zh_CN zh_HK zh_TW
+MOFILES = am.mo ar.mo as.mo az.mo be.mo bg.mo bn_IN.mo bn.mo bs.mo ca.mo ca@valencia.mo cs.mo da.mo de.mo dz.mo el.mo eo.mo es.mo eu.mo fi.mo fr.mo ga.mo gl.mo gu.mo he.mo hi.mo hr.mo hu.mo it.mo ja.mo kn.mo ko.mo lt.mo lv.mo mk.mo ml.mo mr.mo ms.mo nb.mo ne.mo nl.mo oc.mo or.mo pa.mo pl.mo pt_BR.mo pt.mo ro.mo ru.mo rw.mo sk.mo sl.mo sq.mo sr@Latn.mo sr.mo sv.mo ta.mo te.mo th.mo tr.mo uk.mo zh_CN.mo zh_HK.mo zh_TW.mo
+LINGUAS = am ar as az be bg bn_IN bn bs ca ca@valencia cs da de dz el eo es eu fi fr ga gl gu he hi hr hu it ja kn ko lt lv mk ml mr ms nb ne nl oc or pa pl pt_BR pt ro ru rw sk sl sq sr@Latn sr sv ta te th tr uk zh_CN zh_HK zh_TW
 POTFILES = ../lib/bookmark.c ../lib/cache.c ../lib/charset-conv.c ../lib/config_file.c ../lib/ftps.c ../lib/gftp.h ../lib/local.c ../lib/misc.c ../lib/options.h ../lib/parse-dir-listing.c ../lib/protocols.c ../lib/pty.c ../lib/rfc959.c ../lib/socket-connect.c ../lib/sockutils.c ../lib/sshv2.c ../lib/sslcommon.c ../src/gtk/bookmarks.c ../src/gtk/chmod_dialog.c ../src/gtk/dnd.c ../src/gtk/gftp-gtk.c ../src/gtk/gtkui.c ../src/gtk/gtkui_transfer.c ../src/gtk/listbox.c ../src/gtk/menu-items.c ../src/gtk/misc-gtk.c ../src/gtk/options_dialog.c ../src/gtk/options_dialog_localhosts.c ../src/gtk/transfer.c ../src/gtk/view_dialog.c ../src/text/gftp-text.c ../src/text/textui.c ../src/uicommon/gftpui.c
 
 #.SUFFIXES: .po .gmo .mo
@@ -108,10 +108,6 @@ dz.mo:
 	$(GMSGFMT) $(MSGFMT_OPTS) -o dz.mo dz.po
 el.mo:
 	$(GMSGFMT) $(MSGFMT_OPTS) -o el.mo el.po
-en_CA.mo:
-	$(GMSGFMT) $(MSGFMT_OPTS) -o en_CA.mo en_CA.po
-en_GB.mo:
-	$(GMSGFMT) $(MSGFMT_OPTS) -o en_GB.mo en_GB.po
 eo.mo:
 	$(GMSGFMT) $(MSGFMT_OPTS) -o eo.mo eo.po
 es.mo:
