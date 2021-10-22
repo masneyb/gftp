@@ -30,7 +30,7 @@ fi
 
 #===========================================================================
 
-if test "$1" == "release" || test "$1" == "--release" ; then
+if test "$1" = "release" || test "$1" = "--release" ; then
 	pkg="$(grep -m 1 AC_INIT configure.ac | cut -f 2 -d '[' | cut -f 1 -d ']')"
 	ver="$(grep -m 1 AC_INIT configure.ac | cut -f 3 -d '[' | cut -f 1 -d ']')"
 	ver=$(echo $ver)
@@ -60,7 +60,7 @@ test -z "$AUTOHEADER" && AUTOHEADER=autoheader
 test -z "$LIBTOOLIZE" && LIBTOOLIZE=$(which libtoolize glibtoolize 2>/dev/null | head -1)
 test -z "$LIBTOOLIZE" && LIBTOOLIZE=libtoolize #paranoid precaution
 
-if test "$1" == "verbose" || test "$1" == "--verbose" ; then
+if test "$1" = "verbose" || test "$1" = "--verbose" ; then
 	set -x
 	verbose='--verbose'
 	verbose2='--debug'
