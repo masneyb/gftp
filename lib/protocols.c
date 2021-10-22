@@ -495,6 +495,9 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
   logging_function = request->logging_function;
   gftp_request_destroy (request, 0);
   request->logging_function = logging_function;
+  if (!logging_function) {
+     fprintf (stderr, "gftp_parse_bookmark(): ERROR: logging_function is NULL! a crash is imminent!\n");
+  }
 
   if ((tempentry = g_hash_table_lookup (gftp_bookmarks_htable, 
                                         bookmark)) == NULL)

@@ -72,8 +72,8 @@ on_menu_run_bookmark (GtkAction *action, gpointer path_str)
       return;
     }
 
-  if (GFTP_IS_CONNECTED (current_wdata->request))
-    gftpui_disconnect (current_wdata);
+  // must always reset the request struct
+  gftpui_disconnect (current_wdata);
 
   if (gftp_parse_bookmark (current_wdata->request, other_wdata->request,
                            path, &refresh_local) < 0)
