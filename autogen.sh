@@ -93,4 +93,7 @@ $AUTOMAKE ${verbose} --add-missing --copy --force || exit 1
 # generate configure
 $AUTOCONF ${verbose} --force || exit 1
 
+if test "$(ls $m4dir)" = "" ; then
+	rmdir $m4dir
+fi
 rm -rf autom4te.cache
