@@ -14,11 +14,8 @@ icon4_DATA = 48x48/gftp.png
 icon5dir = $(datadir)/icons/hicolor/scalable/apps
 icon5_DATA = scalable/gftp.svg
 
-icon6dir = $(datadir)/pixmaps
-icon6_DATA = 48x48/gftp.png
-
 icon7dir = $(datadir)/gftp
 icon7_DATA = 48x48/gftp.png
 
 EXTRA_DIST = $(icon1_DATA) $(icon2_DATA) $(icon3_DATA) \
-             $(icon4_DATA) $(icon5_DATA) $(icon6_DATA) $(icon7_DATA)
+             $(icon4_DATA) $(icon5_DATA) $(icon7_DATA)
