@@ -957,17 +957,10 @@ on_listbox_row_activated_cb (GtkTreeView *tree_view,    GtkTreePath *path,
 
   if (S_ISLNK (tempfle->st_mode) || S_ISDIR (tempfle->st_mode))
   {
-      if(tempfle->st_mode & S_IXUSR)
-      {
-          directory = gftp_build_path (wdata->request, wdata->request->directory,
+      directory = gftp_build_path (wdata->request, wdata->request->directory,
                                    tempfle->file, NULL);
-          success = gftpui_run_chdir (wdata, directory);
-          g_free (directory);
-      }else{
-          ftp_log (gftp_logging_error, NULL,
-               _("Directory %s is not listable\n"),
-               tempfle->file);
-      }
+      success = gftpui_run_chdir (wdata, directory);
+      g_free (directory);
   }
 
   if (tempfle && !S_ISDIR (tempfle->st_mode) && !success)
