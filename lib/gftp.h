@@ -833,6 +833,7 @@ void gftp_format_file_size(off_t bytes,
 #define GFTP_LOCAL_NUM				2
 #define GFTP_SSHV2_NUM				3
 #define GFTP_BOOKMARK_NUM			4
+#define GFTP_FSP_NUM				5
 
 #define GFTP_IS_CONNECTED(request)		((request) != NULL && \
                                                  ((request)->datafd > 0 || \

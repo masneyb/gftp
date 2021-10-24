@@ -262,6 +262,7 @@ supported_gftp_protocols gftp_protocols[] =
   { "SSH2", sshv2_init, sshv2_register_module, "ssh2", 22, 1, 1},
 
   {N_("Bookmark"), bookmark_init, bookmark_register_module, "bookmark", 0, 0, 0},
+  {N_("FSP"), fsp_init, fsp_register_module, "fsp", 21, 1, 1},
   {NULL, NULL, NULL, NULL, 0, 0, 0}
 };
 
