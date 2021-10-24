@@ -244,6 +244,15 @@ resolve_symlinks=1
 # this.
 ascii_transfers=0
 
+# SSL entropy file
+entropy_source=/dev/urandom
+
+# The maximum number of bytes to seed the SSL engine with
+entropy_len=1024
+-
+# Verify SSL Peer
+verify_ssl_peer=0
+
 # The path to the SSH executable
 ssh_prog_name=
 

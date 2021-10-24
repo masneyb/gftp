@@ -161,18 +161,13 @@ AC_SUBST(GTHREAD_LIBS)
 AC_SUBST(GTHREAD_CFLAGS)
 AC_SUBST(GFTP_GTK)
 
-SSL_LIBS=""
 if test "x$enable_ssl" = "xyes" ; then
-	AC_CHECK_HEADERS(openssl/ssl.h ssl.h)
-	if test $ac_cv_header_openssl_ssl_h = yes -o $ac_cv_header_ssl_h = yes ; then
-		AC_CHECK_LIB(ssl, SSL_library_init, SSL_LIBS="-lcrypto -lssl")
-
-		if test "x$SSL_LIBS" != "x" ; then
-			AC_DEFINE(USE_SSL, 1, 
-                                  [define if you want to enable SSL support])
-		fi
+	PKG_CHECK_MODULES([SSL], [openssl >= 1.0], HAVE_SSL=yes, HAVE_SSL=no)
+	if test "x$SSL_LIBS" != "x" ; then
+		AC_DEFINE(USE_SSL, 1, [define if you want to enable SSL support])
 	fi
 fi
+AC_SUBST(SSL_CFLAGS)
 AC_SUBST(SSL_LIBS)
 
 GETTEXT_PACKAGE=gftp

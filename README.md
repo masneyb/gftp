@@ -117,7 +117,8 @@ The gFTP file transfer client. http://www.gftp.org
 
 ## When using the FTPS protocol, gFTP cannot connect if the remote server uses a self signed certificate.
 
-  You must add the public key of your self signed CA to your OpenSSL certs
-  directory. On my Debian box, the OpenSSL certs are installed in /usr/lib/ssl/
-  certs.
+  Go to `FTP` menu -> `Preferences` -> `SSL Engine` and untick `Verify SSL Peer`
+
+  Or you should add the public key of your self signed CA to your OpenSSL certs
+  directory.
 

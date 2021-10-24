@@ -51,7 +51,7 @@ static GHashTable * gftp_ssl_map = NULL;
 
 struct CRYPTO_dynlock_value
 { 
-  GMutex mutex;
+  WGMutex mutex;
 };
 
 
@@ -174,16 +174,23 @@ gftp_ssl_post_connection_check (gftp_request * request)
 	       * but it will fault later when we free the struct,
 	       * as the heap would be corrupt.
 	       */
-	      const unsigned char* mutable_ptr = ext->value->data;
+#if (OPENSSL_VERSION_NUMBER >= 0x10100000L)
+              const ASN1_OCTET_STRING* ext_value = X509_EXTENSION_get_data (ext);
+              const unsigned char* mutable_ptr = ASN1_STRING_get0_data (ext_value);
+              int len = ASN1_STRING_length (ext_value);
+#else
+              const unsigned char* mutable_ptr = ext->value->data;
+              int len = ext->value->length;
+#endif
 
 #if (OPENSSL_VERSION_NUMBER > 0x00907000L)
-              if (meth->it)
-                ext_str = ASN1_item_d2i (NULL, &mutable_ptr, ext->value->length,
-                                        ASN1_ITEM_ptr (meth->it));
-              else
-                ext_str = meth->d2i (NULL, &mutable_ptr, ext->value->length);
+              if (meth->it) {
+                ext_str = ASN1_item_d2i (NULL, &mutable_ptr, len, ASN1_ITEM_ptr (meth->it));
+              } else {
+                ext_str = meth->d2i (NULL, &mutable_ptr, len);
+              }
 #else
-              ext_str = meth->d2i(NULL, &mutable_ptr, ext->value->length);
+              ext_str = meth->d2i(NULL, &mutable_ptr, len);
 #endif
               val = meth->i2v(meth, ext_str, NULL);
 
@@ -234,7 +241,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
 }
 
 
-static void
+void /* callback */
 _gftp_ssl_locking_function (int mode, int n, const char * file, int line)
 {
   if (mode & CRYPTO_LOCK)
@@ -244,14 +251,14 @@ _gftp_ssl_locking_function (int mode, int n, const char * file, int line)
 }
 
 
-static unsigned long
+unsigned long /* callback */
 _gftp_ssl_id_function (void)
 { 
   return ((unsigned long) g_thread_self ());
 } 
 
 
-static struct CRYPTO_dynlock_value *
+struct CRYPTO_dynlock_value * /* callback */
 _gftp_ssl_create_dyn_mutex (const char *file, int line)
 { 
   struct CRYPTO_dynlock_value *value;
@@ -262,7 +269,7 @@ _gftp_ssl_create_dyn_mutex (const char *file, int line)
 }
 
 
-static void
+void /* callback */
 _gftp_ssl_dyn_mutex_lock (int mode, struct CRYPTO_dynlock_value *l,
                           const char *file, int line)
 {
@@ -273,7 +280,7 @@ _gftp_ssl_dyn_mutex_lock (int mode, struct CRYPTO_dynlock_value *l,
 }
 
 
-static void
+void /* callback */
 _gftp_ssl_destroy_dyn_mutex (struct CRYPTO_dynlock_value *l,
                              const char *file, int line)
 {
@@ -392,8 +399,8 @@ gftp_ssl_session_setup_ex (gftp_request * request, int fd)
    * In the meantime, set the data socket to blocking for tls negotiation
    */
   int non_blocking = gftp_fd_get_sockblocking (request, fd);
-  if (non_blocking < 0 || non_blocking == 1 &&
-      gftp_fd_set_sockblocking (request, fd, 0) < 0)
+  if ((non_blocking < 0) || (non_blocking == 1 &&
+                             gftp_fd_set_sockblocking(request,fd,0) < 0))
     {
       gftp_ssl_abort (request, fd);
       return (GFTP_ERETRYABLE);
@@ -531,6 +538,7 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
           request->logging_function (gftp_logging_error, request,
                                    _("Error: Could not read from socket: %s\n"),
                                     g_strerror (errno));
+          request->logging_function (gftp_logging_error, request, "SSL Error CODE: %d\n", err);
           gftp_ssl_abort (request, fd);
 
           return (GFTP_ERETRYABLE);
