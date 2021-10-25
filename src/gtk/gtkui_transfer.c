@@ -203,6 +203,7 @@ on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
   tdata->show = 0;
   tdata->done = tdata->ready = 1;
   Wg_mutex_unlock (&tdata->structmutex);
+  gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 /* ==================================================================== */
