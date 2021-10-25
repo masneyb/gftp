@@ -100,11 +100,9 @@ The gFTP file transfer client. http://www.gftp.org
   - ext=.html:world.xpm:B:
 
 
-## When gFTP tries to get the remote directory listing, the remote server complains about either the -a or -L argument to LIST.
+## When gFTP tries to get the remote directory listing, the remote server complains about the -a argument to LIST.
 
-  If the server is complaining about the -L option, go under FTP->Options->FTP
-  and disable resolve remote symlinks. If it is complaining about the -a option,
-  go to FTP->Options->General and disable show hidden files.
+  If it is complaining about the -a option, go to FTP->Options->General and disable show hidden files.
 
 
 ## When gFTP tries to get the remote directory listing, I receive the error: Cannot create a data connection: Connection refused

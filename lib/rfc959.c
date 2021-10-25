@@ -74,11 +74,6 @@ static gftp_config_vars config_vars[] =
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("If this is enabled, then the remote FTP server will open up a port for the data connection. If you are behind a firewall, you will need to enable this. Generally, it is a good idea to keep this enabled unless you are connecting to an older FTP server that doesn't support this. If this is disabled, then gFTP will open up a port on the client side and the remote server will attempt to connect to it."),
    GFTP_PORT_ALL, NULL},
-  {"resolve_symlinks", N_("Resolve Remote Symlinks (LIST -L)"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
-   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("The remote FTP server will attempt to resolve symlinks in the directory listings. Generally, this is a good idea to leave enabled. The only time you will want to disable this is if the remote FTP server doesn't support the -L option to LIST"), 
-   GFTP_PORT_ALL, NULL},
   {"ascii_transfers", N_("Transfer files in ASCII mode"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
@@ -496,9 +491,7 @@ rfc959_syst (gftp_request * request)
 
   if (disable_ls_options)
     {
-      gftp_set_request_option (request, "show_hidden_files",
-                               GINT_TO_POINTER(0));
-      gftp_set_request_option (request, "resolve_symlinks", GINT_TO_POINTER(0));
+      gftp_set_request_option (request, "show_hidden_files", GINT_TO_POINTER(0));
     }
 
   return (0);
@@ -1411,7 +1404,7 @@ static int
 rfc959_list_files (gftp_request * request)
 {
   rfc959_parms * params = request->protocol_data;
-  intptr_t show_hidden_files, resolve_symlinks, passive_transfer;
+  intptr_t show_hidden_files, passive_transfer;
   char *tempstr, parms[3];
   int ret;
 
@@ -1422,12 +1415,10 @@ rfc959_list_files (gftp_request * request)
     return (ret);
 
   gftp_lookup_request_option (request, "show_hidden_files", &show_hidden_files);
-  gftp_lookup_request_option (request, "resolve_symlinks", &resolve_symlinks);
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
   *parms = '\0';
   strcat (parms, show_hidden_files ? "a" : "");
-  strcat (parms, resolve_symlinks ? "L" : "");
   tempstr = g_strconcat ("LIST", *parms != '\0' ? " -" : "", parms, "\r\n", 
                          NULL); 
 
