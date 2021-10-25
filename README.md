@@ -100,9 +100,10 @@ The gFTP file transfer client. http://www.gftp.org
   - ext=.html:world.xpm:B:
 
 
-## When gFTP tries to get the remote directory listing, the remote server complains about the -a argument to LIST.
+## FTP: I don't see hidden files
 
-  If it is complaining about the -a option, go to FTP->Options->General and disable show hidden files.
+  This may work (and may break other servers): go to FTP->Preferences->FTP
+  and enable `LIST -a: ask server to list hidden files`
 
 
 ## When gFTP tries to get the remote directory listing, I receive the error: Cannot create a data connection: Connection refused

@@ -64,6 +64,11 @@ static gftp_config_vars config_vars[] =
    N_("This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"), 
    GFTP_PORT_ALL, NULL},
 
+  {"ftp_list_a", N_("LIST -a: ask server to list hidden files"),
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL,
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
+   N_("LIST -a: ask server to list hidden files. This may break some FTP servers. Some servers list hidden files by default"),
+   GFTP_PORT_ALL, NULL},
   {"ignore_pasv_address", N_("Ignore PASV address"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
@@ -491,7 +496,7 @@ rfc959_syst (gftp_request * request)
 
   if (disable_ls_options)
     {
-      gftp_set_request_option (request, "show_hidden_files", GINT_TO_POINTER(0));
+      gftp_set_request_option (request, "ftp_list_a", GINT_TO_POINTER(0));
     }
 
   return (0);
@@ -1404,7 +1409,7 @@ static int
 rfc959_list_files (gftp_request * request)
 {
   rfc959_parms * params = request->protocol_data;
-  intptr_t show_hidden_files, passive_transfer;
+  intptr_t ftp_list_a, passive_transfer;
   char *tempstr, parms[3];
   int ret;
 
@@ -1414,13 +1419,12 @@ rfc959_list_files (gftp_request * request)
   if ((ret = rfc959_data_connection_new (request, 0)) < 0)
     return (ret);
 
-  gftp_lookup_request_option (request, "show_hidden_files", &show_hidden_files);
+  gftp_lookup_request_option (request, "ftp_list_a", &ftp_list_a);
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
   *parms = '\0';
-  strcat (parms, show_hidden_files ? "a" : "");
-  tempstr = g_strconcat ("LIST", *parms != '\0' ? " -" : "", parms, "\r\n", 
-                         NULL); 
+  strcat (parms, ftp_list_a ? " -a" : "");
+  tempstr = g_strconcat ("LIST", parms, "\r\n", NULL); 
 
   ret = rfc959_send_command (request, tempstr, -1, 1, 0);
   g_free (tempstr);
