@@ -1444,3 +1444,16 @@ int fsp_access(FSP_SESSION *s,const char *path, int mode)
     errno = 0;
     return 0;
 }
+
+
+char * fsp_get_server_version (FSP_SESSION * session)
+{ /* returns a string that must be freed */
+   char *out = NULL;
+   FSP_PKT request, reply;
+   memset (&request, 0, sizeof(FSP_PKT));
+   request.cmd = FSP_CC_VERSION;
+   if (fsp_transaction (session, &request, &reply) == 0) {
+      out = strdup ((const char*) reply.buf);
+   }
+   return out;
+}

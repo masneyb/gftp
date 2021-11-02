@@ -55,6 +55,16 @@ use of this software.
 #define FSP_CC_LIMIT        0x80    /* # > 0x7f for future cntrl blk ext.   */
 #define FSP_CC_TEST         0x81    /* reserved for testing                 */
 
+/* definition of global bitfield for version information */
+/* Global information is also going to be a bit vector   */
+#define VER_BYTES     1    /* currently only 8 bits or less of info  */
+#define VER_LOG       0x01 /* does the server do logging             */
+#define VER_READONLY  0x02 /* is the server in readonly mode         */
+#define VER_REVNAME   0x04 /* does the server refuse non reversables */
+#define VER_PRIVMODE  0x08 /* Is the server being run 'private' mode */
+#define VER_THRUPUT   0x10 /* does the server enforce thruput control*/
+#define VER_XTRADATA  0x20 /* server accept packets with xtra data  */
+
 /* FSP v2 packet size */
 #define FSP_HSIZE 12                           /* 12 bytes for v2 header */
 #define FSP_SPACE 1024                         /* maximum payload.       */
@@ -97,8 +107,8 @@ typedef struct FSP_PKT {
                         unsigned short      key; /* message key.              */
                         unsigned short      seq; /* message sequence number.  */
                         unsigned short      len; /* number of bytes in buf 1. */
-                        unsigned int        pos; /* location in the file.     */                        unsigned short     xlen; /* number of bytes in buf 2  */
-
+                        unsigned int        pos; /* location in the file.     */
+                        unsigned short     xlen; /* number of bytes in buf 2  */
                         unsigned char   buf[FSP_SPACE];   /* packet payload */
               } FSP_PKT;
 
@@ -201,6 +211,8 @@ int fsp_access(FSP_SESSION *s,const char *path, int mode);
 int fsp_getpro(FSP_SESSION *s,const char *directory,unsigned char *result);
 int fsp_install(FSP_SESSION *s,const char *fname,time_t timestamp);
 int fsp_canupload(FSP_SESSION *s,const char *fname);
+
+char* fsp_get_server_version (FSP_SESSION * session);
 
 /*--------- lock.h ---------*/
 typedef struct FSP_LOCK {

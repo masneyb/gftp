@@ -36,11 +36,12 @@ fsp_destroy (gftp_request * request)
   g_return_if_fail (request->protonum == GFTP_FSP_NUM);
 }
 
-static int
-fsp_connect (gftp_request * request)
+
+static int fsp_connect (gftp_request * request)
 {
   fsp_protocol_data * lpd;
   intptr_t network_timeout;
+  char * server_version;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
@@ -61,6 +62,14 @@ fsp_connect (gftp_request * request)
     request->directory = g_strdup ("/");
 
   request->datafd = lpd->fsp->fd;
+
+  // print server version
+  server_version = fsp_get_server_version (lpd->fsp);
+  if (server_version) {
+     request->logging_function (gftp_logging_misc, request, "* %s\n", server_version);
+     free (server_version);
+  }
+
   return (0);
 }
 
