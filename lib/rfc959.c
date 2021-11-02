@@ -114,25 +114,25 @@ rfc959_read_response (gftp_request * request, int disconnect_on_42x)
   parms = request->protocol_data;
 
   do
-    {
+  {
       if ((num_read = gftp_get_line (request, &parms->datafd_rbuf, tempstr, 
-                                     sizeof (tempstr), request->datafd)) <= 0)
-	break;
-
+                                     sizeof (tempstr), request->datafd)) <= 0) {
+         break;
+      }
       if (isdigit ((int) *tempstr) && isdigit ((int) *(tempstr + 1))
-	  && isdigit ((int) *(tempstr + 2)))
-	{
-	  strncpy (code, tempstr, 3);
-	  code[3] = ' ';
-	}
+          && isdigit ((int) *(tempstr + 2)))
+      {
+         strncpy (code, tempstr, 3);
+         code[3] = ' ';
+      }
 
       if (*tempstr == '4' || *tempstr == '5')
         request->logging_function (gftp_logging_error, request,
-  				   "%s\n", tempstr);
+                                   "%s\n", tempstr);
       else
         request->logging_function (gftp_logging_recv, request,
-  				   "%s\n", tempstr);
-    }
+                                   "%s\n", tempstr);
+  }
   while (strncmp (code, tempstr, 4) != 0);
 
   if (num_read < 0)
@@ -258,60 +258,60 @@ parse_ftp_proxy_string (gftp_request * request)
   len = 0;
   startpos = endpos = proxy_config;
   while (*endpos != '\0')
-    {
+  {
       if (*endpos == '%' && tolower ((int) *(endpos + 1)) == 'p')
-	{
-	  switch (tolower ((int) *(endpos + 2)))
-	    {
-	    case 'u':
+      {
+         switch (tolower ((int) *(endpos + 2)))
+         {
+           case 'u':
               gftp_lookup_request_option (request, "ftp_proxy_username", &newval);
-	      break;
-	    case 'p':
+              break;
+           case 'p':
               gftp_lookup_request_option (request, "ftp_proxy_password", &newval);
-	      break;
-	    case 'h':
+              break;
+           case 'h':
               gftp_lookup_request_option (request, "ftp_proxy_host", &newval);
-	      break;
-	    case 'o':
+              break;
+           case 'o':
               gftp_lookup_request_option (request, "ftp_proxy_port", &tmp);
               g_snprintf (tempport, sizeof (tempport), "%d", (int)tmp);
-	      newval = tempport;
-	      break;
-	    case 'a':
+              newval = tempport;
+              break;
+           case 'a':
               gftp_lookup_request_option (request, "ftp_proxy_account", &newval);
-	      break;
-	    default:
-	      endpos++;
-	      continue;
-	    }
-	}
+              break;
+           default:
+              endpos++;
+              continue;
+         }
+      }
       else if (*endpos == '%' && tolower ((int) *(endpos + 1)) == 'h')
-	{
-	  switch (tolower ((int) *(endpos + 2)))
-	    {
-	    case 'u':
-	      newval = request->username;
-	      break;
-	    case 'p':
-	      newval = request->password;
-	      break;
-	    case 'h':
-	      newval = request->hostname;
-	      break;
-	    case 'o':
+      {
+         switch (tolower ((int) *(endpos + 2)))
+         {
+           case 'u':
+              newval = request->username;
+              break;
+           case 'p':
+              newval = request->password;
+              break;
+           case 'h':
+              newval = request->hostname;
+              break;
+           case 'o':
               g_snprintf (tempport, sizeof (tempport), "%d", request->port);
-	      newval = tempport;
-	      break;
-	    case 'a':
-	      newval = request->account;
-	      break;
-	    default:
-	      endpos++;
-	      continue;
-	    }
-	}
+              newval = tempport;
+              break;
+           case 'a':
+              newval = request->account;
+              break;
+           default:
+              endpos++;
+              continue;
+         }
+      }
       else if (*endpos == '%' && tolower ((int) *(endpos + 1)) == 'n')
-	{
+      {
           savechar = *endpos;
           *endpos = '\0';
 
@@ -321,15 +321,15 @@ parse_ftp_proxy_string (gftp_request * request)
           strcat (newstr, "\r\n");
 
           *endpos = savechar;
-	  endpos += 2;
-	  startpos = endpos;
-	  continue;
-	}
+          endpos += 2;
+          startpos = endpos;
+          continue;
+      }
       else
-	{
-	  endpos++;
-	  continue;
-	}
+      {
+          endpos++;
+          continue;
+      }
 
       savechar = *endpos;
       *endpos = '\0';
@@ -561,22 +561,23 @@ rfc959_connect (gftp_request * request)
       resp = '3';
       startpos = endpos = tempstr = parse_ftp_proxy_string (request);
       while ((resp == '3' || resp == '2') && *startpos != '\0')
-	{
-	  if (*endpos == '\n' || *endpos == '\0')
-	    {
-	      tempchar = *(endpos + 1);
-	      if (*endpos != '\0')
-		*(endpos + 1) = '\0';
-	      if ((resp = rfc959_send_command (request, startpos, -1, 1, 0)) < 0)
+      {
+         if (*endpos == '\n' || *endpos == '\0')
+         {
+            tempchar = *(endpos + 1);
+            if (*endpos != '\0')
+            *(endpos + 1) = '\0';
+            if ((resp = rfc959_send_command (request, startpos, -1, 1, 0)) < 0)
                 return (resp);
-	      if (*endpos != '\0')
-		*(endpos + 1) = tempchar;
-	      else
-		break;
-	      startpos = endpos + 1;
-	    }
-	  endpos++;
-	}
+            if (*endpos != '\0') {
+               *(endpos + 1) = tempchar;
+            } else {
+               break;
+            }
+            startpos = endpos + 1;
+         }
+         endpos++;
+      }
       g_free (tempstr);
     }
   else
@@ -587,7 +588,7 @@ rfc959_connect (gftp_request * request)
         return (resp);
 
       if (resp == '3')
-	{
+        {
           resp = rfc959_generate_and_send_command (request, "PASS",
                                                    request->password, 1, 0);
           if (resp < 0)
@@ -595,12 +596,12 @@ rfc959_connect (gftp_request * request)
         }
 
       if (resp == '3' && request->account != NULL)
-	{
+        {
           resp = rfc959_generate_and_send_command (request, "ACCT",
                                                    request->account, 1, 0);
           if (resp < 0)
             return (resp);
-	}
+        }
     }
 
   if (resp != '2')
@@ -711,8 +712,8 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
   if (parms->data_connection == -1)
     {
       request->logging_function (gftp_logging_error, request,
-				 _("Failed to create a IPv4 socket: %s\n"),
-				 g_strerror (errno));
+                   _("Failed to create a IPv4 socket: %s\n"),
+                   g_strerror (errno));
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
     }
@@ -737,11 +738,11 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       if (resp < 0)
         return (resp);
       else if (resp != '2')
-	{
+      {
           gftp_set_request_option (request, "passive_transfer",
                                    GINT_TO_POINTER(0));
-	  return (rfc959_ipv4_data_connection_new (request));
-	}
+          return (rfc959_ipv4_data_connection_new (request));
+      }
 
       pos = request->last_ftp_response + 4;
       while (!isdigit ((int) *pos) && *pos != '\0')
@@ -774,7 +775,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
       gftp_lookup_request_option (request, "ignore_pasv_address",
                                   &ignore_pasv_address);
       if (ignore_pasv_address)
-	{
+        {
           memcpy (&data_addr.sin_addr, request->remote_addr,
                   request->remote_addr_len);
 
@@ -795,70 +796,68 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
                                     g_strerror (errno));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
-	}
+        }
     }
   else
     {
       if (getsockname (request->datafd, (struct sockaddr *) &data_addr,
                        &data_addr_len) == -1)
         {
-	  request->logging_function (gftp_logging_error, request,
-				     _("Cannot get socket name: %s\n"),
-				     g_strerror (errno));
+          request->logging_function (gftp_logging_error, request,
+                             _("Cannot get socket name: %s\n"),
+                             g_strerror (errno));
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
+          return (GFTP_ERETRYABLE);
         }
 
       data_addr.sin_port = 0;
       if (bind (parms->data_connection, (struct sockaddr *) &data_addr, 
                 data_addr_len) == -1)
-	{
-	  request->logging_function (gftp_logging_error, request,
-				     _("Cannot bind a port: %s\n"),
-				     g_strerror (errno));
-          gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
-	}
+      {
+        request->logging_function (gftp_logging_error, request,
+                  _("Cannot bind a port: %s\n"), g_strerror (errno));
+        gftp_disconnect (request);
+        return (GFTP_ERETRYABLE);
+      }
 
       if (getsockname (parms->data_connection, (struct sockaddr *) &data_addr, 
                        &data_addr_len) == -1)
         {
-	  request->logging_function (gftp_logging_error, request,
-				     _("Cannot get socket name: %s\n"),
-				     g_strerror (errno));
+          request->logging_function (gftp_logging_error, request,
+                   _("Cannot get socket name: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
+          return (GFTP_ERETRYABLE);
         }
 
       if (listen (parms->data_connection, 1) == -1)
-	{
-	  request->logging_function (gftp_logging_error, request,
-				     _("Cannot listen on port %d: %s\n"),
-				     ntohs (data_addr.sin_port),
-				     g_strerror (errno));
+        {
+          request->logging_function (gftp_logging_error, request,
+                       _("Cannot listen on port %d: %s\n"),
+                       ntohs (data_addr.sin_port),
+                       g_strerror (errno));
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
-	}
+          return (GFTP_ERETRYABLE);
+        }
 
       pos = (char *) &data_addr.sin_addr;
       pos1 = (char *) &data_addr.sin_port;
       command = g_strdup_printf ("PORT %u,%u,%u,%u,%u,%u\r\n",
-				 pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff,
-				 pos[3] & 0xff, pos1[0] & 0xff,
-				 pos1[1] & 0xff);
+                  pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff,
+                  pos[3] & 0xff, pos1[0] & 0xff,
+                  pos1[1] & 0xff);
       resp = rfc959_send_command (request, command, -1, 1, 1);
       g_free (command);
 
       if (resp < 0)
         return (resp);
       else if (resp != '2')
-	{
+        {
           request->logging_function (gftp_logging_error, request,
                                      _("Invalid response '%c' received from server.\n"),
                                      resp);
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
-	}
+          return (GFTP_ERETRYABLE);
+        }
     }
 
   return (0);
@@ -879,8 +878,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   if ((parms->data_connection = socket (AF_INET6, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
       request->logging_function (gftp_logging_error, request,
-				 _("Failed to create a IPv6 socket: %s\n"),
-				 g_strerror (errno));
+               _("Failed to create a IPv6 socket: %s\n"), g_strerror (errno));
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
     }
@@ -898,7 +896,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   if (sizeof (data_addr) != request->remote_addr_len) 
     {
       request->logging_function (gftp_logging_error, request,
-				 _("Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"));
+               _("Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"));
       gftp_disconnect (request);
       return (GFTP_EFATAL);
     }
@@ -913,11 +911,11 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       if (resp < 0)
         return (resp);
       else if (resp != '2')
-	{
+        {
           gftp_set_request_option (request, "passive_transfer", 
                                    GINT_TO_POINTER(0));
-	  return (rfc959_ipv6_data_connection_new (request));
-	}
+          return (rfc959_ipv6_data_connection_new (request));
+        }
 
       pos = request->last_ftp_response + 4;
       while (*pos != '(' && *pos != '\0')
@@ -952,7 +950,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
                                     g_strerror (errno));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
-	}
+        }
     }
   else
     {
@@ -961,41 +959,38 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 
       if (bind (parms->data_connection, (struct sockaddr *) &data_addr, 
                 request->remote_addr_len) == -1)
-	{
-	  request->logging_function (gftp_logging_error, request,
-				     _("Cannot bind a port: %s\n"),
-				     g_strerror (errno));
+        {
+          request->logging_function (gftp_logging_error, request,
+                  _("Cannot bind a port: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
-	}
+          return (GFTP_ERETRYABLE);
+        }
 
       if (getsockname (parms->data_connection, (struct sockaddr *) &data_addr, 
                        &request->remote_addr_len) == -1)
         {
           request->logging_function (gftp_logging_error, request,
-				     _("Cannot get socket name: %s\n"),
-				     g_strerror (errno));
+                  _("Cannot get socket name: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
+          return (GFTP_ERETRYABLE);
         }
 
       if (listen (parms->data_connection, 1) == -1)
-	{
-	  request->logging_function (gftp_logging_error, request,
-				     _("Cannot listen on port %d: %s\n"),
-				     ntohs (data_addr.sin6_port),
-				     g_strerror (errno));
+        {
+          request->logging_function (gftp_logging_error, request,
+                        _("Cannot listen on port %d: %s\n"),
+                        ntohs (data_addr.sin6_port),
+                        g_strerror (errno));
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
-	}
+          return (GFTP_ERETRYABLE);
+        }
 
       if (inet_ntop (AF_INET6, &data_addr.sin6_addr, buf, sizeof (buf)) == NULL)
         {
           request->logging_function (gftp_logging_error, request,
-				     _("Cannot get address of local socket: %s\n"),
-				     g_strerror (errno));
+                   _("Cannot get address of local socket: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
+          return (GFTP_ERETRYABLE);
         }
 
       command = g_strdup_printf ("EPRT |2|%s|%d|\n", buf,
@@ -1007,10 +1002,10 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       if (resp < 0)
         return (resp);
       else if (resp != '2')
-	{
+        {
           gftp_disconnect (request);
-	  return (GFTP_ERETRYABLE);
-	}
+          return (GFTP_ERETRYABLE);
+        }
     }
 
   return (0);
@@ -1140,12 +1135,12 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
     {
       if (new_ascii)
         {
-	  tempstr = "TYPE A\r\n";
+          tempstr = "TYPE A\r\n";
           parms->is_ascii_transfer = 1;
         }
       else
         {
-	  tempstr = "TYPE I\r\n";
+          tempstr = "TYPE I\r\n";
           parms->is_ascii_transfer = 0;
         }
 
@@ -1190,7 +1185,7 @@ rfc959_setup_file_transfer (gftp_request * request, const char *filename,
       else if (ret != '3')
         {
           rfc959_close_data_connection (request);
-	  return (GFTP_ERETRYABLE);
+          return (GFTP_ERETRYABLE);
         }
     }
 
@@ -1398,7 +1393,7 @@ rfc959_abort_transfer (gftp_request * request)
   if (request->datafd > 0)
     {
       if ((ret = rfc959_read_response (request, 0)) < 0)
-	  gftp_disconnect (request);
+      gftp_disconnect (request);
     }
 
   return (0);
@@ -1598,23 +1593,24 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       len = rfc959_get_next_dirlist_line (request, fd, tempstr,
                                           sizeof (tempstr));
       if (len <= 0)
-	{
+        {
           gftp_file_destroy (fle, 0);
-	  return (len);
-	} 
+          return (len);
+        } 
 
       if (gftp_parse_ls (request, tempstr, fle, fd) != 0)
-	{
-	  if (strncmp (tempstr, "total", strlen ("total")) != 0 &&
-	      strncmp (tempstr, _("total"), strlen (_("total"))) != 0)
-	    request->logging_function (gftp_logging_error, request,
-				       _("Warning: Cannot parse listing %s\n"),
-				       tempstr);
-	  gftp_file_destroy (fle, 0);
-	  continue;
-	}
+        {
+          if (strncmp (tempstr, "total", strlen ("total")) != 0 &&
+              strncmp (tempstr, _("total"), strlen (_("total"))) != 0)
+          {
+            request->logging_function (gftp_logging_error, request,
+                     _("Warning: Cannot parse listing %s\n"), tempstr);
+          }
+            gftp_file_destroy (fle, 0);
+            continue;
+        }
       else
-	break;
+        break;
     }
   while (1);
 
@@ -1707,7 +1703,7 @@ rfc959_mkdir (gftp_request * request, const char *directory)
 
 static int
 rfc959_rename (gftp_request * request, const char *oldname,
-	       const char *newname)
+               const char *newname)
 {
   int ret;
 
