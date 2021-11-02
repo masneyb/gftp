@@ -299,7 +299,8 @@ parse_ftp_proxy_string (gftp_request * request)
               newval = request->hostname;
               break;
            case 'o':
-              g_snprintf (tempport, sizeof (tempport), "%d", request->port);
+              g_snprintf (tempport, sizeof (tempport), "%d",
+                          request->port ? request->port : 21);
               newval = tempport;
               break;
            case 'a':
