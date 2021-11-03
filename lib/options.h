@@ -247,6 +247,7 @@ gftp_config_vars gftp_global_config_vars[] =
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
 
+
 supported_gftp_protocols gftp_protocols[] =
 {
   { "FTP", rfc959_init, rfc959_register_module, "ftp", 21, 1, 1},
@@ -257,14 +258,15 @@ supported_gftp_protocols gftp_protocols[] =
   { "FTPS", ftps_init, ftps_register_module, "ftps", 21, 0, 1},
 #endif
 
-  {N_("Local"), local_init, local_register_module, "file", 0, 1, 0},
+  { "Local", local_init, local_register_module, "file", 0, 0, 0}, /* hidden */
 
   { "SSH2", sshv2_init, sshv2_register_module, "ssh2", 22, 1, 1},
 
-  {N_("Bookmark"), bookmark_init, bookmark_register_module, "bookmark", 0, 0, 0},
+  {N_("Bookmark"), bookmark_init, bookmark_register_module, "bookmark", 0, 0, 0}, /* hidden */
   {N_("FSP"), fsp_init, fsp_register_module, "fsp", 21, 1, 1},
   {NULL, NULL, NULL, NULL, 0, 0, 0}
 };
+
 
 GHashTable * gftp_global_options_htable = NULL, 	
            * gftp_config_list_htable = NULL,

@@ -331,6 +331,7 @@ char * get_image_path 				( char *filename);
 
 void set_window_icon (GtkWindow *window, char *icon_name);
 void glist_to_combobox (GList *list, GtkWidget *combo);
+void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_protocol);
 GtkMenuItem * new_menu_item (GtkMenu * menu, char * label, char * icon_name,
                              gpointer activate_callback, gpointer callback_data);
 

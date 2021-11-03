@@ -726,7 +726,6 @@ CreateConnectToolbar (GtkWidget * parent)
   gftp_config_list_vars * tmplistvar;
   GtkWidget *combo_entry;
   char *default_protocol, *tempstr;
-  int i, j, num;
 
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
@@ -834,20 +833,9 @@ CreateConnectToolbar (GtkWidget * parent)
                     "changed",
                     G_CALLBACK (on_combo_protocol_change_cb),
                     NULL);
-  num = 0;
-  j = 0;
+
   gftp_lookup_global_option ("default_protocol", &default_protocol);
-  for (i = 0; gftp_protocols[i].name; i++)
-    {
-      if (!gftp_protocols[i].shown)
-        continue;
-      gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (toolbar_combo_protocol),
-                                 gftp_protocols[i].name);
-      if (default_protocol && strcmp (gftp_protocols[i].name, default_protocol) == 0)
-        num = j;
-      j++;
-    }
-  gtk_combo_box_set_active(GTK_COMBO_BOX(toolbar_combo_protocol), num);
+  populate_combo_and_select_protocol (toolbar_combo_protocol, default_protocol);
 
   //tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
   tempwid = gtk_image_new_from_stock ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);

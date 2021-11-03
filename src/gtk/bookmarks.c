@@ -646,7 +646,6 @@ static void edit_entry_dlg (gpointer data)
 {
   GtkWidget * table, * tempwid, * notebook, *main_vbox;
   gftp_bookmarks_var * entry;
-  unsigned int num, i;
   char *pos;
 
   if (edit_bm_entry_dlg != NULL)
@@ -735,15 +734,7 @@ static void edit_entry_dlg (gpointer data)
   combo_protocol = gtk_combo_box_text_new ();
   gtk_table_attach_defaults (GTK_TABLE (table), combo_protocol, 1, 2, 3, 4);
 
-  num = 0;
-  for (i = 0; gftp_protocols[i].name; i++)
-    {
-      gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo_protocol),
-                                 gftp_protocols[i].name);
-      if (entry->protocol && strcmp (gftp_protocols[i].name, entry->protocol) == 0)
-        num = i;
-    }
-  gtk_combo_box_set_active(GTK_COMBO_BOX(combo_protocol), num);
+  populate_combo_and_select_protocol (combo_protocol, entry->protocol);
 
   tempwid = gtk_label_new (_("Remote Directory:"));
   gtkcompat_widget_set_halign_right (tempwid);

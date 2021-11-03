@@ -842,6 +842,28 @@ void glist_to_combobox (GList *list, GtkWidget *combo) {
    }
 }
 
+void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_protocol)
+{
+   int i = 0;
+   int combo_item_count = 0;
+   int combo_item_selected = 0;
+   for (i = 0; gftp_protocols[i].name; i++)
+   {
+      if (!gftp_protocols[i].shown) {
+         continue; /* ignore hidden protocols */
+      }
+      gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo),
+                                      gftp_protocols[i].name);
+      if (selected_protocol) {
+         if (strcmp (gftp_protocols[i].name, selected_protocol) == 0) {
+            combo_item_selected = combo_item_count;
+         }
+      }
+      combo_item_count++;
+   }
+   gtk_combo_box_set_active (GTK_COMBO_BOX(combo), combo_item_selected);
+}
+
 
 GtkMenuItem *
 new_menu_item (GtkMenu * menu, char * label, char * icon_name,
