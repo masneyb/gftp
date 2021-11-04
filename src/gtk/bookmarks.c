@@ -396,8 +396,7 @@ do_make_new (gpointer data, gftp_dialog_data * ddata)
 
   if (parent_entry) {
      newentry->parent = parent_entry;
-     btree_expand_collapse_selected_row (GDK_KEY_Right); /* expand row */
-     btree_add_node (newentry, 0, &parent_iter, TRUE);
+     btree_add_node (newentry, 0, &parent_iter, TRUE); /* 0 = don't copy bookmark */
   } else {
      newentry->parent = gftp_bookmarks;
      btree_add_node (newentry, 0, NULL, TRUE); /* 0 = don't copy bookmark */
@@ -642,7 +641,7 @@ on_gtk_dialog_response_EditEntryDlg (GtkDialog *dialog,
 }   
 
 
-static void edit_entry_dlg (gpointer data)
+static void edit_entry_dlg (gftp_bookmarks_var * xentry)
 {
   GtkWidget * table, * tempwid, * notebook, *main_vbox;
   gftp_bookmarks_var * entry;
@@ -654,7 +653,11 @@ static void edit_entry_dlg (gpointer data)
       return;
     }
 
-  entry = btree_get_selected_bookmark (NULL);
+  if (xentry) {
+    entry = xentry;
+  } else {
+    entry = btree_get_selected_bookmark (NULL);
+  }
 
   if (!entry || !entry->path || !*entry->path)
     return;
@@ -1223,9 +1226,15 @@ btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter,
                       BTREEVIEW_COL_BOOKMARK, newentry,
                       -1);
   if (edit) {
+     /* expand row */
+     btree_expand_collapse_selected_row (GDK_KEY_Right);
+     // select new row
      GtkTreeSelection * sel = gtk_tree_view_get_selection (btree);
      gtk_tree_selection_select_iter (sel, &iter);
-     edit_entry_dlg (NULL);
+     // no need to edit folder info right now
+     if (!entry->isfolder) {
+        edit_entry_dlg (newentry);
+     }
   }
 }
 
