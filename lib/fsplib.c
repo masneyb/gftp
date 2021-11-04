@@ -639,9 +639,8 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
     if (rc != 0)
         return rc;
 
-#ifdef HAVE_DIRENT_TYPE
+#if defined(_DIRENT_HAVE_D_TYPE) || defined(DTTOIF) // glibc || generic
     /* convert FSP dirent to OS dirent */
-
     if (fentry.type == FSP_RDTYPE_DIR )
         entry->d_type=DT_DIR;
     else
@@ -658,8 +657,10 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
         fentry.namlen-=rc;
     }
 
-#ifdef HAVE_DIRENT_FILENO
+#if defined(HAVE_DIRENT_FILENO) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__)
     entry->d_fileno = 10;
+#elif defined(__linux__)
+    entry->d_ino = 10;
 #endif    
     entry->d_reclen = fentry.reclen;
     strncpy(entry->d_name,fentry.name,MAXNAMLEN);
@@ -667,7 +668,7 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
     if (fentry.namlen >= MAXNAMLEN)
     {
         entry->d_name[MAXNAMLEN] = '\0';
-#ifdef HAVE_DIRENT_NAMLEN
+#if defined(HAVE_DIRENT_NAMLEN) || defined(_DIRENT_HAVE_D_NAMLEN) // configure || glibc
         entry->d_namlen = MAXNAMLEN;
     } else
     {
