@@ -1,6 +1,9 @@
-# Bookmarks file for gFTP. Copyright (C) 1998-2002 Brian Masney
-# <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be
+# gFTP Bookmarks. Warning: Any comments that you add to this file WILL be
 # overwritten
+# Note: The passwords contained inside this file are scrambled. This algorithm
+# is not secure. This is to avoid your password being easily remembered by
+# someone standing over your shoulder while you're editing this file. Prior to
+# this, all passwords were stored in plaintext.
 
 [BSD Sites/FreeBSD]
 hostname=ftp.freebsd.org
@@ -23,10 +26,10 @@ password=@EMAIL@
 account=
 
 [BSD Sites/OpenBSD]
-hostname=mirrors.mit.edu
+hostname=ftp.bit.nl
 port=21
 protocol=FTP
-remote directory=/pub/OpenBSD
+remote directory=/OpenBSD
 local directory=
 username=anonymous
 password=@EMAIL@
@@ -57,16 +60,6 @@ hostname=ftp.free.fr
 port=21
 protocol=FTP
 remote directory=/mirrors/ftp.kernel.org/linux/kernel/
-local directory=
-username=anonymous
-password=@EMAIL@
-account=
-
-[General Sites/Ibiblio]
-hostname=distro.ibiblio.org
-port=21
-protocol=FTP
-remote directory=/pub/Linux
 local directory=
 username=anonymous
 password=@EMAIL@
@@ -122,6 +115,16 @@ username=anonymous
 password=@EMAIL@
 account=
 
+[Slackware Sites/Slackware UK]
+hostname=slackware.uk
+port=21
+protocol=FTP
+remote directory=/
+local directory=
+username=anonymous
+password=@EMAIL@
+account=
+
 [Debian Sites/Debian]
 hostname=ftp.debian.org
 port=21
@@ -132,22 +135,31 @@ username=anonymous
 password=@EMAIL@
 account=
 
-
-[X11 Sites/Gnome]
-hostname=ftp.gnome.org
+[Porteus Linux/mirror vim.org]
+hostname=ftp.vim.org
 port=21
 protocol=FTP
-remote directory=/pub
+remote directory=/pub/os/Linux/distr/porteus
 local directory=
 username=anonymous
 password=@EMAIL@
 account=
 
-[X11 Sites/ftp.x.org]
-hostname=ftp.x.org
+[Porteus Linux/mirror nlugg.nl]
+hostname=ftp.nluug.nl
 port=21
 protocol=FTP
-remote directory=/pub
+remote directory=/pub/os/Linux/distr/porteus
+local directory=
+username=anonymous
+password=@EMAIL@
+account=
+
+[Porteus Linux/mirror dotsrc.org]
+hostname=mirrors.dotsrc.org
+port=21
+protocol=FTP
+remote directory=/porteus
 local directory=
 username=anonymous
 password=@EMAIL@

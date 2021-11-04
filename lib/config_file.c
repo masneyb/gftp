@@ -728,7 +728,7 @@ gftp_write_bookmarks_file (void)
   FILE * bmfile;
   int i;
 
-  bmhdr = N_("Bookmarks file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten");
+  bmhdr = "gFTP Bookmarks. Warning: Any comments that you add to this file WILL be overwritten";
   pwhdr = N_("Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext.");
 
   if ((tempstr = gftp_expand_path (NULL, BOOKMARKS_FILE)) == NULL)
