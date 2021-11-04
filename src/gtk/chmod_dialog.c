@@ -91,14 +91,10 @@ dochmod (gftp_window_data * wdata)
 static void
 on_gtk_dialog_response_chmod (GtkDialog *dialog, gint response, gpointer wdata)
 { /* chmod action */
-  switch (response)
-    {
-      case GTK_RESPONSE_OK:
-        dochmod (wdata);
-        /* no break */
-      default:
-        gtk_widget_destroy (GTK_WIDGET (dialog));
-    }
+   switch (response) {
+      case GTK_RESPONSE_OK: dochmod (wdata); break;
+   }
+   gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 

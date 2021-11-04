@@ -991,7 +991,7 @@ sshv2_buffer_get_int64 (gftp_request * request, sshv2_message * message,
                         gint64 * num)
 {
   guint64 snum;
-  guint32 hinum, lonum;
+  guint32 hinum = 0, lonum = 0;
   int ret;
 
   if ((ret = sshv2_buffer_get_int32 (request, message, 0, 0, &hinum)) < 0)
@@ -1016,7 +1016,7 @@ static char *
 sshv2_buffer_get_string (gftp_request * request, sshv2_message * message,
                          int return_string)
 {
-  guint32 len, buflen;
+  guint32 len = 0, buflen = 0;
   char *string;
 
   if (sshv2_buffer_get_int32 (request, message, 0, 0, &len) < 0)
@@ -1362,7 +1362,7 @@ static int
 sshv2_decode_file_attributes (gftp_request * request, sshv2_message * message,
                               gftp_file * fle)
 {
-  guint32 attrs, num, count, i;
+  guint32 attrs = 0, num = 0, count = 0, i = 0;
   int ret;
 
   if ((ret = sshv2_buffer_get_int32 (request, message, 0, 0, &attrs)) < 0)

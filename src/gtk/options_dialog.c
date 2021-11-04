@@ -677,15 +677,11 @@ apply_changes (GtkWidget * widget, gpointer data)
 static void
 options_action (GtkWidget * widget, gint response, gpointer user_data)
 {
-  switch (response)
-    {
-      case GTK_RESPONSE_OK:
-        apply_changes (widget, NULL);
-        /* no break */
-      default:
-        clean_old_changes (widget, user_data);
-        gtk_widget_destroy (widget);
-    }
+  switch (response) {
+     case GTK_RESPONSE_OK: apply_changes (widget, NULL); break;
+  }
+  clean_old_changes (widget, user_data);
+  gtk_widget_destroy (widget);
 }
 
 
