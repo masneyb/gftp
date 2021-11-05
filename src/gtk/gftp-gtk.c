@@ -437,7 +437,7 @@ CreateMenus (GtkWidget * parent)
   static const GtkActionEntry menu_items[] =
   {
     //  name                    stock_id               "label"                  accel             tooltip  callback
-    { "FTPMenu",              NULL,                  N_("_FTP"),              NULL,                NULL, NULL                   },
+    { "FTPMenu",              NULL,                  N_("g_FTP"),             NULL,                NULL, NULL                   },
     { "FTPPreferences",       "gtk-preferences",     N_("_Preferences..."),   NULL,                NULL, G_CALLBACK(options_dialog) },
     { "FTPQuit",              "gtk-quit",            N_("_Quit"),             "<control>Q",        NULL, G_CALLBACK(_gftp_menu_exit)  },
 

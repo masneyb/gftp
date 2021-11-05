@@ -103,13 +103,13 @@ The gFTP file transfer client. http://www.gftp.org
 
 ## FTP: I don't see hidden files
 
-  This may work (and may break other servers): go to FTP->Preferences->FTP
+  This may work (and may break other servers): go to gFTP->Preferences->FTP
   and enable `LIST -a: ask server to list hidden files`
 
 
 ## When gFTP tries to get the remote directory listing, I receive the error: Cannot create a data connection: Connection refused
 
-  Go under FTP->Options->FTP and turn off passive file transfers. Instead of
+  Go under gFTP->Options->FTP and turn off passive file transfers. Instead of
   sending the PASV command to open up the data connection on the server side, the
   data connection will be opened up on the client side, and the PORT command will
   be sent to the server instead.
@@ -117,7 +117,7 @@ The gFTP file transfer client. http://www.gftp.org
 
 ## When using the FTPS protocol, gFTP cannot connect if the remote server uses a self signed certificate.
 
-  Go to `FTP` menu -> `Preferences` -> `SSL Engine` and untick `Verify SSL Peer`
+  Go to `gFTP` menu -> `Preferences` -> `SSL Engine` and untick `Verify SSL Peer`
 
   Or you should add the public key of your self signed CA to your OpenSSL certs
   directory.
