@@ -6,7 +6,7 @@ AC_CONFIG_MACRO_DIR([autoconf-m4])
 AM_INIT_AUTOMAKE([-Wall foreign])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
-AC_CONFIG_HEADER([config.h])
+m4_ifdef([AC_CONFIG_HEADERS], [AC_CONFIG_HEADERS([config.h])], [AC_CONFIG_HEADER([config.h])])
 AM_GNU_GETTEXT([external])
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 m4_ifdef([AM_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
@@ -199,6 +199,5 @@ AC_CONFIG_FILES(
 	src/gtk/Makefile
 	src/text/Makefile
 	po/Makefile
-	gftp.spec
 )
 AC_OUTPUT
