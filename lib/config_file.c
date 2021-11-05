@@ -841,7 +841,7 @@ gftp_write_config_file (void)
 
   g_free (tempstr);
 
-  write_comment (conffile, _("Config file for gFTP. Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"));
+  write_comment (conffile, _("gFTP. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"));
 
   for (templist = gftp_options_list;
        templist != NULL;

@@ -1,7 +1,5 @@
-# Config file for gFTP. Copyright (C) 1998-2007 Brian Masney
-# <masneyb@gftp.org>. Warning: Any comments that you add to this file WILL be
-# overwritten. If a entry has a (*) in it's comment, you can't change it
-# inside gFTP
+# gFTP. Warning: Any comments that you add to this file WILL be overwritten.
+# If a entry has a (*) in it's comment, you can't change it inside gFTP
 
 # The default program used to view files. If this is blank, the internal file
 # viewer will be used
@@ -27,6 +25,9 @@ cache_ttl=3600
 # Append new file transfers onto existing ones
 append_transfers=1
 
+# May not look good in some themes
+colored_msgs_gtk=0
+
 # Do only one transfer at a time?
 one_transfer=1
 
@@ -47,10 +48,6 @@ sort_dirs_first=1
 
 # Show hidden files in the listboxes
 show_hidden_files=1
-
-# LIST -a: ask server to list hidden files. This some break some FTP
-# servers. Some servers list hidden files by default
-ftp_list_a=0
 
 # Show the file transfer status in the titlebar
 show_trans_in_title=0
@@ -94,10 +91,10 @@ enable_ipv6=1
 list_dblclk_action=2
 
 # The default width of the local files listbox
-listbox_local_width=339
+listbox_local_width=344
 
 # The default width of the remote files listbox
-listbox_remote_width=339
+listbox_remote_width=344
 
 # The default height of the local/remote files listboxes
 listbox_file_height=265
@@ -221,6 +218,10 @@ ftp_proxy_account=
 # can you type in %pu
 proxy_config=
 
+# LIST -a: ask server to list hidden files. This may break some FTP servers.
+# Some servers list hidden files by default
+ftp_list_a=0
+
 # If this is enabled, then the remote FTP server's PASV IP address field will
 # be ignored and the host's IP address will be used instead. This is often
 # needed for routers giving their internal rather then their external IP
@@ -242,12 +243,19 @@ passive_transfer=1
 # this.
 ascii_transfers=0
 
+# With this option checked, gFTP will try to tell the server what it intends
+# to do before a transfer actually happens. By way of the PRET command, an
+# extension for distributed FTP servers, you will be able to connect to a
+# master server and receive files from a slave node, possibly avoiding
+# bandwidth problems.
+pretransfer_command=0
+
 # SSL entropy file
 entropy_source=/dev/urandom
 
 # The maximum number of bytes to seed the SSL engine with
 entropy_len=1024
--
+
 # Verify SSL Peer
 verify_ssl_peer=0
 
