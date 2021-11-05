@@ -42,7 +42,7 @@ ftp_log (gftp_logging_level level, gftp_request * request,
   size_t len;
   GtkTextBuffer * textbuf;
   GtkTextIter iter, iter2;
-  const char *descr;
+  const char *descr = NULL;
   char *utf8_str;
   size_t destlen;
 
@@ -106,7 +106,9 @@ ftp_log (gftp_logging_level level, gftp_request * request,
 
   gftp_lookup_global_option ("max_log_window_size", &max_log_window_size);
 
-  switch (level)
+  if (gftp_gtk_colored_msgs)
+  {
+    switch (level)
     {
       case gftp_logging_send:
         descr = "send";
@@ -121,7 +123,7 @@ ftp_log (gftp_logging_level level, gftp_request * request,
         descr = "misc";
         break;
     }
-
+  }
   textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (logwdw));
   len = gtk_text_buffer_get_char_count (textbuf);
   gtk_text_buffer_get_iter_at_offset (textbuf, &iter, len);

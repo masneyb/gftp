@@ -168,6 +168,8 @@ extern pthread_mutex_t log_mutex;
 extern pthread_t main_thread_id;
 extern GList * viewedit_processes;
 
+extern intptr_t gftp_gtk_colored_msgs;
+
 
 /* bookmarks.c */
 void run_bookmark 				( gpointer data );

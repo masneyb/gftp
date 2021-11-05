@@ -25,7 +25,7 @@ static GtkWidget * local_frame, * remote_frame, * log_scroll, * transfer_scroll,
 
 GtkWindow *main_window;
 gftp_window_data window1, window2, *other_wdata, *current_wdata;
-GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw,
+GtkWidget * stop_btn, * hostedit, * useredit, * passedit, * portedit, * logwdw = NULL,
           * dlwdw, * toolbar_combo_protocol, * gftpui_command_widget, * download_left_arrow,
           * upload_right_arrow, * openurl_btn;
 GtkAdjustment * logwdw_vadj;
@@ -40,6 +40,7 @@ GtkUIManager * factory = NULL;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_t main_thread_id;
 GList * viewedit_processes = NULL;
+intptr_t gftp_gtk_colored_msgs = 0;
 
 static gboolean on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data);
 static void on_combo_protocol_change_cb (GtkComboBox *cb, gpointer data);
@@ -148,8 +149,19 @@ _gftp_menu_exit (GtkWidget * widget, gpointer data)
     _gftp_exit (widget, data);
 }
 
-static void
-change_setting (GtkAction *action, GtkRadioAction *current)
+
+static void on_activate_colored_msgs_cb (GtkToggleAction * checkb)
+{
+   gboolean state = gtk_toggle_action_get_active (checkb);
+   gftp_set_global_option ("colored_msgs_gtk", GINT_TO_POINTER(state));
+   gftp_gtk_colored_msgs = state;
+   if (logwdw) {
+      ftp_log (gftp_logging_misc, NULL,
+               state ? _("-- Colors enabled\n") : _("-- Colors disabled\n"));
+   }
+}
+
+static void change_setting (GtkAction *action, GtkRadioAction *current)
 {
   gint menuitem = gtk_radio_action_get_current_value(current);
   switch (menuitem)
@@ -433,6 +445,9 @@ CreateMenus (GtkWidget * parent)
   GtkAccelGroup * accel_group;
   intptr_t ascii_transfers;
   int default_ascii;
+  GtkWidget * colormsg_chkbox;
+
+  gftp_lookup_global_option ("colored_msgs_gtk", &gftp_gtk_colored_msgs);
 
   static const GtkActionEntry menu_items[] =
   {
@@ -508,6 +523,10 @@ CreateMenus (GtkWidget * parent)
     { "HelpAbout",           "gtk-about",            N_("_About"),            NULL,                NULL, G_CALLBACK(about_dialog) },
   };
 
+  static const GtkToggleActionEntry menu_check_colormsg[] = {
+    { "FTPColorMsg", NULL, N_("Colored messages"), "<control><alt>C", NULL,
+      G_CALLBACK (on_activate_colored_msgs_cb), FALSE }, //FALSE: need a constant element
+  };
 
   static const GtkRadioActionEntry menu_radio_window[] = {
     { "FTPWindow1", NULL, N_("Window _1"), "<control>1", NULL, GFTP_MENU_ITEM_WIN1 },
@@ -524,6 +543,8 @@ CreateMenus (GtkWidget * parent)
   <ui> \
     <menubar name='M'> \
       <menu action='FTPMenu'> \
+        <menuitem action='FTPColorMsg'/> \
+        <separator/> \
         <menuitem action='FTPWindow1'/> \
         <menuitem action='FTPWindow2'/> \
         <separator/> \
@@ -679,11 +700,17 @@ CreateMenus (GtkWidget * parent)
   gtk_action_group_add_actions(actions, menu_items, nmenu_items, NULL);
 
   current_wdata = &window2;
+
+  // colored msgs
+  gtk_action_group_add_toggle_actions (actions, menu_check_colormsg,
+                                       G_N_ELEMENTS (menu_check_colormsg), 0);
+  // Windows 1/2
   gtk_action_group_add_radio_actions(actions, menu_radio_window,
                                G_N_ELEMENTS (menu_radio_window),
                                GFTP_MENU_ITEM_WIN2,
                                G_CALLBACK(change_setting),
                                0);
+  // ascii binary
   gftp_lookup_global_option ("ascii_transfers", &ascii_transfers);
   if (ascii_transfers)
     default_ascii = GFTP_MENU_ITEM_ASCII;
@@ -709,6 +736,12 @@ CreateMenus (GtkWidget * parent)
   build_bookmarks_menu ();
 
   gtk_window_add_accel_group (GTK_WINDOW (parent), accel_group);
+
+  // the menu is now ready. enable/disable colored msgs
+  colormsg_chkbox = gtk_ui_manager_get_widget (factory, "/M/FTPMenu/FTPColorMsg");
+  if (colormsg_chkbox) {
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (colormsg_chkbox), gftp_gtk_colored_msgs);
+  }
 
   return (menu);
 }

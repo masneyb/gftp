@@ -66,6 +66,11 @@ gftp_config_vars gftp_global_config_vars[] =
   {"append_transfers", N_("Append file transfers"), 
   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 0,
    N_("Append new file transfers onto existing ones"), GFTP_PORT_GTK, NULL},
+
+  {"colored_msgs_gtk", N_("Colored messages in log window"), 
+  gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
+   N_("May not look good in some themes"), GFTP_PORT_GTK, NULL},
+
   {"one_transfer", N_("Do one transfer at a time"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 0,
    N_("Do only one transfer at a time?"), GFTP_PORT_GTK, NULL},
