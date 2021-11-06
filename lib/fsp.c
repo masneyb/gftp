@@ -531,11 +531,12 @@ fsp_rmfile (gftp_request * request, const char *file)
     }
 }
 
-static int
-fsp_makedir (gftp_request * request, const char *directory)
+static int fsp_makedir (gftp_request * request, const char *directory)
 {
   DEBUG_PRINT_FUNC
   fsp_protocol_data *lpd;
+  char * fulldir = NULL;
+  const char * dir;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
@@ -545,18 +546,27 @@ fsp_makedir (gftp_request * request, const char *directory)
   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
   g_return_val_if_fail (lpd->fsp != NULL, GFTP_EFATAL);
 
-  if (fsp_mkdir (lpd->fsp,directory) == 0)
+  if (request->directory && *request->directory) {
+     // need to provide full path
+     fulldir = g_strconcat (request->directory, "/", directory, NULL);
+     dir = fulldir;
+  } else {
+     dir = directory;
+  }
+
+  if (fsp_mkdir (lpd->fsp,dir) == 0)
     {
       request->logging_function (gftp_logging_misc, request,
-                                 _("Successfully made directory %s\n"),
-                                 directory);
+                                 _("Successfully made directory %s\n"), dir);
+      if (fulldir) g_free (fulldir);
       return (0);
     }
   else
     {
       request->logging_function (gftp_logging_error, request,
                                  _("Error: Could not make directory %s: %s\n"),
-                                 directory, g_strerror (errno));
+                                 dir, g_strerror (errno));
+      if (fulldir) g_free (fulldir);
       return (GFTP_ERETRYABLE);
     }
 }
