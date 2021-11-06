@@ -130,7 +130,7 @@ void save_directory_listing (gpointer data) /* data = window1/2 */
 //---------------------------------------------------------------
 
 gboolean
-chdir_edit (GtkWidget * widget, GdkEventKey *event, gpointer data )
+dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data )
 {
   if (event->type == GDK_KEY_PRESS) {
     if (event->keyval == GDK_KEY_Return)
@@ -161,7 +161,7 @@ chdir_edit (GtkWidget * widget, GdkEventKey *event, gpointer data )
   if (check_reconnect (wdata) < 0)
     return (0);
 
-  edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(wdata->combo));
+  edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(wdata->dir_combo));
 
   if (!GFTP_IS_CONNECTED (wdata->request) && *edttxt != '\0')
     {
@@ -173,7 +173,7 @@ chdir_edit (GtkWidget * widget, GdkEventKey *event, gpointer data )
     return (FALSE);
 
   if (gftpui_run_chdir (wdata, tempstr))
-    add_history (wdata->combo, wdata->history, wdata->histlen, edttxt);
+    add_history (wdata->dir_combo, wdata->history, wdata->histlen, edttxt);
 
   g_free (tempstr);
   return (0);

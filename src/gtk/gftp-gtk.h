@@ -59,8 +59,7 @@ typedef enum gftp_dialog_button_tag
 
 typedef struct gftp_window_data_tag
 {
-  GtkWidget *combo, 		/* Entry widget/history for the user to enter 
-   				   a directory */
+  GtkWidget *dir_combo, /* Entry widget/history for the user to enter  a directory */
             *hoststxt, 		/* Show which directory we're in */
             *listbox; 		/* Our listbox showing the files */
   unsigned int sorted : 1,	/* Is the output sorted? */
@@ -260,9 +259,7 @@ void save_directory_listing 			( gpointer data );
 
 void show_selected				( gpointer data );
 
-gboolean chdir_edit					( GtkWidget * widget,
-						GdkEventKey *event,
-						gpointer data );
+gboolean dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data);
 
 void clearlog 					( gpointer data );
 

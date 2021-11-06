@@ -160,7 +160,7 @@ update_window_info (void)
 {
   char *tempstr, empty[] = "";
   unsigned int port, i, j;
-  GtkWidget *combo_entry;
+  GtkWidget *dir_combo_entry;
 
   if (current_wdata->request != NULL)
     {
@@ -168,13 +168,13 @@ update_window_info (void)
         {
           if ((tempstr = current_wdata->request->hostname) == NULL)
             tempstr = empty;
-          combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
-          gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
+          dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
+          gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
 
           if ((tempstr = current_wdata->request->username) == NULL)
             tempstr = empty;
-          combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(useredit)));
-          gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
+          dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(useredit)));
+          gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
     
           if ((tempstr = current_wdata->request->password) == NULL)
             tempstr = empty;
@@ -185,13 +185,13 @@ update_window_info (void)
               port != current_wdata->request->port)
             {
               tempstr = g_strdup_printf ("%d", current_wdata->request->port);
-              combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(portedit)));
-              gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
+              dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(portedit)));
+              gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
               g_free (tempstr);
             }
           else {
-            combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(portedit)));
-            gtk_entry_set_text (GTK_ENTRY (combo_entry), "");
+            dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(portedit)));
+            gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), "");
           }
     
           for (i=0, j=0; gftp_protocols[i].init != NULL; i++)
@@ -289,7 +289,7 @@ update_window (gftp_window_data * wdata)
 {
   char *tempstr, *hostname, *fspec, *listinfo;
   int connected;
-  GtkWidget *combo_entry;
+  GtkWidget *dir_combo_entry;
   
   connected = GFTP_IS_CONNECTED (wdata->request);
   if (connected)
@@ -315,8 +315,8 @@ update_window (gftp_window_data * wdata)
       g_free (tempstr);
 
       if (wdata->request->directory != NULL) {
-        combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->combo)));
-        gtk_entry_set_text (GTK_ENTRY (combo_entry), wdata->request->directory);
+        dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->dir_combo)));
+        gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), wdata->request->directory);
       }
     }
   else if (wdata->hoststxt != NULL)

@@ -93,10 +93,10 @@ _gftp_exit (GtkWidget * widget, gpointer data)
                              &remember_last_directory);
   if (remember_last_directory)
     {
-      tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(window1.combo));
+      tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(window1.dir_combo));
       gftp_set_global_option ("local_startup_directory", tempstr);
 
-      tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(window2.combo));
+      tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(window2.dir_combo));
       gftp_set_global_option ("remote_startup_directory", tempstr);
     }
 
@@ -757,7 +757,7 @@ CreateConnectToolbar (GtkWidget * parent)
   };
   GtkWidget *toolbar, *box, *tempwid;
   gftp_config_list_vars * tmplistvar;
-  GtkWidget *combo_entry;
+  GtkWidget *dir_combo_entry;
   char *default_protocol, *tempstr;
 
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
@@ -795,13 +795,13 @@ CreateConnectToolbar (GtkWidget * parent)
   glist_to_combobox (tmplistvar->list, hostedit);
 
   gftp_lookup_global_option ("host_value", &tempstr);
-  combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
-  g_signal_connect (G_OBJECT(combo_entry), "key_press_event",
+  dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
+  g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
-  g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
+  g_signal_connect (G_OBJECT(dir_combo_entry), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
-  gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
+  gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), hostedit, TRUE, TRUE, 0);
 
   tempwid = gtk_label_new (_("Port:"));
@@ -815,13 +815,13 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gftp_lookup_global_option ("port_value", &tempstr);
 
-  combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(portedit)));
-  g_signal_connect (G_OBJECT(combo_entry), "key_press_event",
+  dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(portedit)));
+  g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
-  g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
+  g_signal_connect (G_OBJECT(dir_combo_entry), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
-  gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
+  gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), portedit, FALSE, FALSE, 0);
 
   tempwid = gtk_label_new_with_mnemonic (_("_User:"));
@@ -835,13 +835,13 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gftp_lookup_global_option ("user_value", &tempstr);
 
-  combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(useredit)));
-  g_signal_connect (G_OBJECT(combo_entry), "key_press_event",
+  dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(useredit)));
+  g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
-  g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
+  g_signal_connect (G_OBJECT(dir_combo_entry), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
-  gtk_entry_set_text (GTK_ENTRY (combo_entry), tempstr);
+  gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), useredit, TRUE, TRUE, 0);
 
   tempwid = gtk_label_new (_("Pass:"));
@@ -1014,7 +1014,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   char tempstr[50], *startup_directory;
   GtkWidget *box, *scroll_list, *parent;
   intptr_t listbox_file_height, colwidth;
-  GtkWidget *combo_entry;
+  GtkWidget *dir_combo_entry;
 
   wdata->request = gftp_request_new ();
   gftp_gtk_init_request (wdata);
@@ -1032,21 +1032,21 @@ CreateFTPWindow (gftp_window_data * wdata)
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
   gtk_container_add (GTK_CONTAINER (parent), box);
 
-  wdata->combo = gtk_combo_box_text_new_with_entry ();
-  gtk_box_pack_start (GTK_BOX (box), wdata->combo, FALSE, FALSE, 0);
+  wdata->dir_combo = gtk_combo_box_text_new_with_entry ();
+  gtk_box_pack_start (GTK_BOX (box), wdata->dir_combo, FALSE, FALSE, 0);
 
-  combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->combo)));
-  g_signal_connect (G_OBJECT(combo_entry), "key_press_event",
-                   G_CALLBACK (chdir_edit), NULL);
-  g_signal_connect (G_OBJECT(combo_entry), "key_release_event",
-                   G_CALLBACK (chdir_edit), wdata);
+  dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->dir_combo)));
+  g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
+                   G_CALLBACK (dir_combo_keycb), NULL);
+  g_signal_connect (G_OBJECT(dir_combo_entry), "key_release_event",
+                   G_CALLBACK (dir_combo_keycb), wdata);
 
-  glist_to_combobox (*wdata->history, wdata->combo);
+  glist_to_combobox (*wdata->history, wdata->dir_combo);
 
   g_snprintf (tempstr, sizeof (tempstr), "%s_startup_directory",
               wdata->prefix_col_str);
   gftp_lookup_global_option (tempstr, &startup_directory);
-  gtk_entry_set_text (GTK_ENTRY (combo_entry), startup_directory);
+  gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), startup_directory);
 
   wdata->hoststxt = gtk_label_new (NULL);
   gtkcompat_widget_set_halign_left (wdata->hoststxt);
@@ -1371,11 +1371,12 @@ toolbar_hostedit(void)
   gftp_set_password (current_wdata->request,
 		     gtk_entry_get_text (GTK_ENTRY (passedit)));
 
-  gftp_set_directory (current_wdata->request, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(current_wdata->combo)) );
+  gftp_set_directory (current_wdata->request,
+                      gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(current_wdata->dir_combo)));
   if (current_wdata->request->directory != NULL)
     alltrim (current_wdata->request->directory);
 
-  add_history (current_wdata->combo, current_wdata->history, 
+  add_history (current_wdata->dir_combo, current_wdata->history, 
                current_wdata->histlen, current_wdata->request->directory);
 
   ftp_connect (current_wdata, current_wdata->request);

@@ -131,10 +131,10 @@ doadd_bookmark (gpointer * data, gftp_dialog_data * ddata)
   proto = gftp_protocols[current_wdata->request->protonum].name;
   tempentry->protocol = g_strdup (proto);
 
-  edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(other_wdata->combo));
+  edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(other_wdata->dir_combo));
   tempentry->local_dir = g_strdup (edttxt);
 
-  edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(current_wdata->combo));
+  edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(current_wdata->dir_combo));
   tempentry->remote_dir = g_strdup (edttxt);
 
   if ( (edttxt = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(useredit))) != NULL)
