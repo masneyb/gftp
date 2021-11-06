@@ -24,6 +24,7 @@ void
 gftpui_lookup_file_colors (gftp_file * fle, char **start_color,
                            char ** end_color)
 {
+  DEBUG_PRINT_FUNC
   /* not used in the gtk ui */
   *start_color = NULL;
   *end_color = NULL;
@@ -33,6 +34,7 @@ gftpui_lookup_file_colors (gftp_file * fle, char **start_color,
 void
 gftpui_run_command (GtkWidget * widget, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   const char *txt;
 
   txt = gtk_entry_get_text (GTK_ENTRY (gftpui_command_widget));
@@ -45,6 +47,7 @@ gftpui_run_command (GtkWidget * widget, gpointer data)
 void
 gftpui_refresh (void *uidata, int clear_cache_entry)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * wdata;
 
   wdata = uidata;
@@ -78,6 +81,7 @@ gftpui_refresh (void *uidata, int clear_cache_entry)
 static void 
 _gftpui_gtk_set_username (gftp_request * request, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   gftp_set_username (request, ddata->entry_text);
   request->stopable = 0;
 }
@@ -86,6 +90,7 @@ _gftpui_gtk_set_username (gftp_request * request, gftp_dialog_data * ddata)
 static void 
 _gftpui_gtk_set_password (gftp_request * request, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   gftp_set_password (request, ddata->entry_text);
   request->stopable = 0;
 }
@@ -94,12 +99,14 @@ _gftpui_gtk_set_password (gftp_request * request, gftp_dialog_data * ddata)
 static void
 _gftpui_gtk_abort (gftp_request * request, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   request->stopable = 0;
 }
 
 void
 gftpui_show_busy (gboolean busy)
 {
+  DEBUG_PRINT_FUNC
   GtkWidget * toplevel = gtk_widget_get_toplevel (openurl_btn);
   GdkWindow * gwin     = gtk_widget_get_window (toplevel);
   GdkDisplay * display = gtk_widget_get_display (toplevel);
@@ -116,6 +123,7 @@ gftpui_show_busy (gboolean busy)
 void
 gftpui_prompt_username (void *uidata, gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   TextEntryDialog (NULL, _("Enter Username"),
                    _("Please enter your username for this site"), NULL,
                    1, NULL, gftp_dialog_button_connect,
@@ -134,6 +142,7 @@ gftpui_prompt_username (void *uidata, gftp_request * request)
 void
 gftpui_prompt_password (void *uidata, gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   TextEntryDialog (NULL, _("Enter Password"),
                    _("Please enter your password for this site"), NULL,
                    0, NULL, gftp_dialog_button_connect,
@@ -155,6 +164,7 @@ static gboolean
 _gftpui_wakeup_main_thread (GIOChannel *source, GIOCondition condition,
                             gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_request * request = (gftp_request *) data;
   char c;
   if (request->wakeup_main_thread[0] > 0) {
@@ -167,6 +177,7 @@ _gftpui_wakeup_main_thread (GIOChannel *source, GIOCondition condition,
 static gint
 _gftpui_setup_wakeup_main_thread (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   gint handler;
 
   if (socketpair (AF_UNIX, SOCK_STREAM, 0, request->wakeup_main_thread) == 0)
@@ -192,6 +203,7 @@ _gftpui_setup_wakeup_main_thread (gftp_request * request)
 static void
 _gftpui_teardown_wakeup_main_thread (gftp_request * request, gint handler)
 {
+  DEBUG_PRINT_FUNC
   if (request->wakeup_main_thread[0] > 0 && request->wakeup_main_thread[1] > 0)
     {
       g_source_remove (handler);
@@ -207,6 +219,7 @@ _gftpui_teardown_wakeup_main_thread (gftp_request * request, gint handler)
 static void *
 _gftpui_gtk_thread_func (void *data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_gtk_thread_data * thread_data;
   void *ret;
 
@@ -223,6 +236,7 @@ _gftpui_gtk_thread_func (void *data)
 void *
 gftpui_generic_thread (void * (*func) (void *), void *data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_gtk_thread_data * thread_data;
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
@@ -265,6 +279,7 @@ gftpui_generic_thread (void * (*func) (void *), void *data)
 int
 gftpui_check_reconnect (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * wdata;
 
   wdata = cdata->uidata;
@@ -278,6 +293,7 @@ void
 gftpui_run_function_callback (gftp_window_data * wdata,
                               gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata = (gftpui_callback_data *) ddata->yespointer;
 
   if (ddata->entry_text[0] == '\0') {
@@ -299,6 +315,7 @@ void
 gftpui_run_function_cancel_callback (gftp_window_data * wdata,
                                      gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata = (gftpui_callback_data *) ddata->yespointer;
 
   if (cdata->input_string != NULL)
@@ -312,6 +329,7 @@ gftpui_run_function_cancel_callback (gftp_window_data * wdata,
 void
 gftpui_mkdir_dialog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
 
@@ -334,6 +352,7 @@ gftpui_mkdir_dialog (gpointer data)
 int
 gftpui_common_run_rename_check(gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   if(access(cdata->input_string, F_OK))
     return (gftpui_common_run_rename(cdata));
   else
@@ -346,6 +365,7 @@ gftpui_common_run_rename_check(gftpui_callback_data * cdata)
 void
 gftpui_rename_dialog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
   gftp_file * curfle;
@@ -377,6 +397,7 @@ gftpui_rename_dialog (gpointer data)
 void
 gftpui_site_dialog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
 
@@ -399,6 +420,7 @@ gftpui_site_dialog (gpointer data)
 int
 gftpui_run_chdir (gpointer uidata, char *directory)
 {
+  DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata;
   gftp_window_data * wdata;
   char *tempstr;
@@ -426,6 +448,7 @@ gftpui_run_chdir (gpointer uidata, char *directory)
 void
 gftpui_chdir_dialog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * wdata;
   gftp_file * curfle;
   char *tempstr;
@@ -447,6 +470,7 @@ gftpui_chdir_dialog (gpointer data)
 void 
 gftpui_disconnect (void *uidata)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * wdata;
 
   wdata = uidata;
@@ -465,8 +489,8 @@ gftpui_disconnect (void *uidata)
 char *
 gftpui_gtk_get_utf8_file_pos (gftp_file * fle)
 {
+  DEBUG_PRINT_FUNC
   char *pos;
-
   if ((pos = strrchr (fle->file, '/')) != NULL)
     pos++;
   else
@@ -479,6 +503,7 @@ gftpui_gtk_get_utf8_file_pos (gftp_file * fle)
 static void
 _protocol_yes_answer (gpointer answer, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   *(int *) answer = 1;
 }
 
@@ -486,6 +511,7 @@ _protocol_yes_answer (gpointer answer, gftp_dialog_data * ddata)
 static void
 _protocol_no_answer (gpointer answer, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   *(int *) answer = 0;
 }
 
@@ -494,8 +520,8 @@ int
 gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
                             char *question)
 {
+  DEBUG_PRINT_FUNC
   int answer = -1;
-
   GDK_THREADS_ENTER ();
 
   YesNoDialog (main_window, title, question,
@@ -528,6 +554,7 @@ gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
 static void
 _protocol_ok_answer (char *buf, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   buf[1] = ' '; /* In case this is an empty string entered */
   strncpy (buf, ddata->entry_text, BUFSIZ);
 }
@@ -536,6 +563,7 @@ _protocol_ok_answer (char *buf, gftp_dialog_data * ddata)
 static void
 _protocol_cancel_answer (char *buf, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   buf[0] = '\0';
   buf[1] = '\0';
 }
@@ -545,8 +573,8 @@ char *
 gftpui_protocol_ask_user_input (gftp_request * request, char *title,
                                 char *question, int shown)
 {
+  DEBUG_PRINT_FUNC
   char buf[BUFSIZ];
-
   GDK_THREADS_ENTER ();
 
   *buf = '\0';

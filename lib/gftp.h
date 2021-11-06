@@ -85,6 +85,15 @@
 #include <string.h>
 #include <strings.h>
 
+//#define GFTP_DEBUG
+#ifdef GFTP_DEBUG
+#define DEBUG_PRINT_FUNC printf("%s: %s  (%d)\n", __FILE__, __func__, __LINE__);
+#define DEBUG_MSG(x) printf("-- %s", (x));
+#else
+#define DEBUG_PRINT_FUNC
+#define DEBUG_MSG(x)
+#endif
+
 #ifdef USE_SSL
 #include <openssl/bio.h>
 #include <openssl/err.h>

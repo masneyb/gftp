@@ -22,6 +22,7 @@
 gftp_request *
 gftp_request_new (void)
 {
+  DEBUG_PRINT_FUNC
   gftp_request *request;
 
   request = g_malloc0 (sizeof (*request));
@@ -35,6 +36,7 @@ gftp_request_new (void)
 void
 gftp_request_destroy (gftp_request * request, int free_request)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
 
   gftp_disconnect (request);
@@ -87,6 +89,7 @@ void
 gftp_copy_param_options (gftp_request * dest_request,
                          gftp_request * src_request)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (dest_request != NULL);
   g_return_if_fail (src_request != NULL);
   g_return_if_fail (dest_request->protonum == src_request->protonum);
@@ -99,6 +102,7 @@ gftp_copy_param_options (gftp_request * dest_request,
 void
 gftp_file_destroy (gftp_file * file, int free_it)
 {
+  //DEBUG_PRINT_FUNC
   g_return_if_fail (file != NULL);
 
   if (file->file)
@@ -120,6 +124,7 @@ gftp_file_destroy (gftp_file * file, int free_it)
 int
 gftp_connect (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -137,6 +142,7 @@ gftp_connect (gftp_request * request)
 void
 gftp_disconnect (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
 
   if (request->iconv_from_initialized)
@@ -168,6 +174,7 @@ off_t
 gftp_get_file (gftp_request * request, const char *filename,
                off_t startsize)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->cached = 0;
@@ -182,6 +189,7 @@ int
 gftp_put_file (gftp_request * request, const char *filename,
                off_t startsize, off_t totalsize)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->cached = 0;
@@ -197,6 +205,7 @@ gftp_transfer_file (gftp_request * fromreq, const char *fromfile,
                     off_t fromsize, gftp_request * toreq, const char *tofile,
                     off_t tosize)
 {
+  DEBUG_PRINT_FUNC
   /* Needed for systems that size(float) < size(void *) */
   union { intptr_t i; float f; } maxkbs;
   off_t size;
@@ -266,6 +275,7 @@ put_file:
 ssize_t 
 gftp_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
+  //DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
 
@@ -279,6 +289,7 @@ gftp_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 ssize_t 
 gftp_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
+  //DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (buf != NULL, GFTP_EFATAL);
 
@@ -292,6 +303,7 @@ gftp_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 int
 gftp_end_transfer (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -322,6 +334,7 @@ gftp_end_transfer (gftp_request * request)
 int
 gftp_abort_transfer (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->abort_transfer == NULL)
@@ -336,6 +349,7 @@ int
 gftp_stat_filename (gftp_request * request, const char *filename, mode_t * mode,
                     off_t * filesize)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
@@ -349,6 +363,7 @@ gftp_stat_filename (gftp_request * request, const char *filename, mode_t * mode,
 int
 gftp_list_files (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   char *remote_lc_time, *locret;
   int fd;
 
@@ -404,6 +419,7 @@ int
 gftp_get_next_file (gftp_request * request, const char *filespec,
                     gftp_file * fle)
 {
+  //DEBUG_PRINT_FUNC
   char *slashpos, *tmpfile, *utf8;
   size_t destlen;
   int fd, ret;
@@ -483,6 +499,7 @@ int
 gftp_parse_bookmark (gftp_request * request, gftp_request * local_request, 
                      const char * bookmark, int *refresh_local)
 {
+  DEBUG_PRINT_FUNC
   gftp_logging_func logging_function;
   gftp_bookmarks_var * tempentry;
   char *default_protocol;
@@ -595,6 +612,7 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
 int
 gftp_parse_url (gftp_request * request, const char *url)
 {
+  DEBUG_PRINT_FUNC
   char *pos, *endpos, *default_protocol, *new_url;
   gftp_logging_func logging_function;
   const char *clear_pos;
@@ -731,6 +749,7 @@ gftp_parse_url (gftp_request * request, const char *url)
 void
 gftp_set_hostname (gftp_request * request, const char *hostname)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
   g_return_if_fail (hostname != NULL);
 
@@ -743,6 +762,7 @@ gftp_set_hostname (gftp_request * request, const char *hostname)
 void
 gftp_set_username (gftp_request * request, const char *username)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
 
   if (request->username)
@@ -758,6 +778,7 @@ gftp_set_username (gftp_request * request, const char *username)
 void
 gftp_set_password (gftp_request * request, const char *password)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
 
   if (request->password)
@@ -773,6 +794,7 @@ gftp_set_password (gftp_request * request, const char *password)
 void
 gftp_set_account (gftp_request * request, const char *account)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
   g_return_if_fail (account != NULL);
 
@@ -785,9 +807,9 @@ gftp_set_account (gftp_request * request, const char *account)
 int
 gftp_set_directory (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
-
 
   if (request->datafd <= 0 && !request->always_connected)
     {
@@ -808,8 +830,8 @@ gftp_set_directory (gftp_request * request, const char *directory)
 void
 gftp_set_port (gftp_request * request, unsigned int port)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
-
   request->port = port;
 }
 
@@ -817,6 +839,7 @@ gftp_set_port (gftp_request * request, unsigned int port)
 int
 gftp_remove_directory (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->rmdir == NULL)
@@ -828,6 +851,7 @@ gftp_remove_directory (gftp_request * request, const char *directory)
 int
 gftp_remove_file (gftp_request * request, const char *file)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->rmfile == NULL)
@@ -839,6 +863,7 @@ gftp_remove_file (gftp_request * request, const char *file)
 int
 gftp_make_directory (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->mkdir == NULL)
@@ -852,6 +877,7 @@ int
 gftp_rename_file (gftp_request * request, const char *oldname,
                   const char *newname)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->rename == NULL)
@@ -864,6 +890,7 @@ gftp_rename_file (gftp_request * request, const char *oldname,
 int
 gftp_chmod (gftp_request * request, const char *file, mode_t mode)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->chmod == NULL)
@@ -877,6 +904,7 @@ gftp_chmod (gftp_request * request, const char *file, mode_t mode)
 int
 gftp_set_file_time (gftp_request * request, const char *file, time_t datetime)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->set_file_time == NULL)
@@ -888,6 +916,7 @@ gftp_set_file_time (gftp_request * request, const char *file, time_t datetime)
 int
 gftp_site_cmd (gftp_request * request, int specify_site, const char *command)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   if (request->site == NULL)
@@ -899,6 +928,7 @@ gftp_site_cmd (gftp_request * request, int specify_site, const char *command)
 off_t
 gftp_get_file_size (gftp_request * request, const char *filename)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, 0);
 
   if (request->get_file_size == NULL)
@@ -910,6 +940,7 @@ gftp_get_file_size (gftp_request * request, const char *filename)
 static GHashTable *
 gftp_gen_dir_hash (gftp_request * request, int *ret)
 {
+//  DEBUG_PRINT_FUNC
   GHashTable * dirhash;
   gftp_file * fle;
   off_t *newsize;
@@ -943,7 +974,7 @@ gftp_gen_dir_hash (gftp_request * request, int *ret)
 static void
 destroy_hash_ent (gpointer key, gpointer value, gpointer user_data)
 {
-
+//DEBUG_PRINT_FUNC
   g_free (key);
   g_free (value);
 }
@@ -963,6 +994,7 @@ gftp_destroy_dir_hash (GHashTable * dirhash)
 static GList *
 gftp_get_dir_listing (gftp_transfer * transfer, int getothdir, int *ret)
 {
+  DEBUG_PRINT_FUNC
   GHashTable * dirhash;
   GList * templist;
   gftp_file * fle;
@@ -1039,6 +1071,7 @@ _cleanup_get_all_subdirs (gftp_transfer * transfer, char *oldfromdir,
                           char *oldtodir,
                           void (*update_func) (gftp_transfer * transfer))
 {
+  DEBUG_PRINT_FUNC
   if (update_func != NULL)
     {
       transfer->numfiles = transfer->numdirs = -1;
@@ -1056,6 +1089,7 @@ _cleanup_get_all_subdirs (gftp_transfer * transfer, char *oldfromdir,
 static GList *
 _setup_current_directory_transfer (gftp_transfer * transfer, int *ret)
 {
+  DEBUG_PRINT_FUNC
   GHashTable * dirhash;
   char *pos, *newname;
   gftp_file * curfle;
@@ -1130,6 +1164,7 @@ static int
 _lookup_curfle_in_device_hash (gftp_request * request, gftp_file * curfle,
                                GHashTable * device_hash)
 {
+  DEBUG_PRINT_FUNC
   GHashTable * inode_hash;
 
   if (curfle->st_dev == 0 || curfle->st_ino == 0)
@@ -1167,6 +1202,7 @@ _lookup_curfle_in_device_hash (gftp_request * request, gftp_file * curfle,
 static void
 _free_inode_hash (gpointer key, gpointer value, gpointer user_data)
 {
+//DEBUG_PRINT_FUNC
   g_hash_table_destroy (value);
 }
 
@@ -1174,6 +1210,7 @@ _free_inode_hash (gpointer key, gpointer value, gpointer user_data)
 static void
 _free_device_hash (GHashTable * device_hash)
 {
+//DEBUG_PRINT_FUNC
   g_hash_table_foreach (device_hash, _free_inode_hash, NULL);
   g_hash_table_destroy (device_hash);
 }
@@ -1183,6 +1220,7 @@ int
 gftp_get_all_subdirs (gftp_transfer * transfer,
                       void (*update_func) (gftp_transfer * transfer))
 {
+  DEBUG_PRINT_FUNC
   GList * templist, * lastlist;
   char *oldfromdir, *oldtodir;
   GHashTable * device_hash;
@@ -1335,6 +1373,7 @@ gftp_get_all_subdirs (gftp_transfer * transfer,
 int
 gftp_set_config_options (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   if (request->set_config_options != NULL)
     return (request->set_config_options (request));
   else
@@ -1345,6 +1384,7 @@ gftp_set_config_options (gftp_request * request)
 void
 print_file_list (GList * list)
 {
+  DEBUG_PRINT_FUNC
   gftp_file * tempfle;
   GList * templist;
   char *attribs;
@@ -1387,6 +1427,7 @@ print_file_list (GList * list)
 void
 gftp_swap_socks (gftp_request * dest, gftp_request * source)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (dest != NULL);
   g_return_if_fail (source != NULL);
   g_return_if_fail (dest->protonum == source->protonum);
@@ -1408,6 +1449,7 @@ gftp_swap_socks (gftp_request * dest, gftp_request * source)
 void
 gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 {
+  DEBUG_PRINT_FUNC
   /* Needed for systems that size(float) < size(void *) */
   union { intptr_t i; float f; } maxkbs;
   unsigned long waitusecs;
@@ -1461,6 +1503,7 @@ gftp_calc_kbs (gftp_transfer * tdata, ssize_t num_read)
 static int
 _do_sleep (int sleep_time)
 {
+  DEBUG_PRINT_FUNC
   struct timeval tv;
 
   tv.tv_sec = sleep_time;
@@ -1473,6 +1516,7 @@ _do_sleep (int sleep_time)
 int
 gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
 {
+  DEBUG_PRINT_FUNC
   intptr_t retries, sleep_time;
   gftp_file * tempfle;
   int ret1, ret2;
@@ -1588,6 +1632,7 @@ gftp_get_transfer_status (gftp_transfer * tdata, ssize_t num_read)
 int
 gftp_fd_open (gftp_request * request, const char *pathname, int flags, mode_t mode)
 {
+  DEBUG_PRINT_FUNC
   int fd;
 
   if (mode == 0)
@@ -1621,6 +1666,7 @@ gftp_fd_open (gftp_request * request, const char *pathname, int flags, mode_t mo
 void
 gftp_setup_startup_directory (gftp_request * request, const char *option_name)
 {
+  DEBUG_PRINT_FUNC
   char *startup_directory, *tempstr;
 
   gftp_lookup_request_option (request, option_name, &startup_directory);
@@ -1637,6 +1683,7 @@ gftp_setup_startup_directory (gftp_request * request, const char *option_name)
 char *
 gftp_convert_attributes_from_mode_t (mode_t mode)
 {
+//DEBUG_PRINT_FUNC
   char *str;
 
   str = g_malloc0 (11UL);
@@ -1706,6 +1753,7 @@ gftp_convert_attributes_from_mode_t (mode_t mode)
 mode_t
 gftp_convert_attributes_to_mode_t (char *attribs)
 {
+  DEBUG_PRINT_FUNC
   mode_t mode;
 
   if (attribs[0] == 'd')
@@ -1757,6 +1805,7 @@ gftp_convert_attributes_to_mode_t (char *attribs)
 unsigned int
 gftp_protocol_default_port (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   struct servent serv_struct;
 
   if (r_getservbyname (gftp_protocols[request->protonum].url_prefix, "tcp",

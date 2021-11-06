@@ -44,6 +44,11 @@ AC_ARG_ENABLE(ssl,
               enable_ssl=$enableval, 
               enable_ssl="yes")
 
+AC_ARG_ENABLE(debug,
+              [  --enable-debug      Print debug info to std output],
+              enable_debug=$enableval,
+              enable_debug="no")
+
 AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
 AC_SUBST(PREFIX)
@@ -169,6 +174,10 @@ if test "x$enable_ssl" = "xyes" ; then
 fi
 AC_SUBST(SSL_CFLAGS)
 AC_SUBST(SSL_LIBS)
+
+if test "x$enable_debug" = "xyes" ; then
+	AC_DEFINE(GFTP_DEBUG, 1, [print debug info to std output])
+fi
 
 GETTEXT_PACKAGE=gftp
 AC_SUBST(GETTEXT_PACKAGE)

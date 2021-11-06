@@ -32,6 +32,7 @@ typedef struct fsp_protocol_data_tag
 static void
 fsp_destroy (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
   g_return_if_fail (request->protonum == GFTP_FSP_NUM);
 }
@@ -39,6 +40,7 @@ fsp_destroy (gftp_request * request)
 
 static int fsp_connect (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
   intptr_t network_timeout;
   char * server_version;
@@ -76,6 +78,7 @@ static int fsp_connect (gftp_request * request)
 static void
 fsp_disconnect (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
 
   g_return_if_fail (request != NULL);
@@ -103,6 +106,7 @@ static off_t
 fsp_get_file (gftp_request * request, const char *filename,
                 off_t startsize)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
   struct stat sb;
 
@@ -141,6 +145,7 @@ fsp_get_file (gftp_request * request, const char *filename,
 
 static ssize_t fsp_read_function(gftp_request *request, void *buf, size_t size,int fd)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, -1);
@@ -156,6 +161,7 @@ static ssize_t fsp_read_function(gftp_request *request, void *buf, size_t size,i
 
 static ssize_t fsp_write_function(gftp_request *request, const char *buf, size_t size,int fd)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, -1);
@@ -173,6 +179,7 @@ static int
 fsp_put_file (gftp_request * request, const char *filename,
                 off_t startsize, off_t totalsize)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -221,6 +228,7 @@ fsp_put_file (gftp_request * request, const char *filename,
 static int
 fsp_end_transfer (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -253,6 +261,7 @@ fsp_end_transfer (gftp_request * request)
 static int
 fsp_abort_transfer (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -286,6 +295,7 @@ static int
 fsp_stat_filename (gftp_request * request, const char *filename,
                    mode_t * mode, off_t * filesize)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data * lpd;
   struct stat st;
 
@@ -308,6 +318,7 @@ fsp_stat_filename (gftp_request * request, const char *filename,
 static int
 fsp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
+  //DEBUG_PRINT_FUNC
   fsp_protocol_data *lpd;
   struct FSP_RDENTRY dirent;
   struct FSP_RDENTRY *result;
@@ -362,6 +373,7 @@ fsp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 static int
 fsp_list_files (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data *lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -392,6 +404,7 @@ fsp_list_files (gftp_request * request)
 static off_t 
 fsp_get_file_size (gftp_request * request, const char *filename)
 {
+  DEBUG_PRINT_FUNC
   struct stat st;
   fsp_protocol_data * lpd;
 
@@ -411,6 +424,7 @@ fsp_get_file_size (gftp_request * request, const char *filename)
 static int
 fsp_chdir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data *lpd;
   char *tempstr, *olddir;
 
@@ -460,6 +474,7 @@ fsp_chdir (gftp_request * request, const char *directory)
 static int
 fsp_removedir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data *lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -490,6 +505,7 @@ fsp_removedir (gftp_request * request, const char *directory)
 static int
 fsp_rmfile (gftp_request * request, const char *file)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data *lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -518,6 +534,7 @@ fsp_rmfile (gftp_request * request, const char *file)
 static int
 fsp_makedir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data *lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -548,6 +565,7 @@ static int
 fsp_ren (gftp_request * request, const char *oldname,
 	      const char *newname)
 {
+  DEBUG_PRINT_FUNC
   char *newname1,*newname2;   
   fsp_protocol_data *lpd;
 
@@ -591,11 +609,13 @@ upload. It can not change last mod time of existing files on server.
 void 
 fsp_register_module (void)
 {
+  DEBUG_PRINT_FUNC
 }
 
 int
 fsp_init (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   fsp_protocol_data *lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);

@@ -20,46 +20,47 @@
 
 #include "gftpui.h"
 
-int
-gftpui_common_run_mkdir (gftpui_callback_data * cdata)
+int gftpui_common_run_mkdir (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   return (gftp_make_directory (cdata->request, cdata->input_string));
 }
 
 
-int
-gftpui_common_run_rename (gftpui_callback_data * cdata)
+int gftpui_common_run_rename (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   return (gftp_rename_file (cdata->request, cdata->source_string,
                             cdata->input_string));
 }
 
 
-int
-gftpui_common_run_site (gftpui_callback_data * cdata)
+int gftpui_common_run_site (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
+
   return (gftp_site_cmd (cdata->request, cdata->toggled, cdata->input_string));
 }
 
 
-int
-gftpui_common_run_chdir (gftpui_callback_data * cdata)
+int gftpui_common_run_chdir (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   return (gftp_set_directory (cdata->request, cdata->input_string));
 }
 
 
-int
-gftpui_common_run_chmod (gftpui_callback_data * cdata)
+int gftpui_common_run_chmod (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   return (gftp_chmod (cdata->request, cdata->source_string,
                       strtol (cdata->input_string, NULL, 10)));
 }
 
 
-int
-gftpui_common_run_ls (gftpui_callback_data * cdata)
+int gftpui_common_run_ls (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   int got, matched_filespec, have_dotdot, ret;
   char *sortcol_var, *sortasds_var;
   intptr_t sortcol, sortasds;
@@ -136,6 +137,7 @@ static void
 _gftpui_common_del_purge_cache (gpointer key, gpointer value,
                                 gpointer user_data)
 {
+  DEBUG_PRINT_FUNC
   gftp_delete_cache_entry (NULL, key, 0);
   g_free (key);
 }
@@ -144,6 +146,7 @@ _gftpui_common_del_purge_cache (gpointer key, gpointer value,
 static int
 _gftpui_common_rm_list (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr, description[BUFSIZ];
   gftp_file * tempfle;
   GHashTable * rmhash;
@@ -196,9 +199,9 @@ _gftpui_common_rm_list (gftpui_callback_data * cdata)
 }
 
 
-int
-gftpui_common_run_delete (gftpui_callback_data * cdata)
+int gftpui_common_run_delete (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   if (cdata->files != NULL)
@@ -210,9 +213,9 @@ gftpui_common_run_delete (gftpui_callback_data * cdata)
 }
 
 
-int
-gftpui_common_run_rmdir (gftpui_callback_data * cdata)
+int gftpui_common_run_rmdir (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   if (cdata->files != NULL)
@@ -224,9 +227,9 @@ gftpui_common_run_rmdir (gftpui_callback_data * cdata)
 }
 
 
-int
-gftpui_common_run_connect (gftpui_callback_data * cdata)
+int gftpui_common_run_connect (gftpui_callback_data * cdata)
 { 
+  DEBUG_PRINT_FUNC
   return (gftp_connect (cdata->request));
 }
 

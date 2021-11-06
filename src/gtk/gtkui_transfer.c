@@ -57,6 +57,7 @@ gftpui_start_transfer (gftp_transfer * tdata)
 void
 gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle)
 {
+  DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
   char *text[2];
   gftp_file * fle;
@@ -84,6 +85,7 @@ gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle)
 void
 gftpui_cancel_file_transfer (gftp_transfer * tdata)
 {
+  DEBUG_PRINT_FUNC
   if (tdata->thread_id != NULL)
     pthread_kill (*(pthread_t *) tdata->thread_id, SIGINT);
 
@@ -99,6 +101,7 @@ gftpui_cancel_file_transfer (gftp_transfer * tdata)
 static void
 on_gtk_button_clicked_selectall (GtkButton *button, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   GtkTreeView *treeview  = GTK_TREE_VIEW (data);
   GtkTreeSelection *tsel = gtk_tree_view_get_selection (treeview);
   gtk_tree_selection_select_all (tsel);
@@ -107,6 +110,7 @@ on_gtk_button_clicked_selectall (GtkButton *button, gpointer data)
 static void
 on_gtk_button_clicked_unselectall (GtkButton *button, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   GtkTreeView *treeview  = GTK_TREE_VIEW (data);
   GtkTreeSelection *tsel = gtk_tree_view_get_selection (treeview);
   gtk_tree_selection_unselect_all (tsel);
@@ -117,6 +121,7 @@ static void
 gftp_gtk_set_transfer_action (gftp_transfer * tdata, char * transfer_str,
                               int transfer_action)
 {
+   DEBUG_PRINT_FUNC
    Wg_mutex_lock (&tdata->structmutex);
 
    GtkTreeView      *tree = GTK_TREE_VIEW (tdata->clist);
@@ -148,18 +153,21 @@ gftp_gtk_set_transfer_action (gftp_transfer * tdata, char * transfer_str,
 static void
 on_gtk_button_clicked_overwrite (GtkButton *button, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_gtk_set_transfer_action (data, _("Overwrite"), GFTP_TRANS_ACTION_OVERWRITE);
 }
 
 static void
 on_gtk_button_clicked_resume (GtkButton *button, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_gtk_set_transfer_action (data, _("Resume"), GFTP_TRANS_ACTION_RESUME);
 }
 
 static void
 on_gtk_button_clicked_skip (GtkButton *button, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_gtk_set_transfer_action (data, _("Skip"), GFTP_TRANS_ACTION_SKIP);
 }
 
@@ -169,6 +177,7 @@ on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
                                     gint response,
                                     gpointer user_data)
 {
+  DEBUG_PRINT_FUNC
   gftp_transfer * tdata = (gftp_transfer *) user_data;
 
   /* click on OK */
@@ -213,6 +222,7 @@ on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
 void
 gftpui_ask_transfer (gftp_transfer * tdata)
 {
+  DEBUG_PRINT_FUNC
   char *add_data[4] = { NULL, NULL, NULL, NULL };
   char tempstr[50], temp1str[50], *pos;
   GtkWidget * dialog, * tempwid, * scroll, * hbox, *main_vbox;

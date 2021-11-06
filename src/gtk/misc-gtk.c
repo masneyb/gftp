@@ -149,6 +149,7 @@ ftp_log (gftp_logging_level level, gftp_request * request,
         }
     }
 
+  DEBUG_MSG(logstr)
   if (free_logstr)
     g_free (logstr);
 }

@@ -21,9 +21,9 @@
 
 static int num_transfers_in_progress = 0;
 
-int
-ftp_list_files (gftp_window_data * wdata)
+int ftp_list_files (gftp_window_data * wdata)
 {
+  DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata;
 
   gtk_label_set_text (GTK_LABEL (wdata->hoststxt), _("Receiving file names..."));
@@ -57,9 +57,9 @@ ftp_list_files (gftp_window_data * wdata)
 }
 
 
-int
-ftp_connect (gftp_window_data * wdata, gftp_request * request)
+int ftp_connect (gftp_window_data * wdata, gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   if (wdata->request == request)
     gtk_label_set_text (GTK_LABEL (wdata->hoststxt), _("Connecting..."));
 
@@ -67,23 +67,23 @@ ftp_connect (gftp_window_data * wdata, gftp_request * request)
 }
 
 
-void 
-get_files (gpointer data)
+void  get_files (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   transfer_window_files (&window2, &window1);
 }
 
 
-void
-put_files (gpointer data)
+void put_files (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   transfer_window_files (&window1, &window2);
 }
 
 
-void
-transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
+void transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
 {
+  DEBUG_PRINT_FUNC
   gftp_file * tempfle, * newfle;
   GList * templist, * igl;
   gftp_transfer * transfer;
@@ -170,6 +170,7 @@ transfer_window_files (gftp_window_data * fromwdata, gftp_window_data * towdata)
 static int
 gftpui_gtk_tdata_connect (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   gftp_transfer * tdata;
   int ret;
 
@@ -196,6 +197,7 @@ gftpui_gtk_tdata_connect (gftpui_callback_data * cdata)
 static void
 gftpui_gtk_tdata_disconnect (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   gftp_transfer * tdata;
 
   tdata = cdata->user_data;
@@ -213,6 +215,7 @@ gftpui_gtk_tdata_disconnect (gftpui_callback_data * cdata)
 static int
 _gftp_getdir_thread (gftpui_callback_data * cdata)
 {
+  DEBUG_PRINT_FUNC
   return (gftp_get_all_subdirs (cdata->user_data, NULL));
 }
 
@@ -222,9 +225,10 @@ progress_timeout(gpointer data)
   return (1);
 }
 
-int
-gftp_gtk_get_subdirs (gftp_transfer * transfer)
+
+int gftp_gtk_get_subdirs (gftp_transfer * transfer)
 {
+  DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata; 
   long numfiles, numdirs;
   guint timeout_num;
@@ -256,9 +260,9 @@ gftp_gtk_get_subdirs (gftp_transfer * transfer)
 }
 
 
-static void
-remove_file (gftp_viewedit_data * ve_proc)
+static void remove_file (gftp_viewedit_data * ve_proc)
 {
+  DEBUG_PRINT_FUNC
   if (ve_proc->remote_filename == NULL)
     return;
 
@@ -272,9 +276,9 @@ remove_file (gftp_viewedit_data * ve_proc)
 }
 
 
-static void
-free_edit_data (gftp_viewedit_data * ve_proc)
+static void free_edit_data (gftp_viewedit_data * ve_proc)
 {
+  DEBUG_PRINT_FUNC
   int i;
 
   if (ve_proc->torequest)
@@ -293,6 +297,7 @@ free_edit_data (gftp_viewedit_data * ve_proc)
 static void
 dont_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   remove_file (ve_proc);
   free_edit_data (ve_proc);
 }
@@ -301,6 +306,7 @@ dont_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 static void
 do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   gftp_transfer * tdata;
   gftp_file * tempfle;
   GList * newfile;
@@ -328,6 +334,7 @@ do_upload (gftp_viewedit_data * ve_proc, gftp_dialog_data * ddata)
 static int
 _check_viewedit_process_status (gftp_viewedit_data * ve_proc, int ret)
 {
+  DEBUG_PRINT_FUNC
   int procret;
 
   if (WIFEXITED (ret))
@@ -362,6 +369,7 @@ _check_viewedit_process_status (gftp_viewedit_data * ve_proc, int ret)
 static int
 _prompt_to_upload_edited_file (gftp_viewedit_data * ve_proc)
 {
+  DEBUG_PRINT_FUNC
   struct stat st;
   char *str;
 
@@ -397,6 +405,7 @@ _prompt_to_upload_edited_file (gftp_viewedit_data * ve_proc)
 static void
 do_check_done_process (pid_t pid, int ret)
 {
+  DEBUG_PRINT_FUNC
   gftp_viewedit_data * ve_proc;
   GList * curdata, *deldata;
   int ok;
@@ -439,6 +448,7 @@ do_check_done_process (pid_t pid, int ret)
 static void
 check_done_process (void)
 {
+  DEBUG_PRINT_FUNC
   pid_t pid;
   int ret;
 
@@ -453,6 +463,7 @@ check_done_process (void)
 static void
 on_next_transfer (gftp_transfer * tdata)
 {
+  DEBUG_PRINT_FUNC
   intptr_t refresh_files;
   gftp_file * tempfle;
 
@@ -492,6 +503,7 @@ on_next_transfer (gftp_transfer * tdata)
 static void
 get_trans_password (gftp_request * request, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   gftp_set_password (request, ddata->entry_text);
   request->stopable = 0;
 }
@@ -500,6 +512,7 @@ get_trans_password (gftp_request * request, gftp_dialog_data * ddata)
 static void
 cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   if (tdata->fromreq->stopable == 0)
     return;
 
@@ -510,6 +523,7 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
 static void
 show_transfer (gftp_transfer * tdata)
 {
+  DEBUG_PRINT_FUNC
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
   GdkBitmap * closedir_bitmap, * opendir_bitmap;
   gftpui_common_curtrans_data * transdata;
@@ -585,6 +599,7 @@ show_transfer (gftp_transfer * tdata)
 static void
 transfer_done (GList * node)
 {
+  DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
   gftp_transfer * tdata;
   gftp_file * tempfle;
@@ -656,8 +671,8 @@ transfer_done (GList * node)
 static void *
 _gftpui_transfer_files (void *data)
 {
+  DEBUG_PRINT_FUNC
   int ret;
-
   pthread_detach (pthread_self ());
   ret = gftpui_common_transfer_files (data);
   return (GINT_TO_POINTER(ret));
@@ -667,6 +682,7 @@ _gftpui_transfer_files (void *data)
 static void
 create_transfer (gftp_transfer * tdata)
 {
+  DEBUG_PRINT_FUNC
   if (tdata->fromreq->stopable)
     return;
 
@@ -704,6 +720,7 @@ static void
 _setup_dlstr (gftp_transfer * tdata, gftp_file * fle, char *dlstr,
               size_t dlstr_len)
 {
+  DEBUG_PRINT_FUNC
   int hours, mins, secs, stalled, usesentdescr;
   unsigned long remaining_secs, lkbs;
   char gotstr[50], ofstr[50];
@@ -768,6 +785,7 @@ _setup_dlstr (gftp_transfer * tdata, gftp_file * fle, char *dlstr,
 static void
 update_file_status (gftp_transfer * tdata)
 {
+  DEBUG_PRINT_FUNC
   char totstr[150], winstr[150], dlstr[150];
   unsigned long remaining_secs, lkbs;
   int hours, mins, secs, pcent;
@@ -834,6 +852,7 @@ update_file_status (gftp_transfer * tdata)
 static void
 update_window_transfer_bytes (gftp_window_data * wdata)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr, *temp1str;
 
   if (wdata->request->gotbytes == -1)
@@ -856,6 +875,7 @@ update_window_transfer_bytes (gftp_window_data * wdata)
 gint
 update_downloads (gpointer data)
 {
+  //DEBUG_PRINT_FUNC /* endless loop 1 second */
   intptr_t do_one_transfer_at_a_time, start_transfers;
   GList * templist, * next;
   gftp_transfer * tdata;
@@ -917,6 +937,7 @@ update_downloads (gpointer data)
 void
 start_transfer (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
 
@@ -939,6 +960,7 @@ start_transfer (gpointer data)
 void
 stop_transfer (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
 
@@ -958,6 +980,7 @@ stop_transfer (gpointer data)
 void
 skip_transfer (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
 
@@ -979,6 +1002,7 @@ skip_transfer (gpointer data)
 void
 remove_file_transfer (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
   gftp_file * curfle;
@@ -1007,6 +1031,7 @@ remove_file_transfer (gpointer data)
 void
 move_transfer_up (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   GList * firstentry, * secentry, * lastentry;
   gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
@@ -1067,6 +1092,7 @@ move_transfer_up (gpointer data)
 void
 move_transfer_down (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   GList * firstentry, * secentry, * lastentry;
   gftpui_common_curtrans_data * transdata;
   GtkCTreeNode * node;
