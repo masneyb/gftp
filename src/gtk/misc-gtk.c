@@ -310,7 +310,7 @@ update_window (gftp_window_data * wdata)
                              listinfo == NULL ? "" : listinfo,
                              current_wdata == wdata ? "*" : "",
                              NULL);
-      gtk_label_set_text (GTK_LABEL (wdata->hoststxt), tempstr);
+      gtk_label_set_text (GTK_LABEL (wdata->dirinfo_label), tempstr);
       g_free (listinfo);
       g_free (tempstr);
 
@@ -319,11 +319,11 @@ update_window (gftp_window_data * wdata)
         gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), wdata->request->directory);
       }
     }
-  else if (wdata->hoststxt != NULL)
+  else if (wdata->dirinfo_label != NULL)
     {
       tempstr = g_strconcat (_("Not connected"), 
                              current_wdata == wdata ? "*" : "", NULL);
-      gtk_label_set_text (GTK_LABEL (wdata->hoststxt), tempstr);
+      gtk_label_set_text (GTK_LABEL (wdata->dirinfo_label), tempstr);
       g_free (tempstr);
     }
 

@@ -60,7 +60,7 @@ typedef enum gftp_dialog_button_tag
 typedef struct gftp_window_data_tag
 {
   GtkWidget *dir_combo, /* Entry widget/history for the user to enter  a directory */
-            *hoststxt, 		/* Show which directory we're in */
+            *dirinfo_label,  /* protocol and dir info */
             *listbox; 		/* Our listbox showing the files */
   unsigned int sorted : 1,	/* Is the output sorted? */
                show_selected : 1, /* Show only selected files */

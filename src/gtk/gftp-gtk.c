@@ -1048,9 +1048,9 @@ CreateFTPWindow (gftp_window_data * wdata)
   gftp_lookup_global_option (tempstr, &startup_directory);
   gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), startup_directory);
 
-  wdata->hoststxt = gtk_label_new (NULL);
-  gtkcompat_widget_set_halign_left (wdata->hoststxt);
-  gtk_box_pack_start (GTK_BOX (box), wdata->hoststxt, FALSE, FALSE, 0);
+  wdata->dirinfo_label = gtk_label_new (NULL);
+  gtkcompat_widget_set_halign_left (wdata->dirinfo_label);
+  gtk_box_pack_start (GTK_BOX (box), wdata->dirinfo_label, FALSE, FALSE, 0);
 
   scroll_list = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_list),

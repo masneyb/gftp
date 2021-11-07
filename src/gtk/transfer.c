@@ -26,7 +26,7 @@ int ftp_list_files (gftp_window_data * wdata)
   DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata;
 
-  gtk_label_set_text (GTK_LABEL (wdata->hoststxt), _("Receiving file names..."));
+  gtk_label_set_text (GTK_LABEL (wdata->dirinfo_label), _("Receiving file names..."));
 
   cdata = g_malloc0 (sizeof (*cdata));
   cdata->request = wdata->request;
@@ -61,7 +61,7 @@ int ftp_connect (gftp_window_data * wdata, gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   if (wdata->request == request)
-    gtk_label_set_text (GTK_LABEL (wdata->hoststxt), _("Connecting..."));
+    gtk_label_set_text (GTK_LABEL (wdata->dirinfo_label), _("Connecting..."));
 
   return (gftpui_common_cmd_open (wdata, request, NULL, NULL, NULL));
 }
@@ -865,7 +865,7 @@ update_window_transfer_bytes (gftp_window_data * wdata)
       tempstr = insert_commas (wdata->request->gotbytes, NULL, 0);
       temp1str = g_strdup_printf (_("Retrieving file names...%s bytes"), 
                                   tempstr);
-      gtk_label_set_text (GTK_LABEL (wdata->hoststxt), temp1str);
+      gtk_label_set_text (GTK_LABEL (wdata->dirinfo_label), temp1str);
       g_free (tempstr);
       g_free (temp1str);
     }
