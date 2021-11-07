@@ -245,196 +245,144 @@ gftp_gtk_refresh (gftp_window_data * wdata)
 }
 
 
-static void
-navi_up_directory(gftp_window_data * wdata)
+static void navi_up_directory (gftp_window_data * wdata)
 {
-  char *directory;
-  if(!gtk_widget_is_focus(window1.listbox) && !gtk_widget_is_focus(window2.listbox))
-  {
-     ftp_log (gftp_logging_error, NULL, _("Set the focus on a list window\n"));
-     return;
-  }
-
-  if(gtk_widget_is_focus(window1.listbox)) {
-     wdata = &window1;
-  } else {
-     if (!GFTP_IS_CONNECTED (window2.request))
-         return;
-     wdata = &window2;
-  }
-
-  directory = gftp_build_path (wdata->request, wdata->request->directory,
-                               "..", NULL);
-  gftpui_run_chdir (wdata, directory);
-  g_free (directory);
+  char * dir;
+  dir = gftp_build_path (wdata->request, wdata->request->directory, "..", NULL);
+  gftpui_run_chdir (wdata, dir);
+  g_free (dir);
 }
 
 // ===
-static void
-on_local_openurl_dialog(void) {
+static void on_local_openurl_dialog (void) {
   openurl_dialog(&window1);
 }
-static void
-on_remote_openurl_dialog(void) {
+static void on_remote_openurl_dialog (void) {
   openurl_dialog(&window2);
 }
 
-static void
-on_local_gftpui_disconnect(void) {
+static void on_local_gftpui_disconnect (void) {
   gftpui_disconnect(&window1);
 }
-static void
-on_remote_gftpui_disconnect(void) {
+static void on_remote_gftpui_disconnect (void) {
   gftpui_disconnect(&window2);
 }
 
-static void
-on_local_change_filespec(void) {
+static void on_local_change_filespec (void) {
   change_filespec(&window1);
 }
-static void
-on_remote_change_filespec(void) {
+static void on_remote_change_filespec (void) {
   change_filespec(&window2);
 }
 
-static void
-on_local_show_selected(void) {
+static void on_local_show_selected (void) {
   show_selected(&window1);
 }
-static void
-on_remote_show_selected(void) {
+static void on_remote_show_selected (void) {
   show_selected(&window2);
 }
 
-static void
-on_local_navi_up_directory(void) {
+static void on_local_navi_up_directory (void) {
   navi_up_directory(&window1);
 }
-static void
-on_remote_navi_up_directory(void) {
+static void on_remote_navi_up_directory (void) {
   navi_up_directory(&window2);
 }
 
-static void
-on_local_selectall(void) {
+static void on_local_selectall (void) {
   window1.show_selected = 0;
   listbox_select_all(&window1);
 }
-static void
-on_remote_selectall(void) {
+static void on_remote_selectall (void) {
   window2.show_selected = 0;
   listbox_select_all(&window2);
 }
 
-static void
-on_local_selectallfiles(void) {
+static void on_local_selectallfiles (void) {
   window1.show_selected = 0;
   listbox_select_all_files(&window1);
 }
-static void
-on_remote_selectallfiles(void) {
+static void on_remote_selectallfiles (void) {
   window2.show_selected = 0;
   listbox_select_all_files(&window2);
 }
 
-static void
-on_local_deselectall(void) {
+static void on_local_deselectall (void) {
   window1.show_selected = 0;
   listbox_deselect_all(&window1);
 }
-static void
-on_remote_deselectall(void) {
+static void on_remote_deselectall (void) {
   window2.show_selected = 0;
   listbox_deselect_all(&window2);
 }
 
-static void
-on_local_save_directory_listing(void) {
+static void on_local_save_directory_listing (void) {
   save_directory_listing(&window1);
 }
-static void
-on_remote_save_directory_listing(void) {
+static void on_remote_save_directory_listing (void) {
   save_directory_listing(&window2);
 }
 
-static void
-on_local_gftpui_site_dialog(void) {
+static void on_local_gftpui_site_dialog (void) {
   gftpui_site_dialog(&window1);
 }
-static void
-on_remote_gftpui_site_dialog(void) {
+static void on_remote_gftpui_site_dialog (void) {
   gftpui_site_dialog(&window2);
 }
 
-static void
-on_local_gftpui_chdir_dialog(void) {
+static void on_local_gftpui_chdir_dialog (void) {
   gftpui_chdir_dialog(&window1);
 }
-static void
-on_remote_gftpui_chdir_dialog(void) {
+static void on_remote_gftpui_chdir_dialog (void) {
   gftpui_chdir_dialog(&window2);
 }
 
-static void
-on_local_chmod_dialog(void) {
+static void on_local_chmod_dialog (void) {
   chmod_dialog(&window1);
 }
-static void
-on_remote_chmod_dialog(void) {
+static void on_remote_chmod_dialog (void) {
   chmod_dialog(&window2);
 }
 
-static void
-on_local_gftpui_mkdir_dialog(void) {
+static void on_local_gftpui_mkdir_dialog (void) {
   gftpui_mkdir_dialog(&window1);
 }
-static void
-on_remote_gftpui_mkdir_dialog(void) {
+static void on_remote_gftpui_mkdir_dialog (void) {
   gftpui_mkdir_dialog(&window2);
 }
 
-static void
-on_local_gftpui_rename_dialog(void) {
+static void on_local_gftpui_rename_dialog (void) {
   gftpui_rename_dialog(&window1);
 }
-static void
-on_remote_gftpui_rename_dialog(void) {
+static void on_remote_gftpui_rename_dialog (void) {
   gftpui_rename_dialog(&window2);
 }
 
-static void
-on_local_delete_dialog(void) {
+static void on_local_delete_dialog (void) {
   delete_dialog(&window1);
 }
-static void
-on_remote_delete_dialog(void) {
+static void on_remote_delete_dialog (void) {
   delete_dialog(&window2);
 }
 
-static void
-on_local_edit_dialog(void) {
+static void on_local_edit_dialog(void) {
   edit_dialog(&window1);
 }
-static void
-on_remote_edit_dialog(void) {
+static void on_remote_edit_dialog(void) {
   edit_dialog(&window2);
 }
 
-static void
-on_local_view_dialog(void) {
+static void on_local_view_dialog (void) {
   view_dialog(&window1);
 }
-static void
-on_remote_view_dialog(void) {
+static void on_remote_view_dialog (void) {
   view_dialog(&window2);
 }
 
-static void
-on_local_gftp_gtk_refresh(void) {
+static void on_local_gftp_gtk_refresh (void) {
   gftp_gtk_refresh(&window1);
 }
-static void
-on_remote_gftp_gtk_refresh(void) {
+static void on_remote_gftp_gtk_refresh (void) {
   gftp_gtk_refresh(&window2);
 }
 // ===
@@ -461,7 +409,7 @@ CreateMenus (GtkWidget * parent)
     { "LocalDisconnect",      "gtk-close",           N_("D_isconnect"),       "<control><shift>I", NULL, G_CALLBACK(on_local_gftpui_disconnect) },
     { "LocalChangeFilespec",  NULL,                  N_("Change _Filespec"),  "<control><shift>F", NULL, G_CALLBACK(on_local_change_filespec) },
     { "LocalShowSelected",    NULL,                  N_("_Show selected"),    NULL,                NULL, G_CALLBACK(on_local_show_selected) },
-    { "LocalNavigateUp",      NULL,                  N_("Navigate _Up"),      "<alt>Up",           NULL, G_CALLBACK(on_local_navi_up_directory) },
+    { "LocalNavigateUp",      NULL,                  N_("Navigate _Up"),      "<ctrl><alt>Up",     NULL, G_CALLBACK(on_local_navi_up_directory) },
     { "LocalSelectAll",       NULL,                  N_("Select _All"),       "<control><shift>A", NULL, G_CALLBACK(on_local_selectall) },
     { "LocalSelectAllFiles",  NULL,                  N_("Select All Files"),  NULL,                NULL, G_CALLBACK(on_local_selectallfiles) },
     { "LocalDeselectAll",     NULL,                  N_("Deselect All"),      NULL,                NULL, G_CALLBACK(on_local_deselectall) },
