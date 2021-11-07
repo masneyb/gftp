@@ -616,7 +616,8 @@ gftp_parse_url (gftp_request * request, const char *url)
   char *pos, *endpos, *default_protocol, *new_url;
   gftp_logging_func logging_function;
   const char *clear_pos;
-  int i, ret;
+  int i, ret, is_directory;
+  struct stat statbuf;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (url != NULL, GFTP_EFATAL);
@@ -694,8 +695,20 @@ gftp_parse_url (gftp_request * request, const char *url)
 
   if ((endpos = strchr (pos, '/')) != NULL)
     {
-      gftp_set_directory (request, endpos);
-      *endpos = '\0';
+      if (stat (endpos, &statbuf) == -1) {
+         is_directory = 0;
+      } else {
+         is_directory = S_ISDIR(statbuf.st_mode);
+      }
+      if (is_directory) {
+         gftp_set_directory (request, endpos);
+         *endpos = '\0';
+      } else {
+         if (request->directory) {
+            g_free (request->directory);
+         }
+         request->directory = g_strdup (endpos);
+      }
     }
 
   if (request->parse_url != NULL)
