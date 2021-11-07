@@ -663,15 +663,12 @@ int fsp_readdir_r(FSP_DIR *dir,struct dirent *entry, struct dirent **result)
     entry->d_ino = 10;
 #endif    
     entry->d_reclen = fentry.reclen;
-    strncpy(entry->d_name,fentry.name,MAXNAMLEN);
+    snprintf (entry->d_name, sizeof(entry->d_name), "%s", fentry.name);
 
-    if (fentry.namlen >= MAXNAMLEN)
-    {
-        entry->d_name[MAXNAMLEN] = '\0';
+    if (fentry.namlen >= MAXNAMLEN) {
 #if defined(HAVE_DIRENT_NAMLEN) || defined(_DIRENT_HAVE_D_NAMLEN) // configure || glibc
         entry->d_namlen = MAXNAMLEN;
-    } else
-    {
+    } else {
        entry->d_namlen = fentry.namlen;
 #endif
     }
