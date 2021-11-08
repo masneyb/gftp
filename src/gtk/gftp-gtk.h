@@ -66,13 +66,19 @@ typedef struct gftp_window_data_tag
   GtkWidget *dir_combo, /* Entry widget/history for the user to enter  a directory */
             *dirinfo_label,  /* protocol and dir info */
             *listbox; 		/* Our listbox showing the files */
+  GtkWidget *btnUp,         /* File list toolbar buttons */
+            *btnRefresh,
+            *btnNewFolder,
+            *btnPrev,
+            *btnNext;
   unsigned int sorted : 1,	/* Is the output sorted? */
                show_selected : 1, /* Show only selected files */
                *histlen;	/* Pointer to length of history */
   char *filespec;		/* Filespec for the listbox */
   gftp_request * request;	/* The host that we are connected to */
   GList * files,		/* Files in the listbox */
-        ** history;		/* History of the directories */
+        * dirhistory,           /* Directory browsing history */
+        ** history;		/* History of the user input directories */
   GtkUIManager *ifactory; 	/* This is for the menus that will
                                    come up when you right click */
   pthread_t tid;		/* Thread for the stop button */
@@ -249,6 +255,8 @@ void gftpui_rename_dialog			( gpointer data );
 
 void gftpui_site_dialog 			( gpointer data );
 
+void gftpui_update_history_buttons              (gftp_window_data * wdata);
+
 int gftpui_run_chdir 				( gpointer uidata,
 						  char *directory );
 
@@ -365,6 +373,8 @@ void transfer_window_files 			( gftp_window_data * fromwdata,
 						  gftp_window_data * towdata );
 
 int gftp_gtk_get_subdirs 			( gftp_transfer * transfer );
+
+void gftp_free_dirhistory                       ( gftp_window_data *wdata);
 
 void *do_getdir_thread 				( void * data );
 

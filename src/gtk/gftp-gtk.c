@@ -249,6 +249,24 @@ tb_openurl_dialog (gpointer data)
 }
 
 
+void gftp_free_dirhistory(gftp_window_data * wdata)
+{
+   GList *node,*head;
+   if (wdata->dirhistory)
+   {
+     head = g_list_first (wdata->dirhistory);
+     for(node=g_list_last(wdata->dirhistory); node; node=node->prev)
+//     {
+        g_free ((char*)(node->data));
+//        head = g_list_delete_link (head, node);
+//     }
+     g_list_free(head);
+     wdata->dirhistory=NULL;
+   }
+   gftpui_update_history_buttons (wdata);
+}
+
+
 static void
 gftp_gtk_refresh (gftp_window_data * wdata)
 {
@@ -400,6 +418,30 @@ static void on_remote_gftp_gtk_refresh (void) {
   gftp_gtk_refresh(&window2);
 }
 // ===
+
+static void gftp_gtk_previous_dir (GtkButton * button, gftp_window_data * wdata)
+{ // GtkButton clicked callback
+   if (!wdata || !GFTP_IS_CONNECTED (wdata->request)) {
+      return;
+   }
+   if (wdata->dirhistory && wdata->dirhistory->prev && wdata->dirhistory->prev->data)
+   {
+      wdata->dirhistory = wdata->dirhistory->prev;
+      gftpui_run_chdir (wdata, (char *)(wdata->dirhistory->data));
+   }
+}
+
+static void gftp_gtk_next_dir(GtkButton * button, gftp_window_data * wdata)
+{ // GtkButton clicked callback
+   if (!wdata || !GFTP_IS_CONNECTED (wdata->request)) {
+      return;
+   }
+   if(wdata->dirhistory && wdata->dirhistory->next && wdata->dirhistory->next->data)
+   {
+      wdata->dirhistory = wdata->dirhistory->next;
+      gftpui_run_chdir (wdata, (char *)(wdata->dirhistory->data));
+   }
+}
 
 
 static GtkWidget *
@@ -991,7 +1033,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   };
   char tempstr[50], *startup_directory;
   GtkWidget *box, *scroll_list, *parent;
-  GtkWidget *buttonsbox, *btnUp,*btnRefresh, *btnNewFolder;
+  GtkWidget *buttonsbox;
   intptr_t listbox_file_height, colwidth;
   GtkWidget *dir_combo_entry;
 
@@ -1018,21 +1060,27 @@ CreateFTPWindow (gftp_window_data * wdata)
   wdata->dir_combo = gtk_combo_box_text_new_with_entry ();
   gtk_box_pack_start (GTK_BOX (buttonsbox), wdata->dir_combo, TRUE, TRUE, 0);
 
-  btnUp = gftp_gtk_create_btn(buttonsbox, GTK_STOCK_GO_UP,
+  wdata->btnUp = gftp_gtk_create_btn(buttonsbox, GTK_STOCK_GO_UP,
                               GTK_ICON_SIZE_SMALL_TOOLBAR, _("Navigate up"));
-  btnRefresh = gftp_gtk_create_btn(buttonsbox, GTK_STOCK_REFRESH,
+  wdata->btnRefresh = gftp_gtk_create_btn(buttonsbox, GTK_STOCK_REFRESH,
                                    GTK_ICON_SIZE_SMALL_TOOLBAR,_("Refresh"));
-  btnNewFolder = gftp_gtk_create_btn(buttonsbox, GTK_STOCK_OPEN,
+  wdata->btnNewFolder = gftp_gtk_create_btn(buttonsbox, GTK_STOCK_OPEN,
                                      GTK_ICON_SIZE_SMALL_TOOLBAR,_("New Folder"));
+  wdata->btnPrev = gftp_gtk_create_btn (buttonsbox, GTK_STOCK_GO_BACK,
+                             GTK_ICON_SIZE_SMALL_TOOLBAR,_("Previous Folder"));
+  wdata->btnNext = gftp_gtk_create_btn (buttonsbox, GTK_STOCK_GO_FORWARD,
+                             GTK_ICON_SIZE_SMALL_TOOLBAR,_("Next Folder"));
   if (strcmp(wdata->prefix_col_str,"local") == 0) {
-    g_signal_connect (btnUp, "clicked", G_CALLBACK (on_local_navi_up_directory), NULL);
-    g_signal_connect (btnRefresh, "clicked", G_CALLBACK (on_local_gftp_gtk_refresh), NULL);
-    g_signal_connect (btnNewFolder, "clicked", G_CALLBACK (on_local_gftpui_mkdir_dialog), NULL);
+    g_signal_connect (wdata->btnUp, "clicked", G_CALLBACK (on_local_navi_up_directory), NULL);
+    g_signal_connect (wdata->btnRefresh, "clicked", G_CALLBACK (on_local_gftp_gtk_refresh), NULL);
+    g_signal_connect (wdata->btnNewFolder, "clicked", G_CALLBACK (on_local_gftpui_mkdir_dialog), NULL);
   } else {
-    g_signal_connect (btnUp, "clicked", G_CALLBACK (on_remote_navi_up_directory), NULL);
-    g_signal_connect (btnRefresh, "clicked", G_CALLBACK (on_remote_gftp_gtk_refresh), NULL);
-    g_signal_connect (btnNewFolder, "clicked", G_CALLBACK (on_remote_gftpui_mkdir_dialog), NULL);
+    g_signal_connect (wdata->btnUp, "clicked", G_CALLBACK (on_remote_navi_up_directory), NULL);
+    g_signal_connect (wdata->btnRefresh, "clicked", G_CALLBACK (on_remote_gftp_gtk_refresh), NULL);
+    g_signal_connect (wdata->btnNewFolder, "clicked", G_CALLBACK (on_remote_gftpui_mkdir_dialog), NULL);
   }
+  g_signal_connect (wdata->btnPrev, "clicked", G_CALLBACK (gftp_gtk_previous_dir), (gpointer) wdata);
+  g_signal_connect (wdata->btnNext, "clicked", G_CALLBACK (gftp_gtk_next_dir), (gpointer) wdata);
 
   dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->dir_combo)));
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
