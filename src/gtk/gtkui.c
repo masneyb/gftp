@@ -65,13 +65,13 @@ gftpui_refresh (void *uidata, int clear_cache_entry)
 
   if (clear_cache_entry)
     gftp_delete_cache_entry (wdata->request, NULL, 0);
-
+/*
   if (check_reconnect (wdata) < 0)
     {
       wdata->request->refreshing = 0;
       return;
     }
-
+*/
   remove_files_window (wdata);
 
    gftp_gtk_list_files (wdata);
