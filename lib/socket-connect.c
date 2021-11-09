@@ -92,11 +92,13 @@ lookup_host (gftp_request *request, char *service,
 
 
 static int
-gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
-                                      char *proxy_hostname,
-                                      unsigned int proxy_port)
+gftp_do_connect_server (gftp_request * request, char *service,
+                        char *proxy_hostname,
+                        unsigned int proxy_port,
+                        struct addrinfo * connect_data)
 {
   struct addrinfo *res, *hostp, *current_hostp;
+  int free_hostp = 0;
   char ipstr[128], * hostname;
   int last_errno = 0;
   unsigned int port;
@@ -105,8 +107,14 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
   timeout.tv_sec = 30; /* connection timeout in seconds */
   timeout.tv_usec = 0;
 
-  hostp = lookup_host (request, service, proxy_hostname,
-                                        proxy_port);
+  if (request->use_proxy && connect_data) {
+     // connecting to proxy, use already retrieved data
+     hostp = connect_data;
+  } else {
+     hostp = lookup_host (request, service, proxy_hostname, proxy_port);
+     free_hostp = 1;
+  }
+
   if (hostp == NULL)
     return (GFTP_EFATAL);
 
@@ -158,9 +166,9 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
 
   if (res == NULL)
     {
-      if (hostp != NULL)
+      if (hostp && free_hostp) {
         freeaddrinfo (hostp);
-
+      }
       switch (last_errno)
       {
          case EINVAL:       /* Invalid argument */
@@ -180,7 +188,9 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
   request->logging_function (gftp_logging_misc, request,
                              _("Connected to %s:%d\n"), res[0].ai_canonname,
                              port);
-
+  if (hostp && free_hostp) {
+     freeaddrinfo (hostp);
+  }
   return (sock);
 }
 
@@ -188,28 +198,44 @@ gftp_connect_server_with_getaddrinfo (gftp_request * request, char *service,
 
 static int
 gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname, 
-                 unsigned int proxy_port, void **connect_data)
+                 unsigned int proxy_port, struct addrinfo **connect_data)
 {
   gftp_config_list_vars * proxy_hosts;
   gftp_proxy_hosts * hostname;
   size_t hostlen, domlen;
-  unsigned char addy[4] = { 0, 0, 0, 0 };
+  unsigned int addy[4] = { 0, 0, 0, 0 };
   GList * templist;
   gint32 netaddr;
   char *pos;
+  void * remote_addr;      //--hack
+  size_t remote_addr_len;  //--hack
+  struct addrinfo *current_hostp; //--hack
 
   gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
 
-  if (proxy_hostname == NULL || *proxy_hostname == '\0')
-    return (0);
-  else if (proxy_hosts->list == NULL)
-    return (proxy_hostname != NULL && 
-            *proxy_hostname != '\0');
+  if (!proxy_hostname || !*proxy_hostname) {
+    return 0;
+  }
+  if (proxy_hosts->list == NULL) {
+    return 0;
+  }
 
+  request->use_proxy = 1;
   *connect_data = lookup_host (request, service,
-                                                proxy_hostname, proxy_port);
+                               proxy_hostname, proxy_port);
+  request->use_proxy = 0;
+
   if (*connect_data == NULL)
     return (GFTP_EFATAL);
+
+  //--hack
+  current_hostp = *connect_data;
+  //unsigned long raddr = ((struct sockaddr_in *) current_hostp->ai_addr)->sin_addr.s_addr;
+  remote_addr_len = current_hostp->ai_addrlen;
+  remote_addr = g_malloc0 (remote_addr_len);
+  memcpy (remote_addr, &((struct sockaddr_in *) current_hostp->ai_addr)->sin_addr,
+          remote_addr_len);
+  //--hack_end
 
   templist = proxy_hosts->list;
   while (templist != NULL)
@@ -222,25 +248,29 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
            if (hostlen > domlen)
              {
                 pos = request->hostname + hostlen - domlen;
-                if (strcmp (hostname->domain, pos) == 0)
+                if (strcmp (hostname->domain, pos) == 0) {
+                  g_free (remote_addr);
                   return (0);
+                }
              }
         }
 
       if (hostname->ipv4_network_address != 0)
         {
-          memcpy (addy, request->remote_addr, sizeof (*addy));
-          netaddr =
-            (((addy[0] & 0xff) << 24) | ((addy[1] & 0xff) << 16) |
-             ((addy[2] & 0xff) << 8) | (addy[3] & 0xff)) & 
-             hostname->ipv4_netmask;
-          if (netaddr == hostname->ipv4_network_address)
-            return (0);
+          memcpy (addy, remote_addr, sizeof (*addy));
+          netaddr = (((addy[0] & 0xff) << 24) | ((addy[1] & 0xff) << 16) |
+                     ((addy[2] & 0xff) << 8)  | (addy[3]  & 0xff))
+                    & hostname->ipv4_netmask;
+          if (netaddr == hostname->ipv4_network_address) {
+            g_free (remote_addr);
+            return 0;
+          }
         }
       templist = templist->next;
     }
 
-  return (proxy_hostname != NULL && *proxy_hostname != '\0');
+  g_free (remote_addr);
+  return 1;
 }
 
 
@@ -248,18 +278,20 @@ int
 gftp_connect_server (gftp_request * request, char *service,
                      char *proxy_hostname, unsigned int proxy_port)
 {
-  void *connect_data;
+  struct addrinfo * connect_data = NULL;
   int sock, ret;
 
-  if ((ret = gftp_need_proxy (request, service, proxy_hostname,
-                              proxy_port, &connect_data)) < 0)
-    return (ret);
+  ret = gftp_need_proxy (request, service, proxy_hostname, proxy_port, &connect_data);
+  if (ret < 0) {
+     return (ret);
+  }
   request->use_proxy = ret;
 
-  /* FIXME - pass connect_data to these functions. This is to bypass a
-     second DNS lookup */
-  sock = gftp_connect_server_with_getaddrinfo (request, service, proxy_hostname,
-                                               proxy_port);
+  sock = gftp_do_connect_server (request, service, proxy_hostname,
+                                 proxy_port, connect_data);
+  if (connect_data) {
+     freeaddrinfo (connect_data);
+  }
   if (sock < 0)
     return (sock);
 
