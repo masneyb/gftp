@@ -218,6 +218,9 @@ ftp_proxy_account=
 # can you type in %pu
 proxy_config=
 
+# You must specify a FTP proxy hostname, port and probably other details
+ftp_use_proxy=0
+
 # LIST -a: ask server to list hidden files. This may break some FTP servers.
 # Some servers list hidden files by default
 ftp_list_a=0
@@ -267,10 +270,6 @@ ssh_extra_params=
 
 # Require a username/password for SSH connections
 ssh_need_userpass=1
-
-# This section specifies which hosts are on the local subnet and won't need to
-# go out the proxy server (if available). Syntax: dont_use_proxy=.domain or
-# dont_use_proxy=network number/netmask
 
 # ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note:
 # All arguments except the file extension are optional

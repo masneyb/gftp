@@ -104,11 +104,17 @@ gftp_do_connect_server (gftp_request * request, char *service,
   struct timeval timeout;
   timeout.tv_sec = 30; /* connection timeout in seconds */
   timeout.tv_usec = 0;
+  intptr_t use_proxy;
 
-  request->use_proxy = 0;
-  //gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
-  if (proxy_hostname && *proxy_hostname) {
-     request->use_proxy = 1;
+  gftp_lookup_global_option ("ftp_use_proxy", &use_proxy);
+  request->use_proxy = use_proxy;
+
+  if (use_proxy) {
+     if (!proxy_hostname || !*proxy_hostname) {
+        request->logging_function (gftp_logging_error, request,
+                                   _("FTP Proxy is enabled but no proxy server has been specified\n"));
+        return GFTP_EFATAL;
+     }
   }
 
   hostp = lookup_host (request, service, proxy_hostname, proxy_port);

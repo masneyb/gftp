@@ -64,6 +64,11 @@ static gftp_config_vars config_vars[] =
    N_("This specifies how your proxy server expects us to log in. You can specify a 2 character replacement string prefixed by a % that will be replaced with the proper data. The first character can be either p for proxy or h for the host of the FTP server. The second character can be u (user), p (pass), h (host), o (port) or a (account). For example, to specify the proxy user, you can you type in %pu"), 
    GFTP_PORT_ALL, NULL},
 
+  {"ftp_use_proxy", N_("Use FTP proxy server"),
+   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL,
+   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
+   N_("You must specify a FTP proxy hostname, port and probably other details"),
+   GFTP_PORT_ALL, NULL},
   {"ftp_list_a", N_("LIST -a: ask server to list hidden files"),
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL,
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
