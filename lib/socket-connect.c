@@ -200,23 +200,9 @@ static int
 gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname, 
                  unsigned int proxy_port, struct addrinfo **connect_data)
 {
-  gftp_config_list_vars * proxy_hosts;
-  gftp_proxy_hosts * hostname;
-  size_t hostlen, domlen;
-  unsigned int addy[4] = { 0, 0, 0, 0 };
-  GList * templist;
-  gint32 netaddr;
-  char *pos;
-  void * remote_addr;      //--hack
-  size_t remote_addr_len;  //--hack
-  struct addrinfo *current_hostp; //--hack
-
-  gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
+  //gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
 
   if (!proxy_hostname || !*proxy_hostname) {
-    return 0;
-  }
-  if (proxy_hosts->list == NULL) {
     return 0;
   }
 
@@ -228,48 +214,6 @@ gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname,
   if (*connect_data == NULL)
     return (GFTP_EFATAL);
 
-  //--hack
-  current_hostp = *connect_data;
-  //unsigned long raddr = ((struct sockaddr_in *) current_hostp->ai_addr)->sin_addr.s_addr;
-  remote_addr_len = current_hostp->ai_addrlen;
-  remote_addr = g_malloc0 (remote_addr_len);
-  memcpy (remote_addr, &((struct sockaddr_in *) current_hostp->ai_addr)->sin_addr,
-          remote_addr_len);
-  //--hack_end
-
-  templist = proxy_hosts->list;
-  while (templist != NULL)
-    {
-      hostname = templist->data;
-      if (hostname->domain != NULL)
-        {
-           hostlen = strlen (request->hostname);
-           domlen = strlen (hostname->domain);
-           if (hostlen > domlen)
-             {
-                pos = request->hostname + hostlen - domlen;
-                if (strcmp (hostname->domain, pos) == 0) {
-                  g_free (remote_addr);
-                  return (0);
-                }
-             }
-        }
-
-      if (hostname->ipv4_network_address != 0)
-        {
-          memcpy (addy, remote_addr, sizeof (*addy));
-          netaddr = (((addy[0] & 0xff) << 24) | ((addy[1] & 0xff) << 16) |
-                     ((addy[2] & 0xff) << 8)  | (addy[3]  & 0xff))
-                    & hostname->ipv4_netmask;
-          if (netaddr == hostname->ipv4_network_address) {
-            g_free (remote_addr);
-            return 0;
-          }
-        }
-      templist = templist->next;
-    }
-
-  g_free (remote_addr);
   return 1;
 }
 

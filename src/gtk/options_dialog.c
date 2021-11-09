@@ -18,7 +18,6 @@
 /*****************************************************************************/
 
 #include "gftp-gtk.h"
-#include "options_dialog_localhosts.c"
 
 static gftp_options_dialog_data * gftp_option_data;
 
@@ -628,19 +627,12 @@ clean_old_changes (GtkWidget * widget, gpointer data)
             }
         }
     }
-
-  if (new_proxy_hosts != NULL)
-    {
-      gftp_free_proxy_hosts (new_proxy_hosts);
-      new_proxy_hosts = NULL;
-    }
 }
 
 
 static void
 apply_changes (GtkWidget * widget, gpointer data)
 {
-  gftp_config_list_vars * proxy_hosts;
   gftp_config_vars * cv;
   GList * templist;
   int i;
@@ -662,14 +654,6 @@ apply_changes (GtkWidget * widget, gpointer data)
           gftp_option_types[cv[i].otype].ui_save_function (&cv[i], gftp_option_types[cv[i].otype].user_data);
         }
     }
-
-  gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
-
-  if (proxy_hosts->list != NULL)
-    gftp_free_proxy_hosts (proxy_hosts->list);
-
-  proxy_hosts->list = new_proxy_hosts;
-  new_proxy_hosts = NULL;
   gftpui_show_or_hide_command ();
 }
 
@@ -777,8 +761,6 @@ options_dialog (gpointer data)
           gftp_option_data->last_option = cv[i].otype;
         }
     }
-
-  make_proxy_hosts_tab (gftp_option_data->notebook, gftp_option_data->dialog);
 
   g_signal_connect (G_OBJECT (gftp_option_data->dialog), "response",
                     G_CALLBACK (options_action), NULL);

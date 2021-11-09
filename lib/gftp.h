@@ -268,16 +268,6 @@ struct gftp_file_tag
 };
 
 
-typedef struct gftp_proxy_hosts_tag 
-{
-  /* FIXME - add IPV6 stuff here */
-
-  gint32 ipv4_network_address, 
-         ipv4_netmask;
-  char *domain;
-} gftp_proxy_hosts;
-
-
 /* Note, these numbers must match up to the index number in config_file.c
    in the declaration of gftp_option_types */
 typedef enum 
@@ -738,10 +728,6 @@ void gftp_config_free_options 		( gftp_config_vars * options_vars,
 					  int num_options_vars );
 
 void gftp_bookmarks_destroy 		( gftp_bookmarks_var * bookmarks );
-
-void gftp_free_proxy_hosts 		( GList * proxy_hosts );
-
-GList * gftp_copy_proxy_hosts 		( GList * proxy_hosts );
 
 /* misc.c */
 /*@null@*/ char *insert_commas 		( off_t number, 

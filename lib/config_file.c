@@ -417,60 +417,6 @@ gftp_config_write_str (FILE *fd, void *data)
 
 
 static void *
-gftp_config_read_proxy (char *buf, int line)
-{
-  gftp_proxy_hosts * host;
-  unsigned int nums[4];
-  char *pos;
-
-  host = g_malloc0 (sizeof (*host));
-  if ((pos = strchr (buf, '/')) == NULL)
-    host->domain = g_strdup (buf);
-  else
-    {
-      *pos = '\0';
-      sscanf (buf, "%u.%u.%u.%u", &nums[0], &nums[1], &nums[2], &nums[3]);
-      host->ipv4_network_address = 
-                      nums[0] << 24 | nums[1] << 16 | nums[2] << 8 | nums[3];
-
-      if (strchr (pos + 1, '.') == NULL)
-        host->ipv4_netmask = 0xffffffff << (32 - strtol (pos + 1, NULL, 10));
-      else
-        {
-          sscanf (pos + 1, "%u.%u.%u.%u", &nums[0], &nums[1], &nums[2], 
-                  &nums[3]);
-          host->ipv4_netmask =
-                    nums[0] << 24 | nums[1] << 16 | nums[2] << 8 | nums[3];
-        }
-    }
-
-  return (host);
-}
-
-
-static void
-gftp_config_write_proxy (FILE *fd, void *data)
-{
-  gftp_proxy_hosts * host;
-
-  host = data;
-
-  if (host->domain)
-    fprintf (fd, "%s", host->domain);
-  else
-    fprintf (fd, "%d.%d.%d.%d/%d.%d.%d.%d",
-             host->ipv4_network_address >> 24 & 0xff,
-             host->ipv4_network_address >> 16 & 0xff,
-             host->ipv4_network_address >> 8 & 0xff,
-             host->ipv4_network_address & 0xff,
-             host->ipv4_netmask >> 24 & 0xff,
-             host->ipv4_netmask >> 16 & 0xff,
-             host->ipv4_netmask >> 8 & 0xff, 
-             host->ipv4_netmask & 0xff);
-}
-
-
-static void *
 gftp_config_read_ext (char *buf, int line)
 {
   gftp_file_extensions * tempext;
@@ -498,9 +444,6 @@ gftp_config_write_ext (FILE *fd, void *data)
 
 
 static gftp_config_list_vars gftp_config_list[] = {
-  {"dont_use_proxy",	gftp_config_read_proxy,	gftp_config_write_proxy, 
-   NULL, 0,
-   N_("This section specifies which hosts are on the local subnet and won't need to go out the proxy server (if available). Syntax: dont_use_proxy=.domain or dont_use_proxy=network number/netmask")},
   {"ext",		gftp_config_read_ext,	gftp_config_write_ext,	
    NULL, 0,
    N_("ext=file extenstion:XPM file:Ascii or Binary (A or B):viewer program. Note: All arguments except the file extension are optional")},
@@ -1571,54 +1514,4 @@ gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks)
     }
 }
 
-
-void
-gftp_free_proxy_hosts (GList * proxy_hosts)
-{
-  gftp_proxy_hosts * hosts;
-  GList * templist;
-
-  for (templist = proxy_hosts;
-       templist != NULL; 
-       templist = templist->next)
-    {
-      hosts = templist->data;
-
-      if (hosts->domain)
-        g_free (hosts->domain);
-      g_free (hosts);
-    }
-
-  g_list_free (proxy_hosts);
-}
-
-
-GList *
-gftp_copy_proxy_hosts (GList * proxy_hosts)
-{
-  gftp_proxy_hosts * oldhosts, * newhosts;
-  GList * templist, * new_proxy_hosts;
-
-  new_proxy_hosts = NULL;
-
-  if (proxy_hosts != NULL)
-    {
-      for (templist = proxy_hosts;
-           templist != NULL; 
-           templist = templist->next)
-        {
-          oldhosts = templist->data;
-
-          newhosts = g_malloc0 (sizeof (*newhosts));
-          memcpy (newhosts, oldhosts, sizeof (*newhosts));
-
-          if (oldhosts->domain)
-            newhosts->domain = g_strdup (oldhosts->domain);
-
-          new_proxy_hosts = g_list_append (new_proxy_hosts, newhosts);
-        }
-    }
-
-  return (new_proxy_hosts);
-}
 
