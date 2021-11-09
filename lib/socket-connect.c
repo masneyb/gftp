@@ -94,11 +94,9 @@ lookup_host (gftp_request *request, char *service,
 static int
 gftp_do_connect_server (gftp_request * request, char *service,
                         char *proxy_hostname,
-                        unsigned int proxy_port,
-                        struct addrinfo * connect_data)
+                        unsigned int proxy_port)
 {
   struct addrinfo *res, *hostp, *current_hostp;
-  int free_hostp = 0;
   char ipstr[128], * hostname;
   int last_errno = 0;
   unsigned int port;
@@ -107,13 +105,13 @@ gftp_do_connect_server (gftp_request * request, char *service,
   timeout.tv_sec = 30; /* connection timeout in seconds */
   timeout.tv_usec = 0;
 
-  if (request->use_proxy && connect_data) {
-     // connecting to proxy, use already retrieved data
-     hostp = connect_data;
-  } else {
-     hostp = lookup_host (request, service, proxy_hostname, proxy_port);
-     free_hostp = 1;
+  request->use_proxy = 0;
+  //gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
+  if (proxy_hostname && *proxy_hostname) {
+     request->use_proxy = 1;
   }
+
+  hostp = lookup_host (request, service, proxy_hostname, proxy_port);
 
   if (hostp == NULL)
     return (GFTP_EFATAL);
@@ -166,7 +164,7 @@ gftp_do_connect_server (gftp_request * request, char *service,
 
   if (res == NULL)
     {
-      if (hostp && free_hostp) {
+      if (hostp) {
         freeaddrinfo (hostp);
       }
       switch (last_errno)
@@ -188,7 +186,7 @@ gftp_do_connect_server (gftp_request * request, char *service,
   request->logging_function (gftp_logging_misc, request,
                              _("Connected to %s:%d\n"), res[0].ai_canonname,
                              port);
-  if (hostp && free_hostp) {
+  if (hostp) {
      freeaddrinfo (hostp);
   }
   return (sock);
@@ -196,46 +194,13 @@ gftp_do_connect_server (gftp_request * request, char *service,
 
 // ========================================================================
 
-static int
-gftp_need_proxy (gftp_request * request, char *service, char *proxy_hostname, 
-                 unsigned int proxy_port, struct addrinfo **connect_data)
-{
-  //gftp_lookup_global_option ("dont_use_proxy", &proxy_hosts);
-
-  if (!proxy_hostname || !*proxy_hostname) {
-    return 0;
-  }
-
-  request->use_proxy = 1;
-  *connect_data = lookup_host (request, service,
-                               proxy_hostname, proxy_port);
-  request->use_proxy = 0;
-
-  if (*connect_data == NULL)
-    return (GFTP_EFATAL);
-
-  return 1;
-}
-
-
 int
 gftp_connect_server (gftp_request * request, char *service,
                      char *proxy_hostname, unsigned int proxy_port)
 {
-  struct addrinfo * connect_data = NULL;
-  int sock, ret;
+  int sock;
 
-  ret = gftp_need_proxy (request, service, proxy_hostname, proxy_port, &connect_data);
-  if (ret < 0) {
-     return (ret);
-  }
-  request->use_proxy = ret;
-
-  sock = gftp_do_connect_server (request, service, proxy_hostname,
-                                 proxy_port, connect_data);
-  if (connect_data) {
-     freeaddrinfo (connect_data);
-  }
+  sock = gftp_do_connect_server (request, service, proxy_hostname, proxy_port);
   if (sock < 0)
     return (sock);
 
