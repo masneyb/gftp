@@ -248,6 +248,9 @@ gftp_gtk_refresh (gftp_window_data * wdata)
 static void navi_up_directory (gftp_window_data * wdata)
 {
   char * dir;
+  if (!GFTP_IS_CONNECTED (wdata->request)) {
+     return;
+  }
   dir = gftp_build_path (wdata->request, wdata->request->directory, "..", NULL);
   gftpui_run_chdir (wdata, dir);
   g_free (dir);
