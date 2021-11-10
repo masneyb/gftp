@@ -142,6 +142,7 @@ fsp_get_file (gftp_request * request, const char *filename,
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
     }
+
   return (sb.st_size);
 }
 
@@ -203,7 +204,6 @@ fsp_put_file (gftp_request * request, const char *filename,
                                  filename );
         return (GFTP_ERETRYABLE);
   }
-
       
   lpd->file=fsp_fopen(lpd->fsp,filename, "wb");
   if(lpd->file == NULL)
@@ -379,10 +379,20 @@ static int fsp_list_files (gftp_request * request)
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
 
-  if (request->directory == NULL)
-    {
-      request->directory = g_strdup("/");
-    }
+  // this is where things fail when trying to upload a file
+  // fsp_connect (fsp_open_session) hasn't been called yet
+
+  // this works but hangs gftp after the showing the Transfer Dialog
+/*  if (!lpd->fsp)
+     if (fsp_connect (request) != 0)
+        return (GFTP_EFATAL); */
+
+  // just retry or something, this will succeed the next time or something
+  // but the Transfer Dialog will not show up (replace/resume/skip)
+  if (!lpd->fsp) {
+     DEBUG_MSG("^^^ fsp_list_files has failed: no lpd->fsp\n")
+     return (GFTP_ERETRYABLE);
+  }
 
   if ((lpd->dir = fsp_opendir (lpd->fsp,request->directory)) == NULL)
     {
