@@ -474,61 +474,53 @@ fsp_chdir (gftp_request * request, const char *directory)
 }
 
 
-static int
-fsp_removedir (gftp_request * request, const char *directory)
+static int fsp_delete (gftp_request * request, const char *name, int isdir)
 {
-  DEBUG_PRINT_FUNC
-  fsp_protocol_data *lpd;
+   DEBUG_PRINT_FUNC
+   fsp_protocol_data *lpd;
+   char * fullpath;
+   int ret;
 
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
-  lpd = (fsp_protocol_data*) request->protocol_data;
-  g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (lpd->fsp != NULL, GFTP_EFATAL);
+   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+   g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+   g_return_val_if_fail (name != NULL, GFTP_EFATAL);
+   lpd = (fsp_protocol_data*) request->protocol_data;
+   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
+   g_return_val_if_fail (lpd->fsp != NULL, GFTP_EFATAL);
 
-  if (fsp_rmdir (lpd->fsp,directory) == 0)
-    {
+   fullpath = g_strconcat ((strcmp(request->directory,"/") == 0) ? "" : request->directory,
+                           "/", name, NULL);
+
+   if (isdir) {
+      ret = fsp_rmdir (lpd->fsp, fullpath);
+   } else {
+      ret = fsp_unlink (lpd->fsp, fullpath);
+   }
+
+   if (ret == 0) {
       request->logging_function (gftp_logging_misc, request,
-                                 _("Successfully removed %s\n"), directory);
+                                 _("Successfully removed %s\n"), fullpath);
+      g_free (fullpath);
       return (0);
-    }
-  else
-    {
+   } else {
       request->logging_function (gftp_logging_error, request,
-                              _("Error: Could not remove directory %s: %s\n"),
-                              directory, g_strerror (errno));
+                                 _("Error: Could not remove %s: %s\n"),
+                                 fullpath, g_strerror (errno));
+      g_free (fullpath);
       return (GFTP_ERETRYABLE);
-    }
+   }
 }
 
-
-static int
-fsp_rmfile (gftp_request * request, const char *file)
+static int fsp_removedir (gftp_request * request, const char *directory)
 {
-  DEBUG_PRINT_FUNC
-  fsp_protocol_data *lpd;
+   DEBUG_PRINT_FUNC
+   return (fsp_delete (request, directory, 1));
+}
 
-  g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
-  g_return_val_if_fail (file != NULL, GFTP_EFATAL);
-  lpd = (fsp_protocol_data*) request->protocol_data;
-  g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (lpd->fsp != NULL, GFTP_EFATAL);
-
-  if (fsp_unlink (lpd->fsp,file) == 0)
-    {
-      request->logging_function (gftp_logging_misc, request,
-                                 _("Successfully removed %s\n"), file);
-      return (0);
-    }
-  else
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Error: Could not remove file %s: %s\n"),
-                                 file, g_strerror (errno));
-      return (GFTP_ERETRYABLE);
-    }
+static int fsp_rmfile (gftp_request * request, const char *file)
+{
+   DEBUG_PRINT_FUNC
+   return (fsp_delete (request, file, 0));
 }
 
 

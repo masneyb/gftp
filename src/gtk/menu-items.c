@@ -456,7 +456,7 @@ void  compare_windows (gpointer data)
 
 //---------------------------------------------------------------
 
-static void do_delete_dialog (gpointer data)
+static void delete_selected_items (gpointer data)
 {
   DEBUG_PRINT_FUNC
   gftp_file * tempfle, * newfle;
@@ -490,17 +490,23 @@ static void do_delete_dialog (gpointer data)
       return;
   }
 
-  gftp_swap_socks (transfer->fromreq, wdata->request);
-  ret = gftp_gtk_get_subdirs (transfer);
-  gftp_swap_socks (wdata->request, transfer->fromreq);
-
   if (!GFTP_IS_CONNECTED (wdata->request)) {
       gftpui_disconnect (wdata);
       return;
   }
 
-  if (!ret)
-    return;
+  // Directories: this will cause a recursive deletion
+  //   FSP support is buggy, recursive deletion fails at some point
+  //   First you have to delete all files inside the dir
+  if (wdata->request->protonum != GFTP_FSP_NUM)
+  {
+     gftp_swap_socks (transfer->fromreq, wdata->request);
+     ret = gftp_gtk_get_subdirs (transfer);
+     gftp_swap_socks (wdata->request, transfer->fromreq);
+     if (!ret) {
+        return;
+     }
+  }
 
   // yesCB
   gftpui_callback_data * cdata;
@@ -532,7 +538,7 @@ void delete_dialog (gpointer data)
       char * tempstr = g_strdup_printf (_("Are you sure you want to delete the %ld selected item(s)"), num);
       YesNoDialog (main_window,
                    _("Delete Files/Directories"), tempstr,
-                   do_delete_dialog, data, NULL, NULL);
+                   delete_selected_items, data, NULL, NULL);
       g_free (tempstr);  
   }
 }
