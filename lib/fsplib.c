@@ -90,15 +90,11 @@ static int simplecommand(FSP_SESSION *s,const char *directory,unsigned char comm
 /* Get directory part of filename. You must free() the result */
 static char * directoryfromfilename(const char *filename)
 {
-    char *result;
+    const char *result;
     char *tmp;
     size_t pos;
 
-#ifdef __cplusplus // olverloaded func #2
-    result = strrchr ((char*)filename,'/');
-#else
     result = strrchr (filename,'/');
-#endif
     if (result == NULL)
         return strdup("");
     pos=result-filename;
@@ -457,12 +453,14 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
 
     /* create socket */
     fd=socket(res->ai_family,res->ai_socktype,res->ai_protocol);
-    if ( fd < 0)
+    if ( fd < 0) {
+        freeaddrinfo (res);
         return NULL;
-    
+    }
     /* connect socket */
     if( connect(fd, res->ai_addr, res->ai_addrlen))
     {
+        freeaddrinfo (res);
         close(fd);
         return NULL;
     }
@@ -471,6 +469,7 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
     s = (FSP_SESSION *) calloc(1,sizeof(FSP_SESSION));
     if ( !s )
     {
+        freeaddrinfo (res);
         close(fd);
         errno = ENOMEM;
         return NULL;
@@ -480,6 +479,7 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
 
     if ( !lock )
     {
+        freeaddrinfo (res);
         close(fd);
         free(s);
         errno = ENOMEM;
@@ -492,12 +492,14 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
     addrin = (struct sockaddr_in *)res->ai_addr;
     if ( client_init_key( (FSP_LOCK *)s->lock,addrin->sin_addr.s_addr,ntohs(addrin->sin_port)))
     {
+        freeaddrinfo (res);
         free(s);
         close(fd);
         free(lock);
         return NULL;
     }
 
+    freeaddrinfo (res);
     s->fd=fd;
     s->timeout=300000; /* 5 minutes */
     s->maxdelay=60000; /* 1 minute  */
