@@ -19,9 +19,9 @@
 
 #include "gftp-gtk.h"
 
-void
-remove_files_window (gftp_window_data * wdata)
+void remove_files_window (gftp_window_data * wdata)
 {
+  DEBUG_PRINT_FUNC
   wdata->show_selected = 0;
   listbox_clear(wdata);
   free_file_list (wdata->files);
@@ -29,10 +29,10 @@ remove_files_window (gftp_window_data * wdata)
 }
 
 
-void
-ftp_log (gftp_logging_level level, gftp_request * request, 
-         const char *string, ...)
+void ftp_log (gftp_logging_level level, gftp_request * request, 
+              const char *string, ...)
 {
+  //DEBUG_PRINT_FUNC
   uintptr_t max_log_window_size;
   int upd, free_logstr;
   gftp_log * newlog;
@@ -155,9 +155,9 @@ ftp_log (gftp_logging_level level, gftp_request * request,
 }
 
 
-void
-update_window_info (void)
+void update_window_info (void)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr, empty[] = "";
   unsigned int port, i, j;
   GtkWidget *dir_combo_entry;
@@ -222,9 +222,9 @@ update_window_info (void)
 			    && GFTP_IS_CONNECTED (window2.request));
 }
 
-static void
-set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
+static void set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 {
+  //DEBUG_PRINT_FUNC
   GtkAction *tempwid = NULL;
   if (menus) {
     tempwid = gtk_action_group_get_action(menus, path);
@@ -234,9 +234,9 @@ set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
   }
 }
 
-char *
-report_list_info(gftp_window_data * wdata)
+char * report_list_info(gftp_window_data * wdata)
 {
+  DEBUG_PRINT_FUNC
   GList *templist;
   int  filenum = 0, dirnum = 0, linknum = 0;
   off_t filesize = 0;
@@ -284,9 +284,9 @@ report_list_info(gftp_window_data * wdata)
 }
 
 
-void
-update_window (gftp_window_data * wdata)
+void update_window (gftp_window_data * wdata)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr, *hostname, *fspec, *listinfo;
   int connected;
   GtkWidget *dir_combo_entry;
@@ -352,9 +352,9 @@ update_window (gftp_window_data * wdata)
 }  
 
 
-gftp_graphic *
-open_xpm (GtkWidget * widget, char *filename)
+gftp_graphic * open_xpm (GtkWidget * widget, char *filename)
 {
+  //DEBUG_PRINT_FUNC
   gftp_graphic * graphic;
   GtkStyle *style;
   char *exfile;
@@ -387,9 +387,9 @@ open_xpm (GtkWidget * widget, char *filename)
 }
 
 
-void
-gftp_free_pixmap (char *filename)
+void gftp_free_pixmap (char *filename)
 {
+  //DEBUG_PRINT_FUNC
   gftp_graphic * graphic;
 
   if ((graphic = g_hash_table_lookup (graphic_hash_table, filename)) == NULL)
@@ -408,6 +408,7 @@ void
 gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
                  GdkBitmap ** bitmap)
 {
+  //DEBUG_PRINT_FUNC
   gftp_graphic * graphic;
 
   if (filename == NULL || *filename == '\0')
@@ -431,9 +432,9 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
   *bitmap = graphic->bitmap;
 }
 
-GdkPixbuf *
-gftp_get_pixbuf (char *filename)
+GdkPixbuf * gftp_get_pixbuf (char *filename)
 {
+   //DEBUG_PRINT_FUNC
    GdkPixbuf *pixbuf;
    char *img_path;
 
@@ -464,6 +465,7 @@ check_status (char *name, gftp_window_data *wdata,
               unsigned int check_other_stop, unsigned int only_one,
               unsigned int at_least_one, unsigned int func)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * owdata;
 
   owdata = wdata == &window1 ? &window2 : &window1;
@@ -520,6 +522,7 @@ void
 add_history (GtkWidget * widget, GList ** history, unsigned int *histlen, 
              const char *str)
 {
+  DEBUG_PRINT_FUNC
   GList *node, *delnode;
   char *tempstr;
   int i;
@@ -571,9 +574,9 @@ add_history (GtkWidget * widget, GList ** history, unsigned int *histlen,
 }
 
 
-int
-check_reconnect (gftp_window_data *wdata)
-{
+int check_reconnect (gftp_window_data *wdata)
+{ // see gftpui_check_reconnect
+  DEBUG_PRINT_FUNC
   return (wdata->request->cached && wdata->request->datafd < 0 && 
           !wdata->request->always_connected &&
           !ftp_connect (wdata, wdata->request) ? -1 : 0);
@@ -583,6 +586,7 @@ check_reconnect (gftp_window_data *wdata)
 static void
 dialog_response (GtkDialog * dlg, gint responseID, gpointer data)
 {
+  //DEBUG_PRINT_FUNC
   gftp_dialog_data * ddata = (gftp_dialog_data *) data;
   /* destroy dialog */
   if (ddata && ddata->dialog) {
@@ -610,6 +614,7 @@ dialog_response (GtkDialog * dlg, gint responseID, gpointer data)
 static gint
 dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return)
     {
       dialog_response (NULL, GTK_RESPONSE_YES, data);
@@ -633,6 +638,7 @@ TextEntryDialog (GtkWindow * parent_window,       /* nullable */
                  gftp_dialog_button okbutton, void (*okfunc) (), void *okptr,
                  void (*cancelfunc) (), void *cancelptr)
 {
+  DEBUG_PRINT_FUNC
   GtkWidget * tempwid, * dialog, *vbox;
   gftp_dialog_data * ddata;
   const gchar * yes_text;
@@ -730,6 +736,7 @@ YesNoDialog (GtkWindow * parent_window,              /* nullable */
              void (*yesfunc) (), gpointer yespointer, 
              void (*nofunc) (),  gpointer nopointer)
 {
+  DEBUG_PRINT_FUNC
   GtkWidget * dialog;
   gftp_dialog_data * ddata;
 
@@ -758,9 +765,9 @@ YesNoDialog (GtkWindow * parent_window,              /* nullable */
 }
 
 
-void
-display_cached_logs (void)
+void display_cached_logs (void)
 {
+  DEBUG_PRINT_FUNC
   gftp_log * templog;
   GList * templist; 
 
@@ -780,9 +787,9 @@ display_cached_logs (void)
   pthread_mutex_unlock (&log_mutex);
 }
 
-char *
-get_image_path (char *filename)
+char * get_image_path (char *filename)
 {
+   //DEBUG_PRINT_FUNC
    char *path1 = NULL, *path2 = NULL, *found = NULL;
 
    // see lib/misc.c -> gftp_get_share_dir ()
@@ -809,9 +816,9 @@ get_image_path (char *filename)
    return (found);
 }
 
-void
-set_window_icon(GtkWindow *window, char *icon_name)
+void set_window_icon(GtkWindow *window, char *icon_name)
 {
+  //DEBUG_PRINT_FUNC
   GdkPixbuf *pixbuf;
   char *img_path;
   if (icon_name)
@@ -829,7 +836,9 @@ set_window_icon(GtkWindow *window, char *icon_name)
   }
 }
 
-void glist_to_combobox (GList *list, GtkWidget *combo) {
+void glist_to_combobox (GList *list, GtkWidget *combo)
+{
+   //DEBUG_PRINT_FUNC
    GtkTreeIter iter;
    GtkTreeModel *model = GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (combo)));
    GtkListStore *store = GTK_LIST_STORE (model);
@@ -847,6 +856,7 @@ void glist_to_combobox (GList *list, GtkWidget *combo) {
 
 void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_protocol)
 {
+   DEBUG_PRINT_FUNC
    int i = 0;
    int combo_item_count = 0;
    int combo_item_selected = 0;
@@ -872,6 +882,7 @@ GtkMenuItem *
 new_menu_item (GtkMenu * menu, char * label, char * icon_name,
                gpointer activate_callback, gpointer callback_data)
 {
+   //DEBUG_PRINT_FUNC
    GtkMenuItem *item = NULL;
 
    /* 0=normal 1=image 2=stock 3=check 4=separator */

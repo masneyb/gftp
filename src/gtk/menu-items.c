@@ -21,9 +21,9 @@
 
 static int combo_key2_pressed = 0;
 
-void
-show_selected (gpointer data)
+void show_selected (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * wdata;
 
   wdata = data;
@@ -34,9 +34,9 @@ show_selected (gpointer data)
 }
 
 
-static void
-dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
+static void dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
 {
+  DEBUG_PRINT_FUNC
   wdata->show_selected = 0;
 
   if (ddata->entry_text[0] == '\0')
@@ -56,9 +56,9 @@ dochange_filespec (gftp_window_data * wdata, gftp_dialog_data * ddata)
 }
 
 
-void 
-change_filespec (gpointer data)
+void change_filespec (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * wdata;
 
   wdata = data;
@@ -74,6 +74,7 @@ change_filespec (gpointer data)
 
 static void save_dirlist_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   char *filename;
   gftp_window_data * wdata = (gftp_window_data *) data;
 
@@ -107,6 +108,7 @@ static void save_dirlist_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data
 
 void save_directory_listing (gpointer data) /* data = window1/2 */
 {
+  DEBUG_PRINT_FUNC
   GtkWidget *filew;
   char current_dir[256];
   getcwd(current_dir, sizeof(current_dir));
@@ -132,6 +134,7 @@ void save_directory_listing (gpointer data) /* data = window1/2 */
 gboolean
 dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data )
 {
+  //DEBUG_PRINT_FUNC
   if (event->type == GDK_KEY_PRESS) {
     if (event->keyval == GDK_KEY_Return)
        combo_key2_pressed = 1;
@@ -183,6 +186,7 @@ dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data )
 void 
 clearlog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gint len;
 
   GtkTextBuffer * textbuf;
@@ -199,6 +203,7 @@ clearlog (gpointer data)
 void 
 viewlog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr, *txt, *pos;
   gint textlen;
   ssize_t len;
@@ -255,6 +260,7 @@ viewlog (gpointer data)
 
 static void savelog_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data)
 {
+  DEBUG_PRINT_FUNC
   if (responseID != GTK_RESPONSE_ACCEPT) {
      gtk_widget_destroy (GTK_WIDGET (dlg));
      return;
@@ -314,6 +320,7 @@ static void savelog_dlg_cb (GtkDialog * dlg, gint responseID, gpointer data)
 
 void savelog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   GtkWidget *filew;
   char current_dir[256];
   getcwd(current_dir, sizeof(current_dir));
@@ -335,16 +342,16 @@ void savelog (gpointer data)
 
 //---------------------------------------------------------------
 
-void 
-clear_cache (gpointer data)
+void  clear_cache (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_clear_cache_files ();
 }
 
 
-void 
-about_dialog (gpointer data)
+void about_dialog (gpointer data)
 {
+    DEBUG_PRINT_FUNC
     GtkWidget *w;
     const gchar * authors[] =
     {
@@ -385,9 +392,9 @@ about_dialog (gpointer data)
 }
 
 
-static void
-_do_compare_windows (gftp_window_data * win1, gftp_window_data * win2)
+static void _do_compare_windows (gftp_window_data * win1, gftp_window_data * win2)
 {
+  DEBUG_PRINT_FUNC
   gftp_file * curfle, * otherfle;
   GList * curlist, * otherlist;
   int row, curdir, othdir;
@@ -434,9 +441,9 @@ _do_compare_windows (gftp_window_data * win1, gftp_window_data * win2)
 }
 
 
-void 
-compare_windows (gpointer data)
+void  compare_windows (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   if (!check_status (_("Compare Windows"), &window2, 1, 0, 0, 1))
     return;
 
@@ -449,9 +456,9 @@ compare_windows (gpointer data)
 
 //---------------------------------------------------------------
 
-static void
-do_delete_dialog (gpointer data)
+static void do_delete_dialog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_file * tempfle, * newfle;
   GList * templist, *igl;
   gftp_transfer * transfer;
@@ -513,9 +520,9 @@ do_delete_dialog (gpointer data)
   free_tdata (transfer); //_gftp_gtk_free_del_data (transfer);
 }
 
-void
-delete_dialog (gpointer data)
+void delete_dialog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * wdata = (gftp_window_data *) data;
   if (!wdata) {
      return;

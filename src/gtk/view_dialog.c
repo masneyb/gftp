@@ -21,9 +21,9 @@
 
 static gftp_file * curfle;
 
-static void
-do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
+static void do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
 {
+  DEBUG_PRINT_FUNC
   GList * newfile;
   gftp_window_data * towdata;
   gftp_file * new_fle;
@@ -116,16 +116,16 @@ do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
 }
 
 
-void
-view_dialog (gpointer data)
+void view_dialog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   do_view_or_edit_file (data, 1);
 }
 
 
-void
-edit_dialog (gpointer data)
+void edit_dialog (gpointer data)
 {
+  DEBUG_PRINT_FUNC
   gftp_window_data * fromwdata = data;
   char *edit_program;
 
@@ -148,6 +148,7 @@ fork_process (char *proc, char *filename, int fd, char *remote_filename,
               unsigned int viewedit, unsigned int del_file,
               unsigned int dontupload, gftp_window_data * wdata)
 {
+  DEBUG_PRINT_FUNC
   gftp_viewedit_data * newproc;
   char *pos, *endpos, **argv;
   pid_t ret;
@@ -225,6 +226,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
            unsigned int start_pos, unsigned int dontupload,
            char *remote_filename, gftp_window_data * wdata)
 {
+  DEBUG_PRINT_FUNC
   GtkWidget * dialog, * view, * scrolledw, *main_vbox;
   char buf[8192], *view_program, *edit_program;
   gftp_config_list_vars * tmplistvar;
