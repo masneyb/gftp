@@ -258,7 +258,7 @@ supported_gftp_protocols gftp_protocols[] =
   { "FTP",  rfc959_init, rfc959_register_module, "ftp",  21, 1, 1},
   { "FTPS", ftps_init,   ftps_register_module,   "ftps", 21, 1, 1},
 
-  { "Local", local_init, local_register_module, "file", 0, 0, 0}, /* hidden */
+  { "Local", local_init, local_register_module, "file", 0, 1, 0},
 
   { "SSH2", sshv2_init, sshv2_register_module, "ssh2", 22, 1, 1},
 
