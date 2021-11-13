@@ -719,7 +719,9 @@ int gftp_parse_ls (gftp_request * request,
                    gftp_file *fle,
                    int fd);
 
-/* protocols.c */
+/* protocols */
+// see options.h: supported_gftp_protocols gftp_protocols[]
+//                any discrepancy = segfault
 #define GFTP_FTP_NUM         0
 #define GFTP_FTPS_NUM        1
 #define GFTP_LOCAL_NUM       2
@@ -752,7 +754,7 @@ void sshv2_register_module (void);
 /* sslcommon.c */
 void ssl_register_module (void);
 
-/* bookmark.c:bookmark_init */
+/* protocols_bookmark.c */
 int bookmark_init (gftp_request * request);
 void bookmark_register_module (void);
 
