@@ -12,7 +12,7 @@ The gFTP file transfer client. http://www.gftp.org
 
   - FTP / FTPS
   - SSH2 (sftp) - requires OpenSSH client: `ssh`
-  - FSP  (UPD File Service Protocol)
+  - FSP  (UDP File Service Protocol)
 
 
 ## How do I install gFTP?
