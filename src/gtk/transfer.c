@@ -728,7 +728,7 @@ _setup_dlstr (gftp_transfer * tdata, gftp_file * fle, char *dlstr,
 
   stalled = 1;
   gettimeofday (&tv, NULL);
-  usesentdescr = (tdata->fromreq->protonum == GFTP_LOCAL_NUM);
+  usesentdescr = (tdata->fromreq->protonum == GFTP_PROTOCOL_LOCAL);
 
   insert_commas (fle->size, ofstr, sizeof (ofstr));
   insert_commas (tdata->curtrans + tdata->curresumed, gotstr, sizeof (gotstr));

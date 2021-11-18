@@ -722,13 +722,13 @@ int gftp_parse_ls (gftp_request * request,
 /* protocols */
 // see options.h: supported_gftp_protocols gftp_protocols[]
 //                any discrepancy = segfault
-#define GFTP_FTP_NUM         0
-#define GFTP_FTPS_NUM        1
-#define GFTP_FTPSi_NUM       2
-#define GFTP_LOCAL_NUM       3
-#define GFTP_SSHV2_NUM       4
-#define GFTP_BOOKMARK_NUM    5
-#define GFTP_FSP_NUM         6
+#define GFTP_PROTOCOL_FTP         0
+#define GFTP_PROTOCOL_FTPS        1
+#define GFTP_PROTOCOL_FTPSi       2
+#define GFTP_PROTOCOL_LOCAL       3
+#define GFTP_PROTOCOL_SSH2        4
+#define GFTP_PROTOCOL_BOOKMARK    5
+#define GFTP_PROTOCOL_FSP         6
 
 #define GFTP_IS_CONNECTED(request) ((request) != NULL && \
                                              ((request)->datafd > 0 || \

@@ -498,7 +498,7 @@ static void delete_selected_items (gpointer data)
   // Directories: this will cause a recursive deletion
   //   FSP support is buggy, recursive deletion fails at some point
   //   First you have to delete all files inside the dir
-  if (wdata->request->protonum != GFTP_FSP_NUM)
+  if (wdata->request->protonum != GFTP_PROTOCOL_FSP)
   {
      gftp_swap_socks (transfer->fromreq, wdata->request);
      ret = gftp_gtk_get_subdirs (transfer);

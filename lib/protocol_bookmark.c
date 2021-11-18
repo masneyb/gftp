@@ -56,7 +56,7 @@ bookmark_init (gftp_request * request)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
-  request->protonum = GFTP_BOOKMARK_NUM;
+  request->protonum = GFTP_PROTOCOL_BOOKMARK;
   request->init = bookmark_init;
   request->read_function = NULL;
   request->write_function = NULL;

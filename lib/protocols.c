@@ -590,7 +590,7 @@ gftp_parse_bookmark (gftp_request * request, gftp_request * local_request,
         }
 
       if (gftp_protocols[i].url_prefix == NULL)
-        i = GFTP_FTP_NUM;
+        i = GFTP_PROTOCOL_FTP;
     }
 
   gftp_copy_local_options (&request->local_options_vars,
@@ -665,7 +665,7 @@ gftp_parse_url (gftp_request * request, const char *url)
       gftp_lookup_request_option (request, "default_protocol", 
                                   &default_protocol);
 
-      i = GFTP_FTP_NUM;
+      i = GFTP_PROTOCOL_FTP;
       if (default_protocol != NULL && *default_protocol != '\0')
         {
           for (i = 0; gftp_protocols[i].url_prefix; i++)

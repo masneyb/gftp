@@ -1925,7 +1925,7 @@ rfc959_init (gftp_request * request)
       g_free (tempstr);
     }
 
-  request->protonum = GFTP_FTP_NUM;
+  request->protonum = GFTP_PROTOCOL_FTP;
   request->init = rfc959_init;
   request->copy_param_options = rfc959_copy_param_options;
   request->destroy = rfc959_request_destroy; 

@@ -39,7 +39,7 @@ local_destroy (gftp_request * request)
   local_protocol_data * lpd;
 
   g_return_if_fail (request != NULL);
-  g_return_if_fail (request->protonum == GFTP_LOCAL_NUM);
+  g_return_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL);
 
   lpd = request->protocol_data;
   g_hash_table_foreach (lpd->userhash, local_remove_key, NULL);
@@ -99,7 +99,7 @@ local_chdir (gftp_request * request, const char *directory)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   utf8 = gftp_filename_from_utf8 (request, directory, &destlen);
@@ -134,7 +134,7 @@ static int
 local_connect (gftp_request * request)
 {
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
 
   if (request->directory != NULL)
     return (local_chdir (request, request->directory));
@@ -147,7 +147,7 @@ static void
 local_disconnect (gftp_request * request)
 {
   g_return_if_fail (request != NULL);
-  g_return_if_fail (request->protonum == GFTP_LOCAL_NUM);
+  g_return_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL);
 
   if (request->datafd != -1)
     {
@@ -170,7 +170,7 @@ local_get_file (gftp_request * request, const char *filename,
   int flags;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   flags = O_RDONLY;
@@ -221,7 +221,7 @@ local_put_file (gftp_request * request, const char *filename,
   char *utf8;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
 
   flags = O_WRONLY | O_CREAT;
@@ -333,7 +333,7 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
      we're ok here because I have threading turned off for the local
      protocol (see use_threads in gftp_protocols in options.h) */
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
   lpd = request->protocol_data;
@@ -407,7 +407,7 @@ local_list_files (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->directory != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
 
   lpd = request->protocol_data;
 
@@ -474,7 +474,7 @@ local_rmdir (gftp_request * request, const char *directory)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   utf8 = gftp_filename_from_utf8 (request, directory, &destlen);
@@ -510,7 +510,7 @@ local_rmfile (gftp_request * request, const char *file)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   utf8 = gftp_filename_from_utf8 (request, file, &destlen);
@@ -546,7 +546,7 @@ local_mkdir (gftp_request * request, const char *directory)
   char *utf8;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   perms = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
@@ -587,7 +587,7 @@ local_rename (gftp_request * request, const char *oldname,
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (oldname != NULL, GFTP_EFATAL);
   g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
 
@@ -628,7 +628,7 @@ local_chmod (gftp_request * request, const char *file, mode_t mode)
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   utf8 = gftp_filename_from_utf8 (request, file, &destlen);
@@ -667,7 +667,7 @@ local_set_file_time (gftp_request * request, const char *file,
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_LOCAL_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCAL, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
 
   time_buf.modtime = datetime;
@@ -712,7 +712,7 @@ local_init (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
-  request->protonum = GFTP_LOCAL_NUM;
+  request->protonum = GFTP_PROTOCOL_LOCAL;
   request->init = local_init;
   request->copy_param_options = NULL;
   request->destroy = local_destroy;

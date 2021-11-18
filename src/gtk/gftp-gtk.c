@@ -1394,7 +1394,7 @@ gftp_gtk_config_file_write_color (gftp_config_vars * cv, char *buf,
 static void
 _setup_window1 ()
 {
-  if (gftp_protocols[GFTP_LOCAL_NUM].init (window1.request) == 0)
+  if (gftp_protocols[GFTP_PROTOCOL_LOCAL].init (window1.request) == 0)
     {
       gftp_setup_startup_directory (window1.request,
                                     "local_startup_directory");

@@ -446,7 +446,7 @@ gftpui_common_cmd_chdir (void *uidata, gftp_request * request,
                                  _("usage: chdir <directory>\n"));
       return (1);
     }
-  else if (request->protonum == GFTP_LOCAL_NUM)
+  else if (request->protonum == GFTP_PROTOCOL_LOCAL)
     {
       if (*command != '/' && request->directory != NULL)
         {

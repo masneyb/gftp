@@ -112,7 +112,7 @@ int gftpui_common_run_ls (gftpui_callback_data * cdata)
 
   if (cdata->files != NULL)
     {
-      if (cdata->request->protonum == GFTP_LOCAL_NUM)
+      if (cdata->request->protonum == GFTP_PROTOCOL_LOCAL)
         {
           sortasds_var = "local_sortasds";
           sortcol_var = "local_sortcol";

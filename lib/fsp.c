@@ -33,7 +33,7 @@ static void fsp_destroy (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
-  g_return_if_fail (request->protonum == GFTP_FSP_NUM);
+  g_return_if_fail (request->protonum == GFTP_PROTOCOL_FSP);
 }
 
 
@@ -45,7 +45,7 @@ static int fsp_connect (gftp_request * request)
   char * server_version;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
 
   if(! request->port)
       request->port = gftp_protocol_default_port (request);
@@ -86,7 +86,7 @@ static void fsp_disconnect (gftp_request * request)
   fsp_protocol_data * lpd;
 
   g_return_if_fail (request != NULL);
-  g_return_if_fail (request->protonum == GFTP_FSP_NUM);
+  g_return_if_fail (request->protonum == GFTP_PROTOCOL_FSP);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_if_fail (lpd != NULL);
  
@@ -115,7 +115,7 @@ fsp_get_file (gftp_request * request, const char *filename,
   struct stat sb;
 
   g_return_val_if_fail (request != NULL,GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM,GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP,GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL,GFTP_EFATAL);
@@ -152,7 +152,7 @@ static ssize_t fsp_read_function(gftp_request *request, void *buf, size_t size,i
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, -1);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, -1);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, -1);
   g_return_val_if_fail (buf != NULL, -1);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL, -1);
@@ -168,7 +168,7 @@ static ssize_t fsp_write_function(gftp_request *request, const char *buf, size_t
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, -1);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, -1);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, -1);
   g_return_val_if_fail (buf != NULL, -1);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL, -1);
@@ -185,7 +185,7 @@ fsp_put_file (gftp_request * request, const char *filename,
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL,GFTP_EFATAL);
@@ -232,7 +232,7 @@ static int fsp_end_transfer (gftp_request * request)
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd->fsp != NULL, GFTP_EFATAL);
 
@@ -264,7 +264,7 @@ static int fsp_abort_transfer (gftp_request * request)
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd->fsp != NULL, GFTP_EFATAL);
 
@@ -299,7 +299,7 @@ fsp_stat_filename (gftp_request * request, const char *filename,
   struct stat st;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd->fsp != NULL, GFTP_EFATAL);
@@ -324,7 +324,7 @@ fsp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   char *symlink;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
@@ -375,7 +375,7 @@ static int fsp_list_files (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->directory != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
 
@@ -414,7 +414,7 @@ fsp_get_file_size (gftp_request * request, const char *filename)
   fsp_protocol_data * lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd->fsp != NULL, GFTP_EFATAL);
@@ -434,7 +434,7 @@ fsp_chdir (gftp_request * request, const char *directory)
   char *tempstr, *olddir;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
@@ -482,7 +482,7 @@ static int fsp_delete (gftp_request * request, const char *name, int isdir)
    int ret;
 
    g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-   g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+   g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
    g_return_val_if_fail (name != NULL, GFTP_EFATAL);
    lpd = (fsp_protocol_data*) request->protocol_data;
    g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
@@ -532,7 +532,7 @@ static int fsp_makedir (gftp_request * request, const char *directory)
   const char * dir;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (lpd != NULL, GFTP_EFATAL);
@@ -573,7 +573,7 @@ fsp_ren (gftp_request * request, const char *oldname,
   fsp_protocol_data *lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
-  g_return_val_if_fail (request->protonum == GFTP_FSP_NUM, GFTP_EFATAL);
+  g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   g_return_val_if_fail (oldname != NULL, GFTP_EFATAL);
   g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
   lpd = (fsp_protocol_data*) request->protocol_data;
@@ -620,7 +620,7 @@ int fsp_init (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
-  request->protonum = GFTP_FSP_NUM;
+  request->protonum = GFTP_PROTOCOL_FSP;
   request->init = fsp_init;
   request->copy_param_options = NULL;
   request->destroy = fsp_destroy;

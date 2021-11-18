@@ -164,13 +164,13 @@ int ftps_init (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   /* init FTP first */
-  ret = gftp_protocols[GFTP_FTP_NUM].init (request);
+  ret = gftp_protocols[GFTP_PROTOCOL_FTP].init (request);
   if (ret < 0) {
      return (ret);
   }
 
   params = (rfc959_parms *) request->protocol_data;
-  request->protonum = GFTP_FTPS_NUM;
+  request->protonum = GFTP_PROTOCOL_FTPS;
   request->init = ftps_init;
   request->connect = ftps_connect;
   params->auth_tls_start = ftps_auth_tls_start;
@@ -210,7 +210,7 @@ static int ftpsi_connect (gftp_request * request)
    // this is just to override default port
    // default port for FTPSi is 990..
    if (!request->port) {
-      request->port = gftp_protocols[GFTP_FTPSi_NUM].default_port;
+      request->port = gftp_protocols[GFTP_PROTOCOL_FTPSi].default_port;
    }
    return (ftps_connect (request));
 }
@@ -225,12 +225,12 @@ int ftpsi_init (gftp_request * request)
    g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
    // init funcs (FTP->FTPS->FTPSi)
-   ret = gftp_protocols[GFTP_FTPS_NUM].init (request);
+   ret = gftp_protocols[GFTP_PROTOCOL_FTPS].init (request);
    if (ret < 0) {
       return (ret);
    }
 
-   request->protonum = GFTP_FTPSi_NUM;
+   request->protonum = GFTP_PROTOCOL_FTPSi;
    params = (rfc959_parms *) request->protocol_data;
    params->implicit_ssl        = 1;
    params->data_conn_tls_start = ftps_data_conn_tls_start;

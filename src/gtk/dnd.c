@@ -175,7 +175,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
                             tempfle->file, NULL);
 
       if (wdata->request->hostname == NULL || 
-          wdata->request->protonum == GFTP_LOCAL_NUM)
+          wdata->request->protonum == GFTP_PROTOCOL_LOCAL)
         {
           tempstr = g_strdup_printf ("%s://%s ", 
                                  wdata->request->url_prefix, df);
