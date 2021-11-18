@@ -724,10 +724,11 @@ int gftp_parse_ls (gftp_request * request,
 //                any discrepancy = segfault
 #define GFTP_FTP_NUM         0
 #define GFTP_FTPS_NUM        1
-#define GFTP_LOCAL_NUM       2
-#define GFTP_SSHV2_NUM       3
-#define GFTP_BOOKMARK_NUM    4
-#define GFTP_FSP_NUM         5
+#define GFTP_FTPSi_NUM       2
+#define GFTP_LOCAL_NUM       3
+#define GFTP_SSHV2_NUM       4
+#define GFTP_BOOKMARK_NUM    5
+#define GFTP_FSP_NUM         6
 
 #define GFTP_IS_CONNECTED(request) ((request) != NULL && \
                                              ((request)->datafd > 0 || \
@@ -742,6 +743,8 @@ int rfc959_connect       (gftp_request * request);
 /* ftps.c */
 int ftps_init (gftp_request * request);
 void ftps_register_module  (void);
+int ftpsi_init (gftp_request * request);
+void ftpsi_register_module (void);
 
 /* local.c */
 int local_init (gftp_request * request);

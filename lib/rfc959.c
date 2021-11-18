@@ -509,9 +509,9 @@ rfc959_syst (gftp_request * request)
 }
 
 
-int
-rfc959_connect (gftp_request * request)
+int rfc959_connect (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   char tempchar, *startpos, *endpos, *tempstr, *email, *proxy_hostname;
   intptr_t ascii_transfers, proxy_port;
   rfc959_parms * parms;
@@ -542,6 +542,16 @@ rfc959_connect (gftp_request * request)
                                   proxy_port)) < 0)
     return (ret);
 
+  if (parms->auth_tls_start && parms->implicit_ssl)
+  {
+     // implicit SSL
+     // need to setup SSL session here, otherwise it will not work
+     ret = gftp_ssl_session_setup (request);
+     if (ret < 0) {
+        return (ret);
+     }
+  }
+
   /* Get the banner */
   if ((ret = rfc959_read_response (request, 1)) != '2')
     {
@@ -552,14 +562,24 @@ rfc959_connect (gftp_request * request)
         return (GFTP_ERETRYABLE);
     }
 
-  if (parms->auth_tls_start != NULL)
-    {
-      if ((ret = parms->auth_tls_start (request)) < 0)
-        {
-          gftp_disconnect (request);
-          return (ret);
+  if (parms->auth_tls_start)
+  {
+     if (parms->implicit_ssl) {
+        // buggy servers might require this (vsftpd)
+        // this is not need for servers with proper implicit SSL support
+        //  (pure-FTPd, Rebex FTPS)
+        ret = rfc959_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
+        ret = rfc959_send_command (request, "PROT P\r\n", -1, 1, 0);
+     } else {
+        // explicit SSL
+        // this is where the negotiation to switch to a secure mode (SSL) starts
+        ret = parms->auth_tls_start (request);
+        if (ret < 0) {
+           gftp_disconnect (request);
+           return (ret);
         }
-    }
+     }
+  }
 
   /* Login the proxy server if available */
   if (request->use_proxy)
@@ -1862,14 +1882,15 @@ rfc959_copy_param_options (gftp_request * dest_request,
   dparms = dest_request->protocol_data;
   sparms = src_request->protocol_data;
 
-  dparms->data_connection = -1;
-  dparms->is_ascii_transfer = sparms->is_ascii_transfer;
-  dparms->is_fxp_transfer = sparms->is_fxp_transfer;
-  dparms->auth_tls_start = sparms->auth_tls_start;
+  dparms->data_connection     = -1;
+  dparms->is_ascii_transfer   = sparms->is_ascii_transfer;
+  dparms->is_fxp_transfer     = sparms->is_fxp_transfer;
+  dparms->auth_tls_start      = sparms->auth_tls_start;
   dparms->data_conn_tls_start = sparms->data_conn_tls_start;
-  dparms->data_conn_read = sparms->data_conn_read;
-  dparms->data_conn_write = sparms->data_conn_write;
+  dparms->data_conn_read      = sparms->data_conn_read;
+  dparms->data_conn_write     = sparms->data_conn_write;
   dparms->data_conn_tls_close = sparms->data_conn_tls_close;
+  dparms->implicit_ssl        = sparms->implicit_ssl;
 
   dest_request->read_function = src_request->read_function;
   dest_request->write_function = src_request->write_function;
@@ -1879,6 +1900,7 @@ rfc959_copy_param_options (gftp_request * dest_request,
 int
 rfc959_init (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   rfc959_parms * parms;
   struct hostent *hent;
   struct utsname unme;

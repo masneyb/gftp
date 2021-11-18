@@ -10,9 +10,11 @@ The gFTP file transfer client. http://www.gftp.org
 
 ## Supported protocols?
 
-  - FTP / FTPS
-  - SSH2 (sftp) - requires OpenSSH client: `ssh`
-  - FSP  (UDP File Service Protocol)
+  - FTP (ftp://)
+  - FTPS (ftps://) (Explicit TLS - current standard for encrypted FTP)
+  - FTPSi (ftpsi://) (Implicit TLS, default port: 990)
+  - SSH2 (ssh2://) (sftp) - requires OpenSSH client: `ssh`
+  - FSP (fsp://) (UDP File Service Protocol)
 
 
 ## How do I install gFTP?

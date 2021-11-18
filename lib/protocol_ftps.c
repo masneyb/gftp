@@ -20,7 +20,6 @@
 #include "gftp.h"
 #include "ftpcommon.h"
 
-
 #ifdef USE_SSL
 
 static int
@@ -75,8 +74,8 @@ ftps_data_conn_tls_close (gftp_request * request)
   gftp_ssl_session_close_ex (request, params->data_connection);
 }
 
-static int 
-ftps_auth_tls_start (gftp_request * request)
+
+static int ftps_auth_tls_start (gftp_request * request)
 {
   rfc959_parms * params;
   int ret;
@@ -127,15 +126,18 @@ ftps_auth_tls_start (gftp_request * request)
   return (0);
 }
 
-/*@unused@*/ static int
-ftps_connect (gftp_request * request)
+
+static int ftps_connect (gftp_request * request)
 {
-  if (request->datafd > 0)
+  DEBUG_PRINT_FUNC
+  rfc959_parms * parms = (rfc959_parms *) request->protocol_data;
+  if (request->datafd > 0) {
     return (0);
-
-  request->read_function = gftp_fd_read;
-  request->write_function = gftp_fd_write;
-
+  }
+  if (!parms->implicit_ssl) {
+     request->read_function = gftp_fd_read;
+     request->write_function = gftp_fd_write;
+  }
   return (rfc959_connect (request));
 }
 
@@ -145,32 +147,36 @@ ftps_connect (gftp_request * request)
 void
 ftps_register_module (void)
 {
+  DEBUG_PRINT_FUNC
 #ifdef USE_SSL
   ssl_register_module ();
 #endif
 }
 
 
-int
-ftps_init (gftp_request * request)
+int ftps_init (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
 #ifdef USE_SSL
   rfc959_parms * params;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
-  if ((ret = gftp_protocols[GFTP_FTP_NUM].init (request)) < 0)
-    return (ret);
+  /* init FTP first */
+  ret = gftp_protocols[GFTP_FTP_NUM].init (request);
+  if (ret < 0) {
+     return (ret);
+  }
 
-  params = request->protocol_data;
+  params = (rfc959_parms *) request->protocol_data;
   request->protonum = GFTP_FTPS_NUM;
   request->init = ftps_init;
   request->connect = ftps_connect;
   params->auth_tls_start = ftps_auth_tls_start;
   request->get_next_file = ftps_get_next_file;
   request->post_connect = NULL;
-  request->url_prefix = g_strdup ("ftps");
+  request->url_prefix = "ftps";
 
   if ((ret = gftp_ssl_startup (NULL)) < 0)
     return (ret);
@@ -181,6 +187,66 @@ ftps_init (gftp_request * request)
                              _("FTPS Support unavailable since SSL support was not compiled in. Aborting connection.\n"));
 
   return (GFTP_EFATAL);
+#endif
+}
+
+
+
+//=======================================================================
+//                          IMPLICIT SSL/TSL
+//=======================================================================
+// Use the FTPS stuff and just override default values and functions where needed
+// Establish encrypted connection before sending or receiving any message
+
+void ftpsi_register_module (void)
+{
+   DEBUG_PRINT_FUNC
+}
+
+
+static int ftpsi_connect (gftp_request * request)
+{
+   DEBUG_PRINT_FUNC
+   // this is just to override default port
+   // default port for FTPSi is 990..
+   if (!request->port) {
+      request->port = gftp_protocols[GFTP_FTPSi_NUM].default_port;
+   }
+   return (ftps_connect (request));
+}
+
+
+int ftpsi_init (gftp_request * request)
+{
+   DEBUG_PRINT_FUNC
+#ifdef USE_SSL
+   int ret;
+   rfc959_parms * params;
+   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
+
+   // init funcs (FTP->FTPS->FTPSi)
+   ret = gftp_protocols[GFTP_FTPS_NUM].init (request);
+   if (ret < 0) {
+      return (ret);
+   }
+
+   request->protonum = GFTP_FTPSi_NUM;
+   params = (rfc959_parms *) request->protocol_data;
+   params->implicit_ssl        = 1;
+   params->data_conn_tls_start = ftps_data_conn_tls_start;
+   params->data_conn_read      = gftp_ssl_read;
+   params->data_conn_write     = gftp_ssl_write;
+   params->data_conn_tls_close = ftps_data_conn_tls_close;
+   request->read_function      = gftp_ssl_read;
+   request->write_function     = gftp_ssl_write;
+   request->url_prefix = "ftpsi";
+   request->connect = ftpsi_connect;
+   return 0;
+#else
+   request->logging_function (gftp_logging_error, request,
+                             _("FTPSi (Implicit SSL) Support unavailable since SSL support was not compiled in. Aborting connection.\n"));
+
+   return (GFTP_EFATAL);
 #endif
 }
 
