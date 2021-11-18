@@ -12,7 +12,7 @@ libgftp_a_SOURCES= \
 	misc.c \
 	parse-dir-listing.c \
 	protocols.c \
-	protocols_bookmark.c \
+	protocol_bookmark.c \
 	pty.c \
 	rfc959.c \
 	sshv2.c \
