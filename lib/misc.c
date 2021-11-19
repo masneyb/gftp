@@ -19,6 +19,7 @@
 
 #include "gftp.h"
 #include "options.h"
+#include <fnmatch.h>
 
 #ifdef HAVE_INTL_PRINTF
 
@@ -245,56 +246,23 @@ make_nonnull (char **str)
 }
 
 
-/* FIXME - Possible use the libpcre library. If it isn't used, then clean
-   this function up some more. */
-int
-gftp_match_filespec (gftp_request * request, const char *filename,
-                     const char *filespec)
+int gftp_match_filespec (gftp_request * request, const char *filename,
+                         const char *filespec)
 {
-  const char *filepos, *wcpos, *pos;
-  char search_str[20], *newpos;
-  intptr_t show_hidden_files;
-  size_t len, curlen;
+   intptr_t show_hidden_files;
   
-  if (filename == NULL || *filename == '\0' || 
-      filespec == NULL || *filespec == '\0') 
-    return (1);
-
-  gftp_lookup_request_option (request, "show_hidden_files", &show_hidden_files);
-  if (!show_hidden_files && *filename == '.' && strcmp (filename, "..") != 0)
-    return (0);
-
-  filepos = filename;
-  wcpos = filespec;
-  while (1)
-    {
-      if (*wcpos == '\0') 
-        return (1);
-      else if (*filepos == '\0') 
-        return (0);
-      else if (*wcpos == '?') 
-        {
-          wcpos++;
-          filepos++;
-        }
-      else if (*wcpos == '*' && *(wcpos+1) == '\0') 
-        return (1);
-      else if (*wcpos == '*') 
-        {
-          len = sizeof (search_str);
-          for (pos = wcpos + 1, newpos = search_str, curlen = 0;
-               *pos != '*' && *pos != '?' && *pos != '\0' && curlen < len;
-               curlen++, *newpos++ = *pos++);
-          *newpos = '\0';
-
-          if ((filepos = strstr (filepos, search_str)) == NULL)
-            return (0);
-          wcpos += curlen + 1;
-          filepos += curlen;
-        }
-      else if(*wcpos++ != *filepos++) 
-        return (0);
-    }
+   if (!filename || !*filename || !filespec || !*filespec) {
+      return (1);
+   }
+   gftp_lookup_request_option (request, "show_hidden_files", &show_hidden_files);
+   if (!show_hidden_files && *filename == '.' && strcmp (filename, "..") != 0) {
+      return (0);
+   }
+   if (fnmatch (filespec, filename, 0) == 0) {
+      return 1;
+   } else {
+      return 0;
+   }
 }
 
 
