@@ -350,8 +350,8 @@ fsp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       return 0;
   }
   
-  fle->user = g_strdup (_("unknown"));
-  fle->group = g_strdup (_("unknown"));
+  fle->user  = strdup ("-"); /* unknown */
+  fle->group = strdup ("-"); /* unknown */
   
   /* turn FSP symlink into normal file */
   symlink=strchr(dirent.name,'\n');

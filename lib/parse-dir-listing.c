@@ -333,8 +333,8 @@ gftp_parse_ls_mvs (char *str, gftp_file * fle)
 
   curpos = goto_next_token (curpos + 1);
 
-  fle->user = g_strdup (_("unknown"));
-  fle->group = g_strdup (_("unknown"));
+  fle->user  = strdup ("-"); /* unknown */
+  fle->group = strdup ("-"); /* unknown */
   fle->file = g_strdup (curpos);
 
   return (0);
@@ -375,8 +375,8 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
     fle->st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
   fle->file = g_strdup (startpos + 1);
-  fle->user = g_strdup (_("unknown"));
-  fle->group = g_strdup (_("unknown"));
+  fle->user  = strdup ("-"); /* unknown */
+  fle->group = strdup ("-"); /* unknown */
   return (0);
 }
 
@@ -442,14 +442,14 @@ gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
     }
   else
     {
-      fle->group = g_strdup (_("unknown"));
+      fle->group = strdup ("-"); /* unknown */
       if (cols == 8)
         {
           if ((startpos = copy_token (&fle->user, startpos)) == NULL)
             return (GFTP_EFATAL);
         }
       else
-        fle->user = g_strdup (_("unknown"));
+        fle->user  = strdup ("-"); /* unknown */
       startpos = goto_next_token (startpos);
     }
 
@@ -525,8 +525,8 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
   startpos = str;
   fle->datetime = parse_time (startpos, &startpos);
 
-  fle->user = g_strdup (_("unknown"));
-  fle->group = g_strdup (_("unknown"));
+  fle->user  = strdup ("-"); /* unknown */
+  fle->group = strdup ("-"); /* unknown */
 
   startpos = goto_next_token (startpos);
 
@@ -562,7 +562,7 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
   if ((startpos = copy_token (&fle->user, startpos)) == NULL)
     return (GFTP_EFATAL);
 
-  fle->group = g_strdup (_("unknown"));
+  fle->group = strdup ("-"); /* unknown */
 
   while (*startpos != '\0' && !isdigit (*startpos))
     startpos++;
