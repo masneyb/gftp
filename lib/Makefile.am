@@ -12,9 +12,9 @@ libgftp_a_SOURCES= \
 	parse-dir-listing.c \
 	protocols.c \
 	protocol_bookmark.c \
+	protocol_ftp.c \
 	protocol_ftps.c \
 	pty.c \
-	rfc959.c \
 	sshv2.c \
 	sslcommon.c \
 	socket-connect.c \
