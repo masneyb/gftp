@@ -69,11 +69,6 @@ static gftp_config_vars config_vars[] =
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("You must specify a FTP proxy hostname, port and probably other details"),
    GFTP_PORT_ALL, NULL},
-  {"ftp_list_a", N_("LIST -a: ask server to list hidden files"),
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL,
-   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("LIST -a: ask server to list hidden files. This may break some FTP servers. Some servers list hidden files by default"),
-   GFTP_PORT_ALL, NULL},
   {"ignore_pasv_address", N_("Ignore PASV address"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
@@ -456,7 +451,7 @@ rfc959_chdir (gftp_request * request, const char *directory)
 static int
 rfc959_syst (gftp_request * request)
 {
-  int ret, disable_ls_options;
+  int ret;
   char *stpos, *endpos;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -478,17 +473,12 @@ rfc959_syst (gftp_request * request)
     return (GFTP_ERETRYABLE);
 
   *endpos = '\0';
-  disable_ls_options = 0;
 
   if (strcmp (stpos, "UNIX") == 0)
     request->server_type = GFTP_DIRTYPE_UNIX;
   else if (strcmp (stpos, "VMS") == 0)
-    {
-      disable_ls_options = 1;
-      request->server_type = GFTP_DIRTYPE_VMS;
-    }
-  else if (strcmp (stpos, "MVS") == 0 ||
-           strcmp (stpos, "OS/MVS") == 0)
+    request->server_type = GFTP_DIRTYPE_VMS;
+  else if (strcmp (stpos, "MVS") == 0 || strcmp (stpos, "OS/MVS") == 0)
     request->server_type = GFTP_DIRTYPE_MVS;
   else if (strcmp (stpos, "NETWARE") == 0)
     request->server_type = GFTP_DIRTYPE_NOVELL;
@@ -496,14 +486,6 @@ rfc959_syst (gftp_request * request)
     request->server_type = GFTP_DIRTYPE_CRAY;
   else
     request->server_type = GFTP_DIRTYPE_OTHER;
-
-  if (strcmp (stpos, "OS/400") == 0)
-    disable_ls_options = 1;
-
-  if (disable_ls_options)
-    {
-      gftp_set_request_option (request, "ftp_list_a", GINT_TO_POINTER(0));
-    }
 
   return (0);
 }
@@ -1430,8 +1412,7 @@ static int
 rfc959_list_files (gftp_request * request)
 {
   rfc959_parms * params = request->protocol_data;
-  intptr_t ftp_list_a, passive_transfer;
-  char *tempstr, parms[3];
+  intptr_t passive_transfer;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1440,15 +1421,12 @@ rfc959_list_files (gftp_request * request)
   if ((ret = rfc959_data_connection_new (request, 0)) < 0)
     return (ret);
 
-  gftp_lookup_request_option (request, "ftp_list_a", &ftp_list_a);
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
-  *parms = '\0';
-  strcat (parms, ftp_list_a ? " -a" : "");
-  tempstr = g_strconcat ("LIST", parms, "\r\n", NULL); 
-
-  ret = rfc959_send_command (request, tempstr, -1, 1, 0);
-  g_free (tempstr);
+  ret = rfc959_send_command (request, "LIST -al\r\n", -1, 1, 0);
+  if (ret > 0 && ret != '1') {
+     ret = rfc959_send_command (request, "LIST\r\n", -1, 1, 0);
+  }
 
   if (ret < 0)
     return (ret);

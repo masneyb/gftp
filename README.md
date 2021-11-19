@@ -102,13 +102,6 @@ The gFTP file transfer client. http://www.gftp.org
   - ext=.htm:world.xpm:B:
   - ext=.html:world.xpm:B:
 
-
-## FTP: I don't see hidden files
-
-  This may work (and may break other servers): go to gFTP->Preferences->FTP
-  and enable `LIST -a: ask server to list hidden files`
-
-
 ## When gFTP tries to get the remote directory listing, I receive the error: Cannot create a data connection: Connection refused
 
   Go under gFTP->Options->FTP and turn off passive file transfers. Instead of
