@@ -238,14 +238,6 @@ gftp_expand_path (gftp_request * request, const char *src)
 }
 
 
-void
-make_nonnull (char **str)
-{
-  if (*str == NULL)
-    *str = g_malloc0 (1);
-}
-
-
 int gftp_match_filespec (gftp_request * request, const char *filename,
                          const char *filespec)
 {
@@ -870,57 +862,6 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
   g_free (tempstr2);
 
   return (ret);
-}
-
-
-char *
-base64_encode (char *str)
-{
-
-/* The standard to Base64 encoding can be found in RFC2045 */
-
-  char *newstr, *newpos, *fillpos, *pos;
-  unsigned char table[64], encode[3];
-  size_t slen, num;
-  int i;
-
-  for (i = 0; i < 26; i++)
-    {
-      table[i] = 'A' + i;
-      table[i + 26] = 'a' + i;
-    }
-
-  for (i = 0; i < 10; i++)
-    table[i + 52] = '0' + i;
-
-  table[62] = '+';
-  table[63] = '/';
-
-  slen = strlen (str);
-  num = slen / 3;
-  if (slen % 3 > 0)
-    num++;
-
-  newstr = g_malloc0 ((gulong) num * 4 + 1);
-  newstr[num * 4] = '\0';
-  newpos = newstr;
-
-  pos = str;
-  while (*pos != '\0')
-    {
-      memset (encode, 0, sizeof (encode));
-      for (i = 0; i < 3 && *pos != '\0'; i++)
-          encode[i] = *pos++;
-
-      fillpos = newpos;
-      *newpos++ = table[encode[0] >> 2];
-      *newpos++ = table[(encode[0] & 3) << 4 | encode[1] >> 4];
-      *newpos++ = table[(encode[1] & 0xF) << 2 | encode[2] >> 6];
-      *newpos++ = table[encode[2] & 0x3F];
-      while (i < 3)
-          fillpos[++i] = '=';
-    }
-  return (newstr);
 }
 
 

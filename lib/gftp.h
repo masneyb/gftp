@@ -669,7 +669,6 @@ void gftp_bookmarks_destroy (gftp_bookmarks_var * bookmarks);
 /* misc.c */
 char *insert_commas (off_t number, char *dest_str, size_t dest_len);
 char *alltrim     (char *str);
-void make_nonnull (char **str);
 char *gftp_expand_path (gftp_request * request, const char *src);
 int gftp_match_filespec (gftp_request * request, const char *filename, const char *filespec);
 int gftp_parse_command_line (int *argc, char ***argv);
@@ -698,7 +697,6 @@ char * gftp_gen_ls_string (gftp_request * request,
                            char *file_prefixstr,
                            char *file_suffixstr);
 
-char * base64_encode (char *str);
 void gftp_free_bookmark (gftp_bookmarks_var * entry, int free_node);
 void gftp_shutdown (void);
 char * gftp_build_path (gftp_request * request, const char *first_element, ...);
