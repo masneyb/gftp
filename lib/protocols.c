@@ -33,34 +33,25 @@ gftp_request_new (void)
 }
 
 
-void
-gftp_request_destroy (gftp_request * request, int free_request)
+void gftp_request_destroy (gftp_request * request, int free_request)
 {
   DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
 
   gftp_disconnect (request);
 
-  if (request->destroy != NULL)
+  if (request->destroy != NULL) {
     request->destroy (request);
+  }
+  if (request->hostname)  g_free (request->hostname);
+  if (request->username)  g_free (request->username);
+  if (request->password)  g_free (request->password);
+  if (request->account)   g_free (request->account);
+  if (request->directory) g_free (request->directory);
 
-  if (request->hostname)
-    g_free (request->hostname);
-  if (request->username)
-    g_free (request->username);
-  if (request->password)
-    g_free (request->password);
-  if (request->account)
-    g_free (request->account);
-  if (request->directory)
-    g_free (request->directory);
-  if (request->last_ftp_response)
-    g_free (request->last_ftp_response);
-  if (request->protocol_data)
-    g_free (request->protocol_data);
-
-  if (request->remote_addr != NULL)
-    g_free (request->remote_addr);
+  if (request->last_ftp_response) g_free (request->last_ftp_response);
+  if (request->protocol_data)     g_free (request->protocol_data);
+  if (request->remote_addr)       g_free (request->remote_addr);
 
   if (request->local_options_vars != NULL)
     {
@@ -99,20 +90,15 @@ gftp_copy_param_options (gftp_request * dest_request,
 }
 
 
-void
-gftp_file_destroy (gftp_file * file, int free_it)
+void gftp_file_destroy (gftp_file * file, int free_it)
 {
   //DEBUG_PRINT_FUNC
   g_return_if_fail (file != NULL);
 
-  if (file->file)
-    g_free (file->file);
-  if (file->user)
-    g_free (file->user);
-  if (file->group)
-    g_free (file->group);
-  if (file->destfile)
-    g_free (file->destfile);
+  if (file->file)     g_free (file->file);
+  if (file->user)     g_free (file->user);
+  if (file->group)    g_free (file->group);
+  if (file->destfile) g_free (file->destfile);
 
   if (free_it && file)
     g_free (file);
@@ -1693,35 +1679,21 @@ gftp_setup_startup_directory (gftp_request * request, const char *option_name)
 }
 
 
-char *
-gftp_convert_attributes_from_mode_t (mode_t mode)
+char * gftp_convert_attributes_from_mode_t (mode_t mode)
 {
-//DEBUG_PRINT_FUNC
+  //DEBUG_PRINT_FUNC
   char *str;
 
   str = g_malloc0 (11UL);
   
   str[0] = '?';
-  if (S_ISREG (mode))
-    str[0] = '-';
-
-  if (S_ISLNK (mode))
-    str[0] = 'l';
-
-  if (S_ISBLK (mode))
-    str[0] = 'b';
-
-  if (S_ISCHR (mode))
-    str[0] = 'c';
-
-  if (S_ISFIFO (mode))
-    str[0] = 'p';
-
-  if (S_ISSOCK (mode))
-    str[0] = 's';
-
-  if (S_ISDIR (mode))
-    str[0] = 'd';
+  if (S_ISREG (mode))  str[0] = '-';
+  if (S_ISLNK (mode))  str[0] = 'l';
+  if (S_ISBLK (mode))  str[0] = 'b';
+  if (S_ISCHR (mode))  str[0] = 'c';
+  if (S_ISFIFO (mode)) str[0] = 'p';
+  if (S_ISSOCK (mode)) str[0] = 's';
+  if (S_ISDIR  (mode)) str[0] = 'd';
 
   str[1] = mode & S_IRUSR ? 'r' : '-';
   str[2] = mode & S_IWUSR ? 'w' : '-';
@@ -1763,24 +1735,17 @@ gftp_convert_attributes_from_mode_t (mode_t mode)
 }
 
 
-mode_t
-gftp_convert_attributes_to_mode_t (char *attribs)
+mode_t gftp_convert_attributes_to_mode_t (char *attribs)
 {
-  DEBUG_PRINT_FUNC
+  //DEBUG_PRINT_FUNC
   mode_t mode;
 
-  if (attribs[0] == 'd')
-    mode = S_IFDIR;
-  else if (attribs[0] == 'l')
-    mode = S_IFLNK;
-  else if (attribs[0] == 's')
-    mode = S_IFSOCK;
-  else if (attribs[0] == 'b')
-    mode = S_IFBLK;
-  else if (attribs[0] == 'c')
-    mode = S_IFCHR;
-  else
-    mode = S_IFREG;
+  if      (attribs[0] == 'd') mode = S_IFDIR;
+  else if (attribs[0] == 'l') mode = S_IFLNK;
+  else if (attribs[0] == 's') mode = S_IFSOCK;
+  else if (attribs[0] == 'b') mode = S_IFBLK;
+  else if (attribs[0] == 'c') mode = S_IFCHR;
+  else                        mode = S_IFREG;
 
   if (attribs[1] == 'r')
     mode |= S_IRUSR;
@@ -1805,8 +1770,7 @@ gftp_convert_attributes_to_mode_t (char *attribs)
     mode |= S_IROTH;
   if (attribs[8] == 'w')
     mode |= S_IWOTH;
-  if (attribs[9] == 'x' ||
-      attribs[9] == 's')
+  if (attribs[9] == 'x' || attribs[9] == 's')
     mode |= S_IXOTH;
   if (attribs[9] == 't' || attribs[9] == 'T')
     mode |= S_ISVTX;
