@@ -573,9 +573,194 @@ gftp_parse_ls_novell (char *str, gftp_file * fle)
   return (0);
 }
 
+// =========================================================================
+//                             MLSD / MLST
+// =========================================================================
 
-int
-gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
+static int gftp_parse_ls_mlsd (char *str, gftp_file * fle)
+{
+   // type=file;size=79514812;modify=20211025203440;UNIX.mode=0644;unique=10g2534; zz.deb
+   // modify=20210930020540;perm=flcdmpe;type=dir;unique=36U22;UNIX.group=65534;UNIX.mode=0755;UNIX.owner=112; mrtg
+   // modify=20180626065826;perm=adfr;size=400;type=file;unique=2DU104;UNIX.group=0;UNIX.mode=0644;UNIX.owner=0; HEADER.html
+   //DEBUG_TRACE("MLSD: %s\n", str)
+   int ntokens, i;
+   char ** tokens;
+   char * filename, * strtype, * strsize, * strmodify, * strperm;
+   char * strunix_uid, * strunix_gid, * strunix_mode;
+   char * strunix_owner, * strunix_group, * strunix_ownername, * strunix_groupname;
+   char * p;
+   struct tm stm;
+   unsigned fmode = 0;
+
+   filename = strtype = strsize = strmodify = strperm = NULL;
+   strunix_uid = strunix_gid = strunix_mode = NULL;
+   strunix_owner = strunix_group = strunix_ownername = strunix_groupname = NULL;
+
+   // get filename
+   p = strchr (str, ' ');
+   if (p) {
+      *p = 0;
+      p++;
+      //DEBUG_PUTS(p)
+      if (*p) {
+         filename = p;
+      } else {
+         return GFTP_EFATAL;
+      }
+   } else {
+      return GFTP_EFATAL;
+   }
+
+   // determine number of tokens
+   p = str;
+   ntokens = 0;
+   while (*p) {
+      if (*p == ';') ntokens++;
+      p++;
+   }
+   //DEBUG_TRACE("tokens: %d\n", ntokens)
+   tokens = (char**) calloc (ntokens+1, sizeof(char**));
+
+   // tokenize; assign tokens
+   p = str;
+   tokens[0] = str; // first token is already determined...
+   i = 1;
+   while (*p)
+   {
+      if (*p == ';') {
+         *p = 0;
+         p++;
+         if (!*p) {
+            break;
+         }
+         tokens[i] = p;
+         i++;
+         continue;
+      }
+      p++;
+   }
+   tokens[ntokens] = NULL;
+
+   // assign str* variables
+   for (i = 0; tokens[i]; i++)
+   {
+      //DEBUG_PUTS(tokens[i])
+      if (strncasecmp (tokens[i], "type=", 5) == 0) {
+         strtype = tokens[i] + 5;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "size=", 5) == 0) {
+         strsize = tokens[i] + 5;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "perm=", 5) == 0) {
+         strperm = tokens[i] + 5;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "modify=", 7) == 0) {
+         strmodify = tokens[i] + 7;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "unix.mode=", 10) == 0) {
+         strunix_mode = tokens[i] + 10;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "unix.uid=", 9) == 0) {
+         strunix_uid = tokens[i] + 9;
+         if (!*strunix_uid) strunix_uid = NULL;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "unix.gid=", 9) == 0) {
+         strunix_gid = tokens[i] + 9;
+         if (!*strunix_gid) strunix_gid = NULL;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "unix.owner=", 11) == 0) {
+         strunix_owner = tokens[i] + 11;
+         if (!*strunix_owner) strunix_owner = NULL;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "unix.group=", 11) == 0) {
+         strunix_group = tokens[i] + 11;
+         if (!*strunix_group) strunix_group = NULL;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "unix.ownername=", 15) == 0) {
+         strunix_ownername = tokens[i] + 15;
+         if (!*strunix_ownername) strunix_ownername = NULL;
+         continue;
+      }
+      if (strncasecmp (tokens[i], "unix.groupname=", 15) == 0) {
+         strunix_groupname = tokens[i] + 15;
+         if (!*strunix_groupname) strunix_groupname = NULL;
+         continue;
+      }
+   }
+   free (tokens);
+
+   if (!filename || !*filename || !strtype || !*strtype) {
+      return GFTP_EFATAL;
+   }
+
+   // determine values for gftp_file
+   fle->file = strdup (filename);
+
+   if (strtype && *strtype) {
+      // type=pdir
+      if ((strcmp(strtype,"dir") == 0) || (strcmp(strtype,"pdir") == 0) || (strcmp(strtype,"cdir") == 0)) {
+         fle->st_mode = S_IFDIR;
+         fle->size = 4096; /* sizd */
+      } else if (strstr (strtype, "link")) {
+         fle->st_mode = S_IFLNK;
+      } else {
+         fle->st_mode = S_IFREG;
+      }
+   }
+
+   if (strsize && *strsize) {
+      // size=79514812
+      fle->size = gftp_parse_file_size (strsize);
+   }
+   if (strmodify && *strmodify) {
+      // modify=20211118041946
+      //        Y---m-d-H-M-S-
+      strptime (strmodify, "%Y%m%d%H%M%S", &stm);
+      fle->datetime = mktime (&stm); // time_t
+   }
+
+   if (strunix_mode && *strunix_mode) {
+      // UNIX.mode=0644
+      sscanf (strunix_mode, "%o", &fmode);
+      fle->st_mode |= fmode;
+   } else if (strperm) {
+      // perm=... doesn't map to UNIX permissions
+      // so instead of wasting cpu time processing nonsensical permissions
+      // just assign some default values...
+      fle->st_mode |= 0755;
+   } else {
+      // set some good default permissions..
+      fle->st_mode |= 0755;
+   }
+
+   if (strunix_ownername)  fle->user = strdup (strunix_ownername);
+   else if (strunix_owner) fle->user = strdup (strunix_owner);
+   else if (strunix_uid)   fle->user = strdup (strunix_uid);
+   else                    fle->user = strdup ("-"); /* unknown */
+
+   if (strunix_groupname)  fle->group = strdup (strunix_groupname);
+   else if (strunix_group) fle->group = strdup (strunix_group);
+   else if (strunix_gid)   fle->group = strdup (strunix_gid);
+   else                    fle->group = strdup ("-"); /* unknown */
+
+   return 0;
+}
+
+
+// =========================================================================
+//            main function:   gftp_parse_ls()
+// =========================================================================
+
+int gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
                int fd)
 {
   char *str, *endpos, tmpchar;
@@ -596,6 +781,9 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
 
   switch (request->server_type)
     {
+      case GFTP_DIRTYPE_MLSD:
+        result = gftp_parse_ls_mlsd (str, fle);
+        break;
       case GFTP_DIRTYPE_CRAY:
       case GFTP_DIRTYPE_UNIX:
         result = gftp_parse_ls_unix (request, str, len, fle);
@@ -615,6 +803,7 @@ gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
       case GFTP_DIRTYPE_MVS:
         result = gftp_parse_ls_mvs (str, fle);
         break;
+
       default: /* autodetect */
         if (*lsoutput == '+')
           result = gftp_parse_ls_eplf (str, fle);

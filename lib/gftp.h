@@ -87,9 +87,13 @@
 #ifdef GFTP_DEBUG
 #define DEBUG_PRINT_FUNC printf("%s: %s  (%d)\n", __FILE__, __func__, __LINE__);
 #define DEBUG_MSG(x) printf("-- %s", (x));
+#define DEBUG_TRACE(format, ...) printf(format, __VA_ARGS__);
+#define DEBUG_PUTS(x) puts(x);
 #else
 #define DEBUG_PRINT_FUNC
 #define DEBUG_MSG(x)
+#define DEBUG_TRACE(x, ...)
+#define DEBUG_PUTS(x)
 #endif
 
 #ifdef USE_SSL
@@ -170,6 +174,7 @@
 #define GFTP_DIRTYPE_VMS     6
 #define GFTP_DIRTYPE_OTHER   7
 #define GFTP_DIRTYPE_MVS     8
+#define GFTP_DIRTYPE_MLSD    9 /* MLSD/MLST replaces LIST */
 
 /* Error types */
 #define GFTP_ERETRYABLE -1 /* Temporary failure. The GUI should wait briefly */

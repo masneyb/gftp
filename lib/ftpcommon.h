@@ -36,6 +36,8 @@ struct rfc959_params_tag
                               size_t size, int fd);
   void (*data_conn_tls_close) (gftp_request * request);
   int implicit_ssl : 1;
+  int last_cmd; /* 4hackz */
+  int flags;    /* detected server features */
 };
 
 typedef struct rfc959_params_tag rfc959_parms;

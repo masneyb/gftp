@@ -20,6 +20,13 @@
 #include "gftp.h"
 #include "ftpcommon.h"
 
+#define FTP_CMD_FEAT 100
+
+// If a server supports MLST, it must also support MLSD
+// some (most?) servers don't report MLSD even though it's supported
+// Should only use FTP_CMD_MLST to test if MLSD is supported
+#define FTP_CMD_MLST (1 << 1) /* RFC 3659 */
+
 
 static gftp_textcomboedt_data gftp_proxy_type[] = {
   {N_("none"), "", 0},
@@ -93,6 +100,19 @@ static gftp_config_vars config_vars[] =
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
 
+
+// ==========================================================================
+
+static void rfc2389_feat_supported_cmd (rfc959_parms * parms, char * cmd)
+{
+   DEBUG_PUTS(cmd)
+   char *p = cmd;
+   while (*p <= 32) p++; // strip leading spaces
+   if (strncmp (p, "MLST", 4) == 0) {
+      parms->flags |= FTP_CMD_MLST;
+      return;
+   }
+}
          
 static int
 rfc959_read_response (gftp_request * request, int disconnect_on_42x)
@@ -119,11 +139,17 @@ rfc959_read_response (gftp_request * request, int disconnect_on_42x)
                                      sizeof (tempstr), request->datafd)) <= 0) {
          break;
       }
+
       if (isdigit ((int) *tempstr) && isdigit ((int) *(tempstr + 1))
           && isdigit ((int) *(tempstr + 2)))
       {
          strncpy (code, tempstr, 3);
          code[3] = ' ';
+      }
+
+      if (parms->last_cmd == FTP_CMD_FEAT) {
+         rfc2389_feat_supported_cmd (parms, tempstr);
+         continue;
       }
 
       if (*tempstr == '4' || *tempstr == '5')
@@ -448,14 +474,22 @@ rfc959_chdir (gftp_request * request, const char *directory)
 }
 
 
-static int
-rfc959_syst (gftp_request * request)
+static int rfc959_syst (gftp_request * request)
 {
   int ret;
   char *stpos, *endpos;
+  rfc959_parms * parms;
+  int dt;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
+
+  // if MLSD has been detected, then use GFTP_DIRTYPE_MLSD
+  parms = request->protocol_data;
+  if (parms->flags & FTP_CMD_MLST) {
+     request->server_type = GFTP_DIRTYPE_MLSD;
+     return 0;
+  }
 
   ret = rfc959_send_command (request, "SYST\r\n", -1, 1, 0);
 
@@ -474,19 +508,15 @@ rfc959_syst (gftp_request * request)
 
   *endpos = '\0';
 
-  if (strcmp (stpos, "UNIX") == 0)
-    request->server_type = GFTP_DIRTYPE_UNIX;
-  else if (strcmp (stpos, "VMS") == 0)
-    request->server_type = GFTP_DIRTYPE_VMS;
-  else if (strcmp (stpos, "MVS") == 0 || strcmp (stpos, "OS/MVS") == 0)
-    request->server_type = GFTP_DIRTYPE_MVS;
-  else if (strcmp (stpos, "NETWARE") == 0)
-    request->server_type = GFTP_DIRTYPE_NOVELL;
-  else if (strcmp (stpos, "CRAY") == 0)
-    request->server_type = GFTP_DIRTYPE_CRAY;
-  else
-    request->server_type = GFTP_DIRTYPE_OTHER;
+  if      (strcmp (stpos, "UNIX") == 0)    dt = GFTP_DIRTYPE_UNIX;
+  else if (strcmp (stpos, "VMS") == 0)     dt = GFTP_DIRTYPE_VMS;
+  else if (strcmp (stpos, "MVS") == 0)     dt = GFTP_DIRTYPE_MVS;
+  else if (strcmp (stpos, "OS/MVS") == 0)  dt = GFTP_DIRTYPE_MVS;
+  else if (strcmp (stpos, "NETWARE") == 0) dt = GFTP_DIRTYPE_NOVELL;
+  else if (strcmp (stpos, "CRAY") == 0)    dt = GFTP_DIRTYPE_CRAY;
+  else                                     dt = GFTP_DIRTYPE_OTHER;
 
+  request->server_type = dt;
   return (0);
 }
 
@@ -622,8 +652,15 @@ int rfc959_connect (gftp_request * request)
         return (GFTP_ERETRYABLE);
     }
 
-  if ((ret = rfc959_syst (request)) < 0 && request->datafd < 0)
+  // determine server features, the response to this is not logged
+  parms->last_cmd = FTP_CMD_FEAT;
+  ret = rfc959_send_command (request, "FEAT\r\n", -1, 1, 0);
+  parms->last_cmd = 0;
+
+  // determine system type
+  if ((ret = rfc959_syst (request)) < 0 && request->datafd < 0) {
     return (ret);
+  }
 
   gftp_lookup_request_option (request, "ascii_transfers", &ascii_transfers);
   if (ascii_transfers)
@@ -1408,8 +1445,7 @@ rfc959_abort_transfer (gftp_request * request)
 }
 
 
-static int
-rfc959_list_files (gftp_request * request)
+static int rfc959_list_files (gftp_request * request)
 {
   rfc959_parms * params = request->protocol_data;
   intptr_t passive_transfer;
@@ -1423,7 +1459,12 @@ rfc959_list_files (gftp_request * request)
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
-  ret = rfc959_send_command (request, "LIST -al\r\n", -1, 1, 0);
+  if (params->flags & FTP_CMD_MLST) {
+     ret = rfc959_send_command (request, "MLSD\r\n", -1, 1, 0);
+  } else {
+     ret = rfc959_send_command (request, "LIST -al\r\n", -1, 1, 0);
+  }
+  // fall back to LIST if an error response is sent..
   if (ret > 0 && ret != '1') {
      ret = rfc959_send_command (request, "LIST\r\n", -1, 1, 0);
   }
@@ -1869,6 +1910,8 @@ rfc959_copy_param_options (gftp_request * dest_request,
   dparms->data_conn_write     = sparms->data_conn_write;
   dparms->data_conn_tls_close = sparms->data_conn_tls_close;
   dparms->implicit_ssl        = sparms->implicit_ssl;
+  dparms->last_cmd            = sparms->last_cmd;
+  dparms->flags               = sparms->flags;
 
   dest_request->read_function = src_request->read_function;
   dest_request->write_function = src_request->write_function;
