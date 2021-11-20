@@ -190,13 +190,9 @@ gftp_parse_vms_attribs (char **src, mode_t mask)
     *endpos = '\0';
 
   ret = 0;
-  if (strchr (*src, 'R') != NULL)
-    ret |= S_IRUSR | S_IRGRP | S_IROTH;
-  if (strchr (*src, 'W') != NULL)
-    ret |= S_IWUSR | S_IWGRP | S_IWOTH;
-  if (strchr (*src, 'E') != NULL)
-    ret |= S_IXUSR | S_IXGRP | S_IXOTH;
-
+  if (strchr (*src, 'R')) ret |= S_IRUSR | S_IRGRP | S_IROTH;
+  if (strchr (*src, 'W')) ret |= S_IWUSR | S_IWGRP | S_IWOTH;
+  if (strchr (*src, 'E')) ret |= S_IXUSR | S_IXGRP | S_IXOTH;
   *src = endpos + 1;
 
   return (ret & mask);

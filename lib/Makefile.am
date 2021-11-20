@@ -7,9 +7,9 @@ libgftp_a_SOURCES= \
 	charset-conv.c \
 	config_file.c \
 	fsp.c fsplib.c \
+	ftp-dir-listing.c \
 	local.c \
 	misc.c \
-	parse-dir-listing.c \
 	protocols.c \
 	protocol_bookmark.c \
 	protocol_ftp.c \
