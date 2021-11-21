@@ -20,9 +20,8 @@
 
 #include "gftp.h"
 
-static char *
-copy_token (/*@out@*/ char **dest, char *source)
-{
+static char * copy_token (char **dest, char *source)
+{                         /*@out@*/
   char *endpos, savepos;
 
   endpos = source;
@@ -48,21 +47,19 @@ copy_token (/*@out@*/ char **dest, char *source)
 }
 
 
-static char *
-goto_next_token (char *pos)
+static char * goto_next_token (char *pos)
 {
-  while (*pos != ' ' && *pos != '\t' && *pos != '\0')
+  while (*pos != ' ' && *pos != '\t' && *pos != '\0') {
     pos++;
-
-  while (*pos == ' ' || *pos == '\t')
+  }
+  while (*pos == ' ' || *pos == '\t') {
     pos++;
-
+  }
   return (pos);
 }
 
 
-static time_t
-parse_vms_time (char *str, char **endpos)
+static time_t parse_vms_time (char *str, char **endpos)
 {
   struct tm curtime;
   time_t ret;
@@ -91,8 +88,7 @@ parse_vms_time (char *str, char **endpos)
 }
 
 
-time_t
-parse_time (char *str, char **endpos)
+time_t parse_time (char *str, char **endpos)
 {
   struct tm curtime, *loctime;
   time_t t, ret;
@@ -104,16 +100,13 @@ parse_time (char *str, char **endpos)
   memset (&curtime, 0, sizeof (curtime));
   curtime.tm_isdst = -1;
 
-  if (slen > 4 && isdigit ((int) str[0]) && str[2] == '-' && 
-      isdigit ((int) str[3]))
+  if (slen > 4 && isdigit ((int) str[0]) && str[2] == '-' && isdigit ((int) str[3]))
     {
       /* This is how DOS will return the date/time */
       /* 07-06-99  12:57PM */
-
       tmppos = strptime (str, "%m-%d-%y %I:%M%p", &curtime);
     }
-  else if (slen > 4 && isdigit ((int) str[0]) && str[2] == '-' && 
-           isalpha (str[3]))
+  else if (slen > 4 && isdigit ((int) str[0]) && str[2] == '-' && isalpha (str[3]))
     {
       /* 10-Jan-2003 09:14 */
       tmppos = strptime (str, "%d-%h-%Y %H:%M", &curtime);
@@ -127,7 +120,6 @@ parse_time (char *str, char **endpos)
     {
       /* This is how most UNIX, Novell, and MacOS ftp servers send their time */
       /* Jul 06 12:57 or Jul  6  1999 */
-
       if (strchr (str, ':') != NULL)
         {
           tmppos = strptime (str, "%h %d %H:%M", &curtime);
@@ -177,8 +169,10 @@ parse_time (char *str, char **endpos)
 }
 
 
-static mode_t
-gftp_parse_vms_attribs (char **src, mode_t mask)
+// =========================================================================
+
+
+static mode_t gftp_parse_vms_attribs (char **src, mode_t mask)
 {
   char *endpos;
   mode_t ret;
@@ -186,9 +180,9 @@ gftp_parse_vms_attribs (char **src, mode_t mask)
   if (*src == NULL)
     return (0);
 
-  if ((endpos = strchr (*src, ',')) != NULL)
+  if ((endpos = strchr (*src, ',')) != NULL) {
     *endpos = '\0';
-
+  }
   ret = 0;
   if (strchr (*src, 'R')) ret |= S_IRUSR | S_IRGRP | S_IROTH;
   if (strchr (*src, 'W')) ret |= S_IWUSR | S_IWGRP | S_IWOTH;
@@ -199,8 +193,7 @@ gftp_parse_vms_attribs (char **src, mode_t mask)
 }
 
 
-static int
-gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
+static int gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
 {
   char *curpos, *endpos, tempstr[1024];
   int multiline;
@@ -219,9 +212,9 @@ gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
   TCPIP$FTP_SERVER.LOG;27
 	5/18 8-JUN-2004 13:03:51  [NUCLEAR,FISSION]      (RWED,RWED,RE,) */
 
-  if ((curpos = strchr (str, ';')) == NULL)
+  if ((curpos = strchr (str, ';')) == NULL) {
     return (GFTP_EFATAL);
-
+  }
   multiline = strchr (str, ' ') == NULL;
 
   *curpos = '\0';
@@ -269,15 +262,14 @@ gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
   fle->st_mode |= gftp_parse_vms_attribs (&curpos, S_IRWXG);
   fle->st_mode |= gftp_parse_vms_attribs (&curpos, S_IRWXO);
 
-  fle->user = g_strdup ("");
-  fle->group = g_strdup ("");
+  fle->user  = strdup ("-"); /* unknown */
+  fle->group = strdup ("-"); /* unknown */
 
   return (0);
 }
 
 
-static int
-gftp_parse_ls_mvs (char *str, gftp_file * fle)
+static int gftp_parse_ls_mvs (char *str, gftp_file * fle)
 {
   char *curpos;
 
@@ -337,8 +329,7 @@ gftp_parse_ls_mvs (char *str, gftp_file * fle)
 }
   
 
-static int
-gftp_parse_ls_eplf (char *str, gftp_file * fle)
+static int gftp_parse_ls_eplf (char *str, gftp_file * fle)
 {
   char *startpos;
   int isdir = 0;
@@ -362,14 +353,14 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
       startpos = strchr (startpos, ',');
     }
 
-  if ((startpos = strchr (str, 9)) == NULL)
+  if ((startpos = strchr (str, 9)) == NULL) {
     return (GFTP_EFATAL);
-
-  if (isdir)
+  }
+  if (isdir) {
     fle->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
-  else
+  } else {
     fle->st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-
+  }
   fle->file = g_strdup (startpos + 1);
   fle->user  = strdup ("-"); /* unknown */
   fle->group = strdup ("-"); /* unknown */
@@ -377,10 +368,10 @@ gftp_parse_ls_eplf (char *str, gftp_file * fle)
 }
 
 
-static int
-gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
-                    gftp_file * fle)
+static int gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
+                               gftp_file * fle)
 {
+  //DEBUG_TRACE("LSUNIX: %s\n", str);
   char *endpos, *startpos, *pos, *attribs;
   int cols;
 
@@ -500,22 +491,15 @@ gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
 
   fle->file = g_strdup (startpos);
 
-  /* Uncomment this if you want to strip the spaces off of the end of the file.
-     I don't want to do this by default since there are valid filenames with
-     spaces at the end of them. Some broken FTP servers like the Paradyne IPC
-     DSLAMS append a bunch of spaces at the end of the file.
-  for (endpos = fle->file + strlen (fle->file) - 1; 
-       *endpos == ' '; 
-       *endpos-- = '\0');
-  */
-
   return (0);
 }
 
 
-static int
-gftp_parse_ls_nt (char *str, gftp_file * fle)
+static int gftp_parse_ls_nt (char *str, gftp_file * fle)
 {
+  // 12-03-15  08:14PM       <DIR>          aspnet_client
+  // 10-19-20  03:19PM       <DIR>          pub
+  // 04-08-14  03:09PM                  403 readme.txt
   char *startpos;
 
   startpos = str;
@@ -530,7 +514,7 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
     fle->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
   else
     {
-      fle->st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+      fle->st_mode = S_IFREG | S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
       fle->size = gftp_parse_file_size (startpos);
     }
 
@@ -540,29 +524,28 @@ gftp_parse_ls_nt (char *str, gftp_file * fle)
 }
 
 
-static int
-gftp_parse_ls_novell (char *str, gftp_file * fle)
+static int gftp_parse_ls_novell (char *str, gftp_file * fle)
 {
   char *startpos;
 
-  if (str[12] != ' ')
+  if (str[12] != ' ') {
     return (GFTP_EFATAL);
-
+  }
   str[12] = '\0';
   fle->st_mode = gftp_convert_attributes_to_mode_t (str);
   startpos = str + 13;
 
-  while ((*startpos == ' ' || *startpos == '\t') && *startpos != '\0')
+  while ((*startpos == ' ' || *startpos == '\t') && *startpos != '\0') {
     startpos++;
-
-  if ((startpos = copy_token (&fle->user, startpos)) == NULL)
+  }
+  if ((startpos = copy_token (&fle->user, startpos)) == NULL) {
     return (GFTP_EFATAL);
-
+  }
   fle->group = strdup ("-"); /* unknown */
 
-  while (*startpos != '\0' && !isdigit (*startpos))
+  while (*startpos != '\0' && !isdigit (*startpos)) {
     startpos++;
-
+  }
   fle->size = gftp_parse_file_size (startpos);
 
   startpos = goto_next_token (startpos);
