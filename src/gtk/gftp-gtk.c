@@ -1404,11 +1404,10 @@ _setup_window1 ()
 }
 
 
-static void
-_setup_window2 (int argc, char **argv)
+static void _setup_window2 (int argc, char **argv)
 {
   intptr_t connect_to_remote_on_startup;
-
+  char * rhost;
   gftp_lookup_request_option (window2.request, "connect_to_remote_on_startup",
                               &connect_to_remote_on_startup);
 
@@ -1421,13 +1420,12 @@ _setup_window2 (int argc, char **argv)
     }
   else if (connect_to_remote_on_startup)
     {
-      if (gftp_protocols[_get_selected_protocol ()].init (current_wdata->request) == 0)
-        {
-          gftp_setup_startup_directory (window2.request,
-                                        "remote_startup_directory");
-          gftp_connect (window2.request);
-          ftp_list_files (&window2);
-        }
+       rhost = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (hostedit));
+       if (rhost && *rhost) {
+          ftp_log (gftp_logging_misc, NULL, _("** Connect to remote server on startup is enabled\n"));
+          gftp_setup_startup_directory (window2.request, "remote_startup_directory");
+          tb_openurl_dialog (&window2);
+       }
     }
   else
     {
