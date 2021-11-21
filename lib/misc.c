@@ -870,24 +870,14 @@ gftp_free_bookmark (gftp_bookmarks_var * entry, int free_node)
 {
   gftp_bookmarks_var * tempentry;
 
-  if (entry->path)
-    g_free (entry->path);
-  if (entry->oldpath)
-    g_free (entry->oldpath);
-  if (entry->hostname)
-    g_free (entry->hostname);
-  if (entry->remote_dir)
-    g_free (entry->remote_dir);
-  if (entry->local_dir)
-    g_free (entry->local_dir);
-  if (entry->user)
-    g_free (entry->user);
-  if (entry->pass)
-    g_free (entry->pass);
-  if (entry->acct)
-    g_free (entry->acct);
-  if (entry->protocol)
-    g_free (entry->protocol);
+  if (entry->path)       g_free (entry->path);
+  if (entry->hostname)   g_free (entry->hostname);
+  if (entry->remote_dir) g_free (entry->remote_dir);
+  if (entry->local_dir)  g_free (entry->local_dir);
+  if (entry->user)       g_free (entry->user);
+  if (entry->pass)       g_free (entry->pass);
+  if (entry->acct)       g_free (entry->acct);
+  if (entry->protocol)   g_free (entry->protocol);
 
   if (entry->local_options_vars != NULL)
     {
