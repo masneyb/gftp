@@ -21,13 +21,13 @@
 
 #include "gftp.h"
 
-struct rfc959_params_tag
+struct ftp_protocol_data_tag
 {  
-  gftp_getline_buffer * datafd_rbuf,
-                      * dataconn_rbuf;
+  gftp_getline_buffer * datafd_rbuf;
+  gftp_getline_buffer * dataconn_rbuf;
   int data_connection;
-  unsigned int is_ascii_transfer : 1,
-               is_fxp_transfer : 1;
+  unsigned int is_ascii_transfer : 1;
+  unsigned int is_fxp_transfer : 1;
   int (*auth_tls_start) (gftp_request * request);
   int (*data_conn_tls_start) (gftp_request * request);
   ssize_t (*data_conn_read) (gftp_request * request, void *ptr, size_t size,
@@ -40,7 +40,7 @@ struct rfc959_params_tag
   int flags;    /* detected server features */
 };
 
-typedef struct rfc959_params_tag rfc959_parms;
+typedef struct ftp_protocol_data_tag ftp_protocol_data;
 
 int rfc959_send_command 		( gftp_request * request,
 					  const char *command,

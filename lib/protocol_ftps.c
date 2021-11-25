@@ -25,36 +25,36 @@
 static int
 ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
-  rfc959_parms * params;
+  ftp_protocol_data * ftpdat;
   int resetptr = 0, resetdata = 0;
   size_t ret;
 
-  params = request->protocol_data;
+  ftpdat = request->protocol_data;
   if (request->cached &&
      request->read_function == gftp_ssl_read)
     {
       request->read_function = gftp_fd_read;
       request->write_function = gftp_fd_write;
       resetptr = 1;
-      if (params->data_conn_read == gftp_ssl_read)
-	{
-	  params->data_conn_read = gftp_fd_read;
-	  params->data_conn_write = gftp_fd_write;
-	  resetdata = 1;
-	}
+      if (ftpdat->data_conn_read == gftp_ssl_read)
+      {
+         ftpdat->data_conn_read  = gftp_fd_read;
+         ftpdat->data_conn_write = gftp_fd_write;
+         resetdata = 1;
+      }
     }
 
   ret = rfc959_get_next_file (request, fle, fd);
 
   if (resetptr)
     {
-      request->read_function = gftp_ssl_read;
+      request->read_function  = gftp_ssl_read;
       request->write_function = gftp_ssl_write;
       if (resetdata)
-	{
-	  params->data_conn_read = gftp_ssl_read;
-	  params->data_conn_write = gftp_ssl_write;
-	}
+      {
+         ftpdat->data_conn_read  = gftp_ssl_read;
+         ftpdat->data_conn_write = gftp_ssl_write;
+      }
     }
 
   return (ret);
@@ -63,24 +63,24 @@ ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 static int 
 ftps_data_conn_tls_start (gftp_request * request)
 {
-  rfc959_parms * params = request->protocol_data;
-  return gftp_ssl_session_setup_ex (request, params->data_connection);
+  ftp_protocol_data * ftpdat = request->protocol_data;
+  return gftp_ssl_session_setup_ex (request, ftpdat->data_connection);
 }
 
 static void
 ftps_data_conn_tls_close (gftp_request * request)
 {
-  rfc959_parms * params = request->protocol_data;
-  gftp_ssl_session_close_ex (request, params->data_connection);
+  ftp_protocol_data * ftpdat = request->protocol_data;
+  gftp_ssl_session_close_ex (request, ftpdat->data_connection);
 }
 
 
 static int ftps_auth_tls_start (gftp_request * request)
 {
-  rfc959_parms * params;
+  ftp_protocol_data * ftpdat;
   int ret;
 
-  params = request->protocol_data;
+  ftpdat = request->protocol_data;
 
   ret = rfc959_send_command (request, "AUTH TLS\r\n", -1, 1, 0);
   if (ret < 0)
@@ -91,7 +91,7 @@ static int ftps_auth_tls_start (gftp_request * request)
   if ((ret = gftp_ssl_session_setup (request)) < 0)
     return (ret);
 
-  request->read_function = gftp_ssl_read;
+  request->read_function  = gftp_ssl_read;
   request->write_function = gftp_ssl_write;
 
   ret = rfc959_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
@@ -103,10 +103,10 @@ static int ftps_auth_tls_start (gftp_request * request)
     return (ret);
   else if (ret == '2')
     {
-      params->data_conn_tls_start = ftps_data_conn_tls_start;
-      params->data_conn_read = gftp_ssl_read;
-      params->data_conn_write = gftp_ssl_write;
-      params->data_conn_tls_close = ftps_data_conn_tls_close;
+      ftpdat->data_conn_tls_start = ftps_data_conn_tls_start;
+      ftpdat->data_conn_read      = gftp_ssl_read;
+      ftpdat->data_conn_write     = gftp_ssl_write;
+      ftpdat->data_conn_tls_close = ftps_data_conn_tls_close;
     }
   else
     {
@@ -119,8 +119,8 @@ static int ftps_auth_tls_start (gftp_request * request)
           return (GFTP_ERETRYABLE);
         }
 
-      params->data_conn_read = gftp_fd_read;
-      params->data_conn_write = gftp_fd_write;
+      ftpdat->data_conn_read  = gftp_fd_read;
+      ftpdat->data_conn_write = gftp_fd_write;
     }
 
   return (0);
@@ -130,12 +130,12 @@ static int ftps_auth_tls_start (gftp_request * request)
 static int ftps_connect (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
-  rfc959_parms * parms = (rfc959_parms *) request->protocol_data;
+  ftp_protocol_data * ftpdat = (ftp_protocol_data *) request->protocol_data;
   if (request->datafd > 0) {
     return (0);
   }
-  if (!parms->implicit_ssl) {
-     request->read_function = gftp_fd_read;
+  if (!ftpdat->implicit_ssl) {
+     request->read_function  = gftp_fd_read;
      request->write_function = gftp_fd_write;
   }
   return (rfc959_connect (request));
@@ -158,7 +158,7 @@ int ftps_init (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
 #ifdef USE_SSL
-  rfc959_parms * params;
+  ftp_protocol_data * ftpdat;
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -169,11 +169,11 @@ int ftps_init (gftp_request * request)
      return (ret);
   }
 
-  params = (rfc959_parms *) request->protocol_data;
+  ftpdat = (ftp_protocol_data *) request->protocol_data;
   request->protonum = GFTP_PROTOCOL_FTPS;
   request->init = ftps_init;
   request->connect = ftps_connect;
-  params->auth_tls_start = ftps_auth_tls_start;
+  ftpdat->auth_tls_start = ftps_auth_tls_start;
   request->get_next_file = ftps_get_next_file;
   request->post_connect = NULL;
   request->url_prefix = "ftps";
@@ -193,7 +193,7 @@ int ftps_init (gftp_request * request)
 
 
 //=======================================================================
-//                          IMPLICIT SSL/TSL
+//                          IMPLICIT TLS
 //=======================================================================
 // Use the FTPS stuff and just override default values and functions where needed
 // Establish encrypted connection before sending or receiving any message
@@ -221,7 +221,7 @@ int ftpsi_init (gftp_request * request)
    DEBUG_PRINT_FUNC
 #ifdef USE_SSL
    int ret;
-   rfc959_parms * params;
+   ftp_protocol_data * ftpdat;
    g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
    // init funcs (FTP->FTPS->FTPSi)
@@ -231,12 +231,12 @@ int ftpsi_init (gftp_request * request)
    }
 
    request->protonum = GFTP_PROTOCOL_FTPSi;
-   params = (rfc959_parms *) request->protocol_data;
-   params->implicit_ssl        = 1;
-   params->data_conn_tls_start = ftps_data_conn_tls_start;
-   params->data_conn_read      = gftp_ssl_read;
-   params->data_conn_write     = gftp_ssl_write;
-   params->data_conn_tls_close = ftps_data_conn_tls_close;
+   ftpdat = (ftp_protocol_data *) request->protocol_data;
+   ftpdat->implicit_ssl        = 1;
+   ftpdat->data_conn_tls_start = ftps_data_conn_tls_start;
+   ftpdat->data_conn_read      = gftp_ssl_read;
+   ftpdat->data_conn_write     = gftp_ssl_write;
+   ftpdat->data_conn_tls_close = ftps_data_conn_tls_close;
    request->read_function      = gftp_ssl_read;
    request->write_function     = gftp_ssl_write;
    request->url_prefix = "ftpsi";
