@@ -23,9 +23,9 @@
 
 #ifdef HAVE_INTL_PRINTF
 
-char *
-insert_commas (off_t number, char *dest_str, size_t dest_len)
+char * insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
+  //DEBUG_PRINT_FUNC
   if (dest_str != NULL)
     g_snprintf (dest_str, dest_len, GFTP_OFF_T_INTL_PRINTF_MOD, number);
   else
@@ -36,9 +36,9 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
 
 #else
 
-char *
-insert_commas (off_t number, char *dest_str, size_t dest_len)
+char * insert_commas (off_t number, char *dest_str, size_t dest_len)
 {
+  //DEBUG_PRINT_FUNC
   char *frompos, *topos, src[50], *dest;
   size_t num, rem, srclen;
   size_t len, i;
@@ -106,9 +106,9 @@ insert_commas (off_t number, char *dest_str, size_t dest_len)
 
 #endif
 
-char *
-alltrim (char *str)
+char * alltrim (char *str)
 {
+  //DEBUG_PRINT_FUNC
   char *pos, *newpos;
   int diff;
 
@@ -134,9 +134,9 @@ alltrim (char *str)
 }
 
 
-char *
-gftp_expand_path (gftp_request * request, const char *src)
+char * gftp_expand_path (gftp_request * request, const char *src)
 {
+  //DEBUG_PRINT_FUNC
   char *str, *pos, *endpos, *prevpos, *newstr, *tempstr, *ntoken,
        tempchar;
   struct passwd *pw;
@@ -241,6 +241,7 @@ gftp_expand_path (gftp_request * request, const char *src)
 int gftp_match_filespec (gftp_request * request, const char *filename,
                          const char *filespec)
 {
+   //DEBUG_PRINT_FUNC
    intptr_t show_hidden_files;
   
    if (!filename || !*filename || !filespec || !*filespec) {
@@ -258,9 +259,9 @@ int gftp_match_filespec (gftp_request * request, const char *filename,
 }
 
 
-static void
-gftp_info (void)
+static void gftp_info (void)
 {
+  DEBUG_PRINT_FUNC
   int i;
 
   printf ("%s\n", gftp_version);
@@ -326,9 +327,9 @@ gftp_info (void)
 }
 
 
-int
-gftp_parse_command_line (int *argc, char ***argv)
+int gftp_parse_command_line (int *argc, char ***argv)
 {
+  DEBUG_PRINT_FUNC
   if (*argc > 1)
     {
       if (strcmp (argv[0][1], "--help") == 0 || 
@@ -353,23 +354,21 @@ gftp_parse_command_line (int *argc, char ***argv)
 }
 
 
-void
-gftp_usage (void)
+void gftp_usage (void)
 {
+  DEBUG_PRINT_FUNC
   printf (_("usage: gftp " GFTP_URL_USAGE "\n"));
   exit (0);
 }
 
 
-gint
-string_hash_compare (gconstpointer path1, gconstpointer path2)
+gint string_hash_compare (gconstpointer path1, gconstpointer path2)
 {
   return (strcmp ((char *) path1, (char *) path2) == 0);
 }
 
 
-guint
-string_hash_function (gconstpointer key)
+guint string_hash_function (gconstpointer key)
 {
   guint ret;
   int i;
@@ -382,23 +381,21 @@ string_hash_function (gconstpointer key)
 }
 
 
-gint
-uint_hash_compare (gconstpointer path1, gconstpointer path2)
+gint uint_hash_compare (gconstpointer path1, gconstpointer path2)
 {
   return (GPOINTER_TO_UINT (path1) == GPOINTER_TO_UINT (path2));
 }
 
 
-guint
-uint_hash_function (gconstpointer key)
+guint uint_hash_function (gconstpointer key)
 {
   return (GPOINTER_TO_UINT (key));
 }
 
 
-void
-free_file_list (GList * filelist)
+void free_file_list (GList * filelist)
 {
+  DEBUG_PRINT_FUNC
   gftp_file * tempfle;
   GList * templist;
 
@@ -415,9 +412,9 @@ free_file_list (GList * filelist)
 }
 
 
-gftp_file *
-copy_fdata (gftp_file * fle)
+gftp_file * copy_fdata (gftp_file * fle)
 {
+  DEBUG_PRINT_FUNC
   gftp_file * newfle;
 
   newfle = g_malloc0 (sizeof (*newfle));
@@ -440,10 +437,10 @@ copy_fdata (gftp_file * fle)
 }
 
 
-int
-compare_request (gftp_request * request1, gftp_request * request2,
-                 int compare_dirs)
+int compare_request (gftp_request * request1, gftp_request * request2,
+                     int compare_dirs)
 {
+  DEBUG_PRINT_FUNC
   char *strarr[3][2];
   int i, ret;
 
@@ -486,9 +483,9 @@ compare_request (gftp_request * request1, gftp_request * request2,
 }
 
 
-gftp_transfer *
-gftp_tdata_new (void)
+gftp_transfer * gftp_tdata_new (void)
 {
+  DEBUG_PRINT_FUNC
   gftp_transfer * tdata;
 
   tdata = g_malloc0 (sizeof (*tdata));
@@ -500,39 +497,31 @@ gftp_tdata_new (void)
 }
 
 
-void
-free_tdata (gftp_transfer * tdata)
+void free_tdata (gftp_transfer * tdata)
 {
-  if (tdata->fromreq != NULL)
-    gftp_request_destroy (tdata->fromreq, 1);
-  if (tdata->toreq != NULL)
-    gftp_request_destroy (tdata->toreq, 1);
+  DEBUG_PRINT_FUNC
+  if (tdata->fromreq)   gftp_request_destroy (tdata->fromreq, 1);
+  if (tdata->toreq)     gftp_request_destroy (tdata->toreq, 1);
+  if (tdata->thread_id) g_free (tdata->thread_id);
   free_file_list (tdata->files);
-  if (tdata->thread_id != NULL)
-    g_free (tdata->thread_id);
   g_free (tdata);
 }
 
 
-gftp_request * 
-gftp_copy_request (gftp_request * req)
+gftp_request * gftp_copy_request (gftp_request * req)
 {
+  DEBUG_PRINT_FUNC
   gftp_request * newreq;
 
   newreq = gftp_request_new ();
 
-  if (req->hostname)
-    newreq->hostname = g_strdup (req->hostname);
-  if (req->username)
-    newreq->username = g_strdup (req->username);
-  if (req->password)
-    newreq->password = g_strdup (req->password);
-  if (req->account)
-    newreq->account = g_strdup (req->account);
-  if (req->directory)
-    newreq->directory = g_strdup (req->directory);
-  if (req->url_prefix)
-    newreq->url_prefix = g_strdup (req->url_prefix);
+  if (req->hostname)   newreq->hostname   = g_strdup (req->hostname);
+  if (req->username)   newreq->username   = g_strdup (req->username);
+  if (req->password)   newreq->password   = g_strdup (req->password);
+  if (req->account)    newreq->account    = g_strdup (req->account);
+  if (req->directory)  newreq->directory  = g_strdup (req->directory);
+  if (req->url_prefix) newreq->url_prefix = g_strdup (req->url_prefix);
+
   newreq->port = req->port;
   newreq->use_proxy = req->use_proxy;
   newreq->logging_function = req->logging_function;
@@ -568,8 +557,7 @@ gftp_copy_request (gftp_request * req)
 }
 
 
-static gint
-gftp_file_sort_function_as (gconstpointer a, gconstpointer b)
+static gint gftp_file_sort_function_as (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -579,8 +567,7 @@ gftp_file_sort_function_as (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_file_sort_function_ds (gconstpointer a, gconstpointer b)
+static gint gftp_file_sort_function_ds (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
   gint ret;
@@ -592,8 +579,7 @@ gftp_file_sort_function_ds (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_user_sort_function_as (gconstpointer a, gconstpointer b)
+static gint gftp_user_sort_function_as (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -603,8 +589,7 @@ gftp_user_sort_function_as (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_user_sort_function_ds (gconstpointer a, gconstpointer b)
+static gint gftp_user_sort_function_ds (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
   gint ret;
@@ -616,8 +601,7 @@ gftp_user_sort_function_ds (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_group_sort_function_as (gconstpointer a, gconstpointer b)
+static gint gftp_group_sort_function_as (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -627,8 +611,7 @@ gftp_group_sort_function_as (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_group_sort_function_ds (gconstpointer a, gconstpointer b)
+static gint gftp_group_sort_function_ds (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
   gint ret;
@@ -640,8 +623,7 @@ gftp_group_sort_function_ds (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_attribs_sort_function_as (gconstpointer a, gconstpointer b)
+static gint gftp_attribs_sort_function_as (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -656,8 +638,7 @@ gftp_attribs_sort_function_as (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_attribs_sort_function_ds (gconstpointer a, gconstpointer b)
+static gint gftp_attribs_sort_function_ds (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -672,8 +653,7 @@ gftp_attribs_sort_function_ds (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_size_sort_function_as (gconstpointer a, gconstpointer b)
+static gint gftp_size_sort_function_as (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -688,8 +668,7 @@ gftp_size_sort_function_as (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_size_sort_function_ds (gconstpointer a, gconstpointer b)
+static gint gftp_size_sort_function_ds (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -704,8 +683,7 @@ gftp_size_sort_function_ds (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_datetime_sort_function_as (gconstpointer a, gconstpointer b)
+static gint gftp_datetime_sort_function_as (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -720,8 +698,7 @@ gftp_datetime_sort_function_as (gconstpointer a, gconstpointer b)
 }
 
 
-static gint
-gftp_datetime_sort_function_ds (gconstpointer a, gconstpointer b)
+static gint gftp_datetime_sort_function_ds (gconstpointer a, gconstpointer b)
 {
   const gftp_file * f1, * f2;
 
@@ -736,9 +713,9 @@ gftp_datetime_sort_function_ds (gconstpointer a, gconstpointer b)
 }
 
 
-GList *
-gftp_sort_filelist (GList * filelist, int column, int asds)
+GList * gftp_sort_filelist (GList * filelist, int column, int asds)
 {
+  DEBUG_PRINT_FUNC
   GList * files, * dirs, * dotdot, * tempitem, * insitem;
   GCompareFunc sortfunc;
   gftp_file * tempfle;
@@ -865,9 +842,9 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
 }
 
 
-void
-gftp_free_bookmark (gftp_bookmarks_var * entry, int free_node)
+void gftp_free_bookmark (gftp_bookmarks_var * entry, int free_node)
 {
+  DEBUG_PRINT_FUNC
   gftp_bookmarks_var * tempentry;
 
   if (entry->path)       g_free (entry->path);
@@ -901,9 +878,9 @@ gftp_free_bookmark (gftp_bookmarks_var * entry, int free_node)
 }
 
 
-void
-gftp_shutdown (void)
+void gftp_shutdown (void)
 {
+  DEBUG_PRINT_FUNC
 #ifdef WITH_DMALLOC
   gftp_config_vars * cv;
   GList * templist;
@@ -944,9 +921,9 @@ gftp_shutdown (void)
 }
 
 
-char *
-gftp_build_path (gftp_request * request, const char *first_element, ...) 
+char * gftp_build_path (gftp_request * request, const char *first_element, ...) 
 {
+  //DEBUG_PRINT_FUNC
   const char *element;
   size_t len, retlen;
   int add_separator;
@@ -991,9 +968,9 @@ gftp_build_path (gftp_request * request, const char *first_element, ...)
 }
 
 
-void
-gftp_locale_init (void)
+void gftp_locale_init (void)
 {
+  DEBUG_PRINT_FUNC
 #ifdef HAVE_GETTEXT
 
   setlocale (LC_ALL, "");
@@ -1012,9 +989,9 @@ gftp_locale_init (void)
 */
 
 
-char * 
-gftp_scramble_password (const char *password)
+char * gftp_scramble_password (const char *password)
 {
+  //DEBUG_PRINT_FUNC
   char *newstr, *newpos;
 
   if (strcmp (password, "@EMAIL@") == 0)
@@ -1037,9 +1014,9 @@ gftp_scramble_password (const char *password)
 }
 
 
-char *
-gftp_descramble_password (const char *password)
+char * gftp_descramble_password (const char *password)
 {
+  //DEBUG_PRINT_FUNC
   const char *passwordpos;
   char *newstr, *newpos;
   int error;
@@ -1078,9 +1055,9 @@ gftp_descramble_password (const char *password)
 }
 
 
-int
-gftp_get_transfer_action (gftp_request * request, gftp_file * fle)
+int gftp_get_transfer_action (gftp_request * request, gftp_file * fle)
 {
+  DEBUG_PRINT_FUNC
   intptr_t overwrite_default;
 
   gftp_lookup_request_option (request, "overwrite_default", &overwrite_default);
@@ -1102,9 +1079,9 @@ gftp_get_transfer_action (gftp_request * request, gftp_file * fle)
 }
 
 
-char *
-gftp_get_share_dir (void)
+char * gftp_get_share_dir (void)
 {
+  DEBUG_PRINT_FUNC
   static char *gftp_share_dir = NULL;
   char *envval;
 
@@ -1121,8 +1098,9 @@ gftp_get_share_dir (void)
   return (gftp_share_dir);
 }
 
-void
-gftp_format_file_size(off_t bytes, char *out_buffer, size_t buffer_size) {
+void gftp_format_file_size(off_t bytes, char *out_buffer, size_t buffer_size)
+{
+  //DEBUG_PRINT_FUNC
   char tmp[20];
   char *pointzero = 0;
   off_t TB = 1024LL * 1024LL * 1024LL * 1024LL;
