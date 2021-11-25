@@ -6,12 +6,13 @@ libgftp_a_SOURCES= \
 	cache.c \
 	charset-conv.c \
 	config_file.c \
-	fsp.c fsplib.c \
+	fsplib.c \
 	ftp-dir-listing.c \
 	local.c \
 	misc.c \
 	protocols.c \
 	protocol_bookmark.c \
+	protocol_fsp.c \
 	protocol_ftp.c \
 	protocol_ftps.c \
 	pty.c \
