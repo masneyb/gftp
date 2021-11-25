@@ -99,6 +99,13 @@ _gftp_exit (GtkWidget * widget, gpointer data)
       tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(window2.dir_combo));
       gftp_set_global_option ("remote_startup_directory", tempstr);
     }
+  else
+    {
+      // problem: last_directory is always set, we must forget it
+      // until remember_last_directory=1 again
+      gftp_set_global_option ("local_startup_directory", "");
+      gftp_set_global_option ("remote_startup_directory", "");
+    }
 
   tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(toolbar_combo_protocol));
   gftp_set_global_option ("default_protocol", tempstr);
