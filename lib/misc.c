@@ -520,7 +520,7 @@ gftp_request * gftp_copy_request (gftp_request * req)
   if (req->password)   newreq->password   = g_strdup (req->password);
   if (req->account)    newreq->account    = g_strdup (req->account);
   if (req->directory)  newreq->directory  = g_strdup (req->directory);
-  if (req->url_prefix) newreq->url_prefix = g_strdup (req->url_prefix);
+  if (req->url_prefix) newreq->url_prefix = req->url_prefix; /* this is not freed */
 
   newreq->port = req->port;
   newreq->use_proxy = req->use_proxy;

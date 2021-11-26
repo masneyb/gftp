@@ -713,6 +713,8 @@ local_init (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_PROTOCOL_LOCAL;
+  request->url_prefix = gftp_protocols[GFTP_PROTOCOL_LOCAL].url_prefix;
+
   request->init = local_init;
   request->copy_param_options = NULL;
   request->destroy = local_destroy;
@@ -744,7 +746,6 @@ local_init (gftp_request * request)
   request->parse_url = NULL;
   request->set_config_options = NULL;
   request->swap_socks = NULL;
-  request->url_prefix = "file";
   request->need_hostport = 0;
   request->need_username = 0;
   request->need_password = 0;

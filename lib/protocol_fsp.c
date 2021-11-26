@@ -622,6 +622,8 @@ int fsp_init (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_PROTOCOL_FSP;
+  request->url_prefix = gftp_protocols[GFTP_PROTOCOL_FSP].url_prefix;
+
   request->init = fsp_init;
   request->copy_param_options = NULL;
   request->destroy = fsp_destroy;
@@ -653,7 +655,6 @@ int fsp_init (gftp_request * request)
   request->parse_url = NULL;
   request->set_config_options = NULL;
   request->swap_socks = NULL;
-  request->url_prefix = "fsp";
   request->need_hostport = 1;
   request->need_username = 0;
   request->need_password = 0;

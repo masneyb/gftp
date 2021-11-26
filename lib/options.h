@@ -255,6 +255,7 @@ gftp_config_vars gftp_global_config_vars[] =
 
 supported_gftp_protocols gftp_protocols[] =
 {
+  // name    init        register options    url_prefix dport shown use_threads
   { "FTP",   rfc959_init, rfc959_register_module, "ftp",   21,  1, 1 },
   { "FTPS",  ftps_init,   ftps_register_module,   "ftps",  21,  1, 1 },
   { "FTPSi", ftpsi_init,  ftpsi_register_module,  "ftpsi", 990, 1, 1 },

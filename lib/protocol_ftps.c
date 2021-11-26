@@ -172,6 +172,7 @@ int ftps_init (gftp_request * request)
 
   /* don't change protonum */
   //request->protonum = GFTP_PROTOCOL_FTPS;
+  request->url_prefix = gftp_protocols[GFTP_PROTOCOL_FTPS].url_prefix;
 
   ftpdat = (ftp_protocol_data *) request->protocol_data;
   request->init = ftps_init;
@@ -179,7 +180,6 @@ int ftps_init (gftp_request * request)
   ftpdat->auth_tls_start = ftps_auth_tls_start;
   request->get_next_file = ftps_get_next_file;
   request->post_connect = NULL;
-  request->url_prefix = "ftps";
 
   if ((ret = gftp_ssl_startup (NULL)) < 0)
     return (ret);
@@ -235,6 +235,7 @@ int ftpsi_init (gftp_request * request)
 
    /* don't change protonum */
    //request->protonum = GFTP_PROTOCOL_FTPSi;
+   request->url_prefix = gftp_protocols[GFTP_PROTOCOL_FTPSi].url_prefix;
 
    ftpdat = (ftp_protocol_data *) request->protocol_data;
    ftpdat->implicit_ssl        = 1;
@@ -244,7 +245,6 @@ int ftpsi_init (gftp_request * request)
    ftpdat->data_conn_tls_close = ftps_data_conn_tls_close;
    request->read_function      = gftp_ssl_read;
    request->write_function     = gftp_ssl_write;
-   request->url_prefix = "ftpsi";
    request->connect = ftpsi_connect;
    return 0;
 #else

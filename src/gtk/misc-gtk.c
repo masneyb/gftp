@@ -309,8 +309,9 @@ void update_window (gftp_window_data * wdata)
          // protocols that are implemented on top of other protocols
          // may not set the protonum to avoid causing trouble
          // only the request->url_prefix may provide the true protocol
-         if (strcmp (gftp_protocols[i].url_prefix, wdata->request->url_prefix) == 0) {
+         if (wdata->request->url_prefix == gftp_protocols[i].url_prefix) {
             real_protocol = gftp_protocols[i].name;
+            break;
          }
       }
 

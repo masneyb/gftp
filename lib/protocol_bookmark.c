@@ -57,6 +57,8 @@ bookmark_init (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_PROTOCOL_BOOKMARK;
+  request->url_prefix = gftp_protocols[GFTP_PROTOCOL_BOOKMARK].url_prefix;
+
   request->init = bookmark_init;
   request->read_function = NULL;
   request->write_function = NULL;
@@ -82,7 +84,6 @@ bookmark_init (gftp_request * request)
   request->set_file_time = NULL;
   request->site = NULL;
   request->parse_url = bookmark_parse_url;
-  request->url_prefix = "bookmark";
   request->need_hostport = 0;
   request->need_username = 0;
   request->need_password = 0;

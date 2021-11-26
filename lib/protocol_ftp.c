@@ -1943,6 +1943,8 @@ rfc959_init (gftp_request * request)
     }
 
   request->protonum = GFTP_PROTOCOL_FTP;
+  request->url_prefix = gftp_protocols[GFTP_PROTOCOL_FTP].url_prefix;
+
   request->init = rfc959_init;
   request->copy_param_options = rfc959_copy_param_options;
   request->destroy = rfc959_request_destroy; 
@@ -1974,7 +1976,6 @@ rfc959_init (gftp_request * request)
   request->parse_url = NULL;
   request->swap_socks = NULL;
   request->set_config_options = rfc959_set_config_options;
-  request->url_prefix = "ftp";
   request->need_hostport = 1;
   request->need_username = 1;
   request->need_password = 1;

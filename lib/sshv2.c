@@ -2103,6 +2103,8 @@ sshv2_init (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_PROTOCOL_SSH2;
+  request->url_prefix = gftp_protocols[GFTP_PROTOCOL_SSH2].url_prefix;
+
   request->init = sshv2_init;
   request->copy_param_options = sshv2_copy_param_options;
   request->destroy = sshv2_destroy;
@@ -2134,7 +2136,6 @@ sshv2_init (gftp_request * request)
   request->parse_url = NULL;
   request->set_config_options = sshv2_set_config_options;
   request->swap_socks = sshv2_swap_socks;
-  request->url_prefix = "ssh2";
   request->need_hostport = 1;
   request->need_username = 1;
   request->need_password = 1;
