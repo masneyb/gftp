@@ -29,6 +29,6 @@ AM_CPPFLAGS= \
 
 noinst_HEADERS= \
 	gftp.h \
-	ftpcommon.h \
+	protocol_ftp.h \
 	options.h \
 	fsplib.h

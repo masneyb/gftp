@@ -18,7 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-#include "ftpcommon.h"
+#include "protocol_ftp.h"
 
 #define FTP_CMD_FEAT 100
 

@@ -18,7 +18,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
-#include "ftpcommon.h"
+#include "protocol_ftp.h"
 
 #ifdef USE_SSL
 

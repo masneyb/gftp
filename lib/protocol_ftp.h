@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/*  ftpcommon.h - common data structures for RFC959 and FTPS                 */
+/*  protocol_ftp.h - common data structures for RFC959 and FTPS                 */
 /*  Copyright (C) 1998-2003 Brian Masney <masneyb@gftp.org>                  */
 /*                                                                           */
 /*  This program is free software; you can redistribute it and/or modify     */
