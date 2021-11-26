@@ -37,6 +37,7 @@ struct ftp_protocol_data_tag
   void (*data_conn_tls_close) (gftp_request * request);
   unsigned int implicit_ssl : 1;
   unsigned int use_mlsd_cmd : 1; /* use MLSD/MLST insted of LIST */
+  unsigned int use_pret_cmd : 1; /* for distibuted FTP servers (DrFTP) */
   int last_cmd;     /* 4hackz */
   int flags;        /* currently unused */
 };

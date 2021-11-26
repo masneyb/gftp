@@ -85,11 +85,6 @@ static gftp_config_vars config_vars[] =
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("If you are transferring a text file from Windows to UNIX box or vice versa, then you should enable this. Each system represents newlines differently for text files. If you are transferring from UNIX to UNIX, then it is safe to leave this off. If you are downloading binary data, you will want to disable this."), 
    GFTP_PORT_ALL, NULL},
-   {"pretransfer_command", N_("PRET before transfer"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
-   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("With this option checked, gFTP will try to tell the server what it intends to do before a transfer actually happens. By way of the PRET command, an extension for distributed FTP servers, you will be able to connect to a master server and receive files from a slave node, possibly avoiding bandwidth problems."),
-   GFTP_PORT_ALL, NULL},
 
   {NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL}
 };
@@ -107,6 +102,10 @@ static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
       // some (most?) servers don't report MLSD even though it's supported
       // Should only use MLST to test if MLSD is supported
       ftpdat->use_mlsd_cmd = 1; /* RFC 3659 */
+      return;
+   }
+   if (strcmp (p, "PRET") == 0) {
+      ftpdat->use_pret_cmd = 1; /* accepts PRET (distributed FTP server) */
       return;
    }
 }
@@ -1265,17 +1264,17 @@ rfc959_get_file (gftp_request * request, const char *filename,
 {
   char *tempstr;
   int ret;
-  intptr_t pretransfer;
   intptr_t passive_transfer;
+  ftp_protocol_data * ftpdat;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  gftp_lookup_request_option (request, "pretransfer_command", &pretransfer);
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
-  if (passive_transfer && pretransfer) {
+  ftpdat = request->protocol_data;
+  if (passive_transfer && ftpdat->use_pret_cmd) {
     ret = rfc959_generate_and_send_command (request, "PRET RETR", filename,1, 0);
   }
 
@@ -1302,7 +1301,6 @@ rfc959_put_file (gftp_request * request, const char *filename,
 {
   ftp_protocol_data * ftpdat;
   int ret;
-  intptr_t pretransfer;
   intptr_t passive_transfer;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1312,14 +1310,13 @@ rfc959_put_file (gftp_request * request, const char *filename,
   if ((ret = rfc959_set_data_type (request, filename)) < 0)
     return (ret);
 
-  gftp_lookup_request_option (request, "pretransfer_command", &pretransfer);
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
-  if (passive_transfer && pretransfer) {
+  ftpdat = request->protocol_data;
+  if (passive_transfer && ftpdat->use_pret_cmd) {
     ret = rfc959_generate_and_send_command (request, "PRET STOR", filename,1, 0);
   }
 
-  ftpdat = request->protocol_data;
   if (ftpdat->data_connection < 0 && 
       (ret = rfc959_data_connection_new (request, 0)) < 0)
     return (ret);
@@ -1908,6 +1905,7 @@ rfc959_copy_param_options (gftp_request * dest_request,
   dftpdat->data_conn_tls_close = sftpdat->data_conn_tls_close;
   dftpdat->implicit_ssl        = sftpdat->implicit_ssl;
   dftpdat->use_mlsd_cmd        = sftpdat->use_mlsd_cmd;
+  dftpdat->use_pret_cmd        = sftpdat->use_pret_cmd;
   dftpdat->last_cmd            = sftpdat->last_cmd;
   dftpdat->flags               = sftpdat->flags;
 
