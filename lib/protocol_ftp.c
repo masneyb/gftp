@@ -22,12 +22,6 @@
 
 #define FTP_CMD_FEAT 100
 
-// If a server supports MLST, it must also support MLSD
-// some (most?) servers don't report MLSD even though it's supported
-// Should only use FTP_CMD_MLST to test if MLSD is supported
-#define FTP_CMD_MLST (1 << 1) /* RFC 3659 */
-
-
 static gftp_textcomboedt_data gftp_proxy_type[] = {
   {N_("none"), "", 0},
   {N_("SITE command"), "USER %pu\nPASS %pp\nSITE %hh\nUSER %hu\nPASS %hp\n", 0},
@@ -109,7 +103,10 @@ static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
    char *p = cmd;
    while (*p <= 32) p++; // strip leading spaces
    if (strncmp (p, "MLST", 4) == 0) {
-      ftpdat->flags |= FTP_CMD_MLST;
+      // If a server supports MLST, it must also support MLSD
+      // some (most?) servers don't report MLSD even though it's supported
+      // Should only use MLST to test if MLSD is supported
+      ftpdat->use_mlsd_cmd = 1; /* RFC 3659 */
       return;
    }
 }
@@ -486,7 +483,7 @@ static int rfc959_syst (gftp_request * request)
 
   // if MLSD has been detected, then use GFTP_DIRTYPE_MLSD
   ftpdat = request->protocol_data;
-  if (ftpdat->flags & FTP_CMD_MLST) {
+  if (ftpdat->use_mlsd_cmd) {
      request->server_type = GFTP_DIRTYPE_MLSD;
      return 0;
   }
@@ -1459,7 +1456,7 @@ static int rfc959_list_files (gftp_request * request)
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
-  if (ftpdat->flags & FTP_CMD_MLST) {
+  if (ftpdat->use_mlsd_cmd) {
      ret = rfc959_send_command (request, "MLSD\r\n", -1, 1, 0);
   } else {
      ret = rfc959_send_command (request, "LIST -al\r\n", -1, 1, 0);
@@ -1910,6 +1907,7 @@ rfc959_copy_param_options (gftp_request * dest_request,
   dftpdat->data_conn_write     = sftpdat->data_conn_write;
   dftpdat->data_conn_tls_close = sftpdat->data_conn_tls_close;
   dftpdat->implicit_ssl        = sftpdat->implicit_ssl;
+  dftpdat->use_mlsd_cmd        = sftpdat->use_mlsd_cmd;
   dftpdat->last_cmd            = sftpdat->last_cmd;
   dftpdat->flags               = sftpdat->flags;
 

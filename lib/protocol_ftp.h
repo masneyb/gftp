@@ -35,9 +35,10 @@ struct ftp_protocol_data_tag
   ssize_t (*data_conn_write) (gftp_request * request, const char *ptr,
                               size_t size, int fd);
   void (*data_conn_tls_close) (gftp_request * request);
-  int implicit_ssl : 1;
-  int last_cmd; /* 4hackz */
-  int flags;    /* detected server features */
+  unsigned int implicit_ssl : 1;
+  unsigned int use_mlsd_cmd : 1; /* use MLSD/MLST insted of LIST */
+  int last_cmd;     /* 4hackz */
+  int flags;        /* currently unused */
 };
 
 typedef struct ftp_protocol_data_tag ftp_protocol_data;
