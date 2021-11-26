@@ -290,21 +290,33 @@ void update_window (gftp_window_data * wdata)
   char *tempstr, *hostname, *fspec, *listinfo;
   int connected;
   GtkWidget *dir_combo_entry;
-  
+  char * real_protocol;
+  int i;
+
   connected = GFTP_IS_CONNECTED (wdata->request);
   if (connected)
     {
       fspec = wdata->show_selected ? "Selected" : strcmp (wdata->filespec, "*") == 0 ?  _("All Files") : wdata->filespec;
 
-      if (wdata->request->hostname == NULL ||
-          wdata->request->protonum == GFTP_PROTOCOL_LOCAL)
+      if (!wdata->request->hostname || wdata->request->protonum == GFTP_PROTOCOL_LOCAL) {
         hostname = "";
-      else
+      } else {
         hostname = wdata->request->hostname;
+      }
+      real_protocol = gftp_protocols[wdata->request->protonum].name;
+
+      for (i = 0; gftp_protocols[i].name; i++) {
+         // protocols that are implemented on top of other protocols
+         // may not set the protonum to avoid causing trouble
+         // only the request->url_prefix may provide the true protocol
+         if (strcmp (gftp_protocols[i].url_prefix, wdata->request->url_prefix) == 0) {
+            real_protocol = gftp_protocols[i].name;
+         }
+      }
 
       listinfo = report_list_info(wdata);
       tempstr = g_strconcat (hostname, *hostname == '\0' ? "[" : " [",
-                             gftp_protocols[wdata->request->protonum].name,
+                             real_protocol,
                              wdata->request->cached ? _("] (Cached) [") : "] [",
                              fspec, "]",
                              listinfo == NULL ? "" : listinfo,

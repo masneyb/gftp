@@ -138,6 +138,7 @@ static int ftps_connect (gftp_request * request)
      request->read_function  = gftp_fd_read;
      request->write_function = gftp_fd_write;
   }
+
   return (rfc959_connect (request));
 }
 
@@ -169,8 +170,10 @@ int ftps_init (gftp_request * request)
      return (ret);
   }
 
+  /* don't change protonum */
+  //request->protonum = GFTP_PROTOCOL_FTPS;
+
   ftpdat = (ftp_protocol_data *) request->protocol_data;
-  request->protonum = GFTP_PROTOCOL_FTPS;
   request->init = ftps_init;
   request->connect = ftps_connect;
   ftpdat->auth_tls_start = ftps_auth_tls_start;
@@ -230,7 +233,9 @@ int ftpsi_init (gftp_request * request)
       return (ret);
    }
 
-   request->protonum = GFTP_PROTOCOL_FTPSi;
+   /* don't change protonum */
+   //request->protonum = GFTP_PROTOCOL_FTPSi;
+
    ftpdat = (ftp_protocol_data *) request->protocol_data;
    ftpdat->implicit_ssl        = 1;
    ftpdat->data_conn_tls_start = ftps_data_conn_tls_start;
