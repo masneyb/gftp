@@ -734,13 +734,13 @@ int gftp_parse_ls (gftp_request * request,
                                              ((request)->datafd > 0 || \
                                              (request)->cached || \
                                              (request)->always_connected))
-/* rfc959.c */
-int rfc959_init (gftp_request * request);
-void rfc959_register_module (void);
-int rfc959_get_next_file (gftp_request * request, gftp_file *fle, int fd);
-int rfc959_connect       (gftp_request * request);
+/* protocol_ftp.c */
+int ftp_init (gftp_request * request);
+void ftp_register_module (void);
+int ftp_get_next_file (gftp_request * request, gftp_file *fle, int fd);
+int ftp_connect       (gftp_request * request);
 
-/* ftps.c */
+/* protocol_ftps.c */
 int ftps_init (gftp_request * request);
 void ftps_register_module  (void);
 int ftpsi_init (gftp_request * request);

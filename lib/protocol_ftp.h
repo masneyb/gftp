@@ -44,9 +44,9 @@ struct ftp_protocol_data_tag
 
 typedef struct ftp_protocol_data_tag ftp_protocol_data;
 
-int rfc959_send_command 		( gftp_request * request,
-					  const char *command,
-					  ssize_t command_len,
-					  int read_response,
-					  int dont_try_to_reconnect );
+int ftp_send_command (gftp_request * request,
+                      const char *command,
+                      ssize_t command_len,
+                      int read_response,
+                      int dont_try_to_reconnect );
 

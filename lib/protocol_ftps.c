@@ -44,7 +44,7 @@ ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       }
     }
 
-  ret = rfc959_get_next_file (request, fle, fd);
+  ret = ftp_get_next_file (request, fle, fd);
 
   if (resetptr)
     {
@@ -82,7 +82,7 @@ static int ftps_auth_tls_start (gftp_request * request)
 
   ftpdat = request->protocol_data;
 
-  ret = rfc959_send_command (request, "AUTH TLS\r\n", -1, 1, 0);
+  ret = ftp_send_command (request, "AUTH TLS\r\n", -1, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret != '2')
@@ -94,11 +94,11 @@ static int ftps_auth_tls_start (gftp_request * request)
   request->read_function  = gftp_ssl_read;
   request->write_function = gftp_ssl_write;
 
-  ret = rfc959_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
+  ret = ftp_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
   if (ret < 0)
     return (ret);
 
-  ret = rfc959_send_command (request, "PROT P\r\n", -1, 1, 0);
+  ret = ftp_send_command (request, "PROT P\r\n", -1, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -110,7 +110,7 @@ static int ftps_auth_tls_start (gftp_request * request)
     }
   else
     {
-      ret = rfc959_send_command (request, "PROT C\r\n", -1, 1, 0);
+      ret = ftp_send_command (request, "PROT C\r\n", -1, 1, 0);
       if (ret < 0)
         return (ret);
       else if (ret != '2')
@@ -139,7 +139,7 @@ static int ftps_connect (gftp_request * request)
      request->write_function = gftp_fd_write;
   }
 
-  return (rfc959_connect (request));
+  return (ftp_connect (request));
 }
 
 #endif

@@ -20,6 +20,8 @@
 #include "gftp.h"
 #include "protocol_ftp.h"
 
+// RFC959
+
 #define FTP_CMD_FEAT 100
 
 static gftp_textcomboedt_data gftp_proxy_type[] = {
@@ -36,7 +38,7 @@ static gftp_textcomboedt_data gftp_proxy_type[] = {
 
 static gftp_config_vars config_vars[] = 
 {
-  {"", N_("FTP"), gftp_option_type_notebook, NULL, NULL, 
+  {"", "FTP", gftp_option_type_notebook, NULL, NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK, NULL, GFTP_PORT_GTK, NULL},
 
   {"email", N_("Email address:"), 
@@ -110,8 +112,7 @@ static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
    }
 }
          
-static int
-rfc959_read_response (gftp_request * request, int disconnect_on_42x)
+static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 {
   char tempstr[255], code[4];
   ftp_protocol_data * ftpdat;
@@ -174,10 +175,9 @@ rfc959_read_response (gftp_request * request, int disconnect_on_42x)
 }
 
 
-int
-rfc959_send_command (gftp_request * request, const char *command, 
-                     ssize_t command_len, int read_response,
-                     int dont_try_to_reconnect)
+int ftp_send_command (gftp_request * request, const char *command, 
+                      ssize_t command_len, int read_response,
+                      int dont_try_to_reconnect)
 {
   int ret;
 
@@ -210,14 +210,14 @@ rfc959_send_command (gftp_request * request, const char *command,
 
   if (read_response)
     {
-      ret = rfc959_read_response (request, 1);
+      ret = ftp_read_response (request, 1);
       if (ret == GFTP_ETIMEDOUT && !dont_try_to_reconnect)
         {
           ret = gftp_connect (request);
           if (ret < 0)
             return (ret);
 
-          return (rfc959_send_command (request, command, command_len, 1, 1));
+          return (ftp_send_command (request, command, command_len, 1, 1));
         }
       else
         return (ret);
@@ -226,8 +226,9 @@ rfc959_send_command (gftp_request * request, const char *command,
     return (0);
 }
 
-static int
-rfc959_generate_and_send_command (gftp_request * request, const char *command,
+
+static int ftp_generate_and_send_command (gftp_request * request,
+                                  const char *command,
                                   const char *argument, int read_response,
                                   int dont_try_to_reconnect)
 {
@@ -257,15 +258,14 @@ rfc959_generate_and_send_command (gftp_request * request, const char *command,
       len = strlen (command) + 2;
     }
 
-  resp = rfc959_send_command (request, tempstr, len, read_response,
+  resp = ftp_send_command (request, tempstr, len, read_response,
                               dont_try_to_reconnect);
   g_free (tempstr);
   return (resp);
 }
 
 
-static char *
-parse_ftp_proxy_string (gftp_request * request)
+static char * parse_ftp_proxy_string (gftp_request * request)
 {
   char *startpos, *endpos, *newstr, *newval, tempport[6], *proxy_config, *utf8,
        savechar;
@@ -391,14 +391,13 @@ parse_ftp_proxy_string (gftp_request * request)
 }
 
 
-static int
-rfc959_getcwd (gftp_request * request)
+static int ftp_getcwd (gftp_request * request)
 {
   char *pos, *dir, *utf8;
   size_t destlen;
   int ret;
 
-  ret = rfc959_send_command (request, "PWD\r\n", -1, 1, 0);
+  ret = ftp_send_command (request, "PWD\r\n", -1, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret != '2')
@@ -445,8 +444,7 @@ rfc959_getcwd (gftp_request * request)
 }
 
 
-static int
-rfc959_chdir (gftp_request * request, const char *directory)
+static int ftp_chdir (gftp_request * request, const char *directory)
 {
   int ret;
 
@@ -454,23 +452,23 @@ rfc959_chdir (gftp_request * request, const char *directory)
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
 
   if (strcmp (directory, "..") == 0)
-    ret = rfc959_send_command (request, "CDUP\r\n", -1, 1, 0);
+    ret = ftp_send_command (request, "CDUP\r\n", -1, 1, 0);
   else
-    ret = rfc959_generate_and_send_command (request, "CWD", directory, 1, 0);
+    ret = ftp_generate_and_send_command (request, "CWD", directory, 1, 0);
 
   if (ret < 0)
     return (ret);
   else if (ret != '2')
     return (GFTP_ERETRYABLE);
 
-  if ((ret = rfc959_getcwd (request)) < 0)
+  if ((ret = ftp_getcwd (request)) < 0)
     return (ret);
 
   return (0);
 }
 
 
-static int rfc959_syst (gftp_request * request)
+static int ftp_syst (gftp_request * request)
 {
   int ret;
   char *stpos, *endpos;
@@ -487,7 +485,7 @@ static int rfc959_syst (gftp_request * request)
      return 0;
   }
 
-  ret = rfc959_send_command (request, "SYST\r\n", -1, 1, 0);
+  ret = ftp_send_command (request, "SYST\r\n", -1, 1, 0);
 
   if (ret < 0)
     return (ret);
@@ -517,7 +515,7 @@ static int rfc959_syst (gftp_request * request)
 }
 
 
-int rfc959_connect (gftp_request * request)
+int ftp_connect (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   char tempchar, *startpos, *endpos, *tempstr, *email, *proxy_hostname;
@@ -561,7 +559,7 @@ int rfc959_connect (gftp_request * request)
   }
 
   /* Get the banner */
-  if ((ret = rfc959_read_response (request, 1)) != '2')
+  if ((ret = ftp_read_response (request, 1)) != '2')
     {
       gftp_disconnect (request);
       if (ret < 0)
@@ -576,8 +574,8 @@ int rfc959_connect (gftp_request * request)
         // buggy servers might require this (vsftpd)
         // this is not need for servers with proper implicit SSL support
         //  (pure-FTPd, Rebex FTPS)
-        ret = rfc959_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
-        ret = rfc959_send_command (request, "PROT P\r\n", -1, 1, 0);
+        ret = ftp_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
+        ret = ftp_send_command (request, "PROT P\r\n", -1, 1, 0);
      } else {
         // explicit SSL
         // this is where the negotiation to switch to a secure mode (SSL) starts
@@ -601,7 +599,7 @@ int rfc959_connect (gftp_request * request)
             tempchar = *(endpos + 1);
             if (*endpos != '\0')
             *(endpos + 1) = '\0';
-            if ((resp = rfc959_send_command (request, startpos, -1, 1, 0)) < 0)
+            if ((resp = ftp_send_command (request, startpos, -1, 1, 0)) < 0)
                 return (resp);
             if (*endpos != '\0') {
                *(endpos + 1) = tempchar;
@@ -616,14 +614,14 @@ int rfc959_connect (gftp_request * request)
     }
   else
     {
-      resp = rfc959_generate_and_send_command (request, "USER",
+      resp = ftp_generate_and_send_command (request, "USER",
                                                request->username, 1, 0);
       if (resp < 0)
         return (resp);
 
       if (resp == '3')
         {
-          resp = rfc959_generate_and_send_command (request, "PASS",
+          resp = ftp_generate_and_send_command (request, "PASS",
                                                    request->password, 1, 0);
           if (resp < 0)
             return (resp);
@@ -631,7 +629,7 @@ int rfc959_connect (gftp_request * request)
 
       if (resp == '3' && request->account != NULL)
         {
-          resp = rfc959_generate_and_send_command (request, "ACCT",
+          resp = ftp_generate_and_send_command (request, "ACCT",
                                                    request->account, 1, 0);
           if (resp < 0)
             return (resp);
@@ -650,11 +648,11 @@ int rfc959_connect (gftp_request * request)
 
   // determine server features, the response to this is not logged
   ftpdat->last_cmd = FTP_CMD_FEAT;
-  ret = rfc959_send_command (request, "FEAT\r\n", -1, 1, 0);
+  ret = ftp_send_command (request, "FEAT\r\n", -1, 1, 0);
   ftpdat->last_cmd = 0;
 
   // determine system type
-  if ((ret = rfc959_syst (request)) < 0 && request->datafd < 0) {
+  if ((ret = ftp_syst (request)) < 0 && request->datafd < 0) {
     return (ret);
   }
 
@@ -670,20 +668,20 @@ int rfc959_connect (gftp_request * request)
       ftpdat->is_ascii_transfer = 0;
     }
 
-  if ((ret = rfc959_send_command (request, tempstr, -1, 1, 0)) < 0)
+  if ((ret = ftp_send_command (request, tempstr, -1, 1, 0)) < 0)
     return (ret);
 
   ret = -1;
   if (request->directory != NULL && *request->directory != '\0')
     {
-      ret = rfc959_chdir (request, request->directory);
+      ret = ftp_chdir (request, request->directory);
       if (request->datafd < 0)
         return (ret);
     }
 
   if (ret != 0)
     {
-      if ((ret = rfc959_getcwd (request)) < 0)
+      if ((ret = ftp_getcwd (request)) < 0)
         return (ret);
     }
 
@@ -694,8 +692,7 @@ int rfc959_connect (gftp_request * request)
 }
 
 
-static void
-rfc959_close_data_connection (gftp_request * request)
+static void ftp_close_data_connection (gftp_request * request)
 {
   ftp_protocol_data * ftpdat;
 
@@ -713,14 +710,13 @@ rfc959_close_data_connection (gftp_request * request)
 }
 
 
-static void
-rfc959_disconnect (gftp_request * request)
+static void ftp_disconnect (gftp_request * request)
 {
   g_return_if_fail (request != NULL);
 
   if (request->datafd > 0)
     {
-      rfc959_close_data_connection (request);
+      ftp_close_data_connection (request);
 
       request->logging_function (gftp_logging_misc, request,
 				 _("Disconnecting from site %s\n"),
@@ -734,8 +730,7 @@ rfc959_disconnect (gftp_request * request)
 }
 
 
-static int
-rfc959_ipv4_data_connection_new (gftp_request * request)
+static int ftp_ipv4_data_connection_new (gftp_request * request)
 {
   struct sockaddr_in data_addr;
   intptr_t ignore_pasv_address;
@@ -775,14 +770,14 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
   if (passive_transfer)
     {
-      resp = rfc959_send_command (request, "PASV\r\n", -1, 1, 1);
+      resp = ftp_send_command (request, "PASV\r\n", -1, 1, 1);
       if (resp < 0)
         return (resp);
       else if (resp != '2')
       {
           gftp_set_request_option (request, "passive_transfer",
                                    GINT_TO_POINTER(0));
-          return (rfc959_ipv4_data_connection_new (request));
+          return (ftp_ipv4_data_connection_new (request));
       }
 
       pos = request->last_ftp_response + 4;
@@ -886,7 +881,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
                   pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff,
                   pos[3] & 0xff, pos1[0] & 0xff,
                   pos1[1] & 0xff);
-      resp = rfc959_send_command (request, command, -1, 1, 1);
+      resp = ftp_send_command (request, command, -1, 1, 1);
       g_free (command);
 
       if (resp < 0)
@@ -905,8 +900,7 @@ rfc959_ipv4_data_connection_new (gftp_request * request)
 }
 
 
-static int
-rfc959_ipv6_data_connection_new (gftp_request * request)
+static int ftp_ipv6_data_connection_new (gftp_request * request)
 {
   struct sockaddr_in6 data_addr;
   char *pos, buf[64], *command;
@@ -948,14 +942,14 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
   if (passive_transfer)
     {
-      resp = rfc959_send_command (request, "EPSV\r\n", -1, 1, 1);
+      resp = ftp_send_command (request, "EPSV\r\n", -1, 1, 1);
       if (resp < 0)
         return (resp);
       else if (resp != '2')
         {
           gftp_set_request_option (request, "passive_transfer", 
                                    GINT_TO_POINTER(0));
-          return (rfc959_ipv6_data_connection_new (request));
+          return (ftp_ipv6_data_connection_new (request));
         }
 
       pos = request->last_ftp_response + 4;
@@ -1037,7 +1031,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
       command = g_strdup_printf ("EPRT |2|%s|%d|\n", buf,
                                  ntohs (data_addr.sin6_port));
 
-      resp = rfc959_send_command (request, command, -1, 1, 1);
+      resp = ftp_send_command (request, command, -1, 1, 1);
       g_free (command);
 
       if (resp < 0)
@@ -1053,8 +1047,7 @@ rfc959_ipv6_data_connection_new (gftp_request * request)
 }
 
 
-static int
-rfc959_data_connection_new (gftp_request * request, int dont_try_to_reconnect)
+static int ftp_data_connection_new (gftp_request * request, int dont_try_to_reconnect)
 {
   int ret;
 
@@ -1062,9 +1055,9 @@ rfc959_data_connection_new (gftp_request * request, int dont_try_to_reconnect)
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   if (request->ai_family == AF_INET6)
-    ret = rfc959_ipv6_data_connection_new (request);
+    ret = ftp_ipv6_data_connection_new (request);
   else
-    ret = rfc959_ipv4_data_connection_new (request);
+    ret = ftp_ipv4_data_connection_new (request);
 
   if (ret == GFTP_ETIMEDOUT && !dont_try_to_reconnect)
     {
@@ -1072,15 +1065,14 @@ rfc959_data_connection_new (gftp_request * request, int dont_try_to_reconnect)
       if (ret < 0)
         return (ret);
 
-      return (rfc959_data_connection_new (request, 1));
+      return (ftp_data_connection_new (request, 1));
     }
   else
     return (ret);
 }
 
 
-static int
-rfc959_accept_active_connection (gftp_request * request)
+static int ftp_accept_active_connection (gftp_request * request)
 {
   int infd, ret;
   intptr_t passive_transfer;
@@ -1128,7 +1120,7 @@ rfc959_accept_active_connection (gftp_request * request)
 
 
 static unsigned int
-rfc959_is_ascii_transfer (gftp_request * request, const char *filename)
+ftp_is_ascii_transfer (gftp_request * request, const char *filename)
 {
   gftp_config_list_vars * tmplistvar;
   gftp_file_extensions * tempext;
@@ -1159,8 +1151,7 @@ rfc959_is_ascii_transfer (gftp_request * request, const char *filename)
 }
 
 
-static int
-rfc959_set_data_type (gftp_request * request, const char *filename)
+static int ftp_set_data_type (gftp_request * request, const char *filename)
 {
   unsigned int new_ascii;
   ftp_protocol_data * ftpdat;
@@ -1170,7 +1161,7 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   ftpdat = request->protocol_data;
-  new_ascii = rfc959_is_ascii_transfer (request, filename);
+  new_ascii = ftp_is_ascii_transfer (request, filename);
 
   if (request->datafd > 0 && new_ascii != ftpdat->is_ascii_transfer)
     {
@@ -1185,7 +1176,7 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
           ftpdat->is_ascii_transfer = 0;
         }
 
-      if ((ret = rfc959_send_command (request, tempstr, -1, 1, 0)) < 0)
+      if ((ret = ftp_send_command (request, tempstr, -1, 1, 0)) < 0)
         return (ret);
     }
 
@@ -1193,9 +1184,10 @@ rfc959_set_data_type (gftp_request * request, const char *filename)
 }
 
 
-static int
-rfc959_setup_file_transfer (gftp_request * request, const char *filename,
-                            off_t startsize, char *transfer_command)
+static int ftp_setup_file_transfer (gftp_request * request,
+                                    const char *filename,
+                                    off_t startsize,
+                                    char *transfer_command)
 {
   intptr_t passive_transfer;
   ftp_protocol_data * ftpdat;
@@ -1204,11 +1196,11 @@ rfc959_setup_file_transfer (gftp_request * request, const char *filename,
 
   ftpdat = request->protocol_data;
 
-  if ((ret = rfc959_set_data_type (request, filename)) < 0)
+  if ((ret = ftp_set_data_type (request, filename)) < 0)
     return (ret);
 
   if (ftpdat->data_connection < 0 && 
-      (ret = rfc959_data_connection_new (request, 0)) < 0)
+      (ret = ftp_data_connection_new (request, 0)) < 0)
     return (ret);
 
   if ((ret = gftp_fd_set_sockblocking (request, ftpdat->data_connection, 1)) < 0)
@@ -1218,25 +1210,25 @@ rfc959_setup_file_transfer (gftp_request * request, const char *filename,
     {
       command = g_strdup_printf ("REST " GFTP_OFF_T_PRINTF_MOD "\r\n",
                                  startsize);
-      ret = rfc959_send_command (request, command, -1, 1, 0);
+      ret = ftp_send_command (request, command, -1, 1, 0);
       g_free (command);
 
       if (ret < 0)
         return (ret);
       else if (ret != '3')
         {
-          rfc959_close_data_connection (request);
+          ftp_close_data_connection (request);
           return (GFTP_ERETRYABLE);
         }
     }
 
-  ret = rfc959_generate_and_send_command (request, transfer_command, filename,
+  ret = ftp_generate_and_send_command (request, transfer_command, filename,
                                           1, 0);
   if (ret < 0)
     return (ret);
   else if (ret != '1')
     {
-      rfc959_close_data_connection (request);
+      ftp_close_data_connection (request);
 
       if (ret == '5')
         return (GFTP_EFATAL);
@@ -1246,7 +1238,7 @@ rfc959_setup_file_transfer (gftp_request * request, const char *filename,
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
   if (!passive_transfer &&
-      (ret = rfc959_accept_active_connection (request)) < 0)
+      (ret = ftp_accept_active_connection (request)) < 0)
     return (ret);
 
   if (passive_transfer &&
@@ -1258,9 +1250,8 @@ rfc959_setup_file_transfer (gftp_request * request, const char *filename,
 }
 
 
-static off_t
-rfc959_get_file (gftp_request * request, const char *filename,
-                 off_t startsize)
+static off_t ftp_get_file (gftp_request * request, const char *filename,
+                           off_t startsize)
 {
   char *tempstr;
   int ret;
@@ -1275,10 +1266,10 @@ rfc959_get_file (gftp_request * request, const char *filename,
 
   ftpdat = request->protocol_data;
   if (passive_transfer && ftpdat->use_pret_cmd) {
-    ret = rfc959_generate_and_send_command (request, "PRET RETR", filename,1, 0);
+    ret = ftp_generate_and_send_command (request, "PRET RETR", filename,1, 0);
   }
 
-  ret = rfc959_setup_file_transfer (request, filename, startsize, "RETR");
+  ret = ftp_setup_file_transfer (request, filename, startsize, "RETR");
   if (ret < 0)
     return (ret);
 
@@ -1295,9 +1286,8 @@ rfc959_get_file (gftp_request * request, const char *filename,
 }
 
 
-static int
-rfc959_put_file (gftp_request * request, const char *filename,
-                 off_t startsize, off_t totalsize)
+static int ftp_put_file (gftp_request * request, const char *filename,
+                         off_t startsize, off_t totalsize)
 {
   ftp_protocol_data * ftpdat;
   int ret;
@@ -1307,28 +1297,27 @@ rfc959_put_file (gftp_request * request, const char *filename,
   g_return_val_if_fail (filename != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  if ((ret = rfc959_set_data_type (request, filename)) < 0)
+  if ((ret = ftp_set_data_type (request, filename)) < 0)
     return (ret);
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
   ftpdat = request->protocol_data;
   if (passive_transfer && ftpdat->use_pret_cmd) {
-    ret = rfc959_generate_and_send_command (request, "PRET STOR", filename,1, 0);
+    ret = ftp_generate_and_send_command (request, "PRET STOR", filename,1, 0);
   }
 
   if (ftpdat->data_connection < 0 && 
-      (ret = rfc959_data_connection_new (request, 0)) < 0)
+      (ret = ftp_data_connection_new (request, 0)) < 0)
     return (ret);
 
-  return (rfc959_setup_file_transfer (request, filename, startsize, "STOR"));
+  return (ftp_setup_file_transfer (request, filename, startsize, "STOR"));
 }
 
 
-static off_t
-rfc959_transfer_file (gftp_request *fromreq, const char *fromfile, 
-                      off_t fromsize, gftp_request *toreq, 
-                      const char *tofile, off_t tosize)
+static off_t ftp_transfer_file (gftp_request *fromreq, const char *fromfile, 
+                                off_t fromsize, gftp_request *toreq, 
+                                const char *tofile, off_t tosize)
 {
   char *tempstr, *pos, *endpos;
   ftp_protocol_data * ftpdat;
@@ -1341,7 +1330,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_return_val_if_fail (fromreq->datafd > 0, GFTP_EFATAL);
   g_return_val_if_fail (toreq->datafd > 0, GFTP_EFATAL);
 
-  if ((ret = rfc959_send_command (fromreq, "PASV\r\n", -1, 1, 0)) < 0)
+  if ((ret = ftp_send_command (fromreq, "PASV\r\n", -1, 1, 0)) < 0)
     return (ret);
   else if (ret != '2')
     return (GFTP_ERETRYABLE);
@@ -1359,7 +1348,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
     *endpos = '\0';
 
   tempstr = g_strconcat ("PORT ", pos, "\r\n", NULL);
-  ret = rfc959_send_command (toreq, tempstr, -1, 1, 0);
+  ret = ftp_send_command (toreq, tempstr, -1, 1, 0);
   g_free (tempstr);
 
   if (ret < 0)
@@ -1367,18 +1356,18 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
   else if (ret != '2')
     return (GFTP_ERETRYABLE);
 
-  ret = rfc959_generate_and_send_command (fromreq, "RETR", fromfile, 0, 0);
+  ret = ftp_generate_and_send_command (fromreq, "RETR", fromfile, 0, 0);
   if (ret < 0)
     return (ret);
 
-  ret = rfc959_generate_and_send_command (toreq, "STOR", tofile, 0, 0);
+  ret = ftp_generate_and_send_command (toreq, "STOR", tofile, 0, 0);
   if (ret < 0)
     return (ret);
 
-  if ((ret = rfc959_read_response (fromreq, 1)) < 0)
+  if ((ret = ftp_read_response (fromreq, 1)) < 0)
     return (ret);
 
-  if ((ret = rfc959_read_response (toreq, 1)) < 0)
+  if ((ret = ftp_read_response (toreq, 1)) < 0)
     return (ret);
 
   ftpdat = fromreq->protocol_data;
@@ -1391,8 +1380,7 @@ rfc959_transfer_file (gftp_request *fromreq, const char *fromfile,
 }
 
 
-static int
-rfc959_end_transfer (gftp_request * request)
+static int ftp_end_transfer (gftp_request * request)
 {
   ftp_protocol_data * ftpdat;
   int ret;
@@ -1403,9 +1391,9 @@ rfc959_end_transfer (gftp_request * request)
   ftpdat = request->protocol_data;
   ftpdat->is_fxp_transfer = 0;
 
-  rfc959_close_data_connection (request);
+  ftp_close_data_connection (request);
 
-  ret = rfc959_read_response (request, 1);
+  ret = ftp_read_response (request, 1);
 
   if (ret < 0)
     return (ret);
@@ -1416,22 +1404,21 @@ rfc959_end_transfer (gftp_request * request)
 }
 
 
-static int
-rfc959_abort_transfer (gftp_request * request)
+static int ftp_abort_transfer (gftp_request * request)
 {
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  if ((ret = rfc959_send_command (request, "ABOR\r\n", -1, 0, 0)) < 0)
+  if ((ret = ftp_send_command (request, "ABOR\r\n", -1, 0, 0)) < 0)
     return (ret);
 
-  rfc959_close_data_connection (request);
+  ftp_close_data_connection (request);
 
   if (request->datafd > 0)
     {
-      if ((ret = rfc959_read_response (request, 0)) < 0)
+      if ((ret = ftp_read_response (request, 0)) < 0)
       gftp_disconnect (request);
     }
 
@@ -1439,7 +1426,7 @@ rfc959_abort_transfer (gftp_request * request)
 }
 
 
-static int rfc959_list_files (gftp_request * request)
+static int ftp_list_files (gftp_request * request)
 {
   ftp_protocol_data * ftpdat = request->protocol_data;
   intptr_t passive_transfer;
@@ -1448,19 +1435,19 @@ static int rfc959_list_files (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  if ((ret = rfc959_data_connection_new (request, 0)) < 0)
+  if ((ret = ftp_data_connection_new (request, 0)) < 0)
     return (ret);
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
   if (ftpdat->use_mlsd_cmd) {
-     ret = rfc959_send_command (request, "MLSD\r\n", -1, 1, 0);
+     ret = ftp_send_command (request, "MLSD\r\n", -1, 1, 0);
   } else {
-     ret = rfc959_send_command (request, "LIST -al\r\n", -1, 1, 0);
+     ret = ftp_send_command (request, "LIST -al\r\n", -1, 1, 0);
   }
   // fall back to LIST if an error response is sent..
   if (ret > 0 && ret != '1') {
-     ret = rfc959_send_command (request, "LIST\r\n", -1, 1, 0);
+     ret = ftp_send_command (request, "LIST\r\n", -1, 1, 0);
   }
 
   if (ret < 0)
@@ -1475,7 +1462,7 @@ static int rfc959_list_files (gftp_request * request)
 
   ret = 0;
   if (!passive_transfer)
-    ret = rfc959_accept_active_connection (request);
+    ret = ftp_accept_active_connection (request);
   else if (ftpdat->data_conn_tls_start != NULL)
     ret = ftpdat->data_conn_tls_start(request);
 
@@ -1483,8 +1470,7 @@ static int rfc959_list_files (gftp_request * request)
 }
 
 
-static ssize_t
-rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
+static ssize_t ftp_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   ssize_t num_read, ret;
   ftp_protocol_data * ftpdat;
@@ -1514,8 +1500,7 @@ rfc959_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 }
 
 
-static ssize_t
-rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
+static ssize_t ftp_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
   ssize_t num_wrote, ret;
   ftp_protocol_data * ftpdat;
@@ -1585,9 +1570,8 @@ rfc959_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 }
 
 
-static ssize_t
-rfc959_get_next_dirlist_line (gftp_request * request, int fd,
-                              char *buf, size_t buflen)
+static ssize_t ftp_get_next_dirlist_line (gftp_request * request, int fd,
+                                          char *buf, size_t buflen)
 {
   ssize_t (*oldread_func) (gftp_request * request, void *ptr, size_t size,
                            int fd);
@@ -1604,8 +1588,8 @@ rfc959_get_next_dirlist_line (gftp_request * request, int fd,
   return (len);
 }
 
-int
-rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
+
+int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   ftp_protocol_data * ftpdat;
   char tempstr[1024];
@@ -1629,7 +1613,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
   do
     {
-      len = rfc959_get_next_dirlist_line (request, fd, tempstr,
+      len = ftp_get_next_dirlist_line (request, fd, tempstr,
                                           sizeof (tempstr));
       if (len <= 0)
         {
@@ -1663,8 +1647,7 @@ rfc959_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 }
 
 
-static off_t
-rfc959_get_file_size (gftp_request * request, const char *filename)
+static off_t ftp_get_file_size (gftp_request * request, const char *filename)
 {
   int ret;
 
@@ -1672,7 +1655,7 @@ rfc959_get_file_size (gftp_request * request, const char *filename)
   g_return_val_if_fail (filename != NULL, 0);
   g_return_val_if_fail (request->datafd > 0, 0);
 
-  ret = rfc959_generate_and_send_command (request, "SIZE", filename, 1, 0);
+  ret = ftp_generate_and_send_command (request, "SIZE", filename, 1, 0);
   if (ret < 0)
     return (ret);
 
@@ -1683,8 +1666,7 @@ rfc959_get_file_size (gftp_request * request, const char *filename)
 }
 
 
-static int
-rfc959_rmdir (gftp_request * request, const char *directory)
+static int ftp_rmdir (gftp_request * request, const char *directory)
 {
   int ret;
 
@@ -1692,7 +1674,7 @@ rfc959_rmdir (gftp_request * request, const char *directory)
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  ret = rfc959_generate_and_send_command (request, "RMD", directory, 1, 0);
+  ret = ftp_generate_and_send_command (request, "RMD", directory, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1702,8 +1684,7 @@ rfc959_rmdir (gftp_request * request, const char *directory)
 }
 
 
-static int
-rfc959_rmfile (gftp_request * request, const char *file)
+static int ftp_rmfile (gftp_request * request, const char *file)
 {
   int ret;
 
@@ -1711,7 +1692,7 @@ rfc959_rmfile (gftp_request * request, const char *file)
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  ret = rfc959_generate_and_send_command (request, "DELE", file, 1, 0);
+  ret = ftp_generate_and_send_command (request, "DELE", file, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1721,8 +1702,7 @@ rfc959_rmfile (gftp_request * request, const char *file)
 }
 
 
-static int
-rfc959_mkdir (gftp_request * request, const char *directory)
+static int ftp_mkdir (gftp_request * request, const char *directory)
 {
   int ret;
 
@@ -1730,7 +1710,7 @@ rfc959_mkdir (gftp_request * request, const char *directory)
   g_return_val_if_fail (directory != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  ret = rfc959_generate_and_send_command (request, "MKD", directory, 1, 0);
+  ret = ftp_generate_and_send_command (request, "MKD", directory, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1740,8 +1720,7 @@ rfc959_mkdir (gftp_request * request, const char *directory)
 }
 
 
-static int
-rfc959_rename (gftp_request * request, const char *oldname,
+static int ftp_rename (gftp_request * request, const char *oldname,
                const char *newname)
 {
   int ret;
@@ -1751,13 +1730,13 @@ rfc959_rename (gftp_request * request, const char *oldname,
   g_return_val_if_fail (newname != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  ret = rfc959_generate_and_send_command (request, "RNFR", oldname, 1, 0);
+  ret = ftp_generate_and_send_command (request, "RNFR", oldname, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret != '3')
     return (GFTP_ERETRYABLE);
 
-  ret = rfc959_generate_and_send_command (request, "RNTO", newname, 1, 0);
+  ret = ftp_generate_and_send_command (request, "RNTO", newname, 1, 0);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1767,8 +1746,7 @@ rfc959_rename (gftp_request * request, const char *oldname,
 }
 
 
-static int
-rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
+static int ftp_chmod (gftp_request * request, const char *file, mode_t mode)
 {
   char *tempstr, *utf8;
   size_t destlen;
@@ -1787,7 +1765,7 @@ rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
   else
     tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
 
-  ret = rfc959_send_command (request, tempstr, -1, 1, 0);
+  ret = ftp_send_command (request, tempstr, -1, 1, 0);
   g_free (tempstr);
 
   if (ret < 0)
@@ -1799,8 +1777,7 @@ rfc959_chmod (gftp_request * request, const char *file, mode_t mode)
 }
 
 
-static int
-rfc959_site (gftp_request * request, int specify_site, const char *command)
+static int ftp_site (gftp_request * request, int specify_site, const char *command)
 {
   char *tempstr, *utf8;
   size_t len;
@@ -1840,7 +1817,7 @@ rfc959_site (gftp_request * request, int specify_site, const char *command)
         }
     }
 
-  ret = rfc959_send_command (request, tempstr, len, 1, 0);
+  ret = ftp_send_command (request, tempstr, len, 1, 0);
   g_free (tempstr);
 
   if (ret < 0)
@@ -1852,8 +1829,7 @@ rfc959_site (gftp_request * request, int specify_site, const char *command)
 }
 
 
-static int
-rfc959_set_config_options (gftp_request * request)
+static int ftp_set_config_options (gftp_request * request)
 {
   char *proxy_config;
   gftp_lookup_request_option (request, "proxy_config", &proxy_config);
@@ -1865,14 +1841,13 @@ rfc959_set_config_options (gftp_request * request)
 
 
 void 
-rfc959_register_module (void)
+ftp_register_module (void)
 {
   gftp_register_config_vars (config_vars);
 }
 
 
-static void
-rfc959_request_destroy (gftp_request * request)
+static void ftp_request_destroy (gftp_request * request)
 {
   ftp_protocol_data * ftpdat;
 
@@ -1886,9 +1861,8 @@ rfc959_request_destroy (gftp_request * request)
 }
 
 
-static void
-rfc959_copy_param_options (gftp_request * dest_request,
-                           gftp_request * src_request)
+static void ftp_copy_param_options (gftp_request * dest_request,
+                                    gftp_request * src_request)
 {
   ftp_protocol_data * dftpdat, * sftpdat;
 
@@ -1914,8 +1888,7 @@ rfc959_copy_param_options (gftp_request * dest_request,
 }
 
 
-int
-rfc959_init (gftp_request * request)
+int ftp_init (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
@@ -1945,37 +1918,37 @@ rfc959_init (gftp_request * request)
   request->protonum = GFTP_PROTOCOL_FTP;
   request->url_prefix = gftp_protocols[GFTP_PROTOCOL_FTP].url_prefix;
 
-  request->init = rfc959_init;
-  request->copy_param_options = rfc959_copy_param_options;
-  request->destroy = rfc959_request_destroy; 
+  request->init = ftp_init;
+  request->copy_param_options = ftp_copy_param_options;
+  request->destroy = ftp_request_destroy; 
   request->read_function = gftp_fd_read;
   request->write_function = gftp_fd_write;
-  request->connect = rfc959_connect;
+  request->connect = ftp_connect;
   request->post_connect = NULL;
-  request->disconnect = rfc959_disconnect;
-  request->get_file = rfc959_get_file;
-  request->put_file = rfc959_put_file;
-  request->transfer_file = rfc959_transfer_file;
-  request->get_next_file_chunk = rfc959_get_next_file_chunk;
-  request->put_next_file_chunk = rfc959_put_next_file_chunk;
-  request->end_transfer = rfc959_end_transfer;
-  request->abort_transfer = rfc959_abort_transfer;
+  request->disconnect = ftp_disconnect;
+  request->get_file = ftp_get_file;
+  request->put_file = ftp_put_file;
+  request->transfer_file = ftp_transfer_file;
+  request->get_next_file_chunk = ftp_get_next_file_chunk;
+  request->put_next_file_chunk = ftp_put_next_file_chunk;
+  request->end_transfer = ftp_end_transfer;
+  request->abort_transfer = ftp_abort_transfer;
   request->stat_filename = NULL;
-  request->list_files = rfc959_list_files;
-  request->get_next_file = rfc959_get_next_file;
-  request->get_next_dirlist_line = rfc959_get_next_dirlist_line;
-  request->get_file_size = rfc959_get_file_size;
-  request->chdir = rfc959_chdir;
-  request->rmdir = rfc959_rmdir;
-  request->rmfile = rfc959_rmfile;
-  request->mkdir = rfc959_mkdir;
-  request->rename = rfc959_rename;
-  request->chmod = rfc959_chmod;
+  request->list_files = ftp_list_files;
+  request->get_next_file = ftp_get_next_file;
+  request->get_next_dirlist_line = ftp_get_next_dirlist_line;
+  request->get_file_size = ftp_get_file_size;
+  request->chdir = ftp_chdir;
+  request->rmdir = ftp_rmdir;
+  request->rmfile = ftp_rmfile;
+  request->mkdir = ftp_mkdir;
+  request->rename = ftp_rename;
+  request->chmod = ftp_chmod;
   request->set_file_time = NULL;
-  request->site = rfc959_site;
+  request->site = ftp_site;
   request->parse_url = NULL;
   request->swap_socks = NULL;
-  request->set_config_options = rfc959_set_config_options;
+  request->set_config_options = ftp_set_config_options;
   request->need_hostport = 1;
   request->need_username = 1;
   request->need_password = 1;
