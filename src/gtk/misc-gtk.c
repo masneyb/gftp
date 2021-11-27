@@ -592,7 +592,7 @@ int check_reconnect (gftp_window_data *wdata)
   DEBUG_PRINT_FUNC
   return (wdata->request->cached && wdata->request->datafd < 0 && 
           !wdata->request->always_connected &&
-          !ftp_connect (wdata, wdata->request) ? -1 : 0);
+          !gftp_gtk_connect (wdata, wdata->request) ? -1 : 0);
 }
 
 

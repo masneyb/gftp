@@ -1307,7 +1307,7 @@ toolbar_hostedit(void)
       gftp_parse_url (current_wdata->request, 
                       current_wdata->request->hostname) == 0)
     {
-      ftp_connect (current_wdata, current_wdata->request);
+      gftp_gtk_connect (current_wdata, current_wdata->request);
       return;
     }
  
@@ -1337,7 +1337,7 @@ toolbar_hostedit(void)
   add_history (current_wdata->dir_combo, current_wdata->history, 
                current_wdata->histlen, current_wdata->request->directory);
 
-  ftp_connect (current_wdata, current_wdata->request);
+  gftp_gtk_connect (current_wdata, current_wdata->request);
 }
 
 void
@@ -1406,7 +1406,7 @@ _setup_window1 ()
       gftp_setup_startup_directory (window1.request,
                                     "local_startup_directory");
       gftp_connect (window1.request);
-      ftp_list_files (&window1);
+       gftp_gtk_list_files (&window1);
     }
 }
 
@@ -1421,7 +1421,7 @@ static void _setup_window2 (int argc, char **argv)
   if (argc == 2 && strncmp (argv[1], "--", 2) != 0)
     {
       if (gftp_parse_url (window2.request, argv[1]) == 0)
-        ftp_connect (&window2, window2.request);
+        gftp_gtk_connect (&window2, window2.request);
       else
         gftp_usage ();
     }

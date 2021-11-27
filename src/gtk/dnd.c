@@ -139,7 +139,7 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
           ftp_log (gftp_logging_misc, NULL,
                    _("Received URL %s\n"), (char *) selection_data->data);
 
-          ftp_connect (current_wdata, current_wdata->request);
+          gftp_gtk_connect (current_wdata, current_wdata->request);
         }
     }
 }

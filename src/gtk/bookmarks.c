@@ -88,7 +88,7 @@ void on_menu_run_bookmark (GtkAction *action, gpointer path_str)
   if (refresh_local)
     gftpui_refresh (other_wdata, 0);
 
-  ftp_connect (current_wdata, current_wdata->request);
+  gftp_gtk_connect (current_wdata, current_wdata->request);
 }
 
 

@@ -21,7 +21,7 @@
 
 static int num_transfers_in_progress = 0;
 
-int ftp_list_files (gftp_window_data * wdata)
+int  gftp_gtk_list_files (gftp_window_data * wdata)
 {
   DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata;
@@ -57,7 +57,7 @@ int ftp_list_files (gftp_window_data * wdata)
 }
 
 
-int ftp_connect (gftp_window_data * wdata, gftp_request * request)
+int gftp_gtk_connect (gftp_window_data * wdata, gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   if (wdata->request == request)

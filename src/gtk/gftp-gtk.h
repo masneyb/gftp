@@ -346,9 +346,9 @@ void gftp_gtk_save_bookmark_options 		( void );
 void gftp_gtk_platform_specific_init		( void );
 
 /* transfer.c */
-int ftp_list_files				( gftp_window_data * wdata );
+int  gftp_gtk_list_files				( gftp_window_data * wdata );
 
-int ftp_connect					( gftp_window_data * wdata,
+int gftp_gtk_connect					( gftp_window_data * wdata,
 						  gftp_request * request );
 
 gint update_downloads 				( gpointer data );
