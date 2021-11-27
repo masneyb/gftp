@@ -21,6 +21,18 @@
 
 #include "gftp.h"
 
+/* Server types (used by FTP protocol from SYST command) */
+#define FTP_DIRTYPE_UNIX    1
+#define FTP_DIRTYPE_EPLF    2
+#define FTP_DIRTYPE_CRAY    3
+#define FTP_DIRTYPE_NOVELL  4
+#define FTP_DIRTYPE_DOS     5
+#define FTP_DIRTYPE_VMS     6
+#define FTP_DIRTYPE_OTHER   7
+#define FTP_DIRTYPE_MVS     8
+#define FTP_DIRTYPE_MLSD    9 /* MLSD/MLST replaces LIST */
+
+
 struct ftp_protocol_data_tag
 {  
   gftp_getline_buffer * datafd_rbuf;
@@ -38,6 +50,7 @@ struct ftp_protocol_data_tag
   unsigned int implicit_ssl : 1;
   unsigned int use_mlsd_cmd : 1; /* use MLSD/MLST insted of LIST */
   unsigned int use_pret_cmd : 1; /* for distibuted FTP servers (DrFTP) */
+  int list_type;  /* LIST. See FTP_DIRTYPE_* above */
   int last_cmd;     /* 4hackz */
   int flags;        /* currently unused */
 };

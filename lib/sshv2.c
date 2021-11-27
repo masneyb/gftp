@@ -2143,7 +2143,6 @@ sshv2_init (gftp_request * request)
   request->always_connected = 0;
   request->use_local_encoding = 0;
   request->protocol_data = g_malloc0 (sizeof (sshv2_params));
-  request->server_type = GFTP_DIRTYPE_UNIX;
 
   params = request->protocol_data;
   params->id = 1;

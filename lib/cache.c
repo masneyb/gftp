@@ -23,7 +23,6 @@ struct gftp_cache_entry_tag
 {
   char *url,
        *file;
-  int server_type;
   time_t expiration_date;
 
   char *pos1,
@@ -67,7 +66,7 @@ gftp_parse_cache_line (gftp_request * request, /*@out@*/ gftp_cache_entry * cent
 
   centry->pos2 = pos;
   *pos++ = '\0';
-  centry->server_type = strtol (pos, NULL, 10);
+  //centry->server_type = strtol (pos, NULL, 10);
 
   if ((pos = strchr (pos, '\t')) == NULL || *(pos + 1) == '\0')
     {
@@ -173,7 +172,7 @@ gftp_new_cache_entry (gftp_request * request)
                            request->hostname == NULL ? "" : request->hostname,
                            request->port, 
                            request->directory == NULL ? "" : request->directory,
-                           tempstr, request->server_type, t);
+                           tempstr, 0, t); // 0 = server_type
   g_free (tempstr);
   ret = gftp_fd_write (NULL, temp1str, strlen (temp1str), fd);
   g_free (temp1str);
@@ -255,7 +254,6 @@ gftp_find_cache_entry (gftp_request * request)
 
             }
 
-          request->server_type = centry.server_type;
 	  return (cachefd);
 	}
     }

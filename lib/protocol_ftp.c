@@ -478,10 +478,10 @@ static int ftp_syst (gftp_request * request)
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  // if MLSD has been detected, then use GFTP_DIRTYPE_MLSD
+  // if MLSD has been detected, then use FTP_DIRTYPE_MLSD
   ftpdat = request->protocol_data;
   if (ftpdat->use_mlsd_cmd) {
-     request->server_type = GFTP_DIRTYPE_MLSD;
+     ftpdat->list_type = FTP_DIRTYPE_MLSD;
      return 0;
   }
 
@@ -502,15 +502,15 @@ static int ftp_syst (gftp_request * request)
 
   *endpos = '\0';
 
-  if      (strcmp (stpos, "UNIX") == 0)    dt = GFTP_DIRTYPE_UNIX;
-  else if (strcmp (stpos, "VMS") == 0)     dt = GFTP_DIRTYPE_VMS;
-  else if (strcmp (stpos, "MVS") == 0)     dt = GFTP_DIRTYPE_MVS;
-  else if (strcmp (stpos, "OS/MVS") == 0)  dt = GFTP_DIRTYPE_MVS;
-  else if (strcmp (stpos, "NETWARE") == 0) dt = GFTP_DIRTYPE_NOVELL;
-  else if (strcmp (stpos, "CRAY") == 0)    dt = GFTP_DIRTYPE_CRAY;
-  else                                     dt = GFTP_DIRTYPE_OTHER;
+  if      (strcmp (stpos, "UNIX") == 0)    dt = FTP_DIRTYPE_UNIX;
+  else if (strcmp (stpos, "VMS") == 0)     dt = FTP_DIRTYPE_VMS;
+  else if (strcmp (stpos, "MVS") == 0)     dt = FTP_DIRTYPE_MVS;
+  else if (strcmp (stpos, "OS/MVS") == 0)  dt = FTP_DIRTYPE_MVS;
+  else if (strcmp (stpos, "NETWARE") == 0) dt = FTP_DIRTYPE_NOVELL;
+  else if (strcmp (stpos, "CRAY") == 0)    dt = FTP_DIRTYPE_CRAY;
+  else                                     dt = FTP_DIRTYPE_OTHER;
 
-  request->server_type = dt;
+  ftpdat->list_type = dt;
   return (0);
 }
 
@@ -1880,6 +1880,7 @@ static void ftp_copy_param_options (gftp_request * dest_request,
   dftpdat->implicit_ssl        = sftpdat->implicit_ssl;
   dftpdat->use_mlsd_cmd        = sftpdat->use_mlsd_cmd;
   dftpdat->use_pret_cmd        = sftpdat->use_pret_cmd;
+  dftpdat->list_type           = sftpdat->list_type;
   dftpdat->last_cmd            = sftpdat->last_cmd;
   dftpdat->flags               = sftpdat->flags;
 

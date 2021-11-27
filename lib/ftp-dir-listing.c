@@ -19,6 +19,7 @@
 /*****************************************************************************/
 
 #include "gftp.h"
+#include "protocol_ftp.h"
 
 static char * copy_token (char **dest, char *source)
 {                         /*@out@*/
@@ -374,6 +375,7 @@ static int gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
   //DEBUG_TRACE("LSUNIX: %s\n", str);
   char *endpos, *startpos, *pos, *attribs;
   int cols;
+  ftp_protocol_data * ftpdat = request->protocol_data;
 
   /* If there is no space between the attribs and links field, just make one */
   if (slen > 10)
@@ -440,7 +442,7 @@ static int gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
       startpos = goto_next_token (startpos);
     }
 
-  if (request->server_type == GFTP_DIRTYPE_CRAY)
+  if (ftpdat->list_type == FTP_DIRTYPE_CRAY)
     {
       /* See if this is a Cray directory listing. It has the following format:
       drwx------     2 feiliu    g913     DK  common      4096 Sep 24  2001 wv */
@@ -749,10 +751,12 @@ int gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle
   char *str, *endpos, tmpchar;
   int result, is_vms;
   size_t len;
+  ftp_protocol_data * ftpdat;
 
   g_return_val_if_fail (lsoutput != NULL, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
 
+  ftpdat = request->protocol_data;
   str = g_strdup (lsoutput);
   memset (fle, 0, sizeof (*fle));
 
@@ -762,28 +766,28 @@ int gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle
   if (len > 0 && str[len - 1] == '\r')
     str[--len] = '\0';
 
-  switch (request->server_type)
+  switch (ftpdat->list_type)
     {
-      case GFTP_DIRTYPE_MLSD:
+      case FTP_DIRTYPE_MLSD:
         result = gftp_parse_ls_mlsd (str, fle);
         break;
-      case GFTP_DIRTYPE_CRAY:
-      case GFTP_DIRTYPE_UNIX:
+      case FTP_DIRTYPE_CRAY:
+      case FTP_DIRTYPE_UNIX:
         result = gftp_parse_ls_unix (request, str, len, fle);
         break;
-      case GFTP_DIRTYPE_EPLF:
+      case FTP_DIRTYPE_EPLF:
         result = gftp_parse_ls_eplf (str, fle);
         break;
-      case GFTP_DIRTYPE_NOVELL:
+      case FTP_DIRTYPE_NOVELL:
         result = gftp_parse_ls_novell (str, fle);
         break;
-      case GFTP_DIRTYPE_DOS:
+      case FTP_DIRTYPE_DOS:
         result = gftp_parse_ls_nt (str, fle);
         break;
-      case GFTP_DIRTYPE_VMS:
+      case FTP_DIRTYPE_VMS:
         result = gftp_parse_ls_vms (request, fd, str, fle);
         break;
-      case GFTP_DIRTYPE_MVS:
+      case FTP_DIRTYPE_MVS:
         result = gftp_parse_ls_mvs (str, fle);
         break;
 

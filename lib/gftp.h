@@ -165,17 +165,6 @@
 #define GFTP_OFF_T_PRINTF_MOD      "%jd"
 #define GFTP_OFF_T_11PRINTF_MOD    "%11jd"
 
-/* Server types (used by FTP protocol from SYST command) */
-#define GFTP_DIRTYPE_UNIX    1
-#define GFTP_DIRTYPE_EPLF    2
-#define GFTP_DIRTYPE_CRAY    3
-#define GFTP_DIRTYPE_NOVELL  4
-#define GFTP_DIRTYPE_DOS     5
-#define GFTP_DIRTYPE_VMS     6
-#define GFTP_DIRTYPE_OTHER   7
-#define GFTP_DIRTYPE_MVS     8
-#define GFTP_DIRTYPE_MLSD    9 /* MLSD/MLST replaces LIST */
-
 /* Error types */
 #define GFTP_ERETRYABLE -1 /* Temporary failure. The GUI should wait briefly */
 #define GFTP_EFATAL     -2 /* Fatal error */
@@ -366,8 +355,6 @@ struct gftp_request_tag
   void *remote_addr;
   size_t remote_addr_len;
   int ai_family;
-
-  int server_type; /* The type of server we are connected to. See GFTP_DIRTYPE_* above */
 
   unsigned int use_proxy : 1;
   unsigned int always_connected : 1;

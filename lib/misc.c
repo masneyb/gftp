@@ -956,11 +956,9 @@ char * gftp_build_path (gftp_request * request, const char *first_element, ...)
       retlen += len;
       ret = g_realloc (ret, (gulong) retlen + 1);
 
-      /* Don't append a / for VMS servers... */
-      if (add_separator &&
-          (request == NULL || request->server_type != GFTP_DIRTYPE_VMS))
-        strncat (ret, "/", retlen);
-
+      if (add_separator) {
+         strncat (ret, "/", retlen);
+      }
       strncat (ret, element, retlen);
     }
 
