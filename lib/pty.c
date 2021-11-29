@@ -19,46 +19,7 @@
 
 #include "gftp.h"
 
-#ifdef __sgi
-
-char *
-gftp_get_pty_impl (void)
-{
-  return ("sgi");
-}
-
-
-static int
-_gftp_ptym_open (char *pts_name, size_t len, int *fds)
-{
-  char *new_pts_name;
-  int fdm;
-
-  if ((new_pts_name = _getpty (&fdm, O_RDWR, 0600, 0)) == NULL)
-    return (GFTP_ERETRYABLE);
-
-  strncpy (pts_name, new_pts_name, len);
-  pts_name[len - 1] = '\0';
-
-  return (fdm);
-}
-
-
-static int
-_gftp_ptys_open (int fdm, int fds, char *pts_name)
-{
-  int new_fds;
-
-  if ((new_fds = open (pts_name, O_RDWR)) < 0)
-    {
-      close (fdm);
-      return (-1);
-    }
-
-  return (new_fds);
-}
-
-#elif HAVE_GRANTPT
+#if HAVE_GRANTPT
 
 char *
 gftp_get_pty_impl (void)
@@ -230,7 +191,7 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
   return (new_fds);
 }
 
-#endif /* __sgi */
+#endif /* HAVE_GRANTPT */
 
 
 static int
