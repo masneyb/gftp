@@ -8,13 +8,13 @@ libgftp_a_SOURCES= \
 	config_file.c \
 	fsplib.c \
 	ftp-dir-listing.c \
-	local.c \
 	misc.c \
 	protocols.c \
 	protocol_bookmark.c \
 	protocol_fsp.c \
 	protocol_ftp.c \
 	protocol_ftps.c \
+	protocol_localfs.c \
 	pty.c \
 	sshv2.c \
 	sslcommon.c \

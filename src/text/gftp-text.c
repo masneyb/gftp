@@ -248,7 +248,7 @@ main (int argc, char **argv)
   locuidata = gftp_text_locreq;
   gftp_text_locreq->logging_function = gftp_text_log;
 
-  if (gftp_protocols[GFTP_PROTOCOL_LOCAL].init (gftp_text_locreq) == 0)
+  if (gftp_protocols[GFTP_PROTOCOL_LOCALFS].init (gftp_text_locreq) == 0)
     {
       gftp_setup_startup_directory (gftp_text_locreq,
                                     "local_startup_directory");

@@ -896,7 +896,7 @@ on_listbox_right_click_cb (GtkWidget *widget, GdkEventButton *event, gpointer da
   gftp_window_data * wdata = data;
 
   if (event->button == 3) {
-    if (strcmp (gftp_protocols[wdata->request->protonum].name, "Local") == 0) {
+    if (wdata->request->protonum == GFTP_PROTOCOL_LOCALFS) {
       GtkWidget* menu = gtk_ui_manager_get_widget(factory, "/LocalPopupMenu");
       gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
     }
@@ -1401,7 +1401,7 @@ gftp_gtk_config_file_write_color (gftp_config_vars * cv, char *buf,
 static void
 _setup_window1 ()
 {
-  if (gftp_protocols[GFTP_PROTOCOL_LOCAL].init (window1.request) == 0)
+  if (gftp_protocols[GFTP_PROTOCOL_LOCALFS].init (window1.request) == 0)
     {
       gftp_setup_startup_directory (window1.request,
                                     "local_startup_directory");

@@ -260,7 +260,7 @@ supported_gftp_protocols gftp_protocols[] =
   { "FTPS",  ftps_init,   ftps_register_module,   "ftps",  21,  1, 1 },
   { "FTPSi", ftpsi_init,  ftpsi_register_module,  "ftpsi", 990, 1, 1 },
 
-  { "Local", local_init, local_register_module, "file", 0, 1, 0},
+  { "LocalFS", local_init, local_register_module, "file", 0, 1, 0 },
 
   { "SSH2", sshv2_init, sshv2_register_module, "ssh2", 22, 1, 1},
 

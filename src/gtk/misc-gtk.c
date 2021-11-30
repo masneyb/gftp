@@ -298,7 +298,7 @@ void update_window (gftp_window_data * wdata)
     {
       fspec = wdata->show_selected ? "Selected" : strcmp (wdata->filespec, "*") == 0 ?  _("All Files") : wdata->filespec;
 
-      if (!wdata->request->hostname || wdata->request->protonum == GFTP_PROTOCOL_LOCAL) {
+      if (!wdata->request->hostname || wdata->request->protonum == GFTP_PROTOCOL_LOCALFS) {
         hostname = "";
       } else {
         hostname = wdata->request->hostname;

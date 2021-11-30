@@ -712,7 +712,7 @@ int gftp_parse_ls (gftp_request * request,
 #define GFTP_PROTOCOL_FTP         0
 #define GFTP_PROTOCOL_FTPS        1
 #define GFTP_PROTOCOL_FTPSi       2
-#define GFTP_PROTOCOL_LOCAL       3
+#define GFTP_PROTOCOL_LOCALFS       3
 #define GFTP_PROTOCOL_SSH2        4
 #define GFTP_PROTOCOL_BOOKMARK    5
 #define GFTP_PROTOCOL_FSP         6

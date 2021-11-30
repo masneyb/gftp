@@ -43,7 +43,7 @@ static void do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
     {
       if (is_view)
       {
-        if (strcmp (gftp_protocols[fromwdata->request->protonum].name, "Local") == 0)
+        if (fromwdata->request->protonum == GFTP_PROTOCOL_LOCALFS)
         {
           gchar* argv[] = { (gchar*) "xdg-open", curfle->file, NULL };
           ftp_log (gftp_logging_misc, NULL, _("View directory: %s %s\n"), argv[0], argv[1]);
@@ -64,7 +64,7 @@ static void do_view_or_edit_file (gftp_window_data * fromwdata, int is_view)
       return;
     }
 
-  if (strcmp (gftp_protocols[fromwdata->request->protonum].name, "Local") == 0)
+  if (fromwdata->request->protonum == GFTP_PROTOCOL_LOCALFS)
     view_file (curfle->file, 0, is_view, 0, 1, 1, NULL, fromwdata);
   else
     {
