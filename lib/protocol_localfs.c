@@ -19,40 +19,39 @@
 
 #include "gftp.h"
 
-typedef struct local_protocol_data_tag
+typedef struct localfs_protocol_data_tag
 {
   DIR *dir;
   GHashTable *userhash, *grouphash;
-} local_protocol_data;
+} localfs_protocol_data;
 
 
-static void
-local_remove_key (gpointer key, gpointer value, gpointer user_data)
+static void localfs_remove_key (gpointer key, gpointer value, gpointer user_data)
 {
   g_free (value);
 }
 
 
-static void
-local_destroy (gftp_request * request)
+static void localfs_destroy (gftp_request * request)
 {
-  local_protocol_data * lpd;
+  DEBUG_PRINT_FUNC
+  localfs_protocol_data * lpd;
 
   g_return_if_fail (request != NULL);
   g_return_if_fail (request->protonum == GFTP_PROTOCOL_LOCALFS);
 
   lpd = request->protocol_data;
-  g_hash_table_foreach (lpd->userhash, local_remove_key, NULL);
+  g_hash_table_foreach (lpd->userhash, localfs_remove_key, NULL);
   g_hash_table_destroy (lpd->userhash);
-  g_hash_table_foreach (lpd->grouphash, local_remove_key, NULL);
+  g_hash_table_foreach (lpd->grouphash, localfs_remove_key, NULL);
   g_hash_table_destroy (lpd->grouphash);
   lpd->userhash = lpd->grouphash = NULL;
 }
 
 
-static int
-local_getcwd (gftp_request * request)
+static int localfs_getcwd (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
 #ifdef __GNU__
   char *tempstr;
 #else
@@ -91,9 +90,9 @@ local_getcwd (gftp_request * request)
 }
 
 
-static int
-local_chdir (gftp_request * request, const char *directory)
+static int localfs_chdir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   size_t destlen;
   char *utf8;
   int ret;
@@ -116,7 +115,7 @@ local_chdir (gftp_request * request, const char *directory)
       request->logging_function (gftp_logging_misc, request,
                           _("Successfully changed local directory to %s\n"),
                           directory);
-      ret = local_getcwd (request);
+      ret = localfs_getcwd (request);
     }
   else
     {
@@ -130,22 +129,22 @@ local_chdir (gftp_request * request, const char *directory)
 }
 
 
-static int
-local_connect (gftp_request * request)
+static int localfs_connect (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_LOCALFS, GFTP_EFATAL);
 
   if (request->directory != NULL)
-    return (local_chdir (request, request->directory));
+    return (localfs_chdir (request, request->directory));
   else
-    return (local_getcwd (request));
+    return (localfs_getcwd (request));
 }
 
 
-static void
-local_disconnect (gftp_request * request)
+static void localfs_disconnect (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
   g_return_if_fail (request->protonum == GFTP_PROTOCOL_LOCALFS);
 
@@ -160,10 +159,10 @@ local_disconnect (gftp_request * request)
 }
 
 
-static off_t
-local_get_file (gftp_request * request, const char *filename,
-                off_t startsize)
+static off_t localfs_get_file (gftp_request * request, const char *filename,
+                             off_t startsize)
 {
+  DEBUG_PRINT_FUNC
   size_t destlen;
   char *utf8;
   off_t size;
@@ -212,10 +211,10 @@ local_get_file (gftp_request * request, const char *filename,
 }
 
 
-static int
-local_put_file (gftp_request * request, const char *filename,
-                off_t startsize, off_t totalsize)
+static int localfs_put_file (gftp_request * request, const char *filename,
+                           off_t startsize, off_t totalsize)
 {
+  DEBUG_PRINT_FUNC
   int flags, perms;
   size_t destlen;
   char *utf8;
@@ -265,10 +264,10 @@ local_put_file (gftp_request * request, const char *filename,
 }
 
 
-static int
-local_end_transfer (gftp_request * request)
+static int localfs_end_transfer (gftp_request * request)
 {
-  local_protocol_data * lpd;
+  DEBUG_PRINT_FUNC
+  localfs_protocol_data * lpd;
 
   lpd = request->protocol_data;
   if (lpd->dir)
@@ -291,10 +290,10 @@ local_end_transfer (gftp_request * request)
 }
 
 
-static int
-local_stat_filename (gftp_request * request, const char *filename,
-                     mode_t * mode, off_t * filesize)
+static int localfs_stat_filename (gftp_request * request, const char *filename,
+                                mode_t * mode, off_t * filesize)
 {
+  DEBUG_PRINT_FUNC
   struct stat st;
   size_t destlen;
   char *utf8;
@@ -319,10 +318,10 @@ local_stat_filename (gftp_request * request, const char *filename,
 }
 
 
-static int
-local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
+static int localfs_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
-  local_protocol_data * lpd;
+  //DEBUG_PRINT_FUNC
+  localfs_protocol_data * lpd;
   struct stat st, fst;
   struct dirent *dirp;
   char *user, *group;
@@ -398,10 +397,10 @@ local_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 }
 
 
-static int
-local_list_files (gftp_request * request)
+static int localfs_list_files (gftp_request * request)
 {
-  local_protocol_data *lpd;
+  DEBUG_PRINT_FUNC
+  localfs_protocol_data *lpd;
   char *dir, *utf8;
   size_t destlen;
 
@@ -442,9 +441,9 @@ local_list_files (gftp_request * request)
 }
 
 
-static off_t 
-local_get_file_size (gftp_request * request, const char *filename)
+static off_t  localfs_get_file_size (gftp_request * request, const char *filename)
 {
+  DEBUG_PRINT_FUNC
   struct stat st;
   size_t destlen;
   char *utf8;
@@ -466,9 +465,9 @@ local_get_file_size (gftp_request * request, const char *filename)
 }
 
 
-static int
-local_rmdir (gftp_request * request, const char *directory)
+static int localfs_rmdir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   size_t destlen;
   char *utf8;
   int ret;
@@ -502,9 +501,9 @@ local_rmdir (gftp_request * request, const char *directory)
 }
 
 
-static int
-local_rmfile (gftp_request * request, const char *file)
+static int localfs_rmfile (gftp_request * request, const char *file)
 {
+  DEBUG_PRINT_FUNC
   size_t destlen;
   char *utf8;
   int ret;
@@ -538,9 +537,9 @@ local_rmfile (gftp_request * request, const char *file)
 }
 
 
-static int
-local_mkdir (gftp_request * request, const char *directory)
+static int localfs_mkdir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   int ret, perms;
   size_t destlen;
   char *utf8;
@@ -577,10 +576,10 @@ local_mkdir (gftp_request * request, const char *directory)
 }
 
 
-static int
-local_rename (gftp_request * request, const char *oldname,
-	      const char *newname)
+static int localfs_rename (gftp_request * request, const char *oldname,
+                         const char *newname)
 {
+  DEBUG_PRINT_FUNC
   const char *conv_oldname, *conv_newname;
   char *old_utf8, *new_utf8;
   size_t destlen;
@@ -620,9 +619,9 @@ local_rename (gftp_request * request, const char *oldname,
 }
 
 
-static int
-local_chmod (gftp_request * request, const char *file, mode_t mode)
+static int localfs_chmod (gftp_request * request, const char *file, mode_t mode)
 {
+  DEBUG_PRINT_FUNC
   size_t destlen;
   char *utf8;
   int ret;
@@ -657,10 +656,10 @@ local_chmod (gftp_request * request, const char *file, mode_t mode)
 }
 
 
-static int
-local_set_file_time (gftp_request * request, const char *file,
-		     time_t datetime)
+static int localfs_set_file_time (gftp_request * request, const char *file,
+                                time_t datetime)
 {
+  DEBUG_PRINT_FUNC
   struct utimbuf time_buf;
   size_t destlen;
   char *utf8;
@@ -699,49 +698,49 @@ local_set_file_time (gftp_request * request, const char *file,
 }
 
 
-void 
-local_register_module (void)
+void  localfs_register_module (void)
 {
+  DEBUG_PRINT_FUNC
 }
 
 
-int
-local_init (gftp_request * request)
+int localfs_init (gftp_request * request)
 {
-  local_protocol_data *lpd;
+  DEBUG_PRINT_FUNC
+  localfs_protocol_data *lpd;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
   request->protonum = GFTP_PROTOCOL_LOCALFS;
   request->url_prefix = gftp_protocols[GFTP_PROTOCOL_LOCALFS].url_prefix;
 
-  request->init = local_init;
+  request->init = localfs_init;
   request->copy_param_options = NULL;
-  request->destroy = local_destroy;
+  request->destroy = localfs_destroy;
   request->read_function = gftp_fd_read;
   request->write_function = gftp_fd_write;
-  request->connect = local_connect;
+  request->connect = localfs_connect;
   request->post_connect = NULL;
-  request->disconnect = local_disconnect;
-  request->get_file = local_get_file;
-  request->put_file = local_put_file;
+  request->disconnect = localfs_disconnect;
+  request->get_file = localfs_get_file;
+  request->put_file = localfs_put_file;
   request->transfer_file = NULL;
   request->get_next_file_chunk = NULL;
   request->put_next_file_chunk = NULL;
-  request->end_transfer = local_end_transfer;
-  request->abort_transfer = local_end_transfer; /* NOTE: uses end_transfer */
-  request->stat_filename = local_stat_filename;
-  request->list_files = local_list_files;
-  request->get_next_file = local_get_next_file;
+  request->end_transfer = localfs_end_transfer;
+  request->abort_transfer = localfs_end_transfer; /* NOTE: uses end_transfer */
+  request->stat_filename = localfs_stat_filename;
+  request->list_files = localfs_list_files;
+  request->get_next_file = localfs_get_next_file;
   request->get_next_dirlist_line = NULL;
-  request->get_file_size = local_get_file_size;
-  request->chdir = local_chdir;
-  request->rmdir = local_rmdir;
-  request->rmfile = local_rmfile;
-  request->mkdir = local_mkdir;
-  request->rename = local_rename;
-  request->chmod = local_chmod;
-  request->set_file_time = local_set_file_time;
+  request->get_file_size = localfs_get_file_size;
+  request->chdir = localfs_chdir;
+  request->rmdir = localfs_rmdir;
+  request->rmfile = localfs_rmfile;
+  request->mkdir = localfs_mkdir;
+  request->rename = localfs_rename;
+  request->chmod = localfs_chmod;
+  request->set_file_time = localfs_set_file_time;
   request->site = NULL;
   request->parse_url = NULL;
   request->set_config_options = NULL;

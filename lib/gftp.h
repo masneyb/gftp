@@ -733,9 +733,9 @@ void ftps_register_module  (void);
 int ftpsi_init (gftp_request * request);
 void ftpsi_register_module (void);
 
-/* local.c */
-int local_init (gftp_request * request);
-void local_register_module (void);
+/* protocol_localfs.c */
+int localfs_init (gftp_request * request);
+void localfs_register_module (void);
 
 /* sshv2.c */
 int sshv2_init (gftp_request * request);
