@@ -94,23 +94,39 @@ static gftp_config_vars config_vars[] =
 
 // ==========================================================================
 
+struct ftp_supported_feature ftp_supported_features[] =
+{
+   // If a server supports MLST, it must also support MLSD
+   // some (most?) servers don't report MLSD even though it's supported
+   // Should only use MLST to test if MLSD is supported
+   { FTP_FEAT_MLSD, "MLST" },
+   { FTP_FEAT_PRET, "PRET" },
+};
+
 static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
 {
    DEBUG_PUTS(cmd)
    char *p = cmd;
+   int i;
    while (*p <= 32) p++; // strip leading spaces
-   if (strncmp (p, "MLST", 4) == 0) {
-      // If a server supports MLST, it must also support MLSD
-      // some (most?) servers don't report MLSD even though it's supported
-      // Should only use MLST to test if MLSD is supported
-      ftpdat->use_mlsd_cmd = 1; /* RFC 3659 */
-      return;
-   }
-   if (strcmp (p, "PRET") == 0) {
-      ftpdat->use_pret_cmd = 1; /* accepts PRET (distributed FTP server) */
-      return;
+   for (i = 0; i < FTP_FEAT_TOTAL; i++)
+   {
+      if (strcmp (p, ftp_supported_features[i].str) == 0) {
+          ftpdat->feat[i] = 1;
+          DEBUG_TRACE("Supported feature: %s\n", ftp_supported_features[i].str)
+          return;
+      }
+      if (strlen (p) > 4) {
+         if (strncmp (p, ftp_supported_features[i].str, 4) == 0) {
+             ftpdat->feat[i] = 1;
+             DEBUG_TRACE("Supported feature: %s\n", ftp_supported_features[i].str)
+             return;
+         }
+      }
    }
 }
+
+// ==========================================================================
          
 static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 {
@@ -487,7 +503,7 @@ static int ftp_syst (gftp_request * request)
 
   // if MLSD has been detected, then use FTP_DIRTYPE_MLSD
   ftpdat = request->protocol_data;
-  if (ftpdat->use_mlsd_cmd) {
+  if (ftpdat->feat[FTP_FEAT_MLSD]) {
      ftpdat->list_type = FTP_DIRTYPE_MLSD;
      return 0;
   }
@@ -1281,7 +1297,7 @@ static off_t ftp_get_file (gftp_request * request, const char *filename,
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
   ftpdat = request->protocol_data;
-  if (passive_transfer && ftpdat->use_pret_cmd) {
+  if (passive_transfer && ftpdat->feat[FTP_FEAT_PRET]) {
     ret = ftp_generate_and_send_command (request, "PRET RETR", filename,1, 0);
   }
 
@@ -1320,7 +1336,7 @@ static int ftp_put_file (gftp_request * request, const char *filename,
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
   ftpdat = request->protocol_data;
-  if (passive_transfer && ftpdat->use_pret_cmd) {
+  if (passive_transfer && ftpdat->feat[FTP_FEAT_PRET]) {
     ret = ftp_generate_and_send_command (request, "PRET STOR", filename,1, 0);
   }
 
@@ -1461,7 +1477,7 @@ static int ftp_list_files (gftp_request * request)
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
-  if (ftpdat->use_mlsd_cmd) {
+  if (ftpdat->feat[FTP_FEAT_MLSD]) {
      ret = ftp_send_command (request, "MLSD\r\n", -1, 1, 0);
   } else {
      ret = ftp_send_command (request, "LIST -al\r\n", -1, 1, 0);
@@ -1912,11 +1928,9 @@ static void ftp_copy_param_options (gftp_request * dest_request,
   dftpdat->data_conn_write     = sftpdat->data_conn_write;
   dftpdat->data_conn_tls_close = sftpdat->data_conn_tls_close;
   dftpdat->implicit_ssl        = sftpdat->implicit_ssl;
-  dftpdat->use_mlsd_cmd        = sftpdat->use_mlsd_cmd;
-  dftpdat->use_pret_cmd        = sftpdat->use_pret_cmd;
   dftpdat->list_type           = sftpdat->list_type;
   dftpdat->last_cmd            = sftpdat->last_cmd;
-  dftpdat->flags               = sftpdat->flags;
+  memcpy (dftpdat, sftpdat, sizeof(*sftpdat));
 
   dest_request->read_function = src_request->read_function;
   dest_request->write_function = src_request->write_function;

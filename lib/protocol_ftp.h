@@ -17,8 +17,6 @@
 /*  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                */
 /*****************************************************************************/
 
-/* $Id$ */
-
 #include "gftp.h"
 
 /* Server types (used by FTP protocol from SYST command) */
@@ -33,6 +31,22 @@ enum
    FTP_DIRTYPE_MVS    = 7,
    FTP_DIRTYPE_MLSD   = 8, /* MLSD/MLST replaces LIST */
 };
+
+
+enum
+{
+   FTP_FEAT_MLSD,  /* rfc3659 - use MLSD/MLST insted of LIST */
+   FTP_FEAT_PRET,  /* accepts PRET, distibuted FTP server (DrFTP) */
+   FTP_FEAT_TOTAL,
+};
+
+struct ftp_supported_feature
+{
+   int index;
+   char * str;
+};
+extern struct ftp_supported_feature ftp_supported_features[];
+
 
 struct ftp_protocol_data_tag
 {  
@@ -49,11 +63,9 @@ struct ftp_protocol_data_tag
                               size_t size, int fd);
   void (*data_conn_tls_close) (gftp_request * request);
   unsigned int implicit_ssl : 1;
-  unsigned int use_mlsd_cmd : 1; /* use MLSD/MLST insted of LIST */
-  unsigned int use_pret_cmd : 1; /* for distibuted FTP servers (DrFTP) */
-  int list_type;  /* LIST. See FTP_DIRTYPE_* above */
+  int list_type;    /* LIST. See FTP_DIRTYPE_* above */
   int last_cmd;     /* 4hackz */
-  int flags;        /* currently unused */
+  unsigned int feat[FTP_FEAT_TOTAL];
 };
 
 typedef struct ftp_protocol_data_tag ftp_protocol_data;
