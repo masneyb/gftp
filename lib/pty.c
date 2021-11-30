@@ -77,13 +77,6 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
       return (-1);
     }
 
-#if defined(SYSV) || defined (hpux)
-  /* I intentionally ignore these errors */
-  ioctl (new_fds, I_PUSH, "ptem");
-  ioctl (new_fds, I_PUSH, "ldterm");
-  ioctl (new_fds, I_PUSH, "ttcompat");
-#endif
-
   return (new_fds);
 }
 
@@ -95,9 +88,6 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
 #elif HAVE_LIBUTIL_H
 #include <libutil.h>
 #include <utmp.h> /* for login_tty */
-#else
-extern int openpty(int *amaster, int *aslave, char *name, struct termios *termp, struct winsize * winp);
-extern int login_tty(int fd);
 #endif
 
 char *
@@ -130,9 +120,7 @@ _gftp_ptys_open (int fdm, int fds, char *pts_name)
   return (fds);
 }
 
-#else
-
-/* Fall back to *BSD... */
+#else /* Fall back to *BSD... */
 
 char *
 gftp_get_pty_impl (void)
@@ -205,9 +193,7 @@ _gftp_tty_raw (int fd)
   buf.c_iflag |= IGNPAR;
   buf.c_iflag &= ~(ICRNL | ISTRIP | IXON | IGNCR | IXANY | IXOFF | INLCR);
   buf.c_lflag &= ~(ECHO | ICANON | ISIG | ECHOE | ECHOK | ECHONL);
-#ifdef IEXTEN
   buf.c_lflag &= ~(IEXTEN);
-#endif
 
   buf.c_oflag &= ~(OPOST);
   buf.c_cc[VMIN] = 1;
