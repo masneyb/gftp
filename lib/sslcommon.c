@@ -55,9 +55,9 @@ struct CRYPTO_dynlock_value
 };
 
 
-void
-ssl_register_module (void)
+void ssl_register_module (void)
 {
+  DEBUG_PRINT_FUNC
   static volatile int module_registered = 0;
 
   if (!module_registered)
@@ -67,16 +67,16 @@ ssl_register_module (void)
     }
 }
 
-static SSL*
-gftp_get_ssl_for_fd (int fd)
+static SSL* gftp_get_ssl_for_fd (int fd)
 {
+  //DEBUG_PRINT_FUNC
   SSL* ssl= gftp_ssl_map?(SSL*)g_hash_table_lookup (gftp_ssl_map, &fd):NULL;
   return ssl;
 }
 
-static void
-gftp_set_ssl_for_fd (int fd, SSL* ssl)
+static void gftp_set_ssl_for_fd (int fd, SSL* ssl)
 {
+  DEBUG_PRINT_FUNC
   if (ssl)
     {
       int *key = g_new (gint, 1);
@@ -87,9 +87,10 @@ gftp_set_ssl_for_fd (int fd, SSL* ssl)
     g_hash_table_remove (gftp_ssl_map, &fd);
 }
 
-static int
-gftp_ssl_get_index (void)
+
+static int gftp_ssl_get_index (void)
 {
+  DEBUG_PRINT_FUNC
   static volatile int index = -1;
 
   if (index < 0)
@@ -99,9 +100,9 @@ gftp_ssl_get_index (void)
 }
 
 
-static int 
-gftp_ssl_verify_callback (int ok, X509_STORE_CTX *store)
+static int  gftp_ssl_verify_callback (int ok, X509_STORE_CTX *store)
 {
+  DEBUG_PRINT_FUNC
   char issuer[256], subject[256];
   intptr_t verify_ssl_peer;
   gftp_request * request;
@@ -132,9 +133,9 @@ gftp_ssl_verify_callback (int ok, X509_STORE_CTX *store)
 }
 
 
-static int
-gftp_ssl_post_connection_check (gftp_request * request)
+static int gftp_ssl_post_connection_check (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   char data[256], *extstr;
   int extcount, ok, i, j;
   X509_EXTENSION *ext;
@@ -244,6 +245,7 @@ gftp_ssl_post_connection_check (gftp_request * request)
 void /* callback */
 _gftp_ssl_locking_function (int mode, int n, const char * file, int line)
 {
+  DEBUG_PRINT_FUNC
   if (mode & CRYPTO_LOCK)
     g_mutex_lock (&gftp_ssl_mutexes[n]);
   else
@@ -254,6 +256,7 @@ _gftp_ssl_locking_function (int mode, int n, const char * file, int line)
 unsigned long /* callback */
 _gftp_ssl_id_function (void)
 { 
+  DEBUG_PRINT_FUNC
   return ((unsigned long) g_thread_self ());
 } 
 
@@ -261,6 +264,7 @@ _gftp_ssl_id_function (void)
 struct CRYPTO_dynlock_value * /* callback */
 _gftp_ssl_create_dyn_mutex (const char *file, int line)
 { 
+  DEBUG_PRINT_FUNC
   struct CRYPTO_dynlock_value *value;
 
   value = g_malloc0 (sizeof (*value));
@@ -273,6 +277,7 @@ void /* callback */
 _gftp_ssl_dyn_mutex_lock (int mode, struct CRYPTO_dynlock_value *l,
                           const char *file, int line)
 {
+  DEBUG_PRINT_FUNC
   if (mode & CRYPTO_LOCK)
     g_mutex_lock (&l->mutex);
   else
@@ -284,14 +289,15 @@ void /* callback */
 _gftp_ssl_destroy_dyn_mutex (struct CRYPTO_dynlock_value *l,
                              const char *file, int line)
 {
+  DEBUG_PRINT_FUNC
   g_mutex_clear (&l->mutex);
   g_free (l);
 }
 
 
-static void
-_gftp_ssl_thread_setup (void)
+static void _gftp_ssl_thread_setup (void)
 {
+  DEBUG_PRINT_FUNC
   int i;
 
   gftp_ssl_mutexes = g_malloc0 (CRYPTO_num_locks( ) * sizeof (*gftp_ssl_mutexes));
@@ -307,9 +313,9 @@ _gftp_ssl_thread_setup (void)
 } 
 
 
-int
-gftp_ssl_startup (gftp_request * request)
+int gftp_ssl_startup (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   intptr_t entropy_len;
   char *entropy_source;
 
@@ -365,17 +371,17 @@ gftp_ssl_startup (gftp_request * request)
   return (0);
 }
 
-static void
-gftp_ssl_abort (gftp_request * request, int fd)
+static void gftp_ssl_abort (gftp_request * request, int fd)
 {
+  DEBUG_PRINT_FUNC
   /* disconnect only for errors on the main (control) channel */
   if(fd == request->datafd)
     gftp_disconnect (request);
 }
 
-int
-gftp_ssl_session_setup_ex (gftp_request * request, int fd)
+int gftp_ssl_session_setup_ex (gftp_request * request, int fd)
 {
+  DEBUG_PRINT_FUNC
   intptr_t verify_ssl_peer;
   BIO * bio;
   long ret;
@@ -480,12 +486,14 @@ gftp_ssl_session_setup_ex (gftp_request * request, int fd)
 int
 gftp_ssl_session_setup (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   return gftp_ssl_session_setup_ex (request, request->datafd);
 }
 
-void
-gftp_ssl_session_close_ex (gftp_request * request, int fd)
+
+void gftp_ssl_session_close_ex (gftp_request * request, int fd)
 {
+  DEBUG_PRINT_FUNC
   SSL* ssl = gftp_get_ssl_for_fd (fd);
   if(ssl)
     {
@@ -495,15 +503,17 @@ gftp_ssl_session_close_ex (gftp_request * request, int fd)
     }
 }
 
-void
-gftp_ssl_session_close (gftp_request * request)
+
+void gftp_ssl_session_close (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   gftp_ssl_session_close_ex (request, request->datafd);
 }
 
 ssize_t 
 gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
 {
+  //DEBUG_PRINT_FUNC
   int ret;
   int err;
   SSL* ssl = gftp_get_ssl_for_fd (fd);
@@ -555,6 +565,7 @@ gftp_ssl_read (gftp_request * request, void *ptr, size_t size, int fd)
 ssize_t 
 gftp_ssl_write (gftp_request * request, const char *ptr, size_t size, int fd)
 {
+  //DEBUG_PRINT_FUNC
   int ret, w_ret;
   SSL* ssl = gftp_get_ssl_for_fd (fd);
  

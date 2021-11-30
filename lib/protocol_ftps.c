@@ -60,16 +60,16 @@ ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   return (ret);
 }
 
-static int 
-ftps_data_conn_tls_start (gftp_request * request)
+static int  ftps_data_conn_tls_start (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat = request->protocol_data;
   return gftp_ssl_session_setup_ex (request, ftpdat->data_connection);
 }
 
-static void
-ftps_data_conn_tls_close (gftp_request * request)
+static void ftps_data_conn_tls_close (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat = request->protocol_data;
   gftp_ssl_session_close_ex (request, ftpdat->data_connection);
 }
@@ -77,6 +77,7 @@ ftps_data_conn_tls_close (gftp_request * request)
 
 static int ftps_auth_tls_start (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
   int ret;
 

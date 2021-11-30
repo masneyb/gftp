@@ -114,6 +114,7 @@ static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
          
 static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 {
+  //DEBUG_PRINT_FUNC
   char tempstr[255], code[4];
   ftp_protocol_data * ftpdat;
   ssize_t num_read;
@@ -179,6 +180,7 @@ int ftp_send_command (gftp_request * request, const char *command,
                       ssize_t command_len, int read_response,
                       int dont_try_to_reconnect)
 {
+  //DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -232,6 +234,7 @@ static int ftp_generate_and_send_command (gftp_request * request,
                                   const char *argument, int read_response,
                                   int dont_try_to_reconnect)
 {
+  //DEBUG_PRINT_FUNC
   char *tempstr, *utf8;
   size_t len;
   int resp;
@@ -267,6 +270,7 @@ static int ftp_generate_and_send_command (gftp_request * request,
 
 static char * parse_ftp_proxy_string (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   char *startpos, *endpos, *newstr, *newval, tempport[6], *proxy_config, *utf8,
        savechar;
   size_t len, destlen;
@@ -393,6 +397,7 @@ static char * parse_ftp_proxy_string (gftp_request * request)
 
 static int ftp_getcwd (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   char *pos, *dir, *utf8;
   size_t destlen;
   int ret;
@@ -446,6 +451,7 @@ static int ftp_getcwd (gftp_request * request)
 
 static int ftp_chdir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -470,6 +476,7 @@ static int ftp_chdir (gftp_request * request, const char *directory)
 
 static int ftp_syst (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   int ret;
   char *stpos, *endpos;
   ftp_protocol_data * ftpdat;
@@ -694,6 +701,7 @@ int ftp_connect (gftp_request * request)
 
 static void ftp_close_data_connection (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
 
   g_return_if_fail (request != NULL);
@@ -712,6 +720,7 @@ static void ftp_close_data_connection (gftp_request * request)
 
 static void ftp_disconnect (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   g_return_if_fail (request != NULL);
 
   if (request->datafd > 0)
@@ -732,6 +741,7 @@ static void ftp_disconnect (gftp_request * request)
 
 static int ftp_ipv4_data_connection_new (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   struct sockaddr_in data_addr;
   intptr_t ignore_pasv_address;
   char *pos, *pos1, *command;
@@ -902,6 +912,7 @@ static int ftp_ipv4_data_connection_new (gftp_request * request)
 
 static int ftp_ipv6_data_connection_new (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   struct sockaddr_in6 data_addr;
   char *pos, buf[64], *command;
   intptr_t passive_transfer;
@@ -1049,6 +1060,7 @@ static int ftp_ipv6_data_connection_new (gftp_request * request)
 
 static int ftp_data_connection_new (gftp_request * request, int dont_try_to_reconnect)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1074,6 +1086,7 @@ static int ftp_data_connection_new (gftp_request * request, int dont_try_to_reco
 
 static int ftp_accept_active_connection (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   int infd, ret;
   intptr_t passive_transfer;
   ftp_protocol_data * ftpdat;
@@ -1122,6 +1135,7 @@ static int ftp_accept_active_connection (gftp_request * request)
 static unsigned int
 ftp_is_ascii_transfer (gftp_request * request, const char *filename)
 {
+  DEBUG_PRINT_FUNC
   gftp_config_list_vars * tmplistvar;
   gftp_file_extensions * tempext;
   intptr_t ascii_transfers;
@@ -1153,6 +1167,7 @@ ftp_is_ascii_transfer (gftp_request * request, const char *filename)
 
 static int ftp_set_data_type (gftp_request * request, const char *filename)
 {
+  DEBUG_PRINT_FUNC
   unsigned int new_ascii;
   ftp_protocol_data * ftpdat;
   char *tempstr;
@@ -1189,6 +1204,7 @@ static int ftp_setup_file_transfer (gftp_request * request,
                                     off_t startsize,
                                     char *transfer_command)
 {
+  DEBUG_PRINT_FUNC
   intptr_t passive_transfer;
   ftp_protocol_data * ftpdat;
   char *command;
@@ -1253,6 +1269,7 @@ static int ftp_setup_file_transfer (gftp_request * request,
 static off_t ftp_get_file (gftp_request * request, const char *filename,
                            off_t startsize)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr;
   int ret;
   intptr_t passive_transfer;
@@ -1289,6 +1306,7 @@ static off_t ftp_get_file (gftp_request * request, const char *filename,
 static int ftp_put_file (gftp_request * request, const char *filename,
                          off_t startsize, off_t totalsize)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
   int ret;
   intptr_t passive_transfer;
@@ -1319,6 +1337,7 @@ static off_t ftp_transfer_file (gftp_request *fromreq, const char *fromfile,
                                 off_t fromsize, gftp_request *toreq, 
                                 const char *tofile, off_t tosize)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr, *pos, *endpos;
   ftp_protocol_data * ftpdat;
   int ret;
@@ -1382,6 +1401,7 @@ static off_t ftp_transfer_file (gftp_request *fromreq, const char *fromfile,
 
 static int ftp_end_transfer (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
   int ret;
 
@@ -1406,6 +1426,7 @@ static int ftp_end_transfer (gftp_request * request)
 
 static int ftp_abort_transfer (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1428,6 +1449,7 @@ static int ftp_abort_transfer (gftp_request * request)
 
 static int ftp_list_files (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat = request->protocol_data;
   intptr_t passive_transfer;
   int ret;
@@ -1472,6 +1494,7 @@ static int ftp_list_files (gftp_request * request)
 
 static ssize_t ftp_get_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
+  //DEBUG_PRINT_FUNC
   ssize_t num_read, ret;
   ftp_protocol_data * ftpdat;
   int i, j;
@@ -1502,6 +1525,7 @@ static ssize_t ftp_get_next_file_chunk (gftp_request * request, char *buf, size_
 
 static ssize_t ftp_put_next_file_chunk (gftp_request * request, char *buf, size_t size)
 {
+  //DEBUG_PRINT_FUNC
   ssize_t num_wrote, ret;
   ftp_protocol_data * ftpdat;
   char *tempstr, *pos;
@@ -1573,6 +1597,7 @@ static ssize_t ftp_put_next_file_chunk (gftp_request * request, char *buf, size_
 static ssize_t ftp_get_next_dirlist_line (gftp_request * request, int fd,
                                           char *buf, size_t buflen)
 {
+  //DEBUG_PRINT_FUNC
   ssize_t (*oldread_func) (gftp_request * request, void *ptr, size_t size,
                            int fd);
   ftp_protocol_data * ftpdat;
@@ -1591,6 +1616,7 @@ static ssize_t ftp_get_next_dirlist_line (gftp_request * request, int fd,
 
 int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
+  //DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
   char tempstr[1024];
   size_t stlen;
@@ -1649,6 +1675,7 @@ int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 
 static off_t ftp_get_file_size (gftp_request * request, const char *filename)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, 0);
@@ -1668,6 +1695,7 @@ static off_t ftp_get_file_size (gftp_request * request, const char *filename)
 
 static int ftp_rmdir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1686,6 +1714,7 @@ static int ftp_rmdir (gftp_request * request, const char *directory)
 
 static int ftp_rmfile (gftp_request * request, const char *file)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1704,6 +1733,7 @@ static int ftp_rmfile (gftp_request * request, const char *file)
 
 static int ftp_mkdir (gftp_request * request, const char *directory)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1723,6 +1753,7 @@ static int ftp_mkdir (gftp_request * request, const char *directory)
 static int ftp_rename (gftp_request * request, const char *oldname,
                const char *newname)
 {
+  DEBUG_PRINT_FUNC
   int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
@@ -1748,6 +1779,7 @@ static int ftp_rename (gftp_request * request, const char *oldname,
 
 static int ftp_chmod (gftp_request * request, const char *file, mode_t mode)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr, *utf8;
   size_t destlen;
   int ret;
@@ -1779,6 +1811,7 @@ static int ftp_chmod (gftp_request * request, const char *file, mode_t mode)
 
 static int ftp_site (gftp_request * request, int specify_site, const char *command)
 {
+  DEBUG_PRINT_FUNC
   char *tempstr, *utf8;
   size_t len;
   int ret;
@@ -1831,6 +1864,7 @@ static int ftp_site (gftp_request * request, int specify_site, const char *comma
 
 static int ftp_set_config_options (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   char *proxy_config;
   gftp_lookup_request_option (request, "proxy_config", &proxy_config);
   if (strcmp (proxy_config, "http") == 0)
@@ -1840,9 +1874,9 @@ static int ftp_set_config_options (gftp_request * request)
 }
 
 
-void 
-ftp_register_module (void)
+void  ftp_register_module (void)
 {
+  DEBUG_PRINT_FUNC
   gftp_register_config_vars (config_vars);
 }
 
@@ -1864,6 +1898,7 @@ static void ftp_request_destroy (gftp_request * request)
 static void ftp_copy_param_options (gftp_request * dest_request,
                                     gftp_request * src_request)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * dftpdat, * sftpdat;
 
   dftpdat = dest_request->protocol_data;
