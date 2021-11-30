@@ -22,16 +22,17 @@
 #include "gftp.h"
 
 /* Server types (used by FTP protocol from SYST command) */
-#define FTP_DIRTYPE_UNIX    1
-#define FTP_DIRTYPE_EPLF    2
-#define FTP_DIRTYPE_CRAY    3
-#define FTP_DIRTYPE_NOVELL  4
-#define FTP_DIRTYPE_DOS     5
-#define FTP_DIRTYPE_VMS     6
-#define FTP_DIRTYPE_OTHER   7
-#define FTP_DIRTYPE_MVS     8
-#define FTP_DIRTYPE_MLSD    9 /* MLSD/MLST replaces LIST */
-
+enum
+{
+   FTP_DIRTYPE_UNIX   = 1,
+   FTP_DIRTYPE_EPLF   = 2,
+   FTP_DIRTYPE_CRAY   = 3,
+   FTP_DIRTYPE_NOVELL = 4,
+   FTP_DIRTYPE_DOS    = 5,
+   FTP_DIRTYPE_VMS    = 6,
+   FTP_DIRTYPE_MVS    = 7,
+   FTP_DIRTYPE_MLSD   = 8, /* MLSD/MLST replaces LIST */
+};
 
 struct ftp_protocol_data_tag
 {  

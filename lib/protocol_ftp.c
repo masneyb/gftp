@@ -480,7 +480,7 @@ static int ftp_syst (gftp_request * request)
   int ret;
   char *stpos, *endpos;
   ftp_protocol_data * ftpdat;
-  int dt;
+  int dt = 0;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
@@ -515,7 +515,6 @@ static int ftp_syst (gftp_request * request)
   else if (strcmp (stpos, "OS/MVS") == 0)  dt = FTP_DIRTYPE_MVS;
   else if (strcmp (stpos, "NETWARE") == 0) dt = FTP_DIRTYPE_NOVELL;
   else if (strcmp (stpos, "CRAY") == 0)    dt = FTP_DIRTYPE_CRAY;
-  else                                     dt = FTP_DIRTYPE_OTHER;
 
   ftpdat->list_type = dt;
   return (0);
