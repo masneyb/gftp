@@ -266,7 +266,12 @@ supported_gftp_protocols gftp_protocols[] =
 
   { "Bookmark", bookmark_init, bookmark_register_module, "bookmark", 0, 0, 0}, /* hidden */
   { "FSP", fsp_init, fsp_register_module, "fsp", 21, 1, 1},
-  {NULL, NULL, NULL, NULL, 0, 0, 0}
+
+  /* limited support - CLI download only, no dir listing */
+  { "HTTP",  http_init,  http_register_module,  "http",   80, 0, 1 }, /* hidden */
+  { "HTTPS", https_init, https_register_module, "https", 443, 0, 1 }, /* hidden */
+
+  { NULL, NULL, NULL, NULL, 0, 0, 0 }
 };
 
 

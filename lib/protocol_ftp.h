@@ -62,8 +62,6 @@ typedef struct ftp_protocol_data_tag ftp_protocol_data;
 // =========
 
 /* parse-dir-listing.c */
-time_t parse_time (char *str, char **endpos);
-
 int ftp_parse_ls (gftp_request * request,
                    const char *lsoutput, 
                    gftp_file *fle,

@@ -15,6 +15,8 @@ libgftp_a_SOURCES= \
 	protocol_ftp.c \
 	protocol_ftps.c \
 	protocol_localfs.c \
+	protocol_http.c \
+	protocol_https.c \
 	pty.c \
 	sshv2.c \
 	sslcommon.c \
@@ -30,5 +32,6 @@ AM_CPPFLAGS= \
 noinst_HEADERS= \
 	gftp.h \
 	protocol_ftp.h \
+	protocol_http.h \
 	options.h \
 	fsplib.h

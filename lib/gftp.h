@@ -698,16 +698,21 @@ int gftp_get_transfer_action (gftp_request * request, gftp_file * fle);
 char * gftp_get_share_dir (void);
 void gftp_format_file_size (off_t bytes, char *out_buffer, size_t buffer_size);
 
+/* parse-dir-listing.c */
+time_t parse_time (char *str, char **endpos);
+
 /* protocols */
 // see options.h: supported_gftp_protocols gftp_protocols[]
 //                any discrepancy = segfault
 #define GFTP_PROTOCOL_FTP         0
 #define GFTP_PROTOCOL_FTPS        1
 #define GFTP_PROTOCOL_FTPSi       2
-#define GFTP_PROTOCOL_LOCALFS       3
+#define GFTP_PROTOCOL_LOCALFS     3
 #define GFTP_PROTOCOL_SSH2        4
 #define GFTP_PROTOCOL_BOOKMARK    5
 #define GFTP_PROTOCOL_FSP         6
+#define GFTP_PROTOCOL_HTTP        7
+#define GFTP_PROTOCOL_HTTPS       8
 
 #define GFTP_IS_CONNECTED(request) ((request) != NULL && \
                                              ((request)->datafd > 0 || \
@@ -728,6 +733,12 @@ void ftpsi_register_module (void);
 /* protocol_localfs.c */
 int localfs_init (gftp_request * request);
 void localfs_register_module (void);
+
+/* protocol_http.c */
+int http_init              (gftp_request * request);
+void http_register_module  (void);
+int https_init             (gftp_request * request);
+void https_register_module (void);
 
 /* sshv2.c */
 int sshv2_init (gftp_request * request);
