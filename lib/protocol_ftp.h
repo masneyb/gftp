@@ -19,20 +19,6 @@
 
 #include "gftp.h"
 
-/* Server types (used by FTP protocol from SYST command) */
-enum
-{
-   FTP_DIRTYPE_UNIX   = 1,
-   FTP_DIRTYPE_EPLF   = 2,
-   FTP_DIRTYPE_CRAY   = 3,
-   FTP_DIRTYPE_NOVELL = 4,
-   FTP_DIRTYPE_DOS    = 5,
-   FTP_DIRTYPE_VMS    = 6,
-   FTP_DIRTYPE_MVS    = 7,
-   FTP_DIRTYPE_MLSD   = 8, /* MLSD/MLST replaces LIST */
-};
-
-
 enum
 {
    FTP_FEAT_MLSD,  /* rfc3659 - use MLSD/MLST insted of LIST */
@@ -70,6 +56,23 @@ struct ftp_protocol_data_tag
 
 typedef struct ftp_protocol_data_tag ftp_protocol_data;
 
+
+// =========
+// functions
+// =========
+
+/* parse-dir-listing.c */
+time_t parse_time (char *str, char **endpos);
+
+int ftp_parse_ls (gftp_request * request,
+                   const char *lsoutput, 
+                   gftp_file *fle,
+                   int fd);
+
+void parse_syst_response (char * response_str, ftp_protocol_data * ftpdat);
+
+
+// protocol_ftp.c
 int ftp_send_command (gftp_request * request,
                       const char *command,
                       ssize_t command_len,

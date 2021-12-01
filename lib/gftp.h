@@ -698,13 +698,6 @@ int gftp_get_transfer_action (gftp_request * request, gftp_file * fle);
 char * gftp_get_share_dir (void);
 void gftp_format_file_size (off_t bytes, char *out_buffer, size_t buffer_size);
 
-/* parse-dir-listing.c */
-time_t parse_time (char *str, char **endpos);
-int ftp_parse_ls (gftp_request * request,
-                   const char *lsoutput, 
-                   gftp_file *fle,
-                   int fd);
-
 /* protocols */
 // see options.h: supported_gftp_protocols gftp_protocols[]
 //                any discrepancy = segfault

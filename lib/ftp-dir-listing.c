@@ -21,6 +21,48 @@
 #include "gftp.h"
 #include "protocol_ftp.h"
 
+/* Server types (used by FTP protocol from SYST command) */
+enum
+{
+   FTP_DIRTYPE_UNIX   = 1,
+   FTP_DIRTYPE_EPLF   = 2,
+   FTP_DIRTYPE_CRAY   = 3,
+   FTP_DIRTYPE_NOVELL = 4,
+   FTP_DIRTYPE_DOS    = 5,
+   FTP_DIRTYPE_VMS    = 6,
+   FTP_DIRTYPE_MVS    = 7,
+};
+
+void parse_syst_response (char * response_str, ftp_protocol_data * ftpdat)
+{
+   char *startpos, *endpos;
+   int dt = 0;
+   //startpos endpos
+   //    |    |
+   // 215 UNIX Type: L8
+   // 215 Windows_NT
+   startpos = strchr (response_str, ' ');
+   if (!startpos) {
+      return;
+   }
+   startpos++;
+   endpos = strchr (startpos, ' ');
+   if (endpos) {
+      *endpos = '\0';
+   }
+   if      (strcmp (startpos, "UNIX") == 0)    dt = FTP_DIRTYPE_UNIX;
+   else if (strcmp (startpos, "VMS") == 0)     dt = FTP_DIRTYPE_VMS;
+   else if (strcmp (startpos, "MVS") == 0)     dt = FTP_DIRTYPE_MVS;
+   else if (strcmp (startpos, "OS/MVS") == 0)  dt = FTP_DIRTYPE_MVS;
+   else if (strcmp (startpos, "NETWARE") == 0) dt = FTP_DIRTYPE_NOVELL;
+   else if (strcmp (startpos, "CRAY") == 0)    dt = FTP_DIRTYPE_CRAY;
+
+   ftpdat->list_type = dt;
+}
+
+// =========================================================================
+// helper functions for gftp_parse_*
+
 static char * copy_token (char **dest, char *source)
 {                         /*@out@*/
   char *endpos, savepos;
@@ -766,11 +808,14 @@ int ftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
   if (len > 0 && str[len - 1] == '\r')
     str[--len] = '\0';
 
+  if (ftpdat->feat[FTP_FEAT_MLSD]) {
+     result = ftp_parse_ls_mlsd (str, fle);
+     g_free (str);
+     return result;
+  }
+
   switch (ftpdat->list_type)
     {
-      case FTP_DIRTYPE_MLSD:
-        result = ftp_parse_ls_mlsd (str, fle);
-        break;
       case FTP_DIRTYPE_CRAY:
       case FTP_DIRTYPE_UNIX:
         result = ftp_parse_ls_unix (request, str, len, fle);

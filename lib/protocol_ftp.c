@@ -494,18 +494,14 @@ static int ftp_syst (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   int ret;
-  char *stpos, *endpos;
   ftp_protocol_data * ftpdat;
-  int dt = 0;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  // if MLSD has been detected, then use FTP_DIRTYPE_MLSD
   ftpdat = request->protocol_data;
   if (ftpdat->feat[FTP_FEAT_MLSD]) {
-     ftpdat->list_type = FTP_DIRTYPE_MLSD;
-     return 0;
+     return 0; // MLSD has been detected
   }
 
   ret = ftp_send_command (request, "SYST\r\n", -1, 1, 0);
@@ -515,25 +511,12 @@ static int ftp_syst (gftp_request * request)
   else if (ret != '2')
     return (GFTP_ERETRYABLE);
 
-  if ((stpos = strchr (request->last_ftp_response, ' ')) == NULL)
-    return (GFTP_ERETRYABLE);
-
-  stpos++;
-
-  if ((endpos = strchr (stpos, ' ')) == NULL)
-    return (GFTP_ERETRYABLE);
-
-  *endpos = '\0';
-
-  if      (strcmp (stpos, "UNIX") == 0)    dt = FTP_DIRTYPE_UNIX;
-  else if (strcmp (stpos, "VMS") == 0)     dt = FTP_DIRTYPE_VMS;
-  else if (strcmp (stpos, "MVS") == 0)     dt = FTP_DIRTYPE_MVS;
-  else if (strcmp (stpos, "OS/MVS") == 0)  dt = FTP_DIRTYPE_MVS;
-  else if (strcmp (stpos, "NETWARE") == 0) dt = FTP_DIRTYPE_NOVELL;
-  else if (strcmp (stpos, "CRAY") == 0)    dt = FTP_DIRTYPE_CRAY;
-
-  ftpdat->list_type = dt;
-  return (0);
+  if (strchr (request->last_ftp_response, ' ')) {
+     parse_syst_response (request->last_ftp_response, ftpdat);
+     return 0;
+  } else {
+     return (GFTP_ERETRYABLE);
+  }
 }
 
 
