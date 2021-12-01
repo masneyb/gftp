@@ -173,7 +173,7 @@ time_t parse_time (char *str, char **endpos)
 // =========================================================================
 
 
-static mode_t gftp_parse_vms_attribs (char **src, mode_t mask)
+static mode_t ftp_parse_vms_attribs (char **src, mode_t mask)
 {
   char *endpos;
   mode_t ret;
@@ -194,7 +194,7 @@ static mode_t gftp_parse_vms_attribs (char **src, mode_t mask)
 }
 
 
-static int gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
+static int ftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_file * fle)
 {
   char *curpos, *endpos, tempstr[1024];
   int multiline;
@@ -259,9 +259,9 @@ static int gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_fi
     return (0);
   curpos++;
 
-  fle->st_mode = gftp_parse_vms_attribs (&curpos, S_IRWXU);
-  fle->st_mode |= gftp_parse_vms_attribs (&curpos, S_IRWXG);
-  fle->st_mode |= gftp_parse_vms_attribs (&curpos, S_IRWXO);
+  fle->st_mode = ftp_parse_vms_attribs (&curpos, S_IRWXU);
+  fle->st_mode |= ftp_parse_vms_attribs (&curpos, S_IRWXG);
+  fle->st_mode |= ftp_parse_vms_attribs (&curpos, S_IRWXO);
 
   fle->user  = strdup ("-"); /* unknown */
   fle->group = strdup ("-"); /* unknown */
@@ -270,7 +270,7 @@ static int gftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_fi
 }
 
 
-static int gftp_parse_ls_mvs (char *str, gftp_file * fle)
+static int ftp_parse_ls_mvs (char *str, gftp_file * fle)
 {
   char *curpos;
 
@@ -330,7 +330,7 @@ static int gftp_parse_ls_mvs (char *str, gftp_file * fle)
 }
   
 
-static int gftp_parse_ls_eplf (char *str, gftp_file * fle)
+static int ftp_parse_ls_eplf (char *str, gftp_file * fle)
 {
   char *startpos;
   int isdir = 0;
@@ -369,7 +369,7 @@ static int gftp_parse_ls_eplf (char *str, gftp_file * fle)
 }
 
 
-static int gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
+static int ftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
                                gftp_file * fle)
 {
   //DEBUG_TRACE("LSUNIX: %s\n", str);
@@ -497,7 +497,7 @@ static int gftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
 }
 
 
-static int gftp_parse_ls_nt (char *str, gftp_file * fle)
+static int ftp_parse_ls_nt (char *str, gftp_file * fle)
 {
   // 12-03-15  08:14PM       <DIR>          aspnet_client
   // 10-19-20  03:19PM       <DIR>          pub
@@ -526,7 +526,7 @@ static int gftp_parse_ls_nt (char *str, gftp_file * fle)
 }
 
 
-static int gftp_parse_ls_novell (char *str, gftp_file * fle)
+static int ftp_parse_ls_novell (char *str, gftp_file * fle)
 {
   char *startpos;
 
@@ -562,7 +562,7 @@ static int gftp_parse_ls_novell (char *str, gftp_file * fle)
 //                             MLSD / MLST
 // =========================================================================
 
-static int gftp_parse_ls_mlsd (char *str, gftp_file * fle)
+static int ftp_parse_ls_mlsd (char *str, gftp_file * fle)
 {
    // type=file;size=79514812;modify=20211025203440;UNIX.mode=0644;unique=10g2534; zz.deb
    // modify=20210930020540;perm=flcdmpe;type=dir;unique=36U22;UNIX.group=65534;UNIX.mode=0755;UNIX.owner=112; mrtg
@@ -742,10 +742,10 @@ static int gftp_parse_ls_mlsd (char *str, gftp_file * fle)
 
 
 // =========================================================================
-//            main function:   gftp_parse_ls()
+//            main function:   ftp_parse_ls()
 // =========================================================================
 
-int gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
+int ftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
                int fd)
 {
   char *str, *endpos, tmpchar;
@@ -769,35 +769,35 @@ int gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle
   switch (ftpdat->list_type)
     {
       case FTP_DIRTYPE_MLSD:
-        result = gftp_parse_ls_mlsd (str, fle);
+        result = ftp_parse_ls_mlsd (str, fle);
         break;
       case FTP_DIRTYPE_CRAY:
       case FTP_DIRTYPE_UNIX:
-        result = gftp_parse_ls_unix (request, str, len, fle);
+        result = ftp_parse_ls_unix (request, str, len, fle);
         break;
       case FTP_DIRTYPE_EPLF:
-        result = gftp_parse_ls_eplf (str, fle);
+        result = ftp_parse_ls_eplf (str, fle);
         break;
       case FTP_DIRTYPE_NOVELL:
-        result = gftp_parse_ls_novell (str, fle);
+        result = ftp_parse_ls_novell (str, fle);
         break;
       case FTP_DIRTYPE_DOS:
-        result = gftp_parse_ls_nt (str, fle);
+        result = ftp_parse_ls_nt (str, fle);
         break;
       case FTP_DIRTYPE_VMS:
-        result = gftp_parse_ls_vms (request, fd, str, fle);
+        result = ftp_parse_ls_vms (request, fd, str, fle);
         break;
       case FTP_DIRTYPE_MVS:
-        result = gftp_parse_ls_mvs (str, fle);
+        result = ftp_parse_ls_mvs (str, fle);
         break;
 
       default: /* autodetect */
         if (*lsoutput == '+')
-          result = gftp_parse_ls_eplf (str, fle);
+          result = ftp_parse_ls_eplf (str, fle);
         else if (isdigit ((int) str[0]) && str[2] == '-')
-          result = gftp_parse_ls_nt (str, fle);
+          result = ftp_parse_ls_nt (str, fle);
         else if (str[1] == ' ' && str[2] == '[')
-          result = gftp_parse_ls_novell (str, fle);
+          result = ftp_parse_ls_novell (str, fle);
         else
           {
             if ((endpos = strchr (str, ' ')) != NULL)
@@ -813,9 +813,9 @@ int gftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle
               is_vms = 0;
 
             if (is_vms)
-              result = gftp_parse_ls_vms (request, fd, str, fle);
+              result = ftp_parse_ls_vms (request, fd, str, fle);
             else
-              result = gftp_parse_ls_unix (request, str, len, fle);
+              result = ftp_parse_ls_unix (request, str, len, fle);
           }
         break;
     }

@@ -1662,7 +1662,7 @@ int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           return (len);
         } 
 
-      if (gftp_parse_ls (request, tempstr, fle, fd) != 0)
+      if (ftp_parse_ls (request, tempstr, fle, fd) != 0)
         {
           if (strncmp (tempstr, "total", strlen ("total")) != 0 &&
               strncmp (tempstr, _("total"), strlen (_("total"))) != 0)
