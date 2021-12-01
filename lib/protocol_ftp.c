@@ -554,16 +554,6 @@ int ftp_connect (gftp_request * request)
                                   proxy_port)) < 0)
     return (ret);
 
-  if (ftpdat->auth_tls_start && ftpdat->implicit_ssl)
-  {
-     // implicit SSL
-     // need to setup SSL session here, otherwise it will not work
-     ret = gftp_ssl_session_setup (request);
-     if (ret < 0) {
-        return (ret);
-     }
-  }
-
   /* Get the banner */
   if ((ret = ftp_read_response (request, 1)) != '2')
     {

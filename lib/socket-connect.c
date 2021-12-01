@@ -48,6 +48,7 @@ static struct addrinfo *
 lookup_host (gftp_request *request, char *service,
                               char *proxy_hostname, int proxy_port)
 {
+  DEBUG_PRINT_FUNC
   struct addrinfo hints, *hostp;
   intptr_t enable_ipv6;
   char serv[8], *connect_host;
@@ -96,6 +97,7 @@ gftp_do_connect_server (gftp_request * request, char *service,
                         char *proxy_hostname,
                         unsigned int proxy_port)
 {
+  DEBUG_PRINT_FUNC
   struct addrinfo *res, *hostp, *current_hostp;
   char ipstr[128], * hostname;
   int last_errno = 0;
@@ -204,6 +206,7 @@ int
 gftp_connect_server (gftp_request * request, char *service,
                      char *proxy_hostname, unsigned int proxy_port)
 {
+  DEBUG_PRINT_FUNC
   int sock;
 
   sock = gftp_do_connect_server (request, service, proxy_hostname, proxy_port);
@@ -227,9 +230,10 @@ gftp_connect_server (gftp_request * request, char *service,
 
   request->datafd = sock;
 
-  if (request->post_connect != NULL)
-    return (request->post_connect (request));
-
+  if (request->post_connect != NULL) {
+     DEBUG_MSG("$ calling request->post_connect()\n")
+     return (request->post_connect (request));
+  }
   return (0);
 }
 

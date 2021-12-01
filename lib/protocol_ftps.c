@@ -30,8 +30,7 @@ ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   size_t ret;
 
   ftpdat = request->protocol_data;
-  if (request->cached &&
-     request->read_function == gftp_ssl_read)
+  if (request->cached && request->read_function == gftp_ssl_read)
     {
       request->read_function = gftp_fd_read;
       request->write_function = gftp_fd_write;
@@ -246,7 +245,10 @@ int ftpsi_init (gftp_request * request)
    ftpdat->data_conn_tls_close = ftps_data_conn_tls_close;
    request->read_function      = gftp_ssl_read;
    request->write_function     = gftp_ssl_write;
-   request->connect = ftpsi_connect;
+
+   request->connect            = ftpsi_connect;
+   request->post_connect       = gftp_ssl_session_setup; /* socket-connect.c */
+
    return 0;
 #else
    request->logging_function (gftp_logging_error, request,
