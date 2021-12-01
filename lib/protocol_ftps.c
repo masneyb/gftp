@@ -59,12 +59,14 @@ ftps_get_next_file (gftp_request * request, gftp_file * fle, int fd)
   return (ret);
 }
 
+
 static int  ftps_data_conn_tls_start (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat = request->protocol_data;
   return gftp_ssl_session_setup_ex (request, ftpdat->data_connection);
 }
+
 
 static void ftps_data_conn_tls_close (gftp_request * request)
 {
@@ -81,6 +83,18 @@ static int ftps_auth_tls_start (gftp_request * request)
   int ret;
 
   ftpdat = request->protocol_data;
+
+  if (ftpdat->implicit_ssl) {
+      // buggy servers may require this (vsftpd)
+      // this is not needed for servers with proper implicit SSL support
+      //  (pure-FTPd, Rebex FTPS)
+      ret = ftp_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
+      ret = ftp_send_command (request, "PROT P\r\n", -1, 1, 0);
+      return 0;
+  }
+
+  // explicit SSL
+  // send AUTH TLS and disconnect if it's not supported..
 
   ret = ftp_send_command (request, "AUTH TLS\r\n", -1, 1, 0);
   if (ret < 0)
@@ -135,6 +149,8 @@ static int ftps_connect (gftp_request * request)
     return (0);
   }
   if (!ftpdat->implicit_ssl) {
+     // explicit TLS
+     // need to send AUTH TLS in clear text
      request->read_function  = gftp_fd_read;
      request->write_function = gftp_fd_write;
   }

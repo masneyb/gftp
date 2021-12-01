@@ -564,22 +564,11 @@ int ftp_connect (gftp_request * request)
         return (GFTP_ERETRYABLE);
     }
 
-  if (ftpdat->auth_tls_start)
-  {
-     if (ftpdat->implicit_ssl) {
-        // buggy servers might require this (vsftpd)
-        // this is not need for servers with proper implicit SSL support
-        //  (pure-FTPd, Rebex FTPS)
-        ret = ftp_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
-        ret = ftp_send_command (request, "PROT P\r\n", -1, 1, 0);
-     } else {
-        // explicit SSL
-        // this is where the negotiation to switch to a secure mode (SSL) starts
-        ret = ftpdat->auth_tls_start (request);
-        if (ret < 0) {
-           gftp_disconnect (request);
-           return (ret);
-        }
+  if (ftpdat->auth_tls_start) {
+     ret = ftpdat->auth_tls_start (request);
+     if (ret < 0) {
+        gftp_disconnect (request);
+        return (ret);
      }
   }
 
