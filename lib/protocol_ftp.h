@@ -52,7 +52,6 @@ struct ftp_protocol_data_tag
   ssize_t (*data_conn_write) (gftp_request * request, const char *ptr,
                               size_t size, int fd);
   void (*data_conn_tls_close) (gftp_request * request);
-  unsigned int implicit_ssl : 1;
   int list_type;    /* LIST. See FTP_DIRTYPE_* above */
   int last_cmd;     /* 4hackz */
   unsigned int feat[FTP_FEAT_TOTAL];

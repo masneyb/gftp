@@ -1900,7 +1900,6 @@ static void ftp_copy_param_options (gftp_request * dest_request,
   dftpdat->data_conn_read      = sftpdat->data_conn_read;
   dftpdat->data_conn_write     = sftpdat->data_conn_write;
   dftpdat->data_conn_tls_close = sftpdat->data_conn_tls_close;
-  dftpdat->implicit_ssl        = sftpdat->implicit_ssl;
   dftpdat->list_type           = sftpdat->list_type;
   dftpdat->last_cmd            = sftpdat->last_cmd;
   memcpy (dftpdat, sftpdat, sizeof(*sftpdat));

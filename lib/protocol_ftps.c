@@ -24,6 +24,10 @@
 #include "gftp.h"
 #include "protocol_ftp.h"
 
+//=======================================================================
+//                          EXPLICIT TLS
+//=======================================================================
+
 #ifdef USE_SSL
 
 static int
@@ -88,18 +92,6 @@ static int ftps_auth_tls_start (gftp_request * request)
 
   ftpdat = request->protocol_data;
 
-  if (ftpdat->implicit_ssl) {
-      // buggy servers may require this (vsftpd)
-      // this is not needed for servers with proper implicit SSL support
-      //  (pure-FTPd, Rebex FTPS)
-      ret = ftp_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
-      ret = ftp_send_command (request, "PROT P\r\n", -1, 1, 0);
-      return 0;
-  }
-
-  // explicit SSL
-  // send AUTH TLS and disconnect if it's not supported..
-
   ret = ftp_send_command (request, "AUTH TLS\r\n", -1, 1, 0);
   if (ret < 0)
     return (ret);
@@ -148,16 +140,9 @@ static int ftps_auth_tls_start (gftp_request * request)
 static int ftps_connect (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
-  ftp_protocol_data * ftpdat = (ftp_protocol_data *) request->protocol_data;
-  if (request->datafd > 0) {
-    return (0);
-  }
-  if (!ftpdat->implicit_ssl) {
-     // explicit TLS
-     // need to send AUTH TLS in clear text
-     request->read_function  = gftp_fd_read;
-     request->write_function = gftp_fd_write;
-  }
+  // need to send AUTH TLS in clear text
+  request->read_function  = gftp_fd_read;
+  request->write_function = gftp_fd_write;
 
   return (ftp_connect (request));
 }
@@ -235,7 +220,23 @@ static int ftpsi_connect (gftp_request * request)
    if (!request->port) {
       request->port = gftp_protocols[GFTP_PROTOCOL_FTPSi].default_port;
    }
-   return (ftps_connect (request));
+   return (ftp_connect (request));
+}
+
+
+static int ftpsi_auth_tls_start (gftp_request * request)
+{
+   DEBUG_PRINT_FUNC
+   int ret;
+   // buggy servers may require this (vsftpd)
+   // this is not needed for servers with proper implicit SSL support
+   //  (pure-FTPd, Rebex FTPS)
+   ret = ftp_send_command (request, "PBSZ 0\r\n", -1, 1, 0);
+   ret = ftp_send_command (request, "PROT P\r\n", -1, 1, 0);
+   if (ret < 0) {
+      return (ret);
+   }
+   return 0;
 }
 
 
@@ -258,7 +259,6 @@ int ftpsi_init (gftp_request * request)
    request->url_prefix = gftp_protocols[GFTP_PROTOCOL_FTPSi].url_prefix;
 
    ftpdat = (ftp_protocol_data *) request->protocol_data;
-   ftpdat->implicit_ssl        = 1;
    ftpdat->data_conn_tls_start = ftps_data_conn_tls_start;
    ftpdat->data_conn_read      = gftp_ssl_read;
    ftpdat->data_conn_write     = gftp_ssl_write;
@@ -267,6 +267,7 @@ int ftpsi_init (gftp_request * request)
    request->write_function     = gftp_ssl_write;
 
    request->connect            = ftpsi_connect;
+   ftpdat->auth_tls_start      = ftpsi_auth_tls_start;
    request->post_connect       = gftp_ssl_session_setup; /* socket-connect.c */
 
    return 0;
