@@ -881,6 +881,9 @@ char *gftpui_protocol_ask_user_input (gftp_request * request,
 void gftpui_protocol_update_timeout (gftp_request * request);
 
 /* socket-connect.c */
+int  sockaddr_get_port   (struct sockaddr * saddr);
+void sockaddr_get_ip_str (struct sockaddr * saddr, char * outbuf, int size);
+void * sockaddr_get_addr (struct sockaddr * saddr);
 int gftp_connect_server (gftp_request * request, 
                          char *service,
                          char *proxy_hostname,

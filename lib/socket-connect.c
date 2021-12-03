@@ -23,10 +23,9 @@
 
 #include "gftp.h"
 
-static int get_port (struct addrinfo *addrinf)
+int sockaddr_get_port (struct sockaddr * saddr)
 {
   unsigned short sin_port;
-  struct sockaddr * saddr = (struct sockaddr *) addrinf->ai_addr;
   if (saddr->sa_family == AF_INET) {
      sin_port = (((struct sockaddr_in*)saddr)->sin_port);
   } else { /* ipv6 */
@@ -35,18 +34,30 @@ static int get_port (struct addrinfo *addrinf)
   return (ntohs (sin_port));
 }
 
-static void get_ip_str (struct addrinfo *addrinf, char * outbuf, int size)
+void sockaddr_get_ip_str (struct sockaddr * saddr, char * outbuf, int size)
 {
   void * sin_addr;
-  struct sockaddr * saddr = (struct sockaddr *) addrinf->ai_addr;
   if (saddr->sa_family == AF_INET) {
      sin_addr = &(((struct sockaddr_in*)saddr)->sin_addr);
   } else { /* ipv6 */
      sin_addr = &(((struct sockaddr_in6*)saddr)->sin6_addr);
   }
-  inet_ntop (addrinf->ai_family, sin_addr, outbuf, size);
+  inet_ntop (saddr->sa_family, sin_addr, outbuf, size);
 }
 
+
+void * sockaddr_get_addr (struct sockaddr * saddr)
+{
+  void * sin_addr;
+  if (saddr->sa_family == AF_INET) {
+     sin_addr = &(((struct sockaddr_in*)saddr)->sin_addr);
+  } else { /* ipv6 */
+     sin_addr = &(((struct sockaddr_in6*)saddr)->sin6_addr);
+  }
+  return sin_addr;
+}
+
+// ====================================================================
 
 static struct addrinfo *
 lookup_host (gftp_request *request, char *service,
@@ -103,6 +114,7 @@ gftp_do_connect_server (gftp_request * request, char *service,
 {
   DEBUG_PRINT_FUNC
   struct addrinfo *res, *hostp, *current_hostp;
+  struct sockaddr * saddr;
   char ipstr[128], * hostname;
   int last_errno = 0;
   unsigned int port;
@@ -111,6 +123,7 @@ gftp_do_connect_server (gftp_request * request, char *service,
   timeout.tv_sec = 30; /* connection timeout in seconds */
   timeout.tv_usec = 0;
   intptr_t use_proxy;
+  void * remote_address;
 
   gftp_lookup_global_option ("ftp_use_proxy", &use_proxy);
   request->use_proxy = use_proxy;
@@ -130,13 +143,14 @@ gftp_do_connect_server (gftp_request * request, char *service,
 
   for (res = hostp; res != NULL; res = res->ai_next)
     {
-      port = get_port (res);
+      saddr = res->ai_addr;
+      port = sockaddr_get_port (saddr);
       if (!request->use_proxy)
         request->port = port;
 
       *ipstr = 0;
       hostname = res[0].ai_canonname;
-      get_ip_str (res, ipstr, sizeof(ipstr));
+      sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
       if (hostname && (strcmp(hostname, ipstr) == 0)) {
          hostname = ipstr;
       }
@@ -192,9 +206,11 @@ gftp_do_connect_server (gftp_request * request, char *service,
 
   request->remote_addr_len = current_hostp->ai_addrlen;
   request->remote_addr = g_malloc0 (request->remote_addr_len);
-  memcpy (request->remote_addr, &((struct sockaddr_in *) current_hostp->ai_addr)->sin_addr,
-          request->remote_addr_len);
 
+  saddr = current_hostp->ai_addr;
+  remote_address = sockaddr_get_addr (saddr);
+
+  memcpy (request->remote_addr, remote_address, request->remote_addr_len);
   request->logging_function (gftp_logging_misc, request,
                              _("Connected to %s:%d\n"), res[0].ai_canonname,
                              port);
