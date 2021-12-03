@@ -180,9 +180,18 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
   }
   while (strncmp (code, tempstr, 4) != 0);
 
+  // HACK to fix segfault after file transfer
+  //  after the 1st transfer gftp_get_line() no longer frees ftpdat->datafd_rbuf
+  //    so the pointer remains
+  //  the problem is in the next call to ftp_read_response() ... segfault
+  //  - must properly fix sockutils.c one day, or maybe this is the proper fix
+  gftp_free_getline_buffer (&ftpdat->datafd_rbuf);
+  // -- end HACK
+
   if (num_read < 0)
     return ((int) num_read);
 
+  DEBUG_TRACE("RESPONSE: %s\n", tempstr);
   request->last_ftp_response = g_strdup (tempstr);
 
   if (request->last_ftp_response[0] == '4' &&
@@ -227,6 +236,7 @@ int ftp_send_command (gftp_request * request, const char *command,
   if (command_len == -1)
     command_len = strlen (command);
 
+  DEBUG_TRACE("SEND_CMD: %s", command)
   if ((ret = request->write_function (request, command, command_len, 
                                       request->datafd)) < 0)
     return (ret);
@@ -1871,6 +1881,7 @@ void  ftp_register_module (void)
 
 static void ftp_request_destroy (gftp_request * request)
 {
+  DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
 
   ftpdat = request->protocol_data;

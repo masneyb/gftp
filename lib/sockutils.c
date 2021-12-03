@@ -27,7 +27,7 @@ ssize_t
 gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf, 
                char * str, size_t len, int fd)
 {
-  DEBUG_TRACE("%s [gftp_get_line] rbuf: %p str:%s\n" , __FILE__, *rbuf, str)
+  //DEBUG_TRACE("%s [gftp_get_line] rbuf: %p str:%s\n" , __FILE__, *rbuf, str)
   ssize_t (*read_function) (gftp_request * request, void *ptr, size_t size,
                             int fd);
   char *pos, *nextpos;
