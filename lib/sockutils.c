@@ -27,12 +27,14 @@ ssize_t
 gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf, 
                char * str, size_t len, int fd)
 {
+  DEBUG_TRACE("%s [gftp_get_line] rbuf: %p str:%s\n" , __FILE__, *rbuf, str)
   ssize_t (*read_function) (gftp_request * request, void *ptr, size_t size,
                             int fd);
   char *pos, *nextpos;
   size_t rlen, nslen;
   int end_of_buffer;
   ssize_t ret;
+  gftp_getline_buffer * rrbuf; // = *rbuf (avoid too many (*rbuf)->)
 
   if (request == NULL || request->read_function == NULL)
     read_function = gftp_fd_read;
@@ -42,76 +44,82 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
   if (*rbuf == NULL)
     {
       *rbuf = g_malloc0 (sizeof (**rbuf));
-      (*rbuf)->max_bufsize = len;
-      (*rbuf)->buffer = g_malloc0 ((gulong) ((*rbuf)->max_bufsize + 1));
+      rrbuf = *rbuf;
+      rrbuf->max_bufsize = len;
+      rrbuf->buffer  = g_malloc0 ((gsize) (rrbuf->max_bufsize + 1));
 
-      if ((ret = read_function (request, (*rbuf)->buffer, 
-                                (*rbuf)->max_bufsize, fd)) <= 0)
-        {
-          gftp_free_getline_buffer (rbuf);
-          return (ret);
-        }
-      (*rbuf)->buffer[ret] = '\0';
-      (*rbuf)->cur_bufsize = ret;
-      (*rbuf)->curpos = (*rbuf)->buffer;
+      ret = read_function (request, rrbuf->buffer, rrbuf->max_bufsize, fd);
+      if (ret <= 0) {
+         gftp_free_getline_buffer (rbuf);
+         return (ret);
+      }
+      rrbuf->buffer[ret] = '\0';
+      rrbuf->cur_bufsize = ret;
+      rrbuf->curpos      = rrbuf->buffer;
     }
+  else rrbuf = *rbuf;
+
+  //g_return_val_if_fail (rrbuf->curpos != NULL, GFTP_EFATAL);
 
   ret = 0;
   while (1)
     {
-      pos = strchr ((*rbuf)->curpos, '\n');
-      end_of_buffer = (*rbuf)->curpos == (*rbuf)->buffer && 
-            ((*rbuf)->max_bufsize == (*rbuf)->cur_bufsize || (*rbuf)->eof);
+      pos = strchr (rrbuf->curpos, '\n');
+      end_of_buffer = 0;
+      if (rrbuf->curpos == rrbuf->buffer && 
+          (rrbuf->max_bufsize == rrbuf->cur_bufsize || rrbuf->eof))
+      {
+         end_of_buffer = 1;
+      }
 
-      if ((*rbuf)->cur_bufsize > 0 && (pos != NULL || end_of_buffer))
+      if (rrbuf->cur_bufsize > 0 && (pos != NULL || end_of_buffer))
         {
           if (pos != NULL)
             {
-              nslen = pos - (*rbuf)->curpos + 1;
+              nslen = pos - rrbuf->curpos + 1;
               nextpos = pos + 1;
-              if (pos > (*rbuf)->curpos && *(pos - 1) == '\r')
+              if (pos > rrbuf->curpos && *(pos - 1) == '\r')
                 pos--;
               *pos = '\0';
             }
           else
             {
-              nslen = (*rbuf)->cur_bufsize;
+              nslen = rrbuf->cur_bufsize;
               nextpos = NULL;
-
               /* This is not an overflow since we allocated one extra byte to
                  buffer above */
-              ((*rbuf)->buffer)[nslen] = '\0';
+              (rrbuf->buffer)[nslen] = '\0';
             }
 
-          strncpy (str, (*rbuf)->curpos, len);
+          strncpy (str, rrbuf->curpos, len);
           str[len - 1] = '\0';
-          (*rbuf)->cur_bufsize -= nslen;
+          rrbuf->cur_bufsize -= nslen;
 
           if (nextpos != NULL)
-            (*rbuf)->curpos = nextpos;
+            rrbuf->curpos = nextpos;
           else
-            (*rbuf)->cur_bufsize = 0;
+            rrbuf->cur_bufsize = 0;
 
           ret = nslen;
           break;
         }
       else
         {
-          if ((*rbuf)->cur_bufsize == 0 || *(*rbuf)->curpos == '\0')
+          if (rrbuf->cur_bufsize == 0 || *rrbuf->curpos == '\0')
             {
-              rlen = (*rbuf)->max_bufsize;
-              pos = (*rbuf)->buffer;
+              rlen = rrbuf->max_bufsize;
+              pos = rrbuf->buffer;
             }
           else
             {
-              memmove ((*rbuf)->buffer, (*rbuf)->curpos, (*rbuf)->cur_bufsize);
-              pos = (*rbuf)->buffer + (*rbuf)->cur_bufsize;
-              rlen = (*rbuf)->max_bufsize - (*rbuf)->cur_bufsize;
+              memmove (rrbuf->buffer, rrbuf->curpos, rrbuf->cur_bufsize);
+              pos = rrbuf->buffer + rrbuf->cur_bufsize;
+              rlen = rrbuf->max_bufsize - rrbuf->cur_bufsize;
             }
 
-          (*rbuf)->curpos = (*rbuf)->buffer;
+          rrbuf->curpos = rrbuf->buffer;
 
-          if ((*rbuf)->eof)
+          if (rrbuf->eof)
             ret = 0;
           else
             {
@@ -125,17 +133,17 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
 
           if (ret == 0)
             {
-              if ((*rbuf)->cur_bufsize == 0)
+              if (rrbuf->cur_bufsize == 0)
                 {
                   gftp_free_getline_buffer (rbuf);
                   return (ret);
                 }
 
-              (*rbuf)->eof = 1;
+              rrbuf->eof = 1;
             }
 
-          (*rbuf)->cur_bufsize += ret;
-          (*rbuf)->buffer[(*rbuf)->cur_bufsize] = '\0';
+          rrbuf->cur_bufsize += ret;
+          rrbuf->buffer[rrbuf->cur_bufsize] = '\0';
         }
     }
 
@@ -143,11 +151,15 @@ gftp_get_line (gftp_request * request, gftp_getline_buffer ** rbuf,
 }
 
 
-void
-gftp_free_getline_buffer (gftp_getline_buffer ** rbuf)
+void gftp_free_getline_buffer (gftp_getline_buffer ** rbuf)
 {
-  g_free ((*rbuf)->buffer);
-  g_free (*rbuf);
+  DEBUG_PRINT_FUNC
+  if ((*rbuf)->buffer) {
+     g_free ((*rbuf)->buffer);
+  }
+  if (*rbuf) {
+     g_free (*rbuf);
+  }
   *rbuf = NULL;
 }
 
