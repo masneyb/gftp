@@ -23,6 +23,7 @@
 
 #include "gftp.h"
 
+
 int sockaddr_get_port (struct sockaddr * saddr)
 {
   unsigned short sin_port;
@@ -55,6 +56,36 @@ void * sockaddr_get_addr (struct sockaddr * saddr)
      sin_addr = &(((struct sockaddr_in6*)saddr)->sin6_addr);
   }
   return sin_addr;
+}
+
+socklen_t sockaddr_get_size (struct sockaddr * saddr)
+{
+  if (saddr->sa_family == AF_INET) {
+     return sizeof(struct sockaddr_in);
+  } else { /* ipv6 */
+     return sizeof(struct sockaddr_in6);
+  }
+}
+
+void sockaddr_reset (void * addr)
+{
+  struct sockaddr * saddr = (struct sockaddr *) addr;
+  if (saddr->sa_family == AF_INET) {
+     memset (addr, 0, sizeof(struct sockaddr_in));
+     saddr->sa_family = AF_INET;
+  } else { /* ipv6 */
+     memset (addr, 0, sizeof(struct sockaddr_in6));
+     saddr->sa_family = AF_INET6;
+  }
+}
+
+void sockaddr_set_port (struct sockaddr * saddr, int port)
+{
+  if (saddr->sa_family == AF_INET) {
+     ((struct sockaddr_in*)saddr)->sin_port = htons (port);
+  } else { /* ipv6 */
+     ((struct sockaddr_in6*)saddr)->sin6_port = htons (port);
+  }
 }
 
 // ====================================================================
@@ -123,7 +154,6 @@ gftp_do_connect_server (gftp_request * request, char *service,
   timeout.tv_sec = 30; /* connection timeout in seconds */
   timeout.tv_usec = 0;
   intptr_t use_proxy;
-  void * remote_address;
 
   gftp_lookup_global_option ("ftp_use_proxy", &use_proxy);
   request->use_proxy = use_proxy;
@@ -204,13 +234,12 @@ gftp_do_connect_server (gftp_request * request, char *service,
       }
     }
 
-  request->remote_addr_len = current_hostp->ai_addrlen;
-  request->remote_addr = g_malloc0 (request->remote_addr_len);
-
   saddr = current_hostp->ai_addr;
-  remote_address = sockaddr_get_addr (saddr);
+  request->remote_addr_len = sockaddr_get_size (saddr);
+  request->remote_addr     = g_malloc0 (request->remote_addr_len);
 
-  memcpy (request->remote_addr, remote_address, request->remote_addr_len);
+  memcpy (request->remote_addr, (void*)saddr, request->remote_addr_len);
+
   request->logging_function (gftp_logging_misc, request,
                              _("Connected to %s:%d\n"), res[0].ai_canonname,
                              port);

@@ -884,6 +884,10 @@ void gftpui_protocol_update_timeout (gftp_request * request);
 int  sockaddr_get_port   (struct sockaddr * saddr);
 void sockaddr_get_ip_str (struct sockaddr * saddr, char * outbuf, int size);
 void * sockaddr_get_addr (struct sockaddr * saddr);
+socklen_t sockaddr_get_size (struct sockaddr * saddr);
+void sockaddr_reset (void * addr);
+void sockaddr_set_port (struct sockaddr * saddr, int port);
+
 int gftp_connect_server (gftp_request * request, 
                          char *service,
                          char *proxy_hostname,

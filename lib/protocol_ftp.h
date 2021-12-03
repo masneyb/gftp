@@ -27,6 +27,8 @@ enum
 {
    FTP_FEAT_MLSD,  /* rfc3659 - use MLSD/MLST insted of LIST */
    FTP_FEAT_PRET,  /* accepts PRET, distibuted FTP server (DrFTP) */
+   FTP_FEAT_EPSV,  /* rfc2428 - use EPSV instead of PASV */
+   FTP_FEAT_EPRT,  /* rfc2428 - use EPRT instead of PORT */
    FTP_FEAT_TOTAL,
 };
 

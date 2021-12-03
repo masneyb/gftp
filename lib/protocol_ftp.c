@@ -106,6 +106,8 @@ struct ftp_supported_feature ftp_supported_features[] =
    // Should only use MLST to test if MLSD is supported
    { FTP_FEAT_MLSD, "MLST" },
    { FTP_FEAT_PRET, "PRET" },
+   { FTP_FEAT_EPSV, "EPSV" }, /* rfc2428 */
+   { FTP_FEAT_EPRT, "EPRT" }, /* rfc2428 */
 };
 
 static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
@@ -808,14 +810,11 @@ static int ftp_ipv4_data_connection_new (gftp_request * request)
       for (i = 0; i < 6; i++)
         ad[i] = (unsigned char) (temp[i] & 0xff);
 
-      memcpy (&data_addr.sin_port, &ad[4], 2);
-
       gftp_lookup_request_option (request, "ignore_pasv_address",
                                   &ignore_pasv_address);
       if (ignore_pasv_address)
         {
-          memcpy (&data_addr.sin_addr, request->remote_addr,
-                  request->remote_addr_len);
+          memcpy (&data_addr, request->remote_addr, request->remote_addr_len);
 
           pos = (char *) &data_addr.sin_addr;
           request->logging_function (gftp_logging_error, request,
@@ -825,6 +824,8 @@ static int ftp_ipv4_data_connection_new (gftp_request * request)
         }
       else
         memcpy (&data_addr.sin_addr, &ad[0], 4);
+
+      memcpy (&data_addr.sin_port, &ad[4], 2);
 
       if (connect (ftpdat->data_connection, (struct sockaddr *) &data_addr, 
                    data_addr_len) == -1)
@@ -902,18 +903,32 @@ static int ftp_ipv4_data_connection_new (gftp_request * request)
 }
 
 
-static int ftp_ipv6_data_connection_new (gftp_request * request)
+static int ftp_rfc2428_data_connection_new (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
-  struct sockaddr_in6 data_addr;
-  char *pos, buf[64], *command;
+  // FTP Extensions for IPv6 and NATs (https://datatracker.ietf.org/doc/html/rfc2428)
+  char *pos, ipstr[64], *command;
   intptr_t passive_transfer;
   ftp_protocol_data * ftpdat;
   unsigned int port;
   int resp;
+  int AFPROT = request->ai_family; // AF_INET6 or AF_INET;
+  // request->remote_addr is copied from the main ->request
+  // - it's addrinfo->ai_addr (sockaddr_in or sockaddr_in6)
+  // socket-connect.c has sockaddr_* functions
+  struct sockaddr * saddr = request->remote_addr;
+
+  DEBUG_TRACE("## IP protocol is IPv%c\n", AFPROT == AF_INET6 ? '6' : '4');
+  g_return_val_if_fail (AFPROT == saddr->sa_family, GFTP_EFATAL);
+  *ipstr = 0;
+  sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
+  DEBUG_TRACE("## IP: %s\n", ipstr);
 
   ftpdat = request->protocol_data;
-  if ((ftpdat->data_connection = socket (AF_INET6, SOCK_STREAM, IPPROTO_TCP)) < 0)
+
+  ftpdat->data_connection = socket (AFPROT, SOCK_STREAM, IPPROTO_TCP);
+
+  if (ftpdat->data_connection < 0)
     {
       request->logging_function (gftp_logging_error, request,
                _("Failed to create a IPv6 socket: %s\n"), g_strerror (errno));
@@ -930,39 +945,23 @@ static int ftp_ipv6_data_connection_new (gftp_request * request)
       return (GFTP_ERETRYABLE);
     }
 
-  /* This condition shouldn't happen. We better check anyway... */
-  if (sizeof (data_addr) != request->remote_addr_len) 
-    {
-      request->logging_function (gftp_logging_error, request,
-               _("Error: It doesn't look like we are connected via IPv6. Aborting connection.\n"));
-      gftp_disconnect (request);
-      return (GFTP_EFATAL);
-    }
-
-  memset (&data_addr, 0, sizeof (data_addr));
-  data_addr.sin6_family = AF_INET6;
-
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
   if (passive_transfer)
     {
       resp = ftp_send_command (request, "EPSV\r\n", -1, 1, 1);
-      if (resp < 0)
+      if (resp < 0) {
         return (resp);
-      else if (resp != '2')
-        {
-          gftp_set_request_option (request, "passive_transfer", 
-                                   GINT_TO_POINTER(0));
-          return (ftp_ipv6_data_connection_new (request));
-        }
-
+      } else if (resp != '2') {
+        gftp_disconnect (request);
+        return GFTP_ERETRYABLE;
+      }
       pos = request->last_ftp_response + 4;
       while (*pos != '(' && *pos != '\0')
         pos++;
 
       if (*pos == '\0' || *(pos + 1) == '\0')
         {
-          request->logging_function (gftp_logging_error, request,
-                      _("Invalid EPSV response '%s'\n"),
+          request->logging_function (gftp_logging_error, request, _("Invalid EPSV response '%s'\n"),
                       request->last_ftp_response);
           gftp_disconnect (request);
           return (GFTP_EFATAL);
@@ -970,18 +969,17 @@ static int ftp_ipv6_data_connection_new (gftp_request * request)
 
       if (sscanf (pos + 1, "|||%u|", &port) != 1)
         {
-          request->logging_function (gftp_logging_error, request,
-                      _("Invalid EPSV response '%s'\n"),
+          request->logging_function (gftp_logging_error, request, _("Invalid EPSV response '%s'\n"),
                       request->last_ftp_response);
           gftp_disconnect (request);
           return (GFTP_EFATAL);
         }
 
-      memcpy (&data_addr, request->remote_addr, request->remote_addr_len);
-      data_addr.sin6_port = htons (port);
+      //sockaddr_reset (saddr);
+      sockaddr_set_port (saddr, port);
 
-      if (connect (ftpdat->data_connection, (struct sockaddr *) &data_addr, 
-                   request->remote_addr_len) == -1)
+      resp = connect (ftpdat->data_connection, request->remote_addr, request->remote_addr_len);
+      if (resp == -1)
         {
           request->logging_function (gftp_logging_error, request,
                                     _("Cannot create a data connection: %s\n"),
@@ -990,13 +988,11 @@ static int ftp_ipv6_data_connection_new (gftp_request * request)
           return (GFTP_ERETRYABLE);
         }
     }
-  else
+  else /* active mode */
     {
-      memcpy (&data_addr, request->remote_addr, request->remote_addr_len);
-      data_addr.sin6_port = 0;
+      sockaddr_set_port (saddr, 0);
 
-      if (bind (ftpdat->data_connection, (struct sockaddr *) &data_addr, 
-                request->remote_addr_len) == -1)
+      if (bind (ftpdat->data_connection, saddr, request->remote_addr_len) == -1)
         {
           request->logging_function (gftp_logging_error, request,
                   _("Cannot bind a port: %s\n"), g_strerror (errno));
@@ -1004,8 +1000,7 @@ static int ftp_ipv6_data_connection_new (gftp_request * request)
           return (GFTP_ERETRYABLE);
         }
 
-      if (getsockname (ftpdat->data_connection, (struct sockaddr *) &data_addr, 
-                       &request->remote_addr_len) == -1)
+      if (getsockname (ftpdat->data_connection, saddr, &request->remote_addr_len) == -1)
         {
           request->logging_function (gftp_logging_error, request,
                   _("Cannot get socket name: %s\n"), g_strerror (errno));
@@ -1013,17 +1008,20 @@ static int ftp_ipv6_data_connection_new (gftp_request * request)
           return (GFTP_ERETRYABLE);
         }
 
+      // after getsockname, the port has been assigned..
+      port = sockaddr_get_port (saddr);
+
       if (listen (ftpdat->data_connection, 1) == -1)
         {
           request->logging_function (gftp_logging_error, request,
-                        _("Cannot listen on port %d: %s\n"),
-                        ntohs (data_addr.sin6_port),
-                        g_strerror (errno));
+                        _("Cannot listen on port %d: %s\n"), port, g_strerror (errno));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
         }
 
-      if (inet_ntop (AF_INET6, &data_addr.sin6_addr, buf, sizeof (buf)) == NULL)
+      *ipstr = 0;
+      sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
+      if (!*ipstr)
         {
           request->logging_function (gftp_logging_error, request,
                    _("Cannot get address of local socket: %s\n"), g_strerror (errno));
@@ -1031,8 +1029,9 @@ static int ftp_ipv6_data_connection_new (gftp_request * request)
           return (GFTP_ERETRYABLE);
         }
 
-      command = g_strdup_printf ("EPRT |2|%s|%d|\n", buf,
-                                 ntohs (data_addr.sin6_port));
+      command = g_strdup_printf ("EPRT |%c|%s|%d|\n",
+                                 AFPROT == AF_INET6 ? '2' : '1', // 1=IPV4 2=IPV6
+                                 ipstr, port);
 
       resp = ftp_send_command (request, command, -1, 1, 1);
       g_free (command);
@@ -1054,14 +1053,19 @@ static int ftp_data_connection_new (gftp_request * request, int dont_try_to_reco
 {
   DEBUG_PRINT_FUNC
   int ret;
+  ftp_protocol_data * ftpdat;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  if (request->ai_family == AF_INET6)
-    ret = ftp_ipv6_data_connection_new (request);
-  else
+  ftpdat = request->protocol_data;
+
+  if (ftpdat->feat[FTP_FEAT_EPSV] || request->ai_family == AF_INET6)
+  {
+    ret = ftp_rfc2428_data_connection_new (request);
+  } else {
     ret = ftp_ipv4_data_connection_new (request);
+  }
 
   if (ret == GFTP_ETIMEDOUT && !dont_try_to_reconnect)
     {
@@ -1331,7 +1335,7 @@ static off_t ftp_transfer_file (gftp_request *fromreq, const char *fromfile,
 {
   DEBUG_PRINT_FUNC
   char *tempstr, *pos, *endpos;
-  ftp_protocol_data * ftpdat;
+  ftp_protocol_data * ftpdat, * ftpfrom, * ftpto;
   int ret;
 
   g_return_val_if_fail (fromreq != NULL, GFTP_EFATAL);
@@ -1341,7 +1345,14 @@ static off_t ftp_transfer_file (gftp_request *fromreq, const char *fromfile,
   g_return_val_if_fail (fromreq->datafd > 0, GFTP_EFATAL);
   g_return_val_if_fail (toreq->datafd > 0, GFTP_EFATAL);
 
-  if ((ret = ftp_send_command (fromreq, "PASV\r\n", -1, 1, 0)) < 0)
+  ftpfrom = fromreq->protocol_data;
+  ftpto   = toreq->protocol_data;
+  if (ftpfrom->feat[FTP_FEAT_EPSV] && ftpto->feat[FTP_FEAT_EPSV]) {
+     ret = ftp_send_command (fromreq, "EPSV\r\n", -1, 1, 1);
+  } else {
+     ret = ftp_send_command (fromreq, "PASV\r\n", -1, 1, 0);
+  }
+  if (ret < 0)
     return (ret);
   else if (ret != '2')
     return (GFTP_ERETRYABLE);
