@@ -138,7 +138,7 @@ static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
 static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 {
   //DEBUG_PRINT_FUNC
-  char tempstr[255], code[4];
+  char tempstr[512], code[4];
   ftp_protocol_data * ftpdat;
   ssize_t num_read;
 
@@ -1621,7 +1621,7 @@ int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
 {
   //DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
-  char tempstr[1024];
+  char tempstr[2048];
   size_t stlen;
   ssize_t len;
 
