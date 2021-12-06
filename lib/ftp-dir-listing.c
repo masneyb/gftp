@@ -635,6 +635,14 @@ static int ftp_parse_ls_mlsd (char *str, gftp_file * fle)
       p++;
       //DEBUG_PUTS(p)
       if (*p) {
+         /*NetBSD-ftpd sends the CWD in the first line with full path */
+         // Type=cdir;Modify=20170930223132;Perm=el;Unique=AagAAAAAAADASAAAAAAAAA; /pub
+         // Type=cdir;Modify=20161006172557;Perm=el;Unique=AagAAAAAAADESAAAAAAAAA; /pub/NetBSD-daily
+         /*ftp_get_next_file() will discard it*/
+         if (*p == '/') {
+            fle->file = NULL;
+            return 0;
+         }
          filename = p;
       } else {
          return GFTP_EFATAL;

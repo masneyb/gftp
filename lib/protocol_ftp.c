@@ -1651,7 +1651,7 @@ int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
         } 
 
       if (ftp_parse_ls (request, tempstr, fle, fd) != 0)
-        {
+      {
           if (strncmp (tempstr, "total", strlen ("total")) != 0 &&
               strncmp (tempstr, _("total"), strlen (_("total"))) != 0)
           {
@@ -1660,9 +1660,16 @@ int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           }
             gftp_file_destroy (fle, 0);
             continue;
-        }
+      }
       else
-        break;
+      {
+         if (fle->file == NULL) {
+            DEBUG_MSG("@@ entry has been discarded\n");
+            gftp_file_destroy (fle, 0);
+            continue;
+         }
+         break;
+      }
     }
   while (1);
 
