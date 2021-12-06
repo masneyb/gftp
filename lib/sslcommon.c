@@ -68,6 +68,8 @@ void ssl_register_module (void)
     {
       gftp_register_config_vars (config_vars);
       module_registered = 1;
+      DEBUG_TRACE("~~   gftp_ssl_read:  %p\n", gftp_ssl_read)
+      DEBUG_TRACE("~~   gftp_ssl_write: %p\n", gftp_ssl_write)
     }
 }
 

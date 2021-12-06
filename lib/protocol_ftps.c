@@ -140,6 +140,9 @@ static int ftps_auth_tls_start (gftp_request * request)
 static int ftps_connect (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
+  if (request->datafd > 0) {
+      return (0);
+  }
   // need to send AUTH TLS in clear text
   request->read_function  = gftp_fd_read;
   request->write_function = gftp_fd_write;
@@ -150,8 +153,7 @@ static int ftps_connect (gftp_request * request)
 #endif
 
 
-void
-ftps_register_module (void)
+void ftps_register_module (void)
 {
   DEBUG_PRINT_FUNC
 #ifdef USE_SSL
@@ -215,6 +217,9 @@ void ftpsi_register_module (void)
 static int ftpsi_connect (gftp_request * request)
 {
    DEBUG_PRINT_FUNC
+   if (request->datafd > 0) {
+      return (0);
+   }
    // this is just to override default port
    // default port for FTPSi is 990..
    if (!request->port) {
@@ -266,6 +271,7 @@ int ftpsi_init (gftp_request * request)
    request->read_function      = gftp_ssl_read;
    request->write_function     = gftp_ssl_write;
 
+   request->init               = ftpsi_init;
    request->connect            = ftpsi_connect;
    ftpdat->auth_tls_start      = ftpsi_auth_tls_start;
    request->post_connect       = gftp_ssl_session_setup; /* socket-connect.c */

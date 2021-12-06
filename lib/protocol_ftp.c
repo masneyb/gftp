@@ -174,6 +174,7 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
            break;
         }
         // read text chunk, may not contain the whole response
+        DEBUG_TRACE("  request->read_function: %p\n", request->read_function)
         ret = request->read_function (request, tempstr, sizeof(tempstr), request->datafd);
         if (ret <= 0) {
            break;
@@ -246,6 +247,7 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
   }
 
   if (!last_line) {
+     DEBUG_MSG("no last line!!!!\n\n")
      return (GFTP_ERETRYABLE);
   }
   DEBUG_TRACE("RESPONSE: %s\n", last_line);
@@ -294,10 +296,11 @@ int ftp_send_command (gftp_request * request, const char *command,
     command_len = strlen (command);
 
   DEBUG_TRACE("SEND_CMD: %s", command)
-  if ((ret = request->write_function (request, command, command_len, 
-                                      request->datafd)) < 0)
-    return (ret);
-
+  ret = request->write_function (request, command, command_len, request->datafd);
+  if (ret < 0) {
+     DEBUG_MSG("failed to write to socket!!!!\n\n");
+     return (ret);
+  }
   if (read_response)
     {
       ret = ftp_read_response (request, 1);
@@ -1335,6 +1338,8 @@ static off_t ftp_get_file (gftp_request * request, const char *filename,
   ftpdat = request->protocol_data;
   if (passive_transfer && ftpdat->feat[FTP_FEAT_PRET]) {
     ret = ftp_generate_and_send_command (request, "PRET RETR", filename,1, 0);
+    if (ret < 0)
+       return (ret);
   }
 
   ret = ftp_setup_file_transfer (request, filename, startsize, "RETR");
@@ -1722,7 +1727,7 @@ int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
       else
       {
          if (fle->file == NULL) {
-            DEBUG_MSG("@@ entry has been discarded\n");
+            DEBUG_MSG("@@ entry has been discarded\n")
             gftp_file_destroy (fle, 0);
             continue;
          }
@@ -1952,6 +1957,8 @@ void  ftp_register_module (void)
 {
   DEBUG_PRINT_FUNC
   gftp_register_config_vars (config_vars);
+  DEBUG_TRACE("~~  gftp_fd_read:  %p\n", gftp_fd_read)
+  DEBUG_TRACE("~~  gftp_fd_write: %p\n", gftp_fd_write)
 }
 
 

@@ -1484,9 +1484,10 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
       if (curfle->size == 0)
         {
           curfle->size = gftp_get_file_size (tdata->fromreq, curfle->file);
-          if (curfle->size < 0)
+          if (curfle->size < 0) {
+            DEBUG_MSG("filesize < 0!!!!!!!!!!\n\n")
             return ((int) curfle->size);
-
+          }
           tdata->total_bytes += curfle->size;
         }
 
@@ -1494,8 +1495,10 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
         {
           curfle->transfer_action = GFTP_TRANS_ACTION_RESUME;
           curfle->startsize = gftp_get_file_size (tdata->toreq, curfle->destfile);
-          if (curfle->startsize < 0)
+          if (curfle->startsize < 0) {
+            DEBUG_MSG("(retry) filesize < 0!!!!!!!!!!\n\n")
             return ((int) curfle->startsize);
+          }
         }
 
       tdata->tot_file_trans = gftp_transfer_file (tdata->fromreq, curfle->file,
