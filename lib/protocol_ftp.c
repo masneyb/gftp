@@ -134,18 +134,22 @@ static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
 }
 
 // ==========================================================================
-         
+
 static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 {
   //DEBUG_PRINT_FUNC
   char tempstr[512], code[4];
   ftp_protocol_data * ftpdat;
-  ssize_t num_read;
+  ssize_t ret;
+  int lines = 0;
+  char *p;
+  char * line = NULL;
+  char * last_line = NULL;
+  char * pos = NULL;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  *code = '\0';
   if (request->last_ftp_response)
     {
       g_free (request->last_ftp_response);
@@ -154,47 +158,59 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 
   ftpdat = request->protocol_data;
 
-  do
+  *code = '\0';
+  *tempstr = 0;
+  while (1)
   {
-      if ((num_read = gftp_get_line (request, &ftpdat->datafd_rbuf, tempstr, 
-                                     sizeof (tempstr), request->datafd)) <= 0) {
-         break;
-      }
+     line = str_get_next_line_pointer (tempstr, &pos);
+     if (!line)
+     {
+        // read text chunk, may not contain the whole response
+        ret = request->read_function (request, tempstr, sizeof(tempstr), request->datafd);
+        if (ret <= 0) {
+           break;
+        }
+        tempstr[ret] = '\0';
+        // reset pos & lines
+        pos = NULL;
+        lines = 0;
+        // count lines
+        for (p = tempstr; *p; p++) {
+           if (*p == '\n') lines++;
+        }
+        if (!lines) {
+           break;
+        }
+        //DEBUG_TRACE(">>> %s <<<\n",tempstr)
+        continue;
+     }
 
-      if (isdigit ((int) *tempstr) && isdigit ((int) *(tempstr + 1))
-          && isdigit ((int) *(tempstr + 2)))
-      {
-         strncpy (code, tempstr, 3);
+     last_line = line;
+
+     if (isdigit((int)line[0]) && isdigit((int)line[1]) && isdigit((int)line[2]))
+     { // reply code has been identified, it will be used to determine when to stop
+         strncpy (code, line, 3);
          code[3] = ' ';
-      }
+     }
 
-      if (ftpdat->last_cmd == FTP_CMD_FEAT) {
-         rfc2389_feat_supported_cmd (ftpdat, tempstr);
-         continue;
-      }
-
-      if (*tempstr == '4' || *tempstr == '5')
-        request->logging_function (gftp_logging_error, request,
-                                   "%s\n", tempstr);
-      else
-        request->logging_function (gftp_logging_recv, request,
-                                   "%s\n", tempstr);
+     if (ftpdat->last_cmd == FTP_CMD_FEAT) {
+         rfc2389_feat_supported_cmd (ftpdat, line);
+     } else {
+        if (*line == '4' || *line == '5')
+           request->logging_function (gftp_logging_error, request, "%s\n", line);
+        else
+           request->logging_function (gftp_logging_recv, request, "%s\n", line);
+     }
+     if (*code && strncmp (code, line, 4) == 0) {
+         break;
+     }
   }
-  while (strncmp (code, tempstr, 4) != 0);
 
-  // HACK to fix segfault after file transfer
-  //  after the 1st transfer gftp_get_line() no longer frees ftpdat->datafd_rbuf
-  //    so the pointer remains
-  //  the problem is in the next call to ftp_read_response() ... segfault
-  //  - must properly fix sockutils.c one day, or maybe this is the proper fix
-  gftp_free_getline_buffer (&ftpdat->datafd_rbuf);
-  // -- end HACK
-
-  if (num_read < 0)
-    return ((int) num_read);
-
-  DEBUG_TRACE("RESPONSE: %s\n", tempstr);
-  request->last_ftp_response = g_strdup (tempstr);
+  if (!last_line) {
+     return (GFTP_ERETRYABLE);
+  }
+  DEBUG_TRACE("RESPONSE: %s\n", last_line);
+  request->last_ftp_response = g_strdup (last_line);
 
   if (request->last_ftp_response[0] == '4' &&
       request->last_ftp_response[1] == '2' &&
@@ -1903,9 +1919,6 @@ static void ftp_request_destroy (gftp_request * request)
   ftp_protocol_data * ftpdat;
 
   ftpdat = request->protocol_data;
-
-  if (ftpdat->datafd_rbuf != NULL)
-    gftp_free_getline_buffer (&ftpdat->datafd_rbuf);
 
   if (ftpdat->dataconn_rbuf != NULL)
     gftp_free_getline_buffer (&ftpdat->dataconn_rbuf);

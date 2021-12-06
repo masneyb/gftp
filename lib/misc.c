@@ -1134,3 +1134,45 @@ void gftp_format_file_size(off_t bytes, char *out_buffer, size_t buffer_size)
   }
 }
 
+
+char * str_get_next_line_pointer (char * buf, char **pos)
+{
+   // modified buf, new lines become '\0'
+   // start: *pos must be NULL, buf = line1\r\nline2\r\n, etc
+   // empty lines are treated as eof
+   char * ret = NULL;
+   char * nextpos = NULL;
+   char * p;
+   if (buf == NULL) {
+      return NULL;
+   }
+   if (*pos == NULL) {
+      *pos = buf;
+   }
+   p = *pos;
+   if (!*p) {
+      return NULL;
+   }
+   nextpos = strchr (*pos, '\n');
+   if (nextpos && nextpos != *pos) {
+      *nextpos = 0;
+      if (*(nextpos-1) == '\r') {
+         *(nextpos-1) = 0;
+      }
+      nextpos++;
+      ret = *pos;
+   } else {
+      // handle last line without \r\n
+      ret = *pos;
+      p = *pos;
+      if (*p) {
+         while (*p) p++;
+         *pos = p;
+      }
+   }
+
+   if (nextpos && nextpos != *pos) {
+      *pos = nextpos;
+   }
+   return ret;
+}
