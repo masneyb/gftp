@@ -160,14 +160,19 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 
   ftpdat = request->protocol_data;
 
+  ftpdat->extra_server_response = 0;
   *code = '\0';
   *tempstr = 0;
   *fixed_line = 0;
+
   while (1)
   {
      line = str_get_next_line_pointer (tempstr, &pos, &line_ending);
      if (!line)
      {
+        if (last_line) {
+           break;
+        }
         // read text chunk, may not contain the whole response
         ret = request->read_function (request, tempstr, sizeof(tempstr), request->datafd);
         if (ret <= 0) {
@@ -204,12 +209,16 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
         }
      }
 
-     last_line = line;
-
      if (isdigit((int)line[0]) && isdigit((int)line[1]) && isdigit((int)line[2]))
      { // reply code has been identified, it will be used to determine when to stop
-         strncpy (code, line, 3);
-         code[3] = ' ';
+        if (!*code) {
+           strncpy (code, line, 3);
+           code[3] = ' ';
+        } else if (line[3] == ' ') { // hack. another response
+           // some functions may need to check this value, to fix compability
+           // with broken servers (i. e. MS IIS FTP server).
+           ftpdat->extra_server_response = *line;
+        }
      }
 
      if (ftpdat->last_cmd == FTP_CMD_FEAT) {
@@ -220,9 +229,17 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
         else
            request->logging_function (gftp_logging_recv, request, "%s\n", line);
      }
-     if (*code && strncmp (code, line, 4) == 0) {
-         break;
+
+     if (last_line) {
+        break;
      }
+     if (*code && strncmp (code, line, 4) == 0) {
+        // this is where it should end (break;), but some broken servers (MS IIS)
+        // might send an extra reponse code, which needs to be stored somewhere
+        // (the next call to fhis func would hang or retrieve the wrong code)
+        last_line = line;
+     }
+
      if (line_ending && *fixed_line) {
         *fixed_line = 0;
      }
@@ -1454,7 +1471,10 @@ static int ftp_end_transfer (gftp_request * request)
 
   ftp_close_data_connection (request);
 
-  ret = ftp_read_response (request, 1);
+  if (ftpdat->extra_server_response)
+     ret = ftpdat->extra_server_response;
+  else
+     ret = ftp_read_response (request, 1);
 
   if (ret < 0)
     return (ret);
