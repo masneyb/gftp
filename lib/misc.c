@@ -1135,7 +1135,7 @@ void gftp_format_file_size(off_t bytes, char *out_buffer, size_t buffer_size)
 }
 
 
-char * str_get_next_line_pointer (char * buf, char **pos)
+char * str_get_next_line_pointer (char * buf, char **pos, int *line_ending)
 {
    // modified buf, new lines become '\0'
    // start: *pos must be NULL, buf = line1\r\nline2\r\n, etc
@@ -1161,6 +1161,9 @@ char * str_get_next_line_pointer (char * buf, char **pos)
       }
       nextpos++;
       ret = *pos;
+      if (line_ending) {
+         *line_ending = 1;
+      }
    } else {
       // handle last line without \r\n
       ret = *pos;
@@ -1168,6 +1171,9 @@ char * str_get_next_line_pointer (char * buf, char **pos)
       if (*p) {
          while (*p) p++;
          *pos = p;
+      }
+      if (line_ending) {
+         *line_ending = 0;
       }
    }
 

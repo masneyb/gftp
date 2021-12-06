@@ -143,9 +143,11 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
   ssize_t ret;
   int lines = 0;
   char *p;
+  char fixed_line[256];
   char * line = NULL;
   char * last_line = NULL;
   char * pos = NULL;
+  int line_ending = 0;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
@@ -160,9 +162,10 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 
   *code = '\0';
   *tempstr = 0;
+  *fixed_line = 0;
   while (1)
   {
-     line = str_get_next_line_pointer (tempstr, &pos);
+     line = str_get_next_line_pointer (tempstr, &pos, &line_ending);
      if (!line)
      {
         // read text chunk, may not contain the whole response
@@ -185,6 +188,22 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
         continue;
      }
 
+     if (pos)
+     {
+        if (!line_ending) {
+           // incomplete line, will need to fix
+           snprintf (fixed_line, sizeof(fixed_line), "%s", line);
+           puts ("a");
+           continue;
+        } else if (*fixed_line) {
+           // copy and complete line
+           snprintf (fixed_line + strlen(fixed_line), sizeof(fixed_line) - strlen(fixed_line) - 1,
+                     "%s", line);
+           line = fixed_line;
+           puts ("b");
+        }
+     }
+
      last_line = line;
 
      if (isdigit((int)line[0]) && isdigit((int)line[1]) && isdigit((int)line[2]))
@@ -203,6 +222,9 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
      }
      if (*code && strncmp (code, line, 4) == 0) {
          break;
+     }
+     if (line_ending && *fixed_line) {
+        *fixed_line = 0;
      }
   }
 
