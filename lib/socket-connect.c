@@ -90,9 +90,10 @@ void sockaddr_set_port (struct sockaddr * saddr, int port)
 
 // ====================================================================
 
-static struct addrinfo *
-lookup_host (gftp_request *request, char *service,
-                              char *proxy_hostname, int proxy_port)
+static struct addrinfo * lookup_host (gftp_request *request,
+                                      char *service,
+                                      char *proxy_hostname,
+                                      int proxy_port)
 {
   DEBUG_PRINT_FUNC
   struct addrinfo hints, *hostp;
@@ -100,16 +101,13 @@ lookup_host (gftp_request *request, char *service,
   char serv[8], *connect_host;
   int ret, connect_port;
 
-  if (request->use_proxy)
-    {
+  if (request->use_proxy) {
       connect_host = proxy_hostname;
       connect_port = proxy_port;
-    }
-  else
-    {
+  } else {
       connect_host = request->hostname;
       connect_port = request->port;
-    }
+  }
 
   gftp_lookup_request_option (request, "enable_ipv6", &enable_ipv6);
 
@@ -119,29 +117,28 @@ lookup_host (gftp_request *request, char *service,
   hints.ai_family = enable_ipv6 ? PF_UNSPEC : AF_INET;
   hints.ai_socktype = SOCK_STREAM;
 
-  if (connect_port == 0)
-    strcpy (serv, service); 
-  else
-    snprintf (serv, sizeof (serv), "%d", connect_port);
+  if (connect_port == 0) {
+      strcpy (serv, service); 
+  } else {
+      snprintf (serv, sizeof (serv), "%d", connect_port);
+  }
+  request->logging_function (gftp_logging_misc, request, _("Looking up %s\n"), connect_host);
 
-  request->logging_function (gftp_logging_misc, request,
-                             _("Looking up %s\n"), connect_host);
-  if ((ret = getaddrinfo (connect_host, serv, &hints, 
-                             &hostp)) != 0)
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Unknown host. Maybe you misspelled it?\n"));
+  ret = getaddrinfo (connect_host, serv, &hints, &hostp);
+  if (ret != 0)
+  {
+      request->logging_function (gftp_logging_error, request, _("Unknown host. Maybe you misspelled it?\n"));
       return (NULL);
-    }
+  }
 
   return (hostp);
 }
 
 
-static int
-gftp_do_connect_server (gftp_request * request, char *service,
-                        char *proxy_hostname,
-                        unsigned int proxy_port)
+static int gftp_do_connect_server (gftp_request * request,
+                                   char *service,
+                                   char *proxy_hostname,
+                                   unsigned int proxy_port)
 {
   DEBUG_PRINT_FUNC
   struct addrinfo *res, *hostp, *current_hostp;
@@ -168,11 +165,11 @@ gftp_do_connect_server (gftp_request * request, char *service,
 
   hostp = lookup_host (request, service, proxy_hostname, proxy_port);
 
-  if (hostp == NULL)
-    return (GFTP_EFATAL);
-
+  if (hostp == NULL) {
+      return (GFTP_EFATAL);
+  }
   for (res = hostp; res != NULL; res = res->ai_next)
-    {
+  {
       saddr = res->ai_addr;
       port = sockaddr_get_port (saddr);
       if (!request->use_proxy)
@@ -195,33 +192,33 @@ gftp_do_connect_server (gftp_request * request, char *service,
 
       sock = socket (res->ai_family, res->ai_socktype, res->ai_protocol);
       if (sock < 0)
-        {
+      {
           request->logging_function (gftp_logging_error, request,
                                      _("Failed to create a socket: %s\n"),
                                      g_strerror (errno));
           continue;
-        }
+      }
 
       setsockopt (sock, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
       if (connect (sock, res->ai_addr, res->ai_addrlen) == -1)
-        {
+      {
           request->logging_function (gftp_logging_error, request,
                                      _("Cannot connect to %s: %s\n"),
                                      hostname, g_strerror (errno));
           close (sock);
           last_errno = errno;
           continue;
-        }
+      }
 
       current_hostp = res;
       request->ai_family = res->ai_family;
       break;
-    }
+  }
 
   if (res == NULL)
-    {
+  {
       if (hostp) {
-        freeaddrinfo (hostp);
+          freeaddrinfo (hostp);
       }
       switch (last_errno)
       {
@@ -232,7 +229,7 @@ gftp_do_connect_server (gftp_request * request, char *service,
          default:
             return (GFTP_ERETRYABLE);
       }
-    }
+  }
 
   saddr = current_hostp->ai_addr;
   request->remote_addr_len = sockaddr_get_size (saddr);
@@ -251,31 +248,30 @@ gftp_do_connect_server (gftp_request * request, char *service,
 
 // ========================================================================
 
-int
-gftp_connect_server (gftp_request * request, char *service,
-                     char *proxy_hostname, unsigned int proxy_port)
+int gftp_connect_server (gftp_request * request, char *service,
+                         char *proxy_hostname, unsigned int proxy_port)
 {
   DEBUG_PRINT_FUNC
   int sock;
 
   sock = gftp_do_connect_server (request, service, proxy_hostname, proxy_port);
-  if (sock < 0)
-    return (sock);
-
+  if (sock < 0) {
+      return (sock);
+  }
   if (fcntl (sock, F_SETFD, 1) == -1)
-    {
+  {
       request->logging_function (gftp_logging_error, request,
                                  _("Error: Cannot set close on exec flag: %s\n"),
                                  g_strerror (errno));
       close (sock);
       return (GFTP_ERETRYABLE);
-    }
+  }
 
   if (gftp_fd_set_sockblocking (request, sock, 1) < 0)
-    {
+  {
       close (sock);
       return (GFTP_ERETRYABLE);
-    }
+  }
 
   request->datafd = sock;
 
