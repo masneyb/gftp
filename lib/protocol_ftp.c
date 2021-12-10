@@ -829,23 +829,6 @@ static int ftp_do_data_connection_new (gftp_request * request)
       USE_EPSV = 1;
   }
 
-  ftpdat->data_connection = socket (AFPROT, SOCK_STREAM, IPPROTO_TCP);
-
-  if (ftpdat->data_connection < 0)
-  {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Failed to create a socket: %s\n"), g_strerror (errno));
-      gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
-  }
-
-  if (fcntl (ftpdat->data_connection, F_SETFD, 1) == -1)
-  {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Error: Cannot set close on exec flag: %s\n"), g_strerror (errno));
-      return (GFTP_ERETRYABLE);
-  }
-
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
   if (passive_transfer)
@@ -900,7 +883,7 @@ static int ftp_do_data_connection_new (gftp_request * request)
           //sockaddr_reset (saddr);
           sockaddr_set_port (saddr, port);
       } else {
-          // with PASV we're forced to use sockaddr_in, there's no other way
+          // PASV - IPv4
           paddrin = (struct sockaddr_in *) request->remote_addr;
           for (i = 0; i < 6; i++) {
               ad[i] = (unsigned char) (temp[i] & 0xff);
@@ -909,22 +892,38 @@ static int ftp_do_data_connection_new (gftp_request * request)
           if (ignore_pasv_address) {
               request->logging_function (gftp_logging_error, request, _("Ignoring IP address in PASV response\n"));
           } else {
+              // change IP to the one specified in PASV response
               memcpy (&(paddrin->sin_addr), &ad[0], 4);
           }
-          memcpy (&(paddrin->sin_port), &ad[4], 2);
+          memcpy (&(paddrin->sin_port), &ad[4], 2); /* set port */
       }
 
-      resp = connect (ftpdat->data_connection, request->remote_addr, request->remote_addr_len);
-      if (resp == -1)
+      ftpdat->data_connection = gftp_data_connection_new (request);
+      if (ftpdat->data_connection < 0)
       {
-          request->logging_function (gftp_logging_error, request,
-                                    _("Cannot create a data connection: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
+          return GFTP_ERETRYABLE;
       }
+
   }
   else /* == active mode == */
   {
+      ftpdat->data_connection = socket (AFPROT, SOCK_STREAM, IPPROTO_TCP);
+
+      if (ftpdat->data_connection < 0)
+      {
+          request->logging_function (gftp_logging_error, request,
+                                     _("Failed to create a socket: %s\n"), g_strerror (errno));
+          gftp_disconnect (request);
+          return (GFTP_ERETRYABLE);
+      }
+      if (fcntl (ftpdat->data_connection, F_SETFD, 1) == -1)
+      {
+          request->logging_function (gftp_logging_error, request,
+                                     _("Error: Cannot set close on exec flag: %s\n"), g_strerror (errno));
+          return (GFTP_ERETRYABLE);
+      }
+
       sockaddr_set_port (saddr, 0);
 
       if (bind (ftpdat->data_connection, saddr, request->remote_addr_len) == -1)

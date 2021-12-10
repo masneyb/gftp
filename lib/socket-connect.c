@@ -253,6 +253,9 @@ static int gftp_do_connect_server (gftp_request * request,
 int gftp_connect_server (gftp_request * request, char *service,
                          char *proxy_hostname, unsigned int proxy_port)
 {
+  // this creates the "control" connection and request is filled
+  // with the proper info for data future connections:
+  // - see remote_addr, remote_addr_len, ai_family, ai_socktype
   DEBUG_PRINT_FUNC
   int sock;
 
@@ -284,3 +287,44 @@ int gftp_connect_server (gftp_request * request, char *service,
   return (0);
 }
 
+
+int gftp_data_connection_new (gftp_request * request)
+{
+  // - This assumes that many details about the connection type and stuff
+  //   are already known, gftp_connect_server() already set the proper info
+  //   that is copied by gftp_copy_request() for new requests
+  // - The calling function must modify request->remote_addr to set the port
+  //   and change the IP if needed
+  DEBUG_PRINT_FUNC
+  int sock = -1;
+  int ret;
+  struct sockaddr * saddr = request->remote_addr;
+  socklen_t addrlen       = request->remote_addr_len;
+
+  sock = socket (request->ai_family, request->ai_socktype, 0);
+  if (sock < 0)
+  {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Failed to create a socket: %s\n"), g_strerror (errno));
+      return -1;
+  }
+
+  if (fcntl (sock, F_SETFD, 1) == -1)
+  {
+      close (sock);
+      request->logging_function (gftp_logging_error, request,
+                                 _("Error: Cannot set close on exec flag: %s\n"), g_strerror (errno));
+      return -1;
+  }
+
+  ret = connect (sock, saddr, addrlen);
+  if (ret == -1)
+  {
+      close (sock);
+      request->logging_function (gftp_logging_error, request,
+                                 _("Cannot create a data connection: %s\n"), g_strerror (errno));
+      return -1;
+  }
+
+  return sock;
+}
