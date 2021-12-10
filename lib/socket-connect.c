@@ -188,7 +188,7 @@ int gftp_connect_server (gftp_request * request,
   // with the proper info for future data connections:
   // - see remote_addr, remote_addr_len, ai_family, ai_socktype
   DEBUG_PRINT_FUNC
-  struct addrinfo *res, *hostp, *current_hostp;
+  struct addrinfo *hostp, *current_hostp;
   struct sockaddr * saddr;
   char ipstr[128], * hostname;
   int last_errno = 0;
@@ -212,15 +212,18 @@ int gftp_connect_server (gftp_request * request,
   if (hostp == NULL) {
       return (GFTP_EFATAL);
   }
-  for (res = hostp; res != NULL; res = res->ai_next)
-  {
-      saddr = res->ai_addr;
-      port = sockaddr_get_port (saddr);
-      if (!request->use_proxy)
-        request->port = port;
 
+  for (current_hostp = hostp;
+       current_hostp != NULL;
+       current_hostp = current_hostp->ai_next)
+  {
+      saddr = current_hostp->ai_addr;
+      port = sockaddr_get_port (saddr);
+      if (!request->use_proxy) {
+          request->port = port;
+      }
       *ipstr = 0;
-      hostname = res[0].ai_canonname;
+      hostname = current_hostp[0].ai_canonname;
       sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
       if (hostname && (strcmp(hostname, ipstr) == 0)) {
          hostname = ipstr;
@@ -234,17 +237,15 @@ int gftp_connect_server (gftp_request * request,
                                     _("Trying %s:%d (%s)\n"), hostname, port, ipstr);
       }
 
-      sock = connection_new (request, res);
+      sock = connection_new (request, current_hostp);
       if (sock < 0) {
           last_errno = errno;
           continue;
       }
-
-      current_hostp = res;
       break;
   }
 
-  if (res == NULL || sock == -1) // was unable to connect to any host
+  if (current_hostp == NULL || sock == -1) // was unable to connect to any host
   {
       freeaddrinfo (hostp);
       switch (last_errno)
@@ -258,14 +259,12 @@ int gftp_connect_server (gftp_request * request,
       }
   }
 
-  request->ai_family   = current_hostp->ai_family;
-  request->ai_socktype = current_hostp->ai_socktype;
+  request->ai_family       = current_hostp->ai_family;
+  request->ai_socktype     = current_hostp->ai_socktype;
+  request->remote_addr_len = current_hostp->ai_addrlen;
+  request->remote_addr     = calloc (1, current_hostp->ai_addrlen);
 
-  saddr = current_hostp->ai_addr;
-  request->remote_addr_len = sockaddr_get_size (saddr);
-  request->remote_addr     = g_malloc0 (request->remote_addr_len);
-
-  memcpy (request->remote_addr, (void*)saddr, request->remote_addr_len);
+  memcpy (request->remote_addr, current_hostp->ai_addr, request->remote_addr_len);
 
   request->logging_function (gftp_logging_misc, request,
                              _("Connected to %s:%d\n"), hostname, port);
