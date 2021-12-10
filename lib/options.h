@@ -37,6 +37,9 @@ static gftp_sort_direction_tag gftp_sort_direction[] = { N_("descending"),
 
 static float gftp_maxkbs = 0.0;
 
+char * gftp_ip_version[] = { "", "ipv4", "ipv6", NULL };
+
+
 gftp_config_vars gftp_global_config_vars[] =
 {
   {"", N_("General"), gftp_option_type_notebook, NULL, NULL, 
@@ -154,10 +157,10 @@ gftp_config_vars gftp_global_config_vars[] =
   {"default_protocol", N_("Default Protocol:"),
    gftp_option_type_textcombo, "FTP", NULL, 0,
    N_("This specifies the default protocol to use"), GFTP_PORT_ALL, NULL},
-  {"enable_ipv6", N_("Enable IPv6 support"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
-   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("Enable IPv6 support"), GFTP_PORT_ALL, NULL},
+
+  {"ip_version", N_("IP version:"),
+   gftp_option_type_textcombo, "any", gftp_ip_version, 0,
+   N_("IP version to use. (ipv4/ipv6 or leave empty to use whatever is available)"), GFTP_PORT_ALL, NULL},
 
   {"list_dblclk_action", "", 
    gftp_option_type_int, GINT_TO_POINTER(0), NULL, 0,

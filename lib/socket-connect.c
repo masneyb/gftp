@@ -92,42 +92,46 @@ void sockaddr_set_port (struct sockaddr * saddr, int port)
 
 static struct addrinfo * lookup_host (gftp_request *request,
                                       char *service,
-                                      char *proxy_hostname,
-                                      int proxy_port)
+                                      char *host,
+                                      unsigned int port)
 {
+  // this is where everything about the connection is specified
+  // the resulting addrinfo will contain info according to the params
+  // specified here
   DEBUG_PRINT_FUNC
   struct addrinfo hints, *hostp;
-  intptr_t enable_ipv6;
-  char serv[8], *connect_host;
-  int ret, connect_port;
+  char * ip_version;
+  char serv[8];
+  int ret;
 
-  if (request->use_proxy) {
-      connect_host = proxy_hostname;
-      connect_port = proxy_port;
-  } else {
-      connect_host = request->hostname;
-      connect_port = request->port;
-  }
-
-  gftp_lookup_request_option (request, "enable_ipv6", &enable_ipv6);
+  gftp_lookup_request_option (request, "ip_version", &ip_version);
+  DEBUG_TRACE ("IP_VERSION to use: %s\n",ip_version)
 
   memset (&hints, 0, sizeof (hints));
-  hints.ai_flags = AI_CANONNAME;
+  hints.ai_flags  = AI_CANONNAME;
 
-  hints.ai_family = enable_ipv6 ? PF_UNSPEC : AF_INET;
+  if (strcmp(ip_version, "ipv4") == 0) {
+      hints.ai_family = AF_INET;
+  } else if (strcmp(ip_version, "ipv6") == 0) {
+      hints.ai_family = AF_INET6;
+  } else {
+      hints.ai_family = PF_UNSPEC;
+  }
+
   if (request->use_udp) {
       hints.ai_socktype = SOCK_DGRAM;  /* UDP */
   } else {
       hints.ai_socktype = SOCK_STREAM; /* TCP */
   }
-  if (connect_port == 0) {
-      strcpy (serv, service); 
-  } else {
-      snprintf (serv, sizeof (serv), "%d", connect_port);
-  }
-  request->logging_function (gftp_logging_misc, request, _("Looking up %s\n"), connect_host);
 
-  ret = getaddrinfo (connect_host, serv, &hints, &hostp);
+  if (!port) {
+      snprintf (serv, sizeof (serv), "%s", service); 
+  } else {
+      snprintf (serv, sizeof (serv), "%d", port);
+  }
+  request->logging_function (gftp_logging_misc, request, _("Looking up %s\n"), host);
+
+  ret = getaddrinfo (host, serv, &hints, &hostp);
   if (ret != 0)
   {
       request->logging_function (gftp_logging_error, request, _("Unknown host. Maybe you misspelled it?\n"));
@@ -191,10 +195,12 @@ int gftp_connect_server (gftp_request * request,
   struct addrinfo *hostp, *current_hostp;
   struct sockaddr * saddr;
   char ipstr[128], * hostname;
+  char * connect_host;
+  unsigned int connect_port;
   int last_errno = 0;
   unsigned int port;
   int sock = -1;
-  intptr_t use_proxy;
+  intptr_t use_proxy = 0;
 
   gftp_lookup_global_option ("ftp_use_proxy", &use_proxy);
   request->use_proxy = use_proxy;
@@ -207,7 +213,15 @@ int gftp_connect_server (gftp_request * request,
      }
   }
 
-  hostp = lookup_host (request, service, proxy_hostname, proxy_port);
+  if (request->use_proxy) {
+      connect_host = proxy_hostname;
+      connect_port = proxy_port;
+  } else {
+      connect_host = request->hostname;
+      connect_port = request->port;
+  }
+
+  hostp = lookup_host (request, service, connect_host, connect_port);
 
   if (hostp == NULL) {
       return (GFTP_EFATAL);
