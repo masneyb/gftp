@@ -174,7 +174,7 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
            break;
         }
         // read text chunk, may not contain the whole response
-        DEBUG_TRACE("  request->read_function: %p\n", request->read_function)
+        //DEBUG_TRACE("$$$  request->read_function: %p\n", request->read_function)
         ret = request->read_function (request, tempstr, sizeof(tempstr), request->datafd);
         if (ret <= 0) {
            break;
@@ -791,169 +791,22 @@ static void ftp_disconnect (gftp_request * request)
 }
 
 
-static int ftp_ipv4_data_connection_new (gftp_request * request)
-{
-  DEBUG_PRINT_FUNC
-  struct sockaddr_in data_addr;
-  intptr_t ignore_pasv_address;
-  char *pos, *pos1, *command;
-  intptr_t passive_transfer;
-  ftp_protocol_data * ftpdat;
-  socklen_t data_addr_len;
-  unsigned int temp[6];
-  unsigned char ad[6];
-  int i, resp;
-
-  ftpdat = request->protocol_data;
-
-  ftpdat->data_connection = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
-  if (ftpdat->data_connection == -1)
-    {
-      request->logging_function (gftp_logging_error, request,
-                   _("Failed to create a IPv4 socket: %s\n"),
-                   g_strerror (errno));
-      gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
-    }
-
-  if (fcntl (ftpdat->data_connection, F_SETFD, 1) == -1)
-    {
-      request->logging_function (gftp_logging_error, request,
-                                 _("Error: Cannot set close on exec flag: %s\n"),
-                                 g_strerror (errno));
-
-      return (GFTP_ERETRYABLE);
-    }
-
-  data_addr_len = sizeof (data_addr);
-  memset (&data_addr, 0, data_addr_len);
-  data_addr.sin_family = AF_INET;
-
-  gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
-  if (passive_transfer)
-    {
-      resp = ftp_send_command (request, "PASV\r\n", -1, 1, 1);
-      if (resp < 0)
-        return (resp);
-      else if (resp != '2')
-      {
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-      }
-
-      pos = request->last_ftp_response + 4;
-      while (!isdigit ((int) *pos) && *pos != '\0')
-        pos++;
-
-      resp = -1;
-      if (*pos) {
-         resp = sscanf (pos, "%u,%u,%u,%u,%u,%u", &temp[0], &temp[1], &temp[2], &temp[3], &temp[4], &temp[5]);
-      }
-      if (!*pos || resp != 6)
-      {
-          request->logging_function (gftp_logging_error, request,
-                      _("Cannot find an IP address in PASV response '%s'\n"),
-                      request->last_ftp_response);
-          gftp_disconnect (request);
-          return (GFTP_EFATAL);
-      }
-
-      for (i = 0; i < 6; i++)
-        ad[i] = (unsigned char) (temp[i] & 0xff);
-
-      gftp_lookup_request_option (request, "ignore_pasv_address",
-                                  &ignore_pasv_address);
-      if (ignore_pasv_address)
-        {
-          memcpy (&data_addr, request->remote_addr, request->remote_addr_len);
-          request->logging_function (gftp_logging_error, request, _("Ignoring IP address in PASV response\n"));
-        }
-      else
-        memcpy (&data_addr.sin_addr, &ad[0], 4);
-
-      memcpy (&data_addr.sin_port, &ad[4], 2);
-
-      if (connect (ftpdat->data_connection, (struct sockaddr *) &data_addr, 
-                   data_addr_len) == -1)
-        {
-          request->logging_function (gftp_logging_error, request,
-                                    _("Cannot create a data connection: %s\n"),
-                                    g_strerror (errno));
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-        }
-    }
-  else
-    {
-      if (getsockname (request->datafd, (struct sockaddr *) &data_addr,
-                       &data_addr_len) == -1)
-        {
-          request->logging_function (gftp_logging_error, request,
-                             _("Cannot get socket name: %s\n"),
-                             g_strerror (errno));
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-        }
-
-      data_addr.sin_port = 0;
-      if (bind (ftpdat->data_connection, (struct sockaddr *) &data_addr, 
-                data_addr_len) == -1)
-      {
-        request->logging_function (gftp_logging_error, request,
-                  _("Cannot bind a port: %s\n"), g_strerror (errno));
-        gftp_disconnect (request);
-        return (GFTP_ERETRYABLE);
-      }
-
-      if (getsockname (ftpdat->data_connection, (struct sockaddr *) &data_addr, 
-                       &data_addr_len) == -1)
-        {
-          request->logging_function (gftp_logging_error, request,
-                   _("Cannot get socket name: %s\n"), g_strerror (errno));
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-        }
-
-      if (listen (ftpdat->data_connection, 1) == -1)
-        {
-          request->logging_function (gftp_logging_error, request,
-                       _("Cannot listen on port %d: %s\n"),
-                       ntohs (data_addr.sin_port),
-                       g_strerror (errno));
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-        }
-
-      pos = (char *) &data_addr.sin_addr;
-      pos1 = (char *) &data_addr.sin_port;
-      command = g_strdup_printf ("PORT %u,%u,%u,%u,%u,%u\r\n",
-                  pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff, pos[3] & 0xff,
-                  pos1[0] & 0xff, pos1[1] & 0xff);
-      resp = ftp_send_command (request, command, -1, 1, 1);
-      g_free (command);
-
-      if (resp < 0)
-        return (resp);
-      else if (resp != '2')
-        {
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-        }
-    }
-
-  return (0);
-}
-
-
-static int ftp_rfc2428_data_connection_new (gftp_request * request)
+static int ftp_do_data_connection_new (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   // FTP Extensions for IPv6 and NATs (https://datatracker.ietf.org/doc/html/rfc2428)
-  char *pos, ipstr[64], *command;
+  char *pos, *pos1, ipstr[64], *command;
   intptr_t passive_transfer;
   ftp_protocol_data * ftpdat;
   unsigned int port;
-  int resp;
+  int i, resp;
+  int USE_EPSV = 0;
+  int USE_EPRT = 0;
+  int invalid_response = 0;
+  intptr_t ignore_pasv_address; //PASV
+  unsigned int temp[6];         //PASV
+  unsigned char ad[6];          //PASV
+  struct sockaddr_in * paddrin; //PASV
   int AFPROT = request->ai_family; // AF_INET6 or AF_INET;
   // request->remote_addr is copied from the main ->request
   // - it's addrinfo->ai_addr (sockaddr_in or sockaddr_in6)
@@ -968,118 +821,175 @@ static int ftp_rfc2428_data_connection_new (gftp_request * request)
 
   ftpdat = request->protocol_data;
 
+  // use EPRT/EPSV if the feature is detected or IPv6
+  if (ftpdat->feat[FTP_FEAT_EPRT] || AFPROT == AF_INET6) {
+      USE_EPRT = 1;
+  }
+  if (ftpdat->feat[FTP_FEAT_EPSV] || AFPROT == AF_INET6) {
+      USE_EPSV = 1;
+  }
+
   ftpdat->data_connection = socket (AFPROT, SOCK_STREAM, IPPROTO_TCP);
 
   if (ftpdat->data_connection < 0)
-    {
+  {
       request->logging_function (gftp_logging_error, request,
-               _("Failed to create a IPv6 socket: %s\n"), g_strerror (errno));
+                                 _("Failed to create a socket: %s\n"), g_strerror (errno));
       gftp_disconnect (request);
       return (GFTP_ERETRYABLE);
-    }
+  }
 
   if (fcntl (ftpdat->data_connection, F_SETFD, 1) == -1)
-    {
+  {
       request->logging_function (gftp_logging_error, request,
-                                 _("Error: Cannot set close on exec flag: %s\n"),
-                                 g_strerror (errno));
-
+                                 _("Error: Cannot set close on exec flag: %s\n"), g_strerror (errno));
       return (GFTP_ERETRYABLE);
-    }
+  }
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
+
   if (passive_transfer)
-    {
-      resp = ftp_send_command (request, "EPSV\r\n", -1, 1, 1);
+  {
+      if (USE_EPSV) {
+          resp = ftp_send_command (request, "EPSV\r\n", -1, 1, 1);
+      } else {
+          resp = ftp_send_command (request, "PASV\r\n", -1, 1, 1);
+      }
       if (resp < 0) {
-        return (resp);
+          return (resp);
       } else if (resp != '2') {
-        gftp_disconnect (request);
-        return GFTP_ERETRYABLE;
+          gftp_disconnect (request);
+          return GFTP_ERETRYABLE;
       }
 
-      pos = strchr (request->last_ftp_response + 4, '(');
-      resp = -1;
-      if (pos) {
-         resp = sscanf (pos + 1, "|||%u|", &port);
+      if (USE_EPSV) {
+          // need only port number
+          // 229 Entering Extended Passive Mode (|||65113|)
+          resp = -1;
+          pos = strchr (request->last_ftp_response + 4, '(');
+          if (pos) {
+              resp = sscanf (pos + 1, "|||%u|", &port);
+          }
+          if (!pos || resp != 1) {
+              invalid_response = 1;
+          }
+      } else {
+          // PASV provides ip+port (ip0,ip1,ip2,ip3,port1,port2)
+          resp = -1;
+          pos = request->last_ftp_response + 4;
+          while (!isdigit ((int) *pos) && *pos != '\0') {
+              pos++;
+          }
+          if (*pos) {
+              resp = sscanf (pos, "%u,%u,%u,%u,%u,%u", &temp[0], &temp[1], &temp[2], &temp[3], &temp[4], &temp[5]);
+          }
+          if (!*pos || resp != 6) {
+              invalid_response = 1;
+          }
       }
-      if (!pos || resp != 1)
+
+      if (invalid_response)
       {
-          request->logging_function (gftp_logging_error, request, _("Invalid EPSV response '%s'\n"),
-                      request->last_ftp_response);
+          request->logging_function (gftp_logging_error, request, _("Invalid response '%s'\n"),
+                                     request->last_ftp_response);
           gftp_disconnect (request);
           return (GFTP_EFATAL);
       }
 
-      //sockaddr_reset (saddr);
-      sockaddr_set_port (saddr, port);
+      if (USE_EPSV) {
+          //sockaddr_reset (saddr);
+          sockaddr_set_port (saddr, port);
+      } else {
+          // with PASV we're forced to use sockaddr_in, there's no other way
+          paddrin = (struct sockaddr_in *) request->remote_addr;
+          for (i = 0; i < 6; i++) {
+              ad[i] = (unsigned char) (temp[i] & 0xff);
+          }
+          gftp_lookup_request_option (request, "ignore_pasv_address", &ignore_pasv_address);
+          if (ignore_pasv_address) {
+              request->logging_function (gftp_logging_error, request, _("Ignoring IP address in PASV response\n"));
+          } else {
+              memcpy (&(paddrin->sin_addr), &ad[0], 4);
+          }
+          memcpy (&(paddrin->sin_port), &ad[4], 2);
+      }
 
       resp = connect (ftpdat->data_connection, request->remote_addr, request->remote_addr_len);
       if (resp == -1)
-        {
+      {
           request->logging_function (gftp_logging_error, request,
-                                    _("Cannot create a data connection: %s\n"),
-                                    g_strerror (errno));
+                                    _("Cannot create a data connection: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
-        }
-    }
-  else /* active mode */
-    {
+      }
+  }
+  else /* == active mode == */
+  {
       sockaddr_set_port (saddr, 0);
 
       if (bind (ftpdat->data_connection, saddr, request->remote_addr_len) == -1)
-        {
+      {
           request->logging_function (gftp_logging_error, request,
                   _("Cannot bind a port: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
-        }
+      }
 
       if (getsockname (ftpdat->data_connection, saddr, &request->remote_addr_len) == -1)
-        {
+      {
           request->logging_function (gftp_logging_error, request,
                   _("Cannot get socket name: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
-        }
+      }
 
       // after getsockname, the port has been assigned..
       port = sockaddr_get_port (saddr);
 
       if (listen (ftpdat->data_connection, 1) == -1)
-        {
+      {
           request->logging_function (gftp_logging_error, request,
                         _("Cannot listen on port %d: %s\n"), port, g_strerror (errno));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
-        }
+      }
 
       *ipstr = 0;
       sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
       if (!*ipstr)
-        {
+      {
           request->logging_function (gftp_logging_error, request,
                    _("Cannot get address of local socket: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
-        }
+      }
 
-      command = g_strdup_printf ("EPRT |%c|%s|%d|\n",
-                                 AFPROT == AF_INET6 ? '2' : '1', // 1=IPV4 2=IPV6
-                                 ipstr, port);
+      if (USE_EPRT) {
+          // EPRT |1|ipstr|port|
+          command = g_strdup_printf ("EPRT |%c|%s|%d|\n",
+                                    AFPROT == AF_INET6 ? '2' : '1', // 1=IPV4 2=IPV6
+                                    ipstr, port);
+      } else {
+          //// this only works with IPv4
+          // PORT ip0,ip1,ip2.ip3.port1,port2
+          pos = (char *) &(((struct sockaddr_in *)saddr)->sin_addr);
+          pos1 = (char *) &(((struct sockaddr_in *)saddr)->sin_port);
+          command = g_strdup_printf ("PORT %u,%u,%u,%u,%u,%u\r\n",
+                                    pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff,
+                                    pos[3] & 0xff, pos1[0] & 0xff, pos1[1] & 0xff);
+      }
 
       resp = ftp_send_command (request, command, -1, 1, 1);
       g_free (command);
 
       if (resp < 0)
-        return (resp);
+          return (resp);
       else if (resp != '2')
-        {
+      {
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
-        }
-    }
+      }
+  }
 
   return (0);
 }
@@ -1089,19 +999,11 @@ static int ftp_data_connection_new (gftp_request * request, int dont_try_to_reco
 {
   DEBUG_PRINT_FUNC
   int ret;
-  ftp_protocol_data * ftpdat;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  ftpdat = request->protocol_data;
-
-  if (ftpdat->feat[FTP_FEAT_EPSV] || request->ai_family == AF_INET6)
-  {
-    ret = ftp_rfc2428_data_connection_new (request);
-  } else {
-    ret = ftp_ipv4_data_connection_new (request);
-  }
+  ret = ftp_do_data_connection_new (request);
 
   if (ret == GFTP_ETIMEDOUT && !dont_try_to_reconnect)
     {
