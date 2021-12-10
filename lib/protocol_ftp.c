@@ -975,13 +975,9 @@ static int ftp_data_connection_new (gftp_request * request, int dont_try_to_reco
 static int ftp_accept_active_connection (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
-  int infd, ret;
+  int ret;
   intptr_t passive_transfer;
   ftp_protocol_data * ftpdat;
-  struct sockaddr_in6 cli_addr;
-  //struct sockaddr_in cli_addr; //?
-
-  socklen_t cli_addr_len;
 
   ftpdat = request->protocol_data;
 
@@ -991,30 +987,21 @@ static int ftp_accept_active_connection (gftp_request * request)
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
   g_return_val_if_fail (!passive_transfer, GFTP_EFATAL);
 
-  cli_addr_len = sizeof (cli_addr);
-
-  if ((ret = gftp_fd_set_sockblocking (request, ftpdat->data_connection, 0)) < 0)
-    return (ret);
-
-  if ((infd = accept (ftpdat->data_connection, (struct sockaddr *) &cli_addr,
-       &cli_addr_len)) == -1)
-    {
-      request->logging_function (gftp_logging_error, request,
-                                _("Cannot accept connection from server: %s\n"),
-                                g_strerror (errno));
-      gftp_disconnect (request);
-      return (GFTP_ERETRYABLE);
-    }
-
-  close (ftpdat->data_connection);
-  ftpdat->data_connection = infd;
-
-  if(ftpdat->data_conn_tls_start != NULL &&
-     (ret = ftpdat->data_conn_tls_start(request)) < 0) {
-    return ret;
+  ret = gftp_accept_connection (request, &ftpdat->data_connection);
+  if (ret < 0) {
+      return GFTP_ERETRYABLE;
   }
-  if ((ret = gftp_fd_set_sockblocking (request, ftpdat->data_connection, 1)) < 0)
-    return (ret);
+
+  if (ftpdat->data_conn_tls_start)
+  {
+     if (ftpdat->data_conn_tls_start(request) < 0)
+         return GFTP_ERETRYABLE;
+  }
+
+  ret = gftp_fd_set_sockblocking (request, ftpdat->data_connection, 1);
+  if (ret < 0) {
+      return GFTP_ERETRYABLE;
+  }
 
   return (0);
 }

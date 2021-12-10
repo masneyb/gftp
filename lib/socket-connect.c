@@ -367,3 +367,36 @@ int gftp_data_connection_new_listen (gftp_request * request)
 
   return sock;
 }
+
+
+int gftp_accept_connection (gftp_request * request, int * fd /* in|out */)
+{
+  // accept incoming connection
+  struct sockaddr* saddr = NULL;
+  int ret, newfd;
+  saddr = calloc (1, request->remote_addr_len);
+  saddr->sa_family = request->ai_family;
+
+  ret = gftp_fd_set_sockblocking (request, *fd, 0);
+  if (ret < 0) {
+      return -1;
+  }
+
+  newfd = accept (*fd, saddr, &request->remote_addr_len);
+  if (newfd == -1)
+  {
+      request->logging_function (gftp_logging_error, request,
+                                _("Cannot accept connection from server: %s\n"),
+                                g_strerror (errno));
+      gftp_disconnect (request);
+      free (saddr);
+      return -1;
+  }
+
+  // update *fd
+  close (*fd);
+  *fd = newfd;
+
+  free (saddr);
+  return newfd;
+}
