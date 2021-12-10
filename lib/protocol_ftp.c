@@ -837,33 +837,26 @@ static int ftp_ipv4_data_connection_new (gftp_request * request)
         return (resp);
       else if (resp != '2')
       {
-          gftp_set_request_option (request, "passive_transfer",
-                                   GINT_TO_POINTER(0));
-          return (ftp_ipv4_data_connection_new (request));
+          gftp_disconnect (request);
+          return (GFTP_ERETRYABLE);
       }
 
       pos = request->last_ftp_response + 4;
       while (!isdigit ((int) *pos) && *pos != '\0')
         pos++;
 
-      if (*pos == '\0')
-        {
+      resp = -1;
+      if (*pos) {
+         resp = sscanf (pos, "%u,%u,%u,%u,%u,%u", &temp[0], &temp[1], &temp[2], &temp[3], &temp[4], &temp[5]);
+      }
+      if (!*pos || resp != 6)
+      {
           request->logging_function (gftp_logging_error, request,
                       _("Cannot find an IP address in PASV response '%s'\n"),
                       request->last_ftp_response);
           gftp_disconnect (request);
           return (GFTP_EFATAL);
-        }
-
-      if (sscanf (pos, "%u,%u,%u,%u,%u,%u", &temp[0], &temp[1], &temp[2],
-                  &temp[3], &temp[4], &temp[5]) != 6)
-        {
-          request->logging_function (gftp_logging_error, request,
-                      _("Cannot find an IP address in PASV response '%s'\n"),
-                      request->last_ftp_response);
-          gftp_disconnect (request);
-          return (GFTP_EFATAL);
-        }
+      }
 
       for (i = 0; i < 6; i++)
         ad[i] = (unsigned char) (temp[i] & 0xff);
@@ -873,12 +866,7 @@ static int ftp_ipv4_data_connection_new (gftp_request * request)
       if (ignore_pasv_address)
         {
           memcpy (&data_addr, request->remote_addr, request->remote_addr_len);
-
-          pos = (char *) &data_addr.sin_addr;
-          request->logging_function (gftp_logging_error, request,
-               _("Ignoring IP address in PASV response, connecting to %d.%d.%d.%d:%d\n"),
-               pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff, pos[3] & 0xff,
-               ntohs (data_addr.sin_port));
+          request->logging_function (gftp_logging_error, request, _("Ignoring IP address in PASV response\n"));
         }
       else
         memcpy (&data_addr.sin_addr, &ad[0], 4);
@@ -939,9 +927,8 @@ static int ftp_ipv4_data_connection_new (gftp_request * request)
       pos = (char *) &data_addr.sin_addr;
       pos1 = (char *) &data_addr.sin_port;
       command = g_strdup_printf ("PORT %u,%u,%u,%u,%u,%u\r\n",
-                  pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff,
-                  pos[3] & 0xff, pos1[0] & 0xff,
-                  pos1[1] & 0xff);
+                  pos[0] & 0xff, pos[1] & 0xff, pos[2] & 0xff, pos[3] & 0xff,
+                  pos1[0] & 0xff, pos1[1] & 0xff);
       resp = ftp_send_command (request, command, -1, 1, 1);
       g_free (command);
 
@@ -949,9 +936,6 @@ static int ftp_ipv4_data_connection_new (gftp_request * request)
         return (resp);
       else if (resp != '2')
         {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Invalid response '%c' received from server.\n"),
-                                     resp);
           gftp_disconnect (request);
           return (GFTP_ERETRYABLE);
         }
@@ -1013,25 +997,19 @@ static int ftp_rfc2428_data_connection_new (gftp_request * request)
         gftp_disconnect (request);
         return GFTP_ERETRYABLE;
       }
-      pos = request->last_ftp_response + 4;
-      while (*pos != '(' && *pos != '\0')
-        pos++;
 
-      if (*pos == '\0' || *(pos + 1) == '\0')
-        {
+      pos = strchr (request->last_ftp_response + 4, '(');
+      resp = -1;
+      if (pos) {
+         resp = sscanf (pos + 1, "|||%u|", &port);
+      }
+      if (!pos || resp != 1)
+      {
           request->logging_function (gftp_logging_error, request, _("Invalid EPSV response '%s'\n"),
                       request->last_ftp_response);
           gftp_disconnect (request);
           return (GFTP_EFATAL);
-        }
-
-      if (sscanf (pos + 1, "|||%u|", &port) != 1)
-        {
-          request->logging_function (gftp_logging_error, request, _("Invalid EPSV response '%s'\n"),
-                      request->last_ftp_response);
-          gftp_disconnect (request);
-          return (GFTP_EFATAL);
-        }
+      }
 
       //sockaddr_reset (saddr);
       sockaddr_set_port (saddr, port);
