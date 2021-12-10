@@ -897,6 +897,7 @@ int gftp_connect_server (gftp_request * request,
                          unsigned int proxy_port);
 
 int gftp_data_connection_new (gftp_request * request);
+int gftp_data_connection_new_listen (gftp_request * request);
 
 /* sockutils.c */
 ssize_t gftp_get_line (gftp_request * request, 

@@ -328,3 +328,61 @@ int gftp_data_connection_new (gftp_request * request)
 
   return sock;
 }
+
+
+int gftp_data_connection_new_listen (gftp_request * request)
+{
+  // this should not exist in a client, it's only used by FTP in active mode
+  // request->remote_addr should be a local address or something
+  DEBUG_PRINT_FUNC
+  int sock, port;
+  struct sockaddr * saddr = request->remote_addr;
+  socklen_t addrlen       = request->remote_addr_len;
+
+  sock = socket (request->ai_family, request->ai_socktype, 0);
+  if (sock < 0)
+  {
+      request->logging_function (gftp_logging_error, request,
+                                 _("Failed to create a socket: %s\n"), g_strerror (errno));
+      return -1;
+  }
+
+  if (fcntl (sock, F_SETFD, 1) == -1)
+  {
+      close (sock);
+      request->logging_function (gftp_logging_error, request,
+                                 _("Error: Cannot set close on exec flag: %s\n"), g_strerror (errno));
+      return -1;
+  }
+
+  sockaddr_set_port (saddr, 0);
+
+  if (bind (sock, saddr, addrlen) == -1)
+  {
+      close (sock);
+      request->logging_function (gftp_logging_error, request,
+                                 _("Cannot bind a port: %s\n"), g_strerror (errno));
+      return -1;
+  }
+
+  if (getsockname (sock, saddr, &addrlen) == -1)
+  {
+      close (sock);
+      request->logging_function (gftp_logging_error, request,
+                                 _("Cannot get socket name: %s\n"), g_strerror (errno));
+      return -1;
+  }
+
+  // after getsockname, the port has been assigned..
+  port = sockaddr_get_port (saddr);
+
+  if (listen (sock, 1) == -1)
+  {
+      close (sock);
+      request->logging_function (gftp_logging_error, request,
+                                 _("Cannot listen on port %d: %s\n"), port, g_strerror (errno));
+      return -1;
+  }
+
+  return sock;
+}

@@ -908,68 +908,23 @@ static int ftp_do_data_connection_new (gftp_request * request)
   }
   else /* == active mode == */
   {
-      ftpdat->data_connection = socket (AFPROT, SOCK_STREAM, IPPROTO_TCP);
+      ftpdat->data_connection = gftp_data_connection_new_listen (request);
 
       if (ftpdat->data_connection < 0)
       {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Failed to create a socket: %s\n"), g_strerror (errno));
           gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-      }
-      if (fcntl (ftpdat->data_connection, F_SETFD, 1) == -1)
-      {
-          request->logging_function (gftp_logging_error, request,
-                                     _("Error: Cannot set close on exec flag: %s\n"), g_strerror (errno));
-          return (GFTP_ERETRYABLE);
+          return GFTP_ERETRYABLE;
       }
 
-      sockaddr_set_port (saddr, 0);
-
-      if (bind (ftpdat->data_connection, saddr, request->remote_addr_len) == -1)
-      {
-          request->logging_function (gftp_logging_error, request,
-                  _("Cannot bind a port: %s\n"), g_strerror (errno));
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-      }
-
-      if (getsockname (ftpdat->data_connection, saddr, &request->remote_addr_len) == -1)
-      {
-          request->logging_function (gftp_logging_error, request,
-                  _("Cannot get socket name: %s\n"), g_strerror (errno));
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-      }
-
-      // after getsockname, the port has been assigned..
       port = sockaddr_get_port (saddr);
 
-      if (listen (ftpdat->data_connection, 1) == -1)
-      {
-          request->logging_function (gftp_logging_error, request,
-                        _("Cannot listen on port %d: %s\n"), port, g_strerror (errno));
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-      }
-
-      *ipstr = 0;
-      sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
-      if (!*ipstr)
-      {
-          request->logging_function (gftp_logging_error, request,
-                   _("Cannot get address of local socket: %s\n"), g_strerror (errno));
-          gftp_disconnect (request);
-          return (GFTP_ERETRYABLE);
-      }
-
       if (USE_EPRT) {
-          // EPRT |1|ipstr|port|
+          // EPRT |X|ipstr|port|
           command = g_strdup_printf ("EPRT |%c|%s|%d|\n",
                                     AFPROT == AF_INET6 ? '2' : '1', // 1=IPV4 2=IPV6
                                     ipstr, port);
       } else {
-          //// this only works with IPv4
+          // PORT IPv4
           // PORT ip0,ip1,ip2.ip3.port1,port2
           pos = (char *) &(((struct sockaddr_in *)saddr)->sin_addr);
           pos1 = (char *) &(((struct sockaddr_in *)saddr)->sin_port);
