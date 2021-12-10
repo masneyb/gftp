@@ -47,6 +47,7 @@ static int fsp_connect (gftp_request * request)
   fsp_protocol_data * fspdat;
   intptr_t network_timeout;
   char * server_version;
+  int ret;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
@@ -55,10 +56,17 @@ static int fsp_connect (gftp_request * request)
       request->port = gftp_protocol_default_port (request);
   }
   fspdat = (fsp_protocol_data*) request->protocol_data;
-  fspdat->session = fsp_open_session (request->hostname, request->port, request->password);
 
-  if (fspdat->session == NULL)
-    return (GFTP_ERETRYABLE);
+  ret = gftp_connect_server (request, "fsp", NULL, 0);
+  if (ret < 0) {
+      return GFTP_ERETRYABLE;
+  }
+
+  fspdat->session = fsp_open_session (request->datafd, request->remote_addr,
+                                      request->hostname, request->port, request->password);
+  if (fspdat->session == NULL) {
+      return (GFTP_ERETRYABLE);
+  }
   /* set up network timeout */
   gftp_lookup_request_option (request, "network_timeout", &network_timeout);
   fspdat->session->timeout = 1000*network_timeout;
@@ -609,6 +617,7 @@ fsp_ren (gftp_request * request, const char *oldname,
     }
 }
 
+
 /* TODO: FSP needs to know file last modification time while starting
 upload. It can not change last mod time of existing files on server.
 */
@@ -665,6 +674,7 @@ int fsp_init (gftp_request * request)
   request->use_cache = 0;
   request->always_connected = 0;
   request->use_local_encoding = 0;
+  request->use_udp = 1; /*** UDP ***/
 
   fspdat = g_malloc0 (sizeof (*fspdat));
   request->protocol_data = fspdat;

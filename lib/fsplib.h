@@ -171,7 +171,7 @@ typedef union dirent_workaround {
 /* function prototypes */
 
 /* session management */
-FSP_SESSION * fsp_open_session(const char *host,unsigned short port, const char *password);
+FSP_SESSION * fsp_open_session (int fd, void * addr, const char *host,unsigned short port,const char *password);
 void fsp_close_session(FSP_SESSION *s);
 
 /* packet encoding/decoding */

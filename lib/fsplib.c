@@ -401,75 +401,20 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
 /* ******************* Session management functions ************ */
 
 /* initializes a session */
-FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *password)
+FSP_SESSION * fsp_open_session (int fd, void * addr, const char *host,unsigned short port,const char *password)
 {
     FSP_SESSION *s;
-    int fd;
-    struct addrinfo hints,*res;
-    char port_s[6];
-    struct sockaddr_in *addrin;
+    struct sockaddr_in * addrin = addr;
     FSP_LOCK *lock;
 
-    memset (&hints, 0, sizeof (hints));
-    /* fspd do not supports inet6 */
-    hints.ai_family = PF_INET;
-    hints.ai_socktype = SOCK_DGRAM;
-
-    if (port == 0)
-        strcpy(port_s,"fsp");
-    else
-        sprintf(port_s,"%hu",port);
-
-    if ( (fd = getaddrinfo(host,port_s,&hints,&res)) != 0 )
-    {
-        if ( fd != EAI_SYSTEM )
-        {
-           /* We need to set errno ourself */
-           switch (fd)
-           {
-               case EAI_SOCKTYPE:
-               case EAI_SERVICE:
-               case EAI_FAMILY:
-                  errno = EOPNOTSUPP;
-                  break;
-               case EAI_AGAIN:
-                  errno = EAGAIN;
-                  break;
-               case EAI_FAIL:
-                  errno = ECONNRESET;
-                  break;
-               case EAI_BADFLAGS:
-                  errno = EINVAL;
-                  break;
-               case EAI_MEMORY:
-                  errno = ENOMEM;
-                  break;
-               default:
-                  errno = EFAULT;
-           }
-        }
-        return NULL; /* host not found */
-    }
-
-    /* create socket */
-    fd=socket(res->ai_family,res->ai_socktype,res->ai_protocol);
-    if ( fd < 0) {
-        freeaddrinfo (res);
-        return NULL;
-    }
-    /* connect socket */
-    if( connect(fd, res->ai_addr, res->ai_addrlen))
-    {
-        freeaddrinfo (res);
-        close(fd);
-        return NULL;
+    if (fd <= 0) {
+       return NULL;
     }
 
     /* allocate memory */
     s = (FSP_SESSION *) calloc(1,sizeof(FSP_SESSION));
     if ( !s )
     {
-        freeaddrinfo (res);
         close(fd);
         errno = ENOMEM;
         return NULL;
@@ -479,7 +424,6 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
 
     if ( !lock )
     {
-        freeaddrinfo (res);
         close(fd);
         free(s);
         errno = ENOMEM;
@@ -489,17 +433,14 @@ FSP_SESSION * fsp_open_session(const char *host,unsigned short port,const char *
     s->lock=lock;
 
     /* init locking subsystem */
-    addrin = (struct sockaddr_in *)res->ai_addr;
-    if ( client_init_key( (FSP_LOCK *)s->lock,addrin->sin_addr.s_addr,ntohs(addrin->sin_port)))
+    if ( client_init_key( (FSP_LOCK *)s->lock, addrin->sin_addr.s_addr, ntohs(addrin->sin_port)))
     {
-        freeaddrinfo (res);
         free(s);
         close(fd);
         free(lock);
         return NULL;
     }
 
-    freeaddrinfo (res);
     s->fd=fd;
     s->timeout=300000; /* 5 minutes */
     s->maxdelay=60000; /* 1 minute  */
