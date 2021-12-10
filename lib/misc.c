@@ -530,6 +530,8 @@ gftp_request * gftp_copy_request (gftp_request * req)
   newreq->use_proxy = req->use_proxy;
   newreq->logging_function = req->logging_function;
   newreq->ai_family = req->ai_family;
+  newreq->ai_socktype = req->ai_socktype;
+  newreq->use_udp = req->use_udp;
 
   if (req->remote_addr == NULL)
     {

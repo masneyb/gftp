@@ -359,6 +359,8 @@ struct gftp_request_tag
   void *remote_addr;
   size_t remote_addr_len;
   int ai_family;
+  int ai_socktype;
+  unsigned int use_udp : 1; /* does this use UDP protocol? */
 
   unsigned int use_proxy : 1;
   unsigned int always_connected : 1;

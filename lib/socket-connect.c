@@ -115,8 +115,11 @@ static struct addrinfo * lookup_host (gftp_request *request,
   hints.ai_flags = AI_CANONNAME;
 
   hints.ai_family = enable_ipv6 ? PF_UNSPEC : AF_INET;
-  hints.ai_socktype = SOCK_STREAM;
-
+  if (request->use_udp) {
+      hints.ai_socktype = SOCK_DGRAM;  /* UDP */
+  } else {
+      hints.ai_socktype = SOCK_STREAM; /* TCP */
+  }
   if (connect_port == 0) {
       strcpy (serv, service); 
   } else {
@@ -211,15 +214,12 @@ static int gftp_do_connect_server (gftp_request * request,
       }
 
       current_hostp = res;
-      request->ai_family = res->ai_family;
       break;
   }
 
   if (res == NULL)
   {
-      if (hostp) {
-          freeaddrinfo (hostp);
-      }
+      freeaddrinfo (hostp);
       switch (last_errno)
       {
          case EINVAL:       /* Invalid argument */
@@ -231,6 +231,9 @@ static int gftp_do_connect_server (gftp_request * request,
       }
   }
 
+  request->ai_family   = current_hostp->ai_family;
+  request->ai_socktype = current_hostp->ai_socktype;
+
   saddr = current_hostp->ai_addr;
   request->remote_addr_len = sockaddr_get_size (saddr);
   request->remote_addr     = g_malloc0 (request->remote_addr_len);
@@ -240,9 +243,8 @@ static int gftp_do_connect_server (gftp_request * request,
   request->logging_function (gftp_logging_misc, request,
                              _("Connected to %s:%d\n"), res[0].ai_canonname,
                              port);
-  if (hostp) {
-     freeaddrinfo (hostp);
-  }
+  freeaddrinfo (hostp);
+
   return (sock);
 }
 
