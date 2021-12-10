@@ -1884,7 +1884,6 @@ int ftp_init (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   ftp_protocol_data * ftpdat;
-  struct hostent *hent;
   struct utsname unme;
   struct passwd *pw;
   char *tempstr;
@@ -1898,11 +1897,7 @@ int ftp_init (gftp_request * request)
          currentuser@currenthost */
       uname (&unme);
       pw = getpwuid (geteuid ());
-      hent = gethostbyname (unme.nodename);
-      if (strchr (unme.nodename, '.') == NULL && hent != NULL)
-        tempstr = g_strconcat (pw->pw_name, "@", hent->h_name, NULL);
-      else
-        tempstr = g_strconcat (pw->pw_name, "@", unme.nodename, NULL);
+      tempstr = g_strconcat (pw->pw_name, "@", unme.nodename, NULL);
       gftp_set_global_option ("email", tempstr);
       g_free (tempstr);
     }
