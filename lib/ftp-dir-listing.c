@@ -276,11 +276,7 @@ static int ftp_parse_ls_vms (gftp_request * request, int fd, char *str, gftp_fil
 
   if (multiline)
     {
-      if (request->get_next_dirlist_line == NULL)
-        return (GFTP_EFATAL);
-
-      len = request->get_next_dirlist_line (request, fd, tempstr,
-                                            sizeof (tempstr));
+      len = ftp_get_next_dirlist_line (request, fd, tempstr, sizeof (tempstr));
       if (len <= 0)
         return ((int) len);
 

@@ -655,7 +655,6 @@ int fsp_init (gftp_request * request)
   request->stat_filename = fsp_stat_filename;
   request->list_files = fsp_list_files;
   request->get_next_file = fsp_get_next_file;
-  request->get_next_dirlist_line = NULL;
   request->get_file_size = fsp_get_file_size;
   request->chdir = fsp_chdir;
   request->rmdir = fsp_removedir;

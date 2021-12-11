@@ -82,3 +82,6 @@ int ftp_send_command (gftp_request * request,
                       int read_response,
                       int dont_try_to_reconnect );
 
+
+ssize_t ftp_get_next_dirlist_line (gftp_request * request, int fd,
+                                   char *buf, size_t buflen);

@@ -736,7 +736,6 @@ int localfs_init (gftp_request * request)
   request->stat_filename = localfs_stat_filename;
   request->list_files = localfs_list_files;
   request->get_next_file = localfs_get_next_file;
-  request->get_next_dirlist_line = NULL;
   request->get_file_size = localfs_get_file_size;
   request->chdir = localfs_chdir;
   request->rmdir = localfs_rmdir;

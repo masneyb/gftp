@@ -1481,7 +1481,7 @@ static ssize_t ftp_put_next_file_chunk (gftp_request * request, char *buf, size_
 }
 
 
-static ssize_t ftp_get_next_dirlist_line (gftp_request * request, int fd,
+ssize_t ftp_get_next_dirlist_line (gftp_request * request, int fd,
                                           char *buf, size_t buflen)
 {
   //DEBUG_PRINT_FUNC
@@ -1864,7 +1864,6 @@ int ftp_init (gftp_request * request)
   request->stat_filename = NULL;
   request->list_files = ftp_list_files;
   request->get_next_file = ftp_get_next_file;
-  request->get_next_dirlist_line = ftp_get_next_dirlist_line;
   request->get_file_size = ftp_get_file_size;
   request->chdir = ftp_chdir;
   request->rmdir = ftp_rmdir;
