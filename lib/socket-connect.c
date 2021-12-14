@@ -24,7 +24,7 @@
 #include "gftp.h"
 
 
-int sockaddr_get_port (struct sockaddr * saddr)
+int w_sockaddr_get_port (struct sockaddr * saddr)
 {
   unsigned short sin_port;
   if (saddr->sa_family == AF_INET) {
@@ -35,9 +35,10 @@ int sockaddr_get_port (struct sockaddr * saddr)
   return (ntohs (sin_port));
 }
 
-void sockaddr_get_ip_str (struct sockaddr * saddr, char * outbuf, int size)
+void w_sockaddr_get_ip_str (struct sockaddr * saddr, char * outbuf, int size)
 {
   void * sin_addr;
+  *outbuf = 0;
   if (saddr->sa_family == AF_INET) {
      sin_addr = &(((struct sockaddr_in*)saddr)->sin_addr);
   } else { /* ipv6 */
@@ -47,7 +48,7 @@ void sockaddr_get_ip_str (struct sockaddr * saddr, char * outbuf, int size)
 }
 
 
-void * sockaddr_get_addr (struct sockaddr * saddr)
+void * w_sockaddr_get_addr (struct sockaddr * saddr)
 {
   void * sin_addr;
   if (saddr->sa_family == AF_INET) {
@@ -58,7 +59,7 @@ void * sockaddr_get_addr (struct sockaddr * saddr)
   return sin_addr;
 }
 
-socklen_t sockaddr_get_size (struct sockaddr * saddr)
+socklen_t w_sockaddr_get_size (struct sockaddr * saddr)
 {
   if (saddr->sa_family == AF_INET) {
      return sizeof(struct sockaddr_in);
@@ -67,19 +68,18 @@ socklen_t sockaddr_get_size (struct sockaddr * saddr)
   }
 }
 
-void sockaddr_reset (void * addr)
+void w_sockaddr_reset (struct sockaddr * saddr)
 {
-  struct sockaddr * saddr = (struct sockaddr *) addr;
   if (saddr->sa_family == AF_INET) {
-     memset (addr, 0, sizeof(struct sockaddr_in));
+     memset (saddr, 0, sizeof(struct sockaddr_in));
      saddr->sa_family = AF_INET;
   } else { /* ipv6 */
-     memset (addr, 0, sizeof(struct sockaddr_in6));
+     memset (saddr, 0, sizeof(struct sockaddr_in6));
      saddr->sa_family = AF_INET6;
   }
 }
 
-void sockaddr_set_port (struct sockaddr * saddr, int port)
+void w_sockaddr_set_port (struct sockaddr * saddr, int port)
 {
   if (saddr->sa_family == AF_INET) {
      ((struct sockaddr_in*)saddr)->sin_port = htons (port);
@@ -96,8 +96,7 @@ static struct addrinfo * lookup_host (gftp_request *request,
                                       unsigned int port)
 {
   // this is where everything about the connection is specified
-  // the resulting addrinfo will contain info according to the params
-  // specified here
+  // the resulting addrinfo will contain info according to the params specified here
   DEBUG_PRINT_FUNC
   struct addrinfo hints, *hostp;
   char * ip_version;
@@ -232,13 +231,12 @@ int gftp_connect_server (gftp_request * request,
        current_hostp = current_hostp->ai_next)
   {
       saddr = current_hostp->ai_addr;
-      port = sockaddr_get_port (saddr);
+      port = w_sockaddr_get_port (saddr);
       if (!request->use_proxy) {
           request->port = port;
       }
-      *ipstr = 0;
       hostname = current_hostp[0].ai_canonname;
-      sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
+      w_sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
       if (hostname && (strcmp(hostname, ipstr) == 0)) {
          hostname = ipstr;
       }
@@ -350,7 +348,7 @@ int gftp_data_connection_new_listen (gftp_request * request)
       return -1;
   }
 
-  sockaddr_set_port (saddr, 0);
+  w_sockaddr_set_port (saddr, 0);
 
   if (bind (sock, saddr, addrlen) == -1)
   {
@@ -369,7 +367,7 @@ int gftp_data_connection_new_listen (gftp_request * request)
   }
 
   // after getsockname, the port has been assigned..
-  port = sockaddr_get_port (saddr);
+  port = w_sockaddr_get_port (saddr);
 
   if (listen (sock, 1) == -1)
   {

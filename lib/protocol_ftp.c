@@ -810,13 +810,11 @@ static int ftp_do_data_connection_new (gftp_request * request)
   int AFPROT = request->ai_family; // AF_INET6 or AF_INET;
   // request->remote_addr is copied from the main ->request
   // - it's addrinfo->ai_addr (sockaddr_in or sockaddr_in6)
-  // socket-connect.c has sockaddr_* functions
   struct sockaddr * saddr = request->remote_addr;
 
   DEBUG_TRACE("## IP protocol is IPv%c\n", AFPROT == AF_INET6 ? '6' : '4');
   g_return_val_if_fail (AFPROT == saddr->sa_family, GFTP_EFATAL);
-  *ipstr = 0;
-  sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
+  w_sockaddr_get_ip_str (saddr, ipstr, sizeof(ipstr));
   DEBUG_TRACE("## IP: %s\n", ipstr);
 
   ftpdat = request->protocol_data;
@@ -880,8 +878,8 @@ static int ftp_do_data_connection_new (gftp_request * request)
       }
 
       if (USE_EPSV) {
-          //sockaddr_reset (saddr);
-          sockaddr_set_port (saddr, port);
+          //w_sockaddr_reset (saddr);
+          w_sockaddr_set_port (saddr, port);
       } else {
           // PASV - IPv4
           paddrin = (struct sockaddr_in *) request->remote_addr;
@@ -916,7 +914,7 @@ static int ftp_do_data_connection_new (gftp_request * request)
           return GFTP_ERETRYABLE;
       }
 
-      port = sockaddr_get_port (saddr);
+      port = w_sockaddr_get_port (saddr);
 
       if (USE_EPRT) {
           // EPRT |X|ipstr|port|

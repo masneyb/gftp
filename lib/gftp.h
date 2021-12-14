@@ -879,12 +879,12 @@ char *gftpui_protocol_ask_user_input (gftp_request * request,
 void gftpui_protocol_update_timeout (gftp_request * request);
 
 /* socket-connect.c */
-int  sockaddr_get_port   (struct sockaddr * saddr);
-void sockaddr_get_ip_str (struct sockaddr * saddr, char * outbuf, int size);
-void * sockaddr_get_addr (struct sockaddr * saddr);
-socklen_t sockaddr_get_size (struct sockaddr * saddr);
-void sockaddr_reset (void * addr);
-void sockaddr_set_port (struct sockaddr * saddr, int port);
+int  w_sockaddr_get_port   (struct sockaddr * saddr);
+void w_sockaddr_get_ip_str (struct sockaddr * saddr, char * outbuf, int size);
+void * w_sockaddr_get_addr (struct sockaddr * saddr);
+socklen_t w_sockaddr_get_size (struct sockaddr * saddr);
+void w_sockaddr_reset (struct sockaddr * saddr);
+void w_sockaddr_set_port (struct sockaddr * saddr, int port);
 
 int gftp_connect_server (gftp_request * request, 
                          char *service,
