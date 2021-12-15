@@ -918,7 +918,7 @@ static int ftp_do_data_connection_new (gftp_request * request)
 
       if (USE_EPRT) {
           // EPRT |X|ipstr|port|
-          command = g_strdup_printf ("EPRT |%c|%s|%d|\n",
+          command = g_strdup_printf ("EPRT |%c|%s|%d|\r\n",
                                     AFPROT == AF_INET6 ? '2' : '1', // 1=IPV4 2=IPV6
                                     ipstr, port);
       } else {
@@ -1227,7 +1227,7 @@ static off_t ftp_transfer_file (gftp_request *fromreq, const char *fromfile,
   ftpfrom = fromreq->protocol_data;
   ftpto   = toreq->protocol_data;
   if (ftpfrom->feat[FTP_FEAT_EPSV] && ftpto->feat[FTP_FEAT_EPSV]) {
-     ret = ftp_send_command (fromreq, "EPSV\r\n", -1, 1, 1);
+     ret = ftp_send_command (fromreq, "EPSV\r\n", -1, 1, 0);
   } else {
      ret = ftp_send_command (fromreq, "PASV\r\n", -1, 1, 0);
   }
