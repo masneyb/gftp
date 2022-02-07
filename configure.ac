@@ -60,7 +60,6 @@ AC_C_INLINE
 
 AC_CHECK_HEADERS(libutil.h malloc.h pty.h sys/ioctl.h sys/mkdev.h)
 
-AC_TYPE_INTPTR_T
 AC_CHECK_SIZEOF(off_t)
 
 AC_CHECK_FUNCS(gettimeofday select socket grantpt openpty getdtablesize)
