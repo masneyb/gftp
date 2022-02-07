@@ -31,6 +31,12 @@ typedef struct fsp_protocol_data_tag
   FSP_SESSION *session;
   FSP_DIR *dir;
   FSP_FILE *file;
+  int data_connection;
+  // is_copied:
+  //   Want to use a single main control connection to the server
+  //    so all requests use the FSP session from the main request
+  //    (any other approach fails or segfaults, also not using swap_socks)
+  unsigned int is_copied : 1;
 } fsp_protocol_data;
 
 static void fsp_destroy (gftp_request * request)
@@ -51,6 +57,10 @@ static int fsp_connect (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
+
+  if (request->datafd > 0) {
+      return 0;
+  }
 
   if(! request->port) {
       request->port = gftp_protocol_default_port (request);
@@ -101,20 +111,32 @@ static void fsp_disconnect (gftp_request * request)
   g_return_if_fail (request->protonum == GFTP_PROTOCOL_FSP);
   fspdat = (fsp_protocol_data*) request->protocol_data;
   g_return_if_fail (fspdat != NULL);
- 
-  if (fspdat->file)
-  {
+
+  if (fspdat->file) {
       fsp_fclose (fspdat->file);
       fspdat->file = NULL;
   }
-  fsp_close_session (fspdat->session);
-  fspdat->session = NULL;
-  request->datafd = -1;
-  if (fspdat->dir)
-  {
+  if (fspdat->dir) {
       fsp_closedir (fspdat->dir);
       fspdat->dir = NULL;
   }
+
+  if (!fspdat->session) {
+     DEBUG_MSG("Invalid session\n")
+     request->datafd = -1;
+     return;
+  }
+  if (request->datafd < 0) {
+     return;
+  }
+  if (fspdat->is_copied) {
+     return; // the session must remain open 
+  }
+
+  request->datafd = -1;
+  fsp_close_session (fspdat->session);
+  fspdat->session = NULL;
+  DEBUG_MSG("Session was closed\n")
 }
 
 
@@ -391,21 +413,7 @@ static int fsp_list_files (gftp_request * request)
   g_return_val_if_fail (request->protonum == GFTP_PROTOCOL_FSP, GFTP_EFATAL);
   fspdat = (fsp_protocol_data*) request->protocol_data;
   g_return_val_if_fail (fspdat != NULL, GFTP_EFATAL);
-
-  // this is where things fail when trying to upload a file
-  // fsp_connect (fsp_open_session) hasn't been called yet
-
-  // this works but hangs gftp after the showing the Transfer Dialog
-/*  if (!fspdat->session)
-     if (fsp_connect (request) != 0)
-        return (GFTP_EFATAL); */
-
-  // just retry or something, this will succeed the next time or something
-  // but the Transfer Dialog will not show up (replace/resume/skip)
-  if (!fspdat->session) {
-     DEBUG_MSG("^^^ fsp_list_files has failed: no fspdat->session\n")
-     return (GFTP_ERETRYABLE);
-  }
+  g_return_val_if_fail (fspdat->session != NULL, GFTP_EFATAL);
 
   if ((fspdat->dir = fsp_opendir (fspdat->session,request->directory)) == NULL)
     {
@@ -618,6 +626,23 @@ fsp_ren (gftp_request * request, const char *oldname,
 }
 
 
+
+static void fsp_copy_param_options (gftp_request * dest, gftp_request * src)
+{
+   DEBUG_PRINT_FUNC
+   fsp_protocol_data *destfsp  = dest->protocol_data;
+   fsp_protocol_data *srcfsp = src->protocol_data;
+   if (!destfsp->session) {
+      DEBUG_PUTS("SESSION IS COPIED")
+      destfsp->session = srcfsp->session; // only want the ->session
+      destfsp->is_copied = 1;
+      dest->datafd = src->datafd;
+   } else {
+      DEBUG_PUTS("SESSION IS ***NOT*** COPIED")
+   }
+}
+
+
 /* TODO: FSP needs to know file last modification time while starting
 upload. It can not change last mod time of existing files on server.
 */
@@ -638,7 +663,7 @@ int fsp_init (gftp_request * request)
   request->url_prefix = gftp_protocols[GFTP_PROTOCOL_FSP].url_prefix;
 
   request->init = fsp_init;
-  request->copy_param_options = NULL;
+  request->copy_param_options = fsp_copy_param_options;
   request->destroy = fsp_destroy;
   request->read_function = fsp_read_function;
   request->write_function = fsp_write_function;

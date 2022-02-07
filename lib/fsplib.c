@@ -239,6 +239,7 @@ int fsp_transaction(FSP_SESSION *s,FSP_PKT *p,FSP_PKT *rpkt)
     }
     FD_ZERO(&mask);
     /* get the next key */
+    //printf("$$$ session:: %p\n", s->lock);
     p->key = client_get_key((FSP_LOCK *)s->lock);
 
     retry = random() & 0xfff8;
@@ -453,6 +454,7 @@ FSP_SESSION * fsp_open_session (int fd, void * addr, const char *host,unsigned s
 /* closes a session */
 void fsp_close_session(FSP_SESSION *s)
 {
+    //printf ("FSP SESSION CLOSE\n");
     FSP_PKT bye,in;
     
     if( s == NULL)
