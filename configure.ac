@@ -56,7 +56,6 @@ AC_SUBST(PREFIX)
 AC_CANONICAL_HOST
 AC_PROG_CC
 AC_SYS_LARGEFILE
-AC_C_INLINE
 
 AC_CHECK_HEADERS(libutil.h malloc.h pty.h sys/ioctl.h sys/mkdev.h)
 
