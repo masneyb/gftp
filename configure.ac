@@ -55,12 +55,8 @@ AC_SUBST(PREFIX)
 
 AC_CANONICAL_HOST
 AC_PROG_CC
-AC_SYS_LARGEFILE
 
-AC_CHECK_HEADERS(libutil.h malloc.h pty.h sys/ioctl.h sys/mkdev.h)
-
-AC_CHECK_SIZEOF(off_t)
-
+AC_CHECK_HEADERS(libutil.h malloc.h pty.h sys/ioctl.h sys/mkdev.h sys/sysmacros.h)
 AC_CHECK_FUNCS(gettimeofday select socket grantpt openpty getdtablesize)
 
 EXTRA_LIBS="-lm"
@@ -187,10 +183,6 @@ esac
 if test x"$gtk_warnings" = x"yes"; then
    CPPFLAGS="$CPPFLAGS -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES"
 fi
-
-AC_CHECK_HEADERS(\
-	sys/sysmacros.h
-)
 
 AC_CONFIG_FILES(
 	Makefile

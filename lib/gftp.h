@@ -32,14 +32,18 @@
 #include "config.h"
 #endif
 
-/* *BSD include 64bit off_t but _LARGEFILE_SOURCE is not defined. */
-#if defined (SIZEOF_OFF_T) && SIZEOF_OFF_T > 4 && !defined (_LARGEFILE_SOURCE)
+#if !defined (_LARGEFILE_SOURCE)
 #define _LARGEFILE_SOURCE 1
 #endif
-
-#if defined (_LARGEFILE_SOURCE) && !defined (_LARGEFILE64_SOURCE)
+#if !defined (_LARGEFILE64_SOURCE)
 #define _LARGEFILE64_SOURCE 1
 #endif
+/* Enable large inode numbers on Mac OS X 10.5.  */
+#ifndef _DARWIN_USE_64_BIT_INODE
+# define _DARWIN_USE_64_BIT_INODE 1
+#endif
+/* Number of bits in a file offset, on hosts where this is settable. */
+#define _FILE_OFFSET_BITS 64
 
 #ifdef HAVE_SYS_SYSMACROS_H
 #include <sys/sysmacros.h>
