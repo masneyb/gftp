@@ -1,4 +1,25 @@
 ===========
+gftp 2.9.0b
+===========
+
+The project is now under the MIT license
+
+FTP protocol:
+- FTPS: support implicit TLS (new protocol: FTPSi)
+- support MLSD
+- fixed IPv6 support
+- new option 'ip_version' (any/ipv4/ipv6) [default=any]
+- fully implement rfc2428 (EPSV, EPRT)
+- automatically determine when to use PRET
+- (these features are only used if the server
+  explicitly supports them through the FEAT response)
+
+GTK UI:
+- fix crash with file transfers in active mode
+- new option: gFTP->Preferences->Network -> IP Protocol
+
+
+===========
 gFTP 2.8.0b
 ===========
 
