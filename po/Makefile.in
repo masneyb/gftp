@@ -27,13 +27,6 @@ all-yes:
 
 all-no:
 
-update-pot:
-	$(XGETTEXT) --default-domain=$(GETTEXT_PACKAGE) \
-		--add-comments --keyword=_ --keyword=N_ --from-code=UTF-8 \
-		-o $(GETTEXT_PACKAGE).pot $(POTFILES)
-
-$(GETTEXT_PACKAGE).pot: update-pot
-
 install: install-data-@USE_NLS@
 install-data-no: all
 install-data-yes: all
@@ -59,6 +52,12 @@ clean: mostlyclean
 
 distclean: clean
 	rm -f Makefile POTFILES
+
+
+update-pot:
+	$(XGETTEXT) --default-domain=$(GETTEXT_PACKAGE) \
+		--add-comments --keyword=_ --keyword=N_ --from-code=UTF-8 \
+		-o $(GETTEXT_PACKAGE).pot $(POTFILES)
 
 update-po: update-pot
 	@catalogs="$(LINGUAS)"; \
