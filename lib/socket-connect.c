@@ -109,7 +109,9 @@ static struct addrinfo * lookup_host (gftp_request *request,
   memset (&hints, 0, sizeof (hints));
   hints.ai_flags  = AI_CANONNAME;
 
-  if (strcmp(ip_version, "ipv4") == 0) {
+  if (!ip_version || !*ip_version) {
+      hints.ai_family = PF_UNSPEC;
+  } else if (strcmp(ip_version, "ipv4") == 0) {
       hints.ai_family = AF_INET;
   } else if (strcmp(ip_version, "ipv6") == 0) {
       hints.ai_family = AF_INET6;
