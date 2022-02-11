@@ -816,6 +816,20 @@ static int ftp_do_data_connection_new (gftp_request * request)
   {
       if (USE_EPSV) {
           resp = ftp_send_command (request, "EPSV\r\n", -1, 1, 1);
+          if (resp == '5') {
+              // deal with a broken server or pure-ftpd -b
+              request->logging_function (gftp_logging_error, request, _("* The server is broken!\n"));
+              if (AFPROT == AF_INET6) {
+                  gftp_disconnect (request);
+                  return GFTP_ERETRYABLE;
+              }
+              request->logging_function (gftp_logging_error, request, "* Or maybe it's pure-FTPd with `BrokenClientsCompatibility=yes`, `pure-ftpd -b`, `pure-ftpd --brokenclientscompatibility`\n");
+              USE_EPSV = USE_EPRT = 0;
+              ftpdat->feat[FTP_FEAT_EPSV] = 0;
+              ftpdat->feat[FTP_FEAT_EPRT] = 0;
+              ftpdat->feat[FTP_FEAT_MLSD] = 0;
+              resp = ftp_send_command (request, "PASV\r\n", -1, 1, 1);
+          }
       } else {
           resp = ftp_send_command (request, "PASV\r\n", -1, 1, 1);
       }
