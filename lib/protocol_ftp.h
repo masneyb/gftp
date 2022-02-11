@@ -55,6 +55,7 @@ struct ftp_protocol_data_tag
   void (*data_conn_tls_close) (gftp_request * request);
   int list_type;    /* LIST. See FTP_DIRTYPE_* above */
   int last_cmd;     /* 4hackz */
+  char extra_server_response;
   unsigned int feat[FTP_FEAT_TOTAL];
 };
 
