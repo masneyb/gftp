@@ -107,6 +107,7 @@ struct ftp_supported_feature ftp_supported_features[] =
    { FTP_FEAT_PRET, "PRET" },
    { FTP_FEAT_EPSV, "EPSV" }, /* rfc2428 */
    { FTP_FEAT_EPRT, "EPRT" }, /* rfc2428 */
+   { 1, NULL },
 };
 
 static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
@@ -115,7 +116,7 @@ static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
    char *p = cmd;
    int i;
    while (*p <= 32) p++; // strip leading spaces
-   for (i = 0; i < FTP_FEAT_TOTAL; i++)
+   for (i = 0; ftp_supported_features[i].str; i++)
    {
       if (strcmp (p, ftp_supported_features[i].str) == 0) {
           ftpdat->feat[i] = 1;
@@ -193,14 +194,14 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
         if (!line_ending) {
            // incomplete line, will need to fix
            snprintf (fixed_line, sizeof(fixed_line), "%s", line);
-           puts ("a");
+           DEBUG_PUTS ("@ incomplete line, will need to fix\n")
            continue;
         } else if (*fixed_line) {
            // copy and complete line
            snprintf (fixed_line + strlen(fixed_line), sizeof(fixed_line) - strlen(fixed_line) - 1,
                      "%s", line);
            line = fixed_line;
-           puts ("b");
+           DEBUG_PUTS ("@@ copy and complete line\n")
         }
      }
 
