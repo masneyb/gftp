@@ -1169,8 +1169,12 @@ static off_t ftp_get_file (gftp_request * request, const char *filename,
   ftpdat = request->protocol_data;
   if (passive_transfer && ftpdat->feat[FTP_FEAT_PRET]) {
     ret = ftp_generate_and_send_command (request, "PRET RETR", filename,1, 0);
-    if (ret < 0)
+    if (ftpdat->last_response_code == 500) {
+       ftpdat->feat[FTP_FEAT_PRET] = 0; // disable silently
+    }
+    if (ret < 0) {
        return (ret);
+    }
   }
 
   ret = ftp_setup_file_transfer (request, filename, startsize, "RETR");
@@ -1210,6 +1214,9 @@ static int ftp_put_file (gftp_request * request, const char *filename,
   ftpdat = request->protocol_data;
   if (passive_transfer && ftpdat->feat[FTP_FEAT_PRET]) {
     ret = ftp_generate_and_send_command (request, "PRET STOR", filename,1, 0);
+    if (ftpdat->last_response_code == 500) {
+       ftpdat->feat[FTP_FEAT_PRET] = 0; // disable silently
+    }
   }
 
   if (ftpdat->data_connection < 0 && 
