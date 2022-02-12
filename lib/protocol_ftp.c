@@ -160,6 +160,7 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 
   ftpdat = request->protocol_data;
 
+  ftpdat->last_response_code = 0;
   ftpdat->extra_server_response = 0;
   *code = '\0';
   *tempstr = 0;
@@ -215,6 +216,8 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
         if (!*code) {
            // reply code has been identified, it will be used to determine when to stop
            strncpy (code, line, 3);
+           code[3] = '\0';
+           ftpdat->last_response_code = atoi (code);
            code[3] = ' ';
         } else if (last_line) { // hack. another response
            // some functions may need to check this value, to fix compability
