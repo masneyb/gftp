@@ -1362,12 +1362,17 @@ static int ftp_list_files (gftp_request * request)
 
   if (ftpdat->feat[FTP_FEAT_MLSD]) {
      ret = ftp_send_command (request, "MLSD\r\n", -1, 1, 0);
+     if (ftpdat->last_response_code == 500) {
+         request->logging_function (gftp_logging_error, request, _("* The server is broken!\n"));
+         ftpdat->feat[FTP_FEAT_MLSD] = 0;
+         ret = ftp_send_command (request, "LIST\r\n", -1, 1, 0);
+     }
   } else {
      ret = ftp_send_command (request, "LIST -al\r\n", -1, 1, 0);
-  }
-  // fall back to LIST if an error response is sent..
-  if (ret > 0 && ret != '1') {
-     ret = ftp_send_command (request, "LIST\r\n", -1, 1, 0);
+     // fall back to LIST if an error response is sent..
+     if (ret > 0 && ret != '1') {
+        ret = ftp_send_command (request, "LIST\r\n", -1, 1, 0);
+     }
   }
 
   if (ret < 0)
