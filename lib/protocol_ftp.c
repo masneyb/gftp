@@ -107,7 +107,7 @@ struct ftp_supported_feature ftp_supported_features[] =
    { FTP_FEAT_PRET, "PRET" },
    { FTP_FEAT_EPSV, "EPSV" }, /* rfc2428 */
    { FTP_FEAT_EPRT, "EPRT" }, /* rfc2428 */
-   { 1, NULL },
+   { -1, NULL },
 };
 
 static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
@@ -834,18 +834,15 @@ static int ftp_do_data_connection_new (gftp_request * request)
   {
       if (USE_EPSV) {
           resp = ftp_send_command (request, "EPSV\r\n", -1, 1, 1);
-          if (resp == '5') {
-              // deal with a broken server or pure-ftpd -b
+          if (ftpdat->last_response_code == 500) {
+              // 500 syntax error, command unrecognized
+              // - deal with a broken server or pure-ftpd -b
+              // - this error is only possible if using ipv4
               request->logging_function (gftp_logging_error, request, _("* The server is broken!\n"));
-              if (AFPROT == AF_INET6) {
-                  gftp_disconnect (request);
-                  return GFTP_ERETRYABLE;
-              }
               request->logging_function (gftp_logging_error, request, "* Or maybe it's pure-FTPd with `BrokenClientsCompatibility=yes`, `pure-ftpd -b`, `pure-ftpd --brokenclientscompatibility`\n");
               USE_EPSV = USE_EPRT = 0;
               ftpdat->feat[FTP_FEAT_EPSV] = 0;
               ftpdat->feat[FTP_FEAT_EPRT] = 0;
-              ftpdat->feat[FTP_FEAT_MLSD] = 0;
               resp = ftp_send_command (request, "PASV\r\n", -1, 1, 1);
           }
       } else {
@@ -1227,6 +1224,7 @@ static off_t ftp_transfer_file (gftp_request *fromreq, const char *fromfile,
                                 off_t fromsize, gftp_request *toreq, 
                                 const char *tofile, off_t tosize)
 {
+  // FXP, transfer between FTP servers. Untested
   DEBUG_PRINT_FUNC
   char *tempstr, *pos, *endpos;
   ftp_protocol_data * ftpdat, * ftpfrom, * ftpto;
