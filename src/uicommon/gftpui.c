@@ -1586,7 +1586,7 @@ gftpui_common_transfer_files (gftp_transfer * tdata)
 
   if (skipped_files)
     tdata->fromreq->logging_function (gftp_logging_error, tdata->fromreq,
-                                      _("There were %d files or directories that could not be transferred. Check the log for which items were not properly transferred."),
+                                      _("There were %d files or directories that could not be transferred. Check the log for which items were not properly transferred.\n"),
                                       skipped_files);
 
   tdata->done = 1;
