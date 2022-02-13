@@ -1826,7 +1826,7 @@ static void ftp_copy_param_options (gftp_request * dest_request,
   dftpdat->data_conn_tls_close = sftpdat->data_conn_tls_close;
   dftpdat->list_type           = sftpdat->list_type;
   dftpdat->last_cmd            = sftpdat->last_cmd;
-  memcpy (dftpdat, sftpdat, sizeof(*sftpdat));
+  memcpy (dftpdat->feat, sftpdat->feat, sizeof(sftpdat->feat));
 
   dest_request->read_function = src_request->read_function;
   dest_request->write_function = src_request->write_function;
