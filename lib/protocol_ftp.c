@@ -1565,8 +1565,17 @@ int ftp_get_next_file (gftp_request * request, gftp_file * fle, int fd)
           if (strncmp (tempstr, "total", strlen ("total")) != 0 &&
               strncmp (tempstr, _("total"), strlen (_("total"))) != 0)
           {
-            request->logging_function (gftp_logging_error, request,
+            if (strstr(tempstr,"-al") && (strstr(tempstr,"No such") || strstr(tempstr,"no such")))
+            {
+                // TODO: trigger a LIST again
+                ftpdat->feat[FTP_FEAT_LIST_AL] = 0;
+                request->logging_function (gftp_logging_error, request,
+                         "It looks like LIST -al is not supported\n");
+
+            } else {
+                request->logging_function (gftp_logging_error, request,
                      _("Warning: Cannot parse listing %s\n"), tempstr);
+            }
           }
             gftp_file_destroy (fle, 0);
             continue;
