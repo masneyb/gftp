@@ -159,7 +159,7 @@ gftp_config_vars gftp_global_config_vars[] =
    N_("This specifies the default protocol to use"), GFTP_PORT_ALL, NULL},
 
   {"ip_version", N_("IP version:"),
-   gftp_option_type_textcombo, "any", gftp_ip_version, 0,
+   gftp_option_type_textcombo, "", gftp_ip_version, 0,
    N_("IP version to use. (ipv4/ipv6 or leave empty to use whatever is available)"), GFTP_PORT_ALL, NULL},
 
   {"list_dblclk_action", "", 
