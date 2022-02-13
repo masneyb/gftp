@@ -219,9 +219,8 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
            code[3] = '\0';
            ftpdat->last_response_code = atoi (code);
            code[3] = ' ';
-        } else if (last_line) { // hack. another response
+        } else if (last_line) { // another response
            // some functions may need to check this value, to fix compability
-           // with broken servers (i. e. MS IIS FTP server).
            ftpdat->extra_server_response = *line;
         }
      }
@@ -236,9 +235,8 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
      }
 
      if (*code && strncmp (code, line, 4) == 0) {
-        // this is where it should end (break;), but some broken servers (MS IIS)
-        // might send an extra reponse code, which needs to be stored somewhere
-        // (otherwise the next call to this func would hang or retrieve the wrong code)
+        // this is where it should end (break;), but the server may
+        // send an extra reponse code, which needs to be stored somewhere
         last_line = line;
      }
 
@@ -835,12 +833,9 @@ static int ftp_do_data_connection_new (gftp_request * request)
   {
       if (USE_EPSV) {
           resp = ftp_send_command (request, "EPSV\r\n", -1, 1, 1);
-          if (ftpdat->last_response_code == 500) {
-              // 500 syntax error, command unrecognized
+          if (ftpdat->last_response_code == 500) { // unrecognized command
               // - deal with a broken server or pure-ftpd -b
               // - this error is only possible if using ipv4
-              request->logging_function (gftp_logging_error, request, _("* The server is broken!\n"));
-              request->logging_function (gftp_logging_error, request, "* Or maybe it's pure-FTPd with `BrokenClientsCompatibility=yes`, `pure-ftpd -b`, `pure-ftpd --brokenclientscompatibility`\n");
               USE_EPSV = USE_EPRT = 0;
               ftpdat->feat[FTP_FEAT_EPSV] = 0;
               ftpdat->feat[FTP_FEAT_EPRT] = 0;
@@ -1371,7 +1366,6 @@ static int ftp_list_files (gftp_request * request)
   if (ftpdat->feat[FTP_FEAT_MLSD]) {
      ret = ftp_send_command (request, "MLSD\r\n", -1, 1, 0);
      if (ftpdat->last_response_code == 500) {
-         request->logging_function (gftp_logging_error, request, _("* The server is broken!\n"));
          ftpdat->feat[FTP_FEAT_MLSD] = 0;
          ret = ftp_send_command (request, "LIST\r\n", -1, 1, 0);
      }
