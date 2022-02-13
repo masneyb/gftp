@@ -107,7 +107,7 @@ struct ftp_supported_feature ftp_supported_features[] =
    { FTP_FEAT_PRET, "PRET" },
    { FTP_FEAT_EPSV, "EPSV" }, /* rfc2428 */
    { FTP_FEAT_EPRT, "EPRT" }, /* rfc2428 */
-   { -1, NULL },
+   { FTP_FEAT_LIST_AL, NULL }, /* this is not detected by the FEAT response */
 };
 
 static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
@@ -707,6 +707,7 @@ int ftp_connect (gftp_request * request)
     }
 
   // determine server features, the response to this is not logged
+  ftpdat->feat[FTP_FEAT_LIST_AL] = 1; /* use LIST -al by default */
   ftpdat->last_cmd = FTP_CMD_FEAT;
   ret = ftp_send_command (request, "FEAT\r\n", -1, 1, 0);
   ftpdat->last_cmd = 0;
@@ -1374,12 +1375,14 @@ static int ftp_list_files (gftp_request * request)
          ftpdat->feat[FTP_FEAT_MLSD] = 0;
          ret = ftp_send_command (request, "LIST\r\n", -1, 1, 0);
      }
-  } else {
+  } else if (ftpdat->feat[FTP_FEAT_LIST_AL]) {
      ret = ftp_send_command (request, "LIST -al\r\n", -1, 1, 0);
-     // fall back to LIST if an error response is sent..
-     if (ret > 0 && ret != '1') {
+     if (ftpdat->last_response_code == 550) {
+        ftpdat->feat[FTP_FEAT_LIST_AL] = 0;
         ret = ftp_send_command (request, "LIST\r\n", -1, 1, 0);
      }
+  } else {
+     ret = ftp_send_command (request, "LIST\r\n", -1, 1, 0);
   }
 
   if (ret < 0)
