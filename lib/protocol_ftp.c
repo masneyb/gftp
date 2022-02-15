@@ -107,7 +107,7 @@ struct ftp_supported_feature ftp_supported_features[] =
    { FTP_FEAT_PRET, "PRET" },
    { FTP_FEAT_EPSV, "EPSV" }, /* rfc2428 */
    { FTP_FEAT_EPRT, "EPRT" }, /* rfc2428 */
-   { FTP_FEAT_LIST_AL, NULL }, /* this is not detected by the FEAT response */
+   { -1, NULL },
 };
 
 static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
@@ -706,6 +706,7 @@ int ftp_connect (gftp_request * request)
 
   // determine server features, the response to this is not logged
   ftpdat->feat[FTP_FEAT_LIST_AL] = 1; /* use LIST -al by default */
+  ftpdat->feat[FTP_FEAT_SITE] = 1;
   ftpdat->last_cmd = FTP_CMD_FEAT;
   ret = ftp_send_command (request, "FEAT\r\n", -1, 1, 0);
   ftpdat->last_cmd = 0;
@@ -1706,10 +1707,17 @@ static int ftp_chmod (gftp_request * request, const char *file, mode_t mode)
   char *tempstr, *utf8;
   size_t destlen;
   int ret;
+  ftp_protocol_data * ftpdat;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (file != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
+
+  ftpdat = request->protocol_data;
+  if (!ftpdat->feat[FTP_FEAT_SITE]) {
+     request->logging_function (gftp_logging_error, request,"The server doesn't support SITE CHMOD\n");
+     return (GFTP_ERETRYABLE);
+  }
 
   utf8 = gftp_filename_from_utf8 (request, file, &destlen);
   if (utf8 != NULL)
@@ -1721,6 +1729,9 @@ static int ftp_chmod (gftp_request * request, const char *file, mode_t mode)
     tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
 
   ret = ftp_send_command (request, tempstr, -1, 1, 0);
+  if (ftpdat->last_response_code) {
+      ftpdat->feat[FTP_FEAT_SITE] = 0;
+  }
   g_free (tempstr);
 
   if (ret < 0)
@@ -1738,10 +1749,17 @@ static int ftp_site (gftp_request * request, int specify_site, const char *comma
   char *tempstr, *utf8;
   size_t len;
   int ret;
+  ftp_protocol_data * ftpdat;
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (command != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
+
+  ftpdat = request->protocol_data;
+  if (!ftpdat->feat[FTP_FEAT_SITE]) {
+     request->logging_function (gftp_logging_error, request,"The server doesn't support the SITE command\n");
+     return (GFTP_ERETRYABLE);
+  }
 
   utf8 = gftp_string_from_utf8 (request, -1, command, &len);
   if (utf8 != NULL)
@@ -1774,6 +1792,9 @@ static int ftp_site (gftp_request * request, int specify_site, const char *comma
     }
 
   ret = ftp_send_command (request, tempstr, len, 1, 0);
+  if (ftpdat->last_response_code) {
+      ftpdat->feat[FTP_FEAT_SITE] = 0;
+  }
   g_free (tempstr);
 
   if (ret < 0)
