@@ -46,6 +46,8 @@ extern struct ftp_supported_feature ftp_supported_features[];
 struct ftp_protocol_data_tag
 {  
   gftp_getline_buffer * dataconn_rbuf;
+  char * response_buffer;
+  char * response_buffer_pos;
   int data_connection;
   unsigned int is_ascii_transfer : 1;
   unsigned int is_fxp_transfer : 1;
@@ -59,7 +61,6 @@ struct ftp_protocol_data_tag
   int list_type;    /* LIST. See FTP_DIRTYPE_* above */
   int last_cmd;     /* 4hackz */
   int last_response_code;
-  char extra_server_response;
   unsigned int feat[FTP_FEAT_TOTAL];
 };
 

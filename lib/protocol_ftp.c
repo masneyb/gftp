@@ -138,7 +138,13 @@ static void rfc2389_feat_supported_cmd (ftp_protocol_data * ftpdat, char * cmd)
 static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
 {
   //DEBUG_PRINT_FUNC
-  char tempstr[512], code[4];
+  // The retrieved string from the socket may contain 1 or more lines, 1 or more numeric codes
+  //   but the function must return the first numeric code
+  // The buffer should retain the rest of the string to be processed
+  //   in the next call to this function
+  // Only after processing the stored lines, the function must retrieve
+  //   more data from the socket
+  char code[4];
   ftp_protocol_data * ftpdat;
   ssize_t ret;
   int lines = 0;
@@ -148,53 +154,59 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
   char * last_line = NULL;
   char * pos = NULL;
   int line_ending = 0;
+  size_t buffer_size = 2048; //sizeof(ftpdat->response_buffer);
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
-  if (request->last_ftp_response)
-    {
+  if (request->last_ftp_response) {
       g_free (request->last_ftp_response);
       request->last_ftp_response = NULL;
-    }
+  }
 
   ftpdat = request->protocol_data;
 
+  if (ftpdat->response_buffer == NULL) {
+     ftpdat->response_buffer = malloc (buffer_size);
+     ftpdat->response_buffer[0] = 0;
+  }
+  pos = ftpdat->response_buffer_pos;
+
   ftpdat->last_response_code = 0;
-  ftpdat->extra_server_response = 0;
   *code = '\0';
-  *tempstr = 0;
   *fixed_line = 0;
 
   while (1)
   {
-     line = str_get_next_line_pointer (tempstr, &pos, &line_ending);
+     line = str_get_next_line_pointer (ftpdat->response_buffer, &pos, &line_ending);
      if (!line)
      {
-        if (last_line) {
-           break;
-        }
         // read text chunk, may not contain the whole response
         //DEBUG_TRACE("$$$  request->read_function: %p\n", request->read_function)
-        ret = request->read_function (request, tempstr, sizeof(tempstr), request->datafd);
-        if (ret <= 0) {
+        ret = request->read_function (request, ftpdat->response_buffer, buffer_size, request->datafd);
+        if (ret <= 0) { /* reset buffer */
+           ftpdat->response_buffer_pos = NULL;
+           ftpdat->response_buffer[0] = 0;
            break;
         }
-        tempstr[ret] = '\0';
-        // reset pos & lines
+        ftpdat->response_buffer[ret] = '\0';
+        /* reset pos & lines */
         pos = NULL;
         lines = 0;
-        // count lines
-        for (p = tempstr; *p; p++) {
+        /* count lines */
+        for (p = ftpdat->response_buffer; *p; p++) {
            if (*p == '\n') lines++;
         }
-        if (!lines) {
+        if (!lines) { /* reset buffer */
+           ftpdat->response_buffer_pos = NULL;
+           ftpdat->response_buffer[0] = 0;
            break;
         }
-        //DEBUG_TRACE(">>> %s <<<\n",tempstr)
+        //DEBUG_TRACE("%d##%d>>> %s <<<\n",lines, strlen(ftpdat->response_buffer), ftpdat->response_buffer)
         continue;
      }
-
+     ftpdat->response_buffer_pos = pos;
+/*
      if (pos)
      {
         if (!line_ending) {
@@ -210,18 +222,13 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
            DEBUG_PUTS ("@@ copy and complete line\n")
         }
      }
-
+*/
      if (isdigit((int)line[0]) && isdigit((int)line[1]) && isdigit((int)line[2]))
      {
         if (!*code) {
            // reply code has been identified, it will be used to determine when to stop
            strncpy (code, line, 3);
-           code[3] = '\0';
-           ftpdat->last_response_code = atoi (code);
            code[3] = ' ';
-        } else if (last_line) { // another response
-           // some functions may need to check this value, to fix compability
-           ftpdat->extra_server_response = *line;
         }
      }
 
@@ -235,14 +242,17 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
      }
 
      if (*code && strncmp (code, line, 4) == 0) {
-        // this is where it should end (break;), but the server may
-        // send an extra reponse code, which needs to be stored somewhere
+        code[3] = '\0';
+        ftpdat->last_response_code = atoi (code);
+        code[3] = ' ';
         last_line = line;
+        break; /* 'XXX ' end of current response */
      }
-
+/*
      if (line_ending && *fixed_line) {
         *fixed_line = 0;
      }
+*/
   }
 
   if (!last_line) {
@@ -1312,11 +1322,7 @@ static int ftp_end_transfer (gftp_request * request)
 
   ftp_close_data_connection (request);
 
-  if (ftpdat->extra_server_response) {
-     ret = ftpdat->extra_server_response;
-  } else {
-     ret = ftp_read_response (request, 1);
-  }
+  ret = ftp_read_response (request, 1);
   if (ret < 0)
     return (ret);
   else if (ret == '2')
@@ -1829,6 +1835,11 @@ static void ftp_request_destroy (gftp_request * request)
 
   ftpdat = request->protocol_data;
 
+  if (ftpdat->response_buffer) {
+     free (ftpdat->response_buffer);
+     ftpdat->response_buffer = NULL;
+     ftpdat->response_buffer_pos = NULL;
+  }
   if (ftpdat->dataconn_rbuf != NULL)
     gftp_free_getline_buffer (&ftpdat->dataconn_rbuf);
 }
