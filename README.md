@@ -2,10 +2,13 @@ The gFTP file transfer client. http://www.gftp.org
 
 # FAQ
 
-## What are the requirements to run gFTP?
+## What are the requirements to compile/run gFTP?
 
-  - GTK 2.14+
   - Glib 2.18+
+  - GTK 2.14+ (optional)
+  - OpenSSL (optional)
+  - libreadline (optional)
+  - OpenSSH client (enables SFTP (ssh2) support)
 
 
 ## Supported protocols?
