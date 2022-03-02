@@ -62,7 +62,7 @@ void parse_syst_response (char * response_str, ftp_protocol_data * ftpdat)
    else if (strcmp (startpos, "NETWARE") == 0) dt = FTP_DIRTYPE_NOVELL;
    else if (strcmp (startpos, "CRAY") == 0)    dt = FTP_DIRTYPE_CRAY;
 
-   ftpdat->list_type = dt;
+   ftpdat->list_dirtype_hint = dt;
 }
 
 // =========================================================================
@@ -484,8 +484,8 @@ static int ftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
         fle->user  = strdup ("-"); /* unknown */
       startpos = goto_next_token (startpos);
     }
-
-  if (ftpdat->list_type == FTP_DIRTYPE_CRAY)
+ 
+  if (ftpdat->list_dirtype_hint == FTP_DIRTYPE_CRAY)
     {
       /* See if this is a Cray directory listing. It has the following format:
       drwx------     2 feiliu    g913     DK  common      4096 Sep 24  2001 wv */
@@ -823,7 +823,7 @@ int ftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
      return result;
   }
 
-  switch (ftpdat->list_type)
+  switch (ftpdat->list_dirtype_hint)
     {
       case FTP_DIRTYPE_CRAY:
       case FTP_DIRTYPE_UNIX:
