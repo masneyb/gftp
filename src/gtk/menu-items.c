@@ -140,7 +140,7 @@ dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data )
 {
   //DEBUG_PRINT_FUNC
   if (event->type == GDK_KEY_PRESS) {
-    if (event->keyval == GDK_KEY_Return)
+    if (event->keyval == GDK_KEY(Return))
        combo_key2_pressed = 1;
     return FALSE;
   }
@@ -152,7 +152,7 @@ dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data )
     return FALSE;
   }
 
-  if (event->keyval != GDK_KEY_Return) {
+  if (event->keyval != GDK_KEY(Return)) {
     return FALSE;
   }
 

@@ -632,12 +632,12 @@ static gint
 dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
   DEBUG_PRINT_FUNC
-  if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return)
+  if (event->keyval == GDK_KEY(KP_Enter) || event->keyval == GDK_KEY(Return))
     {
       dialog_response (NULL, GTK_RESPONSE_YES, data);
       return (TRUE);
     }
-  else if (event->keyval == GDK_Escape)
+  else if (event->keyval == GDK_KEY(Escape))
     {
       dialog_response (NULL, GTK_RESPONSE_NO, data);
       return (TRUE);

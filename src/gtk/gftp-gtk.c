@@ -883,10 +883,10 @@ on_listbox_key_press_cb (GtkWidget * widget, GdkEventKey * event, gpointer data)
     return (TRUE);
 
   if (event->type == GDK_KEY_PRESS) {
-     if (event->keyval == GDK_KP_Delete || event->keyval == GDK_Delete) {
+     if (event->keyval == GDK_KEY(KP_Delete) || event->keyval == GDK_KEY(Delete)) {
         delete_dialog (wdata);
         return TRUE;
-      //} else if (event->keyval == GDK_Return) { .. see on_listbox_row_activated_cb
+      //} else if (event->keyval == GDK_KEY(Return)) { .. see on_listbox_row_activated_cb
      }
   }
   return (FALSE);
@@ -1238,7 +1238,7 @@ static gboolean
 on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
   if (event->type == GDK_KEY_PRESS) {
-    if (event->keyval == GDK_KEY_Return)
+    if (event->keyval == GDK_KEY(Return))
        combo_key_pressed = 1;
     return FALSE;
   }
@@ -1250,7 +1250,7 @@ on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data)
     return FALSE;
   }
 
-  if (event->keyval != GDK_KEY_Return) {
+  if (event->keyval != GDK_KEY(Return)) {
     return FALSE;
   }
   toolbar_hostedit();

@@ -501,19 +501,19 @@ on_gtk_treeview_KeyReleaseEvent_btree (GtkWidget * widget,
 {
   switch (event->keyval)
   {
-    case GDK_KEY_KP_Delete:
-    case GDK_KEY_Delete:
+    case GDK_KEY(KP_Delete):
+    case GDK_KEY(Delete):
        delete_entry (NULL);
        break;
-    case GDK_KEY_Return:
-    case GDK_KEY_KP_Enter:
+    case GDK_KEY(Return):
+    case GDK_KEY(KP_Enter):
        show_edit_entry_dlg (NULL);
        break;
-    case GDK_KEY_Left:
-       btree_expand_collapse_selected_row (GDK_KEY_Left);
+    case GDK_KEY(Left):
+       btree_expand_collapse_selected_row (GDK_KEY(Left));
        break;
-    case GDK_KEY_Right:
-       btree_expand_collapse_selected_row (GDK_KEY_Right);
+    case GDK_KEY(Right):
+       btree_expand_collapse_selected_row (GDK_KEY(Right));
        break;
   }
   return (FALSE);
@@ -687,7 +687,7 @@ create_bm_dlg_menubar (GtkWindow *window)
    bmenu_file_newitem = item;
    gtk_widget_add_accelerator (GTK_WIDGET (item), "activate",
                                accel_group,
-                               GDK_KEY_n, GDK_CONTROL_MASK,
+                               GDK_KEY(n), GDK_CONTROL_MASK,
                                GTK_ACCEL_VISIBLE);
    item = new_menu_item (menu_file, _("_Delete"), "gtk-delete",
                          on_gtk_MenuItem_activate_delete, NULL);
@@ -701,7 +701,7 @@ create_bm_dlg_menubar (GtkWindow *window)
                          on_gtk_MenuItem_activate_close, NULL);
    gtk_widget_add_accelerator (GTK_WIDGET (item), "activate",
                                accel_group,
-                               GDK_KEY_w, GDK_CONTROL_MASK,
+                               GDK_KEY(w), GDK_CONTROL_MASK,
                                GTK_ACCEL_VISIBLE);
 
    /* special menuitem that becomes the parent of menu_file, displays "_File" */
@@ -896,7 +896,7 @@ btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter,
                       -1);
   if (edit) {
      /* expand row */
-     btree_expand_collapse_selected_row (GDK_KEY_Right);
+     btree_expand_collapse_selected_row (GDK_KEY(Right));
      // select new row
      GtkTreeSelection * sel = gtk_tree_view_get_selection (btree);
      gtk_tree_selection_select_iter (sel, &iter);
@@ -951,11 +951,11 @@ static void btree_expand_collapse_selected_row (int key)
       return;
    }
    path = gtk_tree_model_get_path (model, &iter);
-   if (key == GDK_KEY_Left) {
+   if (key == GDK_KEY(Left)) {
       if (gtk_tree_view_row_expanded (btree, path)) {
          gtk_tree_view_collapse_row (btree, path);
       }
-   } else if (key == GDK_KEY_Right) {
+   } else if (key == GDK_KEY(Right)) {
       if (!gtk_tree_view_row_expanded (btree, path)) {
          gtk_tree_view_expand_row (btree, path, FALSE);
       }
