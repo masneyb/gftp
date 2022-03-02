@@ -571,6 +571,11 @@ static int ftp_parse_ls_nt (char *str, gftp_file * fle)
 
 static int ftp_parse_ls_novell (char *str, gftp_file * fle)
 {
+  /* NETWARE */
+  /* 0123456789... */
+  // - [RWCE-FM-] bubble.ou=gum.ou=do..           41472 Mar 11  2003 my test map.doc
+  // d [RWCE-FM-] bubble.ou=gum.ou=do..             512 Jan 15  2001 1997
+  // d [RWCE-FM-] ego.ou=guest..                    512 Jan 31 15:05 OldStuff
   char *startpos;
 
   if (str[12] != ' ') {
