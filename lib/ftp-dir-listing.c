@@ -26,14 +26,19 @@
 #include "gftp.h"
 #include "protocol_ftp.h"
 
+#ifdef GFTP_DEBUG
+static void detect_msg (int dirtype, const char * msg);
+#endif
+
 /* Server types (used by FTP protocol from SYST command) */
 enum
 {
+   FTP_DIRTYPE_MLSD   = 0,
    FTP_DIRTYPE_UNIX   = 1,
-   FTP_DIRTYPE_EPLF   = 2,
-   FTP_DIRTYPE_CRAY   = 3,
-   FTP_DIRTYPE_NOVELL = 4,
-   FTP_DIRTYPE_DOS    = 5,
+   FTP_DIRTYPE_DOS    = 2,
+   FTP_DIRTYPE_EPLF   = 3,
+   FTP_DIRTYPE_CRAY   = 4,
+   FTP_DIRTYPE_NOVELL = 5,
    FTP_DIRTYPE_VMS    = 6,
    FTP_DIRTYPE_MVS    = 7,
 };
@@ -55,15 +60,105 @@ void parse_syst_response (char * response_str, ftp_protocol_data * ftpdat)
    if (endpos) {
       *endpos = '\0';
    }
+
+   // dirtype hint, this will be used if gftp is unable to properly detect the dirtype
    if      (strcmp (startpos, "UNIX") == 0)    dt = FTP_DIRTYPE_UNIX;
    else if (strcmp (startpos, "VMS") == 0)     dt = FTP_DIRTYPE_VMS;
    else if (strcmp (startpos, "MVS") == 0)     dt = FTP_DIRTYPE_MVS;
    else if (strcmp (startpos, "OS/MVS") == 0)  dt = FTP_DIRTYPE_MVS;
    else if (strcmp (startpos, "NETWARE") == 0) dt = FTP_DIRTYPE_NOVELL;
    else if (strcmp (startpos, "CRAY") == 0)    dt = FTP_DIRTYPE_CRAY;
+   else if (strcmp (startpos, "Windows_NT") == 0) dt = FTP_DIRTYPE_DOS;
 
    ftpdat->list_dirtype_hint = dt;
+#ifdef GFTP_DEBUG
+   detect_msg (dt, "% Dirtype HINT: ");
+#endif
 }
+
+
+static int detect_dirtype (char *string)
+{
+    if (!string || !*string) {
+        return -1;
+    }
+    char * p;
+    size_t slen = strlen (string);
+
+    if (slen > 12)
+    {
+        p = strchr (string, ';');
+        if (string[0] != ' ' && p && strstr(p+1,"; ")) {
+            if (strstr(string,"ype=") && strstr(string,"odify=")) {
+                //type= Type= modify= Modify=
+                return FTP_DIRTYPE_MLSD;
+            }
+        }
+
+        if (*string == '+') {
+            return FTP_DIRTYPE_EPLF;
+        }
+
+        if ( (isdigit((int)string[0]) && isdigit((int)string[1]) && string[2] == '-')
+                || (strstr(string, "     <DIR>     ")) ) {
+            return FTP_DIRTYPE_DOS;
+        }
+
+        if (string[1] == ' ' && string[2] == '[' && string[12] == ' ') {
+            return FTP_DIRTYPE_NOVELL;
+        }
+
+        if ((string[0] == '-' || string[0] == 'd' || string[0] == 'l') && (string[10] == ' ')) {
+            /* 0123456789 */
+            // drwxr-xr-x  8 user user   4096 Feb 16 12:25 .git
+            // -rw-r--r--  1 user user    648 Nov  8 07:29 .gitignore
+            string[10] = '\0';
+            p = &string[1];
+            if (strchr(p,'r') || strchr(p,'w') || strchr(p,'x') || strchr(p,'-')) {
+                string[10] = ' ';
+                return FTP_DIRTYPE_UNIX;
+            }
+            string[10] = ' ';
+        }
+    }
+
+    p = strchr (string, ' ');
+    if (p)
+    {
+        //If the first token in the string has a ; in it, then
+        //we'll assume that this is a VMS directory listing
+        *p = '\0';
+        //If the first token in the string has a ; in it, then
+        //we'll assume that this is a VMS directory listing
+        if (strchr (string, ';')) {
+            *p = ' ';
+            return FTP_DIRTYPE_VMS;
+        }
+        *p = ' ';
+    }
+
+    return -2; /* could not detect dirtype */
+}
+
+
+#ifdef GFTP_DEBUG
+static void detect_msg (int dirtype, const char * msg)
+{
+    if (msg) printf ("%s", msg);
+    switch (dirtype)
+    {
+        case FTP_DIRTYPE_MLSD: printf ("MLSD\n"); break;
+        case FTP_DIRTYPE_CRAY: printf ("CRAY\n"); break;
+        case FTP_DIRTYPE_UNIX: printf ("UNIX\n"); break;
+        case FTP_DIRTYPE_EPLF: printf ("EPLF\n"); break;
+        case FTP_DIRTYPE_NOVELL: printf ("NOVEL\n"); break;
+        case FTP_DIRTYPE_DOS: printf ("DOS\n"); break;
+        case FTP_DIRTYPE_VMS: printf ("VMS\n"); break;
+        case FTP_DIRTYPE_MVS: printf ("MVS\n"); break;
+        default:  printf ("[none]\n"); break;
+    }
+}
+#endif
 
 // =========================================================================
 // helper functions for gftp_parse_*
@@ -375,6 +470,7 @@ static int ftp_parse_ls_mvs (char *str, gftp_file * fle)
 
 static int ftp_parse_ls_eplf (char *str, gftp_file * fle)
 {
+  // +i8388621.48594,m825718503,r,s280, djb.html
   char *startpos;
   int isdir = 0;
 
@@ -542,6 +638,7 @@ static int ftp_parse_ls_unix (gftp_request * request, char *str, size_t slen,
 
 static int ftp_parse_ls_nt (char *str, gftp_file * fle)
 {
+  /* 0123456789... */
   // 12-03-15  08:14PM       <DIR>          aspnet_client
   // 10-19-20  03:19PM       <DIR>          pub
   // 04-08-14  03:09PM                  403 readme.txt
@@ -804,10 +901,12 @@ static int ftp_parse_ls_mlsd (char *str, gftp_file * fle)
 int ftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
                int fd)
 {
-  char *str, *endpos, tmpchar;
-  int result, is_vms;
+  DEBUG_TRACE("LS(%d): %s\n", strlen(lsoutput), lsoutput)
+  char *str;
+  int result;
   size_t len;
   ftp_protocol_data * ftpdat;
+  int dirtype;
 
   g_return_val_if_fail (lsoutput != NULL, GFTP_EFATAL);
   g_return_val_if_fail (fle != NULL, GFTP_EFATAL);
@@ -822,14 +921,35 @@ int ftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
   if (len > 0 && str[len - 1] == '\r')
     str[--len] = '\0';
 
-  if (ftpdat->feat[FTP_FEAT_MLSD]) {
-     result = ftp_parse_ls_mlsd (str, fle);
-     g_free (str);
-     return result;
+  // ----
+  if (ftpdat->list_dirtype > -3 && ftpdat->list_dirtype < 0)
+  {
+      /* -1 is set before requesting file list */
+      // try up 2 times to detect the dirtype: -2, -3
+      // the 1st line may be the header - invalid
+      dirtype = detect_dirtype (str);
+#ifdef GFTP_DEBUG
+      detect_msg (dirtype, "%% Dirtype DETECTED: ");
+#endif
+      if (dirtype >= 0) {
+         ftpdat->list_dirtype = dirtype;
+      } else {
+         ftpdat->list_dirtype--;
+      }
   }
 
-  switch (ftpdat->list_dirtype_hint)
-    {
+  dirtype = ftpdat->list_dirtype;
+
+  if (dirtype < 0) {
+     dirtype = ftpdat->list_dirtype_hint;
+  }
+  // ----
+
+  switch (dirtype)
+  {
+      case FTP_DIRTYPE_MLSD:
+        result = ftp_parse_ls_mlsd (str, fle);
+        break;
       case FTP_DIRTYPE_CRAY:
       case FTP_DIRTYPE_UNIX:
         result = ftp_parse_ls_unix (request, str, len, fle);
@@ -849,35 +969,10 @@ int ftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
       case FTP_DIRTYPE_MVS:
         result = ftp_parse_ls_mvs (str, fle);
         break;
-
-      default: /* autodetect */
-        if (*lsoutput == '+')
-          result = ftp_parse_ls_eplf (str, fle);
-        else if (isdigit ((int) str[0]) && str[2] == '-')
-          result = ftp_parse_ls_nt (str, fle);
-        else if (str[1] == ' ' && str[2] == '[')
-          result = ftp_parse_ls_novell (str, fle);
-        else
-          {
-            if ((endpos = strchr (str, ' ')) != NULL)
-              {
-                /* If the first token in the string has a ; in it, then */
-                /* we'll assume that this is a VMS directory listing    */
-                tmpchar = *endpos;
-                *endpos = '\0';
-                is_vms = strchr (str, ';') != NULL;
-                *endpos = tmpchar;
-              }
-            else
-              is_vms = 0;
-
-            if (is_vms)
-              result = ftp_parse_ls_vms (request, fd, str, fle);
-            else
-              result = ftp_parse_ls_unix (request, str, len, fle);
-          }
+      default:
+        result = -1;
         break;
-    }
+  }
   g_free (str);
 
   return (result);

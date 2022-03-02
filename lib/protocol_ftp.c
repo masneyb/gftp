@@ -584,6 +584,7 @@ static int ftp_syst (gftp_request * request)
   g_return_val_if_fail (request->datafd > 0, GFTP_EFATAL);
 
   ftpdat = request->protocol_data;
+  ftpdat->list_dirtype_hint = -1;
   if (ftpdat->feat[FTP_FEAT_MLSD]) {
      return 0; // MLSD has been detected
   }
@@ -1370,6 +1371,8 @@ static int ftp_list_files (gftp_request * request)
 
   gftp_lookup_request_option (request, "passive_transfer", &passive_transfer);
 
+  ftpdat->list_dirtype = -1; /* detect dirtype */
+
   if (ftpdat->feat[FTP_FEAT_MLSD]) {
      ret = ftp_send_command (request, "MLSD\r\n", -1, 1, 0);
      if (ftpdat->last_response_code == 500) {
@@ -1862,6 +1865,7 @@ static void ftp_copy_param_options (gftp_request * dest_request,
   dftpdat->data_conn_read      = sftpdat->data_conn_read;
   dftpdat->data_conn_write     = sftpdat->data_conn_write;
   dftpdat->data_conn_tls_close = sftpdat->data_conn_tls_close;
+  dftpdat->list_dirtype        = sftpdat->list_dirtype;
   dftpdat->list_dirtype_hint   = sftpdat->list_dirtype_hint;
   dftpdat->last_cmd            = sftpdat->last_cmd;
   memcpy (dftpdat->feat, sftpdat->feat, sizeof(sftpdat->feat));

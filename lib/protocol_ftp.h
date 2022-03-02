@@ -58,7 +58,8 @@ struct ftp_protocol_data_tag
   ssize_t (*data_conn_write) (gftp_request * request, const char *ptr,
                               size_t size, int fd);
   void (*data_conn_tls_close) (gftp_request * request);
-  int list_dirtype_hint;    /* LIST. See FTP_DIRTYPE_* in  */
+  int list_dirtype;       /* See FTP_DIRTYPE_* in ftp-dir-listing.c */
+  int list_dirtype_hint;  /* See FTP_DIRTYPE_* in ftp-dir-listing.c */
   int last_cmd;     /* 4hackz */
   int last_response_code;
   unsigned int feat[FTP_FEAT_TOTAL];
