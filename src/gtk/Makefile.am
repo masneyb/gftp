@@ -6,7 +6,7 @@ gftp_gtk_SOURCES = bookmarks.c \
 	chmod_dialog.c \
 	dnd.c \
 	gftp-gtk.c \
-	../gtkcompat.c \
+	../gtkcompat.h \
 	gtkui.c \
 	gtkui_transfer.c \
 	menu-items.c \

@@ -4,7 +4,7 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-/** 2021-03-01 **/
+/** 2022-03-02 **/
 
 /*
  * gtkcompat.h, GTK2+ compatibility layer
@@ -52,14 +52,7 @@ extern "C"
 {
 #endif
 
-
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-
-#if GTK_MAJOR_VERSION == 3
-#include <gdk/gdkkeysyms-compat.h>
-#endif
-
 
 /* ================================================== */
 /*                      GLIB                          */
@@ -79,9 +72,9 @@ extern "C"
 // GLIB < 2.40
 #if ! GLIB_CHECK_VERSION (2, 40, 0)
 #define g_key_file_save_to_file(kfile,filename,error) { \
-   char * data = g_key_file_to_data (kfile, NULL, error); \
-   g_file_set_contents (filename, data, -1, error); \
-   g_free (data); \
+   char * xdatax = g_key_file_to_data (kfile, NULL, error); \
+   g_file_set_contents (filename, xdatax, -1, error); \
+   g_free (xdatax); \
 }
 #endif
 
@@ -154,6 +147,17 @@ extern "C"
 #endif /* __GLIB_COMPAT_H */
 
 
+/* ================================================== */
+/*                     GDK KEYS                       */
+/* ================================================== */
+
+#include <gdk/gdkkeysyms.h>
+#if !defined(GDK_KEY_a) // GTK_MAJOR_VERSION >= 3
+#define GDK_KEY(symbol) GDK_##symbol
+#else
+#define GDK_KEY(symbol) GDK_KEY_##symbol
+#endif
+
 
 /* ================================================== */
 /*                       GTK 3                        */
@@ -165,45 +169,38 @@ extern "C"
 #define gtkcompat_widget_set_halign_left(w)   gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_START)
 #define gtkcompat_widget_set_halign_center(w) gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_CENTER)
 #define gtkcompat_widget_set_halign_right(w)  gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_END)
+// using GtkTable format, translate to to GtkGrid
+#define gtkcompat_grid_attach(table,child,left,right,top,bottom) \
+    gtk_grid_attach((table),(child), (left), (top), (right)-(left), (bottom)-(top))
+#define gtkcompat_grid_new(rows,cols) (gtk_grid_new())
 #endif
 
-
-// GTK < 3.12
+/* GTK < 3.12
 #if ! GTK_CHECK_VERSION (3, 12, 0)
 #define gtk_application_set_accels_for_action(app,name,accels) \
           gtk_application_add_accelerator(app,accels[0],name,NULL)
 #define gtk_widget_set_margin_start(widget,margin) gtk_widget_set_margin_left(widget,margin)
 #define gtk_widget_set_margin_end(widget,margin)   gtk_widget_set_margin_right(widget,margin)
-#endif
-
-
-// GTK < 3.10
-#if GTK_CHECK_VERSION (3, 10, 0)
-// gdk_window_create_similar_image_surface() was removed in gtk4
-//                  only use gdk_window_create_similar_surface()
-#endif
-
-
-// GTK < 3.8
-#if ! GTK_CHECK_VERSION (3, 8, 0)
-#define gtk_widget_set_opacity(w,o) gtk_window_set_opacity(GTK_WINDOW(w),o)
-#define gtk_widget_get_opacity(w)  (gtk_window_get_opacity(GTK_WINDOW(w))
-#endif
-
-
-// GTK < 3.4
-#if ! GTK_CHECK_VERSION (3, 4, 0)
-#define gtk_application_window_new(app) gtk_window_new(GTK_WINDOW_TOPLEVEL)
-#endif
-
+#endif */
 
 
 /* ================================================== */
 /*                       GTK 2                        */
 /* ================================================== */
 
-// define some GTK3+ functions
-#if GTK_MAJOR_VERSION <= 2
+#if GTK_MAJOR_VERSION == 2
+
+// define some GTK3.14+ functions
+// GTK < 3.10
+// gdk_window_create_similar_image_surface() was removed in gtk4
+//                  only use gdk_window_create_similar_surface()
+// GTK < 3.8
+#define gtk_widget_set_opacity(w,o) gtk_window_set_opacity(GTK_WINDOW(w),o)
+#define gtk_widget_get_opacity(w)  (gtk_window_get_opacity(GTK_WINDOW(w))
+// GTK < 3.4
+#define gtk_application_window_new(app) gtk_window_new(GTK_WINDOW_TOPLEVEL)
+
+/*** GTK 3.0 ***/
 #define GTKCOMPAT_DRAW_SIGNAL "expose_event"
 #define gtk_box_new(ori,spacing) \
   ((ori == GTK_ORIENTATION_HORIZONTAL) ? gtk_hbox_new(FALSE,spacing) \
@@ -232,26 +229,51 @@ extern "C"
    gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (cmb)))); \
 }
 #define gtk_tree_model_iter_previous(model,iter) ({ \
-   GtkTreePath * path = gtk_tree_model_get_path (model, iter); \
-   gboolean valid = gtk_tree_path_prev (path); \
-   if (valid) gtk_tree_model_get_iter (model, iter, path); \
-   gtk_tree_path_free (path); \
-   valid; \
+   GtkTreePath * xpathx = gtk_tree_model_get_path (model, iter); \
+   gboolean xvalidx = gtk_tree_path_prev (xpathx); \
+   if (xvalidx) gtk_tree_model_get_iter (model, iter, xpathx); \
+   gtk_tree_path_free (xpathx); \
+   xvalidx; \
 })
+#define gtk_progress_bar_set_show_text(pb,show)
 #define gtk_widget_override_font(w,f) gtk_widget_modify_font(w,f)
 #define gtkcompat_widget_set_halign_left(w)   gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.5)
 #define gtkcompat_widget_set_halign_center(w) gtk_misc_set_alignment(GTK_MISC(w), 0.5, 0.5)
 #define gtkcompat_widget_set_halign_right(w)  gtk_misc_set_alignment(GTK_MISC(w), 1.0, 0.5)
+//-
+#define GTK_GRID GTK_TABLE
+#define GtkGrid  GtkTable
+#define gtk_grid_attach(grid,child,left,top,width,height) \
+    gtk_table_attach_defaults((grid),(child), (left), (left)+(width), (top), (top)+(height))
+#define gtkcompat_grid_new(rows,cols) (gtk_table_new((rows),(cols),FALSE))
+#define gtkcompat_grid_attach       gtk_table_attach_defaults
+#define gtk_grid_set_column_spacing gtk_table_set_col_spacings
+#define gtk_grid_set_row_spacing    gtk_table_set_row_spacings
+#define gtk_grid_get_column_spacing gtk_table_get_default_col_spacing
+#define gtk_grid_get_row_spacing    gtk_table_get_default_row_spacing
+#define gtk_grid_set_row_homogeneous    gtk_table_set_homogeneous
+#define gtk_grid_set_column_homogeneous gtk_table_set_homogeneous
+#define gtk_grid_get_row_homogeneous    gtk_table_get_homogeneous
+#define gtk_grid_get_column_homogeneous gtk_table_gset_homogeneous
+//-
+typedef enum /* GtkAlign */
+{
+  GTK_ALIGN_FILL,
+  GTK_ALIGN_START,
+  GTK_ALIGN_END,
+  GTK_ALIGN_CENTER
+} GtkAlign;
 /* GtkApplication */
 #define GtkApplication void
 #define g_application_quit(app) gtk_main_quit()
 #undef G_APPLICATION
 #define G_APPLICATION(app) ((void *) (app))
-#endif
+//-
+#define gdk_error_trap_pop_ignored gdk_error_trap_pop
 
 
 // GTK < 2.24
-#if ! GTK_CHECK_VERSION (2, 24, 0)
+#if GTK_MINOR_VERSION < 24
 typedef struct _GtkComboBox        GtkComboBoxText;
 typedef struct _GtkComboBoxClass   GtkComboBoxTextClass;
 typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
@@ -261,13 +283,13 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 #define GTK_IS_COMBO_BOX_TEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_COMBO_BOX))
 #define GTK_IS_COMBO_BOX_TEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_COMBO_BOX))
 #define GTK_COMBO_BOX_TEXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_COMBO_BOX, GtkComboBoxTextClass))
-#define gtk_combo_box_text_new() gtk_combo_box_new_text()
+#define gtk_combo_box_text_new()            gtk_combo_box_new_text()
 #define gtk_combo_box_text_new_with_entry()	gtk_combo_box_entry_new_text()
-#define gtk_combo_box_text_append_text(combo,text) gtk_combo_box_append_text(combo,text)
+#define gtk_combo_box_text_append_text(combo,text)     gtk_combo_box_append_text(combo,text)
 #define gtk_combo_box_text_insert_text(combo,pos,text) gtk_combo_box_insert_text(combo,pos,text)
-#define gtk_combo_box_text_prepend_text(combo,text) gtk_combo_box_prepend_text(combo,text)
-#define gtk_combo_box_text_remove(combo,pos) gtk_combo_box_remove_text(combo,pos)
-#define gtk_combo_box_text_get_active_text(combo) (gtk_combo_box_get_active_text(combo))
+#define gtk_combo_box_text_prepend_text(combo,text)    gtk_combo_box_prepend_text(combo,text)
+#define gtk_combo_box_text_remove(combo,pos)           gtk_combo_box_remove_text(combo,pos)
+#define gtk_combo_box_text_get_active_text(combo)      (gtk_combo_box_get_active_text(combo))
 #define gtk_combo_box_get_has_entry(combo) (0)
 #define gtk_combo_box_set_entry_text_column(combo,cl)
 #define gtk_combo_box_get_entry_text_column(combo) (0)
@@ -281,7 +303,8 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 
 
 // GTK < 2.22
-#if ! GTK_CHECK_VERSION (2, 22, 0)
+#if GTK_MINOR_VERSION < 22
+#define gtk_accessible_get_widget(a) ((a)->widget)
 #define gtk_window_has_group(w) (GTK_WINDOW(w)->group != NULL)
 #define gtk_window_group_get_current_grab(wg) \
   ((GTK_WINDOW_GROUP(wg)->grabs) ? GTK_WIDGET(GTK_WINDOW_GROUP(wg)->grabs->data) : NULL)
@@ -307,7 +330,7 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 
 
 // GTK < 2.20
-#if ! GTK_CHECK_VERSION (2, 20, 0)
+#if GTK_MINOR_VERSION < 20
 #define gtk_widget_get_mapped(wid) ((GTK_WIDGET_FLAGS (wid) & GTK_MAPPED) != 0)
 #define gtk_widget_get_realized(wid) ((GTK_WIDGET_FLAGS (wid) & GTK_REALIZED) != 0)
 #define gtk_window_get_window_type(window) (GTK_WINDOW(window)->type)
@@ -327,7 +350,7 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 
 
 // GTK < 2.18
-#if ! GTK_CHECK_VERSION (2, 18, 0)
+#if GTK_MINOR_VERSION < 18
 #define gtk_widget_get_state(wid) (GTK_WIDGET (wid)->state)
 #define gtk_widget_is_toplevel(wid) ((GTK_WIDGET_FLAGS (wid) & GTK_TOPLEVEL) != 0)
 #define gtk_widget_get_has_window(wid) !((GTK_WIDGET_FLAGS (wid) & GTK_NO_WINDOW) != 0)
@@ -366,8 +389,7 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 
 
 // GTK < 2.16
-#if ! GTK_CHECK_VERSION (2, 16, 0)
-#define gtk_status_icon_set_tooltip_text(icon,text) gtk_status_icon_set_tooltip(icon,text)
+#if GTK_MINOR_VERSION < 16
 #define gtk_menu_item_get_label(i) (gtk_label_get_label (GTK_LABEL (GTK_BIN (i)->child)))
 #define gtk_menu_item_set_label(i,label) gtk_label_set_label(GTK_LABEL(GTK_BIN(i)->child), (label) ? label : "")
 #define gtk_menu_item_get_use_underline(i) (gtk_label_get_use_underline (GTK_LABEL (GTK_BIN (i)->child)))
@@ -376,7 +398,7 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 
 
 // GTK < 2.14
-#if ! GTK_CHECK_VERSION (2, 14, 0)
+#if GTK_MINOR_VERSION < 14
 #define gtk_dialog_get_action_area(dialog)    (GTK_DIALOG(dialog)->action_area)
 #define gtk_dialog_get_content_area(dialog)   (GTK_DIALOG(dialog)->vbox)
 #define gtk_widget_get_window(widget)         (GTK_WIDGET(widget)->window)
@@ -385,110 +407,18 @@ typedef struct _GtkComboBoxPrivate GtkComboBoxTextPrivate;
 #define gtk_menu_get_accel_path(menu)         (GTK_MENU(menu)->accel_path)
 #define gtk_message_dialog_get_image(m)       (GTK_MESSAGE_DIALOG(m)->image)
 #define gtk_entry_get_overwrite_mode(e)       (GTK_ENTRY(e)->overwrite_mode)
+// ---
+#define gtk_adjustment_set_page_increment(a,val) ((a)->page_increment = (val))
+#define gtk_adjustment_get_page_size(a)       ((a)->page_size)
+#define gtk_adjustment_get_lower(a)           ((a)->lower)
+#define gtk_adjustment_get_upper(a)           ((a)->upper) // GTK_ADJUSTMENT
+#define gtk_selection_data_get_length(data)   ((data)->length)
 #endif
 
 
-/* ================================================== */
-/*                     GDK KEYS                       */
-/* ================================================== */
+#endif /* ------- GTK2 ------- */
 
-#ifndef GDK_KEY_a
-#	define GDK_KEY_Control_R GDK_Control_R
-#	define GDK_KEY_Control_L GDK_Control_L
-#	define GDK_KEY_Shift_R GDK_Shift_R
-#	define GDK_KEY_Shift_L GDK_Shift_L
-#	define GDK_KEY_Alt_R GDK_Alt_R
-#	define GDK_KEY_Alt_L GDK_Alt_L
-#	define GDK_KEY_Tab GDK_Tab
-#	define GDK_KEY_space GDK_space
-#	define GDK_KEY_Up GDK_Up
-#	define GDK_KEY_Down GDK_Down
-#	define GDK_KEY_Right GDK_Right
-#	define GDK_KEY_Left GDK_Left
-#	define GDK_KEY_Return GDK_Return
-#	define GDK_KEY_exclam GDK_exclam
-#	define GDK_KEY_BackSpace GDK_BackSpace
-#	define GDK_KEY_Home GDK_Home
-#	define GDK_KEY_End GDK_End
-#	define GDK_KEY_Escape GDK_Escape
-#	define GDK_KEY_Delete GDK_Delete
-#	define GDK_KEY_a GDK_a
-#	define GDK_KEY_A GDK_A
-#	define GDK_KEY_b GDK_b
-#	define GDK_KEY_B GDK_B
-#	define GDK_KEY_c GDK_c
-#	define GDK_KEY_C GDK_C
-#	define GDK_KEY_d GDK_d
-#	define GDK_KEY_D GDK_D
-#	define GDK_KEY_e GDK_e
-#	define GDK_KEY_E GDK_E
-#	define GDK_KEY_f GDK_F
-#	define GDK_KEY_g GDK_g
-#	define GDK_KEY_G GDK_G
-#	define GDK_KEY_h GDK_h
-#	define GDK_KEY_H GDK_H
-#	define GDK_KEY_i GDK_i
-#	define GDK_KEY_I GDK_I
-#	define GDK_KEY_j GDK_j
-#	define GDK_KEY_J GDK_J
-#	define GDK_KEY_k GDK_k
-#	define GDK_KEY_K GDK_K
-#	define GDK_KEY_l GDK_l
-#	define GDK_KEY_L GDK_L
-#	define GDK_KEY_m GDK_m
-#	define GDK_KEY_M GDK_M
-#	define GDK_KEY_n GDK_n
-#	define GDK_KEY_N GDK_N
-#	define GDK_KEY_o GDK_o
-#	define GDK_KEY_O GDK_O
-#	define GDK_KEY_p GDK_p
-#	define GDK_KEY_P GDK_P
-#	define GDK_KEY_q GDK_q
-#	define GDK_KEY_Q GDK_Q
-#	define GDK_KEY_r GDK_r
-#	define GDK_KEY_R GDK_R
-#	define GDK_KEY_s GDK_s
-#	define GDK_KEY_S GDK_S
-#	define GDK_KEY_t GDK_t
-#	define GDK_KEY_T GDK_T
-#	define GDK_KEY_u GDK_u
-#	define GDK_KEY_U GDK_U
-#	define GDK_KEY_v GDK_v
-#	define GDK_KEY_V GDK_V
-#	define GDK_KEY_w GDK_w
-#	define GDK_KEY_W GDK_W
-#	define GDK_KEY_x GDK_x
-#	define GDK_KEY_X GDK_X
-#	define GDK_KEY_y GDK_y
-#	define GDK_KEY_Y GDK_Y
-#	define GDK_KEY_z GDK_z
-#	define GDK_KEY_Z GDK_Z
-#	define GDK_KEY_exclam GDK_exclam
-#	define GDK_KEY_F1 GDK_F1
-#	define GDK_KEY_F2 GDK_F2
-#	define GDK_KEY_F3 GDK_F3
-#	define GDK_KEY_F4 GDK_F4
-#	define GDK_KEY_F5 GDK_F5
-#	define GDK_KEY_F6 GDK_F6
-#	define GDK_KEY_F7 GDK_F7
-#	define GDK_KEY_F8 GDK_F8
-#	define GDK_KEY_F9 GDK_F9
-#	define GDK_KEY_F10 GDK_F10
-#	define GDK_KEY_F11 GDK_F11
-#	define GDK_KEY_F12 GDK_F12
-#	define GDK_KEY_KP_Home GDK_KP_Home
-#	define GDK_KEY_KP_Page_Up GDK_KP_Page_Up
-#	define GDK_KEY_KP_End GDK_KP_End
-#	define GDK_KEY_KP_Page_Down GDK_KP_Page_Down
-#	define GDK_KEY_KP_Space GDK_KP_Space
-#	define GDK_KEY_KP_Enter GDK_KP_Enter
-#	define GDK_KEY_KP_Left GDK_KP_Left
-#	define GDK_KEY_KP_Right GDK_KP_Right
-#	define GDK_KEY_KP_Up GDK_KP_Up
-#	define GDK_KEY_KP_Down GDK_KP_Down
-#	define GDK_KEY_KP_Delete GDK_KP_Delete
-#endif
-
+// ===================================================
 
 // CAIRO < 1.10
 #if CAIRO_VERSION < CAIRO_VERSION_ENCODE(1, 10, 0)
