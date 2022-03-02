@@ -24,8 +24,8 @@ libgftp_a_SOURCES= \
 	sockutils.c
 
 AM_CPPFLAGS= \
-	@GLIB_CFLAGS@ \
-	@PTHREAD_CFLAGS@ \
+	$(GLIB_CFLAGS) \
+	$(PTHREAD_CFLAGS) \
 	-DSHARE_DIR=\"$(datadir)/gftp\" \
 	-DLOCALE_DIR=\"$(datadir)/locale\"
 
