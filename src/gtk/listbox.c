@@ -105,26 +105,10 @@ create_listbox(gftp_window_data *wdata) {
  * listbox_add_columns()
  * ============================================================== */
 
-static void on_treeview_column_0_clicked_cb (GtkTreeViewColumn *c, gpointer wdata) {
-   listbox_sort_rows (wdata, 0);
-}
-static void on_treeview_column_1_clicked_cb (GtkTreeViewColumn *c, gpointer wdata) {
-   listbox_sort_rows (wdata, 1);
-}
-static void on_treeview_column_2_clicked_cb (GtkTreeViewColumn *c, gpointer wdata) {
-   listbox_sort_rows (wdata, 2);
-}
-static void on_treeview_column_3_clicked_cb (GtkTreeViewColumn *c, gpointer wdata) {
-   listbox_sort_rows (wdata, 3);
-}
-static void on_treeview_column_4_clicked_cb (GtkTreeViewColumn *c, gpointer wdata) {
-   listbox_sort_rows (wdata, 4);
-}
-static void on_treeview_column_5_clicked_cb (GtkTreeViewColumn *c, gpointer wdata) {
-   listbox_sort_rows (wdata, 5);
-}
-static void on_treeview_column_6_clicked_cb (GtkTreeViewColumn *c, gpointer wdata) {
-   listbox_sort_rows (wdata, 6);
+static void on_treeview_column_clicked_cb (GtkTreeViewColumn *c, gpointer wdata)
+{
+    intptr_t index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(c), "index"));
+    listbox_sort_rows (wdata, index);
 }
 
 static void
@@ -157,7 +141,8 @@ listbox_add_columns (gftp_window_data *wdata)
    //gtk_tree_view_column_set_sort_column_id (column, LISTBOX_COL_FILENAME);
    gtk_tree_view_append_column (treeview, column);
    g_signal_connect (G_OBJECT (column), "clicked",
-                     G_CALLBACK (on_treeview_column_0_clicked_cb), wdata);
+                     G_CALLBACK (on_treeview_column_clicked_cb), wdata);
+   g_object_set_data (G_OBJECT(column), "index", GINT_TO_POINTER (0));
 
    /* filename */
    //renderer = gtk_cell_renderer_text_new ();
@@ -175,7 +160,8 @@ listbox_add_columns (gftp_window_data *wdata)
                                        "text", LISTBOX_COL_FILENAME);
    gtk_tree_view_append_column (treeview, column);
    g_signal_connect (G_OBJECT (column), "clicked",
-                     G_CALLBACK (on_treeview_column_1_clicked_cb), wdata);
+                     G_CALLBACK (on_treeview_column_clicked_cb), wdata);
+   g_object_set_data (G_OBJECT(column), "index", GINT_TO_POINTER (1));
 
    /* size */
    renderer = g_object_new(GTK_TYPE_CELL_RENDERER_TEXT,
@@ -193,7 +179,8 @@ listbox_add_columns (gftp_window_data *wdata)
                                        "text", LISTBOX_COL_SIZE);
    gtk_tree_view_append_column (treeview, column);
    g_signal_connect (G_OBJECT (column), "clicked",
-                     G_CALLBACK (on_treeview_column_2_clicked_cb), wdata);
+                     G_CALLBACK (on_treeview_column_clicked_cb), wdata);
+   g_object_set_data (G_OBJECT(column), "index", GINT_TO_POINTER (2));
 
    /* date */
    renderer = g_object_new(GTK_TYPE_CELL_RENDERER_TEXT,
@@ -210,7 +197,8 @@ listbox_add_columns (gftp_window_data *wdata)
                                        "text", LISTBOX_COL_DATE);
    gtk_tree_view_append_column (treeview, column);
    g_signal_connect (G_OBJECT (column), "clicked",
-                     G_CALLBACK (on_treeview_column_3_clicked_cb), wdata);
+                     G_CALLBACK (on_treeview_column_clicked_cb), wdata);
+   g_object_set_data (G_OBJECT(column), "index", GINT_TO_POINTER (3));
 
    /* user */
    renderer = g_object_new(GTK_TYPE_CELL_RENDERER_TEXT,
@@ -227,7 +215,8 @@ listbox_add_columns (gftp_window_data *wdata)
                                        "text", LISTBOX_COL_USER);
    gtk_tree_view_append_column (treeview, column);
    g_signal_connect (G_OBJECT (column), "clicked",
-                     G_CALLBACK (on_treeview_column_4_clicked_cb), wdata);
+                     G_CALLBACK (on_treeview_column_clicked_cb), wdata);
+   g_object_set_data (G_OBJECT(column), "index", GINT_TO_POINTER (4));
 
    /* group */
    renderer = g_object_new(GTK_TYPE_CELL_RENDERER_TEXT,
@@ -244,7 +233,8 @@ listbox_add_columns (gftp_window_data *wdata)
                                        "text", LISTBOX_COL_GROUP);
    gtk_tree_view_append_column (treeview, column);
    g_signal_connect (G_OBJECT (column), "clicked",
-                     G_CALLBACK (on_treeview_column_5_clicked_cb), wdata);
+                     G_CALLBACK (on_treeview_column_clicked_cb), wdata);
+   g_object_set_data (G_OBJECT(column), "index", GINT_TO_POINTER (5));
 
    /* attributes */
    renderer = g_object_new(GTK_TYPE_CELL_RENDERER_TEXT,
@@ -261,7 +251,8 @@ listbox_add_columns (gftp_window_data *wdata)
                                        "text", LISTBOX_COL_ATTRIBS);
    gtk_tree_view_append_column (treeview, column);
    g_signal_connect (G_OBJECT (column), "clicked",
-                     G_CALLBACK (on_treeview_column_6_clicked_cb), wdata);
+                     G_CALLBACK (on_treeview_column_clicked_cb), wdata);
+   g_object_set_data (G_OBJECT(column), "index", GINT_TO_POINTER (6));
 }
 
 /* ============================================================== *
