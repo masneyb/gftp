@@ -1738,7 +1738,7 @@ static int ftp_chmod (gftp_request * request, const char *file, mode_t mode)
     tempstr = g_strdup_printf ("SITE CHMOD %o %s\r\n", mode, file);
 
   ret = ftp_send_command (request, tempstr, -1, 1, 0);
-  if (ftpdat->last_response_code) {
+  if (ftpdat->last_response_code == 500) {
       ftpdat->feat[FTP_FEAT_SITE] = 0;
   }
   g_free (tempstr);
@@ -1801,7 +1801,7 @@ static int ftp_site (gftp_request * request, int specify_site, const char *comma
     }
 
   ret = ftp_send_command (request, tempstr, len, 1, 0);
-  if (ftpdat->last_response_code) {
+  if (ftpdat->last_response_code == 500) {
       ftpdat->feat[FTP_FEAT_SITE] = 0;
   }
   g_free (tempstr);
