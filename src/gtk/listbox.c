@@ -41,7 +41,7 @@ typedef struct
    gchar *user;
    gchar *group;
    gchar *attribs;
-   gpointer gftp_file;
+   void *gftp_file;
 } listbox_columns;
 
 enum
@@ -63,9 +63,8 @@ enum
  * create_listbox()
  * ============================================================== */
 
-static GtkWidget *
-create_listbox(gftp_window_data *wdata) {
-
+static GtkWidget * create_listbox (gftp_window_data *wdata)
+{
    GtkTreeModel     *tree_model;
    GtkTreeView      *treeview;
    GtkTreeSelection *tree_sel;
@@ -105,14 +104,14 @@ create_listbox(gftp_window_data *wdata) {
  * listbox_add_columns()
  * ============================================================== */
 
-static void on_treeview_column_clicked_cb (GtkTreeViewColumn *c, gpointer wdata)
+static void on_treeview_column_clicked_cb (GtkTreeViewColumn *c, void *wdata)
 {
     intptr_t index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(c), "index"));
     listbox_sort_rows (wdata, index);
 }
 
-static void
-listbox_add_columns (gftp_window_data *wdata)
+
+static void listbox_add_columns (gftp_window_data *wdata)
 {
    /*
     *  gftp implements its own logic to sort rows (lib/misc.c)
@@ -120,7 +119,6 @@ listbox_add_columns (gftp_window_data *wdata)
     *  set the "clickable" property to true and call listbox_sort_rows()
     *  and don't set the "sort-column-id" property
     */
-
    GtkTreeView     *treeview = GTK_TREE_VIEW (wdata->listbox);
    GtkCellRenderer *renderer;
    GtkTreeViewColumn *column;
@@ -259,8 +257,7 @@ listbox_add_columns (gftp_window_data *wdata)
  * listbox_sort_rows()
  * ============================================================== */
 
-void
-listbox_sort_rows (gpointer data, gint column)
+void listbox_sort_rows (void *data, gint column)
 {
    /* gftp_sort_filelist() does the job, then listbox_update_filelist()
     * populates the listbox with the new info from wdata->files */
@@ -324,8 +321,7 @@ listbox_sort_rows (gpointer data, gint column)
  *     listbox_add_file() + listbox_update_filelist()
  * ============================================================== */ 
 
-static void
-listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
+static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
 {
    char time_str[80] = "";
    struct tm timeinfo;
@@ -341,7 +337,7 @@ listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
 
    listbox_columns col_data;
    memset(&col_data, 0, sizeof(col_data));
-   col_data.gftp_file = (gpointer) fle;
+   col_data.gftp_file = (void*) fle;
 
    if (wdata->show_selected) {
       fle->shown = fle->was_sel;
@@ -441,8 +437,8 @@ listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    if (col_data.attribs) g_free (col_data.attribs);
 }
 
-void
-listbox_update_filelist(gftp_window_data * wdata)
+
+void listbox_update_filelist(gftp_window_data * wdata)
 {
    // use wdata->files to populate the listbox
    GList     *templist, *igl;
@@ -486,36 +482,41 @@ listbox_update_filelist(gftp_window_data * wdata)
 
 // ==============================================================
 
-int
-listbox_num_selected (gftp_window_data *wdata) {
+int listbox_num_selected (gftp_window_data *wdata)
+{
    GtkTreeView      *tree = GTK_TREE_VIEW (wdata->listbox);
    GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
    gint             count = gtk_tree_selection_count_selected_rows (tsel);
    return count;
 }
 
-void listbox_clear (gftp_window_data *wdata) {
+
+void listbox_clear (gftp_window_data *wdata)
+{
    GtkTreeView  *tree  = GTK_TREE_VIEW  (wdata->listbox);
    GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (tree));
    gtk_list_store_clear (store);
 }
 
-void
-listbox_select_all (gftp_window_data *wdata) {
+
+void listbox_select_all (gftp_window_data *wdata)
+{
    GtkTreeView      *tree = GTK_TREE_VIEW (wdata->listbox);
    GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
    gtk_tree_selection_select_all (tsel);
 }
 
-void
-listbox_deselect_all (gftp_window_data *wdata) {
+
+void listbox_deselect_all (gftp_window_data *wdata)
+{
    GtkTreeView      *tree = GTK_TREE_VIEW (wdata->listbox);
    GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
    gtk_tree_selection_unselect_all (tsel);
 }
 
-void
-listbox_select_row (gftp_window_data * wdata, int n) {
+
+void listbox_select_row (gftp_window_data * wdata, int n)
+{
    //printf("selected_row: %d\n", n);
    GtkTreeView      *tree  = GTK_TREE_VIEW (wdata->listbox);
    GtkTreeSelection *tsel  = gtk_tree_view_get_selection (tree);
@@ -524,8 +525,9 @@ listbox_select_row (gftp_window_data * wdata, int n) {
    gtk_tree_path_free (tpath);
 }
 
-static void
-listbox_select_all_files (gftp_window_data *wdata) {
+
+static void listbox_select_all_files (gftp_window_data *wdata)
+{
    gftp_file       * gftpFile;
    GtkTreeView     * tree  = GTK_TREE_VIEW (wdata->listbox);
    GtkTreeModel    * model = gtk_tree_view_get_model (tree);
@@ -556,8 +558,7 @@ listbox_select_all_files (gftp_window_data *wdata) {
 // - only_one = 1: returns a (gftp_file *)
 // it may return NULL if no row is selected
 
-void *
-listbox_get_selected_files (gftp_window_data *wdata, int only_one)
+void * listbox_get_selected_files (gftp_window_data *wdata, int only_one)
 {
    GtkTreeView      * tree = GTK_TREE_VIEW (wdata->listbox);
    GtkTreeSelection * tsel = gtk_tree_view_get_selection (tree);
@@ -594,8 +595,7 @@ listbox_get_selected_files (gftp_window_data *wdata, int only_one)
 
 // ==============================================================
 
-static void
-listbox_set_default_column_width (gftp_window_data *wdata)
+static void listbox_set_default_column_width (gftp_window_data *wdata)
 {
    // set column width from config
    GtkTreeView *tree = GTK_TREE_VIEW  (wdata->listbox);
@@ -641,8 +641,7 @@ listbox_set_default_column_width (gftp_window_data *wdata)
 
 // ==============================================================
 
-static void
-lb_save_cwidth(GtkTreeView *tree, int ncol, char *opt)
+static void lb_save_cwidth(GtkTreeView *tree, int ncol, char *opt)
 {
    GtkTreeViewColumn *col;
    intptr_t w;
@@ -660,8 +659,8 @@ lb_save_cwidth(GtkTreeView *tree, int ncol, char *opt)
    gftp_set_global_option (opt, GINT_TO_POINTER (w));
 }
 
-static void
-listbox_save_column_width (gftp_window_data *local, gftp_window_data *remote)
+
+static void listbox_save_column_width (gftp_window_data *local, gftp_window_data *remote)
 {
    GtkTreeView *ltree = GTK_TREE_VIEW (local->listbox);
    GtkTreeView *rtree = GTK_TREE_VIEW (remote->listbox);
