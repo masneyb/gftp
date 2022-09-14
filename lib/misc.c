@@ -25,6 +25,11 @@
 #include "options.h"
 #include <fnmatch.h>
 
+char * BASE_CONF_DIR = NULL;
+char * CONFIG_FILE = NULL;
+char * BOOKMARKS_FILE = NULL;
+char * LOG_FILE = NULL;
+
 #ifdef HAVE_INTL_PRINTF
 
 char * insert_commas (off_t number, char *dest_str, size_t dest_len)
@@ -923,6 +928,11 @@ void gftp_shutdown (void)
   dmalloc_shutdown ();
 #endif
 
+  if (BASE_CONF_DIR)  free (BASE_CONF_DIR);
+  if (CONFIG_FILE)    free (CONFIG_FILE);
+  if (BOOKMARKS_FILE) free (BOOKMARKS_FILE);
+  if (LOG_FILE)       free (LOG_FILE);
+
   exit (0);
 }
 
@@ -976,13 +986,17 @@ void gftp_locale_init (void)
 {
   DEBUG_PRINT_FUNC
 #ifdef HAVE_GETTEXT
-
   setlocale (LC_ALL, "");
   textdomain ("gftp");
   bindtextdomain ("gftp", LOCALE_DIR);
   bind_textdomain_codeset ("gftp", "UTF-8");
-
 #endif /* HAVE_GETTEXT */
+  // XDG SPEC (XDG_CONFIG_HOME defaults to $HOME/.config/ + gftp)
+  BASE_CONF_DIR = g_build_filename (g_get_user_config_dir(), "gftp", NULL);
+  g_mkdir_with_parents (BASE_CONF_DIR, 0755);
+  CONFIG_FILE    = g_strconcat (BASE_CONF_DIR, "/gftprc",    NULL);
+  BOOKMARKS_FILE = g_strconcat (BASE_CONF_DIR, "/bookmarks", NULL);
+  LOG_FILE       = g_strconcat (BASE_CONF_DIR, "/gftp.log",  NULL);
 }
 
 /* Very primary encryption/decryption to make the passwords unreadable

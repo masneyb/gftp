@@ -174,10 +174,10 @@
 #define GFTP_ECANIGNORE -6 /* Error that can be ignored */
 
 /* Some general settings */
-#define BASE_CONF_DIR   "~/.gftp"
-#define CONFIG_FILE     BASE_CONF_DIR "/gftprc"
-#define BOOKMARKS_FILE  BASE_CONF_DIR "/bookmarks"
-#define LOG_FILE        BASE_CONF_DIR "/gftp.log"
+extern char * BASE_CONF_DIR; // see misc.c: gftp_locale_init()
+extern char * CONFIG_FILE;
+extern char * BOOKMARKS_FILE;
+extern char * LOG_FILE;
 #define MAX_HIST_LEN    10
 #define GFTP_URL_USAGE  "[[protocol://][user[:pass]@]site[:port][/directory]]"
 

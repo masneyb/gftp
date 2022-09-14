@@ -130,7 +130,7 @@ gftp_new_cache_entry (gftp_request * request)
   time (&t);
   t += cache_ttl;
 
-  cachedir = gftp_expand_path (NULL, BASE_CONF_DIR "/cache");
+  cachedir = g_strconcat (BASE_CONF_DIR, "/cache", NULL);
   if (access (cachedir, F_OK) == -1)
     {
       if (mkdir (cachedir, S_IRUSR | S_IWUSR | S_IXUSR) < 0)
@@ -211,7 +211,7 @@ gftp_find_cache_entry (gftp_request * request)
   gftp_generate_cache_description (request, description, sizeof (description),
                                    0);
 
-  indexfile = gftp_expand_path (NULL, BASE_CONF_DIR "/cache/index.db");
+  indexfile = g_strconcat (BASE_CONF_DIR, "/cache/index.db", NULL);
   if ((indexfd = gftp_fd_open (NULL, indexfile, O_RDONLY, 0)) == -1)
     {
       g_free (indexfile);
@@ -274,7 +274,7 @@ gftp_clear_cache_files (void)
   gftp_cache_entry centry;
   int indexfd;
 
-  indexfile = gftp_expand_path (NULL, BASE_CONF_DIR "/cache/index.db");
+  indexfile = g_strconcat (BASE_CONF_DIR, "/cache/index.db", NULL);
   if ((indexfd = gftp_fd_open (NULL, indexfile, O_RDONLY, 0)) == -1)
     {
       g_free (indexfile);
@@ -325,14 +325,14 @@ gftp_delete_cache_entry (gftp_request * request, char *descr,
   else
     return;
 
-  oldindexfile = gftp_expand_path (NULL, BASE_CONF_DIR "/cache/index.db");
+  oldindexfile = g_strconcat (BASE_CONF_DIR, "/cache/index.db", NULL);
   if ((indexfd = gftp_fd_open (NULL, oldindexfile, O_RDONLY, 0)) == -1)
     {
       g_free (oldindexfile);
       return;
     }
 
-  newindexfile = gftp_expand_path (NULL, BASE_CONF_DIR "/cache/index.db.new");
+  newindexfile = g_strconcat (BASE_CONF_DIR, "/cache/index.db.new", NULL);
   if ((newfd = gftp_fd_open (request, newindexfile, O_WRONLY | O_CREAT, 
                              S_IRUSR | S_IWUSR)) == -1)
     {
