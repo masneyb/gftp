@@ -993,7 +993,13 @@ void gftp_locale_init (void)
 #endif /* HAVE_GETTEXT */
   // XDG SPEC (XDG_CONFIG_HOME defaults to $HOME/.config/ + gftp)
   BASE_CONF_DIR = g_build_filename (g_get_user_config_dir(), "gftp", NULL);
-  g_mkdir_with_parents (BASE_CONF_DIR, 0755);
+  if (g_mkdir_with_parents (BASE_CONF_DIR, 0755) == -1)
+  {
+    printf (_("gFTP Error: Could not make directory %s: %s\n"),
+              BASE_CONF_DIR, g_strerror (errno));
+    g_free (BASE_CONF_DIR);
+    exit (EXIT_FAILURE);
+  }
   CONFIG_FILE    = g_strconcat (BASE_CONF_DIR, "/gftprc",    NULL);
   BOOKMARKS_FILE = g_strconcat (BASE_CONF_DIR, "/bookmarks", NULL);
   LOG_FILE       = g_strconcat (BASE_CONF_DIR, "/gftp.log",  NULL);

@@ -174,40 +174,32 @@ copyfile (char *source, char *dest)
 static void
 gftp_read_bookmarks (char *global_data_path)
 {
-  char *tempstr, *temp1str, buf[255], *curpos;
+  char *temp1str, buf[255], *curpos;
   gftp_config_vars * global_entry;
   gftp_bookmarks_var * newentry;
   FILE *bmfile;
   size_t len;
   int line;
 
-  if ((tempstr = gftp_expand_path (NULL, BOOKMARKS_FILE)) == NULL)
-    {
-      printf (_("gFTP Error: Bad bookmarks file name %s\n"), BOOKMARKS_FILE);
-      exit (EXIT_FAILURE);
-    }
-
-  if (access (tempstr, F_OK) == -1)
+  if (access (BOOKMARKS_FILE, F_OK) == -1)
     {
       temp1str = g_strdup_printf ("%s/bookmarks", global_data_path);
       if (access (temp1str, F_OK) == -1)
         {
-          printf (_("Warning: Cannot find master bookmark file %s\n"),
-                  temp1str);
+          printf (_("Warning: Cannot find master bookmark file %s\n"), temp1str);
           g_free (temp1str);
           return;
         }
-      copyfile (temp1str, tempstr);
+      copyfile (temp1str, BOOKMARKS_FILE);
       g_free (temp1str);
     }
 
-  if ((bmfile = fopen (tempstr, "r")) == NULL)
+  if ((bmfile = fopen (BOOKMARKS_FILE, "r")) == NULL)
     {
-      printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"), tempstr,
+      printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"), BOOKMARKS_FILE,
               g_strerror (errno));
       exit (EXIT_FAILURE);
     }
-  g_free (tempstr);
 
   line = 0;
   newentry = NULL;
@@ -483,7 +475,7 @@ gftp_setup_global_options (gftp_config_vars * cvars)
 void
 gftp_read_config_file (char *global_data_path)
 {
-  char *tempstr, *temp1str, *curpos, buf[255];
+  char *temp1str, *curpos, buf[255];
   gftp_config_list_vars * tmplistvar;
   gftp_config_vars * tmpconfigvar;
   char **protocol_list;
@@ -528,26 +520,8 @@ gftp_read_config_file (char *global_data_path)
                            &gftp_config_list[i]);
     }
 
-  if ((tempstr = gftp_expand_path (NULL, CONFIG_FILE)) == NULL)
+  if (access (CONFIG_FILE, F_OK) == -1)
     {
-      printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
-      exit (EXIT_FAILURE);
-    }
-
-  if (access (tempstr, F_OK) == -1)
-    {
-      temp1str = gftp_expand_path (NULL, BASE_CONF_DIR);
-      if (access (temp1str, F_OK) == -1)
-        {
-          if (mkdir (temp1str, S_IRUSR | S_IWUSR | S_IXUSR) != 0)
-            {
-              printf (_("gFTP Error: Could not make directory %s: %s\n"),
-                      temp1str, g_strerror (errno));
-              exit (EXIT_FAILURE);
-            }
-        }
-      g_free (temp1str);
-
       temp1str = g_strdup_printf ("%s/gftprc", global_data_path);
       if (access (temp1str, F_OK) == -1)
         {
@@ -556,17 +530,16 @@ gftp_read_config_file (char *global_data_path)
           printf (_("Did you do a make install?\n"));
           exit (EXIT_FAILURE);
         }
-      copyfile (temp1str, tempstr);
+      copyfile (temp1str, CONFIG_FILE);
       g_free (temp1str);
     }
 
-  if ((conffile = fopen (tempstr, "r")) == NULL)
+  if ((conffile = fopen (CONFIG_FILE, "r")) == NULL)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
               g_strerror (errno));
       exit (EXIT_FAILURE);
     }
-  g_free (tempstr);
  
   line = 0;
   while (fgets (buf, sizeof (buf), conffile))
@@ -612,18 +585,11 @@ gftp_read_config_file (char *global_data_path)
         }
     }
 
-  if ((tempstr = gftp_expand_path (NULL, LOG_FILE)) == NULL)
-    {
-      printf (_("gFTP Error: Bad log file name %s\n"), LOG_FILE);
-      exit (EXIT_FAILURE);
-    }
-
-  if ((gftp_logfd = fopen (tempstr, "w")) == NULL)
+  if ((gftp_logfd = fopen (LOG_FILE, "w")) == NULL)
     {
       printf (_("gFTP Warning: Cannot open %s for writing: %s\n"),
-              tempstr, g_strerror (errno));
+              LOG_FILE, g_strerror (errno));
     }
-  g_free (tempstr);
 
   gftp_bookmarks = g_malloc0 (sizeof (*gftp_bookmarks));
   gftp_bookmarks->isfolder = 1;
@@ -678,20 +644,12 @@ gftp_write_bookmarks_file (void)
   bmhdr = "gFTP Bookmarks. Warning: Any comments that you add to this file WILL be overwritten";
   pwhdr = N_("Note: The passwords contained inside this file are scrambled. This algorithm is not secure. This is to avoid your password being easily remembered by someone standing over your shoulder while you're editing this file. Prior to this, all passwords were stored in plaintext.");
 
-  if ((tempstr = gftp_expand_path (NULL, BOOKMARKS_FILE)) == NULL)
-    {
-      printf (_("gFTP Error: Bad bookmarks file name %s\n"), CONFIG_FILE);
-      exit (EXIT_FAILURE);
-    }
-
-  if ((bmfile = fopen (tempstr, "w+")) == NULL)
+  if ((bmfile = fopen (BOOKMARKS_FILE, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open bookmarks file %s: %s\n"),
               CONFIG_FILE, g_strerror (errno));
       exit (EXIT_FAILURE);
     }
-
-  g_free (tempstr);
 
   write_comment (bmfile, _(bmhdr));
   write_comment (bmfile, _(pwhdr));
@@ -764,29 +722,20 @@ gftp_write_bookmarks_file (void)
 }
 
 
-void
-gftp_write_config_file (void)
+void gftp_write_config_file (void)
 {
-  char *tempstr, buf[256];
+  char buf[256];
   gftp_config_vars * cv;
   GList *templist;
   FILE *conffile;
   int i;
 
-  if ((tempstr = gftp_expand_path (NULL, CONFIG_FILE)) == NULL)
-    {
-      printf (_("gFTP Error: Bad config file name %s\n"), CONFIG_FILE);
-      exit (EXIT_FAILURE);
-    }
-
-  if ((conffile = fopen (tempstr, "w+")) == NULL)
+  if ((conffile = fopen (CONFIG_FILE, "w+")) == NULL)
     {
       printf (_("gFTP Error: Cannot open config file %s: %s\n"), CONFIG_FILE,
               g_strerror (errno));
       exit (EXIT_FAILURE);
     }
-
-  g_free (tempstr);
 
   write_comment (conffile, _("gFTP. Warning: Any comments that you add to this file WILL be overwritten. If a entry has a (*) in it's comment, you can't change it inside gFTP"));
 
