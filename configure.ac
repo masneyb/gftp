@@ -109,8 +109,8 @@ GTHREAD_CFLAGS=""
 GTHREAD_LIBS=""
 
 PKG_CHECK_MODULES(
-  [GLIB], [glib-2.0 >= 2.18.0], found_glib=yes,
-  AC_MSG_ERROR(Glib >= 2.18.0+ is required)
+  [GLIB], [glib-2.0 >= 2.32.0], found_glib=yes,
+  AC_MSG_ERROR(Glib >= 2.32.0+ is required)
   )
 
 if test "x$enable_gtkport" = "xyes" ; then

@@ -55,7 +55,7 @@ static GHashTable * gftp_ssl_map = NULL;
 
 struct CRYPTO_dynlock_value
 { 
-  WGMutex mutex;
+  GMutex mutex;
 };
 
 

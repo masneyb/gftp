@@ -58,11 +58,6 @@
 
 #include "glib-compat.h"
 
-#if ! GLIB_CHECK_VERSION (2, 32, 0)
-// disable SSL if GLIB < 2.32 (problems with GMutex *)
-#undef USE_SSL
-#endif
-
 #ifndef __GNU__
 #include <limits.h>
 #endif
@@ -490,8 +485,8 @@ typedef struct gftp_transfer_tag
   void * fromwdata;
   void * towdata;
 
-  WGMutex statmutex;
-  WGMutex structmutex;
+  GMutex statmutex;
+  GMutex structmutex;
 
   void *user_data;
   void *thread_id;

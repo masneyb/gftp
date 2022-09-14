@@ -404,7 +404,7 @@ struct servent *
 r_getservbyname (const char *name, const char *proto,
                  struct servent *result_buf, int *h_errnop)
 {
-  static WGMutex servfunclock;
+  static GMutex servfunclock;
   struct servent *sent;
 
   Wg_mutex_lock (&servfunclock);

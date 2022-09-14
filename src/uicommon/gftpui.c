@@ -1162,7 +1162,7 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
   tdata = NULL;
   if (append_transfers && one_transfer && !show_dialog)
     {
-      Wg_mutex_lock (&gftpui_common_transfer_mutex);
+      g_mutex_lock (&gftpui_common_transfer_mutex);
 
       for (templist = gftp_file_transfers;
            templist != NULL;
