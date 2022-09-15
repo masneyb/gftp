@@ -76,11 +76,6 @@ static gftp_config_vars config_vars[] =
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
    N_("You must specify a FTP proxy hostname, port and probably other details"),
    GFTP_PORT_ALL, NULL},
-  {"ignore_pasv_address", N_("Ignore PASV address"), 
-   gftp_option_type_checkbox, GINT_TO_POINTER(0), NULL, 
-   GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
-   N_("If this is enabled, then the remote FTP server's PASV IP address field will be ignored and the host's IP address will be used instead. This is often needed for routers giving their internal rather then their external IP address in a PASV reply."),
-   GFTP_PORT_ALL, NULL},
   {"passive_transfer", N_("Passive file transfers"), 
    gftp_option_type_checkbox, GINT_TO_POINTER(1), NULL, 
    GFTP_CVARS_FLAGS_SHOW_BOOKMARK,
@@ -815,7 +810,6 @@ static int ftp_do_data_connection_new (gftp_request * request)
   int USE_EPSV = 0;
   int USE_EPRT = 0;
   int invalid_response = 0;
-  intptr_t ignore_pasv_address; //PASV
   unsigned int temp[6];         //PASV
   unsigned char ad[6];          //PASV
   struct sockaddr_in * paddrin; //PASV
@@ -906,10 +900,8 @@ static int ftp_do_data_connection_new (gftp_request * request)
           for (i = 0; i < 6; i++) {
               ad[i] = (unsigned char) (temp[i] & 0xff);
           }
-          gftp_lookup_request_option (request, "ignore_pasv_address", &ignore_pasv_address);
-          if (ignore_pasv_address) {
-              request->logging_function (gftp_logging_error, request, _("Ignoring IP address in PASV response\n"));
-          } else {
+          // always ignore PASV address unless PRET is detected...
+          if (ftpdat->feat[FTP_FEAT_PRET]) {
               // change IP to the one specified in PASV response
               memcpy (&(paddrin->sin_addr), &ad[0], 4);
           }
