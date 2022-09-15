@@ -21,25 +21,32 @@ if [ ! -f src/gtk/gftp-gtk ] ; then
     ./configure --prefix=/usr --disable-ssl --disable-nls
     make
     sync
-    mkdir -p ${outdir}/gtk
 fi
 
-cp -a src/gtk/gftp-gtk ${outdir}/gtk/gftp
+mkdir -p ${outdir}/gtk
+cp -a src/gtk/gftp-gtk ${outdir}/gtk/gftp-${arch}
 cp -a docs/sample.gftp ${outdir}
 
 echo '#!/bin/sh
 
 appdir=$(dirname "$0")
+arch=$(uname -m)
+
 export XDG_CONFIG_HOME=${appdir}
 export GFTP_SHARE_DIR=${appdir}/sample.gftp
 
-gftp=${appdir}/gtk/gftp
+if [ -x ${appdir}/gtk/gftp-${arch} ] ; then
+    gftp=${appdir}/gtk/gftp-${arch}
+else
+    gftp=${appdir}/gtk/gftp
+fi
 
 if ! [ -x ${gftp} ] ; then
     echo "cannot find gftp in $appdir"
     exit 1
 fi
 
+echo "exec ${gftp} $@"
 exec ${gftp} "$@"
 ' > ${outdir}/gftp-portable
 chmod +x ${outdir}/gftp-portable
