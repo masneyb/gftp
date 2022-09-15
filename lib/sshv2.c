@@ -1139,10 +1139,8 @@ sshv2_free_args (char **args)
 }
 
 
-static int
-sshv2_connect (gftp_request * request)
+static int sshv2_connect (gftp_request * request)
 {
-  struct servent serv_struct;
   sshv2_params * params;
   sshv2_message message;
   int ret, fdm, ptymfd;
@@ -1162,18 +1160,9 @@ sshv2_connect (gftp_request * request)
   request->logging_function (gftp_logging_misc, request,
 			     _("Opening SSH connection to %s\n"),
                              request->hostname);
-
-  if (request->port == 0)
-    {
-      if (!r_getservbyname ("ssh", "tcp", &serv_struct, NULL))
-        {
-         request->logging_function (gftp_logging_error, request,
-                                    _("Cannot look up service name %s/tcp. Please check your services file\n"),
-                                    "ssh");
-        }
-      else
-        request->port = ntohs (serv_struct.s_port);
-    }
+  if (request->port == 0) {
+      request->port = gftp_protocol_default_port (request);
+  }
 
   args = sshv2_gen_exec_args (request);
 

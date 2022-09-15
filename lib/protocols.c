@@ -1781,8 +1781,7 @@ mode_t gftp_convert_attributes_to_mode_t (char *attribs)
 }
 
 
-unsigned int
-gftp_protocol_default_port (gftp_request * request)
+unsigned int gftp_protocol_default_port (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
   struct servent serv_struct;
