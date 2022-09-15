@@ -4,7 +4,7 @@ The gFTP file transfer client. http://www.gftp.org
 
 ## What are the requirements to compile/run gFTP?
 
-  - Glib 2.18+
+  - Glib 2.32+
   - GTK 2.14+ (optional)
   - OpenSSL (optional)
   - libreadline (optional)
@@ -16,7 +16,7 @@ The gFTP file transfer client. http://www.gftp.org
   - FTP (ftp://)
   - FTPS (ftps://) (Explicit TLS - current standard for encrypted FTP)
   - FTPSi (ftpsi://) (Implicit TLS, default port: 990)
-  - SSH2 (ssh2://) (sftp) - requires OpenSSH client: `ssh`
+  - SSH2 SFTP (ssh2://) - requires OpenSSH client: `ssh`
   - FSP (fsp://) (UDP File Service Protocol)
 
 
@@ -47,10 +47,7 @@ The gFTP file transfer client. http://www.gftp.org
 
   Go to https://github.com/masneyb/gftp/issues
 
-  If you find ANY bugs in gFTP, please check to make sure that you are using the
-  latest version of gFTP.
-
-  When sending in bug reports, please try to be as descriptive as
+  When sending in bug reports, PLEASE try to be as descriptive as
   possible: what OS/version you are running, what compiler you are
   compiling with, the output of gftp --info and any other important information.
 
