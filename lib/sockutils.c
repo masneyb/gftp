@@ -407,7 +407,7 @@ r_getservbyname (const char *name, const char *proto,
   static GMutex servfunclock;
   struct servent *sent;
 
-  Wg_mutex_lock (&servfunclock);
+  g_mutex_lock (&servfunclock);
 
   if ((sent = getservbyname (name, proto)) == NULL)
   {
@@ -420,7 +420,7 @@ r_getservbyname (const char *name, const char *proto,
       sent = result_buf;
   }
 
-  Wg_mutex_unlock (&servfunclock);
+  g_mutex_unlock (&servfunclock);
   return (sent);
 }
 
