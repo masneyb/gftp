@@ -366,7 +366,7 @@ void about_dialog (gpointer data)
     gchar * translators = _("Translated by");
 
     GdkPixbuf * logo = NULL;
-    char * logopath = get_image_path ("gftp-logo.xpm"); /* misc-gtk.c */
+    char * logopath = get_image_path ("gftp-logo.png"); /* misc-gtk.c */
     if (logopath) {
        logo = gdk_pixbuf_new_from_file (logopath, NULL);
        g_free (logopath);

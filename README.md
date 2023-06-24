@@ -98,12 +98,12 @@ The gFTP file transfer client. http://www.gftp.org
   controls what mode is used for the file transfer. For example, to transfer all
   HTML files as binary, change the following two lines:
 
-  - ext=.htm:world.xpm:A:
-  - ext=.html:world.xpm:A:
+  - ext=.htm:world.png:A:
+  - ext=.html:world.png:A:
 
   to the following:
-  - ext=.htm:world.xpm:B:
-  - ext=.html:world.xpm:B:
+  - ext=.htm:world.png:B:
+  - ext=.html:world.png:B:
 
 ## When gFTP tries to get the remote directory listing, I receive the error: Cannot create a data connection: Connection refused
 

@@ -535,8 +535,8 @@ show_transfer (gftp_transfer * tdata)
   GList * templist;
   char *text[2];
 
-  gftp_get_pixmap (dlwdw, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
-  gftp_get_pixmap (dlwdw, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
+  gftp_get_pixmap (dlwdw, "open_dir.png", &opendir_pixmap, &opendir_bitmap);
+  gftp_get_pixmap (dlwdw, "dir.png", &closedir_pixmap, &closedir_bitmap);
 
   text[0] = tdata->fromreq->hostname;
   text[1] = _("Waiting...");

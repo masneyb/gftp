@@ -355,20 +355,20 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    gtk_list_store_append (store, &iter);
 
    if (strcmp (fle->file, "..") == 0) {
-      col_data.icon = gftp_get_pixbuf("dotdot.xpm");
+      col_data.icon = gftp_get_pixbuf("dotdot.png");
       empty_size = 1;
    } else if (S_ISLNK (fle->st_mode) && S_ISDIR (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("linkdir.xpm");
+      col_data.icon = gftp_get_pixbuf("linkdir.png");
       empty_size = 1;
    } else if (S_ISLNK (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("linkfile.xpm");
+      col_data.icon = gftp_get_pixbuf("linkfile.png");
    } else if (S_ISDIR (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("dir.xpm");
+      col_data.icon = gftp_get_pixbuf("dir.png");
       empty_size = 1;
    } else if ((fle->st_mode & S_IXUSR) ||
            (fle->st_mode & S_IXGRP) ||
            (fle->st_mode & S_IXOTH)) {
-      col_data.icon = gftp_get_pixbuf("exe.xpm");
+      col_data.icon = gftp_get_pixbuf("exe.png");
    } else {
       stlen = strlen (fle->file);
       gftp_lookup_global_option ("ext", &tmplistvar);
@@ -387,7 +387,7 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    }
 
    if (!col_data.icon) {
-      col_data.icon = gftp_get_pixbuf ("doc.xpm");
+      col_data.icon = gftp_get_pixbuf ("doc.png");
    }
 
    if (fle->file) {
