@@ -158,6 +158,11 @@ extern "C"
 #define GDK_KEY(symbol) GDK_KEY_##symbol
 #endif
 
+#if GTK_MAJOR_VERSION >= 4
+#define gdk_threads_init(){}
+#define GDK_THREADS_ENTER(){}
+#define GDK_THREADS_LEAVE(){}
+#endif
 
 /* ================================================== */
 /*                       GTK 3                        */
@@ -165,6 +170,9 @@ extern "C"
 
 // GTK >= 3.0 -- applies to GTK3, GTK4...
 #if GTK_MAJOR_VERSION >= 3
+typedef struct _GdkDrawable           GdkBitmap;
+typedef struct _GdkDrawable           GdkPixmap;
+
 #define GTKCOMPAT_DRAW_SIGNAL "draw"
 #define gtkcompat_widget_set_halign_left(w)   gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_START)
 #define gtkcompat_widget_set_halign_center(w) gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_CENTER)

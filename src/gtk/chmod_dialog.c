@@ -22,7 +22,6 @@
 /***********************************************************************************/
 
 #include "gftp-gtk.h"
-
 static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow, *ox;
 static mode_t mode; 
 
@@ -214,7 +213,6 @@ chmod_dialog (gpointer data)
       tb_set_active (ow,     tempfle->st_mode & S_IWOTH);
       tb_set_active (ox,     tempfle->st_mode & S_IXOTH);
     }
-
   gtk_widget_show_all (dialog);
 }
 

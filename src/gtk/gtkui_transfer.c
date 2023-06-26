@@ -73,7 +73,7 @@ gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle)
     text[1] = _("Skipped");
   else
     text[1] = _("Waiting...");
-
+#if GTK_MAJOR_VERSION == 2
   fle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),
                                           tdata->user_data, NULL, text, 5,
                                           NULL, NULL, NULL, NULL,
@@ -83,6 +83,7 @@ gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle)
   transdata->curfle = curfle;
 
   gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), fle->user_data, transdata);
+#endif
 }
 
 
@@ -226,6 +227,7 @@ on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
 void
 gftpui_ask_transfer (gftp_transfer * tdata)
 {
+
   DEBUG_PRINT_FUNC
   char *add_data[4] = { NULL, NULL, NULL, NULL };
   char tempstr[50], temp1str[50], *pos;
@@ -242,7 +244,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                                         NULL);
 
   gtk_window_set_role (GTK_WINDOW(dialog), "transfer");
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+ // gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
@@ -251,6 +253,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   tempwid = gtk_label_new (_("The following file(s) exist on both the local and remote computer\nPlease select what you would like to do"));
   gtk_box_pack_start (GTK_BOX (main_vbox), tempwid, FALSE, FALSE, 0);
 
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
   scroll = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_set_size_request (scroll, 600, 200);
 
@@ -448,7 +451,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                     "clicked",          // signal
                     G_CALLBACK (on_gtk_button_clicked_unselectall),
                     (gpointer) treeview);
-
+#endif
   g_signal_connect (G_OBJECT (dialog), // GtkDialog
                     "response",        // signal
                     G_CALLBACK (on_gtk_dialog_response_transferdlg),

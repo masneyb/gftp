@@ -726,17 +726,18 @@ create_bm_dlg_menubar (GtkWindow *window)
 
 GtkTreeView * btree_create()
 {
+#if 0
    // pixbufs..
    if (!opendir_pixbuf) {
-      opendir_pixbuf  = gftp_get_pixbuf("open_dir.xpm");
+      opendir_pixbuf  = gftp_get_pixbuf("open_dir.png");
    }
    if (!closedir_pixbuf) {
-      closedir_pixbuf = gftp_get_pixbuf("dir.xpm");
+      closedir_pixbuf = gftp_get_pixbuf("dir.png");
    }
    if (!bookmark_pixbuf) {
-      bookmark_pixbuf = gftp_get_pixbuf("txt.xpm");
+      bookmark_pixbuf = gftp_get_pixbuf("txt.png");
    }
-
+#endif
    // create tree store
    GtkTreeStore  *store;
    store = gtk_tree_store_new (BTREEVIEW_NUM_COLS,

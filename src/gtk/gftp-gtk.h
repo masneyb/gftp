@@ -73,8 +73,10 @@ typedef struct gftp_window_data_tag
   gftp_request * request;	/* The host that we are connected to */
   GList * files,		/* Files in the listbox */
         ** history;		/* History of the directories */
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
   GtkUIManager *ifactory; 	/* This is for the menus that will
                                    come up when you right click */
+#endif
   pthread_t tid;		/* Thread for the stop button */
   char *prefix_col_str;
 } gftp_window_data;
@@ -161,18 +163,20 @@ extern GtkWidget * stop_btn, * hostedit, * useredit, * passedit,
 extern GtkAdjustment * logwdw_vadj;
 extern GtkTextMark * logwdw_textmark;
 extern int local_start, remote_start, trans_start;
+
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
 extern GHashTable * graphic_hash_table;
 extern GHashTable * pixbuf_hash_table;
 
 extern GtkActionGroup * menus;
 extern GtkUIManager * factory;
+#endif
 
 extern pthread_mutex_t log_mutex;
 extern pthread_t main_thread_id;
 extern GList * viewedit_processes;
 
 extern intptr_t gftp_gtk_colored_msgs;
-
 
 /* bookmarks.c */
 void run_bookmark 				( gpointer data );
@@ -256,15 +260,22 @@ void gftpui_chdir_dialog 			( gpointer data );
 
 char * gftpui_gtk_get_utf8_file_pos 		( gftp_file * fle );
 
+/* listbox.c */
+GtkWidget * create_listbox 			(gftp_window_data *wdata);
+void listbox_add_columns 			(gftp_window_data *wdata);
+void listbox_save_column_width 			(gftp_window_data *local, gftp_window_data *remote);
+void listbox_select_all_files 			(gftp_window_data *wdata);
+void listbox_set_default_column_width 		(gftp_window_data *wdata);
+
 /* menu_items.c */
 void change_filespec 				( gpointer data );
 
 void save_directory_listing 			( gpointer data );
 
 void show_selected				( gpointer data );
-
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
 gboolean dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data);
-
+#endif
 void clearlog 					( gpointer data );
 
 void viewlog 					( gpointer data );
@@ -289,9 +300,6 @@ void ftp_log					( gftp_logging_level level,
 void update_window_info				( void );
 
 void update_window				( gftp_window_data * wdata );
-
-gftp_graphic * open_xpm				( GtkWidget * widget,
-						  char *filename );
 
 void gftp_free_pixmap 				( char *filename ); 
 
@@ -335,8 +343,10 @@ char * get_image_path 				( char *filename);
 void set_window_icon (GtkWindow *window, char *icon_name);
 void glist_to_combobox (GList *list, GtkWidget *combo);
 void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_protocol);
+#if GTK_MAJOR_VERSION == 2
 GtkMenuItem * new_menu_item (GtkMenu * menu, char * label, char * icon_name,
                              gpointer activate_callback, gpointer callback_data);
+#endif
 
 /* options_dialog.c */
 void options_dialog 				( gpointer data );

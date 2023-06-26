@@ -1,24 +1,24 @@
 ## Process this file with automake to produce Makefile.in
 
 files = bookmarks \
-	deb.xpm \
-	diff.xpm \
-	dir.xpm \
-	doc.xpm \
-	dotdot.xpm \
-	exe.xpm \
-	gftp-logo.xpm \
+	deb.png \
+	diff.png \
+	dir.png \
+	doc.png \
+	dotdot.png \
+	exe.png \
+	gftp-logo.png \
 	gftprc \
-	img.xpm \
-	linkdir.xpm \
-	linkfile.xpm \
-	man.xpm \
-	open_dir.xpm \
-	rpm.xpm \
-	tar.xpm \
-	txt.xpm \
-	sound.xpm \
-	world.xpm
+	img.png \
+	linkdir.png \
+	linkfile.png \
+	man.png \
+	open_dir.png \
+	rpm.png \
+	tar.png \
+	txt.png \
+	sound.png \
+	world.png
 
 pkgdata_DATA = $(files)
 

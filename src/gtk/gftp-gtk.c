@@ -22,7 +22,6 @@
 /***********************************************************************************/
 
 #include "gftp-gtk.h"
-#include "listbox.c"
 
 static GtkWidget * local_frame, * remote_frame, * log_scroll, * transfer_scroll,
                  * gftpui_command_toolbar;
@@ -50,6 +49,7 @@ static gboolean on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event
 static void on_combo_protocol_change_cb (GtkComboBox *cb, gpointer data);
 static int combo_key_pressed = 0;
 
+#if 0
 static int
 get_column (GtkCListColumn * col)
 {
@@ -60,7 +60,7 @@ get_column (GtkCListColumn * col)
   else
     return (col->width);
 }
-
+#endif
 
 static void
 _gftp_exit (GtkWidget * widget, gpointer data)
@@ -81,7 +81,7 @@ _gftp_exit (GtkWidget * widget, gpointer data)
 
   listbox_save_column_width (&window1, &window2);
 
-  ret = get_column (&GTK_CLIST (dlwdw)->column[0]);
+  //ret = get_column (&GTK_CLIST (dlwdw)->column[0]);
   gftp_set_global_option ("file_trans_column", GINT_TO_POINTER (ret));
 
   tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(hostedit));
@@ -160,7 +160,6 @@ _gftp_menu_exit (GtkWidget * widget, gpointer data)
     _gftp_exit (widget, data);
 }
 
-
 static void on_activate_colored_msgs_cb (GtkToggleAction * checkb)
 {
    gboolean state = gtk_toggle_action_get_active (checkb);
@@ -201,7 +200,6 @@ static void change_setting (GtkAction *action, GtkRadioAction *current)
       break;
     }
 }
-
 
 static void
 _gftpui_gtk_do_openurl (gftp_window_data * wdata, gftp_dialog_data * ddata)
@@ -708,19 +706,22 @@ CreateMenus (GtkWidget * parent)
   return (menu);
 }
 
-
 static GtkWidget *
 CreateConnectToolbar (GtkWidget * parent)
 {
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
   const GtkTargetEntry possible_types[] = {
     {"STRING", 0, 0},
     {"text/plain", 0, 0},
     {"application/x-rootwin-drop", 0, 1}
   };
-  GtkWidget *toolbar, *box, *tempwid;
+#endif
+  GtkWidget *box, *tempwid;
+  GtkToolbar *toolbar;
   gftp_config_list_vars * tmplistvar;
   GtkWidget *dir_combo_entry;
   char *default_protocol, *tempstr;
+  GtkIconSize icon_size;
 
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
@@ -732,8 +733,9 @@ CreateConnectToolbar (GtkWidget * parent)
   toolbar = box;
 #endif
 
-  //tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  tempwid = gtk_image_new_from_stock ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  icon_size = gtk_toolbar_get_icon_size( toolbar );
+
+  tempwid = gtk_image_new_from_icon_name ("gtk-network", icon_size);
 
   openurl_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (openurl_btn), tempwid);
@@ -757,6 +759,8 @@ CreateConnectToolbar (GtkWidget * parent)
   glist_to_combobox (tmplistvar->list, hostedit);
 
   gftp_lookup_global_option ("host_value", &tempstr);
+
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
   dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
@@ -783,6 +787,8 @@ CreateConnectToolbar (GtkWidget * parent)
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
+#endif
+
   gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), portedit, FALSE, FALSE, 0);
 
@@ -798,8 +804,10 @@ CreateConnectToolbar (GtkWidget * parent)
   gftp_lookup_global_option ("user_value", &tempstr);
 
   dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(useredit)));
+
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
+
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
 
@@ -813,10 +821,12 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_widget_set_size_request (passedit, 120, -1);
 
   gtk_entry_set_visibility (GTK_ENTRY (passedit), FALSE);
+
   g_signal_connect (G_OBJECT (passedit), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
   g_signal_connect (G_OBJECT (passedit), "key_release_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
+
   gtk_box_pack_start (GTK_BOX (box), passedit, FALSE, FALSE, 0);
 
   tempwid = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -832,8 +842,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gftp_lookup_global_option ("default_protocol", &default_protocol);
   populate_combo_and_select_protocol (toolbar_combo_protocol, default_protocol);
 
-  //tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  tempwid = gtk_image_new_from_stock ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  tempwid = gtk_image_new_from_icon_name ("gtk-stop", icon_size);
 
   stop_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
@@ -855,7 +864,7 @@ CreateCommandToolbar (void)
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
   gtk_container_set_border_width (GTK_CONTAINER (box), 5);
 
-#if GTK_MAJOR_VERSION == 2
+#if ((GTK_MAJOR_VERSION==2) || (GTK_MAJOR_VERSION==3)) && !(___APPLE__)
   // GtkHandleBox is broken in GTK3 - macOS
   gftpui_command_toolbar = gtk_handle_box_new ();
   gtk_container_add (GTK_CONTAINER (gftpui_command_toolbar), box);
@@ -874,7 +883,7 @@ CreateCommandToolbar (void)
   return (gftpui_command_toolbar);
 }
 
-
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
 static gboolean
 on_listbox_key_press_cb (GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
@@ -891,7 +900,6 @@ on_listbox_key_press_cb (GtkWidget * widget, GdkEventKey * event, gpointer data)
   }
   return (FALSE);
 }
-
 
 static gboolean
 on_listbox_right_click_cb (GtkWidget *widget, GdkEventButton *event, gpointer data)
@@ -911,7 +919,7 @@ on_listbox_right_click_cb (GtkWidget *widget, GdkEventButton *event, gpointer da
   }
   return (FALSE);
 }
-
+#endif
 
 static void 
 on_listbox_row_activated_cb (GtkTreeView *tree_view,    GtkTreePath *path,
@@ -968,11 +976,13 @@ gftp_gtk_init_request (gftp_window_data * wdata)
 static GtkWidget *
 CreateFTPWindow (gftp_window_data * wdata)
 {
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
   const GtkTargetEntry possible_types[] = {
     {"STRING", 0, 0},
     {"text/plain", 0, 0},
     {"application/x-rootwin-drop", 0, 1}
   };
+#endif
   char tempstr[50], *startup_directory;
   GtkWidget *box, *scroll_list, *parent;
   intptr_t listbox_file_height, colwidth;
@@ -997,11 +1007,13 @@ CreateFTPWindow (gftp_window_data * wdata)
   wdata->dir_combo = gtk_combo_box_text_new_with_entry ();
   gtk_box_pack_start (GTK_BOX (box), wdata->dir_combo, FALSE, FALSE, 0);
 
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
   dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->dir_combo)));
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
                    G_CALLBACK (dir_combo_keycb), NULL);
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_release_event",
                    G_CALLBACK (dir_combo_keycb), wdata);
+#endif
 
   glist_to_combobox (*wdata->history, wdata->dir_combo);
 
@@ -1014,7 +1026,12 @@ CreateFTPWindow (gftp_window_data * wdata)
   gtkcompat_widget_set_halign_left (wdata->dirinfo_label);
   gtk_box_pack_start (GTK_BOX (box), wdata->dirinfo_label, FALSE, FALSE, 0);
 
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
   scroll_list = gtk_scrolled_window_new (NULL, NULL);
+#else
+  scroll_list = gtk_scrolled_window_new ();
+#endif
+
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_list),
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -1025,7 +1042,7 @@ CreateFTPWindow (gftp_window_data * wdata)
 
   gtk_container_add (GTK_CONTAINER (scroll_list), wdata->listbox);
   gtk_box_pack_start (GTK_BOX (box), scroll_list, TRUE, TRUE, 0);
-
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
   g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_get",
   /* dnd.c */       G_CALLBACK (listbox_drag), (gpointer) wdata);
   g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_received",
@@ -1044,11 +1061,11 @@ CreateFTPWindow (gftp_window_data * wdata)
   g_signal_connect (G_OBJECT   (wdata->listbox), "button_press_event",
                     G_CALLBACK (on_listbox_right_click_cb),
                     (gpointer) wdata);
-
+#endif
   return (parent);
 }
 
-
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
 static gint
 on_key_press_transfer (GtkWidget * widget, GdkEventButton * event, gpointer data)
 {
@@ -1058,7 +1075,7 @@ on_key_press_transfer (GtkWidget * widget, GdkEventButton * event, gpointer data
   }
   return (FALSE);
 }
-
+#endif
 
 static GtkWidget *
 CreateFTPWindows (GtkWidget * ui)
@@ -1106,8 +1123,13 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_container_set_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
-  tempwid = gtk_image_new_from_stock ("gtk-go-forward",
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+  tempwid = gtk_image_new_from_icon_name ("gtk-go-forward",
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
+#else
+  tempwid = gtk_image_new_from_icon_name ("gtk-go-forward",
+                                      NULL);
+#endif
 
   upload_right_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), upload_right_arrow, TRUE, FALSE, 0);
@@ -1115,8 +1137,13 @@ CreateFTPWindows (GtkWidget * ui)
 			     G_CALLBACK (put_files), NULL);
   gtk_container_add (GTK_CONTAINER (upload_right_arrow), tempwid);
 
-  tempwid = gtk_image_new_from_stock ("gtk-go-back",
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+  tempwid = gtk_image_new_from_icon_name ("gtk-go-back",
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
+#else 
+  tempwid = gtk_image_new_from_icon_name ("gtk-go-back",
+                                      NULL);
+#endif
 
   download_left_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), download_left_arrow, TRUE, FALSE, 0);
@@ -1134,7 +1161,12 @@ CreateFTPWindows (GtkWidget * ui)
   dlpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
   gtk_paned_pack1 (GTK_PANED (dlpane), winpane, 1, 1);
 
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
   transfer_scroll = gtk_scrolled_window_new (NULL, NULL);
+#else
+  transfer_scroll = gtk_scrolled_window_new ();
+#endif
+
   gftp_lookup_global_option ("transfer_height", &tmplookup);
   gtk_widget_set_size_request (transfer_scroll, -1, tmplookup);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (transfer_scroll),
@@ -1142,6 +1174,8 @@ CreateFTPWindows (GtkWidget * ui)
 
   dltitles[0] = _("Filename");
   dltitles[1] = _("Progress");
+
+#if GTK_MAJOR_VERSION==2 
   dlwdw = gtk_ctree_new_with_titles (2, 0, dltitles);
   gtk_clist_set_selection_mode (GTK_CLIST (dlwdw), GTK_SELECTION_SINGLE);
   gtk_clist_set_reorderable (GTK_CLIST (dlwdw), 0);
@@ -1153,15 +1187,21 @@ CreateFTPWindows (GtkWidget * ui)
     gtk_clist_set_column_width (GTK_CLIST (dlwdw), 0, tmplookup);
 
   gtk_container_add (GTK_CONTAINER (transfer_scroll), dlwdw);
+
   g_signal_connect (G_OBJECT (dlwdw), "button_press_event",
         G_CALLBACK (on_key_press_transfer), NULL);
+#endif
   gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
 
   // log_scroll ("log window")
   logpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
   gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
 
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
   log_scroll = gtk_scrolled_window_new (NULL, NULL);
+#else
+  log_scroll = gtk_scrolled_window_new ();
+#endif
 
   gtk_paned_pack1 (GTK_PANED (logpane), dlpane,     1, 1);
   gtk_paned_pack2 (GTK_PANED (logpane), log_scroll, 1, 1);
@@ -1234,6 +1274,7 @@ on_combo_protocol_change_cb (GtkComboBox *cb, gpointer data)
   gftp_set_global_option ("default_protocol", txt);
 }
 
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
 static gboolean
 on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
@@ -1257,6 +1298,7 @@ on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data)
   combo_key_pressed = 0;
   return TRUE;
 }
+#endif
 
 void
 toolbar_hostedit(void)
@@ -1366,6 +1408,7 @@ stop_button (GtkWidget * widget, gpointer data)
 static int
 gftp_gtk_config_file_read_color (char *str, gftp_config_vars * cv, int line)
 {
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
   char *red, *green, *blue;
   GdkColor * color;
 
@@ -1385,7 +1428,7 @@ gftp_gtk_config_file_read_color (char *str, gftp_config_vars * cv, int line)
 
   cv->value = color;
   cv->flags |= GFTP_CVARS_FLAGS_DYNMEM;
-
+#endif
   return (0);
 }
 
@@ -1394,11 +1437,13 @@ static int
 gftp_gtk_config_file_write_color (gftp_config_vars * cv, char *buf,
                                   size_t buflen, int to_config_file)
 {
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
   GdkColor * color;
 
   color = cv->value;
   g_snprintf (buf, buflen, "%x:%x:%x", color->red, color->green, color->blue);
   return (0);
+#endif
 }
 
 
@@ -1450,7 +1495,7 @@ static void _setup_window2 (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
-  GtkWidget *ui;
+  GtkWidget *status_bar, *ui;
 
   /* We override the read color functions because we are using a GdkColor 
      structures to store the color. If I put this in lib/config_file.c, then 
@@ -1462,17 +1507,25 @@ main (int argc, char **argv)
   gftpui_common_child_process_done = 0;
 
   gdk_threads_init();
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
   GDK_THREADS_ENTER ();
   main_thread_id = pthread_self ();
   gtk_init (&argc, &argv);
+#else
+  main_thread_id = pthread_self ();
+  gtk_init ();
+#endif
 
   graphic_hash_table = g_hash_table_new (string_hash_function,
                                          string_hash_compare);
 
   pixbuf_hash_table = g_hash_table_new (string_hash_function,  /* lib/misc.c */
                                          string_hash_compare); /* lib/misc.c */
-
+#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
   main_window = GTK_WINDOW(gtk_window_new (GTK_WINDOW_TOPLEVEL));
+#else
+  main_window = GTK_WINDOW(gtk_window_new ());
+#endif
   g_signal_connect (G_OBJECT (main_window), "delete_event",
 		      G_CALLBACK (_gftp_try_close), NULL);
   g_signal_connect (G_OBJECT (main_window), "destroy",
@@ -1483,6 +1536,11 @@ main (int argc, char **argv)
 #if GTK_MAJOR_VERSION==2
   gtk_window_set_policy (main_window, TRUE, TRUE, FALSE);
 #endif
+
+  // Need a fixed minium size here
+  // gtk_window_set_geometry_hints
+  // gtk_widget_set_size_request
+
   gtk_widget_realize (GTK_WIDGET(main_window));
 
   set_window_icon(main_window, NULL);
@@ -1490,7 +1548,14 @@ main (int argc, char **argv)
   other_wdata = &window1;
   current_wdata = &window2;
   ui = CreateFTPWindows (GTK_WIDGET(main_window));
+
+  /* Give the status bar at the bottom, for reasons... */
+  status_bar = gtk_statusbar_new();
+  gtk_box_pack_start (GTK_BOX (ui), status_bar, TRUE, TRUE, 0);
+  gtk_widget_show (status_bar);
+
   gtk_container_add (GTK_CONTAINER (main_window), ui);
+
   gtk_widget_show (GTK_WIDGET(main_window));
 
   gftpui_common_about (ftp_log, NULL);
@@ -1520,4 +1585,3 @@ gftpui_show_or_hide_command (void)
   else
     gtk_widget_hide (gftpui_command_toolbar);
 }
-

@@ -352,6 +352,7 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
 
+  /* number of arguments for gtk_scrolled_window changed
   scrolledw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledw),
                                   GTK_POLICY_AUTOMATIC,
@@ -364,9 +365,13 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledw));
   gtk_widget_set_size_request (scrolledw, 500, 400);
 
+  */
+
+  /* gtk3/gtk4 has no gtk_widget_destroy
   g_signal_connect_swapped (G_OBJECT (dialog), "response",
                             G_CALLBACK (gtk_widget_destroy),
                             G_OBJECT (dialog));
+  */
 
   buf[sizeof (buf) - 1] = '\0';
   while ((n = read (fd, buf, sizeof (buf) - 1)) > 0)
@@ -382,7 +387,8 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
 
   gtk_widget_show_all (dialog);
 
-  if (!start_pos)
-    gtk_adjustment_set_value (vadj, vadj->upper);
+  // fails on gtk3/gtk4
+  //if (!start_pos)
+  //  gtk_adjustment_set_value (vadj, vadj->upper);
 }
 

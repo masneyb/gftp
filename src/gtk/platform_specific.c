@@ -72,3 +72,4 @@ void gftp_gtk_platform_specific_init(void)
 void gftp_gtk_platform_specific_init(void){};
 #endif
 
+//gtk_ctree_node_get_row_data

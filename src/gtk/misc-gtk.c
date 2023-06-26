@@ -106,7 +106,9 @@ void ftp_log (gftp_logging_level level, gftp_request * request,
         }
     }
 
+#if 0
   upd = logwdw_vadj->upper - logwdw_vadj->page_size == logwdw_vadj->value;
+#endif
 
   gftp_lookup_global_option ("max_log_window_size", &max_log_window_size);
 
@@ -124,7 +126,9 @@ void ftp_log (gftp_logging_level level, gftp_request * request,
         descr = "error";
         break;
       default:
+#if GTK == 2
         descr = "misc";
+#endif
         break;
     }
   }
@@ -221,13 +225,14 @@ void update_window_info (void)
   update_window (&window1);
   update_window (&window2);
 
-  GtkAction *tempwid = gtk_action_group_get_action(menus, "ToolsCompareWindows");
-  gtk_action_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
-			    && GFTP_IS_CONNECTED (window2.request));
+  //GtkAction *tempwid = gtk_action_group_get_action(menus, "ToolsCompareWindows");
+  //gtk_action_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
+	//		    && GFTP_IS_CONNECTED (window2.request));
 }
 
 static void set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 {
+#if 0
   //DEBUG_PRINT_FUNC
   GtkAction *tempwid = NULL;
   if (menus) {
@@ -236,6 +241,7 @@ static void set_menu_sensitive (gftp_window_data * wdata, char *path, int sensit
   if (tempwid) {
     gtk_action_set_sensitive (tempwid, sensitive);
   }
+#endif
 }
 
 char * report_list_info(gftp_window_data * wdata)
@@ -368,44 +374,9 @@ void update_window (gftp_window_data * wdata)
   gtk_widget_set_sensitive (upload_right_arrow, connected);
 }  
 
-
-gftp_graphic * open_xpm (GtkWidget * widget, char *filename)
-{
-  //DEBUG_PRINT_FUNC
-  gftp_graphic * graphic;
-  GtkStyle *style;
-  char *exfile;
-
-  if ((graphic = g_hash_table_lookup (graphic_hash_table, filename)) != NULL)
-    return (graphic);
-
-  style = gtk_widget_get_style (widget);
-
-  if ((exfile = get_image_path (filename)) == NULL)
-    return (NULL);
-
-  graphic = g_malloc0 (sizeof (*graphic));
-  graphic->pixmap = gdk_pixmap_create_from_xpm (widget->window, 
-                        &graphic->bitmap, &style->bg[GTK_STATE_NORMAL], exfile);
-  g_free (exfile);
-
-  if (graphic->pixmap == NULL)
-    {
-      g_free (graphic);
-      ftp_log (gftp_logging_error, NULL, _("Error opening file %s: %s\n"), 
-               exfile, g_strerror (errno));
-      return (NULL);
-    }
-
-  graphic->filename = g_strdup (filename);
-  g_hash_table_insert (graphic_hash_table, graphic->filename, graphic);
-
-  return (graphic);
-}
-
-
 void gftp_free_pixmap (char *filename)
 {
+#if GTK_MAJOR_VERSION == 2
   //DEBUG_PRINT_FUNC
   gftp_graphic * graphic;
 
@@ -418,8 +389,8 @@ void gftp_free_pixmap (char *filename)
   g_hash_table_remove (graphic_hash_table, filename);
   g_free (graphic->filename);
   g_free (graphic);
+#endif
 }
-
 
 void
 gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
@@ -435,8 +406,8 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
       return;
     }
 
-  if ((graphic = g_hash_table_lookup (graphic_hash_table, filename)) == NULL)
-    graphic = open_xpm (widget, filename);
+  //if ((graphic = g_hash_table_lookup (graphic_hash_table, filename)) == NULL)
+    //graphic = open_xpm (widget, filename);
 
   if (graphic == NULL)
     {
@@ -449,6 +420,7 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
   *bitmap = graphic->bitmap;
 }
 
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
 GdkPixbuf * gftp_get_pixbuf (char *filename)
 {
    //DEBUG_PRINT_FUNC
@@ -476,6 +448,7 @@ GdkPixbuf * gftp_get_pixbuf (char *filename)
 
    return (pixbuf);
 }
+#endif
 
 int
 check_status (char *name, gftp_window_data *wdata,
@@ -627,7 +600,7 @@ dialog_response (GtkDialog * dlg, gint responseID, gpointer data)
   g_free (ddata);
 }
 
-
+#if 0
 static gint
 dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
@@ -645,7 +618,7 @@ dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 
   return (FALSE);
 }
-
+#endif
 
 void
 TextEntryDialog (GtkWindow * parent_window,       /* nullable */
@@ -693,14 +666,14 @@ TextEntryDialog (GtkWindow * parent_window,       /* nullable */
 
   if (!parent_window) {
      // must create a parent window
-     parent_window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
+     //parent_window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
      gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
-     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+     //gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
      gtk_grab_add (dialog);
   } else {
      gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
      gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+     //gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
      gtk_window_set_skip_taskbar_hint (GTK_WINDOW (dialog), TRUE);
      gtk_window_set_skip_pager_hint (GTK_WINDOW (dialog), TRUE);
   }
@@ -721,9 +694,10 @@ TextEntryDialog (GtkWindow * parent_window,       /* nullable */
   gtkcompat_widget_set_halign_left (tempwid);
 
   ddata->edit = gtk_entry_new ();
+#if 0  
   g_signal_connect (G_OBJECT (ddata->edit), "key_press_event",
                     G_CALLBACK (dialog_keypress), (gpointer) ddata);
-
+#endif
   gtk_box_pack_start (GTK_BOX (vbox), ddata->edit, TRUE, TRUE, 0);
   gtk_widget_grab_focus (ddata->edit);
   gtk_entry_set_visibility (GTK_ENTRY (ddata->edit), passwd_item);
@@ -773,7 +747,11 @@ YesNoDialog (GtkWindow * parent_window,              /* nullable */
   gtk_window_set_title (GTK_WINDOW (dialog), title);
   set_window_icon (GTK_WINDOW(dialog), NULL);
   if (!parent_window) {
+#if GTK_MAJOR_VERSION == 2
      gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+#else
+     gtk_window_set_position (GTK_WINDOW (dialog), 0);
+#endif
      gtk_grab_add (dialog);
   }
   g_signal_connect (G_OBJECT (dialog), "response",
@@ -894,7 +872,6 @@ void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_proto
    gtk_combo_box_set_active (GTK_COMBO_BOX(combo), combo_item_selected);
 }
 
-
 GtkMenuItem *
 new_menu_item (GtkMenu * menu, char * label, char * icon_name,
                gpointer activate_callback, gpointer callback_data)
@@ -960,3 +937,5 @@ new_menu_item (GtkMenu * menu, char * label, char * icon_name,
 
    return (item);
 }
+
+

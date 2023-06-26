@@ -1160,13 +1160,13 @@ section that has some ext= lines.  Here you can control via a file extension,
 the icon in the listbox for it, the default transfer method (ascii or binary),
 and a default view/edit program.  For example, let's take the line:
 
-ext=.xcf:gimp.xpm:B:gimp
+ext=.xcf:gimp.png:B:gimp
 
-The first token, .xcf, is the file extension.  The next token, gimp.xpm, is
+The first token, .xcf, is the file extension.  The next token, gimp.png, is
 the default icon to use in the listboxes.  You don't have to specify one if
 you don't want to.  By default, gFTP will search ~/.gftp, $(PREFIX)/share/gftp
 (where prefix is your installation prefix), and then /usr/share/icons in that
-order.  The files must be valid xpm files.  The next token, B, specifies
+order.  The files must be valid png or xpm files.  The next token, B, specifies
 whether or not to transfer a file as Binary or Ascii.  If you want to have
 something transfer as Ascii, put an A there.  If you omit this field, then gFTP
 will transfer the file according to whether ascii or binary is selected in
@@ -1178,7 +1178,7 @@ like.
 
    You can set up gFTP to be started from your Gnome or KDE desktop.  The
 program name can be either gftp or gftp-gtk.  Some suitable gFTP icons are
-available in /usr/share/gftp: world.xpm
+available in /usr/share/gftp: world.png
 
 
 19.  Staying in touch

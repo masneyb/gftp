@@ -131,7 +131,7 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
                _("Connect"));
       return;
     }
-
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
       if (GFTP_IS_CONNECTED (current_wdata->request))
@@ -146,6 +146,7 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
           gftp_gtk_connect (current_wdata, current_wdata->request);
         }
     }
+#endif
 }
 
 
@@ -230,8 +231,10 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
 
   if (str != NULL)
     {
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
       gtk_selection_data_set (selection_data, selection_data->target, 8,
       	                      (unsigned char *) str, strlen (str));
+#endif
       g_free (str);
     }
 }
@@ -255,6 +258,7 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
   trans_list = NULL;
   finish_drag = 0;
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
       oldpos = (char *) selection_data->data;
@@ -285,6 +289,7 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
           oldpos = newpos + 1;
         }
     }
+#endif
 
   gtk_drag_finish (context, finish_drag, FALSE, clk_time);
 
@@ -312,3 +317,4 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
   g_list_free (trans_list);
 }
+

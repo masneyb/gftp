@@ -14,6 +14,7 @@ gftp_gtk_SOURCES = bookmarks.c \
 	options_dialog.c \
 	platform_specific.c \
 	transfer.c \
+	listbox.c \
 	view_dialog.c
 
 AM_CPPFLAGS = $(GTK_CFLAGS) $(PTHREAD_CFLAGS)

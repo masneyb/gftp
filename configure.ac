@@ -24,6 +24,11 @@ AC_ARG_ENABLE(gtk3,
               enable_gtk3=$enableval,
               enable_gtk3="no")
 
+AC_ARG_ENABLE(gtk4,
+              [  --enable-gtk4           Enable GTK+ 4.0 (Experimental)],
+              enable_gtk4=$enableval,
+              enable_gtk4="no")
+
 AC_ARG_ENABLE(gtkport, 
               [  --disable-gtkport       Disable compiling the GTK+ port], 
               enable_gtkport=$enableval, 
@@ -116,16 +121,20 @@ PKG_CHECK_MODULES(
 if test "x$enable_gtkport" = "xyes" ; then
 
   if test "x$enable_gtk2" = "xno" ; then
+      echo "Warning: gtk2 is disabled." ; 
     if test "x$enable_gtk3" = "xno" ; then
-      echo "Error: gtk2 and gtk3 are disabled. Not GTK port." ; 
-      exit 1
+        echo "Warning: gtk3 is also disabled." ; 
+      if test "x$enable_gtk4" = "xno" ; then
+          echo "Error: gtk versions 2,3 and 4 is disabled. Not GTK port." ; 
+          exit 1
+      fi
     fi
   fi
-  if test "x$enable_gtk2" = "xyes" ; then
-    if test "x$enable_gtk3" = "xyes" ; then
-      enable_gtk2=no
-    fi
-  fi
+  #if test "x$enable_gtk2" = "xyes" ; then
+  #  if test "x$enable_gtk3" = "xyes" ; then
+  #    enable_gtk2=no
+  #  fi
+  #fi
   if test "x$enable_gtk2" = "xyes" ; then
     dnl Test for gtk+-2.0
     PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.14.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk2 or install GTK+ 2.0))
@@ -134,6 +143,11 @@ if test "x$enable_gtkport" = "xyes" ; then
   if test "x$enable_gtk3" = "xyes" ; then
     dnl Test for gtk+-3.0
     PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 3.0. Run configure without --enable-gtk3 or install GTK+ 3.0))
+  fi
+
+  if test "x$enable_gtk4" = "xyes" ; then
+    dnl Test for gtk-4.0
+    PKG_CHECK_MODULES([GTK], [gtk4 >= 4.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK 4.0. Run configure without --enable-gtk4 or install GTK 4.0))
   fi
 
   if test "x$GFTP_GTK" = xgftp-gtk; then
