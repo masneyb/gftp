@@ -73,7 +73,7 @@ typedef struct gftp_window_data_tag
   gftp_request * request;	/* The host that we are connected to */
   GList * files,		/* Files in the listbox */
         ** history;		/* History of the directories */
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
   GtkUIManager *ifactory; 	/* This is for the menus that will
                                    come up when you right click */
 #endif
