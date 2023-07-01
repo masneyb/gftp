@@ -223,15 +223,31 @@ void stop_button				( GtkWidget * widget,
 void gftpui_show_or_hide_command 		( void );
 
 /* listbox.c */
-void listbox_sort_rows (gpointer data, gint column);
+GtkWidget * create_listbox 			(gftp_window_data *wdata);
 
-void listbox_select_row      (gftp_window_data *wdata, int n);
-void listbox_update_filelist (gftp_window_data *wdata);
-int  listbox_num_selected    (gftp_window_data *wdata);
-void listbox_clear           (gftp_window_data *wdata);
-void listbox_select_all      (gftp_window_data *wdata);
-void listbox_deselect_all    (gftp_window_data *wdata);
-void * listbox_get_selected_files (gftp_window_data *wdata, int only_one);
+void listbox_add_columns 			(gftp_window_data *wdata);
+
+void listbox_clear           			(gftp_window_data *wdata);
+
+void listbox_deselect_all    			(gftp_window_data *wdata);
+
+void * listbox_get_selected_files 		(gftp_window_data *wdata, int only_one);
+
+int  listbox_num_selected    			(gftp_window_data *wdata);
+
+void listbox_save_column_width (gftp_window_data *local, gftp_window_data *remote);
+
+void listbox_select_all      			(gftp_window_data *wdata);
+
+void listbox_select_all_files 			(gftp_window_data *wdata);
+
+void listbox_select_row      			(gftp_window_data *wdata, int n);
+
+void listbox_set_default_column_width 		(gftp_window_data *wdata);
+
+void listbox_sort_rows 				(gpointer data, gint column);
+
+void listbox_update_filelist 			(gftp_window_data *wdata);
 
 /* gtkui.c */
 void gftpui_run_command 			( GtkWidget * widget,

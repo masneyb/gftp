@@ -22,7 +22,6 @@
 /***********************************************************************************/
 
 #include "gftp-gtk.h"
-#include "listbox.c"
 
 static GtkWidget * local_frame, * remote_frame, * log_scroll, * transfer_scroll,
                  * gftpui_command_toolbar;

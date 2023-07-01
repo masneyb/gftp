@@ -9,6 +9,7 @@ gftp_gtk_SOURCES = bookmarks.c \
 	../gtkcompat.h \
 	gtkui.c \
 	gtkui_transfer.c \
+	listbox.c \
 	menu-items.c \
 	misc-gtk.c \
 	options_dialog.c \
