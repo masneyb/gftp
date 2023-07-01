@@ -49,7 +49,8 @@ static gboolean on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event
 static void on_combo_protocol_change_cb (GtkComboBox *cb, gpointer data);
 static int combo_key_pressed = 0;
 
-#if 0
+
+#if GTK_MAJOR_VERSION == 2
 static int
 get_column (GtkCListColumn * col)
 {
@@ -81,7 +82,10 @@ _gftp_exit (GtkWidget * widget, gpointer data)
 
   listbox_save_column_width (&window1, &window2);
 
-  //ret = get_column (&GTK_CLIST (dlwdw)->column[0]);
+#if GTK_MAJOR_VERSION == 2
+  ret = get_column (&GTK_CLIST (dlwdw)->column[0]);
+#endif
+
   gftp_set_global_option ("file_trans_column", GINT_TO_POINTER (ret));
 
   tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(hostedit));

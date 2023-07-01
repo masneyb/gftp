@@ -244,7 +244,7 @@ gftpui_ask_transfer (gftp_transfer * tdata)
                                         NULL);
 
   gtk_window_set_role (GTK_WINDOW(dialog), "transfer");
- // gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);

@@ -125,7 +125,7 @@ void save_directory_listing (gpointer data) /* data = window1/2 */
             NULL );
 
   gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
-  //gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
+  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
   gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "Directory_Listing.txt");
 
   g_signal_connect (filew, "response",
@@ -337,7 +337,7 @@ void savelog (gpointer data)
             NULL );
 
   gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
-  //gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
+  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
   gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "gftp.log");
 
   g_signal_connect (filew, "response", G_CALLBACK (savelog_dlg_cb), data);
@@ -388,7 +388,7 @@ void about_dialog (gpointer data)
     set_window_icon (GTK_WINDOW (w), NULL);
     gtk_window_set_transient_for (GTK_WINDOW (w), main_window);
     gtk_window_set_modal (GTK_WINDOW (w), TRUE);
-    gtk_window_set_position (GTK_WINDOW (w), 0);
+    gtk_window_set_position (GTK_WINDOW (w), GTK_WIN_POS_CENTER_ON_PARENT);
 
     g_signal_connect_swapped (w, "response",
                                G_CALLBACK (gtk_widget_destroy), w);

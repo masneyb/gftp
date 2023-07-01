@@ -439,8 +439,6 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
 }
 
 
-void * listbox_get_selected_files (gftp_window_data *wdata, int only_one);
-
 void listbox_update_filelist(gftp_window_data * wdata)
 {
    // use wdata->files to populate the listbox

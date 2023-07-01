@@ -106,7 +106,7 @@ void ftp_log (gftp_logging_level level, gftp_request * request,
         }
     }
 
-#if 0
+#if GTK_MAJOR_VERSION == 2
   upd = logwdw_vadj->upper - logwdw_vadj->page_size == logwdw_vadj->value;
 #endif
 
@@ -907,12 +907,12 @@ new_menu_item (GtkMenu * menu, char * label, char * icon_name,
         item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (label));
         break;
      case 1: /* image */
-        item = GTK_MENU_ITEM (gtk_image_menu_item_new_with_mnemonic (label));
-        gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+        item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (label));
+               gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
                gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
         break;
      case 2: /* stock */
-        item = GTK_MENU_ITEM (gtk_image_menu_item_new_from_stock (label, NULL));
+	item = GTK_MENU_ITEM (gtk_menu_item_new_with_label (label));
         break;
      case 3: /* check */
         item = GTK_MENU_ITEM(gtk_check_menu_item_new_with_mnemonic (label));
