@@ -110,7 +110,6 @@ _gftpui_gtk_abort (gftp_request * request, gftp_dialog_data * ddata)
 void
 gftpui_show_busy (gboolean busy)
 {
-  #if 0
   DEBUG_PRINT_FUNC
   GtkWidget * toplevel = gtk_widget_get_toplevel (openurl_btn);
   GdkWindow * gwin     = gtk_widget_get_window (toplevel);
@@ -123,7 +122,6 @@ gftpui_show_busy (gboolean busy)
 
   if (busy)
     gdk_cursor_unref (busyCursor);
-    #endif
 }
 
 void

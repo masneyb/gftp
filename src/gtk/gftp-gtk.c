@@ -1124,10 +1124,10 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
 #if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
-  tempwid = gtk_image_new_from_icon_name ("gtk-go-forward",
-                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
+  tempwid = gtk_image_new_from_icon_name (GTK_STOCK_GO_FORWARD,
+                                      GTK_ICON_SIZE_MENU);
 #else
-  tempwid = gtk_image_new_from_icon_name ("gtk-go-forward",
+  tempwid = gtk_image_new_from_icon_name (GTK_STOCK_GO_FORWARD,
                                       NULL);
 #endif
 

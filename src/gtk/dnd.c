@@ -131,7 +131,7 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
                _("Connect"));
       return;
     }
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 31
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
       if (GFTP_IS_CONNECTED (current_wdata->request))
@@ -231,8 +231,8 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
 
   if (str != NULL)
     {
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
-      gtk_selection_data_set (selection_data, selection_data->target, 8,
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 31
+      gtk_selection_data_set (selection_data, (GdkAtom)selection_data->target, 8,
       	                      (unsigned char *) str, strlen (str));
 #endif
       g_free (str);
@@ -258,7 +258,7 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
   trans_list = NULL;
   finish_drag = 0;
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 31
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
       oldpos = (char *) selection_data->data;
