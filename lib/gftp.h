@@ -707,9 +707,8 @@ time_t parse_time (char *str, char **endpos);
 #define GFTP_PROTOCOL_LOCALFS     3
 #define GFTP_PROTOCOL_SSH2        4
 #define GFTP_PROTOCOL_BOOKMARK    5
-#define GFTP_PROTOCOL_FSP         6
-#define GFTP_PROTOCOL_HTTP        7
-#define GFTP_PROTOCOL_HTTPS       8
+#define GFTP_PROTOCOL_HTTP        6
+#define GFTP_PROTOCOL_HTTPS       7
 
 #define GFTP_IS_CONNECTED(request) ((request) != NULL && \
                                              ((request)->datafd > 0 || \
@@ -747,11 +746,6 @@ void ssl_register_module (void);
 /* protocols_bookmark.c */
 int bookmark_init (gftp_request * request);
 void bookmark_register_module (void);
-
-/* fsp.c */
-int fsp_init (gftp_request * request);
-void fsp_register_module (void);
-
 
 /* protocols.c */
 gftp_request *gftp_request_new (void);

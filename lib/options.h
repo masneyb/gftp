@@ -270,7 +270,6 @@ supported_gftp_protocols gftp_protocols[] =
   { "SSH2", sshv2_init, sshv2_register_module, "ssh2", 22, 1, 1},
 
   { "Bookmark", bookmark_init, bookmark_register_module, "bookmark", 0, 0, 0}, /* hidden */
-  { "FSP", fsp_init, fsp_register_module, "fsp", 21, 1, 1},
 
   /* limited support - CLI download only, no dir listing */
   { "HTTP",  http_init,  http_register_module,  "http",   80, 0, 1 }, /* hidden */
