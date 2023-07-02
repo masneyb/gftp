@@ -420,7 +420,7 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
   *bitmap = graphic->bitmap;
 }
 
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
 GdkPixbuf * gftp_get_pixbuf (char *filename)
 {
    //DEBUG_PRINT_FUNC

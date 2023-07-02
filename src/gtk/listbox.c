@@ -354,7 +354,7 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
 
    gtk_list_store_append (store, &iter);
 
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
    if (strcmp (fle->file, "..") == 0) {
       col_data.icon = gftp_get_pixbuf("dotdot.png");
       empty_size = 1;

@@ -713,7 +713,7 @@ CreateMenus (GtkWidget * parent)
 static GtkWidget *
 CreateConnectToolbar (GtkWidget * parent)
 {
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
   const GtkTargetEntry possible_types[] = {
     {"STRING", 0, 0},
     {"text/plain", 0, 0},
@@ -764,7 +764,7 @@ CreateConnectToolbar (GtkWidget * parent)
 
   gftp_lookup_global_option ("host_value", &tempstr);
 
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
   dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(hostedit)));
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
                    G_CALLBACK (on_key_press_combo_toolbar), NULL);
@@ -887,7 +887,7 @@ CreateCommandToolbar (void)
   return (gftpui_command_toolbar);
 }
 
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
 static gboolean
 on_listbox_key_press_cb (GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
@@ -980,7 +980,7 @@ gftp_gtk_init_request (gftp_window_data * wdata)
 static GtkWidget *
 CreateFTPWindow (gftp_window_data * wdata)
 {
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
   const GtkTargetEntry possible_types[] = {
     {"STRING", 0, 0},
     {"text/plain", 0, 0},
@@ -1011,7 +1011,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   wdata->dir_combo = gtk_combo_box_text_new_with_entry ();
   gtk_box_pack_start (GTK_BOX (box), wdata->dir_combo, FALSE, FALSE, 0);
 
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
   dir_combo_entry = GTK_WIDGET(gtk_bin_get_child(GTK_BIN(wdata->dir_combo)));
   g_signal_connect (G_OBJECT(dir_combo_entry), "key_press_event",
                    G_CALLBACK (dir_combo_keycb), NULL);
@@ -1046,7 +1046,7 @@ CreateFTPWindow (gftp_window_data * wdata)
 
   gtk_container_add (GTK_CONTAINER (scroll_list), wdata->listbox);
   gtk_box_pack_start (GTK_BOX (box), scroll_list, TRUE, TRUE, 0);
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
   g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_get",
   /* dnd.c */       G_CALLBACK (listbox_drag), (gpointer) wdata);
   g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_received",
@@ -1069,7 +1069,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   return (parent);
 }
 
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
 static gint
 on_key_press_transfer (GtkWidget * widget, GdkEventButton * event, gpointer data)
 {

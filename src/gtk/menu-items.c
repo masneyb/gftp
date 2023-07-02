@@ -136,7 +136,7 @@ void save_directory_listing (gpointer data) /* data = window1/2 */
 }
 
 //---------------------------------------------------------------
-#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION < 4
 gboolean
 dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data )
 {
