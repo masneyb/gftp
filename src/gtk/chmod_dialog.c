@@ -1,3 +1,4 @@
+#if GTK_MAJOR_VERSION < 4
 /***********************************************************************************/
 /*  chmod_dialog.c - the chmod dialog box                                          */
 /*  Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>                        */
@@ -215,4 +216,4 @@ chmod_dialog (gpointer data)
     }
   gtk_widget_show_all (dialog);
 }
-
+#endif

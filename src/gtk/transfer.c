@@ -528,7 +528,6 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
 static void
 show_transfer (gftp_transfer * tdata)
 {
-#if GTK_MAJOR_VERSION == 2
   DEBUG_PRINT_FUNC
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
   GdkBitmap * closedir_bitmap, * opendir_bitmap;
@@ -542,6 +541,8 @@ show_transfer (gftp_transfer * tdata)
 
   text[0] = tdata->fromreq->hostname;
   text[1] = _("Waiting...");
+
+#if GTK_MAJOR_VERSION == 2
   tdata->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw), NULL, NULL, 
                                        text, 5,
                                        closedir_pixmap, closedir_bitmap, 
@@ -579,6 +580,7 @@ show_transfer (gftp_transfer * tdata)
       gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->user_data, 
                                    transdata);
     }
+#endif
 
   if (!tdata->toreq->stopable && gftp_need_password (tdata->toreq))
     {
@@ -599,7 +601,6 @@ show_transfer (gftp_transfer * tdata)
                        get_trans_password, tdata->fromreq,
                        cancel_get_trans_password, tdata);
     }
-#endif
 }
 
 

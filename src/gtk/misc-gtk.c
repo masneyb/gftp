@@ -872,12 +872,12 @@ void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_proto
    gtk_combo_box_set_active (GTK_COMBO_BOX(combo), combo_item_selected);
 }
 
-GtkMenuItem *
-new_menu_item (GtkMenu * menu, char * label, char * icon_name,
+GtkWidget *
+new_menu_item (GtkWidget * menu, char * label, char * icon_name,
                gpointer activate_callback, gpointer callback_data)
 {
    //DEBUG_PRINT_FUNC
-   GtkMenuItem *item = NULL;
+   GtkWidget *item = NULL;
 
    /* 0=normal 1=image 2=stock 3=check 4=separator */
    int type = 0;
@@ -904,24 +904,27 @@ new_menu_item (GtkMenu * menu, char * label, char * icon_name,
    switch (type)
    {
      case 0: /* normal */
-        item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (label));
+	printf("case 0: label is: %s\n",label);
+        item = gtk_menu_item_new_with_mnemonic (label);
         break;
      case 1: /* image */
-        item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (label));
-               gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-               gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
+	printf("case 1: label is: %s\n",label);
+        //item = gtk_menu_item_new_with_mnemonic (label);
+        // gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+        //gtk_image_menu_item_set_image (item,
+         //      gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
         break;
      case 2: /* stock */
-	item = GTK_MENU_ITEM (gtk_menu_item_new_with_label (label));
+	item = gtk_menu_item_new_with_label (label);
         break;
      case 3: /* check */
-        item = GTK_MENU_ITEM(gtk_check_menu_item_new_with_mnemonic (label));
+        item = gtk_check_menu_item_new_with_mnemonic (label);
         break;
      case 4: /* separator */
-        item = GTK_MENU_ITEM (gtk_separator_menu_item_new ());
-        break;
+        item = gtk_separator_menu_item_new ();
+	break;
    }
-
+  
    if (menu) {
       gtk_container_add (GTK_CONTAINER (menu), GTK_WIDGET (item));
    }
@@ -933,9 +936,10 @@ new_menu_item (GtkMenu * menu, char * label, char * icon_name,
                         callback_data);
    }
 
-   if (item)  gtk_widget_show (GTK_WIDGET (item));
+   if (item)
+      gtk_widget_show (GTK_WIDGET (item));
 
-   return (item);
+   return item;
 }
 
 

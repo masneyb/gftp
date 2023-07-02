@@ -1,3 +1,4 @@
+#if GTK_MAJOR_VERSION < 4
 /***********************************************************************************/
 /*  bookmarks.c - routines for the bookmarks                                       */
 /*  Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>                        */
@@ -594,6 +595,7 @@ void edit_bookmarks (gpointer data)
   gtk_widget_show_all (edit_bookmarks_dialog);
 
   build_bookmarks_tree ();
+
   // expand root node
   GtkTreePath  *rpath = gtk_tree_path_new_from_string ("0");
   gtk_tree_view_expand_row (btree, rpath, FALSE);
@@ -624,10 +626,10 @@ static void on_gtk_MenuItem_activate_close (GtkMenuItem *menuitem, gpointer data
 
 // ----
 
-static GtkMenuItem *bmenu_file_newfolder;
-static GtkMenuItem *bmenu_file_newitem;
-static GtkMenuItem *bmenu_file_delete;
-static GtkMenuItem *bmenu_file_edit;
+static GtkWidget *bmenu_file_newfolder;
+static GtkWidget *bmenu_file_newitem;
+static GtkWidget *bmenu_file_delete;
+static GtkWidget *bmenu_file_edit;
 
 static void bmenu_setup (int from_popup)
 {
@@ -673,31 +675,31 @@ create_bm_dlg_menubar (GtkWindow *window)
    GtkMenuBar *menu_bar = GTK_MENU_BAR (gtk_menu_bar_new ());
    GtkMenu * menu_file  = GTK_MENU (gtk_menu_new ());
    bmenu_file = menu_file;
-   GtkMenuItem *item;
+   GtkWidget *item;
 
    GtkAccelGroup *accel_group = gtk_accel_group_new ();
    gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
 
-   item = new_menu_item (menu_file, _("New _Folder..."), NULL,
+   item = new_menu_item ( GTK_WIDGET (menu_file), _("New _Folder..."), NULL,
                          on_gtk_MenuItem_activate_newfolder, NULL);
    bmenu_file_newfolder = item;
 
-   item = new_menu_item (menu_file, _("New _Item..."), "gtk-new",
+   item = new_menu_item ( GTK_WIDGET (menu_file), _("New _Item..."), "gtk-new",
                          on_gtk_MenuItem_activate_newitem, NULL);
    bmenu_file_newitem = item;
    gtk_widget_add_accelerator (GTK_WIDGET (item), "activate",
                                accel_group,
                                GDK_KEY(n), GDK_CONTROL_MASK,
                                GTK_ACCEL_VISIBLE);
-   item = new_menu_item (menu_file, _("_Delete"), "gtk-delete",
+   item = new_menu_item ( GTK_WIDGET (menu_file), _("_Delete"), "gtk-delete",
                          on_gtk_MenuItem_activate_delete, NULL);
    bmenu_file_delete = item;
 
-   item = new_menu_item (menu_file, _("_Properties"), "gtk-properties",
+   item = new_menu_item ( GTK_WIDGET (menu_file), _("_Properties"), "gtk-properties",
                          on_gtk_MenuItem_activate_properties, NULL);
    bmenu_file_edit = item;
 
-   item = new_menu_item (menu_file, _("_Close"), "gtk-close",
+   item = new_menu_item ( GTK_WIDGET (menu_file), _("_Close"), "gtk-close",
                          on_gtk_MenuItem_activate_close, NULL);
    gtk_widget_add_accelerator (GTK_WIDGET (item), "activate",
                                accel_group,
@@ -712,7 +714,6 @@ create_bm_dlg_menubar (GtkWindow *window)
    /* append to menubar */
    gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar),
                           GTK_WIDGET     (item));
-
    gtk_widget_show_all (GTK_WIDGET (menu_bar));
 
    return (GTK_WIDGET (menu_bar));
@@ -726,7 +727,6 @@ create_bm_dlg_menubar (GtkWindow *window)
 
 GtkTreeView * btree_create()
 {
-#if 0
    // pixbufs..
    if (!opendir_pixbuf) {
       opendir_pixbuf  = gftp_get_pixbuf("open_dir.png");
@@ -737,7 +737,7 @@ GtkTreeView * btree_create()
    if (!bookmark_pixbuf) {
       bookmark_pixbuf = gftp_get_pixbuf("txt.png");
    }
-#endif
+
    // create tree store
    GtkTreeStore  *store;
    store = gtk_tree_store_new (BTREEVIEW_NUM_COLS,
@@ -888,7 +888,6 @@ btree_add_node (gftp_bookmarks_var * entry, int copy, GtkTreeIter * parent_iter,
   } else {
     pixbuf = bookmark_pixbuf;
   }
-
   gtk_tree_store_insert (store, &iter, parent, -1);
   gtk_tree_store_set (store, &iter,
                       BTREEVIEW_COL_ICON,     pixbuf,
@@ -1071,4 +1070,5 @@ gtktreemodel_find_bookmark (const char *path, struct btree_bookmark * out_bookma
                            gtktreemodel_find_bookmark_foreach,
                            out_bookmark);
 }
+#endif
 

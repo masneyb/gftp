@@ -1030,7 +1030,7 @@ CreateFTPWindow (gftp_window_data * wdata)
   gtkcompat_widget_set_halign_left (wdata->dirinfo_label);
   gtk_box_pack_start (GTK_BOX (box), wdata->dirinfo_label, FALSE, FALSE, 0);
 
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   scroll_list = gtk_scrolled_window_new (NULL, NULL);
 #else
   scroll_list = gtk_scrolled_window_new ();
@@ -1127,12 +1127,11 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_container_set_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   tempwid = gtk_image_new_from_icon_name (GTK_STOCK_GO_FORWARD,
-                                      GTK_ICON_SIZE_MENU);
+                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
 #else
-  tempwid = gtk_image_new_from_icon_name (GTK_STOCK_GO_FORWARD,
-                                      NULL);
+  tempwid = gtk_image_new_from_icon_name ("gtk-go-forward");
 #endif
 
   upload_right_arrow = gtk_button_new ();
@@ -1141,12 +1140,11 @@ CreateFTPWindows (GtkWidget * ui)
 			     G_CALLBACK (put_files), NULL);
   gtk_container_add (GTK_CONTAINER (upload_right_arrow), tempwid);
 
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   tempwid = gtk_image_new_from_icon_name ("gtk-go-back",
                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
 #else 
-  tempwid = gtk_image_new_from_icon_name ("gtk-go-back",
-                                      NULL);
+  tempwid = gtk_image_new_from_icon_name ("gtk-go-back");
 #endif
 
   download_left_arrow = gtk_button_new ();
@@ -1165,7 +1163,7 @@ CreateFTPWindows (GtkWidget * ui)
   dlpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
   gtk_paned_pack1 (GTK_PANED (dlpane), winpane, 1, 1);
 
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   transfer_scroll = gtk_scrolled_window_new (NULL, NULL);
 #else
   transfer_scroll = gtk_scrolled_window_new ();
@@ -1201,7 +1199,7 @@ CreateFTPWindows (GtkWidget * ui)
   logpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
   gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
 
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   log_scroll = gtk_scrolled_window_new (NULL, NULL);
 #else
   log_scroll = gtk_scrolled_window_new ();
@@ -1278,7 +1276,7 @@ on_combo_protocol_change_cb (GtkComboBox *cb, gpointer data)
   gftp_set_global_option ("default_protocol", txt);
 }
 
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
 static gboolean
 on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
@@ -1412,7 +1410,7 @@ stop_button (GtkWidget * widget, gpointer data)
 static int
 gftp_gtk_config_file_read_color (char *str, gftp_config_vars * cv, int line)
 {
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   char *red, *green, *blue;
   GdkColor * color;
 
@@ -1441,7 +1439,7 @@ static int
 gftp_gtk_config_file_write_color (gftp_config_vars * cv, char *buf,
                                   size_t buflen, int to_config_file)
 {
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   GdkColor * color;
 
   color = cv->value;
@@ -1511,7 +1509,7 @@ main (int argc, char **argv)
   gftpui_common_child_process_done = 0;
 
   gdk_threads_init();
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   GDK_THREADS_ENTER ();
   main_thread_id = pthread_self ();
   gtk_init (&argc, &argv);
@@ -1525,7 +1523,7 @@ main (int argc, char **argv)
 
   pixbuf_hash_table = g_hash_table_new (string_hash_function,  /* lib/misc.c */
                                          string_hash_compare); /* lib/misc.c */
-#if GTK_MAJOR_VERSION==2 || GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION < 4
   main_window = GTK_WINDOW(gtk_window_new (GTK_WINDOW_TOPLEVEL));
 #else
   main_window = GTK_WINDOW(gtk_window_new ());
@@ -1535,15 +1533,28 @@ main (int argc, char **argv)
   g_signal_connect (G_OBJECT (main_window), "destroy",
 		      G_CALLBACK (_gftp_force_close), NULL);
   gtk_window_set_title (main_window, gftp_version);
-  gtk_window_set_role (main_window, "main");
-  gtk_widget_set_name (GTK_WIDGET(main_window), gftp_version);
+  // gtk_window_set_role (main_window, "main");
+ // gtk_widget_set_name (GTK_WIDGET(main_window), gftp_version);
+  
+#if 0
+  GtkWidget *header;
+
+  header = gtk_header_bar_new ();
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (header), TRUE);
+  gtk_header_bar_set_has_subtitle (GTK_HEADER_BAR (header), FALSE);
+  gtk_header_bar_set_title (GTK_HEADER_BAR (header), "BLAH BLAH");
+  gtk_window_set_titlebar (GTK_WINDOW (main_window), header);
+
+  gtk_window_set_decorated((GtkWindow*)main_window, 0);
+#endif
 #if GTK_MAJOR_VERSION==2
-  gtk_window_set_policy (main_window, TRUE, TRUE, FALSE);
+  // gtk_window_set_policy (main_window, TRUE, TRUE, FALSE);
 #endif
 
   // Need a fixed minium size here
   // gtk_window_set_geometry_hints
   // gtk_widget_set_size_request
+  //gtk_window_set_default_size(GTK_WINDOW(main_window), 400, 300);
 
   gtk_widget_realize (GTK_WIDGET(main_window));
 
@@ -1554,8 +1565,8 @@ main (int argc, char **argv)
   ui = CreateFTPWindows (GTK_WIDGET(main_window));
 
   /* Give the status bar at the bottom, for reasons... */
-  status_bar = gtk_statusbar_new();
-  gtk_box_pack_start (GTK_BOX (ui), status_bar, TRUE, TRUE, 0);
+  //status_bar = gtk_statusbar_new();
+  //gtk_box_pack_start (GTK_BOX (ui), status_bar, TRUE, TRUE, 0);
   gtk_widget_show (status_bar);
 
   gtk_container_add (GTK_CONTAINER (main_window), ui);

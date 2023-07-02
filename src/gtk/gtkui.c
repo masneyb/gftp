@@ -171,8 +171,12 @@ _gftpui_wakeup_main_thread (GIOChannel *source, GIOCondition condition,
   DEBUG_PRINT_FUNC
   gftp_request * request = (gftp_request *) data;
   char c;
+  ssize_t ret;
   if (request->wakeup_main_thread[0] > 0) {
-    read (request->wakeup_main_thread[0], &c, 1);
+    ret = read (request->wakeup_main_thread[0], &c, 1);
+    if (ret == -1){
+      printf("_gftpui_wakeup_main_thread(): failed\n");
+    }
   }
   return TRUE;
 }
@@ -226,12 +230,17 @@ _gftpui_gtk_thread_func (void *data)
   DEBUG_PRINT_FUNC
   gftpui_gtk_thread_data * thread_data;
   void *ret;
+  ssize_t thread_ret;
 
   thread_data = data;
   ret = thread_data->func (thread_data->cdata);
 
   if (thread_data->cdata->request->wakeup_main_thread[1] > 0)
-    write (thread_data->cdata->request->wakeup_main_thread[1], " ", 1);
+  {
+    thread_ret = write (thread_data->cdata->request->wakeup_main_thread[1], " ", 1);
+    if (thread_ret == -1)
+	printf("_gftpui_gtk_thread_func(): This should never happen\n");
+  }
 
   return (ret);
 }

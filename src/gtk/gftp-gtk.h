@@ -359,11 +359,11 @@ char * get_image_path 				( char *filename);
 void set_window_icon (GtkWindow *window, char *icon_name);
 void glist_to_combobox (GList *list, GtkWidget *combo);
 void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_protocol);
-#if GTK_MAJOR_VERSION == 2
-GtkMenuItem * new_menu_item (GtkMenu * menu, char * label, char * icon_name,
+
+#if GTK_MAJOR_VERSION == 2 || GTK_MAJOR_VERSION == 3
+GtkWidget * new_menu_item (GtkWidget * menu, char * label, char * icon_name,
                              gpointer activate_callback, gpointer callback_data);
 #endif
-
 /* options_dialog.c */
 void options_dialog 				( gpointer data );
 

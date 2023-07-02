@@ -373,8 +373,10 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
   tempwid = gtk_scrolled_window_new (NULL, NULL);
   gtk_container_set_border_width (GTK_CONTAINER (tempwid), 0);
   gtk_widget_set_size_request (tempwid, -1, 75);
+#if GTK_MAJOR_VERSION < 3
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (tempwid), 
                                        GTK_SHADOW_IN); 
+#endif
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (tempwid),
                                   GTK_POLICY_AUTOMATIC,
                                   GTK_POLICY_AUTOMATIC);
@@ -726,8 +728,13 @@ options_dialog (gpointer data)
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (gftp_option_data->dialog));
 
   gtk_window_set_role (GTK_WINDOW(gftp_option_data->dialog), "options");
+
+#if GTK_MAJOR_VERSION < 4
   gtk_window_set_position (GTK_WINDOW (gftp_option_data->dialog),
                            GTK_WIN_POS_MOUSE);
+#else
+  gtk_window_set_position (GTK_WINDOW (gftp_option_data->dialog));
+#endif
 
   gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
   gtk_widget_realize (gftp_option_data->dialog);

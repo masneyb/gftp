@@ -1,3 +1,4 @@
+#if GTK_MAJOR_VERSION < 2
 /***********************************************************************************/
 /*  dnd.c - drag and drop functions                                                */
 /*  Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>                        */
@@ -317,4 +318,4 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
   g_list_free (trans_list);
 }
-
+#endif

@@ -168,7 +168,15 @@ extern "C"
 /*                       GTK 3                        */
 /* ================================================== */
 
-// GTK >= 3.0 -- applies to GTK3, GTK4...
+// GTK >= 3.0 -- applies to GTK4, GTK4...
+
+#undef gdk_threads_init
+#define gdk_threads_init(){}
+#undef GDK_THREADS_ENTER
+#define GDK_THREADS_ENTER(){}
+#undef GDK_THREADS_LEAVE
+#define GDK_THREADS_LEAVE(){}
+
 #if GTK_MAJOR_VERSION >= 3
 typedef struct _GdkDrawable           GdkBitmap;
 typedef struct _GdkDrawable           GdkPixmap;
