@@ -27,7 +27,192 @@
 
 static int num_transfers_in_progress = 0;
 
-int  gftp_gtk_list_files (gftp_window_data * wdata)
+
+#if defined(TRANSFER_GTK_TREEVIEW)
+static GdkPixbuf * up_pixbuf, * down_pixbuf;
+
+GtkTreeView *tree;
+GtkTreeModel *model;
+GtkListStore *store;
+GtkTreeIter iter;
+GtkTreeViewColumn *col;
+GtkCellRenderer   *renderer;
+GtkTreeSelection  *sel;
+GtkTreeSelection *tsel;
+
+enum
+{
+  TTREE_COL_ICON,          	/* col 0 */
+  TTREE_COL_FILENAME,      	/*     0 */
+  TTREE_COL_PROGRESS,      	/* col 1 */
+  TTREE_COL_PROGRESS_TEXT, 	/*     1 */
+  TTREE_COL_PROGRESS_INFO, 	/* col 2 */
+  TTREE_COL_REMOTE_PATH,   	/* col 3 */
+  TTREE_COL_TRANSFER_DATA, 	/* hidden, pointer to transfer data */
+  TTREE_NUM_COLS
+};
+#endif
+
+
+GtkWidget *  transfer_list_create (void)
+{
+  GtkWidget * transfer_list;
+
+#if !defined(TRANSFER_GTK_TREEVIEW)
+  char *dltitles[2];
+  intptr_t tmplookup;
+  dltitles[0] = _("Filename");
+  dltitles[1] = _("Progress");
+  transfer_list = gtk_ctree_new_with_titles (2, 0, dltitles);
+  gtk_clist_set_selection_mode (GTK_CLIST (transfer_list), GTK_SELECTION_SINGLE);
+  gtk_clist_set_reorderable (GTK_CLIST (transfer_list), 0);
+
+  gftp_lookup_global_option ("file_trans_column", &tmplookup);
+  if (tmplookup == 0)
+    gtk_clist_set_column_auto_resize (GTK_CLIST (transfer_list), 0, TRUE);
+  else
+    gtk_clist_set_column_width (GTK_CLIST (transfer_list), 0, tmplookup);
+#else
+  if (!up_pixbuf) {
+     up_pixbuf = gftp_get_pixbuf ("dotdot.png");
+     up_pixbuf = gdk_pixbuf_new_from_file ("dotdot.png", NULL);
+  }
+  if (!down_pixbuf) {
+     down_pixbuf = gftp_get_pixbuf ("dotdot.png");
+     down_pixbuf = gdk_pixbuf_new_from_file ("dotdot.png", NULL);
+  }
+
+  //intptr_t colwidth;
+
+  /* tree model */
+  GtkListStore  *store;
+  store = gtk_list_store_new (TTREE_NUM_COLS,
+                              GDK_TYPE_PIXBUF, /* icon */
+                              G_TYPE_STRING,   /* text */
+                              G_TYPE_INT,      /* progress */
+                              G_TYPE_STRING,   /* progress text */
+                              G_TYPE_STRING,
+                              G_TYPE_STRING,
+                              G_TYPE_POINTER); /* hidden: pointer to bookmark */
+  /* tree view */
+  model = GTK_TREE_MODEL(store);
+
+  tree = g_object_new (GTK_TYPE_TREE_VIEW,
+                       "model",             model,
+                       "show-expanders",    FALSE,
+                       "headers-visible",   TRUE,
+                       "reorderable",       FALSE,
+                       "enable-search",     FALSE,
+                       NULL, NULL);
+  transfer_list = GTK_WIDGET(tree);
+  g_object_unref (model);
+
+  sel = gtk_tree_view_get_selection (tree);
+  gtk_tree_selection_set_mode (sel, GTK_SELECTION_SINGLE);
+
+  /* COLUMNS */
+
+  /* col0 */
+  col = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                      "title",       _("Filename"),
+                      "resizable",   TRUE,
+                      "clickable",   TRUE,
+                      "sizing",      GTK_TREE_VIEW_COLUMN_FIXED,
+                      "fixed-width", 250,
+                       NULL);
+  /* col0 -> icon (#0) */
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_PIXBUF, "xalign", 0.5, NULL);
+  gtk_tree_view_column_pack_start(col, renderer, FALSE);
+  gtk_tree_view_column_set_attributes(col, renderer,
+                                      "pixbuf", TTREE_COL_ICON, NULL);
+  /* col0 -> filename (#1) */
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  gtk_tree_view_column_pack_start (col, renderer, TRUE);
+  gtk_tree_view_column_set_attributes (col, renderer,
+                                      "text", TTREE_COL_FILENAME, NULL);
+  gtk_tree_view_append_column (tree, col);
+
+  /* col1 -> progress (#2) / progress_text (#3) */
+  col = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                      "title",     _("Progress"),
+                      "resizable", TRUE,
+                      "clickable", TRUE,
+                      "sizing",      GTK_TREE_VIEW_COLUMN_FIXED,
+                      "fixed-width", 100,
+                      NULL);
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_PROGRESS, NULL);
+  gtk_tree_view_column_pack_start (col, renderer, TRUE);
+  gtk_tree_view_column_set_attributes (col, renderer,
+                                      "value", TTREE_COL_PROGRESS,
+                                      "text",  TTREE_COL_PROGRESS_TEXT,
+                                      NULL);
+  gtk_tree_view_append_column (tree, col);
+
+  /* col2 -> progress_info (#4) */
+  col = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                      "title",     _("Progress info"),
+                      "resizable", TRUE,
+                      "clickable", TRUE,
+                      "sizing",      GTK_TREE_VIEW_COLUMN_FIXED,
+                      "fixed-width", 300,
+                      NULL);
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  gtk_tree_view_column_pack_start (col, renderer, TRUE);
+  gtk_tree_view_column_set_attributes (col, renderer,
+                                      "text", TTREE_COL_PROGRESS_INFO, NULL);
+  gtk_tree_view_append_column (tree, col);
+
+  /* col3 -> remote (#5) */
+  col = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN,
+                      "title",     _("Remote path"),
+                      "resizable", TRUE,
+                      "clickable", TRUE,
+                      NULL);
+  renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT, "xalign", 0.0, NULL);
+  gtk_tree_view_column_pack_start (col, renderer, TRUE);
+  gtk_tree_view_column_set_attributes (col, renderer,
+                                      "text", TTREE_COL_REMOTE_PATH, NULL);
+  gtk_tree_view_append_column (tree, col);
+#endif
+  return transfer_list;
+}
+
+
+void  transfer_list_save_column_width (void)
+{
+  printf("transfer_list_save_column_width: Stub for now\n");
+}
+
+
+gftpui_common_curtrans_data *
+transfer_list_get_selected_transfer_data (int log)
+{
+  gftpui_common_curtrans_data * transfer_data = NULL;
+
+#if !defined(TRANSFER_GTK_TREEVIEW)
+  GtkCTreeNode * node = NULL;
+  if (GTK_CLIST (dlwdw)->selection)
+  {
+     node = GTK_CLIST (dlwdw)->selection->data;
+     transfer_data = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
+  }
+#else
+  tsel = gtk_tree_view_get_selection (tree);
+
+  if (gtk_tree_selection_get_selected (tsel, &model, &iter))
+  {
+     gtk_tree_model_get (model, &iter,
+                         TTREE_COL_TRANSFER_DATA, &transfer_data,  -1);
+  }
+#endif
+  if (!transfer_data && log) {
+      ftp_log (gftp_logging_error, NULL, _("There are no file transfers selected\n"));
+  }
+  return (transfer_data);
+}
+
+
+int gftp_gtk_list_files (gftp_window_data * wdata)
 {
   DEBUG_PRINT_FUNC
   gftpui_callback_data * cdata;
@@ -488,13 +673,15 @@ on_next_transfer (gftp_transfer * tdata)
         }
       else if (tempfle->done_rm)
         tdata->fromreq->rmfile (tdata->fromreq, tempfle->file);
-      
+
+#if !defined(TRANSFER_GTK_TREEVIEW)
       if (tempfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
         gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1,
                                  _("Skipped"));
       else
         gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1,
                                  _("Finished"));
+#endif
     }
 
   gftp_lookup_request_option (tdata->fromreq, "refresh_files", &refresh_files);
@@ -526,34 +713,51 @@ cancel_get_trans_password (gftp_transfer * tdata, gftp_dialog_data * ddata)
 }
 
 
-static void
-show_transfer (gftp_transfer * tdata)
+static void  show_transfer (gftp_transfer * tdata)
 {
   DEBUG_PRINT_FUNC
-  GdkPixmap * closedir_pixmap, * opendir_pixmap;
-  GdkBitmap * closedir_bitmap, * opendir_bitmap;
   gftpui_common_curtrans_data * transdata;
   gftp_file * tempfle;
   GList * templist;
   char *text[2];
+#if !defined(TRANSFER_GTK_TREEVIEW)
+  GdkPixmap * closedir_pixmap, * opendir_pixmap;
+  GdkBitmap * closedir_bitmap, * opendir_bitmap;
 
   gftp_get_pixmap (dlwdw, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
   gftp_get_pixmap (dlwdw, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
+#endif
 
   text[0] = tdata->fromreq->hostname;
   text[1] = _("Waiting...");
-  tdata->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw), NULL, NULL, 
+
+#if !defined(TRANSFER_GTK_TREEVIEW)
+  tdata->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw), NULL, NULL,
                                        text, 5,
                                        closedir_pixmap, closedir_bitmap, 
                                        opendir_pixmap, opendir_bitmap, 
                                        FALSE, 
                                        tdata->numdirs + tdata->numfiles < 50);
+#else
+  printf("show transfer - treeview 1\n");
+  tree  = GTK_TREE_VIEW (dlwdw);
+  printf("show transfer - treview get model\n");
+  model = gtk_tree_view_get_model (tree);
+  store = GTK_LIST_STORE (model);
+  printf("show transfer - list store\n");
+#endif
+
   transdata = g_malloc0 (sizeof (*transdata));
   transdata->transfer = tdata;
   transdata->curfle = NULL;
+
+#if !defined(TRANSFER_GTK_TREEVIEW)
   gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tdata->user_data, transdata);
+#endif
+
   tdata->show = 0;
   tdata->curfle = tdata->updfle = tdata->files;
+  //printf("show transfer - tdata-uplfle tdata\n");
 
   tdata->total_bytes = 0;
   for (templist = tdata->files; templist != NULL; templist = templist->next)
@@ -561,23 +765,34 @@ show_transfer (gftp_transfer * tdata)
       tempfle = templist->data;
 
       text[0] = gftpui_gtk_get_utf8_file_pos (tempfle);
-      if (tempfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
+      if (tempfle->transfer_action == GFTP_TRANS_ACTION_SKIP) {
         text[1] = _("Skipped");
-      else
-        {
+      } else {
           tdata->total_bytes += tempfle->size;
           text[1] = _("Waiting...");
-        }
+      }
 
+#if !defined(TRANSFER_GTK_TREEVIEW)
       tempfle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw), 
                                              tdata->user_data, 
                                              NULL, text, 5, NULL, NULL, NULL, 
                                              NULL, FALSE, FALSE);
+#endif
       transdata = g_malloc0 (sizeof (*transdata));
       transdata->transfer = tdata;
       transdata->curfle = templist;
-      gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->user_data, 
-                                   transdata);
+
+#if !defined(TRANSFER_GTK_TREEVIEW)
+      gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->user_data, transdata);
+#else
+      gtk_list_store_append (store, &iter);
+      gtk_list_store_set (store, &iter,
+                          (TTREE_COL_FILENAME),    text[0],
+                          TTREE_COL_PROGRESS_INFO, text[1],
+                          TTREE_COL_REMOTE_PATH,   transdata->transfer->fromreq->hostname,
+                          TTREE_COL_TRANSFER_DATA, transdata,
+                          -1);
+#endif
     }
 
   if (!tdata->toreq->stopable && gftp_need_password (tdata->toreq))
@@ -602,8 +817,7 @@ show_transfer (gftp_transfer * tdata)
 }
 
 
-static void
-transfer_done (GList * node)
+static void  transfer_done (GList * node)
 {
   DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
@@ -613,55 +827,61 @@ transfer_done (GList * node)
 
   tdata = node->data;
   if (tdata->started)
-    {
+  {
       if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->fromwdata,
                                          tdata->fromreq))
-        {
+      {
           gftp_copy_param_options (((gftp_window_data *) tdata->fromwdata)->request, tdata->fromreq);
 
           gftp_swap_socks (((gftp_window_data *) tdata->fromwdata)->request, 
                            tdata->fromreq);
-        }
+      }
       else
         gftp_disconnect (tdata->fromreq);
 
       if (GFTP_IS_SAME_HOST_STOP_TRANS ((gftp_window_data *) tdata->towdata,
                                          tdata->toreq))
-        {
+      {
           gftp_copy_param_options (((gftp_window_data *) tdata->towdata)->request, tdata->toreq);
 
           gftp_swap_socks (((gftp_window_data *) tdata->towdata)->request, 
                            tdata->toreq);
-        }
+      }
       else
-        gftp_disconnect (tdata->toreq);
+          gftp_disconnect (tdata->toreq);
 
       if (tdata->towdata != NULL && compare_request (tdata->toreq,
                            ((gftp_window_data *) tdata->towdata)->request, 1))
-        gftpui_refresh (tdata->towdata, 1);
+          gftpui_refresh (tdata->towdata, 1);
 
       num_transfers_in_progress--;
-    }
+  }
 
   if ((!tdata->show && tdata->started) ||
       (tdata->done && !tdata->started))
-    {
-      transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), 
-                                               tdata->user_data);
+  {
+#if !defined(TRANSFER_GTK_TREEVIEW)
+      transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), tdata->user_data);
+#endif
       if (transdata != NULL)
-        g_free (transdata);
+          g_free (transdata);
 
       for (templist = tdata->files; templist != NULL; templist = templist->next)
-        {
+      {
           tempfle = templist->data;
-          transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), 
-                                                   tempfle->user_data);
+#if !defined(TRANSFER_GTK_TREEVIEW)
+          transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), tempfle->user_data);
+#endif
           if (transdata != NULL)
-            g_free (transdata);
-        }
+               g_free (transdata);
+      }
           
+#if !defined(TRANSFER_GTK_TREEVIEW)
       gtk_ctree_remove_node (GTK_CTREE (dlwdw), tdata->user_data);
-    }
+#else
+      gtk_list_store_remove (store, &iter);
+#endif
+  }
 
   Wg_mutex_lock (&gftpui_common_transfer_mutex);
   gftp_file_transfers = g_list_remove_link (gftp_file_transfers, node);
@@ -711,9 +931,10 @@ create_transfer (gftp_transfer * tdata)
   num_transfers_in_progress++;
   tdata->started = 1;
   tdata->stalled = 1;
+#if !defined(TRANSFER_GTK_TREEVIEW)
   gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1,
                            _("Connecting..."));
-
+#endif
   if (tdata->thread_id == NULL)
     tdata->thread_id = g_malloc0 (sizeof (pthread_t));
 
@@ -788,8 +1009,7 @@ _setup_dlstr (gftp_transfer * tdata, gftp_file * fle, char *dlstr,
 }
 
 
-static void
-update_file_status (gftp_transfer * tdata)
+static void  update_file_status (gftp_transfer * tdata)
 {
   DEBUG_PRINT_FUNC
   char totstr[150], winstr[150], dlstr[150];
@@ -840,8 +1060,9 @@ update_file_status (gftp_transfer * tdata)
 
   Wg_mutex_unlock (&tdata->statmutex);
 
+#if !defined(TRANSFER_GTK_TREEVIEW)
   gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1, totstr);
-  
+#endif
   gftp_lookup_global_option ("show_trans_in_title", &show_trans_in_title);
   if (gftp_file_transfers->data == tdata && show_trans_in_title)
     {
@@ -849,14 +1070,14 @@ update_file_status (gftp_transfer * tdata)
       gdk_window_set_title (gtk_widget_get_parent_window (GTK_WIDGET(dlwdw)),
                             winstr);
     }
-
+#if !defined(TRANSFER_GTK_TREEVIEW)
   if (*dlstr != '\0')
     gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tempfle->user_data, 1, dlstr);
+#endif
 }
 
 
-static void
-update_window_transfer_bytes (gftp_window_data * wdata)
+static void  update_window_transfer_bytes (gftp_window_data * wdata)
 {
   DEBUG_PRINT_FUNC
   char *tempstr, *temp1str;
@@ -878,10 +1099,10 @@ update_window_transfer_bytes (gftp_window_data * wdata)
 }
 
 
-gint
-update_downloads (gpointer data)
+gint  update_downloads (gpointer data)
 {
-  //DEBUG_PRINT_FUNC /* endless loop 1 second */
+  //DEBUG_PRINT_FUNC
+  /* endless loop 1 second */
   intptr_t do_one_transfer_at_a_time, start_transfers;
   GList * templist, * next;
   gftp_transfer * tdata;
@@ -940,88 +1161,63 @@ update_downloads (gpointer data)
 }
 
 
-void
-start_transfer (gpointer data)
+void  start_transfer (gpointer data)
 {
   DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
-  GtkCTreeNode * node;
 
-  if (GTK_CLIST (dlwdw)->selection == NULL)
-    {
-      ftp_log (gftp_logging_error, NULL,
-               _("There are no file transfers selected\n"));
+  transdata = transfer_list_get_selected_transfer_data (1);
+  if (!transdata) {
       return;
-    }
-  node = GTK_CLIST (dlwdw)->selection->data;
-  transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
+  }
 
   Wg_mutex_lock (&transdata->transfer->structmutex);
-  if (!transdata->transfer->started)
-    create_transfer (transdata->transfer);
+  if (!transdata->transfer->started) {
+      create_transfer (transdata->transfer);
+  }
   Wg_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 
-void
-stop_transfer (gpointer data)
+void  stop_transfer (gpointer data)
 {
   DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
-  GtkCTreeNode * node;
 
-  if (GTK_CLIST (dlwdw)->selection == NULL)
-    {
-      ftp_log (gftp_logging_error, NULL,
-               _("There are no file transfers selected\n"));
+  transdata = transfer_list_get_selected_transfer_data (1);
+  if (!transdata) {
       return;
-    }
+  }
 
-  node = GTK_CLIST (dlwdw)->selection->data;
-  transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
   gftpui_common_cancel_file_transfer (transdata->transfer);
 }
 
 
-void
-skip_transfer (gpointer data)
+void  skip_transfer (gpointer data)
 {
   DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
-  GtkCTreeNode * node;
 
-  if (GTK_CLIST (dlwdw)->selection == NULL)
-    {
-      ftp_log (gftp_logging_error, NULL,
-               _("There are no file transfers selected\n"));
+  transdata = transfer_list_get_selected_transfer_data (1);
+  if (!transdata) {
       return;
-    }
-
-  node = GTK_CLIST (dlwdw)->selection->data;
-  transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
+  }
 
   gftpui_common_skip_file_transfer (transdata->transfer,
                                     transdata->transfer->curfle->data);
 }
 
 
-void
-remove_file_transfer (gpointer data)
+void  remove_file_transfer (gpointer data)
 {
   DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
-  GtkCTreeNode * node;
   gftp_file * curfle;
 
-  if (GTK_CLIST (dlwdw)->selection == NULL)
-    {
-      ftp_log (gftp_logging_error, NULL,
-              _("There are no file transfers selected\n"));
+  transdata = transfer_list_get_selected_transfer_data (1);
+  if (!transdata) {
       return;
-    }
-
-  node = GTK_CLIST (dlwdw)->selection->data;
-  transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
+  }
 
   if (transdata->curfle == NULL || transdata->curfle->data == NULL)
     return;
@@ -1029,27 +1225,23 @@ remove_file_transfer (gpointer data)
   curfle = transdata->curfle->data;
   gftpui_common_skip_file_transfer (transdata->transfer, curfle);
 
+#if !defined(TRANSFER_GTK_TREEVIEW)
   gtk_ctree_node_set_text (GTK_CTREE (dlwdw), curfle->user_data, 1,
                            _("Skipped"));
+#endif
 }
 
 
-void
-move_transfer_up (gpointer data)
+void  move_transfer_up (gpointer data)
 {
   DEBUG_PRINT_FUNC
   GList * firstentry, * secentry, * lastentry;
   gftpui_common_curtrans_data * transdata;
-  GtkCTreeNode * node;
 
-  if (GTK_CLIST (dlwdw)->selection == NULL)
-    {
-      ftp_log (gftp_logging_error, NULL,
-               _("There are no file transfers selected\n"));
+  transdata = transfer_list_get_selected_transfer_data (1);
+  if (!transdata) {
       return;
-    }
-  node = GTK_CLIST (dlwdw)->selection->data;
-  transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
+  }
 
   if (transdata->curfle == NULL)
     return;
@@ -1084,33 +1276,28 @@ move_transfer_up (gpointer data)
           if (lastentry != NULL)
             lastentry->prev = secentry;
         }
-
+#if !defined(TRANSFER_GTK_TREEVIEW)
       gtk_ctree_move (GTK_CTREE (dlwdw), 
                       ((gftp_file *) transdata->curfle->data)->user_data,
                       transdata->transfer->user_data, 
                       transdata->curfle->next != NULL ?
                           ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
+#endif
     }
   Wg_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 
-void
-move_transfer_down (gpointer data)
+void  move_transfer_down (gpointer data)
 {
   DEBUG_PRINT_FUNC
   GList * firstentry, * secentry, * lastentry;
   gftpui_common_curtrans_data * transdata;
-  GtkCTreeNode * node;
 
-  if (GTK_CLIST (dlwdw)->selection == NULL)
-    {
-      ftp_log (gftp_logging_error, NULL,
-               _("There are no file transfers selected\n"));
+  transdata = transfer_list_get_selected_transfer_data (1);
+  if (!transdata) {
       return;
-    }
-  node = GTK_CLIST (dlwdw)->selection->data;
-  transdata = gtk_ctree_node_get_row_data (GTK_CTREE (dlwdw), node);
+  }
 
   if (transdata->curfle == NULL)
     return;
@@ -1145,12 +1332,13 @@ move_transfer_down (gpointer data)
           if (lastentry != NULL)
             lastentry->prev = transdata->curfle;
         }
-
+#if !defined(TRANSFER_GTK_TREEVIEW)
       gtk_ctree_move (GTK_CTREE (dlwdw), 
                       ((gftp_file *) transdata->curfle->data)->user_data,
                       transdata->transfer->user_data, 
                       transdata->curfle->next != NULL ?
                           ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
+#endif
     }
   Wg_mutex_unlock (&transdata->transfer->structmutex);
 }

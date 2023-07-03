@@ -31,6 +31,12 @@
 #include "../gtkcompat.h"
 #include <pthread.h>
 
+// comment out #if.. #endif 
+#if GTK_MAJOR_VERSION > 2
+#define TRANSFER_GTK_TREEVIEW 1
+#endif
+
+
 #define GFTP_MENU_ITEM_ASCII	1
 #define GFTP_MENU_ITEM_BINARY	2
 #define GFTP_MENU_ITEM_WIN1	3
@@ -366,6 +372,10 @@ void gftp_gtk_save_bookmark_options 		( void );
 void gftp_gtk_platform_specific_init		( void );
 
 /* transfer.c */
+GtkWidget *transfer_list_create 		(void);
+
+void transfer_list_save_column_width 		(void);
+
 int  gftp_gtk_list_files				( gftp_window_data * wdata );
 
 int gftp_gtk_connect					( gftp_window_data * wdata,

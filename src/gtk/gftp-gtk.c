@@ -51,8 +51,8 @@ static gboolean on_key_press_combo_toolbar(GtkWidget *widget, GdkEventKey *event
 static void on_combo_protocol_change_cb (GtkComboBox *cb, gpointer data);
 static int combo_key_pressed = 0;
 
-static int
-get_column (GtkCListColumn * col)
+#if !defined(TRANSFER_GTK_TREEVIEW)
+static int  get_column (GtkCListColumn * col)
 {
   if (col->auto_resize)
     return (0);
@@ -61,9 +61,9 @@ get_column (GtkCListColumn * col)
   else
     return (col->width);
 }
+#endif
 
-static void
-_gftp_exit (GtkWidget * widget, gpointer data)
+static void  _gftp_exit (GtkWidget * widget, gpointer data)
 {
   intptr_t remember_last_directory, ret;
   const char *tempstr;
@@ -81,8 +81,12 @@ _gftp_exit (GtkWidget * widget, gpointer data)
 
   listbox_save_column_width (&window1, &window2);
 
+#if !defined(TRANSFER_GTK_TREEVIEW)
   ret = get_column (&GTK_CLIST (dlwdw)->column[0]);
   gftp_set_global_option ("file_trans_column", GINT_TO_POINTER (ret));
+#else
+  transfer_list_save_column_width ();
+#endif
 
   tempstr = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(hostedit));
   gftp_set_global_option ("host_value", tempstr);
@@ -1065,7 +1069,6 @@ CreateFTPWindows (GtkWidget * ui)
 {
   GtkWidget *box, *dlbox, *winpane, *dlpane, *logpane, *mainvbox, *tempwid;
   gftp_config_list_vars * tmplistvar;
-  char *dltitles[2];
   intptr_t tmplookup;
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
@@ -1140,17 +1143,7 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (transfer_scroll),
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  dltitles[0] = _("Filename");
-  dltitles[1] = _("Progress");
-  dlwdw = gtk_ctree_new_with_titles (2, 0, dltitles);
-  gtk_clist_set_selection_mode (GTK_CLIST (dlwdw), GTK_SELECTION_SINGLE);
-  gtk_clist_set_reorderable (GTK_CLIST (dlwdw), 0);
-
-  gftp_lookup_global_option ("file_trans_column", &tmplookup);
-  if (tmplookup == 0)
-    gtk_clist_set_column_auto_resize (GTK_CLIST (dlwdw), 0, TRUE);
-  else
-    gtk_clist_set_column_width (GTK_CLIST (dlwdw), 0, tmplookup);
+  dlwdw = transfer_list_create ();
 
   gtk_container_add (GTK_CONTAINER (transfer_scroll), dlwdw);
   g_signal_connect (G_OBJECT (dlwdw), "button_press_event",
