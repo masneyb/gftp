@@ -181,6 +181,22 @@ extern "C"
 typedef struct _GdkDrawable           GdkBitmap;
 typedef struct _GdkDrawable           GdkPixmap;
 
+/* Structure was made opaque in gtk3, lets see if it still works the same */
+#ifndef gftGtkSelectionData
+#define __gftpGtkSelectionData_defiend__
+typedef struct _gftpGtkSelectionData   gftpGtkSelectionData;
+struct _gftpGtkSelectionData
+{
+  GdkAtom       selection;
+  GdkAtom       target;
+  GdkAtom       type;
+  gint          format;
+  guchar       *data;
+  gint          length;
+  GdkDisplay   *display;
+};
+#endif
+
 #define GTKCOMPAT_DRAW_SIGNAL "draw"
 #define gtkcompat_widget_set_halign_left(w)   gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_START)
 #define gtkcompat_widget_set_halign_center(w) gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_CENTER)

@@ -739,6 +739,7 @@ CreateConnectToolbar (GtkWidget * parent)
 
   icon_size = gtk_toolbar_get_icon_size( toolbar );
 
+  /* Connect to remote network resource button */
   tempwid = gtk_image_new_from_icon_name ("gtk-network", icon_size);
 
   openurl_btn = gtk_button_new ();
@@ -752,6 +753,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_container_set_border_width (GTK_CONTAINER (openurl_btn), 1);
   gtk_box_pack_start (GTK_BOX (box), openurl_btn, FALSE, FALSE, 0);
 
+  /* Host Edit Field */
   tempwid = gtk_label_new_with_mnemonic (_("_Host:"));
 
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
@@ -774,6 +776,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), hostedit, TRUE, TRUE, 0);
 
+  /* Service Port */
   tempwid = gtk_label_new (_("Port:"));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
@@ -796,6 +799,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), portedit, FALSE, FALSE, 0);
 
+  /* Username Entry Field */
   tempwid = gtk_label_new_with_mnemonic (_("_User:"));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
@@ -818,6 +822,7 @@ CreateConnectToolbar (GtkWidget * parent)
   gtk_entry_set_text (GTK_ENTRY (dir_combo_entry), tempstr);
   gtk_box_pack_start (GTK_BOX (box), useredit, TRUE, TRUE, 0);
 
+  /* Password Entry Field */
   tempwid = gtk_label_new (_("Pass:"));
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
 
@@ -846,8 +851,8 @@ CreateConnectToolbar (GtkWidget * parent)
   gftp_lookup_global_option ("default_protocol", &default_protocol);
   populate_combo_and_select_protocol (toolbar_combo_protocol, default_protocol);
 
-  tempwid = gtk_image_new_from_icon_name ("gtk-stop", icon_size);
-
+  /* Stop or Disconnect from remote host */
+  tempwid = gtk_image_new_from_icon_name ("application-exit", icon_size);
   stop_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
   gtk_widget_set_sensitive (stop_btn, 0);
@@ -1046,16 +1051,18 @@ CreateFTPWindow (gftp_window_data * wdata)
 
   gtk_container_add (GTK_CONTAINER (scroll_list), wdata->listbox);
   gtk_box_pack_start (GTK_BOX (box), scroll_list, TRUE, TRUE, 0);
+
+  /* Drag and Drop support */
 #if GTK_MAJOR_VERSION < 4
   g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_get",
-  /* dnd.c */       G_CALLBACK (listbox_drag), (gpointer) wdata);
+                    G_CALLBACK (listbox_drag), (gpointer) wdata);
   g_signal_connect (G_OBJECT (wdata->listbox), "drag_data_received",
-  /* dnd.c */       G_CALLBACK (listbox_get_drag_data), (gpointer) wdata);
+                    G_CALLBACK (listbox_get_drag_data), (gpointer) wdata);
   gtk_drag_source_set (wdata->listbox, GDK_BUTTON1_MASK,
-  /* dnd.c */          possible_types, 3,
+                       possible_types, 3,
                        GDK_ACTION_COPY | GDK_ACTION_MOVE);
   gtk_drag_dest_set (wdata->listbox, GTK_DEST_DEFAULT_ALL,
-  /* dnd.c */        possible_types, 2,
+                     possible_types, 2,
                      GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
   g_signal_connect (G_OBJECT (wdata->listbox),  "row_activated",

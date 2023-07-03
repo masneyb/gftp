@@ -1,4 +1,3 @@
-#if GTK_MAJOR_VERSION < 2
 /***********************************************************************************/
 /*  dnd.c - drag and drop functions                                                */
 /*  Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>                        */
@@ -24,6 +23,10 @@
 
 #include "gftp-gtk.h"
 
+static GtkTargetEntry targetentries[] =
+{
+    { "text/uri-list", 0, 0}
+};
 
 static int
 dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
@@ -122,7 +125,7 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
 
 void
 openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
-		       gint y, GtkSelectionData * selection_data, guint info,
+		       gint y, gftpGtkSelectionData * selection_data, guint info,
 		       guint clk_time, gpointer data)
 {
   if (current_wdata->request->stopable)
@@ -153,7 +156,7 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
 void
 listbox_drag (GtkWidget * widget, GdkDragContext * context,
-	      GtkSelectionData * selection_data, guint info, guint32 clk_time,
+	      gftpGtkSelectionData * selection_data, guint info, guint32 clk_time,
 	      gpointer data)
 {
   GList * templist, * igl;
@@ -232,10 +235,10 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
 
   if (str != NULL)
     {
-#if GTK_MAJOR_VERSION < 3
-      gtk_selection_data_set (selection_data, (GdkAtom)selection_data->target, 8,
+//#if GTK_MAJOR_VERSION < 3
+      gtk_selection_data_set (selection_data, selection_data->target, 8,
       	                      (unsigned char *) str, strlen (str));
-#endif
+//#endif
       g_free (str);
     }
 }
@@ -243,7 +246,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
 
 void
 listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
-		       gint y, GtkSelectionData * selection_data, guint info,
+		       gint y, gftpGtkSelectionData * selection_data, guint info,
 		       guint clk_time, gpointer data)
 {
   char *newpos, *oldpos, *tempstr;
@@ -259,7 +262,7 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
   trans_list = NULL;
   finish_drag = 0;
-#if GTK_MAJOR_VERSION < 3
+//#if GTK_MAJOR_VERSION < 3
   if ((selection_data->length >= 0) && (selection_data->format == 8)) 
     {
       oldpos = (char *) selection_data->data;
@@ -290,7 +293,7 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
           oldpos = newpos + 1;
         }
     }
-#endif
+//#endif
 
   gtk_drag_finish (context, finish_drag, FALSE, clk_time);
 
@@ -318,4 +321,4 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
   g_list_free (trans_list);
 }
-#endif
+

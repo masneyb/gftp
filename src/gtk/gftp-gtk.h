@@ -29,6 +29,13 @@
 #include "../../lib/gftp.h"
 #include "../uicommon/gftpui.h"
 #include "../gtkcompat.h"
+
+/* Work around a GTK3 change */
+#ifndef __gftpGtkSelectionData_defiend__
+#define _gftpGtkSelectionData _GtkSelectionData
+#define gftpGtkSelectionData GtkSelectionData
+#endif /* _gftpGtkSelectionData_defiend__ */
+
 #include <pthread.h>
 
 #define GFTP_MENU_ITEM_ASCII	1
@@ -195,14 +202,14 @@ void openurl_get_drag_data 			( GtkWidget * widget,
 						  GdkDragContext * context, 
 						  gint x,
 						  gint y, 
-						  GtkSelectionData * selection_data, 
+						  gftpGtkSelectionData * selection_data, 
 						  guint info, 
 						  guint32 clk_time, 
 						  gpointer data );
 
 void listbox_drag 				( GtkWidget * widget, 
 						  GdkDragContext * context,
-						  GtkSelectionData * selection_data, 
+						  gftpGtkSelectionData * selection_data, 
 						  guint info, 
 						  guint32 clk_time, 
 						  gpointer data );
@@ -211,7 +218,7 @@ void listbox_get_drag_data 			( GtkWidget * widget,
 						  GdkDragContext * context, 
 						  gint x,
 						  gint y, 
-						  GtkSelectionData * selection_data, 
+						  gftpGtkSelectionData * selection_data, 
 						  guint info, 
 						  guint32 clk_time, 
 						  gpointer data );
