@@ -246,8 +246,13 @@ time_t parse_time (char *str, char **endpos)
   if (slen > 4 && isdigit ((int) str[0]) && str[2] == '-' && isdigit ((int) str[3]))
     {
       /* This is how DOS will return the date/time */
-      /* 07-06-99  12:57PM */
-      tmppos = strptime (str, "%m-%d-%y %I:%M%p", &curtime);
+      if (isdigit ((int) str[9])) {
+        /* 06-07-2023  01:42PM */
+        tmppos = strptime (str, "%m-%d-%Y %I:%M%p", &curtime);
+      } else {
+        /* 07-06-99  12:57PM */
+        tmppos = strptime (str, "%m-%d-%y %I:%M%p", &curtime);
+      }
     }
   else if (slen > 4 && isdigit ((int) str[0]) && str[2] == '-' && isalpha (str[3]))
     {
@@ -642,6 +647,10 @@ static int ftp_parse_ls_nt (char *str, gftp_file * fle)
   // 12-03-15  08:14PM       <DIR>          aspnet_client
   // 10-19-20  03:19PM       <DIR>          pub
   // 04-08-14  03:09PM                  403 readme.txt
+  //
+  // 06-07-2023  01:42PM       <DIR>          Out
+  // 05-23-2023  12:26PM       <DIR>          WEB
+
   char *startpos;
 
   startpos = str;

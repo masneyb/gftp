@@ -6,12 +6,10 @@ libgftp_a_SOURCES= \
 	cache.c \
 	charset-conv.c \
 	config_file.c \
-	fsplib.c \
 	ftp-dir-listing.c \
 	misc.c \
 	protocols.c \
 	protocol_bookmark.c \
-	protocol_fsp.c \
 	protocol_ftp.c \
 	protocol_ftps.c \
 	protocol_localfs.c \
@@ -33,5 +31,4 @@ noinst_HEADERS= \
 	gftp.h \
 	protocol_ftp.h \
 	protocol_http.h \
-	options.h \
-	fsplib.h
+	options.h
