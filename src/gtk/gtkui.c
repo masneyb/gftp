@@ -21,8 +21,9 @@
 /*  SOFTWARE.                                                                      */
 /***********************************************************************************/
 
-#include "gftp-gtk.h"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
+#include "gftp-gtk.h"
 
 void
 gftpui_lookup_file_colors (gftp_file * fle, char **start_color,

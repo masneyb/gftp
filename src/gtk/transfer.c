@@ -21,6 +21,8 @@
 /*  SOFTWARE.                                                                      */
 /***********************************************************************************/
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include "gftp-gtk.h"
 
 static int num_transfers_in_progress = 0;

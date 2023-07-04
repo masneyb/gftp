@@ -769,17 +769,17 @@ static ssize_t http_chunked_read (gftp_request * request, void *ptr, size_t size
       read_size = size;
       if (httpdat->content_length > 0)
       {
-         if (httpdat->content_length == httpdat->read_bytes)
+         if (httpdat->content_length == (off_t) httpdat->read_bytes)
          {
              httpdat->read_ref_cnt--;
              return (0);
           }
 
-          if (read_size + httpdat->read_bytes > httpdat->content_length)
-             read_size = httpdat->content_length - httpdat->read_bytes;
+          if ((off_t) read_size + httpdat->read_bytes > httpdat->content_length)
+              read_size = httpdat->content_length - httpdat->read_bytes;
       }
       else if (httpdat->chunked_transfer && httpdat->chunk_size > 0 &&
-               httpdat->chunk_size < read_size)
+               httpdat->chunk_size < (off_t) read_size)
          read_size = httpdat->chunk_size;
    }
 
@@ -892,7 +892,7 @@ static ssize_t http_chunked_read (gftp_request * request, void *ptr, size_t size
 
       memmove (stpos, crlfpos + 1, current_size + 1);
 
-      if (httpdat->chunk_size < current_size)
+      if (httpdat->chunk_size < (off_t) current_size)
       {
          stpos += httpdat->chunk_size;
          httpdat->chunk_size = 0;

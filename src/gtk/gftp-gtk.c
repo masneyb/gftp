@@ -21,6 +21,8 @@
 /*  SOFTWARE.                                                                      */
 /***********************************************************************************/
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include "gftp-gtk.h"
 
 static GtkWidget * local_frame, * remote_frame, * log_scroll, * transfer_scroll,
@@ -59,7 +61,6 @@ get_column (GtkCListColumn * col)
   else
     return (col->width);
 }
-
 
 static void
 _gftp_exit (GtkWidget * widget, gpointer data)

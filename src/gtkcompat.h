@@ -189,6 +189,7 @@ extern "C"
 /* ================================================== */
 
 #if GTK_MAJOR_VERSION == 2
+//#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 // define some GTK3.14+ functions
 // GTK < 3.10

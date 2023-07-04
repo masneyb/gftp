@@ -21,6 +21,8 @@
 /*  SOFTWARE.                                                                      */
 /***********************************************************************************/
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include "gftp-gtk.h"
 
 static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow, *ox;

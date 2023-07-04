@@ -25,7 +25,7 @@
 typedef struct http_protocol_data_tag
 {
    gftp_getline_buffer * rbuf;
-   unsigned long read_bytes;
+   off_t read_bytes;
    off_t chunk_size;
    off_t content_length;
    unsigned int chunked_transfer : 1;

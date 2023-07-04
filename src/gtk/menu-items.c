@@ -21,6 +21,8 @@
 /*  SOFTWARE.                                                                      */
 /***********************************************************************************/
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include "gftp-gtk.h"
 
 static int combo_key2_pressed = 0;

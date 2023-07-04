@@ -396,7 +396,7 @@ int gftp_accept_connection (gftp_request * request, int * fd /* in|out */)
       return -1;
   }
 
-  newfd = accept (*fd, saddr, &request->remote_addr_len);
+  newfd = accept (*fd, saddr, (socklen_t *)&request->remote_addr_len);
   if (newfd == -1)
   {
       request->logging_function (gftp_logging_error, request,

@@ -30,6 +30,8 @@
   - GtkTreeSelection is used to get/set selected rows..
 */
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include "gftp-gtk.h"
 
 typedef struct

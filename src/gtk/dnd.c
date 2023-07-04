@@ -21,8 +21,9 @@
 /*  SOFTWARE.                                                                      */
 /***********************************************************************************/
 
-#include "gftp-gtk.h"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
+#include "gftp-gtk.h"
 
 static int
 dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
