@@ -1293,7 +1293,7 @@ toolbar_hostedit(void)
   gftp_set_hostname (current_wdata->request, txt);
   if (current_wdata->request->hostname == NULL)
     return;
-  alltrim (current_wdata->request->hostname);
+  g_strstrip (current_wdata->request->hostname);
 
   if (current_wdata->request->need_hostport && 
       *current_wdata->request->hostname == '\0')
@@ -1323,7 +1323,7 @@ toolbar_hostedit(void)
 
   gftp_set_username (current_wdata->request, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(useredit)));
   if (current_wdata->request->username != NULL)
-    alltrim (current_wdata->request->username);
+    g_strstrip (current_wdata->request->username);
 
 
   gftp_lookup_global_option ("userhistory", &tmplistvar);
@@ -1336,7 +1336,7 @@ toolbar_hostedit(void)
   gftp_set_directory (current_wdata->request,
                       gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(current_wdata->dir_combo)));
   if (current_wdata->request->directory != NULL)
-    alltrim (current_wdata->request->directory);
+    g_strstrip (current_wdata->request->directory);
 
   add_history (current_wdata->dir_combo, current_wdata->history, 
                current_wdata->histlen, current_wdata->request->directory);

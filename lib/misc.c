@@ -115,34 +115,6 @@ char * insert_commas (off_t number, char *dest_str, size_t dest_len)
 
 #endif
 
-char * alltrim (char *str)
-{
-  //DEBUG_PRINT_FUNC
-  char *pos, *newpos;
-  int diff;
-
-  pos = str + strlen (str) - 1;
-  while (pos >= str && (*pos == ' ' || *pos == '\t'))
-    *pos-- = '\0';
-
-  pos = str;
-  diff = 0;
-  while (*pos++ == ' ')
-    diff++;
-
-  if (diff == 0)
-    return (str);
-
-  pos = str + diff;
-  newpos = str;
-  while (*pos != '\0')
-    *newpos++ = *pos++;
-  *newpos = '\0';
-
-  return (str);
-}
-
-
 char * gftp_expand_path (gftp_request * request, const char *src)
 {
   //DEBUG_PRINT_FUNC
