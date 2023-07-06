@@ -128,8 +128,6 @@ static int detect_dirtype (char *string)
         //If the first token in the string has a ; in it, then
         //we'll assume that this is a VMS directory listing
         *p = '\0';
-        //If the first token in the string has a ; in it, then
-        //we'll assume that this is a VMS directory listing
         if (strchr (string, ';')) {
             *p = ' ';
             return FTP_DIRTYPE_VMS;

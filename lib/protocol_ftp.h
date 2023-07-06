@@ -46,8 +46,7 @@ extern struct ftp_supported_feature ftp_supported_features[];
 struct ftp_protocol_data_tag
 {  
   gftp_getline_buffer * dataconn_rbuf;
-  char * response_buffer;
-  char * response_buffer_pos;
+  gftp_getline_buffer * responseBuf;
   int data_connection;
   unsigned int is_ascii_transfer : 1;
   unsigned int is_fxp_transfer : 1;
