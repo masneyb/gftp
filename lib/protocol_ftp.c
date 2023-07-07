@@ -253,16 +253,13 @@ static int ftp_read_response (gftp_request * request, int disconnect_on_42x)
      return (GFTP_ERETRYABLE);
   }
   DEBUG_TRACE("RESPONSE: %s\n", last_line);
-  request->last_ftp_response = g_strdup (last_line);
 
-  if (request->last_ftp_response[0] == '4' &&
-      request->last_ftp_response[1] == '2' &&
-      disconnect_on_42x)
-    {
+  if (last_line[0] == '4' && last_line[1] == '2' && disconnect_on_42x)
+  {
       gftp_disconnect (request);
       return (GFTP_ETIMEDOUT);
-    }
-
+  }
+  request->last_ftp_response = g_strdup (last_line);
   return (*request->last_ftp_response);
 }
 
@@ -1833,6 +1830,10 @@ static void ftp_request_destroy (gftp_request * request)
   }
   if (ftpdat->dataconn_rbuf != NULL) {
       gftp_free_getline_buffer (&ftpdat->dataconn_rbuf);
+  }
+  if (request->last_ftp_response) {
+      g_free (request->last_ftp_response);
+      request->last_ftp_response = NULL;
   }
 }
 
