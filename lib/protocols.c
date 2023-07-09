@@ -357,8 +357,8 @@ gftp_list_files (gftp_request * request)
 
   g_return_val_if_fail (request != NULL, GFTP_EFATAL);
 
-#if ENABLE_NLS
   gftp_lookup_request_option (request, "remote_lc_time", &remote_lc_time);
+#if ENABLE_NLS
   if (remote_lc_time != NULL && *remote_lc_time != '\0')
     locret = setlocale (LC_TIME, remote_lc_time);
   else
