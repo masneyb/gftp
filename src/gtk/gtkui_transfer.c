@@ -128,7 +128,7 @@ gftp_gtk_set_transfer_action (gftp_transfer * tdata, char * transfer_str,
                               int transfer_action)
 {
    DEBUG_PRINT_FUNC
-   Wg_mutex_lock (&tdata->structmutex);
+   g_mutex_lock (&tdata->structmutex);
 
    GtkTreeView      *tree = GTK_TREE_VIEW (tdata->clist);
    GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree);
@@ -153,7 +153,7 @@ gftp_gtk_set_transfer_action (gftp_transfer * tdata, char * transfer_str,
       valid = gtk_tree_model_iter_next (model, &iter);
    }
 
-   Wg_mutex_unlock (&tdata->structmutex);
+   g_mutex_unlock (&tdata->structmutex);
 }
 
 static void
@@ -192,7 +192,7 @@ on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
      gftp_file * tempfle;
      GList * templist;
 
-     Wg_mutex_lock (&tdata->structmutex);
+     g_mutex_lock (&tdata->structmutex);
      for (templist = tdata->files; templist != NULL; templist = templist->next)
      {
         tempfle = templist->data;
@@ -207,17 +207,17 @@ on_gtk_dialog_response_transferdlg (GtkDialog *dialog,
      } else {
         tdata->show = 1;
      }
-     Wg_mutex_unlock (&tdata->structmutex);
+     g_mutex_unlock (&tdata->structmutex);
 
      gtk_widget_destroy (GTK_WIDGET (dialog));
      return;
   }
 
   /* cancel transfers */
-  Wg_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
   tdata->show = 0;
   tdata->done = tdata->ready = 1;
-  Wg_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
   gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 

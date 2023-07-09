@@ -883,9 +883,9 @@ static void  transfer_done (GList * node)
 #endif
   }
 
-  Wg_mutex_lock (&gftpui_common_transfer_mutex);
+  g_mutex_lock (&gftpui_common_transfer_mutex);
   gftp_file_transfers = g_list_remove_link (gftp_file_transfers, node);
-  Wg_mutex_unlock (&gftpui_common_transfer_mutex);
+  g_mutex_unlock (&gftpui_common_transfer_mutex);
 
   gdk_window_set_title (gtk_widget_get_parent_window (GTK_WIDGET(dlwdw)),
                         gftp_version);
@@ -1018,7 +1018,7 @@ static void  update_file_status (gftp_transfer * tdata)
   intptr_t show_trans_in_title;
   gftp_file * tempfle;
   
-  Wg_mutex_lock (&tdata->statmutex);
+  g_mutex_lock (&tdata->statmutex);
   tempfle = tdata->curfle->data;
 
   remaining_secs = (tdata->total_bytes - tdata->trans_bytes - tdata->resumed_bytes) / 1024;
@@ -1035,7 +1035,7 @@ static void  update_file_status (gftp_transfer * tdata)
 
   if (hours < 0 || mins < 0 || secs < 0)
     {
-      Wg_mutex_unlock (&tdata->statmutex);
+      g_mutex_unlock (&tdata->statmutex);
       return;
     }
 
@@ -1058,7 +1058,7 @@ static void  update_file_status (gftp_transfer * tdata)
   if (!tdata->stalled)
     _setup_dlstr (tdata, tempfle, dlstr, sizeof (dlstr));
 
-  Wg_mutex_unlock (&tdata->statmutex);
+  g_mutex_unlock (&tdata->statmutex);
 
 #if !defined(TRANSFER_GTK_TREEVIEW)
   gtk_ctree_node_set_text (GTK_CTREE (dlwdw), tdata->user_data, 1, totstr);
@@ -1123,7 +1123,7 @@ gint  update_downloads (gpointer data)
       tdata = templist->data;
       if (tdata->ready)
         {
-          Wg_mutex_lock (&tdata->structmutex);
+          g_mutex_lock (&tdata->structmutex);
 
           if (tdata->next_file)
             on_next_transfer (tdata);
@@ -1132,7 +1132,7 @@ gint  update_downloads (gpointer data)
           else if (tdata->done)
             {
               next = templist->next;
-              Wg_mutex_unlock (&tdata->structmutex);
+              g_mutex_unlock (&tdata->structmutex);
               transfer_done (templist);
               templist = next;
               continue;
@@ -1151,7 +1151,7 @@ gint  update_downloads (gpointer data)
               if (tdata->started)
                 update_file_status (tdata);
             }
-          Wg_mutex_unlock (&tdata->structmutex);
+          g_mutex_unlock (&tdata->structmutex);
         }
       templist = templist->next;
     }
@@ -1171,11 +1171,11 @@ void  start_transfer (gpointer data)
       return;
   }
 
-  Wg_mutex_lock (&transdata->transfer->structmutex);
+  g_mutex_lock (&transdata->transfer->structmutex);
   if (!transdata->transfer->started) {
       create_transfer (transdata->transfer);
   }
-  Wg_mutex_unlock (&transdata->transfer->structmutex);
+  g_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 
@@ -1246,7 +1246,7 @@ void  move_transfer_up (gpointer data)
   if (transdata->curfle == NULL)
     return;
 
-  Wg_mutex_lock (&transdata->transfer->structmutex);
+  g_mutex_lock (&transdata->transfer->structmutex);
   if (transdata->curfle->prev != NULL && (!transdata->transfer->started ||
       (transdata->transfer->curfle != transdata->curfle && 
        transdata->transfer->curfle != transdata->curfle->prev)))
@@ -1284,7 +1284,7 @@ void  move_transfer_up (gpointer data)
                           ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
 #endif
     }
-  Wg_mutex_unlock (&transdata->transfer->structmutex);
+  g_mutex_unlock (&transdata->transfer->structmutex);
 }
 
 
@@ -1302,7 +1302,7 @@ void  move_transfer_down (gpointer data)
   if (transdata->curfle == NULL)
     return;
 
-  Wg_mutex_lock (&transdata->transfer->structmutex);
+  g_mutex_lock (&transdata->transfer->structmutex);
   if (transdata->curfle->next != NULL && (!transdata->transfer->started ||
       (transdata->transfer->curfle != transdata->curfle && 
        transdata->transfer->curfle != transdata->curfle->next)))
@@ -1340,6 +1340,6 @@ void  move_transfer_down (gpointer data)
                           ((gftp_file *) transdata->curfle->next->data)->user_data: NULL);
 #endif
     }
-  Wg_mutex_unlock (&transdata->transfer->structmutex);
+  g_mutex_unlock (&transdata->transfer->structmutex);
 }
 

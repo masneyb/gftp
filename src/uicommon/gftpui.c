@@ -1170,13 +1170,13 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
         {
           tdata = templist->data;
 
-          Wg_mutex_lock (&tdata->structmutex);
+          g_mutex_lock (&tdata->structmutex);
 
           if (!compare_request (tdata->fromreq, fromreq, 0) ||
               !compare_request (tdata->toreq, toreq, 0) ||
               tdata->curfle == NULL)
             {
-              Wg_mutex_unlock (&tdata->structmutex);
+              g_mutex_unlock (&tdata->structmutex);
 
               continue;
             }
@@ -1198,12 +1198,12 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
               gftpui_add_file_to_transfer (tdata, curfle);
             }
 
-          Wg_mutex_unlock (&tdata->structmutex);
+          g_mutex_unlock (&tdata->structmutex);
 
           break;
         }
 
-      Wg_mutex_unlock (&gftpui_common_transfer_mutex);
+      g_mutex_unlock (&gftpui_common_transfer_mutex);
     }
   else
     templist = NULL;
@@ -1233,11 +1233,11 @@ gftpui_common_add_file_transfer (gftp_request * fromreq, gftp_request * toreq,
             tdata->total_bytes += tempfle->size;
         }
 
-      Wg_mutex_lock (&gftpui_common_transfer_mutex);
+      g_mutex_lock (&gftpui_common_transfer_mutex);
 
       gftp_file_transfers = g_list_append (gftp_file_transfers, tdata);
 
-      Wg_mutex_unlock (&gftpui_common_transfer_mutex);
+      g_mutex_unlock (&gftpui_common_transfer_mutex);
 
       if (show_dialog)
         gftpui_ask_transfer (tdata);
@@ -1340,7 +1340,7 @@ void
 gftpui_common_skip_file_transfer (gftp_transfer * tdata, gftp_file * curfle)
 {
   DEBUG_PRINT_FUNC
-  Wg_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
 
   if (tdata->started && !(curfle->transfer_action & GFTP_TRANS_ACTION_SKIP))
     {
@@ -1354,7 +1354,7 @@ gftpui_common_skip_file_transfer (gftp_transfer * tdata, gftp_file * curfle)
         tdata->total_bytes -= curfle->size;
     }
 
-  Wg_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 
   if (curfle != NULL)
     tdata->fromreq->logging_function (gftp_logging_misc, tdata->fromreq,
@@ -1367,7 +1367,7 @@ void
 gftpui_common_cancel_file_transfer (gftp_transfer * tdata)
 {
   DEBUG_PRINT_FUNC
-  Wg_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
 
   if (tdata->started)
     {
@@ -1380,7 +1380,7 @@ gftpui_common_cancel_file_transfer (gftp_transfer * tdata)
   tdata->fromreq->stopable = 0;
   tdata->toreq->stopable = 0;
 
-  Wg_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 
   tdata->fromreq->logging_function (gftp_logging_misc, tdata->fromreq,
                                     _("Stopping the transfer on host %s\n"),
@@ -1394,7 +1394,7 @@ _gftpui_common_next_file_in_trans (gftp_transfer * tdata)
   DEBUG_PRINT_FUNC
   gftp_file * curfle;
 
-  Wg_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
 
   tdata->curtrans = 0;
   tdata->next_file = 1;
@@ -1403,7 +1403,7 @@ _gftpui_common_next_file_in_trans (gftp_transfer * tdata)
   curfle->transfer_done = 1;
   tdata->curfle = tdata->curfle->next;
 
-  Wg_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 }
 
 
@@ -1452,12 +1452,12 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
   gftp_file * curfle;
   int ret;
 
-  Wg_mutex_lock (&tdata->structmutex);
+  g_mutex_lock (&tdata->structmutex);
 
   curfle = tdata->curfle->data;
   tdata->current_file_number++;
 
-  Wg_mutex_unlock (&tdata->structmutex);
+  g_mutex_unlock (&tdata->structmutex);
 
   if (curfle->transfer_action == GFTP_TRANS_ACTION_SKIP)
     {
@@ -1511,13 +1511,13 @@ _gftpui_common_trans_file_or_dir (gftp_transfer * tdata)
         ret = tdata->tot_file_trans;
       else
         {
-          Wg_mutex_lock (&tdata->structmutex);
+          g_mutex_lock (&tdata->structmutex);
 
           tdata->curtrans = 0;
           tdata->curresumed = curfle->transfer_action == GFTP_TRANS_ACTION_RESUME ? curfle->startsize : 0;
           tdata->resumed_bytes += tdata->curresumed;
 
-          Wg_mutex_unlock (&tdata->structmutex);
+          g_mutex_unlock (&tdata->structmutex);
 
           ret = _gftpui_common_do_transfer_file (tdata, curfle);
         }
