@@ -75,16 +75,18 @@ gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle)
     text[1] = _("Skipped");
   else
     text[1] = _("Waiting...");
-
+#if !defined(TRANSFER_GTK_TREEVIEW)
   fle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),
                                           tdata->user_data, NULL, text, 5,
                                           NULL, NULL, NULL, NULL,
                                           FALSE, FALSE);
+#endif
   transdata = g_malloc0 (sizeof (*transdata));
   transdata->transfer = tdata;
   transdata->curfle = curfle;
-
+#if !defined(TRANSFER_GTK_TREEVIEW)
   gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), fle->user_data, transdata);
+#endif
 }
 
 

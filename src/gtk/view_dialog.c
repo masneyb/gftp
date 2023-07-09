@@ -385,6 +385,6 @@ view_file (char *filename, int fd, unsigned int viewedit, unsigned int del_file,
   gtk_widget_show_all (dialog);
 
   if (!start_pos)
-    gtk_adjustment_set_value (vadj, vadj->upper);
+    gtk_adjustment_set_value (vadj, gtk_adjustment_get_upper(vadj));
 }
 

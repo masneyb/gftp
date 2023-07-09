@@ -133,16 +133,18 @@ openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
       return;
     }
 
-  if ((selection_data->length >= 0) && (selection_data->format == 8)) 
+  if ((gtk_selection_data_get_length(selection_data) >= 0)
+   && (gtk_selection_data_get_format(selection_data) == 8)) 
     {
       if (GFTP_IS_CONNECTED (current_wdata->request))
         gftpui_disconnect (current_wdata);
 
       if (gftp_parse_url (current_wdata->request, 
-                          (char *) selection_data->data) == 0)
+                          (char *) gtk_selection_data_get_data(selection_data)) == 0)
         {
           ftp_log (gftp_logging_misc, NULL,
-                   _("Received URL %s\n"), (char *) selection_data->data);
+                   _("Received URL %s\n"),
+                   (char *) gtk_selection_data_get_data(selection_data));
 
           gftp_gtk_connect (current_wdata, current_wdata->request);
         }
@@ -231,7 +233,7 @@ listbox_drag (GtkWidget * widget, GdkDragContext * context,
 
   if (str != NULL)
     {
-      gtk_selection_data_set (selection_data, selection_data->target, 8,
+      gtk_selection_data_set (selection_data, gtk_selection_data_get_target(selection_data), 8,
       	                      (unsigned char *) str, strlen (str));
       g_free (str);
     }
@@ -256,9 +258,10 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
   trans_list = NULL;
   finish_drag = 0;
-  if ((selection_data->length >= 0) && (selection_data->format == 8)) 
+  if ((gtk_selection_data_get_length(selection_data) >= 0)
+   && (gtk_selection_data_get_format(selection_data) == 8)) 
     {
-      oldpos = (char *) selection_data->data;
+      oldpos = (char *) gtk_selection_data_get_data(selection_data);
       while ((newpos = strchr (oldpos, '\n')) || 
              (newpos = strchr (oldpos, '\0'))) 
         {

@@ -108,7 +108,8 @@ void ftp_log (gftp_logging_level level, gftp_request * request,
         }
     }
 
-  upd = logwdw_vadj->upper - logwdw_vadj->page_size == logwdw_vadj->value;
+  upd = gtk_adjustment_get_upper(logwdw_vadj) - gtk_adjustment_get_page_size(logwdw_vadj)
+        == gtk_adjustment_get_value(logwdw_vadj);
 
   gftp_lookup_global_option ("max_log_window_size", &max_log_window_size);
 
@@ -370,7 +371,7 @@ void update_window (gftp_window_data * wdata)
   gtk_widget_set_sensitive (upload_right_arrow, connected);
 }  
 
-
+#if !defined(TRANSFER_GTK_TREEVIEW)
 gftp_graphic * open_xpm (GtkWidget * widget, char *filename)
 {
   //DEBUG_PRINT_FUNC
@@ -450,6 +451,7 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
   *pix = graphic->pixmap;
   *bitmap = graphic->bitmap;
 }
+#endif
 
 GdkPixbuf * gftp_get_pixbuf (char *filename)
 {

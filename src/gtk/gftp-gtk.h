@@ -93,12 +93,14 @@ typedef struct _gftpui_gtk_thread_data
 } gftpui_gtk_thread_data;
 
 
+#if !defined(TRANSFER_GTK_TREEVIEW)
 typedef struct gftp_graphic_tag
 {
   char * filename;
   GdkPixmap * pixmap;
   GdkBitmap * bitmap;
 } gftp_graphic;
+#endif
 
 typedef struct gftp_dialog_data_tag
 {
@@ -312,15 +314,12 @@ void update_window_info				( void );
 
 void update_window				( gftp_window_data * wdata );
 
-gftp_graphic * open_xpm				( GtkWidget * widget,
-						  char *filename );
-
-void gftp_free_pixmap 				( char *filename ); 
-
-void gftp_get_pixmap 				( GtkWidget * widget, 
-						  char *filename, 
-						  GdkPixmap ** pix,
-						  GdkBitmap ** bitmap );
+#if !defined(TRANSFER_GTK_TREEVIEW)
+gftp_graphic * open_xpm (GtkWidget * widget,  char *filename);
+void gftp_free_pixmap   (char *filename); 
+void gftp_get_pixmap    (GtkWidget * widget,  char *filename, 
+                         GdkPixmap ** pix,    GdkBitmap ** bitmap );
+#endif
 
 GdkPixbuf *       gftp_get_pixbuf (char *filename);
 
