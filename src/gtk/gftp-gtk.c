@@ -69,15 +69,34 @@ static void  _gftp_exit (GtkWidget * widget, gpointer data)
   const char *tempstr;
 
   ret = gtk_widget_get_allocated_width (GTK_WIDGET (local_frame));
+#if GTK_CHECK_VERSION(3,0,0)
+  ret += 10; //hack
+#endif
   gftp_set_global_option ("listbox_local_width", GINT_TO_POINTER (ret));
+
   ret = gtk_widget_get_allocated_width (GTK_WIDGET (remote_frame));
+#if GTK_CHECK_VERSION(3,0,0)
+  ret += 10; //hack
+#endif
   gftp_set_global_option ("listbox_remote_width", GINT_TO_POINTER (ret));
+
   ret = gtk_widget_get_allocated_height (GTK_WIDGET (remote_frame));
+#if GTK_CHECK_VERSION(3,0,0)
+  ret += 8; //hack
+#endif
   gftp_set_global_option ("listbox_file_height", GINT_TO_POINTER (ret));
-  ret = gtk_widget_get_allocated_height (GTK_WIDGET (log_scroll));
-  gftp_set_global_option ("log_height", GINT_TO_POINTER (ret));
+
   ret = gtk_widget_get_allocated_height (GTK_WIDGET (transfer_scroll));
+#if GTK_CHECK_VERSION(3,0,0)
+  ret += 8; //hack
+#endif
   gftp_set_global_option ("transfer_height", GINT_TO_POINTER (ret));
+
+  ret = gtk_widget_get_allocated_height (GTK_WIDGET (log_scroll));
+#if GTK_CHECK_VERSION(3,0,0)
+  ret += 10; //hack
+#endif
+  gftp_set_global_option ("log_height", GINT_TO_POINTER (ret));
 
   listbox_save_column_width (&window1, &window2);
 
@@ -1067,9 +1086,9 @@ on_key_press_transfer (GtkWidget * widget, GdkEventButton * event, gpointer data
 static GtkWidget *
 CreateFTPWindows (GtkWidget * ui)
 {
-  GtkWidget *box, *dlbox, *winpane, *dlpane, *logpane, *mainvbox, *tempwid;
+  GtkWidget *box, *dlbox, *winpane, *dlpane, *logpane, *mainvbox, *w;
   gftp_config_list_vars * tmplistvar;
-  intptr_t tmplookup;
+  intptr_t transfer_height, log_height;
   GtkTextBuffer * textbuf;
   GtkTextIter iter;
   GtkTextTag *tag;
@@ -1085,17 +1104,22 @@ CreateFTPWindows (GtkWidget * ui)
   gftp_lookup_global_option ("remotehistory", &tmplistvar);
   window2.history = &tmplistvar->list;
   window2.histlen = &tmplistvar->num_items;
+
+  gftp_lookup_global_option ("transfer_height", &transfer_height);
+  gftp_lookup_global_option ("log_height", &log_height);
  
   mainvbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
-  tempwid = CreateMenus (ui);
-  gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
+  w = CreateMenus (ui);
+  gtk_box_pack_start (GTK_BOX (mainvbox), w, FALSE, FALSE, 0);
 
-  tempwid = CreateConnectToolbar (ui);
-  gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
+  w = CreateConnectToolbar (ui);
+  gtk_box_pack_start (GTK_BOX (mainvbox), w, FALSE, FALSE, 0);
 
-  tempwid = CreateCommandToolbar ();
-  gtk_box_pack_start (GTK_BOX (mainvbox), tempwid, FALSE, FALSE, 0);
+  w = CreateCommandToolbar ();
+  gtk_box_pack_start (GTK_BOX (mainvbox), w, FALSE, FALSE, 0);
+
+  //-------------
 
   winpane = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 
@@ -1109,63 +1133,58 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_container_set_border_width (GTK_CONTAINER (dlbox), 5);
   gtk_box_pack_start (GTK_BOX (box), dlbox, FALSE, FALSE, 0);
 
-  tempwid = gtk_image_new_from_stock ("gtk-go-forward",
-                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
-
   upload_right_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), upload_right_arrow, TRUE, FALSE, 0);
   g_signal_connect_swapped (G_OBJECT (upload_right_arrow), "clicked",
-			     G_CALLBACK (put_files), NULL);
-  gtk_container_add (GTK_CONTAINER (upload_right_arrow), tempwid);
-
-  tempwid = gtk_image_new_from_stock ("gtk-go-back",
-                                      GTK_ICON_SIZE_SMALL_TOOLBAR);
+                            G_CALLBACK (put_files), NULL);
+  w = gtk_image_new_from_stock ("gtk-go-forward", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  gtk_container_add (GTK_CONTAINER (upload_right_arrow), w);
 
   download_left_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), download_left_arrow, TRUE, FALSE, 0);
   g_signal_connect_swapped (G_OBJECT (download_left_arrow), "clicked",
-			     G_CALLBACK (get_files), NULL);
-  gtk_container_add (GTK_CONTAINER (download_left_arrow), tempwid);
-
-  gtk_paned_pack1 (GTK_PANED (winpane), box, 1, 1);
+                            G_CALLBACK (get_files), NULL);
+  w = gtk_image_new_from_stock ("gtk-go-back", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  gtk_container_add (GTK_CONTAINER (download_left_arrow), w);
 
   window2.prefix_col_str = "remote";
   remote_frame = CreateFTPWindow (&window2);
 
+  gtk_paned_pack1 (GTK_PANED (winpane), box, 1, 1);
   gtk_paned_pack2 (GTK_PANED (winpane), remote_frame, 1, 1);
 
+  //-------------
+
   dlpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
-  gtk_paned_pack1 (GTK_PANED (dlpane), winpane, 1, 1);
 
   transfer_scroll = gtk_scrolled_window_new (NULL, NULL);
-  gftp_lookup_global_option ("transfer_height", &tmplookup);
-  gtk_widget_set_size_request (transfer_scroll, -1, tmplookup);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (transfer_scroll),
-				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
+                                  GTK_POLICY_AUTOMATIC,
+                                  GTK_POLICY_AUTOMATIC);
   dlwdw = transfer_list_create ();
+  gtk_widget_set_size_request (transfer_scroll, -1, transfer_height);
+  g_signal_connect (G_OBJECT (dlwdw), "button_press_event",
+                    G_CALLBACK (on_key_press_transfer), NULL);
 
   gtk_container_add (GTK_CONTAINER (transfer_scroll), dlwdw);
-  g_signal_connect (G_OBJECT (dlwdw), "button_press_event",
-        G_CALLBACK (on_key_press_transfer), NULL);
+  gtk_paned_pack1 (GTK_PANED (dlpane), winpane, 1, 1);
   gtk_paned_pack2 (GTK_PANED (dlpane), transfer_scroll, 1, 1);
 
+  //-------------
   // log_scroll ("log window")
   logpane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
   gtk_box_pack_start (GTK_BOX (mainvbox), logpane, TRUE, TRUE, 0);
 
   log_scroll = gtk_scrolled_window_new (NULL, NULL);
 
-  gtk_paned_pack1 (GTK_PANED (logpane), dlpane,     1, 1);
-  gtk_paned_pack2 (GTK_PANED (logpane), log_scroll, 1, 1);
-
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (log_scroll),
                                   GTK_POLICY_AUTOMATIC,
                                   GTK_POLICY_AUTOMATIC);
   logwdw_vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (log_scroll));
+  gtk_widget_set_size_request (log_scroll, -1, log_height);
 
-  gftp_lookup_global_option ("log_height", &tmplookup);
-  gtk_widget_set_size_request (log_scroll, -1, tmplookup);
+  gtk_paned_pack1 (GTK_PANED (logpane), dlpane,     1, 1);
+  gtk_paned_pack2 (GTK_PANED (logpane), log_scroll, 1, 1);
 
   logwdw = gtk_text_view_new ();
   gtk_container_add (GTK_CONTAINER (log_scroll), logwdw);
@@ -1198,9 +1217,13 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_container_set_border_width (GTK_CONTAINER (transfer_scroll), 5);
   gtk_container_set_border_width (GTK_CONTAINER (log_scroll), 5);
 
+#if GTK_CHECK_VERSION(3,16,0)
+  gtk_paned_set_wide_handle (GTK_PANED(logpane), TRUE);
+#endif
   // show
   gtk_widget_show_all (mainvbox);
   gftpui_show_or_hide_command ();
+
   return (mainvbox);
 }
 
@@ -1475,8 +1498,9 @@ main (int argc, char **argv)
   gtk_widget_set_name (GTK_WIDGET(main_window), gftp_version);
 #if GTK_MAJOR_VERSION==2
   gtk_window_set_policy (main_window, TRUE, TRUE, FALSE);
-#endif
+  // this causes trouble when retrieving widget sizes in GTK3
   gtk_widget_realize (GTK_WIDGET(main_window));
+#endif
 
   set_window_icon(main_window, NULL);
 
@@ -1485,6 +1509,17 @@ main (int argc, char **argv)
   ui = CreateFTPWindows (GTK_WIDGET(main_window));
   gtk_container_add (GTK_CONTAINER (main_window), ui);
   gtk_widget_show (GTK_WIDGET(main_window));
+
+#if GTK_CHECK_VERSION(3,0,0)
+  // hack for GTK3.. the log window eats all the space for some reason
+  intptr_t log_height;
+  GtkWidget *logpane = gtk_widget_get_parent(log_scroll);
+  gftp_lookup_global_option ("log_height", &log_height);
+  ///printf ("%d\n",gtk_widget_get_allocated_height (logpane));
+  ///printf ("%d\n",log_height);
+  gtk_paned_set_position (GTK_PANED(logpane),
+                          gtk_widget_get_allocated_height(logpane) - log_height);
+#endif
 
   gftpui_common_about (ftp_log, NULL);
 
