@@ -117,7 +117,9 @@ void save_directory_listing (gpointer data) /* data = window1/2 */
   DEBUG_PRINT_FUNC
   GtkWidget *filew;
   char current_dir[256];
-  getcwd(current_dir, sizeof(current_dir));
+
+  if (!getcwd(current_dir, sizeof(current_dir)))
+    return;
 
   filew = gtk_file_chooser_dialog_new (_("Save Directory Listing"),
             main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
@@ -329,7 +331,9 @@ void savelog (gpointer data)
   DEBUG_PRINT_FUNC
   GtkWidget *filew;
   char current_dir[256];
-  getcwd(current_dir, sizeof(current_dir));
+
+  if (!getcwd(current_dir, sizeof(current_dir)))
+    return;
 
   filew = gtk_file_chooser_dialog_new (_("Save Log"),
             main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))

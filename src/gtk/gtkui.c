@@ -173,7 +173,8 @@ _gftpui_wakeup_main_thread (GIOChannel *source, GIOCondition condition,
   gftp_request * request = (gftp_request *) data;
   char c;
   if (request->wakeup_main_thread[0] > 0) {
-    read (request->wakeup_main_thread[0], &c, 1);
+    if (!read (request->wakeup_main_thread[0], &c, 1))
+      return -1;
   }
   return TRUE;
 }
@@ -232,7 +233,8 @@ _gftpui_gtk_thread_func (void *data)
   ret = thread_data->func (thread_data->cdata);
 
   if (thread_data->cdata->request->wakeup_main_thread[1] > 0)
-    write (thread_data->cdata->request->wakeup_main_thread[1], " ", 1);
+    if (!write (thread_data->cdata->request->wakeup_main_thread[1], " ", 1))
+      return (ret);
 
   return (ret);
 }
