@@ -1825,7 +1825,7 @@ static void ftp_request_destroy (gftp_request * request)
 
   ftpdat = request->protocol_data;
 
-  if (ftpdat->responseBuf->buffer != NULL) {
+  if (ftpdat->responseBuf != NULL) {
       gftp_free_getline_buffer (&ftpdat->responseBuf);
   }
   if (ftpdat->dataconn_rbuf != NULL) {
