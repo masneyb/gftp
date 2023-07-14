@@ -371,6 +371,12 @@ void gftp_gtk_save_bookmark_options 		( void );
 void gftp_gtk_platform_specific_init		( void );
 
 /* transfer.c */
+extern struct transfer_tview_t transfer_tview;
+#ifdef TRANSFER_GTK_TREEVIEW
+void transfer_tview_append (gftpui_common_curtrans_data *transdata,
+                            gftp_file *tempfle, char *filename, char *tinfo);
+#endif
+
 GtkWidget *transfer_list_create 		(void);
 
 void transfer_list_save_column_width 		(void);

@@ -66,26 +66,27 @@ gftpui_add_file_to_transfer (gftp_transfer * tdata, GList * curfle)
   DEBUG_PRINT_FUNC
   gftpui_common_curtrans_data * transdata;
   char *text[2];
-  gftp_file * fle;
+  gftp_file * tempfle;
 
-  fle = curfle->data;
-  text[0] = gftpui_gtk_get_utf8_file_pos (fle);
+  tempfle = curfle->data;
+  text[0] = gftpui_gtk_get_utf8_file_pos (tempfle);
 
-  if (fle->transfer_action == GFTP_TRANS_ACTION_SKIP)
-    text[1] = _("Skipped");
-  else
-    text[1] = _("Waiting...");
-#if !defined(TRANSFER_GTK_TREEVIEW)
-  fle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),
-                                          tdata->user_data, NULL, text, 5,
-                                          NULL, NULL, NULL, NULL,
-                                          FALSE, FALSE);
-#endif
+  if (tempfle->transfer_action == GFTP_TRANS_ACTION_SKIP) {
+      text[1] = _("Skipped");
+  } else {
+      text[1] = _("Waiting...");
+  }
   transdata = g_malloc0 (sizeof (*transdata));
   transdata->transfer = tdata;
   transdata->curfle = curfle;
 #if !defined(TRANSFER_GTK_TREEVIEW)
-  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), fle->user_data, transdata);
+  tempfle->user_data = gtk_ctree_insert_node (GTK_CTREE (dlwdw),
+                                          tdata->user_data, NULL, text, 5,
+                                          NULL, NULL, NULL, NULL,
+                                          FALSE, FALSE);
+  gtk_ctree_node_set_row_data (GTK_CTREE (dlwdw), tempfle->user_data, transdata);
+#else
+  transfer_tview_append (transdata, tempfle, text[0], text[1]);
 #endif
 }
 

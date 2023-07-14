@@ -101,6 +101,9 @@ void gftp_file_destroy (gftp_file * file, int free_it)
   if (file->user)     g_free (file->user);
   if (file->group)    g_free (file->group);
   if (file->destfile) g_free (file->destfile);
+  if (file->user_data && file->free_user_data) {
+      g_free (file->user_data);
+  }
 
   if (free_it && file)
     g_free (file);

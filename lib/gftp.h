@@ -236,6 +236,7 @@ struct gftp_file_tag
 
   char transfer_action; /* See the GFTP_TRANS_ACTION_* vars above */
   void *user_data;      /* @null@ */
+  unsigned int free_user_data;
 };
 
 
