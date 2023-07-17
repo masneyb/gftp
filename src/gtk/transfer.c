@@ -1139,8 +1139,8 @@ static void  update_file_status (gftp_transfer * tdata)
                           TTREE_COL_PROGRESS, tstatus.percent,
 //                        TTREE_COL_PROGRESS_TEXT, tstatus.percent_str,
                           TTREE_COL_PROGRESS_INFO, tstatus.text, -1);
-  }
 #endif
+  }
 }
 
 
