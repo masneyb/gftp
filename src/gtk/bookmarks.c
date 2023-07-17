@@ -25,6 +25,7 @@
 
 #include "gftp-gtk.h"
 
+#if GTK_MAJOR_VERSION < 4
 static GtkWidget * edit_bookmarks_dialog = NULL;
 
 // -- TreeView
@@ -730,13 +731,13 @@ GtkTreeView * btree_create()
 {
    // pixbufs..
    if (!opendir_pixbuf) {
-      opendir_pixbuf  = gftp_get_pixbuf("open_dir.xpm");
+      opendir_pixbuf  = gftp_get_pixbuf("open_dir.png");
    }
    if (!closedir_pixbuf) {
-      closedir_pixbuf = gftp_get_pixbuf("dir.xpm");
+      closedir_pixbuf = gftp_get_pixbuf("dir.png");
    }
    if (!bookmark_pixbuf) {
-      bookmark_pixbuf = gftp_get_pixbuf("txt.xpm");
+      bookmark_pixbuf = gftp_get_pixbuf("txt.png");
    }
 
    // create tree store
@@ -1073,3 +1074,4 @@ gtktreemodel_find_bookmark (const char *path, struct btree_bookmark * out_bookma
                            out_bookmark);
 }
 
+#endif

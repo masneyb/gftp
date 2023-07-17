@@ -224,13 +224,16 @@ void update_window_info (void)
   update_window (&window1);
   update_window (&window2);
 
+#if GTK_MAJOR_VERSION < 4
   GtkAction *tempwid = gtk_action_group_get_action(menus, "ToolsCompareWindows");
   gtk_action_set_sensitive (tempwid, GFTP_IS_CONNECTED (window1.request) 
 			    && GFTP_IS_CONNECTED (window2.request));
+#endif
 }
 
 static void set_menu_sensitive (gftp_window_data * wdata, char *path, int sensitive)
 {
+#if GTK_MAJOR_VERSION < 4
   //DEBUG_PRINT_FUNC
   GtkAction *tempwid = NULL;
   if (menus) {
@@ -239,6 +242,7 @@ static void set_menu_sensitive (gftp_window_data * wdata, char *path, int sensit
   if (tempwid) {
     gtk_action_set_sensitive (tempwid, sensitive);
   }
+#endif
 }
 
 char * report_list_info(gftp_window_data * wdata)
@@ -406,7 +410,6 @@ gftp_graphic * open_xpm (GtkWidget * widget, char *filename)
   return (graphic);
 }
 
-
 void gftp_free_pixmap (char *filename)
 {
   //DEBUG_PRINT_FUNC
@@ -422,7 +425,6 @@ void gftp_free_pixmap (char *filename)
   g_free (graphic->filename);
   g_free (graphic);
 }
-
 
 void
 gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
@@ -451,7 +453,7 @@ gftp_get_pixmap (GtkWidget * widget, char *filename, GdkPixmap ** pix,
   *pix = graphic->pixmap;
   *bitmap = graphic->bitmap;
 }
-#endif
+#endif 
 
 GdkPixbuf * gftp_get_pixbuf (char *filename)
 {
@@ -631,7 +633,7 @@ dialog_response (GtkDialog * dlg, gint responseID, gpointer data)
   g_free (ddata);
 }
 
-
+#if GTK_MAJOR_VERSION < 4
 static gint
 dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
@@ -649,7 +651,7 @@ dialog_keypress (GtkWidget * widget, GdkEventKey * event, gpointer data)
 
   return (FALSE);
 }
-
+#endif
 
 void
 TextEntryDialog (GtkWindow * parent_window,       /* nullable */
@@ -696,8 +698,12 @@ TextEntryDialog (GtkWindow * parent_window,       /* nullable */
     }
 
   if (!parent_window) {
-     // must create a parent window
+     /* must create a parent window */
+  #if GTK_MAJOR_VERSION < 4
      parent_window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
+  #else
+     parent_window = gtk_window_new ();
+  #endif
      gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
      gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
      gtk_grab_add (dialog);
@@ -725,9 +731,10 @@ TextEntryDialog (GtkWindow * parent_window,       /* nullable */
   gtkcompat_widget_set_halign_left (tempwid);
 
   ddata->edit = gtk_entry_new ();
+#if GTK_MAJOR_VERSION < 4
   g_signal_connect (G_OBJECT (ddata->edit), "key_press_event",
                     G_CALLBACK (dialog_keypress), (gpointer) ddata);
-
+#endif
   gtk_box_pack_start (GTK_BOX (vbox), ddata->edit, TRUE, TRUE, 0);
   gtk_widget_grab_focus (ddata->edit);
   gtk_entry_set_visibility (GTK_ENTRY (ddata->edit), passwd_item);
@@ -898,10 +905,15 @@ void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_proto
    gtk_combo_box_set_active (GTK_COMBO_BOX(combo), combo_item_selected);
 }
 
-
+#if GTK_MAJOR_VERSION < 4
 GtkMenuItem *
 new_menu_item (GtkMenu * menu, char * label, char * icon_name,
                gpointer activate_callback, gpointer callback_data)
+#else
+GtkWidget *
+new_menu_item (GtkWidget * menu, char * label, char * icon_name,
+               gpointer activate_callback, gpointer callback_data)
+#endif
 {
    //DEBUG_PRINT_FUNC
    GtkMenuItem *item = NULL;
@@ -936,7 +948,11 @@ new_menu_item (GtkMenu * menu, char * label, char * icon_name,
      case 1: /* image */
         item = GTK_MENU_ITEM (gtk_image_menu_item_new_with_mnemonic (label));
         gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-               gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
+               gtk_image_new_from_icon_name (icon_name
+		       #if GTK_MAJOR_VERSION < 4
+		       , GTK_ICON_SIZE_MENU
+	       		#endif
+	       ));
         break;
      case 2: /* stock */
         item = GTK_MENU_ITEM (gtk_image_menu_item_new_from_stock (label, NULL));

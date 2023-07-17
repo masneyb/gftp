@@ -119,7 +119,7 @@ dnd_remote_file (gftp_window_data * wdata, GList ** trans_list, char *url)
   return (1);
 }
 
-
+#if GTK_MAJOR_VERSION < 4
 void
 openurl_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 		       gint y, GtkSelectionData * selection_data, guint info,
@@ -316,3 +316,5 @@ listbox_get_drag_data (GtkWidget * widget, GdkDragContext * context, gint x,
 
   g_list_free (trans_list);
 }
+
+#endif
