@@ -72,3 +72,22 @@ void gftp_gtk_platform_specific_init(void)
 void gftp_gtk_platform_specific_init(void){};
 #endif
 
+// Replace GtkCList with GtkTreeView
+//gtk_ctree_node_get_row_data
+//
+//
+//
+//
+// warning: ‘gtk_image_menu_item_new_with_mnemonic’ is deprecated: Use 'gtk_menu_item_new_with_mnemonic' instead [-Wdeprecated-declarations]
+#if 0
+908 |         item = GTK_MENU_ITEM (gtk_image_menu_item_new_with_mnemonic (label));
+/usr/include/gtk-3.0/gtk/deprecated/gtkimagemenuitem.h:82:12: note: declared here
+   82 | GtkWidget* gtk_image_menu_item_new_with_mnemonic (const gchar      *label);
+misc-gtk.c:909:9: warning: ‘gtk_image_menu_item_set_image’ is deprecated [-Wdeprecated-declarations]
+  909 |         gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+/usr/include/gtk-3.0/gtk/deprecated/gtkimagemenuitem.h:92:12: note: declared here
+misc-gtk.c:909:9: warning: ‘gtk_image_menu_item_get_type’ is deprecated: Use 'gtk_menu_item_get_type' instead [-Wdeprecated-declarations]
+  909 |         gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+/usr/include/gtk-3.0/gtk/deprecated/gtkimagemenuitem.h:76:12: note: declared here
+misc-gtk.c:913:9: warning: ‘gtk_image_menu_item_new_from_stock’ is deprecated: Use 'gtk_menu_item_new' instead [-Wdeprecated-declarations]
+#endif

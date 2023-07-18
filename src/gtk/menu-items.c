@@ -116,10 +116,13 @@ void save_directory_listing (gpointer data) /* data = window1/2 */
 {
   DEBUG_PRINT_FUNC
   GtkWidget *filew;
-  char current_dir[256];
+  char current_dir[256], *ret;
 
-  if (!getcwd(current_dir, sizeof(current_dir)))
+  ret = getcwd(current_dir, sizeof(current_dir));
+  if(!ret)
     return;
+
+  fprintf(stderr, "save_directory_listing() - getcwd returns current directory %s", ret);
 
   filew = gtk_file_chooser_dialog_new (_("Save Directory Listing"),
             main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
@@ -129,7 +132,7 @@ void save_directory_listing (gpointer data) /* data = window1/2 */
             NULL );
 
   gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
-  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
+//  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
   gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "Directory_Listing.txt");
 
   g_signal_connect (filew, "response",
@@ -138,7 +141,7 @@ void save_directory_listing (gpointer data) /* data = window1/2 */
 }
 
 //---------------------------------------------------------------
-
+#if GTK_MAJOR_VERSION < 4
 gboolean
 dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data )
 {
@@ -189,7 +192,7 @@ dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data )
   g_free (tempstr);
   return (0);
 }
-
+#endif
 
 void 
 clearlog (gpointer data)
@@ -330,10 +333,13 @@ void savelog (gpointer data)
 {
   DEBUG_PRINT_FUNC
   GtkWidget *filew;
-  char current_dir[256];
+  char current_dir[256], *ret;
 
-  if (!getcwd(current_dir, sizeof(current_dir)))
+  ret = getcwd(current_dir, sizeof(current_dir));
+  if (!ret)
     return;
+
+  fprintf(stderr, "savelog() - getcwd returns current directory %s", ret);
 
   filew = gtk_file_chooser_dialog_new (_("Save Log"),
             main_window, //GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET(xxx)))
@@ -343,7 +349,7 @@ void savelog (gpointer data)
             NULL );
 
   gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(filew), TRUE);
-  gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
+  //gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(filew), current_dir);
   gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER(filew), "gftp.log");
 
   g_signal_connect (filew, "response", G_CALLBACK (savelog_dlg_cb), data);
@@ -372,7 +378,7 @@ void about_dialog (gpointer data)
     gchar * translators = _("Translated by");
 
     GdkPixbuf * logo = NULL;
-    char * logopath = get_image_path ("gftp-logo.xpm"); /* misc-gtk.c */
+    char * logopath = get_image_path ("gftp-logo.png"); /* misc-gtk.c */
     if (logopath) {
        logo = gdk_pixbuf_new_from_file (logopath, NULL);
        g_free (logopath);
@@ -395,9 +401,10 @@ void about_dialog (gpointer data)
     gtk_window_set_transient_for (GTK_WINDOW (w), main_window);
     gtk_window_set_modal (GTK_WINDOW (w), TRUE);
     gtk_window_set_position (GTK_WINDOW (w), GTK_WIN_POS_CENTER_ON_PARENT);
-
+#if 0
     g_signal_connect_swapped (w, "response",
-                              G_CALLBACK (gtk_widget_destroy), w);
+                               G_CALLBACK (gtk_widget_destroy), w);
+#endif
     gtk_widget_show_all (GTK_WIDGET (w));
 }
 

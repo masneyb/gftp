@@ -158,13 +158,111 @@ extern "C"
 #define GDK_KEY(symbol) GDK_KEY_##symbol
 #endif
 
+/* ================================================== */
+/*                       GTK 4                        */
+/* ================================================== */
+
+#if GTK_MAJOR_VERSION >= 4
+#define gdk_threads_init(){}
+#define GDK_THREADS_ENTER(){}
+#define GDK_THREADS_LEAVE(){}
+
+#define GTK_WIN_POS_MOUSE 0
+#define GTK_DEST_DEFAULT_ALL 0
+#define GDK_WATCH 0
+#define GTK_WIN_POS_CENTER_ON_PARENT 0
+
+#define GTK_CONTAINER(x) (x)
+#define GTK_BOX(x) (x)
+#define GTK_MENU_ITEM(x) (x)
+#define GTK_TABLE(x) (x)
+#define GTK_BIN(x) (x)
+#define GTK_IMAGE_MENU_ITEM(x) (x)
+
+static inline stub(obj){
+   (void)DEBUG_PRINT_FUNC(obj);
+   return 0;
+}
+
+#define gtk_box_pack_start stub
+#define gtk_widget_destroy(obj)  stub(obj)
+#define gtk_widget_show_all(obj)  stub(obj)
+#define gtk_entry_set_text  DEBUG_PRINT_FUNC
+#define gtk_entry_get_text  DEBUG_PRINT_FUNC
+#define gtk_bin_get_child  DEBUG_PRINT_FUNC
+#define gtk_table_resize  DEBUG_PRINT_FUNC
+#define gtk_main() stub()
+
+#define gtk_paned_pack1  DEBUG_PRINT_FUNC
+#define gtk_paned_pack2  DEBUG_PRINT_FUNC
+#define gtk_container_add  DEBUG_PRINT_FUNC
+#define gtk_container_set_border_width  DEBUG_PRINT_FUNC
+#define gtk_icon_theme_get_default stub
+#define gtk_icon_theme_load_icon stub
+#define gtk_table_attach_defaults  DEBUG_PRINT_FUNC
+#define gtk_check_menu_item_new_with_mnemonic  DEBUG_PRINT_FUNC
+#define gtk_file_chooser_get_filename  DEBUG_PRINT_FUNC
+#define gtk_file_chooser_set_do_overwrite_confirmation  DEBUG_PRINT_FUNC
+#define gtk_table_attach  DEBUG_PRINT_FUNC
+#define gtk_table_new DEBUG_PRINT_FUNC
+#define gtk_toolbar_get_icon_size stub
+#define gtk_widget_get_parent_window  DEBUG_PRINT_FUNC
+#define gtk_widget_get_toplevel  DEBUG_PRINT_FUNC
+#define gtk_window_set_icon  DEBUG_PRINT_FUNC
+#define gtk_window_set_position  DEBUG_PRINT_FUNC
+#define gtk_window_set_role DEBUG_PRINT_FUNC
+#define gtk_button_set_image DEBUG_PRINT_FUNC
+#define gtk_grab_add  DEBUG_PRINT_FUNC
+#define gtk_image_menu_item_new_from_stock stub
+#define gtk_image_menu_item_new_with_mnemonic  stub
+#define gtk_image_menu_item_set_image stub
+#define gtk_menu_item_new_with_mnemonic stub
+#define gtk_separator_menu_item_new stub
+#define gtk_table_set_col_spacings DEBUG_PRINT_FUNC
+#define gtk_table_set_row_spacings DEBUG_PRINT_FUNC
+#define gtk_window_set_skip_pager_hint  DEBUG_PRINT_FUNC
+#define gtk_window_set_skip_taskbar_hint  DEBUG_PRINT_FUNC
+#define gdk_window_set_title DEBUG_PRINT_FUNC
+#endif
 
 /* ================================================== */
 /*                       GTK 3                        */
 /* ================================================== */
 
-// GTK >= 3.0 -- applies to GTK3, GTK4...
-#if GTK_MAJOR_VERSION >= 3
+// GTK >= 3.0 -- applies to GTK4, GTK4...
+#undef gdk_threads_init
+#define gdk_threads_init(){}
+#undef GDK_THREADS_ENTER
+#define GDK_THREADS_ENTER(){}
+#undef GDK_THREADS_LEAVE
+#define GDK_THREADS_LEAVE(){}
+
+#if GTK_MAJOR_VERSION > 3
+#define GtkMenuItem GMenuItem
+#if 0
+typedef struct _GdkDrawable           GdkBitmap;
+typedef struct _GdkDrawable           GdkPixmap;
+
+/* Structure was made opaque in gtk3, lets see if it still works the same */
+#ifndef gftGtkSelectionData
+#define __gftpGtkSelectionData_defiend__
+typedef struct _gftpGtkSelectionData   gftpGtkSelectionData;
+struct _gftpGtkSelectionData
+{
+#if GTK_MAJOR_VERSION < 4
+  GdkAtom       selection;
+  GdkAtom       target;
+  GdkAtom       type;
+#endif
+  gint          format;
+  guchar       *data;
+  gint          length;
+  GdkDisplay   *display;
+};
+#endif
+#endif
+#endif
+
 #define GTKCOMPAT_DRAW_SIGNAL "draw"
 #define gtkcompat_widget_set_halign_left(w)   gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_START)
 #define gtkcompat_widget_set_halign_center(w) gtk_widget_set_halign(GTK_WIDGET(w), GTK_ALIGN_CENTER)
@@ -173,7 +271,6 @@ extern "C"
 #define gtkcompat_grid_attach(table,child,left,right,top,bottom) \
     gtk_grid_attach((table),(child), (left), (top), (right)-(left), (bottom)-(top))
 #define gtkcompat_grid_new(rows,cols) (gtk_grid_new())
-#endif
 
 /* GTK < 3.12
 #if ! GTK_CHECK_VERSION (3, 12, 0)
@@ -256,7 +353,7 @@ extern "C"
 #define gtk_grid_set_column_homogeneous gtk_table_set_homogeneous
 #define gtk_grid_get_row_homogeneous    gtk_table_get_homogeneous
 #define gtk_grid_get_column_homogeneous gtk_table_gset_homogeneous
-//-
+
 typedef enum /* GtkAlign */
 {
   GTK_ALIGN_FILL,
@@ -269,9 +366,7 @@ typedef enum /* GtkAlign */
 #define g_application_quit(app) gtk_main_quit()
 #undef G_APPLICATION
 #define G_APPLICATION(app) ((void *) (app))
-//-
 #define gdk_error_trap_pop_ignored gdk_error_trap_pop
-
 
 // GTK < 2.24
 #if GTK_MINOR_VERSION < 24

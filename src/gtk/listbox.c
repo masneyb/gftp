@@ -138,14 +138,14 @@ void listbox_add_columns (gftp_window_data *wdata)
    gtk_tree_view_column_set_clickable (column, TRUE);
    gtk_tree_view_column_set_resizable (column, FALSE);
    gtk_tree_view_column_set_alignment (column, 0.5);
-   //gtk_tree_view_column_set_sort_column_id (column, LISTBOX_COL_FILENAME);
+   // gtk_tree_view_column_set_sort_column_id (column, LISTBOX_COL_FILENAME);
    gtk_tree_view_append_column (treeview, column);
    g_signal_connect (G_OBJECT (column), "clicked",
                      G_CALLBACK (on_treeview_column_clicked_cb), wdata);
    g_object_set_data (G_OBJECT(column), "index", GINT_TO_POINTER (0));
 
    /* filename */
-   //renderer = gtk_cell_renderer_text_new ();
+   // renderer = gtk_cell_renderer_text_new ();
    renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT,
                            "xalign", 0.0,     /* justify left */
                            NULL);
@@ -295,11 +295,17 @@ void listbox_sort_rows (void *data, gint column)
    {
       icon0 = gtk_tree_view_column_get_widget (gtk_tree_view_get_column (listbox,0));
       if (sortasds) {
-         icon0 = gtk_image_new_from_icon_name ("view-sort-ascending",
-                                             GTK_ICON_SIZE_SMALL_TOOLBAR);
+         icon0 = gtk_image_new_from_icon_name ("view-sort-ascending"
+			 #if GTK_MAJOR_VERSION < 4
+                                             , GTK_ICON_SIZE_SMALL_TOOLBAR
+#endif
+					     );
       } else {
-         icon0 = gtk_image_new_from_icon_name ("view-sort-descending",
-                                             GTK_ICON_SIZE_SMALL_TOOLBAR);
+         icon0 = gtk_image_new_from_icon_name ("view-sort-descending"
+			 #if GTK_MAJOR_VERSION < 4
+                                             , GTK_ICON_SIZE_SMALL_TOOLBAR
+#endif
+					     );
       }
       gtk_tree_view_column_set_widget (gtk_tree_view_get_column (listbox,0), icon0);
       gtk_widget_show (icon0);
@@ -357,20 +363,20 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    gtk_list_store_append (store, &iter);
 
    if (strcmp (fle->file, "..") == 0) {
-      col_data.icon = gftp_get_pixbuf("dotdot.xpm");
+      col_data.icon = gftp_get_pixbuf("dotdot.png");
       empty_size = 1;
    } else if (S_ISLNK (fle->st_mode) && S_ISDIR (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("linkdir.xpm");
+      col_data.icon = gftp_get_pixbuf("linkdir.png");
       empty_size = 1;
    } else if (S_ISLNK (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("linkfile.xpm");
+      col_data.icon = gftp_get_pixbuf("linkfile.png");
    } else if (S_ISDIR (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("dir.xpm");
+      col_data.icon = gftp_get_pixbuf("dir.png");
       empty_size = 1;
    } else if ((fle->st_mode & S_IXUSR) ||
            (fle->st_mode & S_IXGRP) ||
            (fle->st_mode & S_IXOTH)) {
-      col_data.icon = gftp_get_pixbuf("exe.xpm");
+      col_data.icon = gftp_get_pixbuf("exe.png");
    } else {
       stlen = strlen (fle->file);
       gftp_lookup_global_option ("ext", &tmplistvar);
@@ -389,7 +395,7 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    }
 
    if (!col_data.icon) {
-      col_data.icon = gftp_get_pixbuf ("doc.xpm");
+      col_data.icon = gftp_get_pixbuf ("doc.png");
    }
 
    if (fle->file) {
@@ -414,7 +420,6 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
       if (zeroseconds) *zeroseconds = 0;
       col_data.date = time_str;
    }
-
    if (fle->user) {
       col_data.user = fle->user;
    }
@@ -559,7 +564,6 @@ void listbox_select_all_files (gftp_window_data *wdata)
 // - only_one = 0: returns a (GList *) where item->data = (gftp_file *) [must be freed]
 // - only_one = 1: returns a (gftp_file *)
 // it may return NULL if no row is selected
-
 void * listbox_get_selected_files (gftp_window_data *wdata, int only_one)
 {
    GtkTreeView      * tree = GTK_TREE_VIEW (wdata->listbox);

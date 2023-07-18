@@ -544,7 +544,7 @@ struct gftp_bookmarks_tag
 typedef struct gftp_file_extensions_tag
 {
    char *ext;            /* The file extension to register */
-   char *filename;       /* The xpm file to display */
+   char *filename;       /* The xpm/png file to display */
    char *view_program;   /* The program used to view this file */
    char *ascii_binary;   /* Is this a ASCII transfer or a BINARY transfer */
    unsigned int stlen;   /* How long is the file extension. */

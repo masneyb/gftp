@@ -59,9 +59,12 @@ _gen_input_widget (gftp_options_dialog_data * option_data, char *label, char *ti
   gtkcompat_widget_set_halign_left (tempwid);
   gtk_table_attach (GTK_TABLE (option_data->table), tempwid, 0, 1,
                     option_data->tbl_row_num - 1, 
-                    option_data->tbl_row_num,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
+                    option_data->tbl_row_num
+		#if GTK_MAJOR_VERSION < 4
+                    ,(GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0
+		#endif
+		    );
   gtk_widget_show (tempwid);
 
   tempwid = gtk_entry_new ();
@@ -144,9 +147,12 @@ _gen_combo_widget (gftp_options_dialog_data * option_data, char *label)
   gtkcompat_widget_set_halign_left (tempwid);
   gtk_table_attach (GTK_TABLE (option_data->table), tempwid, 0, 1,
                     option_data->tbl_row_num - 1, 
-                    option_data->tbl_row_num,
-		    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
+                    option_data->tbl_row_num
+	#if GTK_MAJOR_VERSION < 4
+		    ,(GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0
+	#endif
+		    );
   gtk_widget_show (tempwid);
 
   //combo = gtk_combo_box_text_new_with_entry ();
@@ -372,11 +378,18 @@ _print_option_type_textcomboedt (gftp_config_vars * cv, void *user_data, void *v
   gtk_box_pack_start (GTK_BOX (box), tempwid, FALSE, FALSE, 0);
   gtk_widget_show (tempwid);
   
-  tempwid = gtk_scrolled_window_new (NULL, NULL);
+  tempwid = gtk_scrolled_window_new (
+#if GTK_MAJOR_VERSION < 4
+  NULL, NULL
+#endif
+  );
+
   gtk_container_set_border_width (GTK_CONTAINER (tempwid), 0);
   gtk_widget_set_size_request (tempwid, -1, 75);
+#if GTK_MAJOR_VERSION < 3
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (tempwid), 
                                        GTK_SHADOW_IN); 
+#endif
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (tempwid),
                                   GTK_POLICY_AUTOMATIC,
                                   GTK_POLICY_AUTOMATIC);
@@ -728,8 +741,12 @@ options_dialog (gpointer data)
   main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (gftp_option_data->dialog));
 
   gtk_window_set_role (GTK_WINDOW(gftp_option_data->dialog), "options");
-  gtk_window_set_position (GTK_WINDOW (gftp_option_data->dialog),
-                           GTK_WIN_POS_MOUSE);
+
+  gtk_window_set_position (GTK_WINDOW (gftp_option_data->dialog)
+#if GTK_MAJOR_VERSION < 4 
+                           ,GTK_WIN_POS_MOUSE
+#endif
+                           );
 
   gtk_box_set_spacing (GTK_BOX (main_vbox), 5);
   gtk_widget_realize (gftp_option_data->dialog);

@@ -113,6 +113,7 @@ gftpui_show_busy (gboolean busy)
 {
   DEBUG_PRINT_FUNC
   GtkWidget * toplevel = gtk_widget_get_toplevel (openurl_btn);
+#if GTK_MAJOR_VERSION < 4
   GdkWindow * gwin     = gtk_widget_get_window (toplevel);
   GdkDisplay * display = gtk_widget_get_display (toplevel);
 
@@ -123,6 +124,7 @@ gftpui_show_busy (gboolean busy)
 
   if (busy)
     gdk_cursor_unref (busyCursor);
+#endif
 }
 
 void

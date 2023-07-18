@@ -31,11 +31,9 @@
 #include "../gtkcompat.h"
 #include <pthread.h>
 
-// comment out #if.. #endif 
 #if GTK_MAJOR_VERSION > 2
 #define TRANSFER_GTK_TREEVIEW 1
 #endif
-
 
 #define GFTP_MENU_ITEM_ASCII	1
 #define GFTP_MENU_ITEM_BINARY	2
@@ -79,8 +77,10 @@ typedef struct gftp_window_data_tag
   gftp_request * request;	/* The host that we are connected to */
   GList * files,		/* Files in the listbox */
         ** history;		/* History of the directories */
+#if GTK_MAJOR_VERSION < 4
   GtkUIManager *ifactory; 	/* This is for the menus that will
                                    come up when you right click */
+#endif
   pthread_t tid;		/* Thread for the stop button */
   char *prefix_col_str;
 } gftp_window_data;
@@ -172,8 +172,10 @@ extern int local_start, remote_start, trans_start;
 extern GHashTable * graphic_hash_table;
 extern GHashTable * pixbuf_hash_table;
 
+#if GTK_MAJOR_VERSION < 4
 extern GtkActionGroup * menus;
 extern GtkUIManager * factory;
+#endif
 
 extern pthread_mutex_t log_mutex;
 extern pthread_t main_thread_id;
@@ -194,6 +196,7 @@ void build_bookmarks_menu			( void );
 /* chmod_dialog.c */ 
 void chmod_dialog 				( gpointer data );
 
+#if GTK_MAJOR_VERSION < 4
 /* dnd.c */
 void openurl_get_drag_data 			( GtkWidget * widget, 
 						  GdkDragContext * context, 
@@ -219,6 +222,7 @@ void listbox_get_drag_data 			( GtkWidget * widget,
 						  guint info, 
 						  guint32 clk_time, 
 						  gpointer data );
+#endif
 
 /* gftp-gtk.c */
 void gftp_gtk_init_request 			( gftp_window_data * wdata );
@@ -287,7 +291,9 @@ void save_directory_listing 			( gpointer data );
 
 void show_selected				( gpointer data );
 
+#if GTK_MAJOR_VERSION < 4
 gboolean dir_combo_keycb (GtkWidget * widget, GdkEventKey *event, gpointer data);
+#endif
 
 void clearlog 					( gpointer data );
 
@@ -356,8 +362,11 @@ char * get_image_path 				( char *filename);
 void set_window_icon (GtkWindow *window, char *icon_name);
 void glist_to_combobox (GList *list, GtkWidget *combo);
 void populate_combo_and_select_protocol (GtkWidget *combo, char * selected_protocol);
+
+#if GTK_MAJOR_VERSION < 4
 GtkMenuItem * new_menu_item (GtkMenu * menu, char * label, char * icon_name,
                              gpointer activate_callback, gpointer callback_data);
+#endif
 
 /* options_dialog.c */
 void options_dialog 				( gpointer data );

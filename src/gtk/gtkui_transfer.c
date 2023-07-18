@@ -256,7 +256,11 @@ gftpui_ask_transfer (gftp_transfer * tdata)
   tempwid = gtk_label_new (_("The following file(s) exist on both the local and remote computer\nPlease select what you would like to do"));
   gtk_box_pack_start (GTK_BOX (main_vbox), tempwid, FALSE, FALSE, 0);
 
-  scroll = gtk_scrolled_window_new (NULL, NULL);
+  scroll = gtk_scrolled_window_new (
+		#if GTK_MAJOR_VERSION < 4
+		  NULL, NULL
+		#endif
+		  );
   gtk_widget_set_size_request (scroll, 600, 200);
 
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),

@@ -1,3 +1,4 @@
+#if GTK_MAJOR_VERSION < 4
 /***********************************************************************************/
 /*  chmod_dialog.c - the chmod dialog box                                          */
 /*  Copyright (C) 1998-2007 Brian Masney <masneyb@gftp.org>                        */
@@ -24,7 +25,6 @@
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 #include "gftp-gtk.h"
-
 static GtkWidget *suid, *sgid, *sticky, *ur, *uw, *ux, *gr, *gw, *gx, *or, *ow, *ox;
 static mode_t mode; 
 
@@ -130,10 +130,18 @@ chmod_dialog (gpointer data)
 
   // buttons
   ButtonCancel = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
-  IconCancel   = gtk_image_new_from_icon_name ("gtk-cancel", GTK_ICON_SIZE_BUTTON);
+  IconCancel   = gtk_image_new_from_icon_name ("gtk-cancel"
+		  #if GTK_MAJOR_VERSION < 4
+		  , GTK_ICON_SIZE_BUTTON
+		  #endif
+		  );
   gtk_button_set_image (GTK_BUTTON (ButtonCancel), IconCancel);
   ButtonOK     = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_OK"),     GTK_RESPONSE_OK);
-  IconOK       = gtk_image_new_from_icon_name ("gtk-ok", GTK_ICON_SIZE_BUTTON);
+  IconOK       = gtk_image_new_from_icon_name ("gtk-ok"
+		#if GTK_MAJOR_VERSION < 4
+		  , GTK_ICON_SIZE_BUTTON 
+                #endif
+		  );
   gtk_button_set_image (GTK_BUTTON (ButtonOK), IconOK);
 
   // vbox
@@ -216,7 +224,6 @@ chmod_dialog (gpointer data)
       tb_set_active (ow,     tempfle->st_mode & S_IWOTH);
       tb_set_active (ox,     tempfle->st_mode & S_IXOTH);
     }
-
   gtk_widget_show_all (dialog);
 }
-
+#endif
