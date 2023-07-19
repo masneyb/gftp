@@ -358,18 +358,47 @@ void  clear_cache (gpointer data)
   gftp_clear_cache_files ();
 }
 
+extern FILE _binary_______AUTHORS_start;
+
+const gchar** generate_authors_list()
+{
+  FILE *fp = NULL;
+  char *buffer;
+  const gchar **authors  = NULL;
+  int n_spaces = 0;
+
+  /* read the start of the binary block */
+  fp = &_binary_______AUTHORS_start;
+
+  /* Create new pointer to array buffer for all the authors */
+  buffer = (char*)malloc(1024 * (((sizeof(*fp)) + (sizeof(size_t)))) + 1);
+
+  /* Break in to proper multivalue array */
+  buffer = strtok ((char*)fp, "\n");
+
+  /* split string and append tokens to 'authors' */
+  while (buffer) {
+    authors = realloc (authors, sizeof (char*) * ++n_spaces);
+    authors[n_spaces-1] = buffer;
+    buffer = strtok (NULL, "\n");
+  }
+
+  /* Ensure element for the last NULL */ 
+  authors[n_spaces] = 0;
+
+  /* debugging: print the results */
+  //int i; for (i = 0; i < (n_spaces+1); ++i){printf ("authors[%d] = %s\n", i, authors[i]);}
+  
+  return authors;
+}
 
 void about_dialog (gpointer data)
 {
     DEBUG_PRINT_FUNC
     GtkWidget *w;
-    const gchar * authors[] =
-    {
-        "Brian Masney <masneyb@gftp.org>",
-        NULL
-    };
-    /* TRANSLATORS: Replace this string with your names, one name per line. */
-    gchar * translators = _("Translated by");
+    const gchar **authors = NULL;
+    
+    authors = generate_authors_list();
 
     GdkPixbuf * logo = NULL;
     char * logopath = get_image_path ("gftp-logo.xpm"); /* misc-gtk.c */
@@ -382,14 +411,14 @@ void about_dialog (gpointer data)
     w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
                       "version",      VERSION,
                       "program-name", "gFTP",
-                      "copyright",    "Copyright (C) 1998-2020",
+                      "copyright",    "Copyright (C) 1998-2023",
                       "comments",     _("A multithreaded ftp client"),
                       "license",      "MIT - see LICENSE file.",
                       "website",      "http://www.gftp.org",
                       "authors",      authors,
-                      "translator-credits", translators,
                       "logo",         logo,
                       NULL);
+
     gtk_container_set_border_width (GTK_CONTAINER (w), 2);
     set_window_icon (GTK_WINDOW (w), NULL);
     gtk_window_set_transient_for (GTK_WINDOW (w), main_window);

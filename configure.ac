@@ -198,3 +198,15 @@ AC_CONFIG_FILES(
 	po/Makefile
 )
 AC_OUTPUT
+
+AS_ECHO("
+$as_me: Finished.  Do '${ac_make}' to compile gftp.
+") >&AS_MESSAGE_FD
+
+dnl Local Variables:
+dnl comment-start: "dnl "
+dnl comment-end: ""
+dnl comment-start-skip: "\\bdnl\\b\\s *"
+dnl compile-command: "autoreconf --warnings=all"
+dnl End:
+
