@@ -66,6 +66,23 @@ AC_CHECK_LIB(util, openpty, EXTRA_LIBS="$EXTRA_LIBS -lutil")
 AC_CHECK_LIB(socket, socket, EXTRA_LIBS="$EXTRA_LIBS -lsocket")
 AC_CHECK_LIB(nsl, gethostbyname, EXTRA_LIBS="$EXTRA_LIBS -lnsl")
 
+AC_CHECK_TOOLS([OBJCOPY], [objcopy])
+
+AC_SUBST(OBJCOPY_FLAGS)
+case $host in
+  x86_64*|amd64*)
+    OBJCOPY_FLAGS="elf64-x86-64"
+    ;;
+  arm*)
+    #ENHANCEMENT: his is most common but Arm can be 32/64 and big/little
+    OBJCOPY_FLAGS="el64-little"
+    ;;
+  i[[3456789]]86*)
+    OBJCOPY_FLAGS="elf32-i386"
+    ;;
+esac
+
+
 GFTP_TEXT=""
 USE_READLINE="yes"
 READLINE_LIBS=""
@@ -198,3 +215,15 @@ AC_CONFIG_FILES(
 	po/Makefile
 )
 AC_OUTPUT
+
+AS_ECHO("
+$as_me: Finished.  Do '${ac_make}' to compile gftp.
+") >&AS_MESSAGE_FD
+
+dnl Local Variables:
+dnl comment-start: "dnl "
+dnl comment-end: ""
+dnl comment-start-skip: "\\bdnl\\b\\s *"
+dnl compile-command: "autoreconf --warnings=all"
+dnl End:
+

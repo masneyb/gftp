@@ -2,7 +2,8 @@
 
 bin_PROGRAMS = gftp-gtk
 
-gftp_gtk_SOURCES = bookmarks.c \
+gftp_gtk_SOURCES = \
+	bookmarks.c \
 	chmod_dialog.c \
 	dnd.c \
 	gftp-gtk.c \
@@ -19,6 +20,10 @@ gftp_gtk_SOURCES = bookmarks.c \
 
 AM_CPPFLAGS = $(GTK_CFLAGS) $(PTHREAD_CFLAGS)
 
-LDADD = ../../lib/libgftp.a ../uicommon/libgftpui.a $(GTK_LIBS) $(PTHREAD_LIBS) $(EXTRA_LIBS) $(GTHREAD_LIBS) $(SSL_LIBS) $(LIBINTL)
+LDADD = authors.o ../../lib/libgftp.a ../uicommon/libgftpui.a $(GTK_LIBS) $(PTHREAD_LIBS) $(EXTRA_LIBS) $(GTHREAD_LIBS) $(SSL_LIBS) $(LIBINTL)
 
 noinst_HEADERS = gftp-gtk.h
+
+authors.o :
+	$(OBJCOPY) --input binary --output $(OBJCOPY_FLAGS) $(top_srcdir)/AUTHORS $(top_srcdir)/src/gtk/authors.o
+
