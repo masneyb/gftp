@@ -692,6 +692,7 @@ char * gftp_descramble_password (const char *password);
 
 int gftp_get_transfer_action (gftp_request * request, gftp_file * fle);
 char * gftp_get_share_dir (void);
+char * gftp_get_doc_dir (void);
 void gftp_format_file_size (off_t bytes, char *out_buffer, size_t buffer_size);
 char * str_get_next_line_pointer (char * buf, char **pos, int *line_ending);
 

@@ -363,11 +363,28 @@ void about_dialog (gpointer data)
 {
     DEBUG_PRINT_FUNC
     GtkWidget *w;
-    const gchar * authors[] =
-    {
-        "Brian Masney <masneyb@gftp.org>",
-        NULL
-    };
+    FILE *fp_authors;
+    const char *authors[2] = { NULL, NULL };
+    char *AUTHORS_FILE = g_build_filename (gftp_get_doc_dir(), "AUTHORS", NULL);
+    char *AUTHORS_FILE_BUF = NULL;
+    size_t AUTHORS_FILE_BUF_SIZE = 10 * 1024; // 10kb
+    size_t rc;
+
+    fp_authors = fopen (AUTHORS_FILE, "r");
+    if (fp_authors) {
+        AUTHORS_FILE_BUF = (char *) malloc (AUTHORS_FILE_BUF_SIZE + 1);
+        rc = fread (AUTHORS_FILE_BUF, 1, AUTHORS_FILE_BUF_SIZE, fp_authors);
+        if (rc < AUTHORS_FILE_BUF_SIZE) {
+            AUTHORS_FILE_BUF[rc] = '\0';
+        } else {
+            AUTHORS_FILE_BUF[AUTHORS_FILE_BUF_SIZE] = '\0';
+        }
+    }
+    if (AUTHORS_FILE_BUF) {
+        authors[0] = AUTHORS_FILE_BUF;
+    } else {
+        authors[0] = "AUTHORS file not found";
+    }
     /* TRANSLATORS: Replace this string with your names, one name per line. */
     gchar * translators = _("Translated by");
 
@@ -382,7 +399,7 @@ void about_dialog (gpointer data)
     w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
                       "version",      VERSION,
                       "program-name", "gFTP",
-                      "copyright",    "Copyright (C) 1998-2020",
+                      "copyright",    "Copyright (C) 1998-2023",
                       "comments",     _("A multithreaded ftp client"),
                       "license",      "MIT - see LICENSE file.",
                       "website",      "http://www.gftp.org",
@@ -395,6 +412,10 @@ void about_dialog (gpointer data)
     gtk_window_set_transient_for (GTK_WINDOW (w), main_window);
     gtk_window_set_modal (GTK_WINDOW (w), TRUE);
     gtk_window_set_position (GTK_WINDOW (w), GTK_WIN_POS_CENTER_ON_PARENT);
+
+    if (fp_authors) fclose (fp_authors);
+    g_free (AUTHORS_FILE);
+    g_free (AUTHORS_FILE_BUF);
 
     g_signal_connect_swapped (w, "response",
                               G_CALLBACK (gtk_widget_destroy), w);

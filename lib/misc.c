@@ -30,6 +30,12 @@ char * CONFIG_FILE = NULL;
 char * BOOKMARKS_FILE = NULL;
 char * LOG_FILE = NULL;
 
+static char *gftp_share_dir = NULL;
+static char *gftp_doc_dir = NULL;
+
+static int free_share_dir = 0;
+static int free_doc_dir = 0;
+
 #ifdef HAVE_INTL_PRINTF
 
 char * insert_commas (off_t number, char *dest_str, size_t dest_len)
@@ -904,6 +910,8 @@ void gftp_shutdown (void)
   if (CONFIG_FILE)    free (CONFIG_FILE);
   if (BOOKMARKS_FILE) free (BOOKMARKS_FILE);
   if (LOG_FILE)       free (LOG_FILE);
+  if (free_share_dir) free (gftp_share_dir);
+  if (free_doc_dir)   free (gftp_doc_dir);
 
   exit (0);
 }
@@ -1074,24 +1082,38 @@ int gftp_get_transfer_action (gftp_request * request, gftp_file * fle)
   return (fle->transfer_action);
 }
 
-
 char * gftp_get_share_dir (void)
 {
   DEBUG_PRINT_FUNC
-  static char *gftp_share_dir = NULL;
   char *envval;
-
   if (gftp_share_dir == NULL)
-    {
+  {
       envval = getenv ("GFTP_SHARE_DIR");
-
-      if (envval != NULL && *envval != '\0')
-        gftp_share_dir = g_strdup (envval);
-      else
-        gftp_share_dir = SHARE_DIR;
-    }
-
+      if (envval && *envval) {
+          gftp_share_dir = g_strdup (envval);
+          free_share_dir = 1;
+      } else {
+          gftp_share_dir = SHARE_DIR;
+      }
+  }
   return (gftp_share_dir);
+}
+
+char * gftp_get_doc_dir (void)
+{
+  DEBUG_PRINT_FUNC
+  char *envval;
+  if (gftp_doc_dir == NULL)
+  {
+      envval = getenv ("GFTP_DOC_DIR");
+      if (envval && *envval) {
+          gftp_doc_dir = g_strdup (envval);
+          free_doc_dir = 1;
+      } else {
+          gftp_doc_dir = DOC_DIR;
+      }
+  }
+  return (gftp_doc_dir);
 }
 
 void gftp_format_file_size(off_t bytes, char *out_buffer, size_t buffer_size)

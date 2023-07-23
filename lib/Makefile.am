@@ -25,7 +25,8 @@ AM_CPPFLAGS= \
 	$(GLIB_CFLAGS) \
 	$(PTHREAD_CFLAGS) \
 	-DSHARE_DIR=\"$(datadir)/gftp\" \
-	-DLOCALE_DIR=\"$(datadir)/locale\"
+	-DLOCALE_DIR=\"$(datadir)/locale\" \
+	-DDOC_DIR=\"$(docdir)\"
 
 noinst_HEADERS= \
 	gftp.h \

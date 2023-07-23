@@ -26,6 +26,8 @@ fi
 mkdir -p ${outdir}/gtk
 cp -a src/gtk/gftp-gtk ${outdir}/gtk/gftp-${arch}
 cp -a docs/sample.gftp ${outdir}
+mkdir -p ${outdir}/doc
+cp -a README.md LICENSE AUTHORS docs/USERS-GUIDE ChangeLog ${outdir}/doc
 
 echo '#!/bin/sh
 
