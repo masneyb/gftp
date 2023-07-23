@@ -756,7 +756,7 @@ CreateConnectToolbar (GtkWidget * parent)
 #endif
 
   //tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  tempwid = gtk_image_new_from_stock ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   openurl_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (openurl_btn), tempwid);
@@ -856,7 +856,7 @@ CreateConnectToolbar (GtkWidget * parent)
   populate_combo_and_select_protocol (toolbar_combo_protocol, default_protocol);
 
   //tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  tempwid = gtk_image_new_from_stock ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   stop_btn = gtk_button_new ();
   gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
@@ -1137,14 +1137,14 @@ CreateFTPWindows (GtkWidget * ui)
   gtk_box_pack_start (GTK_BOX (dlbox), upload_right_arrow, TRUE, FALSE, 0);
   g_signal_connect_swapped (G_OBJECT (upload_right_arrow), "clicked",
                             G_CALLBACK (put_files), NULL);
-  w = gtk_image_new_from_stock ("gtk-go-forward", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  w = gtk_image_new_from_icon_name ("gtk-go-forward", GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_container_add (GTK_CONTAINER (upload_right_arrow), w);
 
   download_left_arrow = gtk_button_new ();
   gtk_box_pack_start (GTK_BOX (dlbox), download_left_arrow, TRUE, FALSE, 0);
   g_signal_connect_swapped (G_OBJECT (download_left_arrow), "clicked",
                             G_CALLBACK (get_files), NULL);
-  w = gtk_image_new_from_stock ("gtk-go-back", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  w = gtk_image_new_from_icon_name ("gtk-go-back", GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_container_add (GTK_CONTAINER (download_left_arrow), w);
 
   window2.prefix_col_str = "remote";
