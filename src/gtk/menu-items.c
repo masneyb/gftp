@@ -375,9 +375,6 @@ void about_dialog (gpointer data)
     authors[0] = AUTHORS_FILE_BUF ? AUTHORS_FILE_BUF : "AUTHORS file not found";
     license    = LICENSE_FILE_BUF ? LICENSE_FILE_BUF : "LICENSE file not found";
 
-    /* TRANSLATORS: Replace this string with your names, one name per line. */
-    gchar * translators = _("Translated by");
-
     GdkPixbuf * logo = NULL;
     char * logopath = get_image_path ("gftp-logo.xpm"); /* misc-gtk.c */
     if (logopath) {
@@ -394,7 +391,6 @@ void about_dialog (gpointer data)
                       "license",      license,
                       "website",      "http://www.gftp.org",
                       "authors",      authors,
-                      "translator-credits", translators,
                       "logo",         logo,
                       NULL);
     gtk_container_set_border_width (GTK_CONTAINER (w), 2);
