@@ -363,44 +363,17 @@ void about_dialog (gpointer data)
 {
     DEBUG_PRINT_FUNC
     GtkWidget *w;
-    FILE *fp_authors, *fp_license;
     const char *authors[2] = { NULL, NULL };
     const char *license = NULL;
     char *AUTHORS_FILE = g_build_filename (gftp_get_doc_dir(), "AUTHORS", NULL);
     char *LICENSE_FILE = g_build_filename (gftp_get_doc_dir(), "LICENSE", NULL);
     char *AUTHORS_FILE_BUF = NULL;
     char *LICENSE_FILE_BUF = NULL;
-    size_t AUTHORS_FILE_BUF_SIZE = 10 * 1024; // 10kb
-    size_t LICENSE_FILE_BUF_SIZE = 10 * 1024; // 10kb
-    size_t rc;
 
-    fp_authors = fopen (AUTHORS_FILE, "r");
-    if (fp_authors) {
-        AUTHORS_FILE_BUF = (char *) malloc (AUTHORS_FILE_BUF_SIZE + 1);
-        rc = fread (AUTHORS_FILE_BUF, 1, AUTHORS_FILE_BUF_SIZE, fp_authors);
-        if (rc < AUTHORS_FILE_BUF_SIZE) {
-            AUTHORS_FILE_BUF[rc] = '\0';
-        } else {
-            AUTHORS_FILE_BUF[AUTHORS_FILE_BUF_SIZE] = '\0';
-        }
-    }
-    if (AUTHORS_FILE_BUF) {
-        authors[0] = AUTHORS_FILE_BUF;
-    } else {
-        authors[0] = "AUTHORS file not found";
-    }
-
-    fp_license = fopen (LICENSE_FILE, "r");
-    if (fp_license) {
-        LICENSE_FILE_BUF = (char *) malloc (LICENSE_FILE_BUF_SIZE + 1);
-        rc = fread (LICENSE_FILE_BUF, 1, LICENSE_FILE_BUF_SIZE, fp_license);
-        if (rc < LICENSE_FILE_BUF_SIZE) {
-            LICENSE_FILE_BUF[rc] = '\0';
-        } else {
-            LICENSE_FILE_BUF[AUTHORS_FILE_BUF_SIZE] = '\0';
-        }
-    }
-    license = LICENSE_FILE_BUF ? LICENSE_FILE_BUF : "LICENSE file not found";
+    g_file_get_contents (AUTHORS_FILE, &AUTHORS_FILE_BUF, NULL, NULL);
+    g_file_get_contents (LICENSE_FILE, &LICENSE_FILE_BUF, NULL, NULL);
+    authors[0] = AUTHORS_FILE_BUF ? AUTHORS_FILE_BUF : "AUTHORS file not found";
+    license    = LICENSE_FILE_BUF ? LICENSE_FILE_BUF : "LICENSE file not found";
 
     /* TRANSLATORS: Replace this string with your names, one name per line. */
     gchar * translators = _("Translated by");
@@ -430,8 +403,6 @@ void about_dialog (gpointer data)
     gtk_window_set_modal (GTK_WINDOW (w), TRUE);
     gtk_window_set_position (GTK_WINDOW (w), GTK_WIN_POS_CENTER_ON_PARENT);
 
-    if (fp_authors) fclose (fp_authors);
-    if (fp_license) fclose (fp_license);
     g_free (AUTHORS_FILE);
     g_free (LICENSE_FILE);
     g_free (AUTHORS_FILE_BUF);
