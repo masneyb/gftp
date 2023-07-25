@@ -950,7 +950,7 @@ new_menu_item (GtkMenu * menu, char * label, char * icon_name,
    }
 
    if (menu) {
-      gtk_container_add (GTK_CONTAINER (menu), GTK_WIDGET (item));
+     gtk_box_pack_start ((GtkBox*) menu, (GTK_WIDGET (item)), TRUE, TRUE, 0);
    }
 
    if (activate_callback) {
