@@ -586,7 +586,9 @@ void edit_bookmarks (gpointer data)
   gtk_container_set_border_width (GTK_CONTAINER (scroll), 3);
 
   btree = btree_create();
-  gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (btree));
+ 
+  /* use gtk_scrolled_window_set_child in gtk4 */
+  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scroll), GTK_WIDGET (btree));
 
   g_signal_connect (G_OBJECT (edit_bookmarks_dialog), // GtkDialog
                     "response",
