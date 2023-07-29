@@ -755,11 +755,12 @@ CreateConnectToolbar (GtkWidget * parent)
   toolbar = box;
 #endif
 
-  //tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
   tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   openurl_btn = gtk_button_new ();
-  gtk_container_add (GTK_CONTAINER (openurl_btn), tempwid);
+  // gtk4 - gtk_button_set_child (openurl_btn, tempwid);
+  gtk_button_set_image(GTK_BUTTON(openurl_btn), tempwid);
+
   g_signal_connect_swapped (G_OBJECT (openurl_btn), "clicked",
 			     G_CALLBACK (tb_openurl_dialog), NULL);
   g_signal_connect (G_OBJECT (openurl_btn), "drag_data_received",
@@ -855,11 +856,13 @@ CreateConnectToolbar (GtkWidget * parent)
   gftp_lookup_global_option ("default_protocol", &default_protocol);
   populate_combo_and_select_protocol (toolbar_combo_protocol, default_protocol);
 
-  //tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
   tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   stop_btn = gtk_button_new ();
-  gtk_container_add (GTK_CONTAINER (stop_btn), tempwid);
+
+  // gtk4 - gtk_button_set_child (stop_btn, tempwid);
+  gtk_button_set_image(GTK_BUTTON (stop_btn), tempwid);
+
   gtk_widget_set_sensitive (stop_btn, 0);
   g_signal_connect_swapped (G_OBJECT (stop_btn), "clicked",
 			     G_CALLBACK (stop_button), NULL);
