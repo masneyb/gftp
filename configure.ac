@@ -15,17 +15,22 @@ AC_PROG_RANLIB
 #L#T_INIT
 
 AC_ARG_ENABLE(gtk2, 
-              [  --disable-gtk2          Do not look for GTK+ 2.0 libraries], 
+              [  --enable-gtk2           Enable GTK+ 2.0 libraries],
               enable_gtk2=$enableval, 
-              enable_gtk2="yes")
+              enable_gtk2="no")
 
 AC_ARG_ENABLE(gtk3,
-              [  --enable-gtk3           Enable GTK+ 3.0 (Experimental)],
+              [  --disable-gtk3          Disable using GTK+ 3.0 in build],
               enable_gtk3=$enableval,
-              enable_gtk3="no")
+              enable_gtk3="yes")
+
+AC_ARG_ENABLE(gtk4,
+              [  --enable-gtk4           Enable GTK+ 4.0 (Experimental)],
+              enable_gtk4=$enableval,
+              enable_gtk4="no")
 
 AC_ARG_ENABLE(gtkport, 
-              [  --disable-gtkport       Disable compiling the GTK+ port], 
+              [  --disable-gtkport       Disable compiling the GTK+ port (Unsupported)],
               enable_gtkport=$enableval, 
               enable_gtkport="yes")
 
@@ -114,28 +119,43 @@ PKG_CHECK_MODULES(
   )
 
 if test "x$enable_gtkport" = "xyes" ; then
-
   if test "x$enable_gtk2" = "xno" ; then
     if test "x$enable_gtk3" = "xno" ; then
-      echo "Error: gtk2 and gtk3 are disabled. Not GTK port." ; 
-      exit 1
+      if test "x$enable_gtk4" = "xno" ; then
+        echo "Error: No GTK libraries specified";
+        echo "If this is by intention please run ./configure --disable-gtkport";
+	exit 1
+      fi
     fi
   fi
+fi
+
+if test "x$enable_gtkport" = "xyes" ; then
   if test "x$enable_gtk2" = "xyes" ; then
-    if test "x$enable_gtk3" = "xyes" ; then
-      enable_gtk2=no
-    fi
+    enable_gtk3=no
+    enable_gtk4=no
+  fi
+  if test "x$enable_gtk3" = "xyes" ; then
+    enable_gtk2=no
+    enable_gtk4=no
+  fi
+  if test "x$enable_gtk4" = "xyes" ; then
+    enable_gtk2=no
+    enable_gtk3=no
   fi
   if test "x$enable_gtk2" = "xyes" ; then
     dnl Test for gtk+-2.0
-    PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.14.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --disable-gtk2 or install GTK+ 2.0))
+    PKG_CHECK_MODULES([GTK], [gtk+-2.0 >= 2.14.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 2.0. Run configure with --enable-gtk2 or install GTK+ 2.0))
     PKG_CHECK_MODULES([GTHREAD], gthread-2.0 >=  2.18.0, HAVE_GTHREADS="yes")
   fi
   if test "x$enable_gtk3" = "xyes" ; then
     dnl Test for gtk+-3.0
     PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK+ 3.0. Run configure without --enable-gtk3 or install GTK+ 3.0))
   fi
-
+  if test "x$enable_gtk4" = "xyes" ; then
+    dnl Test for gtk-4.0
+    PKG_CHECK_MODULES([GTK], [gtk4 >= 4.0.0], GFTP_GTK=gftp-gtk, AC_MSG_ERROR(You have GLIB 2.0 installed but I cannot find GTK 4.0. Run configure without --enable-gtk4 or install GTK 4.0))
+  fi
   if test "x$GFTP_GTK" = xgftp-gtk; then
     # see https://chromium.googlesource.com/chromiumos/third_party/cairo/+/master/build/configure.ac.pthread
     AC_CHECK_LIB(pthread, pthread_create, PTHREAD_LIBS="-lpthread")
@@ -198,3 +218,15 @@ AC_CONFIG_FILES(
 	po/Makefile
 )
 AC_OUTPUT
+
+AS_ECHO("
+$as_me: Finished.  Do '${ac_make}' to compile gftp.
+") >&AS_MESSAGE_FD
+
+dnl Local Variables:
+dnl comment-start: "dnl "
+dnl comment-end: ""
+dnl comment-start-skip: "\\bdnl\\b\\s *"
+dnl compile-command: "autoreconf --warnings=all"
+dnl End:
+
