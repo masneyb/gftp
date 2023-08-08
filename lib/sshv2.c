@@ -753,7 +753,7 @@ sshv2_send_command (gftp_request * request, char type, char *command,
   guint32 clen;
   int ret;
 
-  if (len > 33995)
+  if (len >= 33995)
     {
       request->logging_function (gftp_logging_error, request,
                              _("Error: Message size %d too big\n"), len);
