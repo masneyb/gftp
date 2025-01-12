@@ -1,8 +1,5 @@
 #!/bin/sh
 
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-
 if [ "$DISPLAY " != " " ] && [ -f @bindir@/gftp-gtk ]; then
 	exec @bindir@/gftp-gtk ${1+"$@"}
 elif [ -f @bindir@/gftp-text ]; then
