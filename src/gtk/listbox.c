@@ -401,7 +401,7 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    }
    else {
       if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode)) {
-         col_data.size = g_strdup_printf ("%d, %d", major (fle->size),
+         col_data.size = g_strdup_printf ("%ld, %ld", major (fle->size),
                                minor (fle->size));
       }else{
          col_data.size = insert_commas (fle->size, NULL, 0);

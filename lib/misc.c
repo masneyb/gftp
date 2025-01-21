@@ -797,7 +797,7 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
   g_free (attribs);
 
   if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))
-    tempstr2 = g_strdup_printf ("%d, %d", major (fle->size), minor (fle->size));
+    tempstr2 = g_strdup_printf ("%ld, %ld", major (fle->size), minor (fle->size));
   else
     tempstr2 = g_strdup_printf (GFTP_OFF_T_11PRINTF_MOD, fle->size);
 

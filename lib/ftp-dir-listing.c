@@ -908,7 +908,7 @@ static int ftp_parse_ls_mlsd (char *str, gftp_file * fle)
 int ftp_parse_ls (gftp_request * request, const char *lsoutput, gftp_file * fle,
                int fd)
 {
-  DEBUG_TRACE("LS(%d): %s\n", strlen(lsoutput), lsoutput)
+  DEBUG_TRACE("LS(%ld): %s\n", strlen(lsoutput), lsoutput)
   char *str;
   int result;
   size_t len;
