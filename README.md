@@ -22,18 +22,11 @@ The gFTP file transfer client. http://www.gftp.org
 
 ## How do I install gFTP?
 
-  Git repository:
-
-  - ./autogen.sh
-  - ./configure --prefix=/usr
-  - make install
-
-  Release tarball:
-
-  - cd gftp-<version>
-  - ./configure --prefix=/usr
-  - make install
-
+  ```
+  meson build
+  ninja -C build
+  ninja -C build install
+  ```
 
 ## What systems is gFTP known to run on?
 
