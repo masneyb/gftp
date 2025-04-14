@@ -200,8 +200,13 @@ static int gftp_ssl_post_connection_check (gftp_request * request)
               ext_str = meth->d2i(NULL, &mutable_ptr, len);
 #endif
               val = meth->i2v(meth, ext_str, NULL);
-
-              for (j = 0; j < sk_CONF_VALUE_num(val); j++)
+	/**************************************************************************
+	* 20250414: Nicolas Baranger  
+	* Adding support of TLS validation for wildcard domain names (*.domain.tld)
+	* present in certificate subjectAltName field  
+	****************************************************************************/
+  	/* Commenting existing code */ 	
+   	      /* for (j = 0; j < sk_CONF_VALUE_num(val); j++)
                 {
                   nval = sk_CONF_VALUE_value (val, j);
                   if (strcmp (nval->name, "DNS") == 0 && 
@@ -210,7 +215,36 @@ static int gftp_ssl_post_connection_check (gftp_request * request)
                       ok = 1;
                       break;
                     }
-                }
+                } */
+  	/* Rewriting 'for' loop with wildcard support (*.domain.tld) in subjectAltName */ 	
+	      for (j = 0; j < sk_CONF_VALUE_num(val); j++)
+		{
+		  nval = sk_CONF_VALUE_value(val, j);
+		  if (strcmp(nval->name, "DNS") == 0)
+		  {
+		    if (strcasecmp(nval->value, request->hostname) == 0)
+		    {
+		      ok = 1;
+		      break;
+		    }
+		
+		    // Wildcard support: check for leading '*.' and match domain suffix
+		    if (nval->value[0] == '*' && nval->value[1] == '.')
+		    {
+		      const char *wildcard_domain = nval->value + 1; // skip the '*'
+		      const char *host_suffix = strchr(request->hostname, '.');
+		
+		      if (host_suffix && strcasecmp(wildcard_domain, host_suffix) == 0)
+		      {
+		        ok = 1;
+		        break;
+		      }
+		    }
+		  }
+		}
+	/**************************************************************************
+	* END OF MODIFICATIONS  
+	****************************************************************************/
             }
 
           if (ok)
