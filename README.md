@@ -71,22 +71,22 @@ The gFTP file transfer client. http://www.gftp.org
 ## Where does gFTP store its options?
 
   gFTP follows the XDG Base Directory Specification, it will automatically create a
-  ${XDG_CONFIG_HOME}/gftp directory when it is first run. Your
-  config file is ${XDG_CONFIG_HOME}/gftp/gftprc, and this is where all of gFTP's settings are
+  `${XDG_CONFIG_HOME}/gftp` directory when it is first run. Your
+  config file is `${XDG_CONFIG_HOME}/gftp/gftprc`, and this is where all of gFTP's settings are
   stored. The config file is well commented, so take a glance at it and see if
   there is anything you want to change. Your bookmarks are stored in the file
-  ${XDG_CONFIG_HOME}/gftp/bookmarks.
+  `${XDG_CONFIG_HOME}/gftp/bookmarks`.
 
-  ${XDG_CONFIG_HOME} is usually ${HOME}/.config, unless you change it.
+  `${XDG_CONFIG_HOME}` is usually `${HOME}/.config`, unless you change it.
 
-  Every time gFTP is run, it will log the contents of the log window to ${XDG_CONFIG_HOME}/gftp/
-  gftp.log. The contents of this file will be automatically purged this file when
-  gFTP is started up.
+  Every time gFTP is run, it will log the contents of the log window to 
+  `${XDG_CONFIG_HOME}/gftp/gftp.log`. The contents of this file will be automatically purged
+  from this file when gFTP is started up.
 
 
 ## I can't transfer certain file types in binary mode using the FTP protocol.
 
-  Edit your ${XDG_CONFIG_HOME}/gftp/gftprc file and look at the ext= lines towards the bottom of
+  Edit your `${XDG_CONFIG_HOME}/gftp/gftprc` file and look at the ext= lines towards the bottom of
   the file. These lines control what icon is used for each file type. It also
   controls what mode is used for the file transfer. For example, to transfer all
   HTML files as binary, change the following two lines:
