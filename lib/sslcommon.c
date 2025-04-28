@@ -181,70 +181,42 @@ static int gftp_ssl_post_connection_check (gftp_request * request)
 	       * but it will fault later when we free the struct,
 	       * as the heap would be corrupt.
 	       */
-#if (OPENSSL_VERSION_NUMBER >= 0x10100000L)
               const ASN1_OCTET_STRING* ext_value = X509_EXTENSION_get_data (ext);
               const unsigned char* mutable_ptr = ASN1_STRING_get0_data (ext_value);
               int len = ASN1_STRING_length (ext_value);
-#else
-              const unsigned char* mutable_ptr = ext->value->data;
-              int len = ext->value->length;
-#endif
 
-#if (OPENSSL_VERSION_NUMBER > 0x00907000L)
               if (meth->it) {
                 ext_str = ASN1_item_d2i (NULL, &mutable_ptr, len, ASN1_ITEM_ptr (meth->it));
               } else {
                 ext_str = meth->d2i (NULL, &mutable_ptr, len);
               }
-#else
-              ext_str = meth->d2i(NULL, &mutable_ptr, len);
-#endif
               val = meth->i2v(meth, ext_str, NULL);
-	/**************************************************************************
-	* 20250414: Nicolas Baranger  
-	* Adding support of TLS validation for wildcard domain names (*.domain.tld)
-	* present in certificate subjectAltName field  
-	****************************************************************************/
-  	/* Commenting existing code */ 	
-   	      /* for (j = 0; j < sk_CONF_VALUE_num(val); j++)
+
+              for (j = 0; j < sk_CONF_VALUE_num(val); j++)
                 {
-                  nval = sk_CONF_VALUE_value (val, j);
-                  if (strcmp (nval->name, "DNS") == 0 && 
-                      strcmp (nval->value, request->hostname) == 0)
+                  nval = sk_CONF_VALUE_value(val, j);
+                  if (strcmp(nval->name, "DNS") == 0)
+                  {
+                    if (strcasecmp(nval->value, request->hostname) == 0)
                     {
                       ok = 1;
                       break;
                     }
-                } */
-  	/* Rewriting 'for' loop with wildcard support (*.domain.tld) in subjectAltName */ 	
-	      for (j = 0; j < sk_CONF_VALUE_num(val); j++)
-		{
-		  nval = sk_CONF_VALUE_value(val, j);
-		  if (strcmp(nval->name, "DNS") == 0)
-		  {
-		    if (strcasecmp(nval->value, request->hostname) == 0)
-		    {
-		      ok = 1;
-		      break;
-		    }
-		
-		    // Wildcard support: check for leading '*.' and match domain suffix
-		    if (nval->value[0] == '*' && nval->value[1] == '.')
-		    {
-		      const char *wildcard_domain = nval->value + 1; // skip the '*'
-		      const char *host_suffix = strchr(request->hostname, '.');
-		
-		      if (host_suffix && strcasecmp(wildcard_domain, host_suffix) == 0)
-		      {
-		        ok = 1;
-		        break;
-		      }
-		    }
-		  }
-		}
-	/**************************************************************************
-	* END OF MODIFICATIONS  
-	****************************************************************************/
+
+                    // Wildcard support: check for leading '*.' and match domain suffix
+                    if (nval->value[0] == '*' && nval->value[1] == '.')
+                    {
+                      const char *wildcard_domain = nval->value + 1; // skip the '*'
+                      const char *host_suffix = strchr(request->hostname, '.');
+
+                      if (host_suffix && strcasecmp(wildcard_domain, host_suffix) == 0)
+                      {
+                        ok = 1;
+                        break;
+                      }
+                    }
+                  }
+                }
             }
 
           if (ok)
@@ -353,6 +325,21 @@ static void _gftp_ssl_thread_setup (void)
 } 
 
 
+static void gftp_ssl_keylog_callback(const SSL *ssl, const char *line) 
+{
+  const char *gftp_keylog_file = getenv("SSLKEYLOGFILE");
+  if (!gftp_keylog_file)
+    return;
+
+  FILE *gftp_fp = fopen(gftp_keylog_file, "a");
+  if (!gftp_fp)
+    return;
+
+  fprintf(gftp_fp, "%s\n", line);
+  fclose(gftp_fp);
+}
+
+
 int gftp_ssl_startup (gftp_request * request)
 {
   DEBUG_PRINT_FUNC
@@ -393,6 +380,8 @@ int gftp_ssl_startup (gftp_request * request)
                                  _("Error loading default SSL certificates\n"));
       return (GFTP_EFATAL);
     }
+  /* enable SSLKEYLOGFILE */
+  SSL_CTX_set_keylog_callback(ctx, gftp_ssl_keylog_callback);
 
   SSL_CTX_set_verify (ctx, SSL_VERIFY_PEER, gftp_ssl_verify_callback);
   SSL_CTX_set_verify_depth (ctx, 9);
