@@ -1,0 +1,114 @@
+SSLKEYLOGFILE Support in gFTP
+=============================
+
+This document describes how gFTP supports the SSLKEYLOGFILE environment
+variable to export TLS session keys, enabling decryption of FTPS traffic
+(e.g., in Wireshark or tshark) for debugging and analysis.
+
+Background
+----------
+
+When gFTP connects to FTPS servers over TLS (explicit FTPS on port 21 or
+implicit FTPS on port 990), all control and data communication is encrypted
+once the TLS handshake completes. This makes it difficult to inspect FTP commands
+or debug TLS-related issues during transfers.
+
+By supporting the SSLKEYLOGFILE environment variable, gFTP can export TLS
+session secrets (pre-master keys) in a format compatible with tools such as
+Wireshark. This enables full decryption of FTPS sessions for analysis.
+
+This capability relies on the standard OpenSSL key logging interface and is
+enabled automatically at runtime if SSLKEYLOGFILE is set.
+
+Usage
+-----
+
+To use this feature:
+
+1. Set the `SSLKEYLOGFILE` environment variable to point to a writable file:
+
+   ```sh
+   export SSLKEYLOGFILE=~/gftp_tls_keys.log
+   ```
+
+2. Launch gFTP:
+
+   ```sh
+   gftp
+   ```
+
+3. Capture the FTPS traffic using a tool such as tcpdump, Wireshark, or tshark.
+
+4. Open the `.pcap` file in Wireshark, and go to:
+
+   ```
+   Preferences → Protocols → TLS → (Pre)-Master-Secret log filename
+   ```
+
+   Then choose the `gftp_tls_keys.log` file you created.
+
+5. Wireshark will now decrypt the TLS streams and display plaintext FTP commands
+   such as USER, PASS, STOR, and RETR.
+
+Live Traffic Decryption with tshark
+-----------------------------------
+
+You can also decrypt live TLS traffic using `tshark` by specifying the key log file.
+
+Example command:
+
+```sh
+tshark -i <interface> -n \
+  -o tls.keylog_file:<path_to_keylog_file> \
+  -o tls.desegment_ssl_records:TRUE \
+  -o tls.desegment_ssl_application_data:TRUE \
+  -t ad -l \
+  -f 'host <src_host> and host <dst_host> and (port 21 or port 990 or port 2020)' \
+  -T fields \
+  -e frame.number -e frame.time_relative \
+  -e ip.src -e ip.dst \
+  -e tcp.srcport -e tcp.dstport \
+  -e tcp.flags.str -e tcp.len \
+  -e _ws.col.Protocol -e _ws.col.Info
+```
+
+Replace:
+
+- `<interface>` with your network interface (e.g., `enp0s3`, `eth0`)
+- `<path_to_keylog_file>` with your `SSLKEYLOGFILE` path (e.g., `~/gftp_tls_keys.log`)
+- `<src_host>` and `<dst_host>` with IPs of client/server as needed
+
+This allows you to inspect decrypted TLS application data (e.g., FTP commands) in real time.
+
+Notes
+-----
+
+- This feature requires OpenSSL with support for the keylog callback interface.
+  gFTP assumes OpenSSL 3.0 or newer is in use, following the deprecation and end of
+  support for OpenSSL 1.1.1 in September 2023.
+- The log file will contain TLS session secrets for all TLS connections initiated
+  by gFTP while the environment variable is set.
+- This functionality is intended strictly for debugging or controlled analysis.
+  **Do not share or expose your keylog file**, as it can be used to decrypt traffic
+  captured in the same session.
+
+References
+----------
+
+- OpenSSL key logging interface documentation:
+  https://www.openssl.org/docs/man3.0/man3/SSL_CTX_set_keylog_callback.html
+
+- Wireshark TLS decryption using SSLKEYLOGFILE:
+  https://wiki.wireshark.org/TLS#using-the-pre-master-secret
+
+- NSS-compatible key log format (used by Chrome, Firefox, OpenSSL):
+  - Format: `CLIENT_RANDOM <random> <secret>`
+  - Described in [Chromium source](https://source.chromium.org/chromium/chromium/src/+/main:net/ssl/ssl_key_logger.cc)
+
+Credits
+-------
+
+This feature was contributed by Nicolas Baranger <nbanba at 3xo.fr> as part of modernizing 
+TLS debugging capabilities in gFTP and aligns with similar work on SSH session key logging
+in OpenSSH.
+
