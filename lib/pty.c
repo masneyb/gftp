@@ -36,7 +36,7 @@ static int
 _gftp_ptym_open (char *pts_name, size_t len, int *fds)
 {
   char *new_pts_name;
-  void (*savesig)();
+  void (*savesig)(int);
   int fdm;
 
   if ((fdm = open ("/dev/ptmx", O_RDWR)) < 0)
