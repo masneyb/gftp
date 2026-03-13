@@ -1,0 +1,278 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for release'
+        required: true
+        default: 'v2.9.1b'
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_id: ${{ steps.create_release.outputs.id }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Get version
+      id: get_version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          VERSION="${{ github.event.inputs.tag_name }}"
+        else
+          VERSION="${GITHUB_REF#refs/tags/}"
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Version: $VERSION"
+
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        cat > release_notes.md << 'EOF'
+        # gFTP Release ${{ steps.get_version.outputs.version }}
+
+        ## Downloads
+
+        ### macOS
+        - **gFTP-*-macOS.dmg** - macOS disk image with app bundle (recommended)
+        - Drag gFTP.app to Applications folder to install
+
+        ### Linux
+        - **gftp-linux-gtk3** - GTK3 build (recommended for modern systems)
+        - **gftp-linux-gtk2** - GTK2 build (for older systems)
+        - **gftp-source.tar.gz** - Source tarball
+
+        ## System Requirements
+
+        ### macOS
+        - macOS 10.13 (High Sierra) or later
+        - No additional dependencies required (all bundled)
+
+        ### Linux
+        - GTK+ 3.0 or GTK+ 2.14+
+        - GLib 2.32+
+        - OpenSSL (for FTPS support)
+        - OpenSSH client (for SFTP support)
+
+        ## Installation
+
+        ### macOS
+        1. Download the DMG file
+        2. Open the DMG
+        3. Drag gFTP.app to your Applications folder
+        4. Launch from Applications
+
+        ### Linux
+        Build from source using Meson:
+        ```bash
+        tar xzf gftp-source.tar.gz
+        cd gftp-*
+        meson build
+        ninja -C build
+        sudo ninja -C build install
+        ```
+
+        ## Supported Protocols
+        - FTP (ftp://)
+        - FTPS (ftps://) - Explicit TLS
+        - FTPSi (ftpsi://) - Implicit TLS (port 990)
+        - SSH2 SFTP (ssh2://)
+        - HTTP/HTTPS (http://, https://)
+        - Local filesystem (file://)
+
+        ## What's New
+        See [ChangeLog](https://github.com/${{ github.repository }}/blob/${{ steps.get_version.outputs.version }}/ChangeLog) for detailed changes.
+
+        ## Support
+        - Issues: https://github.com/${{ github.repository }}/issues
+        - Documentation: https://www.gftp.org
+
+        ---
+        Built with ❤️ using GitHub Actions
+        EOF
+        cat release_notes.md
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get_version.outputs.version }}
+        release_name: gFTP ${{ steps.get_version.outputs.version }}
+        body_path: release_notes.md
+        draft: false
+        prerelease: false
+
+  build-macos-release:
+    name: Build macOS Release
+    needs: create-release
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        brew install meson ninja pkg-config gtk+3 openssl@3
+
+    - name: Configure build
+      run: |
+        export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig:$PKG_CONFIG_PATH"
+        meson setup build -Dgtk2=false -Dgtk3=true --buildtype=release
+
+    - name: Build
+      run: ninja -C build
+
+    - name: Install to temporary prefix
+      run: |
+        DESTDIR="${{ github.workspace }}/install-root" ninja -C build install
+
+    - name: Create App Bundle
+      run: |
+        export INSTALL_PREFIX="${{ github.workspace }}/install-root/usr/local"
+        ./create_app_bundle.sh
+
+    - name: Sign App Bundle (if signing identity available)
+      continue-on-error: true
+      run: |
+        # This will only work if you have a signing certificate configured
+        # For unsigned builds, this step will be skipped
+        if security find-identity -v -p codesigning | grep -q "Developer ID"; then
+          echo "Signing app bundle..."
+          codesign --deep --force --verify --verbose \
+            --sign "Developer ID Application" \
+            gFTP.app
+        else
+          echo "No signing identity found, skipping code signing"
+        fi
+
+    - name: Create DMG
+      run: |
+        ./create_dmg.sh
+
+    - name: Get DMG filename
+      id: dmg_file
+      run: |
+        DMG_FILE=$(ls gFTP-*.dmg)
+        echo "filename=$DMG_FILE" >> $GITHUB_OUTPUT
+        echo "DMG file: $DMG_FILE"
+
+    - name: Upload DMG to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: ./${{ steps.dmg_file.outputs.filename }}
+        asset_name: ${{ steps.dmg_file.outputs.filename }}
+        asset_content_type: application/x-apple-diskimage
+
+  build-linux-release:
+    name: Build Linux Release
+    needs: create-release
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        gtk-version: [gtk2, gtk3]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          meson \
+          ninja-build \
+          pkg-config \
+          libglib2.0-dev \
+          libssl-dev \
+          gettext
+
+        if [ "${{ matrix.gtk-version }}" = "gtk2" ]; then
+          sudo apt-get install -y libgtk2.0-dev
+        else
+          sudo apt-get install -y libgtk-3-dev
+        fi
+
+    - name: Configure build
+      run: |
+        if [ "${{ matrix.gtk-version }}" = "gtk2" ]; then
+          meson setup build -Dgtk2=true -Dgtk3=false --buildtype=release
+        else
+          meson setup build -Dgtk2=false -Dgtk3=true --buildtype=release
+        fi
+
+    - name: Build
+      run: ninja -C build
+
+    - name: Create tarball
+      run: |
+        mkdir -p gftp-linux-${{ matrix.gtk-version }}
+        cp build/src/gtk/gftp-gtk gftp-linux-${{ matrix.gtk-version }}/
+        cp build/src/text/gftp-text gftp-linux-${{ matrix.gtk-version }}/
+        cp README.md LICENSE gftp-linux-${{ matrix.gtk-version }}/ || true
+        tar czf gftp-linux-${{ matrix.gtk-version }}-$(uname -m).tar.gz gftp-linux-${{ matrix.gtk-version }}
+
+    - name: Upload Linux build to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: ./gftp-linux-${{ matrix.gtk-version }}-${{ runner.arch }}.tar.gz
+        asset_name: gftp-linux-${{ matrix.gtk-version }}-${{ runner.arch }}.tar.gz
+        asset_content_type: application/gzip
+
+  build-source-release:
+    name: Build Source Release
+    needs: create-release
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Get version
+      id: get_version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          VERSION="${{ github.event.inputs.tag_name }}"
+        else
+          VERSION="${GITHUB_REF#refs/tags/}"
+        fi
+        VERSION="${VERSION#v}"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Create source tarball
+      run: |
+        git archive --format=tar.gz \
+          --prefix=gftp-${{ steps.get_version.outputs.version }}/ \
+          HEAD > gftp-${{ steps.get_version.outputs.version }}-source.tar.gz
+
+    - name: Upload source to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: ./gftp-${{ steps.get_version.outputs.version }}-source.tar.gz
+        asset_name: gftp-${{ steps.get_version.outputs.version }}-source.tar.gz
+        asset_content_type: application/gzip

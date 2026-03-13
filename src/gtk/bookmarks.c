@@ -730,13 +730,13 @@ GtkTreeView * btree_create()
 {
    // pixbufs..
    if (!opendir_pixbuf) {
-      opendir_pixbuf  = gftp_get_pixbuf("open_dir.xpm");
+      opendir_pixbuf  = gftp_get_pixbuf("open_dir");
    }
    if (!closedir_pixbuf) {
-      closedir_pixbuf = gftp_get_pixbuf("dir.xpm");
+      closedir_pixbuf = gftp_get_pixbuf("dir");
    }
    if (!bookmark_pixbuf) {
-      bookmark_pixbuf = gftp_get_pixbuf("txt.xpm");
+      bookmark_pixbuf = gftp_get_pixbuf("txt");
    }
 
    // create tree store

@@ -1,115 +1,59 @@
-The gFTP file transfer client. http://www.gftp.org
+# AI Session Instructions
 
-# FAQ
+This directory contains the **authoritative instructions** for using AI tools in this repository.
 
-## What are the requirements to compile/run gFTP?
+These files define **process, roles, and contracts**.
+They are versioned via Git and apply to all contributors.
 
-  - Glib 2.32+
-  - GTK 2.14+ (optional)
-  - OpenSSL (optional)
-  - libreadline (optional)
-  - OpenSSH client (enables SFTP (ssh2) support)
+---
 
+## Start Here
 
-## Supported protocols?
+1. Read **HOW_WE_USE_AI.md** (one-page overview)
+2. Choose the appropriate AI tool:
+    - **Gemini CLI** → use `AI_SESSION_INSTRUCTIONS/GEMINI_SESSION_OPEN.md`
+    - **Codex CLI** → use `AI_SESSION_INSTRUCTIONS/CODEX_SESSION_OPEN.md`
+3. For each new task:
+    - Use `AI_SESSION_INSTRUCTIONS/3TASK_PACKET_TEMPLATE.md` to create a **TASK_PACKET.md**
+    - Place the TASK_PACKET.md inside the appropriate task directory under:
+      ```
+      docs/current_task_documentation/<task-path>/
+      ```
 
-  - FTP (ftp://)
-  - FTPS (ftps://) (Explicit TLS - current standard for encrypted FTP)
-  - FTPSi (ftpsi://) (Implicit TLS, default port: 990)
-  - SSH2 SFTP (ssh2://) - requires OpenSSH client: `ssh`
-  - FSP (fsp://) (UDP File Service Protocol)
+---
 
+## Workflow Rules (Non-Negotiable)
 
-## How do I install gFTP?
+- **Gemini (Architect)**:
+    - Reads project context and task documentation
+    - Produces or updates TASK_PACKET.md using the template
+    - Does NOT write implementation code
 
-  ```
-  meson build
-  ninja -C build
-  ninja -C build install
-  ```
+- **Human Review**:
+    - Reviews TASK_PACKET.md for clarity and scope
+    - Marks status as **Ready for Build** before implementation begins
 
-## What systems is gFTP known to run on?
+- **Codex (Builder)**:
+    - Implements **exactly** what is in TASK_PACKET.md
+    - Touches only files listed in the packet
+    - Stops immediately if instructions are unclear or incomplete
 
-  - Linux distributions
-
-  If gFTP compiles and runs on a platform not listed here, please go to
-  https://github.com/masneyb/gftp/ and notify us.
-
-
-## How do I report bugs in gFTP?
-
-  Go to https://github.com/masneyb/gftp/issues
-
-  When sending in bug reports, PLEASE try to be as descriptive as
-  possible: what OS/version you are running, what compiler you are
-  compiling with, the output of gftp --info and any other important information.
+All subtask creation, scope, and enforcement rules are defined in AI_SESSION_INSTRUCTIONS/SUBTASKS.md.
 
 
-## How do I force running the text or gtk+ version of gFTP?
+---
 
-  To run the text port, you can type gftp-text or to run the gtk+ port, you can
-  run the gftp-gtk. The gftp command is just a shell script that checks if your
-  DISPLAY variable is set, and if so it'll run the appropriate version.
+## Source of Truth
 
+- **TASK_PACKET.md** is the single source of truth for implementation
+- If instructions conflict, **Codex must stop**
+- No implementation begins without an approved TASK_PACKET.md
 
-## Can gFTP download a bunch of files/directories and then exit when it's completed?
+---
 
-  Yes, the text port of gFTP supports this well. You can type:
-  gftp-text -d ftp://ftp.somesite.com/someplace.
-  If someplace is a directory, it'll automatically download all of its
-  subdirectories as well. If you want to transfer a file through ssh instead of
-  ftp, just change the ftp:// to ssh://.
+## Backup & Sync Note
 
+Files in this directory are versioned via **Git** and are the authoritative source
+for AI usage rules.
 
-## GTK UI: do I have to enter a port, username and password to connect to a ftp server?
-
-  No you don't. If you leave the port blank, it'll default to the default port
-  for the protocol you selected (port 21 for FTP). If you leave the username
-  blank, it will default to logging in as anonymous.
-
-
-## Where does gFTP store its options?
-
-  gFTP follows the XDG Base Directory Specification, it will automatically create a
-  `${XDG_CONFIG_HOME}/gftp` directory when it is first run. Your
-  config file is `${XDG_CONFIG_HOME}/gftp/gftprc`, and this is where all of gFTP's settings are
-  stored. The config file is well commented, so take a glance at it and see if
-  there is anything you want to change. Your bookmarks are stored in the file
-  `${XDG_CONFIG_HOME}/gftp/bookmarks`.
-
-  `${XDG_CONFIG_HOME}` is usually `${HOME}/.config`, unless you change it.
-
-  Every time gFTP is run, it will log the contents of the log window to 
-  `${XDG_CONFIG_HOME}/gftp/gftp.log`. The contents of this file will be automatically purged
-  from this file when gFTP is started up.
-
-
-## I can't transfer certain file types in binary mode using the FTP protocol.
-
-  Edit your `${XDG_CONFIG_HOME}/gftp/gftprc` file and look at the ext= lines towards the bottom of
-  the file. These lines control what icon is used for each file type. It also
-  controls what mode is used for the file transfer. For example, to transfer all
-  HTML files as binary, change the following two lines:
-
-  - ext=.htm:world.xpm:A:
-  - ext=.html:world.xpm:A:
-
-  to the following:
-  - ext=.htm:world.xpm:B:
-  - ext=.html:world.xpm:B:
-
-## When gFTP tries to get the remote directory listing, I receive the error: Cannot create a data connection: Connection refused
-
-  Go under gFTP->Options->FTP and turn off passive file transfers. Instead of
-  sending the PASV command to open up the data connection on the server side, the
-  data connection will be opened up on the client side, and the PORT command will
-  be sent to the server instead.
-
-
-## When using the FTPS protocol, gFTP cannot connect if the remote server uses a self signed certificate.
-
-  Go to `gFTP` menu -> `Preferences` -> `SSL Engine` and untick `Verify SSL Peer`
-
-  Or you should add the public key of your self signed CA to your OpenSSL certs
-  directory.
-
+**Do not copy or duplicate these files into OneDrive.**

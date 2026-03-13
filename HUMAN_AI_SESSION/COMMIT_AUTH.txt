@@ -1,0 +1,53 @@
+# ============================================================
+# AI Commit Authorization (machine-read config)
+# If this file does not exist, AI MUST NOT commit.
+# This file authorizes commits ONLY (never push).
+# Location: AI_SESSION/COMMIT_AUTH.txt
+# ============================================================
+
+# --------------------
+# Global Switch
+# --------------------
+enabled=true
+disallow_push=true
+disallow_protected_branches=main,master
+
+# --------------------
+# Global Safety Guards
+# --------------------
+require_no_unstaged_changes=true
+allow_untracked_files=true
+print_git_status_before_commit=true
+print_commit_diff_summary=true
+
+# --------------------
+# Global Defaults
+# --------------------
+allowed_types=docs,chore,feat,fix,task
+allowed_paths=docs/current_task_documentation,AI_SESSION,AI_SESSION/INSTRUCTIONS,AI_SESSION/TEMPLATES
+
+# --------------------
+# Gemini (Architect) Rules
+# --------------------
+gemini_enabled=true
+gemini_max_commits_per_session=3
+
+# Gemini is documentation-only
+gemini_allowed_types=docs,chore,task
+gemini_allowed_paths=docs/current_task_documentation,AI_SESSION,AI_SESSION/INSTRUCTIONS,AI_SESSION/TEMPLATES
+
+# Allowed commit phases (ordered, max one each)
+# - brief_checkpoint: after HUMAN_IDEA_BRIEF.md exists and initial TASK_PACKET_SUMMARY.md is created
+# - planning_freeze: after TASK_PACKET.md is approved (Ready for Build)
+# - review_closeout: ONLY upon explicit human direction after implementation review is completed
+gemini_commit_phases=brief_checkpoint,planning_freeze,review_closeout
+
+# --------------------
+# Codex (Builder) Rules
+# --------------------
+codex_enabled=true
+codex_max_commits_per_session=1
+
+# Codex may commit implementation + summary together (single checkpoint)
+codex_allowed_types=feat,fix,chore,task
+codex_allowed_paths=docs/current_task_documentation,lib,android,ios,analysis-engine-common,core-shared,motion-core,motion-core-common

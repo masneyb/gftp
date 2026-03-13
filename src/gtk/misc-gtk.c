@@ -161,6 +161,11 @@ void ftp_log (gftp_logging_level level, gftp_request * request,
     g_free (logstr);
 }
 
+void register_icons_on_macOS (void)
+{
+   GtkIconTheme *theme = gtk_icon_theme_get_default();
+   gtk_icon_theme_append_search_path(theme, "/MyApp.app/Contents/Resources/icons");
+}
 
 void update_window_info (void)
 {
@@ -811,28 +816,19 @@ void display_cached_logs (void)
 char * get_image_path (char *filename)
 {
    //DEBUG_PRINT_FUNC
-   char *path1 = NULL, *path2 = NULL, *found = NULL;
+   char *path1 = NULL, *found = NULL;
 
-   // see lib/misc.c -> gftp_get_share_dir ()
+   // Use gftp_get_share_dir(), which is controlled by GFTP_SHARE_DIR env var
    path1 = g_strconcat (gftp_get_share_dir (), "/", filename, NULL);
    if (access (path1, F_OK) == 0) {
       found = path1;
    }
 
    if (!found) {
-      path2 = g_strconcat ("/usr/share/gftp/", filename, NULL);
-      if (access (path2, F_OK) == 0) {
-         found = path2;
-      }
-   }
-   if (!found) {
-      if (path1) fprintf(stderr, "* %s: %s not found\n", PACKAGE_NAME, path1);
-      if (path2 && strcmp(path1,path2) != 0)
-                 fprintf(stderr, "* %s: %s not found\n", PACKAGE_NAME, path2);
+      // If not found, report error. Removed hardcoded /usr/share/gftp fallback.
    }
 
    if (path1 && path1 != found) g_free (path1);
-   if (path2 && path2 != found) g_free (path2);
 
    return (found);
 }
@@ -845,7 +841,7 @@ void set_window_icon(GtkWindow *window, char *icon_name)
   if (icon_name)
     img_path = get_image_path (icon_name);
   else
-    img_path = get_image_path ("gftp.png");
+    img_path = get_image_path ("gftp/gftp");
   if (img_path) {
     pixbuf = gdk_pixbuf_new_from_file(img_path, NULL);
     g_free (img_path);

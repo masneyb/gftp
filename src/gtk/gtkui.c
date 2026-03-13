@@ -523,23 +523,52 @@ _protocol_no_answer (gpointer answer, gftp_dialog_data * ddata)
 }
 
 
+/* Structure to pass data to the main thread for dialog creation */
+typedef struct {
+  char *title;
+  char *question;
+  int *answer;
+} YesNoDialogData;
+
+/* Callback function that runs on the main thread to create the dialog */
+static gboolean
+_create_yes_no_dialog_on_main_thread (gpointer user_data)
+{
+  YesNoDialogData *data = (YesNoDialogData *) user_data;
+
+  YesNoDialog (main_window, data->title, data->question,
+               _protocol_yes_answer, data->answer,
+               _protocol_no_answer, data->answer);
+
+  /* Free the allocated strings */
+  g_free (data->title);
+  g_free (data->question);
+  g_free (data);
+
+  return FALSE; /* Remove the idle handler */
+}
+
 int
 gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
                             char *question)
 {
   DEBUG_PRINT_FUNC
   int answer = -1;
-  GDK_THREADS_ENTER ();
+  YesNoDialogData *data;
 
-  YesNoDialog (main_window, title, question,
-               _protocol_yes_answer, &answer,
-               _protocol_no_answer, &answer);
+  /* On macOS (and GTK3 in general), GUI operations must happen on the main thread.
+   * Use g_idle_add to schedule the dialog creation on the main thread. */
+  data = g_malloc0 (sizeof (*data));
+  data->title = g_strdup (title);
+  data->question = g_strdup (question);
+  data->answer = &answer;
+
+  /* Schedule the dialog creation on the main thread */
+  g_idle_add (_create_yes_no_dialog_on_main_thread, data);
 
   if (gftp_protocols[request->protonum].use_threads)
     {
-      /* Let the main loop in the main thread run the events */
-      GDK_THREADS_LEAVE ();
-
+      /* Wait for the user to answer */
       while (answer == -1)
         {
           sleep (1);
@@ -547,9 +576,9 @@ gftpui_protocol_ask_yes_no (gftp_request * request, char *title,
     }
   else
     {
+      /* If not using threads, process events until we get an answer */
       while (answer == -1)
         {
-          GDK_THREADS_LEAVE ();
           g_main_context_iteration (NULL, TRUE);
         }
     }

@@ -36,7 +36,7 @@
 
 typedef struct
 {
-   GdkPixbuf *icon;
+   const gchar *icon;
    gchar *filename;
    gchar *size;
    gchar *date;
@@ -61,6 +61,23 @@ enum
 
 #define LB_NUM_VISIBLE_COLUMNS (LISTBOX_NUM_COLUMNS - 1)
 
+static gchar*
+remove_extension (const gchar *filename)
+{
+  gchar *name, *last_dot;
+
+  if (filename == NULL)
+    return NULL;
+
+  name = g_strdup (filename);
+  last_dot = strrchr (name, '.');
+
+  if (last_dot != NULL && last_dot != name)
+    *last_dot = '\0';
+
+  return name;
+}
+
 /* ============================================================== *
  * create_listbox()
  * ============================================================== */
@@ -75,7 +92,7 @@ GtkWidget * create_listbox (gftp_window_data *wdata)
    // see gtk_list_store_set
    GtkListStore *store;
    store = gtk_list_store_new (LISTBOX_NUM_COLUMNS,
-                               GDK_TYPE_PIXBUF,
+                               G_TYPE_STRING,
                                G_TYPE_STRING,
                                G_TYPE_STRING,
                                G_TYPE_STRING,
@@ -132,7 +149,7 @@ void listbox_add_columns (gftp_window_data *wdata)
                            NULL);
    column = gtk_tree_view_column_new_with_attributes ("",
                                                       renderer,
-                                                      "pixbuf",
+                                                      "icon-name",
                                                       LISTBOX_COL_ICON,
                                                       NULL);
    gtk_tree_view_column_set_clickable (column, TRUE);
@@ -332,13 +349,14 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    GList                 *templist;
    size_t stlen;
    int empty_size = 0;
+   gchar *icon_name_to_free = NULL;
 
    GtkTreeView  *tree  = GTK_TREE_VIEW(wdata->listbox);
    GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (tree));
    GtkTreeIter  iter;
 
    listbox_columns col_data;
-   memset(&col_data, 0, sizeof(col_data));
+   col_data.icon = NULL;
    col_data.gftp_file = (void*) fle;
 
    if (wdata->show_selected) {
@@ -357,20 +375,20 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    gtk_list_store_append (store, &iter);
 
    if (strcmp (fle->file, "..") == 0) {
-      col_data.icon = gftp_get_pixbuf("dotdot.xpm");
+      col_data.icon = "dotdot";
       empty_size = 1;
    } else if (S_ISLNK (fle->st_mode) && S_ISDIR (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("linkdir.xpm");
+      col_data.icon = "linkdir";
       empty_size = 1;
    } else if (S_ISLNK (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("linkfile.xpm");
+      col_data.icon = "linkfile";
    } else if (S_ISDIR (fle->st_mode)) {
-      col_data.icon = gftp_get_pixbuf("dir.xpm");
+      col_data.icon = "dir";
       empty_size = 1;
    } else if ((fle->st_mode & S_IXUSR) ||
            (fle->st_mode & S_IXGRP) ||
            (fle->st_mode & S_IXOTH)) {
-      col_data.icon = gftp_get_pixbuf("exe.xpm");
+      col_data.icon = "exe";
    } else {
       stlen = strlen (fle->file);
       gftp_lookup_global_option ("ext", &tmplistvar);
@@ -381,7 +399,8 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
          if (stlen >= tempext->stlen &&
              strcmp (&fle->file[stlen - tempext->stlen], tempext->ext) == 0)
          {
-            col_data.icon = gftp_get_pixbuf(tempext->filename);
+            icon_name_to_free = remove_extension(tempext->filename);
+            col_data.icon = icon_name_to_free;
             break;
          }
          templist = templist->next;
@@ -389,7 +408,7 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    }
 
    if (!col_data.icon) {
-      col_data.icon = gftp_get_pixbuf ("doc.xpm");
+      col_data.icon = "doc";
    }
 
    if (fle->file) {
@@ -401,8 +420,8 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
    }
    else {
       if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode)) {
-         col_data.size = g_strdup_printf ("%ld, %ld", major (fle->size),
-                               minor (fle->size));
+         col_data.size = g_strdup_printf ("%ld, %ld", (long)major (fle->size),
+                               (long)minor (fle->size));
       }else{
          col_data.size = insert_commas (fle->size, NULL, 0);
       }
@@ -435,6 +454,7 @@ static void listbox_add_file (gftp_window_data * wdata, gftp_file * fle)
                        LISTBOX_COL_GFTPFILE, col_data.gftp_file,
                       -1);
 
+   if (icon_name_to_free) g_free (icon_name_to_free);
    if (col_data.size)    g_free (col_data.size);
    if (col_data.attribs) g_free (col_data.attribs);
 }
@@ -599,9 +619,9 @@ void * listbox_get_selected_files (gftp_window_data *wdata, int only_one)
 
 void listbox_set_default_column_width (gftp_window_data *wdata)
 {
+#ifndef __APPLE__
    // set column width from config
    GtkTreeView *tree = GTK_TREE_VIEW  (wdata->listbox);
-
    char tempstr[50];
    intptr_t colwidth;
    GtkTreeViewColumn *tcol;
@@ -610,7 +630,6 @@ void listbox_set_default_column_width (gftp_window_data *wdata)
       "icon", "file", "size", "date", "user", "group", "attribs"
    };
 
-#ifndef __APPLE__
    int ncol;
    for (ncol = 1; ncol < LB_NUM_VISIBLE_COLUMNS; ncol++)
    {

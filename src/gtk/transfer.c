@@ -86,8 +86,8 @@ GtkWidget *  transfer_list_create (void)
   GtkCellRenderer   *renderer;
   GtkIconTheme *icon_theme = gtk_icon_theme_get_default();
 
-  //up_pixbuf = gftp_get_pixbuf ("go-up.png");
-  //down_pixbuf = gftp_get_pixbuf ("go-down.png");
+  up_pixbuf = gftp_get_pixbuf ("go-up");
+  down_pixbuf = gftp_get_pixbuf ("go-down");
 
   if (!up_pixbuf) up_pixbuf = gtk_icon_theme_load_icon (icon_theme,"go-up",16,0, NULL);
   if (!up_pixbuf) up_pixbuf = gtk_icon_theme_load_icon (icon_theme,"gtk-go-up",16,0, NULL);
@@ -789,8 +789,8 @@ static void  show_transfer (gftp_transfer * tdata)
   GdkPixmap * closedir_pixmap, * opendir_pixmap;
   GdkBitmap * closedir_bitmap, * opendir_bitmap;
 
-  gftp_get_pixmap (dlwdw, "open_dir.xpm", &opendir_pixmap, &opendir_bitmap);
-  gftp_get_pixmap (dlwdw, "dir.xpm", &closedir_pixmap, &closedir_bitmap);
+  gftp_get_pixmap (dlwdw, "open_dir", &opendir_pixmap, &opendir_bitmap);
+  gftp_get_pixmap (dlwdw, "dir", &closedir_pixmap, &closedir_bitmap);
 #endif
 
   text[0] = tdata->fromreq->hostname;

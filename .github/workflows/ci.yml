@@ -1,0 +1,152 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  check-format:
+    name: Check Code
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check for trailing whitespace
+      run: |
+        ! git grep -I --line-number --perl-regexp '\s+$' -- ':!*.patch' ':!*.diff' || \
+        (echo "Found trailing whitespace in the lines above" && exit 1)
+
+    - name: Check for tabs in source files
+      continue-on-error: true
+      run: |
+        ! git grep -I --line-number --perl-regexp '\t' -- '*.c' '*.h' || \
+        echo "Found tabs in source files (warning only)"
+
+  build-minimal:
+    name: Build (minimal)
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install minimal dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y meson ninja-build pkg-config libglib2.0-dev
+
+    - name: Configure (text-only, no SSL)
+      run: |
+        meson setup build -Dgtkport=false -Dssl=false
+
+    - name: Build
+      run: ninja -C build
+
+  build-debug:
+    name: Build (debug mode)
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          meson \
+          ninja-build \
+          pkg-config \
+          libglib2.0-dev \
+          libgtk-3-dev \
+          libssl-dev \
+          gettext
+
+    - name: Configure (debug build)
+      run: |
+        meson setup build --buildtype=debug -Dgtk2=false -Dgtk3=true
+
+    - name: Build
+      run: ninja -C build
+
+    - name: Check debug symbols
+      run: |
+        file build/src/gtk/gftp-gtk | grep -q "not stripped" || \
+        (echo "ERROR: Debug build should not be stripped" && exit 1)
+
+  build-warnings:
+    name: Build with extra warnings
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          meson \
+          ninja-build \
+          pkg-config \
+          libglib2.0-dev \
+          libgtk-3-dev \
+          libssl-dev \
+          gettext
+
+    - name: Configure with warnings
+      run: |
+        meson setup build \
+          --buildtype=debug \
+          --werror \
+          -Dgtk2=false \
+          -Dgtk3=true \
+          -Dgtkwarnings=true
+
+    - name: Build
+      run: ninja -C build
+
+  test-install:
+    name: Test installation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          meson \
+          ninja-build \
+          pkg-config \
+          libglib2.0-dev \
+          libgtk-3-dev \
+          libssl-dev \
+          gettext
+
+    - name: Configure
+      run: |
+        meson setup build -Dgtk2=false -Dgtk3=true
+
+    - name: Build
+      run: ninja -C build
+
+    - name: Test install to temporary prefix
+      run: |
+        DESTDIR="${{ github.workspace }}/install-test" ninja -C build install
+
+    - name: Verify installation
+      run: |
+        test -f "${{ github.workspace }}/install-test/usr/local/bin/gftp-gtk" || \
+        (echo "ERROR: gftp-gtk not installed" && exit 1)
+
+        test -f "${{ github.workspace }}/install-test/usr/local/bin/gftp-text" || \
+        (echo "ERROR: gftp-text not installed" && exit 1)
+
+        echo "Installation verification passed"

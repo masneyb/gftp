@@ -25,6 +25,10 @@
 
 #include "gftp-gtk.h"
 
+#if defined(__APPLE__)
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
 static GtkWidget * local_frame, * remote_frame, * log_scroll, * transfer_scroll,
                  * gftpui_command_toolbar;
 
@@ -173,6 +177,19 @@ static void
 _gftp_force_close (GtkWidget * widget, gpointer data)
 {
   exit (0);
+}
+
+
+static void
+_gftp_gtk_signal_handler (int signo)
+{
+  /* For GTK applications, we need to quit the GTK main loop properly
+     instead of just calling exit(). Call the cleanup function which
+     saves settings and then exits. */
+  if (signo == SIGINT)
+    {
+      _gftp_exit (NULL, NULL);
+    }
 }
 
 
@@ -755,7 +772,8 @@ CreateConnectToolbar (GtkWidget * parent)
   toolbar = box;
 #endif
 
-  tempwid = gtk_image_new_from_icon_name ("gtk-network", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  /* Use standard freedesktop icon name instead of deprecated gtk-network */
+  tempwid = gtk_image_new_from_icon_name ("network-server", GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   openurl_btn = gtk_button_new ();
   // gtk4 - gtk_button_set_child (openurl_btn, tempwid);
@@ -856,7 +874,8 @@ CreateConnectToolbar (GtkWidget * parent)
   gftp_lookup_global_option ("default_protocol", &default_protocol);
   populate_combo_and_select_protocol (toolbar_combo_protocol, default_protocol);
 
-  tempwid = gtk_image_new_from_icon_name ("gtk-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  /* Use standard freedesktop icon name instead of deprecated gtk-stop */
+  tempwid = gtk_image_new_from_icon_name ("process-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   stop_btn = gtk_button_new ();
 
@@ -1466,10 +1485,14 @@ static void _setup_window2 (int argc, char **argv)
 }
 
 
+
+
 int
 main (int argc, char **argv)
 {
   GtkWidget *ui;
+
+
 
   /* We override the read color functions because we are using a GdkColor 
      structures to store the color. If I put this in lib/config_file.c, then 
@@ -1480,10 +1503,22 @@ main (int argc, char **argv)
   gftpui_common_init (&argc, &argv, ftp_log);
   gftpui_common_child_process_done = 0;
 
+  /* Override the common signal handler with GTK-specific one that properly
+     quits the GTK main loop instead of calling exit() directly */
+  signal (SIGINT, _gftp_gtk_signal_handler);
+
   gdk_threads_init();
   GDK_THREADS_ENTER ();
   main_thread_id = pthread_self ();
   gtk_init (&argc, &argv);
+
+  GtkIconTheme *icon_theme;
+  char *icon_path;
+
+  icon_theme = gtk_icon_theme_get_default ();
+  icon_path = g_strconcat (gftp_get_share_dir (), "/icons", NULL);
+  gtk_icon_theme_prepend_search_path (icon_theme, icon_path);
+  g_free (icon_path);
 
   graphic_hash_table = g_hash_table_new (string_hash_function,
                                          string_hash_compare);
@@ -1497,6 +1532,7 @@ main (int argc, char **argv)
   g_signal_connect (G_OBJECT (main_window), "destroy",
 		      G_CALLBACK (_gftp_force_close), NULL);
   gtk_window_set_title (main_window, gftp_version);
+  gtk_window_set_position (main_window, GTK_WIN_POS_CENTER);
   gtk_window_set_role (main_window, "main");
   gtk_widget_set_name (GTK_WIDGET(main_window), gftp_version);
 #if GTK_MAJOR_VERSION==2

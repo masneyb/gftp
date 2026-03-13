@@ -95,6 +95,13 @@
 #define DEBUG_PUTS(x)
 #endif
 
+/* Macro to mark unused parameters and suppress warnings */
+#ifdef __GNUC__
+#define UNUSED(x) x __attribute__((unused))
+#else
+#define UNUSED(x) x
+#endif
+
 #ifdef USE_SSL
 #include <openssl/bio.h>
 #include <openssl/err.h>
@@ -159,10 +166,18 @@
 #define gftp_parse_file_size(str) strtol(str, NULL, 10)
 #endif
 
+#ifdef __APPLE__
+/* macOS: off_t is long long, not intmax_t */
+#define GFTP_OFF_T_HEX_PRINTF_MOD  "%llx"
+#define GFTP_OFF_T_INTL_PRINTF_MOD "%'lld"
+#define GFTP_OFF_T_PRINTF_MOD      "%lld"
+#define GFTP_OFF_T_11PRINTF_MOD    "%11lld"
+#else
 #define GFTP_OFF_T_HEX_PRINTF_MOD  "%jx"
 #define GFTP_OFF_T_INTL_PRINTF_MOD "%'jd"
 #define GFTP_OFF_T_PRINTF_MOD      "%jd"
 #define GFTP_OFF_T_11PRINTF_MOD    "%11jd"
+#endif
 
 /* Error types */
 #define GFTP_ERETRYABLE -1 /* Temporary failure. The GUI should wait briefly */

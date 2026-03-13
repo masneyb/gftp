@@ -1,0 +1,28 @@
+✓ COMPLETED: Relocatable translations for macOS app bundles
+
+Implementation:
+- Added CoreFoundation framework support in meson.build
+- Modified gftp_locale_init() to detect app bundle at runtime
+- Automatically loads translations from gFTP.app/Contents/Resources/locale/
+- Falls back to traditional install location if not in bundle
+- Created create_app_bundle.sh script to package translations
+
+Result:
+- gFTP.app now includes all 64 locales
+- Translations are relocatable - bundle can be moved anywhere
+- No wrapper scripts or environment variables needed
+- Backward compatible with traditional Unix installs
+
+See README.AppBundle.md for complete documentation
+
+---
+
+To create app bundle:
+  cd ~/source/jhbuild/checkout/gftp
+  ./create_app_bundle.sh
+
+To test:
+  open gFTP.app
+
+To test translations:
+  LANG=es_ES.UTF-8 ./gFTP.app/Contents/MacOS/gftp-gtk

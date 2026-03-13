@@ -25,6 +25,40 @@
 #include "options.h"
 #include <fnmatch.h>
 
+#ifdef HAVE_COREFOUNDATION
+#include <CoreFoundation/CoreFoundation.h>
+#include <limits.h>
+
+static char *gftp_get_bundle_resource_path(const char *resource_name)
+{
+    CFBundleRef bundle = CFBundleGetMainBundle();
+    if (!bundle) {
+        return NULL;
+    }
+
+    CFURLRef resourceURL = CFBundleCopyResourcesDirectoryURL(bundle);
+    if (!resourceURL) {
+        return NULL;
+    }
+
+    char path[PATH_MAX];
+    if (!CFURLGetFileSystemRepresentation(resourceURL, TRUE, (UInt8 *)path, PATH_MAX)) {
+        CFRelease(resourceURL);
+        return NULL;
+    }
+
+    CFRelease(resourceURL);
+
+    char *resource_path = g_build_filename(path, resource_name, NULL);
+    if (!g_file_test(resource_path, G_FILE_TEST_EXISTS)) {
+        g_free(resource_path);
+        return NULL;
+    }
+
+    return resource_path;
+}
+#endif
+
 char * BASE_CONF_DIR = NULL;
 char * CONFIG_FILE = NULL;
 char * BOOKMARKS_FILE = NULL;
@@ -797,7 +831,7 @@ gftp_gen_ls_string (gftp_request * request, gftp_file * fle,
   g_free (attribs);
 
   if (GFTP_IS_SPECIAL_DEVICE (fle->st_mode))
-    tempstr2 = g_strdup_printf ("%ld, %ld", major (fle->size), minor (fle->size));
+    tempstr2 = g_strdup_printf ("%d, %d", (int)major (fle->size), (int)minor (fle->size));
   else
     tempstr2 = g_strdup_printf (GFTP_OFF_T_11PRINTF_MOD, fle->size);
 
@@ -966,13 +1000,36 @@ void gftp_locale_init (void)
 {
   DEBUG_PRINT_FUNC
 #ifdef HAVE_GETTEXT
+  char *locale_dir = NULL;
+
   setlocale (LC_ALL, "");
   textdomain ("gftp");
-  bindtextdomain ("gftp", LOCALE_DIR);
+
+#if defined(__APPLE__) && defined(HAVE_COREFOUNDATION)
+  locale_dir = gftp_get_bundle_resource_path("locale");
+#endif /* defined(__APPLE__) */
+
+  /* Fall back to compile-time location if not in bundle or bundle path doesn't exist */
+  bindtextdomain ("gftp", locale_dir ? locale_dir : LOCALE_DIR);
   bind_textdomain_codeset ("gftp", "UTF-8");
+
+  if (locale_dir)
+    g_free(locale_dir);
 #endif /* HAVE_GETTEXT */
+
+#if defined(__APPLE__)
+  // Check for GFTP_CONFIG_DIR environment variable
+  char *config_env = getenv("GFTP_CONFIG_DIR");
+  if (config_env != NULL && *config_env != '\0') {
+      BASE_CONF_DIR = g_strdup(config_env);
+  } else {
+      // On macOS, configuration files are in ~/Library/Application Support/gftp
+      BASE_CONF_DIR = g_build_filename(g_get_home_dir(), "Library", "Application Support", "gftp", NULL);
+  }
+#else
   // XDG SPEC (XDG_CONFIG_HOME defaults to $HOME/.config/ + gftp)
   BASE_CONF_DIR = g_build_filename (g_get_user_config_dir(), "gftp", NULL);
+#endif
   if (g_mkdir_with_parents (BASE_CONF_DIR, 0755) == -1)
   {
     printf (_("gFTP Error: Could not make directory %s: %s\n"),
@@ -1086,15 +1143,29 @@ char * gftp_get_share_dir (void)
 {
   DEBUG_PRINT_FUNC
   char *envval;
+
+  // Always check env var first. If set, it overrides everything.
+  envval = getenv ("GFTP_SHARE_DIR");
+  if (envval && *envval) {
+      if (gftp_share_dir != NULL && free_share_dir) g_free(gftp_share_dir);
+      gftp_share_dir = g_strdup (envval);
+      free_share_dir = 1;
+      return (gftp_share_dir);
+  }
+
+  // If env var not set, then proceed with existing logic (initialize only once)
   if (gftp_share_dir == NULL)
   {
-      envval = getenv ("GFTP_SHARE_DIR");
-      if (envval && *envval) {
-          gftp_share_dir = g_strdup (envval);
-          free_share_dir = 1;
-      } else {
-          gftp_share_dir = SHARE_DIR;
-      }
+#if defined(__APPLE__) && defined(HAVE_COREFOUNDATION)
+    gftp_share_dir = gftp_get_bundle_resource_path("share");
+    if (gftp_share_dir != NULL) {
+        free_share_dir = 1;
+    }
+#endif
+    if (gftp_share_dir == NULL) {
+        gftp_share_dir = SHARE_DIR;
+        free_share_dir = 0;
+    }
   }
   return (gftp_share_dir);
 }
@@ -1103,15 +1174,27 @@ char * gftp_get_doc_dir (void)
 {
   DEBUG_PRINT_FUNC
   char *envval;
+
+  envval = getenv ("GFTP_DOC_DIR");
+  if (envval && *envval) {
+      if (gftp_doc_dir != NULL && free_doc_dir) g_free(gftp_doc_dir);
+      gftp_doc_dir = g_strdup (envval);
+      free_doc_dir = 1;
+      return (gftp_doc_dir);
+  }
+
   if (gftp_doc_dir == NULL)
   {
-      envval = getenv ("GFTP_DOC_DIR");
-      if (envval && *envval) {
-          gftp_doc_dir = g_strdup (envval);
-          free_doc_dir = 1;
-      } else {
-          gftp_doc_dir = DOC_DIR;
-      }
+#if defined(__APPLE__) && defined(HAVE_COREFOUNDATION)
+    gftp_doc_dir = gftp_get_bundle_resource_path("doc");
+    if (gftp_doc_dir != NULL) {
+        free_doc_dir = 1;
+    }
+#endif
+    if (gftp_doc_dir == NULL) {
+      gftp_doc_dir = DOC_DIR;
+      free_doc_dir = 0;
+    }
   }
   return (gftp_doc_dir);
 }
@@ -1143,10 +1226,10 @@ void gftp_format_file_size(off_t bytes, char *out_buffer, size_t buffer_size)
     snprintf(out_buffer, buffer_size, "%s MiB", tmp);
   }
   else if (bytes >= 1024) {
-    snprintf(out_buffer, buffer_size, "%jd KiB", bytes / 1024);
+    snprintf(out_buffer, buffer_size, "%lld KiB", (long long)(bytes / 1024));
   }
   else {
-    snprintf(out_buffer, buffer_size, "%jd B", bytes);
+    snprintf(out_buffer, buffer_size, "%lld B", (long long)bytes);
   }
 }
 

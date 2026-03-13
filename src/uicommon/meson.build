@@ -3,9 +3,5 @@ sources = [
     'gftpuicallbacks.c'
 ]
 
-libgftpui = static_library(
-    'libgftpui',
-    sources,
-    dependencies: [glib, pthread],
-    install: false
-)
+libgftpui_sources = sources
+libgftpui_deps = [glib, pthread]

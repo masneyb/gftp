@@ -1,0 +1,309 @@
+name: Build macOS App Bundle
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  release:
+    types: [ published ]
+  workflow_dispatch:  # Allow manual trigger
+
+env:
+  JHBUILD_PREFIX: ${{ github.workspace }}/jhbuild/install
+  APP_NAME: gFTP
+
+jobs:
+  build-macos:
+    runs-on: macos-14  # macOS Sonoma with Apple Silicon
+
+    steps:
+    - name: Checkout gFTP source
+      uses: actions/checkout@v4
+      with:
+        path: gftp
+        submodules: recursive
+
+    - name: Set up environment variables
+      run: |
+        echo "JHBUILD_ROOT=${{ github.workspace }}/jhbuild" >> $GITHUB_ENV
+        echo "BUNDLE_NAME=gFTP-${{ github.sha }}" >> $GITHUB_ENV
+
+    - name: Check for cached jhbuild
+      id: cache-jhbuild
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ github.workspace }}/jhbuild/install
+        key: jhbuild-gtk3-${{ runner.os }}-${{ hashFiles('gftp/.github/workflows/jhbuild-deps.txt') }}
+        restore-keys: |
+          jhbuild-gtk3-${{ runner.os }}-
+
+    - name: Install Homebrew build tools
+      run: |
+        # Only install build tools, NOT libraries
+        brew install meson ninja cmake automake autoconf libtool pkg-config gettext intltool
+
+    - name: Setup jhbuild (if not cached)
+      if: steps.cache-jhbuild.outputs.cache-hit != 'true'
+      run: |
+        set -e
+
+        # Create jhbuild directory structure
+        mkdir -p ${{ env.JHBUILD_ROOT }}/{install,checkout,build,pkgs,modulesets}
+
+        echo "=== Copying and building jhbuild ==="
+        mkdir -p ${{ env.JHBUILD_ROOT }}/jhbuild-src
+        cp -r gftp/third_party/jhbuild/* ${{ env.JHBUILD_ROOT }}/jhbuild-src/
+        cd ${{ env.JHBUILD_ROOT }}/jhbuild-src
+        ./autogen.sh --simple-install --prefix=${{ env.JHBUILD_PREFIX }}
+        make
+        make install
+
+        echo "=== Downloading modulesets ==="
+        cd ${{ env.JHBUILD_ROOT }}/modulesets
+        curl -fsSL -O https://gitlab.gnome.org/GNOME/gtk-osx/-/raw/master/modulesets-stable/gtk-osx-bootstrap.modules
+        curl -fsSL -O https://gitlab.gnome.org/GNOME/gtk-osx/-/raw/master/modulesets-stable/gtk-osx.modules
+
+        echo "=== Creating jhbuildrc ==="
+        cat > ${{ env.JHBUILD_ROOT }}/jhbuildrc << 'JHBUILDRC_EOF'
+        import os
+
+        prefix = '${{ env.JHBUILD_PREFIX }}'
+        checkoutroot = '${{ env.JHBUILD_ROOT }}/checkout'
+        buildroot = '${{ env.JHBUILD_ROOT }}/build'
+        tarballdir = '${{ env.JHBUILD_ROOT }}/pkgs'
+
+        os.environ['CC'] = '/usr/bin/clang'
+        os.environ['CXX'] = '/usr/bin/clang++'
+
+        _sdk = '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'
+        os.environ['CFLAGS'] = f'-isysroot {_sdk} -I{prefix}/include'
+        os.environ['LDFLAGS'] = f'-isysroot {_sdk} -L{prefix}/lib'
+        os.environ['PKG_CONFIG_LIBDIR'] = f'{prefix}/lib/pkgconfig:{prefix}/share/pkgconfig'
+
+        moduleset = ['gtk-osx-bootstrap.modules', 'gtk-osx.modules']
+        modules = ['meta-gtk-osx-bootstrap', 'meta-gtk-osx-gtk3', 'gtk-mac-integration']
+
+        makeargs = '-j$(sysctl -n hw.ncpu)'
+        skip = ['gtk-doc']
+        JHBUILDRC_EOF
+
+        echo "=== Building GTK3 stack (this will take 1-2 hours) ==="
+        export PATH=${{ env.JHBUILD_PREFIX }}/bin:$PATH
+
+        ${{ env.JHBUILD_PREFIX }}/bin/jhbuild -f ${{ env.JHBUILD_ROOT }}/jhbuildrc build meta-gtk-osx-bootstrap
+        ${{ env.JHBUILD_PREFIX }}/bin/jhbuild -f ${{ env.JHBUILD_ROOT }}/jhbuildrc build meta-gtk-osx-gtk3
+        ${{ env.JHBUILD_PREFIX }}/bin/jhbuild -f ${{ env.JHBUILD_ROOT }}/jhbuildrc build gtk-mac-integration
+
+        echo "=== jhbuild setup complete ==="
+
+    - name: Verify jhbuild installation
+      run: |
+        echo "=== Verifying jhbuild installation ==="
+        ls -lh ${{ env.JHBUILD_PREFIX }}/bin/
+        ls -lh ${{ env.JHBUILD_PREFIX }}/lib/ | head -20
+
+        export PKG_CONFIG_PATH=${{ env.JHBUILD_PREFIX }}/lib/pkgconfig
+        pkg-config --modversion gtk+-3.0
+        pkg-config --modversion gtk-mac-integration-gtk3
+
+    - name: Build gFTP
+      run: |
+        set -e
+
+        export PATH=${{ env.JHBUILD_PREFIX }}/bin:$PATH
+        export PKG_CONFIG_PATH=${{ env.JHBUILD_PREFIX }}/lib/pkgconfig:${{ env.JHBUILD_PREFIX }}/share/pkgconfig
+
+        cd gftp
+
+        echo "=== Configuring gFTP with meson ==="
+        meson setup build \
+          -Dgtk3=true \
+          -Dgtk2=false \
+          -Dssl=true \
+          --prefix=${{ env.JHBUILD_PREFIX }}
+
+        echo "=== Building gFTP ==="
+        meson compile -C build
+
+        echo "=== Installing gFTP ==="
+        meson install -C build
+
+        echo "=== Verifying installation ==="
+        ls -lh ${{ env.JHBUILD_PREFIX }}/bin/gftp*
+
+    - name: Checkout AppBundleGenerator
+      uses: actions/checkout@v4
+      with:
+        repository: sedwards-ibowl/AppBundleGenerator
+        path: AppBundleGenerator
+
+    - name: Build AppBundleGenerator
+      run: |
+        cd AppBundleGenerator
+        make
+        ./AppBundleGenerator --help
+
+    - name: Create macOS App Bundle
+      run: |
+        set -e
+
+        cd gftp
+
+        # Set up environment
+        export PATH=${{ env.JHBUILD_PREFIX }}/bin:$PATH
+        export PKG_CONFIG_PATH=${{ env.JHBUILD_PREFIX }}/lib/pkgconfig
+
+        # Find icon
+        ICON_PATH=""
+        for icon in icons/48x48/gftp.png icons/scalable/gftp.svg; do
+          if [ -f "$icon" ]; then
+            ICON_PATH="$icon"
+            break
+          fi
+        done
+
+        echo "Using icon: $ICON_PATH"
+
+        # Create bundle
+        ${{ github.workspace }}/AppBundleGenerator/AppBundleGenerator \
+          --icon "$ICON_PATH" \
+          --identifier org.gftp.gftp-gtk \
+          --version "2.9.1b-${{ github.sha }}" \
+          --category public.app-category.utilities \
+          --min-os 12.0 \
+          --sign - \
+          --hardened-runtime \
+          --allow-dyld-vars \
+          --stage-dependencies ${{ env.JHBUILD_PREFIX }} \
+          "gFTP" \
+          ${{ github.workspace }} \
+          ${{ env.JHBUILD_PREFIX }}/bin/gftp-gtk
+
+        echo "=== Bundle created ==="
+        ls -lh ${{ github.workspace }}/gFTP.app
+        du -sh ${{ github.workspace }}/gFTP.app
+
+    - name: Validate App Bundle
+      run: |
+        cd gftp
+        chmod +x scripts/validate_bundle.sh
+        ./scripts/validate_bundle.sh ${{ github.workspace }}/gFTP.app || true
+
+    - name: Import Code Signing Certificate (for releases)
+      if: github.event_name == 'release' && env.MACOS_CERTIFICATE != ''
+      env:
+        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+        MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+      run: |
+        # Decode certificate and import to keychain
+        echo "$MACOS_CERTIFICATE" | base64 --decode > certificate.p12
+
+        # Create temporary keychain
+        security create-keychain -p actions temp.keychain
+        security set-keychain-settings -lut 21600 temp.keychain
+        security unlock-keychain -p actions temp.keychain
+
+        # Import certificate
+        security import certificate.p12 \
+          -k temp.keychain \
+          -P "$MACOS_CERTIFICATE_PWD" \
+          -T /usr/bin/codesign
+
+        security set-key-partition-list -S apple-tool:,apple: -s -k actions temp.keychain
+
+        # Clean up
+        rm certificate.p12
+
+        echo "Certificate imported successfully"
+
+    - name: Sign App Bundle with Developer ID (for releases)
+      if: github.event_name == 'release' && env.MACOS_CERTIFICATE != ''
+      env:
+        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+      run: |
+        codesign --deep --force \
+          --sign "Developer ID Application" \
+          --options runtime \
+          --timestamp \
+          ${{ github.workspace }}/gFTP.app
+
+        # Verify signature
+        codesign -dv --verbose=4 ${{ github.workspace }}/gFTP.app
+        spctl -a -vv ${{ github.workspace }}/gFTP.app || true
+
+    - name: Create DMG
+      run: |
+        # Install create-dmg tool
+        brew install create-dmg
+
+        cd gftp
+
+        # Create DMG
+        create-dmg \
+          --volname "gFTP" \
+          --volicon "icons/48x48/gftp.png" \
+          --window-pos 200 120 \
+          --window-size 800 400 \
+          --icon-size 100 \
+          --icon "gFTP.app" 200 190 \
+          --hide-extension "gFTP.app" \
+          --app-drop-link 600 185 \
+          --no-internet-enable \
+          "${{ github.workspace }}/gFTP-${{ github.ref_name }}.dmg" \
+          "${{ github.workspace }}/gFTP.app" || {
+            # Fallback: simple DMG if create-dmg fails
+            hdiutil create -volname "gFTP" \
+              -srcfolder "${{ github.workspace }}/gFTP.app" \
+              -ov -format UDZO \
+              "${{ github.workspace }}/gFTP-${{ github.ref_name }}.dmg"
+          }
+
+        ls -lh ${{ github.workspace }}/*.dmg
+
+    - name: Upload App Bundle Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: gFTP-macOS-${{ github.sha }}
+        path: ${{ github.workspace }}/gFTP.app
+        retention-days: 30
+        compression-level: 9
+
+    - name: Upload DMG Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: gFTP-DMG-${{ github.sha }}
+        path: ${{ github.workspace }}/*.dmg
+        retention-days: 90
+
+    - name: Upload Release Asset
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ${{ github.workspace }}/gFTP-${{ github.ref_name }}.dmg
+        asset_name: gFTP-${{ github.ref_name }}-macOS.dmg
+        asset_content_type: application/x-apple-diskimage
+
+    - name: Summary
+      if: always()
+      run: |
+        echo "### Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **Event**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+
+        if [ -d "${{ github.workspace }}/gFTP.app" ]; then
+          BUNDLE_SIZE=$(du -sh "${{ github.workspace }}/gFTP.app" | awk '{print $1}')
+          echo "- **Bundle Size**: $BUNDLE_SIZE" >> $GITHUB_STEP_SUMMARY
+        fi
+
+        if [ -f "${{ github.workspace }}"/*.dmg ]; then
+          DMG_SIZE=$(du -sh "${{ github.workspace }}"/*.dmg | awk '{print $1}')
+          echo "- **DMG Size**: $DMG_SIZE" >> $GITHUB_STEP_SUMMARY
+        fi

@@ -1,0 +1,140 @@
+name: Build
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    name: Build on Linux
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        gtk-version: [gtk2, gtk3]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          meson \
+          ninja-build \
+          pkg-config \
+          libglib2.0-dev \
+          libssl-dev \
+          gettext
+
+        if [ "${{ matrix.gtk-version }}" = "gtk2" ]; then
+          sudo apt-get install -y libgtk2.0-dev
+        else
+          sudo apt-get install -y libgtk-3-dev
+        fi
+
+    - name: Configure build
+      run: |
+        if [ "${{ matrix.gtk-version }}" = "gtk2" ]; then
+          meson setup build -Dgtk2=true -Dgtk3=false
+        else
+          meson setup build -Dgtk2=false -Dgtk3=true
+        fi
+
+    - name: Build
+      run: ninja -C build
+
+    - name: Check build artifacts
+      run: |
+        ls -lh build/src/gtk/gftp-gtk
+        ls -lh build/src/text/gftp-text
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: gftp-linux-${{ matrix.gtk-version }}-${{ github.sha }}
+        path: |
+          build/src/gtk/gftp-gtk
+          build/src/text/gftp-text
+        retention-days: 7
+
+  build-macos:
+    name: Build on macOS
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        brew install meson ninja pkg-config gtk+3 openssl@3
+
+    - name: Configure build
+      run: |
+        export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig:$PKG_CONFIG_PATH"
+        meson setup build -Dgtk2=false -Dgtk3=true
+
+    - name: Build
+      run: ninja -C build
+
+    - name: Install to temporary prefix
+      run: |
+        DESTDIR="${{ github.workspace }}/install-root" ninja -C build install
+
+    - name: Create App Bundle
+      run: |
+        # Set install prefix to where we installed
+        export INSTALL_PREFIX="${{ github.workspace }}/install-root/usr/local"
+        ./create_app_bundle.sh
+
+    - name: Create DMG
+      run: |
+        ./create_dmg.sh
+
+    - name: Check DMG
+      run: |
+        ls -lh gFTP-*.dmg
+        hdiutil verify gFTP-*.dmg
+
+    - name: Upload DMG artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: gftp-macos-dmg-${{ github.sha }}
+        path: gFTP-*.dmg
+        retention-days: 30
+
+  build-macos-text:
+    name: Build macOS (text-only)
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        brew install meson ninja pkg-config glib openssl@3
+
+    - name: Configure build
+      run: |
+        export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig:$PKG_CONFIG_PATH"
+        meson setup build -Dgtkport=false -Dtextport=true
+
+    - name: Build
+      run: ninja -C build
+
+    - name: Check build artifacts
+      run: |
+        ls -lh build/src/text/gftp-text
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: gftp-macos-text-${{ github.sha }}
+        path: build/src/text/gftp-text
+        retention-days: 7

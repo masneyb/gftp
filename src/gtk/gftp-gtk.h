@@ -112,10 +112,10 @@ typedef struct gftp_dialog_data_tag
   char * entry_text;
   int checkbox_is_ticked;
 
-  void (*yesfunc) ();
+  void (*yesfunc) (gpointer, gpointer);
   gpointer yespointer;
 
-  void (*nofunc) ();
+  void (*nofunc) (gpointer, gpointer);
   gpointer nopointer;
 } gftp_dialog_data;
 

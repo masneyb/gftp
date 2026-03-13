@@ -23,6 +23,14 @@
 
 #ifdef __APPLE__
 #include <dlfcn.h>
+#include <gtk/gtk.h>
+
+#ifdef MAC_INTEGRATION
+#include <gtkosxapplication.h>
+#endif
+
+/* Extern reference to global UI manager */
+extern GtkUIManager *factory;
 
 struct ProcessSerialNumber {
    unsigned long highLongOfPSN;
@@ -66,6 +74,39 @@ void gftp_gtk_platform_specific_init(void)
     (void)pSetFrontProcess(&psn);
 
     dlclose(carbon_framework);
+
+#ifdef MAC_INTEGRATION
+    /* Initialize gtk-mac-integration for native macOS menu bar */
+    GtkosxApplication *theApp = g_object_new(GTKOSX_TYPE_APPLICATION, NULL);
+
+    /* Get the menu bar from the UI manager and move it to the macOS menu bar */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
+    GtkWidget *menubar = gtk_ui_manager_get_widget(factory, "/M");
+
+    if (menubar && GTK_IS_MENU_BAR(menubar)) {
+        /* Hide the menu bar from the window since it will be in the system menu bar */
+        gtk_widget_hide(menubar);
+
+        /* Set the menu bar in the macOS menu bar */
+        gtkosx_application_set_menu_bar(theApp, GTK_MENU_BAR(menubar));
+
+        /* Enable native macOS keyboard accelerators */
+        gtkosx_application_set_use_quartz_accelerators(theApp, TRUE);
+
+        /* Add Help -> About to the application menu */
+        GtkWidget *about_item = gtk_ui_manager_get_widget(factory, "/M/HelpMenu/HelpAbout");
+        if (about_item) {
+            gtkosx_application_insert_app_menu_item(theApp, about_item, 0);
+            gtkosx_application_insert_app_menu_item(theApp, gtk_separator_menu_item_new(), 1);
+        }
+
+        /* Signal that the application is ready */
+        gtkosx_application_ready(theApp);
+    }
+#pragma GCC diagnostic pop
+#endif
 }
 #else
 /* No Dirty Hacks for you */
